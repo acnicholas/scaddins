@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectGuid>{AD62F888-78A1-4E0B-9820-5989630FC8C6}</ProjectGuid>
+    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SCaddins</RootNamespace>
+    <AssemblyName>SCaddins</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFrameworkProfile />
+    <NoWin32Manifest>False</NoWin32Manifest>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="RevitAPI">
+      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2015\RevitAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIUI">
+      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2015\RevitAPIUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\SCaos\Constants.cs" />
+    <Compile Include="src\SCaos\SCaos.cs" />
+    <Compile Include="src\SCaos\SCaosApp.cs" />
+    <Compile Include="src\SCaos\SCaosForm.cs" />
+    <Compile Include="src\SCaos\SCaosForm.Designer.cs" />
+    <Compile Include="src\SCexport\AboutBox.cs" />
+    <Compile Include="src\SCexport\AboutBox.Designer.cs" />
+    <Compile Include="src\SCexport\Application.cs" />
+    <Compile Include="src\SCexport\Command.cs" />
+    <Compile Include="src\SCexport\ConfirmDialog.cs" />
+    <Compile Include="src\SCexport\ConfirmDialog.Designer.cs" />
+    <Compile Include="src\SCexport\Constants.cs" />
+    <Compile Include="src\SCexport\DialogHandler.cs" />
+    <Compile Include="src\SCexport\FileUtils.cs" />
+    <Compile Include="src\SCexport\FilterContextMenu.cs" />
+    <Compile Include="src\SCexport\MainForm.cs" />
+    <Compile Include="src\SCexport\MainForm.Designer.cs" />
+    <Compile Include="src\SCexport\NextSheet.cs" />
+    <Compile Include="src\SCexport\OpenSheet.cs" />
+    <Compile Include="src\SCexport\OpenSheetDialog.cs" />
+    <Compile Include="src\SCexport\OpenSheetDialog.Designer.cs" />
+    <Compile Include="src\SCexport\OptionsDialog.cs" />
+    <Compile Include="src\SCexport\OptionsDialog.Designer.cs" />
+    <Compile Include="src\SCexport\PdfTools.cs" />
+    <Compile Include="src\SCexport\PreviousSheet.cs" />
+    <Compile Include="src\SCexport\PrintSettings.cs" />
+    <Compile Include="src\SCexport\RenameSheetForm.cs" />
+    <Compile Include="src\SCexport\RenameSheetForm.Designer.cs" />
+    <Compile Include="src\SCexport\RevisionSelectionDialog.cs" />
+    <Compile Include="src\SCexport\RevisionSelectionDialog.Designer.cs" />
+    <Compile Include="src\SCexport\SCexport.cs" />
+    <Compile Include="src\SCexport\SelectPrinterDialog.cs" />
+    <Compile Include="src\SCexport\SelectPrinterDialog.Designer.cs" />
+    <Compile Include="src\SCexport\Settings1.Designer.cs">
+      <DependentUpon>Settings1.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="src\SCexport\Sheet.cs" />
+    <Compile Include="src\SCexport\SheetName.cs" />
+    <Compile Include="src\SCexport\SheetNameSegment.cs" />
+    <Compile Include="src\SCexport\SortableBindingList.cs" />
+    <Compile Include="src\SCexport\TipOfDay.cs" />
+    <Compile Include="src\SCexport\ViewSheetSetCombo.cs" />
+    <Compile Include="src\SCightlines\SCightLines.cs" />
+    <Compile Include="src\SCightlines\SCightLinesApp.cs" />
+    <Compile Include="src\SCightlines\SCightLinesCommand.cs" />
+    <Compile Include="src\SCightlines\SCightLinesMainForm.cs" />
+    <Compile Include="src\SCightlines\SCightLinesMainForm.Designer.cs" />
+    <Compile Include="src\SCightlines\SCightLinesOutputForm.cs" />
+    <Compile Include="src\SCightlines\SCightLinesOutputForm.Designer.cs" />
+    <Compile Include="src\SCightlines\SCightLinesRow.cs" />
+    <Compile Include="src\SCoord\SCoord.cs" />
+    <Compile Include="src\SCoord\SCoordApp.cs" />
+    <Compile Include="src\SCoord\SCoordForm.cs" />
+    <Compile Include="src\SCoord\SCoordForm.Designer.cs" />
+    <Compile Include="src\SCopy\MainForm.cs" />
+    <Compile Include="src\SCopy\MainForm.Designer.cs" />
+    <Compile Include="src\SCopy\SCopy.cs" />
+    <Compile Include="src\SCopy\SCopyApp.cs" />
+    <Compile Include="src\SCopy\SCopyCommand.cs" />
+    <Compile Include="src\SCopy\SCopyConstants.cs" />
+    <Compile Include="src\SCopy\SCopySheet.cs" />
+    <Compile Include="src\SCopy\SCopyViewOnSheet.cs" />
+    <Compile Include="src\SCopy\SCopyViewSelectionDialog.cs" />
+    <Compile Include="src\SCopy\SCopyViewSelectionDialog.Designer.cs" />
+    <Compile Include="src\SCulcase\SCulcase.cs" />
+    <Compile Include="src\SCulcase\SCulcaseApp.cs" />
+    <Compile Include="src\SCulcase\SCulcaseCommand.cs" />
+    <Compile Include="src\SCulcase\SCulcaseInfoDialog.cs" />
+    <Compile Include="src\SCulcase\SCulcaseInfoDialog.Designer.cs" />
+    <Compile Include="src\SCulcase\SCulcaseMainForm.cs" />
+    <Compile Include="src\SCulcase\SCulcaseMainForm.Designer.cs" />
+    <Compile Include="src\SCwash\SCwash.cs" />
+    <Compile Include="src\SCwash\SCwashApp.cs" />
+    <Compile Include="src\SCwash\SCwashCommand.cs" />
+    <Compile Include="src\SCwash\SCwashForm.cs" />
+    <Compile Include="src\SCwash\SCwashForm.Designer.cs" />
+    <Compile Include="src\SCwash\SCwashTreeNode.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="installer" />
+    <Folder Include="res" />
+    <Folder Include="res\images" />
+    <Folder Include="res\etc" />
+    <Folder Include="src" />
+    <Folder Include="src\Common" />
+    <Folder Include="src\Manifest" />
+    <Folder Include="src\Manifest\2015" />
+    <Folder Include="src\Manifest\2014" />
+    <Folder Include="src\SCoord" />
+    <Folder Include="src\SCam" />
+    <Folder Include="src\SCwash" />
+    <Folder Include="src\SCulcase" />
+    <Folder Include="src\SCightlines" />
+    <Folder Include="src\SCopy" />
+    <Folder Include="src\SCaos" />
+    <Folder Include="src\SCexport" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource1.resx" />
+    <EmbeddedResource Include="src\SCaos\SCaosForm.resx">
+      <DependentUpon>SCaosForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\SCexport\AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\SCexport\ConfirmDialog.resx">
+      <DependentUpon>ConfirmDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\SCexport\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\SCexport\OpenSheetDialog.resx">
+      <DependentUpon>OpenSheetDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\SCexport\OptionsDialog.resx">
+      <DependentUpon>OptionsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\SCexport\RenameSheetForm.resx">
+      <DependentUpon>RenameSheetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\SCexport\RevisionSelectionDialog.resx">
+      <DependentUpon>RevisionSelectionDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\SCexport\SelectPrinterDialog.resx">
+      <DependentUpon>SelectPrinterDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\SCightlines\SCightLinesMainForm.resx" />
+    <EmbeddedResource Include="src\SCightlines\SCightLinesOutputForm.resx" />
+    <EmbeddedResource Include="src\SCoord\SCoordForm.resx" />
+    <EmbeddedResource Include="src\SCopy\MainForm.resx" />
+    <EmbeddedResource Include="src\SCopy\SCopyViewSelectionDialog.resx" />
+    <EmbeddedResource Include="src\SCulcase\SCulcaseInfoDialog.resx" />
+    <EmbeddedResource Include="src\SCulcase\SCulcaseMainForm.resx" />
+    <EmbeddedResource Include="src\SCwash\SCwashForm.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="res\images\about.bmp" />
+    <None Include="res\images\add.png" />
+    <None Include="res\images\check.png" />
+    <None Include="res\images\clock.png" />
+    <None Include="res\images\comment.png" />
+    <None Include="res\images\config.png" />
+    <None Include="res\images\config2.png" />
+    <None Include="res\images\doc.png" />
+    <None Include="res\images\edit.png" />
+    <None Include="res\images\filter.png" />
+    <None Include="res\images\find.png" />
+    <None Include="res\images\folder.png" />
+    <None Include="res\images\gear.png" />
+    <None Include="res\images\help.png" />
+    <None Include="res\images\home.png" />
+    <None Include="res\images\keyboard.png" />
+    <None Include="res\images\lightbulb.png" />
+    <None Include="res\images\none.png" />
+    <None Include="res\images\open.png" />
+    <None Include="res\images\preoperty.png" />
+    <None Include="res\images\rename.png" />
+    <None Include="res\images\revision.png" />
+    <None Include="res\images\SC.ico" />
+    <None Include="res\images\scexport-64x64.png" />
+    <None Include="res\images\scexport.png" />
+    <None Include="res\images\source.png" />
+    <None Include="res\images\tick.png" />
+    <None Include="res\images\type.png" />
+    <None Include="res\images\xmlElement.png" />
+    <None Include="res\images\xmlFile.png" />
+    <None Include="src\Manifest\2015\SCaddins.addin" />
+    <None Include="src\SCexport\Settings1.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

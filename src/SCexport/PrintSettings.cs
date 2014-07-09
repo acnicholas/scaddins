@@ -1,0 +1,268 @@
+// (C) Copyright 2012-2013 by Andrew Nicholas (andrewnicholas@iinet.net.au)
+//
+// This file is part of SCexport.
+//
+// SCexport is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// SCexport is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with SCexport.  If not, see <http://www.gnu.org/licenses/>.
+
+namespace SCaddins.SCexport
+{
+    using System;
+    using System.Collections.Generic;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+
+    /// <summary>
+    /// Description of PrintSettings.
+    /// </summary>
+    public static class PrintSettings
+    {
+        /// <summary>
+        /// Return the sheet size as a String.
+        /// from http://en.wikipedia.org/wiki/Paper_size
+        /// i.e A1, A2....A4
+        /// FIXME need to add other sizes.
+        /// </summary>
+        /// <param name="r">The SCexport sheet to query.</param>
+        /// <returns>The sheet size as a String.</returns>    
+        public static string GetSheetSizeAsString(SCexportSheet r)
+        {
+            double[] p = { 1189, 841, 594, 420, 297, 210, 297, 420, 594, 841, 1189 };
+            string[] s = { "A0", "A1", "A2", "A3", "A4", "A4P", "A3P", "A2P", "A1P", "A0P" };
+
+            for (int i = 0; i < s.Length; i++) {
+                if (CheckSheetSize(r.Width, r.Height, p[i], p[i + 1])) {
+                    return s[i];
+                }
+            }
+
+            if (CheckSheetSize(r.Width, r.Height, 1000, 707)) {
+                return "B1";
+            }
+
+            return Math.Round(r.Width).ToString() + "x" +
+                Math.Round(r.Height).ToString();
+        }
+        
+        /// <summary>
+        /// Create a print setting and add it to the current document.
+        /// </summary>
+        /// <param name="doc">The Revit document to create the print setting in.</param>
+        /// <param name="s">The name of the sheet size - A4,A3,A1...</param>
+        public static void CreatePrintSetting(ref Document doc, string s)
+        {
+            PrintManager pm = doc.PrintManager;
+            foreach (PaperSize paperSize in pm.PaperSizes) {
+                if (paperSize.Name.Substring(0, 2) == s.Substring(0, 2)) {
+                    var t = new Transaction(doc, "Apply print settings");
+                    t.Start();
+                    var ips = pm.PrintSetup.CurrentPrintSetting;
+                    try {
+                        ips.PrintParameters.PaperSize = paperSize;
+                        ips.PrintParameters.HideCropBoundaries = true;
+                    if (s.Length > 2 && !s.Contains("FIT")) {
+                        ips.PrintParameters.PageOrientation =
+                            PageOrientationType.Portrait;
+                    } else {
+                        ips.PrintParameters.PageOrientation =
+                            PageOrientationType.Landscape;
+                    }
+
+                    ips.PrintParameters.HideScopeBoxes = true;
+                    ips.PrintParameters.HideReforWorkPlanes = true;
+                    #if REVIT2013
+                    ips.PrintParameters.HideUnreferencedViewTages = true;
+                    #elif REVIT2014
+                    ips.PrintParameters.HideUnreferencedViewTags = true;
+                    #elif REVIT2015
+                    ips.PrintParameters.HideUnreferencedViewTags = true;
+                    #endif
+                    if (s.Contains("FIT")) {
+                        ips.PrintParameters.ZoomType = ZoomType.FitToPage;
+                        ips.PrintParameters.MarginType = MarginType.NoMargin;
+                    } else {
+                        ips.PrintParameters.ZoomType = ZoomType.Zoom;
+                        ips.PrintParameters.Zoom = 100;
+                        ips.PrintParameters.PaperPlacement =
+                            PaperPlacementType.Margins;
+                        ips.PrintParameters.MarginType = MarginType.UserDefined;
+                        ips.PrintParameters.UserDefinedMarginX = 0;
+                        ips.PrintParameters.UserDefinedMarginY = 0;
+                    }
+
+                    pm.PrintSetup.SaveAs("SCX-" + s);
+                    t.Commit();
+                    } catch {
+                        TaskDialog.Show(
+                            "SCexport",
+                            "Unable to create print setting: " + "SCX-" + s);
+                        t.RollBack();
+                    }
+                }
+            }
+        }
+            
+        public static bool ApplyPrintSettings(
+                ref Document doc,
+                string size,
+                ref PrintManager pm,
+                string printerName)
+        {
+            PrintSetting ps = PrintSettings.AssignPrintSetting(
+                    ref doc, size);
+            
+            if (ps == null) {
+                return false;
+            }
+
+            if (!PrintSettings.SetPrinter(ref doc, printerName, ref pm)) {
+                return false;
+            }
+
+            var t = new Transaction(doc, "Apply print settings");
+            t.Start();
+            try {
+                pm.PrintSetup.CurrentPrintSetting = ps;
+                pm.PrintRange = PrintRange.Current;                
+                pm.PrintSetup.CurrentPrintSetting.PrintParameters.MarginType = MarginType.NoMargin;
+                pm.PrintSetup.InSession.PrintParameters.MarginType = MarginType.NoMargin;
+                pm.PrintToFile = false;
+                pm.Apply();
+                t.Commit();
+                return true;
+            } catch {
+                TaskDialog.Show("SCexport", "cannot apply print settings");
+                t.RollBack();
+                return false;
+            }  
+        }
+        
+        /// <summary>
+        /// Apply a print setting to the current document.
+        /// </summary>
+        /// <param name="doc">The Revit document to create the print setting in.</param>
+        /// <param name="vs">The Sheet containing the print setting.</param>
+        /// <param name="pm">The Current print manager.</param>
+        /// <param name="ext">The file extension to append on the exported file.</param>
+        /// <param name="printerName">The name of the printer to print to.</param>
+        /// <returns>True if successful.</returns>
+        public static bool ApplyPrintSettings(
+                ref Document doc,
+                SCexportSheet vs,
+                ref PrintManager pm,
+                string ext,
+                string printerName)
+        {
+            if (vs.SCPrintSetting == null) {
+                return false;
+            }
+
+            if (!PrintSettings.SetPrinter(ref doc, printerName, ref pm)) {
+                return false;
+            }
+
+            var t = new Transaction(doc, "Print Pdf");
+            t.Start();
+            try {
+                pm.PrintSetup.CurrentPrintSetting = vs.SCPrintSetting;
+                pm.PrintRange = PrintRange.Current;
+                pm.PrintToFile = true;
+                pm.PrintToFileName = vs.FullExportPath(ext);
+                pm.Apply();
+                t.Commit();
+                return true;
+            } catch {
+                TaskDialog.Show("SCexport", "cannot apply print settings");
+                t.RollBack();
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Try to create a print setting to the current Revit document.
+        /// </summary>
+        /// <param name="doc">The Revit doc containing the printsettings.</param>
+        /// <param name="ps">The search string.</param>
+        /// <returns>The matching print setting, or null.</returns>
+        public static PrintSetting AssignPrintSetting(
+            ref Document doc, string ps)
+        {
+            #if REVIT2012
+            foreach (PrintSetting printSetting in doc.PrintSettings) {
+                if (printSetting.Name.ToString().Equals("SCX-" + ps)) {
+                    return printSetting;
+                }
+            }
+            try {
+                CreatePrintSetting(ref doc, ps);
+                foreach (PrintSetting printSetting in doc.PrintSettings) {
+                    if (printSetting.Name.ToString().Equals("SCX-" + ps)) {
+                        return printSetting;
+                    }
+                }
+            } catch {
+                var msg = "SCX-" + ps + " could not be created!";
+                TaskDialog.Show("Creating Papersize", msg);
+            }
+            #else
+            foreach (ElementId id in doc.GetPrintSettingIds()) {
+                var ps2 = doc.GetElement(id) as PrintSetting;
+                if (ps2.Name.ToString().Equals("SCX-" + ps)) {
+                    return ps2;
+                }
+            }
+
+            try {
+                CreatePrintSetting(ref doc, ps);
+                foreach (ElementId id in doc.GetPrintSettingIds()) {
+                    var ps2 = doc.GetElement(id) as PrintSetting;
+                    if (ps2.Name.ToString().Equals("SCX-" + ps)) {
+                        return ps2;
+                    }
+                }
+            } catch {
+                var msg = "SCX-" + ps + " could not be created!";
+                TaskDialog.Show("Creating Papersize", msg);
+            }
+            #endif
+            return null;
+        }
+        
+        public static bool SetPrinter(
+                ref Document doc, string name, ref PrintManager pm)
+        {
+            var t = new Transaction(doc, "Set printer");
+            t.Start();
+            try {
+                pm.SelectNewPrintDriver(name);
+                t.Commit();
+                return true;
+            } catch {
+                var msg = "Print driver " + name + " not found.  Exiting now";
+                TaskDialog.Show("SCexport", msg);
+                t.RollBack();
+                return false;
+            }
+        }
+        
+        private static bool CheckSheetSize(
+            double width, double height, double tw, double th)
+        {
+            double w = Math.Round(width);
+            double h = Math.Round(height);
+            return tw + 2 > w && tw - 2 < w && th + 2 > h && th - 2 < h;
+        }
+    }
+}
+
+/* vim: set ts=4 sw=4 nu expandtab: */

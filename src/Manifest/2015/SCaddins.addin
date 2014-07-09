@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>
+    
+  <!-- SCexport -->  
+    
+  <AddIn Type="Application">
+    <Assembly>C:\Program Files\SCaddins\SCexport\2015\SCaddins.dll</Assembly>
+    <AddInId>CB8E3B0E-79E3-4089-82EC-224F8275393E</AddInId>
+    <FullClassName>SCaddins.SCexport.SCexportApp</FullClassName>
+    <Name>SCexport - Export Utility</Name>
+    <VendorId>BEER</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
+  </AddIn>
+
+  <AddIn Type="Command">
+    <Assembly>C:\Program Files\SCaddins\SCexport\2015\SCaddins.dll</Assembly>
+    <AddInId>A86E6172-CF2A-4261-A110-C9F517A785B8</AddInId>
+    <FullClassName>SCaddins.SCexport.NextSheet</FullClassName>
+    <Name>SCexport - Next Sheet Shortcut</Name>
+    <VendorId>BEER</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
+  </AddIn>
+
+  <AddIn Type="Command">
+    <Assembly>C:\Program Files\SCaddins\SCexport\2015\SCaddins.dll</Assembly>
+    <AddInId>437E2FBB-29B4-46AF-8260-F4D185B31C61</AddInId>
+    <FullClassName>SCaddins.SCexport.PreviousSheet</FullClassName>
+    <Name>SCexport - Previous Sheet Shortcut</Name>
+    <VendorId>BEER</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
+  </AddIn>
+
+  <AddIn Type="Command">
+    <Assembly>C:\Program Files\SCaddins\SCexport\2015\SCaddins.dll</Assembly>
+    <AddInId>F70B868D-B7DF-45A2-BCC3-107290020D73</AddInId>
+    <FullClassName>SCaddins.SCexport.OpenSheet</FullClassName>
+    <Name>SCexport - Open Sheet Shortcut</Name>
+    <VendorId>BEER</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
+  </AddIn>
+
+  <!-- SCaos -->
+    
+  <AddIn Type="Application">
+    <Assembly>C:\Program Files\SCaddins\SCaos\2015\SCaddins.dll</Assembly>
+    <AddInId>604F8125-C009-46f4-A3B2-8C99B75AAC52</AddInId>
+    <FullClassName>SCaddins.SCaos.SCaosApp</FullClassName>
+    <Name>SCaos - SC Angle of Sun Tool</Name>
+    <VendorId>BEER</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
+  </AddIn>
+
+  <!-- SCwash -->
+
+  <!-- SCoord -->
+
+  <!-- SCulcase -->
+
+</RevitAddIns>
