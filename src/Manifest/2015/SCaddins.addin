@@ -51,9 +51,80 @@
   </AddIn>
 
   <!-- SCwash -->
+    
+  <AddIn Type="Application">
+    <Assembly>C:\Program Files\SCaddins\SCaos\2015\SCaddins.dll</Assembly>
+    <AddInId>7D94ADFA-79D6-40bb-8BB9-FC02EBD79F51</AddInId>
+    <FullClassName>SCaddins.SCwash.SCwashApp</FullClassName>
+    <Name>SCwash - File Squashing Tool</Name>
+    <VendorId>BEER</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
+  </AddIn>
 
   <!-- SCoord -->
+    
+  <AddIn Type="Application">
+    <Assembly>C:\Program Files\SCaddins\SCaos\2015\SCaddins.dll</Assembly>
+    <AddInId>D94EFC66-4EA6-4F21-A9D1-6CFF3CADEBFB</AddInId>
+    <FullClassName>SCaddins.SCoord.SCoordApp</FullClassName>
+    <Name>SCoord</Name>
+    <VendorId>SCEQ</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
+  </AddIn>
 
   <!-- SCulcase -->
+
+  <AddIn Type="Application">
+    <Name>SCulcase - Uppercase me some text</Name>
+    <Assembly>C:\Program Files\SCaddins\SCaos\2015\SCaddins.dll</Assembly>
+    <AddInId>c81feb4f-af8a-4ab6-812f-7575c21435fe</AddInId>
+    <FullClassName>SCaddins.SCulcase.SCulcaseApp</FullClassName>
+    <VendorId>BEER</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
+  </AddIn>
+
+  <!-- SCopy -->
+
+  <AddIn Type="Application">
+    <Name>SCopy - Sheet Copy</Name>
+    <Assembly>C:\Program Files\SCaddins\SCaos\2015\SCaddins.dll</Assembly>
+    <AddInId>2B440FC1-89DB-44BE-B1CD-FAC4EA3FAFE8</AddInId>
+    <FullClassName>SCaddins.SCopy.SCopyApp</FullClassName>
+    <VendorId>BEER</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
+  </AddIn>
+
+ <!-- SCightlines -->
+    
+  <AddIn Type="Application">
+    <Assembly>C:\Program Files\SCaddins\SCaos\2015\SCaddins.dll</Assembly>
+    <AddInId>F04970C7-E880-49cf-A703-9A0F421E5D1A</AddInId>
+    <FullClassName>SCaddins.SCightLines.SCightLinesApp</FullClassName>
+    <Name>SCightLines - Line of Sight Utility</Name>
+    <VendorId>SCEQ</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewn@scottcarver.com.au</VendorDescription>
+  </AddIn>
+
+ <!-- SCam -->
+
+  <AddIn Type="Command">
+    <Assembly>C:\Program Files\SCaddins\SCaos\2015\SCaddins.dll</Assembly>
+    <AddInId>A79CC91B-64D8-4B1D-859C-44DAE96668BF</AddInId>
+    <FullClassName>SCaddins.SCam.SCam</FullClassName>
+    <Text>SCam - by AndyMac</Text>
+    <VendorId>BEER</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
+  </AddIn>
+
+ <!-- SCloudSched -->
+
+<AddIn Type="Application">
+    <Assembly>C:\Program Files\SCaddins\SCaos\2015\SCaddins.dll</Assembly>
+    <AddInId>734CC8E0-BA15-4ca9-AF6E-CA84CFF674F4</AddInId>
+    <FullClassName>SCaddins.SCloudSChed.SCloudSChedApp</FullClassName>
+    <Name>SCloudSChed - Revision Cloud Scheduler</Name>
+    <VendorId>BEER</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
+  </AddIn>
 
 </RevitAddIns>
