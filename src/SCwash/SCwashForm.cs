@@ -42,7 +42,6 @@ namespace SCaddins.SCwash
             this.doc = doc;
             this.udoc = udoc;
             InitializeComponent();
-            SetIcon();
             treeView1.CheckBoxes = true;
             init();
             textBox1.Text = "Select an item to show additional information";
@@ -65,14 +64,6 @@ namespace SCaddins.SCwash
             treeView1.Nodes[4].Nodes.AddRange(SCwash.Imports(doc, false).ToArray<TreeNode>());
             treeView1.Nodes[5].Nodes.AddRange(SCwash.Images(doc).ToArray<TreeNode>());
             treeView1.Nodes[6].Nodes.AddRange(SCwash.UnboundRooms(doc).ToArray<TreeNode>());
-        }
-
-        private void SetIcon()
-        {
-            System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();
-            System.IO.Stream st = a.GetManifestResourceStream("SCwash.Resources.scwash.ico");
-            System.Drawing.Icon icnTask = new System.Drawing.Icon(st);
-            this.Icon = icnTask;
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)

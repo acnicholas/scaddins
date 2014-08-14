@@ -24,18 +24,9 @@ namespace SCaddins.SCulcase
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             tagCheckBoxes();
-            addIcon();
             this.ShowDialog();
         }
-        
-        private void addIcon()
-        {
-        	System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();
-            System.IO.Stream st = a.GetManifestResourceStream("SCulcase.Resources.sculcase.ico");
-            System.Drawing.Icon icnTask = new System.Drawing.Icon(st);
-            this.Icon = icnTask;  	
-        }
-        
+               
         private void tagCheckBoxes()
         {
         	chkAnnotation.Tag = SCulcase.ConversionTypes.TEXT;
