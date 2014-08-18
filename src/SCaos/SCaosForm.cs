@@ -1,5 +1,4 @@
-﻿//
-// (C) Copyright 2014 by Andrew Nicholas
+﻿// (C) Copyright 2014 by Andrew Nicholas
 //
 // This file is part of SCaos.
 //
@@ -32,10 +31,10 @@ namespace SCaddins.SCaos
         public SCaosForm(string[] s, bool currentViewIsIso)
         {
             InitializeComponent();
-			if(!currentViewIsIso){
-				radioButtonRotateCurrent.Enabled = false;
-			}
-            for(int i = 0; i < s.Length; i++){
+            if (!currentViewIsIso) {
+                radioButtonRotateCurrent.Enabled = false;
+            }
+            for (int i = 0; i < s.Length; i++) {
                 listBox1.Items.Add(s[i]);
             }
             SetTitle();
@@ -48,17 +47,17 @@ namespace SCaddins.SCaos
             string name =
                 Assembly.GetExecutingAssembly().GetName().Name.ToString();
             string company = ((AssemblyCompanyAttribute)Attribute.GetCustomAttribute(
-                Assembly.GetExecutingAssembly(),
-                typeof(AssemblyCompanyAttribute), false)).Company;
+                                 Assembly.GetExecutingAssembly(),
+                                 typeof(AssemblyCompanyAttribute), false)).Company;
             this.Text = name + " [" + version + "] by " + company;
         }
-		void Button3Click(object sender, System.EventArgs e)
-		{
-			System.Diagnostics.Process.Start(Constants.HelpLink);
-		}
-		void RadioButton3CheckedChanged(object sender, System.EventArgs e)
-		{
-			throw new NotImplementedException();
-		}    
+        void Button3Click(object sender, System.EventArgs e)
+        {
+            System.Diagnostics.Process.Start(Constants.HelpLink);
+        }
+        void RadioButton3CheckedChanged(object sender, System.EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

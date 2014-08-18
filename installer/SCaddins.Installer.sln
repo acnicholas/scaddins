@@ -1,0 +1,18 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+# SharpDevelop 5.0
+Project("{CFEE4113-1246-4D54-95CB-156813CB8593}") = "SCaddins.Installer", "SCaddins.Installer.wixproj", "{FC00A9A2-1FAF-4809-9223-2D361F60B767}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC00A9A2-1FAF-4809-9223-2D361F60B767}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC00A9A2-1FAF-4809-9223-2D361F60B767}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC00A9A2-1FAF-4809-9223-2D361F60B767}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC00A9A2-1FAF-4809-9223-2D361F60B767}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

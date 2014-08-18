@@ -17,18 +17,16 @@
 // along with SCaos.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using Autodesk.Revit.Attributes;  
-using Autodesk.Revit.UI;
-using System.Windows.Media.Imaging;
-
 namespace SCaddins.SCaos
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using Autodesk.Revit.UI;
+    using System.Windows.Media.Imaging;
+
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -38,16 +36,16 @@ namespace SCaddins.SCaos
 
         public Autodesk.Revit.UI.Result OnStartup(UIControlledApplication application)
         {
-			string scdll =
+            string scdll =
                 new Uri(Assembly.GetAssembly(typeof(SCaosApp)).CodeBase).LocalPath;
-            RibbonPanel ribbonPanel = TryGetPanel(application,"Good Stuff");
+            RibbonPanel ribbonPanel = TryGetPanel(application, "Good Stuff");
             PushButton pushButton = ribbonPanel.AddItem(new PushButtonData("Sun View",
-                "Sun" + System.Environment.NewLine + "View", scdll, "SCaos.Command")) as PushButton;
+                                        "Sun" + System.Environment.NewLine + "View", scdll, "SCaos.Command")) as PushButton;
             Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCaos\Data\scaos.png");
             BitmapImage largeImage = new BitmapImage(uriImage);
-			if (largeImage != null){
-            	pushButton.LargeImage = largeImage;
-			}
+            if (largeImage != null) {
+                pushButton.LargeImage = largeImage;
+            }
             return Result.Succeeded;
         }
 

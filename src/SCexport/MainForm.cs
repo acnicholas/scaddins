@@ -30,7 +30,6 @@ namespace SCaddins.SCexport
     using System.Windows.Forms;
     using Autodesk.Revit.UI;
     using Autodesk.Revit.UI.Events;
-    using SCaddins.SCexport;
 
     public partial class MainForm : Form
     {

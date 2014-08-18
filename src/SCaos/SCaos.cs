@@ -30,27 +30,27 @@ namespace SCaddins.SCaos
     {
         ProjectLocation projectLocation;
         ProjectPosition position;
-		bool currentViewIsIso;
+        bool currentViewIsIso;
         
         public Autodesk.Revit.UI.Result Execute(ExternalCommandData commandData,
-                                                ref string message, Autodesk.Revit.DB.ElementSet elements)
+            ref string message, Autodesk.Revit.DB.ElementSet elements)
         {
             UIDocument udoc = commandData.Application.ActiveUIDocument;
             Document doc = udoc.Document;
             projectLocation = doc.ActiveProjectLocation;
             position = projectLocation.get_ProjectPosition(XYZ.Zero);
-			currentViewIsIso = false;
+            currentViewIsIso = false;
             
             View view = doc.ActiveView;
             string[] s = getViewInfo(view, doc);
             var form = new SCaosForm(s, currentViewIsIso);
             System.Windows.Forms.DialogResult result = form.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK){
-                if(form.radioButtonRotateCurrent.Checked){
-                    RotateView(doc.ActiveView, doc, udoc);
+            if (result == System.Windows.Forms.DialogResult.OK) {
+                if (form.radioButtonRotateCurrent.Checked) {
+                    this.RotateView(doc.ActiveView, doc, udoc);
                 }
-                if(form.radioButtonWinterViews.Checked){
-                    CreateWinterViews(doc, udoc);
+                if (form.radioButtonWinterViews.Checked) {
+                    this.CreateWinterViews(doc, udoc);
                 }
             }
 
@@ -59,30 +59,30 @@ namespace SCaddins.SCaos
         
         private string[] getViewInfo(View view, Document doc)
         {
-			if(view.ViewType != ViewType.ThreeD){
-				string[] info = new string[1];
-				info[0] = "Not a 3d view...";
-				currentViewIsIso = false;
-				return info;
-			} else {
-				currentViewIsIso = true;
-				SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
-				double frame = sunSettings.ActiveFrame;
-				double azimuth = sunSettings.GetFrameAzimuth(frame);
-				double altitude = sunSettings.GetFrameAltitude(frame);
-				azimuth += position.Angle;
-				double azdeg = azimuth * 180 / System.Math.PI;
-				double altdeg = altitude * 180 / System.Math.PI;
-				string[] info = new string[7];
-				info[0] = view.Name;
-				info[1] = "Date - " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongDateString();
-				info[2] = "Time - " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongTimeString();
-				info[3] = "Sunrise - " + sunSettings.GetSunrise(sunSettings.ActiveFrameTime).ToLocalTime().ToLongTimeString();
-				info[4] = "Sunset - " + sunSettings.GetSunset(sunSettings.ActiveFrameTime).ToLocalTime().ToLongTimeString();
-				info[5] =   "Sun Altitude - " + altdeg.ToString();
-				info[6] =   "Sun Azimuth - " + azdeg.ToString();
-				return info;
-			}
+            if (view.ViewType != ViewType.ThreeD) {
+                string[] info = new string[1];
+                info[0] = "Not a 3d view...";
+                currentViewIsIso = false;
+                return info;
+            } else {
+                currentViewIsIso = true;
+                SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
+                double frame = sunSettings.ActiveFrame;
+                double azimuth = sunSettings.GetFrameAzimuth(frame);
+                double altitude = sunSettings.GetFrameAltitude(frame);
+                azimuth += position.Angle;
+                double azdeg = azimuth * 180 / System.Math.PI;
+                double altdeg = altitude * 180 / System.Math.PI;
+                string[] info = new string[7];
+                info[0] = view.Name;
+                info[1] = "Date - " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongDateString();
+                info[2] = "Time - " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongTimeString();
+                info[3] = "Sunrise - " + sunSettings.GetSunrise(sunSettings.ActiveFrameTime).ToLocalTime().ToLongTimeString();
+                info[4] = "Sunset - " + sunSettings.GetSunset(sunSettings.ActiveFrameTime).ToLocalTime().ToLongTimeString();
+                info[5] = "Sun Altitude - " + altdeg.ToString();
+                info[6] = "Sun Azimuth - " + azdeg.ToString();
+                return info;
+            }
         }
         
         /// <summary>
@@ -130,8 +130,8 @@ namespace SCaddins.SCaos
             foreach (Autodesk.Revit.DB.View view in f) {
                 string name = view.Name.ToUpper();
                 if (view.ViewType == ViewType.ThreeD || view.ViewType == ViewType.FloorPlan) {
-                    if(name.Contains("SOLAR") || name.Contains("SHADOW")) {
-						result += String.Join(System.Environment.NewLine,getViewInfo(view, doc));
+                    if (name.Contains("SOLAR") || name.Contains("SHADOW")) {
+                        result += String.Join(System.Environment.NewLine, getViewInfo(view, doc));
                         result += System.Environment.NewLine + System.Environment.NewLine;
                     }
                 }
@@ -147,30 +147,31 @@ namespace SCaddins.SCaos
         
         private void CreateWinterViews(Document doc, UIDocument udoc)
         {
-			ElementId id = null;
+            ElementId id = null;
 			
-			//get the viewid
-			var collector = new FilteredElementCollector(doc);
-			collector.OfClass(typeof(ViewFamilyType));
-			foreach (Element e in collector){
-				var vft = (ViewFamilyType)e;
-				if (vft.ViewFamily == ViewFamily.ThreeDimensional){
-					id = vft.Id;
-					break;
-				}
-			}
+            //get the viewid
+            var collector = new FilteredElementCollector(doc);
+            collector.OfClass(typeof(ViewFamilyType));
+            foreach (Element e in collector) {
+                var vft = (ViewFamilyType)e;
+                if (vft.ViewFamily == ViewFamily.ThreeDimensional) {
+                    id = vft.Id;
+                    break;
+                }
+            }
 			
-			//FIXME add error message here
-			if(id == null) return;
+            //FIXME add error message here
+            if (id == null)
+                return;
 			
-            for (int i = 9; i < 16; i++){
+            for (int i = 9; i < 16; i++) {
                 var t = new Transaction(doc);
                 t.Start("Create Solar View");
-				View view = View3D.CreateIsometric(doc, id);
+                View view = View3D.CreateIsometric(doc, id);
                 view.Name = "SOLAR ACCESS - " + i + " JUNE 21";
                 SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
-                sunSettings.StartDateAndTime = new DateTime(2014,06,21,i,0,0, DateTimeKind.Local);
-				sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
+                sunSettings.StartDateAndTime = new DateTime(2014, 06, 21, i, 0, 0, DateTimeKind.Local);
+                sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
                 t.Commit();
                 RotateView(view, doc, udoc);
             }
@@ -179,24 +180,23 @@ namespace SCaddins.SCaos
         private void RotateView(View view, Document doc, UIDocument udoc)
         {
             if (view.ViewType == ViewType.ThreeD) {
-                    SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
-                    double frame = sunSettings.ActiveFrame;
-                    double azimuth = sunSettings.GetFrameAzimuth(frame);
-                    double altitude = sunSettings.GetFrameAltitude(frame);
-                    azimuth += position.Angle;
-                    BoundingBoxXYZ viewBounds = view.get_BoundingBox(view);
-                    XYZ max = viewBounds.Max;
-                    XYZ min = viewBounds.Min;
-                    var eye = new XYZ(min.X + (max.X - min.X) / 2, min.Y + (max.Y - min.Y) / 2, min.Z + (max.Z - min.Z) / 2);
-                    var forward = new XYZ(-(Math.Sin(azimuth)), -(Math.Cos(azimuth)), -(Math.Tan(altitude)));
-                    var up = forward.CrossProduct(new XYZ((Math.Cos(azimuth)), -(Math.Sin(azimuth)), 0));
-                    var v3d = (View3D)view;
-                    var t = new Transaction(doc);
-                    t.Start("Rotate View");
-                    v3d.SetOrientation(new ViewOrientation3D(eye, up, forward));
-                    udoc.RefreshActiveView();
-                    //v3d.SaveOrientation();
-                    t.Commit();
+                SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
+                double frame = sunSettings.ActiveFrame;
+                double azimuth = sunSettings.GetFrameAzimuth(frame);
+                double altitude = sunSettings.GetFrameAltitude(frame);
+                azimuth += position.Angle;
+                BoundingBoxXYZ viewBounds = view.get_BoundingBox(view);
+                XYZ max = viewBounds.Max;
+                XYZ min = viewBounds.Min;
+                var eye = new XYZ(min.X + (max.X - min.X) / 2, min.Y + (max.Y - min.Y) / 2, min.Z + (max.Z - min.Z) / 2);
+                var forward = new XYZ(-(Math.Sin(azimuth)), -(Math.Cos(azimuth)), -(Math.Tan(altitude)));
+                var up = forward.CrossProduct(new XYZ((Math.Cos(azimuth)), -(Math.Sin(azimuth)), 0));
+                var v3d = (View3D)view;
+                var t = new Transaction(doc);
+                t.Start("Rotate View");
+                v3d.SetOrientation(new ViewOrientation3D(eye, up, forward));
+                udoc.RefreshActiveView();
+                t.Commit();
             } else {
                 TaskDialog.Show("ERROR", "Not a 3d view");
             }

@@ -14,7 +14,6 @@
 
     public class SCam : IExternalCommand
     {
-
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
             ref string message,

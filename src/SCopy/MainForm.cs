@@ -103,21 +103,21 @@ public partial class MainForm : System.Windows.Forms.Form
     
     #endregion
 
-    void ButtonGO(object sender, EventArgs e)
+    private void ButtonGO(object sender, EventArgs e)
     {
         scopy.CreateSheets();
         this.Dispose();
         this.Close();
     }
 
-    void ButtonAdd(object sender, EventArgs e)
+    private void ButtonAdd(object sender, EventArgs e)
     {
         buttonRemove.Enabled = true;
         scopy.Add();
         dataGridView1.DataSource = scopy.Sheets;
     }
 
-    void DataGridView1CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+    private void DataGridView1CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
     {
         SCopySheet sheet =
             dataGridView1.Rows[e.RowIndex].DataBoundItem as SCopySheet;
@@ -125,14 +125,14 @@ public partial class MainForm : System.Windows.Forms.Form
         dataGridView2.Refresh();
     }
 
-    void DataGridView1CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+    private void DataGridView1CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
     {
         if (e.ColumnIndex < 0 || e.RowIndex < 0) return;
         DataGridViewCell cell = dataGridView1[e.ColumnIndex,e.RowIndex];
         origVal = cell.Value.ToString();
     }
         
-    void DataGridView2CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+    private void DataGridView2CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
     {
         if (e.ColumnIndex < 0 || e.RowIndex < 0) return;
         if (e.ColumnIndex == 2) {
@@ -149,7 +149,7 @@ public partial class MainForm : System.Windows.Forms.Form
         }
     }
 
-    void ButtonRemoveClick(object sender, EventArgs e)
+    private void ButtonRemoveClick(object sender, EventArgs e)
     {
         foreach (DataGridViewRow row in dataGridView1.SelectedRows) {
             SCopySheet sheet =
@@ -163,12 +163,12 @@ public partial class MainForm : System.Windows.Forms.Form
         dataGridView2.Refresh();
     }
 
-    void DataGridView1SelectionChanged(object sender, EventArgs e)
+    private void DataGridView1SelectionChanged(object sender, EventArgs e)
     {
         buttonRemove.Enabled = (dataGridView1.SelectedRows.Count > 0);
     }
         
-    void ButtonReplaceClick(object sender, EventArgs e)
+    private void ButtonReplaceClick(object sender, EventArgs e)
     {
         //display a list of plans in the model.
         SCopyViewSelectionDialog vd = new SCopyViewSelectionDialog();
@@ -203,13 +203,13 @@ public partial class MainForm : System.Windows.Forms.Form
         }
     }
         
-    void DataGridView2SelectionChanged(object sender, EventArgs e)
+    private void DataGridView2SelectionChanged(object sender, EventArgs e)
     {
         bool planEnough = true;
          foreach (DataGridViewRow row in dataGridView2.SelectedRows) {
             SCopyViewOnSheet view =
                 row.DataBoundItem as SCopyViewOnSheet;
-            if(!view.PlanEnough()){
+            if (!view.PlanEnough()) {
                 planEnough = false;       
             }
         }

@@ -151,7 +151,7 @@ namespace SCaddins.SCwash
         {
             SCwashTreeNode tn = e.Node as SCwashTreeNode;
                 foreach (SCwashTreeNode child in tn.Nodes) {
-                    if(!tn.Checked)child.ForeColor = System.Drawing.Color.LightGray;
+                    if (!tn.Checked) child.ForeColor = System.Drawing.Color.LightGray;
                     if (tn.Checked) child.ForeColor = System.Drawing.Color.Black;
                     foreach (SCwashTreeNode child2 in child.Nodes) {
                         if (!tn.Checked) child2.ForeColor = System.Drawing.Color.LightGray;

@@ -33,13 +33,11 @@ namespace SCaddins.SCightLines
 
     class SCightLines
     {
-
         private Document doc;
         private double treadSize; 
         private double eyeHeight;
         private double xDistanceToFirstRow;
         private double yDistanceToFirstRow;
-        //private double focusHeight;
         private int numberOfRows;
         private double minimumRiserHeight;
         private double minimumCValue;
@@ -56,7 +54,6 @@ namespace SCaddins.SCightLines
             get { return infoString; }
         }
 
-        
         /// <summary>
         /// A class to create line of sight drafting views in Revit
         /// </summary>
@@ -70,11 +67,10 @@ namespace SCaddins.SCightLines
         /// <param name="xDistanceToFirstRow"></param>
         /// <param name="yDistanceToFirstRow"></param>
         public SCightLines(Document doc, double eyeHeight, double treadSize,
-            double riserIncrement,double minimumCValue, double minimumRiserHeight,
+            double riserIncrement, double minimumCValue, double minimumRiserHeight,
             double numberOfRows, double xDistanceToFirstRow, double yDistanceToFirstRow)
         {
             this.doc = doc;
-            //focusHeight = 0;
             numberOfRows = 10;
             rows = new SCightLinesRow[100];
             for(int i =0; i < 100; i++)
@@ -85,7 +81,6 @@ namespace SCaddins.SCightLines
                 minimumRiserHeight, numberOfRows, xDistanceToFirstRow, yDistanceToFirstRow);
         }
 
-        
         /// <summary>
         /// Update/Change all parameters.
         /// i.e when changes are made to GUI frontend
@@ -107,7 +102,6 @@ namespace SCaddins.SCightLines
             this.infoString = UpdateInfoString();
         }
 
-        
         /// <summary>
         /// Create a Drafting View with a semi-usefull name
         /// </summary>
@@ -351,7 +345,6 @@ namespace SCaddins.SCightLines
 
         }
 
-        
         /// <summary>Converts feet to mm
         /// NOTE: revit system units are feet so this needs to be done
         /// </summary>
@@ -365,7 +358,6 @@ namespace SCaddins.SCightLines
         {
             return d / 304.8;
         }
-
         
         /// <summary>Get the C-Value</summary>
         /// <param name="i">
