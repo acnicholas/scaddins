@@ -1,5 +1,4 @@
-﻿//
-// (C) Copyright 2012-2013 by Andrew Nicholas
+﻿// (C) Copyright 2012-2014 by Andrew Nicholas
 //
 // This file is part of SCightlines.
 //
@@ -86,8 +85,8 @@ namespace SCaddins.SCightLines
         /// i.e when changes are made to GUI frontend
         /// </summary>
         public void Update(double eyeHeight, double treadSize,
-            double riserIncrement,double minimumCValue,
-            double minimumRiserHeight,double numberOfRows,
+            double riserIncrement, double minimumCValue,
+            double minimumRiserHeight, double numberOfRows,
             double xDistanceToFirstRow, double yDistanceToFirstRow)
         {
             this.eyeHeight = eyeHeight;
@@ -229,11 +228,10 @@ namespace SCaddins.SCightLines
                 (rows[i].EyeToFocusX - rows[i].Going), (rows[i].HeightToFocus - rows[i].EyeHeight), igo);
         }
         
-
         /// <summary>
         /// Draw some text.
         /// </summary>
-        private void DrawText(double x, double y, double vx, double vy, String s, TextAlignFlags f)
+        private void DrawText(double x, double y, double vx, double vy, string s, TextAlignFlags f)
         {
             Application app = doc.Application;
             XYZ origin = app.Create.NewXYZ(FeetToMM(x), FeetToMM(y), 0);
@@ -264,8 +262,8 @@ namespace SCaddins.SCightLines
             s += ("row:\triser:\tdist:\telev:\tc-value:\r\n");
 
             for (i = 0; i < numberOfRows; i++){
-                String c = i > 0 ? Math.Round(rows[i - 1].CValue, 2).ToString() : "NA";
-                String r = i > 0 ? Math.Round(rows[i].RiserHeight, 2).ToString() : "NA";
+                string c = i > 0 ? Math.Round(rows[i - 1].CValue, 2).ToString() : "NA";
+                string r = i > 0 ? Math.Round(rows[i].RiserHeight, 2).ToString() : "NA";
                 s += (i+1 + "\t" + r + "\t"
                     + Math.Round(rows[i].EyeToFocusX, 2) + "\t"
                     + Math.Round(rows[i].HeightToFocus - eyeHeight, 2) + "\t"
@@ -279,7 +277,7 @@ namespace SCaddins.SCightLines
         /// <summary>
         /// Draw a line
         /// </summary>
-        private void DrawLine(double x1, double y1, double x2, double y2, String s)
+        private void DrawLine(double x1, double y1, double x2, double y2, string s)
         {
             Autodesk.Revit.ApplicationServices.Application app = doc.Application;
             double z = 0.0;
@@ -307,13 +305,8 @@ namespace SCaddins.SCightLines
             Autodesk.Revit.ApplicationServices.Application app = doc.Application;
             double z = 0.0;
             XYZ point1 = app.Create.NewXYZ(FeetToMM(x1), FeetToMM(y1), FeetToMM(z));
-//            #if REVIT2014
             Arc arc = Arc.Create(point1, FeetToMM(125), 0, 360, 
                 app.Create.NewXYZ(1, 0, 0), app.Create.NewXYZ(0, 1, 0));
-//            #else
-//            Arc arc = app.Create.NewArc(point1, FeetToMM(125), 0, 360, 
-//            app.Create.NewXYZ(1, 0, 0), app.Create.NewXYZ(0, 1, 0));
-//            #endif
             DetailArc detailCurve = doc.Create.NewDetailCurve(view,arc) as DetailArc;
             SetLineType(detailCurve, s);
         }
@@ -330,19 +323,11 @@ namespace SCaddins.SCightLines
         /// </param>
         private void SetLineType(DetailCurve l, String s)
         {
-//            #if REVIT2014
             foreach (ElementId styleId in l.GetLineStyleIds()){
                 Element style = doc.GetElement(styleId);
                 if (style.Name.Equals(s))
                     l.LineStyle = style;
             }
-//            #else
-//            foreach (Element style in l.LineStyles){
-//                if (style.Name.Equals(s))
-//                    l.LineStyle = style;
-//            }
-//            #endif
-
         }
 
         /// <summary>Converts feet to mm
@@ -373,6 +358,5 @@ namespace SCaddins.SCightLines
         {
             return ((rows[i].EyeToFocusX * (rows[i].HeightToFocus + nextn)) / (rows[i].EyeToFocusX + treadSize)) - rows[i].HeightToFocus;
         }
-
     }
 }

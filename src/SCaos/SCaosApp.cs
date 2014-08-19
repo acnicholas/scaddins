@@ -31,7 +31,7 @@ namespace SCaddins.SCaos
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
-    class SCaosApp : Autodesk.Revit.UI.IExternalApplication
+    public class SCaosApp : Autodesk.Revit.UI.IExternalApplication
     {
 
         public Autodesk.Revit.UI.Result OnStartup(UIControlledApplication application)

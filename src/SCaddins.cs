@@ -99,7 +99,7 @@ namespace SCaddins
                 var c = System.Windows.Media.Color.FromRgb(128, 128, 128);
                 colors.Add(c);
                 BitmapPalette myPalette = new BitmapPalette(colors);
-                var pixArray = System.Array.CreateInstance(typeof(byte),32 * 32);
+                var pixArray = System.Array.CreateInstance(typeof(byte), 32 * 32);
                 return BitmapImage.Create(size, size, 96, 96, System.Windows.Media.PixelFormats.Indexed8, myPalette, pixArray, 1); 
             }
         }

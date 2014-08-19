@@ -15,35 +15,34 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaos.  If not, see <http://www.gnu.org/licenses/>.
-//
-
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using System;
 
 namespace SCaddins.SCaos
 {
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    using System;
+
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
     {
-        ProjectLocation projectLocation;
-        ProjectPosition position;
-        bool currentViewIsIso;
+        private ProjectLocation projectLocation;
+        private ProjectPosition position;
+        private bool currentViewIsIso;
         
         public Autodesk.Revit.UI.Result Execute(ExternalCommandData commandData,
             ref string message, Autodesk.Revit.DB.ElementSet elements)
         {
             UIDocument udoc = commandData.Application.ActiveUIDocument;
             Document doc = udoc.Document;
-            projectLocation = doc.ActiveProjectLocation;
-            position = projectLocation.get_ProjectPosition(XYZ.Zero);
-            currentViewIsIso = false;
+            this.projectLocation = doc.ActiveProjectLocation;
+            this.position = this.projectLocation.get_ProjectPosition(XYZ.Zero);
+            this.currentViewIsIso = false;
             
             View view = doc.ActiveView;
-            string[] s = getViewInfo(view, doc);
-            var form = new SCaosForm(s, currentViewIsIso);
+            string[] s = this.getViewInfo(view, doc);
+            var form = new SCaosForm(s, this.currentViewIsIso);
             System.Windows.Forms.DialogResult result = form.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK) {
                 if (form.radioButtonRotateCurrent.Checked) {
@@ -62,15 +61,15 @@ namespace SCaddins.SCaos
             if (view.ViewType != ViewType.ThreeD) {
                 string[] info = new string[1];
                 info[0] = "Not a 3d view...";
-                currentViewIsIso = false;
+                this.currentViewIsIso = false;
                 return info;
             } else {
-                currentViewIsIso = true;
+                this.currentViewIsIso = true;
                 SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
                 double frame = sunSettings.ActiveFrame;
                 double azimuth = sunSettings.GetFrameAzimuth(frame);
                 double altitude = sunSettings.GetFrameAltitude(frame);
-                azimuth += position.Angle;
+                azimuth += this.position.Angle;
                 double azdeg = azimuth * 180 / System.Math.PI;
                 double altdeg = altitude * 180 / System.Math.PI;
                 string[] info = new string[7];
@@ -202,5 +201,4 @@ namespace SCaddins.SCaos
             }
         }
     }
-
 }
