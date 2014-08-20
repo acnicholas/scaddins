@@ -23,7 +23,7 @@ namespace SCaddins
     using System.Linq;
     using System.Reflection;
     using System.Windows.Media.Imaging;
-    using Autodesk.Revit.Attributes;  
+    using Autodesk.Revit.Attributes;
     using Autodesk.Revit.UI;
 
     /// <summary>
@@ -35,7 +35,7 @@ namespace SCaddins
     public class SCaddinsApp : Autodesk.Revit.UI.IExternalApplication
     {
         public Autodesk.Revit.UI.Result OnStartup(
-                UIControlledApplication application)
+            UIControlledApplication application)
         {
             string scdll =
                 new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
@@ -46,10 +46,10 @@ namespace SCaddins
         private void LoadScexport(string dll, RibbonPanel rp)
         {
             var pbd = new PushButtonData(
-                    "SCexport", "SCexport", dll, "SCaddins.SCexport.Command");
+                          "SCexport", "SCexport", dll, "SCaddins.SCexport.Command");
             var pushButton = rp.AddItem(pbd) as PushButton;
             pushButton.LargeImage = this.LoadBitmapImage(
-                    @"C:\Program Files\SCaddins\SCexport\Data\scexport.png", 32);
+                @"C:\Program Files\SCaddins\SCexport\Data\scexport.png", 32);
             pushButton.SetContextualHelp(
                 new ContextualHelp(
                     ContextualHelpType.Url, Constants.HelpLink));
@@ -57,7 +57,7 @@ namespace SCaddins
                 "Export PDF/DWG file[s] with pre defined naming standards";
             pushButton.LongDescription =
                 "SCexport will export file[s] using the internal Revit " +
-                "revision for each sheet, and a predefined naming scheme.";            
+            "revision for each sheet, and a predefined naming scheme.";            
         }
         
         private void LoadNextSheet()
@@ -72,17 +72,90 @@ namespace SCaddins
         {            
         }
         
-        private void LoadSCaos()
-        {          
-        }  
+        private void LoadSCoord(string dll, RibbonPanel rp)
+        {
+            PushButton pushButton = rp.AddItem(
+                                         new PushButtonData("Coordinate Tool",
+                                             "Coordinate" + System.Environment.NewLine + "Tool",
+                                             @"C:\Program Files\SCaddins\SCoord\2014\SCoord14.dll",
+                                             "SCoord.Command")) as PushButton;
+            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCoord\Data\scoord.png");
+            BitmapImage largeImage = new BitmapImage(uriImage);
+            pushButton.LargeImage = largeImage;
+        }
+        
+        private void LoadSCulcase(string dll, RibbonPanel rp)
+        {
+            PushButton pushButton = rp.AddItem(new PushButtonData("SCulcase",
+                                        "Uppercase" + System.Environment.NewLine + "Text", @"C:\Program Files\SCaddins\SCulcase\2014\SCulcase14.dll", "SCulcase.Command")) as PushButton;
+            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCulcase\Data\sculcase.png");
+            BitmapImage largeImage = new BitmapImage(uriImage);
+            pushButton.LargeImage = largeImage;
+        }
+        
+        private void LoadSCwash(string dll, RibbonPanel rp)
+        {    
+            PushButton pushButton = rp.AddItem(new PushButtonData("SCwash",
+                                        "SCwash", @"C:\Program Files\SCaddins\SCwash\2014\SCwash14.dll", "SCwash.Command")) as PushButton;
 
-        private void LoadSCightlines()
-        {           
-        }   
+            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCwash\Data\scwash.png");
+            BitmapImage largeImage = new BitmapImage(uriImage);
+            pushButton.LargeImage = largeImage;
+        }
+        
+        private void LoadSCaos(string dll, RibbonPanel rp)
+        {     
+            PushButton pushButton = rp.AddItem(new PushButtonData("Sun View",
+                                        "Sun" + System.Environment.NewLine + "View", dll, "SCaos.Command")) as PushButton;
+            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCaos\Data\scaos.png");
+            BitmapImage largeImage = new BitmapImage(uriImage);
+            if (largeImage != null) {
+                pushButton.LargeImage = largeImage;
+            }     
+        }
+
+        private void LoadSCightlines(string dll, RibbonPanel rp)
+        {     
+            PushButton pushButton = rp.AddItem(new PushButtonData("SCightLines",
+                                        "Line" + System.Environment.NewLine + "of Sight", dll, "SCightLines.Command")) as PushButton;
+            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCightLines\Data\scightlines32.png");
+            BitmapImage largeImage = new BitmapImage(uriImage);
+            pushButton.LargeImage = largeImage;
+        }
 
         private void LoadSCincrement()
         {           
-        }    
+        }
+        
+        public void LoadSCloudShed(string dll, RibbonPanel rp)
+        {
+            PushButton pushButton = rp.AddItem(new PushButtonData("Cloud Scheduler",
+                                         "Cloud" + System.Environment.NewLine + "Scheduler", @"C:\Program Files\SCaddins\SCloudSChed\2014\SCloudSChed14.dll", "SCloudSChed.Command")) as PushButton;
+            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCloudSChed\Data\scloudsched.png");
+            BitmapImage largeImage = new BitmapImage(uriImage);
+            pushButton.LargeImage = largeImage;
+        }
+        
+        private void LoadSCopy(string dll, RibbonPanel rp)
+        {
+            PushButtonData pbd = new PushButtonData(
+                                 "SCopy", "SCopy", dll, "SCopy.Command");
+            PushButton pushButton = rp.AddItem(pbd) as PushButton;
+            Uri uriImage = new Uri(
+                           @"C:\Program Files\SCaddins\SCopy\Data\scopy.png");
+            BitmapImage largeImage = new BitmapImage(uriImage);
+            pushButton.LargeImage = largeImage;
+            pushButton.SetContextualHelp(
+                new ContextualHelp(
+                    ContextualHelpType.Url,
+                    " https://bitbucket.org/anicholas/scopy/wiki"));
+            pushButton.ToolTip =
+            "Copy a view sheet and all its content";
+            pushButton.LongDescription =
+            "SCopy will try to create a copy of the active(focused)sheet " +
+            System.Environment.NewLine + System.Environment.NewLine +
+            "NOTE: After the new sheet is created, view names need to be munaually edit.";
+        }
 
         public Result OnShutdown(UIControlledApplication application)
         {
@@ -105,7 +178,7 @@ namespace SCaddins
         }
 
         private RibbonPanel TryGetPanel(
-                UIControlledApplication application, string name)
+            UIControlledApplication application, string name)
         {
             List<RibbonPanel> loadedPanels = application.GetRibbonPanels();
             foreach (RibbonPanel p in loadedPanels) {

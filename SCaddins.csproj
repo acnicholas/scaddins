@@ -96,12 +96,10 @@
     <Compile Include="src\SCam\SCam.cs" />
     <Compile Include="src\SCaos\Constants.cs" />
     <Compile Include="src\SCaos\SCaos.cs" />
-    <Compile Include="src\SCaos\SCaosApp.cs" />
     <Compile Include="src\SCaos\SCaosForm.cs" />
     <Compile Include="src\SCaos\SCaosForm.Designer.cs" />
     <Compile Include="src\SCexport\AboutBox.cs" />
     <Compile Include="src\SCexport\AboutBox.Designer.cs" />
-    <Compile Include="src\SCexport\Application.cs" />
     <Compile Include="src\SCexport\Command.cs" />
     <Compile Include="src\SCexport\ConfirmDialog.cs" />
     <Compile Include="src\SCexport\ConfirmDialog.Designer.cs" />
@@ -138,7 +136,6 @@
     <Compile Include="src\SCexport\TipOfDay.cs" />
     <Compile Include="src\SCexport\ViewSheetSetCombo.cs" />
     <Compile Include="src\SCightlines\SCightLines.cs" />
-    <Compile Include="src\SCightlines\SCightLinesApp.cs" />
     <Compile Include="src\SCightlines\SCightLinesCommand.cs" />
     <Compile Include="src\SCightlines\SCightLinesMainForm.cs" />
     <Compile Include="src\SCightlines\SCightLinesMainForm.Designer.cs" />
@@ -157,7 +154,6 @@
     <Compile Include="src\SCopy\MainForm.cs" />
     <Compile Include="src\SCopy\MainForm.Designer.cs" />
     <Compile Include="src\SCopy\SCopy.cs" />
-    <Compile Include="src\SCopy\SCopyApp.cs" />
     <Compile Include="src\SCopy\SCopyCommand.cs" />
     <Compile Include="src\SCopy\SCopyConstants.cs" />
     <Compile Include="src\SCopy\SCopySheet.cs" />
@@ -165,14 +161,12 @@
     <Compile Include="src\SCopy\SCopyViewSelectionDialog.cs" />
     <Compile Include="src\SCopy\SCopyViewSelectionDialog.Designer.cs" />
     <Compile Include="src\SCulcase\SCulcase.cs" />
-    <Compile Include="src\SCulcase\SCulcaseApp.cs" />
     <Compile Include="src\SCulcase\SCulcaseCommand.cs" />
     <Compile Include="src\SCulcase\SCulcaseInfoDialog.cs" />
     <Compile Include="src\SCulcase\SCulcaseInfoDialog.Designer.cs" />
     <Compile Include="src\SCulcase\SCulcaseMainForm.cs" />
     <Compile Include="src\SCulcase\SCulcaseMainForm.Designer.cs" />
     <Compile Include="src\SCwash\SCwash.cs" />
-    <Compile Include="src\SCwash\SCwashApp.cs" />
     <Compile Include="src\SCwash\SCwashCommand.cs" />
     <Compile Include="src\SCwash\SCwashForm.cs" />
     <Compile Include="src\SCwash\SCwashForm.Designer.cs" />

@@ -1,5 +1,4 @@
-﻿//
-// (C) Copyright 2014 by Andrew Nicholas
+﻿// (C) Copyright 2014 by Andrew Nicholas
 //
 // This file is part of SCaos.
 //
@@ -15,28 +14,26 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaos.  If not, see <http://www.gnu.org/licenses/>.
-//
 
 namespace SCaddins.SCaos
 {
     using System;
-	
+
     /// <summary>
     /// Description of Constants.
     /// </summary>
     public static class Constants
     {
-		
         public const string InstallDir = @"C:\Program Files\SCaddins\SCaos\";
-		
+
         /// <summary> Web [http] link to source code. </summary>
         public const string SourceLink =
             "https://bitbucket.org/anicholas/scaos";
-		
+
         /// <summary> Web [http] link to download binaries. </summary>
         public const string DownloadLink =
             "https://bitbucket.org/anicholas/scaos/downloads";
-		
+
         /// <summary> Web [http] link to forum. </summary>
         public const string HelpLink =
             "https://bitbucket.org/anicholas/scaos/wiki/Home";

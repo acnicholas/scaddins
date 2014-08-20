@@ -54,10 +54,10 @@ namespace SCaddins.SCightLines
             txtY.Text = "1000";
             info = new SCightOutputForm("Update first");
             info.Hide();
-            sightLines = new SCightLines(doc, getDub(txtEyeHeight,1220),
-                getDub(txtGoing,900), getDub(txtInc,15),
-                getDub(txtMinC,60), getDub(txtRiser,180), 
-                getDub(txtRows,20), getDub(txtX,12000), getDub(txtY,1000));
+            sightLines = new SCightLines(doc, getDub(txtEyeHeight, 1220),
+                getDub(txtGoing, 900), getDub(txtInc, 15),
+                getDub(txtMinC, 60), getDub(txtRiser, 180), 
+                getDub(txtRows, 20), getDub(txtX, 12000), getDub(txtY, 1000));
             setTitle();
             this.Show();
             this.Focus();

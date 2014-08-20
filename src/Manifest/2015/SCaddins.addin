@@ -40,7 +40,8 @@
   </AddIn>
 
   <!-- SCaos -->
-    
+
+  <!--   
   <AddIn Type="Application">
     <Assembly>C:\Program Files\SCaddins\SCaos\2015\SCaddins.dll</Assembly>
     <AddInId>604F8125-C009-46f4-A3B2-8C99B75AAC52</AddInId>
@@ -49,9 +50,11 @@
     <VendorId>BEER</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
   </AddIn>
+  -->
 
   <!-- SCwash -->
     
+  <!--   
   <AddIn Type="Application">
     <Assembly>C:\Program Files\SCaddins\SCaos\2015\SCaddins.dll</Assembly>
     <AddInId>7D94ADFA-79D6-40bb-8BB9-FC02EBD79F51</AddInId>
@@ -60,6 +63,7 @@
     <VendorId>BEER</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
   </AddIn>
+  -->
 
   <!-- SCoord -->
     

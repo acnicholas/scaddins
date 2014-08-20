@@ -147,7 +147,7 @@ namespace SCaddins.SCaos
         private void CreateWinterViews(Document doc, UIDocument udoc)
         {
             ElementId id = null;
-			
+
             //get the viewid
             var collector = new FilteredElementCollector(doc);
             collector.OfClass(typeof(ViewFamilyType));
@@ -158,11 +158,11 @@ namespace SCaddins.SCaos
                     break;
                 }
             }
-			
+
             //FIXME add error message here
             if (id == null)
                 return;
-			
+
             for (int i = 9; i < 16; i++) {
                 var t = new Transaction(doc);
                 t.Start("Create Solar View");
@@ -172,7 +172,7 @@ namespace SCaddins.SCaos
                 sunSettings.StartDateAndTime = new DateTime(2014, 06, 21, i, 0, 0, DateTimeKind.Local);
                 sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
                 t.Commit();
-                RotateView(view, doc, udoc);
+                this.RotateView(view, doc, udoc);
             }
         }
 

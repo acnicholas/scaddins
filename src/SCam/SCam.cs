@@ -22,8 +22,8 @@
             View currentView = doc.ActiveView;
             
             IEnumerable<ViewFamilyType> viewFamilyTypes
-                = from elem in new FilteredElementCollector( doc )
-                .OfClass( typeof( ViewFamilyType ) )
+                = from elem in new FilteredElementCollector(doc)
+                .OfClass(typeof(ViewFamilyType))
                 let type = elem as ViewFamilyType
                 where type.ViewFamily == ViewFamily.ThreeDimensional
                 select type;
@@ -39,8 +39,7 @@
             
             t.Commit();
 
-            return 	 Autodesk.Revit.UI.Result.Succeeded;
-            
+            return Autodesk.Revit.UI.Result.Succeeded;   
         }
     }
 }
