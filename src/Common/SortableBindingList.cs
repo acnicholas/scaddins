@@ -28,7 +28,7 @@
 //// ref: (http://www.tech.windowsapplication1.com/content/sortable-binding-list-custom-data-objects)
 ////=================================================================
 
-namespace SCaddins.SCexport
+namespace SCaddins.Common
 {
     using System;
     using System.Linq;

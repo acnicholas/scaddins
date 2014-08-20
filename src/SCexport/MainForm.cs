@@ -20,16 +20,13 @@ namespace SCaddins.SCexport
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Data;
-    using System.Diagnostics;
     using System.Drawing;
-    using System.IO;
     using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
     using Autodesk.Revit.UI;
-    using Autodesk.Revit.UI.Events;
+    using SCaddins.Common;
 
     public partial class MainForm : Form
     {

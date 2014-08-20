@@ -1,5 +1,4 @@
-﻿//
-// (C) Copyright 2012-2013 by Andrew Nicholas
+﻿// (C) Copyright 2012-2013 by Andrew Nicholas
 //
 // This file is part of SCightlines.
 //
@@ -15,13 +14,12 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCightlines.  If not, see <http://www.gnu.org/licenses/>.
-//
-
-using System;
-using System.Windows.Forms;
 
 namespace SCaddins.SCightLines
 {
+    using System;
+    using System.Windows.Forms;
+    
     /// <summary>
     /// Form to display text values of the current settings
     /// </summary>
@@ -30,14 +28,13 @@ namespace SCaddins.SCightLines
     /// </author>
     public partial class SCightOutputForm : Form
     {
-
         /// <summary>
         /// Initialise with a given string
         /// </summary>
         /// <param name="s">
         /// String to display
         /// </param>
-        public SCightOutputForm(String s)
+        public SCightOutputForm(string s)
         {
             InitializeComponent();
             Update(s);
@@ -49,7 +46,7 @@ namespace SCaddins.SCightLines
         /// <param name="s">
         /// String to display
         /// </param>
-        public void Update(String s)
+        public void Update(string s)
         {
             textBox1.Text = s;
         }
@@ -59,6 +56,5 @@ namespace SCaddins.SCightLines
             this.Hide();
             e.Cancel = true; // this cancels the close event.
         }
-
     }
 }

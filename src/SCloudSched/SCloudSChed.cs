@@ -1,4 +1,3 @@
-//
 // (C) Copyright 2013 by Andrew Nicholas
 //
 // This file is part of SCloudSChed.
@@ -15,86 +14,85 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCloudSChed.  If not, see <http://www.gnu.org/licenses/>.
-//
-
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using Microsoft.Office.Interop.Excel;
-using System.Reflection;
-using System.Collections.Generic;
 
 namespace SCaddins.SCloudSChed
 {
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    using Microsoft.Office.Interop.Excel;
+    using System.Reflection;
+    using System.Collections.Generic;
+    using SCaddins.Common;
+    
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
     {
-
         private SortableBindingList<RevisionItem> revisions;
 
         public Autodesk.Revit.UI.Result Execute(ExternalCommandData commandData,
           ref string message, Autodesk.Revit.DB.ElementSet elements)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            revisions = new SortableBindingList<RevisionItem>();
-            getRevisions(doc, ref revisions);
-            Form1 form = new Form1(doc, revisions);
+            this.revisions = new SortableBindingList<RevisionItem>();
+            this.GetRevisions(doc, ref this.revisions);
+            Form1 form = new Form1(doc, this.revisions);
             form.Show();
-            //exportCloudInfo(doc);
             return Autodesk.Revit.UI.Result.Succeeded;
         }
 
-
-        private void getRevisions(Document doc, ref SortableBindingList<RevisionItem> revisions)
+        private void GetRevisions(Document doc, ref SortableBindingList<RevisionItem> revisions)
         {
             FilteredElementCollector a;
             a = new FilteredElementCollector(doc);
             a.OfCategory(BuiltInCategory.OST_Revisions);
             foreach (Element e in a) {
                 int seq = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger();
-                //string num = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_NUM).AsString();
                 string date = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString();
                 int issued = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_ISSUED).AsInteger();
                 string description = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
-                revisions.Add(new RevisionItem(date, description,issued == 1, seq));
+                revisions.Add(new RevisionItem(date, description, issued == 1, seq));
             }
         }
-
-  
     }
 
     public class RevisionItem
     {
         private bool export;
+        
         public bool Export
         {
-            get { return export; }
-            set { export = value; }
+            get { return this.export; }
+            set { this.export = value; }
         }
 
         private string description;
+        
         public string Description
         {
-            get { return description; }
+            get { return this.description; }
         }
 
         private string date;
+        
         public string Date
         {
-            get { return date; }
+            get { return this.date; }
         }
 
         private bool isIssued;
+        
         public bool IsIssued
         {
-            get { return isIssued; }
+            get { return this.isIssued; }
         }
 
         private int sequence;
+        
         public int Sequence
         {
-            get { return sequence; }
+            get { return this.sequence; }
         }
 
         public RevisionItem(string date, string description, bool isIssued, int sequence)
@@ -104,20 +102,13 @@ namespace SCaddins.SCloudSChed
             this.isIssued = isIssued;
             this.sequence = sequence;
         }
-
-           //s += (e.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger()).ToString() + " - ";
-           //     s += e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_NUM).AsString() + " - ";
-           //     s += e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString() + " - ";
-           //     s += e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_ISSUED).AsInteger().ToString() + " - ";
-           //     s += e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString() + System.Environment.NewLine;
-
     }
 
     public class SCloudSched
     {
         private static string getParamaterAsString(Element revCloud, BuiltInParameter b)
         {
-            string result = "";
+            string result = string.Empty;
             try {
                 result += revCloud.get_Parameter(b).AsString();
             } catch {
@@ -145,7 +136,7 @@ namespace SCaddins.SCloudSChed
 
         public static void exportCloudInfo(Document doc, Dictionary<string, RevisionItem> dictionary)
         {
-            const string exportFilename = @"C:\Temp\SClouds";//don't need extension
+            const string exportFilename = @"C:\Temp\SClouds";
             Microsoft.Office.Interop.Excel.Application excelApp;
             Worksheet excelWorksheet;
             Workbook excelWorkbook;
@@ -176,13 +167,9 @@ namespace SCaddins.SCloudSChed
                 if (dictionary.TryGetValue(date + description, out revItem)) {
                     if (revItem.Export) {
                         cloudNumber++;
-                        string viewName = "";
+                        string viewName = string.Empty;
                         try {
-//                            #if REVIT2014
                             View view = (View)doc.GetElement(revCloud.OwnerViewId);
-//                            #else
-//                            View view = (View)doc.get_Element(revCloud.OwnerViewId);
-//                            #endif
                             viewName = view.ViewName;
                             if (view.ViewType == ViewType.DrawingSheet) {
                                 data[cloudNumber, 0] = ((ViewSheet)view).SheetNumber.ToString();
@@ -210,7 +197,5 @@ namespace SCaddins.SCloudSChed
                 excelWorkbook.Close();
             }
         }
-
     }
 }
-

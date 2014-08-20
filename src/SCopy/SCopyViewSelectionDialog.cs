@@ -17,11 +17,11 @@ namespace SCaddins.SCopy
         public void Add(Autodesk.Revit.DB.View view)
         {
             listBox1.Items.Add(view.Name);
-            //TODO just do this once.
+            // TODO just do this once.
             listBox1.Sorted = true;
         }
         
-        public string SelectedView(){
+        public string SelectedView() {
             return listBox1.Text;
         }
     }

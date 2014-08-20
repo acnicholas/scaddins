@@ -1,5 +1,4 @@
-﻿//
-// (C) Copyright 2013 by Andrew Nicholas andrewnicholas@iinet.net.au
+﻿// (C) Copyright 2013 by Andrew Nicholas andrewnicholas@iinet.net.au
 //
 // This file is part of SCwash.
 //
@@ -15,27 +14,22 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCwash.  If not, see <http://www.gnu.org/licenses/>.
-//
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.UI.Events;
-using System.Diagnostics;
 
 namespace SCaddins.SCwash
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows.Forms;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    using Autodesk.Revit.UI.Events;
+    using System.Diagnostics;
+    
     public partial class SCwashForm : System.Windows.Forms.Form
     {
-        Document doc;
-        UIDocument udoc;
+        private Document doc;
+        private UIDocument udoc;
 
         public SCwashForm(Document doc, UIDocument udoc)
         {
@@ -57,9 +51,9 @@ namespace SCaddins.SCwash
             treeView1.Nodes.Add(new SCwashTreeNode("Imported Files"));
             treeView1.Nodes.Add(new SCwashTreeNode("Images"));
             treeView1.Nodes.Add(new SCwashTreeNode("Unbound Rooms"));
-            SCwash.AddViewNodes(doc,false,treeView1.Nodes[0].Nodes);
-            SCwash.AddViewNodes(doc,true,treeView1.Nodes[1].Nodes);
-            SCwash.AddSheetNodes(doc,true,treeView1.Nodes[2].Nodes);
+            SCwash.AddViewNodes(doc, false, treeView1.Nodes[0].Nodes);
+            SCwash.AddViewNodes(doc, true, treeView1.Nodes[1].Nodes);
+            SCwash.AddSheetNodes(doc, true, treeView1.Nodes[2].Nodes);
             treeView1.Nodes[3].Nodes.AddRange(SCwash.Imports(doc, true).ToArray<TreeNode>());
             treeView1.Nodes[4].Nodes.AddRange(SCwash.Imports(doc, false).ToArray<TreeNode>());
             treeView1.Nodes[5].Nodes.AddRange(SCwash.Images(doc).ToArray<TreeNode>());
@@ -87,7 +81,7 @@ namespace SCaddins.SCwash
         {
             foreach (TreeNode node in nodes) {
                 node.Checked = true;
-                CheckChildren(node, true);
+                this.CheckChildren(node, true);
             }
         }
 
@@ -95,26 +89,26 @@ namespace SCaddins.SCwash
         {
             foreach (TreeNode node in nodes) {
                 node.Checked = false;
-                CheckChildren(node, false);
+                this.CheckChildren(node, false);
             }
         }
 
         private void CheckChildren(TreeNode rootNode, bool isChecked)
         {
             foreach (TreeNode node in rootNode.Nodes) {
-                CheckChildren(node, isChecked);
+                this.CheckChildren(node, isChecked);
                 node.Checked = isChecked;
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            CheckAllNodes(treeView1.Nodes);
+            this.CheckAllNodes(treeView1.Nodes);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            UncheckAllNodes(treeView1.Nodes);
+            this.UncheckAllNodes(treeView1.Nodes);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -125,7 +119,7 @@ namespace SCaddins.SCwash
                     addSCChildrenToPurgeSet(ref elements, node);
                 }
             }
-            SCwash.RemoveElements(doc,elements);
+            SCwash.RemoveElements(doc, elements);
             init();
         }
 
@@ -134,15 +128,9 @@ namespace SCaddins.SCwash
             foreach (SCwashTreeNode node in rootNode.Nodes) {
                 addSCChildrenToPurgeSet(ref elements, node);
                 if (node.Checked && node.Id != null) {
-//                    #if REVIT2014
                     if (doc.GetElement(node.Id) != null && doc.ActiveView.Id != node.Id) {
                         elements.Add(node.Id);
                     }
-//                    #else
-//                    if (doc.get_Element(node.Id) != null && doc.ActiveView.Id != node.Id) {
-//                        elements.Add(node.Id);
-//                    }
-//                    #endif
                 }
             }
         }
@@ -150,14 +138,22 @@ namespace SCaddins.SCwash
         private void treeView1_AfterCheck(object sender, TreeViewEventArgs e)
         {
             SCwashTreeNode tn = e.Node as SCwashTreeNode;
-                foreach (SCwashTreeNode child in tn.Nodes) {
-                    if (!tn.Checked) child.ForeColor = System.Drawing.Color.LightGray;
-                    if (tn.Checked) child.ForeColor = System.Drawing.Color.Black;
-                    foreach (SCwashTreeNode child2 in child.Nodes) {
-                        if (!tn.Checked) child2.ForeColor = System.Drawing.Color.LightGray;
-                        if (tn.Checked) child2.ForeColor = System.Drawing.Color.Black;
+            foreach (SCwashTreeNode child in tn.Nodes) {
+                if (!tn.Checked) {
+                    child.ForeColor = System.Drawing.Color.LightGray;
+                }
+                if (tn.Checked) {
+                    child.ForeColor = System.Drawing.Color.Black;
+                }
+                foreach (SCwashTreeNode child2 in child.Nodes) {
+                    if (!tn.Checked) {
+                        child2.ForeColor = System.Drawing.Color.LightGray;
+                    }
+                    if (tn.Checked) {
+                        child2.ForeColor = System.Drawing.Color.Black;
                     }
                 }
+            }
         }
 
         private void SCwashForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -167,11 +163,13 @@ namespace SCaddins.SCwash
 
         private void button4_Click(object sender, EventArgs e)
         {
-            //open view with selected id.
+            // open view with selected id.
             UIApplication uiapp = new UIApplication(udoc.Application.Application);
             uiapp.DialogBoxShowing += new EventHandler<DialogBoxShowingEventArgs>(dismissOpenQuestion);
             SCwashTreeNode t = (SCwashTreeNode)treeView1.SelectedNode;
-            if (t.Id != null) udoc.ShowElements(t.Id);
+            if (t.Id != null) {
+                udoc.ShowElements(t.Id);
+            }
         }
 
         private void dismissOpenQuestion(object o, DialogBoxShowingEventArgs e)
@@ -182,7 +180,5 @@ namespace SCaddins.SCwash
                 e.OverrideResult((int)TaskDialogResult.Ok);
             }
         }
-
     }
-
 }

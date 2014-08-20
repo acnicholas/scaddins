@@ -1,4 +1,3 @@
-//
 // (C) Copyright 2013-2014 by Andrew Nicholas
 //
 // This file is part of SCaos.
@@ -18,9 +17,9 @@
 
 namespace SCaddins.SCaos
 {
+    using System;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using System;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -31,8 +30,10 @@ namespace SCaddins.SCaos
         private ProjectPosition position;
         private bool currentViewIsIso;
         
-        public Autodesk.Revit.UI.Result Execute(ExternalCommandData commandData,
-            ref string message, Autodesk.Revit.DB.ElementSet elements)
+        public Autodesk.Revit.UI.Result Execute(
+            ExternalCommandData commandData,
+            ref string message,
+            Autodesk.Revit.DB.ElementSet elements)
         {
             UIDocument udoc = commandData.Application.ActiveUIDocument;
             Document doc = udoc.Document;
@@ -41,7 +42,7 @@ namespace SCaddins.SCaos
             this.currentViewIsIso = false;
             
             View view = doc.ActiveView;
-            string[] s = this.getViewInfo(view, doc);
+            string[] s = this.GetViewInfo(view, doc);
             var form = new SCaosForm(s, this.currentViewIsIso);
             System.Windows.Forms.DialogResult result = form.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK) {
@@ -56,7 +57,7 @@ namespace SCaddins.SCaos
             return Autodesk.Revit.UI.Result.Succeeded;
         }
         
-        private string[] getViewInfo(View view, Document doc)
+        private string[] GetViewInfo(View view, Document doc)
         {
             if (view.ViewType != ViewType.ThreeD) {
                 string[] info = new string[1];
@@ -97,14 +98,14 @@ namespace SCaddins.SCaos
                 double frame = sunSettings.ActiveFrame;
                 double azimuth = sunSettings.GetFrameAzimuth(frame);
                 double altitude = sunSettings.GetFrameAltitude(frame);
-                azimuth += position.Angle;
+                azimuth += this.position.Angle;
                 
                 View3D v3d = (View3D)view;
                 Transaction t = new Transaction(doc);
                 t.Start("Draw Solar Ray");
-                //REVIT 2014
-                //Line ray = Line.CreateBound(XYZ.Zero, new XYZ(100 * Math.Cos(azimuth), 100 * Math.Sin(azimuth), 100 * Math.Tan(altitude)));
-                //REVIT 2013
+                // REVIT 2014
+                // Line ray = Line.CreateBound(XYZ.Zero, new XYZ(100 * Math.Cos(azimuth), 100 * Math.Sin(azimuth), 100 * Math.Tan(altitude)));
+                // REVIT 2013
 //                Line line = doc.Application.Create.NewLineBound(XYZ.Zero, new XYZ(Math.Sin(azimuth), Math.Cos(azimuth), 1 * Math.Tan(altitude)));
 //                //check intesects
 //                //SetComparisonResult scr = line.Intersect(
@@ -114,7 +115,7 @@ namespace SCaddins.SCaos
 //                if (sketchPlane != null){
 //                    ModelCurve ray = doc.Create.NewModelCurve(line, sketchPlane);
 //                }
-                //udoc.RefreshActiveView();
+                // udoc.RefreshActiveView();
                 t.Commit();
             } else {
                 TaskDialog.Show("ERROR", "Not a 3d view");
@@ -125,17 +126,17 @@ namespace SCaddins.SCaos
         {
             FilteredElementCollector f = new FilteredElementCollector(doc);
             f.OfClass(typeof(Autodesk.Revit.DB.View));
-            string result = "";
+            string result = string.Empty;
             foreach (Autodesk.Revit.DB.View view in f) {
                 string name = view.Name.ToUpper();
                 if (view.ViewType == ViewType.ThreeD || view.ViewType == ViewType.FloorPlan) {
                     if (name.Contains("SOLAR") || name.Contains("SHADOW")) {
-                        result += String.Join(System.Environment.NewLine, getViewInfo(view, doc));
+                        result += String.Join(System.Environment.NewLine, this.GetViewInfo(view, doc));
                         result += System.Environment.NewLine + System.Environment.NewLine;
                     }
                 }
             }
-            LogText(result);
+            this.LogText(result);
             return result;
         }
         
@@ -148,7 +149,7 @@ namespace SCaddins.SCaos
         {
             ElementId id = null;
 
-            //get the viewid
+            // get the viewid
             var collector = new FilteredElementCollector(doc);
             collector.OfClass(typeof(ViewFamilyType));
             foreach (Element e in collector) {
@@ -159,9 +160,10 @@ namespace SCaddins.SCaos
                 }
             }
 
-            //FIXME add error message here
-            if (id == null)
+            // FIXME add error message here
+            if (id == null) {
                 return;
+            }
 
             for (int i = 9; i < 16; i++) {
                 var t = new Transaction(doc);
@@ -183,13 +185,13 @@ namespace SCaddins.SCaos
                 double frame = sunSettings.ActiveFrame;
                 double azimuth = sunSettings.GetFrameAzimuth(frame);
                 double altitude = sunSettings.GetFrameAltitude(frame);
-                azimuth += position.Angle;
+                azimuth += this.position.Angle;
                 BoundingBoxXYZ viewBounds = view.get_BoundingBox(view);
                 XYZ max = viewBounds.Max;
                 XYZ min = viewBounds.Min;
                 var eye = new XYZ(min.X + (max.X - min.X) / 2, min.Y + (max.Y - min.Y) / 2, min.Z + (max.Z - min.Z) / 2);
-                var forward = new XYZ(-(Math.Sin(azimuth)), -(Math.Cos(azimuth)), -(Math.Tan(altitude)));
-                var up = forward.CrossProduct(new XYZ((Math.Cos(azimuth)), -(Math.Sin(azimuth)), 0));
+                var forward = new XYZ(-Math.Sin(azimuth), -Math.Cos(azimuth), -Math.Tan(altitude));
+                var up = forward.CrossProduct(new XYZ(Math.Cos(azimuth), -Math.Sin(azimuth), 0));
                 var v3d = (View3D)view;
                 var t = new Transaction(doc);
                 t.Start("Rotate View");

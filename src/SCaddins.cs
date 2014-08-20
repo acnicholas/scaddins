@@ -60,6 +60,18 @@ namespace SCaddins
             "revision for each sheet, and a predefined naming scheme.";            
         }
         
+        private void LoadScoord(string dll, RibbonPanel rp)
+        {
+             PushButton pushButton = rp.AddItem(
+                    new PushButtonData("Coordinate Tool",
+                    "Coordinate" + System.Environment.NewLine + "Tool",
+                    @"C:\Program Files\SCaddins\SCoord\2014\SCoord14.dll",
+                    "SCoord.Command")) as PushButton;
+            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCoord\Data\scoord.png");
+            BitmapImage largeImage = new BitmapImage(uriImage);
+            pushButton.LargeImage = largeImage;
+        }
+        
         private void LoadNextSheet()
         {            
         }
@@ -75,10 +87,11 @@ namespace SCaddins
         private void LoadSCoord(string dll, RibbonPanel rp)
         {
             PushButton pushButton = rp.AddItem(
-                                         new PushButtonData("Coordinate Tool",
-                                             "Coordinate" + System.Environment.NewLine + "Tool",
-                                             @"C:\Program Files\SCaddins\SCoord\2014\SCoord14.dll",
-                                             "SCoord.Command")) as PushButton;
+                new PushButtonData(
+                    "Coordinate Tool",
+                    "Coordinate" + System.Environment.NewLine + "Tool",
+                    dll,
+                    "SCoord.Command")) as PushButton;
             Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCoord\Data\scoord.png");
             BitmapImage largeImage = new BitmapImage(uriImage);
             pushButton.LargeImage = largeImage;

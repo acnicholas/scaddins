@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
@@ -20,18 +18,17 @@ namespace SCaddins.SCulcase
             UIDocument document = application.ActiveUIDocument;
             ElementSet elems = document.Selection.Elements;
 
-            using(TransactionGroup t = new TransactionGroup(doc, "SCulcase")) {
+            using (TransactionGroup t = new TransactionGroup(doc, "SCulcase")) {
                       t.Start();
                       if (elems.Size == 0) {
                           SCulcaseMainForm form = new SCulcaseMainForm(doc);
                       } else {
-                          SCulcase.ConvertSelection(SCulcase.ConversionMode.UPPER_CASE,ref doc, ref elems);
+                          SCulcase.ConvertSelection(SCulcase.ConversionMode.UPPER_CASE, ref doc, ref elems);
                       }
                       t.Commit();
             }
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }
-
     }
 }

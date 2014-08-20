@@ -1,5 +1,4 @@
-﻿//
-// (C) Copyright 2013 by Andrew Nicholas andrewnicholas@iinet.net.au
+﻿// (C) Copyright 2013 by Andrew Nicholas andrewnicholas@iinet.net.au
 //
 // This file is part of SCwash.
 //
@@ -15,12 +14,9 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCwash.  If not, see <http://www.gnu.org/licenses/>.
-//
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Autodesk.Revit.DB;
 
@@ -28,25 +24,26 @@ namespace SCaddins.SCwash
 {
     class SCwashTreeNode : TreeNode
     {
-
         private string info;
-        public string Info{
+        
+        public string Info {
             get { return info; }
             set { info = value; }
         }
 
         private ElementId id;
-        public ElementId Id
-        {
+        
+        public ElementId Id {
             get { return id; }
             set { id = value; }
         }
 
-        public SCwashTreeNode(string name) : base(name) {
+        public SCwashTreeNode(string name)
+            : base(name)
+        {
             info = "-";
             id = null;
             this.Checked = true;
         }
-
     }
 }

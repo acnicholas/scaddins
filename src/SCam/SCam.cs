@@ -35,7 +35,7 @@
             t.Start("Create perspective view");
             
             View3D np = View3D.CreatePerspective(doc, viewFamilyTypes.First().Id);
-            np.SetOrientation(new ViewOrientation3D(vo.EyePosition,vo.UpDirection,vo.ForwardDirection));
+            np.SetOrientation(new ViewOrientation3D(vo.EyePosition, vo.UpDirection, vo.ForwardDirection));
             
             t.Commit();
 

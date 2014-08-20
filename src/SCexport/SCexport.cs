@@ -29,6 +29,7 @@ namespace SCaddins.SCexport
     using System.Xml.Schema;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using SCaddins.Common;
 
     /// <summary>
     /// Export files to comply with SC standard.

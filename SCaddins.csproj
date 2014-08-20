@@ -20,7 +20,7 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
-    <SourceAnalysisOverrideSettingsFile>C:\Andrew\code\cs\scaddins\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <SourceAnalysisOverrideSettingsFile>Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -86,6 +86,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Common\SortableBindingList.cs" />
     <Compile Include="src\Properties\AssemblyInfo.cs" />
     <Compile Include="Resource1.Designer.cs">
       <DependentUpon>Resource1.resx</DependentUpon>
@@ -132,7 +133,6 @@
     <Compile Include="src\SCexport\Sheet.cs" />
     <Compile Include="src\SCexport\SheetName.cs" />
     <Compile Include="src\SCexport\SheetNameSegment.cs" />
-    <Compile Include="src\SCexport\SortableBindingList.cs" />
     <Compile Include="src\SCexport\TipOfDay.cs" />
     <Compile Include="src\SCexport\ViewSheetSetCombo.cs" />
     <Compile Include="src\SCightlines\SCightLines.cs" />
@@ -146,9 +146,7 @@
     <Compile Include="src\SCloudSched\Form1.Designer.cs" />
     <Compile Include="src\SCloudSched\SCloudSChed.cs" />
     <Compile Include="src\SCloudSched\SCloudSChedApp.cs" />
-    <Compile Include="src\SCloudSched\SortableBindingList.cs" />
     <Compile Include="src\SCoord\SCoord.cs" />
-    <Compile Include="src\SCoord\SCoordApp.cs" />
     <Compile Include="src\SCoord\SCoordForm.cs" />
     <Compile Include="src\SCoord\SCoordForm.Designer.cs" />
     <Compile Include="src\SCopy\MainForm.cs" />

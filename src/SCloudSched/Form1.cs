@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using Autodesk.Revit.DB;
-
-namespace SCaddins.SCloudSChed
+﻿namespace SCaddins.SCloudSChed
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows.Forms;
+    using Autodesk.Revit.DB;
+    using SCaddins.Common;
+
     public partial class Form1 : System.Windows.Forms.Form
     {
         Document doc;
@@ -30,7 +27,7 @@ namespace SCaddins.SCloudSChed
             this.Icon = icnTask;
         }
 
-        private void selectAll(bool all)
+        private void SelectAll(bool all)
         {
             foreach (DataGridViewRow row in this.dataGridView1.Rows) {
                 RevisionItem rev = row.DataBoundItem as RevisionItem;
@@ -49,25 +46,25 @@ namespace SCaddins.SCloudSChed
 
         private void button1_Click(object sender, EventArgs e)
         {
-            selectAll(true);
+            SelectAll(true);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            selectAll(false);
+            SelectAll(false);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Dictionary<string, RevisionItem> dictionary = new Dictionary<string,RevisionItem>();;
+            Dictionary<string, RevisionItem> dictionary = new Dictionary<string, RevisionItem>();
             foreach (DataGridViewRow row in this.dataGridView1.Rows) {
                 RevisionItem rev = row.DataBoundItem as RevisionItem;
                 string s = rev.Date + rev.Description;
-                if(!dictionary.ContainsKey(s)) dictionary.Add(s, rev);
+                if (!dictionary.ContainsKey(s)) {
+                    dictionary.Add(s, rev);
+                }
             }
             SCloudSched.exportCloudInfo(doc, dictionary);
         }
-
     }
-
 }

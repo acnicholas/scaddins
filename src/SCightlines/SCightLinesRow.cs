@@ -1,5 +1,4 @@
-﻿//
-// (C) Copyright 2012-2013 by Andrew Nicholas
+﻿// (C) Copyright 2012-2013 by Andrew Nicholas
 //
 // This file is part of SCightlines.
 //
@@ -15,7 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCightlines.  If not, see <http://www.gnu.org/licenses/>.
-//
 
 namespace SCaddins.SCightLines
 { 
@@ -25,25 +23,24 @@ namespace SCaddins.SCightLines
     /// <author>
     /// Andrew Nicholas
     /// </author>
- 
     class SCightLinesRow
     {
-        ///<summary>the c value</summary> 
+        /// <summary> the c value</summary> 
         public double CValue;
 
-        ///<summary>horizontal distane from eye to focus</summary> 
+        /// <summary> horizontal distane from eye to focus</summary> 
         public double EyeToFocusX;
 
-        ///<summary>the riser height</summary> 
+        /// <summary> the riser height</summary> 
         public double RiserHeight;
 
-        ///<summary>vertical height to the point of focus</summary> 
+        /// <summary> vertical height to the point of focus</summary> 
         public double HeightToFocus;
 
-        ///<summary>the seating row depth</summary> 
+        ///<summary> the seating row depth</summary> 
         public double Going;
 
-        ///<summary>the eye height</summary> 
+        ///<summary> the eye height</summary> 
         public double EyeHeight;
 
         public SCightLinesRow()
@@ -59,7 +56,5 @@ namespace SCaddins.SCightLines
             this.Going = going;
             this.EyeHeight = eyeHeight;
         }
-
     }
-
 }

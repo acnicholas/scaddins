@@ -1,5 +1,4 @@
-﻿//
-// (C) Copyright 2012-2013 by Andrew Nicholas
+﻿// (C) Copyright 2012-2013 by Andrew Nicholas
 //
 // This file is part of SCightlines.
 //
@@ -15,7 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCightlines.  If not, see <http://www.gnu.org/licenses/>.
-//
 
 using System;
 using System.Windows.Forms;
@@ -33,11 +31,13 @@ namespace SCaddins.SCightLines
         /// <summary>
         /// Form to display Riser/Tread info
         /// </summary>
-        SCightOutputForm info;
+        private  SCightOutputForm info;
+        
         /// <summary>
         /// Sight Line Class
         /// </summary>
-        SCightLines sightLines;
+        private SCightLines sightLines;
+        
         private Autodesk.Revit.DB.Document doc;
 
         public SCightLinesMainForm(Autodesk.Revit.DB.Document doc)
@@ -66,10 +66,8 @@ namespace SCaddins.SCightLines
         private void setTitle()
         {
             this.Text = "Stadium Line Of Sight [" +
-                System.Reflection.Assembly.GetExecutingAssembly().
-                GetName().Version.ToString() + "]";
+            System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + "]";
         }
-
 
         /// <summary>
         /// Get a double value from a textbox
@@ -84,14 +82,11 @@ namespace SCaddins.SCightLines
         private double getDub(TextBox t, double fallback)
         {
             double d;
-            try
-            {
-                d = Double.Parse(t.Text);
-            }
-            catch (Exception)
-            {
+            try {
+                d = double.Parse(t.Text);
+            } catch (Exception) {
                 Autodesk.Revit.UI.TaskDialog.Show(
-                    "Error",t.Text + ": is not a valid number, SCightlines will use a fallback value");
+                    "Error", t.Text + ": is not a valid number, SCightlines will use a fallback value");
                 d = fallback;
             }
             return d;
@@ -99,17 +94,14 @@ namespace SCaddins.SCightLines
 
         private void buttonTest_Click(object sender, EventArgs e)
         {
-            sightLines.Update(getDub(txtEyeHeight, 1220), getDub(txtGoing, 900),
-                getDub(txtInc, 15), getDub(txtMinC, 60),
-                getDub(txtRiser, 280), getDub(txtRows, 10),
-                getDub(txtX, 10000), getDub(txtY, 1000));
-            try
-            {
+            sightLines.Update(this.getDub(txtEyeHeight, 1220), this.getDub(txtGoing, 900),
+                this.getDub(txtInc, 15), this.getDub(txtMinC, 60),
+                this.getDub(txtRiser, 280), this.getDub(txtRows, 10),
+                this.getDub(txtX, 10000), this.getDub(txtY, 1000));
+            try {
                 info.Update(sightLines.InfoString);
                 info.Show();
-            }
-            catch
-            {
+            } catch {
                 info = new SCightOutputForm("Update first");
                 info.Update(sightLines.InfoString);
                 info.Show();
@@ -118,10 +110,10 @@ namespace SCaddins.SCightLines
 
         private void buttonCreate_Click(object sender, EventArgs e)
         {
-            sightLines.Update(getDub(txtEyeHeight, 1220),
-                getDub(txtGoing, 900), getDub(txtInc, 15),
-                getDub(txtMinC, 60), getDub(txtRiser, 180),
-                getDub(txtRows, 20), getDub(txtX, 12000), getDub(txtY, 1000));
+            sightLines.Update(this.getDub(txtEyeHeight, 1220),
+                this.getDub(txtGoing, 900), this.getDub(txtInc, 15),
+                this.getDub(txtMinC, 60), this.getDub(txtRiser, 180),
+                this.getDub(txtRows, 20), this.getDub(txtX, 12000), this.getDub(txtY, 1000));
             sightLines.Draw();
             this.Focus();
         }
@@ -131,7 +123,5 @@ namespace SCaddins.SCightLines
             this.Dispose();
             info.Dispose();
         }
-
     }
-
 }

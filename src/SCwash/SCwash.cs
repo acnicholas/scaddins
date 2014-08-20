@@ -1,5 +1,4 @@
-﻿//
-// (C) Copyright 2013 by Andrew Nicholas andrewnicholas@iinet.net.au
+﻿// (C) Copyright 2013 by Andrew Nicholas andrewnicholas@iinet.net.au
 //
 // This file is part of SCwash.
 //
@@ -15,7 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCwash.  If not, see <http://www.gnu.org/licenses/>.
-//
 
 using System;
 using System.Collections.Generic;
@@ -31,29 +29,29 @@ namespace SCaddins.SCwash
 {
     class SCwash
     {
-
         public static List<SCwashTreeNode> Imports(Document doc, bool isLinked)
         {
             List<SCwashTreeNode> result = new List<SCwashTreeNode>();
             FilteredElementCollector f = new FilteredElementCollector(doc);
             f.OfClass(typeof(ImportInstance));
-            string s = String.Empty;
-            string name = String.Empty;
+            string s = string.Empty;
+            string name = string.Empty;
             foreach (ImportInstance ii in f) {
                 if (ii.IsLinked == isLinked) {
-                    s = String.Empty;
-                    s += ("View Specific - " + ii.ViewSpecific.ToString() + System.Environment.NewLine);
-                    s += ("Owner view id - " + ii.OwnerViewId + System.Environment.NewLine);
+                    s = string.Empty;
+                    s += "View Specific - " + ii.ViewSpecific.ToString() + System.Environment.NewLine;
+                    s += "Owner view id - " + ii.OwnerViewId + System.Environment.NewLine;
                     ParameterSet p = ii.Parameters;
                     foreach (Parameter param in p) {
-                        s += (param.Definition.Name + " - " + param.AsString() + System.Environment.NewLine);
-                        if (param.Definition.Name == "Name") name = param.AsString();
+                        s += param.Definition.Name + " - " + param.AsString() + System.Environment.NewLine;
+                        if (param.Definition.Name == "Name") {
+                            name = param.AsString();
+                        }
                     }
                     s += ("Element id - " + ii.Id);
                     SCwashTreeNode tn = new SCwashTreeNode(name);
                     tn.Id = ii.Id;
                     tn.Info = s;
-                    //if(ii.isLinked)s += doc.get_Path()
                     result.Add(tn);
                 }
             }
@@ -66,16 +64,16 @@ namespace SCaddins.SCwash
             FilteredElementCollector f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_RasterImages);         
             foreach (Element image in f) {
-                string s = "";
+                string s = string.Empty;
                 ParameterSet p = image.Parameters;
                 foreach (Parameter param in p) {
                     if (param.HasValue) {
-                        s += (param.Definition.Name + " - " + param.AsString() + param.AsValueString() + System.Environment.NewLine);
+                        s += param.Definition.Name + " - " + param.AsString() + param.AsValueString() + System.Environment.NewLine;
                     }
                 }
                 SCwashTreeNode tn = new SCwashTreeNode(image.Name.ToString());
                 tn.Info = "Name = " + image.Name.ToString() + System.Environment.NewLine +
-                    "id - " + image.Id.ToString();
+                "id - " + image.Id.ToString();
                 tn.Info += System.Environment.NewLine + s;
                 tn.Id = image.Id;
                 result.Add(tn);
@@ -94,82 +92,88 @@ namespace SCaddins.SCwash
             FilteredElementCollector f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_Rooms);         
             foreach (Element room in f) {
-                string s = "";
+                string s = string.Empty;
                 bool bound = false;
                 ParameterSet p = room.Parameters;
                 foreach (Parameter param in p) {
                     if (param.HasValue) {
-                        s += (param.Definition.Name + " - " + param.AsString() + param.AsValueString() + System.Environment.NewLine);
+                        s += param.Definition.Name + " - " + param.AsString() + param.AsValueString() + System.Environment.NewLine;
                     }
-                    if (param.Definition.Name == "Area" && param.AsDouble() > 0) bound = true;
+                    if (param.Definition.Name == "Area" && param.AsDouble() > 0) {
+                        bound = true;
+                    }
                 }
                 SCwashTreeNode tn = new SCwashTreeNode(room.Name.ToString());
                 tn.Info = "Name = " + room.Name.ToString() + System.Environment.NewLine +
-                    "id - " + room.Id.ToString();
+                "id - " + room.Id.ToString();
                 tn.Info += System.Environment.NewLine + s;
                 tn.Id = room.Id;
-                if(!bound)result.Add(tn);
+                if (!bound) {
+                    result.Add(tn);
+                }
             }
             return result;
         }
  
         public static void AddSheetNodes(Document doc, bool onSheet, TreeNodeCollection nodes)
         {
-        			nodes.AddRange(SCwash.Views(doc,onSheet,ViewType.DrawingSheet).ToArray<TreeNode>());
+            nodes.AddRange(SCwash.Views(doc, onSheet, ViewType.DrawingSheet).ToArray<TreeNode>());
         }
         
         public static void AddViewNodes(Document doc, bool onSheet, TreeNodeCollection nodes)
         {
-        	int i = 0;
-        	foreach (ViewType enumValue in Enum.GetValues(typeof(ViewType))){
-        		if(enumValue != ViewType.DrawingSheet){
-        			nodes.Add(new SCwashTreeNode(enumValue.ToString()));
-        			nodes[i].Nodes.AddRange(SCwash.Views(doc,onSheet,enumValue).ToArray<TreeNode>());
-        			if(nodes[i].Nodes.Count < 1){
-        				nodes.Remove(nodes[i]);
-        			}else{
-        				i++;
-        			}
-        		}
-			}
+            int i = 0;
+            foreach (ViewType enumValue in Enum.GetValues(typeof(ViewType))) {
+                if (enumValue != ViewType.DrawingSheet) {
+                    nodes.Add(new SCwashTreeNode(enumValue.ToString()));
+                    nodes[i].Nodes.AddRange(SCwash.Views(doc, onSheet, enumValue).ToArray<TreeNode>());
+                    if (nodes[i].Nodes.Count < 1) {
+                        nodes.Remove(nodes[i]);
+                    } else {
+                        i++;
+                    }
+                }
+            }
         }
 
-        //FIXME don't add view templates or project browser views
+        // FIXME don't add view templates or project browser views
         private static List<SCwashTreeNode> Views(Document doc, bool onSheet, ViewType type)
         {
             List<SCwashTreeNode> result = new List<SCwashTreeNode>();
             FilteredElementCollector f = new FilteredElementCollector(doc);
             f.OfClass(typeof(Autodesk.Revit.DB.View));
-            string s = "";
+            string s = string.Empty;
             foreach (Autodesk.Revit.DB.View view in f) {  
-            	if(view.ViewType == type){
-                    s = "";
-                    string d = "";
-                    string num = "";
+                if (view.ViewType == type) {
+                    s = string.Empty;
+                    string d = string.Empty;
+                    string num = string.Empty;
                     bool os = false;
                     Parameter p = view.get_Parameter("Dependency");
                     s += "Name - " + view.Name + System.Environment.NewLine;
                     if (p != null) {
                         d = p.AsString();
-                        if (d == "Primary") os = true;
-                        s += ("Dependency - " + d + System.Environment.NewLine);
+                        if (d == "Primary") {
+                            os = true;
+                        }
+                        s += "Dependency - " + d + System.Environment.NewLine;
                     }
                     Parameter p2 = view.get_Parameter("Sheet Number");
                     if (p2 != null) {
-                    	num = p2.AsString();
+                        num = p2.AsString();
                         s += "Sheet Number - " + num + System.Environment.NewLine;
                         os = true;
                     } else {
                         s += @"Sheet Number - N/A" + System.Environment.NewLine;
                     }
-                    s +=  ("Element id - " + view.Id.ToString());
-                    string n = "";
-                    if(type == ViewType.DrawingSheet) {
-                    	n = (num + " - "  + view.Name);
+                    s += "Element id - " + view.Id.ToString();
+                    string n = string.Empty;
+                    if (type == ViewType.DrawingSheet) {
+                        n = num + " - " + view.Name;
                     } else {
-                    	n =  view.Name;
+                        n = view.Name;
                     }
-            	    SCwashTreeNode tn = new SCwashTreeNode(n);
+                    SCwashTreeNode tn = new SCwashTreeNode(n);
                     tn.Info = s;
                     tn.Id = view.Id;
                     #if REVIT2014
@@ -183,26 +187,20 @@ namespace SCaddins.SCwash
                             result.Add(tn);
                         }
                     }
-            	}  
+                }  
             }
             return result;
         }
 
         public static void RemoveElements(Document doc, ICollection<ElementId> elements)
         {
-            Transaction t = new Transaction(doc,"Delete Elements");
+            Transaction t = new Transaction(doc, "Delete Elements");
             t.Start();
-                 ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
-                 if (0 == deletedIdSet.Count) {
-                     throw new Exception("Deleting the selected element in Revit failed.");
-                 }
+            ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
+            if (0 == deletedIdSet.Count) {
+                throw new Exception("Deleting the selected element in Revit failed.");
+            }
             t.Commit();
         }
-
     }
-
-    interface SCwashElementInterface
-    {
-    }
-
 }

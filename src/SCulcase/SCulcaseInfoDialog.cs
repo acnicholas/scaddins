@@ -27,6 +27,5 @@ namespace SCaddins.SCulcase
             this.Close();
             this.Dispose();
         }
-
     }
 }

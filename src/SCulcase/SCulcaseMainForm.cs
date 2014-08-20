@@ -19,8 +19,8 @@ namespace SCaddins.SCulcase
         public SCulcaseMainForm(Document doc)
         {
             this.doc = doc;    
-            conversionTypes = SCulcase.ConversionTypes.None;
-            conversionMode = SCulcase.ConversionMode.UPPER_CASE;
+            this.conversionTypes = SCulcase.ConversionTypes.None;
+            this.conversionMode = SCulcase.ConversionMode.UPPER_CASE;
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             tagCheckBoxes();
@@ -29,7 +29,7 @@ namespace SCaddins.SCulcase
                
         private void tagCheckBoxes()
         {
-        	chkAnnotation.Tag = SCulcase.ConversionTypes.TEXT;
+            chkAnnotation.Tag = SCulcase.ConversionTypes.TEXT;
             chkRooms.Tag = SCulcase.ConversionTypes.ROOM_NAMES;
             chkSheets.Tag = SCulcase.ConversionTypes.SHEET_NAMES;
             chkViews.Tag = SCulcase.ConversionTypes.VIEW_NAMES;
@@ -43,45 +43,49 @@ namespace SCaddins.SCulcase
 
         private void btnTest_Click(object sender, EventArgs e)
         {
-            SCulcase.ConvertAllDryRun(conversionMode, conversionTypes, ref doc);
+            SCulcase.ConvertAllDryRun(this.conversionMode, this.conversionTypes, ref doc);
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton1.Checked) conversionMode = SCulcase.ConversionMode.UPPER_CASE;
+            if (radioButton1.Checked) {
+                this.conversionMode = SCulcase.ConversionMode.UPPER_CASE;
+            }
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton2.Checked) conversionMode = SCulcase.ConversionMode.LOWER_CASE;
+            if (radioButton2.Checked) {
+                this.conversionMode = SCulcase.ConversionMode.LOWER_CASE;
+            }
         }
         
         private void RadioButton3CheckedChanged(object sender, EventArgs e)
         {
-        	if (radioButton3.Checked) conversionMode = SCulcase.ConversionMode.TITLE_CASE;	
+            if (radioButton3.Checked) {
+                this.conversionMode = SCulcase.ConversionMode.TITLE_CASE;
+            }
         }
 
         private void toggleConversionFlag(CheckBox box, SCulcase.ConversionTypes val)
         {
-            if(box.Checked == true){
-                conversionTypes |= val;
-            }else{
-                conversionTypes = conversionTypes & ~val;  
+            if (box.Checked == true) {
+                this.conversionTypes |= val;
+            } else {
+                this.conversionTypes = this.conversionTypes & ~val;  
             }
         }
         
-        void toggleCheckBoxValue(object sender, EventArgs e)
+        private void toggleCheckBoxValue(object sender, EventArgs e)
         {
             CheckBox c = (CheckBox)sender;
             SCulcase.ConversionTypes t = (SCulcase.ConversionTypes)c.Tag;
             toggleConversionFlag(c, t);
         }
       
-        void BtnOKAYClick(object sender, EventArgs e)
+        private void BtnOKAYClick(object sender, EventArgs e)
         {
-            SCulcase.ConvertAll(conversionMode, conversionTypes,ref doc);
+            SCulcase.ConvertAll(this.conversionMode, this.conversionTypes, ref doc);
         }
-        
-
     }
 }

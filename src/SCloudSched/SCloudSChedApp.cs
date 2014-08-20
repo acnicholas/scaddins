@@ -1,4 +1,3 @@
-//
 // (C) Copyright 2013 by Andrew Nicholas
 //
 // This file is part of SCloudSChed.
@@ -15,37 +14,25 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCloudSChed.  If not, see <http://www.gnu.org/licenses/>.
-//
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Autodesk.Revit.UI;
-using System.Windows.Media.Imaging;
 
 namespace SCaddins.SCloudSChed
 {
-
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.UI;
+    using System.Windows.Media.Imaging;
+    
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     class SCloudSChedApp : Autodesk.Revit.UI.IExternalApplication
     {
-
         public Autodesk.Revit.UI.Result OnStartup(UIControlledApplication application)
         {
-            RibbonPanel ribbonPanel = TryGetPanel(application,"Scott Carver");
-            #if REVIT2012
+            RibbonPanel ribbonPanel = TryGetPanel(application, "Scott Carver");
             PushButton pushButton = ribbonPanel.AddItem(new PushButtonData("Cloud Scheduler",
-                "Cloud" + System.Environment.NewLine + "Scheduler", @"C:\Program Files\SCaddins\SCloudSChed\2012\SCloudSChed12.dll", "SCloudSChed.Command")) as PushButton;
-            #elif REVIT2013
-             PushButton pushButton = ribbonPanel.AddItem(new PushButtonData("Cloud Scheduler",
-                "Cloud" + System.Environment.NewLine + "Scheduler", @"C:\Program Files\SCaddins\SCloudSChed\2013\SCloudSChed13.dll", "SCloudSChed.Command")) as PushButton;
-            #else
-             PushButton pushButton = ribbonPanel.AddItem(new PushButtonData("Cloud Scheduler",
-                "Cloud" + System.Environment.NewLine + "Scheduler", @"C:\Program Files\SCaddins\SCloudSChed\2014\SCloudSChed14.dll", "SCloudSChed.Command")) as PushButton;
-            #endif
+                                         "Cloud" + System.Environment.NewLine + "Scheduler", @"C:\Program Files\SCaddins\SCloudSChed\2014\SCloudSChed14.dll", "SCloudSChed.Command")) as PushButton;
             Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCloudSChed\Data\scloudsched.png");
             BitmapImage largeImage = new BitmapImage(uriImage);
             pushButton.LargeImage = largeImage;
@@ -67,6 +54,5 @@ namespace SCaddins.SCloudSChed
             }
             return application.CreateRibbonPanel(name);
         }
-
     }
 }

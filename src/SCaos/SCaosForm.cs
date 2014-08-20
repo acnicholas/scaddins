@@ -14,7 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaos.  If not, see <http://www.gnu.org/licenses/>.
-//
 
 using System;
 using System.Drawing;
@@ -51,11 +50,13 @@ namespace SCaddins.SCaos
                                  typeof(AssemblyCompanyAttribute), false)).Company;
             this.Text = name + " [" + version + "] by " + company;
         }
-        void Button3Click(object sender, System.EventArgs e)
+        
+        private void Button3Click(object sender, System.EventArgs e)
         {
             System.Diagnostics.Process.Start(Constants.HelpLink);
         }
-        void RadioButton3CheckedChanged(object sender, System.EventArgs e)
+        
+        private void RadioButton3CheckedChanged(object sender, System.EventArgs e)
         {
             throw new NotImplementedException();
         }
