@@ -17,13 +17,13 @@
 
 namespace SCaddins.SCloudSChed
 {
+    using System.Collections.Generic;
+    using System.Reflection;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Microsoft.Office.Interop.Excel;
-    using System.Reflection;
-    using System.Collections.Generic;
     using SCaddins.Common;
-    
+
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]

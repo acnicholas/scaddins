@@ -4,10 +4,6 @@
 	<Directory Id="ProgramFiles64Folder" Name="ProgramFiles64Folder">
 		<Directory Name="SCaddins" Id="SCADDINS">
 			<Directory Name="SCexport" Id="INSTALLDIR">
-				<?if $(env.R2012) = Enabled ?>
-				<?endif?>
-				<?if $(env.R2013) = Enabled ?>
-				<?endif?>
 				<Directory Name="Examples" Id="EXAMPLEDIR">
 					<Component Id="Example" Guid="E467582F-2BA7-4FC3-8DA9-3773449DD236" Win64="yes">
 						<File Id="SCEXPORT_EXAMPLE_CONF.XML" Name="SCexport-example-conf.xml" Source="..\data\Config\SCexport-example-conf.xml" />
@@ -37,10 +33,6 @@
 		<Directory Name="Autodesk" Id="Autodesk">
 			<Directory Name="REVIT" Id="REVIT">
 				<Directory Name="Addins" Id="Addins">
-					<?if $(env.R2012) = Enabled ?>
-					<?endif?>
-					<?if $(env.R2013) = Enabled?>
-					<?endif?>
 					<?if $(env.R2014) = Enabled?>
 					<Directory Id="R2014" Name="2014">
 						<Component Id="SCaddinsAddin14" DiskId="1">

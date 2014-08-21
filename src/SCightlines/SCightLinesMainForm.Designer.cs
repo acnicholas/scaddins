@@ -264,7 +264,7 @@
             this.buttonCreate.TabIndex = 3;
             this.buttonCreate.Text = "Create";
             this.buttonCreate.UseVisualStyleBackColor = true;
-            this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
+            this.buttonCreate.Click += new System.EventHandler(this.ButtonCreate_Click);
             // 
             // groupBox4
             // 
@@ -295,7 +295,7 @@
             this.buttonTest.TabIndex = 17;
             this.buttonTest.Text = "Test";
             this.buttonTest.UseVisualStyleBackColor = true;
-            this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
+            this.buttonTest.Click += new System.EventHandler(this.ButtonTest_Click);
             // 
             // buttonQuit
             // 
@@ -305,7 +305,7 @@
             this.buttonQuit.TabIndex = 18;
             this.buttonQuit.Text = "Quit";
             this.buttonQuit.UseVisualStyleBackColor = true;
-            this.buttonQuit.Click += new System.EventHandler(this.buttonQuit_Click);
+            this.buttonQuit.Click += new System.EventHandler(this.ButtonQuit_Click);
             // 
             // SCightLinesMainForm
             // 

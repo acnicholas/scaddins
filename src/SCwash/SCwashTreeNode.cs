@@ -22,7 +22,7 @@ using Autodesk.Revit.DB;
 
 namespace SCaddins.SCwash
 {
-    class SCwashTreeNode : TreeNode
+    public class SCwashTreeNode : TreeNode
     {
         private string info;
         

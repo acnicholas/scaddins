@@ -16,13 +16,13 @@ namespace SCaddins.SCulcase
             InitializeComponent();
         }
 
-        public void setText(string s)
+        public void SetText(string s)
         {
             textBox1.Clear();
             textBox1.Text = s;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             this.Close();
             this.Dispose();

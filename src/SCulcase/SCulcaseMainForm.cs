@@ -23,11 +23,11 @@ namespace SCaddins.SCulcase
             this.conversionMode = SCulcase.ConversionMode.UPPER_CASE;
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            tagCheckBoxes();
+            TagCheckBoxes();
             this.ShowDialog();
         }
                
-        private void tagCheckBoxes()
+        private void TagCheckBoxes()
         {
             chkAnnotation.Tag = SCulcase.ConversionTypes.TEXT;
             chkRooms.Tag = SCulcase.ConversionTypes.ROOM_NAMES;
@@ -36,24 +36,24 @@ namespace SCaddins.SCulcase
             chkViewTitleOnSheets.Tag = SCulcase.ConversionTypes.TITLES_ON_SHEETS;
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void BtnCancel_Click(object sender, EventArgs e)
         {
             this.Dispose();
         }
 
-        private void btnTest_Click(object sender, EventArgs e)
+        private void BtnTest_Click(object sender, EventArgs e)
         {
             SCulcase.ConvertAllDryRun(this.conversionMode, this.conversionTypes, ref doc);
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton1_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton1.Checked) {
                 this.conversionMode = SCulcase.ConversionMode.UPPER_CASE;
             }
         }
 
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton2_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton2.Checked) {
                 this.conversionMode = SCulcase.ConversionMode.LOWER_CASE;
@@ -67,7 +67,7 @@ namespace SCaddins.SCulcase
             }
         }
 
-        private void toggleConversionFlag(CheckBox box, SCulcase.ConversionTypes val)
+        private void ToggleConversionFlag(CheckBox box, SCulcase.ConversionTypes val)
         {
             if (box.Checked == true) {
                 this.conversionTypes |= val;
@@ -76,11 +76,11 @@ namespace SCaddins.SCulcase
             }
         }
         
-        private void toggleCheckBoxValue(object sender, EventArgs e)
+        private void ToggleCheckBoxValue(object sender, EventArgs e)
         {
             CheckBox c = (CheckBox)sender;
             SCulcase.ConversionTypes t = (SCulcase.ConversionTypes)c.Tag;
-            toggleConversionFlag(c, t);
+            this.ToggleConversionFlag(c, t);
         }
       
         private void BtnOKAYClick(object sender, EventArgs e)

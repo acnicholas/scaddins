@@ -14,12 +14,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCoord.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-
 namespace SCaddins.SCoord
 {
+    using System;
+    using System.Windows.Forms;
+    
     public partial class SCoordForm : Form
     {
         public SCoordForm()

@@ -293,7 +293,7 @@ namespace SCaddins.SCopy
             int inc = 0;
             do {
                 inc++;
-            } while(!this.CheckSheetNumberAvailability(s + "-" + inc.ToString()));
+            } while (!this.CheckSheetNumberAvailability(s + "-" + inc.ToString()));
             return s + "-" + inc.ToString();
         }
 

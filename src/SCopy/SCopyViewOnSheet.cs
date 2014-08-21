@@ -101,6 +101,7 @@ namespace SCaddins.SCopy
             get {
                 return this.associatedLevelName;
             }
+            
             set {
                 this.associatedLevelName = value;
                 if (value != SCopyConstants.MenuItemCopy) {

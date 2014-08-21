@@ -23,7 +23,7 @@ namespace SCaddins.SCightLines
     /// <author>
     /// Andrew Nicholas
     /// </author>
-    class SCightLinesRow
+    public class SCightLinesRow
     {
         /// <summary> the c value</summary> 
         public double CValue;
@@ -37,10 +37,10 @@ namespace SCaddins.SCightLines
         /// <summary> vertical height to the point of focus</summary> 
         public double HeightToFocus;
 
-        ///<summary> the seating row depth</summary> 
+        /// <summary> the seating row depth</summary> 
         public double Going;
 
-        ///<summary> the eye height</summary> 
+        /// <summary> the eye height</summary> 
         public double EyeHeight;
 
         public SCightLinesRow()

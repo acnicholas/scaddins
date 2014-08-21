@@ -58,12 +58,12 @@ namespace SCaddins.SCightLines
                 getDub(txtGoing, 900), getDub(txtInc, 15),
                 getDub(txtMinC, 60), getDub(txtRiser, 180), 
                 getDub(txtRows, 20), getDub(txtX, 12000), getDub(txtY, 1000));
-            setTitle();
+            SetTitle();
             this.Show();
             this.Focus();
         }
 
-        private void setTitle()
+        private void SetTitle()
         {
             this.Text = "Stadium Line Of Sight [" +
             System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + "]";
@@ -92,36 +92,36 @@ namespace SCaddins.SCightLines
             return d;
         }
 
-        private void buttonTest_Click(object sender, EventArgs e)
+        private void ButtonTest_Click(object sender, EventArgs e)
         {
-            sightLines.Update(this.getDub(txtEyeHeight, 1220), this.getDub(txtGoing, 900),
-                this.getDub(txtInc, 15), this.getDub(txtMinC, 60),
-                this.getDub(txtRiser, 280), this.getDub(txtRows, 10),
-                this.getDub(txtX, 10000), this.getDub(txtY, 1000));
+            this.sightLines.Update(this.getDub(this.txtEyeHeight, 1220), this.getDub(this.txtGoing, 900),
+                this.getDub(this.txtInc, 15), this.getDub(this.txtMinC, 60),
+                this.getDub(this.txtRiser, 280), this.getDub(this.txtRows, 10),
+                this.getDub(this.txtX, 10000), this.getDub(this.txtY, 1000));
             try {
-                info.Update(sightLines.InfoString);
-                info.Show();
+                this.info.Update(this.sightLines.InfoString);
+                this.info.Show();
             } catch {
-                info = new SCightOutputForm("Update first");
-                info.Update(sightLines.InfoString);
-                info.Show();
+                this.info = new SCightOutputForm("Update first");
+                this.info.Update(sightLines.InfoString);
+                this.info.Show();
             }
         }
 
-        private void buttonCreate_Click(object sender, EventArgs e)
+        private void ButtonCreate_Click(object sender, EventArgs e)
         {
-            sightLines.Update(this.getDub(txtEyeHeight, 1220),
-                this.getDub(txtGoing, 900), this.getDub(txtInc, 15),
-                this.getDub(txtMinC, 60), this.getDub(txtRiser, 180),
-                this.getDub(txtRows, 20), this.getDub(txtX, 12000), this.getDub(txtY, 1000));
-            sightLines.Draw();
+            this.sightLines.Update(this.getDub(this.txtEyeHeight, 1220),
+                this.getDub(this.txtGoing, 900), this.getDub(this.txtInc, 15),
+                this.getDub(this.txtMinC, 60), this.getDub(this.txtRiser, 180),
+                this.getDub(this.txtRows, 20), this.getDub(this.txtX, 12000), this.getDub(this.txtY, 1000));
+            this.sightLines.Draw();
             this.Focus();
         }
 
-        private void buttonQuit_Click(object sender, EventArgs e)
+        private void ButtonQuit_Click(object sender, EventArgs e)
         {
             this.Dispose();
-            info.Dispose();
+            this.info.Dispose();
         }
     }
 }

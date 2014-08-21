@@ -55,7 +55,7 @@
             this.chkAnnotation.TabIndex = 0;
             this.chkAnnotation.Text = "General Annotations";
             this.chkAnnotation.UseVisualStyleBackColor = true;
-            this.chkAnnotation.CheckedChanged += new System.EventHandler(this.toggleCheckBoxValue);
+            this.chkAnnotation.CheckedChanged += new System.EventHandler(this.ToggleCheckBoxValue);
             // 
             // btnCancel
             // 
@@ -65,7 +65,7 @@
             this.btnCancel.TabIndex = 1;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // btnOKAY
             // 
@@ -86,7 +86,7 @@
             this.chkSheets.TabIndex = 3;
             this.chkSheets.Text = "Sheet Names (Title on Titleblock)";
             this.chkSheets.UseVisualStyleBackColor = true;
-            this.chkSheets.CheckedChanged += new System.EventHandler(this.toggleCheckBoxValue);
+            this.chkSheets.CheckedChanged += new System.EventHandler(this.ToggleCheckBoxValue);
             // 
             // chkViews
             // 
@@ -97,7 +97,7 @@
             this.chkViews.TabIndex = 4;
             this.chkViews.Text = "View Names";
             this.chkViews.UseVisualStyleBackColor = true;
-            this.chkViews.CheckedChanged += new System.EventHandler(this.toggleCheckBoxValue);
+            this.chkViews.CheckedChanged += new System.EventHandler(this.ToggleCheckBoxValue);
             // 
             // chkViewTitleOnSheets
             // 
@@ -108,7 +108,7 @@
             this.chkViewTitleOnSheets.TabIndex = 5;
             this.chkViewTitleOnSheets.Text = "View name overrides (Title on Sheets)";
             this.chkViewTitleOnSheets.UseVisualStyleBackColor = true;
-            this.chkViewTitleOnSheets.CheckedChanged += new System.EventHandler(this.toggleCheckBoxValue);
+            this.chkViewTitleOnSheets.CheckedChanged += new System.EventHandler(this.ToggleCheckBoxValue);
             // 
             // chkRooms
             // 
@@ -119,7 +119,7 @@
             this.chkRooms.TabIndex = 6;
             this.chkRooms.Text = "Room names";
             this.chkRooms.UseVisualStyleBackColor = true;
-            this.chkRooms.CheckedChanged += new System.EventHandler(this.toggleCheckBoxValue);
+            this.chkRooms.CheckedChanged += new System.EventHandler(this.ToggleCheckBoxValue);
             // 
             // btnTest
             // 
@@ -129,7 +129,7 @@
             this.btnTest.TabIndex = 7;
             this.btnTest.Text = "Dry Run";
             this.btnTest.UseVisualStyleBackColor = true;
-            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            this.btnTest.Click += new System.EventHandler(this.BtnTest_Click);
             // 
             // chkRevisions
             // 
@@ -141,7 +141,7 @@
             this.chkRevisions.TabIndex = 8;
             this.chkRevisions.Text = "Revision Desciptions";
             this.chkRevisions.UseVisualStyleBackColor = true;
-            this.chkRevisions.CheckedChanged += new System.EventHandler(this.toggleCheckBoxValue);
+            this.chkRevisions.CheckedChanged += new System.EventHandler(this.ToggleCheckBoxValue);
             // 
             // groupBox1
             // 
@@ -190,7 +190,7 @@
             this.radioButton2.TabIndex = 1;
             this.radioButton2.Text = "lowercase";
             this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.RadioButton2_CheckedChanged);
             // 
             // radioButton1
             // 
@@ -203,7 +203,7 @@
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "UPPERCASE";
             this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.RadioButton1_CheckedChanged);
             // 
             // SCulcaseMainForm
             // 

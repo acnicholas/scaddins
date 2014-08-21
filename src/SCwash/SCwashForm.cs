@@ -17,15 +17,15 @@
 
 namespace SCaddins.SCwash
 {
-    using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Windows.Forms;
+    using System;
     using Autodesk.Revit.DB;
-    using Autodesk.Revit.UI;
     using Autodesk.Revit.UI.Events;
-    using System.Diagnostics;
-    
+    using Autodesk.Revit.UI;
+
     public partial class SCwashForm : System.Windows.Forms.Form
     {
         private Document doc;
@@ -51,16 +51,16 @@ namespace SCaddins.SCwash
             treeView1.Nodes.Add(new SCwashTreeNode("Imported Files"));
             treeView1.Nodes.Add(new SCwashTreeNode("Images"));
             treeView1.Nodes.Add(new SCwashTreeNode("Unbound Rooms"));
-            SCwash.AddViewNodes(doc, false, treeView1.Nodes[0].Nodes);
-            SCwash.AddViewNodes(doc, true, treeView1.Nodes[1].Nodes);
-            SCwash.AddSheetNodes(doc, true, treeView1.Nodes[2].Nodes);
-            treeView1.Nodes[3].Nodes.AddRange(SCwash.Imports(doc, true).ToArray<TreeNode>());
-            treeView1.Nodes[4].Nodes.AddRange(SCwash.Imports(doc, false).ToArray<TreeNode>());
-            treeView1.Nodes[5].Nodes.AddRange(SCwash.Images(doc).ToArray<TreeNode>());
-            treeView1.Nodes[6].Nodes.AddRange(SCwash.UnboundRooms(doc).ToArray<TreeNode>());
+            SCwash.AddViewNodes(this.doc, false, treeView1.Nodes[0].Nodes);
+            SCwash.AddViewNodes(this.doc, true, treeView1.Nodes[1].Nodes);
+            SCwash.AddSheetNodes(this.doc, true, treeView1.Nodes[2].Nodes);
+            treeView1.Nodes[3].Nodes.AddRange(SCwash.Imports(this.doc, true).ToArray<TreeNode>());
+            treeView1.Nodes[4].Nodes.AddRange(SCwash.Imports(this.doc, false).ToArray<TreeNode>());
+            treeView1.Nodes[5].Nodes.AddRange(SCwash.Images(this.doc).ToArray<TreeNode>());
+            treeView1.Nodes[6].Nodes.AddRange(SCwash.UnboundRooms(this.doc).ToArray<TreeNode>());
         }
 
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        private void TreeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             if (treeView1.SelectedNode != null) {
                 SCwashTreeNode t = (SCwashTreeNode)treeView1.SelectedNode;
@@ -101,32 +101,32 @@ namespace SCaddins.SCwash
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Button2_Click(object sender, EventArgs e)
         {
             this.CheckAllNodes(treeView1.Nodes);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             this.UncheckAllNodes(treeView1.Nodes);
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Button3_Click(object sender, EventArgs e)
         {
             ICollection<ElementId> elements = new List<ElementId>();
             foreach (SCwashTreeNode node in this.treeView1.Nodes) {
                 if (node.Checked) {
-                    addSCChildrenToPurgeSet(ref elements, node);
+                    this.AddSCChildrenToPurgeSet(ref elements, node);
                 }
             }
             SCwash.RemoveElements(doc, elements);
             init();
         }
 
-        private void addSCChildrenToPurgeSet(ref ICollection<ElementId> elements, SCwashTreeNode rootNode)
+        private void AddSCChildrenToPurgeSet(ref ICollection<ElementId> elements, SCwashTreeNode rootNode)
         {
             foreach (SCwashTreeNode node in rootNode.Nodes) {
-                addSCChildrenToPurgeSet(ref elements, node);
+                this.AddSCChildrenToPurgeSet(ref elements, node);
                 if (node.Checked && node.Id != null) {
                     if (doc.GetElement(node.Id) != null && doc.ActiveView.Id != node.Id) {
                         elements.Add(node.Id);
@@ -135,7 +135,7 @@ namespace SCaddins.SCwash
             }
         }
 
-        private void treeView1_AfterCheck(object sender, TreeViewEventArgs e)
+        private void TreeView1_AfterCheck(object sender, TreeViewEventArgs e)
         {
             SCwashTreeNode tn = e.Node as SCwashTreeNode;
             foreach (SCwashTreeNode child in tn.Nodes) {
@@ -161,14 +161,14 @@ namespace SCaddins.SCwash
             TaskDialog.Show("Reminder", "Remember to purge!");
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void Button4_Click(object sender, EventArgs e)
         {
             // open view with selected id.
-            UIApplication uiapp = new UIApplication(udoc.Application.Application);
+            UIApplication uiapp = new UIApplication(this.udoc.Application.Application);
             uiapp.DialogBoxShowing += new EventHandler<DialogBoxShowingEventArgs>(dismissOpenQuestion);
             SCwashTreeNode t = (SCwashTreeNode)treeView1.SelectedNode;
             if (t.Id != null) {
-                udoc.ShowElements(t.Id);
+                this.udoc.ShowElements(t.Id);
             }
         }
 

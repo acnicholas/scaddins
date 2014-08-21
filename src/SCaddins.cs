@@ -60,13 +60,11 @@ namespace SCaddins
             "revision for each sheet, and a predefined naming scheme.";            
         }
         
-        private void LoadScoord(string dll, RibbonPanel rp)
+        private void LoadSCoord(string dll, RibbonPanel rp)
         {
-             PushButton pushButton = rp.AddItem(
-                    new PushButtonData("Coordinate Tool",
-                    "Coordinate" + System.Environment.NewLine + "Tool",
-                    @"C:\Program Files\SCaddins\SCoord\2014\SCoord14.dll",
-                    "SCoord.Command")) as PushButton;
+            var pbd = new PushButtonData(
+                           "Scoord", "Scoord", dll, "SCaddins.SCoord.Command");
+            var pushButton = rp.AddItem(pbd) as PushButton;
             Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCoord\Data\scoord.png");
             BitmapImage largeImage = new BitmapImage(uriImage);
             pushButton.LargeImage = largeImage;
@@ -83,57 +81,53 @@ namespace SCaddins
         private void LoadOpenSheet()
         {            
         }
-        
-        private void LoadSCoord(string dll, RibbonPanel rp)
-        {
-            PushButton pushButton = rp.AddItem(
-                new PushButtonData(
-                    "Coordinate Tool",
-                    "Coordinate" + System.Environment.NewLine + "Tool",
-                    dll,
-                    "SCoord.Command")) as PushButton;
-            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCoord\Data\scoord.png");
-            BitmapImage largeImage = new BitmapImage(uriImage);
-            pushButton.LargeImage = largeImage;
-        }
-        
+            
         private void LoadSCulcase(string dll, RibbonPanel rp)
         {
-            PushButton pushButton = rp.AddItem(new PushButtonData("SCulcase",
-                                        "Uppercase" + System.Environment.NewLine + "Text", @"C:\Program Files\SCaddins\SCulcase\2014\SCulcase14.dll", "SCulcase.Command")) as PushButton;
+            var pbd = new PushButtonData(
+                           "SCulcase", "SCulcase", dll, "SCaddins.SCulcase.Command");
+            var pushButton = rp.AddItem(pbd) as PushButton;
             Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCulcase\Data\sculcase.png");
             BitmapImage largeImage = new BitmapImage(uriImage);
-            pushButton.LargeImage = largeImage;
+            if (largeImage != null && pushButton != null) {
+                pushButton.LargeImage = largeImage;
+            }
         }
         
         private void LoadSCwash(string dll, RibbonPanel rp)
-        {    
-            PushButton pushButton = rp.AddItem(new PushButtonData("SCwash",
-                                        "SCwash", @"C:\Program Files\SCaddins\SCwash\2014\SCwash14.dll", "SCwash.Command")) as PushButton;
-
+        {  
+            var pbd = new PushButtonData(
+                              "SCwash", "SCwash", dll, "SCaddins.SCwash.Command");  
+            var pushButton = rp.AddItem(pbd) as PushButton;
             Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCwash\Data\scwash.png");
             BitmapImage largeImage = new BitmapImage(uriImage);
-            pushButton.LargeImage = largeImage;
+            if (largeImage != null && pushButton != null) {
+                pushButton.LargeImage = largeImage;
+            }
         }
         
         private void LoadSCaos(string dll, RibbonPanel rp)
-        {     
-            PushButton pushButton = rp.AddItem(new PushButtonData("Sun View",
-                                        "Sun" + System.Environment.NewLine + "View", dll, "SCaos.Command")) as PushButton;
+        {   
+            var pbd = new PushButtonData(
+                              "SCaos", "SCwash", dll, "SCaddins.SCaos.Command");    
+            var pushButton = rp.AddItem(pbd) as PushButton;
             Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCaos\Data\scaos.png");
             BitmapImage largeImage = new BitmapImage(uriImage);
-            if (largeImage != null) {
+            if (largeImage != null && pushButton != null) {
                 pushButton.LargeImage = largeImage;
             }     
         }
 
         private void LoadSCightlines(string dll, RibbonPanel rp)
-        {     
-            PushButton pushButton = rp.AddItem(new PushButtonData("SCightLines",
-                                        "Line" + System.Environment.NewLine + "of Sight", dll, "SCightLines.Command")) as PushButton;
+        { 
+            var pbd = new PushButtonData(
+                              "SCightLines", "SCightLines", dll, "SCaddins.SCightLines.Command");        
+            var pushButton = rp.AddItem(pbd) as PushButton;
             Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCightLines\Data\scightlines32.png");
             BitmapImage largeImage = new BitmapImage(uriImage);
-            pushButton.LargeImage = largeImage;
+            if (largeImage != null && pushButton != null) {
+                pushButton.LargeImage = largeImage;
+            }
         }
 
         private void LoadSCincrement()

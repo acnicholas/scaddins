@@ -1,11 +1,11 @@
-using System;
-using System.Linq;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Architecture;
-using System.Globalization;
-
 namespace SCaddins.SCulcase
 {
+    using System;
+    using System.Globalization;
+    using System.Linq;
+    using Autodesk.Revit.DB.Architecture;
+    using Autodesk.Revit.DB;
+
     public static class SCulcase
     {
         private static bool commit = true;
@@ -42,11 +42,11 @@ namespace SCaddins.SCulcase
             SCulcase.mode = mode;
             Transaction trans = new Transaction(doc);
             trans.Start("Convert all selected types uppercase (SCulcase)");
-            convert(mode, types, ref doc);
+            Convert(mode, types, ref doc);
             trans.Commit();
         }
         
-        private static void convert(ConversionMode mode, ConversionTypes types, ref Document doc)
+        private static void Convert(ConversionMode mode, ConversionTypes types, ref Document doc)
         {
             SCulcase.mode = mode;
             if (types.HasFlag(SCulcase.ConversionTypes.TEXT)) {
@@ -70,9 +70,9 @@ namespace SCaddins.SCulcase
         {
             commit = false; 
             DryRunLogText = string.Empty;
-            convert(mode, types, ref doc);
+            Convert(mode, types, ref doc);
             SCulcaseInfoDialog info = new SCulcaseInfoDialog();
-            info.setText(DryRunLogText);
+            info.SetText(DryRunLogText);
             info.Show();
         }
         
@@ -88,28 +88,28 @@ namespace SCaddins.SCulcase
                 switch (enumCategory) {
                     case BuiltInCategory.OST_Views:
                         View v = (View)e;
-                        convertViewName(ref v);
+                        ConvertViewName(ref v);
                         break;
                     case BuiltInCategory.OST_TextNotes:
                         TextElement text = (TextElement)e;
-                        convertAnnotation(ref text);
+                        ConvertAnnotation(ref text);
                         break;
                     case BuiltInCategory.OST_Rooms:
                         Room room = (Room)e;
-                        convertRoom(ref room);
+                        ConvertRoom(ref room);
                         break;
                 }
             }
             trans.Commit();
         }
                 
-        private static void convertViewName(ref View view)
+        private static void ConvertViewName(ref View view)
         {
-            string newName = newString(view.Name, mode);
+            string newName = NewString(view.Name, mode);
             if (commit && ValidRevitName(newName)) {
                 view.Name = newName;
             } else {
-                dryRunLog("VIEW NAME", view.Name);
+                DryRunLog("VIEW NAME", view.Name);
             }
         }
         
@@ -119,77 +119,77 @@ namespace SCaddins.SCulcase
             f.OfCategory(BuiltInCategory.OST_Views);
             foreach (Element e in f) {
                 View v = (View)e;
-                convertViewName(ref v);
+                ConvertViewName(ref v);
             }
         }
 
-        private static void convertViewNameOnSheet(ref View view)
+        private static void ConvertViewNameOnSheet(ref View view)
         {
             Parameter p = view.get_Parameter(BuiltInParameter.VIEW_DESCRIPTION);
             if (p.AsString().Length > 0) {
                 if (commit) {
-                    p.Set(newString(p.AsString(), mode));
+                    p.Set(NewString(p.AsString(), mode));
                 } else {
-                    dryRunLog("TITLE ON SHEET", p.AsString());
+                    DryRunLog("TITLE ON SHEET", p.AsString());
                 }
             }
         }
         
         private static void ConvertAllViewNamesOnSheet(ref Document doc)
         {
-            FilteredElementCollector f = new FilteredElementCollector(doc);
+            var f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_Views);
             foreach (Element e in f) {
                 View view = (View)e;
-                convertViewNameOnSheet(ref view);
+                ConvertViewNameOnSheet(ref view);
             }
         }
         
-        private static void convertSheetName(ref ViewSheet viewSheet)
+        private static void ConvertSheetName(ref ViewSheet viewSheet)
         {
             if (commit) {
-                viewSheet.Name = newString(viewSheet.Name, mode);
+                viewSheet.Name = NewString(viewSheet.Name, mode);
             } else {
-                dryRunLog("SHEET NAME", viewSheet.Name);
+                DryRunLog("SHEET NAME", viewSheet.Name);
             }
         }
 
         private static void ConvertAllSheetNames(ref Document doc)
         {
-            FilteredElementCollector f = new FilteredElementCollector(doc);
+            var f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_Sheets);
             foreach (Element e in f) {
                 ViewSheet viewSheet = (ViewSheet)e;
-                convertSheetName(ref viewSheet);
+                ConvertSheetName(ref viewSheet);
             }
         }
         
-        private static void convertAnnotation(ref TextElement text)
+        private static void ConvertAnnotation(ref TextElement text)
         {
             if (commit) {
-                text.Text = newString(text.Text, mode);
+                text.Text = NewString(text.Text, mode);
             } else {
-                dryRunLog("GENERAL ANNOTATION", text.Text);
+                DryRunLog("GENERAL ANNOTATION", text.Text);
             }
         }
 
         private static void ConvertAllAnnotation(ref Document doc)
         {
-            FilteredElementCollector f = new FilteredElementCollector(doc);
+            var f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_TextNotes);
             foreach (Element e in f) {
-                TextElement text = (TextElement)e;
-                convertAnnotation(ref text);
+                var text = (TextElement)e;
+                ConvertAnnotation(ref text);
             }
         }
         
-        private static void convertRoom(ref Room room)
+        private static void ConvertRoom(ref Room room)
         {
             Parameter param = room.get_Parameter("Name");
             if (commit) {
-                param.Set(newString(param.AsString(), mode));
+                param.Set(NewString(param.AsString(), mode));
             } else {
-                dryRunLog("ROOM NAME", param.AsString());
+                DryRunLog("ROOM NAME", param.AsString());
             }
         }
 
@@ -199,7 +199,7 @@ namespace SCaddins.SCulcase
             f.OfCategory(BuiltInCategory.OST_Rooms);
             foreach (Element e in f) {
                 Room room = (Room)e;
-                convertRoom(ref room);
+                ConvertRoom(ref room);
             }
         }
 
@@ -212,7 +212,7 @@ namespace SCaddins.SCulcase
                 foreach (Parameter p in e.Parameters) {
                     if (p.Definition.Name.ToString().Equals("Revision Description")) {
                         if (!p.IsReadOnly) {
-                            string v = newString(p.AsString(), mode);
+                            string v = NewString(p.AsString(), mode);
                             p.Set(v);
                         }
                     }
@@ -220,7 +220,7 @@ namespace SCaddins.SCulcase
             }
         }
 
-        private static string newString(string oldString, ConversionMode mode)
+        private static string NewString(string oldString, ConversionMode mode)
         {
             switch (mode) {
                 case ConversionMode.UPPER_CASE:
@@ -236,9 +236,9 @@ namespace SCaddins.SCulcase
             }
         }
               
-        private static void dryRunLog(string etype, string s)
+        private static void DryRunLog(string etype, string s)
         {
-            DryRunLogText += etype + " --- " + s + " ---> " + newString(s, mode);
+            DryRunLogText += etype + " --- " + s + " ---> " + NewString(s, mode);
             DryRunLogText += System.Environment.NewLine;
         }
         

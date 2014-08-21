@@ -103,6 +103,7 @@ namespace SCaddins.SCaos
                 View3D v3d = (View3D)view;
                 Transaction t = new Transaction(doc);
                 t.Start("Draw Solar Ray");
+                
                 // REVIT 2014
                 // Line ray = Line.CreateBound(XYZ.Zero, new XYZ(100 * Math.Cos(azimuth), 100 * Math.Sin(azimuth), 100 * Math.Tan(altitude)));
                 // REVIT 2013
@@ -122,7 +123,7 @@ namespace SCaddins.SCaos
             }
         }
             
-        private string getAllViewInfo(Document doc)
+        private string GetAllViewInfo(Document doc)
         {
             FilteredElementCollector f = new FilteredElementCollector(doc);
             f.OfClass(typeof(Autodesk.Revit.DB.View));
@@ -131,7 +132,7 @@ namespace SCaddins.SCaos
                 string name = view.Name.ToUpper();
                 if (view.ViewType == ViewType.ThreeD || view.ViewType == ViewType.FloorPlan) {
                     if (name.Contains("SOLAR") || name.Contains("SHADOW")) {
-                        result += String.Join(System.Environment.NewLine, this.GetViewInfo(view, doc));
+                        result += string.Join(System.Environment.NewLine, this.GetViewInfo(view, doc));
                         result += System.Environment.NewLine + System.Environment.NewLine;
                     }
                 }

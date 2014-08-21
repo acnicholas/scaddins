@@ -36,8 +36,8 @@ namespace SCaddins.SCightLines
         /// </param>
         public SCightOutputForm(string s)
         {
-            InitializeComponent();
-            Update(s);
+            this.InitializeComponent();
+            this.Update(s);
         }
 
         /// <summary>

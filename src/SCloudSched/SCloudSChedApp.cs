@@ -26,11 +26,11 @@ namespace SCaddins.SCloudSChed
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
-    class SCloudSChedApp : Autodesk.Revit.UI.IExternalApplication
+    public class SCloudSChedApp : Autodesk.Revit.UI.IExternalApplication
     {
         public Autodesk.Revit.UI.Result OnStartup(UIControlledApplication application)
         {
-            RibbonPanel ribbonPanel = TryGetPanel(application, "Scott Carver");
+            RibbonPanel ribbonPanel = this.TryGetPanel(application, "Scott Carver");
             PushButton pushButton = ribbonPanel.AddItem(new PushButtonData("Cloud Scheduler",
                                          "Cloud" + System.Environment.NewLine + "Scheduler", @"C:\Program Files\SCaddins\SCloudSChed\2014\SCloudSChed14.dll", "SCloudSChed.Command")) as PushButton;
             Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCloudSChed\Data\scloudsched.png");

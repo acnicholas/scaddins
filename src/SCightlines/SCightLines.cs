@@ -162,6 +162,7 @@ namespace SCaddins.SCightLines
                         this.yDistanceToFirstRow.ToString(),
                         TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_BOTTOM);
                 }
+                
                 // Draw the sight line
                 this.DrawLine(0, 0, this.rows[i].EyeToFocusX, this.rows[i].HeightToFocus, "Dash - 0.1 pen");
 

@@ -15,19 +15,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCwash.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using System.Windows.Forms;
-using System.Collections;
-using Autodesk.Revit.DB.Architecture;
-
 namespace SCaddins.SCwash
 {
-    class SCwash
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.DB;
+    using System.Windows.Forms;
+
+    public class SCwash
     {
         public static List<SCwashTreeNode> Imports(Document doc, bool isLinked)
         {

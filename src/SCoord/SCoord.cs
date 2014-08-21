@@ -41,10 +41,10 @@ namespace SCaddins.SCoord
             double xp, yp;
             double ang = projectPosition.Angle;
             double nx, ny;
-            xp = x / FeetToInches - projectPosition.EastWest;
-            yp = y / FeetToInches - projectPosition.NorthSouth;
-            nx = xp * Math.Cos(-ang) - yp * Math.Sin(-ang);
-            ny = xp * Math.Sin(-ang) + yp * Math.Cos(-ang);
+            xp = (x / FeetToInches) - projectPosition.EastWest;
+            yp = (y / FeetToInches) - projectPosition.NorthSouth;
+            nx = (xp * Math.Cos(-ang)) - (yp * Math.Sin(-ang));
+            ny = (xp * Math.Sin(-ang)) + (yp * Math.Cos(-ang));
             return new XYZ(nx, ny, z / FeetToInches);
         }
         

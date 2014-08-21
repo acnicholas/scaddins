@@ -20,7 +20,7 @@
             SetTitle();
             scopy = new SCopy(doc, viewSheet);
             scopy.AddViewInfoToList(ref listView1);
-            AddDataGridColumns();
+            this.AddDataGridColumns();
         }
     
         #region init component
@@ -29,20 +29,20 @@
         {
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView2.AutoGenerateColumns = false;
-            this.AddColumn("Number", "Number", dataGridView1);
-            this.AddColumn("Title", "Title", dataGridView1);
-            this.AddColumn("OriginalTitle", "Original Title", dataGridView2);
-            this.AddColumn("Title", "Proposed Title", dataGridView2);
+            this.AddColumn("Number", "Number", this.dataGridView1);
+            this.AddColumn("Title", "Title", this.dataGridView1);
+            this.AddColumn("OriginalTitle", "Original Title", this.dataGridView2);
+            this.AddColumn("Title", "Proposed Title", this.dataGridView2);
             this.AddComboBoxColumns();
-            this.AddColumn("RevitViewType", "View Type", dataGridView2);
+            this.AddColumn("RevitViewType", "View Type", this.dataGridView2);
             this.AddCheckBoxColumn(
-                "DuplicateWithDetailing", "Copy Detailing", dataGridView2); 
+                "DuplicateWithDetailing", "Copy Detailing", this.dataGridView2); 
         }
 
         private void AddCheckBoxColumn(string name, string text, DataGridView grid)
         {
             DataGridViewCheckBoxColumn result = new DataGridViewCheckBoxColumn();
-            AddColumnHeader(name, text, result);
+            this.AddColumnHeader(name, text, result);
             grid.Columns.Add(result);
         }
     
@@ -82,7 +82,7 @@
         private void AddColumn(string name, string text, DataGridView grid)
         {
             DataGridViewTextBoxColumn result = new DataGridViewTextBoxColumn();
-            AddColumnHeader(name, text, result);
+            this.AddColumnHeader(name, text, result);
             grid.Columns.Add(result);
         }
 
