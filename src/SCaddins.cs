@@ -136,8 +136,12 @@ namespace SCaddins
         
         public void LoadSCloudShed(string dll, RibbonPanel rp)
         {
-            PushButton pushButton = rp.AddItem(new PushButtonData("Cloud Scheduler",
-                                         "Cloud" + System.Environment.NewLine + "Scheduler", @"C:\Program Files\SCaddins\SCloudSChed\2014\SCloudSChed14.dll", "SCloudSChed.Command")) as PushButton;
+            PushButton pushButton = rp.AddItem(
+                new PushButtonData(
+                    "Cloud Scheduler",
+                    "Cloud" + System.Environment.NewLine + "Scheduler",
+                    @"C:\Program Files\SCaddins\SCloudSChed\2014\SCloudSChed14.dll",
+                    "SCloudSChed.Command")) as PushButton;
             Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCloudSChed\Data\scloudsched.png");
             BitmapImage largeImage = new BitmapImage(uriImage);
             pushButton.LargeImage = largeImage;
@@ -178,9 +182,9 @@ namespace SCaddins
                 List<System.Windows.Media.Color> colors = new List<System.Windows.Media.Color>();
                 var c = System.Windows.Media.Color.FromRgb(128, 128, 128);
                 colors.Add(c);
-                BitmapPalette myPalette = new BitmapPalette(colors);
+                BitmapPalette colourPalette = new BitmapPalette(colors);
                 var pixArray = System.Array.CreateInstance(typeof(byte), 32 * 32);
-                return BitmapImage.Create(size, size, 96, 96, System.Windows.Media.PixelFormats.Indexed8, myPalette, pixArray, 1); 
+                return BitmapImage.Create(size, size, 96, 96, System.Windows.Media.PixelFormats.Indexed8, colourPalette, pixArray, 1); 
             }
         }
 

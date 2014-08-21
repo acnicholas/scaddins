@@ -47,8 +47,12 @@ namespace SCaddins.SCightLines
         {
         }
 
-        public void initialize(double eyeToFocusX, double riserHeight,
-            double heightToFocus, double going, double eyeHeight)
+        public void Initialize(
+            double eyeToFocusX,
+            double riserHeight,
+            double heightToFocus,
+            double going,
+            double eyeHeight)
         {
             this.EyeToFocusX = eyeToFocusX;
             this.RiserHeight = riserHeight;

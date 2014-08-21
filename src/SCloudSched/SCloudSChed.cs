@@ -31,8 +31,10 @@ namespace SCaddins.SCloudSChed
     {
         private SortableBindingList<RevisionItem> revisions;
 
-        public Autodesk.Revit.UI.Result Execute(ExternalCommandData commandData,
-          ref string message, Autodesk.Revit.DB.ElementSet elements)
+        public Autodesk.Revit.UI.Result Execute(
+            ExternalCommandData commandData,
+            ref string message,
+            Autodesk.Revit.DB.ElementSet elements)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
             this.revisions = new SortableBindingList<RevisionItem>();
@@ -80,33 +82,31 @@ namespace SCaddins.SCloudSChed
         {
             get { return this.date; }
         }
-
-        private bool isIssued;
-        
-        public bool IsIssued
+    
+        public bool Issued
         {
-            get { return this.isIssued; }
+            get;
+            set;
         }
 
-        private int sequence;
-        
         public int Sequence
         {
-            get { return this.sequence; }
+            get;
+            set;
         }
 
-        public RevisionItem(string date, string description, bool isIssued, int sequence)
+        public RevisionItem(string date, string description, bool issued, int sequence)
         {
             this.description = description;
             this.date = date;
-            this.isIssued = isIssued;
-            this.sequence = sequence;
+            this.Issued = issued;
+            this.Sequence = sequence;
         }
     }
 
     public class SCloudSched
     {
-        private static string getParamaterAsString(Element revCloud, BuiltInParameter b)
+        private static string GetParamaterAsString(Element revCloud, BuiltInParameter b)
         {
             string result = string.Empty;
             try {
@@ -134,16 +134,16 @@ namespace SCaddins.SCloudSChed
             }
         }
 
-        public static void exportCloudInfo(Document doc, Dictionary<string, RevisionItem> dictionary)
+        public static void ExportCloudInfo(Document doc, Dictionary<string, RevisionItem> dictionary)
         {
-            const string exportFilename = @"C:\Temp\SClouds";
+            const string ExportFilename = @"C:\Temp\SClouds";
             Microsoft.Office.Interop.Excel.Application excelApp;
             Worksheet excelWorksheet;
             Workbook excelWorkbook;
 
             excelApp = new Microsoft.Office.Interop.Excel.Application();
             excelApp.Visible = false;
-            excelWorkbook = (Workbook)(excelApp.Workbooks.Add(Missing.Value));
+            excelWorkbook = (Workbook)excelApp.Workbooks.Add(Missing.Value);
             excelWorksheet = (Worksheet)excelWorkbook.ActiveSheet;
 
             int cloudNumber = 0;
@@ -161,8 +161,8 @@ namespace SCaddins.SCloudSChed
             data[0, 6] = "Revision Description";
 
             foreach (Element revCloud in a) {
-                string description = getParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_DESCRIPTION);
-                string date = getParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_DATE);
+                string description = GetParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_DESCRIPTION);
+                string date = GetParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_DATE);
                 RevisionItem revItem;
                 if (dictionary.TryGetValue(date + description, out revItem)) {
                     if (revItem.Export) {
@@ -178,12 +178,12 @@ namespace SCaddins.SCloudSChed
                             }
                         } catch {
                         }
-                        data[cloudNumber, 1] = getParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_NUM);
+                        data[cloudNumber, 1] = GetParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_NUM);
                         data[cloudNumber, 2] = viewName;
-                        data[cloudNumber, 3] = getParamaterAsString(revCloud, BuiltInParameter.ALL_MODEL_MARK);
-                        data[cloudNumber, 4] = getParamaterAsString(revCloud, BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS);
-                        data[cloudNumber, 5] = getParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_DATE);
-                        data[cloudNumber, 6] = getParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_DESCRIPTION);
+                        data[cloudNumber, 3] = GetParamaterAsString(revCloud, BuiltInParameter.ALL_MODEL_MARK);
+                        data[cloudNumber, 4] = GetParamaterAsString(revCloud, BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS);
+                        data[cloudNumber, 5] = GetParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_DATE);
+                        data[cloudNumber, 6] = GetParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_DESCRIPTION);
                     }
                 }
             }
@@ -192,8 +192,8 @@ namespace SCaddins.SCloudSChed
                 TaskDialog.Show("WARNING", "no clouds found to export");
             } else {
                 WriteArray(data, cloudNumber, 7, excelWorksheet);
-                TaskDialog.Show("Finished", cloudNumber + @" revision clouds sheduled in the file " + exportFilename);
-                excelWorkbook.SaveAs(exportFilename, XlFileFormat.xlWorkbookNormal);
+                TaskDialog.Show("Finished", cloudNumber + @" revision clouds sheduled in the file " + ExportFilename);
+                excelWorkbook.SaveAs(ExportFilename, XlFileFormat.xlWorkbookNormal);
                 excelWorkbook.Close();
             }
         }

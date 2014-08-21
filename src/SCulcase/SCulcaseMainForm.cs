@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using Autodesk.Revit.DB;
-
-namespace SCaddins.SCulcase
+﻿namespace SCaddins.SCulcase
 {
+    using System;
+    using System.Linq;
+    using System.Windows.Forms;
+    using Autodesk.Revit.DB;
+    
     public partial class SCulcaseMainForm : System.Windows.Forms.Form
     {
         private Document doc;
@@ -21,9 +16,9 @@ namespace SCaddins.SCulcase
             this.doc = doc;    
             this.conversionTypes = SCulcase.ConversionTypes.None;
             this.conversionMode = SCulcase.ConversionMode.UPPER_CASE;
-            InitializeComponent();
+            this.InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            TagCheckBoxes();
+            this.TagCheckBoxes();
             this.ShowDialog();
         }
                
@@ -43,7 +38,7 @@ namespace SCaddins.SCulcase
 
         private void BtnTest_Click(object sender, EventArgs e)
         {
-            SCulcase.ConvertAllDryRun(this.conversionMode, this.conversionTypes, ref doc);
+            SCulcase.ConvertAllDryRun(this.conversionMode, this.conversionTypes, ref this.doc);
         }
 
         private void RadioButton1_CheckedChanged(object sender, EventArgs e)
@@ -85,7 +80,7 @@ namespace SCaddins.SCulcase
       
         private void BtnOKAYClick(object sender, EventArgs e)
         {
-            SCulcase.ConvertAll(this.conversionMode, this.conversionTypes, ref doc);
+            SCulcase.ConvertAll(this.conversionMode, this.conversionTypes, ref this.doc);
         }
     }
 }

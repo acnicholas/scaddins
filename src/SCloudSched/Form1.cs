@@ -68,7 +68,7 @@
                     }
                 }
             }
-            SCloudSched.exportCloudInfo(doc, dictionary);
+            SCloudSched.ExportCloudInfo(this.doc, dictionary);
         }
     }
 }

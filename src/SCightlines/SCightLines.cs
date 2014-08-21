@@ -18,8 +18,8 @@
 namespace SCaddins.SCightLines
 {
     using System;
-    using Autodesk.Revit.DB;
     using Autodesk.Revit.ApplicationServices;
+    using Autodesk.Revit.DB;
     
     /// <summary>
     /// Create sight lines diagrams and/or Tables
@@ -62,9 +62,16 @@ namespace SCaddins.SCightLines
         /// <param name="numberOfRows">The number of row in the stand</param>
         /// <param name="xDistanceToFirstRow"></param>
         /// <param name="yDistanceToFirstRow"></param>
-        public SCightLines(Document doc, double eyeHeight, double treadSize,
-            double riserIncrement, double minimumCValue, double minimumRiserHeight,
-            double numberOfRows, double xDistanceToFirstRow, double yDistanceToFirstRow)
+        public SCightLines(
+            Document doc,
+            double eyeHeight,
+            double treadSize,
+            double riserIncrement,
+            double minimumCValue,
+            double minimumRiserHeight,
+            double numberOfRows,
+            double distanceToFirstRowX,
+            double distanceToFirstRowY)
         {
             this.doc = doc;
             numberOfRows = 10;
@@ -72,18 +79,30 @@ namespace SCaddins.SCightLines
             for (int i = 0; i < 100; i++) {
                 this.rows[i] = new SCightLinesRow();
             }
-            this.Update(eyeHeight, treadSize, riserIncrement, minimumCValue,
-                minimumRiserHeight, numberOfRows, xDistanceToFirstRow, yDistanceToFirstRow);
+            this.Update(
+                eyeHeight,
+                treadSize,
+                riserIncrement,
+                minimumCValue,
+                minimumRiserHeight,
+                numberOfRows,
+                distanceToFirstRowX,
+                distanceToFirstRowY);
         }
 
         /// <summary>
         /// Update/Change all parameters.
         /// i.e when changes are made to GUI frontend
         /// </summary>
-        public void Update(double eyeHeight, double treadSize,
-            double riserIncrement, double minimumCValue,
-            double minimumRiserHeight, double numberOfRows,
-            double xDistanceToFirstRow, double yDistanceToFirstRow)
+        public void Update(
+            double eyeHeight,
+            double treadSize,
+            double riserIncrement,
+            double minimumCValue,
+            double minimumRiserHeight,
+            double numberOfRows,
+            double distanceToFirstRowX,
+            double distanceToFirstRowY)
         {
             this.eyeHeight = eyeHeight;
             this.treadSize = treadSize;
@@ -91,8 +110,8 @@ namespace SCaddins.SCightLines
             this.minimumCValue = minimumCValue;
             this.minimumRiserHeight = minimumRiserHeight;
             this.numberOfRows = Convert.ToInt32(numberOfRows);
-            this.xDistanceToFirstRow = xDistanceToFirstRow;
-            this.yDistanceToFirstRow = yDistanceToFirstRow;
+            this.xDistanceToFirstRow = distanceToFirstRowX;
+            this.yDistanceToFirstRow = distanceToFirstRowY;
             this.UpdateRows();
             this.infoString = this.UpdateInfoString();
         }
@@ -118,7 +137,7 @@ namespace SCaddins.SCightLines
         private void UpdateRows()
         {
             for (int i = 0; i < this.numberOfRows; i++) {
-                this.rows[i].initialize(
+                this.rows[i].Initialize(
                     this.xDistanceToFirstRow + (i * this.treadSize),
                     this.yDistanceToFirstRow, 
                     this.yDistanceToFirstRow + this.eyeHeight,
@@ -143,8 +162,8 @@ namespace SCaddins.SCightLines
         {
             string times = System.DateTime.Now.ToString();
 
-            this.view = this.CreateLineOfSightDraftingView
-                ("LOS-X" + this.xDistanceToFirstRow + "-Y" + this.yDistanceToFirstRow + "-T" +
+            this.view = this.CreateLineOfSightDraftingView(
+                "LOS-X" + this.xDistanceToFirstRow + "-Y" + this.yDistanceToFirstRow + "-T" +
             this.treadSize + "-MinN" + this.minimumRiserHeight + "-Inc" + this.riserIncrement +
             "-Eye" + this.eyeHeight + "-MinC" + this.minimumCValue + "_" + times);
 
@@ -155,10 +174,18 @@ namespace SCaddins.SCightLines
             for (i = 0; i < this.numberOfRows; i++) {
                 if (i == 0) {
                     this.DrawLine(0, 0, this.xDistanceToFirstRow, 0, "Thin Lines");
-                    this.DrawText(this.xDistanceToFirstRow / 2, 0, 1, 0,
+                    this.DrawText(
+                        this.xDistanceToFirstRow / 2,
+                        0,
+                        1,
+                        0,
                         this.xDistanceToFirstRow.ToString(),
                         TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_TOP);
-                    this.DrawText(this.xDistanceToFirstRow, this.yDistanceToFirstRow / 2, 0, 1,
+                    this.DrawText(
+                        this.xDistanceToFirstRow,
+                        this.yDistanceToFirstRow / 2,
+                        0,
+                        1,
                         this.yDistanceToFirstRow.ToString(),
                         TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_BOTTOM);
                 }
@@ -170,8 +197,12 @@ namespace SCaddins.SCightLines
                 this.DrawCircle(this.rows[i].EyeToFocusX, this.rows[i].HeightToFocus, "Medium Lines");
 
                 // Draw the body
-                this.DrawLine(this.rows[i].EyeToFocusX, this.rows[i].HeightToFocus, this.rows[i].EyeToFocusX,
-                    (this.rows[i].HeightToFocus - this.rows[i].EyeHeight), "Thin Lines");
+                this.DrawLine(
+                    this.rows[i].EyeToFocusX,
+                    this.rows[i].HeightToFocus,
+                    this.rows[i].EyeToFocusX,
+                    this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
+                    "Thin Lines");
 
                 // Draw the riser
                 this.DrawRiser(i);
@@ -180,18 +211,32 @@ namespace SCaddins.SCightLines
                 this.DrawGoing(i);
                         
                 // Draw the c-value text
-                this.DrawText((this.rows[i].EyeToFocusX + 125), this.rows[i].HeightToFocus, 1, 0,
-                    ("c:" + Math.Round(this.rows[i].CValue, 2).ToString()), TextAlignFlags.TEF_ALIGN_LEFT);
+                this.DrawText(
+                    this.rows[i].EyeToFocusX + 125,
+                    this.rows[i].HeightToFocus,
+                    1,
+                    0,
+                    "c:" + Math.Round(this.rows[i].CValue, 2).ToString(),
+                    TextAlignFlags.TEF_ALIGN_LEFT);
 
                 // Draw the going text (treadSize)
-                this.DrawText(this.rows[i].EyeToFocusX - (this.rows[i].Going / 2), this.rows[i].HeightToFocus - this.rows[i].EyeHeight, 1, 0,
+                this.DrawText(
+                    this.rows[i].EyeToFocusX - (this.rows[i].Going / 2),
+                    this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
+                    1,
+                    0,
                     "R" + (i + 1).ToString() + " : " + this.treadSize.ToString(),
                     TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_TOP);
 
                 // Draw the riser text)
                 if (i > 0) {
-                    this.DrawText(this.rows[i].EyeToFocusX - this.treadSize, (this.rows[i].HeightToFocus - this.rows[i].EyeHeight - (this.rows[i].RiserHeight / 2)), 0, 1,
-                        this.rows[i].RiserHeight.ToString(), TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_BOTTOM);
+                    this.DrawText(
+                        this.rows[i].EyeToFocusX - this.treadSize,
+                        this.rows[i].HeightToFocus - this.rows[i].EyeHeight - (this.rows[i].RiserHeight / 2),
+                        0,
+                        1,
+                        this.rows[i].RiserHeight.ToString(),
+                        TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_BOTTOM);
                 }
             }
         }
@@ -203,11 +248,19 @@ namespace SCaddins.SCightLines
         private void DrawRiser(int i)
         {
             if (i == 0) {
-                this.DrawLine(this.rows[i].EyeToFocusX, this.rows[i].HeightToFocus - this.rows[i].EyeHeight, this.rows[i].EyeToFocusX,
-                    (this.rows[i].HeightToFocus - (this.rows[i].EyeHeight + this.rows[i].RiserHeight)), "Thin Lines");
+                this.DrawLine(
+                    this.rows[i].EyeToFocusX,
+                    this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
+                    this.rows[i].EyeToFocusX,
+                    this.rows[i].HeightToFocus - (this.rows[i].EyeHeight + this.rows[i].RiserHeight),
+                    "Thin Lines");
             } else {
-                this.DrawLine((this.rows[i].EyeToFocusX - this.rows[i].Going), this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
-                    (this.rows[i].EyeToFocusX - this.rows[i].Going), (this.rows[i].HeightToFocus - (this.rows[i].EyeHeight + this.rows[i].RiserHeight)), "Wide Lines");
+                this.DrawLine(
+                    this.rows[i].EyeToFocusX - this.rows[i].Going,
+                    this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
+                    this.rows[i].EyeToFocusX - this.rows[i].Going,
+                    this.rows[i].HeightToFocus - (this.rows[i].EyeHeight + this.rows[i].RiserHeight),
+                    "Wide Lines");
             }
         }
 
@@ -221,8 +274,12 @@ namespace SCaddins.SCightLines
             if (i == 0) {
                 igo = "Thin Lines";
             }
-            this.DrawLine(this.rows[i].EyeToFocusX, (this.rows[i].HeightToFocus - this.rows[i].EyeHeight),
-                (this.rows[i].EyeToFocusX - this.rows[i].Going), (this.rows[i].HeightToFocus - this.rows[i].EyeHeight), igo);
+            this.DrawLine(
+                this.rows[i].EyeToFocusX,
+                this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
+                this.rows[i].EyeToFocusX - this.rows[i].Going,
+                this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
+                igo);
         }
         
         private void DrawText(double x, double y, double vx, double vy, string s, TextAlignFlags f)
@@ -251,15 +308,15 @@ namespace SCaddins.SCightLines
             s += "Tread size                           =\t" + this.treadSize + "\r\n";
             s += "Minimum riser height                 =\t" + this.minimumRiserHeight + "\r\n";
             s += "Minimum riser increment              =\t" + this.riserIncrement + "\r\n\r\n";
-            s += ("row:\triser:\tdist:\telev:\tc-value:\r\n");
+            s += "row:\triser:\tdist:\telev:\tc-value:\r\n";
 
             for (i = 0; i < this.numberOfRows; i++) {
                 string c = i > 0 ? Math.Round(this.rows[i - 1].CValue, 2).ToString() : "NA";
                 string r = i > 0 ? Math.Round(this.rows[i].RiserHeight, 2).ToString() : "NA";
-                s += (i + 1 + "\t" + r + "\t"
+                s += i + 1 + "\t" + r + "\t"
                 + Math.Round(this.rows[i].EyeToFocusX, 2) + "\t"
                 + Math.Round(this.rows[i].HeightToFocus - this.eyeHeight, 2) + "\t"
-                + c + "\r\n");
+                + c + "\r\n";
             }
 
             return s;
@@ -273,7 +330,7 @@ namespace SCaddins.SCightLines
             XYZ point2 = app.Create.NewXYZ(this.FeetToMM(x2), this.FeetToMM(y2), this.FeetToMM(z));
             try {
                 Line line = Line.CreateBound(point1, point2);
-                DetailLine detailCurve = this.doc.Create.NewDetailCurve(this.view, line) as DetailLine;
+                var detailCurve = this.doc.Create.NewDetailCurve(this.view, line) as DetailLine;
                 this.SetLineType(detailCurve, s);
             } catch (Exception e) {
                 Console.WriteLine(e.Message);
@@ -285,8 +342,13 @@ namespace SCaddins.SCightLines
             Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
             double z = 0.0;
             XYZ point1 = app.Create.NewXYZ(this.FeetToMM(x1), this.FeetToMM(y1), this.FeetToMM(z));
-            Arc arc = Arc.Create(point1, this.FeetToMM(125), 0, 360, 
-                          app.Create.NewXYZ(1, 0, 0), app.Create.NewXYZ(0, 1, 0));
+            Arc arc = Arc.Create(
+                point1,
+                this.FeetToMM(125),
+                0,
+                360, 
+                app.Create.NewXYZ(1, 0, 0),
+                app.Create.NewXYZ(0, 1, 0));
             DetailArc detailCurve = this.doc.Create.NewDetailCurve(this.view, arc) as DetailArc;
             this.SetLineType(detailCurve, s);
         }

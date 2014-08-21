@@ -27,8 +27,10 @@ namespace SCaddins.SCoord
     {
         private const double FeetToInches = 304.8;
 
-        public Autodesk.Revit.UI.Result Execute(ExternalCommandData commandData,
-            ref string message, Autodesk.Revit.DB.ElementSet elements)
+        public Autodesk.Revit.UI.Result Execute(
+            ExternalCommandData commandData,
+            ref string message,
+            Autodesk.Revit.DB.ElementSet elements)
         {
             UIDocument udoc = commandData.Application.ActiveUIDocument;
             Document doc = udoc.Document;

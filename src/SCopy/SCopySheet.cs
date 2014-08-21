@@ -1,9 +1,9 @@
-﻿using System;
-using System.ComponentModel;
-using Autodesk.Revit.DB;
-
-namespace SCaddins.SCopy
+﻿namespace SCaddins.SCopy
 {
+    using System;
+    using System.ComponentModel;
+    using Autodesk.Revit.DB;
+    
     /// <summary>
     /// Description of SCopySheet.
     /// </summary>

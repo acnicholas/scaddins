@@ -3,8 +3,8 @@ namespace SCaddins.SCulcase
     using System;
     using System.Globalization;
     using System.Linq;
-    using Autodesk.Revit.DB.Architecture;
     using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Architecture;
 
     public static class SCulcase
     {

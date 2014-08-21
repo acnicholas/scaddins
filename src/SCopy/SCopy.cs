@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-
 namespace SCaddins.SCopy
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    
     public class SCopy
     {
         private FamilyInstance sourceTitleBlock;
@@ -152,14 +152,16 @@ namespace SCaddins.SCopy
                 ref list,
                 "Number of viewports",
                 views.Size.ToString(),
-                System.Drawing.Color.Gray, 1);
+                System.Drawing.Color.Gray,
+                1);
             int i = 1;
             foreach (View view in views) {
                 this.AddViewsToList(
                     ref list,
                     "View: " + i,
                     view.Name,
-                    System.Drawing.Color.Black, 1);
+                    System.Drawing.Color.Black,
+                    1);
                 i++;
             }
         }
@@ -418,7 +420,7 @@ namespace SCaddins.SCopy
             var y = bounds.Min.Y * SCopyConstants.MMperFoot;
             var x2 = bounds.Max.X * SCopyConstants.MMperFoot;
             var y2 = bounds.Max.Y * SCopyConstants.MMperFoot;
-            return (x + " , " + y + " , " + x2 + " , " + y2);
+            return x + " , " + y + " , " + x2 + " , " + y2;
         }
         #endregion
     }

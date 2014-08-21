@@ -25,7 +25,7 @@ namespace SCaddins.SCwash
 
     public class SCwash
     {
-        public static List<SCwashTreeNode> Imports(Document doc, bool isLinked)
+        public static List<SCwashTreeNode> Imports(Document doc, bool linked)
         {
             List<SCwashTreeNode> result = new List<SCwashTreeNode>();
             FilteredElementCollector f = new FilteredElementCollector(doc);
@@ -33,7 +33,7 @@ namespace SCaddins.SCwash
             string s = string.Empty;
             string name = string.Empty;
             foreach (ImportInstance ii in f) {
-                if (ii.IsLinked == isLinked) {
+                if (ii.IsLinked == linked) {
                     s = string.Empty;
                     s += "View Specific - " + ii.ViewSpecific.ToString() + System.Environment.NewLine;
                     s += "Owner view id - " + ii.OwnerViewId + System.Environment.NewLine;
@@ -44,7 +44,7 @@ namespace SCaddins.SCwash
                             name = param.AsString();
                         }
                     }
-                    s += ("Element id - " + ii.Id);
+                    s += "Element id - " + ii.Id;
                     SCwashTreeNode tn = new SCwashTreeNode(name);
                     tn.Id = ii.Id;
                     tn.Info = s;
@@ -111,18 +111,18 @@ namespace SCaddins.SCwash
             return result;
         }
  
-        public static void AddSheetNodes(Document doc, bool onSheet, TreeNodeCollection nodes)
+        public static void AddSheetNodes(Document doc, bool placedOnSheet, TreeNodeCollection nodes)
         {
-            nodes.AddRange(SCwash.Views(doc, onSheet, ViewType.DrawingSheet).ToArray<TreeNode>());
+            nodes.AddRange(SCwash.Views(doc, placedOnSheet, ViewType.DrawingSheet).ToArray<TreeNode>());
         }
         
-        public static void AddViewNodes(Document doc, bool onSheet, TreeNodeCollection nodes)
+        public static void AddViewNodes(Document doc, bool placedOnSheet, TreeNodeCollection nodes)
         {
             int i = 0;
             foreach (ViewType enumValue in Enum.GetValues(typeof(ViewType))) {
                 if (enumValue != ViewType.DrawingSheet) {
                     nodes.Add(new SCwashTreeNode(enumValue.ToString()));
-                    nodes[i].Nodes.AddRange(SCwash.Views(doc, onSheet, enumValue).ToArray<TreeNode>());
+                    nodes[i].Nodes.AddRange(SCwash.Views(doc, placedOnSheet, enumValue).ToArray<TreeNode>());
                     if (nodes[i].Nodes.Count < 1) {
                         nodes.Remove(nodes[i]);
                     } else {
@@ -133,7 +133,7 @@ namespace SCaddins.SCwash
         }
 
         // FIXME don't add view templates or project browser views
-        private static List<SCwashTreeNode> Views(Document doc, bool onSheet, ViewType type)
+        private static List<SCwashTreeNode> Views(Document doc, bool placedOnSheet, ViewType type)
         {
             List<SCwashTreeNode> result = new List<SCwashTreeNode>();
             FilteredElementCollector f = new FilteredElementCollector(doc);
@@ -177,9 +177,9 @@ namespace SCaddins.SCwash
                     if (view.ViewType == ViewType.SystemBrowser) continue;
                     #endif
                     if (view.ViewType != ViewType.Internal) {
-                        if (os && onSheet) {
+                        if (os && placedOnSheet) {
                             result.Add(tn);
-                        } else if (!onSheet && !os) {
+                        } else if (!placedOnSheet && !os) {
                             result.Add(tn);
                         }
                     }

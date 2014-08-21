@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-
-namespace SCaddins.SCulcase
+﻿namespace SCaddins.SCulcase
 {
+    using System;
+    using System.Linq;
+    using System.Windows.Forms;
+    
     public partial class SCulcaseInfoDialog : Form
     {
         public SCulcaseInfoDialog()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         public void SetText(string s)

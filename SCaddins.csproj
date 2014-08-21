@@ -145,7 +145,6 @@
     <Compile Include="src\SCloudSched\Form1.cs" />
     <Compile Include="src\SCloudSched\Form1.Designer.cs" />
     <Compile Include="src\SCloudSched\SCloudSChed.cs" />
-    <Compile Include="src\SCloudSched\SCloudSChedApp.cs" />
     <Compile Include="src\SCoord\SCoord.cs" />
     <Compile Include="src\SCoord\SCoordForm.cs" />
     <Compile Include="src\SCoord\SCoordForm.Designer.cs" />

@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCightlines.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Windows.Forms;
-
 namespace SCaddins.SCightLines
 {
+    using System;
+    using System.Windows.Forms;
+    
     /// <summary>
     /// The main form for the Line of Sight Utility
     /// </summary>
@@ -31,7 +31,7 @@ namespace SCaddins.SCightLines
         /// <summary>
         /// Form to display Riser/Tread info
         /// </summary>
-        private  SCightOutputForm info;
+        private SCightOutputForm info;
         
         /// <summary>
         /// Sight Line Class
@@ -42,7 +42,7 @@ namespace SCaddins.SCightLines
 
         public SCightLinesMainForm(Autodesk.Revit.DB.Document doc)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             this.doc = doc;
             txtEyeHeight.Text = "1220";
             txtGoing.Text = "900";
@@ -52,13 +52,19 @@ namespace SCaddins.SCightLines
             txtRows.Text = "20";
             txtX.Text = "12000";
             txtY.Text = "1000";
-            info = new SCightOutputForm("Update first");
-            info.Hide();
-            sightLines = new SCightLines(doc, getDub(txtEyeHeight, 1220),
-                getDub(txtGoing, 900), getDub(txtInc, 15),
-                getDub(txtMinC, 60), getDub(txtRiser, 180), 
-                getDub(txtRows, 20), getDub(txtX, 12000), getDub(txtY, 1000));
-            SetTitle();
+            this.info = new SCightOutputForm("Update first");
+            this.info.Hide();
+            this.sightLines = new SCightLines(
+                doc,
+                this.GetDub(txtEyeHeight, 1220),
+                this.GetDub(txtGoing, 900),
+                this.GetDub(txtInc, 15),
+                this.GetDub(txtMinC, 60),
+                this.GetDub(txtRiser, 180), 
+                this.GetDub(txtRows, 20),
+                this.GetDub(txtX, 12000),
+                this.GetDub(txtY, 1000));
+            this.SetTitle();
             this.Show();
             this.Focus();
         }
@@ -79,7 +85,7 @@ namespace SCaddins.SCightLines
         /// Fallback value.
         /// i.e. value to apply if text cannot be parsed
         /// </param>
-        private double getDub(TextBox t, double fallback)
+        private double GetDub(TextBox t, double fallback)
         {
             double d;
             try {
@@ -94,26 +100,36 @@ namespace SCaddins.SCightLines
 
         private void ButtonTest_Click(object sender, EventArgs e)
         {
-            this.sightLines.Update(this.getDub(this.txtEyeHeight, 1220), this.getDub(this.txtGoing, 900),
-                this.getDub(this.txtInc, 15), this.getDub(this.txtMinC, 60),
-                this.getDub(this.txtRiser, 280), this.getDub(this.txtRows, 10),
-                this.getDub(this.txtX, 10000), this.getDub(this.txtY, 1000));
+            this.sightLines.Update(
+                this.GetDub(this.txtEyeHeight, 1220),
+                this.GetDub(this.txtGoing, 900),
+                this.GetDub(this.txtInc, 15),
+                this.GetDub(this.txtMinC, 60),
+                this.GetDub(this.txtRiser, 280),
+                this.GetDub(this.txtRows, 10),
+                this.GetDub(this.txtX, 10000),
+                this.GetDub(this.txtY, 1000));
             try {
                 this.info.Update(this.sightLines.InfoString);
                 this.info.Show();
             } catch {
                 this.info = new SCightOutputForm("Update first");
-                this.info.Update(sightLines.InfoString);
+                this.info.Update(this.sightLines.InfoString);
                 this.info.Show();
             }
         }
 
         private void ButtonCreate_Click(object sender, EventArgs e)
         {
-            this.sightLines.Update(this.getDub(this.txtEyeHeight, 1220),
-                this.getDub(this.txtGoing, 900), this.getDub(this.txtInc, 15),
-                this.getDub(this.txtMinC, 60), this.getDub(this.txtRiser, 180),
-                this.getDub(this.txtRows, 20), this.getDub(this.txtX, 12000), this.getDub(this.txtY, 1000));
+            this.sightLines.Update(
+                this.GetDub(this.txtEyeHeight, 1220),
+                this.GetDub(this.txtGoing, 900),
+                this.GetDub(this.txtInc, 15),
+                this.GetDub(this.txtMinC, 60),
+                this.GetDub(this.txtRiser, 180),
+                this.GetDub(this.txtRows, 20),
+                this.GetDub(this.txtX, 12000),
+                this.GetDub(this.txtY, 1000));
             this.sightLines.Draw();
             this.Focus();
         }

@@ -2,9 +2,9 @@
 {
     using System;
     using System.Windows.Forms;
+    using System.Reflection;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using System.Reflection;
     
     /// <summary>
     /// Description of MainForm.
@@ -16,10 +16,10 @@
 
         public MainForm(Document doc, Autodesk.Revit.DB.ViewSheet viewSheet)
         {
-            InitializeComponent();
-            SetTitle();
-            scopy = new SCopy(doc, viewSheet);
-            scopy.AddViewInfoToList(ref listView1);
+            this.InitializeComponent();
+            this.SetTitle();
+            this.scopy = new SCopy(doc, viewSheet);
+            this.scopy.AddViewInfoToList(ref this.listView1);
             this.AddDataGridColumns();
         }
     
@@ -65,7 +65,7 @@
             DataGridViewComboBoxColumn result2 = this.CreateComboBoxColumn();
             this.AddColumnHeader("ViewTemplateName", "View Template", result2);
             result2.Items.Add(SCopyConstants.MenuItemCopy);
-            foreach (string s2 in scopy.ViewTemplates.Keys) {
+            foreach (string s2 in this.scopy.ViewTemplates.Keys) {
                 result2.Items.Add(s2);
             }
             dataGridView2.Columns.Add(result2);
@@ -73,7 +73,7 @@
             DataGridViewComboBoxColumn result = this.CreateComboBoxColumn();
             this.AddColumnHeader("AssociatedLevelName", "Associated Level", result);
             result.Items.Add(SCopyConstants.MenuItemCopy);
-            foreach (string s in scopy.Levels.Keys) {
+            foreach (string s in this.scopy.Levels.Keys) {
                 result.Items.Add(s);
             }
             dataGridView2.Columns.Add(result);
@@ -88,21 +88,14 @@
 
         private void SetTitle()
         {
-            string version =
-                Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            string name =
-                Assembly.GetExecutingAssembly().GetName().Name.ToString();
-            string company = ((AssemblyCompanyAttribute)Attribute.GetCustomAttribute(
-                             Assembly.GetExecutingAssembly(),
-                             typeof(AssemblyCompanyAttribute), false)).Company;
-            this.Text = name + " [" + version + "] by " + company;
+            this.Text = "SCopy by Andrew Nicholas";
         }
     
         #endregion
 
         private void ButtonGO(object sender, EventArgs e)
         {
-            scopy.CreateSheets();
+            this.scopy.CreateSheets();
             this.Dispose();
             this.Close();
         }
@@ -110,8 +103,8 @@
         private void ButtonAdd(object sender, EventArgs e)
         {
             buttonRemove.Enabled = true;
-            scopy.Add();
-            dataGridView1.DataSource = scopy.Sheets;
+            this.scopy.Add();
+            dataGridView1.DataSource = this.scopy.Sheets;
         }
 
         private void DataGridView1CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -128,7 +121,7 @@
                 return;
             }
             DataGridViewCell cell = dataGridView1[e.ColumnIndex, e.RowIndex];
-            origVal = cell.Value.ToString();
+            this.origVal = cell.Value.ToString();
         }
         
         private void DataGridView2CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -155,7 +148,7 @@
             foreach (DataGridViewRow row in dataGridView1.SelectedRows) {
                 SCopySheet sheet =
                     row.DataBoundItem as SCopySheet;
-                scopy.Sheets.Remove(sheet);
+                this.scopy.Sheets.Remove(sheet);
             }
             if (dataGridView1.Rows.Count == 0) {
                 dataGridView2.Rows.Clear();
@@ -166,14 +159,14 @@
 
         private void DataGridView1SelectionChanged(object sender, EventArgs e)
         {
-            buttonRemove.Enabled = (dataGridView1.SelectedRows.Count > 0);
+            buttonRemove.Enabled = dataGridView1.SelectedRows.Count > 0;
         }
         
         private void ButtonReplaceClick(object sender, EventArgs e)
         {
             // display a list of plans in the model.
             SCopyViewSelectionDialog vd = new SCopyViewSelectionDialog();
-            foreach (Autodesk.Revit.DB.View v in scopy.ExistingViews.Values) {
+            foreach (Autodesk.Revit.DB.View v in this.scopy.ExistingViews.Values) {
                 Parameter p2 = v.get_Parameter("Sheet Number");
                 if (p2 == null) {
                     if (SCopyViewOnSheet.PlanEnough(v.ViewType) && !v.IsTemplate) {
@@ -185,7 +178,7 @@
             string test = vd.SelectedView();
         
             Autodesk.Revit.DB.View testView;
-            if (scopy.ExistingViews.TryGetValue(test, out testView)) {
+            if (this.scopy.ExistingViews.TryGetValue(test, out testView)) {
                 TaskDialog.Show("DEBUG", @"View OK");            
             }
              

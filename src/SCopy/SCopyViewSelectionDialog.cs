@@ -1,9 +1,8 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace SCaddins.SCopy
+﻿namespace SCaddins.SCopy
 {
+    using System;
+    using System.Windows.Forms;
+
     /// <summary>
     /// Description of Form1.
     /// </summary>
@@ -11,7 +10,7 @@ namespace SCaddins.SCopy
     {
         public SCopyViewSelectionDialog()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
         
         public void Add(Autodesk.Revit.DB.View view)

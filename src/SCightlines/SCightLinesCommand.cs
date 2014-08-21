@@ -15,18 +15,20 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCightlines.  If not, see <http://www.gnu.org/licenses/>.
 
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-
 namespace SCaddins.SCightLines
 {
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
     {
-        public Autodesk.Revit.UI.Result Execute(ExternalCommandData commandData,
-          ref string message, Autodesk.Revit.DB.ElementSet elements)
+        public Autodesk.Revit.UI.Result Execute(
+            ExternalCommandData commandData,
+            ref string message,
+            Autodesk.Revit.DB.ElementSet elements)
         {           
             using (Transaction t = new Transaction(commandData.Application.ActiveUIDocument.Document)) {          
                 if (t.Start("SCightlines") == TransactionStatus.Started) {

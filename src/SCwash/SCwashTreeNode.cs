@@ -15,34 +15,34 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCwash.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Linq;
-using System.Windows.Forms;
-using Autodesk.Revit.DB;
-
 namespace SCaddins.SCwash
 {
+    using System;
+    using System.Linq;
+    using System.Windows.Forms;
+    using Autodesk.Revit.DB;
+    
     public class SCwashTreeNode : TreeNode
     {
         private string info;
         
         public string Info {
-            get { return info; }
-            set { info = value; }
+            get { return this.info; }
+            set { this.info = value; }
         }
 
         private ElementId id;
         
         public ElementId Id {
-            get { return id; }
-            set { id = value; }
+            get { return this.id; }
+            set { this.id = value; }
         }
 
         public SCwashTreeNode(string name)
             : base(name)
         {
-            info = "-";
-            id = null;
+            this.info = "-";
+            this.id = null;
             this.Checked = true;
         }
     }

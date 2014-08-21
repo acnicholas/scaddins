@@ -17,14 +17,14 @@
 
 namespace SCaddins.SCwash
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Windows.Forms;
-    using System;
     using Autodesk.Revit.DB;
-    using Autodesk.Revit.UI.Events;
     using Autodesk.Revit.UI;
+    using Autodesk.Revit.UI.Events;
 
     public partial class SCwashForm : System.Windows.Forms.Form
     {
@@ -35,13 +35,13 @@ namespace SCaddins.SCwash
         {
             this.doc = doc;
             this.udoc = udoc;
-            InitializeComponent();
+            this.InitializeComponent();
             treeView1.CheckBoxes = true;
-            init();
+            this.Init();
             textBox1.Text = "Select an item to show additional information";
         }
 
-        private void init()
+        private void Init()
         {
             treeView1.Nodes.Clear();
             treeView1.Nodes.Add(new SCwashTreeNode("Views NOT on Sheets"));
@@ -93,11 +93,11 @@ namespace SCaddins.SCwash
             }
         }
 
-        private void CheckChildren(TreeNode rootNode, bool isChecked)
+        private void CheckChildren(TreeNode rootNode, bool selected)
         {
             foreach (TreeNode node in rootNode.Nodes) {
-                this.CheckChildren(node, isChecked);
-                node.Checked = isChecked;
+                this.CheckChildren(node, selected);
+                node.Checked = selected;
             }
         }
 
@@ -119,8 +119,8 @@ namespace SCaddins.SCwash
                     this.AddSCChildrenToPurgeSet(ref elements, node);
                 }
             }
-            SCwash.RemoveElements(doc, elements);
-            init();
+            SCwash.RemoveElements(this.doc, elements);
+            this.Init();
         }
 
         private void AddSCChildrenToPurgeSet(ref ICollection<ElementId> elements, SCwashTreeNode rootNode)
@@ -128,7 +128,7 @@ namespace SCaddins.SCwash
             foreach (SCwashTreeNode node in rootNode.Nodes) {
                 this.AddSCChildrenToPurgeSet(ref elements, node);
                 if (node.Checked && node.Id != null) {
-                    if (doc.GetElement(node.Id) != null && doc.ActiveView.Id != node.Id) {
+                    if (this.doc.GetElement(node.Id) != null && this.doc.ActiveView.Id != node.Id) {
                         elements.Add(node.Id);
                     }
                 }
@@ -165,14 +165,14 @@ namespace SCaddins.SCwash
         {
             // open view with selected id.
             UIApplication uiapp = new UIApplication(this.udoc.Application.Application);
-            uiapp.DialogBoxShowing += new EventHandler<DialogBoxShowingEventArgs>(dismissOpenQuestion);
+            uiapp.DialogBoxShowing += new EventHandler<DialogBoxShowingEventArgs>(this.DismissOpenQuestion);
             SCwashTreeNode t = (SCwashTreeNode)treeView1.SelectedNode;
             if (t.Id != null) {
                 this.udoc.ShowElements(t.Id);
             }
         }
 
-        private void dismissOpenQuestion(object o, DialogBoxShowingEventArgs e)
+        private void DismissOpenQuestion(object o, DialogBoxShowingEventArgs e)
         {
             TaskDialogShowingEventArgs t = e as TaskDialogShowingEventArgs;
             Debug.Print(t.Message);

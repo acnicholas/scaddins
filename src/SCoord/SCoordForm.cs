@@ -23,7 +23,7 @@ namespace SCaddins.SCoord
     {
         public SCoordForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }
