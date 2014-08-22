@@ -5,7 +5,7 @@
 		Name="SCaddins - SC Revit Addins (64 bit)"
 		Language="1033"
 		Version="$(var.Version)"
-		UpgradeCode=""
+		UpgradeCode="F9D83B19-ABC8-4DBE-A5D7-7DD7C16EBB8D"
 		Manufacturer="Andrew Nicholas">
 		<Package Description="A Revit add-in to batch export files with consistent file naming and revisions."
 			Comments="SCexport - SC Revit Export Utility"
@@ -19,18 +19,14 @@
 
 		<!-- Installation directory and files are defined in Files.wxs -->
 		<Directory Id="TARGETDIR" Name="SourceDir"/>	
-	    <?if $(env.R2014) = "Enabled"?> 
 		<Feature Id="Revit2014" Level="1" Title="SCexport for Revit 2014">
 			<ComponentRef Id="SCaddins14" />
 			<ComponentRef Id="SCaddinsAddin14" />
 		</Feature>
-	    <?endif?>
-	    <?if $(env.R2015) = "Enabled"?> 
 	    <Feature Id="Revit2015" Level="1" Title="SCexport for Revit 2015">
 			<ComponentRef Id="SCaddins15" />
 			<ComponentRef Id="SCaddinsAddin15" />
 		</Feature>
-	    <?endif?>
 		<Feature Id="pdftk" Level="1" Title="PDF Tagging Capability for SCexport (pdftk)">
 			<ComponentRef Id="pdftk" />
 		</Feature>

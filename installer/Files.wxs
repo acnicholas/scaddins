@@ -3,7 +3,7 @@
 		<DirectoryRef Id="TARGETDIR">
 	<Directory Id="ProgramFiles64Folder" Name="ProgramFiles64Folder">
 		<Directory Name="SCaddins" Id="SCADDINS">
-			<Directory Name="SCexport" Id="INSTALLDIR">
+			<Directory Name="SCaddins" Id="INSTALLDIR">
 				<Directory Name="Examples" Id="EXAMPLEDIR">
 					<Component Id="Example" Guid="E467582F-2BA7-4FC3-8DA9-3773449DD236" Win64="yes">
 						<File Id="SCEXPORT_EXAMPLE_CONF.XML" Name="SCexport-example-conf.xml" Source="..\data\Config\SCexport-example-conf.xml" />
@@ -16,46 +16,38 @@
 						<File Id="SCEXPORT.XSD" Name="SCexport.xsd" Source="..\data\Config\SCexport.xsd" />
 						<File Id="SCEXPORT.PNG" Name="scexport.png" Source="..\data\Resources\scexport.png" />
 					</Component>
+					<Directory Id="SCexportData" Name="SCexport" />
 				</Directory>
-				<?if $(env.R2014) = Enabled ?>
-				<?endif?>
-				<?if $(env.R2015) = Enabled ?>
-				<?endif?>
+				<Directory Id="NewDirectory2014" Name="2014" />
+				<Directory Id="NewDirectory2015" Name="2015" />
 			</Directory>
-			<Component Id="SCaddins14" Guid="942A701B-7CA7-40AB-A4E5-8107E0B267A3" />
-			<Component Id="SCaddins15" Guid="A819468A-803C-4916-AAB8-FC2CFB495D52" />
-			<Directory Id="DATADIR" Name="Data">
-				<Component Id="NewComponent" Guid="532897FA-A35B-4C51-B893-4C7FFBF80141" Win64="yes" />
-			</Directory>
+			<Component Id="SCaddins14" Win64="yes" />
+			<Component Id="SCaddins15" Guid="2717D659-960F-44AA-852A-D558C3979E2B" Win64="yes" />
 		</Directory>
 	</Directory>
 	<Directory Name="CommonAppDataFolder" Id="CommonAppDataFolder">
 		<Directory Name="Autodesk" Id="Autodesk">
 			<Directory Name="REVIT" Id="REVIT">
 				<Directory Name="Addins" Id="Addins">
-					<?if $(env.R2014) = Enabled?>
 					<Directory Id="R2014" Name="2014">
 						<Component Id="SCaddinsAddin14" DiskId="1">
 							<CreateFolder />
-							<File Id="SCEXPORT14.ADDIN" Name="SCexport14.addin" Source="..\src\Manifest\2014\SCexport.addin" />
+							<File Id="SCADDINS14.ADDIN" Name="SCaddins14.addin" Source="..\src\Manifest\2014\SCaddins.addin" />
 						</Component>
 					</Directory>
-					<?endif?>
-					<?if $(env.R2015) = Enabled?>
 					<Directory Id="NewDirectory" Name="2015">
 						<Component Id="SCaddinsAddin15" DiskId="1">
 							<CreateFolder />
-							<File Id="SCEXPORT15.ADDIN" Name="SCexport15.addin" Source="..\src\Manifest\2015\SCexport.addin" />
+							<File Id="SCADDINS15.ADDIN" Name="SCaddins15.addin" Source="..\src\Manifest\2015\SCaddins.addin" />
 						</Component>
 					</Directory>
-					<?endif?>
 				</Directory>
 			</Directory>
 		</Directory>
 	</Directory>
 	<Directory Id="ProgramFilesFolder" Name="ProgramFilesFolder">
-		<Directory Id="SCaddins" Name="SCaddins">
-			<Directory Id="SCexport" Name="SCexport">
+		<Directory Id="SCaddinsParent" Name="SCaddins">
+			<Directory Id="SCaddins" Name="SCaddins">
 				<Directory Id="pdftk" Name="pdftk">
 					<Component Id="pdftk" Guid="BE85DF31-3AB8-4C27-B936-BAE89E6ECC4E" Win64="no">
 						<CreateFolder />
