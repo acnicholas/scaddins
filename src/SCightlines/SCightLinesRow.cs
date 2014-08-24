@@ -25,6 +25,10 @@ namespace SCaddins.SCightLines
     /// </author>
     public class SCightLinesRow
     {
+        public SCightLinesRow()
+        {
+        }
+        
         /// <summary> the c value</summary> 
         public double CValue
         {
@@ -65,10 +69,6 @@ namespace SCaddins.SCightLines
         {
             get;
             set;
-        }
-
-        public SCightLinesRow()
-        {
         }
 
         public void Initialize(

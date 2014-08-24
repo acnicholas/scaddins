@@ -8,15 +8,14 @@
     /// Description of SCopySheet.
     /// </summary>
     public class SCopySheet : INotifyPropertyChanged
-    {
+    {  
         private SCopy scopy;
         private string title;
         private string number;
-        private ViewSheet destSheet;
+        private ViewSheet destSheet;              
+        private BindingList<SCopyViewOnSheet> viewsOnSheet;
         
         public event PropertyChangedEventHandler PropertyChanged;
-        
-        private BindingList<SCopyViewOnSheet> viewsOnSheet;
 
         public ViewSheet DestSheet {
             get {
@@ -60,6 +59,12 @@
             }
         }
 
+        public BindingList<SCopyViewOnSheet> ViewsOnSheet {
+            get {
+                return this.viewsOnSheet;
+            }
+        }
+        
         public string GetNewViewName(ElementId id)
         {
             foreach (SCopyViewOnSheet v in this.viewsOnSheet) {
@@ -68,12 +73,6 @@
                 }
             }
             return null;
-        }
-
-        public BindingList<SCopyViewOnSheet> ViewsOnSheet {
-            get {
-                return this.viewsOnSheet;
-            }
         }
 
         public SCopySheet(string number, string title, SCopy scopy)

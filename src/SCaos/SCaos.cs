@@ -190,7 +190,7 @@ namespace SCaddins.SCaos
                 BoundingBoxXYZ viewBounds = view.get_BoundingBox(view);
                 XYZ max = viewBounds.Max;
                 XYZ min = viewBounds.Min;
-                var eye = new XYZ(min.X + (max.X - min.X) / 2, min.Y + (max.Y - min.Y) / 2, min.Z + (max.Z - min.Z) / 2);
+                var eye = new XYZ(min.X + ((max.X - min.X) / 2), min.Y + ((max.Y - min.Y) / 2), min.Z + ((max.Z - min.Z) / 2));
                 var forward = new XYZ(-Math.Sin(azimuth), -Math.Cos(azimuth), -Math.Tan(altitude));
                 var up = forward.CrossProduct(new XYZ(Math.Cos(azimuth), -Math.Sin(azimuth), 0));
                 var v3d = (View3D)view;

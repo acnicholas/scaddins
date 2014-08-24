@@ -25,15 +25,7 @@ namespace SCaddins.SCopy
             new Dictionary<string, Level>();
         
         private ElementId floorPlanViewFamilyTypeId = null;
-        
-        public enum ViewCreationMode
-        {
-            Copy,
-            CopyAndModify,
-            Replace,
-            Place
-        }
-    
+           
         public SCopy(Document doc, ViewSheet view)
         {
             this.doc = doc;
@@ -44,6 +36,14 @@ namespace SCaddins.SCopy
             this.GetAllLevelsInModel();
             this.GetAllViewsInModel();
             this.GetFloorPlanViewFamilyTypeId();
+        }
+        
+        public enum ViewCreationMode
+        {
+            Copy,
+            CopyAndModify,
+            Replace,
+            Place
         }
     
         #region properties
@@ -81,6 +81,15 @@ namespace SCaddins.SCopy
         #endregion
 
         #region public methods
+        public static ViewSheet ViewToViewSheet(View view)
+        {
+            if (view.ViewType != ViewType.DrawingSheet) {
+                return null;
+            } else {
+                return view as ViewSheet;
+            }
+        }
+        
         public bool CheckSheetNumberAvailability(string number)
         {
             foreach (SCopySheet s in this.sheets) {
@@ -125,15 +134,6 @@ namespace SCaddins.SCopy
             td.Show();
         }
     
-        public static ViewSheet ViewToViewSheet(View view)
-        {
-            if (view.ViewType != ViewType.DrawingSheet) {
-                return null;
-            } else {
-                return view as ViewSheet;
-            }
-        }
-
         public void Add()
         {
             string n = this.NextSheetNumber(this.sourceSheet.SheetNumber);
@@ -371,7 +371,7 @@ namespace SCaddins.SCopy
             BoundingBoxXYZ titleBounds = titleBlock.get_BoundingBox(view);
             double x =
                 (viewBounds.Min.X - titleBounds.Min.X) +
-                (viewBounds.Max.X - viewBounds.Min.X) / 2;
+                ((viewBounds.Max.X - viewBounds.Min.X) / 2);
             double y =
                 (viewBounds.Min.Y - titleBounds.Min.Y) +
                 ((viewBounds.Max.Y - viewBounds.Min.Y) / 2);

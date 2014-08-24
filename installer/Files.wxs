@@ -4,25 +4,35 @@
 	<Directory Id="ProgramFiles64Folder" Name="ProgramFiles64Folder">
 		<Directory Name="SCaddins" Id="SCADDINS">
 			<Directory Name="SCaddins" Id="INSTALLDIR">
-				<Directory Name="Examples" Id="EXAMPLEDIR">
-					<Component Id="Example" Guid="E467582F-2BA7-4FC3-8DA9-3773449DD236" Win64="yes">
+				<Directory Name="share" Id="EXAMPLEDIR">
+					<Component Id="SCexportConfigProto" Guid="E467582F-2BA7-4FC3-8DA9-3773449DD236" Win64="yes">
 						<File Id="SCEXPORT_EXAMPLE_CONF.XML" Name="SCexport-example-conf.xml" Source="..\data\Config\SCexport-example-conf.xml" />
 						<CreateFolder />
 					</Component>
+					<Directory Id="NewDirectory" Name="icons">
+						<Component Id="SCaddinsIcons" Guid="460F46A6-4E6B-458A-A3CD-4E0CEBB56E16" />
+					</Directory>
 				</Directory>
-				<Directory Name="Data" Id="SCEXPORTDATADIR">
-					<Component Id="SCexportData" Guid="7CB383CB-F88A-4775-AEED-6F43E2034518" Win64="yes">
+				<Directory Name="etc" Id="SCEXPORTDATADIR">
+					<Component Id="SCaddinsEtc" Guid="7CB383CB-F88A-4775-AEED-6F43E2034518" Win64="yes">
 						<CreateFolder />
 						<File Id="SCEXPORT.XSD" Name="SCexport.xsd" Source="..\data\Config\SCexport.xsd" />
 						<File Id="SCEXPORT.PNG" Name="scexport.png" Source="..\data\Resources\scexport.png" />
 					</Component>
-					<Directory Id="SCexportData" Name="SCexport" />
 				</Directory>
-				<Directory Id="NewDirectory2014" Name="2014" />
-				<Directory Id="NewDirectory2015" Name="2015" />
+				<Directory Id="NewDirectory2014" Name="2014">
+					<Component Id="SCaddins2014" Guid="59641946-C25D-4BAB-9D2B-8953BB92F1E5" DiskId="1">
+						<CreateFolder />
+						<File Id="SCaddins.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins.dll" />
+					</Component>
+				</Directory>
+				<Directory Id="NewDirectory2015" Name="2015">
+					<Component Id="SCaddins2015" Guid="9BD323E5-F026-4361-89B0-057C7619E58B" DiskId="1">
+						<CreateFolder />
+						<File Id="Release.SCaddins.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins.dll" />
+					</Component>
+				</Directory>
 			</Directory>
-			<Component Id="SCaddins14" Win64="yes" />
-			<Component Id="SCaddins15" Guid="2717D659-960F-44AA-852A-D558C3979E2B" Win64="yes" />
 		</Directory>
 	</Directory>
 	<Directory Name="CommonAppDataFolder" Id="CommonAppDataFolder">
@@ -30,7 +40,7 @@
 			<Directory Name="REVIT" Id="REVIT">
 				<Directory Name="Addins" Id="Addins">
 					<Directory Id="R2014" Name="2014">
-						<Component Id="SCaddinsAddin14" DiskId="1">
+						<Component Id="SCaddinsAddin14" DiskId="1" Guid="5DC6F0B5-4255-4120-A5FD-1EC2D9A40DBB">
 							<CreateFolder />
 							<File Id="SCADDINS14.ADDIN" Name="SCaddins14.addin" Source="..\src\Manifest\2014\SCaddins.addin" />
 						</Component>
@@ -48,8 +58,8 @@
 	<Directory Id="ProgramFilesFolder" Name="ProgramFilesFolder">
 		<Directory Id="SCaddinsParent" Name="SCaddins">
 			<Directory Id="SCaddins" Name="SCaddins">
-				<Directory Id="pdftk" Name="pdftk">
-					<Component Id="pdftk" Guid="BE85DF31-3AB8-4C27-B936-BAE89E6ECC4E" Win64="no">
+				<Directory Id="pdftk" Name="opt">
+					<Component Id="SCaddinsOpt32" Guid="BE85DF31-3AB8-4C27-B936-BAE89E6ECC4E" Win64="no">
 						<CreateFolder />
 						<File Id="LIBICONV2.DLL_1" Name="libiconv2.dll" Source="..\opt\libiconv2.dll" />
 						<File Id="PDFTK.EXE_1" Name="pdftk.exe" Source="..\opt\pdftk.exe" />

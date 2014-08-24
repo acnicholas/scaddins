@@ -10,7 +10,7 @@ namespace SCaddins.SCulcase
     {
         private static bool commit = true;
         private static ConversionMode mode = ConversionMode.UPPER_CASE;
-        public static string DryRunLogText = string.Empty;
+        private static string dryRunLogText = string.Empty;
 
         /// <summary>
         /// Types of elements to convert
@@ -45,34 +45,14 @@ namespace SCaddins.SCulcase
             Convert(mode, types, ref doc);
             trans.Commit();
         }
-        
-        private static void Convert(ConversionMode mode, ConversionTypes types, ref Document doc)
-        {
-            SCulcase.mode = mode;
-            if (types.HasFlag(SCulcase.ConversionTypes.TEXT)) {
-                ConvertAllAnnotation(ref doc);
-            }
-            if (types.HasFlag(SCulcase.ConversionTypes.VIEW_NAMES)) {
-                ConvertAllViewNames(ref doc);
-            }
-            if (types.HasFlag(SCulcase.ConversionTypes.ROOM_NAMES)) {  
-                ConvertAllRooms(ref doc);
-            }
-            if (types.HasFlag(SCulcase.ConversionTypes.SHEET_NAMES)) {
-                ConvertAllSheetNames(ref doc);
-            }
-            if (types.HasFlag(SCulcase.ConversionTypes.TITLES_ON_SHEETS)) {
-                ConvertAllViewNamesOnSheet(ref doc);
-            }
-        }
-        
+               
         public static void ConvertAllDryRun(ConversionMode mode, ConversionTypes types, ref Document doc)
         {
             commit = false; 
-            DryRunLogText = string.Empty;
+            dryRunLogText = string.Empty;
             Convert(mode, types, ref doc);
             SCulcaseInfoDialog info = new SCulcaseInfoDialog();
-            info.SetText(DryRunLogText);
+            info.SetText(dryRunLogText);
             info.Show();
         }
         
@@ -101,6 +81,26 @@ namespace SCaddins.SCulcase
                 }
             }
             trans.Commit();
+        }
+        
+        private static void Convert(ConversionMode mode, ConversionTypes types, ref Document doc)
+        {
+            SCulcase.mode = mode;
+            if (types.HasFlag(SCulcase.ConversionTypes.TEXT)) {
+                ConvertAllAnnotation(ref doc);
+            }
+            if (types.HasFlag(SCulcase.ConversionTypes.VIEW_NAMES)) {
+                ConvertAllViewNames(ref doc);
+            }
+            if (types.HasFlag(SCulcase.ConversionTypes.ROOM_NAMES)) {  
+                ConvertAllRooms(ref doc);
+            }
+            if (types.HasFlag(SCulcase.ConversionTypes.SHEET_NAMES)) {
+                ConvertAllSheetNames(ref doc);
+            }
+            if (types.HasFlag(SCulcase.ConversionTypes.TITLES_ON_SHEETS)) {
+                ConvertAllViewNamesOnSheet(ref doc);
+            }
         }
                 
         private static void ConvertViewName(ref View view)
@@ -238,8 +238,8 @@ namespace SCaddins.SCulcase
               
         private static void DryRunLog(string etype, string s)
         {
-            DryRunLogText += etype + " --- " + s + " ---> " + NewString(s, mode);
-            DryRunLogText += System.Environment.NewLine;
+            dryRunLogText += etype + " --- " + s + " ---> " + NewString(s, mode);
+            dryRunLogText += System.Environment.NewLine;
         }
         
         private static bool ValidRevitName(string s)

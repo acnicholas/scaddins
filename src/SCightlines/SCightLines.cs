@@ -32,24 +32,16 @@ namespace SCaddins.SCightLines
         private Document doc;
         private double treadSize;
         private double eyeHeight;
-        private double xDistanceToFirstRow;
-        private double yDistanceToFirstRow;
+        private double distanceToFirstRowX;
+        private double distanceToFirstRowY;
         private int numberOfRows;
         private double minimumRiserHeight;
         private double minimumCValue;
         private double riserIncrement;
         private View view;
         private SCightLinesRow[] rows;
-
         private string infoString;
         
-        /// <summary>
-        /// The string that will get outputed to the Information form
-        /// </summary>
-        public string InfoString {
-            get { return this.infoString; }
-        }
-
         /// <summary>
         /// A class to create line of sight drafting views in Revit
         /// </summary>
@@ -89,6 +81,13 @@ namespace SCaddins.SCightLines
                 distanceToFirstRowX,
                 distanceToFirstRowY);
         }
+        
+        /// <summary>
+        /// The string that will get outputed to the Information form
+        /// </summary>
+        public string InfoString {
+            get { return this.infoString; }
+        }
 
         /// <summary>
         /// Update/Change all parameters.
@@ -110,8 +109,8 @@ namespace SCaddins.SCightLines
             this.minimumCValue = minimumCValue;
             this.minimumRiserHeight = minimumRiserHeight;
             this.numberOfRows = Convert.ToInt32(numberOfRows);
-            this.xDistanceToFirstRow = distanceToFirstRowX;
-            this.yDistanceToFirstRow = distanceToFirstRowY;
+            this.distanceToFirstRowX = distanceToFirstRowX;
+            this.distanceToFirstRowY = distanceToFirstRowY;
             this.UpdateRows();
             this.infoString = this.UpdateInfoString();
         }
@@ -138,9 +137,9 @@ namespace SCaddins.SCightLines
         {
             for (int i = 0; i < this.numberOfRows; i++) {
                 this.rows[i].Initialize(
-                    this.xDistanceToFirstRow + (i * this.treadSize),
-                    this.yDistanceToFirstRow, 
-                    this.yDistanceToFirstRow + this.eyeHeight,
+                    this.distanceToFirstRowX + (i * this.treadSize),
+                    this.distanceToFirstRowY, 
+                    this.distanceToFirstRowY + this.eyeHeight,
                     this.treadSize,
                     this.eyeHeight);
                 if (i > 0) {
@@ -163,9 +162,9 @@ namespace SCaddins.SCightLines
             string times = System.DateTime.Now.ToString();
 
             this.view = this.CreateLineOfSightDraftingView(
-                "LOS-X" + this.xDistanceToFirstRow + "-Y" + this.yDistanceToFirstRow + "-T" +
-            this.treadSize + "-MinN" + this.minimumRiserHeight + "-Inc" + this.riserIncrement +
-            "-Eye" + this.eyeHeight + "-MinC" + this.minimumCValue + "_" + times);
+                "LOS-X" + this.distanceToFirstRowX + "-Y" + this.distanceToFirstRowY + "-T" +
+                this.treadSize + "-MinN" + this.minimumRiserHeight + "-Inc" + this.riserIncrement +
+                "-Eye" + this.eyeHeight + "-MinC" + this.minimumCValue + "_" + times);
 
             Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
             this.view.Scale = 50;
@@ -173,20 +172,20 @@ namespace SCaddins.SCightLines
             
             for (i = 0; i < this.numberOfRows; i++) {
                 if (i == 0) {
-                    this.DrawLine(0, 0, this.xDistanceToFirstRow, 0, "Thin Lines");
+                    this.DrawLine(0, 0, this.distanceToFirstRowX, 0, "Thin Lines");
                     this.DrawText(
-                        this.xDistanceToFirstRow / 2,
+                        this.distanceToFirstRowX / 2,
                         0,
                         1,
                         0,
-                        this.xDistanceToFirstRow.ToString(),
+                        this.distanceToFirstRowX.ToString(),
                         TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_TOP);
                     this.DrawText(
-                        this.xDistanceToFirstRow,
-                        this.yDistanceToFirstRow / 2,
+                        this.distanceToFirstRowX,
+                        this.distanceToFirstRowY / 2,
                         0,
                         1,
-                        this.yDistanceToFirstRow.ToString(),
+                        this.distanceToFirstRowY.ToString(),
                         TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_BOTTOM);
                 }
                 
@@ -301,10 +300,10 @@ namespace SCaddins.SCightLines
 
             s = string.Empty;
             s += "Number of Rows in Section            =\t" + this.numberOfRows + "\r\n";
-            s += "Distance to first spectator          =\t" + this.xDistanceToFirstRow + "\r\n";
+            s += "Distance to first spectator          =\t" + this.distanceToFirstRowX + "\r\n";
             s += "Minimum sight line clearance         =\t" + this.minimumCValue + "\r\n";
             s += "Eye level above tread                =\t" + this.eyeHeight + "\r\n";
-            s += "Elevation of first tread above datum =\t" + this.yDistanceToFirstRow + "\r\n";
+            s += "Elevation of first tread above datum =\t" + this.distanceToFirstRowY + "\r\n";
             s += "Tread size                           =\t" + this.treadSize + "\r\n";
             s += "Minimum riser height                 =\t" + this.minimumRiserHeight + "\r\n";
             s += "Minimum riser increment              =\t" + this.riserIncrement + "\r\n\r\n";
@@ -343,12 +342,12 @@ namespace SCaddins.SCightLines
             double z = 0.0;
             XYZ point1 = app.Create.NewXYZ(this.FeetToMM(x1), this.FeetToMM(y1), this.FeetToMM(z));
             Arc arc = Arc.Create(
-                point1,
-                this.FeetToMM(125),
-                0,
-                360, 
-                app.Create.NewXYZ(1, 0, 0),
-                app.Create.NewXYZ(0, 1, 0));
+                          point1,
+                          this.FeetToMM(125),
+                          0,
+                          360, 
+                          app.Create.NewXYZ(1, 0, 0),
+                          app.Create.NewXYZ(0, 1, 0));
             DetailArc detailCurve = this.doc.Create.NewDetailCurve(this.view, arc) as DetailArc;
             this.SetLineType(detailCurve, s);
         }

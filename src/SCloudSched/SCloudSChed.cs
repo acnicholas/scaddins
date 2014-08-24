@@ -22,87 +22,6 @@ namespace SCaddins.SCloudSChed
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Microsoft.Office.Interop.Excel;
-    using SCaddins.Common;
-
-    [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
-    [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
-    public class Command : IExternalCommand
-    {
-        private SortableBindingList<RevisionItem> revisions;
-
-        public Autodesk.Revit.UI.Result Execute(
-            ExternalCommandData commandData,
-            ref string message,
-            Autodesk.Revit.DB.ElementSet elements)
-        {
-            Document doc = commandData.Application.ActiveUIDocument.Document;
-            this.revisions = new SortableBindingList<RevisionItem>();
-            this.GetRevisions(doc, ref this.revisions);
-            Form1 form = new Form1(doc, this.revisions);
-            form.Show();
-            return Autodesk.Revit.UI.Result.Succeeded;
-        }
-
-        private void GetRevisions(Document doc, ref SortableBindingList<RevisionItem> revisions)
-        {
-            FilteredElementCollector a;
-            a = new FilteredElementCollector(doc);
-            a.OfCategory(BuiltInCategory.OST_Revisions);
-            foreach (Element e in a) {
-                int seq = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger();
-                string date = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString();
-                int issued = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_ISSUED).AsInteger();
-                string description = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
-                revisions.Add(new RevisionItem(date, description, issued == 1, seq));
-            }
-        }
-    }
-
-    public class RevisionItem
-    {
-        private bool export;
-        
-        public bool Export
-        {
-            get { return this.export; }
-            set { this.export = value; }
-        }
-
-        private string description;
-        
-        public string Description
-        {
-            get { return this.description; }
-        }
-
-        private string date;
-        
-        public string Date
-        {
-            get { return this.date; }
-        }
-    
-        public bool Issued
-        {
-            get;
-            set;
-        }
-
-        public int Sequence
-        {
-            get;
-            set;
-        }
-
-        public RevisionItem(string date, string description, bool issued, int sequence)
-        {
-            this.description = description;
-            this.date = date;
-            this.Issued = issued;
-            this.Sequence = sequence;
-        }
-    }
 
     public class SCloudSched
     {
@@ -114,24 +33,6 @@ namespace SCaddins.SCloudSChed
             } catch {
             }
             return result;
-        }
-
-        /// <summary>
-        /// Write to an excell worksheet
-        /// from here:
-        /// http://www.clear-lines.com/blog/post/Write-data-to-an-Excel-worksheet-with-C-fast.aspx
-        /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="columns"></param>
-        /// <param name="worksheet"></param>
-        private static void WriteArray(string[,] data, int rows, int columns, Worksheet worksheet)
-        {
-            if (worksheet != null) {
-                var startCell = worksheet.Cells[1, 1] as Range;
-                var endCell = worksheet.Cells[rows, columns] as Range;
-                var writeRange = worksheet.Range[startCell, endCell];
-                writeRange.Value2 = data;
-            }
         }
 
         public static void ExportCloudInfo(Document doc, Dictionary<string, RevisionItem> dictionary)
@@ -197,5 +98,23 @@ namespace SCaddins.SCloudSChed
                 excelWorkbook.Close();
             }
         }
-    }
+   
+        /// <summary>
+        /// Write to an excel worksheet
+        /// from here:
+        /// http://www.clear-lines.com/blog/post/Write-data-to-an-Excel-worksheet-with-C-fast.aspx
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="columns"></param>
+        /// <param name="worksheet"></param>
+        private static void WriteArray(string[,] data, int rows, int columns, Worksheet worksheet)
+        {
+            if (worksheet != null) {
+                var startCell = worksheet.Cells[1, 1] as Range;
+                var endCell = worksheet.Cells[rows, columns] as Range;
+                var writeRange = worksheet.Range[startCell, endCell];
+                writeRange.Value2 = data;
+            }
+        } 
+    }    
 }

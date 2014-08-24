@@ -43,6 +43,11 @@ namespace SCaddins
             return Result.Succeeded;
         }
         
+        public Result OnShutdown(UIControlledApplication application)
+        {
+            return Result.Succeeded;
+        }
+        
         private void LoadScexport(string dll, RibbonPanel rp)
         {
             var pbd = new PushButtonData(
@@ -134,7 +139,7 @@ namespace SCaddins
         {           
         }
         
-        public void LoadSCloudShed(string dll, RibbonPanel rp)
+        private void LoadSCloudShed(string dll, RibbonPanel rp)
         {
             PushButton pushButton = rp.AddItem(
                 new PushButtonData(
@@ -166,11 +171,6 @@ namespace SCaddins
             "SCopy will try to create a copy of the active(focused)sheet " +
             System.Environment.NewLine + System.Environment.NewLine +
             "NOTE: After the new sheet is created, view names need to be munaually edit.";
-        }
-
-        public Result OnShutdown(UIControlledApplication application)
-        {
-            return Result.Succeeded;
         }
         
         private BitmapSource LoadBitmapImage(string imagePath, int size)

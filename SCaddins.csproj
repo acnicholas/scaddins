@@ -144,7 +144,9 @@
     <Compile Include="src\SCightlines\SCightLinesRow.cs" />
     <Compile Include="src\SCloudSched\Form1.cs" />
     <Compile Include="src\SCloudSched\Form1.Designer.cs" />
+    <Compile Include="src\SCloudSched\RevisionItem.cs" />
     <Compile Include="src\SCloudSched\SCloudSChed.cs" />
+    <Compile Include="src\SCloudSched\SCloudSChedCommand.cs" />
     <Compile Include="src\SCoord\SCoord.cs" />
     <Compile Include="src\SCoord\SCoordForm.cs" />
     <Compile Include="src\SCoord\SCoordForm.Designer.cs" />

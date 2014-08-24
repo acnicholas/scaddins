@@ -23,27 +23,23 @@ namespace SCaddins.SCwash
     using Autodesk.Revit.DB;
     
     public class SCwashTreeNode : TreeNode
-    {
-        private string info;
-        
-        public string Info {
-            get { return this.info; }
-            set { this.info = value; }
-        }
-
-        private ElementId id;
-        
-        public ElementId Id {
-            get { return this.id; }
-            set { this.id = value; }
-        }
-
+    {        
         public SCwashTreeNode(string name)
             : base(name)
         {
-            this.info = "-";
-            this.id = null;
+            this.Info = "-";
+            this.Id = null;
             this.Checked = true;
+        }
+        
+        public string Info {
+            get;
+            set;
+        }
+      
+        public ElementId Id {
+            get;
+            set;
         }
     }
 }

@@ -16,9 +16,7 @@
         private string associatedLevelName;
         private View oldView;
         private string viewTemplateName;
-        
-        public event PropertyChangedEventHandler PropertyChanged;
-        
+              
         private bool duplicateWithDetailing;
         private SCopy.ViewCreationMode creationMode;
    
@@ -35,15 +33,8 @@
             this.viewTemplateName = SCopyConstants.MenuItemCopy;
             this.duplicateWithDetailing = true;
         }
-    
-        private void SetDefualtCreationMode()
-        {
-            if (this.oldView.ViewType == ViewType.Legend) {
-                this.creationMode = SCopy.ViewCreationMode.Place;   
-            } else {
-                this.creationMode = SCopy.ViewCreationMode.Copy;
-            }
-        }
+        
+        public event PropertyChangedEventHandler PropertyChanged;
     
         public SCopy.ViewCreationMode CreationMode {
             get {
@@ -66,20 +57,6 @@
         public ViewType RevitViewType {
             get {
                 return this.oldView.ViewType;
-            }
-        }
-
-        public bool DuplicateWithDetailing {
-            get {
-                return this.duplicateWithDetailing;
-            }
-            
-            set {
-                this.duplicateWithDetailing = value;
-                if (this.PropertyChanged != null) {
-                    this.PropertyChanged(
-                        this, new PropertyChangedEventArgs("DuplicateWithDetailing"));
-                }
             }
         }
 
@@ -141,7 +118,21 @@
                 return this.originalTitle;
             }
         }
-    
+        
+        public bool DuplicateWithDetailing {
+            get {
+                return this.duplicateWithDetailing;
+            }
+            
+            set {
+                this.duplicateWithDetailing = value;
+                if (this.PropertyChanged != null) {
+                    this.PropertyChanged(
+                        this, new PropertyChangedEventArgs("DuplicateWithDetailing"));
+                }
+            }
+        }
+        
         public static bool PlanEnough(ViewType vt)
         {
             switch (vt) {
@@ -153,11 +144,20 @@
                     return false;
             }
         }
-    
+        
         public bool PlanEnough()
         {
             return PlanEnough(this.RevitViewType);
         }
+        
+        private void SetDefualtCreationMode()
+        {
+            if (this.oldView.ViewType == ViewType.Legend) {
+                this.creationMode = SCopy.ViewCreationMode.Place;   
+            } else {
+                this.creationMode = SCopy.ViewCreationMode.Copy;
+            }
+        }  
     }
 }
 /* vim: set ts=4 sw=4 nu expandtab: */
