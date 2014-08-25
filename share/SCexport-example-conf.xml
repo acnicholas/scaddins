@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+     SCexport config file example.
+     Andrew Nicholas 20121122
+
+     Place this in the same folder as your Central file and rename it to
+     REVIT_FILE_NAME.xml
+
+     Available parameters(xml nodes) are:
+        <ProjectNumber>
+        <SheetNumber>
+        <Discipline>**
+        <Text>**
+        <Revision>
+        <RevisionDescription>
+        <SheetName>
+        <Underscore>
+        <Hyphen>
+
+        **Can add a value to thses nodes
+     -->
+
+<SCexport name="test">
+    
+  <!--Architectural naming scheme (USQ)-->
+  <FilenameScheme label="Architectural USQ">
+    <ProjectNumber/>
+    <Hyphen/>
+    <SheetNumber/>
+    <Text>[</Text>
+    <Revision/>
+    <Text>]</Text>
+  </FilenameScheme>
+
+  <!--Architectural naming scheme (AD discipline)-->
+  <FilenameScheme label="Architectural AD">
+    <ProjectNumber/>
+    <Hyphen/>
+    <Discipline>AD</Discipline>
+    <Hyphen/>
+    <SheetNumber/>
+    <Text>[</Text>
+    <Revision/>
+    <Text>]</Text>
+  </FilenameScheme>
+
+  <!--Landscape naming scheme (LD discipline)-->
+  <FilenameScheme label="Landscape LD">
+    <ProjectNumber/>
+    <Hyphen/>
+    <Discipline>LD</Discipline>
+    <Hyphen/>
+    <SheetNumber/>
+    <Text>[</Text>
+    <Revision/>
+    <Text>]</Text>
+  </FilenameScheme>
+
+  <!--Bracketed revisions-->
+  <FilenameScheme label="Brackets">
+    <ProjectNumber/>
+    <Hyphen/>
+    <Discipline></Discipline>
+    <Hyphen/>
+    <SheetNumber/>
+    <Text>(</Text>
+    <Revision/>
+    <Text>)</Text>
+  </FilenameScheme>
+
+  <!--C revision-->
+  <FilenameScheme label="CRevisions">
+    <Text>49-FV-SC001</Text>
+    <Hyphen/>
+    <SheetNumber/>
+    <Underscore/>
+    <Text>C</Text>
+    <Revision/>
+  </FilenameScheme>
+
+  <!--Basic naming scheme-->
+  <FilenameScheme label="Simple">
+    <SheetNumber/>
+    <Underscore/>
+    <Revision/>
+  </FilenameScheme>
+
+  <PDFTagSettings>
+    <Author>SCexport</Author>
+    <NonIssueTag>***NOT FOR ISSUE***</NonIssueTag>
+  </PDFTagSettings>
+
+</SCexport>
+
+  <!-- vim: set nu tabstop=4 shiftwidth=4 expandtab : -->

@@ -17,7 +17,7 @@ set R2015=Disabled
 if exist .\bin\x64\Release\SCaddins.dll set R2014=Enabled
 if exist .\bin\x64\Release\SCaddins.dll set R2015=Enabled
 
-rem call %msBuildDir%\msbuild.exe %SWITCHES% installer/SCaddins.Installer.wixproj /property:Configuration="Release" /property:Platform="x64"
+call %msBuildDir%\msbuild.exe %SWITCHES% installer/SCaddins.Installer.wixproj /property:Configuration="Release" /property:Platform="x64"
 
 set msBuildDir=
 

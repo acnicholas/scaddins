@@ -481,7 +481,7 @@ namespace SCaddins.SCexport
 
         private void ChangeLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Constants.SourceLink);
+            System.Diagnostics.Process.Start(SCaddins.Constants.SourceLink);
         }
 
         private void MnuItemDeliverables_Click(object sender, EventArgs e)
@@ -580,7 +580,7 @@ namespace SCaddins.SCexport
 
         private void ForumToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Constants.HelpLink);
+            System.Diagnostics.Process.Start(SCaddins.Constants.HelpLink);
         }
 
         private void DataGridView1_CellContentClick(

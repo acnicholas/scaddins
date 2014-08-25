@@ -96,11 +96,11 @@ namespace SCaddins.SCexport
             }
 
             if (overwrite == TaskDialogResult.Yes) {
-                string example = Constants.InstallDir +
+                string example = SCaddins.Constants.InstallDir +
                     Path.DirectorySeparatorChar +
-                    Constants.ExampleConfigDir +
+                    SCaddins.Constants.ShareDir +
                     Path.DirectorySeparatorChar +
-                    Constants.ExampleConfig;
+                    Constants.ExampleConfigFilename;
                 if (System.IO.File.Exists(example)) {
                     System.IO.File.Copy(example, config, true);
                 }

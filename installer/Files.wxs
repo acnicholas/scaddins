@@ -4,32 +4,45 @@
 	<Directory Id="ProgramFiles64Folder" Name="ProgramFiles64Folder">
 		<Directory Name="SCaddins" Id="SCADDINS">
 			<Directory Name="SCaddins" Id="INSTALLDIR">
-				<Directory Name="share" Id="EXAMPLEDIR">
+				<Directory Name="share" Id="SHAREDIR">
 					<Component Id="SCexportConfigProto" Guid="E467582F-2BA7-4FC3-8DA9-3773449DD236" Win64="yes">
-						<File Id="SCEXPORT_EXAMPLE_CONF.XML" Name="SCexport-example-conf.xml" Source="..\data\Config\SCexport-example-conf.xml" />
+						<File Id="SCEXPORT_EXAMPLE_CONF.XML" Name="SCexport-example-conf.xml" Source="..\share\SCexport-example-conf.xml" />
 						<CreateFolder />
 					</Component>
-					<Directory Id="NewDirectory" Name="icons">
-						<Component Id="SCaddinsIcons" Guid="460F46A6-4E6B-458A-A3CD-4E0CEBB56E16" />
+					<Directory Id="ICONDIR" Name="icons">
+						<Component Id="SCaddinsIcons" Guid="460F46A6-4E6B-458A-A3CD-4E0CEBB56E16" DiskId="1" Win64="yes">
+							<File Id="scaos_rvt.png" Name="scaos-rvt.png" Source="..\share\icons\ribbon\scaos-rvt.png" />
+							<File Id="scexport_rvt.png" Name="scexport-rvt.png" Source="..\share\icons\ribbon\scexport-rvt.png" />
+							<File Id="scightlines_rvt.png" Name="scightlines-rvt.png" Source="..\share\icons\ribbon\scightlines-rvt.png" />
+							<File Id="scincrement_rvt.png" Name="scincrement-rvt.png" Source="..\share\icons\ribbon\scincrement-rvt.png" />
+							<File Id="scloudsched_rvt.png" Name="scloudsched-rvt.png" Source="..\share\icons\ribbon\scloudsched-rvt.png" />
+							<File Id="scoord_rvt.png" Name="scoord-rvt.png" Source="..\share\icons\ribbon\scoord-rvt.png" />
+							<File Id="scopy_rvt.png" Name="scopy-rvt.png" Source="..\share\icons\ribbon\scopy-rvt.png" />
+							<File Id="sculcase_rvt.png" Name="sculcase-rvt.png" Source="..\share\icons\ribbon\sculcase-rvt.png" />
+							<File Id="scwash.png" Name="scwash.png" Source="..\share\icons\ribbon\scwash.png" />
+						</Component>
+					</Directory>
+					<Directory Id="RFADIR" Name="rfa">
+						<Directory Id="RFAFILES2014" Name="2014" />
+						<Directory Id="RFAFILES2015" Name="2015" />
 					</Directory>
 				</Directory>
-				<Directory Name="etc" Id="SCEXPORTDATADIR">
-					<Component Id="SCaddinsEtc" Guid="7CB383CB-F88A-4775-AEED-6F43E2034518" Win64="yes">
+				<Directory Name="etc" Id="ETCDIR">
+					<Component Id="SCaddinsEtc" Win64="yes" Guid="433296A6-F7CC-40A2-9826-33A16437BED0">
 						<CreateFolder />
-						<File Id="SCEXPORT.XSD" Name="SCexport.xsd" Source="..\data\Config\SCexport.xsd" />
-						<File Id="SCEXPORT.PNG" Name="scexport.png" Source="..\data\Resources\scexport.png" />
+						<File Id="SCEXPORT.XSD" Name="SCexport.xsd" Source="..\etc\SCexport.xsd" />
 					</Component>
 				</Directory>
-				<Directory Id="NewDirectory2014" Name="2014">
-					<Component Id="SCaddins2014" Guid="59641946-C25D-4BAB-9D2B-8953BB92F1E5" DiskId="1">
+				<Directory Id="DLLDIR2014" Name="2014">
+					<Component Id="SCaddins2014" DiskId="1" Guid="103FC570-FEE8-4CF7-A35A-1162A00B45E6" Win64="yes">
 						<CreateFolder />
-						<File Id="SCaddins.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins.dll" />
+						<File Id="SCaddins2014.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins.dll" />
 					</Component>
 				</Directory>
-				<Directory Id="NewDirectory2015" Name="2015">
-					<Component Id="SCaddins2015" Guid="9BD323E5-F026-4361-89B0-057C7619E58B" DiskId="1">
+				<Directory Id="DLLDIR2015" Name="2015">
+					<Component Id="SCaddins2015" DiskId="1" Guid="7F1CE98E-1FC3-490F-A5C4-72B69FD0C5A3" Win64="yes">
 						<CreateFolder />
-						<File Id="Release.SCaddins.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins.dll" />
+						<File Id="SCaddins2015.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins.dll" />
 					</Component>
 				</Directory>
 			</Directory>
@@ -40,13 +53,13 @@
 			<Directory Name="REVIT" Id="REVIT">
 				<Directory Name="Addins" Id="Addins">
 					<Directory Id="R2014" Name="2014">
-						<Component Id="SCaddinsAddin14" DiskId="1" Guid="5DC6F0B5-4255-4120-A5FD-1EC2D9A40DBB">
+						<Component Id="SCaddinsAddin2014" DiskId="1" Guid="ED49B2CE-28D8-4E49-8CD0-063DAB6DD0BA">
 							<CreateFolder />
 							<File Id="SCADDINS14.ADDIN" Name="SCaddins14.addin" Source="..\src\Manifest\2014\SCaddins.addin" />
 						</Component>
 					</Directory>
 					<Directory Id="NewDirectory" Name="2015">
-						<Component Id="SCaddinsAddin15" DiskId="1">
+						<Component Id="SCaddinsAddin2015" DiskId="1" Guid="F70553D6-1822-4937-96DF-1B262F214DD3">
 							<CreateFolder />
 							<File Id="SCADDINS15.ADDIN" Name="SCaddins15.addin" Source="..\src\Manifest\2015\SCaddins.addin" />
 						</Component>
@@ -58,11 +71,11 @@
 	<Directory Id="ProgramFilesFolder" Name="ProgramFilesFolder">
 		<Directory Id="SCaddinsParent" Name="SCaddins">
 			<Directory Id="SCaddins" Name="SCaddins">
-				<Directory Id="pdftk" Name="opt">
-					<Component Id="SCaddinsOpt32" Guid="BE85DF31-3AB8-4C27-B936-BAE89E6ECC4E" Win64="no">
+				<Directory Id="OPT32DIR" Name="opt">
+					<Component Id="SCaddinsOpt32" Guid="D5251FB8-6BFE-4313-81EE-B59A6660745A" Win64="no">
 						<CreateFolder />
-						<File Id="LIBICONV2.DLL_1" Name="libiconv2.dll" Source="..\opt\libiconv2.dll" />
-						<File Id="PDFTK.EXE_1" Name="pdftk.exe" Source="..\opt\pdftk.exe" />
+						<File Id="LIBICONV2.DLL" Name="libiconv2.dll" Source="..\opt\libiconv2.dll" />
+						<File Id="PDFTK.EXE" Name="pdftk.exe" Source="..\opt\pdftk.exe" />
 					</Component>
 				</Directory>
 			</Directory>

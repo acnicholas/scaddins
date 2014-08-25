@@ -40,6 +40,10 @@ namespace SCaddins
             string scdll =
                 new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
             var ribbonPanel = this.TryGetPanel(application, "Scott Carver");
+            LoadScexport(scdll, ribbonPanel);
+            LoadSCoord(scdll, ribbonPanel);
+            LoadSCulcase(scdll, ribbonPanel);
+            LoadSCwash(scdll, ribbonPanel);
             return Result.Succeeded;
         }
         
@@ -54,7 +58,7 @@ namespace SCaddins
                           "SCexport", "SCexport", dll, "SCaddins.SCexport.Command");
             var pushButton = rp.AddItem(pbd) as PushButton;
             pushButton.LargeImage = this.LoadBitmapImage(
-                @"C:\Program Files\SCaddins\SCexport\Data\scexport.png", 32);
+                @"C:\Program Files\SCaddins\SCaddins\share\icons\scexport-rvt.png", 32);
             pushButton.SetContextualHelp(
                 new ContextualHelp(
                     ContextualHelpType.Url, Constants.HelpLink));
@@ -70,7 +74,7 @@ namespace SCaddins
             var pbd = new PushButtonData(
                            "Scoord", "Scoord", dll, "SCaddins.SCoord.Command");
             var pushButton = rp.AddItem(pbd) as PushButton;
-            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCoord\Data\scoord.png");
+            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCaddins\share\icons\scoord-rvt.png");
             BitmapImage largeImage = new BitmapImage(uriImage);
             pushButton.LargeImage = largeImage;
         }
@@ -92,7 +96,7 @@ namespace SCaddins
             var pbd = new PushButtonData(
                            "SCulcase", "SCulcase", dll, "SCaddins.SCulcase.Command");
             var pushButton = rp.AddItem(pbd) as PushButton;
-            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCulcase\Data\sculcase.png");
+            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCaddins\share\icons\sculcase-rvt.png");
             BitmapImage largeImage = new BitmapImage(uriImage);
             if (largeImage != null && pushButton != null) {
                 pushButton.LargeImage = largeImage;
@@ -104,7 +108,7 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "SCwash", "SCwash", dll, "SCaddins.SCwash.Command");  
             var pushButton = rp.AddItem(pbd) as PushButton;
-            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCwash\Data\scwash.png");
+            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCaddins\share\icons\scwash-rvt.png");
             BitmapImage largeImage = new BitmapImage(uriImage);
             if (largeImage != null && pushButton != null) {
                 pushButton.LargeImage = largeImage;

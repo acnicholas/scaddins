@@ -38,35 +38,14 @@ namespace SCaddins.SCexport
         public const string HungAppTimeout =
             @"HKEY_CURRENT_USER\Control Panel\Desktop";
 
-        /// <summary> The install dir.</summary>
-        public const string InstallDir = @"C:\Program Files\SCaddins\SCexport\";
-
-        /// <summary> Example project configuration dir. </summary>
-        public const string ExampleConfigDir = "Examples";
-
-        /// <summary> Data directory. </summary>
-        public const string DataDir = "Data";
-
         /// <summary> Example project configuration file. </summary>
-        public const string ExampleConfig = "SCexport-example-conf.xml";
+        public const string ExampleConfigFilename = "SCexport-example-conf.xml";
 
         /// <summary>The export directory.</summary>
         public const string DefaultExportDir = "C:\\Temp";
                
         /// <summary> Param name of scale bar visibily. </summary>
         public const string TitleScale = "Scale Bar 1 to";
-
-        /// <summary> Web [http] link to source code. </summary>
-        public const string SourceLink =
-            "https://bitbucket.org/anicholas/scexport";
-
-        /// <summary> Web [http] link to download binaries. </summary>
-        public const string DownloadLink =
-            "https://bitbucket.org/anicholas/scexport/downloads";
-
-        /// <summary> Web [http] link to forum. </summary>
-        public const string HelpLink =
-            "https://bitbucket.org/anicholas/scexport/wiki/Home";
 
         /// <summary> 
         /// The defualt text to add to an exported pdf's "Author" tag.

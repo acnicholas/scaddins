@@ -906,7 +906,7 @@ namespace SCaddins.SCexport
             try {
                 var settings = new XmlReaderSettings();
                 settings.Schemas.Add(
-                    null, Constants.InstallDir + @"\Data\SCexport.xsd");
+                    null, SCaddins.Constants.InstallDir + @"\etc\SCexport.xsd");
                 settings.ValidationType = ValidationType.Schema;
                 XmlReader reader = XmlReader.Create(filename, settings);
                 var document = new XmlDocument();

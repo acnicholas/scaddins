@@ -140,14 +140,14 @@ namespace SCaddins.SCexport
             object sender,
             LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start(Constants.SourceLink);
+            System.Diagnostics.Process.Start(SCaddins.Constants.SourceLink);
         }
 
         private void LinkLabel1_LinkClicked(
             object sender,
             LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start(Constants.HelpLink);    
+            System.Diagnostics.Process.Start(SCaddins.Constants.HelpLink);    
         }
     }
 }

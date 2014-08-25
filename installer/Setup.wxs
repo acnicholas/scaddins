@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0"?>
-<?define Version = "!(bind.fileVersion.SCEXPORT14.DLL)" ?>
+<?define Version = "!(bind.fileVersion.SCaddins2015.dll)" ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Product Id="*"
 		Name="SCaddins - SC Revit Addins (64 bit)"
 		Language="1033"
 		Version="$(var.Version)"
-		UpgradeCode="F9D83B19-ABC8-4DBE-A5D7-7DD7C16EBB8D"
+		UpgradeCode="07AD607C-D456-47A6-A45F-3E8C6BD88278"
 		Manufacturer="Andrew Nicholas">
-		<Package Description="A Revit add-in to batch export files with consistent file naming and revisions."
-			Comments="SCexport - SC Revit Export Utility"
+		<Package Description="SC Revit Add-ins."
+			Comments="SCaddins - SC Revit Add-ins"
 			InstallerVersion="200"
 			Compressed="yes"/>
 		<!--
@@ -19,26 +19,27 @@
 
 		<!-- Installation directory and files are defined in Files.wxs -->
 		<Directory Id="TARGETDIR" Name="SourceDir"/>	
-		<Feature Id="Revit2014" Level="1" Title="SCexport for Revit 2014">
-			<ComponentRef Id="SCaddins14" />
-			<ComponentRef Id="SCaddinsAddin14" />
+		<Feature Id="Revit2014" Level="1" Title="SCaddins for Revit 2014">
+			<ComponentRef Id="SCaddins2014" />
+			<ComponentRef Id="SCaddinsAddin2014" />
+	        <ComponentRef Id="SCaddinsIcons" />
+	        <ComponentRef Id="SCaddinsEtc" />
+	        <ComponentRef Id="SCexportConfigProto" />
+	        <ComponentRef Id="SCaddinsOpt32" />
 		</Feature>
-	    <Feature Id="Revit2015" Level="1" Title="SCexport for Revit 2015">
-			<ComponentRef Id="SCaddins15" />
-			<ComponentRef Id="SCaddinsAddin15" />
-		</Feature>
-		<Feature Id="pdftk" Level="1" Title="PDF Tagging Capability for SCexport (pdftk)">
-			<ComponentRef Id="pdftk" />
-		</Feature>
-		<Feature Id="config" Level="1" Title="Xml configuration files and examples for SCexport">
-			<ComponentRef Id="Example" />
-			<ComponentRef Id="Data" />
+	    <Feature Id="Revit2015" Level="1" Title="SCaddins for Revit 2015">
+			<ComponentRef Id="SCaddins2015" />
+			<ComponentRef Id="SCaddinsAddin2015" />
+	    	<ComponentRef Id="SCaddinsIcons" />
+	        <ComponentRef Id="SCaddinsEtc" />
+	        <ComponentRef Id="SCexportConfigProto" />
+	        <ComponentRef Id="SCaddinsOpt32" />
 		</Feature>
 
 		<WixVariable Id="WixUIDialogBmp" Value="wixd.bmp" />
 		<WixVariable Id="WixUIBannerBmp" Value="wixb.bmp" />
-		<Icon Id="SC.ico" SourceFile="..\data\Resources\SC.ico" />
-		<Property Id="ARPPRODUCTICON" Value="SC.ico" />
+		<Icon Id="sc.ico" SourceFile="..\share\icons\64x64\sc.ico" />
+		<Property Id="ARPPRODUCTICON" Value="sc.ico" />
 		<Property Id="ARPCONTACT" Value="andrewnicholas@iinet.net.au" />
                 <Property Id="ARPHELPLINK" Value="https://bitbucket.org/anicholas/scaddins/wiki/Home"/>
                 <Property Id="ARPURLUPDATEINFO" Value="https://bitbucket.org/anicholas/scaddins/downloads" />
