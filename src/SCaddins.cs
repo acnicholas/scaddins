@@ -44,6 +44,8 @@ namespace SCaddins
             LoadSCoord(scdll, ribbonPanel);
             LoadSCulcase(scdll, ribbonPanel);
             LoadSCwash(scdll, ribbonPanel);
+            LoadSCaos(scdll, ribbonPanel);
+            LoadSCopy(scdll, ribbonPanel);
             return Result.Succeeded;
         }
         
@@ -120,7 +122,7 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "SCaos", "SCwash", dll, "SCaddins.SCaos.Command");    
             var pushButton = rp.AddItem(pbd) as PushButton;
-            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCaos\Data\scaos.png");
+            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCaddins\share\icons\scaos-rvt.png");
             BitmapImage largeImage = new BitmapImage(uriImage);
             if (largeImage != null && pushButton != null) {
                 pushButton.LargeImage = largeImage;
@@ -158,17 +160,16 @@ namespace SCaddins
         
         private void LoadSCopy(string dll, RibbonPanel rp)
         {
-            PushButtonData pbd = new PushButtonData(
-                                 "SCopy", "SCopy", dll, "SCopy.Command");
-            PushButton pushButton = rp.AddItem(pbd) as PushButton;
-            Uri uriImage = new Uri(
-                           @"C:\Program Files\SCaddins\SCopy\Data\scopy.png");
+            var pbd = new PushButtonData(
+                              "SCopy", "SCopy", dll, "SCaddins.SCopy.Command");        
+            var pushButton = rp.AddItem(pbd) as PushButton;
+            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCaddins\share\icons\scopy-rvt.png");
             BitmapImage largeImage = new BitmapImage(uriImage);
             pushButton.LargeImage = largeImage;
             pushButton.SetContextualHelp(
                 new ContextualHelp(
                     ContextualHelpType.Url,
-                    " https://bitbucket.org/anicholas/scopy/wiki"));
+                    " https://bitbucket.org/anicholas/scaddins/wiki"));
             pushButton.ToolTip =
             "Copy a view sheet and all its content";
             pushButton.LongDescription =

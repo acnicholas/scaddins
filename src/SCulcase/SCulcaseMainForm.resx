@@ -120,4 +120,22 @@
   <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAICAQAAEABADoAgAAFgAAACgAAAAgAAAAQAAAAAEABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAABAQEAAoKCgAWFhYAJSUlADk5OQBHR0cAdXV1AImJiQCcnJwAsrKyANfX1wDp6ekA9PT0APv7
+        +wD///8A////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
+        ////////////////////+4d76Zn8mc/////8md///4EAAFAA+QB/////9wCv//oAAAAAAPkAPf///9IA
+        r//3ACmoIAD6AAn///+QAL//9wBf/5AA/0ADZmZmIAX///gAKtxwAP+AAAAAAAAJ///9QAAAAAD/wQAA
+        AAAALf///7UAAAAA//YAW7u0AH//////uppwAP/6ABv/sQCv///8REnfcAT//jAH/3AE/////0AAAAAI
+        //9wBP4wCf////+zAAAAXf//wgCqAB3//////YZEaN////YAZQBv///////////////5ABEAr///////
+        /////////jAABP////////////////9wAAf/////////////////sQAc//////////////////l3n///
+        ////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+</value>
+  </data>
 </root>

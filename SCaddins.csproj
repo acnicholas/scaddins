@@ -197,6 +197,7 @@
     <EmbeddedResource Include="src\Resource1.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>SCaddins</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCaos\SCaosForm.resx">
       <DependentUpon>SCaosForm.cs</DependentUpon>
@@ -232,8 +233,13 @@
     <EmbeddedResource Include="src\SCopy\MainForm.resx" />
     <EmbeddedResource Include="src\SCopy\SCopyViewSelectionDialog.resx" />
     <EmbeddedResource Include="src\SCulcase\SCulcaseInfoDialog.resx" />
-    <EmbeddedResource Include="src\SCulcase\SCulcaseMainForm.resx" />
-    <EmbeddedResource Include="src\SCwash\SCwashForm.resx" />
+    <EmbeddedResource Include="src\SCulcase\SCulcaseMainForm.resx">
+      <DependentUpon>SCulcaseMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\SCwash\SCwashForm.resx">
+      <DependentUpon>SCwashForm.cs</DependentUpon>
+      <CustomToolNamespace>SCaddins.SCwash</CustomToolNamespace>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -270,6 +276,7 @@
     <None Include="res\images\type.png" />
     <None Include="res\images\xmlElement.png" />
     <None Include="res\images\xmlFile.png" />
+    <None Include="src\Manifest\2014\SCaddins.addin" />
     <None Include="src\Manifest\2015\SCaddins.addin" />
     <None Include="src\SCexport\Settings1.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SCulcaseMainForm));
             this.chkAnnotation = new System.Windows.Forms.CheckBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOKAY = new System.Windows.Forms.Button();
@@ -215,7 +216,7 @@
             this.Controls.Add(this.btnTest);
             this.Controls.Add(this.btnOKAY);
             this.Controls.Add(this.btnCancel);
-            this.Icon = global::SCaddins.Resource1.sculcase;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SCulcaseMainForm";
             this.Text = "SCulcase - SC Uppercase/Lowercase Tool";
             this.groupBox1.ResumeLayout(false);

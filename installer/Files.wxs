@@ -19,7 +19,7 @@
 							<File Id="scoord_rvt.png" Name="scoord-rvt.png" Source="..\share\icons\ribbon\scoord-rvt.png" />
 							<File Id="scopy_rvt.png" Name="scopy-rvt.png" Source="..\share\icons\ribbon\scopy-rvt.png" />
 							<File Id="sculcase_rvt.png" Name="sculcase-rvt.png" Source="..\share\icons\ribbon\sculcase-rvt.png" />
-							<File Id="scwash.png" Name="scwash.png" Source="..\share\icons\ribbon\scwash.png" />
+							<File Id="scwash_rvt.png" Name="scwash-rvt.png" Source="..\share\icons\ribbon\scwash-rvt.png" />
 						</Component>
 					</Directory>
 					<Directory Id="RFADIR" Name="rfa">
