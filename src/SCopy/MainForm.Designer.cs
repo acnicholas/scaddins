@@ -36,9 +36,10 @@ namespace SCaddins.SCopy
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Basic Information", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("ViewPorts", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Shedules", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Basic Information", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("ViewPorts", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Shedules", System.Windows.Forms.HorizontalAlignment.Left);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label1 = new System.Windows.Forms.Label();
             this.listView1 = new System.Windows.Forms.ListView();
@@ -109,16 +110,16 @@ namespace SCaddins.SCopy
             this.columnHeader2});
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
-            listViewGroup1.Header = "Basic Information";
-            listViewGroup1.Name = "listViewGroup1";
-            listViewGroup2.Header = "ViewPorts";
-            listViewGroup2.Name = "listViewGroup2";
-            listViewGroup3.Header = "Shedules";
-            listViewGroup3.Name = "listViewGroup3";
+            listViewGroup4.Header = "Basic Information";
+            listViewGroup4.Name = "listViewGroup1";
+            listViewGroup5.Header = "ViewPorts";
+            listViewGroup5.Name = "listViewGroup2";
+            listViewGroup6.Header = "Shedules";
+            listViewGroup6.Name = "listViewGroup3";
             this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2,
-            listViewGroup3});
+            listViewGroup4,
+            listViewGroup5,
+            listViewGroup6});
             this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.listView1.Location = new System.Drawing.Point(3, 33);
             this.listView1.MultiSelect = false;
@@ -139,6 +140,7 @@ namespace SCaddins.SCopy
             this.buttonCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCopy.Enabled = false;
             this.buttonCopy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonCopy.Image = ((System.Drawing.Image)(resources.GetObject("buttonCopy.Image")));
             this.buttonCopy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.buttonCopy.Location = new System.Drawing.Point(327, 4);
             this.buttonCopy.Name = "buttonCopy";
@@ -285,7 +287,7 @@ namespace SCaddins.SCopy
             this.Controls.Add(this.buttonGo);
             this.Controls.Add(this.splitContainer1);
             this.Enabled = false;
-            this.Icon = global::SCaddins.Resource1.scopy;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "MainForm";
