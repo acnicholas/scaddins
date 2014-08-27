@@ -20,11 +20,22 @@
 							<File Id="scopy_rvt.png" Name="scopy-rvt.png" Source="..\share\icons\ribbon\scopy-rvt.png" />
 							<File Id="sculcase_rvt.png" Name="sculcase-rvt.png" Source="..\share\icons\ribbon\sculcase-rvt.png" />
 							<File Id="scwash_rvt.png" Name="scwash-rvt.png" Source="..\share\icons\ribbon\scwash-rvt.png" />
+							<CreateFolder />
 						</Component>
 					</Directory>
 					<Directory Id="RFADIR" Name="rfa">
-						<Directory Id="RFAFILES2014" Name="2014" />
-						<Directory Id="RFAFILES2015" Name="2015" />
+						<Directory Id="RFAFILES2014" Name="2014">
+							<Component Id="SCaddinsRFA2014" Guid="0D7954CA-7551-495E-A4D3-05B6C921A635" DiskId="1" Win64="yes">
+								<CreateFolder />
+								<File Id="SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2014\SC-Survey_Point.rfa" />
+							</Component>
+						</Directory>
+						<Directory Id="RFAFILES2015" Name="2015">
+							<Component Id="SCaddinsRFA2015" Guid="C7F27B1E-7471-420B-B72E-00E21A153A01" DiskId="1" Win64="yes">
+								<CreateFolder />
+								<File Id="_015.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2015\SC-Survey_Point.rfa" />
+							</Component>
+						</Directory>
 					</Directory>
 				</Directory>
 				<Directory Name="etc" Id="ETCDIR">

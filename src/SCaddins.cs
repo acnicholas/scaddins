@@ -26,9 +26,6 @@ namespace SCaddins
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.UI;
 
-    /// <summary>
-    /// The Revit external Application.
-    /// </summary>
     [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
@@ -46,21 +43,21 @@ namespace SCaddins
             LoadSCwash(scdll, ribbonPanel);
             LoadSCaos(scdll, ribbonPanel);
             LoadSCopy(scdll, ribbonPanel);
+            LoadSCloudShed(scdll, ribbonPanel);
             return Result.Succeeded;
         }
-        
+
         public Result OnShutdown(UIControlledApplication application)
         {
             return Result.Succeeded;
         }
-        
+
         private void LoadScexport(string dll, RibbonPanel rp)
         {
             var pbd = new PushButtonData(
                           "SCexport", "SCexport", dll, "SCaddins.SCexport.Command");
             var pushButton = rp.AddItem(pbd) as PushButton;
-            pushButton.LargeImage = this.LoadBitmapImage(
-                @"C:\Program Files\SCaddins\SCaddins\share\icons\scexport-rvt.png", 32);
+            this.AssignPushButtonImage(pushButton, @"scexport-rvt.png", 32);
             pushButton.SetContextualHelp(
                 new ContextualHelp(
                     ContextualHelpType.Url, Constants.HelpLink));
@@ -68,104 +65,79 @@ namespace SCaddins
                 "Export PDF/DWG file[s] with pre defined naming standards";
             pushButton.LongDescription =
                 "SCexport will export file[s] using the internal Revit " +
-            "revision for each sheet, and a predefined naming scheme.";            
+                "revision for each sheet, and a predefined naming scheme.";
         }
-        
+
         private void LoadSCoord(string dll, RibbonPanel rp)
         {
             var pbd = new PushButtonData(
                            "Scoord", "Scoord", dll, "SCaddins.SCoord.Command");
             var pushButton = rp.AddItem(pbd) as PushButton;
-            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCaddins\share\icons\scoord-rvt.png");
-            BitmapImage largeImage = new BitmapImage(uriImage);
-            pushButton.LargeImage = largeImage;
+            this.AssignPushButtonImage(pushButton, @"scoord-rvt-16.png", 16);
         }
-        
+
         private void LoadNextSheet()
-        {            
+        {
         }
-        
+
         private void LoadPreviousSheet()
-        {           
+        {
         }
-        
+
         private void LoadOpenSheet()
-        {            
+        {
         }
-            
+
         private void LoadSCulcase(string dll, RibbonPanel rp)
         {
             var pbd = new PushButtonData(
                            "SCulcase", "SCulcase", dll, "SCaddins.SCulcase.Command");
             var pushButton = rp.AddItem(pbd) as PushButton;
-            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCaddins\share\icons\sculcase-rvt.png");
-            BitmapImage largeImage = new BitmapImage(uriImage);
-            if (largeImage != null && pushButton != null) {
-                pushButton.LargeImage = largeImage;
-            }
+            this.AssignPushButtonImage(pushButton, @"sculcase-rvt-16.png", 16);
         }
-        
+
         private void LoadSCwash(string dll, RibbonPanel rp)
-        {  
+        {
             var pbd = new PushButtonData(
-                              "SCwash", "SCwash", dll, "SCaddins.SCwash.Command");  
+                              "SCwash", "SCwash", dll, "SCaddins.SCwash.Command");
             var pushButton = rp.AddItem(pbd) as PushButton;
-            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCaddins\share\icons\scwash-rvt.png");
-            BitmapImage largeImage = new BitmapImage(uriImage);
-            if (largeImage != null && pushButton != null) {
-                pushButton.LargeImage = largeImage;
-            }
+            this.AssignPushButtonImage(pushButton, "scwash-rvt.png", 32);
         }
-        
+
         private void LoadSCaos(string dll, RibbonPanel rp)
-        {   
+        {
             var pbd = new PushButtonData(
-                              "SCaos", "SCwash", dll, "SCaddins.SCaos.Command");    
+                              "SCaos", "SCwash", dll, "SCaddins.SCaos.Command");
             var pushButton = rp.AddItem(pbd) as PushButton;
-            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCaddins\share\icons\scaos-rvt.png");
-            BitmapImage largeImage = new BitmapImage(uriImage);
-            if (largeImage != null && pushButton != null) {
-                pushButton.LargeImage = largeImage;
-            }     
+            this.AssignPushButtonImage(pushButton, "scaos-rvt.png", 32);
         }
 
         private void LoadSCightlines(string dll, RibbonPanel rp)
         { 
             var pbd = new PushButtonData(
-                              "SCightLines", "SCightLines", dll, "SCaddins.SCightLines.Command");        
+                              "SCightLines", "SCightLines", dll, "SCaddins.SCightLines.Command");
             var pushButton = rp.AddItem(pbd) as PushButton;
-            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCightLines\Data\scightlines32.png");
-            BitmapImage largeImage = new BitmapImage(uriImage);
-            if (largeImage != null && pushButton != null) {
-                pushButton.LargeImage = largeImage;
-            }
+            this.AssignPushButtonImage(pushButton, "scightlines32.png", 32);
         }
 
         private void LoadSCincrement()
-        {           
+        {
         }
-        
+
         private void LoadSCloudShed(string dll, RibbonPanel rp)
         {
-            PushButton pushButton = rp.AddItem(
-                new PushButtonData(
-                    "Cloud Scheduler",
-                    "Cloud" + System.Environment.NewLine + "Scheduler",
-                    @"C:\Program Files\SCaddins\SCloudSChed\2014\SCloudSChed14.dll",
-                    "SCloudSChed.Command")) as PushButton;
-            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCloudSChed\Data\scloudsched.png");
-            BitmapImage largeImage = new BitmapImage(uriImage);
-            pushButton.LargeImage = largeImage;
+            var pbd = new PushButtonData(
+                              "SCloudSChed", "SCloudSChed", dll, "SCaddins.SCloudSChed.Command");
+            var pushButton = rp.AddItem(pbd) as PushButton;
+            this.AssignPushButtonImage(pushButton, "scloudsched-rvt.png", 32);
         }
-        
+
         private void LoadSCopy(string dll, RibbonPanel rp)
         {
             var pbd = new PushButtonData(
-                              "SCopy", "SCopy", dll, "SCaddins.SCopy.Command");        
+                              "SCopy", "SCopy", dll, "SCaddins.SCopy.Command");
             var pushButton = rp.AddItem(pbd) as PushButton;
-            Uri uriImage = new Uri(@"C:\Program Files\SCaddins\SCaddins\share\icons\scopy-rvt.png");
-            BitmapImage largeImage = new BitmapImage(uriImage);
-            pushButton.LargeImage = largeImage;
+            this.AssignPushButtonImage(pushButton, "scopy-rvt.png", 32);
             pushButton.SetContextualHelp(
                 new ContextualHelp(
                     ContextualHelpType.Url,
@@ -177,7 +149,15 @@ namespace SCaddins
             System.Environment.NewLine + System.Environment.NewLine +
             "NOTE: After the new sheet is created, view names need to be munaually edit.";
         }
-        
+
+        private void AssignPushButtonImage(PushButton pb, string iconName, int size)
+        {
+            BitmapSource image = LoadBitmapImage(SCaddins.Constants.IconDir + iconName, size);
+            if (image != null && pb != null) {
+                pb.LargeImage = image;
+            }
+        }
+
         private BitmapSource LoadBitmapImage(string imagePath, int size)
         {
             if (File.Exists(imagePath)) {
@@ -188,8 +168,8 @@ namespace SCaddins
                 var c = System.Windows.Media.Color.FromRgb(128, 128, 128);
                 colors.Add(c);
                 BitmapPalette colourPalette = new BitmapPalette(colors);
-                var pixArray = System.Array.CreateInstance(typeof(byte), 32 * 32);
-                return BitmapImage.Create(size, size, 96, 96, System.Windows.Media.PixelFormats.Indexed8, colourPalette, pixArray, 1); 
+                var pixArray = System.Array.CreateInstance(typeof(byte), size * size);
+                return BitmapImage.Create(size, size, 95, 96, System.Windows.Media.PixelFormats.Indexed8, colourPalette, pixArray, 1); 
             }
         }
 

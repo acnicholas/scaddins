@@ -11,7 +11,7 @@
     [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
 
-    public class SCam : IExternalCommand
+    public class Command : IExternalCommand
     {
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
@@ -20,7 +20,7 @@
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
             View currentView = doc.ActiveView;
-            
+
             IEnumerable<ViewFamilyType> viewFamilyTypes
                 = from elem in new FilteredElementCollector(doc)
                 .OfClass(typeof(ViewFamilyType))
@@ -33,13 +33,13 @@
 
             Transaction t = new Transaction(doc);
             t.Start("Create perspective view");
-            
+
             View3D np = View3D.CreatePerspective(doc, viewFamilyTypes.First().Id);
             np.SetOrientation(new ViewOrientation3D(vo.EyePosition, vo.UpDirection, vo.ForwardDirection));
-            
+
             t.Commit();
 
-            return Autodesk.Revit.UI.Result.Succeeded;   
+            return Autodesk.Revit.UI.Result.Succeeded;
         }
     }
 }

@@ -1,4 +1,2 @@
-﻿- Add SCincrement
-- Create installer
-- Create button bar
+﻿- Create button bar
 - Create button bar options

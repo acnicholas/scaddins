@@ -19,7 +19,7 @@ namespace SCaddins.SCoord
     using System;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    
+
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
@@ -49,7 +49,7 @@ namespace SCaddins.SCoord
             ny = (xp * Math.Sin(-ang)) + (yp * Math.Cos(-ang));
             return new XYZ(nx, ny, z / FeetToInches);
         }
-        
+
         private void PlaceMGA(Document doc)
         {
             Level levelZero = this.GetLevelZero(doc);
@@ -57,11 +57,11 @@ namespace SCaddins.SCoord
             if (levelZero == null || family == null) {
                 return;
             }
-            
+
             ProjectLocation currentLocation = doc.ActiveProjectLocation;
             XYZ origin = new XYZ(0, 0, 0);
             ProjectPosition projectPosition = currentLocation.get_ProjectPosition(origin);
-            
+
             SCoordForm form = new SCoordForm();
             System.Windows.Forms.DialogResult r = form.ShowDialog();
 
@@ -89,7 +89,7 @@ namespace SCaddins.SCoord
 
         private FamilySymbol GetSpotCoordFamily(Document doc)
         {
-            FilteredElementCollector collector1 = new FilteredElementCollector(doc);
+            var collector1 = new FilteredElementCollector(doc);
             collector1.OfCategory(BuiltInCategory.OST_GenericModel);
             collector1.OfClass(typeof(FamilySymbol));
             foreach (FamilySymbol f in collector1) {
@@ -98,7 +98,7 @@ namespace SCaddins.SCoord
                 }
             }
             string version = doc.Application.VersionNumber;
-            string family = @"C:\Program Files\SCaddins\SCoord\Data\rfa\" +
+            string family = SCaddins.Constants.FamilyDir +
                             version + @"\SC-Survey_Point.rfa";
             if (System.IO.File.Exists(family)) {
                 Transaction loadFamily = new Transaction(doc, "Load Family");
@@ -133,5 +133,4 @@ namespace SCaddins.SCoord
         }
     }
 }
-
 /* vim: set ts=4 sw=4 nu expandtab: */
