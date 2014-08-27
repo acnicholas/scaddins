@@ -154,7 +154,11 @@ namespace SCaddins
         {
             BitmapSource image = LoadBitmapImage(SCaddins.Constants.IconDir + iconName, size);
             if (image != null && pb != null) {
-                pb.LargeImage = image;
+                if(size == 32){
+                    pb.LargeImage = image;
+                } else {
+                    pb.Image = image;
+                }
             }
         }
 
