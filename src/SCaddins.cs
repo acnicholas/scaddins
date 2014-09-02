@@ -75,6 +75,8 @@ namespace SCaddins
             var pbd = new PushButtonData(
                            "Scoord", "Scoord", dll, "SCaddins.SCoord.Command");
             this.AssignPushButtonImage(pbd, @"scoord-rvt-16.png", 16);
+            pbd.ToolTip =
+                "Place a family at a specified shared coordinate.";
             return pbd;
         }
 
@@ -83,6 +85,8 @@ namespace SCaddins
             var pbd = new PushButtonData(
                            "SCulcase", "SCulcase", dll, "SCaddins.SCulcase.Command");
             this.AssignPushButtonImage(pbd, @"sculcase-rvt-16.png", 16);
+            pbd.ToolTip =
+                "Convert text from upper to lower case.";
             return pbd;
         }
 
@@ -91,6 +95,8 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "SCwash", "SCwash", dll, "SCaddins.SCwash.Command");
             this.AssignPushButtonImage(pbd, "scwash-rvt-16.png", 16);
+            pbd.ToolTip =
+                "Clean up your model, in a more destructive way than a purge.";
             return pbd;
         }
 
@@ -99,6 +105,8 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "SCaos", "SCwash", dll, "SCaddins.SCaos.Command");
             this.AssignPushButtonImage(pbd, "scaos-rvt-16.png", 16);
+            pbd.ToolTip =
+                "Rotate a 3d view to the location of the sun.";
             return pbd;
         }
 
@@ -107,15 +115,18 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "SCightLines", "SCightLines", dll, "SCaddins.SCightLines.Command");
             this.AssignPushButtonImage(pbd, "scightlines-rvt-16.png", 16);
+            pbd.ToolTip =
+                "Create line of sight details for stadium seating.";
             return pbd;
         }
-
 
         private PushButtonData LoadSCloudShed(string dll, RibbonPanel rp)
         {
             var pbd = new PushButtonData(
                               "SCloudSChed", "SCloudSChed", dll, "SCaddins.SCloudSChed.Command");
             this.AssignPushButtonImage(pbd, "scloudsched-rvt-16.png", 16);
+            pbd.ToolTip =
+                "Schedule all revision clouds (in Excel).";
             return pbd;
         }
 
