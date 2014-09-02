@@ -37,13 +37,15 @@ namespace SCaddins
             string scdll =
                 new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
             var ribbonPanel = this.TryGetPanel(application, "Scott Carver");
-            LoadScexport(scdll, ribbonPanel);
-            LoadSCoord(scdll, ribbonPanel);
-            LoadSCulcase(scdll, ribbonPanel);
-            LoadSCwash(scdll, ribbonPanel);
-            LoadSCaos(scdll, ribbonPanel);
-            LoadSCopy(scdll, ribbonPanel);
-            LoadSCloudShed(scdll, ribbonPanel);
+            var pushButton = ribbonPanel.AddItem(LoadScexport(scdll, ribbonPanel)) as PushButton;
+            ribbonPanel.AddStackedItems(
+                    LoadSCoord( scdll, ribbonPanel),
+                    LoadSCulcase(scdll, ribbonPanel),
+                    LoadSCwash(scdll, ribbonPanel));
+            ribbonPanel.AddStackedItems(
+                    LoadSCaos(scdll, ribbonPanel),
+                    LoadSCopy(scdll, ribbonPanel),
+                    LoadSCloudShed(scdll, ribbonPanel));
             return Result.Succeeded;
         }
 
@@ -52,105 +54,90 @@ namespace SCaddins
             return Result.Succeeded;
         }
 
-        private void LoadScexport(string dll, RibbonPanel rp)
+        private PushButtonData LoadScexport(string dll, RibbonPanel rp)
         {
             var pbd = new PushButtonData(
                           "SCexport", "SCexport", dll, "SCaddins.SCexport.Command");
-            var pushButton = rp.AddItem(pbd) as PushButton;
-            this.AssignPushButtonImage(pushButton, @"scexport-rvt.png", 32);
-            pushButton.SetContextualHelp(
+            this.AssignPushButtonImage(pbd, @"scexport-rvt.png", 32);
+            pbd.SetContextualHelp(
                 new ContextualHelp(
                     ContextualHelpType.Url, Constants.HelpLink));
-            pushButton.ToolTip =
+            pbd.ToolTip =
                 "Export PDF/DWG file[s] with pre defined naming standards";
-            pushButton.LongDescription =
+            pbd.LongDescription =
                 "SCexport will export file[s] using the internal Revit " +
                 "revision for each sheet, and a predefined naming scheme.";
+            return pbd;
         }
 
-        private void LoadSCoord(string dll, RibbonPanel rp)
+        private PushButtonData LoadSCoord(string dll, RibbonPanel rp)
         {
             var pbd = new PushButtonData(
                            "Scoord", "Scoord", dll, "SCaddins.SCoord.Command");
-            var pushButton = rp.AddItem(pbd) as PushButton;
-            this.AssignPushButtonImage(pushButton, @"scoord-rvt-16.png", 16);
+            this.AssignPushButtonImage(pbd, @"scoord-rvt-16.png", 16);
+            return pbd;
         }
 
-        private void LoadNextSheet()
-        {
-        }
-
-        private void LoadPreviousSheet()
-        {
-        }
-
-        private void LoadOpenSheet()
-        {
-        }
-
-        private void LoadSCulcase(string dll, RibbonPanel rp)
+        private PushButtonData LoadSCulcase(string dll, RibbonPanel rp)
         {
             var pbd = new PushButtonData(
                            "SCulcase", "SCulcase", dll, "SCaddins.SCulcase.Command");
-            var pushButton = rp.AddItem(pbd) as PushButton;
-            this.AssignPushButtonImage(pushButton, @"sculcase-rvt-16.png", 16);
+            this.AssignPushButtonImage(pbd, @"sculcase-rvt-16.png", 16);
+            return pbd;
         }
 
-        private void LoadSCwash(string dll, RibbonPanel rp)
+        private PushButtonData LoadSCwash(string dll, RibbonPanel rp)
         {
             var pbd = new PushButtonData(
                               "SCwash", "SCwash", dll, "SCaddins.SCwash.Command");
-            var pushButton = rp.AddItem(pbd) as PushButton;
-            this.AssignPushButtonImage(pushButton, "scwash-rvt.png", 32);
+            this.AssignPushButtonImage(pbd, "scwash-rvt-16.png", 16);
+            return pbd;
         }
 
-        private void LoadSCaos(string dll, RibbonPanel rp)
+        private PushButtonData LoadSCaos(string dll, RibbonPanel rp)
         {
             var pbd = new PushButtonData(
                               "SCaos", "SCwash", dll, "SCaddins.SCaos.Command");
-            var pushButton = rp.AddItem(pbd) as PushButton;
-            this.AssignPushButtonImage(pushButton, "scaos-rvt.png", 32);
+            this.AssignPushButtonImage(pbd, "scaos-rvt-16.png", 16);
+            return pbd;
         }
 
-        private void LoadSCightlines(string dll, RibbonPanel rp)
+        private PushButtonData LoadSCightlines(string dll, RibbonPanel rp)
         { 
             var pbd = new PushButtonData(
                               "SCightLines", "SCightLines", dll, "SCaddins.SCightLines.Command");
-            var pushButton = rp.AddItem(pbd) as PushButton;
-            this.AssignPushButtonImage(pushButton, "scightlines32.png", 32);
+            this.AssignPushButtonImage(pbd, "scightlines-rvt-16.png", 16);
+            return pbd;
         }
 
-        private void LoadSCincrement()
-        {
-        }
 
-        private void LoadSCloudShed(string dll, RibbonPanel rp)
+        private PushButtonData LoadSCloudShed(string dll, RibbonPanel rp)
         {
             var pbd = new PushButtonData(
                               "SCloudSChed", "SCloudSChed", dll, "SCaddins.SCloudSChed.Command");
-            var pushButton = rp.AddItem(pbd) as PushButton;
-            this.AssignPushButtonImage(pushButton, "scloudsched-rvt.png", 32);
+            this.AssignPushButtonImage(pbd, "scloudsched-rvt-16.png", 16);
+            return pbd;
         }
 
-        private void LoadSCopy(string dll, RibbonPanel rp)
+        private PushButtonData LoadSCopy(string dll, RibbonPanel rp)
         {
             var pbd = new PushButtonData(
                               "SCopy", "SCopy", dll, "SCaddins.SCopy.Command");
-            var pushButton = rp.AddItem(pbd) as PushButton;
-            this.AssignPushButtonImage(pushButton, "scopy-rvt.png", 32);
-            pushButton.SetContextualHelp(
+            this.AssignPushButtonImage(pbd, "scopy-rvt-16.png", 16);
+            pbd.SetContextualHelp(
                 new ContextualHelp(
                     ContextualHelpType.Url,
                     " https://bitbucket.org/anicholas/scaddins/wiki"));
-            pushButton.ToolTip =
+            pbd.ToolTip =
             "Copy a view sheet and all its content";
-            pushButton.LongDescription =
+            pbd.LongDescription =
             "SCopy will try to create a copy of the active(focused)sheet " +
             System.Environment.NewLine + System.Environment.NewLine +
             "NOTE: After the new sheet is created, view names need to be munaually edit.";
+            return pbd;
         }
 
-        private void AssignPushButtonImage(PushButton pb, string iconName, int size)
+        private void AssignPushButtonImage(PushButtonData pb, string iconName, int size)
         {
             BitmapSource image = LoadBitmapImage(SCaddins.Constants.IconDir + iconName, size);
             if (image != null && pb != null) {
@@ -191,5 +178,4 @@ namespace SCaddins
         }
     }
 }
-
 /* vim: set ts=4 sw=4 nu expandtab: */
