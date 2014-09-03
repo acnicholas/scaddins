@@ -18,42 +18,42 @@ Included are:
    [**SCaos**](https://bitbucket.org/anicholas/scaddins/wiki/SCaos):  
     This will rotate a orthogonal 3d view as if view from the Sun.
 
- * ![SCopy](raw/mastershare/icons/ribbon/scopy-rvt.png)  
+ * ![SCopy](raw/master/share/icons/ribbon/scopy-rvt.png)  
    [**SCopy**](https://bitbucket.org/anicholas/scaddins/wiki/SCopy):  
     Copy a sheet and all its views.
 
 
- * ![SCwash](raw/mastershare/icons/ribbon/scwash-rvt.png)  
+ * ![SCwash](raw/master/share/icons/ribbon/scwash-rvt.png)  
    [**SCwash**](https://bitbucket.org/anicholas/scaddins/wiki/SCwash):  
     A destructive "purge" utility. Clean up unused view,images,links etc...
 
 
- * ![SCulcase](raw/mastershare/icons/ribbon/sculcase-rvt.png)  
+ * ![SCulcase](raw/master/share/icons/ribbon/sculcase-rvt.png)  
     **SCulcase**.  
     Convert text, view names, sheets and more to Upper / Lower case.
 
 
- * ![SCam](raw/mastershare/icons/ribbon/scam-rvt.png)  
+ * ![SCam](raw/master/share/icons/ribbon/scam-rvt.png)  
     **SCam**.  
     Create a quick perspective view.
 
 
- * ![SCincrement](raw/mastershare/icons/ribbon/scincrement-rvt.png)  
+ * ![SCincrement](raw/master/share/icons/ribbon/scincrement-rvt.png)  
     **SCincrement**  
      Increment family marks, room numbers, levels and grid numbers.
 
 
- * ![SCloudSched](raw/mastershare/icons/ribbon/scloudsched-rvt.png)  
+ * ![SCloudSched](raw/master/share/icons/ribbon/scloudsched-rvt.png)  
     **SCloudSched**.  
     Schedule all the revision clouds in the current model.
 
 
- * ![SCoord](raw/mastershare/icons/ribbon/scoord-rvt.png)  
+ * ![SCoord](raw/master/share/icons/ribbon/scoord-rvt.png)  
     **SCoord**.  
     Place a family at a specified shared coordinate.
 
 
- * ![SCightLines](raw/mastershare/icons/ribbon/scightlins-rvt.png)  
+ * ![SCightLines](raw/master/share/icons/ribbon/scightlins-rvt.png)  
     **SCoord**.  
     Create line of site details for stadium seating.
 
