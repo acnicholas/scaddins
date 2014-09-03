@@ -46,7 +46,6 @@ namespace SCaddins.SCexport
             this.scx = new SCexport(this.doc);
             this.filter = new FilterContextMenu("Filter", -1, null);
             this.InitializeComponent();
-            this.SetTitle();
             this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
             this.PopulateViewSheetSetCombo();
             this.PopulateColumns();
@@ -82,14 +81,6 @@ namespace SCaddins.SCexport
             }
 
             this.Close();
-        }
-
-        private void SetTitle()
-        {
-            string version = SCexport.SCexportVersion.ToString();
-            string name = 
-                Assembly.GetExecutingAssembly().GetName().Name.ToString();
-            this.Text = name + " [" + version + "]" + " by Andrew Nicholas";
         }
 
         private void PopulateViewSheetSetCombo()
@@ -677,16 +668,9 @@ namespace SCaddins.SCexport
         
         private void AddRevisionToolStripMenuItemClick(object sender, EventArgs e)
         {
-            #if REVIT2014
             SCexport.AddRevisions(this.SelectedSheets());
             this.Update();
-            this.dataGridView1.Refresh();
-            #else
-            var td = new TaskDialog("Add Revision");
-            td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-            td.MainContent = "Add revision only works with Revit 2014...time to upgrade hey.";
-            td.Show();
-            #endif            
+            this.dataGridView1.Refresh();           
         }
         
         private void RenameSelectedSheetsToolStripMenuItemClick(object sender, EventArgs e)

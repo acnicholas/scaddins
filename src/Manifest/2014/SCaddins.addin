@@ -83,6 +83,18 @@
     <VendorDescription>Andrew Nicholas, andrewn@scottcarver.com.au</VendorDescription>
   </AddIn>
 
+ <!-- SCincrement -->
+    
+  <AddIn Type="Command">
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <AddInId>5F9C93D8-51F0-46DE-84E0-7F3BF5B932ED</AddInId>
+    <FullClassName>SCaddins.SCincrement.Command</FullClassName>
+    <Name>SCincrement - Increment Some Stuff</Name>
+    <VendorId>SCEQ</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewn@scottcarver.com.au</VendorDescription>
+  </AddIn>
+
+
  <!-- SCam -->
 
   <AddIn Type="Command">

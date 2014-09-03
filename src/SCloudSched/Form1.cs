@@ -15,16 +15,7 @@
         {
             this.doc = doc;
             this.InitializeComponent();
-            this.SetIcon();
             dataGridView1.DataSource = revisions;
-        }
-
-        private void SetIcon()
-        {
-            System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();
-            System.IO.Stream st = a.GetManifestResourceStream("SCloudSChed.Resources.scloudsched.ico");
-            System.Drawing.Icon icnTask = new System.Drawing.Icon(st);
-            this.Icon = icnTask;
         }
 
         private void SelectAll(bool all)

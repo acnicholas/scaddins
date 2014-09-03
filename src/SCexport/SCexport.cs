@@ -475,7 +475,6 @@ namespace SCaddins.SCexport
 
         public static void AddRevisions(ICollection<SCexportSheet> sheets)
         {
-            #if REVIT2014
             var r = new RevisionSelectionDialog(doc);
             var result = r.ShowDialog();
             if ((r.ID != null) && (result == System.Windows.Forms.DialogResult.OK)) {
@@ -491,7 +490,6 @@ namespace SCaddins.SCexport
                     sheet.UpdateRevision();
                 }
             }
-            #endif
         }
         
         /// <summary>

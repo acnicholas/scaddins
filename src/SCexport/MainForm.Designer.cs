@@ -44,7 +44,7 @@ namespace SCaddins.SCexport
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openSelectedViewToolStripMenuItem;
-        public System.Windows.Forms.ToolStripMenuItem filterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem filterToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ToolStripMenuItem clearFilterToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
@@ -178,7 +178,7 @@ namespace SCaddins.SCexport
             this.mnuHelp});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.ShowCheckMargin = true;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(224, 282);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(224, 260);
             // 
             // clearFilterToolStripMenuItem
             // 
@@ -458,7 +458,7 @@ namespace SCaddins.SCexport
             this.MinimumSize = new System.Drawing.Size(751, 549);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SCexport - Scott Carver Export Utility";
+            this.Text = "SCexport - Scott Carver Export Utility - By Andrew Nicholas";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainFormKeyDown);

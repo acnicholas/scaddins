@@ -86,6 +86,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\AboutBox.cs" />
+    <Compile Include="src\AboutBox.Designer.cs" />
     <Compile Include="src\Common\SortableBindingList.cs" />
     <Compile Include="src\Properties\AssemblyInfo.cs" />
     <Compile Include="src\Constants.cs" />
@@ -95,8 +97,6 @@
     <Compile Include="src\SCaos\SCaos.cs" />
     <Compile Include="src\SCaos\SCaosForm.cs" />
     <Compile Include="src\SCaos\SCaosForm.Designer.cs" />
-    <Compile Include="src\SCexport\AboutBox.cs" />
-    <Compile Include="src\SCexport\AboutBox.Designer.cs" />
     <Compile Include="src\SCexport\Command.cs" />
     <Compile Include="src\SCexport\ConfirmDialog.cs" />
     <Compile Include="src\SCexport\ConfirmDialog.Designer.cs" />
@@ -138,6 +138,7 @@
     <Compile Include="src\SCightlines\SCightLinesOutputForm.cs" />
     <Compile Include="src\SCightlines\SCightLinesOutputForm.Designer.cs" />
     <Compile Include="src\SCightlines\SCightLinesRow.cs" />
+    <Compile Include="src\SCincrement\SCincrement.cs" />
     <Compile Include="src\SCloudSched\Form1.cs" />
     <Compile Include="src\SCloudSched\Form1.Designer.cs" />
     <Compile Include="src\SCloudSched\RevisionItem.cs" />
@@ -178,6 +179,7 @@
     <Folder Include="src\Manifest" />
     <Folder Include="src\Manifest\2015" />
     <Folder Include="src\Manifest\2014" />
+    <Folder Include="src\SCincrement" />
     <Folder Include="src\SCloudSched" />
     <Folder Include="src\SCam" />
     <Folder Include="src\SCoord" />
@@ -190,11 +192,11 @@
     <Folder Include="src\SCexport" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="src\AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\SCaos\SCaosForm.resx">
       <DependentUpon>SCaosForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\SCexport\AboutBox.resx">
-      <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCexport\ConfirmDialog.resx">
       <DependentUpon>ConfirmDialog.cs</DependentUpon>
@@ -219,7 +221,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCightlines\SCightLinesMainForm.resx" />
     <EmbeddedResource Include="src\SCightlines\SCightLinesOutputForm.resx" />
-    <EmbeddedResource Include="src\SCloudSched\Form1.resx" />
+    <EmbeddedResource Include="src\SCloudSched\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\SCoord\SCoordForm.resx" />
     <EmbeddedResource Include="src\SCopy\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

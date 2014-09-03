@@ -208,7 +208,7 @@ namespace SCaddins.SCightLines
 
                 // Draw the going
                 this.DrawGoing(i);
-                        
+
                 // Draw the c-value text
                 this.DrawText(
                     this.rows[i].EyeToFocusX + 125,
@@ -280,7 +280,7 @@ namespace SCaddins.SCightLines
                 this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
                 igo);
         }
-        
+
         private void DrawText(double x, double y, double vx, double vy, string s, TextAlignFlags f)
         {
             Application app = this.doc.Application;
@@ -293,7 +293,7 @@ namespace SCaddins.SCightLines
         /// <summary>
         /// Update the string that will get outputed
         /// </summary>
-        public string UpdateInfoString()
+        private string UpdateInfoString()
         {
             string s;
             int i;

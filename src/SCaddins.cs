@@ -46,6 +46,10 @@ namespace SCaddins
                     LoadSCaos(scdll, ribbonPanel),
                     LoadSCopy(scdll, ribbonPanel),
                     LoadSCloudShed(scdll, ribbonPanel));
+            ribbonPanel.AddStackedItems(
+                    LoadSCightlines(scdll, ribbonPanel),
+                    LoadSCincrement(scdll, ribbonPanel));
+            ribbonPanel.AddSlideOut();
             return Result.Succeeded;
         }
 
@@ -127,6 +131,16 @@ namespace SCaddins
             this.AssignPushButtonImage(pbd, "scloudsched-rvt-16.png", 16);
             pbd.ToolTip =
                 "Schedule all revision clouds (in Excel).";
+            return pbd;
+        }
+        
+        private PushButtonData LoadSCincrement(string dll, RibbonPanel rp)
+        {
+            var pbd = new PushButtonData(
+                              "SCincrement", "SCincrement", dll, "SCaddins.SCincrement.Command");
+            this.AssignPushButtonImage(pbd, "scincrement-rvt-16.png", 16);
+            pbd.ToolTip =
+                "Increment room numbers and family marks.";
             return pbd;
         }
 
