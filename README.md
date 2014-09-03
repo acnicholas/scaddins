@@ -10,7 +10,7 @@ Hopefully some are usefull...
 Included are:
 
 
- * ![SCexport_Icon](scaddins/src/master/share/icons/ribbon/scexport-rvt.png)  
+ * ![SCexport_Icon](src/master/share/icons/ribbon/scexport-rvt.png)  
    [**SCexport**](https://bitbucket.org/anicholas/scaddins/wiki/SCexport):  
     A export utility to export PDF, DWG and DWG with a predefined naming scheme.
     SCexport also includes other goodies like bulk sheet renaming and bulk revision(ing).
@@ -66,5 +66,3 @@ Included are:
 * Close Revit
 * Install the .msi package
 * Start Revit...
-
-
