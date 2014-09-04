@@ -76,7 +76,7 @@ namespace SCaddins.SCincrement
                 ctr = startValue;
                 foreach (Reference r in refList) {
                     Parameter p = getParameterForReference(doc, r);
-                    setParameterToValue(p, ctr);
+                    this.setParameterToValue(p, ctr);
                     ctr++;
                 }
                 t.Commit();

@@ -40,6 +40,23 @@ namespace SCaddins.SCwash
             this.Init();
             textBox1.Text = "Select an item to show additional information";
         }
+        
+        public void CheckAllNodes(TreeNodeCollection nodes)
+        {
+            foreach (TreeNode node in nodes) {
+                node.Checked = true;
+                this.CheckChildren(node, true);
+            }
+        }
+
+        public void UncheckAllNodes(TreeNodeCollection nodes)
+        {
+            foreach (TreeNode node in nodes) {
+                node.Checked = false;
+                this.CheckChildren(node, false);
+            }
+        }
+
 
         private void Init()
         {
@@ -74,22 +91,6 @@ namespace SCaddins.SCwash
                 }
             } else {
                 textBox1.Text = "Select an item to show additional information";
-            }
-        }
-
-        public void CheckAllNodes(TreeNodeCollection nodes)
-        {
-            foreach (TreeNode node in nodes) {
-                node.Checked = true;
-                this.CheckChildren(node, true);
-            }
-        }
-
-        public void UncheckAllNodes(TreeNodeCollection nodes)
-        {
-            foreach (TreeNode node in nodes) {
-                node.Checked = false;
-                this.CheckChildren(node, false);
             }
         }
 

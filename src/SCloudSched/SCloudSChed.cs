@@ -25,16 +25,7 @@ namespace SCaddins.SCloudSChed
 
     public class SCloudSched
     {
-        private static string GetParamaterAsString(Element revCloud, BuiltInParameter b)
-        {
-            string result = string.Empty;
-            try {
-                result += revCloud.get_Parameter(b).AsString();
-            } catch {
-            }
-            return result;
-        }
-
+        
         public static void ExportCloudInfo(Document doc, Dictionary<string, RevisionItem> dictionary)
         {
             const string ExportFilename = @"C:\Temp\SClouds";
@@ -97,6 +88,16 @@ namespace SCaddins.SCloudSChed
                 excelWorkbook.SaveAs(ExportFilename, XlFileFormat.xlWorkbookNormal);
                 excelWorkbook.Close();
             }
+        }
+        
+        private static string GetParamaterAsString(Element revCloud, BuiltInParameter b)
+        {
+            string result = string.Empty;
+            try {
+                result += revCloud.get_Parameter(b).AsString();
+            } catch {
+            }
+            return result;
         }
    
         /// <summary>

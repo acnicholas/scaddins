@@ -15,7 +15,6 @@
 
         public MainForm(Document doc, Autodesk.Revit.DB.ViewSheet viewSheet)
         {
-            //this.Enabled = true;
             this.InitializeComponent();
             this.SetTitle();
             this.scopy = new SCopy(doc, viewSheet);
