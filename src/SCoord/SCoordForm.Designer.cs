@@ -36,6 +36,7 @@ namespace SCaddins.SCoord
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SCoordForm));
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -139,7 +140,7 @@ namespace SCaddins.SCoord
             this.label1.Size = new System.Drawing.Size(254, 45);
             this.label1.TabIndex = 3;
             this.label1.Text = "Place a family at a specified Shared Coordinate. NOTE: Currently the family must " +
-            "be a Generic Model named SC-Survey_Point";
+    "be a Generic Model named SC-Survey_Point";
             // 
             // SCoordForm
             // 
@@ -151,6 +152,7 @@ namespace SCaddins.SCoord
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SCoordForm";
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

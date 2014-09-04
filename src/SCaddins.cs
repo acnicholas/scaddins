@@ -107,7 +107,7 @@ namespace SCaddins
         private PushButtonData LoadSCaos(string dll, RibbonPanel rp)
         {
             var pbd = new PushButtonData(
-                              "SCaos", "SCwash", dll, "SCaddins.SCaos.Command");
+                              "SCaos", "SCaos", dll, "SCaddins.SCaos.Command");
             this.AssignPushButtonImage(pbd, "scaos-rvt-16.png", 16);
             pbd.ToolTip =
                 "Rotate a 3d view to the location of the sun.";

@@ -219,12 +219,16 @@
     <EmbeddedResource Include="src\SCexport\SelectPrinterDialog.resx">
       <DependentUpon>SelectPrinterDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCightlines\SCightLinesMainForm.resx" />
+    <EmbeddedResource Include="src\SCightlines\SCightLinesMainForm.resx">
+      <DependentUpon>SCightLinesMainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\SCightlines\SCightLinesOutputForm.resx" />
     <EmbeddedResource Include="src\SCloudSched\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCoord\SCoordForm.resx" />
+    <EmbeddedResource Include="src\SCoord\SCoordForm.resx">
+      <DependentUpon>SCoordForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\SCopy\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>

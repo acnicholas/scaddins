@@ -64,15 +64,8 @@ namespace SCaddins.SCightLines
                 this.GetDub(txtRows, 20),
                 this.GetDub(txtX, 12000),
                 this.GetDub(txtY, 1000));
-            this.SetTitle();
             this.Show();
             this.Focus();
-        }
-
-        private void SetTitle()
-        {
-            this.Text = "Stadium Line Of Sight [" +
-            System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + "]";
         }
 
         /// <summary>
