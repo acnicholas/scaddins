@@ -21,6 +21,7 @@ namespace SCaddins.SCexport
     using System.IO;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using SCaddins;
 
     /// <summary>
     /// Generic file input and output functions.

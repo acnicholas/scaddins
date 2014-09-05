@@ -44,7 +44,7 @@ namespace SCaddins.SCexport
                 PdfTools.PopulatePDFMetaFile(pdfmetafile, name, rev);
                 FileUtils.WaitForFileAccess(pdfmetafile);
                 try {
-                    string prog = s + @"\SCaddins\SCexport\pdftk\pdftk.exe";
+                    string prog = s + @"\SCaddins\SCaddins\opt\pdftk.exe";
                     string cmd = "\"" + file + "\" update_info \"" + pdfmetafile +
                         "\" output \"" + file + "\".tmp dont_ask"; 
                     SCexport.StartHiddenConsoleProg(prog, cmd);
@@ -67,7 +67,7 @@ namespace SCaddins.SCexport
             string pdfmetafile = file + ".scx";
 
             try {
-                string prog = s + @"\SCaddins\SCexport\pdftk\pdftk.exe";
+                string prog = s + @"\SCaddins\SCaddins\opt\pdftk.exe";
                 string args = "\"" + file + "\" dump_data output \"" +
                     pdfmetafile + "\"";
                 SCexport.StartHiddenConsoleProg(prog, args);
@@ -82,11 +82,11 @@ namespace SCaddins.SCexport
             string file, string name, string rev)
         {
                 try {
-                string s = "InfoKey: Title" + System.Environment.NewLine +
-                    "InfoValue: " + name + System.Environment.NewLine +
-                    "InfoKey: Author" + System.Environment.NewLine +
+                string s = "InfoKey: Title" + Environment.NewLine +
+                    "InfoValue: " + name + Environment.NewLine +
+                    "InfoKey: Author" + Environment.NewLine +
                     "InfoValue: " + SCexport.Author + System.Environment.NewLine +
-                    "InfoKey: Keywords" + System.Environment.NewLine +
+                    "InfoKey: Keywords" + Environment.NewLine +
                     "InfoValue: " + rev;
                 File.AppendAllText(file, s);
                 } catch {
