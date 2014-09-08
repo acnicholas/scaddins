@@ -185,7 +185,11 @@ namespace SCaddins.SCulcase
         
         private static void ConvertRoom(ref Room room)
         {
+            #if REVIT2014
             Parameter param = room.get_Parameter("Name");
+            #else
+            Parameter param = room.LookupParameter("Name");
+            #endif
             if (commit) {
                 param.Set(NewString(param.AsString(), mode));
             } else {

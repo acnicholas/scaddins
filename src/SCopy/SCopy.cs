@@ -118,7 +118,11 @@ namespace SCaddins.SCopy
             var colour = System.Drawing.Color.Gray;
             this.AddViewsToList(ref list, "Title", this.sourceSheet.Name, colour, 0);
             this.AddViewsToList(ref list, "Sheet Number", this.sourceSheet.SheetNumber, colour, 0);
+            #if REVIT2014
             this.AddViewsToList(ref list, this.sourceSheet.Views);
+            #else
+            this.AddViewsToList(ref list, this.sourceSheet.GetAllPlacedViews());
+            #endif
         }
     
         public void CreateSheets()
@@ -144,6 +148,29 @@ namespace SCaddins.SCopy
         #endregion
 
         #region private methods
+        private void AddViewsToList(
+            ref System.Windows.Forms.ListView list,
+             ISet<ElementId> views)
+        {
+           this.AddViewsToList(
+                ref list,
+                "Number of viewports",
+                views.Count.ToString(),
+                System.Drawing.Color.Gray,
+                1);
+            int i = 1;
+            foreach (ElementId id in views) {
+                View view = this.doc.GetElement(id) as View;
+                this.AddViewsToList(
+                    ref list,
+                    "View: " + i,
+                    view.Name,
+                    System.Drawing.Color.Black,
+                    1);
+                i++;
+            }
+        }        
+        
         private void AddViewsToList(
             ref System.Windows.Forms.ListView list,
             ViewSet views)

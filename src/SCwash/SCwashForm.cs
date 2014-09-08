@@ -57,7 +57,6 @@ namespace SCaddins.SCwash
             }
         }
 
-
         private void Init()
         {
             treeView1.Nodes.Clear();

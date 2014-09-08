@@ -18,6 +18,7 @@
 namespace SCaddins.SCightLines
 {
     using System;
+    using System.Collections.Generic;
     using Autodesk.Revit.ApplicationServices;
     using Autodesk.Revit.DB;
     
@@ -114,46 +115,7 @@ namespace SCaddins.SCightLines
             this.UpdateRows();
             this.infoString = this.UpdateInfoString();
         }
-
-        /// <summary>
-        /// Create a Drafting View with a semi-usefull name
-        /// </summary>
-        /// <param name="s">
-        /// Name of the the drafting view
-        /// </param>
-        private ViewDrafting CreateLineOfSightDraftingView(string s)
-        {
-            Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
-            ViewDrafting view = null;
-            view = this.doc.Create.NewViewDrafting();
-            view.ViewName = s;
-            return view;
-        }
-
-        /// <summary>
-        /// Update all the rows
-        /// </summary>
-        private void UpdateRows()
-        {
-            for (int i = 0; i < this.numberOfRows; i++) {
-                this.rows[i].Initialize(
-                    this.distanceToFirstRowX + (i * this.treadSize),
-                    this.distanceToFirstRowY, 
-                    this.distanceToFirstRowY + this.eyeHeight,
-                    this.treadSize,
-                    this.eyeHeight);
-                if (i > 0) {
-                    this.rows[i].RiserHeight = this.minimumRiserHeight;
-                    this.rows[i].HeightToFocus = this.rows[i - 1].HeightToFocus + this.minimumRiserHeight;
-                    while (this.GetCValue(i - 1, this.rows[i].RiserHeight) < this.minimumCValue) {
-                        this.rows[i].RiserHeight += this.riserIncrement;
-                        this.rows[i].HeightToFocus += this.riserIncrement;
-                    }
-                    this.rows[i - 1].CValue = this.GetCValue(i - 1, this.rows[i].RiserHeight);
-                }
-            }
-        }
-
+        
         /// <summary>
         /// Draw the sightlines
         /// </summary>
@@ -236,6 +198,49 @@ namespace SCaddins.SCightLines
                         1,
                         this.rows[i].RiserHeight.ToString(),
                         TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_BOTTOM);
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Create a Drafting View with a semi-usefull name
+        /// </summary>
+        /// <param name="s">
+        /// Name of the the drafting view
+        /// </param>
+        private ViewDrafting CreateLineOfSightDraftingView(string s)
+        {
+            Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
+            ViewDrafting view = null;
+            #if REVIT2014
+            view = this.doc.Create.NewViewDrafting();
+            #else
+            view = this.doc.Create.NewViewDrafting();
+            #endif
+            view.ViewName = s;
+            return view;
+        }
+
+        /// <summary>
+        /// Update all the rows
+        /// </summary>
+        private void UpdateRows()
+        {
+            for (int i = 0; i < this.numberOfRows; i++) {
+                this.rows[i].Initialize(
+                    this.distanceToFirstRowX + (i * this.treadSize),
+                    this.distanceToFirstRowY, 
+                    this.distanceToFirstRowY + this.eyeHeight,
+                    this.treadSize,
+                    this.eyeHeight);
+                if (i > 0) {
+                    this.rows[i].RiserHeight = this.minimumRiserHeight;
+                    this.rows[i].HeightToFocus = this.rows[i - 1].HeightToFocus + this.minimumRiserHeight;
+                    while (this.GetCValue(i - 1, this.rows[i].RiserHeight) < this.minimumCValue) {
+                        this.rows[i].RiserHeight += this.riserIncrement;
+                        this.rows[i].HeightToFocus += this.riserIncrement;
+                    }
+                    this.rows[i - 1].CValue = this.GetCValue(i - 1, this.rows[i].RiserHeight);
                 }
             }
         }

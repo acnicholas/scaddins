@@ -481,9 +481,15 @@ namespace SCaddins.SCexport
                 var t = new Transaction(doc, "SCexport: Add new revisions");
                 t.Start();
                 foreach (SCexportSheet sheet in sheets) {
+                    #if REVIT2014
                     ICollection<ElementId> il = sheet.Sheet.GetAdditionalProjectRevisionIds();
                     il.Add(r.ID);
                     sheet.Sheet.SetAdditionalProjectRevisionIds(il);
+                    #else
+                    ICollection<ElementId> il = sheet.Sheet.GetAdditionalRevisionIds();
+                    il.Add(r.ID);
+                    sheet.Sheet.SetAdditionalRevisionIds(il);
+                    #endif
                 }
                 t.Commit();
                 foreach (SCexportSheet sheet in sheets) {

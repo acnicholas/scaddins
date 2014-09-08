@@ -131,6 +131,17 @@ namespace SCaddins.SCwash
                 }
             }
         }
+        
+        public static void RemoveElements(Document doc, ICollection<ElementId> elements)
+        {
+            Transaction t = new Transaction(doc, "Delete Elements");
+            t.Start();
+            ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
+            if (0 == deletedIdSet.Count) {
+                throw new Exception("Deleting the selected element in Revit failed.");
+            }
+            t.Commit();
+        }
 
         // FIXME don't add view templates or project browser views
         private static List<SCwashTreeNode> Views(Document doc, bool placedOnSheet, ViewType type)
@@ -145,7 +156,11 @@ namespace SCaddins.SCwash
                     string d = string.Empty;
                     string num = string.Empty;
                     bool os = false;
+                    #if REVIT2014
                     Parameter p = view.get_Parameter("Dependency");
+                    #else
+                    Parameter p = view.LookupParameter("Dependency");
+                    #endif
                     s += "Name - " + view.Name + System.Environment.NewLine;
                     if (p != null) {
                         d = p.AsString();
@@ -154,7 +169,11 @@ namespace SCaddins.SCwash
                         }
                         s += "Dependency - " + d + System.Environment.NewLine;
                     }
+                    #if REVIT2014
                     Parameter p2 = view.get_Parameter("Sheet Number");
+                    #else
+                    Parameter p2 = view.LookupParameter("Sheet Number");
+                    #endif
                     if (p2 != null) {
                         num = p2.AsString();
                         s += "Sheet Number - " + num + System.Environment.NewLine;
@@ -186,17 +205,6 @@ namespace SCaddins.SCwash
                 }  
             }
             return result;
-        }
-
-        public static void RemoveElements(Document doc, ICollection<ElementId> elements)
-        {
-            Transaction t = new Transaction(doc, "Delete Elements");
-            t.Start();
-            ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
-            if (0 == deletedIdSet.Count) {
-                throw new Exception("Deleting the selected element in Revit failed.");
-            }
-            t.Commit();
         }
     }
 }

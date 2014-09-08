@@ -166,7 +166,11 @@
             // display a list of plans in the model.
             SCopyViewSelectionDialog vd = new SCopyViewSelectionDialog();
             foreach (Autodesk.Revit.DB.View v in this.scopy.ExistingViews.Values) {
+                #if REVIT2014
                 Parameter p2 = v.get_Parameter("Sheet Number");
+                #else
+                Parameter p2 = v.LookupParameter("Sheet Number");
+                #endif
                 if (p2 == null) {
                     if (SCopyViewOnSheet.PlanEnough(v.ViewType) && !v.IsTemplate) {
                         vd.Add(v);

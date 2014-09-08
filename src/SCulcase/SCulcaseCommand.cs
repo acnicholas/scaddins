@@ -18,8 +18,12 @@ namespace SCaddins.SCulcase
             Document doc = commandData.Application.ActiveUIDocument.Document;
             UIApplication application = commandData.Application;
             UIDocument document = application.ActiveUIDocument;
+            #if REVIT2014
             ElementSet elems = document.Selection.Elements;
-
+            #else
+            ElementSet es = new ElementSet();
+            ElementSet elems = document.Selection.GetElementIds();
+            #endif
             using (TransactionGroup t = new TransactionGroup(doc, "SCulcase")) {
                       t.Start();
                       if (elems.Size == 0) {

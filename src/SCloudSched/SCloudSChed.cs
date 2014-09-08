@@ -24,8 +24,7 @@ namespace SCaddins.SCloudSChed
     using Microsoft.Office.Interop.Excel;
 
     public class SCloudSched
-    {
-        
+    {     
         public static void ExportCloudInfo(Document doc, Dictionary<string, RevisionItem> dictionary)
         {
             const string ExportFilename = @"C:\Temp\SClouds";

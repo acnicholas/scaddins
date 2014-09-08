@@ -37,18 +37,18 @@ namespace SCaddins
             string scdll =
                 new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
             var ribbonPanel = this.TryGetPanel(application, "Scott Carver");
-            var pushButton = ribbonPanel.AddItem(LoadScexport(scdll, ribbonPanel)) as PushButton;
+            var pushButton = ribbonPanel.AddItem(this.LoadScexport(scdll, ribbonPanel)) as PushButton;
             ribbonPanel.AddStackedItems(
-                    LoadSCoord( scdll, ribbonPanel),
-                    LoadSCulcase(scdll, ribbonPanel),
-                    LoadSCwash(scdll, ribbonPanel));
+                    this.LoadSCoord(scdll, ribbonPanel),
+                    this.LoadSCulcase(scdll, ribbonPanel),
+                    this.LoadSCwash(scdll, ribbonPanel));
             ribbonPanel.AddStackedItems(
-                    LoadSCaos(scdll, ribbonPanel),
-                    LoadSCopy(scdll, ribbonPanel),
-                    LoadSCloudShed(scdll, ribbonPanel));
+                    this.LoadSCaos(scdll, ribbonPanel),
+                    this.LoadSCopy(scdll, ribbonPanel),
+                    this.LoadSCloudShed(scdll, ribbonPanel));
             ribbonPanel.AddStackedItems(
-                    LoadSCightlines(scdll, ribbonPanel),
-                    LoadSCincrement(scdll, ribbonPanel));
+                    this.LoadSCightlines(scdll, ribbonPanel),
+                    this.LoadSCincrement(scdll, ribbonPanel));
             ribbonPanel.AddSlideOut();
             return Result.Succeeded;
         }
@@ -164,9 +164,9 @@ namespace SCaddins
 
         private void AssignPushButtonImage(PushButtonData pb, string iconName, int size)
         {
-            BitmapSource image = LoadBitmapImage(SCaddins.Constants.IconDir + iconName, size);
+            BitmapSource image = this.LoadBitmapImage(SCaddins.Constants.IconDir + iconName, size);
             if (image != null && pb != null) {
-                if(size == 32){
+                if (size == 32) {
                     pb.LargeImage = image;
                 } else {
                     pb.Image = image;

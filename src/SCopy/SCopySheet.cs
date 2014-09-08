@@ -15,6 +15,25 @@
         private ViewSheet destSheet;              
         private BindingList<SCopyViewOnSheet> viewsOnSheet;
         
+        public SCopySheet(string number, string title, SCopy scopy)
+        {
+            this.scopy = scopy;
+            this.number = number;
+            this.title = title;
+            this.destSheet = null;
+            this.viewsOnSheet = new BindingList<SCopyViewOnSheet>();
+            #if REVIT2014
+            foreach (View v in scopy.SourceSheet.Views) {
+                this.viewsOnSheet.Add(new SCopyViewOnSheet(v.Name, v, scopy));
+            }
+            #else
+            foreach (ElementId id in scopy.SourceSheet.GetAllPlacedViews()) {
+                View v = this.DestSheet.Document.GetElement(id) as View;
+                this.viewsOnSheet.Add(new SCopyViewOnSheet(v.Name, v, scopy));
+            }
+            #endif
+        }
+        
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ViewSheet DestSheet {
@@ -64,7 +83,7 @@
                 return this.viewsOnSheet;
             }
         }
-        
+               
         public string GetNewViewName(ElementId id)
         {
             foreach (SCopyViewOnSheet v in this.viewsOnSheet) {
@@ -73,18 +92,6 @@
                 }
             }
             return null;
-        }
-
-        public SCopySheet(string number, string title, SCopy scopy)
-        {
-            this.scopy = scopy;
-            this.number = number;
-            this.title = title;
-            this.destSheet = null;
-            this.viewsOnSheet = new BindingList<SCopyViewOnSheet>();
-            foreach (View v in scopy.SourceSheet.Views) {
-                this.viewsOnSheet.Add(new SCopyViewOnSheet(v.Name, v, scopy));
-            }
         }
     }
 }
