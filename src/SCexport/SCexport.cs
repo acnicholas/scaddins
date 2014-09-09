@@ -19,7 +19,6 @@ namespace SCaddins.SCexport
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
@@ -28,6 +27,7 @@ namespace SCaddins.SCexport
     using System.Xml;
     using System.Xml.Schema;
     using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Events;
     using Autodesk.Revit.UI;
     using SCaddins.Common;
 
@@ -606,6 +606,7 @@ namespace SCaddins.SCexport
             System.Windows.Forms.ToolStripLabel info,
             System.Windows.Forms.StatusStrip strip)
         {
+            this.ApplyNonPrintLinetype();
             DateTime startTime = DateTime.Now;
             TimeSpan elapsedTime = DateTime.Now - startTime;
             string logFile = this.exportDir + "\\" + "SCexport.log";
@@ -1167,6 +1168,39 @@ namespace SCaddins.SCexport
                 SCexport.StartHiddenConsoleProg("cmd.exe", args);
             }
             return true;
+        }
+        
+        // TODO give harry some credit here.
+        private void ApplyNonPrintLinetype()
+        {
+            SCexport.doc.Application.DocumentPrinting += new EventHandler<DocumentPrintingEventArgs>(this.MyPrintingEvent); 
+            SCexport.doc.Application.DocumentPrinted += new EventHandler<DocumentPrintedEventArgs>(this.MyPrintedEvent);
+        }
+        
+        // TODO give harry some credit here.
+        private void MyPrintingEvent(object sender, DocumentPrintingEventArgs args)
+        {
+            this.CategoryLineColor(new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue));
+        }
+        
+        // TODO give harry some credit here.
+        private void MyPrintedEvent(object sender, DocumentPrintedEventArgs args)
+        {
+            this.CategoryLineColor(new Color(byte.MinValue, byte.MinValue, byte.MinValue));
+        }
+        
+        // TODO give harry some credit here.
+        private void CategoryLineColor(Color newColor)
+        {
+            Categories categories = SCexport.doc.Settings.Categories;
+            Category genericAnnotations = categories.get_Item("Generic Annotations");
+            Category doNotPrint = genericAnnotations.SubCategories.get_Item("Do Not Print");
+            using (Transaction t = new Transaction(doc, "Do Not Print color = " + newColor.Blue))
+            {            
+                t.Start();
+                doNotPrint.LineColor = newColor;                
+                t.Commit();
+            }            
         }
         
         private bool ExportAdobePDF(SCexportSheet vs)
