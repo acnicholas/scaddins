@@ -191,10 +191,12 @@ namespace SCaddins.SCwash
                     SCwashTreeNode tn = new SCwashTreeNode(n);
                     tn.Info = s;
                     tn.Id = view.Id;
-                    #if REVIT2014
-                    if (view.ViewType == ViewType.ProjectBrowser) continue;
-                    if (view.ViewType == ViewType.SystemBrowser) continue;
-                    #endif
+                    if (view.ViewType == ViewType.ProjectBrowser) {
+                        continue;
+                    }
+                    if (view.ViewType == ViewType.SystemBrowser) {
+                        continue;
+                    }
                     if (view.ViewType != ViewType.Internal) {
                         if (os && placedOnSheet) {
                             result.Add(tn);

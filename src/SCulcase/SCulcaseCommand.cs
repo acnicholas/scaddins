@@ -1,6 +1,7 @@
 namespace SCaddins.SCulcase
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -19,17 +20,20 @@ namespace SCaddins.SCulcase
             UIApplication application = commandData.Application;
             UIDocument document = application.ActiveUIDocument;
             #if REVIT2014
-            ElementSet elems = document.Selection.Elements;
+            ElementSet eset = document.Selection.Elements;
+            IList<ElementId> elems = new List<ElementId>();
+            foreach (Element e in eset) {
+                elems.Add(e.Id);
+            }         
             #else
-            ElementSet es = new ElementSet();
-            ElementSet elems = document.Selection.GetElementIds();
+            IList<ElementId> elems = document.Selection.GetElementIds().ToList<ElementId>();
             #endif
             using (TransactionGroup t = new TransactionGroup(doc, "SCulcase")) {
                       t.Start();
-                      if (elems.Size == 0) {
+                      if (elems.Count == 0) {
                           SCulcaseMainForm form = new SCulcaseMainForm(doc);
                       } else {
-                          SCulcase.ConvertSelection(SCulcase.ConversionMode.UPPER_CASE, ref doc, ref elems);
+                          SCulcase.ConvertSelection(SCulcase.ConversionMode.UPPER_CASE, ref doc, elems);
                       }
                       t.Commit();
             }

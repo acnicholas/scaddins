@@ -4,7 +4,7 @@
   <!-- SCexport -->  
     
   <AddIn Type="Application">
-    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2014\SCaddins.dll</Assembly>
     <AddInId>DE9AB48F-CEFB-445F-9FED-408B5980EB0A</AddInId>
     <FullClassName>SCaddins.SCaddinsApp</FullClassName>
     <Name>SCexport - Export Utility</Name>
@@ -13,7 +13,7 @@
   </AddIn>
 
   <AddIn Type="Command">
-    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2014\SCaddins.dll</Assembly>
     <AddInId>B268E510-2A02-4CB8-B720-B11E3226955E</AddInId>
     <FullClassName>SCaddins.SCexport.NextSheet</FullClassName>
     <Name>SCexport - Next Sheet Shortcut</Name>
@@ -22,7 +22,7 @@
   </AddIn>
 
   <AddIn Type="Command">
-    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2014\SCaddins.dll</Assembly>
     <AddInId>FC5041BC-4799-4AA4-B7E8-3993E22C671F</AddInId>
     <FullClassName>SCaddins.SCexport.PreviousSheet</FullClassName>
     <Name>SCexport - Previous Sheet Shortcut</Name>
@@ -31,7 +31,7 @@
   </AddIn>
 
   <AddIn Type="Command">
-    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2014\SCaddins.dll</Assembly>
     <AddInId>31852C66-3CD4-4549-AB32-4A6D2656634F</AddInId>
     <FullClassName>SCaddins.SCexport.OpenSheet</FullClassName>
     <Name>SCexport - Open Sheet Shortcut</Name>
@@ -42,7 +42,7 @@
   <!-- SCoord -->
     
   <AddIn Type="Command">
-    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2014\SCaddins.dll</Assembly>
     <AddInId>0B0208EB-8CBA-4C38-91A3-9C88AF4F1740</AddInId>
     <FullClassName>SCaddins.SCoord.Command</FullClassName>
     <Name>SCoord</Name>
@@ -54,7 +54,7 @@
 
   <AddIn Type="Command">
     <Name>SCulcase - Uppercase me some text</Name>
-    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2014\SCaddins.dll</Assembly>
     <AddInId>FFF3F287-A296-4B06-8DF6-970E89554963</AddInId>
     <FullClassName>SCaddins.SCulcase.Command</FullClassName>
     <VendorId>BEER</VendorId>
@@ -65,7 +65,7 @@
 
   <AddIn Type="Command">
     <Name>SCopy - Sheet Copy</Name>
-    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2014\SCaddins.dll</Assembly>
     <AddInId>1CAE2CB8-0B87-4794-A0BF-6B982B4C972C</AddInId>
     <FullClassName>SCaddins.SCopy.Command</FullClassName>
     <VendorId>BEER</VendorId>
@@ -75,7 +75,7 @@
  <!-- SCightlines -->
     
   <AddIn Type="Command">
-    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2014\SCaddins.dll</Assembly>
     <AddInId>389B88A6-6545-4288-92E1-4F4ADAFC9C3B</AddInId>
     <FullClassName>SCaddins.SCightLines.Command</FullClassName>
     <Name>SCightLines - Line of Sight Utility</Name>
@@ -86,7 +86,7 @@
  <!-- SCincrement -->
     
   <AddIn Type="Command">
-    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2014\SCaddins.dll</Assembly>
     <AddInId>5F9C93D8-51F0-46DE-84E0-7F3BF5B932ED</AddInId>
     <FullClassName>SCaddins.SCincrement.Command</FullClassName>
     <Name>SCincrement - Increment Some Stuff</Name>
@@ -98,7 +98,7 @@
  <!-- SCam -->
 
   <AddIn Type="Command">
-    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2014\SCaddins.dll</Assembly>
     <AddInId>6457B009-5CFC-4743-BD9E-58DEE07679A7</AddInId>
     <FullClassName>SCaddins.SCam.SCam</FullClassName>
     <Text>SCam - by AndyMac</Text>
@@ -109,7 +109,7 @@
  <!-- SCloudSched -->
 
 <AddIn Type="Command">
-    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2014\SCaddins.dll</Assembly>
     <AddInId>2165241D-1B26-458C-A632-A4901646FBF0</AddInId>
     <FullClassName>SCaddins.SCloudSChed.Command</FullClassName>
     <Name>SCloudSChed - Revision Cloud Scheduler</Name>

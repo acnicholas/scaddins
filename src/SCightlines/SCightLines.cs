@@ -215,7 +215,9 @@ namespace SCaddins.SCightLines
             #if REVIT2014
             view = this.doc.Create.NewViewDrafting();
             #else
-            view = this.doc.Create.NewViewDrafting();
+            FilteredElementCollector collector = new FilteredElementCollector(this.doc);
+            collector.OfClass(typeof(ViewFamilyType));
+            view = ViewDrafting.Create(this.doc, collector.FirstElementId());
             #endif
             view.ViewName = s;
             return view;

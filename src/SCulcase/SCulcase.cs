@@ -1,6 +1,7 @@
 namespace SCaddins.SCulcase
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using Autodesk.Revit.DB;
@@ -56,13 +57,14 @@ namespace SCaddins.SCulcase
             info.Show();
         }
         
-        public static void ConvertSelection(ConversionMode mode, ref Document doc, ref ElementSet elements)
+        public static void ConvertSelection(ConversionMode mode, ref Document doc, IList<ElementId> elements)
         {
             commit = true;
             SCulcase.mode = mode;
             Transaction trans = new Transaction(doc);
             trans.Start("Convert selected elements to uppercase (SCulcase)");
-            foreach (Autodesk.Revit.DB.Element e in elements) {      
+            foreach (Autodesk.Revit.DB.ElementId eid in elements) { 
+                Element e = doc.GetElement(eid);     
                 Category category = e.Category;
                 BuiltInCategory enumCategory = (BuiltInCategory)category.Id.IntegerValue;
                 switch (enumCategory) {

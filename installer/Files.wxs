@@ -47,13 +47,13 @@
 				<Directory Id="DLLDIR2014" Name="2014">
 					<Component Id="SCaddins2014" DiskId="1" Guid="103FC570-FEE8-4CF7-A35A-1162A00B45E6" Win64="yes">
 						<CreateFolder />
-						<File Id="SCaddins2014.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins.dll" />
+						<File Id="SCaddins2014.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins14.dll" />
 					</Component>
 				</Directory>
 				<Directory Id="DLLDIR2015" Name="2015">
 					<Component Id="SCaddins2015" DiskId="1" Guid="7F1CE98E-1FC3-490F-A5C4-72B69FD0C5A3" Win64="yes">
 						<CreateFolder />
-						<File Id="SCaddins2015.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins.dll" />
+						<File Id="SCaddins2015.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins15.dll" />
 					</Component>
 				</Directory>
 			</Directory>

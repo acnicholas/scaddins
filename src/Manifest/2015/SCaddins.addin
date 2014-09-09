@@ -4,17 +4,17 @@
   <!-- SCexport -->  
     
   <AddIn Type="Application">
-    <Assembly>C:\Program Files\SCaddins\SCexport\2015\SCaddins.dll</Assembly>
-    <AddInId>CB8E3B0E-79E3-4089-82EC-224F8275393E</AddInId>
-    <FullClassName>SCaddins.SCexport.SCexportApp</FullClassName>
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <AddInId>DE9AB48F-CEFB-445F-9FED-408B5980EB0A</AddInId>
+    <FullClassName>SCaddins.SCaddinsApp</FullClassName>
     <Name>SCexport - Export Utility</Name>
     <VendorId>BEER</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
   </AddIn>
 
   <AddIn Type="Command">
-    <Assembly>C:\Program Files\SCaddins\SCexport\2015\SCaddins.dll</Assembly>
-    <AddInId>A86E6172-CF2A-4261-A110-C9F517A785B8</AddInId>
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <AddInId>B268E510-2A02-4CB8-B720-B11E3226955E</AddInId>
     <FullClassName>SCaddins.SCexport.NextSheet</FullClassName>
     <Name>SCexport - Next Sheet Shortcut</Name>
     <VendorId>BEER</VendorId>
@@ -22,8 +22,8 @@
   </AddIn>
 
   <AddIn Type="Command">
-    <Assembly>C:\Program Files\SCaddins\SCexport\2015\SCaddins.dll</Assembly>
-    <AddInId>437E2FBB-29B4-46AF-8260-F4D185B31C61</AddInId>
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <AddInId>FC5041BC-4799-4AA4-B7E8-3993E22C671F</AddInId>
     <FullClassName>SCaddins.SCexport.PreviousSheet</FullClassName>
     <Name>SCexport - Previous Sheet Shortcut</Name>
     <VendorId>BEER</VendorId>
@@ -31,46 +31,20 @@
   </AddIn>
 
   <AddIn Type="Command">
-    <Assembly>C:\Program Files\SCaddins\SCexport\2015\SCaddins.dll</Assembly>
-    <AddInId>F70B868D-B7DF-45A2-BCC3-107290020D73</AddInId>
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <AddInId>31852C66-3CD4-4549-AB32-4A6D2656634F</AddInId>
     <FullClassName>SCaddins.SCexport.OpenSheet</FullClassName>
     <Name>SCexport - Open Sheet Shortcut</Name>
     <VendorId>BEER</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
   </AddIn>
 
-  <!-- SCaos -->
-
-  <!--   
-  <AddIn Type="Application">
-    <Assembly>C:\Program Files\SCaddins\SCaos\2015\SCaddins.dll</Assembly>
-    <AddInId>604F8125-C009-46f4-A3B2-8C99B75AAC52</AddInId>
-    <FullClassName>SCaddins.SCaos.SCaosApp</FullClassName>
-    <Name>SCaos - SC Angle of Sun Tool</Name>
-    <VendorId>BEER</VendorId>
-    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
-  </AddIn>
-  -->
-
-  <!-- SCwash -->
-    
-  <!--   
-  <AddIn Type="Application">
-    <Assembly>C:\Program Files\SCaddins\SCaos\2015\SCaddins.dll</Assembly>
-    <AddInId>7D94ADFA-79D6-40bb-8BB9-FC02EBD79F51</AddInId>
-    <FullClassName>SCaddins.SCwash.SCwashApp</FullClassName>
-    <Name>SCwash - File Squashing Tool</Name>
-    <VendorId>BEER</VendorId>
-    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
-  </AddIn>
-  -->
-
   <!-- SCoord -->
     
-  <AddIn Type="Application">
-    <Assembly>C:\Program Files\SCaddins\SCaos\2015\SCaddins.dll</Assembly>
-    <AddInId>D94EFC66-4EA6-4F21-A9D1-6CFF3CADEBFB</AddInId>
-    <FullClassName>SCaddins.SCoord.SCoordApp</FullClassName>
+  <AddIn Type="Command">
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <AddInId>0B0208EB-8CBA-4C38-91A3-9C88AF4F1740</AddInId>
+    <FullClassName>SCaddins.SCoord.Command</FullClassName>
     <Name>SCoord</Name>
     <VendorId>SCEQ</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
@@ -78,42 +52,54 @@
 
   <!-- SCulcase -->
 
-  <AddIn Type="Application">
+  <AddIn Type="Command">
     <Name>SCulcase - Uppercase me some text</Name>
-    <Assembly>C:\Program Files\SCaddins\SCaos\2015\SCaddins.dll</Assembly>
-    <AddInId>c81feb4f-af8a-4ab6-812f-7575c21435fe</AddInId>
-    <FullClassName>SCaddins.SCulcase.SCulcaseApp</FullClassName>
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <AddInId>FFF3F287-A296-4B06-8DF6-970E89554963</AddInId>
+    <FullClassName>SCaddins.SCulcase.Command</FullClassName>
     <VendorId>BEER</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
   </AddIn>
 
   <!-- SCopy -->
 
-  <AddIn Type="Application">
+  <AddIn Type="Command">
     <Name>SCopy - Sheet Copy</Name>
-    <Assembly>C:\Program Files\SCaddins\SCaos\2015\SCaddins.dll</Assembly>
-    <AddInId>2B440FC1-89DB-44BE-B1CD-FAC4EA3FAFE8</AddInId>
-    <FullClassName>SCaddins.SCopy.SCopyApp</FullClassName>
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <AddInId>1CAE2CB8-0B87-4794-A0BF-6B982B4C972C</AddInId>
+    <FullClassName>SCaddins.SCopy.Command</FullClassName>
     <VendorId>BEER</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
   </AddIn>
 
  <!-- SCightlines -->
     
-  <AddIn Type="Application">
-    <Assembly>C:\Program Files\SCaddins\SCaos\2015\SCaddins.dll</Assembly>
-    <AddInId>F04970C7-E880-49cf-A703-9A0F421E5D1A</AddInId>
-    <FullClassName>SCaddins.SCightLines.SCightLinesApp</FullClassName>
+  <AddIn Type="Command">
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <AddInId>389B88A6-6545-4288-92E1-4F4ADAFC9C3B</AddInId>
+    <FullClassName>SCaddins.SCightLines.Command</FullClassName>
     <Name>SCightLines - Line of Sight Utility</Name>
     <VendorId>SCEQ</VendorId>
     <VendorDescription>Andrew Nicholas, andrewn@scottcarver.com.au</VendorDescription>
   </AddIn>
 
+ <!-- SCincrement -->
+    
+  <AddIn Type="Command">
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <AddInId>5F9C93D8-51F0-46DE-84E0-7F3BF5B932ED</AddInId>
+    <FullClassName>SCaddins.SCincrement.Command</FullClassName>
+    <Name>SCincrement - Increment Some Stuff</Name>
+    <VendorId>SCEQ</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewn@scottcarver.com.au</VendorDescription>
+  </AddIn>
+
+
  <!-- SCam -->
 
   <AddIn Type="Command">
-    <Assembly>C:\Program Files\SCaddins\SCaos\2015\SCaddins.dll</Assembly>
-    <AddInId>A79CC91B-64D8-4B1D-859C-44DAE96668BF</AddInId>
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <AddInId>6457B009-5CFC-4743-BD9E-58DEE07679A7</AddInId>
     <FullClassName>SCaddins.SCam.SCam</FullClassName>
     <Text>SCam - by AndyMac</Text>
     <VendorId>BEER</VendorId>
@@ -122,10 +108,10 @@
 
  <!-- SCloudSched -->
 
-<AddIn Type="Application">
-    <Assembly>C:\Program Files\SCaddins\SCaos\2015\SCaddins.dll</Assembly>
-    <AddInId>734CC8E0-BA15-4ca9-AF6E-CA84CFF674F4</AddInId>
-    <FullClassName>SCaddins.SCloudSChed.SCloudSChedApp</FullClassName>
+<AddIn Type="Command">
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <AddInId>2165241D-1B26-458C-A632-A4901646FBF0</AddInId>
+    <FullClassName>SCaddins.SCloudSChed.Command</FullClassName>
     <Name>SCloudSChed - Revision Cloud Scheduler</Name>
     <VendorId>BEER</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
