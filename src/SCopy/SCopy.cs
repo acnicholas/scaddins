@@ -296,11 +296,7 @@ namespace SCaddins.SCopy
             string sheetTitle)
         {
             ViewSheet result;
-            #if REVIT2013
-        result = doc.Create.NewViewSheet(titleBlock);
-            #else
             result = ViewSheet.Create(this.doc, titleBlock.Id);
-            #endif
             result.Name = sheetTitle;
             result.SheetNumber = sheetNumber;
             return result;

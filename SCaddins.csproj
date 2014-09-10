@@ -37,7 +37,7 @@
     <DefineConstants>DEBUG;TRACE;REVIT2014</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <AssemblyName>SCaddinsDBG</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2015\</ReferencePath>
+    <ReferencePath>C:\Program Files\Autodesk\Revit 2014\</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2015' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -109,7 +109,6 @@
     <Compile Include="src\Constants.cs" />
     <Compile Include="src\SCaddins.cs" />
     <Compile Include="src\SCam\SCam.cs" />
-    <Compile Include="src\SCaos\Constants.cs" />
     <Compile Include="src\SCaos\SCaos.cs" />
     <Compile Include="src\SCaos\SCaosForm.cs" />
     <Compile Include="src\SCaos\SCaosForm.Designer.cs" />
@@ -155,16 +154,16 @@
     <Compile Include="src\SCightlines\SCightLinesOutputForm.Designer.cs" />
     <Compile Include="src\SCightlines\SCightLinesRow.cs" />
     <Compile Include="src\SCincrement\SCincrement.cs" />
-    <Compile Include="src\SCloudSched\Form1.cs" />
-    <Compile Include="src\SCloudSched\Form1.Designer.cs" />
+    <Compile Include="src\SCloudSched\SCloudSchedForm.cs" />
+    <Compile Include="src\SCloudSched\SCloudSchedForm.Designer.cs" />
     <Compile Include="src\SCloudSched\RevisionItem.cs" />
     <Compile Include="src\SCloudSched\SCloudSChed.cs" />
     <Compile Include="src\SCloudSched\SCloudSChedCommand.cs" />
     <Compile Include="src\SCoord\SCoord.cs" />
     <Compile Include="src\SCoord\SCoordForm.cs" />
     <Compile Include="src\SCoord\SCoordForm.Designer.cs" />
-    <Compile Include="src\SCopy\MainForm.cs" />
-    <Compile Include="src\SCopy\MainForm.Designer.cs" />
+    <Compile Include="src\SCopy\SCopyMainForm.cs" />
+    <Compile Include="src\SCopy\SCopyMainForm.Designer.cs" />
     <Compile Include="src\SCopy\SCopy.cs" />
     <Compile Include="src\SCopy\SCopyCommand.cs" />
     <Compile Include="src\SCopy\SCopyConstants.cs" />
@@ -239,14 +238,14 @@
       <DependentUpon>SCightLinesMainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCightlines\SCightLinesOutputForm.resx" />
-    <EmbeddedResource Include="src\SCloudSched\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="src\SCloudSched\SCloudSchedForm.resx">
+      <DependentUpon>SCloudSchedForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCoord\SCoordForm.resx">
       <DependentUpon>SCoordForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCopy\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="src\SCopy\SCopyMainForm.resx">
+      <DependentUpon>SCopyMainForm.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCopy\SCopyViewSelectionDialog.resx">

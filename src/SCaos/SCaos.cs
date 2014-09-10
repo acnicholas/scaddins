@@ -1,19 +1,19 @@
 // (C) Copyright 2013-2014 by Andrew Nicholas
 //
-// This file is part of SCaos.
+// This file is part of SCaddins.
 //
-// SCaos is free software: you can redistribute it and/or modify
+// SCaddins is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// SCaos is distributed in the hope that it will be useful,
+// SCaddins is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with SCaos.  If not, see <http://www.gnu.org/licenses/>.
+// along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace SCaddins.SCaos
 {
@@ -60,8 +60,11 @@ namespace SCaddins.SCaos
         private string[] GetViewInfo(View view, Document doc)
         {
             if (view.ViewType != ViewType.ThreeD) {
-                string[] info = new string[1];
+                string[] info = new string[4];
                 info[0] = "Not a 3d view...";
+                info[1] = string.Empty;
+                info[2] = "Please select a 3d view to rotate";
+                info[3] = "or use the create winter views feature";
                 this.currentViewIsIso = false;
                 return info;
             } else {
@@ -146,6 +149,19 @@ namespace SCaddins.SCaos
             System.IO.File.AppendAllText(@"c:\Temp\SCaos.txt", text);
         }
         
+        private bool ViewNameIsAvailable(Document doc, string name)
+        {
+           FilteredElementCollector c = new FilteredElementCollector(doc);
+            c.OfClass(typeof(Autodesk.Revit.DB.View));
+            foreach (View view in c) {
+                View v = view as View;
+                if (v.ViewName == name) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        
         private void CreateWinterViews(Document doc, UIDocument udoc)
         {
             ElementId id = null;
@@ -170,7 +186,12 @@ namespace SCaddins.SCaos
                 var t = new Transaction(doc);
                 t.Start("Create Solar View");
                 View view = View3D.CreateIsometric(doc, id);
-                view.Name = "SOLAR ACCESS - " + i + " JUNE 21";
+                var vname = "SOLAR ACCESS - " + i + " JUNE 21";
+                if (this.ViewNameIsAvailable(doc, vname)) {
+                    view.Name = vname;
+                } else {
+                    view.Name = vname + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString() + @")";    
+                }
                 SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
                 sunSettings.StartDateAndTime = new DateTime(2014, 06, 21, i, 0, 0, DateTimeKind.Local);
                 sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
