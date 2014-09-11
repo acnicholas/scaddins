@@ -263,13 +263,11 @@ namespace SCaddins.SCopy
             }
         }
 
+        // this is where the action happens
         private bool CreateSheet(SCopySheet sheet, ref string summary)
         {
             this.sourceTitleBlock = this.GetTitleBlock(this.sourceSheet);
-            
-            //BoundingBoxXYZ bb = this.sourceTitleBlock.get_BoundingBox(this.sourceSheet);
-            //XYZ titleCenter = (bb.Max - bb.Min )/2;
-            
+                        
             if (this.sourceTitleBlock == null) {
                 TaskDialog.Show("SCopy", "No Title Block, exiting now...");
                 return false;
@@ -278,8 +276,7 @@ namespace SCaddins.SCopy
             ViewSheet destSheet = this.AddEmptySheetToDocument(
                 this.sourceTitleBlock.Symbol,
                 sheet.Number,
-                sheet.Title,
-                titleCenter);
+                sheet.Title);
 
             sheet.DestSheet = destSheet;
             if (sheet.DestSheet != null) {
@@ -296,16 +293,10 @@ namespace SCaddins.SCopy
         private ViewSheet AddEmptySheetToDocument(
             FamilySymbol titleBlock,
             string sheetNumber,
-            string sheetTitle,
-            XYZ mid)
+            string sheetTitle)
         {
             ViewSheet result;
-            result = ViewSheet.Create(this.doc, titleBlock.Id);
-            
-            //XYZ oldMid = (titleBlock.get_BoundingBox(this.SourceSheet).Max - titleBlock.get_BoundingBox(this.SourceSheet).Max) /2;
-            
-            //ElementTransformUtils.MoveElement(this.doc, titleBlock.Id, oldMid - mid);
-            
+            result = ViewSheet.Create(this.doc, titleBlock.Id);          
             result.Name = sheetTitle;
             result.SheetNumber = sheetNumber;
             return result;
@@ -314,10 +305,8 @@ namespace SCaddins.SCopy
         private void PlaceViewOnSheet(
             ViewSheet destSheet, ElementId destViewId, XYZ srcViewCentre)
         {
-            FamilyInstance destTB = this.GetTitleBlock(destSheet);
-            BoundingBoxXYZ desTBBounds = destTB.get_BoundingBox(destSheet);
-            double destViewMidX = desTBBounds.Min.X + srcViewCentre.X;
-            double destViewMidY = desTBBounds.Min.Y + srcViewCentre.Y;
+            double destViewMidX = srcViewCentre.X;
+            double destViewMidY = srcViewCentre.Y;
             XYZ destViewCentre = new XYZ(destViewMidX, destViewMidY, 0);
             Viewport.Create(this.doc, destSheet.Id, destViewId, destViewCentre);
         }
@@ -351,6 +340,18 @@ namespace SCaddins.SCopy
             }
         }
         
+        private void CopyAnnotations(SCopySheet sheet, BuiltInCategory category)
+        {
+            View v = this.SourceSheet as View;
+            FilteredElementCollector collector = new FilteredElementCollector(this.doc, v.Id);
+            collector.OfCategory(category);
+            IList<ElementId> list = new List<ElementId>();
+            foreach (Element e in collector){
+                list.Add(e.Id);
+            }
+            ElementTransformUtils.CopyElements(this.SourceSheet, list, sheet.DestSheet,null,null);
+        }
+        
         private void PlaceNewViews(SCopySheet sheet)
         {
             Dictionary<ElementId, BoundingBoxXYZ> viewPorts =
@@ -378,6 +379,8 @@ namespace SCaddins.SCopy
                         break;                 
                 }
             }
+            CopyAnnotations(sheet, BuiltInCategory.OST_TextNotes);
+            CopyAnnotations(sheet, BuiltInCategory.OST_TitleBlocks);
         }
 
         private void CopyViewToSheet(
@@ -398,14 +401,6 @@ namespace SCaddins.SCopy
         {
             XYZ xyzPosition = (viewBounds.Max + viewBounds.Min) / 2.0;
             return xyzPosition;
-        }
-
-        // TODO
-        private void CopyAnnotationElements(
-            ViewSheet src, ViewSheet dest)
-        {
-            FilteredElementCollector collector = new FilteredElementCollector(
-                                                     this.doc, src.Id);
         }
 
         private FamilyInstance GetTitleBlock(ViewSheet sheet)
@@ -436,14 +431,6 @@ namespace SCaddins.SCopy
             return result;
         }
 
-        private string BoundingBoxString(BoundingBoxXYZ bounds)
-        {
-            var x = bounds.Min.X * SCopyConstants.MMperFoot;
-            var y = bounds.Min.Y * SCopyConstants.MMperFoot;
-            var x2 = bounds.Max.X * SCopyConstants.MMperFoot;
-            var y2 = bounds.Max.Y * SCopyConstants.MMperFoot;
-            return x + " , " + y + " , " + x2 + " , " + y2;
-        }
         #endregion
     }
 }
