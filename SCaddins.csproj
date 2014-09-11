@@ -167,6 +167,10 @@
     <Compile Include="src\SCopy\SCopy.cs" />
     <Compile Include="src\SCopy\SCopyCommand.cs" />
     <Compile Include="src\SCopy\SCopyConstants.cs" />
+    <Compile Include="src\SCopy\SCopyMainForm.Designer1.cs">
+      <DependentUpon>SCopyMainForm.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="src\SCopy\SCopySheet.cs" />
     <Compile Include="src\SCopy\SCopyViewOnSheet.cs" />
     <Compile Include="src\SCopy\SCopyViewSelectionDialog.cs" />
@@ -247,6 +251,7 @@
     <EmbeddedResource Include="src\SCopy\SCopyMainForm.resx">
       <DependentUpon>SCopyMainForm.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SCopyMainForm.Designer1.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCopy\SCopyViewSelectionDialog.resx">
       <DependentUpon>SCopyViewSelectionDialog.Designer.cs</DependentUpon>

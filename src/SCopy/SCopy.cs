@@ -266,23 +266,26 @@ namespace SCaddins.SCopy
         private bool CreateSheet(SCopySheet sheet, ref string summary)
         {
             this.sourceTitleBlock = this.GetTitleBlock(this.sourceSheet);
-
+            
+            //BoundingBoxXYZ bb = this.sourceTitleBlock.get_BoundingBox(this.sourceSheet);
+            //XYZ titleCenter = (bb.Max - bb.Min )/2;
+            
             if (this.sourceTitleBlock == null) {
                 TaskDialog.Show("SCopy", "No Title Block, exiting now...");
                 return false;
             }
 
-            // create a new sheet (the copy)
             ViewSheet destSheet = this.AddEmptySheetToDocument(
-                                      this.sourceTitleBlock.Symbol, sheet.Number, sheet.Title);
+                this.sourceTitleBlock.Symbol,
+                sheet.Number,
+                sheet.Title,
+                titleCenter);
 
-            // copy ViewPorts from from the src sheet to dest sheet
             sheet.DestSheet = destSheet;
             if (sheet.DestSheet != null) {
                 this.PlaceNewViews(sheet);
             }
 
-            // add text to the summary dialog
             var oldNumber = this.sourceSheet.SheetNumber;
             var msg = " Sheet: " + oldNumber + " copied to: " + sheet.Number;
             summary += msg + System.Environment.NewLine;
@@ -293,10 +296,16 @@ namespace SCaddins.SCopy
         private ViewSheet AddEmptySheetToDocument(
             FamilySymbol titleBlock,
             string sheetNumber,
-            string sheetTitle)
+            string sheetTitle,
+            XYZ mid)
         {
             ViewSheet result;
             result = ViewSheet.Create(this.doc, titleBlock.Id);
+            
+            //XYZ oldMid = (titleBlock.get_BoundingBox(this.SourceSheet).Max - titleBlock.get_BoundingBox(this.SourceSheet).Max) /2;
+            
+            //ElementTransformUtils.MoveElement(this.doc, titleBlock.Id, oldMid - mid);
+            
             result.Name = sheetTitle;
             result.SheetNumber = sheetNumber;
             return result;
@@ -341,23 +350,19 @@ namespace SCaddins.SCopy
                 this.PlaceViewOnSheet(sheet.DestSheet, vp.Id, sourceViewCentre);
             }
         }
-
+        
         private void PlaceNewViews(SCopySheet sheet)
         {
-            // creat a dictionary to hold all the ViewPorts on the src sheet
             Dictionary<ElementId, BoundingBoxXYZ> viewPorts =
                 this.GetVPDictionary(this.sourceSheet, this.doc);
 
-            // foreach(View viewOnSrcSheet in srcSheet.Views){
             foreach (SCopyViewOnSheet view in sheet.ViewsOnSheet) {
-                // bounds of the view being copied/recreated.
                 BoundingBoxXYZ srcViewBounds = null;
                 if (!viewPorts.TryGetValue(view.OldId, out srcViewBounds)) {
                     TaskDialog.Show("SCopy", "Error...");
                     continue;
                 }
             
-                // the middle of the view being copied/recreated.
                 XYZ sourceViewCentre = this.ViewCenterFromTBBottomLeft(
                                            this.sourceTitleBlock, srcViewBounds, this.sourceSheet);
 
@@ -374,7 +379,7 @@ namespace SCaddins.SCopy
                 }
             }
         }
-    
+
         private void CopyViewToSheet(
             SCopyViewOnSheet view, SCopySheet sheet, XYZ sourceViewCentre)
         {
@@ -391,14 +396,8 @@ namespace SCaddins.SCopy
         private XYZ ViewCenterFromTBBottomLeft(
             FamilyInstance titleBlock, BoundingBoxXYZ viewBounds, View view)
         {
-            BoundingBoxXYZ titleBounds = titleBlock.get_BoundingBox(view);
-            double x =
-                (viewBounds.Min.X - titleBounds.Min.X) +
-                ((viewBounds.Max.X - viewBounds.Min.X) / 2);
-            double y =
-                (viewBounds.Min.Y - titleBounds.Min.Y) +
-                ((viewBounds.Max.Y - viewBounds.Min.Y) / 2);
-            return new XYZ(x, y, 0);
+            XYZ xyzPosition = (viewBounds.Max + viewBounds.Min) / 2.0;
+            return xyzPosition;
         }
 
         // TODO
@@ -422,7 +421,7 @@ namespace SCaddins.SCopy
                 return null;
             }
         }
-
+        
         private Dictionary<ElementId, BoundingBoxXYZ> GetVPDictionary(
             ViewSheet srcSheet, Document doc)
         {

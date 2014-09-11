@@ -211,7 +211,11 @@
                 }
             }
             buttonReplace.Enabled = (dataGridView2.SelectedRows.Count == 1) && planEnough;
-        }       
+        }
+		void ButtonCopyClick(object sender, System.EventArgs e)
+		{
+			throw new NotImplementedException();
+		}       
     }
 }
 /* vim: set ts=4 sw=4 nu expandtab: */
