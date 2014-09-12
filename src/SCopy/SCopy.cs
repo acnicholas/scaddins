@@ -296,7 +296,9 @@ namespace SCaddins.SCopy
             string sheetTitle)
         {
             ViewSheet result;
-            result = ViewSheet.Create(this.doc, titleBlock.Id);          
+            
+            // result = ViewSheet.Create(this.doc, titleBlock.Id);  
+            result = ViewSheet.Create(this.doc, ElementId.InvalidElementId);           
             result.Name = sheetTitle;
             result.SheetNumber = sheetNumber;
             return result;
@@ -340,16 +342,32 @@ namespace SCaddins.SCopy
             }
         }
         
-        private void CopyAnnotations(SCopySheet sheet, BuiltInCategory category)
+        private void CopyElementsOnSheet(SCopySheet sheet, BuiltInCategory category)
         {
             View v = this.SourceSheet as View;
             FilteredElementCollector collector = new FilteredElementCollector(this.doc, v.Id);
             collector.OfCategory(category);
             IList<ElementId> list = new List<ElementId>();
-            foreach (Element e in collector){
+            foreach (Element e in collector) {
                 list.Add(e.Id);
             }
-            ElementTransformUtils.CopyElements(this.SourceSheet, list, sheet.DestSheet,null,null);
+            if (list.Count > 0) {
+                ElementTransformUtils.CopyElements(this.SourceSheet, list, sheet.DestSheet, null, null);
+            }
+        }
+        
+        private void CopyLinesOnSheet(SCopySheet sheet)
+        {
+            View v = this.SourceSheet as View;
+            FilteredElementCollector collector = new FilteredElementCollector(this.doc, v.Id);
+            collector.OfClass(typeof(Autodesk.Revit.DB.Line));
+            IList<ElementId> list = new List<ElementId>();
+            foreach (Element e in collector) {
+                list.Add(e.Id);
+            }
+            if (list.Count > 0) {
+                ElementTransformUtils.CopyElements(this.SourceSheet, list, sheet.DestSheet, null, null);
+            }
         }
         
         private void PlaceNewViews(SCopySheet sheet)
@@ -379,8 +397,16 @@ namespace SCaddins.SCopy
                         break;                 
                 }
             }
-            CopyAnnotations(sheet, BuiltInCategory.OST_TextNotes);
-            CopyAnnotations(sheet, BuiltInCategory.OST_TitleBlocks);
+            this.CopyElementsOnSheet(sheet, BuiltInCategory.OST_TextNotes);
+            this.CopyElementsOnSheet(sheet, BuiltInCategory.OST_RasterImages);
+            
+            // CopyElementsOnSheet(sheet, BuiltInCategory.OST_Lines);
+            // CopyElementsOnSheet(sheet, BuiltInCategory.OST_GenericLines);
+            this.CopyLinesOnSheet(sheet);
+            
+            // CopyElementsOnSheet(sheet, BuiltInCategory.OST_Lines);
+            this.CopyElementsOnSheet(sheet, BuiltInCategory.OST_GenericAnnotation);
+            this.CopyElementsOnSheet(sheet, BuiltInCategory.OST_TitleBlocks);           
         }
 
         private void CopyViewToSheet(

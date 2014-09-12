@@ -147,7 +147,6 @@ namespace SCaddins.SCopy
             this.buttonCopy.TabIndex = 12;
             this.buttonCopy.Text = "Copy";
             this.buttonCopy.UseVisualStyleBackColor = true;
-            this.buttonCopy.Click += new System.EventHandler(this.ButtonCopyClick);
             // 
             // buttonRemove
             // 
