@@ -117,4 +117,15 @@
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
   </AddIn>
 
+ <!-- About -->
+
+<AddIn Type="Command">
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
+    <AddInId>63EEC004-ACE1-4259-BBBA-B2BF6F2FDE5B</AddInId>
+    <FullClassName>SCaddins.About.Command</FullClassName>
+    <Name>About SCaddins</Name>
+    <VendorId>BEER</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
+  </AddIn>
+
 </RevitAddIns>

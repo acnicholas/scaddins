@@ -102,8 +102,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\AboutBox.cs" />
-    <Compile Include="src\AboutBox.Designer.cs" />
+    <Compile Include="src\Common\About.cs" />
+    <Compile Include="src\Common\AboutBox.cs" />
+    <Compile Include="src\Common\AboutBox.Designer.cs" />
     <Compile Include="src\Common\SortableBindingList.cs" />
     <Compile Include="src\Properties\AssemblyInfo.cs" />
     <Compile Include="src\Constants.cs" />
@@ -211,7 +212,7 @@
     <Folder Include="src\SCexport" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="src\AboutBox.resx">
+    <EmbeddedResource Include="src\Common\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCaos\SCaosForm.resx">

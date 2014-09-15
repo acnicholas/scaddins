@@ -15,12 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCexport.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins
+namespace SCaddins.Common
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Drawing;
     using System.Linq;
     using System.Reflection;
     using System.Windows.Forms;
