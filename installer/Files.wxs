@@ -21,6 +21,7 @@
 							<File Id="scopy_rvt_16.png" Name="scopy-rvt-16.png" Source="..\share\icons\ribbon\scopy-rvt-16.png" />
 							<File Id="sculcase_rvt_16.png" Name="sculcase-rvt-16.png" Source="..\share\icons\ribbon\sculcase-rvt-16.png" />
 							<File Id="scwash_rvt_16.png" Name="scwash-rvt-16.png" Source="..\share\icons\ribbon\scwash-rvt-16.png" />
+							<File Id="help.png" Name="help.png" Source="..\share\icons\ribbon\help.png" />
 						</Component>
 					</Directory>
 					<Directory Id="RFADIR" Name="rfa">
