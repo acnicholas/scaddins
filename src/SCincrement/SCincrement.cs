@@ -69,6 +69,9 @@ namespace SCaddins.SCincrement
                 int startValue = 0;
                 foreach (Reference r in refList) {
                     Parameter p = this.GetParameterForReference(doc, r);
+                    if(p==null){
+                        return;
+                    }
 
                     // get the value of the first element to use as the start value for the renumbering in the next loop
                     if (ctr == 1) {
@@ -92,6 +95,7 @@ namespace SCaddins.SCincrement
         private Parameter GetParameterForReference(Document doc, Reference r)
         {
             Element e = doc.GetElement(r);
+            //TaskDialog.Show("Error", e.GetType().ToString());
             Parameter p = null;
             if (e is Grid) {
                 #if REVIT2014
@@ -111,8 +115,13 @@ namespace SCaddins.SCincrement
                 #else
                 p = e.LookupParameter("Mark");
                 #endif
-            } else if (e is AnnotationSymbol) {
-                TaskDialog.Show("Error", "Unsupported element");
+            } else if (e is TextNote) {
+                #if REVIT2014
+                p = e.get_Parameter("Text");
+                TaskDialog.Show("test", p.ToString());
+                #else
+                p = e.LookupParameter("Text");
+                #endif
                 return null;
             } else {
                 TaskDialog.Show("Error", "Unsupported element");

@@ -399,11 +399,9 @@ namespace SCaddins.SCopy
             }
             this.CopyElementsOnSheet(sheet, BuiltInCategory.OST_TextNotes);
             this.CopyElementsOnSheet(sheet, BuiltInCategory.OST_RasterImages);
-            
             // CopyElementsOnSheet(sheet, BuiltInCategory.OST_Lines);
             // CopyElementsOnSheet(sheet, BuiltInCategory.OST_GenericLines);
-            this.CopyLinesOnSheet(sheet);
-            
+            //this.CopyLinesOnSheet(sheet);
             // CopyElementsOnSheet(sheet, BuiltInCategory.OST_Lines);
             this.CopyElementsOnSheet(sheet, BuiltInCategory.OST_GenericAnnotation);
             this.CopyElementsOnSheet(sheet, BuiltInCategory.OST_TitleBlocks);           
