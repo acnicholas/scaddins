@@ -44,7 +44,7 @@ Included are:
     Place a family at a specified shared coordinate.
 
 
- * **SCoord**.  
+ * **SCightlines**.  
     Create line of site details for stadium seating.
 
 
