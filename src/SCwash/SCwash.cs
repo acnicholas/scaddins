@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2013 by Andrew Nicholas andrewnicholas@iinet.net.au
+﻿// (C) Copyright 2013-2014 by Andrew Nicholas andrewnicholas@iinet.net.au
 //
 // This file is part of SCaddins.
 //
@@ -141,8 +141,8 @@ namespace SCaddins.SCwash
         // FIXME don't add view templates or project browser views
         private static List<SCwashTreeNode> Views(Document doc, bool placedOnSheet, ViewType type)
         {
-            List<SCwashTreeNode> result = new List<SCwashTreeNode>();
-            FilteredElementCollector f = new FilteredElementCollector(doc);
+            var result = new List<SCwashTreeNode>();
+            var f = new FilteredElementCollector(doc);
             f.OfClass(typeof(Autodesk.Revit.DB.View));
             string s = string.Empty;
             foreach (Autodesk.Revit.DB.View view in f) {  
@@ -183,7 +183,7 @@ namespace SCaddins.SCwash
                     } else {
                         n = view.Name;
                     }
-                    SCwashTreeNode tn = new SCwashTreeNode(n);
+                    var tn = new SCwashTreeNode(n);
                     tn.Info = s;
                     tn.Id = view.Id;
                     if (view.ViewType == ViewType.ProjectBrowser) {
@@ -205,3 +205,4 @@ namespace SCaddins.SCwash
         }
     }
 }
+/* vim: set ts=4 sw=4 nu expandtab: */

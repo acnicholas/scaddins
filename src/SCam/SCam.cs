@@ -1,4 +1,21 @@
-﻿namespace SCaddins.SCam
+﻿// (C) Copyright 2014 by Andrew Nicholas
+//
+// This file is part of SCaddins.
+//
+// SCaddins is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// SCaddins is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
+
+namespace SCaddins.SCam
 {
     using System;
     using System.Collections.Generic;
@@ -28,10 +45,10 @@
                 where type.ViewFamily == ViewFamily.ThreeDimensional
                 select type;
 
-            View3D v3 = currentView as View3D;
+            var v3 = currentView as View3D;
             ViewOrientation3D vo = v3.GetOrientation();
 
-            Transaction t = new Transaction(doc);
+            var t = new Transaction(doc);
             t.Start("Create perspective view");
 
             View3D np = View3D.CreatePerspective(doc, viewFamilyTypes.First().Id);

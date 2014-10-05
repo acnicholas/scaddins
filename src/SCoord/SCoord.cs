@@ -17,7 +17,6 @@
 namespace SCaddins.SCoord
 {
     using System;
-    using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
@@ -117,7 +116,7 @@ namespace SCaddins.SCoord
                     }
                 }
                 #else
-                ISet<ElementId> sids = fam.GetFamilySymbolIds();
+                System.Collections.Generic.ISet<ElementId> sids = fam.GetFamilySymbolIds();
                 foreach (ElementId id in sids) {   
                     FamilySymbol f = doc.GetElement(id) as FamilySymbol;
                     if (f.Name.ToUpper().Contains("SC-Survey_Point".ToUpper())) {

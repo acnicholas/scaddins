@@ -1,19 +1,19 @@
-// (C) Copyright 2012-2013 by Andrew Nicholas (andrewnicholas@iinet.net.au)
+// (C) Copyright 2012-2014 by Andrew Nicholas
 //
-// This file is part of SCexport.
+// This file is part of SCaddins.
 //
-// SCexport is free software: you can redistribute it and/or modify
+// SCaddins is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// SCexport is distributed in the hope that it will be useful,
+// SCaddins is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with SCexport.  If not, see <http://www.gnu.org/licenses/>.
+// along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace SCaddins.SCexport
 {
@@ -21,7 +21,6 @@ namespace SCaddins.SCexport
     using System.IO;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using SCaddins;
 
     /// <summary>
     /// Generic file input and output functions.

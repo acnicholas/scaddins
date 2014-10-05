@@ -103,8 +103,8 @@ namespace SCaddins.SCaos
                 double altitude = sunSettings.GetFrameAltitude(frame);
                 azimuth += this.position.Angle;
                 
-                View3D v3d = (View3D)view;
-                Transaction t = new Transaction(doc);
+                var v3d = (View3D)view;
+                var t = new Transaction(doc);
                 t.Start("Draw Solar Ray");
                 
                 // REVIT 2014
@@ -128,7 +128,7 @@ namespace SCaddins.SCaos
             
         private string GetAllViewInfo(Document doc)
         {
-            FilteredElementCollector f = new FilteredElementCollector(doc);
+            var f = new FilteredElementCollector(doc);
             f.OfClass(typeof(Autodesk.Revit.DB.View));
             string result = string.Empty;
             foreach (Autodesk.Revit.DB.View view in f) {
@@ -151,10 +151,10 @@ namespace SCaddins.SCaos
         
         private bool ViewNameIsAvailable(Document doc, string name)
         {
-           FilteredElementCollector c = new FilteredElementCollector(doc);
+           var c = new FilteredElementCollector(doc);
             c.OfClass(typeof(Autodesk.Revit.DB.View));
             foreach (View view in c) {
-                View v = view as View;
+                var v = view as View;
                 if (v.ViewName == name) {
                     return false;
                 }

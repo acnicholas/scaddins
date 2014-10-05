@@ -55,7 +55,7 @@ namespace SCaddins.Common
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutBox1));
+            var resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutBox1));
             this.okayButton = new System.Windows.Forms.Button();
             this.textBoxDescription = new System.Windows.Forms.TextBox();
             this.labelCopyright = new System.Windows.Forms.Label();

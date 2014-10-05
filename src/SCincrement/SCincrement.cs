@@ -69,7 +69,7 @@ namespace SCaddins.SCincrement
                 int startValue = 0;
                 foreach (Reference r in refList) {
                     Parameter p = this.GetParameterForReference(doc, r);
-                    if(p==null){
+                    if (p == null) {
                         return;
                     }
 
@@ -95,7 +95,8 @@ namespace SCaddins.SCincrement
         private Parameter GetParameterForReference(Document doc, Reference r)
         {
             Element e = doc.GetElement(r);
-            //TaskDialog.Show("Error", e.GetType().ToString());
+            
+            // TaskDialog.Show("Error", e.GetType().ToString());
             Parameter p = null;
             if (e is Grid) {
                 #if REVIT2014

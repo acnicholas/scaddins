@@ -1,4 +1,4 @@
-// (C) Copyright 2013 by Andrew Nicholas andrewnicholas@iinet.net.au
+// (C) Copyright 2013-2014 by Andrew Nicholas andrewnicholas@iinet.net.au
 //
 // This file is part of SCaddins
 //
@@ -69,3 +69,4 @@ namespace SCaddins.SCwash
         }
     }
 }
+/* vim: set ts=4 sw=4 nu expandtab: */
