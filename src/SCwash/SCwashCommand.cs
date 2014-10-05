@@ -1,19 +1,19 @@
 // (C) Copyright 2013 by Andrew Nicholas andrewnicholas@iinet.net.au
 //
-// This file is part of SCwash.
+// This file is part of SCaddins
 //
-// SCwash is free software: you can redistribute it and/or modify
+// SCaddins is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// SCwash is distributed in the hope that it will be useful,
+// SCaddins is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with SCwash.  If not, see <http://www.gnu.org/licenses/>.
+// along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace SCaddins.SCwash
 {
@@ -21,7 +21,7 @@ namespace SCaddins.SCwash
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    
+
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
@@ -37,13 +37,13 @@ namespace SCaddins.SCwash
                 "make sure you dettach your model from central before running this Add-in." + System.Environment.NewLine +
                 System.Environment.NewLine +
                 "continue?";
-            
+
             UIDocument udoc = commandData.Application.ActiveUIDocument;
             TaskDialogResult tr = TaskDialog.Show("WARNING", warning, TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No);
             if (tr == TaskDialogResult.No) {
                 return Autodesk.Revit.UI.Result.Succeeded;
             }
-            
+
             SCwashForm form = null;
             TransactionGroup transaction = new TransactionGroup(commandData.Application.ActiveUIDocument.Document);
             try {

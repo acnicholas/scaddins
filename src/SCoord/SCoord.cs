@@ -1,18 +1,18 @@
 // (C) Copyright 2014 by Andrew Nicholas (andrewnicholas@iinet.net.au)
 //
-// This file is part of SCoord.
-// SCoord is free software: you can redistribute it and/or modify
+// This file is part of SCaddins.
+// SCaddins is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// SCoord is distributed in the hope that it will be useful,
+// SCaddins is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with SCoord.  If not, see <http://www.gnu.org/licenses/>.
+// along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace SCaddins.SCoord
 {
@@ -66,7 +66,6 @@ namespace SCaddins.SCoord
             SCoordForm form = new SCoordForm();
             System.Windows.Forms.DialogResult r = form.ShowDialog();
 
-            // Exit if cancel is pressed
             if (r == System.Windows.Forms.DialogResult.Cancel) {
                 return;
             }
@@ -120,7 +119,7 @@ namespace SCaddins.SCoord
                 #else
                 ISet<ElementId> sids = fam.GetFamilySymbolIds();
                 foreach (ElementId id in sids) {   
-                    FamilySymbol f = doc.GetElement(id) as FamilySymbol;               
+                    FamilySymbol f = doc.GetElement(id) as FamilySymbol;
                     if (f.Name.ToUpper().Contains("SC-Survey_Point".ToUpper())) {
                         return f;
                     }

@@ -13,9 +13,6 @@ namespace SCaddins.SCulcase
         private static ConversionMode mode = ConversionMode.UPPER_CASE;
         private static string dryRunLogText = string.Empty;
 
-        /// <summary>
-        /// Types of elements to convert
-        /// </summary>
         [Flags]
         public enum ConversionTypes
         {
@@ -26,17 +23,14 @@ namespace SCaddins.SCulcase
             TITLES_ON_SHEETS = 8,
             ROOM_NAMES = 16
         }
-        
-        /// <summary>
-        /// Conversion Type
-        /// </summary>
+
         public enum ConversionMode
         {
             UPPER_CASE,
             LOWER_CASE,
             TITLE_CASE
         }
-        
+
         public static void ConvertAll(ConversionMode mode, ConversionTypes types, ref Document doc)
         {
             commit = true;
@@ -46,7 +40,7 @@ namespace SCaddins.SCulcase
             Convert(mode, types, ref doc);
             trans.Commit();
         }
-               
+
         public static void ConvertAllDryRun(ConversionMode mode, ConversionTypes types, ref Document doc)
         {
             commit = false; 
@@ -56,7 +50,7 @@ namespace SCaddins.SCulcase
             info.SetText(dryRunLogText);
             info.Show();
         }
-        
+
         public static void ConvertSelection(ConversionMode mode, ref Document doc, IList<ElementId> elements)
         {
             commit = true;
@@ -84,7 +78,7 @@ namespace SCaddins.SCulcase
             }
             trans.Commit();
         }
-        
+
         private static void Convert(ConversionMode mode, ConversionTypes types, ref Document doc)
         {
             SCulcase.mode = mode;
@@ -104,7 +98,7 @@ namespace SCaddins.SCulcase
                 ConvertAllViewNamesOnSheet(ref doc);
             }
         }
-                
+
         private static void ConvertViewName(ref View view)
         {
             string newName = NewString(view.Name, mode);
@@ -114,7 +108,7 @@ namespace SCaddins.SCulcase
                 DryRunLog("VIEW NAME", view.Name);
             }
         }
-        
+
         private static void ConvertAllViewNames(ref Document doc)
         {
             FilteredElementCollector f = new FilteredElementCollector(doc);
@@ -136,7 +130,7 @@ namespace SCaddins.SCulcase
                 }
             }
         }
-        
+
         private static void ConvertAllViewNamesOnSheet(ref Document doc)
         {
             var f = new FilteredElementCollector(doc);
@@ -146,7 +140,7 @@ namespace SCaddins.SCulcase
                 ConvertViewNameOnSheet(ref view);
             }
         }
-        
+
         private static void ConvertSheetName(ref ViewSheet viewSheet)
         {
             if (commit) {
@@ -165,7 +159,7 @@ namespace SCaddins.SCulcase
                 ConvertSheetName(ref viewSheet);
             }
         }
-        
+
         private static void ConvertAnnotation(ref TextElement text)
         {
             if (commit) {
@@ -184,7 +178,7 @@ namespace SCaddins.SCulcase
                 ConvertAnnotation(ref text);
             }
         }
-        
+
         private static void ConvertRoom(ref Room room)
         {
             #if REVIT2014
@@ -209,7 +203,6 @@ namespace SCaddins.SCulcase
             }
         }
 
-        // TODO
         private static void ConvertAllRevisionDescriptions(ref Document doc)
         {
             FilteredElementCollector f = new FilteredElementCollector(doc);
@@ -241,13 +234,13 @@ namespace SCaddins.SCulcase
                     return oldString.ToUpper();
             }
         }
-              
+
         private static void DryRunLog(string etype, string s)
         {
             dryRunLogText += etype + " --- " + s + " ---> " + NewString(s, mode);
             dryRunLogText += System.Environment.NewLine;
         }
-        
+
         private static bool ValidRevitName(string s)
         {
             if (s.Contains("{") || s.Contains("}")) {

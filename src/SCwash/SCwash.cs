@@ -1,19 +1,19 @@
 ﻿// (C) Copyright 2013 by Andrew Nicholas andrewnicholas@iinet.net.au
 //
-// This file is part of SCwash.
+// This file is part of SCaddins.
 //
-// SCwash is free software: you can redistribute it and/or modify
+// SCaddins is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// SCwash is distributed in the hope that it will be useful,
+// SCaddins is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with SCwash.  If not, see <http://www.gnu.org/licenses/>.
+// along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace SCaddins.SCwash
 {
@@ -77,11 +77,6 @@ namespace SCaddins.SCwash
             return result;
         }
 
-        /// <summary>
-        /// FIXME this can be merged with Images(Document doc)
-        /// </summary>
-        /// <param name="doc"></param>
-        /// <returns></returns>
         public static List<SCwashTreeNode> UnboundRooms(Document doc)
         {
             List<SCwashTreeNode> result = new List<SCwashTreeNode>();
@@ -110,12 +105,12 @@ namespace SCaddins.SCwash
             }
             return result;
         }
- 
+
         public static void AddSheetNodes(Document doc, bool placedOnSheet, TreeNodeCollection nodes)
         {
             nodes.AddRange(SCwash.Views(doc, placedOnSheet, ViewType.DrawingSheet).ToArray<TreeNode>());
         }
-        
+
         public static void AddViewNodes(Document doc, bool placedOnSheet, TreeNodeCollection nodes)
         {
             int i = 0;
@@ -131,7 +126,7 @@ namespace SCaddins.SCwash
                 }
             }
         }
-        
+
         public static void RemoveElements(Document doc, ICollection<ElementId> elements)
         {
             Transaction t = new Transaction(doc, "Delete Elements");
@@ -204,7 +199,7 @@ namespace SCaddins.SCwash
                             result.Add(tn);
                         }
                     }
-                }  
+                }
             }
             return result;
         }
