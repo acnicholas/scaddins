@@ -107,7 +107,14 @@ namespace SCaddins.SCexport
         /// <value>The sheet description.</value>
         public string SheetDescription
         {
-            get { return this.sheetDescription; }
+            get { 
+                return this.sheetDescription;
+            }
+            
+            set { 
+                this.sheetDescription = value;
+                this.SetExportName();
+            }
         }
 
         /// <summary>
@@ -116,7 +123,14 @@ namespace SCaddins.SCexport
         /// <value>The sheet number.</value>
         public string SheetNumber
         {
-            get { return this.sheetNumber; }
+            get {
+                return this.sheetNumber;
+            }
+            
+            set { 
+                this.sheetNumber = value;
+                this.SetExportName();
+            }
         }
 
         /// <summary>
@@ -325,10 +339,18 @@ namespace SCaddins.SCexport
         public void UpdateNumber()
         {
             this.sheetNumber = this.sheet.get_Parameter(
-                    BuiltInParameter.SHEET_NUMBER).AsString();   
+                    BuiltInParameter.SHEET_NUMBER).AsString(); 
+            this.SetExportName();  
+        }
+        
+        public void UpdateName()
+        {
+            this.sheetDescription = this.sheet.get_Parameter(
+                    BuiltInParameter.SHEET_NAME).AsString();
+            this.SetExportName();  
         }
 
-        public void UpdateRevision()
+        public void UpdateRevision(bool refreshExportName)
         {
             this.sheetRevision = this.sheet.get_Parameter(
                     BuiltInParameter.SHEET_CURRENT_REVISION).AsString();
@@ -337,6 +359,9 @@ namespace SCaddins.SCexport
             this.sheetRevisionDate = this.sheet.get_Parameter(
                     BuiltInParameter.SHEET_CURRENT_REVISION_DATE).AsString();
             this.sheetRevisionDateTime = SCexport.ToDateTime(this.sheetRevisionDate);
+            if (refreshExportName) {
+                this.SetExportName();
+            }
         }
 
         /// <summary>
@@ -360,7 +385,6 @@ namespace SCaddins.SCexport
             this.ExportDir = scx.ExportDir;
             this.sheetNumber = viewSheet.get_Parameter(
                     BuiltInParameter.SHEET_NUMBER).AsString();
-            this.UpdateRevision();
             this.sheetDescription = viewSheet.get_Parameter(
                     BuiltInParameter.SHEET_NAME).AsString();
             this.projectNumber = document.ProjectInformation.Number;
@@ -371,6 +395,7 @@ namespace SCaddins.SCexport
             this.scaleBarScale = string.Empty;
             this.pageSize = string.Empty;
             this.id = viewSheet.Id;
+            this.UpdateRevision(false);
             this.SetExportName();
         }
 

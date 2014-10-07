@@ -77,8 +77,8 @@ namespace SCaddins.SCexport
             var t = new Autodesk.Revit.DB.Transaction(this.doc);
             t.Start("SCexport - Rename Sheets");
             foreach (SCexportSheet sheet in this.sheets) {
-                sheet.Sheet.SheetNumber = this.NewSheetName(sheet.SheetNumber);
-                sheet.Sheet.SheetNumber = this.NewSheetNumber(sheet.SheetDescription);
+                sheet.Sheet.Name = this.NewSheetName(sheet.SheetDescription);
+                sheet.Sheet.SheetNumber = this.NewSheetNumber(sheet.SheetNumber);
             }
             t.Commit();
         }

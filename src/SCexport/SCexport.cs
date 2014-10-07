@@ -470,6 +470,7 @@ namespace SCaddins.SCexport
             var result = r.ShowDialog();
             foreach (SCexportSheet sheet in sheets) {
                     sheet.UpdateNumber();
+                    sheet.UpdateName();
             }
         }
 
@@ -493,7 +494,7 @@ namespace SCaddins.SCexport
                 }
                 t.Commit();
                 foreach (SCexportSheet sheet in sheets) {
-                    sheet.UpdateRevision();
+                    sheet.UpdateRevision(true);
                 }
             }
         }
@@ -1194,11 +1195,11 @@ namespace SCaddins.SCexport
         {
             Categories categories = SCexport.doc.Settings.Categories;
             Category genericAnnotations = categories.get_Item("Generic Annotations");
-            Category doNotPrint = genericAnnotations.SubCategories.get_Item("Do Not Print");
+            Category categoryDoNotPrint = genericAnnotations.SubCategories.get_Item("Do Not Print");
             using (Transaction t = new Transaction(doc, "Do Not Print color = " + newColor.Blue))
             {            
                 t.Start();
-                doNotPrint.LineColor = newColor;                
+                categoryDoNotPrint.LineColor = newColor;                
                 t.Commit();
             }            
         }
