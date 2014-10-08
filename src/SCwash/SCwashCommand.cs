@@ -39,7 +39,12 @@ namespace SCaddins.SCwash
                 "continue?";
 
             UIDocument udoc = commandData.Application.ActiveUIDocument;
-            TaskDialogResult tr = TaskDialog.Show("WARNING", warning, TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No);
+            TaskDialog td = new TaskDialog("SCwash WARNING!");
+            td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+            td.MainInstruction = "WARNING!";
+            td.MainContent = warning;
+            td.CommonButtons = TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No;
+            TaskDialogResult tr = td.Show();
             if (tr == TaskDialogResult.No) {
                 return Autodesk.Revit.UI.Result.Succeeded;
             }

@@ -133,7 +133,7 @@ namespace SCaddins.SCwash
             t.Start();
             ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
             if (0 == deletedIdSet.Count) {
-                throw new Exception("Deleting the selected element in Revit failed.");
+                throw new Exception("Deleting the selected elements in Revit failed.");
             }
             t.Commit();
         }

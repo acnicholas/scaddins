@@ -82,11 +82,11 @@ namespace SCaddins.SCwash
                 SCwashTreeNode t = (SCwashTreeNode)treeView1.SelectedNode;
                 textBox1.Text = t.Info;
                 try {
-                    button4.Text = "Show" + System.Environment.NewLine + t.Id.ToString();
-                    button4.Enabled = true;
+                    btnShowElement.Text = "Show" + System.Environment.NewLine + t.Id.ToString();
+                    btnShowElement.Enabled = true;
                 } catch {
-                    button4.Text = "Show Element";
-                    button4.Enabled = false;
+                    btnShowElement.Text = "Show Element";
+                    btnShowElement.Enabled = false;
                 }
             } else {
                 textBox1.Text = "Select an item to show additional information";
@@ -101,17 +101,17 @@ namespace SCaddins.SCwash
             }
         }
 
-        private void Button2_Click(object sender, EventArgs e)
+        private void BtnSelectAll_Click(object sender, EventArgs e)
         {
             this.CheckAllNodes(treeView1.Nodes);
         }
 
-        private void Button1_Click(object sender, EventArgs e)
+        private void BtnSelectNone_Click(object sender, EventArgs e)
         {
             this.UncheckAllNodes(treeView1.Nodes);
         }
 
-        private void Button3_Click(object sender, EventArgs e)
+        private void BtnDelete_Click(object sender, EventArgs e)
         {
             ICollection<ElementId> elements = new List<ElementId>();
             foreach (SCwashTreeNode node in this.treeView1.Nodes) {
@@ -161,7 +161,7 @@ namespace SCaddins.SCwash
             TaskDialog.Show("Reminder", "Remember to purge!");
         }
 
-        private void Button4_Click(object sender, EventArgs e)
+        private void BtnShowElement_Click(object sender, EventArgs e)
         {
             // open view with selected id.
             UIApplication uiapp = new UIApplication(this.udoc.Application.Application);
