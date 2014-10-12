@@ -182,6 +182,8 @@
     <Compile Include="src\SCulcase\SCulcaseInfoDialog.Designer.cs" />
     <Compile Include="src\SCulcase\SCulcaseMainForm.cs" />
     <Compile Include="src\SCulcase\SCulcaseMainForm.Designer.cs" />
+    <Compile Include="src\SCuv\SCuv.cs" />
+    <Compile Include="src\SCuv\SCuvCommand.cs" />
     <Compile Include="src\SCwash\SCwash.cs" />
     <Compile Include="src\SCwash\SCwashCommand.cs" />
     <Compile Include="src\SCwash\SCwashForm.cs" />
@@ -199,6 +201,7 @@
     <Folder Include="src\Manifest" />
     <Folder Include="src\Manifest\2015" />
     <Folder Include="src\Manifest\2014" />
+    <Folder Include="src\SCuv" />
     <Folder Include="src\SCincrement" />
     <Folder Include="src\SCloudSched" />
     <Folder Include="src\SCam" />
