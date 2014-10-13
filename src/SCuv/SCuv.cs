@@ -15,11 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using Autodesk.Revit.DB;
-
 namespace SCaddins.SCuv
 {
+    using System;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+
     /// <summary>
     /// Copy a view; give it a user name, remove any view templates and
     /// categorize it nicely.
@@ -33,16 +34,25 @@ namespace SCaddins.SCuv
         public static void CreateUserView(View srcView, Document doc)
         {
             ElementId destViewId = srcView.Duplicate(ViewDuplicateOption.Duplicate);
-            View newView = doc.GetElement(destViewId) as View;  
-            newView.Name = SetNewViewName(srcView);  
+            View newView = doc.GetElement(destViewId) as View;
+            newView.Name = SetNewViewName(srcView); 
             
             // TODO test this really works
             newView.ViewTemplateId = ElementId.InvalidElementId;
+            
+            Parameter param = newView.get_Parameter("SC-View_Category");
+            if (param.IsReadOnly) {
+                TaskDialog.Show("SCuv Error", "SC-View_Category is read only!");
+            } else {
+                if (!param.Set("User")) {
+                    TaskDialog.Show("SCuv Error", "Error setting SC-View_Category parameter!");     
+                }
+            }
         }
              
         private static string SetNewViewName(View srcView)
         { 
-            return Environment.UserName + "-" + srcView.Name;           
+            return Environment.UserName + "-" + srcView.Name + "-" + SCaddins.SCexport.SCexport.GetDateString();           
         }       
     }
 }
