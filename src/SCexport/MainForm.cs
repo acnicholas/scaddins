@@ -681,7 +681,7 @@ namespace SCaddins.SCexport
         
 		private void CreateUserViewsToolStripMenuItemClick(object sender, System.EventArgs e)
 		{
-            SCuv.SCuv.CreateUserViews(this.SelectedSheets());
+            SCuv.SCuv.CreateUserViews(this.SelectedSheets(), doc);
 		}
     }
 }

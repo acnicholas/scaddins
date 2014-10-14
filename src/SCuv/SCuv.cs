@@ -18,6 +18,7 @@
 namespace SCaddins.SCuv
 {
     using System;
+    using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
@@ -50,11 +51,23 @@ namespace SCaddins.SCuv
             }
         }
         
-        public static void CreateUserViews(ICollection<SCexportSheet> sheets)
+        public static void CreateUserViews(ICollection<SCaddins.SCexport.SCexportSheet> sheets, Document doc)
         {
-          foreach (SCaddins.SCexport.SCexportSheet sheet in sheets) {
-            CreateUserView( sheet.
-          }   
+            foreach (SCaddins.SCexport.SCexportSheet sheet in sheets) {
+                foreach (ElementId id in sheet.Sheet.GetAllPlacedViews()) {
+                    View v = doc.GetElement(id) as View;
+                    switch (v.ViewType) {
+                        case ViewType.FloorPlan:
+                        case ViewType.Elevation:
+                        case ViewType.CeilingPlan:
+                        case ViewType.Section:
+                        case ViewType.AreaPlan:
+                        case ViewType.ThreeD:
+                            CreateUserView(v, doc);
+                            break;
+                    }
+                }
+            }   
         }
              
         private static string SetNewViewName(View srcView)
