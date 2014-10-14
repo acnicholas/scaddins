@@ -49,6 +49,13 @@ namespace SCaddins.SCuv
                 }
             }
         }
+        
+        public static void CreateUserViews(ICollection<SCexportSheet> sheets)
+        {
+          foreach (SCaddins.SCexport.SCexportSheet sheet in sheets) {
+            CreateUserView( sheet.
+          }   
+        }
              
         private static string SetNewViewName(View srcView)
         { 

@@ -678,6 +678,11 @@ namespace SCaddins.SCexport
             this.Update();
             this.dataGridView1.Refresh();
         }
+        
+		private void CreateUserViewsToolStripMenuItemClick(object sender, System.EventArgs e)
+		{
+            SCuv.SCuv.CreateUserViews(this.SelectedSheets());
+		}
     }
 }
 

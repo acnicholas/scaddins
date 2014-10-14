@@ -115,6 +115,7 @@ namespace SCaddins.SCexport
             this.btnPrint = new System.Windows.Forms.Button();
             this.btnOptions = new System.Windows.Forms.Button();
             this.btnFind = new System.Windows.Forms.Button();
+            this.createUserViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -169,6 +170,7 @@ namespace SCaddins.SCexport
             this.toolStripSeparator1,
             this.addRevisionToolStripMenuItem,
             this.renameSelectedSheetsToolStripMenuItem,
+            this.createUserViewsToolStripMenuItem,
             this.toolStripSeparator6,
             this.mnuSelectAll,
             this.mnuSelectNone,
@@ -178,7 +180,7 @@ namespace SCaddins.SCexport
             this.mnuHelp});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.ShowCheckMargin = true;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(224, 260);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(224, 304);
             // 
             // clearFilterToolStripMenuItem
             // 
@@ -439,6 +441,13 @@ namespace SCaddins.SCexport
             this.btnFind.UseVisualStyleBackColor = true;
             this.btnFind.Click += new System.EventHandler(this.BtnFindClick);
             // 
+            // createUserViewsToolStripMenuItem
+            // 
+            this.createUserViewsToolStripMenuItem.Name = "createUserViewsToolStripMenuItem";
+            this.createUserViewsToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.createUserViewsToolStripMenuItem.Text = "Create User Views";
+            this.createUserViewsToolStripMenuItem.Click += new System.EventHandler(this.CreateUserViewsToolStripMenuItemClick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -470,6 +479,7 @@ namespace SCaddins.SCexport
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStripMenuItem createUserViewsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem renameSelectedSheetsToolStripMenuItem;
         #endregion
         }
