@@ -14,7 +14,7 @@ Included are:
     SCexport also includes other goodies like bulk sheet renaming and bulk revision(ing).
 
  * [**SCaos**](https://bitbucket.org/anicholas/scaddins/wiki/SCaos):  
-    This will rotate a orthogonal 3d view as if view from the Sun.
+    This will rotate a orthogonal 3d view as if viewed from the Sun.
 
  * [**SCopy**](https://bitbucket.org/anicholas/scaddins/wiki/SCopy):  
     Copy a sheet and all its views.
