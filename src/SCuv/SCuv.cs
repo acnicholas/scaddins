@@ -53,9 +53,11 @@ namespace SCaddins.SCuv
         
         public static void CreateUserViews(ICollection<SCaddins.SCexport.SCexportSheet> sheets, Document doc)
         {
+            Transaction t = new Transaction(doc, "SCuv Copies User Views");
+            string message = string.Empty;
+            t.Start();
             foreach (SCaddins.SCexport.SCexportSheet sheet in sheets) {
-                foreach (ElementId id in sheet.Sheet.GetAllPlacedViews()) {
-                    View v = doc.GetElement(id) as View;
+                foreach (View v in sheet.Sheet.Views) {
                     switch (v.ViewType) {
                         case ViewType.FloorPlan:
                         case ViewType.Elevation:
@@ -64,10 +66,17 @@ namespace SCaddins.SCuv
                         case ViewType.AreaPlan:
                         case ViewType.ThreeD:
                             CreateUserView(v, doc);
+                            message += SetNewViewName(v) + System.Environment.NewLine;
                             break;
                     }
                 }
-            }   
+            }
+            t.Commit();
+            var td = new TaskDialog("SCuv - SCuv copies users views");
+            td.MainIcon = TaskDialogIcon.TaskDialogIconNone;
+            td.MainInstruction = "Summary of users view created:";
+            td.MainContent = message;
+            td.Show();   
         }
              
         private static string SetNewViewName(View srcView)

@@ -679,10 +679,10 @@ namespace SCaddins.SCexport
             this.dataGridView1.Refresh();
         }
         
-		private void CreateUserViewsToolStripMenuItemClick(object sender, System.EventArgs e)
-		{
-            SCuv.SCuv.CreateUserViews(this.SelectedSheets(), doc);
-		}
+        private void CreateUserViewsToolStripMenuItemClick(object sender, System.EventArgs e)
+        {
+            SCuv.SCuv.CreateUserViews(this.SelectedSheets(), this.doc);
+        }
     }
 }
 

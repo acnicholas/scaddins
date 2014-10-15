@@ -96,6 +96,7 @@ namespace SCaddins.SCexport
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.addRevisionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.renameSelectedSheetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createUserViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSelectNone = new System.Windows.Forms.ToolStripMenuItem();
@@ -115,7 +116,6 @@ namespace SCaddins.SCexport
             this.btnPrint = new System.Windows.Forms.Button();
             this.btnOptions = new System.Windows.Forms.Button();
             this.btnFind = new System.Windows.Forms.Button();
-            this.createUserViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -245,6 +245,14 @@ namespace SCaddins.SCexport
             this.renameSelectedSheetsToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.renameSelectedSheetsToolStripMenuItem.Text = "Rename Selected Sheets";
             this.renameSelectedSheetsToolStripMenuItem.Click += new System.EventHandler(this.RenameSelectedSheetsToolStripMenuItemClick);
+            // 
+            // createUserViewsToolStripMenuItem
+            // 
+            this.createUserViewsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createUserViewsToolStripMenuItem.Image")));
+            this.createUserViewsToolStripMenuItem.Name = "createUserViewsToolStripMenuItem";
+            this.createUserViewsToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.createUserViewsToolStripMenuItem.Text = "Create User Views";
+            this.createUserViewsToolStripMenuItem.Click += new System.EventHandler(this.CreateUserViewsToolStripMenuItemClick);
             // 
             // toolStripSeparator6
             // 
@@ -440,13 +448,6 @@ namespace SCaddins.SCexport
             this.btnFind.TabIndex = 15;
             this.btnFind.UseVisualStyleBackColor = true;
             this.btnFind.Click += new System.EventHandler(this.BtnFindClick);
-            // 
-            // createUserViewsToolStripMenuItem
-            // 
-            this.createUserViewsToolStripMenuItem.Name = "createUserViewsToolStripMenuItem";
-            this.createUserViewsToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.createUserViewsToolStripMenuItem.Text = "Create User Views";
-            this.createUserViewsToolStripMenuItem.Click += new System.EventHandler(this.CreateUserViewsToolStripMenuItemClick);
             // 
             // MainForm
             // 
