@@ -116,6 +116,17 @@
     <VendorId>BEER</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
   </AddIn>
+   
+<!-- SCuv -->
+
+<AddIn Type="Command">
+    <Assembly>C:\Program Files\SCaddins\SCaddins\2014\SCaddins.dll</Assembly>
+    <AddInId>710593C9-91D0-4BB1-8D22-A21EF499D600</AddInId>
+    <FullClassName>SCaddins.SCuv.Command</FullClassName>
+    <Name>SCuv - SCuv creates user views</Name>
+    <VendorId>BEER</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
+  </AddIn>
 
  <!-- About -->
 
