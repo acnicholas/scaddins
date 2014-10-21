@@ -26,29 +26,21 @@ namespace SCaddins.SCuv
     /// Copy a view; give it a user name, remove any view templates and
     /// categorize it nicely.
     /// </summary>
-    public class SCuv
-    {
-        public SCuv()
+    public static class SCuv
+    {     
+        public static bool CreateUserView(View srcView, Document doc)
         {
-        }
-        
-        public static void CreateUserView(View srcView, Document doc)
-        {
-            ElementId destViewId = srcView.Duplicate(ViewDuplicateOption.Duplicate);
-            View newView = doc.GetElement(destViewId) as View;
-            newView.Name = SetNewViewName(srcView); 
-            
-            // TODO test this really works
-            newView.ViewTemplateId = ElementId.InvalidElementId;
-            
-            Parameter param = newView.get_Parameter("SC-View_Category");
-            if (param.IsReadOnly) {
-                TaskDialog.Show("SCuv Error", "SC-View_Category is read only!");
-            } else {
-                if (!param.Set("User")) {
-                    TaskDialog.Show("SCuv Error", "Error setting SC-View_Category parameter!");     
-                }
+            if (srcView.ViewType == ViewType.DrawingSheet) {
+                //TODO to the sheet thing here.
+                return true;
             }
+            if (ValidViewType(srcView.ViewType)) {
+             
+            } else {
+                ShowErrorDialog(srcView);
+                return false;   
+            }
+            return true;
         }
         
         public static void CreateUserViews(ICollection<SCaddins.SCexport.SCexportSheet> sheets, Document doc)
@@ -58,30 +50,70 @@ namespace SCaddins.SCuv
             t.Start();
             foreach (SCaddins.SCexport.SCexportSheet sheet in sheets) {
                 foreach (View v in sheet.Sheet.Views) {
-                    switch (v.ViewType) {
-                        case ViewType.FloorPlan:
-                        case ViewType.Elevation:
-                        case ViewType.CeilingPlan:
-                        case ViewType.Section:
-                        case ViewType.AreaPlan:
-                        case ViewType.ThreeD:
+                    if (ValidViewType(v.ViewType)) {
                             CreateUserView(v, doc);
-                            message += SetNewViewName(v) + System.Environment.NewLine;
-                            break;
+                            message += GetNewViewName(v) + Environment.NewLine;
                     }
                 }
             }
             t.Commit();
+            ShowSummaryDialog(message);
+        }
+        
+        public static bool ValidViewType(ViewType viewType)
+        {
+            switch (viewType) {
+                case ViewType.FloorPlan:
+                case ViewType.Elevation:
+                case ViewType.CeilingPlan:
+                case ViewType.Section:
+                case ViewType.AreaPlan:
+                case ViewType.ThreeD:
+                    return true;
+            }   
+            return false;
+        }
+             
+        public static string GetNewViewName(View srcView)
+        { 
+            return Environment.UserName + "-" + srcView.Name + "-" + SCaddins.SCexport.SCexport.GetDateString();           
+        } 
+        
+        public static void ShowErrorDialog(View srcView)
+        {
+            var td = new TaskDialog("SCuv - SCuv copies users views");
+            td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+            td.MainInstruction = "Error creating user view for view:";
+            td.MainContent = srcView.Name;
+            td.Show();   
+        }
+
+        public static void ShowSummaryDialog(string message)
+        {
             var td = new TaskDialog("SCuv - SCuv copies users views");
             td.MainIcon = TaskDialogIcon.TaskDialogIconNone;
             td.MainInstruction = "Summary of users view created:";
             td.MainContent = message;
             td.Show();   
         }
-             
-        private static string SetNewViewName(View srcView)
-        { 
-            return Environment.UserName + "-" + srcView.Name + "-" + SCaddins.SCexport.SCexport.GetDateString();           
-        }       
+   
+        static bool createUserView(View srcView, Document doc)
+        {
+            ElementId destViewId = srcView.Duplicate(ViewDuplicateOption.Duplicate);
+            View newView = doc.GetElement(destViewId) as View;
+            newView.Name = GetNewViewName(srcView); 
+            newView.ViewTemplateId = ElementId.InvalidElementId;
+            
+            Parameter param = newView.get_Parameter("SC-View_Category");
+            if (param.IsReadOnly) {
+                TaskDialog.Show("SCuv Error", "SC-View_Category is read only!");
+                return false;
+            } else {
+                if (!param.Set("User")) {
+                    TaskDialog.Show("SCuv Error", "Error setting SC-View_Category parameter!"); 
+                    return false;    
+                }
+            }   
+        }
     }
 }

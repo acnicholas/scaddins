@@ -36,15 +36,16 @@ namespace SCaddins.SCuv
             UIApplication application = commandData.Application;
             UIDocument document = application.ActiveUIDocument;
             View view = doc.ActiveView;
-             
+            
             Transaction t = new Transaction(doc, "SCuv Copies User Views");
             t.Start();
-            
-            // MainForm form = new MainForm(doc, viewSheet);
-            // form.Enabled = true;
-            // form.ShowDialog();
-            SCuv.CreateUserView(view, doc);
+            if(SCuv.CreateUserView(view, doc)){
+                SCuv.ShowSummaryDialog(SCuv.GetNewViewName(view));
+            } else {
+                SCuv.ShowErrorDialog(view);    
+            }
             t.Commit();
+            
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }
