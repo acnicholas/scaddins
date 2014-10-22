@@ -39,7 +39,7 @@ namespace SCaddins.SCuv
             
             Transaction t = new Transaction(doc, "SCuv Copies User Views");
             t.Start();
-            if(SCuv.CreateUserView(view, doc)){
+            if (SCuv.CreateUserView(view, doc)) {
                 SCuv.ShowSummaryDialog(SCuv.GetNewViewName(view));
             } else {
                 SCuv.ShowErrorDialog(view);    

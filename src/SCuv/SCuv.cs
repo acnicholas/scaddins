@@ -31,36 +31,41 @@ namespace SCaddins.SCuv
         public static bool CreateUserView(View srcView, Document doc)
         {
             if (srcView.ViewType == ViewType.DrawingSheet) {
-                //TODO to the sheet thing here.
+                CreateUserViewsFromSheet(srcView as ViewSheet, doc);
                 return true;
             }
             if (ValidViewType(srcView.ViewType)) {
-             
-            } else {
-                ShowErrorDialog(srcView);
-                return false;   
+                    return CreateView(srcView, doc);
             }
-            return true;
+            ShowErrorDialog(srcView);
+            return false;   
+        }
+        
+        private static string CreateUserViewsFromSheet(ViewSheet vs, Document doc)
+        {
+            string message = string.Empty;
+            foreach (View v in vs.Views) {
+                if (ValidViewType(v.ViewType)) {
+                    CreateView(v, doc);
+                    message += GetNewViewName(v) + Environment.NewLine;
+                }
+            }  
+            return message;          
         }
         
         public static void CreateUserViews(ICollection<SCaddins.SCexport.SCexportSheet> sheets, Document doc)
         {
-            Transaction t = new Transaction(doc, "SCuv Copies User Views");
             string message = string.Empty;
+            var t = new Transaction(doc, "SCuv Copies User Views");
             t.Start();
             foreach (SCaddins.SCexport.SCexportSheet sheet in sheets) {
-                foreach (View v in sheet.Sheet.Views) {
-                    if (ValidViewType(v.ViewType)) {
-                            CreateUserView(v, doc);
-                            message += GetNewViewName(v) + Environment.NewLine;
-                    }
-                }
+                message = CreateUserViewsFromSheet(sheet.Sheet, doc);
             }
             t.Commit();
             ShowSummaryDialog(message);
-        }
+    }
         
-        public static bool ValidViewType(ViewType viewType)
+        private static bool ValidViewType(ViewType viewType)
         {
             switch (viewType) {
                 case ViewType.FloorPlan:
@@ -97,7 +102,7 @@ namespace SCaddins.SCuv
             td.Show();   
         }
    
-        static bool createUserView(View srcView, Document doc)
+        private static bool CreateView(View srcView, Document doc)
         {
             ElementId destViewId = srcView.Duplicate(ViewDuplicateOption.Duplicate);
             View newView = doc.GetElement(destViewId) as View;
@@ -113,7 +118,8 @@ namespace SCaddins.SCuv
                     TaskDialog.Show("SCuv Error", "Error setting SC-View_Category parameter!"); 
                     return false;    
                 }
-            }   
+            } 
+            return true;  
         }
     }
 }
