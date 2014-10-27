@@ -313,5 +313,5 @@
     <None Include="TODO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="C:\Program Files (x86)\MSBuild\StyleCop\v4.7\StyleCop.targets" />
+  <Import Condition="'$(Configuration)' == 'Debug'" Project="C:\Program Files (x86)\MSBuild\StyleCop\v4.7\StyleCop.targets" />
 </Project>

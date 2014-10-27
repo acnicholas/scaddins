@@ -40,19 +40,7 @@ namespace SCaddins.SCuv
             ShowErrorDialog(srcView);
             return false;   
         }
-        
-        private static string CreateUserViewsFromSheet(ViewSheet vs, Document doc)
-        {
-            string message = string.Empty;
-            foreach (View v in vs.Views) {
-                if (ValidViewType(v.ViewType)) {
-                    CreateView(v, doc);
-                    message += GetNewViewName(v) + Environment.NewLine;
-                }
-            }  
-            return message;          
-        }
-        
+               
         public static void CreateUserViews(ICollection<SCaddins.SCexport.SCexportSheet> sheets, Document doc)
         {
             string message = string.Empty;
@@ -64,21 +52,7 @@ namespace SCaddins.SCuv
             t.Commit();
             ShowSummaryDialog(message);
     }
-        
-        private static bool ValidViewType(ViewType viewType)
-        {
-            switch (viewType) {
-                case ViewType.FloorPlan:
-                case ViewType.Elevation:
-                case ViewType.CeilingPlan:
-                case ViewType.Section:
-                case ViewType.AreaPlan:
-                case ViewType.ThreeD:
-                    return true;
-            }   
-            return false;
-        }
-             
+                    
         public static string GetNewViewName(View srcView)
         { 
             return Environment.UserName + "-" + srcView.Name + "-" + SCaddins.SCexport.SCexport.GetDateString();           
@@ -100,6 +74,32 @@ namespace SCaddins.SCuv
             td.MainInstruction = "Summary of users view created:";
             td.MainContent = message;
             td.Show();   
+        }
+        
+        private static string CreateUserViewsFromSheet(ViewSheet vs, Document doc)
+        {
+            string message = string.Empty;
+            foreach (View v in vs.Views) {
+                if (ValidViewType(v.ViewType)) {
+                    CreateView(v, doc);
+                    message += GetNewViewName(v) + Environment.NewLine;
+                }
+            }  
+            return message;          
+        }
+        
+        private static bool ValidViewType(ViewType viewType)
+        {
+            switch (viewType) {
+                case ViewType.FloorPlan:
+                case ViewType.Elevation:
+                case ViewType.CeilingPlan:
+                case ViewType.Section:
+                case ViewType.AreaPlan:
+                case ViewType.ThreeD:
+                    return true;
+            }   
+            return false;
         }
    
         private static bool CreateView(View srcView, Document doc)
