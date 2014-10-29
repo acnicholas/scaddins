@@ -655,6 +655,7 @@ namespace SCaddins.SCexport
             ICollection<SCexportSheet> sheets,
             string printerName)
         {
+            sheets.OrderBy(x => x.SheetNumber).ToList();
             PrintManager pm = doc.PrintManager;
 
             // FIXME need more than a3

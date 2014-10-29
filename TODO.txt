@@ -1,5 +1,6 @@
 - Create button bar options
 - Check for duplicate file names in SCaos when creating winter views.
 - Add SCam to ribbon
+- Add SCuv to Ribbon
 - Improve SCam
  
