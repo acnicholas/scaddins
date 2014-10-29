@@ -47,7 +47,7 @@ namespace SCaddins.SCuv
             var t = new Transaction(doc, "SCuv Copies User Views");
             t.Start();
             foreach (SCaddins.SCexport.SCexportSheet sheet in sheets) {
-                message = CreateUserViewsFromSheet(sheet.Sheet, doc);
+                message += CreateUserViewsFromSheet(sheet.Sheet, doc);
             }
             t.Commit();
             ShowSummaryDialog(message);
