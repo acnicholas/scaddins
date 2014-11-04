@@ -654,13 +654,15 @@ namespace SCaddins.SCexport
         public void PrintA3(
             ICollection<SCexportSheet> sheets,
             string printerName)
-        {
-            sheets.OrderBy(x => x.SheetNumber).ToList();
+        {          
             PrintManager pm = doc.PrintManager;
-
+            
+            //collate the sheets.
+            ICollection<SCexportSheet> sortedSheets = sheets.OrderBy(x => x.SheetNumber).ToList();
+                     
             // FIXME need more than a3
             if (!PrintSettings.ApplyPrintSettings(
-                ref doc, "A3-FIT", ref pm, printerName)) {
+                    ref doc, "A3-FIT", ref pm, printerName)) {
                 return;
             }
 
@@ -675,7 +677,7 @@ namespace SCaddins.SCexport
             TaskDialogResult tdr = td.Show();
 
             if (tdr == TaskDialogResult.Ok) {
-                foreach (SCexportSheet sheet in sheets) {
+                foreach (SCexportSheet sheet in sortedSheets) {
                     pm.SubmitPrint(sheet.Sheet);
                 }
             }
