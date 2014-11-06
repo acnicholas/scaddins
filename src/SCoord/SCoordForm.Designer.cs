@@ -36,7 +36,7 @@ namespace SCaddins.SCoord
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SCoordForm));
+            var resources = new System.ComponentModel.ComponentResourceManager(typeof(SCoordForm));
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();

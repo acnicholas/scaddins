@@ -37,7 +37,7 @@ namespace SCaddins.SCuv
             UIDocument document = application.ActiveUIDocument;
             View view = doc.ActiveView;
             
-            Transaction t = new Transaction(doc, "SCuv Copies User Views");
+            var t = new Transaction(doc, "SCuv Copies User Views");
             t.Start();
             if (SCuv.CreateUserView(view, doc)) {
                 SCuv.ShowSummaryDialog(SCuv.GetNewViewName(view));

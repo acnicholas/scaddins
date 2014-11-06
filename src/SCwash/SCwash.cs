@@ -23,7 +23,7 @@ namespace SCaddins.SCwash
     using System.Windows.Forms;
     using Autodesk.Revit.DB;
 
-    public class SCwash
+    public static class SCwash
     {
         public static List<SCwashTreeNode> Imports(Document doc, bool linked)
         {
@@ -45,7 +45,7 @@ namespace SCaddins.SCwash
                         }
                     }
                     s += "Element id - " + ii.Id;
-                    SCwashTreeNode tn = new SCwashTreeNode(name);
+                    var tn = new SCwashTreeNode(name);
                     tn.Id = ii.Id;
                     tn.Info = s;
                     result.Add(tn);
@@ -67,7 +67,7 @@ namespace SCaddins.SCwash
                         s += param.Definition.Name + " - " + param.AsString() + param.AsValueString() + System.Environment.NewLine;
                     }
                 }
-                SCwashTreeNode tn = new SCwashTreeNode(image.Name.ToString());
+                var tn = new SCwashTreeNode(image.Name.ToString());
                 tn.Info = "Name = " + image.Name.ToString() + System.Environment.NewLine +
                 "id - " + image.Id.ToString();
                 tn.Info += System.Environment.NewLine + s;
@@ -94,7 +94,7 @@ namespace SCaddins.SCwash
                         bound = true;
                     }
                 }
-                SCwashTreeNode tn = new SCwashTreeNode(room.Name.ToString());
+                var tn = new SCwashTreeNode(room.Name.ToString());
                 tn.Info = "Name = " + room.Name.ToString() + System.Environment.NewLine +
                 "id - " + room.Id.ToString();
                 tn.Info += System.Environment.NewLine + s;
@@ -129,7 +129,7 @@ namespace SCaddins.SCwash
 
         public static void RemoveElements(Document doc, ICollection<ElementId> elements)
         {
-            Transaction t = new Transaction(doc, "Delete Elements");
+            var t = new Transaction(doc, "Delete Elements");
             t.Start();
             ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
             if (0 == deletedIdSet.Count) {

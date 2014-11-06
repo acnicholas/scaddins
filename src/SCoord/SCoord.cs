@@ -59,10 +59,10 @@ namespace SCaddins.SCoord
             }
 
             ProjectLocation currentLocation = doc.ActiveProjectLocation;
-            XYZ origin = new XYZ(0, 0, 0);
+            var origin = new XYZ(0, 0, 0);
             ProjectPosition projectPosition = currentLocation.get_ProjectPosition(origin);
 
-            SCoordForm form = new SCoordForm();
+            var form = new SCoordForm();
             System.Windows.Forms.DialogResult r = form.ShowDialog();
 
             if (r == System.Windows.Forms.DialogResult.Cancel) {
@@ -74,7 +74,7 @@ namespace SCaddins.SCoord
             double z = Convert.ToDouble(form.textBoxElev.Text);
             XYZ newLocation = this.ToMGA(projectPosition, x, y, z);
 
-            Transaction t = new Transaction(doc, "Place SCoord");
+            var t = new Transaction(doc, "Place SCoord");
             t.Start();
             FamilyInstance fi = doc.Create.NewFamilyInstance(
                                     newLocation,
@@ -104,7 +104,7 @@ namespace SCaddins.SCoord
             string family = SCaddins.Constants.FamilyDir +
                             version + @"\SC-Survey_Point.rfa";
             if (System.IO.File.Exists(family)) {
-                Transaction loadFamily = new Transaction(doc, "Load Family");
+                var loadFamily = new Transaction(doc, "Load Family");
                 loadFamily.Start();
                 Family fam;
                 doc.LoadFamily(family, out fam);
@@ -131,7 +131,7 @@ namespace SCaddins.SCoord
 
         private Level GetLevelZero(Document doc)
         {
-            FilteredElementCollector collector1 = new FilteredElementCollector(doc);
+            var collector1 = new FilteredElementCollector(doc);
             collector1.OfClass(typeof(Level));
             foreach (Level l in collector1) {
                 if (l.Name.ToUpper().Contains("SEA")) {

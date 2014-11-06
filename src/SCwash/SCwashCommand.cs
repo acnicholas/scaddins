@@ -39,7 +39,7 @@ namespace SCaddins.SCwash
                 "continue?";
 
             UIDocument udoc = commandData.Application.ActiveUIDocument;
-            TaskDialog td = new TaskDialog("SCwash WARNING!");
+            var td = new TaskDialog("SCwash WARNING!");
             td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
             td.MainInstruction = "WARNING!";
             td.MainContent = warning;
@@ -50,7 +50,7 @@ namespace SCaddins.SCwash
             }
 
             SCwashForm form = null;
-            TransactionGroup transaction = new TransactionGroup(commandData.Application.ActiveUIDocument.Document);
+            var transaction = new TransactionGroup(commandData.Application.ActiveUIDocument.Document);
             try {
                 transaction.Start("SCwash");
                 form = new SCwashForm(udoc.Document, udoc);

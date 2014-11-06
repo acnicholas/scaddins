@@ -79,7 +79,7 @@ namespace SCaddins.SCwash
         private void TreeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             if (treeView1.SelectedNode != null) {
-                SCwashTreeNode t = (SCwashTreeNode)treeView1.SelectedNode;
+                var t = (SCwashTreeNode)treeView1.SelectedNode;
                 textBox1.Text = t.Info;
                 try {
                     btnShowElement.Text = "Show" + System.Environment.NewLine + t.Id.ToString();

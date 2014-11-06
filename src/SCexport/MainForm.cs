@@ -621,7 +621,7 @@ namespace SCaddins.SCexport
 
         private void Button1Click(object sender, EventArgs e)
         {
-            this.scx.PrintA3(this.SelectedSheets(), this.scx.PrinterNameA3);
+            SCexport.PrintA3(this.SelectedSheets(), this.scx.PrinterNameA3);
         }
 
         private void BtnExportResize(object sender, EventArgs e)

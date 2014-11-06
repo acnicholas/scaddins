@@ -323,11 +323,7 @@ namespace SCaddins.SCexport
                 titleBlocks = AllTitleBlocks(doc);
             }
 
-            if (titleBlocks.TryGetValue(sheetNumber, out result)) {
-                return result;
-            }
-
-            return null;
+            return titleBlocks.TryGetValue(sheetNumber, out result) ? result : null;
         }
 
         /// <summary>
@@ -432,11 +428,7 @@ namespace SCaddins.SCexport
         public static string CreateSCexportConfig(Document doc)
         {
             string s = GetConfigFilename(ref doc);
-            if (File.Exists(s)) {
-                return s;
-            } else {
-                return null;
-            }
+            return File.Exists(s) ? s : null;
         }
 
         /// <summary>
@@ -532,10 +524,42 @@ namespace SCaddins.SCexport
                     s = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString();
                 }
             }
-            if (s.Length > 1) {
-                return s;
-            } else {
-                return string.Empty;
+            return (s.Length > 1) ? s : string.Empty;
+        }
+        
+        /// <summary>
+        /// Print the specified sheets.
+        /// </summary>
+        /// <param name="sheets"> All the sheets to export. </param>
+        public static void PrintA3(
+            ICollection<SCexportSheet> sheets,
+            string printerName)
+        {          
+            PrintManager pm = doc.PrintManager;
+            
+            // collate the sheets.
+            ICollection<SCexportSheet> sortedSheets = sheets.OrderBy(x => x.SheetNumber).ToList();
+                     
+            // FIXME need more than a3
+            if (!PrintSettings.ApplyPrintSettings(
+                    ref doc, "A3-FIT", ref pm, printerName)) {
+                return;
+            }
+
+            var td = new TaskDialog("SCexport - Print Warning");
+            td.MainInstruction = "Warning";
+            td.MainContent = "The print feature is experimental, please only export a " +
+                "small selection of sheets until you are sure it is working correctly." +
+                System.Environment.NewLine + System.Environment.NewLine +
+                "Press ok to continue.";
+            td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+            td.CommonButtons = TaskDialogCommonButtons.Ok | TaskDialogCommonButtons.No;
+            TaskDialogResult tdr = td.Show();
+
+            if (tdr == TaskDialogResult.Ok) {
+                foreach (SCexportSheet sheet in sortedSheets) {
+                    pm.SubmitPrint(sheet.Sheet);
+                }
             }
         }
 
@@ -647,42 +671,6 @@ namespace SCaddins.SCexport
             LogFooter(logFile, pbar.Maximum, this.TimeSpanAsString(elapsedTime));
         }
 
-        /// <summary>
-        /// Print the specified sheets.
-        /// </summary>
-        /// <param name="sheets"> All the sheets to export. </param>
-        public void PrintA3(
-            ICollection<SCexportSheet> sheets,
-            string printerName)
-        {          
-            PrintManager pm = doc.PrintManager;
-            
-            //collate the sheets.
-            ICollection<SCexportSheet> sortedSheets = sheets.OrderBy(x => x.SheetNumber).ToList();
-                     
-            // FIXME need more than a3
-            if (!PrintSettings.ApplyPrintSettings(
-                    ref doc, "A3-FIT", ref pm, printerName)) {
-                return;
-            }
-
-            TaskDialog td = new TaskDialog("SCexport - Print Warning");
-            td.MainInstruction = "Warning";
-            td.MainContent = "The print feature is experimental, please only export a " +
-                "small selection of sheets until you are sure it is working correctly." +
-                System.Environment.NewLine + System.Environment.NewLine +
-                "Press ok to continue.";
-            td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-            td.CommonButtons = TaskDialogCommonButtons.Ok | TaskDialogCommonButtons.No;
-            TaskDialogResult tdr = td.Show();
-
-            if (tdr == TaskDialogResult.Ok) {
-                foreach (SCexportSheet sheet in sortedSheets) {
-                    pm.SubmitPrint(sheet.Sheet);
-                }
-            }
-        }
-
         public bool GSSanityCheck()
         {
             if (!Directory.Exists(this.GhostsciptBinDir) || !Directory.Exists(this.GhostsciptLibDir)) {
@@ -697,10 +685,7 @@ namespace SCaddins.SCexport
         {
            var ps = new System.Drawing.Printing.PrinterSettings();
             ps.PrinterName = this.PdfPrinterName;
-            if (!ps.IsValid) {
-                return false;
-            }
-            return true;
+            return ps.IsValid;
         }
         
         public void LoadSettings()
@@ -1199,7 +1184,7 @@ namespace SCaddins.SCexport
             Categories categories = SCexport.doc.Settings.Categories;
             Category genericAnnotations = categories.get_Item("Generic Annotations");
             Category categoryDoNotPrint = genericAnnotations.SubCategories.get_Item("Do Not Print");
-            using (Transaction t = new Transaction(doc, "Do Not Print color = " + newColor.Blue))
+            using (var t = new Transaction(doc, "Do Not Print color = " + newColor.Blue))
             {            
                 t.Start();
                 categoryDoNotPrint.LineColor = newColor;                

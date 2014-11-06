@@ -100,11 +100,7 @@ namespace SCaddins.SCopy
         #region public methods
         public static ViewSheet ViewToViewSheet(View view)
         {
-            if (view.ViewType != ViewType.DrawingSheet) {
-                return null;
-            } else {
-                return view as ViewSheet;
-            }
+            return (view.ViewType != ViewType.DrawingSheet) ? null : view as ViewSheet;
         }
         
         public bool CheckSheetNumberAvailability(string number)
@@ -148,7 +144,7 @@ namespace SCaddins.SCopy
             foreach (SCopySheet sheet in this.sheets) {
                 this.CreateSheet(sheet, ref summaryText);
             }
-            TaskDialog td = new TaskDialog("SCopy - Summary");
+            var td = new TaskDialog("SCopy - Summary");
             td.MainInstruction = "SCopy - Summary";
             td.MainContent = summaryText;
             td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
@@ -177,7 +173,7 @@ namespace SCaddins.SCopy
                 1);
             int i = 1;
             foreach (ElementId id in views) {
-                View view = this.doc.GetElement(id) as View;
+                var view = this.doc.GetElement(id) as View;
                 this.AddViewsToList(
                     ref list,
                     "View: " + i,
