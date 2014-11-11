@@ -110,6 +110,9 @@ namespace SCaddins.SCuv
             newView.ViewTemplateId = ElementId.InvalidElementId;
             
             Parameter param = newView.get_Parameter("SC-View_Category");
+            if(param == null) {
+                return true ;
+            }
             if (param.IsReadOnly) {
                 TaskDialog.Show("SCuv Error", "SC-View_Category is read only!");
                 return false;

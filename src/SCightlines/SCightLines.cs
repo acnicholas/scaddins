@@ -18,6 +18,7 @@
 namespace SCaddins.SCightLines
 {
     using System;
+    using System.Linq;
     using Autodesk.Revit.ApplicationServices;
     using Autodesk.Revit.DB;
     
@@ -126,7 +127,7 @@ namespace SCaddins.SCightLines
                 "LOS-X" + this.distanceToFirstRowX + "-Y" + this.distanceToFirstRowY + "-T" +
                 this.treadSize + "-MinN" + this.minimumRiserHeight + "-Inc" + this.riserIncrement +
                 "-Eye" + this.eyeHeight + "-MinC" + this.minimumCValue + "_" + times);
-
+            
             Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
             this.view.Scale = 50;
             int i;
@@ -214,9 +215,12 @@ namespace SCaddins.SCightLines
             #if REVIT2014
             view = this.doc.Create.NewViewDrafting();
             #else
-            FilteredElementCollector collector = new FilteredElementCollector(this.doc);
-            collector.OfClass(typeof(ViewFamilyType));
-            view = ViewDrafting.Create(this.doc, collector.FirstElementId());
+            ViewFamilyType viewFamilyType =
+                new FilteredElementCollector(this.doc)
+                    .OfClass(typeof(ViewFamilyType))
+                    .Cast<ViewFamilyType>()
+                    .FirstOrDefault<ViewFamilyType>(x => ViewFamily.Drafting == x.ViewFamily);
+            view = ViewDrafting.Create(this.doc, viewFamilyType.Id);
             #endif
             view.ViewName = s;
             return view;

@@ -44,9 +44,12 @@ namespace SCaddins.SCopy
                 this.viewsOnSheet.Add(new SCopyViewOnSheet(v.Name, v, scopy));
             }
             #else
-            foreach (ElementId id in scopy.SourceSheet.GetAllPlacedViews()) {
-                View v = this.DestSheet.Document.GetElement(id) as View;
-                this.viewsOnSheet.Add(new SCopyViewOnSheet(v.Name, v, scopy));
+            foreach (ElementId id in scopy.SourceSheet.GetAllPlacedViews()) {              
+                Element element = scopy.SourceSheet.Document.GetElement(id);
+                if(element != null){
+                    View v = element as View;
+                    this.viewsOnSheet.Add(new SCopyViewOnSheet(v.Name, v, scopy));
+                }
             }
             #endif
         }
