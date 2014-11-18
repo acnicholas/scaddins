@@ -1159,26 +1159,22 @@ namespace SCaddins.SCexport
             return true;
         }
         
-        // TODO give harry some credit here.
         private void ApplyNonPrintLinetype()
         {
             SCexport.doc.Application.DocumentPrinting += new EventHandler<DocumentPrintingEventArgs>(this.MyPrintingEvent); 
             SCexport.doc.Application.DocumentPrinted += new EventHandler<DocumentPrintedEventArgs>(this.MyPrintedEvent);
         }
         
-        // TODO give harry some credit here.
         private void MyPrintingEvent(object sender, DocumentPrintingEventArgs args)
         {
             this.CategoryLineColor(new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue));
         }
         
-        // TODO give harry some credit here.
         private void MyPrintedEvent(object sender, DocumentPrintedEventArgs args)
         {
             this.CategoryLineColor(new Color(byte.MinValue, byte.MinValue, byte.MinValue));
         }
         
-        // TODO give harry some credit here.
         private void CategoryLineColor(Color newColor)
         {
             Categories categories = SCexport.doc.Settings.Categories;

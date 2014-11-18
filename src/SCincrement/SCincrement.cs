@@ -58,7 +58,17 @@ namespace SCaddins.SCincrement
             catch
             {
             }
-
+            
+            int incVal = -1;
+            
+            SCincrementForm form = new SCincrementForm();
+            form.textBox1.Text = "1";
+            System.Windows.Forms.DialogResult result = form.ShowDialog();
+            if(result == System.Windows.Forms.DialogResult.OK){
+                //TaskDialog.Show("Debug",form.textBox1.Text);   
+                incVal =  Convert.ToInt16(form.textBox1.Text);
+            } 
+            
             using (Transaction t = new Transaction(doc, "Renumber")) {
                 t.Start();
                 
@@ -67,6 +77,7 @@ namespace SCaddins.SCincrement
                 // therefore, first renumber everny element to a temporary name then to the real one
                 int ctr = 1;
                 int startValue = 0;
+                string leftPad = string.Empty;
                 foreach (Reference r in refList) {
                     Parameter p = this.GetParameterForReference(doc, r);
                     if (p == null) {
@@ -75,18 +86,30 @@ namespace SCaddins.SCincrement
 
                     // get the value of the first element to use as the start value for the renumbering in the next loop
                     if (ctr == 1) {
-                        startValue = Convert.ToInt16(p.AsString());
+                        string s = p.AsString();
+                        if (p.AsString().Contains(".")){   
+                            if (s.IndexOf(".") != -1){
+                                leftPad = s.Substring(0,s.IndexOf(".") + 1);
+                                //TaskDialog.Show("DEBUG - leftPad",leftPad);
+                            }
+                            startValue = Convert.ToInt16(s.Substring(s.IndexOf(".") +1 ));
+                                //TaskDialog.Show("DEBUG",startValue.ToString());
+                        } else {
+                            startValue = Convert.ToInt16(s);
+                            //TaskDialog.Show("DEBUG",startValue.ToString());
+                        }
                     }
 
-                    this.SetParameterToValue(p, ctr + 12345); // hope this # is unused (could use Failure API to make this more robust
+                    this.SetParameterToValue(p, ctr + 12345, string.Empty); // hope this # is unused (could use Failure API to make this more robust
                     ctr++;
                 }
 
                 ctr = startValue;
                 foreach (Reference r in refList) {
                     Parameter p = this.GetParameterForReference(doc, r);
-                    this.SetParameterToValue(p, ctr);
+                    this.SetParameterToValue(p, ctr, leftPad);
                     ctr++;
+                    ctr += incVal;
                 }
                 t.Commit();
             }
@@ -131,12 +154,12 @@ namespace SCaddins.SCincrement
             return p;
         }
         
-        private void SetParameterToValue(Parameter p, int i)
+        private void SetParameterToValue(Parameter p, int i, string pad)
         {
             if (p.StorageType == StorageType.Integer) {
                 p.Set(i);
             } else if (p.StorageType == StorageType.String) {
-                p.Set(i.ToString());
+                p.Set(pad + i.ToString());
             }
         }
     }
