@@ -43,7 +43,7 @@
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <Target Name="AfterBuild">
-    <GetAssemblyIdentity AssemblyFiles="..\bin\Release\SCaddins15.dll">
+    <GetAssemblyIdentity AssemblyFiles="..\bin\Release\SCaddins14.dll">
       <Output TaskParameter="Assemblies" ItemName="AssemblyVersion" />
     </GetAssemblyIdentity>
     <Copy SourceFiles=".\bin\$(Configuration)\$(OutputName).msi" DestinationFiles=".\bin\$(Configuration)\SCaddins-win64-%(AssemblyVersion.Version).msi" />
