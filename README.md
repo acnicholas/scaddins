@@ -55,8 +55,7 @@ Included are:
 ### SCexport ###
 
 * Adobe Acrobat (optional for pdf export)
-* Ghostscipt (optional for alternate pdf export)
-
+* [Ghostscript](http://www.ghostscript.com/download/gsdnld.html) (optional for alternate pdf export) 
 
 # Installation #
 
