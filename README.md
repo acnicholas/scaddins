@@ -55,8 +55,8 @@ Included are:
 ### SCexport ###
 
 * Adobe Acrobat (optional for pdf export)
-* Ghostscipt (optional for alternate pdf export)
-
+* [Ghostscript](http://www.ghostscript.com/download/gsdnld.html) (optional for alternate pdf export) 
+* Postscript printer driver. I recommend [this](http://h20564.www2.hp.com/hpsc/swd/public/detail?sp4ts.oid=3338907&swItemId=pl_51340_6&swEnvOid=4063) (optional for alternate pdf export)
 
 # Installation #
 
