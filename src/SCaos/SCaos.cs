@@ -60,7 +60,7 @@ namespace SCaddins.SCaos
         private string[] GetViewInfo(View view, Document doc)
         {
             if (view.ViewType != ViewType.ThreeD) {
-                string[] info = new string[4];
+                var info = new string[4];
                 info[0] = "Not a 3d view...";
                 info[1] = string.Empty;
                 info[2] = "Please select a 3d view to rotate";

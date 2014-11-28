@@ -41,16 +41,19 @@ namespace SCaddins
             ribbonPanel.AddStackedItems(
                     this.LoadSCoord(scdll, ribbonPanel),
                     this.LoadSCulcase(scdll, ribbonPanel),
-                    this.LoadSCwash(scdll, ribbonPanel));
+                    this.LoadSCwash(scdll, ribbonPanel)
+                   );
             ribbonPanel.AddStackedItems(
                     this.LoadSCaos(scdll, ribbonPanel),
                     this.LoadSCopy(scdll, ribbonPanel),
-                    this.LoadSCloudShed(scdll, ribbonPanel));
+                    this.LoadSCloudShed(scdll, ribbonPanel)
+                   );
             ribbonPanel.AddStackedItems(
                     this.LoadSCightlines(scdll, ribbonPanel),
-                    this.LoadSCincrement(scdll, ribbonPanel),
-                    this.LoadAbout(scdll, ribbonPanel));
+                    this.LoadSCincrement(scdll, ribbonPanel)
+                   );
             ribbonPanel.AddSlideOut();
+            this.LoadAbout(scdll, ribbonPanel);
             return Result.Succeeded;
         }
 

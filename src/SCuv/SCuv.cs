@@ -105,7 +105,7 @@ namespace SCaddins.SCuv
         private static bool CreateView(View srcView, Document doc)
         {
             ElementId destViewId = srcView.Duplicate(ViewDuplicateOption.Duplicate);
-            View newView = doc.GetElement(destViewId) as View;
+            var newView = doc.GetElement(destViewId) as View;
             newView.Name = GetNewViewName(srcView); 
             newView.ViewTemplateId = ElementId.InvalidElementId;
             
