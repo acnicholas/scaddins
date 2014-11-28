@@ -1149,8 +1149,8 @@ namespace SCaddins.SCexport
 
             FileUtils.WaitForFileAccess(vs.FullExportPath(".ps"));
 
-            string args = this.GhostsciptLibDir +
-                @"/c ps2pdf -sPAPERSIZE#" +
+            string args = 
+                @"/c " + this.GhostsciptLibDir  + @"\ps2pdf -sPAPERSIZE#" +
                 vs.PageSize.ToLower() + " \"" + vs.FullExportPath(".ps") +
                 "\" \"" + vs.FullExportPath(".pdf") + "\"";
 
