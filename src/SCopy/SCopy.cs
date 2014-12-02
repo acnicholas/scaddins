@@ -322,7 +322,7 @@ namespace SCaddins.SCopy
         {
             double destViewMidX = srcViewCentre.X;
             double destViewMidY = srcViewCentre.Y;
-            XYZ destViewCentre = new XYZ(destViewMidX, destViewMidY, 0);
+            var destViewCentre = new XYZ(destViewMidX, destViewMidY, 0);
             Viewport.Create(this.doc, destSheet.Id, destViewId, destViewCentre);
         }
 
@@ -357,8 +357,8 @@ namespace SCaddins.SCopy
         
         private void CopyElementsOnSheet(SCopySheet sheet, BuiltInCategory category)
         {
-            View v = this.SourceSheet as View;
-            FilteredElementCollector collector = new FilteredElementCollector(this.doc, v.Id);
+            var v = this.SourceSheet as View;
+            var collector = new FilteredElementCollector(this.doc, v.Id);
             collector.OfCategory(category);
             IList<ElementId> list = new List<ElementId>();
             foreach (Element e in collector) {
@@ -371,8 +371,8 @@ namespace SCaddins.SCopy
         
         private void CopyLinesOnSheet(SCopySheet sheet)
         {
-            View v = this.SourceSheet as View;
-            FilteredElementCollector collector = new FilteredElementCollector(this.doc, v.Id);
+            var v = this.SourceSheet as View;
+            var collector = new FilteredElementCollector(this.doc, v.Id);
             collector.OfClass(typeof(Autodesk.Revit.DB.Line));
             IList<ElementId> list = new List<ElementId>();
             foreach (Element e in collector) {
@@ -427,7 +427,7 @@ namespace SCaddins.SCopy
             ElementId destViewId = view.OldView.Duplicate(
                                        ViewDuplicateOption.WithDetailing);
             string newName = sheet.GetNewViewName(view.OldView.Id);
-            View v = this.doc.GetElement(destViewId) as View;
+            var v = this.doc.GetElement(destViewId) as View;
             if (newName != null) {
                 v.Name = newName;
             }
@@ -443,11 +443,11 @@ namespace SCaddins.SCopy
 
         private FamilyInstance GetTitleBlock(ViewSheet sheet)
         {
-            FilteredElementCollector elemsOnSheet = new FilteredElementCollector(
+            var elemsOnSheet = new FilteredElementCollector(
                                                         this.doc, sheet.Id);
             elemsOnSheet.OfCategory(BuiltInCategory.OST_TitleBlocks);
             if (elemsOnSheet.Count() == 1) {
-                FamilyInstance inst = (FamilyInstance)elemsOnSheet.ElementAt(0);
+                var inst = (FamilyInstance)elemsOnSheet.ElementAt(0);
                 return inst;
             } else {
                 TaskDialog.Show("SCopy", "Multiple title blocks found...");
@@ -458,10 +458,9 @@ namespace SCaddins.SCopy
         private Dictionary<ElementId, BoundingBoxXYZ> GetVPDictionary(
             ViewSheet srcSheet, Document doc)
         {
-            Dictionary<ElementId, BoundingBoxXYZ> result =
-                new Dictionary<ElementId, BoundingBoxXYZ>();
+            var result = new Dictionary<ElementId, BoundingBoxXYZ>();
             foreach (ElementId viewPortId in srcSheet.GetAllViewports()) {
-                Viewport viewPort = (Viewport)doc.GetElement(viewPortId);
+                var viewPort = (Viewport)doc.GetElement(viewPortId);
                 var viewPortBounds = viewPort.get_BoundingBox(srcSheet);
                 result.Add(
                     viewPort.ViewId, viewPortBounds);

@@ -57,7 +57,7 @@ namespace SCaddins.SCopy
 
         private void AddCheckBoxColumn(string name, string text, DataGridView grid)
         {
-            DataGridViewCheckBoxColumn result = new DataGridViewCheckBoxColumn();
+            var result = new DataGridViewCheckBoxColumn();
             this.AddColumnHeader(name, text, result);
             grid.Columns.Add(result);
         }
@@ -71,7 +71,7 @@ namespace SCaddins.SCopy
     
         private DataGridViewComboBoxColumn CreateComboBoxColumn()
         {
-            DataGridViewComboBoxColumn result = new DataGridViewComboBoxColumn();
+            var result = new DataGridViewComboBoxColumn();
             result.FlatStyle = FlatStyle.Flat;
             return result;        
         }
@@ -97,7 +97,7 @@ namespace SCaddins.SCopy
 
         private void AddColumn(string name, string text, DataGridView grid)
         {
-            DataGridViewTextBoxColumn result = new DataGridViewTextBoxColumn();
+            var result = new DataGridViewTextBoxColumn();
             this.AddColumnHeader(name, text, result);
             grid.Columns.Add(result);
         }
@@ -125,8 +125,7 @@ namespace SCaddins.SCopy
 
         private void DataGridView1CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            SCopySheet sheet =
-                dataGridView1.Rows[e.RowIndex].DataBoundItem as SCopySheet;
+            var sheet = dataGridView1.Rows[e.RowIndex].DataBoundItem as SCopySheet;
             dataGridView2.DataSource = sheet.ViewsOnSheet;
             dataGridView2.Refresh();
         }
@@ -146,8 +145,8 @@ namespace SCaddins.SCopy
                 return;
             }
             if (e.ColumnIndex == 2) {
-                DataGridViewComboBoxCell cell = (DataGridViewComboBoxCell)dataGridView2[e.ColumnIndex, e.RowIndex];
-                SCopyViewOnSheet viewOnSheet =
+                var cell = (DataGridViewComboBoxCell)dataGridView2[e.ColumnIndex, e.RowIndex];
+                var viewOnSheet =
                     dataGridView2.Rows[e.RowIndex].DataBoundItem as SCopyViewOnSheet;
                 if (viewOnSheet.OldView.ViewType != ViewType.FloorPlan) {
                     cell.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
@@ -162,8 +161,7 @@ namespace SCaddins.SCopy
         private void ButtonRemoveClick(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in dataGridView1.SelectedRows) {
-                SCopySheet sheet =
-                    row.DataBoundItem as SCopySheet;
+                var sheet = row.DataBoundItem as SCopySheet;
                 this.scopy.Sheets.Remove(sheet);
             }
             if (dataGridView1.Rows.Count == 0) {
@@ -181,7 +179,7 @@ namespace SCaddins.SCopy
         private void ButtonReplaceClick(object sender, EventArgs e)
         {
             // display a list of plans in the model.
-            SCopyViewSelectionDialog vd = new SCopyViewSelectionDialog();
+            var vd = new SCopyViewSelectionDialog();
             foreach (Autodesk.Revit.DB.View v in this.scopy.ExistingViews.Values) {
                 #if REVIT2014
                 Parameter p2 = v.get_Parameter("Sheet Number");
@@ -204,8 +202,7 @@ namespace SCaddins.SCopy
              
             // should only be one!
             foreach (DataGridViewRow row in dataGridView2.SelectedRows) {
-                SCopyViewOnSheet viewOnSheet =
-                    row.DataBoundItem as SCopyViewOnSheet;
+                var viewOnSheet = row.DataBoundItem as SCopyViewOnSheet;
                 TaskDialog.Show("DEBUG", @"TODO: add (" + test + @") to sheet ");
                 
                 // TODO crop view to match src view
@@ -221,8 +218,7 @@ namespace SCaddins.SCopy
         {
             bool planEnough = true;
             foreach (DataGridViewRow row in dataGridView2.SelectedRows) {
-                SCopyViewOnSheet view =
-                    row.DataBoundItem as SCopyViewOnSheet;
+                var view = row.DataBoundItem as SCopyViewOnSheet;
                 if (!view.PlanEnough()) {
                     planEnough = false;       
                 }

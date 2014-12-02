@@ -72,12 +72,12 @@ namespace SCaddins.SCulcase
         {
             commit = true;
             SCulcase.mode = mode;
-            Transaction trans = new Transaction(doc);
+            var trans = new Transaction(doc);
             trans.Start("Convert selected elements to uppercase (SCulcase)");
             foreach (Autodesk.Revit.DB.ElementId eid in elements) { 
                 Element e = doc.GetElement(eid);     
                 Category category = e.Category;
-                BuiltInCategory enumCategory = (BuiltInCategory)category.Id.IntegerValue;
+                var enumCategory = (BuiltInCategory)category.Id.IntegerValue;
                 switch (enumCategory) {
                     case BuiltInCategory.OST_Views:
                         View v = (View)e;
@@ -128,7 +128,7 @@ namespace SCaddins.SCulcase
 
         private static void ConvertAllViewNames(ref Document doc)
         {
-            FilteredElementCollector f = new FilteredElementCollector(doc);
+            var f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_Views);
             foreach (Element e in f) {
                 View v = (View)e;
@@ -153,7 +153,7 @@ namespace SCaddins.SCulcase
             var f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_Views);
             foreach (Element e in f) {
-                View view = (View)e;
+                var view = (View)e;
                 ConvertViewNameOnSheet(ref view);
             }
         }
@@ -172,7 +172,7 @@ namespace SCaddins.SCulcase
             var f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_Sheets);
             foreach (Element e in f) {
-                ViewSheet viewSheet = (ViewSheet)e;
+                var viewSheet = (ViewSheet)e;
                 ConvertSheetName(ref viewSheet);
             }
         }
@@ -212,10 +212,10 @@ namespace SCaddins.SCulcase
 
         private static void ConvertAllRooms(ref Document doc)
         {
-            FilteredElementCollector f = new FilteredElementCollector(doc);
+            var f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_Rooms);
             foreach (Element e in f) {
-                Room room = (Room)e;
+                var room = (Room)e;
                 ConvertRoom(ref room);
             }
         }

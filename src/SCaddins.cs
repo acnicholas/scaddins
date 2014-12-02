@@ -53,7 +53,7 @@ namespace SCaddins
                     this.LoadSCincrement(scdll, ribbonPanel)
                    );
             ribbonPanel.AddSlideOut();
-            this.LoadAbout(scdll, ribbonPanel);
+            ribbonPanel.AddItem(this.LoadAbout(scdll, ribbonPanel));
             return Result.Succeeded;
         }
 
