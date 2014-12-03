@@ -22,24 +22,25 @@
 							<File Id="sculcase_rvt_16.png" Name="sculcase-rvt-16.png" Source="..\share\icons\ribbon\sculcase-rvt-16.png" />
 							<File Id="scwash_rvt_16.png" Name="scwash-rvt-16.png" Source="..\share\icons\ribbon\scwash-rvt-16.png" />
 							<File Id="help.png" Name="help.png" Source="..\share\icons\ribbon\help.png" />
+							<File Id="user.png" Name="user.png" Source="..\share\icons\ribbon\user.png" />
 						</Component>
 					</Directory>
 					<Directory Id="RFADIR" Name="rfa">
 						<Directory Id="RFAFILES2014" Name="2014">
-						<?if $(env.R2014) = Enabled ?> 
+							<?if $(env.R2014) = Enabled ?>
 							<Component Id="SCaddinsRFA2014" Guid="0D7954CA-7551-495E-A4D3-05B6C921A635" DiskId="1" Win64="yes">
 								<CreateFolder />
 								<File Id="SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2014\SC-Survey_Point.rfa" />
 							</Component>
-						<?endif?>
+							<?endif?>
 						</Directory>
 						<Directory Id="RFAFILES2015" Name="2015">
-						<?if $(env.R2015) = Enabled ?>
+							<?if $(env.R2015) = Enabled ?>
 							<Component Id="SCaddinsRFA2015" Guid="C7F27B1E-7471-420B-B72E-00E21A153A01" DiskId="1" Win64="yes">
 								<CreateFolder />
 								<File Id="_015.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2015\SC-Survey_Point.rfa" />
 							</Component>
-						<?endif?>
+							<?endif?>
 						</Directory>
 					</Directory>
 				</Directory>
@@ -49,22 +50,22 @@
 						<File Id="SCEXPORT.XSD" Name="SCexport.xsd" Source="..\etc\SCexport.xsd" />
 					</Component>
 				</Directory>
-				<?if $(env.R2014) = Enabled ?> 
+				<?if $(env.R2014) = Enabled ?>
 				<Directory Id="DLLDIR2014" Name="2014">
 					<Component Id="SCaddins2014" DiskId="1" Guid="103FC570-FEE8-4CF7-A35A-1162A00B45E6" Win64="yes">
 						<CreateFolder />
 						<File Id="SCaddins2014.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins14.dll" />
 					</Component>
 				</Directory>
-                                <?endif?>
-                                <?if $(env.R2015) = Enabled ?> 
+				<?endif?>
+				<?if $(env.R2015) = Enabled ?>
 				<Directory Id="DLLDIR2015" Name="2015">
 					<Component Id="SCaddins2015" DiskId="1" Guid="7F1CE98E-1FC3-490F-A5C4-72B69FD0C5A3" Win64="yes">
 						<CreateFolder />
 						<File Id="SCaddins2015.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins15.dll" />
 					</Component>
 				</Directory>
-                                <?endif?>
+				<?endif?>
 			</Directory>
 		</Directory>
 	</Directory>
@@ -72,22 +73,22 @@
 		<Directory Name="Autodesk" Id="Autodesk">
 			<Directory Name="REVIT" Id="REVIT">
 				<Directory Name="Addins" Id="Addins">
-                                        <?if $(env.R2014) = Enabled ?> 
+					<?if $(env.R2014) = Enabled ?>
 					<Directory Id="R2014" Name="2014">
 						<Component Id="SCaddinsAddin2014" DiskId="1" Guid="ED49B2CE-28D8-4E49-8CD0-063DAB6DD0BA">
 							<CreateFolder />
 							<File Id="SCADDINS14.ADDIN" Name="SCaddins14.addin" Source="..\src\Manifest\2014\SCaddins.addin" />
 						</Component>
 					</Directory>
-                                        <?endif?>
-                                        <?if $(env.R2015) = Enabled ?> 
+					<?endif?>
+					<?if $(env.R2015) = Enabled ?>
 					<Directory Id="NewDirectory" Name="2015">
 						<Component Id="SCaddinsAddin2015" DiskId="1" Guid="F70553D6-1822-4937-96DF-1B262F214DD3">
 							<CreateFolder />
 							<File Id="SCADDINS15.ADDIN" Name="SCaddins15.addin" Source="..\src\Manifest\2015\SCaddins.addin" />
 						</Component>
 					</Directory>
-                                        <?endif?>
+					<?endif?>
 				</Directory>
 			</Directory>
 		</Directory>

@@ -50,7 +50,8 @@ namespace SCaddins
                    );
             ribbonPanel.AddStackedItems(
                     this.LoadSCightlines(scdll, ribbonPanel),
-                    this.LoadSCincrement(scdll, ribbonPanel)
+                    this.LoadSCincrement(scdll, ribbonPanel),
+                    this.LoadSCuv(scdll, ribbonPanel)
                    );
             ribbonPanel.AddSlideOut();
             ribbonPanel.AddItem(this.LoadAbout(scdll, ribbonPanel));
@@ -148,11 +149,21 @@ namespace SCaddins
             return pbd;
         }
         
+        private PushButtonData LoadSCuv(string dll, RibbonPanel rp)
+        {
+            var pbd = new PushButtonData(
+                              "SCuv", "SCuv", dll, "SCaddins.SCuv.Command");
+            this.AssignPushButtonImage(pbd, "user.png", 16);
+            pbd.ToolTip =
+                "Create a user view.";
+            return pbd;
+        }
+        
         private PushButtonData LoadAbout(string dll, RibbonPanel rp)
         {
             var pbd = new PushButtonData(
                               "SCaddinsAbout", "SCaddinsAbout", dll, "SCaddins.Common.About");
-            this.AssignPushButtonImage(pbd, "help.png", 16);
+            this.AssignPushButtonImage(pbd, "help.png", 32);
             pbd.ToolTip =
                 "About SCaddins.";
             return pbd;
@@ -175,7 +186,7 @@ namespace SCaddins
             "NOTE: After the new sheet is created, view names need to be munaually edit.";
             return pbd;
         }
-
+        
         private void AssignPushButtonImage(PushButtonData pb, string iconName, int size)
         {
             BitmapSource image = this.LoadBitmapImage(SCaddins.Constants.IconDir + iconName, size);
