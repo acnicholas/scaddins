@@ -26,6 +26,12 @@ namespace SCaddins.SCexport
     /// </summary>
     public class DialogHandler
     {
+        public const string DismissNoOpenViewMessage =
+            "There is no open view that shows any of the highlighted elements.  Searching through the closed views to find a good view could take a long time.  Continue?";
+        public const string DuplicateNumberMessage =   
+            "Elements have duplicate 'Number' values.";
+        private string message;
+            
         /// <summary>
         /// Create a new dialog handler.
         /// </summary>
@@ -33,6 +39,13 @@ namespace SCaddins.SCexport
         public DialogHandler(UIApplication uiapp)
         {
             uiapp.DialogBoxShowing += new EventHandler<DialogBoxShowingEventArgs>(this.DismissOpenQuestion);
+            this.message = DialogHandler.DismissNoOpenViewMessage;
+        }
+        
+        public DialogHandler(UIApplication uiapp, string message)
+        {
+            uiapp.DialogBoxShowing += new EventHandler<DialogBoxShowingEventArgs>(this.DismissOpenQuestion);
+            this.message = message;
         }
         
         private void DismissOpenQuestion(object o, DialogBoxShowingEventArgs e)

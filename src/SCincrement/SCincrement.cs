@@ -67,7 +67,9 @@ namespace SCaddins.SCincrement
             if(result == System.Windows.Forms.DialogResult.OK){
                 //TaskDialog.Show("Debug",form.textBox1.Text);   
                 incVal =  Convert.ToInt16(form.textBox1.Text);
-            } 
+            } else if (result == System.Windows.Forms.DialogResult.Ignore) {
+                incVal = -1;
+            }
             
             using (Transaction t = new Transaction(doc, "Renumber")) {
                 t.Start();

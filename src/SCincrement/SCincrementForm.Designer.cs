@@ -40,6 +40,7 @@ namespace SCaddins.SCincrement
             this.button2 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -57,31 +58,43 @@ namespace SCaddins.SCincrement
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button2.Location = new System.Drawing.Point(12, 59);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(58, 23);
             this.button2.TabIndex = 1;
             this.button2.Text = "Cancel";
             this.button2.UseVisualStyleBackColor = true;
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(92, 20);
+            this.textBox1.Location = new System.Drawing.Point(136, 20);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(152, 20);
+            this.textBox1.Size = new System.Drawing.Size(108, 20);
             this.textBox1.TabIndex = 2;
+            this.textBox1.Text = "-1";
             // 
             // label1
             // 
             this.label1.Location = new System.Drawing.Point(12, 23);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(75, 23);
+            this.label1.Size = new System.Drawing.Size(118, 23);
             this.label1.TabIndex = 3;
-            this.label1.Text = "label1";
+            this.label1.Text = "Increment Value";
+            // 
+            // button3
+            // 
+            this.button3.DialogResult = System.Windows.Forms.DialogResult.Ignore;
+            this.button3.Location = new System.Drawing.Point(93, 59);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 4;
+            this.button3.Text = "Copy";
+            this.button3.UseVisualStyleBackColor = true;
             // 
             // SCincrementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(253, 96);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button2);
@@ -91,10 +104,12 @@ namespace SCaddins.SCincrement
             this.Text = "SCincrementForm";
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
-        private System.Windows.Forms.Button button1;
+        public System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         public System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
+        public System.Windows.Forms.Button button3;
     }
 }

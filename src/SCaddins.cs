@@ -163,7 +163,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCaddinsAbout", "SCaddinsAbout", dll, "SCaddins.Common.About");
-            this.AssignPushButtonImage(pbd, "help.png", 32);
+            this.AssignPushButtonImage(pbd, "help.png", -1);
             pbd.ToolTip =
                 "About SCaddins.";
             return pbd;
@@ -186,9 +186,12 @@ namespace SCaddins
             "NOTE: After the new sheet is created, view names need to be munaually edit.";
             return pbd;
         }
-        
+              
         private void AssignPushButtonImage(PushButtonData pb, string iconName, int size)
         {
+            if (size == -1){
+                size = 32;
+            }
             BitmapSource image = this.LoadBitmapImage(SCaddins.Constants.IconDir + iconName, size);
             if (image != null && pb != null) {
                 if (size == 32) {
