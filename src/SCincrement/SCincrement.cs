@@ -20,6 +20,7 @@ namespace SCaddins.SCincrement
     using Autodesk.Revit.DB.Architecture;
     using Autodesk.Revit.UI;
     using Autodesk.Revit.UI.Selection;
+    using Autodesk.Revit.UI.Events;
     
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -33,10 +34,21 @@ namespace SCaddins.SCincrement
         {
             UIDocument udoc = commandData.Application.ActiveUIDocument;
             Document doc = udoc.Document;
-
-            this.RenumberByPicks(udoc, doc);
+            UIApplication app = commandData.Application;
+            commandData.Application.DialogBoxShowing += DismissDuplicateQuestion;
+            this.RenumberByPicks(udoc, doc, app);
+            
 
             return Autodesk.Revit.UI.Result.Succeeded;
+        }
+        
+        public void DismissDuplicateQuestion(object o, DialogBoxShowingEventArgs e)
+        {
+            TaskDialog.Show("test","test");
+            //var t = e as MessageBoxShowingEventArgs;
+            //if (t != null && t.Message == @"Elements have duplicate 'Number' values.") {
+                //e.OverrideResult((int)TaskDialogResult.Ok);
+            //}
         }
 
         /*
@@ -44,16 +56,23 @@ namespace SCaddins.SCincrement
         * http://boostyourbim.wordpress.com/2013/01/17/quick-way-to-renumber-doors-grids-and-levels/
         * Available under a Creative Commons Attribution-Noncommercial-Share Alike license. Copyright © 2003  Harry Mattison.
         */
-        public void RenumberByPicks(UIDocument uidoc, Document doc)
+        public void RenumberByPicks(UIDocument uidoc, Document doc, UIApplication app)
         {
+
+            
             // list that will contain references to the selected elements
             IList<Reference> refList = new List<Reference>();
             try {
                 // create a loop to repeatedly prompt the user to select an element
                 // When the user hits ESC Revit will throw an OperationCanceledException which will get them out of the while loop
-                while (true) {
-                    refList.Add(uidoc.Selection.PickObject(ObjectType.Element, "Select elements in order to be renumbered. ESC when finished."));
-                }
+                
+                //while (true) {
+                //    refList.Add(uidoc.Selection.PickObject(ObjectType.Element, "Select elements in order to be renumbered. ESC when finished."));
+                //}
+                
+                //pick 2 items
+                refList.Add(uidoc.Selection.PickObject(ObjectType.Element, "Pick first rooom."));
+                refList.Add(uidoc.Selection.PickObject(ObjectType.Element, "Pick second room."));
             }
             catch
             {
@@ -61,18 +80,22 @@ namespace SCaddins.SCincrement
             
             int incVal = -1;
             
-            SCincrementForm form = new SCincrementForm();
-            form.textBox1.Text = "1";
-            System.Windows.Forms.DialogResult result = form.ShowDialog();
-            if(result == System.Windows.Forms.DialogResult.OK){
-                //TaskDialog.Show("Debug",form.textBox1.Text);   
-                incVal =  Convert.ToInt16(form.textBox1.Text);
-            } else if (result == System.Windows.Forms.DialogResult.Ignore) {
-                incVal = -1;
-            }
+//            SCincrementForm form = new SCincrementForm();
+//            form.textBox1.Text = "1";
+//            System.Windows.Forms.DialogResult result = form.ShowDialog();
+//            if(result == System.Windows.Forms.DialogResult.OK){
+//                //TaskDialog.Show("Debug",form.textBox1.Text);   
+//                incVal =  Convert.ToInt16(form.textBox1.Text);
+//            } else if (result == System.Windows.Forms.DialogResult.Ignore) {
+//                incVal = -1;
+//            }
+            
+            
             
             using (Transaction t = new Transaction(doc, "Renumber")) {
                 t.Start();
+                
+                
                 
                 // need to avoid encountering the error "The name entered is already in use. Enter a unique name."
                 // for example, if there is already a grid 2 we can't renumber some other grid to 2
@@ -109,6 +132,7 @@ namespace SCaddins.SCincrement
                 ctr = startValue;
                 foreach (Reference r in refList) {
                     Parameter p = this.GetParameterForReference(doc, r);
+                                app.DialogBoxShowing += DismissDuplicateQuestion;
                     this.SetParameterToValue(p, ctr, leftPad);
                     ctr++;
                     ctr += incVal;
