@@ -1,21 +1,22 @@
 /*
- * This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Australia License.
- * To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/au/
- * or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
- */
+* This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Australia License.
+* To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/au/
+* or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+*/
 
 /*
- * This code is an adaptation of the code
- * "Quick way to renumber doors, grids, and family instances"
- * available here:
- * http://boostyourbim.wordpress.com/2013/01/17/quick-way-to-renumber-doors-grids-and-levels/
- * Available under a Creative Commons Attribution-Noncommercial-Share Alike license. Copyright © 2013  Harry Mattison.
- */
+* This code is an adaptation of the code
+* "Quick way to renumber doors, grids, and family instances"
+* available here:
+* http://boostyourbim.wordpress.com/2013/01/17/quick-way-to-renumber-doors-grids-and-levels/
+* Available under a Creative Commons Attribution-Noncommercial-Share Alike license. Copyright © 2013  Harry Mattison.
+*/
 
 namespace SCaddins.SCincrement
 {
     using System;
     using System.Collections.Generic;
+    using System.Text.RegularExpressions;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
     using Autodesk.Revit.UI;
@@ -48,7 +49,7 @@ namespace SCaddins.SCincrement
                 e.OverrideResult((int)TaskDialogResult.Ok);
             }
         }
-
+        
         /*
         * Some code below here is from:
         * http://boostyourbim.wordpress.com/2013/01/17/quick-way-to-renumber-doors-grids-and-levels/
@@ -56,11 +57,8 @@ namespace SCaddins.SCincrement
         */
         public void RenumberByPicks(UIDocument uidoc, Document doc, UIApplication app)
         {
-            // list that will contain references to the selected elements
             IList<Reference> refList = new List<Reference>();
             try {
-                // create a loop to repeatedly prompt the user to select an element
-                // When the user hits ESC Revit will throw an OperationCanceledException which will get them out of the while loop
                 while (true) {
                     refList.Add(uidoc.Selection.PickObject(ObjectType.Element, "Select elements in order to be renumbered. ESC when finished."));
                 }
@@ -85,33 +83,55 @@ namespace SCaddins.SCincrement
                     if (p == null) {
                         return;
                     }
-
-                    // get the value of the first element to use as the start value for the renumbering in the next loop
+                    
                     if (ctr == 1) {
-                        string s = p.AsString();
-                        startValue = Convert.ToInt16(s);
-                            //TaskDialog.Show("DEBUG",startValue.ToString());
+                        if (p.StorageType == StorageType.Integer) {
+                            string s = p.AsString();
+                            startValue = Convert.ToInt16(s);
+                        } else if (p.StorageType == StorageType.String) {
+                            string s = p.AsString();
+                            TaskDialog.Show("DEBUG",p.AsString());
+                            startValue = Convert.ToInt16(getSourceNumberAsString(s));
                         }
+                        TaskDialog.Show("DEBUG",startValue.ToString());
                     }
-
-                    this.SetParameterToValue(p, ctr + 12345, string.Empty); // hope this # is unused (could use Failure API to make this more robust
+                    
+                    if (p.StorageType == StorageType.Integer) {    
+                        this.SetParameterToValue(p, ctr + 12345); // hope this # is unused (could use Failure API to make this more robust
+                    } else if (p.StorageType == StorageType.String) {
+                        var ns = getDestinationNumberAsString(p.AsString(), ctr + 12345); 
+                         TaskDialog.Show("DEBUG",ns);
+                        p.Set(ns); 
+                    }
                     ctr++;
                 }
-
+           
+            
                 ctr = startValue;
                 foreach (Reference r in refList) {
                     Parameter p = this.GetParameterForReference(doc, r);
-                                app.DialogBoxShowing += DismissDuplicateQuestion;
-                    this.SetParameterToValue(p, ctr, leftPad);
+                    app.DialogBoxShowing += DismissDuplicateQuestion;
+                    this.SetParameterToValue(p, ctr);
                     ctr++;
-                    ctr += incVal;
+                    //ctr += incVal;
                 }
                 t.Commit();
             }
         }
     
-        private4 stin
+        private string getSourceNumberAsString(string s)
+        {
+            return Regex.Replace(s, SCincrementSettings.Default.SourceSearchPattern, SCincrementSettings.Default.SourceReplacePattern);  
+        }
         
+        private string getDestinationNumberAsString(string s, int i)
+        {
+            string replacePattern = SCincrementSettings.Default.DestinationReplacePattern.Replace("#VAL#",i.ToString());
+            //TaskDialog.Show("replace pattern",replacePattern);
+            return Regex.Replace(s, SCincrementSettings.Default.DestinationSearchPattern, replacePattern);  
+        }
+    
+            
         private Parameter GetParameterForReference(Document doc, Reference r)
         {
             Element e = doc.GetElement(r);
@@ -151,12 +171,12 @@ namespace SCaddins.SCincrement
             return p;
         }
         
-        private void SetParameterToValue(Parameter p, int i, string pad)
+        private void SetParameterToValue(Parameter p, int i)
         {
             if (p.StorageType == StorageType.Integer) {
                 p.Set(i);
             } else if (p.StorageType == StorageType.String) {
-                p.Set(pad + i.ToString());
+                p.Set(getDestinationNumberAsString(p.AsString(), i));
             }
         }
     }

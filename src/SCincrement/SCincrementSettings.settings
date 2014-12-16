@@ -4,17 +4,23 @@
     <Profile Name="(Default)" />
   </Profiles>
   <Settings>
+    <Setting Name="DestinationReplacePattern" Type="System.String" Scope="User" Roaming="false">
+      <Value Profile="(Default)">#VAL#</Value>
+    </Setting>
+    <Setting Name="DestinationSearchPattern" Type="System.String" Scope="User" Roaming="false">
+      <Value Profile="(Default)">^.*$</Value>
+    </Setting>
     <Setting Name="IncrementValue" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="OffsetValue" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="ReplacePattern" Type="System.String" Scope="User" Roaming="false">
+    <Setting Name="SourceReplacePattern" Type="System.String" Scope="User" Roaming="false">
       <Value Profile="(Default)">$1</Value>
     </Setting>
-    <Setting Name="SearchPattern" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)">.*</Value>
+    <Setting Name="SourceSearchPattern" Type="System.String" Scope="User" Roaming="false">
+      <Value Profile="(Default)">(^.*$)</Value>
     </Setting>
   </Settings>
 </SettingsFile>

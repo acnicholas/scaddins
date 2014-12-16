@@ -53,20 +53,24 @@ namespace SCaddins.SCincrement
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.offsetTextBox = new System.Windows.Forms.TextBox();
-            this.incrementTextBox = new System.Windows.Forms.TextBox();
             this.replacementTextBox = new System.Windows.Forms.TextBox();
             this.searchTextBox = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.offsetTextBox = new System.Windows.Forms.TextBox();
+            this.incrementTextBox = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.destReplacementTextBox = new System.Windows.Forms.TextBox();
+            this.destSearchTextBox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 161);
+            this.button1.Location = new System.Drawing.Point(13, 221);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(129, 23);
             this.button1.TabIndex = 0;
@@ -77,7 +81,7 @@ namespace SCaddins.SCincrement
             // button2
             // 
             this.button2.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button2.Location = new System.Drawing.Point(277, 161);
+            this.button2.Location = new System.Drawing.Point(421, 221);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 1;
@@ -88,7 +92,7 @@ namespace SCaddins.SCincrement
             // button3
             // 
             this.button3.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button3.Location = new System.Drawing.Point(196, 161);
+            this.button3.Location = new System.Drawing.Point(340, 221);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 2;
@@ -98,86 +102,120 @@ namespace SCaddins.SCincrement
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.destReplacementTextBox);
+            this.groupBox1.Controls.Add(this.destSearchTextBox);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.offsetTextBox);
             this.groupBox1.Controls.Add(this.incrementTextBox);
-            this.groupBox1.Controls.Add(this.replacementTextBox);
-            this.groupBox1.Controls.Add(this.searchTextBox);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.replacementTextBox);
+            this.groupBox1.Controls.Add(this.searchTextBox);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(340, 143);
+            this.groupBox1.Size = new System.Drawing.Size(484, 203);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
             // 
-            // offsetTextBox
-            // 
-            this.offsetTextBox.Location = new System.Drawing.Point(151, 95);
-            this.offsetTextBox.Name = "offsetTextBox";
-            this.offsetTextBox.Size = new System.Drawing.Size(183, 20);
-            this.offsetTextBox.TabIndex = 7;
-            // 
-            // incrementTextBox
-            // 
-            this.incrementTextBox.Location = new System.Drawing.Point(151, 72);
-            this.incrementTextBox.Name = "incrementTextBox";
-            this.incrementTextBox.Size = new System.Drawing.Size(183, 20);
-            this.incrementTextBox.TabIndex = 6;
-            // 
             // replacementTextBox
             // 
-            this.replacementTextBox.Location = new System.Drawing.Point(151, 49);
+            this.replacementTextBox.Location = new System.Drawing.Point(295, 49);
             this.replacementTextBox.Name = "replacementTextBox";
             this.replacementTextBox.Size = new System.Drawing.Size(183, 20);
             this.replacementTextBox.TabIndex = 5;
             // 
             // searchTextBox
             // 
-            this.searchTextBox.Location = new System.Drawing.Point(151, 26);
+            this.searchTextBox.Location = new System.Drawing.Point(295, 26);
             this.searchTextBox.Name = "searchTextBox";
             this.searchTextBox.Size = new System.Drawing.Size(183, 20);
             this.searchTextBox.TabIndex = 4;
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(6, 98);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(100, 23);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Offset Value";
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(6, 75);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(100, 23);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Increment Value";
             // 
             // label2
             // 
             this.label2.Location = new System.Drawing.Point(6, 52);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(139, 23);
+            this.label2.Size = new System.Drawing.Size(182, 23);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Replacement Pattern";
+            this.label2.Text = "Source Replacement Pattern";
             // 
             // label1
             // 
             this.label1.Location = new System.Drawing.Point(6, 29);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 23);
+            this.label1.Size = new System.Drawing.Size(139, 23);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Search Pattern";
+            this.label1.Text = "Source Search Pattern";
+            // 
+            // offsetTextBox
+            // 
+            this.offsetTextBox.Location = new System.Drawing.Point(295, 168);
+            this.offsetTextBox.Name = "offsetTextBox";
+            this.offsetTextBox.Size = new System.Drawing.Size(183, 20);
+            this.offsetTextBox.TabIndex = 11;
+            // 
+            // incrementTextBox
+            // 
+            this.incrementTextBox.Location = new System.Drawing.Point(295, 145);
+            this.incrementTextBox.Name = "incrementTextBox";
+            this.incrementTextBox.Size = new System.Drawing.Size(183, 20);
+            this.incrementTextBox.TabIndex = 10;
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(6, 171);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(100, 23);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Offset Value";
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(6, 148);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(100, 23);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Increment Value";
+            // 
+            // destReplacementTextBox
+            // 
+            this.destReplacementTextBox.Location = new System.Drawing.Point(295, 98);
+            this.destReplacementTextBox.Name = "destReplacementTextBox";
+            this.destReplacementTextBox.Size = new System.Drawing.Size(183, 20);
+            this.destReplacementTextBox.TabIndex = 15;
+            // 
+            // destSearchTextBox
+            // 
+            this.destSearchTextBox.Location = new System.Drawing.Point(295, 75);
+            this.destSearchTextBox.Name = "destSearchTextBox";
+            this.destSearchTextBox.Size = new System.Drawing.Size(183, 20);
+            this.destSearchTextBox.TabIndex = 14;
+            // 
+            // label5
+            // 
+            this.label5.Location = new System.Drawing.Point(6, 101);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(139, 23);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Destination Replacement Pattern";
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(6, 78);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(139, 23);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Destination Search Pattern";
             // 
             // SCincrementSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(363, 196);
+            this.ClientSize = new System.Drawing.Size(505, 257);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -188,7 +226,10 @@ namespace SCaddins.SCincrement
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-
         }
+        private System.Windows.Forms.TextBox destSearchTextBox;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox destReplacementTextBox;
+        private System.Windows.Forms.Label label5;
     }
 }

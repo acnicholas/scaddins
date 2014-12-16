@@ -16,8 +16,10 @@ namespace SCaddins.SCincrement
         {
             this.offsetTextBox.Text = SCincrementSettings.Default.OffsetValue.ToString();
             this.incrementTextBox.Text = SCincrementSettings.Default.IncrementValue.ToString();
-            this.replacementTextBox.Text = SCincrementSettings.Default.ReplacePattern;
-            this.searchTextBox.Text = SCincrementSettings.Default.SearchPattern;
+            this.replacementTextBox.Text = SCincrementSettings.Default.SourceReplacePattern;
+            this.searchTextBox.Text = SCincrementSettings.Default.SourceSearchPattern;
+            this.destReplacementTextBox.Text = SCincrementSettings.Default.DestinationReplacePattern;
+            this.destSearchTextBox.Text = SCincrementSettings.Default.DestinationSearchPattern;
         }
         
         void Button1Click(object sender, EventArgs e)
@@ -30,8 +32,10 @@ namespace SCaddins.SCincrement
         {
             SCincrementSettings.Default.OffsetValue = int.Parse(this.offsetTextBox.Text);
             SCincrementSettings.Default.IncrementValue = int.Parse(this.incrementTextBox.Text);
-            SCincrementSettings.Default.SearchPattern = this.searchTextBox.Text;
-            SCincrementSettings.Default.ReplacePattern = this.replacementTextBox.Text;
+            SCincrementSettings.Default.SourceSearchPattern = this.searchTextBox.Text;
+            SCincrementSettings.Default.SourceReplacePattern = this.replacementTextBox.Text;
+            SCincrementSettings.Default.DestinationReplacePattern = this.destReplacementTextBox.Text;
+            SCincrementSettings.Default.DestinationSearchPattern = this.destSearchTextBox.Text;
             SCincrementSettings.Default.Save();
         }
         void Button3Click(object sender, EventArgs e)
