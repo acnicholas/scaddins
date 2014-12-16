@@ -149,6 +149,16 @@ namespace SCaddins
             return pbd;
         }
         
+        private PushButtonData LoadSCincrementSettings(string dll, RibbonPanel rp)
+        {
+            var pbd = new PushButtonData(
+                              "SCincrement", "SCincrement", dll, "SCaddins.SCincrement.Command");
+            this.AssignPushButtonImage(pbd, "scincrement-rvt-16.png", 16);
+            pbd.ToolTip =
+                "Increment room numbers and family marks.";
+            return pbd;
+        }
+        
         private PushButtonData LoadSCuv(string dll, RibbonPanel rp)
         {
             var pbd = new PushButtonData(

@@ -37,69 +37,46 @@ namespace SCaddins.SCincrement
             UIApplication app = commandData.Application;
             commandData.Application.DialogBoxShowing += DismissDuplicateQuestion;
             this.RenumberByPicks(udoc, doc, app);
-            
-
             return Autodesk.Revit.UI.Result.Succeeded;
         }
         
         public void DismissDuplicateQuestion(object o, DialogBoxShowingEventArgs e)
         {
-            TaskDialog.Show("test","test");
-            //var t = e as MessageBoxShowingEventArgs;
-            //if (t != null && t.Message == @"Elements have duplicate 'Number' values.") {
-                //e.OverrideResult((int)TaskDialogResult.Ok);
-            //}
+            //TaskDialog.Show("test","test");
+            var t = e as MessageBoxShowingEventArgs;
+            if (t != null && t.Message == @"Elements have duplicate 'Number' values.") {
+                e.OverrideResult((int)TaskDialogResult.Ok);
+            }
         }
 
         /*
-        * Code below here is from:
+        * Some code below here is from:
         * http://boostyourbim.wordpress.com/2013/01/17/quick-way-to-renumber-doors-grids-and-levels/
         * Available under a Creative Commons Attribution-Noncommercial-Share Alike license. Copyright © 2003  Harry Mattison.
         */
         public void RenumberByPicks(UIDocument uidoc, Document doc, UIApplication app)
         {
-
-            
             // list that will contain references to the selected elements
             IList<Reference> refList = new List<Reference>();
             try {
                 // create a loop to repeatedly prompt the user to select an element
                 // When the user hits ESC Revit will throw an OperationCanceledException which will get them out of the while loop
-                
-                //while (true) {
-                //    refList.Add(uidoc.Selection.PickObject(ObjectType.Element, "Select elements in order to be renumbered. ESC when finished."));
-                //}
+                while (true) {
+                    refList.Add(uidoc.Selection.PickObject(ObjectType.Element, "Select elements in order to be renumbered. ESC when finished."));
+                }
                 
                 //pick 2 items
-                refList.Add(uidoc.Selection.PickObject(ObjectType.Element, "Pick first rooom."));
-                refList.Add(uidoc.Selection.PickObject(ObjectType.Element, "Pick second room."));
+                //refList.Add(uidoc.Selection.PickObject(ObjectType.Element, "Pick first rooom."));
+                //refList.Add(uidoc.Selection.PickObject(ObjectType.Element, "Pick second room."));
             }
             catch
             {
             }
             
             int incVal = -1;
-            
-//            SCincrementForm form = new SCincrementForm();
-//            form.textBox1.Text = "1";
-//            System.Windows.Forms.DialogResult result = form.ShowDialog();
-//            if(result == System.Windows.Forms.DialogResult.OK){
-//                //TaskDialog.Show("Debug",form.textBox1.Text);   
-//                incVal =  Convert.ToInt16(form.textBox1.Text);
-//            } else if (result == System.Windows.Forms.DialogResult.Ignore) {
-//                incVal = -1;
-//            }
-            
-            
-            
+                   
             using (Transaction t = new Transaction(doc, "Renumber")) {
-                t.Start();
-                
-                
-                
-                // need to avoid encountering the error "The name entered is already in use. Enter a unique name."
-                // for example, if there is already a grid 2 we can't renumber some other grid to 2
-                // therefore, first renumber everny element to a temporary name then to the real one
+                t.Start();      
                 int ctr = 1;
                 int startValue = 0;
                 string leftPad = string.Empty;
@@ -112,15 +89,7 @@ namespace SCaddins.SCincrement
                     // get the value of the first element to use as the start value for the renumbering in the next loop
                     if (ctr == 1) {
                         string s = p.AsString();
-                        if (p.AsString().Contains(".")){   
-                            if (s.IndexOf(".") != -1){
-                                leftPad = s.Substring(0,s.IndexOf(".") + 1);
-                                //TaskDialog.Show("DEBUG - leftPad",leftPad);
-                            }
-                            startValue = Convert.ToInt16(s.Substring(s.IndexOf(".") +1 ));
-                                //TaskDialog.Show("DEBUG",startValue.ToString());
-                        } else {
-                            startValue = Convert.ToInt16(s);
+                        startValue = Convert.ToInt16(s);
                             //TaskDialog.Show("DEBUG",startValue.ToString());
                         }
                     }
@@ -140,6 +109,8 @@ namespace SCaddins.SCincrement
                 t.Commit();
             }
         }
+    
+        private4 stin
         
         private Parameter GetParameterForReference(Document doc, Reference r)
         {

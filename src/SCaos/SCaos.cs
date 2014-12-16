@@ -200,6 +200,11 @@ namespace SCaddins.SCaos
             }
         }
 
+        private string XYZToString(XYZ xyz)
+        {
+            return xyz.X.ToString() + @"," + xyz.Y.ToString() + @"," + xyz.Z.ToString();
+        }
+        
         private void RotateView(View view, Document doc, UIDocument udoc)
         {
             if (view.ViewType == ViewType.ThreeD) {
@@ -207,6 +212,8 @@ namespace SCaddins.SCaos
                 double frame = sunSettings.ActiveFrame;
                 double azimuth = sunSettings.GetFrameAzimuth(frame);
                 double altitude = sunSettings.GetFrameAltitude(frame);
+                //double azimuth = sunSettings.GetFrameAzimuth(frame) + 0.001;
+                //double altitude = sunSettings.GetFrameAltitude(frame) + 0.001;
                 azimuth += this.position.Angle;
                 BoundingBoxXYZ viewBounds = view.get_BoundingBox(view);
                 XYZ max = viewBounds.Max;
@@ -214,6 +221,9 @@ namespace SCaddins.SCaos
                 var eye = new XYZ(min.X + ((max.X - min.X) / 2), min.Y + ((max.Y - min.Y) / 2), min.Z + ((max.Z - min.Z) / 2));
                 var forward = new XYZ(-Math.Sin(azimuth), -Math.Cos(azimuth), -Math.Tan(altitude));
                 var up = forward.CrossProduct(new XYZ(Math.Cos(azimuth), -Math.Sin(azimuth), 0));
+                TaskDialog.Show("forward/eye/up",XYZToString(forward) + System.Environment.NewLine +
+                                XYZToString(eye) + System.Environment.NewLine +
+                                XYZToString(up));
                 var v3d = (View3D)view;
                 var t = new Transaction(doc);
                 t.Start("Rotate View");

@@ -155,9 +155,14 @@
     <Compile Include="src\SCightlines\SCightLinesOutputForm.Designer.cs" />
     <Compile Include="src\SCightlines\SCightLinesRow.cs" />
     <Compile Include="src\SCincrement\SCincrement.cs" />
-    <Compile Include="src\SCincrement\SCincrementForm.cs" />
-    <Compile Include="src\SCincrement\SCincrementForm.Designer.cs">
-      <DependentUpon>SCincrementForm.cs</DependentUpon>
+    <Compile Include="src\SCincrement\SCincrementSettings.cs" />
+    <Compile Include="src\SCincrement\SCincrementSettings.Designer.cs">
+      <DependentUpon>SCincrementSettings.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="src\SCincrement\SCincrementSettingsForm.cs" />
+    <Compile Include="src\SCincrement\SCincrementSettingsForm.Designer.cs">
+      <DependentUpon>SCincrementSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="src\SCloudSched\SCloudSchedForm.cs" />
     <Compile Include="src\SCloudSched\SCloudSchedForm.Designer.cs" />
@@ -252,8 +257,8 @@
       <DependentUpon>SCightLinesMainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCightlines\SCightLinesOutputForm.resx" />
-    <EmbeddedResource Include="src\SCincrement\SCincrementForm.resx">
-      <DependentUpon>SCincrementForm.cs</DependentUpon>
+    <EmbeddedResource Include="src\SCincrement\SCincrementSettingsForm.resx">
+      <DependentUpon>SCincrementSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCloudSched\SCloudSchedForm.resx">
       <DependentUpon>SCloudSchedForm.cs</DependentUpon>
@@ -318,6 +323,10 @@
     <None Include="src\SCexport\Settings1.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="src\SCincrement\SCincrementSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>SCincrementSettings.Designer.cs</LastGenOutput>
     </None>
     <None Include="TODO.txt" />
   </ItemGroup>
