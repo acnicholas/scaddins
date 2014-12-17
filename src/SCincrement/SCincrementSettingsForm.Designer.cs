@@ -53,18 +53,18 @@ namespace SCaddins.SCincrement
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.replacementTextBox = new System.Windows.Forms.TextBox();
-            this.searchTextBox = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.offsetTextBox = new System.Windows.Forms.TextBox();
-            this.incrementTextBox = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.destReplacementTextBox = new System.Windows.Forms.TextBox();
             this.destSearchTextBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.offsetTextBox = new System.Windows.Forms.TextBox();
+            this.incrementTextBox = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.replacementTextBox = new System.Windows.Forms.TextBox();
+            this.searchTextBox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -121,35 +121,35 @@ namespace SCaddins.SCincrement
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
             // 
-            // replacementTextBox
+            // destReplacementTextBox
             // 
-            this.replacementTextBox.Location = new System.Drawing.Point(295, 49);
-            this.replacementTextBox.Name = "replacementTextBox";
-            this.replacementTextBox.Size = new System.Drawing.Size(183, 20);
-            this.replacementTextBox.TabIndex = 5;
+            this.destReplacementTextBox.Location = new System.Drawing.Point(295, 98);
+            this.destReplacementTextBox.Name = "destReplacementTextBox";
+            this.destReplacementTextBox.Size = new System.Drawing.Size(183, 20);
+            this.destReplacementTextBox.TabIndex = 15;
             // 
-            // searchTextBox
+            // destSearchTextBox
             // 
-            this.searchTextBox.Location = new System.Drawing.Point(295, 26);
-            this.searchTextBox.Name = "searchTextBox";
-            this.searchTextBox.Size = new System.Drawing.Size(183, 20);
-            this.searchTextBox.TabIndex = 4;
+            this.destSearchTextBox.Location = new System.Drawing.Point(295, 75);
+            this.destSearchTextBox.Name = "destSearchTextBox";
+            this.destSearchTextBox.Size = new System.Drawing.Size(183, 20);
+            this.destSearchTextBox.TabIndex = 14;
             // 
-            // label2
+            // label5
             // 
-            this.label2.Location = new System.Drawing.Point(6, 52);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(182, 23);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Source Replacement Pattern";
+            this.label5.Location = new System.Drawing.Point(6, 101);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(182, 23);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Destination Replacement Pattern";
             // 
-            // label1
+            // label6
             // 
-            this.label1.Location = new System.Drawing.Point(6, 29);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(139, 23);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Source Search Pattern";
+            this.label6.Location = new System.Drawing.Point(6, 78);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(139, 23);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Destination Search Pattern";
             // 
             // offsetTextBox
             // 
@@ -181,35 +181,35 @@ namespace SCaddins.SCincrement
             this.label3.TabIndex = 8;
             this.label3.Text = "Increment Value";
             // 
-            // destReplacementTextBox
+            // replacementTextBox
             // 
-            this.destReplacementTextBox.Location = new System.Drawing.Point(295, 98);
-            this.destReplacementTextBox.Name = "destReplacementTextBox";
-            this.destReplacementTextBox.Size = new System.Drawing.Size(183, 20);
-            this.destReplacementTextBox.TabIndex = 15;
+            this.replacementTextBox.Location = new System.Drawing.Point(295, 49);
+            this.replacementTextBox.Name = "replacementTextBox";
+            this.replacementTextBox.Size = new System.Drawing.Size(183, 20);
+            this.replacementTextBox.TabIndex = 5;
             // 
-            // destSearchTextBox
+            // searchTextBox
             // 
-            this.destSearchTextBox.Location = new System.Drawing.Point(295, 75);
-            this.destSearchTextBox.Name = "destSearchTextBox";
-            this.destSearchTextBox.Size = new System.Drawing.Size(183, 20);
-            this.destSearchTextBox.TabIndex = 14;
+            this.searchTextBox.Location = new System.Drawing.Point(295, 26);
+            this.searchTextBox.Name = "searchTextBox";
+            this.searchTextBox.Size = new System.Drawing.Size(183, 20);
+            this.searchTextBox.TabIndex = 4;
             // 
-            // label5
+            // label2
             // 
-            this.label5.Location = new System.Drawing.Point(6, 101);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(139, 23);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "Destination Replacement Pattern";
+            this.label2.Location = new System.Drawing.Point(6, 52);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(182, 23);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Source Replacement Pattern";
             // 
-            // label6
+            // label1
             // 
-            this.label6.Location = new System.Drawing.Point(6, 78);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(139, 23);
-            this.label6.TabIndex = 12;
-            this.label6.Text = "Destination Search Pattern";
+            this.label1.Location = new System.Drawing.Point(6, 29);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(139, 23);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Source Search Pattern";
             // 
             // SCincrementSettingsForm
             // 
@@ -226,6 +226,7 @@ namespace SCaddins.SCincrement
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+
         }
         private System.Windows.Forms.TextBox destSearchTextBox;
         private System.Windows.Forms.Label label6;

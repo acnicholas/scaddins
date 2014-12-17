@@ -90,23 +90,28 @@ namespace SCaddins.SCincrement
                             startValue = Convert.ToInt16(s);
                         } else if (p.StorageType == StorageType.String) {
                             string s = p.AsString();
-                            TaskDialog.Show("DEBUG",p.AsString());
+                            //TaskDialog.Show("DEBUG",p.AsString());
+                            //TaskDialog.Show("DEBUG",SCincrementSettings.Default.SourceSearchPattern);
+                            //TaskDialog.Show("DEBUG",SCincrementSettings.Default.SourceReplacePattern);
                             startValue = Convert.ToInt16(getSourceNumberAsString(s));
                         }
-                        TaskDialog.Show("DEBUG",startValue.ToString());
+                        //TaskDialog.Show("DEBUG",startValue.ToString());
+                        
                     }
                     
                     if (p.StorageType == StorageType.Integer) {    
                         this.SetParameterToValue(p, ctr + 12345); // hope this # is unused (could use Failure API to make this more robust
                     } else if (p.StorageType == StorageType.String) {
-                        var ns = getDestinationNumberAsString(p.AsString(), ctr + 12345); 
-                         TaskDialog.Show("DEBUG",ns);
+                        var ns = p.AsString() + @"zz" +  (ctr + 12345).ToString();
+                        //var ns = p.AsString() + "zz" +  "wtf" + "zz";
+                        //TaskDialog.Show("DEBUG",ns);
                         p.Set(ns); 
                     }
                     ctr++;
                 }
-           
-            
+                
+
+                  
                 ctr = startValue;
                 foreach (Reference r in refList) {
                     Parameter p = this.GetParameterForReference(doc, r);
@@ -126,12 +131,15 @@ namespace SCaddins.SCincrement
         
         private string getDestinationNumberAsString(string s, int i)
         {
-            string replacePattern = SCincrementSettings.Default.DestinationReplacePattern.Replace("#VAL#",i.ToString());
-            //TaskDialog.Show("replace pattern",replacePattern);
-            return Regex.Replace(s, SCincrementSettings.Default.DestinationSearchPattern, replacePattern);  
-        }
-    
             
+            s = Regex.Replace(s, @"(^.*)(zz.*$)", @"$1");
+            //TaskDialog.Show("replace pattern",s);
+            s = Regex.Replace(s, SCincrementSettings.Default.DestinationSearchPattern, SCincrementSettings.Default.DestinationReplacePattern);
+            //TaskDialog.Show("replace pattern",s);
+            return s.Replace("#VAL#",i.ToString());
+            //TaskDialog.Show("replace pattern",replacePattern);
+        }
+                  
         private Parameter GetParameterForReference(Document doc, Reference r)
         {
             Element e = doc.GetElement(r);

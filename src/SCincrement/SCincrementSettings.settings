@@ -5,10 +5,10 @@
   </Profiles>
   <Settings>
     <Setting Name="DestinationReplacePattern" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)">#VAL#</Value>
+      <Value Profile="(Default)">#VAL#$2</Value>
     </Setting>
     <Setting Name="DestinationSearchPattern" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)">^.*$</Value>
+      <Value Profile="(Default)">(^\d*)(.*$)</Value>
     </Setting>
     <Setting Name="IncrementValue" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">1</Value>
@@ -20,7 +20,7 @@
       <Value Profile="(Default)">$1</Value>
     </Setting>
     <Setting Name="SourceSearchPattern" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)">(^.*$)</Value>
+      <Value Profile="(Default)">(^\d*).*$</Value>
     </Setting>
   </Settings>
 </SettingsFile>

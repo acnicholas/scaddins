@@ -55,6 +55,7 @@ namespace SCaddins
                    );
             ribbonPanel.AddSlideOut();
             ribbonPanel.AddItem(this.LoadAbout(scdll, ribbonPanel));
+            ribbonPanel.AddItem(this.LoadSCincrementSettings(scdll, ribbonPanel));
             return Result.Succeeded;
         }
 
@@ -152,10 +153,10 @@ namespace SCaddins
         private PushButtonData LoadSCincrementSettings(string dll, RibbonPanel rp)
         {
             var pbd = new PushButtonData(
-                              "SCincrement", "SCincrement", dll, "SCaddins.SCincrement.Command");
-            this.AssignPushButtonImage(pbd, "scincrement-rvt-16.png", 16);
+                              "SCincrementSettings", "SCincrementSettings", dll, "SCaddins.SCincrement.SCincrementSettingsCommand");
+            this.AssignPushButtonImage(pbd, "scincrement-rvt-16.png", -1);
             pbd.ToolTip =
-                "Increment room numbers and family marks.";
+                "Increment settings.";
             return pbd;
         }
         
