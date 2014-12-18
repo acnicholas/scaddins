@@ -166,12 +166,11 @@ namespace SCaddins.SCincrement
                 #endif
             } else if (e is TextNote) {
                 #if REVIT2014
-                p = e.get_Parameter("Text");
-                TaskDialog.Show("test", p.ToString());
+                p = e.get_Parameter(BuiltInParameter.TEXT_TEXT);
+                //TaskDialog.Show("Error", p.AsString());
                 #else
                 p = e.LookupParameter("Text");
                 #endif
-                return null;
             } else {
                 TaskDialog.Show("Error", "Unsupported element");
                 return null;
