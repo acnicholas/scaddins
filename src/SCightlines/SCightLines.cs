@@ -21,7 +21,7 @@ namespace SCaddins.SCightLines
     using System.Linq;
     using Autodesk.Revit.ApplicationServices;
     using Autodesk.Revit.DB;
-    
+
     /// <summary>
     /// Create sight lines diagrams and/or Tables
     /// </summary>
@@ -42,7 +42,7 @@ namespace SCaddins.SCightLines
         private View view;
         private SCightLinesRow[] rows;
         private string infoString;
-        
+
         /// <summary>
         /// A class to create line of sight drafting views in Revit
         /// </summary>
@@ -82,7 +82,7 @@ namespace SCaddins.SCightLines
                 distanceToFirstRowX,
                 distanceToFirstRowY);
         }
-        
+
         /// <summary>
         /// The string that will get outputed to the Information form
         /// </summary>
@@ -115,7 +115,7 @@ namespace SCaddins.SCightLines
             this.UpdateRows();
             this.infoString = this.UpdateInfoString();
         }
-        
+
         /// <summary>
         /// Draw the sightlines
         /// </summary>
@@ -127,11 +127,11 @@ namespace SCaddins.SCightLines
                 "LOS-X" + this.distanceToFirstRowX + "-Y" + this.distanceToFirstRowY + "-T" +
                 this.treadSize + "-MinN" + this.minimumRiserHeight + "-Inc" + this.riserIncrement +
                 "-Eye" + this.eyeHeight + "-MinC" + this.minimumCValue + "_" + times);
-            
+
             Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
             this.view.Scale = 50;
             int i;
-            
+
             for (i = 0; i < this.numberOfRows; i++) {
                 if (i == 0) {
                     this.DrawLine(0, 0, this.distanceToFirstRowX, 0, "Thin Lines");
@@ -150,7 +150,7 @@ namespace SCaddins.SCightLines
                         this.distanceToFirstRowY.ToString(),
                         TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_BOTTOM);
                 }
-                
+
                 // Draw the sight line
                 this.DrawLine(0, 0, this.rows[i].EyeToFocusX, this.rows[i].HeightToFocus, "Dash - 0.1 pen");
 
@@ -201,7 +201,7 @@ namespace SCaddins.SCightLines
                 }
             }
         }
-        
+
         /// <summary>
         /// Create a Drafting View with a semi-usefull name
         /// </summary>
@@ -394,7 +394,7 @@ namespace SCaddins.SCightLines
         {
             return d / 304.8;
         }
-        
+
         /// <summary>Get the C-Value</summary>
         /// <param name="i">
         /// The row to calculate

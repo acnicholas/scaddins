@@ -109,23 +109,12 @@ namespace SCaddins.SCexport
             TAG_PDF = 64,
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether to ask the user
-        /// <see cref="SCexport"/> to confirm overwrite.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if confirm overwrite; otherwise, <c>false</c>.
-        /// </value>
         public static bool ConfirmOverwrite
         {
             get;
             set;
         }
 
-        /// <summary>
-        /// Gets the author of the document to be exported.
-        /// </summary>
-        /// <value>The author.</value>
         public static string Author {
             get { return author; }
         }
@@ -134,7 +123,7 @@ namespace SCaddins.SCexport
         {
             get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
         }
-        
+
         public string PrinterNameA3
         {
             get; set;
@@ -168,20 +157,12 @@ namespace SCaddins.SCexport
         {
             get { return this.filenameTypes; }
         }
-        
-        /// <summary>
-        /// Gets all sheets.
-        /// </summary>
-        /// <value>All sheets.</value>
+
         public SortableBindingList<SCexportSheet> AllSheets
         {
             get { return this.allSheets; }
         }
 
-        /// <summary>
-        /// Gets all view sheet sets in the active Revit document.
-        /// </summary>
-        /// <value>All view sheet sets.</value>
         public List<ViewSheetSetCombo> AllViewSheetSets
         {
             get { return this.allViewSheetSets; }
@@ -213,10 +194,10 @@ namespace SCaddins.SCexport
         /// <value><c>true</c> if force date; otherwise, <c>false</c>.</value>
         public bool ForceDate
         {
-            get { 
+            get {
                 return this.forceDate;
             }
-            
+
             set {
                 this.forceDate = value;
                 foreach (SCexportSheet sheet in this.allSheets) {
@@ -233,7 +214,7 @@ namespace SCaddins.SCexport
             get {
                 return this.exportDir;
             }
-            
+
             set {
                 if (value != null) {
                     this.exportDir = value;
@@ -252,7 +233,7 @@ namespace SCaddins.SCexport
             get { 
                 return this.filenameScheme;
             }
-            
+
             set {
                 this.filenameScheme = value;
                 foreach (SCexportSheet sheet in this.allSheets) {
@@ -261,6 +242,7 @@ namespace SCaddins.SCexport
             }
         }
 
+        // FIXME change this for SCaddins.
         public static void CheckForUpdates()
         {
             string url = @"https://bitbucket.org/anicholas/SCexport/downloads/";
@@ -455,7 +437,7 @@ namespace SCaddins.SCexport
         {
             OpenSheet(udoc, view, 1);
         }
-        
+
         public static void RenameSheets(ICollection<SCexportSheet> sheets)
         {
             var r = new RenameSheetForm(sheets, doc);
@@ -490,7 +472,7 @@ namespace SCaddins.SCexport
                 }
             }
         }
-        
+
         /// <summary>
         /// Gets the name of the current view of the active document.
         /// </summary>
@@ -526,7 +508,7 @@ namespace SCaddins.SCexport
             }
             return (s.Length > 1) ? s : string.Empty;
         }
-        
+
         /// <summary>
         /// Print the specified sheets.
         /// </summary>
@@ -534,12 +516,12 @@ namespace SCaddins.SCexport
         public static void PrintA3(
             ICollection<SCexportSheet> sheets,
             string printerName)
-        {          
+        {
             PrintManager pm = doc.PrintManager;
-            
+
             // collate the sheets.
             ICollection<SCexportSheet> sortedSheets = sheets.OrderBy(x => x.SheetNumber).ToList();
-                     
+
             // FIXME need more than a3
             if (!PrintSettings.ApplyPrintSettings(
                     ref doc, "A3-FIT", ref pm, printerName)) {
@@ -687,10 +669,10 @@ namespace SCaddins.SCexport
             ps.PrinterName = this.PdfPrinterName;
             return ps.IsValid;
         }
-        
+
         public void LoadSettings()
         {
-            this.GhostsciptBinDir = SCaddins.SCexport.Settings1.Default.GSBinDirectory;           
+            this.GhostsciptBinDir = SCaddins.SCexport.Settings1.Default.GSBinDirectory;
             this.PdfPrinterName = SCaddins.SCexport.Settings1.Default.AdobePrinterDriver; 
             this.PrinterNameA3 = SCaddins.SCexport.Settings1.Default.A3PrinterDriver; 
             this.PostscriptPrinterName = SCaddins.SCexport.Settings1.Default.PSPrinterDriver; 
@@ -714,7 +696,6 @@ namespace SCaddins.SCexport
             // FIXME don't allow overflow.
             for (int i = 0; i < sortedSheets.Count; i++) {
                 if (sortedSheets[i].SheetNumber == view.SheetNumber) {
-                    // TaskDialog.Show("TEST",sortedSheets[i + inc].SheetNumber);
                     var dh = new DialogHandler(
                         new UIApplication(udoc.Application.Application));
                     Autodesk.Revit.DB.FamilyInstance result =
@@ -767,7 +748,7 @@ namespace SCaddins.SCexport
         }
 
         private void SetDefaultFlags()
-        {      
+        {
             if (SCaddins.SCexport.Settings1.Default.AdobePDFMode && this.PDFSanityCheck()) {
                 this.AddExportFlag(SCexport.ExportFlags.PDF);
             } else if (!SCaddins.SCexport.Settings1.Default.AdobePDFMode && this.GSSanityCheck()) {
@@ -849,10 +830,6 @@ namespace SCaddins.SCexport
                 Microsoft.Win32.RegistryValueKind.String);
         }
 
-        /// <summary>
-        /// Create an array of all the title block in the current document.
-        /// </summary>
-        /// <param name="s">Array of SCexportSheets.</param>
         private void PopulateSheets(ref SortableBindingList<SCexportSheet> s)
         {
             string config = GetConfigFilename(ref doc);
@@ -881,7 +858,7 @@ namespace SCaddins.SCexport
                 s.Add(scxSheet);
             }
         }
-        
+
         private void ValidationEventHandler(
             object sender, ValidationEventArgs e)
         {
@@ -959,7 +936,7 @@ namespace SCaddins.SCexport
                     this.filenameTypes.Add(name);
                 }
             }
-            
+
             if (this.filenameTypes.Count > 0) {
                 this.FilenameScheme = this.filenameTypes[0];
             }
@@ -1021,7 +998,6 @@ namespace SCaddins.SCexport
             ICollection<ElementId> title,
             bool hide)
         {
-            #if (!REVIT2012)
             view = doc.GetElement(vs.Id) as View;
             Transaction t = new Transaction(doc, "Hide Title");
             t.Start();
@@ -1036,7 +1012,6 @@ namespace SCaddins.SCexport
                 TaskDialog.Show("Revit", "cannot Hide Title");
                 t.RollBack();
             }
-            #endif
         }
 
         // FIXME
@@ -1159,36 +1134,36 @@ namespace SCaddins.SCexport
             }
             return true;
         }
-        
+
         private void ApplyNonPrintLinetype()
         {
             SCexport.doc.Application.DocumentPrinting += new EventHandler<DocumentPrintingEventArgs>(this.MyPrintingEvent); 
             SCexport.doc.Application.DocumentPrinted += new EventHandler<DocumentPrintedEventArgs>(this.MyPrintedEvent);
         }
-        
+
         private void MyPrintingEvent(object sender, DocumentPrintingEventArgs args)
         {
             this.CategoryLineColor(new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue));
         }
-        
+
         private void MyPrintedEvent(object sender, DocumentPrintedEventArgs args)
         {
             this.CategoryLineColor(new Color(byte.MinValue, byte.MinValue, byte.MinValue));
         }
-        
+
         private void CategoryLineColor(Color newColor)
         {
             Categories categories = SCexport.doc.Settings.Categories;
             Category genericAnnotations = categories.get_Item("Generic Annotations");
             Category categoryDoNotPrint = genericAnnotations.SubCategories.get_Item("Do Not Print");
             using (var t = new Transaction(doc, "Do Not Print color = " + newColor.Blue))
-            {            
+            {
                 t.Start();
-                categoryDoNotPrint.LineColor = newColor;                
+                categoryDoNotPrint.LineColor = newColor;
                 t.Commit();
-            }            
+            }
         }
-        
+
         private bool ExportAdobePDF(SCexportSheet vs)
         {
             PrintManager pm = doc.PrintManager;

@@ -29,7 +29,7 @@ namespace SCaddins.SCaos
         private ProjectLocation projectLocation;
         private ProjectPosition position;
         private bool currentViewIsIso;
-        
+
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
             ref string message,
@@ -40,7 +40,7 @@ namespace SCaddins.SCaos
             this.projectLocation = doc.ActiveProjectLocation;
             this.position = this.projectLocation.get_ProjectPosition(XYZ.Zero);
             this.currentViewIsIso = false;
-            
+
             View view = doc.ActiveView;
             string[] s = this.GetViewInfo(view, doc);
             var form = new SCaosForm(s, this.currentViewIsIso);
@@ -56,7 +56,7 @@ namespace SCaddins.SCaos
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }
-        
+
         private string[] GetViewInfo(View view, Document doc)
         {
             if (view.ViewType != ViewType.ThreeD) {
@@ -87,7 +87,7 @@ namespace SCaddins.SCaos
                 return info;
             }
         }
-        
+
         /// <summary>
         /// Attempt to draw a line along the path of the sun.
         /// </summary>
@@ -102,11 +102,11 @@ namespace SCaddins.SCaos
                 double azimuth = sunSettings.GetFrameAzimuth(frame);
                 double altitude = sunSettings.GetFrameAltitude(frame);
                 azimuth += this.position.Angle;
-                
+
                 var v3d = (View3D)view;
                 var t = new Transaction(doc);
                 t.Start("Draw Solar Ray");
-                
+
                 // REVIT 2014
                 // Line ray = Line.CreateBound(XYZ.Zero, new XYZ(100 * Math.Cos(azimuth), 100 * Math.Sin(azimuth), 100 * Math.Tan(altitude)));
                 // REVIT 2013
@@ -125,7 +125,7 @@ namespace SCaddins.SCaos
                 TaskDialog.Show("ERROR", "Not a 3d view");
             }
         }
-            
+
         private string GetAllViewInfo(Document doc)
         {
             var f = new FilteredElementCollector(doc);
@@ -143,12 +143,12 @@ namespace SCaddins.SCaos
             this.LogText(result);
             return result;
         }
-        
+
         private void LogText(string text)
         {
             System.IO.File.AppendAllText(@"c:\Temp\SCaos.txt", text);
         }
-        
+
         private bool ViewNameIsAvailable(Document doc, string name)
         {
            var c = new FilteredElementCollector(doc);
@@ -161,7 +161,7 @@ namespace SCaddins.SCaos
             }
             return true;
         }
-        
+
         private void CreateWinterViews(Document doc, UIDocument udoc)
         {
             ElementId id = null;
@@ -204,7 +204,7 @@ namespace SCaddins.SCaos
         {
             return xyz.X.ToString() + @"," + xyz.Y.ToString() + @"," + xyz.Z.ToString();
         }
-        
+
         private void RotateView(View view, Document doc, UIDocument udoc)
         {
             if (view.ViewType == ViewType.ThreeD) {
