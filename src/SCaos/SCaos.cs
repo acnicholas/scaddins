@@ -221,9 +221,9 @@ namespace SCaddins.SCaos
                 var eye = new XYZ(min.X + ((max.X - min.X) / 2), min.Y + ((max.Y - min.Y) / 2), min.Z + ((max.Z - min.Z) / 2));
                 var forward = new XYZ(-Math.Sin(azimuth), -Math.Cos(azimuth), -Math.Tan(altitude));
                 var up = forward.CrossProduct(new XYZ(Math.Cos(azimuth), -Math.Sin(azimuth), 0));
-                TaskDialog.Show("forward/eye/up",XYZToString(forward) + System.Environment.NewLine +
-                                XYZToString(eye) + System.Environment.NewLine +
-                                XYZToString(up));
+                //TaskDialog.Show("forward/eye/up",XYZToString(forward) + System.Environment.NewLine +
+                //                XYZToString(eye) + System.Environment.NewLine +
+                //                XYZToString(up));
                 var v3d = (View3D)view;
                 var t = new Transaction(doc);
                 t.Start("Rotate View");

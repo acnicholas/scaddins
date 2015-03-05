@@ -83,9 +83,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows" />
@@ -191,6 +188,7 @@
     <Compile Include="src\SCulcase\SCulcaseInfoDialog.Designer.cs" />
     <Compile Include="src\SCulcase\SCulcaseMainForm.cs" />
     <Compile Include="src\SCulcase\SCulcaseMainForm.Designer.cs" />
+    <Compile Include="src\SCunderlay\SCunderlay.cs" />
     <Compile Include="src\SCuv\SCuv.cs" />
     <Compile Include="src\SCuv\SCuvCommand.cs" />
     <Compile Include="src\SCwash\SCwash.cs" />
@@ -202,7 +200,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="installer" />
-    <Folder Include="installer" />
     <Folder Include="res" />
     <Folder Include="res\images" />
     <Folder Include="res\etc" />
@@ -211,13 +208,13 @@
     <Folder Include="src\Manifest" />
     <Folder Include="src\Manifest\2015" />
     <Folder Include="src\Manifest\2014" />
+    <Folder Include="src\SCunderlay" />
     <Folder Include="src\Testing" />
     <Folder Include="src\SCuv" />
     <Folder Include="src\SCincrement" />
     <Folder Include="src\SCloudSched" />
     <Folder Include="src\SCam" />
     <Folder Include="src\SCoord" />
-    <Folder Include="src\SCam" />
     <Folder Include="src\SCwash" />
     <Folder Include="src\SCulcase" />
     <Folder Include="src\SCightlines" />

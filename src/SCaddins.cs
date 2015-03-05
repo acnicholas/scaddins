@@ -41,18 +41,15 @@ namespace SCaddins
             ribbonPanel.AddStackedItems(
                     this.LoadSCoord(scdll, ribbonPanel),
                     this.LoadSCulcase(scdll, ribbonPanel),
-                    this.LoadSCwash(scdll, ribbonPanel)
-                   );
+                    this.LoadSCwash(scdll, ribbonPanel));
             ribbonPanel.AddStackedItems(
                     this.LoadSCaos(scdll, ribbonPanel),
                     this.LoadSCopy(scdll, ribbonPanel),
-                    this.LoadSCloudShed(scdll, ribbonPanel)
-                   );
+                    this.LoadSCloudShed(scdll, ribbonPanel));
             ribbonPanel.AddStackedItems(
                     this.LoadSCightlines(scdll, ribbonPanel),
                     this.LoadSCincrement(scdll, ribbonPanel),
-                    this.LoadSCuv(scdll, ribbonPanel)
-                   );
+                    this.LoadSCuv(scdll, ribbonPanel));
             ribbonPanel.AddSlideOut();
             ribbonPanel.AddItem(this.LoadAbout(scdll, ribbonPanel));
             ribbonPanel.AddItem(this.LoadSCincrementSettings(scdll, ribbonPanel));
@@ -200,7 +197,7 @@ namespace SCaddins
               
         private void AssignPushButtonImage(PushButtonData pb, string iconName, int size)
         {
-            if (size == -1){
+            if (size == -1) {
                 size = 32;
             }
             BitmapSource image = this.LoadBitmapImage(SCaddins.Constants.IconDir + iconName, size);
