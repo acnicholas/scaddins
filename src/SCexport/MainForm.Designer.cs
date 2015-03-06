@@ -95,6 +95,7 @@ namespace SCaddins.SCexport
             this.openSelectedViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.addRevisionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeUnderlaysFromViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.renameSelectedSheetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createUserViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
@@ -169,6 +170,7 @@ namespace SCaddins.SCexport
             this.openSelectedViewToolStripMenuItem,
             this.toolStripSeparator1,
             this.addRevisionToolStripMenuItem,
+            this.removeUnderlaysFromViewsToolStripMenuItem,
             this.renameSelectedSheetsToolStripMenuItem,
             this.createUserViewsToolStripMenuItem,
             this.toolStripSeparator6,
@@ -180,13 +182,13 @@ namespace SCaddins.SCexport
             this.mnuHelp});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.ShowCheckMargin = true;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(224, 304);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(257, 326);
             // 
             // clearFilterToolStripMenuItem
             // 
             this.clearFilterToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("clearFilterToolStripMenuItem.Image")));
             this.clearFilterToolStripMenuItem.Name = "clearFilterToolStripMenuItem";
-            this.clearFilterToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.clearFilterToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.clearFilterToolStripMenuItem.Text = "No View Filter";
             this.clearFilterToolStripMenuItem.Click += new System.EventHandler(this.NoFilterToolStripMenuItem_Click);
             // 
@@ -195,54 +197,62 @@ namespace SCaddins.SCexport
             this.filterToolStripMenuItem.Enabled = false;
             this.filterToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("filterToolStripMenuItem.Image")));
             this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
-            this.filterToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.filterToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.filterToolStripMenuItem.Text = "Filter";
             this.filterToolStripMenuItem.Click += new System.EventHandler(this.FilterToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(220, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(253, 6);
             // 
             // mnuExportOptions
             // 
             this.mnuExportOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuExportOptions.Image")));
             this.mnuExportOptions.Name = "mnuExportOptions";
-            this.mnuExportOptions.Size = new System.Drawing.Size(223, 22);
+            this.mnuExportOptions.Size = new System.Drawing.Size(256, 22);
             this.mnuExportOptions.Text = "Options";
             this.mnuExportOptions.Click += new System.EventHandler(this.MnuExportOptionsClick);
             // 
             // mnuSeparator0
             // 
             this.mnuSeparator0.Name = "mnuSeparator0";
-            this.mnuSeparator0.Size = new System.Drawing.Size(220, 6);
+            this.mnuSeparator0.Size = new System.Drawing.Size(253, 6);
             // 
             // openSelectedViewToolStripMenuItem
             // 
             this.openSelectedViewToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openSelectedViewToolStripMenuItem.Image")));
             this.openSelectedViewToolStripMenuItem.Name = "openSelectedViewToolStripMenuItem";
-            this.openSelectedViewToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.openSelectedViewToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.openSelectedViewToolStripMenuItem.Text = "Open Selected View";
             this.openSelectedViewToolStripMenuItem.Click += new System.EventHandler(this.OpenSelectedViewToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(220, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(253, 6);
             // 
             // addRevisionToolStripMenuItem
             // 
             this.addRevisionToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("addRevisionToolStripMenuItem.Image")));
             this.addRevisionToolStripMenuItem.Name = "addRevisionToolStripMenuItem";
-            this.addRevisionToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.addRevisionToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.addRevisionToolStripMenuItem.Text = "Add Revision";
             this.addRevisionToolStripMenuItem.Click += new System.EventHandler(this.AddRevisionToolStripMenuItemClick);
+            // 
+            // removeUnderlaysFromViewsToolStripMenuItem
+            // 
+            this.removeUnderlaysFromViewsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("removeUnderlaysFromViewsToolStripMenuItem.Image")));
+            this.removeUnderlaysFromViewsToolStripMenuItem.Name = "removeUnderlaysFromViewsToolStripMenuItem";
+            this.removeUnderlaysFromViewsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.removeUnderlaysFromViewsToolStripMenuItem.Text = "Remove Underlays from Views";
+            this.removeUnderlaysFromViewsToolStripMenuItem.Click += new System.EventHandler(this.RemoveUnderlaysFromViewsToolStripMenuItemClick);
             // 
             // renameSelectedSheetsToolStripMenuItem
             // 
             this.renameSelectedSheetsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("renameSelectedSheetsToolStripMenuItem.Image")));
             this.renameSelectedSheetsToolStripMenuItem.Name = "renameSelectedSheetsToolStripMenuItem";
-            this.renameSelectedSheetsToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.renameSelectedSheetsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.renameSelectedSheetsToolStripMenuItem.Text = "Rename Selected Sheets";
             this.renameSelectedSheetsToolStripMenuItem.Click += new System.EventHandler(this.RenameSelectedSheetsToolStripMenuItemClick);
             // 
@@ -250,20 +260,20 @@ namespace SCaddins.SCexport
             // 
             this.createUserViewsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createUserViewsToolStripMenuItem.Image")));
             this.createUserViewsToolStripMenuItem.Name = "createUserViewsToolStripMenuItem";
-            this.createUserViewsToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.createUserViewsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.createUserViewsToolStripMenuItem.Text = "Create User Views";
             this.createUserViewsToolStripMenuItem.Click += new System.EventHandler(this.CreateUserViewsToolStripMenuItemClick);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(220, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(253, 6);
             // 
             // mnuSelectAll
             // 
             this.mnuSelectAll.Image = ((System.Drawing.Image)(resources.GetObject("mnuSelectAll.Image")));
             this.mnuSelectAll.Name = "mnuSelectAll";
-            this.mnuSelectAll.Size = new System.Drawing.Size(223, 22);
+            this.mnuSelectAll.Size = new System.Drawing.Size(256, 22);
             this.mnuSelectAll.Text = "SelectAll";
             this.mnuSelectAll.Click += new System.EventHandler(this.MnuSelectAll_Click);
             // 
@@ -271,27 +281,27 @@ namespace SCaddins.SCexport
             // 
             this.mnuSelectNone.Image = ((System.Drawing.Image)(resources.GetObject("mnuSelectNone.Image")));
             this.mnuSelectNone.Name = "mnuSelectNone";
-            this.mnuSelectNone.Size = new System.Drawing.Size(223, 22);
+            this.mnuSelectNone.Size = new System.Drawing.Size(256, 22);
             this.mnuSelectNone.Text = "Select None";
             this.mnuSelectNone.Click += new System.EventHandler(this.MnuSelectNone_Click);
             // 
             // mnuSeparator2
             // 
             this.mnuSeparator2.Name = "mnuSeparator2";
-            this.mnuSeparator2.Size = new System.Drawing.Size(220, 6);
+            this.mnuSeparator2.Size = new System.Drawing.Size(253, 6);
             // 
             // mnuVerify
             // 
             this.mnuVerify.Image = ((System.Drawing.Image)(resources.GetObject("mnuVerify.Image")));
             this.mnuVerify.Name = "mnuVerify";
-            this.mnuVerify.Size = new System.Drawing.Size(223, 22);
+            this.mnuVerify.Size = new System.Drawing.Size(256, 22);
             this.mnuVerify.Text = "Verify Sheets";
             this.mnuVerify.Click += new System.EventHandler(this.MnuVerify_Click);
             // 
             // mnuSeparator3
             // 
             this.mnuSeparator3.Name = "mnuSeparator3";
-            this.mnuSeparator3.Size = new System.Drawing.Size(220, 6);
+            this.mnuSeparator3.Size = new System.Drawing.Size(253, 6);
             // 
             // mnuHelp
             // 
@@ -302,7 +312,7 @@ namespace SCaddins.SCexport
             this.forumToolStripMenuItem});
             this.mnuHelp.Image = ((System.Drawing.Image)(resources.GetObject("mnuHelp.Image")));
             this.mnuHelp.Name = "mnuHelp";
-            this.mnuHelp.Size = new System.Drawing.Size(223, 22);
+            this.mnuHelp.Size = new System.Drawing.Size(256, 22);
             this.mnuHelp.Text = "Help";
             // 
             // changeLogToolStripMenuItem
@@ -479,9 +489,11 @@ namespace SCaddins.SCexport
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
         private System.Windows.Forms.ToolStripMenuItem createUserViewsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem renameSelectedSheetsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeUnderlaysFromViewsToolStripMenuItem;
         #endregion
         }
     }

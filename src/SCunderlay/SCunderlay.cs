@@ -17,41 +17,46 @@
 
 namespace SCaddins.SCunderlay
 {
+    using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     
-    [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
-    [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
-    public class Command : IExternalCommand
-    {    
-        public Autodesk.Revit.UI.Result Execute(
-            ExternalCommandData commandData,
-            ref string message,
-            Autodesk.Revit.DB.ElementSet elements)
+    public static class Utils
+    {
+        public static void RemoveUnderlays(
+            ICollection<SCaddins.SCexport.SCexportSheet> sheets, Document doc)
         {
-            var uidoc = commandData.Application.ActiveUIDocument;
-            RemoveUnderlay(uidoc);
-            return Result.Succeeded;
+            var t = new Transaction(doc, "Remove Underlays");
+            t.Start();
+            foreach (SCaddins.SCexport.SCexportSheet sheet in sheets) {
+                foreach (View v in sheet.Sheet.Views) {
+                    RemoveUnderlay(v);
+                }  
+            }
+            t.Commit();            
         }
         
-        private void RemoveUnderlay(UIDocument uidoc)
+        public static void RemoveUnderlays(UIDocument uidoc)
         {
             var selection = uidoc.Selection;
-            TaskDialog.Show("Test", selection.Elements.Size.ToString());
-            if(selection.Elements.Size < 1) 
+            if (selection.Elements.Size < 1)
                 return;
             var t = new Transaction(uidoc.Document);
             t.Start("Remove Underlays");
             foreach (Element element in selection.Elements) {
-                if (element.Category.Id.IntegerValue == (int)(BuiltInCategory.OST_Views)) {
-                    var param = element.get_Parameter(BuiltInParameter.VIEW_UNDERLAY_ID);
-                    if (param != null) {
-                        param.Set(ElementId.InvalidElementId);
-                    }
-                }
+                RemoveUnderlay(element);
             }
             t.Commit();
+        }
+        
+        private static void RemoveUnderlay(Element element)
+        {
+            if (element.Category.Id.IntegerValue == (int)(BuiltInCategory.OST_Views)) {
+                var param = element.get_Parameter(BuiltInParameter.VIEW_UNDERLAY_ID);
+                if (param != null) {
+                    param.Set(ElementId.InvalidElementId);
+                }
+            }   
         }
         
     }

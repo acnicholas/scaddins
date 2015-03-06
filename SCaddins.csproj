@@ -189,6 +189,7 @@
     <Compile Include="src\SCulcase\SCulcaseMainForm.cs" />
     <Compile Include="src\SCulcase\SCulcaseMainForm.Designer.cs" />
     <Compile Include="src\SCunderlay\SCunderlay.cs" />
+    <Compile Include="src\SCunderlay\SCunderlayCommand.cs" />
     <Compile Include="src\SCuv\SCuv.cs" />
     <Compile Include="src\SCuv\SCuvCommand.cs" />
     <Compile Include="src\SCwash\SCwash.cs" />
