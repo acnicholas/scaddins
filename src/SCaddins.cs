@@ -192,7 +192,7 @@ namespace SCaddins
             pbd.LongDescription =
             "SCopy will try to create a copy of the active(focused)sheet " +
             System.Environment.NewLine + System.Environment.NewLine +
-            "NOTE: After the new sheet is created, view names need to be munaually edit.";
+            "NOTE: After the new sheet is created, view names may need to be munaually edit.";
             return pbd;
         }
               
