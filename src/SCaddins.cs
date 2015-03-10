@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2014 by Andrew Nicholas (andrewnicholas@iinet.net.au)
+﻿// (C) Copyright 2014-2015 by Andrew Nicholas (andrewnicholas@iinet.net.au)
 //
 // This file is part of SCaddins.
 //
@@ -51,8 +51,9 @@ namespace SCaddins
                     this.LoadSCincrement(scdll, ribbonPanel),
                     this.LoadSCuv(scdll, ribbonPanel));
             ribbonPanel.AddSlideOut();
-            ribbonPanel.AddItem(this.LoadAbout(scdll, ribbonPanel));
-            ribbonPanel.AddItem(this.LoadSCincrementSettings(scdll, ribbonPanel));
+            ribbonPanel.AddStackedItems(
+                    this.LoadAbout(scdll, ribbonPanel),
+                    this.LoadSCincrementSettings(scdll, ribbonPanel));
             return Result.Succeeded;
         }
 
@@ -142,6 +143,7 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "SCincrement", "SCincrement", dll, "SCaddins.SCincrement.Command");
             this.AssignPushButtonImage(pbd, "scincrement-rvt-16.png", 16);
+
             pbd.ToolTip =
                 "Increment room numbers and family marks.";
             return pbd;
@@ -151,7 +153,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCincrementSettings", "SCincrementSettings", dll, "SCaddins.SCincrement.SCincrementSettingsCommand");
-            this.AssignPushButtonImage(pbd, "scincrement-rvt-16.png", -1);
+            this.AssignPushButtonImage(pbd, "scincrement-rvt-16.png", 16);
             pbd.ToolTip =
                 "Increment settings.";
             return pbd;
@@ -171,9 +173,8 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCaddinsAbout", "SCaddinsAbout", dll, "SCaddins.Common.About");
-            this.AssignPushButtonImage(pbd, "help.png", -1);
-            pbd.ToolTip =
-                "About SCaddins.";
+            this.AssignPushButtonImage(pbd, "help.png", 16);
+            pbd.ToolTip = "About SCaddins.";
             return pbd;
         }
 

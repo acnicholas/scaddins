@@ -79,12 +79,22 @@ namespace SCaddins.SCuv
         private static string CreateUserViewsFromSheet(ViewSheet vs, Document doc)
         {
             string message = string.Empty;
+            #if REVIT2014
             foreach (View v in vs.Views) {
                 if (ValidViewType(v.ViewType)) {
                     CreateView(v, doc);
                     message += GetNewViewName(v) + Environment.NewLine;
                 }
-            }  
+            } 
+            #else
+            foreach (ElementId id in vs.GetAllPlacedViews()) {
+                View v = (View)doc.GetElement(id);
+                if (ValidViewType(v.ViewType)) {
+                    CreateView(v, doc);
+                    message += GetNewViewName(v) + Environment.NewLine;
+                }
+            } 
+            #endif            
             return message;          
         }
         
@@ -108,8 +118,15 @@ namespace SCaddins.SCuv
             var newView = doc.GetElement(destViewId) as View;
             newView.Name = GetNewViewName(srcView); 
             newView.ViewTemplateId = ElementId.InvalidElementId;
-            
+            #if REVIT2014
             Parameter param = newView.get_Parameter("SC-View_Category");
+            #else
+            var p = newView.GetParameters("SC-View_Category");
+            if(p.Count < 1) {
+                return true ;
+            }
+            Parameter param = p[0];
+            #endif
             if(param == null) {
                 return true ;
             }

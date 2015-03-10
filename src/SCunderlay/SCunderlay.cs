@@ -29,9 +29,16 @@ namespace SCaddins.SCunderlay
             var t = new Transaction(doc, "Remove Underlays");
             t.Start();
             foreach (SCaddins.SCexport.SCexportSheet sheet in sheets) {
+                #if REVIT2014
                 foreach (View v in sheet.Sheet.Views) {
                     RemoveUnderlay(v);
                 }  
+                #else
+                foreach (ElementId id in sheet.Sheet.GetAllPlacedViews()) {
+                    View v = (View)doc.GetElement(id);
+                    RemoveUnderlay(v);
+                } 
+                #endif
             }
             t.Commit();            
         }
@@ -39,6 +46,7 @@ namespace SCaddins.SCunderlay
         public static void RemoveUnderlays(UIDocument uidoc)
         {
             var selection = uidoc.Selection;
+            #if REVIT2014
             if (selection.Elements.Size < 1)
                 return;
             var t = new Transaction(uidoc.Document);
@@ -47,6 +55,16 @@ namespace SCaddins.SCunderlay
                 RemoveUnderlay(element);
             }
             t.Commit();
+            #else
+            if (selection.GetElementIds().Count < 1)
+                return;
+            var t = new Transaction(uidoc.Document);
+            t.Start("Remove Underlays");
+            foreach (ElementId id in selection.GetElementIds()) {
+                RemoveUnderlay(uidoc.Document.GetElement(id));
+            }
+            t.Commit();
+            #endif
         }
         
         private static void RemoveUnderlay(Element element)
