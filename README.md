@@ -10,7 +10,7 @@ Included are:
 
 
  * [**SCexport**](https://bitbucket.org/anicholas/scaddins/wiki/SCexport):  
-    A export utility to export PDF, DWG and DWG with a predefined naming scheme.
+    A export utility to export PDF, DWG and DWF with a predefined naming scheme.
     SCexport also includes other goodies like bulk sheet renaming and bulk revision(ing).
 
  * [**SCaos**](https://bitbucket.org/anicholas/scaddins/wiki/SCaos):  
