@@ -7,14 +7,5 @@
     <Setting Name="DisplayOrder" Type="System.Collections.Specialized.StringCollection" Scope="User" Description="test" Roaming="false">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="DisplaySCexport" Type="System.Boolean" Scope="User" Roaming="false">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="DisplayScoord" Type="System.Boolean" Scope="User" Roaming="false">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="DisplaySCulcase" Type="System.Boolean" Scope="User" Roaming="false">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
   </Settings>
 </SettingsFile>

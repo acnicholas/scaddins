@@ -38,41 +38,5 @@ namespace SCaddins {
                 this["DisplayOrder"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DisplaySCexport {
-            get {
-                return ((bool)(this["DisplaySCexport"]));
-            }
-            set {
-                this["DisplaySCexport"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DisplayScoord {
-            get {
-                return ((bool)(this["DisplayScoord"]));
-            }
-            set {
-                this["DisplayScoord"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DisplaySCulcase {
-            get {
-                return ((bool)(this["DisplaySCulcase"]));
-            }
-            set {
-                this["DisplaySCulcase"] = value;
-            }
-        }
     }
 }

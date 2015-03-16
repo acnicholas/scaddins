@@ -19,6 +19,7 @@ namespace SCaddins
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -34,26 +35,51 @@ namespace SCaddins
         public Autodesk.Revit.UI.Result OnStartup(
             UIControlledApplication application)
         {
+            var collection = SCaddins.Scaddins.Default.DisplayOrder;
+            
+            if (collection.Count < 1) {
+                collection = ScaddinsOptionsForm.GetDefualtCollection();
+            }
+                                   
+            var numberOfAddins = collection.Count;
+            
+            var ribbonPanel = this.TryGetPanel(application, "Scott Carver");
+            
+            if(numberOfAddins > 0){
+                ribbonPanel.AddItem(GetButtonByIndex(collection, 0));
+            }
+            
+            if(numberOfAddins > 3){
+            ribbonPanel.AddStackedItems(
+                    GetButtonByIndex(collection, 1),
+                    GetButtonByIndex(collection, 2),
+                    GetButtonByIndex(collection, 3));
+            }
+            
+            if(numberOfAddins > 6){
+            ribbonPanel.AddStackedItems(
+                    GetButtonByIndex(collection, 4),
+                    GetButtonByIndex(collection, 5),
+                    GetButtonByIndex(collection, 6));
+            }
+            
+            if(numberOfAddins > 9){
+            ribbonPanel.AddStackedItems(
+                    GetButtonByIndex(collection, 7),
+                    GetButtonByIndex(collection, 8),
+                    GetButtonByIndex(collection, 9));
+            }
+            
+            ribbonPanel.AddSlideOut();
+
+            //FIXME - dont do this again.
             string scdll =
                 new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
-            var ribbonPanel = this.TryGetPanel(application, "Scott Carver");
-            var pushButton = ribbonPanel.AddItem(this.LoadScexport(scdll, ribbonPanel)) as PushButton;
-            ribbonPanel.AddStackedItems(
-                    this.LoadSCoord(scdll, ribbonPanel),
-                    this.LoadSCulcase(scdll, ribbonPanel),
-                    this.LoadSCwash(scdll, ribbonPanel));
-            ribbonPanel.AddStackedItems(
-                    this.LoadSCaos(scdll, ribbonPanel),
-                    this.LoadSCopy(scdll, ribbonPanel),
-                    this.LoadSCloudShed(scdll, ribbonPanel));
-            ribbonPanel.AddStackedItems(
-                    this.LoadSCightlines(scdll, ribbonPanel),
-                    this.LoadSCincrement(scdll, ribbonPanel),
-                    this.LoadSCuv(scdll, ribbonPanel));
-            ribbonPanel.AddSlideOut();
-            ribbonPanel.AddStackedItems(
-                    this.LoadAbout(scdll, ribbonPanel),
-                    this.LoadSCincrementSettings(scdll, ribbonPanel));
+
+             ribbonPanel.AddStackedItems(
+                    this.LoadAbout(scdll),
+                    this.LoadSCincrementSettings(scdll),
+                    this.LoadSCaddinSettings(scdll));
             return Result.Succeeded;
         }
 
@@ -61,8 +87,44 @@ namespace SCaddins
         {
             return Result.Succeeded;
         }
+        
+        private PushButtonData GetButtonByIndex(StringCollection collection, int index)
+        {
+            return GetButtonByName(collection[index]);
+        }
+        
+        private PushButtonData GetButtonByName(string name)
+        {
+            string scdll =
+                new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
 
-        private PushButtonData LoadScexport(string dll, RibbonPanel rp)
+            switch(name.ToLower()){
+                case "scexport":
+                    return LoadScexport(scdll);
+                case "scoord":
+                    return LoadSCoord(scdll);
+                case "sculcase":
+                    return LoadSCulcase(scdll);
+                case "scwash":
+                    return LoadSCwash(scdll);
+                case "scaos":
+                    return LoadSCaos(scdll);
+                case "scopy":
+                    return LoadSCopy(scdll);
+                case "scloudsched":
+                    return LoadSCloudShed(scdll);
+                case "scightlines":
+                    return LoadSCightlines(scdll);
+                case "scincrement":
+                    return LoadSCincrement(scdll);
+                case "scuv":
+                    return LoadSCuv(scdll);
+                default:
+                    return null;
+            }
+        }
+        
+        private PushButtonData LoadScexport(string dll)
         {
             var pbd = new PushButtonData(
                           "SCexport", "SCexport", dll, "SCaddins.SCexport.Command");
@@ -78,7 +140,7 @@ namespace SCaddins
             return pbd;
         }
 
-        private PushButtonData LoadSCoord(string dll, RibbonPanel rp)
+        private PushButtonData LoadSCoord(string dll)
         {
             var pbd = new PushButtonData(
                            "Scoord", "Scoord", dll, "SCaddins.SCoord.Command");
@@ -88,7 +150,7 @@ namespace SCaddins
             return pbd;
         }
 
-        private PushButtonData LoadSCulcase(string dll, RibbonPanel rp)
+        private PushButtonData LoadSCulcase(string dll)
         {
             var pbd = new PushButtonData(
                            "SCulcase", "SCulcase", dll, "SCaddins.SCulcase.Command");
@@ -98,7 +160,7 @@ namespace SCaddins
             return pbd;
         }
 
-        private PushButtonData LoadSCwash(string dll, RibbonPanel rp)
+        private PushButtonData LoadSCwash(string dll)
         {
             var pbd = new PushButtonData(
                               "SCwash", "SCwash", dll, "SCaddins.SCwash.Command");
@@ -108,17 +170,17 @@ namespace SCaddins
             return pbd;
         }
 
-        private PushButtonData LoadSCaos(string dll, RibbonPanel rp)
+        private PushButtonData LoadSCaos(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCaos", "SCaos", dll, "SCaddins.SCaos.Command");
+                              "SCaos", "Angle Of Sun", dll, "SCaddins.SCaos.Command");
             this.AssignPushButtonImage(pbd, "scaos-rvt-16.png", 16);
             pbd.ToolTip =
                 "Rotate a 3d view to the location of the sun.";
             return pbd;
         }
 
-        private PushButtonData LoadSCightlines(string dll, RibbonPanel rp)
+        private PushButtonData LoadSCightlines(string dll)
         { 
             var pbd = new PushButtonData(
                               "SCightLines", "SCightLines", dll, "SCaddins.SCightLines.Command");
@@ -128,7 +190,7 @@ namespace SCaddins
             return pbd;
         }
 
-        private PushButtonData LoadSCloudShed(string dll, RibbonPanel rp)
+        private PushButtonData LoadSCloudShed(string dll)
         {
             var pbd = new PushButtonData(
                               "SCloudSChed", "SCloudSChed", dll, "SCaddins.SCloudSChed.Command");
@@ -138,7 +200,7 @@ namespace SCaddins
             return pbd;
         }
         
-        private PushButtonData LoadSCincrement(string dll, RibbonPanel rp)
+        private PushButtonData LoadSCincrement(string dll)
         {
             var pbd = new PushButtonData(
                               "SCincrement", "SCincrement", dll, "SCaddins.SCincrement.Command");
@@ -149,7 +211,7 @@ namespace SCaddins
             return pbd;
         }
         
-        private PushButtonData LoadSCincrementSettings(string dll, RibbonPanel rp)
+        private PushButtonData LoadSCincrementSettings(string dll)
         {
             var pbd = new PushButtonData(
                               "SCincrementSettings", "SCincrementSettings", dll, "SCaddins.SCincrement.SCincrementSettingsCommand");
@@ -159,7 +221,17 @@ namespace SCaddins
             return pbd;
         }
         
-        private PushButtonData LoadSCuv(string dll, RibbonPanel rp)
+        private PushButtonData LoadSCaddinSettings(string dll)
+        {
+            var pbd = new PushButtonData(
+                              "SCaddinsOptions", "SCaddinsOptions", dll, "SCaddins.SCaddinsOptions");
+            this.AssignPushButtonImage(pbd, "gear.png", 16);
+            pbd.ToolTip =
+                "SCaddins settings.";
+            return pbd;
+        }
+        
+        private PushButtonData LoadSCuv(string dll)
         {
             var pbd = new PushButtonData(
                               "SCuv", "SCuv", dll, "SCaddins.SCuv.Command");
@@ -169,7 +241,7 @@ namespace SCaddins
             return pbd;
         }
         
-        private PushButtonData LoadAbout(string dll, RibbonPanel rp)
+        private PushButtonData LoadAbout(string dll)
         {
             var pbd = new PushButtonData(
                               "SCaddinsAbout", "SCaddinsAbout", dll, "SCaddins.Common.About");
@@ -178,7 +250,7 @@ namespace SCaddins
             return pbd;
         }
 
-        private PushButtonData LoadSCopy(string dll, RibbonPanel rp)
+        private PushButtonData LoadSCopy(string dll)
         {
             var pbd = new PushButtonData(
                               "SCopy", "SCopy", dll, "SCaddins.SCopy.Command");

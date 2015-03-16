@@ -23,6 +23,7 @@
 							<File Id="scwash_rvt_16.png" Name="scwash-rvt-16.png" Source="..\share\icons\ribbon\scwash-rvt-16.png" />
 							<File Id="help.png" Name="help.png" Source="..\share\icons\ribbon\help.png" />
 							<File Id="user.png" Name="user.png" Source="..\share\icons\ribbon\user.png" />
+							<File Id="gear.png" Name="gear.png" Source="..\share\icons\ribbon\gear.png" />
 						</Component>
 					</Directory>
 					<Directory Id="RFADIR" Name="rfa">

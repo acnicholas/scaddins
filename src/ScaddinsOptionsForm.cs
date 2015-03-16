@@ -16,7 +16,6 @@
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
 using System.Collections.Specialized;
 using System.Windows.Forms;
 
@@ -39,7 +38,7 @@ namespace SCaddins
             PopulateListBox(collection);
         }
         
-        private StringCollection GetDefualtCollection()
+        public static StringCollection GetDefualtCollection()
         {
             var collection = new StringCollection();
                 collection.Add("SCexport");
@@ -48,21 +47,22 @@ namespace SCaddins
                 collection.Add("SCaos");
                 collection.Add("SCuv");
                 collection.Add("SCopy");
-                collection.Add("SCighlines");
+                collection.Add("SCightlines");
                 collection.Add("SCwash");
                 collection.Add("SCincrement");
+                collection.Add("SCloudSched");
                 return collection;
         }
         
         private void PopulateListBox(StringCollection collection)
         {
             for(int i = 0; i < collection.Count ; i++){
-                this.checkedListBox1.Items.Add(collection[i]);
+                this.listBox1.Items.Add(collection[i]);
             }    
         }
         
         private void ApplyDefaultOrder(){
-            checkedListBox1.Items.Clear();
+            listBox1.Items.Clear();
             PopulateListBox(GetDefualtCollection());
         }
         
@@ -84,19 +84,18 @@ namespace SCaddins
         //from http://stackoverflow.com/questions/4796109/how-to-move-item-in-listbox-up-and-down
         private void MoveItem(int direction)
         {
-            if (checkedListBox1.SelectedItem == null || checkedListBox1.SelectedIndex < 0)
-                return; // No selected item - nothing to do
+            if (listBox1.SelectedItem == null || listBox1.SelectedIndex < 0)
+                return;
 
-            int newIndex = checkedListBox1.SelectedIndex + direction;
+            int newIndex = listBox1.SelectedIndex + direction;
 
-            if (newIndex < 0 || newIndex >= checkedListBox1.Items.Count)
-                return; // Index out of range - nothing to do
+            if (newIndex < 0 || newIndex >= listBox1.Items.Count)
+                return;
 
-            object selected = checkedListBox1.SelectedItem;
-
-            checkedListBox1.Items.Remove(selected);
-            checkedListBox1.Items.Insert(newIndex, selected);
-            checkedListBox1.SetSelected(newIndex, true);
+            object selected = listBox1.SelectedItem;
+            listBox1.Items.Remove(selected);
+            listBox1.Items.Insert(newIndex, selected);
+            listBox1.SetSelected(newIndex, true);
         }
         
         private void ButtonDownClick(object sender, EventArgs e)
@@ -107,11 +106,25 @@ namespace SCaddins
         private void ButtonOKClick(object sender, EventArgs e)
         {
             var collection = new StringCollection();
-            for(int i = 0; i < checkedListBox1.Items.Count; i++){
-                collection.Add(checkedListBox1.Items[i].ToString());
+            for(int i = 0; i < listBox1.Items.Count; i++){
+                collection.Add(listBox1.Items[i].ToString());
             }
             SCaddins.Scaddins.Default.DisplayOrder = collection;
             SCaddins.Scaddins.Default.Save();
         }
+        
+        void ButtonAllClick(object sender, EventArgs e)
+        {
+            ApplyDefaultOrder();
+        }
+        
+        void ButtonRemoveClick(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItem == null || listBox1.SelectedIndex < 0)
+                return;
+            object selected = listBox1.SelectedItem;  
+            listBox1.Items.Remove(selected);        
+        }
+        
     }
 }
