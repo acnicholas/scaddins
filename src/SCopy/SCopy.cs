@@ -424,17 +424,17 @@ namespace SCaddins.SCopy
         private void CopyViewToSheet(
             SCopyViewOnSheet view, SCopySheet sheet, XYZ sourceViewCentre)
         {
-            ElementId destViewId = view.OldView.Duplicate(
-                                       ViewDuplicateOption.WithDetailing);
+            var d = view.DuplicateWithDetailing == true ? ViewDuplicateOption.WithDetailing : ViewDuplicateOption.Duplicate;          
+            ElementId destViewId = view.OldView.Duplicate(d);
             string newName = sheet.GetNewViewName(view.OldView.Id);
             var v = this.doc.GetElement(destViewId) as View;
             if (newName != null) {
                 v.Name = newName;
-                if(view.ViewTemplateName != SCopyConstants.MenuItemCopy){
-                 View vt = null;
+                if (view.ViewTemplateName != SCopyConstants.MenuItemCopy) {
+                    View vt = null;
                     if (this.viewTemplates.TryGetValue(view.ViewTemplateName, out vt)) {
-                     View dv = doc.GetElement(destViewId) as View;
-                     dv.ViewTemplateId = vt.Id;
+                        View dv = doc.GetElement(destViewId) as View;
+                        dv.ViewTemplateId = vt.Id;
                     }    
                 }
             }
