@@ -45,7 +45,6 @@ namespace SCaddins.SCopy
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
-            this.buttonCopy = new System.Windows.Forms.Button();
             this.buttonRemove = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -82,7 +81,6 @@ namespace SCaddins.SCopy
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.buttonCopy);
             this.splitContainer1.Panel2.Controls.Add(this.buttonRemove);
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Panel2.Controls.Add(this.buttonAdd);
@@ -134,20 +132,6 @@ namespace SCaddins.SCopy
             // 
             this.columnHeader2.Width = 123;
             // 
-            // buttonCopy
-            // 
-            this.buttonCopy.AllowDrop = true;
-            this.buttonCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCopy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonCopy.Image = ((System.Drawing.Image)(resources.GetObject("buttonCopy.Image")));
-            this.buttonCopy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonCopy.Location = new System.Drawing.Point(327, 4);
-            this.buttonCopy.Name = "buttonCopy";
-            this.buttonCopy.Size = new System.Drawing.Size(112, 23);
-            this.buttonCopy.TabIndex = 12;
-            this.buttonCopy.Text = "Copy";
-            this.buttonCopy.UseVisualStyleBackColor = true;
-            // 
             // buttonRemove
             // 
             this.buttonRemove.AllowDrop = true;
@@ -158,7 +142,7 @@ namespace SCaddins.SCopy
             this.buttonRemove.Name = "buttonRemove";
             this.buttonRemove.Size = new System.Drawing.Size(112, 23);
             this.buttonRemove.TabIndex = 11;
-            this.buttonRemove.Text = "Remove";
+            this.buttonRemove.Text = "Remove Selection";
             this.buttonRemove.UseVisualStyleBackColor = true;
             this.buttonRemove.Click += new System.EventHandler(this.ButtonRemoveClick);
             // 
@@ -254,7 +238,7 @@ namespace SCaddins.SCopy
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(112, 23);
             this.buttonAdd.TabIndex = 9;
-            this.buttonAdd.Text = "Add";
+            this.buttonAdd.Text = "Add Current Sheet";
             this.buttonAdd.UseVisualStyleBackColor = true;
             this.buttonAdd.Click += new System.EventHandler(this.ButtonAdd);
             // 
@@ -301,10 +285,10 @@ namespace SCaddins.SCopy
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
+
         }
         private System.Windows.Forms.Button buttonReplace;
         private System.Windows.Forms.Button buttonRemove;
-        private System.Windows.Forms.Button buttonCopy;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.DataGridView dataGridView1;

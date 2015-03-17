@@ -225,6 +225,10 @@ namespace SCaddins.SCopy
             }
             buttonReplace.Enabled = (dataGridView2.SelectedRows.Count == 1) && planEnough;
         }
+        void ButtonCopyClick(object sender, EventArgs e)
+        {
+          
+        }
     }
 }
 /* vim: set ts=4 sw=4 nu expandtab: */
