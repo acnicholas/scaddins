@@ -397,7 +397,7 @@ namespace SCaddins.SCopy
             
                 XYZ sourceViewCentre = this.ViewCenterFromTBBottomLeft(
                                            this.sourceTitleBlock, srcViewBounds, this.sourceSheet);
-
+              
                 switch (view.CreationMode) {
                     case ViewCreationMode.Copy:
                         this.CopyViewToSheet(view, sheet, sourceViewCentre);
@@ -430,6 +430,13 @@ namespace SCaddins.SCopy
             var v = this.doc.GetElement(destViewId) as View;
             if (newName != null) {
                 v.Name = newName;
+                if(view.ViewTemplateName != SCopyConstants.MenuItemCopy){
+                 View vt = null;
+                    if (this.viewTemplates.TryGetValue(view.ViewTemplateName, out vt)) {
+                     View dv = doc.GetElement(destViewId) as View;
+                     dv.ViewTemplateId = vt.Id;
+                    }    
+                }
             }
             this.PlaceViewOnSheet(sheet.DestSheet, destViewId, sourceViewCentre);
         }
