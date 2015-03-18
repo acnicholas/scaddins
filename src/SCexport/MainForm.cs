@@ -684,9 +684,14 @@ namespace SCaddins.SCexport
             SCuv.SCuv.CreateUserViews(this.SelectedSheets(), this.doc);
         }
         
-        void RemoveUnderlaysFromViewsToolStripMenuItemClick(object sender, EventArgs e)
+        private void RemoveUnderlaysFromViewsToolStripMenuItemClick(object sender, EventArgs e)
         {
             SCunderlay.Utils.RemoveUnderlays(this.SelectedSheets(), this.doc);
+        }
+        
+        private void FixScalesBarsToolStripMenuItemClick(object sender, EventArgs e)
+        {
+          
         }
     }
 }

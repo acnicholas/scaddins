@@ -117,6 +117,7 @@ namespace SCaddins.SCexport
             this.btnPrint = new System.Windows.Forms.Button();
             this.btnOptions = new System.Windows.Forms.Button();
             this.btnFind = new System.Windows.Forms.Button();
+            this.fixScalesBarsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -172,6 +173,7 @@ namespace SCaddins.SCexport
             this.addRevisionToolStripMenuItem,
             this.removeUnderlaysFromViewsToolStripMenuItem,
             this.renameSelectedSheetsToolStripMenuItem,
+            this.fixScalesBarsToolStripMenuItem,
             this.createUserViewsToolStripMenuItem,
             this.toolStripSeparator6,
             this.mnuSelectAll,
@@ -182,7 +184,7 @@ namespace SCaddins.SCexport
             this.mnuHelp});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.ShowCheckMargin = true;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(257, 326);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(257, 348);
             // 
             // clearFilterToolStripMenuItem
             // 
@@ -459,6 +461,13 @@ namespace SCaddins.SCexport
             this.btnFind.UseVisualStyleBackColor = true;
             this.btnFind.Click += new System.EventHandler(this.BtnFindClick);
             // 
+            // fixScalesBarsToolStripMenuItem
+            // 
+            this.fixScalesBarsToolStripMenuItem.Name = "fixScalesBarsToolStripMenuItem";
+            this.fixScalesBarsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.fixScalesBarsToolStripMenuItem.Text = "Fix Scales Bars";
+            this.fixScalesBarsToolStripMenuItem.Click += new System.EventHandler(this.FixScalesBarsToolStripMenuItemClick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -494,6 +503,7 @@ namespace SCaddins.SCexport
         private System.Windows.Forms.ToolStripMenuItem createUserViewsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem renameSelectedSheetsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeUnderlaysFromViewsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fixScalesBarsToolStripMenuItem;
         #endregion
         }
     }

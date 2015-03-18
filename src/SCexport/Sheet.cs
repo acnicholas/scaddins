@@ -200,6 +200,16 @@ namespace SCaddins.SCexport
                 return result;
             }
         }
+        
+        public bool ValidScaleBar
+        {
+            get { return (this.scale.Trim() == this.scaleBarScale.Trim()) ;}
+        }
+        
+        public string ScaleBarScale
+        {
+            get { return scaleBarScale; }
+        }
 
         /// <summary>
         /// Gets or sets the export dir.
@@ -291,7 +301,7 @@ namespace SCaddins.SCexport
         #endregion
 
         /// <summary>
-        /// Fulls the export path.
+        /// Fulls export path.
         /// </summary>
         /// <returns>The export path.</returns>
         /// <param name="extension">The file extension.</param>
