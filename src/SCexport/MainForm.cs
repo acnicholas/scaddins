@@ -691,7 +691,9 @@ namespace SCaddins.SCexport
         
         private void FixScalesBarsToolStripMenuItemClick(object sender, EventArgs e)
         {
-          
+            SCexport.FixScaleBars(this.SelectedSheets());  
+            this.Update();
+            this.dataGridView1.Refresh();  
         }
     }
 }

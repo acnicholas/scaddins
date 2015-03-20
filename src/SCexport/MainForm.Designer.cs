@@ -97,6 +97,7 @@ namespace SCaddins.SCexport
             this.addRevisionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeUnderlaysFromViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.renameSelectedSheetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fixScalesBarsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createUserViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuSelectAll = new System.Windows.Forms.ToolStripMenuItem();
@@ -117,7 +118,6 @@ namespace SCaddins.SCexport
             this.btnPrint = new System.Windows.Forms.Button();
             this.btnOptions = new System.Windows.Forms.Button();
             this.btnFind = new System.Windows.Forms.Button();
-            this.fixScalesBarsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -257,6 +257,14 @@ namespace SCaddins.SCexport
             this.renameSelectedSheetsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.renameSelectedSheetsToolStripMenuItem.Text = "Rename Selected Sheets";
             this.renameSelectedSheetsToolStripMenuItem.Click += new System.EventHandler(this.RenameSelectedSheetsToolStripMenuItemClick);
+            // 
+            // fixScalesBarsToolStripMenuItem
+            // 
+            this.fixScalesBarsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("fixScalesBarsToolStripMenuItem.Image")));
+            this.fixScalesBarsToolStripMenuItem.Name = "fixScalesBarsToolStripMenuItem";
+            this.fixScalesBarsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.fixScalesBarsToolStripMenuItem.Text = "Fix Scales Bars";
+            this.fixScalesBarsToolStripMenuItem.Click += new System.EventHandler(this.FixScalesBarsToolStripMenuItemClick);
             // 
             // createUserViewsToolStripMenuItem
             // 
@@ -460,13 +468,6 @@ namespace SCaddins.SCexport
             this.btnFind.TabIndex = 15;
             this.btnFind.UseVisualStyleBackColor = true;
             this.btnFind.Click += new System.EventHandler(this.BtnFindClick);
-            // 
-            // fixScalesBarsToolStripMenuItem
-            // 
-            this.fixScalesBarsToolStripMenuItem.Name = "fixScalesBarsToolStripMenuItem";
-            this.fixScalesBarsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.fixScalesBarsToolStripMenuItem.Text = "Fix Scales Bars";
-            this.fixScalesBarsToolStripMenuItem.Click += new System.EventHandler(this.FixScalesBarsToolStripMenuItemClick);
             // 
             // MainForm
             // 

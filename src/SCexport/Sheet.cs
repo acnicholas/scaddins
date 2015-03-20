@@ -203,14 +203,9 @@ namespace SCaddins.SCexport
         
         public bool ValidScaleBar
         {
-            get { return (this.scale.Trim() == this.scaleBarScale.Trim()) ;}
+            get { return (this.RevitScaleWithoutFormatting() == this.scaleBarScale.Trim()) ;}
         }
         
-        public string ScaleBarScale
-        {
-            get { return scaleBarScale; }
-        }
-
         /// <summary>
         /// Gets or sets the export dir.
         /// </summary>
@@ -322,19 +317,7 @@ namespace SCaddins.SCexport
             if (titleBlock != null) {
                 this.scale = titleBlock.get_Parameter(
                     BuiltInParameter.SHEET_SCALE).AsString();
-                try {
-                    #if REVIT2015
-                    var p = titleBlock.GetParameters(Constants.TitleScale);
-                    var s = p[0].AsValueString();
-                    #else
-                    var s = titleBlock.get_Parameter(Constants.TitleScale).AsValueString();
-                    #endif
-                    var d = Convert.ToDouble(s);
-                    var i = Convert.ToInt32(d);
-                    this.scaleBarScale = d.ToString();
-                } catch {
-                    this.scaleBarScale = string.Empty;
-                }
+                this.scaleBarScale = this.GetScaleBarScale(titleBlock);
                 this.width = titleBlock.get_Parameter(
                         BuiltInParameter.SHEET_WIDTH).AsDouble();
                 this.height = titleBlock.get_Parameter(
@@ -344,6 +327,21 @@ namespace SCaddins.SCexport
             this.printSetting = PrintSettings.AssignPrintSetting(
                     ref this.doc, this.pageSize);
             this.verified = true;
+        }
+        
+        public string RevitScaleWithoutFormatting()
+        {
+                string result = this.scale.Trim();
+                int i = 0;
+                if (result.Contains(":")) {
+                    i = result.IndexOf(':');
+                } else {
+                    return "0";
+                }
+                if (result.Trim() == string.Empty) {
+                    return "0";
+                }
+                return result.Substring(i + 2).Trim();
         }
 
         public void UpdateNumber()
@@ -359,6 +357,13 @@ namespace SCaddins.SCexport
                     BuiltInParameter.SHEET_NAME).AsString();
             this.SetExportName();  
         }
+        
+        public void UpdateScaleBarScale()
+        {
+            var titleBlock = SCexport.GetTitleBlockFamily(
+                this.sheetNumber, this.doc);
+            this.SetScaleBarScale(titleBlock);       
+        }
 
         public void UpdateRevision(bool refreshExportName)
         {
@@ -373,7 +378,7 @@ namespace SCaddins.SCexport
                 this.SetExportName();
             }
         }
-
+        
         /// <summary>
         /// Initializes initial values.
         /// </summary>
@@ -409,6 +414,39 @@ namespace SCaddins.SCexport
             this.SetExportName();
         }
 
+        public void SetScaleBarScale(FamilyInstance titleBlock)
+        {
+            try {
+                #if REVIT2015
+                var tb = titleBlock.GetParameters(Constants.TitleScale);
+                Parameter p = tb[0];
+                #else
+                Parameter p = titleBlock.get_Parameter(Constants.TitleScale);
+                #endif
+                p.SetValueString(this.RevitScaleWithoutFormatting());
+                this.scaleBarScale = this.RevitScaleWithoutFormatting();
+            } catch {
+                return;
+            }          
+        }
+        
+        public string GetScaleBarScale(FamilyInstance titleBlock)
+        {
+          try {
+                    #if REVIT2015
+                    var p = titleBlock.GetParameters(Constants.TitleScale);
+                    var s = p[0].AsValueString();
+                    #else
+                    var s = titleBlock.get_Parameter(Constants.TitleScale).AsValueString();
+                    #endif
+                    var d = Convert.ToDouble(s);
+                    var i = Convert.ToInt32(d);
+                    return  d.ToString();
+                } catch {
+                    return string.Empty;
+                }    
+        }
+        
         private void PopulateSegmentedFileName()
         {
             for (int i = 0; i < this.segmentedFileName.Count; i++) {
