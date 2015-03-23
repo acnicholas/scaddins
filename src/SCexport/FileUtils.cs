@@ -27,37 +27,7 @@ namespace SCaddins.SCexport
     /// </summary>
     public static class FileUtils
     {
-        /// <summary>
-        /// Gets the deliverables folder.
-        /// This is the folder standard job folder for exported files.
-        /// TODO add this to the project conifig file, instead of hard
-        /// coding it.
-        /// </summary>
-        /// <returns> The deliverables folder.</returns>
-        public static string GetDeliverablesFolder(Document doc)
-        {
-            string s = GetCentralFilename(doc);
-            int i = 0;
-            try {
-                i = s.IndexOf("Drawings", StringComparison.CurrentCulture);
-            } catch (System.ArgumentNullException e2) {
-                var nl = System.Environment.NewLine;
-                var err = e2.Message;
-                var msg = "_DELIVERABLES not found" + nl + "Message: " + err;
-                TaskDialog.Show("Error", msg);
-                return null;
-            }
-
-            string r = s.Substring(0, i) + "_DELIVERABLES";
-            if (System.IO.Directory.Exists(r)) {
-                return r;
-            } else {
-                var msg = "_DELIVERABLES folder:" + r + " not found!"; 
-                TaskDialog.Show("SCexport", msg);
-                return null;
-            }
-        }
-        
+      
         public static bool ConfigFileExists(Document doc)
         {
              string config = SCexport.GetConfigFilename(ref doc);

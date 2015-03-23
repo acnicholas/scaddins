@@ -266,7 +266,6 @@ namespace SCaddins.SCexport
             string s =
                 "A\t    Select all" + System.Environment.NewLine +
                 "C\t    Clear current filter" + System.Environment.NewLine +
-                "D\t    Use _DELIVERABLES  as export folder" + System.Environment.NewLine +
                 "J\t    Move selected row down" + System.Environment.NewLine +
                 "K\t    Move selected row up" + System.Environment.NewLine +
                 "L\t    Select *Latest* revision only" + System.Environment.NewLine +
@@ -305,9 +304,6 @@ namespace SCaddins.SCexport
                     break;
                 case "C":
                     this.PopulateList();
-                    break;
-                case "D":
-                    this.MnuItemDeliverables_Click(sender, e);
                     break;
                 case "J":
                     this.MoveUpOrDown(1);
@@ -472,12 +468,6 @@ namespace SCaddins.SCexport
         private void ChangeLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(SCaddins.Constants.SourceLink);
-        }
-
-        private void MnuItemDeliverables_Click(object sender, EventArgs e)
-        {
-            this.scx.ExportDir = FileUtils.GetDeliverablesFolder(this.doc);
-            this.dataGridView1.Refresh();
         }
 
         private void ToggleAutoCADVersion(object sender, EventArgs e)

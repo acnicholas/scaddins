@@ -2,7 +2,7 @@
 
 <!--
      SCexport config file example.
-     Andrew Nicholas 20121122
+     Andrew Nicholas 20150315
 
      Place this in the same folder as your Central file and rename it to
      REVIT_FILE_NAME.xml
@@ -22,6 +22,8 @@
      -->
 
 <SCexport name="test">
+
+  <!--Default export dir TODO-->
     
   <!--Architectural naming scheme (USQ)-->
   <FilenameScheme label="Architectural USQ">
