@@ -453,7 +453,7 @@ namespace SCaddins.SCexport
             var t = new Autodesk.Revit.DB.Transaction(doc);
             t.Start("SCexport - Fix Scale Bars");
             foreach (SCexportSheet sheet in sheets) {
-                if(!sheet.ValidScaleBar){
+                if (!sheet.ValidScaleBar) {
                     sheet.UpdateScaleBarScale();
                 }
             }

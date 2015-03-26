@@ -225,9 +225,9 @@ namespace SCaddins.SCopy
             }
             buttonReplace.Enabled = (dataGridView2.SelectedRows.Count == 1) && planEnough;
         }
-        void ButtonCopyClick(object sender, EventArgs e)
-        {
-          
+        
+        private void ButtonCopyClick(object sender, EventArgs e)
+        {  
         }
     }
 }

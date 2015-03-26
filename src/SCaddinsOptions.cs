@@ -17,7 +17,5 @@
             settingsForm.ShowDialog();
             return Autodesk.Revit.UI.Result.Succeeded;
         }
-        
     }
 }
-

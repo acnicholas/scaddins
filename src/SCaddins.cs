@@ -45,34 +45,34 @@ namespace SCaddins
             
             var ribbonPanel = this.TryGetPanel(application, "Scott Carver");
             
-            if(numberOfAddins > 0){
-                ribbonPanel.AddItem(GetButtonByIndex(collection, 0));
+            if (numberOfAddins > 0) {
+                ribbonPanel.AddItem(this.GetButtonByIndex(collection, 0));
             }
             
-            if(numberOfAddins > 3){
+            if (numberOfAddins > 3) {
             ribbonPanel.AddStackedItems(
-                    GetButtonByIndex(collection, 1),
-                    GetButtonByIndex(collection, 2),
-                    GetButtonByIndex(collection, 3));
+                    this.GetButtonByIndex(collection, 1),
+                    this.GetButtonByIndex(collection, 2),
+                    this.GetButtonByIndex(collection, 3));
             }
             
-            if(numberOfAddins > 6){
+            if (numberOfAddins > 6) {
             ribbonPanel.AddStackedItems(
-                    GetButtonByIndex(collection, 4),
-                    GetButtonByIndex(collection, 5),
-                    GetButtonByIndex(collection, 6));
+                    this.GetButtonByIndex(collection, 4),
+                    this.GetButtonByIndex(collection, 5),
+                    this.GetButtonByIndex(collection, 6));
             }
             
-            if(numberOfAddins > 9){
+            if (numberOfAddins > 9) {
             ribbonPanel.AddStackedItems(
-                    GetButtonByIndex(collection, 7),
-                    GetButtonByIndex(collection, 8),
-                    GetButtonByIndex(collection, 9));
+                    this.GetButtonByIndex(collection, 7),
+                    this.GetButtonByIndex(collection, 8),
+                    this.GetButtonByIndex(collection, 9));
             }
             
             ribbonPanel.AddSlideOut();
 
-            //FIXME - dont do this again.
+            // FIXME - dont do this again.
             string scdll =
                 new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
 
@@ -90,7 +90,7 @@ namespace SCaddins
         
         private PushButtonData GetButtonByIndex(StringCollection collection, int index)
         {
-            return GetButtonByName(collection[index]);
+            return this.GetButtonByName(collection[index]);
         }
         
         private PushButtonData GetButtonByName(string name)
@@ -98,27 +98,27 @@ namespace SCaddins
             string scdll =
                 new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
 
-            switch(name.ToLower()){
+            switch (name.ToLower()) {
                 case "scexport":
-                    return LoadScexport(scdll);
+                    return this.LoadScexport(scdll);
                 case "scoord":
-                    return LoadSCoord(scdll);
+                    return this.LoadSCoord(scdll);
                 case "sculcase":
-                    return LoadSCulcase(scdll);
+                    return this.LoadSCulcase(scdll);
                 case "scwash":
-                    return LoadSCwash(scdll);
+                    return this.LoadSCwash(scdll);
                 case "scaos":
-                    return LoadSCaos(scdll);
+                    return this.LoadSCaos(scdll);
                 case "scopy":
-                    return LoadSCopy(scdll);
+                    return this.LoadSCopy(scdll);
                 case "scloudsched":
-                    return LoadSCloudShed(scdll);
+                    return this.LoadSCloudShed(scdll);
                 case "scightlines":
-                    return LoadSCightlines(scdll);
+                    return this.LoadSCightlines(scdll);
                 case "scincrement":
-                    return LoadSCincrement(scdll);
+                    return this.LoadSCincrement(scdll);
                 case "scuv":
-                    return LoadSCuv(scdll);
+                    return this.LoadSCuv(scdll);
                 default:
                     return null;
             }

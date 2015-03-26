@@ -16,7 +16,6 @@
             var settingsForm = new SCincrementSettingsForm();
             settingsForm.ShowDialog();
             return Autodesk.Revit.UI.Result.Succeeded;
-        }
-        
+        }     
     }
 }

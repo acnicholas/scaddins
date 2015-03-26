@@ -15,12 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Specialized;
-using System.Windows.Forms;
-
 namespace SCaddins
 {
+    using System;
+    using System.Collections.Specialized;
+    using System.Windows.Forms;
+    
     /// <summary>
     /// Description of ScaddinsOptionsForm.
     /// </summary>
@@ -34,8 +34,8 @@ namespace SCaddins
                 collection = GetDefualtCollection();
             }
             
-            InitializeComponent();
-            PopulateListBox(collection);
+            this.InitializeComponent();
+            this.PopulateListBox(collection);
         }
         
         public static StringCollection GetDefualtCollection()
@@ -56,41 +56,43 @@ namespace SCaddins
         
         private void PopulateListBox(StringCollection collection)
         {
-            for(int i = 0; i < collection.Count ; i++){
+            for (int i = 0; i < collection.Count; i++) {
                 this.listBox1.Items.Add(collection[i]);
             }    
         }
         
-        private void ApplyDefaultOrder(){
+        private void ApplyDefaultOrder() {
             listBox1.Items.Clear();
-            PopulateListBox(GetDefualtCollection());
+            this.PopulateListBox(GetDefualtCollection());
         }
         
         private void ButtonUpClick(object sender, EventArgs e)
         {
-            MoveUp();
+            this.MoveUp();
         }
         
         private void MoveUp()
         {
-            MoveItem(-1);
+            this.MoveItem(-1);
         }
 
         private void MoveDown()
         {
-            MoveItem(1);
+            this.MoveItem(1);
         }
 
-        //from http://stackoverflow.com/questions/4796109/how-to-move-item-in-listbox-up-and-down
+        // from http://stackoverflow.com/questions/4796109/how-to-move-item-in-listbox-up-and-down
         private void MoveItem(int direction)
         {
-            if (listBox1.SelectedItem == null || listBox1.SelectedIndex < 0)
+            if (listBox1.SelectedItem == null || listBox1.SelectedIndex < 0) {
                 return;
+            }
 
             int newIndex = listBox1.SelectedIndex + direction;
 
-            if (newIndex < 0 || newIndex >= listBox1.Items.Count)
+            if (newIndex < 0 || newIndex >= listBox1.Items.Count) {
                 return;
+            }
 
             object selected = listBox1.SelectedItem;
             listBox1.Items.Remove(selected);
@@ -100,31 +102,31 @@ namespace SCaddins
         
         private void ButtonDownClick(object sender, EventArgs e)
         {
-             MoveDown();  
+             this.MoveDown();  
         }
         
         private void ButtonOKClick(object sender, EventArgs e)
         {
             var collection = new StringCollection();
-            for(int i = 0; i < listBox1.Items.Count; i++){
+            for (int i = 0; i < listBox1.Items.Count; i++) {
                 collection.Add(listBox1.Items[i].ToString());
             }
             SCaddins.Scaddins.Default.DisplayOrder = collection;
             SCaddins.Scaddins.Default.Save();
         }
         
-        void ButtonAllClick(object sender, EventArgs e)
+        private void ButtonAllClick(object sender, EventArgs e)
         {
-            ApplyDefaultOrder();
+            this.ApplyDefaultOrder();
         }
         
-        void ButtonRemoveClick(object sender, EventArgs e)
+        private void ButtonRemoveClick(object sender, EventArgs e)
         {
-            if (listBox1.SelectedItem == null || listBox1.SelectedIndex < 0)
+            if (listBox1.SelectedItem == null || listBox1.SelectedIndex < 0) {
                 return;
+            }
             object selected = listBox1.SelectedItem;  
             listBox1.Items.Remove(selected);        
-        }
-        
+        }       
     }
 }

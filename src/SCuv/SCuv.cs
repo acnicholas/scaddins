@@ -127,9 +127,10 @@ namespace SCaddins.SCuv
             }
             Parameter param = p[0];
             #endif
-            if(param == null) {
-                return true ;
+            if (param == null) {
+                return true;
             }
+            
             if (param.IsReadOnly) {
                 TaskDialog.Show("SCuv Error", "SC-View_Category is read only!");
                 return false;

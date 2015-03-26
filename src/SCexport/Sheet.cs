@@ -203,7 +203,7 @@ namespace SCaddins.SCexport
         
         public bool ValidScaleBar
         {
-            get { return (this.RevitScaleWithoutFormatting() == this.scaleBarScale.Trim()) ;}
+            get { return this.RevitScaleWithoutFormatting() == this.scaleBarScale.Trim(); }
         }
         
         /// <summary>
@@ -379,6 +379,39 @@ namespace SCaddins.SCexport
             }
         }
         
+        public void SetScaleBarScale(FamilyInstance titleBlock)
+        {
+            try {
+                #if REVIT2015
+                var tb = titleBlock.GetParameters(Constants.TitleScale);
+                Parameter p = tb[0];
+                #else
+                Parameter p = titleBlock.get_Parameter(Constants.TitleScale);
+                #endif
+                p.SetValueString(this.RevitScaleWithoutFormatting());
+                this.scaleBarScale = this.RevitScaleWithoutFormatting();
+            } catch {
+                return;
+            }          
+        }
+        
+        public string GetScaleBarScale(FamilyInstance titleBlock)
+        {
+          try {
+                    #if REVIT2015
+                    var p = titleBlock.GetParameters(Constants.TitleScale);
+                    var s = p[0].AsValueString();
+                    #else
+                    var s = titleBlock.get_Parameter(Constants.TitleScale).AsValueString();
+                    #endif
+                    var d = Convert.ToDouble(s);
+                    var i = Convert.ToInt32(d);
+                    return d.ToString();
+                } catch {
+                    return string.Empty;
+                }    
+        }
+        
         /// <summary>
         /// Initializes initial values.
         /// </summary>
@@ -412,39 +445,6 @@ namespace SCaddins.SCexport
             this.id = viewSheet.Id;
             this.UpdateRevision(false);
             this.SetExportName();
-        }
-
-        public void SetScaleBarScale(FamilyInstance titleBlock)
-        {
-            try {
-                #if REVIT2015
-                var tb = titleBlock.GetParameters(Constants.TitleScale);
-                Parameter p = tb[0];
-                #else
-                Parameter p = titleBlock.get_Parameter(Constants.TitleScale);
-                #endif
-                p.SetValueString(this.RevitScaleWithoutFormatting());
-                this.scaleBarScale = this.RevitScaleWithoutFormatting();
-            } catch {
-                return;
-            }          
-        }
-        
-        public string GetScaleBarScale(FamilyInstance titleBlock)
-        {
-          try {
-                    #if REVIT2015
-                    var p = titleBlock.GetParameters(Constants.TitleScale);
-                    var s = p[0].AsValueString();
-                    #else
-                    var s = titleBlock.get_Parameter(Constants.TitleScale).AsValueString();
-                    #endif
-                    var d = Convert.ToDouble(s);
-                    var i = Convert.ToInt32(d);
-                    return  d.ToString();
-                } catch {
-                    return string.Empty;
-                }    
         }
         
         private void PopulateSegmentedFileName()

@@ -207,7 +207,6 @@
     <Compile Include="src\SCwash\SCwashForm.cs" />
     <Compile Include="src\SCwash\SCwashForm.Designer.cs" />
     <Compile Include="src\SCwash\SCwashTreeNode.cs" />
-    <Compile Include="src\Testing\Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="installer" />

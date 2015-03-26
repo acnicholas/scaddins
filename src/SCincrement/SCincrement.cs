@@ -20,8 +20,8 @@ namespace SCaddins.SCincrement
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
     using Autodesk.Revit.UI;
-    using Autodesk.Revit.UI.Selection;
     using Autodesk.Revit.UI.Events;
+    using Autodesk.Revit.UI.Selection;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -36,7 +36,7 @@ namespace SCaddins.SCincrement
             UIDocument udoc = commandData.Application.ActiveUIDocument;
             Document doc = udoc.Document;
             UIApplication app = commandData.Application;
-            commandData.Application.DialogBoxShowing += DismissDuplicateQuestion;
+            commandData.Application.DialogBoxShowing += this.DismissDuplicateQuestion;
             this.RenumberByPicks(udoc, doc, app);
             return Autodesk.Revit.UI.Result.Succeeded;
         }
@@ -48,7 +48,6 @@ namespace SCaddins.SCincrement
                 e.OverrideResult((int)TaskDialogResult.Ok);
             }
         }
-
 
         public void RenumberByPicks(UIDocument uidoc, Document doc, UIApplication app)
         {
@@ -79,26 +78,23 @@ namespace SCaddins.SCincrement
                             startValue = Convert.ToInt16(s);
                         } else if (p.StorageType == StorageType.String) {
                             string s = p.AsString();
-                            startValue = Convert.ToInt16(getSourceNumberAsString(s));
+                            startValue = Convert.ToInt16(this.GetSourceNumberAsString(s));
                         }
-
                     }
 
                     if (p.StorageType == StorageType.Integer) {
                         this.SetParameterToValue(p, ctr + 12345); // hope this # is unused (could use Failure API to make this more robust
                     } else if (p.StorageType == StorageType.String) {
-                        var ns = p.AsString() + @"zz" +  (ctr + 12345).ToString();
+                        var ns = p.AsString() + @"zz" + (ctr + 12345).ToString();
                         p.Set(ns); 
                     }
                     ctr++;
                 }
 
-
-
                 ctr = startValue;
                 foreach (Reference r in refList) {
                     Parameter p = this.GetParameterForReference(doc, r);
-                    app.DialogBoxShowing += DismissDuplicateQuestion;
+                    app.DialogBoxShowing += this.DismissDuplicateQuestion;
                     this.SetParameterToValue(p, ctr);
                     ctr++;
                 }
@@ -106,16 +102,16 @@ namespace SCaddins.SCincrement
             }
         }
 
-        private string getSourceNumberAsString(string s)
+        private string GetSourceNumberAsString(string s)
         {
             return Regex.Replace(s, SCincrementSettings.Default.SourceSearchPattern, SCincrementSettings.Default.SourceReplacePattern);  
         }
 
-        private string getDestinationNumberAsString(string s, int i)
+        private string GetDestinationNumberAsString(string s, int i)
         {
             s = Regex.Replace(s, @"(^.*)(zz.*$)", @"$1");
             s = Regex.Replace(s, SCincrementSettings.Default.DestinationSearchPattern, SCincrementSettings.Default.DestinationReplacePattern);
-            return s.Replace("#VAL#",i.ToString());
+            return s.Replace("#VAL#", i.ToString());
         }
 
         private Parameter GetParameterForReference(Document doc, Reference r)
@@ -159,7 +155,7 @@ namespace SCaddins.SCincrement
             if (p.StorageType == StorageType.Integer) {
                 p.Set(i);
             } else if (p.StorageType == StorageType.String) {
-                p.Set(getDestinationNumberAsString(p.AsString(), i));
+                p.Set(this.GetDestinationNumberAsString(p.AsString(), i));
             }
         }
     }

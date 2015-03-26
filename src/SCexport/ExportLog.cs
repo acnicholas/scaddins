@@ -15,20 +15,25 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-
 namespace SCaddins.SCexport
-{
-    
+{    
     using System.Text;
     
     public class ExportLog
-    {
-        
+    {       
         private StringBuilder log;
         
         public ExportLog()
         {
-            log = new StringBuilder();
+            this.log = new StringBuilder();
         }
+               
+        public void AddError(string filename, string msg)
+        {            
+        }
+        
+        public void AddWarning(string filename, string msg)
+        {          
+        }       
     }
 }

@@ -26,8 +26,7 @@ namespace SCaddins.SCexport
     /// Generic file input and output functions.
     /// </summary>
     public static class FileUtils
-    {
-      
+    {   
         public static bool ConfigFileExists(Document doc)
         {
              string config = SCexport.GetConfigFilename(ref doc);

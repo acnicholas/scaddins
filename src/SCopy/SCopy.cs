@@ -433,7 +433,7 @@ namespace SCaddins.SCopy
                 if (view.ViewTemplateName != SCopyConstants.MenuItemCopy) {
                     View vt = null;
                     if (this.viewTemplates.TryGetValue(view.ViewTemplateName, out vt)) {
-                        View dv = doc.GetElement(destViewId) as View;
+                        View dv = this.doc.GetElement(destViewId) as View;
                         dv.ViewTemplateId = vt.Id;
                     }    
                 }

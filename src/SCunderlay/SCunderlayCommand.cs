@@ -32,8 +32,6 @@ namespace SCaddins.SCunderlay
             var uidoc = commandData.Application.ActiveUIDocument;
             Utils.RemoveUnderlays(uidoc);
             return Result.Succeeded;
-        }
-     
+        }     
     }
 }
-
