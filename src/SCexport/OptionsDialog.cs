@@ -149,7 +149,6 @@ namespace SCaddins.SCexport
                 this.checkBoxHideTitleblock.Enabled = true;
             } else {
                 this.checkBoxHideTitleblock.Enabled = false;
-                this.checkBoxHideTitleblock.Checked = false;
             }
         }
         

@@ -26,7 +26,7 @@
       <Value Profile="(Default)">C:\Program Files\gs\gs8.71\lib</Value>
     </Setting>
     <Setting Name="HideTitleBlocks" Type="System.Boolean" Scope="User" Roaming="false">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="PSPrinterDriver" Type="System.String" Scope="User" Roaming="false">
       <Value Profile="(Default)">HP Designjet T1100ps 44in PS3</Value>
