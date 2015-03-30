@@ -309,24 +309,6 @@ namespace SCaddins.SCexport
         }
 
         /// <summary>
-        /// Add a header at the start of an export to the current log file.
-        /// </summary>
-        /// <param name="logFile">The log file.</param>
-        public static void LogHeader(string logFile)
-        {
-            string header = "SCexport: " +
-                System.DateTime.Now.ToLongDateString() +
-                " " + System.DateTime.Now.ToLongTimeString();
-            string columnHeaders = "Full Export Name" + "\t" +
-                "Sheet Number" + "\t" + "Sheet Title" + "\t" + "Revision" +
-                "\t" + "Revision Description" + "\t" + "Revision Date";
-            System.IO.File.AppendAllText(
-                logFile, header + System.Environment.NewLine);
-            System.IO.File.AppendAllText(
-                logFile, columnHeaders + System.Environment.NewLine);
-        }
-
-        /// <summary>
         /// Get a date string in the format of YYYYMMDD.
         /// </summary>
         /// <param name="s">The string to convert.</param>
@@ -628,8 +610,7 @@ namespace SCaddins.SCexport
             this.ApplyNonPrintLinetype();
             DateTime startTime = DateTime.Now;
             TimeSpan elapsedTime = DateTime.Now - startTime;
-            string logFile = this.exportDir + "\\" + "SCexport.log";
-            LogHeader(logFile);
+            var exportLog = new ExportLog(startTime);
             foreach (SCexportSheet sheet in sheets) {
                 pbar.PerformStep();
                 elapsedTime = DateTime.Now - startTime;
@@ -637,7 +618,6 @@ namespace SCaddins.SCexport
                     " - " + this.TimeSpanAsString(elapsedTime);
                 strip.Update();
                 this.Export(sheet);
-                this.LogIndividualFile(sheet, logFile);
             }
 
             // Tag file
@@ -661,8 +641,6 @@ namespace SCaddins.SCexport
                     }
                 }
             }
-
-            LogFooter(logFile, pbar.Maximum, this.TimeSpanAsString(elapsedTime));
         }
 
         public bool GSSanityCheck()
@@ -720,15 +698,6 @@ namespace SCaddins.SCexport
                 }
             }
             TaskDialog.Show("TEST", "stuffed");
-        }
-
-        private static void LogFooter(
-            string logFile, int count, string timeElapsed)
-        {
-            string s = "TOTAL: " + count.ToString() +
-                " files exported in" + timeElapsed +
-                System.Environment.NewLine + System.Environment.NewLine;
-            System.IO.File.AppendAllText(logFile, s);
         }
 
         private static Dictionary<string, FamilyInstance> AllTitleBlocks(
@@ -796,15 +765,6 @@ namespace SCaddins.SCexport
                 PadLeftZero(time.Minutes.ToString(), 2) + "m:" +
                 PadLeftZero(time.Seconds.ToString(), 2) + "s";
             return result;
-        }
-
-        private void LogIndividualFile(SCexportSheet sheet, string logFile)
-        {
-            string s = sheet.FullExportName + "\t" + sheet.SheetNumber +
-                "\t" + sheet.SheetDescription + "\t" + sheet.SheetRevision +
-                "\t" + sheet.SheetRevisionDescription + "\t" +
-                sheet.SheetRevisionDate + System.Environment.NewLine;
-            System.IO.File.AppendAllText(logFile, s);
         }
 
         private void FixAcrotrayHang()

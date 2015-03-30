@@ -25,24 +25,45 @@ namespace SCaddins.SCexport
         
         private StringBuilder errorLog;
         private StringBuilder warningLog;
+        private int warnings;
+        private int errors;
         private const string errPrefix = "[ERROR]";
         private const string warningPrefix = "[WARNING]";
+        private System.DateTime startTime;
+        private System.DateTime endTime;
         
-        public ExportLog()
+        public ExportLog(System.DateTime startTime)
         {
+            this.errors = 0;
+            this.warnings = 0;
             this.errorLog = new StringBuilder();
             this.warningLog = new StringBuilder();
+            this.startTime = startTime;
+            this.endTime = System.DateTime.MinValue;
         }
-               
+                      
         public void AddError(string filename, string msg)
         {
-            errorLog.AppendLine()
+            errors++;
+            errorLog.AppendLine();
         }
         
         public void AddWarning(string filename, string msg)
-        {  
-            warningLog.AppendLine()               
-        }  
-
+        {   
+            warnings++;
+            warningLog.AppendLine();
+        }
+        
+        public void ShowSummaryDialog(LogType summaryType)
+        {
+            switch (summaryType) {
+                case LogType.Error :
+                    System.Windows.Forms.MessageBox.Show(errorLog.ToString(), errors + " Errors found");
+                    break;
+                case LogType.Warning :
+                    System.Windows.Forms.MessageBox.Show(warningLog.ToString(), warnings + " Warnings found");
+                    break;
+            }
+        }
     }
 }
