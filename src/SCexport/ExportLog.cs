@@ -21,19 +21,28 @@ namespace SCaddins.SCexport
     
     public class ExportLog
     {       
-        private StringBuilder log;
+        public enum LogType {Error, Warning, Normal};
+        
+        private StringBuilder errorLog;
+        private StringBuilder warningLog;
+        private const string errPrefix = "[ERROR]";
+        private const string warningPrefix = "[WARNING]";
         
         public ExportLog()
         {
-            this.log = new StringBuilder();
+            this.errorLog = new StringBuilder();
+            this.warningLog = new StringBuilder();
         }
                
         public void AddError(string filename, string msg)
-        {            
+        {
+            errorLog.AppendLine()
         }
         
         public void AddWarning(string filename, string msg)
-        {          
-        }       
+        {  
+            warningLog.AppendLine()               
+        }  
+
     }
 }
