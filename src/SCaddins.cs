@@ -32,6 +32,11 @@ namespace SCaddins
     [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class SCaddinsApp : Autodesk.Revit.UI.IExternalApplication
     {
+        public static Version Version
+        {
+            get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
+        }
+        
         public Autodesk.Revit.UI.Result OnStartup(
             UIControlledApplication application)
         {

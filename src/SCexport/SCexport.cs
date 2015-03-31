@@ -119,11 +119,6 @@ namespace SCaddins.SCexport
             get { return author; }
         }
 
-        public static Version SCexportVersion
-        {
-            get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
-        }
-
         public string PrinterNameA3
         {
             get; set;
@@ -245,7 +240,7 @@ namespace SCaddins.SCexport
         // FIXME change this for SCaddins.
         public static void CheckForUpdates()
         {
-            string url = @"https://bitbucket.org/anicholas/SCexport/downloads/";
+            var url = SCaddins.Constants.DownloadLink;
             var request = (HttpWebRequest)WebRequest.Create(url);
             var response = (HttpWebResponse)request.GetResponse();
             string html = string.Empty;
@@ -254,9 +249,9 @@ namespace SCaddins.SCexport
                 html = reader.ReadToEnd();
             }
 
-            var r = new Regex("href=\"(.*)\">.*SCexport-win64-(.*).msi</a>");
+            var r = new Regex("href=\"(.*)\">.*SCaddins-win64-(.*).msi</a>");
             Match m = r.Match(html);
-            Version latestVersion = SCexportVersion;
+            Version latestVersion = SCaddins.SCaddinsApp.Version;
             while (m.Success)
             {
                 var v = new Version(m.Groups[2].Value);
@@ -266,7 +261,7 @@ namespace SCaddins.SCexport
                 m = m.NextMatch();
             }
 
-            if (latestVersion > SCexportVersion) {
+            if (latestVersion > SCaddins.SCaddinsApp.Version) {
                 var td = new TaskDialog("New Version");
                 td.MainInstruction = "New version: " + latestVersion.ToString() + " is available" + System.Environment.NewLine +
                     "Do you want to download it now?";
