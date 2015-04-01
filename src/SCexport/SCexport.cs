@@ -22,8 +22,6 @@ namespace SCaddins.SCexport
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using System.Net;
-    using System.Text.RegularExpressions;
     using System.Xml;
     using System.Xml.Schema;
     using Autodesk.Revit.DB;
@@ -234,45 +232,6 @@ namespace SCaddins.SCexport
                 foreach (SCexportSheet sheet in this.allSheets) {
                     sheet.SegmentedFileName = value;
                 }
-            }
-        }
-
-        // FIXME change this for SCaddins.
-        public static void CheckForUpdates()
-        {
-            var url = SCaddins.Constants.DownloadLink;
-            var request = (HttpWebRequest)WebRequest.Create(url);
-            var response = (HttpWebResponse)request.GetResponse();
-            string html = string.Empty;
-            using (var reader = new StreamReader(response.GetResponseStream()))
-            {
-                html = reader.ReadToEnd();
-            }
-
-            var r = new Regex("href=\"(.*)\">.*SCaddins-win64-(.*).msi</a>");
-            Match m = r.Match(html);
-            Version latestVersion = SCaddins.SCaddinsApp.Version;
-            while (m.Success)
-            {
-                var v = new Version(m.Groups[2].Value);
-                if (v > latestVersion) {
-                    latestVersion = v;
-                }
-                m = m.NextMatch();
-            }
-
-            if (latestVersion > SCaddins.SCaddinsApp.Version) {
-                var td = new TaskDialog("New Version");
-                td.MainInstruction = "New version: " + latestVersion.ToString() + " is available" + System.Environment.NewLine +
-                    "Do you want to download it now?";
-                td.CommonButtons = TaskDialogCommonButtons.Ok | TaskDialogCommonButtons.No;
-                TaskDialogResult result = td.Show();
-                if (result == TaskDialogResult.Ok) {
-                    // download new verison (goto download page)
-                    System.Diagnostics.Process.Start(url);
-                }
-            } else {
-                TaskDialog.Show("Version Check", "SCexport is up to date.");
             }
         }
 

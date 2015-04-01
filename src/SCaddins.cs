@@ -23,6 +23,8 @@ namespace SCaddins
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Net;
+    using System.Text.RegularExpressions;
     using System.Windows.Media.Imaging;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.UI;
@@ -35,6 +37,65 @@ namespace SCaddins
         public static Version Version
         {
             get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
+        }
+        
+        //FIXME this is messy
+        public static void CheckForUpdates()
+        {
+            var url = SCaddins.Constants.DownloadLink;
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            HttpWebResponse response;
+            try {
+                response = (HttpWebResponse)request.GetResponse();
+            } catch(WebException e) {
+                TaskDialog.Show("Error: Check For Updates", e.Message); 
+                return;
+            } catch(Exception e){
+                TaskDialog.Show("Error: Check For Updates", e.Message);
+                return;                
+            }
+            
+            if (response.StatusCode == HttpStatusCode.NotFound){
+                TaskDialog.Show("Error: Check For Updates", url + " not found"); 
+                return;
+            }
+            
+            string html = string.Empty;
+            using (var reader = new StreamReader(response.GetResponseStream()))
+            {
+                try {
+                    html = reader.ReadToEnd();
+                } catch(IOException e) {
+                    TaskDialog.Show("Error: Check For Updates", e.Message);    
+                } catch(OutOfMemoryException e) {
+                    TaskDialog.Show("Error: Check For Updates", e.Message);    
+                }
+            }
+
+            var r = new Regex("href=\"(.*)\">.*SCaddins-win64-(.*).msi</a>");
+            Match m = r.Match(html);
+            Version latestVersion = SCaddins.SCaddinsApp.Version;
+            while (m.Success)
+            {
+                var v = new Version(m.Groups[2].Value);
+                if (v > latestVersion) {
+                    latestVersion = v;
+                }
+                m = m.NextMatch();
+            }
+
+            if (latestVersion > SCaddins.SCaddinsApp.Version) {
+                var td = new TaskDialog("New Version");
+                td.MainInstruction = "New version: " + latestVersion.ToString() + " is available" + System.Environment.NewLine +
+                    "Do you want to download it now?";
+                td.CommonButtons = TaskDialogCommonButtons.Ok | TaskDialogCommonButtons.No;
+                TaskDialogResult result = td.Show();
+                if (result == TaskDialogResult.Ok) {
+                    System.Diagnostics.Process.Start(url);
+                }
+            } else {
+                TaskDialog.Show("Version Check", "SCaddins is up to date.");
+            }
         }
         
         public Autodesk.Revit.UI.Result OnStartup(
