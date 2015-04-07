@@ -74,7 +74,7 @@ namespace SCaddins
 
             var r = new Regex("href=\"(.*)\">.*SCaddins-win64-(.*).msi</a>");
             Match m = r.Match(html);
-            Version latestVersion = SCaddins.SCaddinsApp.Version;
+            Version latestVersion = new Version(0,0,0,0);
             while (m.Success)
             {
                 var v = new Version(m.Groups[2].Value);
@@ -93,6 +93,8 @@ namespace SCaddins
                 if (result == TaskDialogResult.Ok) {
                     System.Diagnostics.Process.Start(url);
                 }
+            } else if (latestVersion < SCaddins.SCaddinsApp.Version) {
+                TaskDialog.Show("Version Check", "The installed version is SCaddins is newer than the online version.");    
             } else {
                 TaskDialog.Show("Version Check", "SCaddins is up to date.");
             }
