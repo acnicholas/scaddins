@@ -207,6 +207,8 @@
     <Compile Include="src\SCwash\SCwashForm.cs" />
     <Compile Include="src\SCwash\SCwashForm.Designer.cs" />
     <Compile Include="src\SCwash\SCwashTreeNode.cs" />
+    <Compile Include="src\SCwm\SCwm.cs" />
+    <Compile Include="src\SCwm\SCwmCommands.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="installer" />
@@ -218,6 +220,7 @@
     <Folder Include="src\Manifest" />
     <Folder Include="src\Manifest\2015" />
     <Folder Include="src\Manifest\2014" />
+    <Folder Include="src\SCwm" />
     <Folder Include="src\SCunderlay" />
     <Folder Include="src\Testing" />
     <Folder Include="src\SCuv" />
