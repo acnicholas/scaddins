@@ -24,16 +24,44 @@ namespace SCaddins.SCwm
 
     public static class SCwm
     {
-        public static void ListActiveWindowNames(UIDocument document)
+        public static void TileWindows(UIApplication app, int mainWidthPercentage)
         {
-            var views = document.GetOpenUIViews();
-            var list = String.Empty;
-            foreach (UIView view in views){
-                View v = (View)document.Document.GetElement(view.ViewId);
-                list += v.Name;
-                list += System.Environment.NewLine;
+            const string cmd = @"C:\Andrew\code\cs\scaddins\etc\SCwm.exe";
+            var activeView = app.ActiveUIDocument.ActiveView;
+            var mainWidth = GetDrawingAreaWidth(app) * mainWidthPercentage / 100;
+            var mainHeight = GetDrawingAreaHeight(app) - 4;
+            var minorWidth = GetDrawingAreaWidth(app) - mainWidth;
+            
+            //set main window locations
+            var args = "\"" + activeView.Name + "\"" + " 0 0 " + mainWidth + " " + mainHeight;
+            SCexport.SCexport.StartHiddenConsoleProg(cmd, args);
+            
+            //set secondary window locations
+            var views = app.ActiveUIDocument.GetOpenUIViews();
+            var numberOfViews = views.Count;
+            var th = GetDrawingAreaHeight(app) / (numberOfViews - 1);
+            if (numberOfViews == 1){
+                return;
             }
-            TaskDialog.Show("Open Views", list);
+            int i = 0;
+            foreach (UIView view in views){
+                View v = (View)app.ActiveUIDocument.Document.GetElement(view.ViewId);
+                if (v.Name != activeView.Name) {
+                    var args2 = "\"" + v.Name + "\" " + mainWidth + " " + th*i + " "  + minorWidth + " " + th;
+                    SCexport.SCexport.StartHiddenConsoleProg(cmd, args2);
+                    i++;
+                }
+            }
+        }
+           
+        public static int GetDrawingAreaWidth(UIApplication app) {
+            var rect = app.DrawingAreaExtents;
+            return rect.Right - rect.Left;
+        }
+        
+        public static int GetDrawingAreaHeight(UIApplication app) {
+            var rect = app.DrawingAreaExtents;
+            return rect.Bottom - rect.Top;
         }
         
         public static void ListDrawingAreaDimensions(UIApplication app)
