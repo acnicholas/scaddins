@@ -37,6 +37,7 @@ namespace SCaddins.SCwm
             SCexport.SCexport.StartHiddenConsoleProg(cmd, args);
             
             //set secondary window locations
+            var docs = app.Application.Documents;
             var views = app.ActiveUIDocument.GetOpenUIViews();
             var numberOfViews = views.Count;
             var th = GetDrawingAreaHeight(app) / (numberOfViews - 1);
