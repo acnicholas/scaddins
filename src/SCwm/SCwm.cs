@@ -18,7 +18,6 @@
 namespace SCaddins.SCwm
 {
     using System;
-    using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
@@ -27,30 +26,36 @@ namespace SCaddins.SCwm
         public static void TileWindows(UIApplication app, int mainWidthPercentage)
         {
             const string cmd = @"C:\Andrew\code\cs\scaddins\etc\SCwm.exe";
+            //const string cmd = @"C:\Users\deroB\Documents\Code\scaddins\etc\SCwm.exe";
             var activeView = app.ActiveUIDocument.ActiveView;
+            var activeFileName = System.IO.Path.GetFileName(app.ActiveUIDocument.Document.PathName);
             var mainWidth = GetDrawingAreaWidth(app) * mainWidthPercentage / 100;
             var mainHeight = GetDrawingAreaHeight(app) - 4;
             var minorWidth = GetDrawingAreaWidth(app) - mainWidth;
             
-            //set main window locations
+            //set main window location
             var args = "\"" + activeView.Name + "\"" + " 0 0 " + mainWidth + " " + mainHeight;
             SCexport.SCexport.StartHiddenConsoleProg(cmd, args);
             
             //set secondary window locations
-            var docs = app.Application.Documents;
-            var views = app.ActiveUIDocument.GetOpenUIViews();
-            var numberOfViews = views.Count;
+            var numberOfViews = GetNumberOfOpenViews(app);
             var th = GetDrawingAreaHeight(app) / (numberOfViews - 1);
-            if (numberOfViews == 1){
+            
+            if (numberOfViews == 1) {
                 return;
             }
+            
             int i = 0;
-            foreach (UIView view in views){
-                View v = (View)app.ActiveUIDocument.Document.GetElement(view.ViewId);
-                if (v.Name != activeView.Name) {
-                    var args2 = "\"" + v.Name + "\" " + mainWidth + " " + th*i + " "  + minorWidth + " " + th;
-                    SCexport.SCexport.StartHiddenConsoleProg(cmd, args2);
-                    i++;
+            foreach (Document doc in app.Application.Documents) {
+                UIDocument udoc = new UIDocument(doc);   
+                foreach (UIView view in udoc.GetOpenUIViews()) {
+                    View v = (View)doc.GetElement(view.ViewId);
+                    var viewName = v.Name + " - " + System.IO.Path.GetFileName(doc.PathName);
+                    if (viewName != activeView.Name + " - " + activeFileName) {
+                        var args2 = "\"" + v.Name + "\" " + mainWidth + " " + th * i + " " + minorWidth + " " + th;
+                        SCexport.SCexport.StartHiddenConsoleProg(cmd, args2);
+                        i++;
+                    }
                 }
             }
         }
@@ -65,13 +70,15 @@ namespace SCaddins.SCwm
             return rect.Bottom - rect.Top;
         }
         
-        public static void ListDrawingAreaDimensions(UIApplication app)
+        public static int GetNumberOfOpenViews(UIApplication app)
         {
-            var rect = app.DrawingAreaExtents;
-            var width = rect.Right - rect.Left;
-            var height = rect.Bottom - rect.Top;
-            TaskDialog.Show("Drawing Area", rect.Left + "," + rect.Top + "," + width + "," + height);
-        }
-            
+            int result = 0;
+            var docs = app.Application.Documents;  
+            foreach (Document doc in docs){
+                UIDocument udoc = new UIDocument(doc);
+                result += udoc.GetOpenUIViews().Count; 
+            }
+            return result;
+        }         
     }
 }

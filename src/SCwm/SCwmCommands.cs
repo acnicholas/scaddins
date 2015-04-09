@@ -39,6 +39,7 @@ namespace SCaddins.SCwm
             //SCwm.ListActiveWindowNames(document);
             //SCwm.ListDrawingAreaDimensions(application);
             SCwm.TileWindows(application, 65);
+            //SCwm.GetNumberOfOpenViews(application);
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }
