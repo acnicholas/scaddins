@@ -42,7 +42,8 @@ using System.Runtime.InteropServices;
 // The assembly version has following format :
 //
 // Major.Minor.Build.Revision
+// - Major should be the highest Revit version SCaddins is compiles against.
+// - Minor should be for features and critical bugs
+// - use auto '*' for the build and revision
 //
-// You can specify all the values or you can use the default the Revision and 
-// Build Numbers by using the '*' as shown below:
-[assembly: AssemblyVersion("0.0.*")]
+[assembly: AssemblyVersion("15.0.*")]
