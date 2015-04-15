@@ -146,6 +146,11 @@ namespace SCaddins.Common
         {
             System.Diagnostics.Process.Start(SCaddins.Constants.HelpLink);    
         }
+        
+        private void Button1Click(object sender, EventArgs e)
+        {
+            SCaddins.SCaddinsApp.CheckForUpdates();
+        }
     }
 }
 

@@ -135,6 +135,7 @@ namespace SCaddins.SCexport
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -192,12 +193,13 @@ namespace SCaddins.SCexport
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.button4);
             this.groupBox6.Controls.Add(this.btnDefaultExportDir);
             this.groupBox6.Controls.Add(this.textBoxExportDir);
             this.groupBox6.Controls.Add(this.label9);
             this.groupBox6.Location = new System.Drawing.Point(3, 134);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(389, 76);
+            this.groupBox6.Size = new System.Drawing.Size(389, 98);
             this.groupBox6.TabIndex = 20;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Export Destination";
@@ -236,9 +238,9 @@ namespace SCaddins.SCexport
             this.groupBox4.Controls.Add(this.checkBoxForceDate);
             this.groupBox4.Controls.Add(this.checkBoxTagPDF);
             this.groupBox4.Controls.Add(this.checkBoxHideTitleblock);
-            this.groupBox4.Location = new System.Drawing.Point(3, 216);
+            this.groupBox4.Location = new System.Drawing.Point(3, 238);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(389, 196);
+            this.groupBox4.Size = new System.Drawing.Size(389, 174);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Export Options";
@@ -647,6 +649,16 @@ namespace SCaddins.SCexport
             this.button3.Text = "Cancel";
             this.button3.UseVisualStyleBackColor = true;
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(9, 57);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(366, 23);
+            this.button4.TabIndex = 26;
+            this.button4.Text = "Export to USQ Working Files";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.ButtonWorkingFilesClick);
+            // 
             // OptionsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -693,5 +705,6 @@ namespace SCaddins.SCexport
         private System.Windows.Forms.Button btnSelectA3Printer;
         private System.Windows.Forms.Button btnSelectPSPrinter;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button button4;
     }
 }

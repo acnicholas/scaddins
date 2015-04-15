@@ -33,6 +33,7 @@ namespace SCaddins.Common
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.Button button1;
    
         /// <summary>
         /// Clean up any resources being used.
@@ -55,7 +56,7 @@ namespace SCaddins.Common
         /// </summary>
         private void InitializeComponent()
         {
-            var resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutBox1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutBox1));
             this.okayButton = new System.Windows.Forms.Button();
             this.textBoxDescription = new System.Windows.Forms.TextBox();
             this.labelCopyright = new System.Windows.Forms.Label();
@@ -65,6 +66,7 @@ namespace SCaddins.Common
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
@@ -73,9 +75,9 @@ namespace SCaddins.Common
             // 
             this.okayButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.okayButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.okayButton.Location = new System.Drawing.Point(497, 333);
+            this.okayButton.Location = new System.Drawing.Point(497, 329);
             this.okayButton.Name = "okayButton";
-            this.okayButton.Size = new System.Drawing.Size(75, 19);
+            this.okayButton.Size = new System.Drawing.Size(75, 23);
             this.okayButton.TabIndex = 24;
             this.okayButton.Text = "&OK";
             // 
@@ -155,6 +157,7 @@ namespace SCaddins.Common
             this.tableLayoutPanel.Controls.Add(this.okayButton, 1, 6);
             this.tableLayoutPanel.Controls.Add(this.linkLabel2, 1, 5);
             this.tableLayoutPanel.Controls.Add(this.linkLabel1, 1, 4);
+            this.tableLayoutPanel.Controls.Add(this.button1, 0, 6);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(9, 9);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
@@ -191,6 +194,17 @@ namespace SCaddins.Common
             this.linkLabel1.Text = "Wiki";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1_LinkClicked);
             // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button1.Location = new System.Drawing.Point(3, 329);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(129, 23);
+            this.button1.TabIndex = 28;
+            this.button1.Text = "Check For Updates";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1Click);
+            // 
             // AboutBox1
             // 
             this.AcceptButton = this.okayButton;
@@ -212,6 +226,7 @@ namespace SCaddins.Common
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
             this.ResumeLayout(false);
+
         }
 
         #endregion

@@ -193,22 +193,10 @@ namespace SCaddins.SCexport
         {  
             FileUtils.EditConfigFile(ref this.doc);
         }
-           
-        private void Button3Click(object sender, EventArgs e)
-        {
-            DialogResult result = this.folderBrowserDialog1.ShowDialog();
-            if (result == DialogResult.OK) {
-                this.scx.ExportDir = this.folderBrowserDialog1.SelectedPath;
-                this.parent.Update();
-                this.parent.Refresh();
-            }
-        }
-        
+                   
         private void ButtonWorkingFilesClick(object sender, EventArgs e)
         {
-            this.scx.ExportDir = Constants.UnionSquareWorkingFiles;
-            this.parent.Update();
-            this.parent.Refresh();
+            textBoxExportDir.Text = Constants.UnionSquareWorkingFiles;
         }
         
         private void Button5Click(object sender, EventArgs e)
