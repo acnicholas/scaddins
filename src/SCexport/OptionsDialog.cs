@@ -125,9 +125,6 @@ namespace SCaddins.SCexport
                 this.checkBox1.Enabled = false;
                 this.checkBox1.Text = "PDF disabled, check settings!!!";
             }
-            if (!System.IO.Directory.Exists(Constants.UnionSquareWorkingFiles)) {
-                this.buttonWorkingFiles.Enabled = false;
-            }
             if (!FileUtils.ConfigFileExists(this.doc)) {
                 this.buttonEditConfig.Enabled = false;
             }

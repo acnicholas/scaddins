@@ -23,9 +23,7 @@ namespace SCaddins.SCexport
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBoxA3Printer;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button buttonWorkingFiles;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.Windows.Forms.Button btnExportFolder;
         private System.Windows.Forms.Button btnDefaultExportDir;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.RadioButton radioPDF;
@@ -94,8 +92,6 @@ namespace SCaddins.SCexport
             this.btnDefaultExportDir = new System.Windows.Forms.Button();
             this.textBoxExportDir = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.buttonWorkingFiles = new System.Windows.Forms.Button();
-            this.btnExportFolder = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.comboBoxScheme = new System.Windows.Forms.ComboBox();
@@ -199,18 +195,16 @@ namespace SCaddins.SCexport
             this.groupBox6.Controls.Add(this.btnDefaultExportDir);
             this.groupBox6.Controls.Add(this.textBoxExportDir);
             this.groupBox6.Controls.Add(this.label9);
-            this.groupBox6.Controls.Add(this.buttonWorkingFiles);
-            this.groupBox6.Controls.Add(this.btnExportFolder);
             this.groupBox6.Location = new System.Drawing.Point(3, 134);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(386, 93);
+            this.groupBox6.Size = new System.Drawing.Size(389, 76);
             this.groupBox6.TabIndex = 20;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Export Destination";
             // 
             // btnDefaultExportDir
             // 
-            this.btnDefaultExportDir.Location = new System.Drawing.Point(357, 49);
+            this.btnDefaultExportDir.Location = new System.Drawing.Point(355, 26);
             this.btnDefaultExportDir.Name = "btnDefaultExportDir";
             this.btnDefaultExportDir.Size = new System.Drawing.Size(23, 23);
             this.btnDefaultExportDir.TabIndex = 25;
@@ -220,38 +214,18 @@ namespace SCaddins.SCexport
             // 
             // textBoxExportDir
             // 
-            this.textBoxExportDir.Location = new System.Drawing.Point(139, 51);
+            this.textBoxExportDir.Location = new System.Drawing.Point(137, 28);
             this.textBoxExportDir.Name = "textBoxExportDir";
             this.textBoxExportDir.Size = new System.Drawing.Size(212, 20);
             this.textBoxExportDir.TabIndex = 24;
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(9, 54);
+            this.label9.Location = new System.Drawing.Point(7, 31);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(150, 23);
             this.label9.TabIndex = 23;
             this.label9.Text = "Default export directory";
-            // 
-            // buttonWorkingFiles
-            // 
-            this.buttonWorkingFiles.Location = new System.Drawing.Point(139, 19);
-            this.buttonWorkingFiles.Name = "buttonWorkingFiles";
-            this.buttonWorkingFiles.Size = new System.Drawing.Size(126, 23);
-            this.buttonWorkingFiles.TabIndex = 22;
-            this.buttonWorkingFiles.Text = "Working Files";
-            this.buttonWorkingFiles.UseVisualStyleBackColor = true;
-            this.buttonWorkingFiles.Click += new System.EventHandler(this.ButtonWorkingFilesClick);
-            // 
-            // btnExportFolder
-            // 
-            this.btnExportFolder.Location = new System.Drawing.Point(9, 19);
-            this.btnExportFolder.Name = "btnExportFolder";
-            this.btnExportFolder.Size = new System.Drawing.Size(124, 23);
-            this.btnExportFolder.TabIndex = 20;
-            this.btnExportFolder.Text = "Select Export Folder";
-            this.btnExportFolder.UseVisualStyleBackColor = true;
-            this.btnExportFolder.Click += new System.EventHandler(this.Button3Click);
             // 
             // groupBox4
             // 
@@ -262,9 +236,9 @@ namespace SCaddins.SCexport
             this.groupBox4.Controls.Add(this.checkBoxForceDate);
             this.groupBox4.Controls.Add(this.checkBoxTagPDF);
             this.groupBox4.Controls.Add(this.checkBoxHideTitleblock);
-            this.groupBox4.Location = new System.Drawing.Point(3, 233);
+            this.groupBox4.Location = new System.Drawing.Point(3, 216);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(386, 179);
+            this.groupBox4.Size = new System.Drawing.Size(389, 196);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Export Options";
@@ -703,6 +677,7 @@ namespace SCaddins.SCexport
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+
         } 
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.GroupBox groupBox6;
