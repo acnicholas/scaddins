@@ -39,8 +39,13 @@ namespace SCaddins
             get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
         }
         
-        //FIXME this is messy
         public static void CheckForUpdates()
+        {
+            CheckForUpdates(false);
+        }
+        
+        //FIXME this is messy
+        public static void CheckForUpdates(bool newOnly)
         {
             var url = SCaddins.Constants.DownloadLink;
             var request = (HttpWebRequest)WebRequest.Create(url);
@@ -94,9 +99,13 @@ namespace SCaddins
                     System.Diagnostics.Process.Start(url);
                 }
             } else if (latestVersion < SCaddins.SCaddinsApp.Version) {
-                TaskDialog.Show("Version Check", "The installed version is SCaddins is newer than the online version.");    
+                if(!newOnly){
+                    TaskDialog.Show("Version Check", "The installed version is SCaddins is newer than the online version.");    
+                }
             } else {
-                TaskDialog.Show("Version Check", "SCaddins is up to date.");
+                if(!newOnly){
+                    TaskDialog.Show("Version Check", "SCaddins is up to date.");
+                }
             }
         }
         
@@ -148,6 +157,13 @@ namespace SCaddins
                     this.LoadAbout(scdll),
                     this.LoadSCincrementSettings(scdll),
                     this.LoadSCaddinSettings(scdll));
+            
+            //check for updates on Friday
+            //DateTime now = DateTime.Now;
+            //if (now.DayOfWeek == DayOfWeek.Friday){
+                CheckForUpdates(true);
+            //}
+            
             return Result.Succeeded;
         }
 
