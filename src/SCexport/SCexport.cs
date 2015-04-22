@@ -561,7 +561,7 @@ namespace SCaddins.SCexport
             System.Windows.Forms.ToolStripLabel info,
             System.Windows.Forms.StatusStrip strip)
         {
-            this.ApplyNonPrintLinetype();
+            //this.ApplyNonPrintLinetype();
             DateTime startTime = DateTime.Now;
             TimeSpan elapsedTime = DateTime.Now - startTime;
             var exportLog = new ExportLog(startTime);
@@ -1060,35 +1060,38 @@ namespace SCaddins.SCexport
             }
             return true;
         }
+        
+//remove this
+//causing to many problems with permissions
 
-        private void ApplyNonPrintLinetype()
-        {
-            SCexport.doc.Application.DocumentPrinting += new EventHandler<DocumentPrintingEventArgs>(this.MyPrintingEvent); 
-            SCexport.doc.Application.DocumentPrinted += new EventHandler<DocumentPrintedEventArgs>(this.MyPrintedEvent);
-        }
-
-        private void MyPrintingEvent(object sender, DocumentPrintingEventArgs args)
-        {
-            this.CategoryLineColor(new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue));
-        }
-
-        private void MyPrintedEvent(object sender, DocumentPrintedEventArgs args)
-        {
-            this.CategoryLineColor(new Color(byte.MinValue, byte.MinValue, byte.MinValue));
-        }
-
-        private void CategoryLineColor(Color newColor)
-        {
-            Categories categories = SCexport.doc.Settings.Categories;
-            Category genericAnnotations = categories.get_Item("Generic Annotations");
-            Category categoryDoNotPrint = genericAnnotations.SubCategories.get_Item("Do Not Print");
-            using (var t = new Transaction(doc, "Do Not Print color = " + newColor.Blue))
-            {
-                t.Start();
-                categoryDoNotPrint.LineColor = newColor;
-                t.Commit();
-            }
-        }
+//        private void ApplyNonPrintLinetype()
+//        {
+//            SCexport.doc.Application.DocumentPrinting += new EventHandler<DocumentPrintingEventArgs>(this.MyPrintingEvent); 
+//            SCexport.doc.Application.DocumentPrinted += new EventHandler<DocumentPrintedEventArgs>(this.MyPrintedEvent);
+//        }
+//
+//        private void MyPrintingEvent(object sender, DocumentPrintingEventArgs args)
+//        {
+//            this.CategoryLineColor(new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue));
+//        }
+//
+//        private void MyPrintedEvent(object sender, DocumentPrintedEventArgs args)
+//        {
+//            this.CategoryLineColor(new Color(byte.MinValue, byte.MinValue, byte.MinValue));
+//        }
+//
+//        private void CategoryLineColor(Color newColor)
+//        {
+//            Categories categories = SCexport.doc.Settings.Categories;
+//            Category genericAnnotations = categories.get_Item("Generic Annotations");
+//            Category categoryDoNotPrint = genericAnnotations.SubCategories.get_Item("Do Not Print");
+//            using (var t = new Transaction(doc, "Do Not Print color = " + newColor.Blue))
+//            {
+//                t.Start();
+//                categoryDoNotPrint.LineColor = newColor;
+//                t.Commit();
+//            }
+//        }
 
         private bool ExportAdobePDF(SCexportSheet vs)
         {
