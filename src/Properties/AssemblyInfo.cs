@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2014-2015 by Andrew Nicholas
+// (C) Copyright 2014-2015 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -41,9 +41,10 @@ using System.Runtime.InteropServices;
 
 // The assembly version has following format :
 //
-// Major.Minor.Build.Revision
+// Major.Minor.Revision.Build
 // - Major should be the highest Revit version SCaddins is compiles against.
 // - Minor should be for features and critical bugs
-// - use auto '*' for the build and revision
+// - Revision is Bug fixes, ad-hoc patches, any minor changes.
+// - Build is an (automated)incremented build number.
 //
-[assembly: AssemblyVersion("15.0.*")]
+[assembly: AssemblyVersion("15.1.0.0")]
