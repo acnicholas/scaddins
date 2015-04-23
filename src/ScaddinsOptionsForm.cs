@@ -35,6 +35,7 @@ namespace SCaddins
             }
             
             this.InitializeComponent();
+            this.checkBox1.Checked = SCaddins.Scaddins.Default.UpgradeCheckOnStartUp;
             this.PopulateListBox(collection);
         }
         
@@ -112,6 +113,7 @@ namespace SCaddins
                 collection.Add(listBox1.Items[i].ToString());
             }
             SCaddins.Scaddins.Default.DisplayOrder = collection;
+            SCaddins.Scaddins.Default.UpgradeCheckOnStartUp = checkBox1.Checked;
             SCaddins.Scaddins.Default.Save();
         }
         

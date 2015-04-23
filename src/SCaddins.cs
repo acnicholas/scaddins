@@ -41,7 +41,9 @@ namespace SCaddins
         
         public static void CheckForUpdates()
         {
-            CheckForUpdates(false);
+            if ( SCaddins.Scaddins.Default.UpgradeCheckOnStartUp) {    
+                CheckForUpdates(false);
+            }
         }
         
         //FIXME this is messy

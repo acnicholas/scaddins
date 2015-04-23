@@ -38,5 +38,17 @@ namespace SCaddins {
                 this["DisplayOrder"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UpgradeCheckOnStartUp {
+            get {
+                return ((bool)(this["UpgradeCheckOnStartUp"]));
+            }
+            set {
+                this["UpgradeCheckOnStartUp"] = value;
+            }
+        }
     }
 }
