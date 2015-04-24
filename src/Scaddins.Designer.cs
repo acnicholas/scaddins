@@ -41,7 +41,7 @@ namespace SCaddins {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool UpgradeCheckOnStartUp {
             get {
                 return ((bool)(this["UpgradeCheckOnStartUp"]));

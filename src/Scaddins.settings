@@ -8,7 +8,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="UpgradeCheckOnStartUp" Type="System.Boolean" Scope="User" Roaming="false">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>
