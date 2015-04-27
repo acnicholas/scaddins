@@ -149,7 +149,7 @@ namespace SCaddins.Common
         
         private void Button1Click(object sender, EventArgs e)
         {
-            SCaddins.SCaddinsApp.CheckForUpdates();
+            SCaddins.SCaddinsApp.CheckForUpdates(false);
         }
     }
 }

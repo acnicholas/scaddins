@@ -201,7 +201,7 @@ namespace SCaddins.SCexport
         
         private void Button5Click(object sender, EventArgs e)
         {
-            SCaddins.SCaddinsApp.CheckForUpdates();
+            SCaddins.SCaddinsApp.CheckForUpdates(false);
         }
         
         private void CheckBox1CheckedChanged(object sender, EventArgs e)

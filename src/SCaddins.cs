@@ -38,14 +38,7 @@ namespace SCaddins
         {
             get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
         }
-        
-        public static void CheckForUpdates()
-        {
-            if ( SCaddins.Scaddins.Default.UpgradeCheckOnStartUp) {    
-                CheckForUpdates(false);
-            }
-        }
-        
+                
         //FIXME this is messy
         public static void CheckForUpdates(bool newOnly)
         {
@@ -159,12 +152,10 @@ namespace SCaddins
                     this.LoadAbout(scdll),
                     this.LoadSCincrementSettings(scdll),
                     this.LoadSCaddinSettings(scdll));
-            
-            //check for updates on Friday
-            //DateTime now = DateTime.Now;
-            //if (now.DayOfWeek == DayOfWeek.Friday){
+                        
+            if ( SCaddins.Scaddins.Default.UpgradeCheckOnStartUp) {    
                 CheckForUpdates(true);
-            //}
+            }
             
             return Result.Succeeded;
         }
