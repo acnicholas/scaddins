@@ -33,7 +33,7 @@ namespace BumpRevision
                 return;
             }
             var text = File.ReadAllText(args[0]);
-            const string pattern = "(AssemblyVersion[(]\"[0-9]{1,3}[.][0-9]{1,3}[.][0-9]{1,3}[.])([0-9]{1,3})";
+            const string pattern = "(AssemblyVersion[(]\"[0-9]{1,4}[.][0-9]{1,3}[.][0-9]{1,3}[.])([0-9]{1,3})";
             var groups = Regex.Match(text, pattern).Groups;
             var build = int.Parse(groups[2].Value);
             var rev = groups[1].Value.ToString();
