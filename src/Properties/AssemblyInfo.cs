@@ -47,4 +47,4 @@ using System.Runtime.InteropServices;
 // - Revision is Bug fixes, ad-hoc patches, any minor changes.
 // - Build is an (automated)incremented build number.
 //
-[assembly: AssemblyVersion("15.0.0.1")]
+[assembly: AssemblyVersion("15.0.0.2")]

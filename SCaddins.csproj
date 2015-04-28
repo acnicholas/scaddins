@@ -103,6 +103,10 @@
     <Compile Include="src\Common\AboutBox.cs" />
     <Compile Include="src\Common\AboutBox.Designer.cs" />
     <Compile Include="src\Common\SortableBindingList.cs" />
+    <Compile Include="src\Common\UpgradeForm.cs" />
+    <Compile Include="src\Common\UpgradeForm.Designer.cs">
+      <DependentUpon>UpgradeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\Properties\AssemblyInfo.cs" />
     <Compile Include="src\Constants.cs" />
     <Compile Include="src\SCaddins.cs" />
@@ -238,6 +242,9 @@
   <ItemGroup>
     <EmbeddedResource Include="src\Common\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Common\UpgradeForm.resx">
+      <DependentUpon>UpgradeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\ScaddinsOptionsForm.resx">
       <DependentUpon>ScaddinsOptionsForm.cs</DependentUpon>
