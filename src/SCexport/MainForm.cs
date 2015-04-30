@@ -685,6 +685,10 @@ namespace SCaddins.SCexport
             this.Update();
             this.dataGridView1.Refresh();  
         }
+        void CopySheetsToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            //SCuv.SCuv.CreateUserViews(this.SelectedSheets(), this.doc);    
+        }
     }
 }
 

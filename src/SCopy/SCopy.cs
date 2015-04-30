@@ -27,7 +27,7 @@ namespace SCaddins.SCopy
     {
         private FamilyInstance sourceTitleBlock;
         private Document doc;
-        private ViewSheet sourceSheet;
+        private IList<ViewSheet> sourceSheets;
         private System.ComponentModel.BindingList<SCopySheet> sheets;
         private Dictionary<string, View> existingSheets =
             new Dictionary<string, View>();
@@ -46,7 +46,7 @@ namespace SCaddins.SCopy
         public SCopy(Document doc, ViewSheet view)
         {
             this.doc = doc;
-            this.sourceSheet = view;
+            this.sourceSheets[0] = view;
             this.sheets = new System.ComponentModel.BindingList<SCopySheet>();
             this.GetViewTemplates();
             this.GetAllSheets();

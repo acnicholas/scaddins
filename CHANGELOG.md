@@ -4,6 +4,7 @@
 
 - [SCaddins]Check for updates on start-up.
 - [SCaddins]Changelog button added to update dialog.
+- [SCexport]SCopy option partially added to context menu. **TODO**
 
 #15.0#
 

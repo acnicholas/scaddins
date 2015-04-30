@@ -118,6 +118,7 @@ namespace SCaddins.SCexport
             this.btnPrint = new System.Windows.Forms.Button();
             this.btnOptions = new System.Windows.Forms.Button();
             this.btnFind = new System.Windows.Forms.Button();
+            this.copySheetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -171,6 +172,7 @@ namespace SCaddins.SCexport
             this.openSelectedViewToolStripMenuItem,
             this.toolStripSeparator1,
             this.addRevisionToolStripMenuItem,
+            this.copySheetsToolStripMenuItem,
             this.removeUnderlaysFromViewsToolStripMenuItem,
             this.renameSelectedSheetsToolStripMenuItem,
             this.fixScalesBarsToolStripMenuItem,
@@ -184,7 +186,7 @@ namespace SCaddins.SCexport
             this.mnuHelp});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.ShowCheckMargin = true;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(257, 348);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(257, 370);
             // 
             // clearFilterToolStripMenuItem
             // 
@@ -469,6 +471,14 @@ namespace SCaddins.SCexport
             this.btnFind.UseVisualStyleBackColor = true;
             this.btnFind.Click += new System.EventHandler(this.BtnFindClick);
             // 
+            // copySheetsToolStripMenuItem
+            // 
+            this.copySheetsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copySheetsToolStripMenuItem.Image")));
+            this.copySheetsToolStripMenuItem.Name = "copySheetsToolStripMenuItem";
+            this.copySheetsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.copySheetsToolStripMenuItem.Text = "Copy Sheets";
+            this.copySheetsToolStripMenuItem.Click += new System.EventHandler(this.CopySheetsToolStripMenuItemClick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -505,6 +515,7 @@ namespace SCaddins.SCexport
         private System.Windows.Forms.ToolStripMenuItem renameSelectedSheetsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeUnderlaysFromViewsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fixScalesBarsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copySheetsToolStripMenuItem;
         #endregion
         }
     }
