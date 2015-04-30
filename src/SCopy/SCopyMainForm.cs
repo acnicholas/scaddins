@@ -18,6 +18,7 @@
 namespace SCaddins.SCopy
 {
     using System;
+    using System.Collections.Generic;
     using System.Windows.Forms;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -28,14 +29,15 @@ namespace SCaddins.SCopy
     public partial class MainForm : System.Windows.Forms.Form
     {
         private string origVal;
-        private SCopy scopy;
+        private IList<SCopy> scopy;
 
         public MainForm(Document doc, Autodesk.Revit.DB.ViewSheet viewSheet)
         {
             this.InitializeComponent();
             this.SetTitle();
-            this.scopy = new SCopy(doc, viewSheet);
-            this.scopy.AddViewInfoToList(ref this.listView1);
+            var s = new SCopy(doc, viewSheet);
+            this.scopy.Add(s);
+            s.AddViewInfoToList(ref this.listView1);
             this.AddDataGridColumns();
         }
     
@@ -81,7 +83,8 @@ namespace SCaddins.SCopy
             DataGridViewComboBoxColumn result2 = this.CreateComboBoxColumn();
             this.AddColumnHeader("ViewTemplateName", "View Template", result2);
             result2.Items.Add(SCopyConstants.MenuItemCopy);
-            foreach (string s2 in this.scopy.ViewTemplates.Keys) {
+            var sc = dataGridView1.SelectedRows[0].DataBoundItem as SCopy;
+            foreach (string s2 in sc.ViewTemplates.Keys) {
                 result2.Items.Add(s2);
             }
             dataGridView2.Columns.Add(result2);
@@ -89,7 +92,7 @@ namespace SCaddins.SCopy
             DataGridViewComboBoxColumn result = this.CreateComboBoxColumn();
             this.AddColumnHeader("AssociatedLevelName", "Associated Level", result);
             result.Items.Add(SCopyConstants.MenuItemCopy);
-            foreach (string s in this.scopy.Levels.Keys) {
+            foreach (string s in sc.Levels.Keys) {
                 result.Items.Add(s);
             }
             dataGridView2.Columns.Add(result);
@@ -111,7 +114,9 @@ namespace SCaddins.SCopy
 
         private void ButtonGO(object sender, EventArgs e)
         {
-            this.scopy.CreateSheets();
+            foreach(SCopy sc in dataGridView1.Rows){
+                sc.CreateSheets();
+            }
             this.Dispose();
             this.Close();
         }
@@ -119,7 +124,7 @@ namespace SCaddins.SCopy
         private void ButtonAdd(object sender, EventArgs e)
         {
             buttonRemove.Enabled = true;
-            this.scopy.Add();
+            this.scopy.AddCopy();
             dataGridView1.DataSource = this.scopy.Sheets;
         }
 
@@ -175,45 +180,7 @@ namespace SCaddins.SCopy
         {
             buttonRemove.Enabled = dataGridView1.SelectedRows.Count > 0;
         }
-        
-        private void ButtonReplaceClick(object sender, EventArgs e)
-        {
-            // display a list of plans in the model.
-            var vd = new SCopyViewSelectionDialog();
-            foreach (Autodesk.Revit.DB.View v in this.scopy.ExistingViews.Values) {
-                #if REVIT2014
-                Parameter p2 = v.get_Parameter("Sheet Number");
-                #else
-                Parameter p2 = v.LookupParameter("Sheet Number");
-                #endif
-                if (p2 == null) {
-                    if (SCopyViewOnSheet.PlanEnough(v.ViewType) && !v.IsTemplate) {
-                        vd.Add(v);
-                    }
-                }
-            }
-            vd.ShowDialog();
-            string test = vd.SelectedView();
-        
-            Autodesk.Revit.DB.View testView;
-            if (this.scopy.ExistingViews.TryGetValue(test, out testView)) {
-                TaskDialog.Show("DEBUG", @"View OK");            
-            }
-             
-            // should only be one!
-            foreach (DataGridViewRow row in dataGridView2.SelectedRows) {
-                var viewOnSheet = row.DataBoundItem as SCopyViewOnSheet;
-                TaskDialog.Show("DEBUG", @"TODO: add (" + test + @") to sheet ");
-                
-                // TODO crop view to match src view
-                // get the current sheet
-                // remove the old view
-                // scopy.ExistingViews.Remove(viewOnSheet);
-                // replace it with the new view
-                // scopy.ExistingViews.Add(new SCopySheet(        
-            }
-        }
-        
+           
         private void DataGridView2SelectionChanged(object sender, EventArgs e)
         {
             bool planEnough = true;

@@ -200,7 +200,7 @@ namespace SCaddins.SCopy
             this.buttonReplace.TabIndex = 13;
             this.buttonReplace.Text = "Replace View";
             this.buttonReplace.UseVisualStyleBackColor = true;
-            this.buttonReplace.Click += new System.EventHandler(this.ButtonReplaceClick);
+
             // 
             // label3
             // 

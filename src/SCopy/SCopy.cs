@@ -27,7 +27,7 @@ namespace SCaddins.SCopy
     {
         private FamilyInstance sourceTitleBlock;
         private Document doc;
-        private IList<ViewSheet> sourceSheets;
+        private ViewSheet sourceSheet;
         private System.ComponentModel.BindingList<SCopySheet> sheets;
         private Dictionary<string, View> existingSheets =
             new Dictionary<string, View>();
@@ -46,7 +46,7 @@ namespace SCaddins.SCopy
         public SCopy(Document doc, ViewSheet view)
         {
             this.doc = doc;
-            this.sourceSheets[0] = view;
+            this.sourceSheet = view;
             this.sheets = new System.ComponentModel.BindingList<SCopySheet>();
             this.GetViewTemplates();
             this.GetAllSheets();
@@ -151,7 +151,7 @@ namespace SCaddins.SCopy
             td.Show();
         }
     
-        public void Add()
+        public void AddCopy()
         {
             string n = this.NextSheetNumber(this.sourceSheet.SheetNumber);
             string t = this.sourceSheet.Name + SCopyConstants.MenuItemCopy;
