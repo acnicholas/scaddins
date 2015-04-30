@@ -2,8 +2,8 @@
 
 ####NEW####
 
-- Check for updates on start-up
-- Changelog added to update dialog **TODO**
+- [SCaddins]Check for updates on start-up.
+- [SCaddins]Changelog button added to update dialog.
 
 #15.0#
 

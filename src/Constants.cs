@@ -43,6 +43,10 @@ namespace SCaddins
         /// <summary> Web [http] link to download binaries. </summary>
         public const string DownloadLink =
             "https://bitbucket.org/anicholas/scaddins/downloads";
+        
+        /// <summary> Web [http] link to changelog. </summary>
+        public const string ChangelogLink =
+            "https://bitbucket.org/anicholas/scaddins/raw/master/CHANGELOG.md";
 
         /// <summary> Web [http] link to forum. </summary>
         public const string HelpLink =

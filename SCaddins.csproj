@@ -102,6 +102,10 @@
     <Compile Include="src\Common\About.cs" />
     <Compile Include="src\Common\AboutBox.cs" />
     <Compile Include="src\Common\AboutBox.Designer.cs" />
+    <Compile Include="src\Common\AboutBox.Designer1.cs">
+      <DependentUpon>AboutBox.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="src\Common\SortableBindingList.cs" />
     <Compile Include="src\Common\UpgradeForm.cs" />
     <Compile Include="src\Common\UpgradeForm.Designer.cs">
@@ -126,6 +130,10 @@
     <Compile Include="src\SCexport\Command.cs" />
     <Compile Include="src\SCexport\ConfirmDialog.cs" />
     <Compile Include="src\SCexport\ConfirmDialog.Designer.cs" />
+    <Compile Include="src\SCexport\ConfirmDialog.Designer1.cs">
+      <DependentUpon>ConfirmDialog.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="src\SCexport\Constants.cs" />
     <Compile Include="src\SCexport\DialogHandler.cs" />
     <Compile Include="src\SCexport\ExportLog.cs" />
@@ -242,6 +250,8 @@
   <ItemGroup>
     <EmbeddedResource Include="src\Common\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AboutBox.Designer1.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Common\UpgradeForm.resx">
       <DependentUpon>UpgradeForm.cs</DependentUpon>
@@ -254,6 +264,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCexport\ConfirmDialog.resx">
       <DependentUpon>ConfirmDialog.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ConfirmDialog.Designer1.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCexport\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

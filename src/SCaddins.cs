@@ -83,23 +83,16 @@ namespace SCaddins
                 }
                 m = m.NextMatch();
             }
+            
+            var installedVersion = SCaddins.SCaddinsApp.Version;
 
-            if (latestVersion > SCaddins.SCaddinsApp.Version) {
-                var td = new TaskDialog("New Version");
-                td.MainInstruction = "New version: " + latestVersion.ToString() + " is available" + System.Environment.NewLine +
-                    "Do you want to download it now?";
-                td.CommonButtons = TaskDialogCommonButtons.Ok | TaskDialogCommonButtons.No;
-                TaskDialogResult result = td.Show();
-                if (result == TaskDialogResult.Ok) {
-                    System.Diagnostics.Process.Start(url);
-                }
+            if (latestVersion > installedVersion) {
+                var upgradeForm = new SCaddins.Common.UpgradeForm(installedVersion, latestVersion);
+                upgradeForm.ShowDialog();
             } else if (latestVersion < SCaddins.SCaddinsApp.Version) {
                 if(!newOnly){
-                    TaskDialog.Show("Version Check", "The installed version is SCaddins is newer than the online version.");    
-                }
-            } else {
-                if(!newOnly){
-                    TaskDialog.Show("Version Check", "SCaddins is up to date.");
+                    var upgradeForm = new SCaddins.Common.UpgradeForm(installedVersion, latestVersion);
+                    upgradeForm.ShowDialog();  
                 }
             }
         }
