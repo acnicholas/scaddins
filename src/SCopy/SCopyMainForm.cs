@@ -29,16 +29,29 @@ namespace SCaddins.SCopy
     public partial class MainForm : System.Windows.Forms.Form
     {
         private string origVal;
-        private IList<SCopy> scopy;
+        private IList<SCopy> scopies;
 
         public MainForm(Document doc, Autodesk.Revit.DB.ViewSheet viewSheet)
         {
             this.InitializeComponent();
             this.SetTitle();
             var s = new SCopy(doc, viewSheet);
-            this.scopy.Add(s);
+            this.scopies.Add(s);
             s.AddViewInfoToList(ref this.listView1);
             this.AddDataGridColumns();
+        }
+        
+        public MainForm(Document doc,ICollection<SCaddins.SCexport.SCexportSheet> sheets)
+        {
+            this.InitializeComponent();
+            this.SetTitle();  
+            var s = new SCopy(doc, sheet.Sheet);
+            foreach (SCaddins.SCexport.SCexportSheet sheet in sheets) {
+                
+                this.scopies.Add(s);
+                s.AddViewInfoToList(ref this.listView1);
+            }               
+            this.AddDataGridColumns();            
         }
     
         #region init component
@@ -124,8 +137,8 @@ namespace SCaddins.SCopy
         private void ButtonAdd(object sender, EventArgs e)
         {
             buttonRemove.Enabled = true;
-            this.scopy.AddCopy();
-            dataGridView1.DataSource = this.scopy.Sheets;
+            this.scopies.AddCopy();
+            dataGridView1.DataSource = this.scopies.Sheets;
         }
 
         private void DataGridView1CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -167,7 +180,7 @@ namespace SCaddins.SCopy
         {
             foreach (DataGridViewRow row in dataGridView1.SelectedRows) {
                 var sheet = row.DataBoundItem as SCopySheet;
-                this.scopy.Sheets.Remove(sheet);
+                this.scopies.Sheets.Remove(sheet);
             }
             if (dataGridView1.Rows.Count == 0) {
                 dataGridView2.Rows.Clear();
