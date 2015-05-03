@@ -49,13 +49,11 @@ namespace SCaddins.SCopy
             this.InitializeComponent();
             this.SetTitle();
             this.scopy = new SCopy(doc, viewSheet);
-            //this.scopy.AddViewInfoToList(ref this.listView1);
             foreach (SCaddins.SCexport.SCexportSheet sheet in sheets) {
                 this.scopy.AddSheet(sheet.Sheet);
-                //this.scopy.AddViewInfoToList(ref this.listView1);
-            }  
-            this.AddDataGridColumns(); 
-            dataGridView1.DataSource = this.scopy.Sheets;
+            } 
+            this.AddDataGridColumns();  
+            dataGridView1.DataSource = this.scopy.Sheets;  
         }
     
         #region init component
@@ -68,7 +66,7 @@ namespace SCaddins.SCopy
             this.AddColumn("Title", "Title", this.dataGridView1);
             this.AddColumn("OriginalTitle", "Original Title", this.dataGridView2);
             this.AddColumn("Title", "Proposed Title", this.dataGridView2);
-            //this.AddComboBoxColumns();
+            this.AddComboBoxColumns();
             this.AddColumn("RevitViewType", "View Type", this.dataGridView2);
             this.AddCheckBoxColumn(
                 "DuplicateWithDetailing", "Copy Detailing", this.dataGridView2); 
@@ -100,7 +98,7 @@ namespace SCaddins.SCopy
             DataGridViewComboBoxColumn result2 = this.CreateComboBoxColumn();
             this.AddColumnHeader("ViewTemplateName", "View Template", result2);
             result2.Items.Add(SCopyConstants.MenuItemCopy);
-            var sc = dataGridView1.SelectedRows[0].DataBoundItem as SCopy;
+            var sc = this.scopy;
             foreach (string s2 in sc.ViewTemplates.Keys) {
                 result2.Items.Add(s2);
             }
@@ -152,6 +150,8 @@ namespace SCaddins.SCopy
         private void DataGridView1CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             var sheet = dataGridView1.Rows[e.RowIndex].DataBoundItem as SCopySheet;
+            this.listView1.Clear();
+            this.scopy.AddViewInfoToList(ref this.listView1, sheet.SourceSheet);
             dataGridView2.DataSource = sheet.ViewsOnSheet;
             dataGridView2.Refresh();
         }

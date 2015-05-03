@@ -132,7 +132,7 @@ namespace SCaddins.SCopy
             this.AddViewsToList(ref list, "Title", viewSheet.Name, colour, 0);
             this.AddViewsToList(ref list, "Sheet Number", viewSheet.SheetNumber, colour, 0);
             #if REVIT2014
-            this.AddViewsToList(ref list, this.sourceSheet.Views);
+            this.AddViewsToList(ref list, viewSheet.Views);
             #else
             this.AddViewsToList(ref list, viewSheet.GetAllPlacedViews());
             #endif
