@@ -27,7 +27,7 @@ namespace SCaddins.SCopy
     {
         private FamilyInstance sourceTitleBlock;
         private Document doc;
-        private ViewSheet activeSourceSheet;
+        //private ViewSheet activeSourceSheet;
         private System.ComponentModel.BindingList<SCopySheet> sheets;
         private Dictionary<string, View> existingSheets =
             new Dictionary<string, View>();
@@ -46,7 +46,7 @@ namespace SCaddins.SCopy
         public SCopy(Document doc, ViewSheet view)
         {
             this.doc = doc;
-            this.activeSourceSheet = view;
+            //this.activeSourceSheet = view;
             this.sheets = new System.ComponentModel.BindingList<SCopySheet>();
             this.GetViewTemplates();
             this.GetAllSheets();
@@ -54,19 +54,7 @@ namespace SCaddins.SCopy
             this.GetAllViewsInModel();
             this.GetFloorPlanViewFamilyTypeId();
         }
-        
-        public SCopy(Document doc, ICollection<SCaddins.SCexport.SCexportSheet> sheets)
-        {
-            this.doc = doc;
-            this.activeSourceSheet = view;
-            this.sheets = new System.ComponentModel.BindingList<SCopySheet>();
-            this.GetViewTemplates();
-            this.GetAllSheets();
-            this.GetAllLevelsInModel();
-            this.GetAllViewsInModel();
-            this.GetFloorPlanViewFamilyTypeId();
-        }
-        
+               
         public enum ViewCreationMode
         {
             Copy,
@@ -83,11 +71,11 @@ namespace SCaddins.SCopy
             }
         }
 
-        public ViewSheet SourceSheet {
-            get {
-                return this.activeSourceSheet;
-            }
-        }
+//        public ViewSheet SourceSheet {
+//            get {
+//                return this.activeSourceSheet;
+//            }
+//        }
 
         public Dictionary<string, View> ViewTemplates {
             get {
@@ -138,15 +126,15 @@ namespace SCaddins.SCopy
         }
 
         public void AddViewInfoToList(
-            ref System.Windows.Forms.ListView list)
+            ref System.Windows.Forms.ListView list, ViewSheet viewSheet)
         {
             var colour = System.Drawing.Color.Gray;
-            this.AddViewsToList(ref list, "Title", this.activeSourceSheet.Name, colour, 0);
-            this.AddViewsToList(ref list, "Sheet Number", this.activeSourceSheet.SheetNumber, colour, 0);
+            this.AddViewsToList(ref list, "Title", viewSheet.Name, colour, 0);
+            this.AddViewsToList(ref list, "Sheet Number", viewSheet.SheetNumber, colour, 0);
             #if REVIT2014
             this.AddViewsToList(ref list, this.sourceSheet.Views);
             #else
-            this.AddViewsToList(ref list, this.activeSourceSheet.GetAllPlacedViews());
+            this.AddViewsToList(ref list, viewSheet.GetAllPlacedViews());
             #endif
         }
     
@@ -163,13 +151,13 @@ namespace SCaddins.SCopy
             td.Show();
         }
     
-        public void AddSheet()
+        public void AddSheet(ViewSheet sourceSheet)
         {
-            string n = this.NextSheetNumber(this.activeSourceSheet.SheetNumber);
-            string t = this.activeSourceSheet.Name + SCopyConstants.MenuItemCopy;
-            this.sheets.Add(new SCopySheet(n, t, this));
+            string n = this.NextSheetNumber(sourceSheet.SheetNumber);
+            string t = sourceSheet.Name + SCopyConstants.MenuItemCopy;
+            this.sheets.Add(new SCopySheet(n, t, this, sourceSheet));
         }
-
+        
         #endregion
 
         #region private methods
@@ -291,7 +279,7 @@ namespace SCaddins.SCopy
         // this is where the action happens
         private bool CreateSheet(SCopySheet sheet, ref string summary)
         {
-            this.sourceTitleBlock = this.GetTitleBlock(this.activeSourceSheet);
+            this.sourceTitleBlock = this.GetTitleBlock(sheet.SourceSheet);
                         
             if (this.sourceTitleBlock == null) {
                 TaskDialog.Show("SCopy", "No Title Block, exiting now...");
@@ -308,7 +296,7 @@ namespace SCaddins.SCopy
                 this.PlaceNewViews(sheet);
             }
 
-            var oldNumber = this.activeSourceSheet.SheetNumber;
+            var oldNumber = sheet.SourceSheet.SheetNumber;
             var msg = " Sheet: " + oldNumber + " copied to: " + sheet.Number;
             summary += msg + System.Environment.NewLine;
 
@@ -369,7 +357,7 @@ namespace SCaddins.SCopy
         
         private void CopyElementsOnSheet(SCopySheet sheet, BuiltInCategory category)
         {
-            var v = this.SourceSheet as View;
+            var v = sheet.SourceSheet as View;
             var collector = new FilteredElementCollector(this.doc, v.Id);
             collector.OfCategory(category);
             IList<ElementId> list = new List<ElementId>();
@@ -377,13 +365,13 @@ namespace SCaddins.SCopy
                 list.Add(e.Id);
             }
             if (list.Count > 0) {
-                ElementTransformUtils.CopyElements(this.SourceSheet, list, sheet.DestSheet, null, null);
+                ElementTransformUtils.CopyElements(sheet.SourceSheet, list, sheet.DestSheet, null, null);
             }
         }
         
         private void CopyLinesOnSheet(SCopySheet sheet)
         {
-            var v = this.SourceSheet as View;
+            var v = sheet.SourceSheet as View;
             var collector = new FilteredElementCollector(this.doc, v.Id);
             collector.OfClass(typeof(Autodesk.Revit.DB.Line));
             IList<ElementId> list = new List<ElementId>();
@@ -391,14 +379,14 @@ namespace SCaddins.SCopy
                 list.Add(e.Id);
             }
             if (list.Count > 0) {
-                ElementTransformUtils.CopyElements(this.SourceSheet, list, sheet.DestSheet, null, null);
+                ElementTransformUtils.CopyElements(sheet.SourceSheet, list, sheet.DestSheet, null, null);
             }
         }
         
         private void PlaceNewViews(SCopySheet sheet)
         {
             Dictionary<ElementId, BoundingBoxXYZ> viewPorts =
-                this.GetVPDictionary(this.activeSourceSheet, this.doc);
+                this.GetVPDictionary(sheet.SourceSheet, this.doc);
 
             foreach (SCopyViewOnSheet view in sheet.ViewsOnSheet) {
                 BoundingBoxXYZ srcViewBounds = null;
@@ -408,7 +396,7 @@ namespace SCaddins.SCopy
                 }
             
                 XYZ sourceViewCentre = this.ViewCenterFromTBBottomLeft(
-                                           this.sourceTitleBlock, srcViewBounds, this.activeSourceSheet);
+                                           this.sourceTitleBlock, srcViewBounds, sheet.SourceSheet);
               
                 switch (view.CreationMode) {
                     case ViewCreationMode.Copy:

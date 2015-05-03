@@ -685,9 +685,22 @@ namespace SCaddins.SCexport
             this.Update();
             this.dataGridView1.Refresh();  
         }
-        void CopySheetsToolStripMenuItemClick(object sender, EventArgs e)
+        
+        private void CopySheetsToolStripMenuItemClick(object sender, EventArgs e)
         {
-            //SCuv.SCuv.CreateUserViews(this.SelectedSheets(), this.doc);    
+            //var t = new Transaction(doc, "SCopy");
+            //t.Start();
+                    
+            Autodesk.Revit.DB.ViewSheet viewSheet = SCaddins.SCopy.SCopy.ViewToViewSheet(doc.ActiveView);
+            if (viewSheet == null) {
+                TaskDialog.Show("SCopy", "Scopy needs to be started in a sheet view...");
+                return;    
+            }
+            
+            var form = new SCaddins.SCopy.MainForm(doc, viewSheet, this.SelectedSheets());
+            form.Enabled = true;
+            form.ShowDialog();
+            //t.Commit();  
         }
     }
 }

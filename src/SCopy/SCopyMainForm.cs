@@ -29,29 +29,33 @@ namespace SCaddins.SCopy
     public partial class MainForm : System.Windows.Forms.Form
     {
         private string origVal;
-        private IList<SCopy> scopies;
+        private SCopy scopy;
+        private Document doc;
 
         public MainForm(Document doc, Autodesk.Revit.DB.ViewSheet viewSheet)
         {
+            this.doc = doc;
             this.InitializeComponent();
             this.SetTitle();
-            var s = new SCopy(doc, viewSheet);
-            this.scopies.Add(s);
-            s.AddViewInfoToList(ref this.listView1);
+            this.scopy = new SCopy(doc, viewSheet);
+            this.scopy.AddViewInfoToList(ref this.listView1, viewSheet);
             this.AddDataGridColumns();
         }
         
-        public MainForm(Document doc,ICollection<SCaddins.SCexport.SCexportSheet> sheets)
+        public MainForm(Document doc,
+            Autodesk.Revit.DB.ViewSheet viewSheet,
+            ICollection<SCaddins.SCexport.SCexportSheet> sheets)
         {
             this.InitializeComponent();
-            this.SetTitle();  
-            var s = new SCopy(doc, sheet.Sheet);
+            this.SetTitle();
+            this.scopy = new SCopy(doc, viewSheet);
+            //this.scopy.AddViewInfoToList(ref this.listView1);
             foreach (SCaddins.SCexport.SCexportSheet sheet in sheets) {
-                
-                this.scopies.Add(s);
-                s.AddViewInfoToList(ref this.listView1);
-            }               
-            this.AddDataGridColumns();            
+                this.scopy.AddSheet(sheet.Sheet);
+                //this.scopy.AddViewInfoToList(ref this.listView1);
+            }  
+            this.AddDataGridColumns(); 
+            dataGridView1.DataSource = this.scopy.Sheets;
         }
     
         #region init component
@@ -64,7 +68,7 @@ namespace SCaddins.SCopy
             this.AddColumn("Title", "Title", this.dataGridView1);
             this.AddColumn("OriginalTitle", "Original Title", this.dataGridView2);
             this.AddColumn("Title", "Proposed Title", this.dataGridView2);
-            this.AddComboBoxColumns();
+            //this.AddComboBoxColumns();
             this.AddColumn("RevitViewType", "View Type", this.dataGridView2);
             this.AddCheckBoxColumn(
                 "DuplicateWithDetailing", "Copy Detailing", this.dataGridView2); 
@@ -137,8 +141,12 @@ namespace SCaddins.SCopy
         private void ButtonAdd(object sender, EventArgs e)
         {
             buttonRemove.Enabled = true;
-            this.scopies.AddCopy();
-            dataGridView1.DataSource = this.scopies.Sheets;
+            Autodesk.Revit.DB.ViewSheet viewSheet = SCaddins.SCopy.SCopy.ViewToViewSheet(doc.ActiveView);
+            if(viewSheet != null)
+            {
+                this.scopy.AddSheet(viewSheet);
+                dataGridView1.DataSource = this.scopy.Sheets;
+            }
         }
 
         private void DataGridView1CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -180,7 +188,7 @@ namespace SCaddins.SCopy
         {
             foreach (DataGridViewRow row in dataGridView1.SelectedRows) {
                 var sheet = row.DataBoundItem as SCopySheet;
-                this.scopies.Sheets.Remove(sheet);
+                this.scopy.Sheets.Remove(sheet);
             }
             if (dataGridView1.Rows.Count == 0) {
                 dataGridView2.Rows.Clear();

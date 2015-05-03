@@ -27,25 +27,27 @@ namespace SCaddins.SCopy
     public class SCopySheet : INotifyPropertyChanged
     {  
         private SCopy scopy;
+        private ViewSheet sourceSheet;
         private string title;
         private string number;
         private ViewSheet destSheet;              
         private BindingList<SCopyViewOnSheet> viewsOnSheet;
         
-        public SCopySheet(string number, string title, SCopy scopy)
+        public SCopySheet(string number, string title, SCopy scopy, ViewSheet sourceSheet)
         {
             this.scopy = scopy;
             this.number = number;
             this.title = title;
+            this.sourceSheet = sourceSheet;
             this.destSheet = null;
             this.viewsOnSheet = new BindingList<SCopyViewOnSheet>();
             #if REVIT2014
-            foreach (View v in scopy.SourceSheet.Views) {
+            foreach (View v in sourceSheet.Views) {
                 this.viewsOnSheet.Add(new SCopyViewOnSheet(v.Name, v, scopy));
             }
             #else
-            foreach (ElementId id in scopy.SourceSheet.GetAllPlacedViews()) {              
-                Element element = scopy.SourceSheet.Document.GetElement(id);
+            foreach (ElementId id in sourceSheet.GetAllPlacedViews()) {              
+                Element element = sourceSheet.Document.GetElement(id);
                 if(element != null){
                     View v = element as View;
                     this.viewsOnSheet.Add(new SCopyViewOnSheet(v.Name, v, scopy));
@@ -63,6 +65,17 @@ namespace SCaddins.SCopy
             
             set {
                 this.destSheet = value;
+            }
+        }
+        
+        
+        public ViewSheet SourceSheet {
+            get {
+                return this.sourceSheet;
+            }
+            
+            set {
+                this.sourceSheet = value;
             }
         }
 
