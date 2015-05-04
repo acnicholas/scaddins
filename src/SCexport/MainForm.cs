@@ -689,15 +689,8 @@ namespace SCaddins.SCexport
         private void CopySheetsToolStripMenuItemClick(object sender, EventArgs e)
         {
             //var t = new Transaction(doc, "SCopy");
-            //t.Start();
-                    
-            Autodesk.Revit.DB.ViewSheet viewSheet = SCaddins.SCopy.SCopy.ViewToViewSheet(doc.ActiveView);
-            if (viewSheet == null) {
-                TaskDialog.Show("SCopy", "Scopy needs to be started in a sheet view...");
-                return;    
-            }
-            
-            var form = new SCaddins.SCopy.MainForm(doc, viewSheet, this.SelectedSheets());
+            //t.Start();                         
+            var form = new SCaddins.SCopy.MainForm(doc, this.SelectedSheets());
             form.Enabled = true;
             form.ShowDialog();
             //t.Commit();  

@@ -43,10 +43,9 @@ namespace SCaddins.SCopy
         
         private ElementId floorPlanViewFamilyTypeId = null;
            
-        public SCopy(Document doc, ViewSheet view)
+        public SCopy(Document doc)
         {
             this.doc = doc;
-            //this.activeSourceSheet = view;
             this.sheets = new System.ComponentModel.BindingList<SCopySheet>();
             this.GetViewTemplates();
             this.GetAllSheets();
@@ -126,16 +125,20 @@ namespace SCaddins.SCopy
         }
 
         public void AddViewInfoToList(
-            ref System.Windows.Forms.ListView list, ViewSheet viewSheet)
+            System.Windows.Forms.ListView list, ViewSheet viewSheet)
         {
+            if(viewSheet == null)
+                return;
+            list.Items.Clear();
             var colour = System.Drawing.Color.Gray;
-            this.AddViewsToList(ref list, "Title", viewSheet.Name, colour, 0);
-            this.AddViewsToList(ref list, "Sheet Number", viewSheet.SheetNumber, colour, 0);
+            this.AddViewsToList(list, "Title", viewSheet.Name, colour, 0);
+            this.AddViewsToList(list, "Sheet Number", viewSheet.SheetNumber, colour, 0);
             #if REVIT2014
-            this.AddViewsToList(ref list, viewSheet.Views);
+            this.AddViewsToList(list, viewSheet.Views);
             #else
-            this.AddViewsToList(ref list, viewSheet.GetAllPlacedViews());
+            this.AddViewsToList(list, viewSheet.GetAllPlacedViews());
             #endif
+            list.Refresh();
         }
     
         public void CreateSheets()
@@ -162,11 +165,11 @@ namespace SCaddins.SCopy
 
         #region private methods
         private void AddViewsToList(
-            ref System.Windows.Forms.ListView list,
+             System.Windows.Forms.ListView list,
              ISet<ElementId> views)
         {
            this.AddViewsToList(
-                ref list,
+                list,
                 "Number of viewports",
                 views.Count.ToString(),
                 System.Drawing.Color.Gray,
@@ -175,7 +178,7 @@ namespace SCaddins.SCopy
             foreach (ElementId id in views) {
                 var view = this.doc.GetElement(id) as View;
                 this.AddViewsToList(
-                    ref list,
+                    list,
                     "View: " + i,
                     view.Name,
                     System.Drawing.Color.Black,
@@ -185,11 +188,11 @@ namespace SCaddins.SCopy
         }        
         
         private void AddViewsToList(
-            ref System.Windows.Forms.ListView list,
+            System.Windows.Forms.ListView list,
             ViewSet views)
         {
             this.AddViewsToList(
-                ref list,
+                list,
                 "Number of viewports",
                 views.Size.ToString(),
                 System.Drawing.Color.Gray,
@@ -197,7 +200,7 @@ namespace SCaddins.SCopy
             int i = 1;
             foreach (View view in views) {
                 this.AddViewsToList(
-                    ref list,
+                    list,
                     "View: " + i,
                     view.Name,
                     System.Drawing.Color.Black,
@@ -207,15 +210,14 @@ namespace SCaddins.SCopy
         }
 
         private void AddViewsToList(
-            ref System.Windows.Forms.ListView list,
+            System.Windows.Forms.ListView list,
             string title,
             string value,
             System.Drawing.Color colour,
             int group)
         {
             System.Windows.Forms.ListViewItem item;
-            item = new System.Windows.Forms.ListViewItem(
-                new[] { title, value }, list.Groups[group]);
+            item = new System.Windows.Forms.ListViewItem(new[] { title, value }, list.Groups[group]);
             item.ForeColor = colour;
             list.Items.Add(item);
         }

@@ -39,7 +39,7 @@ namespace SCaddins
             get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
         }
                 
-        //FIXME this is messy
+        // FIXME this is messy
         public static void CheckForUpdates(bool newOnly)
         {
             var url = SCaddins.Constants.DownloadLink;
@@ -47,10 +47,10 @@ namespace SCaddins
             HttpWebResponse response;
             try {
                 response = (HttpWebResponse)request.GetResponse();
-            } catch(WebException e) {
+            } catch (WebException e) {
                 TaskDialog.Show("Error: Check For Updates", e.Message); 
                 return;
-            } catch(Exception e){
+            } catch (Exception e) {
                 TaskDialog.Show("Error: Check For Updates", e.Message);
                 return;                
             }
@@ -65,16 +65,16 @@ namespace SCaddins
             {
                 try {
                     html = reader.ReadToEnd();
-                } catch(IOException e) {
+                } catch (IOException e) {
                     TaskDialog.Show("Error: Check For Updates", e.Message);    
-                } catch(OutOfMemoryException e) {
+                } catch (OutOfMemoryException e) {
                     TaskDialog.Show("Error: Check For Updates", e.Message);    
                 }
             }
 
             var r = new Regex("href=\"(.*)\">.*SCaddins-win64-(.*).msi</a>");
             Match m = r.Match(html);
-            Version latestVersion = new Version(0,0,0,0);
+            Version latestVersion = new Version(0, 0, 0, 0);
             while (m.Success)
             {
                 var v = new Version(m.Groups[2].Value);

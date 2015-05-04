@@ -37,18 +37,18 @@ namespace SCaddins.SCopy
             this.doc = doc;
             this.InitializeComponent();
             this.SetTitle();
-            this.scopy = new SCopy(doc, viewSheet);
-            this.scopy.AddViewInfoToList(ref this.listView1, viewSheet);
+            this.scopy = new SCopy(doc);
+            this.scopy.AddViewInfoToList(this.listView1, viewSheet);
             this.AddDataGridColumns();
         }
         
         public MainForm(Document doc,
-            Autodesk.Revit.DB.ViewSheet viewSheet,
             ICollection<SCaddins.SCexport.SCexportSheet> sheets)
         {
+            this.doc = doc;
             this.InitializeComponent();
             this.SetTitle();
-            this.scopy = new SCopy(doc, viewSheet);
+            this.scopy = new SCopy(doc);
             foreach (SCaddins.SCexport.SCexportSheet sheet in sheets) {
                 this.scopy.AddSheet(sheet.Sheet);
             } 
@@ -129,17 +129,22 @@ namespace SCaddins.SCopy
 
         private void ButtonGO(object sender, EventArgs e)
         {
-            foreach(SCopy sc in dataGridView1.Rows){
-                sc.CreateSheets();
-            }
+            //foreach (DataGridViewRow row in dataGridView1.Rows) {
+            //    var sheet = row.DataBoundItem as SCopySheet;
+            //    TaskDialog.Show("test",sheet.Title);
+                scopy.CreateSheets();
+            //}
             this.Dispose();
             this.Close();
         }
 
         private void ButtonAdd(object sender, EventArgs e)
         {
-            buttonRemove.Enabled = true;
-            Autodesk.Revit.DB.ViewSheet viewSheet = SCaddins.SCopy.SCopy.ViewToViewSheet(doc.ActiveView);
+            //buttonRemove.Enabled = true;
+            var view = doc.ActiveView;
+            if(view == null)
+                return;
+            var viewSheet = SCaddins.SCopy.SCopy.ViewToViewSheet(view);
             if(viewSheet != null)
             {
                 this.scopy.AddSheet(viewSheet);
@@ -149,9 +154,8 @@ namespace SCaddins.SCopy
 
         private void DataGridView1CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            var sheet = dataGridView1.Rows[e.RowIndex].DataBoundItem as SCopySheet;
-            this.listView1.Clear();
-            this.scopy.AddViewInfoToList(ref this.listView1, sheet.SourceSheet);
+            var sheet = (SCopySheet)dataGridView1.Rows[e.RowIndex].DataBoundItem;
+            this.scopy.AddViewInfoToList(this.listView1, sheet.SourceSheet);
             dataGridView2.DataSource = sheet.ViewsOnSheet;
             dataGridView2.Refresh();
         }

@@ -24,12 +24,10 @@ namespace SCaddins.Common
     /// <summary>
     /// Description of UpgradeForm.
     /// </summary>
-    public partial class UpgradeForm : Form
-        
+    public partial class UpgradeForm : Form     
     {
         public UpgradeForm(Version installed, Version remote)
         {
-
             InitializeComponent();
             labelInstalledVersion.Text = "Insalled Version: " + installed.ToString();
             labelLatestVersion.Text = "Latest Version: " + remote.ToString();
@@ -42,7 +40,6 @@ namespace SCaddins.Common
                 buttonDownload.Enabled = false;   
                 buttonLog.Enabled = true;
             }
-
         }
         
         private void Button3Click(object sender, EventArgs e)

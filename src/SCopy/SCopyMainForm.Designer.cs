@@ -93,9 +93,9 @@ namespace SCaddins.SCopy
             // 
             this.label1.Location = new System.Drawing.Point(3, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 23);
+            this.label1.Size = new System.Drawing.Size(184, 23);
             this.label1.TabIndex = 6;
-            this.label1.Text = "Current View";
+            this.label1.Text = "Parent[Source] View of Selection";
             // 
             // listView1
             // 
@@ -200,7 +200,6 @@ namespace SCaddins.SCopy
             this.buttonReplace.TabIndex = 13;
             this.buttonReplace.Text = "Replace View";
             this.buttonReplace.UseVisualStyleBackColor = true;
-
             // 
             // label3
             // 
