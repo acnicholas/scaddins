@@ -64,10 +64,7 @@ namespace SCaddins.SCexport
             this.textBoxNumberReplace = new System.Windows.Forms.TextBox();
             this.textBoxNumberPattern = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // listView1
-            // 
+            this.SuspendLayout(); 
             this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -81,30 +78,15 @@ namespace SCaddins.SCexport
             this.listView1.Size = new System.Drawing.Size(607, 325);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader1
-            // 
+            this.listView1.View = System.Windows.Forms.View.Details; 
             this.columnHeader1.Text = "Existing Number";
             this.columnHeader1.Width = 120;
-            // 
-            // columnHeader2
-            // 
             this.columnHeader2.Text = "Existing Name";
             this.columnHeader2.Width = 168;
-            // 
-            // columnHeader3
-            // 
             this.columnHeader3.Text = "New Number";
             this.columnHeader3.Width = 120;
-            // 
-            // columnHeader4
-            // 
             this.columnHeader4.Text = "New Name";
             this.columnHeader4.Width = 125;
-            // 
-            // button1
-            // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button1.Location = new System.Drawing.Point(12, 468);
             this.button1.Name = "button1";
@@ -112,10 +94,7 @@ namespace SCaddins.SCexport
             this.button1.TabIndex = 3;
             this.button1.Text = "Test Run";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Button1Click);
-            // 
-            // OK
-            // 
+            this.button1.Click += new System.EventHandler(this.Button1Click); 
             this.OK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.OK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.OK.Location = new System.Drawing.Point(544, 468);
@@ -125,9 +104,6 @@ namespace SCaddins.SCexport
             this.OK.Text = "Rename";
             this.OK.UseVisualStyleBackColor = true;
             this.OK.Click += new System.EventHandler(this.OKClick);
-            // 
-            // button2
-            // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button2.Location = new System.Drawing.Point(463, 468);
@@ -135,10 +111,7 @@ namespace SCaddins.SCexport
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 5;
             this.button2.Text = "Cancel";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
+            this.button2.UseVisualStyleBackColor = true; 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.label2);
@@ -154,26 +127,17 @@ namespace SCaddins.SCexport
             this.groupBox1.Size = new System.Drawing.Size(608, 119);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Regex Options";
-            // 
-            // label2
-            // 
+            this.groupBox1.Text = "Regex Options"; 
             this.label2.Location = new System.Drawing.Point(262, 22);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(100, 23);
             this.label2.TabIndex = 20;
             this.label2.Text = "Replacement";
-            // 
-            // label1
-            // 
             this.label1.Location = new System.Drawing.Point(93, 22);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(100, 23);
             this.label1.TabIndex = 19;
-            this.label1.Text = "Pattern";
-            // 
-            // label3
-            // 
+            this.label1.Text = "Pattern"; 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.Location = new System.Drawing.Point(0, 77);
@@ -181,27 +145,18 @@ namespace SCaddins.SCexport
             this.label3.Size = new System.Drawing.Size(75, 14);
             this.label3.TabIndex = 18;
             this.label3.Text = "Sheet Name";
-            // 
-            // textBoxNameReplace
-            // 
             this.textBoxNameReplace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.textBoxNameReplace.Location = new System.Drawing.Point(262, 74);
             this.textBoxNameReplace.Name = "textBoxNameReplace";
             this.textBoxNameReplace.Size = new System.Drawing.Size(166, 20);
             this.textBoxNameReplace.TabIndex = 17;
-            // 
-            // textBoxNamePattern
-            // 
             this.textBoxNamePattern.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.textBoxNamePattern.Location = new System.Drawing.Point(93, 74);
             this.textBoxNamePattern.Name = "textBoxNamePattern";
             this.textBoxNamePattern.Size = new System.Drawing.Size(156, 20);
-            this.textBoxNamePattern.TabIndex = 16;
-            // 
-            // Match
-            // 
+            this.textBoxNamePattern.TabIndex = 16; 
             this.Match.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.Match.Location = new System.Drawing.Point(0, 51);

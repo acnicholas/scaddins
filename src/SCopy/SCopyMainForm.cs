@@ -42,7 +42,8 @@ namespace SCaddins.SCopy
             this.AddDataGridColumns();
         }
         
-        public MainForm(Document doc,
+        public MainForm(
+            Document doc,
             ICollection<SCaddins.SCexport.SCexportSheet> sheets)
         {
             this.doc = doc;
@@ -129,23 +130,20 @@ namespace SCaddins.SCopy
 
         private void ButtonGO(object sender, EventArgs e)
         {
-            //foreach (DataGridViewRow row in dataGridView1.Rows) {
-            //    var sheet = row.DataBoundItem as SCopySheet;
-            //    TaskDialog.Show("test",sheet.Title);
-                scopy.CreateSheets();
-            //}
+            this.scopy.CreateSheets();
             this.Dispose();
             this.Close();
         }
 
         private void ButtonAdd(object sender, EventArgs e)
         {
-            //buttonRemove.Enabled = true;
-            var view = doc.ActiveView;
-            if(view == null)
+            // buttonRemove.Enabled = true;
+            var view = this.doc.ActiveView;
+            if (view == null) {
                 return;
+            }
             var viewSheet = SCaddins.SCopy.SCopy.ViewToViewSheet(view);
-            if(viewSheet != null)
+            if (viewSheet != null)
             {
                 this.scopy.AddSheet(viewSheet);
                 dataGridView1.DataSource = this.scopy.Sheets;

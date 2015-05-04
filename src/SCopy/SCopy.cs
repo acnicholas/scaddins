@@ -27,7 +27,6 @@ namespace SCaddins.SCopy
     {
         private FamilyInstance sourceTitleBlock;
         private Document doc;
-        //private ViewSheet activeSourceSheet;
         private System.ComponentModel.BindingList<SCopySheet> sheets;
         private Dictionary<string, View> existingSheets =
             new Dictionary<string, View>();
@@ -69,12 +68,6 @@ namespace SCaddins.SCopy
                 return this.sheets;
             }
         }
-
-//        public ViewSheet SourceSheet {
-//            get {
-//                return this.activeSourceSheet;
-//            }
-//        }
 
         public Dictionary<string, View> ViewTemplates {
             get {
@@ -127,8 +120,9 @@ namespace SCaddins.SCopy
         public void AddViewInfoToList(
             System.Windows.Forms.ListView list, ViewSheet viewSheet)
         {
-            if(viewSheet == null)
+            if (viewSheet == null) {
                 return;
+            }
             list.Items.Clear();
             var colour = System.Drawing.Color.Gray;
             this.AddViewsToList(list, "Title", viewSheet.Name, colour, 0);
@@ -143,15 +137,21 @@ namespace SCaddins.SCopy
     
         public void CreateSheets()
         {
+            if(this.sheets.Count < 1) {
+                return;
+            }
+            var t = new Transaction(this.doc, "SCopy");
+            t.Start();
             string summaryText = string.Empty;
             foreach (SCopySheet sheet in this.sheets) {
                 this.CreateSheet(sheet, ref summaryText);
             }
+            t.Commit();
             var td = new TaskDialog("SCopy - Summary");
             td.MainInstruction = "SCopy - Summary";
             td.MainContent = summaryText;
             td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-            td.Show();
+            td.Show();           
         }
     
         public void AddSheet(ViewSheet sourceSheet)

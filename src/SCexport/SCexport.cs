@@ -561,7 +561,7 @@ namespace SCaddins.SCexport
             System.Windows.Forms.ToolStripLabel info,
             System.Windows.Forms.StatusStrip strip)
         {
-            //this.ApplyNonPrintLinetype();
+            // this.ApplyNonPrintLinetype();
             DateTime startTime = DateTime.Now;
             TimeSpan elapsedTime = DateTime.Now - startTime;
             var exportLog = new ExportLog(startTime);
@@ -1060,9 +1060,10 @@ namespace SCaddins.SCexport
             }
             return true;
         }
-        
-//remove this
-//causing to many problems with permissions
+ 
+/*       
+// remove this
+// causing to many problems with permissions
 
 //        private void ApplyNonPrintLinetype()
 //        {
@@ -1092,6 +1093,7 @@ namespace SCaddins.SCexport
 //                t.Commit();
 //            }
 //        }
+*/
 
         private bool ExportAdobePDF(SCexportSheet vs)
         {

@@ -20,18 +20,16 @@ namespace SCaddins.SCexport
     using System.Text;
     
     public class ExportLog
-    {       
-        public enum LogType {Error, Warning, Normal};
-        
+    {    
+        private const string ErrPrefix = "[ERROR]";
+        private const string WarningPrefix = "[WARNING]";
         private StringBuilder errorLog;
         private StringBuilder warningLog;
         private int warnings;
         private int errors;
-        private const string errPrefix = "[ERROR]";
-        private const string warningPrefix = "[WARNING]";
         private System.DateTime startTime;
         private System.DateTime endTime;
-        
+              
         public ExportLog(System.DateTime startTime)
         {
             this.errors = 0;
@@ -41,27 +39,33 @@ namespace SCaddins.SCexport
             this.startTime = startTime;
             this.endTime = System.DateTime.MinValue;
         }
+        
+        public enum LogType {
+            Error,
+            Warning,
+            Normal
+        }
                       
         public void AddError(string filename, string msg)
         {
-            errors++;
-            errorLog.AppendLine();
+            this.errors++;
+            this.errorLog.AppendLine();
         }
         
         public void AddWarning(string filename, string msg)
         {   
-            warnings++;
-            warningLog.AppendLine();
+            this.warnings++;
+            this.warningLog.AppendLine();
         }
         
         public void ShowSummaryDialog(LogType summaryType)
         {
             switch (summaryType) {
-                case LogType.Error :
-                    System.Windows.Forms.MessageBox.Show(errorLog.ToString(), errors + " Errors found");
+                case LogType.Error:
+                    System.Windows.Forms.MessageBox.Show(this.errorLog.ToString(), this.errors + " Errors found");
                     break;
-                case LogType.Warning :
-                    System.Windows.Forms.MessageBox.Show(warningLog.ToString(), warnings + " Warnings found");
+                case LogType.Warning:
+                    System.Windows.Forms.MessageBox.Show(this.warningLog.ToString(), this.warnings + " Warnings found");
                     break;
             }
         }

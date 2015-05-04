@@ -55,9 +55,6 @@ namespace SCaddins.SCexport
             this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
             this.SuspendLayout();
-            // 
-            // button1
-            // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.button1.Location = new System.Drawing.Point(346, 395);
@@ -66,9 +63,6 @@ namespace SCaddins.SCexport
             this.button1.TabIndex = 1;
             this.button1.Text = "OK";
             this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button2.Location = new System.Drawing.Point(12, 395);
@@ -77,9 +71,6 @@ namespace SCaddins.SCexport
             this.button2.TabIndex = 2;
             this.button2.Text = "Cancel";
             this.button2.UseVisualStyleBackColor = true;
-            // 
-            // listView1
-            // 
             this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -98,32 +89,14 @@ namespace SCaddins.SCexport
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.ListView1SelectedIndexChanged);
-            // 
-            // columnHeader1
-            // 
             this.columnHeader1.Text = "Seq";
             this.columnHeader1.Width = 40;
-            // 
-            // columnHeader2
-            // 
             this.columnHeader2.Text = "Rev";
-            this.columnHeader2.Width = 40;
-            // 
-            // columnHeader3
-            // 
+            this.columnHeader2.Width = 40; 
             this.columnHeader3.Text = "Desc";
-            this.columnHeader3.Width = 200;
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "Date";
-            // 
-            // columnHeader5
-            // 
-            this.columnHeader5.Text = "ID";
-            // 
-            // RevisionSelectionDialog
-            // 
+            this.columnHeader3.Width = 200; 
+            this.columnHeader4.Text = "Date"; 
+            this.columnHeader5.Text = "ID"; 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(433, 428);

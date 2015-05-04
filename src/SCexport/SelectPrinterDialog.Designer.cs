@@ -43,10 +43,7 @@ namespace SCaddins.SCexport
             this.btnCancel = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.grpSelectPrinter.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // grpSelectPrinter
-            // 
+            this.SuspendLayout(); 
             this.grpSelectPrinter.Controls.Add(this.cbxPrinter);
             this.grpSelectPrinter.Location = new System.Drawing.Point(12, 12);
             this.grpSelectPrinter.Name = "grpSelectPrinter";
@@ -54,17 +51,11 @@ namespace SCaddins.SCexport
             this.grpSelectPrinter.TabIndex = 0;
             this.grpSelectPrinter.TabStop = false;
             this.grpSelectPrinter.Text = "Select printer from combo box";
-            // 
-            // cbxPrinter
-            // 
             this.cbxPrinter.FormattingEnabled = true;
             this.cbxPrinter.Location = new System.Drawing.Point(16, 32);
             this.cbxPrinter.Name = "cbxPrinter";
             this.cbxPrinter.Size = new System.Drawing.Size(256, 21);
             this.cbxPrinter.TabIndex = 0;
-            // 
-            // btnOK
-            // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOK.Location = new System.Drawing.Point(212, 95);
             this.btnOK.Name = "btnOK";
@@ -72,9 +63,6 @@ namespace SCaddins.SCexport
             this.btnOK.TabIndex = 1;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
-            // 
-            // btnCancel
-            // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(12, 95);
             this.btnCancel.Name = "btnCancel";
@@ -82,17 +70,11 @@ namespace SCaddins.SCexport
             this.btnCancel.TabIndex = 2;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
-            // 
-            // menuStrip1
-            // 
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(317, 24);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // SelectPrinterDialog
-            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(317, 129);
@@ -110,6 +92,7 @@ namespace SCaddins.SCexport
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+        
         private System.Windows.Forms.GroupBox grpSelectPrinter;
         public System.Windows.Forms.ComboBox cbxPrinter;
         private System.Windows.Forms.Button btnOK;

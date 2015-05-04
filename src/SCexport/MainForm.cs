@@ -687,13 +687,10 @@ namespace SCaddins.SCexport
         }
         
         private void CopySheetsToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            //var t = new Transaction(doc, "SCopy");
-            //t.Start();                         
-            var form = new SCaddins.SCopy.MainForm(doc, this.SelectedSheets());
+        {                         
+            var form = new SCaddins.SCopy.MainForm(this.doc, this.SelectedSheets());
             form.Enabled = true;
-            form.ShowDialog();
-            //t.Commit();  
+            form.ShowDialog();              
         }
     }
 }

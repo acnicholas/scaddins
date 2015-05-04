@@ -15,12 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-
-using System;
-using System.Windows.Forms;
-
 namespace SCaddins.Common
-{
+{   
+    using System;
+    using System.Windows.Forms;
+    
     /// <summary>
     /// Description of UpgradeForm.
     /// </summary>
@@ -28,10 +27,10 @@ namespace SCaddins.Common
     {
         public UpgradeForm(Version installed, Version remote)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             labelInstalledVersion.Text = "Insalled Version: " + installed.ToString();
             labelLatestVersion.Text = "Latest Version: " + remote.ToString();
-            if(installed < remote){
+            if (installed < remote) {
                 labelUpgradeNote.Text = "New Version Available!. Click Download (go on, you can do it)";
                 buttonDownload.Enabled = true;
                 buttonLog.Enabled = true;

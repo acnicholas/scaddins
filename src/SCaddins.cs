@@ -22,8 +22,8 @@ namespace SCaddins
     using System.Collections.Specialized;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Net;
+    using System.Reflection;
     using System.Text.RegularExpressions;
     using System.Windows.Media.Imaging;
     using Autodesk.Revit.Attributes;
@@ -55,7 +55,7 @@ namespace SCaddins
                 return;                
             }
             
-            if (response.StatusCode == HttpStatusCode.NotFound){
+            if (response.StatusCode == HttpStatusCode.NotFound) {
                 TaskDialog.Show("Error: Check For Updates", url + " not found"); 
                 return;
             }
@@ -90,7 +90,7 @@ namespace SCaddins
                 var upgradeForm = new SCaddins.Common.UpgradeForm(installedVersion, latestVersion);
                 upgradeForm.ShowDialog();
             } else if (latestVersion < SCaddins.SCaddinsApp.Version) {
-                if(!newOnly){
+                if (!newOnly) {
                     var upgradeForm = new SCaddins.Common.UpgradeForm(installedVersion, latestVersion);
                     upgradeForm.ShowDialog();  
                 }
@@ -146,7 +146,7 @@ namespace SCaddins
                     this.LoadSCincrementSettings(scdll),
                     this.LoadSCaddinSettings(scdll));
                         
-            if ( SCaddins.Scaddins.Default.UpgradeCheckOnStartUp) {    
+            if (SCaddins.Scaddins.Default.UpgradeCheckOnStartUp) {    
                 CheckForUpdates(true);
             }
             

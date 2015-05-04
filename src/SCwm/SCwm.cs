@@ -25,19 +25,20 @@ namespace SCaddins.SCwm
     {
         public static void TileWindows(UIApplication app, int mainWidthPercentage)
         {
-            const string cmd = @"C:\Andrew\code\cs\scaddins\etc\SCwm.exe";
-            //const string cmd = @"C:\Users\deroB\Documents\Code\scaddins\etc\SCwm.exe";
+            const string Cmd = @"C:\Andrew\code\cs\scaddins\etc\SCwm.exe";
+            
+            // const string cmd = @"C:\Users\deroB\Documents\Code\scaddins\etc\SCwm.exe";
             var activeView = app.ActiveUIDocument.ActiveView;
             var activeFileName = System.IO.Path.GetFileName(app.ActiveUIDocument.Document.PathName);
             var mainWidth = GetDrawingAreaWidth(app) * mainWidthPercentage / 100;
             var mainHeight = GetDrawingAreaHeight(app) - 4;
             var minorWidth = GetDrawingAreaWidth(app) - mainWidth;
             
-            //set main window location
+            // set main window location
             var args = "\"" + activeView.Name + "\"" + " 0 0 " + mainWidth + " " + mainHeight;
-            SCexport.SCexport.StartHiddenConsoleProg(cmd, args);
+            SCexport.SCexport.StartHiddenConsoleProg(Cmd, args);
             
-            //set secondary window locations
+            // set secondary window locations
             var numberOfViews = GetNumberOfOpenViews(app);
             var th = GetDrawingAreaHeight(app) / (numberOfViews - 1);
             
@@ -52,8 +53,8 @@ namespace SCaddins.SCwm
                     View v = (View)doc.GetElement(view.ViewId);
                     var viewName = v.Name + " - " + System.IO.Path.GetFileName(doc.PathName);
                     if (viewName != activeView.Name + " - " + activeFileName) {
-                        var args2 = "\"" + v.Name + "\" " + mainWidth + " " + th * i + " " + minorWidth + " " + th;
-                        SCexport.SCexport.StartHiddenConsoleProg(cmd, args2);
+                        var args2 = "\"" + v.Name + "\" " + mainWidth + " " + (th * i) + " " + minorWidth + " " + th;
+                        SCexport.SCexport.StartHiddenConsoleProg(Cmd, args2);
                         i++;
                     }
                 }
@@ -74,7 +75,7 @@ namespace SCaddins.SCwm
         {
             int result = 0;
             var docs = app.Application.Documents;  
-            foreach (Document doc in docs){
+            foreach (Document doc in docs) {
                 UIDocument udoc = new UIDocument(doc);
                 result += udoc.GetOpenUIViews().Count; 
             }

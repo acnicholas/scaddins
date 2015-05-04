@@ -59,9 +59,6 @@ namespace SCaddins.SCexport
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
-            // 
-            // yesButton
-            // 
             this.yesButton.DialogResult = System.Windows.Forms.DialogResult.Yes;
             this.yesButton.Location = new System.Drawing.Point(392, 95);
             this.yesButton.Name = "yesButton";
@@ -69,9 +66,6 @@ namespace SCaddins.SCexport
             this.yesButton.TabIndex = 0;
             this.yesButton.Text = "Yes";
             this.yesButton.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
             this.button2.DialogResult = System.Windows.Forms.DialogResult.No;
             this.button2.Location = new System.Drawing.Point(311, 95);
             this.button2.Name = "button2";
@@ -80,9 +74,6 @@ namespace SCaddins.SCexport
             this.button2.Text = "No";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.Button2Click);
-            // 
-            // checkBox1
-            // 
             this.checkBox1.Location = new System.Drawing.Point(12, 95);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(282, 24);
@@ -90,17 +81,11 @@ namespace SCaddins.SCexport
             this.checkBox1.Text = "Always ask for confirmation before overwriting?";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1CheckedChanged);
-            // 
-            // textBox1
-            // 
             this.textBox1.Location = new System.Drawing.Point(12, 12);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(455, 77);
             this.textBox1.TabIndex = 3;
-            // 
-            // ConfirmationDialog
-            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(479, 127);

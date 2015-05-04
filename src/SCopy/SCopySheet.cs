@@ -67,8 +67,7 @@ namespace SCaddins.SCopy
                 this.destSheet = value;
             }
         }
-        
-        
+                
         public ViewSheet SourceSheet {
             get {
                 return this.sourceSheet;
