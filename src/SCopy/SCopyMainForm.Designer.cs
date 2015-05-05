@@ -45,6 +45,7 @@ namespace SCaddins.SCopy
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
+            this.button1 = new System.Windows.Forms.Button();
             this.buttonRemove = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -81,6 +82,7 @@ namespace SCaddins.SCopy
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.button1);
             this.splitContainer1.Panel2.Controls.Add(this.buttonRemove);
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Panel2.Controls.Add(this.buttonAdd);
@@ -132,6 +134,19 @@ namespace SCaddins.SCopy
             // 
             this.columnHeader2.Width = 123;
             // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Enabled = false;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(347, 4);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(92, 23);
+            this.button1.TabIndex = 12;
+            this.button1.Text = "Copy ";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1Click);
+            // 
             // buttonRemove
             // 
             this.buttonRemove.AllowDrop = true;
@@ -142,7 +157,7 @@ namespace SCaddins.SCopy
             this.buttonRemove.Name = "buttonRemove";
             this.buttonRemove.Size = new System.Drawing.Size(112, 23);
             this.buttonRemove.TabIndex = 11;
-            this.buttonRemove.Text = "Remove Selection";
+            this.buttonRemove.Text = "Remove";
             this.buttonRemove.UseVisualStyleBackColor = true;
             this.buttonRemove.Click += new System.EventHandler(this.ButtonRemoveClick);
             // 
@@ -180,6 +195,7 @@ namespace SCaddins.SCopy
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dataGridView1.Location = new System.Drawing.Point(0, 3);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dataGridView1.Size = new System.Drawing.Size(672, 174);
@@ -300,6 +316,7 @@ namespace SCaddins.SCopy
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.Button button1;
         
   
     }

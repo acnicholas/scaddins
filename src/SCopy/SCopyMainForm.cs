@@ -202,6 +202,7 @@ namespace SCaddins.SCopy
         private void DataGridView1SelectionChanged(object sender, EventArgs e)
         {
             buttonRemove.Enabled = dataGridView1.SelectedRows.Count > 0;
+            button1.Enabled = dataGridView1.SelectedRows.Count > 0;
         }
            
         private void DataGridView2SelectionChanged(object sender, EventArgs e)
@@ -216,8 +217,10 @@ namespace SCaddins.SCopy
             buttonReplace.Enabled = (dataGridView2.SelectedRows.Count == 1) && planEnough;
         }
         
-        private void ButtonCopyClick(object sender, EventArgs e)
-        {  
+        void Button1Click(object sender, EventArgs e)
+        {
+            var sheet = (SCopySheet)dataGridView1.SelectedRows[0].DataBoundItem;
+            this.scopy.AddSheet(sheet.SourceSheet);
         }
     }
 }

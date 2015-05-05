@@ -3,8 +3,12 @@
 ####NEW####
 
 - [SCaddins]Check for updates on start-up.
-- [SCaddins]Changelog button added to update dialog.
-- [SCexport]SCopy option partially added to context menu. **TODO**
+- [SCaddins]Improved update dialog box, with option to view change log.
+- [SCexport]SCopy option for multiple sheets added to the context menu.
+
+###FIXES####
+
+- [SCexport] removed non-print line-type feature. (causing problems with permissions)
 
 #15.0#
 
