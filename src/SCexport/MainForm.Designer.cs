@@ -95,6 +95,7 @@ namespace SCaddins.SCexport
             this.openSelectedViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.addRevisionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copySheetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeUnderlaysFromViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.renameSelectedSheetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fixScalesBarsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -118,7 +119,6 @@ namespace SCaddins.SCexport
             this.btnPrint = new System.Windows.Forms.Button();
             this.btnOptions = new System.Windows.Forms.Button();
             this.btnFind = new System.Windows.Forms.Button();
-            this.copySheetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -244,6 +244,14 @@ namespace SCaddins.SCexport
             this.addRevisionToolStripMenuItem.Text = "Add Revision";
             this.addRevisionToolStripMenuItem.Click += new System.EventHandler(this.AddRevisionToolStripMenuItemClick);
             // 
+            // copySheetsToolStripMenuItem
+            // 
+            this.copySheetsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copySheetsToolStripMenuItem.Image")));
+            this.copySheetsToolStripMenuItem.Name = "copySheetsToolStripMenuItem";
+            this.copySheetsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.copySheetsToolStripMenuItem.Text = "Copy Sheets";
+            this.copySheetsToolStripMenuItem.Click += new System.EventHandler(this.CopySheetsToolStripMenuItemClick);
+            // 
             // removeUnderlaysFromViewsToolStripMenuItem
             // 
             this.removeUnderlaysFromViewsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("removeUnderlaysFromViewsToolStripMenuItem.Image")));
@@ -265,7 +273,7 @@ namespace SCaddins.SCexport
             this.fixScalesBarsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("fixScalesBarsToolStripMenuItem.Image")));
             this.fixScalesBarsToolStripMenuItem.Name = "fixScalesBarsToolStripMenuItem";
             this.fixScalesBarsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.fixScalesBarsToolStripMenuItem.Text = "Fix Scales Bars";
+            this.fixScalesBarsToolStripMenuItem.Text = "Fix Scale Bars";
             this.fixScalesBarsToolStripMenuItem.Click += new System.EventHandler(this.FixScalesBarsToolStripMenuItemClick);
             // 
             // createUserViewsToolStripMenuItem
@@ -470,14 +478,6 @@ namespace SCaddins.SCexport
             this.btnFind.TabIndex = 15;
             this.btnFind.UseVisualStyleBackColor = true;
             this.btnFind.Click += new System.EventHandler(this.BtnFindClick);
-            // 
-            // copySheetsToolStripMenuItem
-            // 
-            this.copySheetsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copySheetsToolStripMenuItem.Image")));
-            this.copySheetsToolStripMenuItem.Name = "copySheetsToolStripMenuItem";
-            this.copySheetsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.copySheetsToolStripMenuItem.Text = "Copy Sheets";
-            this.copySheetsToolStripMenuItem.Click += new System.EventHandler(this.CopySheetsToolStripMenuItemClick);
             // 
             // MainForm
             // 
