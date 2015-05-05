@@ -5,6 +5,7 @@
 - [SCaddins]Check for updates on start-up.
 - [SCaddins]Improved update dialog box, with option to view change log.
 - [SCexport]SCopy option for multiple sheets added to the context menu.
+- [SCopy]Copy button added to enable multiple copies of sheets. 
 
 ###FIXES####
 
