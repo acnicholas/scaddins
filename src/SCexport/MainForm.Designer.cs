@@ -294,7 +294,7 @@ namespace SCaddins.SCexport
             this.mnuSelectAll.Image = ((System.Drawing.Image)(resources.GetObject("mnuSelectAll.Image")));
             this.mnuSelectAll.Name = "mnuSelectAll";
             this.mnuSelectAll.Size = new System.Drawing.Size(256, 22);
-            this.mnuSelectAll.Text = "SelectAll";
+            this.mnuSelectAll.Text = "Select All";
             this.mnuSelectAll.Click += new System.EventHandler(this.MnuSelectAll_Click);
             // 
             // mnuSelectNone
