@@ -10,6 +10,7 @@
 ###FIXES####
 
 - [SCexport] removed non-print line-type feature. (causing problems with permissions)
+- [SCexport] check for illegal file names and replace invalid chars with a '_'
 
 #15.0#
 
