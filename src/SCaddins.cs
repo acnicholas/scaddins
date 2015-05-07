@@ -226,7 +226,10 @@ namespace SCaddins
                            "SCulcase", "SCulcase", dll, "SCaddins.SCulcase.Command");
             this.AssignPushButtonImage(pbd, @"sculcase-rvt-16.png", 16);
             pbd.ToolTip =
-                "Convert text from upper to lower case.";
+                "Convert text from upper to lower case, or vise-versa";
+			pbd.LongDescription =
+                "Pre-select text/tags to change a selection. " +
+                "Run with no selection to change the entire project.";
             return pbd;
         }
 
@@ -244,9 +247,14 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCaos", "Angle Of Sun", dll, "SCaddins.SCaos.Command");
+			pbd.SetContextualHelp(
+                new ContextualHelp(
+                    ContextualHelpType.Url, Constants.HelpLink));
             this.AssignPushButtonImage(pbd, "scaos-rvt-16.png", 16);
             pbd.ToolTip =
                 "Rotate a 3d view to the location of the sun.";
+	        pbd.LongDescription =
+                "...Or create multiple views for winter(June 21) in one go.";
             return pbd;
         }
 
@@ -275,7 +283,6 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "SCincrement", "SCincrement", dll, "SCaddins.SCincrement.Command");
             this.AssignPushButtonImage(pbd, "scincrement-rvt-16.png", 16);
-
             pbd.ToolTip =
                 "Increment room numbers and family marks.";
             return pbd;
