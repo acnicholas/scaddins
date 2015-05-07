@@ -7,7 +7,10 @@
     <Setting Name="A3PrinterDriver" Type="System.String" Scope="User" Roaming="true">
       <Value Profile="(Default)">\\SCAPP01\FollowYouColour</Value>
     </Setting>
-    <Setting Name="AdobePDFMode" Type="System.Boolean" Scope="User" Roaming="false">
+    <Setting Name="AcadExportVersion" Type="System.String" Scope="User" Roaming="true">
+      <Value Profile="(Default)">R2010</Value>
+    </Setting>
+    <Setting Name="AdobePDFMode" Type="System.Boolean" Scope="User" Roaming="true">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="AdobePrinterDriver" Type="System.String" Scope="User" Roaming="true">
@@ -16,7 +19,7 @@
     <Setting Name="ExportDir" Type="System.String" Scope="User" Roaming="true">
       <Value Profile="(Default)">c:/Temp</Value>
     </Setting>
-    <Setting Name="ForceDateRevision" Type="System.Boolean" Scope="User" Roaming="false">
+    <Setting Name="ForceDateRevision" Type="System.Boolean" Scope="User" Roaming="true">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="GSBinDirectory" Type="System.String" Scope="User" Roaming="true">
@@ -25,10 +28,10 @@
     <Setting Name="GSLibDirectory" Type="System.String" Scope="User" Roaming="true">
       <Value Profile="(Default)">C:\Program Files\gs\gs8.71\lib</Value>
     </Setting>
-    <Setting Name="HideTitleBlocks" Type="System.Boolean" Scope="User" Roaming="false">
+    <Setting Name="HideTitleBlocks" Type="System.Boolean" Scope="User" Roaming="true">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="PSPrinterDriver" Type="System.String" Scope="User" Roaming="false">
+    <Setting Name="PSPrinterDriver" Type="System.String" Scope="User" Roaming="true">
       <Value Profile="(Default)">HP Designjet T1100ps 44in PS3</Value>
     </Setting>
     <Setting Name="TagPDFExports" Type="System.Boolean" Scope="User" Roaming="true">

@@ -470,11 +470,11 @@ namespace SCaddins.SCexport
             System.Diagnostics.Process.Start(SCaddins.Constants.SourceLink);
         }
 
-        private void ToggleAutoCADVersion(object sender, EventArgs e)
-        {
-            var c = (ToolStripMenuItem)sender;
-            this.scx.AcadVersion = (Autodesk.Revit.DB.ACADVersion)c.Tag;
-        }
+//        private void ToggleAutoCADVersion(object sender, EventArgs e)
+//        {
+//            var c = (ToolStripMenuItem)sender;
+//            this.scx.AcadVersion = (Autodesk.Revit.DB.ACADVersion)c.Tag;
+//        }
 
         private void CreateConfigFileToolStripMenuItem_Click(
                 object sender, EventArgs e)

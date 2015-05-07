@@ -60,6 +60,9 @@ namespace SCaddins.SCexport
             if (this.scx.FilenameScheme != null) {
                 this.comboBoxScheme.Text = this.scx.FilenameScheme.Name;
             }
+            //Autodesk.Revit.UI.TaskDialog.Show("test",SCexport.AcadVersionToString(this.scx.AcadVersion));
+            this.comboBoxAutocadVersion.SelectedIndex = 
+                this.comboBoxAutocadVersion.FindStringExact(SCexport.AcadVersionToString(this.scx.AcadVersion));
             this.checkBox1.Checked = true;
             #if REVIT2012
             this.checkBoxHideTitleblock.Enabled = false;
@@ -92,16 +95,18 @@ namespace SCaddins.SCexport
             SCaddins.SCexport.Settings1.Default.AdobePDFMode = radioPDF.Checked;
             SCaddins.SCexport.Settings1.Default.ForceDateRevision = checkBoxForceDate.Checked;
             SCaddins.SCexport.Settings1.Default.TagPDFExports = checkBoxTagPDF.Checked;
-            SCaddins.SCexport.Settings1.Default.HideTitleBlocks = checkBoxHideTitleblock.Checked;    
+            SCaddins.SCexport.Settings1.Default.HideTitleBlocks = checkBoxHideTitleblock.Checked;
+            SCaddins.SCexport.Settings1.Default.AcadExportVersion =   this.comboBoxAutocadVersion.SelectedItem.ToString();
             SCaddins.SCexport.Settings1.Default.Save();
         }
         
         private void AssignDWGReleaseMenuTags()
         {
-            foreach (var item in Enum.GetValues(typeof(ACADVersion))) {
-                this.comboBoxAutocadVersion.Items.Add(item);
-            }         
-            this.comboBoxAutocadVersion.SelectedIndex = 1; 
+                this.comboBoxAutocadVersion.Items.Add("R2000");  
+                this.comboBoxAutocadVersion.Items.Add("R2004");
+                this.comboBoxAutocadVersion.Items.Add("R2007");
+                this.comboBoxAutocadVersion.Items.Add("R2010");
+                this.comboBoxAutocadVersion.Items.Add("R2013");      
         }
                 
         private void PopulateSchemeMenu()
@@ -179,10 +184,10 @@ namespace SCaddins.SCexport
         
         private void ComboBoxAutocadVersionSelectedIndexChanged(object sender, EventArgs e)
         {
-            var version = (ACADVersion)this.comboBoxAutocadVersion.SelectedItem;
-            this.scx.AcadVersion = version;
+            this.scx.AcadVersion = 
+                SCexport.AcadVersionFromString(comboBoxAutocadVersion.SelectedItem.ToString());
         }
-        
+              
         private void ButtonCreateConfigClick(object sender, EventArgs e)
         {
             FileUtils.CreateConfigFile(ref this.doc);
@@ -279,7 +284,8 @@ namespace SCaddins.SCexport
         
         private void OptionsDialogFormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
         {
-            this.SaveValues();
+            //don't do this.
+            //this.SaveValues();
         }
         
         private void BtnDefaultExportDirClick(object sender, System.EventArgs e)

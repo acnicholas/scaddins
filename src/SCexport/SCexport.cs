@@ -39,7 +39,6 @@ namespace SCaddins.SCexport
         private static string activeDoc;
         private static string author;
         private static string nonIssueTag;
-        private ACADVersion acadVersion;
         private ExportFlags flags;
         private List<SheetName> filenameTypes;
         private List<ViewSheetSetCombo> allViewSheetSets;
@@ -57,7 +56,6 @@ namespace SCaddins.SCexport
         public SCexport(Document doc)
         {
             SCexport.doc = doc;
-            this.acadVersion = ACADVersion.R2004;
             this.filenameScheme = null;
             this.exportDir = Constants.DefaultExportDir;
             SCexport.ConfirmOverwrite = true;
@@ -435,6 +433,49 @@ namespace SCaddins.SCexport
                 return null;
             }
         }
+        
+        public static ACADVersion AcadVersionFromString(string s)
+        {
+            if(s == "R2000") {
+                //TaskDialog.Show("loaded acad val", "R2000");
+                return ACADVersion.R2000;
+            }
+            if(s == "R2004") {
+                //TaskDialog.Show("loaded acad val", "R2004");
+                return ACADVersion.R2004;
+            }
+            if(s == "R2007") {
+                //TaskDialog.Show("loaded acad val", "R2007");
+                return ACADVersion.R2007;
+            }
+            if(s == "R2010") {
+                //TaskDialog.Show("loaded acad val", "R2010");
+                return ACADVersion.R2010;
+            }
+            if(s == "R2013") {
+                //TaskDialog.Show("loaded acad val", "R2013");
+                return ACADVersion.R2013;
+            }
+            return ACADVersion.Default;
+        }
+        
+        public static string AcadVersionToString(ACADVersion a)
+        {
+            switch (a) {
+                case ACADVersion.R2000:
+                    return "R2000";
+                case ACADVersion.R2004:
+                    return "R2004";
+                case ACADVersion.R2007:
+                    return "R2007";
+                case ACADVersion.R2010:
+                    return "R2010";
+                case ACADVersion.R2013:
+                    return "R2013";
+                default:
+                    return "Default";
+            }
+        }
 
         /// <summary>
         /// The date of the latest revision in the current doc.
@@ -622,6 +663,7 @@ namespace SCaddins.SCexport
             this.PostscriptPrinterName = SCaddins.SCexport.Settings1.Default.PSPrinterDriver; 
             this.GhostsciptLibDir = SCaddins.SCexport.Settings1.Default.GSLibDirectory; 
             this.exportDir = SCaddins.SCexport.Settings1.Default.ExportDir;
+            this.AcadVersion = AcadVersionFromString(SCaddins.SCexport.Settings1.Default.AcadExportVersion);
         }
 
         private static void OpenSheet(UIDocument udoc, ViewSheet view, int inc)
@@ -975,7 +1017,7 @@ namespace SCaddins.SCexport
             views.Add(vs.Id);
             var opts = new DWGExportOptions();
             opts.MergedViews = true;
-            opts.FileVersion = this.acadVersion;
+            opts.FileVersion = this.AcadVersion;
 
             #if (!REVIT2012)
             pm.PrintRange = PrintRange.Select;
