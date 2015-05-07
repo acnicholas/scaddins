@@ -43,12 +43,9 @@ namespace SCaddins.SCopy
                 return Autodesk.Revit.UI.Result.Failed;    
             }
         
-            var t = new Transaction(doc, "SCopy");
-            t.Start();
             var form = new MainForm(doc, viewSheet);
             form.Enabled = true;
             form.ShowDialog();
-            t.Commit();
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }
