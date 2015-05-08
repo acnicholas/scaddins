@@ -1,16 +1,18 @@
-#15.1(rc)#
+#15.1(pre-release)#
 
 ####NEW####
 
 - [SCaddins]Check for updates on start-up.
 - [SCaddins]Improved update dialog box, with option to view change log.
-- [SCexport]SCopy option for multiple sheets added to the context menu.
+- **[SCexport]SCopy option for multiple sheets added to the context menu.**
 - [SCopy]Copy button added to enable multiple copies of sheets. 
 
-###FIXES####
+####FIXES#####
 
+- [SCaddins] better tooltip help added to ribbon.
 - [SCexport] removed non-print line-type feature. (causing problems with permissions)
 - [SCexport] check for illegal file names and replace invalid chars with a '_'
+- **[SCexport] correctly assign and save AutoCAD export version.**
 
 #15.0#
 
