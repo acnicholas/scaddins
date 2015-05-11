@@ -42,7 +42,7 @@ namespace SCaddins.SCaos
             this.currentViewIsIso = false;
 
             View view = doc.ActiveView;
-            string[] s = this.GetViewInfo(view, doc);
+            string[] s = this.GetViewInfo(view);
             var form = new SCaosForm(s, this.currentViewIsIso);
             System.Windows.Forms.DialogResult result = form.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK) {
@@ -57,7 +57,7 @@ namespace SCaddins.SCaos
             return Autodesk.Revit.UI.Result.Succeeded;
         }
 
-        private string[] GetViewInfo(View view, Document doc)
+        private string[] GetViewInfo(View view)
         {
             if (view.ViewType != ViewType.ThreeD) {
                 var info = new string[4];
@@ -88,44 +88,6 @@ namespace SCaddins.SCaos
             }
         }
 
-        /// <summary>
-        /// Attempt to draw a line along the path of the sun.
-        /// </summary>
-        /// <param name="udoc"></param>
-        /// <param name="doc"></param>
-        private void DrawSolarRay(UIDocument udoc, Document doc)
-        {
-            View view = doc.ActiveView;
-            if (view.ViewType == ViewType.ThreeD) {
-                SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
-                double frame = sunSettings.ActiveFrame;
-                double azimuth = sunSettings.GetFrameAzimuth(frame);
-                double altitude = sunSettings.GetFrameAltitude(frame);
-                azimuth += this.position.Angle;
-
-                var v3d = (View3D)view;
-                var t = new Transaction(doc);
-                t.Start("Draw Solar Ray");
-
-                // REVIT 2014
-                // Line ray = Line.CreateBound(XYZ.Zero, new XYZ(100 * Math.Cos(azimuth), 100 * Math.Sin(azimuth), 100 * Math.Tan(altitude)));
-                // REVIT 2013
-//                Line line = doc.Application.Create.NewLineBound(XYZ.Zero, new XYZ(Math.Sin(azimuth), Math.Cos(azimuth), 1 * Math.Tan(altitude)));
-//                //check intesects
-//                //SetComparisonResult scr = line.Intersect(
-//                
-//                var plane = new Plane(new XYZ(Math.Cos(azimuth), -Math.Sin(azimuth),0), XYZ.Zero);
-//                SketchPlane sketchPlane = doc.Create.NewSketchPlane(plane);
-//                if (sketchPlane != null){
-//                    ModelCurve ray = doc.Create.NewModelCurve(line, sketchPlane);
-//                }
-                // udoc.RefreshActiveView();
-                t.Commit();
-            } else {
-                TaskDialog.Show("ERROR", "Not a 3d view");
-            }
-        }
-
         private string GetAllViewInfo(Document doc)
         {
             var f = new FilteredElementCollector(doc);
@@ -135,7 +97,7 @@ namespace SCaddins.SCaos
                 string name = view.Name.ToUpper();
                 if (view.ViewType == ViewType.ThreeD || view.ViewType == ViewType.FloorPlan) {
                     if (name.Contains("SOLAR") || name.Contains("SHADOW")) {
-                        result += string.Join(System.Environment.NewLine, this.GetViewInfo(view, doc));
+                        result += string.Join(System.Environment.NewLine, this.GetViewInfo(view));
                         result += System.Environment.NewLine + System.Environment.NewLine;
                     }
                 }

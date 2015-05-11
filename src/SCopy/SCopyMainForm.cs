@@ -28,7 +28,6 @@ namespace SCaddins.SCopy
     /// </summary>
     public partial class MainForm : System.Windows.Forms.Form
     {
-        private string origVal;
         private SCopy scopy;
         private Document doc;
 
@@ -164,7 +163,6 @@ namespace SCaddins.SCopy
                 return;
             }
             DataGridViewCell cell = dataGridView1[e.ColumnIndex, e.RowIndex];
-            this.origVal = cell.Value.ToString();
         }
         
         private void DataGridView2CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)

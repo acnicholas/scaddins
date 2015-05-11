@@ -17,6 +17,7 @@
 namespace SCaddins.SCoord
 {
     using System;
+    using System.Globalization;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
@@ -69,8 +70,8 @@ namespace SCaddins.SCoord
                 return;
             }
 
-            double x = Convert.ToDouble(form.textBoxEW.Text);
-            double y = Convert.ToDouble(form.textBoxNS.Text);
+            double x = Convert.ToDouble(form.textBoxEW.Text, CultureInfo.InvariantCulture);
+            double y = Convert.ToDouble(form.textBoxNS.Text, CultureInfo.InvariantCulture);
             double z = Convert.ToDouble(form.textBoxElev.Text);
             XYZ newLocation = this.ToMGA(projectPosition, x, y, z);
 

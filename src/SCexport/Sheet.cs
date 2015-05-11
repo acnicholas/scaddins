@@ -39,7 +39,6 @@ namespace SCaddins.SCexport
         private string displineCode;
         private string fullExportName;
         private string pageSize;
-        private string projectName;
         private string projectNumber;
         private string scale;
         private string scaleBarScale;
@@ -436,7 +435,6 @@ namespace SCaddins.SCexport
             this.sheetDescription = viewSheet.get_Parameter(
                     BuiltInParameter.SHEET_NAME).AsString();
             this.projectNumber = document.ProjectInformation.Number;
-            this.projectName = document.ProjectInformation.Name;
             this.width = 841;
             this.height = 594;
             this.scale = string.Empty;

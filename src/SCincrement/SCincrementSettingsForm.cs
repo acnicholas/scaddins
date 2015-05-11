@@ -18,6 +18,7 @@
 namespace SCaddins.SCincrement
 {
     using System;
+    using System.Globalization;
     using System.Windows.Forms;
     
     public partial class SCincrementSettingsForm : Form
@@ -46,8 +47,8 @@ namespace SCaddins.SCincrement
         
         private void Button2Click(object sender, EventArgs e)
         {
-            SCincrementSettings.Default.OffsetValue = int.Parse(this.offsetTextBox.Text);
-            SCincrementSettings.Default.IncrementValue = int.Parse(this.incrementTextBox.Text);
+            SCincrementSettings.Default.OffsetValue = int.Parse(this.offsetTextBox.Text, CultureInfo.InvariantCulture);
+            SCincrementSettings.Default.IncrementValue = int.Parse(this.incrementTextBox.Text, CultureInfo.InvariantCulture);
             SCincrementSettings.Default.SourceSearchPattern = this.searchTextBox.Text;
             SCincrementSettings.Default.SourceReplacePattern = this.replacementTextBox.Text;
             SCincrementSettings.Default.DestinationReplacePattern = this.destReplacementTextBox.Text;

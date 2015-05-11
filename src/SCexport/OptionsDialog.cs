@@ -28,7 +28,6 @@ namespace SCaddins.SCexport
     {
         private Autodesk.Revit.DB.Document doc;
         private SCexport scx;
-        private System.Windows.Forms.DataGridView parent;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="OptionsDialog"/> class.
@@ -37,7 +36,6 @@ namespace SCaddins.SCexport
         {
             this.doc = doc;
             this.scx = scx;
-            this.parent = parent;
             this.InitializeComponent();
             this.InitializeComponentsMore();
             this.AssignDWGReleaseMenuTags();

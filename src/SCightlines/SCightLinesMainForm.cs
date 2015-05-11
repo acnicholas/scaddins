@@ -38,12 +38,9 @@ namespace SCaddins.SCightLines
         /// </summary>
         private SCightLines sightLines;
         
-        private Autodesk.Revit.DB.Document doc;
-
         public SCightLinesMainForm(Autodesk.Revit.DB.Document doc)
         {
             this.InitializeComponent();
-            this.doc = doc;
             txtEyeHeight.Text = "1220";
             txtGoing.Text = "900";
             txtInc.Text = "15";
