@@ -674,7 +674,6 @@ namespace SCaddins.SCexport
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "SCexport Options";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OptionsDialogFormClosing);
             this.tabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);

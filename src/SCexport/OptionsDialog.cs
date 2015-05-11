@@ -60,7 +60,6 @@ namespace SCaddins.SCexport
             if (this.scx.FilenameScheme != null) {
                 this.comboBoxScheme.Text = this.scx.FilenameScheme.Name;
             }
-            //Autodesk.Revit.UI.TaskDialog.Show("test",SCexport.AcadVersionToString(this.scx.AcadVersion));
             this.comboBoxAutocadVersion.SelectedIndex = 
                 this.comboBoxAutocadVersion.FindStringExact(SCexport.AcadVersionToString(this.scx.AcadVersion));
             this.checkBox1.Checked = true;
@@ -96,7 +95,7 @@ namespace SCaddins.SCexport
             SCaddins.SCexport.Settings1.Default.ForceDateRevision = checkBoxForceDate.Checked;
             SCaddins.SCexport.Settings1.Default.TagPDFExports = checkBoxTagPDF.Checked;
             SCaddins.SCexport.Settings1.Default.HideTitleBlocks = checkBoxHideTitleblock.Checked;
-            SCaddins.SCexport.Settings1.Default.AcadExportVersion =   this.comboBoxAutocadVersion.SelectedItem.ToString();
+            SCaddins.SCexport.Settings1.Default.AcadExportVersion = this.comboBoxAutocadVersion.SelectedItem.ToString();
             SCaddins.SCexport.Settings1.Default.Save();
         }
         
@@ -281,13 +280,7 @@ namespace SCaddins.SCexport
             this.scx.LoadSettings();
             this.LoadValues();
         }
-        
-        private void OptionsDialogFormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
-        {
-            //don't do this.
-            //this.SaveValues();
-        }
-        
+             
         private void BtnDefaultExportDirClick(object sender, System.EventArgs e)
         {
             DialogResult result = this.folderBrowserDialog1.ShowDialog();

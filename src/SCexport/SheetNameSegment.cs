@@ -21,8 +21,7 @@ namespace SCaddins.SCexport
 /// Sheet name segment.
 /// </summary>
 public class SheetNameSegment
-{
-  
+{ 
     private SegmentType type;
     private string text;
     
@@ -122,15 +121,16 @@ public class SheetNameSegment
     /// <value>The text displayed in the segment.</value>
     public string Text
     {
-        get { return text; }
-        set { text = GetSafeFilename(value); }
+        get { return this.text; }
+        set { this.text = this.GetSafeFilename(value); }
     }
     
     public string GetSafeFilename(string filename)
     {
-        if(filename == null)
+        if (filename == null) {
             return null;
-        foreach(char c in System.IO.Path.GetInvalidFileNameChars()) {
+        }
+        foreach (char c in System.IO.Path.GetInvalidFileNameChars()) {
             filename = filename.Replace(c, '_');
         }
         return filename;
@@ -139,8 +139,7 @@ public class SheetNameSegment
     private void Init(SegmentType segmentType, string value)
     {      
         this.type = segmentType;
-        //don't allow invalid characters
-        this.text = GetSafeFilename(value);
+        this.text = this.GetSafeFilename(value);
     }
 }
 }

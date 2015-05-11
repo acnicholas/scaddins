@@ -137,7 +137,7 @@ namespace SCaddins.SCopy
     
         public void CreateSheets()
         {
-            if(this.sheets.Count < 1) {
+            if (this.sheets.Count < 1) {
                 return;
             }
             var t = new Transaction(this.doc, "SCopy");

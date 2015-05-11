@@ -76,7 +76,7 @@ namespace SCaddins.SCaos
                 azimuth += this.position.Angle;
                 double azdeg = azimuth * 180 / System.Math.PI;
                 double altdeg = altitude * 180 / System.Math.PI;
-                string[] info = new string[7];
+                var info = new string[7];
                 info[0] = view.Name;
                 info[1] = "Date - " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongDateString();
                 info[2] = "Time - " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongTimeString();

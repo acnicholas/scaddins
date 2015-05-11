@@ -217,7 +217,7 @@ namespace SCaddins.SCopy
             buttonReplace.Enabled = (dataGridView2.SelectedRows.Count == 1) && planEnough;
         }
         
-        void Button1Click(object sender, EventArgs e)
+        private void Button1Click(object sender, EventArgs e)
         {
             var sheet = (SCopySheet)dataGridView1.SelectedRows[0].DataBoundItem;
             this.scopy.AddSheet(sheet.SourceSheet);

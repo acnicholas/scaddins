@@ -470,12 +470,6 @@ namespace SCaddins.SCexport
             System.Diagnostics.Process.Start(SCaddins.Constants.SourceLink);
         }
 
-//        private void ToggleAutoCADVersion(object sender, EventArgs e)
-//        {
-//            var c = (ToolStripMenuItem)sender;
-//            this.scx.AcadVersion = (Autodesk.Revit.DB.ACADVersion)c.Tag;
-//        }
-
         private void CreateConfigFileToolStripMenuItem_Click(
                 object sender, EventArgs e)
         {
@@ -510,7 +504,7 @@ namespace SCaddins.SCexport
                 var sc = row.DataBoundItem as SCexportSheet;
                 switch (e.ColumnIndex) {
                 case 1:
-                    char[] c =
+                    var c =
                         new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
                         f = "Filter: Rev *"; 
                     int index = sc.SheetNumber.IndexOfAny(c);

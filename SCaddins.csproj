@@ -223,10 +223,6 @@
     <Compile Include="src\SCwm\SCwmCommands.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="installer" />
-    <Folder Include="res" />
-    <Folder Include="res\images" />
-    <Folder Include="res\etc" />
     <Folder Include="src" />
     <Folder Include="src\Common" />
     <Folder Include="src\Manifest" />
@@ -234,7 +230,6 @@
     <Folder Include="src\Manifest\2014" />
     <Folder Include="src\SCwm" />
     <Folder Include="src\SCunderlay" />
-    <Folder Include="src\Testing" />
     <Folder Include="src\SCuv" />
     <Folder Include="src\SCincrement" />
     <Folder Include="src\SCloudSched" />
@@ -317,39 +312,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="res\images\about.bmp" />
-    <None Include="res\images\add.png" />
-    <None Include="res\images\check.png" />
-    <None Include="res\images\clock.png" />
-    <None Include="res\images\comment.png" />
-    <None Include="res\images\config.png" />
-    <None Include="res\images\config2.png" />
-    <None Include="res\images\doc.png" />
-    <None Include="res\images\edit.png" />
-    <None Include="res\images\filter.png" />
-    <None Include="res\images\find.png" />
-    <None Include="res\images\folder.png" />
-    <None Include="res\images\gear.png" />
-    <None Include="res\images\help.png" />
-    <None Include="res\images\home.png" />
-    <None Include="res\images\keyboard.png" />
-    <None Include="res\images\lightbulb.png" />
-    <None Include="res\images\none.png" />
-    <None Include="res\images\open.png" />
-    <None Include="res\images\preoperty.png" />
-    <None Include="res\images\rename.png" />
-    <None Include="res\images\revision.png" />
-    <None Include="res\images\SC.ico" />
-    <None Include="res\images\scexport-64x64.png" />
-    <None Include="res\images\scexport.png" />
-    <None Include="res\images\scopy.ico" />
-    <None Include="res\images\sculcase.ico" />
-    <None Include="res\images\scwash.ico" />
-    <None Include="res\images\source.png" />
-    <None Include="res\images\tick.png" />
-    <None Include="res\images\type.png" />
-    <None Include="res\images\xmlElement.png" />
-    <None Include="res\images\xmlFile.png" />
     <None Include="src\Manifest\2014\SCaddins.addin" />
     <None Include="src\Manifest\2015\SCaddins.addin" />
     <None Include="src\Scaddins.settings">
@@ -364,7 +326,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>SCincrementSettings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="TODO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Condition="'$(Configuration)' == 'Debug'" Project="C:\Program Files (x86)\MSBuild\StyleCop\v4.7\StyleCop.targets" />

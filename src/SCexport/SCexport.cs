@@ -436,24 +436,19 @@ namespace SCaddins.SCexport
         
         public static ACADVersion AcadVersionFromString(string s)
         {
-            if(s == "R2000") {
-                //TaskDialog.Show("loaded acad val", "R2000");
+            if (s == "R2000") {
                 return ACADVersion.R2000;
             }
-            if(s == "R2004") {
-                //TaskDialog.Show("loaded acad val", "R2004");
+            if (s == "R2004") {
                 return ACADVersion.R2004;
             }
-            if(s == "R2007") {
-                //TaskDialog.Show("loaded acad val", "R2007");
+            if (s == "R2007") {
                 return ACADVersion.R2007;
             }
-            if(s == "R2010") {
-                //TaskDialog.Show("loaded acad val", "R2010");
+            if (s == "R2010") {
                 return ACADVersion.R2010;
             }
-            if(s == "R2013") {
-                //TaskDialog.Show("loaded acad val", "R2013");
+            if (s == "R2013") {
                 return ACADVersion.R2013;
             }
             return ACADVersion.Default;
