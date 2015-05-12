@@ -34,8 +34,6 @@ namespace SCaddins.SCopy
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
             UIApplication application = commandData.Application;
-            UIDocument document = application.ActiveUIDocument;
-            View view = doc.ActiveView;
         
             Autodesk.Revit.DB.ViewSheet viewSheet = SCopy.ViewToViewSheet(doc.ActiveView);
             if (viewSheet == null) {

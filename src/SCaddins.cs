@@ -20,6 +20,7 @@ namespace SCaddins
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Net;
@@ -168,7 +169,7 @@ namespace SCaddins
             string scdll =
                 new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
 
-            switch (name.ToLower()) {
+            switch (name.ToLower(CultureInfo.CurrentCulture)) {
                 case "scexport":
                     return this.LoadScexport(scdll);
                 case "scoord":

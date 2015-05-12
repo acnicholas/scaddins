@@ -32,10 +32,7 @@ namespace SCaddins.SCwm
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            Document doc = commandData.Application.ActiveUIDocument.Document;
-            UIApplication application = commandData.Application;
-            UIDocument document = application.ActiveUIDocument;
-            View view = doc.ActiveView;  
+            UIApplication application = commandData.Application; 
             SCwm.TileWindows(application, 65);
             return Autodesk.Revit.UI.Result.Succeeded;
         }

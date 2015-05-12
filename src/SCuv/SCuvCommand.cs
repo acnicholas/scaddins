@@ -34,7 +34,6 @@ namespace SCaddins.SCuv
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
             UIApplication application = commandData.Application;
-            UIDocument document = application.ActiveUIDocument;
             View view = doc.ActiveView;
             
             var t = new Transaction(doc, "SCuv Copies User Views");

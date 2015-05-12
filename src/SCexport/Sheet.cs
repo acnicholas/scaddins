@@ -18,6 +18,7 @@
 namespace SCaddins.SCexport
 {
     using System;
+    using System.Globalization;
     using Autodesk.Revit.DB;
 
     /// <summary>
@@ -316,7 +317,7 @@ namespace SCaddins.SCexport
             if (titleBlock != null) {
                 this.scale = titleBlock.get_Parameter(
                     BuiltInParameter.SHEET_SCALE).AsString();
-                this.scaleBarScale = this.GetScaleBarScale(titleBlock);
+                this.scaleBarScale = SCexportSheet.GetScaleBarScale(titleBlock);
                 this.width = titleBlock.get_Parameter(
                         BuiltInParameter.SHEET_WIDTH).AsDouble();
                 this.height = titleBlock.get_Parameter(
@@ -394,7 +395,7 @@ namespace SCaddins.SCexport
             }          
         }
         
-        public string GetScaleBarScale(FamilyInstance titleBlock)
+        public static string GetScaleBarScale(FamilyInstance titleBlock)
         {
           try {
                     #if REVIT2015
@@ -404,8 +405,7 @@ namespace SCaddins.SCexport
                     var s = titleBlock.get_Parameter(Constants.TitleScale).AsValueString();
                     #endif
                     var d = Convert.ToDouble(s);
-                    var i = Convert.ToInt32(d);
-                    return d.ToString();
+                    return d.ToString(CultureInfo.InvariantCulture);
                 } catch {
                     return string.Empty;
                 }    

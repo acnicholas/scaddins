@@ -18,6 +18,7 @@
 namespace SCaddins.SCightLines
 {
     using System;
+    using System.Globalization;
     using System.Linq;
     using Autodesk.Revit.ApplicationServices;
     using Autodesk.Revit.DB;
@@ -128,7 +129,6 @@ namespace SCaddins.SCightLines
                 this.treadSize + "-MinN" + this.minimumRiserHeight + "-Inc" + this.riserIncrement +
                 "-Eye" + this.eyeHeight + "-MinC" + this.minimumCValue + "_" + times);
 
-            Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
             this.view.Scale = 50;
             int i;
 
@@ -140,14 +140,14 @@ namespace SCaddins.SCightLines
                         0,
                         1,
                         0,
-                        this.distanceToFirstRowX.ToString(),
+                        this.distanceToFirstRowX.ToString(CultureInfo.InvariantCulture),
                         TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_TOP);
                     this.DrawText(
                         this.distanceToFirstRowX,
                         this.distanceToFirstRowY / 2,
                         0,
                         1,
-                        this.distanceToFirstRowY.ToString(),
+                        this.distanceToFirstRowY.ToString(CultureInfo.InvariantCulture),
                         TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_BOTTOM);
                 }
 
@@ -177,7 +177,7 @@ namespace SCaddins.SCightLines
                     this.rows[i].HeightToFocus,
                     1,
                     0,
-                    "c:" + Math.Round(this.rows[i].CValue, 2).ToString(),
+                    "c:" + Math.Round(this.rows[i].CValue, 2).ToString(CultureInfo.InvariantCulture),
                     TextAlignFlags.TEF_ALIGN_LEFT);
 
                 // Draw the going text (treadSize)
@@ -186,7 +186,7 @@ namespace SCaddins.SCightLines
                     this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
                     1,
                     0,
-                    "R" + (i + 1).ToString() + " : " + this.treadSize.ToString(),
+                    "R" + (i + 1).ToString(CultureInfo.InvariantCulture) + " : " + this.treadSize.ToString(CultureInfo.InvariantCulture),
                     TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_TOP);
 
                 // Draw the riser text)
@@ -196,7 +196,7 @@ namespace SCaddins.SCightLines
                         this.rows[i].HeightToFocus - this.rows[i].EyeHeight - (this.rows[i].RiserHeight / 2),
                         0,
                         1,
-                        this.rows[i].RiserHeight.ToString(),
+                        this.rows[i].RiserHeight.ToString(CultureInfo.InvariantCulture),
                         TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_BOTTOM);
                 }
             }
@@ -210,7 +210,6 @@ namespace SCaddins.SCightLines
         /// </param>
         private ViewDrafting CreateLineOfSightDraftingView(string s)
         {
-            Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
             ViewDrafting view = null;
             #if REVIT2014
             view = this.doc.Create.NewViewDrafting();
@@ -294,10 +293,10 @@ namespace SCaddins.SCightLines
         private void DrawText(double x, double y, double vx, double vy, string s, TextAlignFlags f)
         {
             Application app = this.doc.Application;
-            XYZ origin = app.Create.NewXYZ(this.FeetToMM(x), this.FeetToMM(y), 0);
+            XYZ origin = app.Create.NewXYZ(SCightLines.FeetToMM(x), SCightLines.FeetToMM(y), 0);
             XYZ normal_base = app.Create.NewXYZ(vx, vy, 0);
             XYZ normal_up = app.Create.NewXYZ(0, 1, 0);
-            TextElement testy = this.doc.Create.NewTextNote(this.view, origin, normal_base, normal_up, this.FeetToMM(10), f, s);
+            TextElement testy = this.doc.Create.NewTextNote(this.view, origin, normal_base, normal_up, SCightLines.FeetToMM(10), f, s);
         }
 
         /// <summary>
@@ -320,8 +319,8 @@ namespace SCaddins.SCightLines
             s += "row:\triser:\tdist:\telev:\tc-value:\r\n";
 
             for (i = 0; i < this.numberOfRows; i++) {
-                string c = i > 0 ? Math.Round(this.rows[i - 1].CValue, 2).ToString() : "NA";
-                string r = i > 0 ? Math.Round(this.rows[i].RiserHeight, 2).ToString() : "NA";
+                string c = i > 0 ? Math.Round(this.rows[i - 1].CValue, 2).ToString(CultureInfo.InvariantCulture) : "NA";
+                string r = i > 0 ? Math.Round(this.rows[i].RiserHeight, 2).ToString(CultureInfo.InvariantCulture) : "NA";
                 s += i + 1 + "\t" + r + "\t"
                 + Math.Round(this.rows[i].EyeToFocusX, 2) + "\t"
                 + Math.Round(this.rows[i].HeightToFocus - this.eyeHeight, 2) + "\t"
@@ -335,8 +334,8 @@ namespace SCaddins.SCightLines
         {
             Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
             double z = 0.0;
-            XYZ point1 = app.Create.NewXYZ(this.FeetToMM(x1), this.FeetToMM(y1), this.FeetToMM(z));
-            XYZ point2 = app.Create.NewXYZ(this.FeetToMM(x2), this.FeetToMM(y2), this.FeetToMM(z));
+            XYZ point1 = app.Create.NewXYZ(SCightLines.FeetToMM(x1), SCightLines.FeetToMM(y1), SCightLines.FeetToMM(z));
+            XYZ point2 = app.Create.NewXYZ(SCightLines.FeetToMM(x2), SCightLines.FeetToMM(y2), SCightLines.FeetToMM(z));
             try {
                 Line line = Line.CreateBound(point1, point2);
                 var detailCurve = this.doc.Create.NewDetailCurve(this.view, line) as DetailLine;
@@ -350,10 +349,10 @@ namespace SCaddins.SCightLines
         {
             Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
             double z = 0.0;
-            XYZ point1 = app.Create.NewXYZ(this.FeetToMM(x1), this.FeetToMM(y1), this.FeetToMM(z));
+            XYZ point1 = app.Create.NewXYZ(SCightLines.FeetToMM(x1), SCightLines.FeetToMM(y1), SCightLines.FeetToMM(z));
             Arc arc = Arc.Create(
                           point1,
-                          this.FeetToMM(125),
+                          SCightLines.FeetToMM(125),
                           0,
                           360, 
                           app.Create.NewXYZ(1, 0, 0),
@@ -390,7 +389,7 @@ namespace SCaddins.SCightLines
         /// <returns>
         /// Returns d in mm
         /// </returns>
-        private double FeetToMM(double d)
+        private static double FeetToMM(double d)
         {
             return d / 304.8;
         }

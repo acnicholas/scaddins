@@ -1,0 +1,21 @@
+﻿<?xml version="1.0"?>
+<Dictionary>
+     <Words>
+        <Recognized>
+            <Word>"Cexport"</Word>
+            <Word>"Caos"</Word>
+            <Word>"Caddins"</Word>
+            <Word>"Cam"</Word>
+            <Word>"SC"</Word>
+        </Recognized>
+    </Words>
+    <Acronyms>
+        <CasingExceptions>
+            <Acronym>DGN</Acronym>
+            <Acronym>PDF</Acronym>
+            <Acronym>DWF</Acronym>
+            <Acronym>DWG</Acronym>
+            <Acronym>SC</Acronym>
+        </CasingExceptions>
+    </Acronyms>
+</Dictionary>

@@ -19,6 +19,7 @@ namespace SCaddins.SCopy
 {
     using System;
     using System.ComponentModel;
+    using System.Globalization;
     using Autodesk.Revit.DB;
 
     /// <summary>
@@ -45,7 +46,7 @@ namespace SCaddins.SCopy
             this.originalTitle = title;
             this.SetDefualtCreationMode();
             this.newTitle =
-                title + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString() + @")";
+                title + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";
             this.associatedLevelName = SCopyConstants.MenuItemCopy;
             this.viewTemplateName = SCopyConstants.MenuItemCopy;
             this.duplicateWithDetailing = true;

@@ -70,9 +70,9 @@ namespace SCaddins.SCoord
                 return;
             }
 
-            double x = Convert.ToDouble(form.textBoxEW.Text, CultureInfo.InvariantCulture);
-            double y = Convert.ToDouble(form.textBoxNS.Text, CultureInfo.InvariantCulture);
-            double z = Convert.ToDouble(form.textBoxElev.Text);
+            double x = Convert.ToDouble(form.textBoxEW.Text, CultureInfo.CurrentCulture);
+            double y = Convert.ToDouble(form.textBoxNS.Text, CultureInfo.CurrentCulture);
+            double z = Convert.ToDouble(form.textBoxElev.Text, CultureInfo.CurrentCulture);
             XYZ newLocation = this.ToMGA(projectPosition, x, y, z);
 
             var t = new Transaction(doc, "Place SCoord");
@@ -97,7 +97,7 @@ namespace SCaddins.SCoord
             collector1.OfCategory(BuiltInCategory.OST_GenericModel);
             collector1.OfClass(typeof(FamilySymbol));
             foreach (FamilySymbol f in collector1) {
-                if (f.Name.ToUpper().Contains("SC-Survey_Point".ToUpper())) {
+                if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture))) {
                     return f;
                 }
             }
@@ -112,7 +112,7 @@ namespace SCaddins.SCoord
                 loadFamily.Commit();
                 #if REVIT2014
                 foreach (FamilySymbol f in fam.Symbols) {
-                    if (f.Name.ToUpper().Contains("SC-Survey_Point".ToUpper())) {
+                    if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture))) {
                         return f;
                     }
                 }
@@ -135,10 +135,10 @@ namespace SCaddins.SCoord
             var collector1 = new FilteredElementCollector(doc);
             collector1.OfClass(typeof(Level));
             foreach (Level l in collector1) {
-                if (l.Name.ToUpper().Contains("SEA")) {
+                if (l.Name.ToUpper(CultureInfo.CurrentCulture).Contains("SEA")) {
                     return l;
                 }
-                if (l.Name.ToUpper().Contains("ZERO")) {
+                if (l.Name.ToUpper(CultureInfo.CurrentCulture).Contains("ZERO")) {
                     return l;
                 }
             }

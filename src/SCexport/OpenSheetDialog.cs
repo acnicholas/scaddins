@@ -18,6 +18,7 @@
 namespace SCaddins.SCexport
 {
     using System;
+    using System.Globalization;
     using System.Windows.Forms;
     
     public partial class OpenSheetDialog : Form
@@ -31,7 +32,7 @@ namespace SCaddins.SCexport
         
         public string Value
         {
-            get { return this.textBox1.Text.ToUpper(); }
+            get { return this.textBox1.Text.ToUpper(CultureInfo.CurrentCulture); }
         }
     }
 }

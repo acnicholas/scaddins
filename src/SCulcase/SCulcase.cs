@@ -27,25 +27,25 @@ namespace SCaddins.SCulcase
     public static class SCulcase
     {
         private static bool commit = true;
-        private static ConversionMode mode = ConversionMode.UPPER_CASE;
+        private static ConversionMode mode = ConversionMode.UpperCase;
         private static string dryRunLogText = string.Empty;
 
         [Flags]
         public enum ConversionTypes
         {
             None = 0,
-            TEXT = 1,
-            SHEET_NAMES = 2,
-            VIEW_NAMES = 4,
-            TITLES_ON_SHEETS = 8,
-            ROOM_NAMES = 16
+            Text = 1,
+            SheetNames = 2,
+            ViewNames = 4,
+            TitlesOnSheets = 8,
+            RoomNames = 16
         }
 
         public enum ConversionMode
         {
-            UPPER_CASE,
-            LOWER_CASE,
-            TITLE_CASE
+            UpperCase,
+            LowerCase,
+            TitleCase
         }
 
         public static void ConvertAll(ConversionMode mode, ConversionTypes types, ref Document doc)
@@ -99,19 +99,19 @@ namespace SCaddins.SCulcase
         private static void Convert(ConversionMode mode, ConversionTypes types, ref Document doc)
         {
             SCulcase.mode = mode;
-            if (types.HasFlag(SCulcase.ConversionTypes.TEXT)) {
+            if (types.HasFlag(SCulcase.ConversionTypes.Text)) {
                 ConvertAllAnnotation(ref doc);
             }
-            if (types.HasFlag(SCulcase.ConversionTypes.VIEW_NAMES)) {
+            if (types.HasFlag(SCulcase.ConversionTypes.ViewNames)) {
                 ConvertAllViewNames(ref doc);
             }
-            if (types.HasFlag(SCulcase.ConversionTypes.ROOM_NAMES)) {  
+            if (types.HasFlag(SCulcase.ConversionTypes.RoomNames)) {  
                 ConvertAllRooms(ref doc);
             }
-            if (types.HasFlag(SCulcase.ConversionTypes.SHEET_NAMES)) {
+            if (types.HasFlag(SCulcase.ConversionTypes.SheetNames)) {
                 ConvertAllSheetNames(ref doc);
             }
-            if (types.HasFlag(SCulcase.ConversionTypes.TITLES_ON_SHEETS)) {
+            if (types.HasFlag(SCulcase.ConversionTypes.TitlesOnSheets)) {
                 ConvertAllViewNamesOnSheet(ref doc);
             }
         }
@@ -220,35 +220,19 @@ namespace SCaddins.SCulcase
             }
         }
 
-        private static void ConvertAllRevisionDescriptions(ref Document doc)
-        {
-            var f = new FilteredElementCollector(doc);
-            f.OfCategory(BuiltInCategory.OST_Revisions);
-            foreach (Element e in f) {
-                foreach (Parameter p in e.Parameters) {
-                    if (p.Definition.Name.ToString().Equals("Revision Description")) {
-                        if (!p.IsReadOnly) {
-                            string v = NewString(p.AsString(), mode);
-                            p.Set(v);
-                        }
-                    }
-                }
-            }
-        }
-
         private static string NewString(string oldString, ConversionMode mode)
         {
             switch (mode) {
-                case ConversionMode.UPPER_CASE:
-                    return oldString.ToUpper();
-                case ConversionMode.LOWER_CASE:
-                    return oldString.ToLower();
-                case ConversionMode.TITLE_CASE:
+                case ConversionMode.UpperCase:
+                    return oldString.ToUpper(CultureInfo.CurrentCulture);
+                case ConversionMode.LowerCase:
+                    return oldString.ToLower(CultureInfo.CurrentCulture);
+                case ConversionMode.TitleCase:
                     CultureInfo cultureInfo = System.Threading.Thread.CurrentThread.CurrentCulture;
                     TextInfo textInfo = cultureInfo.TextInfo;
-                    return textInfo.ToTitleCase(oldString.ToLower());
+                    return textInfo.ToTitleCase(oldString.ToLower(CultureInfo.CurrentCulture));
                 default:
-                    return oldString.ToUpper();
+                    return oldString.ToUpper(CultureInfo.CurrentCulture);
             }
         }
 

@@ -91,7 +91,7 @@ public class SheetName : List<SheetNameSegment>
     /// Adds the nodes from XML config file.
     /// </summary>
     /// <param name="reader"> The reader to access the XML file. </param>
-    public void AddNodesFromXML(ref System.Xml.XmlTextReader reader)
+    public void AddNodesFromXML(System.Xml.XmlTextReader reader)
     {
         do {
             reader.Read();

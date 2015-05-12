@@ -122,10 +122,10 @@ public class SheetNameSegment
     public string Text
     {
         get { return this.text; }
-        set { this.text = this.GetSafeFilename(value); }
+        set { this.text = SheetNameSegment.GetSafeFileName(value); }
     }
     
-    public string GetSafeFilename(string filename)
+    public static string GetSafeFileName(string filename)
     {
         if (filename == null) {
             return null;
@@ -139,7 +139,7 @@ public class SheetNameSegment
     private void Init(SegmentType segmentType, string value)
     {      
         this.type = segmentType;
-        this.text = this.GetSafeFilename(value);
+        this.text = SheetNameSegment.GetSafeFileName(value);
     }
 }
 }

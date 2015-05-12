@@ -53,14 +53,14 @@ namespace SCaddins.SCightLines
             this.info.Hide();
             this.sightLines = new SCightLines(
                 doc,
-                this.GetDub(txtEyeHeight, 1220),
-                this.GetDub(txtGoing, 900),
-                this.GetDub(txtInc, 15),
-                this.GetDub(txtMinC, 60),
-                this.GetDub(txtRiser, 180), 
-                this.GetDub(txtRows, 20),
-                this.GetDub(txtX, 12000),
-                this.GetDub(txtY, 1000));
+                SCightLinesMainForm.GetDub(txtEyeHeight, 1220),
+                SCightLinesMainForm.GetDub(txtGoing, 900),
+                SCightLinesMainForm.GetDub(txtInc, 15),
+                SCightLinesMainForm.GetDub(txtMinC, 60),
+                SCightLinesMainForm.GetDub(txtRiser, 180), 
+                SCightLinesMainForm.GetDub(txtRows, 20),
+                SCightLinesMainForm.GetDub(txtX, 12000),
+                SCightLinesMainForm.GetDub(txtY, 1000));
             this.Show();
             this.Focus();
         }
@@ -75,7 +75,7 @@ namespace SCaddins.SCightLines
         /// Fallback value.
         /// i.e. value to apply if text cannot be parsed
         /// </param>
-        private double GetDub(TextBox t, double fallback)
+        private static double GetDub(TextBox t, double fallback)
         {
             double d;
             try {
@@ -91,14 +91,14 @@ namespace SCaddins.SCightLines
         private void ButtonTest_Click(object sender, EventArgs e)
         {
             this.sightLines.Update(
-                this.GetDub(this.txtEyeHeight, 1220),
-                this.GetDub(this.txtGoing, 900),
-                this.GetDub(this.txtInc, 15),
-                this.GetDub(this.txtMinC, 60),
-                this.GetDub(this.txtRiser, 280),
-                this.GetDub(this.txtRows, 10),
-                this.GetDub(this.txtX, 10000),
-                this.GetDub(this.txtY, 1000));
+                SCightLinesMainForm.GetDub(this.txtEyeHeight, 1220),
+                SCightLinesMainForm.GetDub(this.txtGoing, 900),
+                SCightLinesMainForm.GetDub(this.txtInc, 15),
+                SCightLinesMainForm.GetDub(this.txtMinC, 60),
+                SCightLinesMainForm.GetDub(this.txtRiser, 280),
+                SCightLinesMainForm.GetDub(this.txtRows, 10),
+                SCightLinesMainForm.GetDub(this.txtX, 10000),
+                SCightLinesMainForm.GetDub(this.txtY, 1000));
             try {
                 this.info.Update(this.sightLines.InfoString);
                 this.info.Show();
@@ -112,14 +112,14 @@ namespace SCaddins.SCightLines
         private void ButtonCreate_Click(object sender, EventArgs e)
         {
             this.sightLines.Update(
-                this.GetDub(this.txtEyeHeight, 1220),
-                this.GetDub(this.txtGoing, 900),
-                this.GetDub(this.txtInc, 15),
-                this.GetDub(this.txtMinC, 60),
-                this.GetDub(this.txtRiser, 180),
-                this.GetDub(this.txtRows, 20),
-                this.GetDub(this.txtX, 12000),
-                this.GetDub(this.txtY, 1000));
+                SCightLinesMainForm.GetDub(this.txtEyeHeight, 1220),
+                SCightLinesMainForm.GetDub(this.txtGoing, 900),
+                SCightLinesMainForm.GetDub(this.txtInc, 15),
+                SCightLinesMainForm.GetDub(this.txtMinC, 60),
+                SCightLinesMainForm.GetDub(this.txtRiser, 180),
+                SCightLinesMainForm.GetDub(this.txtRows, 20),
+                SCightLinesMainForm.GetDub(this.txtX, 12000),
+                SCightLinesMainForm.GetDub(this.txtY, 1000));
             this.sightLines.Draw();
             this.Focus();
         }

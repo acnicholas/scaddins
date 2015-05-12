@@ -18,6 +18,7 @@
 namespace SCaddins.SCexport
 {
     using System;
+    using System.Globalization;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
@@ -49,8 +50,8 @@ namespace SCaddins.SCexport
                 return "B1";
             }
 
-            return Math.Round(r.Width).ToString() + "x" +
-                Math.Round(r.Height).ToString();
+            return Math.Round(r.Width).ToString(CultureInfo.InvariantCulture) + "x" +
+                Math.Round(r.Height).ToString(CultureInfo.InvariantCulture);
         }
         
         /// <summary>
@@ -112,9 +113,9 @@ namespace SCaddins.SCexport
         }
             
         public static bool ApplyPrintSettings(
-                ref Document doc,
+                Document doc,
                 string size,
-                ref PrintManager pm,
+                PrintManager pm,
                 string printerName)
         {
             PrintSetting ps = PrintSettings.AssignPrintSetting(
@@ -156,9 +157,9 @@ namespace SCaddins.SCexport
         /// <param name="printerName">The name of the printer to print to.</param>
         /// <returns>True if successful.</returns>
         public static bool ApplyPrintSettings(
-                ref Document doc,
+                Document doc,
                 SCexportSheet vs,
-                ref PrintManager pm,
+                PrintManager pm,
                 string ext,
                 string printerName)
         {

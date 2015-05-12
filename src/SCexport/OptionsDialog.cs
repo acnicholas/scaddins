@@ -46,17 +46,17 @@ namespace SCaddins.SCexport
         private void LoadValues()
         {
             this.radioPDF.Checked = this.scx.HasFlag(SCexport.ExportFlags.PDF);
-            this.radioGSPDF.Checked = this.scx.HasFlag(SCexport.ExportFlags.GS_PDF);
+            this.radioGSPDF.Checked = this.scx.HasFlag(SCexport.ExportFlags.GhostscriptPDF);
             this.checkBoxDGN.Checked = this.scx.HasFlag(SCexport.ExportFlags.DGN);
             this.checkBoxDWG.Checked = this.scx.HasFlag(SCexport.ExportFlags.DWG);
             this.checkBoxDWF.Checked = this.scx.HasFlag(SCexport.ExportFlags.DWF);
             this.checkBoxTagPDF.Checked =
-                this.scx.HasFlag(SCexport.ExportFlags.TAG_PDF);
+                this.scx.HasFlag(SCexport.ExportFlags.TagPDFExports);
             this.checkBoxHideTitleblock.Checked =
-                this.scx.HasFlag(SCexport.ExportFlags.NO_TITLE);
+                this.scx.HasFlag(SCexport.ExportFlags.NoTitle);
             this.checkBoxForceDate.Checked = this.scx.ForceDate;
-            if (this.scx.FilenameScheme != null) {
-                this.comboBoxScheme.Text = this.scx.FilenameScheme.Name;
+            if (this.scx.FileNameScheme != null) {
+                this.comboBoxScheme.Text = this.scx.FileNameScheme.Name;
             }
             this.comboBoxAutocadVersion.SelectedIndex = 
                 this.comboBoxAutocadVersion.FindStringExact(SCexport.AcadVersionToString(this.scx.AcadVersion));
@@ -66,7 +66,7 @@ namespace SCaddins.SCexport
             #endif
             this.textBoxAdobeDriver.Text = this.scx.PdfPrinterName;
             this.textBoxPSPrinter.Text = this.scx.PostscriptPrinterName;
-            this.textBoxGSBin.Text = this.scx.GhostsciptBinDir;
+            this.textBoxGSBin.Text = this.scx.GhostscriptBinDir;
             this.textBoxGSLib.Text = this.scx.GhostsciptLibDir;
             this.textBoxA3Printer.Text = this.scx.PrinterNameA3;
             textBoxTextEditor.Text = SCaddins.SCexport.Settings1.Default.TextEditor;
@@ -76,12 +76,12 @@ namespace SCaddins.SCexport
         
         private void SaveValues()
         {
-            this.scx.GhostsciptBinDir = textBoxGSBin.Text;
+            this.scx.GhostscriptBinDir = textBoxGSBin.Text;
             this.scx.GhostsciptLibDir = textBoxGSLib.Text;
             this.scx.PrinterNameA3 = textBoxA3Printer.Text;
             this.scx.PostscriptPrinterName = textBoxPSPrinter.Text;
             this.scx.PdfPrinterName = textBoxAdobeDriver.Text;
-            SCaddins.SCexport.Settings1.Default.GSBinDirectory = this.scx.GhostsciptBinDir;         
+            SCaddins.SCexport.Settings1.Default.GSBinDirectory = this.scx.GhostscriptBinDir;         
             SCaddins.SCexport.Settings1.Default.AdobePrinterDriver = this.scx.PdfPrinterName;  
             SCaddins.SCexport.Settings1.Default.A3PrinterDriver = this.scx.PrinterNameA3;   
             SCaddins.SCexport.Settings1.Default.PSPrinterDriver = this.scx.PostscriptPrinterName;  
@@ -134,9 +134,9 @@ namespace SCaddins.SCexport
             this.checkBoxDGN.Tag = SCexport.ExportFlags.DGN;
             this.checkBoxDWF.Tag = SCexport.ExportFlags.DWF;
             this.checkBoxDWG.Tag = SCexport.ExportFlags.DWG;
-            this.radioGSPDF.Tag = SCexport.ExportFlags.GS_PDF;
-            this.checkBoxTagPDF.Tag = SCexport.ExportFlags.TAG_PDF;
-            this.checkBoxHideTitleblock.Tag = SCexport.ExportFlags.NO_TITLE;
+            this.radioGSPDF.Tag = SCexport.ExportFlags.GhostscriptPDF;
+            this.checkBoxTagPDF.Tag = SCexport.ExportFlags.TagPDFExports;
+            this.checkBoxHideTitleblock.Tag = SCexport.ExportFlags.NoTitle;
         }
         
         private void ToggleCheckBoxValue(object sender, EventArgs e)
@@ -176,7 +176,7 @@ namespace SCaddins.SCexport
         private void ComboBox1SelectedIndexChanged(object sender, EventArgs e)
         {
             string s = this.comboBoxScheme.Text;
-            this.scx.SetFilenameScheme(s);
+            this.scx.SetFileNameScheme(s);
         }
         
         private void ComboBoxAutocadVersionSelectedIndexChanged(object sender, EventArgs e)
@@ -187,7 +187,7 @@ namespace SCaddins.SCexport
               
         private void ButtonCreateConfigClick(object sender, EventArgs e)
         {
-            FileUtils.CreateConfigFile(ref this.doc);
+            FileUtils.CreateConfigFile(this.doc);
             this.buttonEditConfig.Enabled = true;
         }
         

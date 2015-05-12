@@ -19,6 +19,7 @@ namespace SCaddins.SCopy
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -98,7 +99,7 @@ namespace SCaddins.SCopy
         public bool CheckSheetNumberAvailability(string number)
         {
             foreach (SCopySheet s in this.sheets) {
-                if (s.Number.ToUpper().Equals(number.ToUpper())) {
+                if (s.Number.ToUpper(CultureInfo.InvariantCulture).Equals(number.ToUpper(CultureInfo.InvariantCulture))) {
                     return false;
                 }
             }
@@ -109,7 +110,7 @@ namespace SCaddins.SCopy
         {
             foreach (SCopySheet s in this.sheets) {
                 foreach (SCopyViewOnSheet v in s.ViewsOnSheet) {
-                    if (v.Title.ToUpper().Equals(title.ToUpper())) {
+                    if (v.Title.ToUpper(CultureInfo.InvariantCulture).Equals(title.ToUpper(CultureInfo.InvariantCulture))) {
                         return false;
                     }
                 }
@@ -125,10 +126,10 @@ namespace SCaddins.SCopy
             }
             list.Items.Clear();
             var colour = System.Drawing.Color.Gray;
-            this.AddViewsToList(list, "Title", viewSheet.Name, colour, 0);
-            this.AddViewsToList(list, "Sheet Number", viewSheet.SheetNumber, colour, 0);
+            SCopy.AddViewsToList(list, "Title", viewSheet.Name, colour, 0);
+            SCopy.AddViewsToList(list, "Sheet Number", viewSheet.SheetNumber, colour, 0);
             #if REVIT2014
-            this.AddViewsToList(list, viewSheet.Views);
+            AddViewsToList(list, viewSheet.Views);
             #else
             this.AddViewsToList(list, viewSheet.GetAllPlacedViews());
             #endif
@@ -168,7 +169,7 @@ namespace SCaddins.SCopy
              System.Windows.Forms.ListView list,
              ISet<ElementId> views)
         {
-           this.AddViewsToList(
+           SCopy.AddViewsToList(
                 list,
                 "Number of viewports",
                 views.Count.ToString(),
@@ -177,7 +178,7 @@ namespace SCaddins.SCopy
             int i = 1;
             foreach (ElementId id in views) {
                 var view = this.doc.GetElement(id) as View;
-                this.AddViewsToList(
+                SCopy.AddViewsToList(
                     list,
                     "View: " + i,
                     view.Name,
@@ -187,11 +188,11 @@ namespace SCaddins.SCopy
             }
         }        
         
-        private void AddViewsToList(
+        private static void AddViewsToList(
             System.Windows.Forms.ListView list,
             ViewSet views)
         {
-            this.AddViewsToList(
+            SCopy.AddViewsToList(
                 list,
                 "Number of viewports",
                 views.Size.ToString(),
@@ -199,7 +200,7 @@ namespace SCaddins.SCopy
                 1);
             int i = 1;
             foreach (View view in views) {
-                this.AddViewsToList(
+                SCopy.AddViewsToList(
                     list,
                     "View: " + i,
                     view.Name,
@@ -209,7 +210,7 @@ namespace SCaddins.SCopy
             }
         }
 
-        private void AddViewsToList(
+        private static void AddViewsToList(
             System.Windows.Forms.ListView list,
             string title,
             string value,
@@ -370,25 +371,11 @@ namespace SCaddins.SCopy
                 ElementTransformUtils.CopyElements(sheet.SourceSheet, list, sheet.DestSheet, null, null);
             }
         }
-        
-        private void CopyLinesOnSheet(SCopySheet sheet)
-        {
-            var v = sheet.SourceSheet as View;
-            var collector = new FilteredElementCollector(this.doc, v.Id);
-            collector.OfClass(typeof(Autodesk.Revit.DB.Line));
-            IList<ElementId> list = new List<ElementId>();
-            foreach (Element e in collector) {
-                list.Add(e.Id);
-            }
-            if (list.Count > 0) {
-                ElementTransformUtils.CopyElements(sheet.SourceSheet, list, sheet.DestSheet, null, null);
-            }
-        }
-        
+             
         private void PlaceNewViews(SCopySheet sheet)
         {
             Dictionary<ElementId, BoundingBoxXYZ> viewPorts =
-                this.GetVPDictionary(sheet.SourceSheet, this.doc);
+                SCopy.GetVPDictionary(sheet.SourceSheet, this.doc);
 
             foreach (SCopyViewOnSheet view in sheet.ViewsOnSheet) {
                 BoundingBoxXYZ srcViewBounds = null;
@@ -397,7 +384,7 @@ namespace SCaddins.SCopy
                     continue;
                 }
             
-                XYZ sourceViewCentre = this.ViewCenterFromTBBottomLeft(
+                XYZ sourceViewCentre = SCopy.ViewCenterFromTBBottomLeft(
                                            this.sourceTitleBlock, srcViewBounds, sheet.SourceSheet);
               
                 switch (view.CreationMode) {
@@ -443,7 +430,7 @@ namespace SCaddins.SCopy
             this.PlaceViewOnSheet(sheet.DestSheet, destViewId, sourceViewCentre);
         }
 
-        private XYZ ViewCenterFromTBBottomLeft(
+        private static XYZ ViewCenterFromTBBottomLeft(
             FamilyInstance titleBlock, BoundingBoxXYZ viewBounds, View view)
         {
             XYZ xyzPosition = (viewBounds.Max + viewBounds.Min) / 2.0;
@@ -464,7 +451,7 @@ namespace SCaddins.SCopy
             }
         }
         
-        private Dictionary<ElementId, BoundingBoxXYZ> GetVPDictionary(
+        private static Dictionary<ElementId, BoundingBoxXYZ> GetVPDictionary(
             ViewSheet srcSheet, Document doc)
         {
             var result = new Dictionary<ElementId, BoundingBoxXYZ>();

@@ -27,7 +27,7 @@ namespace SCaddins.SCexport
         /// <summary>
         /// The acrobat Printer Job Control Registry setting.
         /// </summary>
-        public const string AcrobatPJC =
+        public const string AcrobatPrinterJobControl =
             @"HKEY_CURRENT_USER\Software\Adobe\Acrobat Distiller\PrinterJobControl";
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace SCaddins.SCexport
             @"HKEY_CURRENT_USER\Control Panel\Desktop";
 
         /// <summary> Example project configuration file. </summary>
-        public const string ExampleConfigFilename = "SCexport-example-conf.xml";
+        public const string ExampleConfigFileName = "SCexport-example-conf.xml";
 
         /// <summary>The export directory.</summary>
         public const string DefaultExportDir = "C:\\Temp";

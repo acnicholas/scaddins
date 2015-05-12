@@ -21,6 +21,7 @@ namespace SCaddins.SCexport
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing;
+    using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
@@ -298,7 +299,7 @@ namespace SCaddins.SCexport
         private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!this.searchBox.Visible) {
-                switch (e.KeyChar.ToString().ToUpper()) {
+                switch (e.KeyChar.ToString().ToUpper(CultureInfo.CurrentCulture)) {
                 case "A":
                     this.SelectAllOrNone(true);
                     break;
@@ -452,8 +453,8 @@ namespace SCaddins.SCexport
             if (this.scx.HasFlag(SCexport.ExportFlags.DGN)) {
                 s += @" " + SCexport.ExportFlags.DGN.ToString();
             }
-            if (this.scx.HasFlag(SCexport.ExportFlags.GS_PDF)) {
-                s += @" " + SCexport.ExportFlags.GS_PDF.ToString();
+            if (this.scx.HasFlag(SCexport.ExportFlags.GhostscriptPDF)) {
+                s += @" " + SCexport.ExportFlags.GhostscriptPDF.ToString();
             }
             this.btnExport.Text = s;
             this.dataGridView1.Refresh();
@@ -461,7 +462,7 @@ namespace SCaddins.SCexport
 
         private void MnuSchemeSelected_Click(object sender, EventArgs e)
         {
-            this.scx.SetFilenameScheme(sender.ToString());
+            this.scx.SetFileNameScheme(sender.ToString());
             this.dataGridView1.Refresh();
         }
 
@@ -473,7 +474,7 @@ namespace SCaddins.SCexport
         private void CreateConfigFileToolStripMenuItem_Click(
                 object sender, EventArgs e)
         {
-            FileUtils.CreateConfigFile(ref this.doc);
+            FileUtils.CreateConfigFile(this.doc);
         }
 
         private void EditConfigFileToolStripMenuItem_Click(

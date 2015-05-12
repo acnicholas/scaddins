@@ -32,7 +32,7 @@ namespace SCaddins.SCulcase
         {
             this.doc = doc;    
             this.conversionTypes = SCulcase.ConversionTypes.None;
-            this.conversionMode = SCulcase.ConversionMode.UPPER_CASE;
+            this.conversionMode = SCulcase.ConversionMode.UpperCase;
             this.InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.TagCheckBoxes();
@@ -41,11 +41,11 @@ namespace SCaddins.SCulcase
                
         private void TagCheckBoxes()
         {
-            chkAnnotation.Tag = SCulcase.ConversionTypes.TEXT;
-            chkRooms.Tag = SCulcase.ConversionTypes.ROOM_NAMES;
-            chkSheets.Tag = SCulcase.ConversionTypes.SHEET_NAMES;
-            chkViews.Tag = SCulcase.ConversionTypes.VIEW_NAMES;
-            chkViewTitleOnSheets.Tag = SCulcase.ConversionTypes.TITLES_ON_SHEETS;
+            chkAnnotation.Tag = SCulcase.ConversionTypes.Text;
+            chkRooms.Tag = SCulcase.ConversionTypes.RoomNames;
+            chkSheets.Tag = SCulcase.ConversionTypes.SheetNames;
+            chkViews.Tag = SCulcase.ConversionTypes.ViewNames;
+            chkViewTitleOnSheets.Tag = SCulcase.ConversionTypes.TitlesOnSheets;
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -61,21 +61,21 @@ namespace SCaddins.SCulcase
         private void RadioButton1_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton1.Checked) {
-                this.conversionMode = SCulcase.ConversionMode.UPPER_CASE;
+                this.conversionMode = SCulcase.ConversionMode.UpperCase;
             }
         }
 
         private void RadioButton2_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton2.Checked) {
-                this.conversionMode = SCulcase.ConversionMode.LOWER_CASE;
+                this.conversionMode = SCulcase.ConversionMode.LowerCase;
             }
         }
         
         private void RadioButton3CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton3.Checked) {
-                this.conversionMode = SCulcase.ConversionMode.TITLE_CASE;
+                this.conversionMode = SCulcase.ConversionMode.TitleCase;
             }
         }
 

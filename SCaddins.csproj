@@ -312,6 +312,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
     <None Include="src\Manifest\2014\SCaddins.addin" />
     <None Include="src\Manifest\2015\SCaddins.addin" />
     <None Include="src\Scaddins.settings">

@@ -18,6 +18,7 @@
 namespace SCaddins.SCaos
 {
     using System;
+    using System.Globalization;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
@@ -82,8 +83,8 @@ namespace SCaddins.SCaos
                 info[2] = "Time - " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongTimeString();
                 info[3] = "Sunrise - " + sunSettings.GetSunrise(sunSettings.ActiveFrameTime).ToLocalTime().ToLongTimeString();
                 info[4] = "Sunset - " + sunSettings.GetSunset(sunSettings.ActiveFrameTime).ToLocalTime().ToLongTimeString();
-                info[5] = "Sun Altitude - " + altdeg.ToString();
-                info[6] = "Sun Azimuth - " + azdeg.ToString();
+                info[5] = "Sun Altitude - " + altdeg.ToString(CultureInfo.InvariantCulture);
+                info[6] = "Sun Azimuth - " + azdeg.ToString(CultureInfo.InvariantCulture);
                 return info;
             }
         }
@@ -94,7 +95,7 @@ namespace SCaddins.SCaos
             f.OfClass(typeof(Autodesk.Revit.DB.View));
             string result = string.Empty;
             foreach (Autodesk.Revit.DB.View view in f) {
-                string name = view.Name.ToUpper();
+                string name = view.Name.ToUpper(CultureInfo.CurrentCulture);
                 if (view.ViewType == ViewType.ThreeD || view.ViewType == ViewType.FloorPlan) {
                     if (name.Contains("SOLAR") || name.Contains("SHADOW")) {
                         result += string.Join(System.Environment.NewLine, this.GetViewInfo(view));
@@ -164,7 +165,8 @@ namespace SCaddins.SCaos
 
         private string XYZToString(XYZ xyz)
         {
-            return xyz.X.ToString() + @"," + xyz.Y.ToString() + @"," + xyz.Z.ToString();
+            return xyz.X.ToString(CultureInfo.InvariantCulture) + @"," +
+                xyz.Y.ToString() + @"," + xyz.Z.ToString(CultureInfo.InvariantCulture);
         }
 
         private void RotateView(View view, Document doc, UIDocument udoc)

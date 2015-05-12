@@ -29,7 +29,7 @@ namespace SCaddins.SCexport
     {   
         public static bool ConfigFileExists(Document doc)
         {
-             string config = SCexport.GetConfigFilename(ref doc);
+             string config = SCexport.GetConfigFileName(ref doc);
              return System.IO.File.Exists(config);   
         }
 
@@ -40,7 +40,7 @@ namespace SCaddins.SCexport
         /// <param name="doc">The current Revit document.</param>
         public static void EditConfigFile(ref Document doc)
         {
-            string config = SCexport.GetConfigFilename(ref doc);
+            string config = SCexport.GetConfigFileName(ref doc);
             if (System.IO.File.Exists(config)) {
                 System.Diagnostics.Process.Start(SCaddins.SCexport.Settings1.Default.TextEditor, config);
             } else {
@@ -52,9 +52,9 @@ namespace SCaddins.SCexport
         /// Create a config file for the current revit model.
         /// </summary>
         /// <param name="doc">The current revit document.</param>
-        public static void CreateConfigFile(ref Document doc)
+        public static void CreateConfigFile(Document doc)
         {
-            string config = SCexport.GetConfigFilename(ref doc);
+            string config = SCexport.GetConfigFileName(ref doc);
             TaskDialogResult overwrite = TaskDialogResult.Yes;
             if (System.IO.File.Exists(config)) {
                 string msg = "config exists, do you want to overwrite?";
@@ -69,7 +69,7 @@ namespace SCaddins.SCexport
                     Path.DirectorySeparatorChar +
                     SCaddins.Constants.ShareDir +
                     Path.DirectorySeparatorChar +
-                    Constants.ExampleConfigFilename;
+                    Constants.ExampleConfigFileName;
                 if (System.IO.File.Exists(example)) {
                     System.IO.File.Copy(example, config, true);
                 }
@@ -81,7 +81,7 @@ namespace SCaddins.SCexport
         /// </summary>
         /// <returns><c>true</c> if it is a valid filename; otherwise, <c>false</c>.</returns>
         /// <param name="fileName"> File name. </param>
-        public static bool IsValidFilename(string fileName)
+        public static bool IsValidFileName(string fileName)
         {
            var valid = !string.IsNullOrEmpty(fileName) &&
               fileName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
@@ -115,7 +115,7 @@ namespace SCaddins.SCexport
         /// </summary>
         /// <returns>The central filename.</returns>
         /// <param name="doc">The current Revit document.</param>
-        public static string GetCentralFilename(Document doc)
+        public static string GetCentralFileName(Document doc)
         {
             if (doc.IsWorkshared) {
             #if REVIT2012

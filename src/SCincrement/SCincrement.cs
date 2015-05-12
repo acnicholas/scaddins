@@ -16,6 +16,7 @@ namespace SCaddins.SCincrement
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Text.RegularExpressions;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
@@ -111,7 +112,7 @@ namespace SCaddins.SCincrement
         {
             s = Regex.Replace(s, @"(^.*)(zz.*$)", @"$1");
             s = Regex.Replace(s, SCincrementSettings.Default.DestinationSearchPattern, SCincrementSettings.Default.DestinationReplacePattern);
-            return s.Replace("#VAL#", i.ToString());
+            return s.Replace("#VAL#", i.ToString(CultureInfo.InvariantCulture));
         }
 
         private Parameter GetParameterForReference(Document doc, Reference r)
