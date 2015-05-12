@@ -67,7 +67,7 @@ namespace SCaddins.SCexport
             this.textBoxAdobeDriver.Text = this.scx.PdfPrinterName;
             this.textBoxPSPrinter.Text = this.scx.PostscriptPrinterName;
             this.textBoxGSBin.Text = this.scx.GhostscriptBinDir;
-            this.textBoxGSLib.Text = this.scx.GhostsciptLibDir;
+            this.textBoxGSLib.Text = this.scx.GhostscriptLibDir;
             this.textBoxA3Printer.Text = this.scx.PrinterNameA3;
             textBoxTextEditor.Text = SCaddins.SCexport.Settings1.Default.TextEditor;
             checkBoxTagPDF.Checked = SCaddins.SCexport.Settings1.Default.TagPDFExports;
@@ -77,7 +77,7 @@ namespace SCaddins.SCexport
         private void SaveValues()
         {
             this.scx.GhostscriptBinDir = textBoxGSBin.Text;
-            this.scx.GhostsciptLibDir = textBoxGSLib.Text;
+            this.scx.GhostscriptLibDir = textBoxGSLib.Text;
             this.scx.PrinterNameA3 = textBoxA3Printer.Text;
             this.scx.PostscriptPrinterName = textBoxPSPrinter.Text;
             this.scx.PdfPrinterName = textBoxAdobeDriver.Text;
@@ -85,7 +85,7 @@ namespace SCaddins.SCexport
             SCaddins.SCexport.Settings1.Default.AdobePrinterDriver = this.scx.PdfPrinterName;  
             SCaddins.SCexport.Settings1.Default.A3PrinterDriver = this.scx.PrinterNameA3;   
             SCaddins.SCexport.Settings1.Default.PSPrinterDriver = this.scx.PostscriptPrinterName;  
-            SCaddins.SCexport.Settings1.Default.GSLibDirectory = this.scx.GhostsciptLibDir;  
+            SCaddins.SCexport.Settings1.Default.GSLibDirectory = this.scx.GhostscriptLibDir;  
             SCaddins.SCexport.Settings1.Default.TextEditor = textBoxTextEditor.Text;
             SCaddins.SCexport.Settings1.Default.TagPDFExports = checkBoxTagPDF.Checked;
             SCaddins.SCexport.Settings1.Default.ExportDir = this.textBoxExportDir.Text;
@@ -108,7 +108,7 @@ namespace SCaddins.SCexport
                 
         private void PopulateSchemeMenu()
         {
-            foreach (SheetName scxn in this.scx.FilenameTypes) {
+            foreach (SheetName scxn in this.scx.FileNameTypes) {
                 if (scxn.Name != null) {
                     this.comboBoxScheme.Items.Add(scxn.Name);
                 }
@@ -127,7 +127,7 @@ namespace SCaddins.SCexport
                 this.checkBox1.Enabled = false;
                 this.checkBox1.Text = "PDF disabled, check settings!!!";
             }
-            if (!FileUtils.ConfigFileExists(this.doc)) {
+            if (!FileUtilities.ConfigFileExists(this.doc)) {
                 this.buttonEditConfig.Enabled = false;
             }
             this.radioPDF.Tag = SCexport.ExportFlags.PDF;
@@ -187,13 +187,13 @@ namespace SCaddins.SCexport
               
         private void ButtonCreateConfigClick(object sender, EventArgs e)
         {
-            FileUtils.CreateConfigFile(this.doc);
+            FileUtilities.CreateConfigFile(this.doc);
             this.buttonEditConfig.Enabled = true;
         }
         
         private void ButtonEditConfigClick(object sender, EventArgs e)
         {  
-            FileUtils.EditConfigFile(ref this.doc);
+            FileUtilities.EditConfigFile(this.doc);
         }
                    
         private void ButtonWorkingFilesClick(object sender, EventArgs e)
@@ -240,7 +240,7 @@ namespace SCaddins.SCexport
             this.SaveValues();
         }
         
-        private void SetPrinter(TextBox textBox)
+        private static void SetPrinter(TextBox textBox)
         {
             var dialog = new SelectPrinterDialog();
             System.Windows.Forms.DialogResult result = dialog.ShowDialog();
@@ -251,17 +251,17 @@ namespace SCaddins.SCexport
         
         private void ButtonPSPrinterClick(object sender, System.EventArgs e)
         {
-            this.SetPrinter(this.textBoxPSPrinter);
+            SetPrinter(this.textBoxPSPrinter);
         }
         
         private void ButtonA3PrinterClick(object sender, System.EventArgs e)
         {
-            this.SetPrinter(this.textBoxA3Printer);
+            SetPrinter(this.textBoxA3Printer);
         }
         
         private void ButtonAdobePrinterClick(object sender, System.EventArgs e)
         {
-            this.SetPrinter(this.textBoxAdobeDriver);
+            SetPrinter(this.textBoxAdobeDriver);
         }
         
         private void BtnSelectTextEditorClick(object sender, System.EventArgs e)

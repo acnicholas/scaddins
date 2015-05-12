@@ -40,7 +40,7 @@ namespace SCaddins.SCexport
         private static string activeDoc;
         private static string author;
         private static string nonIssueTag;
-        private ExportFlags flags;
+        private ExportFlags exportFlags;
         private List<SheetName> fileNameTypes;
         private List<ViewSheetSetCombo> allViewSheetSets;
         private SheetName fileNameScheme;
@@ -64,11 +64,11 @@ namespace SCaddins.SCexport
             this.allViewSheetSets = new List<ViewSheetSetCombo>();
             this.allSheets = new SortableBindingList<SCexportSheet>();
             this.fileNameTypes = new List<SheetName>();
-            this.flags = ExportFlags.None;
+            this.exportFlags = ExportFlags.None;
             this.LoadSettings();
             this.SetDefaultFlags();
-            SCexport.PopulateViewSheetSets(ref this.allViewSheetSets);
-            this.PopulateSheets(ref this.allSheets);
+            SCexport.PopulateViewSheetSets(this.allViewSheetSets);
+            this.PopulateSheets(this.allSheets);
             SCexport.FixAcrotrayHang();
         }
 
@@ -131,7 +131,7 @@ namespace SCaddins.SCexport
             get; set;
         }
 
-        public string GhostsciptLibDir
+        public string GhostscriptLibDir
         {
             get; set;
         }
@@ -145,7 +145,7 @@ namespace SCaddins.SCexport
         /// Gets the available filename schemes.
         /// </summary>
         /// <value>Gets the value of the filenameTypes field.</value>
-        public List<SheetName> FilenameTypes
+        public List<SheetName> FileNameTypes
         {
             get { return this.fileNameTypes; }
         }
@@ -247,8 +247,8 @@ namespace SCaddins.SCexport
         {
             FamilyInstance result;
             if ((titleBlocks == null) ||
-                (activeDoc != FileUtils.GetCentralFileName(doc))) {
-                activeDoc = FileUtils.GetCentralFileName(doc);
+                (activeDoc != FileUtilities.GetCentralFileName(doc))) {
+                activeDoc = FileUtilities.GetCentralFileName(doc);
                 titleBlocks = AllTitleBlocks(doc);
             }
 
@@ -327,9 +327,9 @@ namespace SCaddins.SCexport
         public static string GetDateString()
         {
             DateTime moment = DateTime.Now;
-            string syear = moment.Year.ToString();
-            string smonth = SCexport.PadLeftZero(moment.Month.ToString(), 2);
-            string sday = SCexport.PadLeftZero(moment.Day.ToString(), 2);
+            string syear = moment.Year.ToString(CultureInfo.CurrentCulture);
+            string smonth = SCexport.PadLeftZero(moment.Month.ToString(CultureInfo.CurrentCulture), 2);
+            string sday = SCexport.PadLeftZero(moment.Day.ToString(CultureInfo.CurrentCulture), 2);
             return syear + smonth + sday;
         }
 
@@ -344,7 +344,7 @@ namespace SCaddins.SCexport
         /// </returns>
         public static string CreateSCexportConfig(Document doc)
         {
-            string s = GetConfigFileName(ref doc);
+            string s = GetConfigFileName(doc);
             return File.Exists(s) ? s : null;
         }
 
@@ -355,9 +355,9 @@ namespace SCaddins.SCexport
         /// </summary>
         /// <param name="doc">The active revit document.</param>
         /// <returns>The name of the config file.</returns>
-        public static string GetConfigFileName(ref Document doc)
+        public static string GetConfigFileName(Document doc)
         {
-            string central = FileUtils.GetCentralFileName(doc);
+            string central = FileUtilities.GetCentralFileName(doc);
             string s = Path.GetDirectoryName(central) + @"\" +
                 Path.GetFileNameWithoutExtension(central) + ".xml";
             return s;
@@ -399,13 +399,13 @@ namespace SCaddins.SCexport
         {
             var r = new RevisionSelectionDialog(doc);
             var result = r.ShowDialog();
-            if ((r.ID != null) && (result == System.Windows.Forms.DialogResult.OK)) {
+            if ((r.Id != null) && (result == System.Windows.Forms.DialogResult.OK)) {
                 var t = new Transaction(doc, "SCexport: Add new revisions");
                 t.Start();
                 foreach (SCexportSheet sheet in sheets) {
                     #if REVIT2014
                     ICollection<ElementId> il = sheet.Sheet.GetAdditionalProjectRevisionIds();
-                    il.Add(r.ID);
+                    il.Add(r.Id);
                     sheet.Sheet.SetAdditionalProjectRevisionIds(il);
                     #else
                     ICollection<ElementId> il = sheet.Sheet.GetAdditionalRevisionIds();
@@ -548,7 +548,7 @@ namespace SCaddins.SCexport
         /// <param name="f"> The Flag to add. </param>
         public void AddExportFlag(ExportFlags f)
         {
-            this.flags |= f;
+            this.exportFlags |= f;
         }
 
         /// <summary>
@@ -557,7 +557,7 @@ namespace SCaddins.SCexport
         /// <param name="f"> The flag to remove. </param>
         public void RemoveExportFlag(ExportFlags f)
         {
-            this.flags = this.flags & ~f;
+            this.exportFlags = this.exportFlags & ~f;
         }
 
         /// <summary>
@@ -567,7 +567,7 @@ namespace SCaddins.SCexport
         /// <param name="f"> The flag to evaluate. </param>
         public bool HasFlag(ExportFlags f)
         {
-            return this.flags.HasFlag(f);
+            return this.exportFlags.HasFlag(f);
         }
 
         /// <summary>
@@ -612,9 +612,9 @@ namespace SCaddins.SCexport
             }
 
             // Tag file
-            if (this.flags.HasFlag(SCexport.ExportFlags.TagPDFExports) &&
-                (this.flags.HasFlag(SCexport.ExportFlags.PDF) ||
-                 this.flags.HasFlag(SCexport.ExportFlags.GhostscriptPDF)))
+            if (this.exportFlags.HasFlag(SCexport.ExportFlags.TagPDFExports) &&
+                (this.exportFlags.HasFlag(SCexport.ExportFlags.PDF) ||
+                 this.exportFlags.HasFlag(SCexport.ExportFlags.GhostscriptPDF)))
             {
                 foreach (SCexportSheet sheet in sheets) {
                     if (sheet.SheetRevisionDate.Length < 1) {
@@ -636,7 +636,7 @@ namespace SCaddins.SCexport
 
         public bool GSSanityCheck()
         {
-            if (!Directory.Exists(this.GhostscriptBinDir) || !Directory.Exists(this.GhostsciptLibDir)) {
+            if (!Directory.Exists(this.GhostscriptBinDir) || !Directory.Exists(this.GhostscriptLibDir)) {
                 return false;
             }
             var ps = new System.Drawing.Printing.PrinterSettings();
@@ -657,7 +657,7 @@ namespace SCaddins.SCexport
             this.PdfPrinterName = SCaddins.SCexport.Settings1.Default.AdobePrinterDriver; 
             this.PrinterNameA3 = SCaddins.SCexport.Settings1.Default.A3PrinterDriver; 
             this.PostscriptPrinterName = SCaddins.SCexport.Settings1.Default.PSPrinterDriver; 
-            this.GhostsciptLibDir = SCaddins.SCexport.Settings1.Default.GSLibDirectory; 
+            this.GhostscriptLibDir = SCaddins.SCexport.Settings1.Default.GSLibDirectory; 
             this.exportDir = SCaddins.SCexport.Settings1.Default.ExportDir;
             this.AcadVersion = AcadVersionFromString(SCaddins.SCexport.Settings1.Default.AcadExportVersion);
         }
@@ -753,9 +753,9 @@ namespace SCaddins.SCexport
         private static string TimeSpanAsString(TimeSpan time)
         {
             var result = "Elapsed Time: " +
-                PadLeftZero(time.Hours.ToString(), 2) + "h:" +
-                PadLeftZero(time.Minutes.ToString(), 2) + "m:" +
-                PadLeftZero(time.Seconds.ToString(), 2) + "s";
+                PadLeftZero(time.Hours.ToString(CultureInfo.CurrentCulture), 2) + "h:" +
+                PadLeftZero(time.Minutes.ToString(CultureInfo.CurrentCulture), 2) + "m:" +
+                PadLeftZero(time.Seconds.ToString(CultureInfo.CurrentCulture), 2) + "s";
             return result;
         }
 
@@ -794,19 +794,19 @@ namespace SCaddins.SCexport
                 Microsoft.Win32.RegistryValueKind.String);
         }
 
-        private void PopulateSheets(ref SortableBindingList<SCexportSheet> s)
+        private void PopulateSheets(SortableBindingList<SCexportSheet> s)
         {
-            string config = GetConfigFileName(ref doc);
+            string config = GetConfigFileName(doc);
             bool b = this.ImportXMLinfo(config);
             if (!b) {
                 var name =
-                    new SheetName(SheetName.Scheme.SC_STANDARD);
+                    new SheetName(SheetName.Scheme.Standard);
                 this.fileNameTypes.Add(name);
                 this.fileNameScheme = name;
             }
             if (this.fileNameTypes.Count <= 0) {
                 var name =
-                    new SheetName(SheetName.Scheme.SC_STANDARD);
+                    new SheetName(SheetName.Scheme.Standard);
                 this.fileNameTypes.Add(name);
                 this.fileNameScheme = name;
             }
@@ -867,7 +867,7 @@ namespace SCaddins.SCexport
             }
 
             author = "SCexport";
-            nonIssueTag = Constants.PdfNonIssueTag;
+            nonIssueTag = Constants.PdfNonissueTag;
 
             var reader = new XmlTextReader(filename);
 
@@ -909,7 +909,7 @@ namespace SCaddins.SCexport
             return true;
         }
 
-        private static void PopulateViewSheetSets(ref List<ViewSheetSetCombo> vss)
+        private static void PopulateViewSheetSets(List<ViewSheetSetCombo> vss)
         {
             vss.Clear();
             FilteredElementCollector a;
@@ -927,18 +927,18 @@ namespace SCaddins.SCexport
             }
 
             if (r.SCPrintSetting != null) {
-                if (this.flags.HasFlag(SCexport.ExportFlags.DWG)) {
-                    this.ExportDWG(r, this.flags.HasFlag(ExportFlags.NoTitle));
+                if (this.exportFlags.HasFlag(SCexport.ExportFlags.DWG)) {
+                    this.ExportDWG(r, this.exportFlags.HasFlag(ExportFlags.NoTitle));
                 }
 
-                if (this.flags.HasFlag(SCexport.ExportFlags.PDF)) {
+                if (this.exportFlags.HasFlag(SCexport.ExportFlags.PDF)) {
                     if (!this.ExportAdobePDF(r)) {
                         TaskDialog.Show("SCexport", "Could not print pdf");
                         return;
                     }
                 }
 
-                if (this.flags.HasFlag(SCexport.ExportFlags.GhostscriptPDF)) {
+                if (this.exportFlags.HasFlag(SCexport.ExportFlags.GhostscriptPDF)) {
                     if (!this.ExportGSPDF(r)) {
                         TaskDialog.Show(
                             "SCexport", "Could not export postscript pdf");
@@ -946,11 +946,11 @@ namespace SCaddins.SCexport
                     }
                 }
 
-                if (this.flags.HasFlag(SCexport.ExportFlags.DGN)) {
+                if (this.exportFlags.HasFlag(SCexport.ExportFlags.DGN)) {
                     SCexport.ExportDGN(r);
                 }
 
-                if (this.flags.HasFlag(SCexport.ExportFlags.DWF)) {
+                if (this.exportFlags.HasFlag(SCexport.ExportFlags.DWF)) {
                     SCexport.ExportDWF(r);
                 }
             }
@@ -958,7 +958,7 @@ namespace SCaddins.SCexport
 
         private static void RemoveTitleBlock(
             SCexportSheet vs,
-            ref View view,
+            View view,
             ICollection<ElementId> title,
             bool hide)
         {
@@ -990,7 +990,7 @@ namespace SCaddins.SCexport
             titleBlockHidden.Add(titleBlock.Id);
 
             if (removeTitle) {
-                SCexport.RemoveTitleBlock(vs, ref view, titleBlockHidden, true);
+                SCexport.RemoveTitleBlock(vs, view, titleBlockHidden, true);
             }
 
             PrintManager pm = doc.PrintManager;
@@ -1027,7 +1027,7 @@ namespace SCaddins.SCexport
             System.Threading.Thread.Sleep(1000);
 
             if (removeTitle && view != null) {
-                SCexport.RemoveTitleBlock(vs, ref view, titleBlockHidden, false);
+                SCexport.RemoveTitleBlock(vs, view, titleBlockHidden, false);
             }
         }
 
@@ -1086,53 +1086,19 @@ namespace SCaddins.SCexport
                 pm.SubmitPrint(vs.Sheet);
             }
 
-            FileUtils.WaitForFileAccess(vs.FullExportPath(".ps"));
+            FileUtilities.WaitForFileAccess(vs.FullExportPath(".ps"));
 
             string args = 
-                @"/c " + this.GhostsciptLibDir  + @"\ps2pdf -sPAPERSIZE#" +
+                @"/c " + this.GhostscriptLibDir  + @"\ps2pdf -sPAPERSIZE#" +
                 vs.PageSize.ToLower(CultureInfo.CurrentCulture) + " \"" + vs.FullExportPath(".ps") +
                 "\" \"" + vs.FullExportPath(".pdf") + "\"";
 
-            if (FileUtils.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
+            if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
                 SCexport.StartHiddenConsoleProg("cmd.exe", args);
             }
             return true;
         }
  
-/*       
-// remove this
-// causing to many problems with permissions
-
-//        private void ApplyNonPrintLinetype()
-//        {
-//            SCexport.doc.Application.DocumentPrinting += new EventHandler<DocumentPrintingEventArgs>(this.MyPrintingEvent); 
-//            SCexport.doc.Application.DocumentPrinted += new EventHandler<DocumentPrintedEventArgs>(this.MyPrintedEvent);
-//        }
-//
-//        private void MyPrintingEvent(object sender, DocumentPrintingEventArgs args)
-//        {
-//            this.CategoryLineColor(new Color(byte.MaxValue, byte.MaxValue, byte.MaxValue));
-//        }
-//
-//        private void MyPrintedEvent(object sender, DocumentPrintedEventArgs args)
-//        {
-//            this.CategoryLineColor(new Color(byte.MinValue, byte.MinValue, byte.MinValue));
-//        }
-//
-//        private void CategoryLineColor(Color newColor)
-//        {
-//            Categories categories = SCexport.doc.Settings.Categories;
-//            Category genericAnnotations = categories.get_Item("Generic Annotations");
-//            Category categoryDoNotPrint = genericAnnotations.SubCategories.get_Item("Do Not Print");
-//            using (var t = new Transaction(doc, "Do Not Print color = " + newColor.Blue))
-//            {
-//                t.Start();
-//                categoryDoNotPrint.LineColor = newColor;
-//                t.Commit();
-//            }
-//        }
-*/
-
         private bool ExportAdobePDF(SCexportSheet vs)
         {
             PrintManager pm = doc.PrintManager;
@@ -1144,14 +1110,14 @@ namespace SCaddins.SCexport
 
             SetRegistryVal(vs.FullExportPath(".pdf"));
 
-            if (FileUtils.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
+            if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
                 if (File.Exists(vs.FullExportPath(".pdf"))) {
                     File.Delete(vs.FullExportPath(".pdf"));
                 }
                 pm.SubmitPrint(vs.Sheet);
                 SCexport.KillAcrotray();
             }
-            FileUtils.WaitForFileAccess(vs.FullExportPath(".pdf"));
+            FileUtilities.WaitForFileAccess(vs.FullExportPath(".pdf"));
             return true;
         }
     }

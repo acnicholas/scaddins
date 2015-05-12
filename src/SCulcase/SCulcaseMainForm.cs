@@ -55,7 +55,7 @@ namespace SCaddins.SCulcase
 
         private void BtnTest_Click(object sender, EventArgs e)
         {
-            SCulcase.ConvertAllDryRun(this.conversionMode, this.conversionTypes, ref this.doc);
+            SCulcase.ConvertAllDryRun(this.conversionMode, this.conversionTypes, this.doc);
         }
 
         private void RadioButton1_CheckedChanged(object sender, EventArgs e)
@@ -97,7 +97,7 @@ namespace SCaddins.SCulcase
       
         private void BtnOKAYClick(object sender, EventArgs e)
         {
-            SCulcase.ConvertAll(this.conversionMode, this.conversionTypes, ref this.doc);
+            SCulcase.ConvertAll(this.conversionMode, this.conversionTypes, this.doc);
         }
     }
 }

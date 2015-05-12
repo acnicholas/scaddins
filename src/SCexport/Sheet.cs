@@ -188,13 +188,13 @@ namespace SCaddins.SCexport
                     i = result.IndexOf(':');
                 }
                 bool flag = false;
-                if (result.Trim() == string.Empty) {
+                if (string.IsNullOrEmpty(result.Trim())) {
                     result = "0";
                 }
-                if (this.scaleBarScale != string.Empty) {
+                if (!string.IsNullOrEmpty(this.scaleBarScale)) {
                     flag |= i > 0 && !result.Substring(i + 2).Equals(this.scaleBarScale.Trim());
                 }
-                if (this.scaleBarScale.Trim() != string.Empty && flag) {
+                if (!string.IsNullOrEmpty(this.scaleBarScale.Trim()) && flag) {
                     result += " [**" + this.scaleBarScale + "]";
                 }
                 return result;
@@ -325,7 +325,7 @@ namespace SCaddins.SCexport
             }
             this.pageSize = PrintSettings.GetSheetSizeAsString(this);
             this.printSetting = PrintSettings.AssignPrintSetting(
-                    ref this.doc, this.pageSize);
+                    this.doc, this.pageSize);
             this.verified = true;
         }
         

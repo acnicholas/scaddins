@@ -46,13 +46,13 @@ namespace SCaddins.SCexport
             Normal
         }
                       
-        public void AddError(string filename, string msg)
+        public void AddError(string fileName, string msg)
         {
             this.errors++;
             this.errorLog.AppendLine();
         }
         
-        public void AddWarning(string filename, string msg)
+        public void AddWarning(string fileName, string msg)
         {   
             this.warnings++;
             this.warningLog.AppendLine();

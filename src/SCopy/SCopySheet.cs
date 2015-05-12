@@ -30,7 +30,7 @@ namespace SCaddins.SCopy
         private ViewSheet sourceSheet;
         private string title;
         private string number;
-        private ViewSheet destSheet;              
+        private ViewSheet destinationSheet;              
         private BindingList<SCopyViewOnSheet> viewsOnSheet;
         
         public SCopySheet(string number, string title, SCopy scopy, ViewSheet sourceSheet)
@@ -39,7 +39,7 @@ namespace SCaddins.SCopy
             this.number = number;
             this.title = title;
             this.sourceSheet = sourceSheet;
-            this.destSheet = null;
+            this.destinationSheet = null;
             this.viewsOnSheet = new BindingList<SCopyViewOnSheet>();
             #if REVIT2014
             foreach (View v in sourceSheet.Views) {
@@ -58,13 +58,13 @@ namespace SCaddins.SCopy
         
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ViewSheet DestSheet {
+        public ViewSheet DestinationSheet {
             get {
-                return this.destSheet;
+                return this.destinationSheet;
             }
             
             set {
-                this.destSheet = value;
+                this.destinationSheet = value;
             }
         }
                 

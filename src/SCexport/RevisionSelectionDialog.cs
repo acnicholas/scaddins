@@ -37,7 +37,7 @@ namespace SCaddins.SCexport
             this.PopulateList();
         }
         
-        public ElementId ID {
+        public ElementId Id {
             get { return this.id; }
         }
            

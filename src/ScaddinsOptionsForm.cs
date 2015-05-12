@@ -24,9 +24,9 @@ namespace SCaddins
     /// <summary>
     /// Description of ScaddinsOptionsForm.
     /// </summary>
-    public partial class ScaddinsOptionsForm : Form
+    public partial class SCaddinsOptionsForm : Form
     {
-        public ScaddinsOptionsForm()
+        public SCaddinsOptionsForm()
         {
             var collection = SCaddins.Scaddins.Default.DisplayOrder;
             

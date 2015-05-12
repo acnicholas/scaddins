@@ -30,11 +30,11 @@ namespace SCaddins.Common
         public AboutBox1()
         {
             this.InitializeComponent();
-            this.Text = string.Format("About {0}", this.AssemblyTitle);
-            this.labelProductName.Text = this.AssemblyTitle;
+            this.Text = string.Format("About {0}", AboutBox1.AssemblyTitle);
+            this.labelProductName.Text = AboutBox1.AssemblyTitle;
             this.labelVersion.Text = string.Format(
-                "Version {0}", this.AssemblyVersion);
-            this.labelCopyright.Text = this.AssemblyCopyright;
+                "Version {0}", AboutBox1.AssemblyVersion);
+            this.labelCopyright.Text = AboutBox1.AssemblyCopyright;
             this.textBoxDescription.Text = Constants.License;
         }
 
@@ -42,7 +42,7 @@ namespace SCaddins.Common
         /// Gets the assembly title.
         /// </summary>
         /// <value> Gets the assembly of this program.</value>
-        public string AssemblyTitle
+        public static string AssemblyTitle
         {
             get
             {
@@ -51,7 +51,7 @@ namespace SCaddins.Common
                 if (attributes.Length > 0) {
                     var titleAttribute =
                         (AssemblyTitleAttribute)attributes[0];
-                    if (titleAttribute.Title != string.Empty) {
+                    if (!string.IsNullOrEmpty(titleAttribute.Title)) {
                         return titleAttribute.Title;
                     }
                 }
@@ -65,7 +65,7 @@ namespace SCaddins.Common
         /// Gets the version of this program.
         /// </summary>
         /// <value> The version of this program.</value>
-        public string AssemblyVersion
+        public static string AssemblyVersion
         {
             get
             {
@@ -78,7 +78,7 @@ namespace SCaddins.Common
         /// Gets a description of the program.
         /// </summary>
         /// <value> Gets the description of the program.</value>
-        public string AssemblyDescription
+        public static string AssemblyDescription
         {
             get
             {
@@ -92,7 +92,7 @@ namespace SCaddins.Common
         /// Gets the Assembly Product.
         /// </summary>
         /// <value> The Assembly Product.</value>
-        public string AssemblyProduct
+        public static string AssemblyProduct
         {
             get
             {
@@ -106,7 +106,7 @@ namespace SCaddins.Common
         /// Gets The copyright.
         /// </summary>
         /// <value> The copyright.</value>
-        public string AssemblyCopyright
+        public static string AssemblyCopyright
         {
             get
             {
@@ -120,7 +120,7 @@ namespace SCaddins.Common
         /// Gets The company.
         /// </summary>
         /// <value> Gets the company name.</value>
-        public string AssemblyCompany
+        public static string AssemblyCompany
         {
             get
             {

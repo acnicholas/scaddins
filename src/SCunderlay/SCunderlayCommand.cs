@@ -30,7 +30,7 @@ namespace SCaddins.SCunderlay
             Autodesk.Revit.DB.ElementSet elements)
         {
             var uidoc = commandData.Application.ActiveUIDocument;
-            Utils.RemoveUnderlays(uidoc);
+            Utilities.RemoveUnderlays(uidoc);
             return Result.Succeeded;
         }     
     }

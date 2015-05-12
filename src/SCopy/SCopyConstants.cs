@@ -23,6 +23,6 @@ public static class SCopyConstants
     public const string MenuItemCopy = @"(Copy)";
     
     // mm in a foot
-    public const double MMperFoot = 304.8;
+    public const double MillimetersPerFoot = 304.8;
 }
 }

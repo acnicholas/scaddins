@@ -59,7 +59,7 @@ namespace SCaddins.SCexport
         /// </summary>
         /// <param name="doc">The Revit document to create the print setting in.</param>
         /// <param name="s">The name of the sheet size - A4,A3,A1...</param>
-        public static void CreatePrintSetting(ref Document doc, string s)
+        public static void CreatePrintSetting(Document doc, string s)
         {
             PrintManager pm = doc.PrintManager;
             foreach (PaperSize paperSize in pm.PaperSizes) {
@@ -118,14 +118,13 @@ namespace SCaddins.SCexport
                 PrintManager pm,
                 string printerName)
         {
-            PrintSetting ps = PrintSettings.AssignPrintSetting(
-                    ref doc, size);
+            PrintSetting ps = PrintSettings.AssignPrintSetting(doc, size);
             
             if (ps == null) {
                 return false;
             }
 
-            if (!PrintSettings.SetPrinter(ref doc, printerName, ref pm)) {
+            if (!PrintSettings.SetPrinter(doc, printerName, pm)) {
                 return false;
             }
 
@@ -167,7 +166,7 @@ namespace SCaddins.SCexport
                 return false;
             }
 
-            if (!PrintSettings.SetPrinter(ref doc, printerName, ref pm)) {
+            if (!PrintSettings.SetPrinter(doc, printerName, pm)) {
                 return false;
             }
 
@@ -194,8 +193,7 @@ namespace SCaddins.SCexport
         /// <param name="doc">The Revit doc containing the printsettings.</param>
         /// <param name="ps">The search string.</param>
         /// <returns>The matching print setting, or null.</returns>
-        public static PrintSetting AssignPrintSetting(
-            ref Document doc, string ps)
+        public static PrintSetting AssignPrintSetting(Document doc, string ps)
         {
             #if REVIT2012
             foreach (PrintSetting printSetting in doc.PrintSettings) {
@@ -204,7 +202,7 @@ namespace SCaddins.SCexport
                 }
             }
             try {
-                CreatePrintSetting(ref doc, ps);
+                CreatePrintSetting(doc, ps);
                 foreach (PrintSetting printSetting in doc.PrintSettings) {
                     if (printSetting.Name.ToString().Equals("SCX-" + ps)) {
                         return printSetting;
@@ -223,7 +221,7 @@ namespace SCaddins.SCexport
             }
 
             try {
-                CreatePrintSetting(ref doc, ps);
+                CreatePrintSetting(doc, ps);
                 foreach (ElementId id in doc.GetPrintSettingIds()) {
                     var ps2 = doc.GetElement(id) as PrintSetting;
                     if (ps2.Name.ToString().Equals("SCX-" + ps)) {
@@ -239,7 +237,7 @@ namespace SCaddins.SCexport
         }
         
         public static bool SetPrinter(
-                ref Document doc, string name, ref PrintManager pm)
+                Document doc, string name, PrintManager pm)
         {
             var t = new Transaction(doc, "Set printer");
             t.Start();

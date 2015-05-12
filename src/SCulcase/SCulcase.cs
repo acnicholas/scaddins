@@ -48,27 +48,27 @@ namespace SCaddins.SCulcase
             TitleCase
         }
 
-        public static void ConvertAll(ConversionMode mode, ConversionTypes types, ref Document doc)
+        public static void ConvertAll(ConversionMode mode, ConversionTypes types, Document doc)
         {
             commit = true;
             SCulcase.mode = mode;
             Transaction trans = new Transaction(doc);
             trans.Start("Convert all selected types uppercase (SCulcase)");
-            Convert(mode, types, ref doc);
+            Convert(mode, types, doc);
             trans.Commit();
         }
 
-        public static void ConvertAllDryRun(ConversionMode mode, ConversionTypes types, ref Document doc)
+        public static void ConvertAllDryRun(ConversionMode mode, ConversionTypes types, Document doc)
         {
             commit = false; 
             dryRunLogText = string.Empty;
-            Convert(mode, types, ref doc);
+            Convert(mode, types, doc);
             SCulcaseInfoDialog info = new SCulcaseInfoDialog();
             info.SetText(dryRunLogText);
             info.Show();
         }
 
-        public static void ConvertSelection(ConversionMode mode, ref Document doc, IList<ElementId> elements)
+        public static void ConvertSelection(ConversionMode mode, Document doc, IList<ElementId> elements)
         {
             commit = true;
             SCulcase.mode = mode;
@@ -81,42 +81,42 @@ namespace SCaddins.SCulcase
                 switch (enumCategory) {
                     case BuiltInCategory.OST_Views:
                         View v = (View)e;
-                        ConvertViewName(ref v);
+                        ConvertViewName(v);
                         break;
                     case BuiltInCategory.OST_TextNotes:
                         TextElement text = (TextElement)e;
-                        ConvertAnnotation(ref text);
+                        ConvertAnnotation(text);
                         break;
                     case BuiltInCategory.OST_Rooms:
                         Room room = (Room)e;
-                        ConvertRoom(ref room);
+                        ConvertRoom(room);
                         break;
                 }
             }
             trans.Commit();
         }
 
-        private static void Convert(ConversionMode mode, ConversionTypes types, ref Document doc)
+        private static void Convert(ConversionMode mode, ConversionTypes types, Document doc)
         {
             SCulcase.mode = mode;
             if (types.HasFlag(SCulcase.ConversionTypes.Text)) {
-                ConvertAllAnnotation(ref doc);
+                ConvertAllAnnotation(doc);
             }
             if (types.HasFlag(SCulcase.ConversionTypes.ViewNames)) {
-                ConvertAllViewNames(ref doc);
+                ConvertAllViewNames(doc);
             }
             if (types.HasFlag(SCulcase.ConversionTypes.RoomNames)) {  
-                ConvertAllRooms(ref doc);
+                ConvertAllRooms(doc);
             }
             if (types.HasFlag(SCulcase.ConversionTypes.SheetNames)) {
-                ConvertAllSheetNames(ref doc);
+                ConvertAllSheetNames(doc);
             }
             if (types.HasFlag(SCulcase.ConversionTypes.TitlesOnSheets)) {
-                ConvertAllViewNamesOnSheet(ref doc);
+                ConvertAllViewNamesOnSheet(doc);
             }
         }
 
-        private static void ConvertViewName(ref View view)
+        private static void ConvertViewName(View view)
         {
             string newName = NewString(view.Name, mode);
             if (commit && ValidRevitName(newName)) {
@@ -126,17 +126,17 @@ namespace SCaddins.SCulcase
             }
         }
 
-        private static void ConvertAllViewNames(ref Document doc)
+        private static void ConvertAllViewNames(Document doc)
         {
             var f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_Views);
             foreach (Element e in f) {
                 View v = (View)e;
-                ConvertViewName(ref v);
+                ConvertViewName(v);
             }
         }
 
-        private static void ConvertViewNameOnSheet(ref View view)
+        private static void ConvertViewNameOnSheet(View view)
         {
             Parameter p = view.get_Parameter(BuiltInParameter.VIEW_DESCRIPTION);
             if (p.AsString().Length > 0) {
@@ -148,17 +148,17 @@ namespace SCaddins.SCulcase
             }
         }
 
-        private static void ConvertAllViewNamesOnSheet(ref Document doc)
+        private static void ConvertAllViewNamesOnSheet(Document doc)
         {
             var f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_Views);
             foreach (Element e in f) {
                 var view = (View)e;
-                ConvertViewNameOnSheet(ref view);
+                ConvertViewNameOnSheet(view);
             }
         }
 
-        private static void ConvertSheetName(ref ViewSheet viewSheet)
+        private static void ConvertSheetName(ViewSheet viewSheet)
         {
             if (commit) {
                 viewSheet.Name = NewString(viewSheet.Name, mode);
@@ -167,17 +167,17 @@ namespace SCaddins.SCulcase
             }
         }
 
-        private static void ConvertAllSheetNames(ref Document doc)
+        private static void ConvertAllSheetNames(Document doc)
         {
             var f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_Sheets);
             foreach (Element e in f) {
                 var viewSheet = (ViewSheet)e;
-                ConvertSheetName(ref viewSheet);
+                ConvertSheetName(viewSheet);
             }
         }
 
-        private static void ConvertAnnotation(ref TextElement text)
+        private static void ConvertAnnotation(TextElement text)
         {
             if (commit) {
                 text.Text = NewString(text.Text, mode);
@@ -186,17 +186,17 @@ namespace SCaddins.SCulcase
             }
         }
 
-        private static void ConvertAllAnnotation(ref Document doc)
+        private static void ConvertAllAnnotation(Document doc)
         {
             var f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_TextNotes);
             foreach (Element e in f) {
                 var text = (TextElement)e;
-                ConvertAnnotation(ref text);
+                ConvertAnnotation(text);
             }
         }
 
-        private static void ConvertRoom(ref Room room)
+        private static void ConvertRoom(Room room)
         {
             #if REVIT2014
             Parameter param = room.get_Parameter("Name");
@@ -210,13 +210,13 @@ namespace SCaddins.SCulcase
             }
         }
 
-        private static void ConvertAllRooms(ref Document doc)
+        private static void ConvertAllRooms(Document doc)
         {
             var f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_Rooms);
             foreach (Element e in f) {
                 var room = (Room)e;
-                ConvertRoom(ref room);
+                ConvertRoom(room);
             }
         }
 

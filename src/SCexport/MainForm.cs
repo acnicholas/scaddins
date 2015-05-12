@@ -262,7 +262,7 @@ namespace SCaddins.SCexport
             this.SelectAllOrNone(false);
         }
 
-        private void ShowHelp()
+        private static void ShowHelp()
         {
             string s =
                 "A\t    Select all" + System.Environment.NewLine +
@@ -316,7 +316,7 @@ namespace SCaddins.SCexport
                     this.ShowOptions();
                     break;
                 case "?":
-                    this.ShowHelp();
+                    ShowHelp();
                     break;
                 case "/":
                     this.searchBox.Clear();
@@ -474,13 +474,13 @@ namespace SCaddins.SCexport
         private void CreateConfigFileToolStripMenuItem_Click(
                 object sender, EventArgs e)
         {
-            FileUtils.CreateConfigFile(this.doc);
+            FileUtilities.CreateConfigFile(this.doc);
         }
 
         private void EditConfigFileToolStripMenuItem_Click(
                 object sender, EventArgs e)
         {
-            FileUtils.EditConfigFile(ref this.doc);
+            FileUtilities.EditConfigFile(this.doc);
         }
 
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -491,7 +491,7 @@ namespace SCaddins.SCexport
 
         private void HelpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.ShowHelp();
+            ShowHelp();
         }
 
       private void DataGridView1_CellMouseDown(
@@ -671,7 +671,7 @@ namespace SCaddins.SCexport
         
         private void RemoveUnderlaysFromViewsToolStripMenuItemClick(object sender, EventArgs e)
         {
-            SCunderlay.Utils.RemoveUnderlays(this.SelectedSheets(), this.doc);
+            SCunderlay.Utilities.RemoveUnderlays(this.SelectedSheets(), this.doc);
         }
         
         private void FixScalesBarsToolStripMenuItemClick(object sender, EventArgs e)

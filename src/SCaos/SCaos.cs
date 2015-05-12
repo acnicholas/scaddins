@@ -89,32 +89,14 @@ namespace SCaddins.SCaos
             }
         }
 
-        private string GetAllViewInfo(Document doc)
-        {
-            var f = new FilteredElementCollector(doc);
-            f.OfClass(typeof(Autodesk.Revit.DB.View));
-            string result = string.Empty;
-            foreach (Autodesk.Revit.DB.View view in f) {
-                string name = view.Name.ToUpper(CultureInfo.CurrentCulture);
-                if (view.ViewType == ViewType.ThreeD || view.ViewType == ViewType.FloorPlan) {
-                    if (name.Contains("SOLAR") || name.Contains("SHADOW")) {
-                        result += string.Join(System.Environment.NewLine, this.GetViewInfo(view));
-                        result += System.Environment.NewLine + System.Environment.NewLine;
-                    }
-                }
-            }
-            this.LogText(result);
-            return result;
-        }
-
-        private void LogText(string text)
+        private static void LogText(string text)
         {
             System.IO.File.AppendAllText(@"c:\Temp\SCaos.txt", text);
         }
 
-        private bool ViewNameIsAvailable(Document doc, string name)
+        private static bool ViewNameIsAvailable(Document doc, string name)
         {
-           var c = new FilteredElementCollector(doc);
+            var c = new FilteredElementCollector(doc);
             c.OfClass(typeof(Autodesk.Revit.DB.View));
             foreach (View view in c) {
                 var v = view as View;
@@ -150,7 +132,7 @@ namespace SCaddins.SCaos
                 t.Start("Create Solar View");
                 View view = View3D.CreateIsometric(doc, id);
                 var vname = "SOLAR ACCESS - " + i + " JUNE 21";
-                if (this.ViewNameIsAvailable(doc, vname)) {
+                if (ViewNameIsAvailable(doc, vname)) {
                     view.Name = vname;
                 } else {
                     view.Name = vname + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString() + @")";    
@@ -161,12 +143,6 @@ namespace SCaddins.SCaos
                 t.Commit();
                 this.RotateView(view, doc, udoc);
             }
-        }
-
-        private string XYZToString(XYZ xyz)
-        {
-            return xyz.X.ToString(CultureInfo.InvariantCulture) + @"," +
-                xyz.Y.ToString() + @"," + xyz.Z.ToString(CultureInfo.InvariantCulture);
         }
 
         private void RotateView(View view, Document doc, UIDocument udoc)

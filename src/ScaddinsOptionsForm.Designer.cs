@@ -8,7 +8,7 @@
  */
 namespace SCaddins
 {
-    partial class ScaddinsOptionsForm
+    partial class SCaddinsOptionsForm
     {
         /// <summary>
         /// Designer variable used to keep track of non-visual components.
@@ -45,7 +45,7 @@ namespace SCaddins
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScaddinsOptionsForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SCaddinsOptionsForm));
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();

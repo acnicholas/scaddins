@@ -79,7 +79,7 @@ namespace SCaddins.SCincrement
                             startValue = Convert.ToInt16(s);
                         } else if (p.StorageType == StorageType.String) {
                             string s = p.AsString();
-                            startValue = Convert.ToInt16(this.GetSourceNumberAsString(s));
+                            startValue = Convert.ToInt16(GetSourceNumberAsString(s));
                         }
                     }
 
@@ -103,12 +103,12 @@ namespace SCaddins.SCincrement
             }
         }
 
-        private string GetSourceNumberAsString(string s)
+        private static string GetSourceNumberAsString(string s)
         {
             return Regex.Replace(s, SCincrementSettings.Default.SourceSearchPattern, SCincrementSettings.Default.SourceReplacePattern);  
         }
 
-        private string GetDestinationNumberAsString(string s, int i)
+        private static string GetDestinationNumberAsString(string s, int i)
         {
             s = Regex.Replace(s, @"(^.*)(zz.*$)", @"$1");
             s = Regex.Replace(s, SCincrementSettings.Default.DestinationSearchPattern, SCincrementSettings.Default.DestinationReplacePattern);
@@ -156,7 +156,7 @@ namespace SCaddins.SCincrement
             if (p.StorageType == StorageType.Integer) {
                 p.Set(i);
             } else if (p.StorageType == StorageType.String) {
-                p.Set(this.GetDestinationNumberAsString(p.AsString(), i));
+                p.Set(GetDestinationNumberAsString(p.AsString(), i));
             }
         }
     }

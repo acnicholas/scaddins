@@ -25,11 +25,11 @@ namespace SCaddins.SCexport
     /// <summary>
     /// Generic file input and output functions.
     /// </summary>
-    public static class FileUtils
+    public static class FileUtilities
     {   
         public static bool ConfigFileExists(Document doc)
         {
-             string config = SCexport.GetConfigFileName(ref doc);
+             string config = SCexport.GetConfigFileName(doc);
              return System.IO.File.Exists(config);   
         }
 
@@ -38,9 +38,9 @@ namespace SCaddins.SCexport
         /// for the current revit model - if it exists.
         /// </summary>
         /// <param name="doc">The current Revit document.</param>
-        public static void EditConfigFile(ref Document doc)
+        public static void EditConfigFile(Document doc)
         {
-            string config = SCexport.GetConfigFileName(ref doc);
+            string config = SCexport.GetConfigFileName(doc);
             if (System.IO.File.Exists(config)) {
                 System.Diagnostics.Process.Start(SCaddins.SCexport.Settings1.Default.TextEditor, config);
             } else {
@@ -54,7 +54,7 @@ namespace SCaddins.SCexport
         /// <param name="doc">The current revit document.</param>
         public static void CreateConfigFile(Document doc)
         {
-            string config = SCexport.GetConfigFileName(ref doc);
+            string config = SCexport.GetConfigFileName(doc);
             TaskDialogResult overwrite = TaskDialogResult.Yes;
             if (System.IO.File.Exists(config)) {
                 string msg = "config exists, do you want to overwrite?";

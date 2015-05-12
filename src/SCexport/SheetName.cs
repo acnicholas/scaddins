@@ -30,7 +30,7 @@ public class SheetName : List<SheetNameSegment>
     /// <param name="type"> The scheme type.</param>
     public SheetName(Scheme type)
     {
-        if (type == SheetName.Scheme.SC_STANDARD) {
+        if (type == SheetName.Scheme.Standard) {
             this.Name = "YYYYMMDD-AD-NNN[R]";
             this.Add(new SheetNameSegment(
                         SheetNameSegment.SegmentType.ProjectNumber));
@@ -68,12 +68,12 @@ public class SheetName : List<SheetNameSegment>
         /// <summary>
         /// My standard scheme.
         /// </summary>
-        SC_STANDARD = 0,
+        Standard = 0,
 
         /// <summary>
         /// A Basic scheme [sheetnumber]_[revision].
         /// </summary>
-        SHORT
+        Short
     }
     #endregion
     

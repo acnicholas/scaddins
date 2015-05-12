@@ -31,8 +31,8 @@ namespace SCaddins.SCincrement
         
         private void LoadSettings()
         {
-            this.offsetTextBox.Text = SCincrementSettings.Default.OffsetValue.ToString();
-            this.incrementTextBox.Text = SCincrementSettings.Default.IncrementValue.ToString();
+            this.offsetTextBox.Text = SCincrementSettings.Default.OffsetValue.ToString(CultureInfo.CurrentCulture);
+            this.incrementTextBox.Text = SCincrementSettings.Default.IncrementValue.ToString(CultureInfo.CurrentCulture);
             this.replacementTextBox.Text = SCincrementSettings.Default.SourceReplacePattern;
             this.searchTextBox.Text = SCincrementSettings.Default.SourceSearchPattern;
             this.destReplacementTextBox.Text = SCincrementSettings.Default.DestinationReplacePattern;

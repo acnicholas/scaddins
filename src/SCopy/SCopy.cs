@@ -118,7 +118,7 @@ namespace SCaddins.SCopy
             return !this.existingViews.ContainsKey(title);
         }
 
-        public void AddViewInfoToList(
+        public static void AddViewInfoToList(
             System.Windows.Forms.ListView list, ViewSheet viewSheet)
         {
             if (viewSheet == null) {
@@ -172,7 +172,7 @@ namespace SCaddins.SCopy
            SCopy.AddViewsToList(
                 list,
                 "Number of viewports",
-                views.Count.ToString(),
+                views.Count.ToString(CultureInfo.InvariantCulture),
                 System.Drawing.Color.Gray,
                 1);
             int i = 1;
@@ -195,7 +195,7 @@ namespace SCaddins.SCopy
             SCopy.AddViewsToList(
                 list,
                 "Number of viewports",
-                views.Size.ToString(),
+                views.Size.ToString(CultureInfo.InvariantCulture),
                 System.Drawing.Color.Gray,
                 1);
             int i = 1;
@@ -294,8 +294,8 @@ namespace SCaddins.SCopy
                 sheet.Number,
                 sheet.Title);
 
-            sheet.DestSheet = destSheet;
-            if (sheet.DestSheet != null) {
+            sheet.DestinationSheet = destSheet;
+            if (sheet.DestinationSheet != null) {
                 this.PlaceNewViews(sheet);
             }
 
@@ -334,7 +334,7 @@ namespace SCaddins.SCopy
             int inc = 0;
             do {
                 inc++;
-            } while (!this.CheckSheetNumberAvailability(s + "-" + inc.ToString()));
+            } while (!this.CheckSheetNumberAvailability(s + "-" + inc.ToString(CultureInfo.InvariantCulture)));
             return s + "-" + inc.ToString();
         }
 
@@ -354,7 +354,7 @@ namespace SCaddins.SCopy
                         vp.ViewTemplateId = vt.Id;
                     }
                 }
-                this.PlaceViewOnSheet(sheet.DestSheet, vp.Id, sourceViewCentre);
+                this.PlaceViewOnSheet(sheet.DestinationSheet, vp.Id, sourceViewCentre);
             }
         }
         
@@ -368,7 +368,7 @@ namespace SCaddins.SCopy
                 list.Add(e.Id);
             }
             if (list.Count > 0) {
-                ElementTransformUtils.CopyElements(sheet.SourceSheet, list, sheet.DestSheet, null, null);
+                ElementTransformUtils.CopyElements(sheet.SourceSheet, list, sheet.DestinationSheet, null, null);
             }
         }
              
@@ -427,7 +427,7 @@ namespace SCaddins.SCopy
                     }    
                 }
             }
-            this.PlaceViewOnSheet(sheet.DestSheet, destViewId, sourceViewCentre);
+            this.PlaceViewOnSheet(sheet.DestinationSheet, destViewId, sourceViewCentre);
         }
 
         private static XYZ ViewCenterFromTBBottomLeft(

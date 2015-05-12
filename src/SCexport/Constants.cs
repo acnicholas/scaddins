@@ -56,7 +56,7 @@ namespace SCaddins.SCexport
         /// The tag to add to a pdf if it is not for issue.
         /// This tag is also added when the sheet has no reivision.
         /// </summary>
-        public const string PdfNonIssueTag = "***NOT FOR ISSUE***";
+        public const string PdfNonissueTag = "***NOT FOR ISSUE***";
 
         /// <summary>
         /// SCexport registry path.

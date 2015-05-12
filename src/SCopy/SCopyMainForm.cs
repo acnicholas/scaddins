@@ -37,7 +37,7 @@ namespace SCaddins.SCopy
             this.InitializeComponent();
             this.SetTitle();
             this.scopy = new SCopy(doc);
-            this.scopy.AddViewInfoToList(this.listView1, viewSheet);
+            SCopy.AddViewInfoToList(this.listView1, viewSheet);
             this.AddDataGridColumns();
         }
         
@@ -62,31 +62,31 @@ namespace SCaddins.SCopy
         {
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView2.AutoGenerateColumns = false;
-            this.AddColumn("Number", "Number", this.dataGridView1);
-            this.AddColumn("Title", "Title", this.dataGridView1);
-            this.AddColumn("OriginalTitle", "Original Title", this.dataGridView2);
-            this.AddColumn("Title", "Proposed Title", this.dataGridView2);
+            AddColumn("Number", "Number", this.dataGridView1);
+            AddColumn("Title", "Title", this.dataGridView1);
+            AddColumn("OriginalTitle", "Original Title", this.dataGridView2);
+            AddColumn("Title", "Proposed Title", this.dataGridView2);
             this.AddComboBoxColumns();
-            this.AddColumn("RevitViewType", "View Type", this.dataGridView2);
-            this.AddCheckBoxColumn(
+            AddColumn("RevitViewType", "View Type", this.dataGridView2);
+            AddCheckBoxColumn(
                 "DuplicateWithDetailing", "Copy Detailing", this.dataGridView2); 
         }
 
-        private void AddCheckBoxColumn(string name, string text, DataGridView grid)
+        private static void AddCheckBoxColumn(string name, string text, DataGridView grid)
         {
             var result = new DataGridViewCheckBoxColumn();
-            this.AddColumnHeader(name, text, result);
+            AddColumnHeader(name, text, result);
             grid.Columns.Add(result);
         }
     
-        private void AddColumnHeader(
+        private static void AddColumnHeader(
             string name, string text, DataGridViewColumn column)
         {
             column.HeaderText = text;
             column.DataPropertyName = name;
         }
     
-        private DataGridViewComboBoxColumn CreateComboBoxColumn()
+        private static DataGridViewComboBoxColumn CreateComboBoxColumn()
         {
             var result = new DataGridViewComboBoxColumn();
             result.FlatStyle = FlatStyle.Flat;
@@ -95,8 +95,8 @@ namespace SCaddins.SCopy
 
         private void AddComboBoxColumns()
         {
-            DataGridViewComboBoxColumn result2 = this.CreateComboBoxColumn();
-            this.AddColumnHeader("ViewTemplateName", "View Template", result2);
+            DataGridViewComboBoxColumn result2 = CreateComboBoxColumn();
+            AddColumnHeader("ViewTemplateName", "View Template", result2);
             result2.Items.Add(SCopyConstants.MenuItemCopy);
             var sc = this.scopy;
             foreach (string s2 in sc.ViewTemplates.Keys) {
@@ -104,8 +104,8 @@ namespace SCaddins.SCopy
             }
             dataGridView2.Columns.Add(result2);
         
-            DataGridViewComboBoxColumn result = this.CreateComboBoxColumn();
-            this.AddColumnHeader("AssociatedLevelName", "Associated Level", result);
+            DataGridViewComboBoxColumn result = CreateComboBoxColumn();
+            AddColumnHeader("AssociatedLevelName", "Associated Level", result);
             result.Items.Add(SCopyConstants.MenuItemCopy);
             foreach (string s in sc.Levels.Keys) {
                 result.Items.Add(s);
@@ -113,10 +113,10 @@ namespace SCaddins.SCopy
             dataGridView2.Columns.Add(result);
         }
 
-        private void AddColumn(string name, string text, DataGridView grid)
+        private static void AddColumn(string name, string text, DataGridView grid)
         {
             var result = new DataGridViewTextBoxColumn();
-            this.AddColumnHeader(name, text, result);
+            AddColumnHeader(name, text, result);
             grid.Columns.Add(result);
         }
 
@@ -152,7 +152,7 @@ namespace SCaddins.SCopy
         private void DataGridView1CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             var sheet = (SCopySheet)dataGridView1.Rows[e.RowIndex].DataBoundItem;
-            this.scopy.AddViewInfoToList(this.listView1, sheet.SourceSheet);
+            SCopy.AddViewInfoToList(this.listView1, sheet.SourceSheet);
             dataGridView2.DataSource = sheet.ViewsOnSheet;
             dataGridView2.Refresh();
         }

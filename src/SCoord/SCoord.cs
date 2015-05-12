@@ -53,8 +53,8 @@ namespace SCaddins.SCoord
 
         private void PlaceMGA(Document doc)
         {
-            Level levelZero = this.GetLevelZero(doc);
-            FamilySymbol family = this.GetSpotCoordFamily(doc);
+            Level levelZero = GetLevelZero(doc);
+            FamilySymbol family = GetSpotCoordFamily(doc);
             if (levelZero == null || family == null) {
                 return;
             }
@@ -72,7 +72,7 @@ namespace SCaddins.SCoord
 
             double x = Convert.ToDouble(form.textBoxEW.Text, CultureInfo.CurrentCulture);
             double y = Convert.ToDouble(form.textBoxNS.Text, CultureInfo.CurrentCulture);
-            double z = Convert.ToDouble(form.textBoxElev.Text, CultureInfo.CurrentCulture);
+            double z = Convert.ToDouble(form.textBoxElevation.Text, CultureInfo.CurrentCulture);
             XYZ newLocation = this.ToMGA(projectPosition, x, y, z);
 
             var t = new Transaction(doc, "Place SCoord");
@@ -91,7 +91,7 @@ namespace SCaddins.SCoord
             t.Commit();
         }
 
-        private FamilySymbol GetSpotCoordFamily(Document doc)
+        private static FamilySymbol GetSpotCoordFamily(Document doc)
         {
             var collector1 = new FilteredElementCollector(doc);
             collector1.OfCategory(BuiltInCategory.OST_GenericModel);
@@ -130,7 +130,7 @@ namespace SCaddins.SCoord
             return null;
         }
 
-        private Level GetLevelZero(Document doc)
+        private static Level GetLevelZero(Document doc)
         {
             var collector1 = new FilteredElementCollector(doc);
             collector1.OfClass(typeof(Level));

@@ -51,14 +51,14 @@ namespace SCaddins.SCexport
             }
         }
         
-        private string NewSheetValue(string s, string pattern, string replacement)
+        private static string NewSheetValue(string s, string pattern, string replacement)
         { 
             return Regex.Replace(s, pattern, replacement);
         }
         
         private string NewSheetNumber(string number)
         {
-            return this.NewSheetValue(
+            return NewSheetValue(
                 number,
                 this.textBoxNumberPattern.Text,
                 this.textBoxNumberReplace.Text);
@@ -66,7 +66,7 @@ namespace SCaddins.SCexport
         
         private string NewSheetName(string name)
         {
-            return this.NewSheetValue(
+            return NewSheetValue(
                 name,
                 this.textBoxNamePattern.Text,
                 this.textBoxNameReplace.Text);

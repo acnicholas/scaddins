@@ -43,7 +43,7 @@ namespace SCaddins.SCoord
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBoxElev = new System.Windows.Forms.TextBox();
+            this.textBoxElevation = new System.Windows.Forms.TextBox();
             this.textBoxNS = new System.Windows.Forms.TextBox();
             this.textBoxEW = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -75,7 +75,7 @@ namespace SCaddins.SCoord
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.textBoxElev);
+            this.groupBox1.Controls.Add(this.textBoxElevation);
             this.groupBox1.Controls.Add(this.textBoxNS);
             this.groupBox1.Controls.Add(this.textBoxEW);
             this.groupBox1.Location = new System.Drawing.Point(12, 73);
@@ -111,11 +111,11 @@ namespace SCaddins.SCoord
             // 
             // textBoxElev
             // 
-            this.textBoxElev.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxElev.Location = new System.Drawing.Point(115, 71);
-            this.textBoxElev.Name = "textBoxElev";
-            this.textBoxElev.Size = new System.Drawing.Size(139, 20);
-            this.textBoxElev.TabIndex = 2;
+            this.textBoxElevation.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxElevation.Location = new System.Drawing.Point(115, 71);
+            this.textBoxElevation.Name = "textBoxElev";
+            this.textBoxElevation.Size = new System.Drawing.Size(139, 20);
+            this.textBoxElevation.TabIndex = 2;
             // 
             // textBoxNS
             // 
@@ -165,7 +165,7 @@ namespace SCaddins.SCoord
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.TextBox textBoxEW;
         public System.Windows.Forms.TextBox textBoxNS;
-        public System.Windows.Forms.TextBox textBoxElev;
+        public System.Windows.Forms.TextBox textBoxElevation;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;

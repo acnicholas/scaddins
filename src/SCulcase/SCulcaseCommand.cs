@@ -50,7 +50,7 @@ namespace SCaddins.SCulcase
                       if (elems.Count == 0) {
                           SCulcaseMainForm form = new SCulcaseMainForm(doc);
                       } else {
-                          SCulcase.ConvertSelection(SCulcase.ConversionMode.UpperCase, ref doc, elems);
+                          SCulcase.ConvertSelection(SCulcase.ConversionMode.UpperCase, doc, elems);
                       }
                       t.Commit();
             }

@@ -21,7 +21,7 @@ namespace SCaddins.SCunderlay
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     
-    public static class Utils
+    public static class Utilities
     {
         public static void RemoveUnderlays(
             ICollection<SCaddins.SCexport.SCexportSheet> sheets, Document doc)

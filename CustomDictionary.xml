@@ -2,11 +2,23 @@
 <Dictionary>
      <Words>
         <Recognized>
-            <Word>"Cexport"</Word>
-            <Word>"Caos"</Word>
-            <Word>"Caddins"</Word>
-            <Word>"Cam"</Word>
-            <Word>"SC"</Word>
+            <Word>udoc</Word>
+            <Word>Cexport</Word>
+            <Word>Caos</Word>
+            <Word>Caddins</Word>
+            <Word>Coord</Word>
+            <Word>Cight</Word>
+            <Word>Ched</Word>
+            <Word>Cincrement</Word>
+            <Word>Cuv</Word>
+            <Word>Culcase</Word>
+            <Word>Cunderlay</Word>
+            <Word>Changelog</Word>
+            <Word>Cwash</Word>
+            <Word>Cwm</Word>
+            <Word>Acad</Word>
+            <Word>Revit</Word>
+            <Word>Ghostscript</Word>
         </Recognized>
     </Words>
     <Acronyms>
@@ -16,6 +28,7 @@
             <Acronym>DWF</Acronym>
             <Acronym>DWG</Acronym>
             <Acronym>SC</Acronym>
+            <Acronym>XML</Acronym>
         </CasingExceptions>
     </Acronyms>
 </Dictionary>

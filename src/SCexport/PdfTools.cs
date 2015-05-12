@@ -39,15 +39,15 @@ namespace SCaddins.SCexport
             string pdfmetafile = PdfTools.CreatePDFMetaFile(file);
 
             if (File.Exists(pdfmetafile)) {
-                FileUtils.WaitForFileAccess(pdfmetafile);
+                FileUtilities.WaitForFileAccess(pdfmetafile);
                 PdfTools.PopulatePDFMetaFile(pdfmetafile, name, rev);
-                FileUtils.WaitForFileAccess(pdfmetafile);
+                FileUtilities.WaitForFileAccess(pdfmetafile);
                 try {
                     string prog = s + @"\SCaddins\SCaddins\opt\pdftk.exe";
                     string cmd = "\"" + file + "\" update_info \"" + pdfmetafile +
                         "\" output \"" + file + "\".tmp dont_ask"; 
                     SCexport.StartHiddenConsoleProg(prog, cmd);
-                    FileUtils.WaitForFileAccess(file);
+                    FileUtilities.WaitForFileAccess(file);
                     File.Delete(file);
                     File.Move(file + ".tmp", file);
                     File.Delete(pdfmetafile);
@@ -60,7 +60,7 @@ namespace SCaddins.SCexport
         
          private static string CreatePDFMetaFile(string file)
         {
-            FileUtils.WaitForFileAccess(file);
+            FileUtilities.WaitForFileAccess(file);
             string s = Environment.GetFolderPath(
                 Environment.SpecialFolder.ProgramFilesX86);
             string pdfmetafile = file + ".scx";
