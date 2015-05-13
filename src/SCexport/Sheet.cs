@@ -59,10 +59,10 @@ namespace SCaddins.SCexport
         public SCexportSheet(
                 ViewSheet sheet,
                 Document doc,
-                SheetName filenameTemplate,
+                SheetName fileNameTemplate,
                 SCexport scx)
         {
-            this.Init(sheet, doc, filenameTemplate, scx);
+            this.Init(sheet, doc, fileNameTemplate, scx);
         }
 
         /// <summary>
@@ -294,6 +294,22 @@ namespace SCaddins.SCexport
             }
         }
         #endregion
+        
+        public static string GetScaleBarScale(Element titleBlock)
+        {
+          try {
+                    #if REVIT2015
+                    var p = titleBlock.GetParameters(Constants.TitleScale);
+                    var s = p[0].AsValueString();
+                    #else
+                    var s = titleBlock.get_Parameter(Constants.TitleScale).AsValueString();
+                    #endif
+                    var d = Convert.ToDouble(s);
+                    return d.ToString(CultureInfo.InvariantCulture);
+                } catch {
+                    return string.Empty;
+                }    
+        }
 
         /// <summary>
         /// Fulls export path.
@@ -338,7 +354,7 @@ namespace SCaddins.SCexport
                 } else {
                     return "0";
                 }
-                if (result.Trim() == string.Empty) {
+                if (string.IsNullOrEmpty(result.Trim())) {
                     return "0";
                 }
                 return result.Substring(i + 2).Trim();
@@ -379,7 +395,7 @@ namespace SCaddins.SCexport
             }
         }
         
-        public void SetScaleBarScale(FamilyInstance titleBlock)
+        public void SetScaleBarScale(Element titleBlock)
         {
             try {
                 #if REVIT2015
@@ -394,23 +410,7 @@ namespace SCaddins.SCexport
                 return;
             }          
         }
-        
-        public static string GetScaleBarScale(FamilyInstance titleBlock)
-        {
-          try {
-                    #if REVIT2015
-                    var p = titleBlock.GetParameters(Constants.TitleScale);
-                    var s = p[0].AsValueString();
-                    #else
-                    var s = titleBlock.get_Parameter(Constants.TitleScale).AsValueString();
-                    #endif
-                    var d = Convert.ToDouble(s);
-                    return d.ToString(CultureInfo.InvariantCulture);
-                } catch {
-                    return string.Empty;
-                }    
-        }
-        
+               
         /// <summary>
         /// Initializes initial values.
         /// </summary>
@@ -459,7 +459,7 @@ namespace SCaddins.SCexport
                     this.segmentedFileName[i].Text = this.projectNumber;
                     break;
                 case SheetNameSegment.SegmentType.Discipline:
-                    if (this.segmentedFileName[i].Text.Trim() == string.Empty) {
+                    if (string.IsNullOrEmpty(this.segmentedFileName[i].Text.Trim())) {
                         this.segmentedFileName[i].Text = this.displineCode;
                     }
                     break;

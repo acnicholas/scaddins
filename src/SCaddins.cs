@@ -104,7 +104,7 @@ namespace SCaddins
             var collection = Scaddins.Default.DisplayOrder;
             
             if (collection.Count < 1) {
-                collection = SCaddinsOptionsForm.GetDefualtCollection();
+                collection = SCaddinsOptionsForm.GetDefaultCollection();
             }
                                    
             var numberOfAddins = collection.Count;
@@ -112,28 +112,28 @@ namespace SCaddins
             var ribbonPanel = TryGetPanel(application, "Scott Carver");
             
             if (numberOfAddins > 0) {
-                ribbonPanel.AddItem(this.GetButtonByIndex(collection, 0));
+                ribbonPanel.AddItem(GetButtonByIndex(collection, 0));
             }
             
             if (numberOfAddins > 3) {
             ribbonPanel.AddStackedItems(
-                    this.GetButtonByIndex(collection, 1),
-                    this.GetButtonByIndex(collection, 2),
-                    this.GetButtonByIndex(collection, 3));
+                    GetButtonByIndex(collection, 1),
+                    GetButtonByIndex(collection, 2),
+                    GetButtonByIndex(collection, 3));
             }
             
             if (numberOfAddins > 6) {
             ribbonPanel.AddStackedItems(
-                    this.GetButtonByIndex(collection, 4),
-                    this.GetButtonByIndex(collection, 5),
-                    this.GetButtonByIndex(collection, 6));
+                    GetButtonByIndex(collection, 4),
+                    GetButtonByIndex(collection, 5),
+                    GetButtonByIndex(collection, 6));
             }
             
             if (numberOfAddins > 9) {
             ribbonPanel.AddStackedItems(
-                    this.GetButtonByIndex(collection, 7),
-                    this.GetButtonByIndex(collection, 8),
-                    this.GetButtonByIndex(collection, 9));
+                    GetButtonByIndex(collection, 7),
+                    GetButtonByIndex(collection, 8),
+                    GetButtonByIndex(collection, 9));
             }
             
             ribbonPanel.AddSlideOut();
@@ -158,12 +158,7 @@ namespace SCaddins
         {
             return Result.Succeeded;
         }
-        
-        private PushButtonData GetButtonByIndex(StringCollection collection, int index)
-        {
-            return GetButtonByName(collection[index]);
-        }
-        
+              
         private static PushButtonData GetButtonByName(string name)
         {
             string scdll =
@@ -387,6 +382,11 @@ namespace SCaddins
             }
 
             return application.CreateRibbonPanel(name);
+        }
+        
+        private static PushButtonData GetButtonByIndex(StringCollection collection, int index)
+        {
+            return GetButtonByName(collection[index]);
         }
     }
 }

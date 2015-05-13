@@ -91,6 +91,24 @@ namespace SCaddins.SCopy
         #endregion
 
         #region public methods
+        public static void AddViewInfoToList(
+            System.Windows.Forms.ListView list, ViewSheet viewSheet)
+        {
+            if (viewSheet == null) {
+                return;
+            }
+            list.Items.Clear();
+            var colour = System.Drawing.Color.Gray;
+            SCopy.AddViewsToList(list, "Title", viewSheet.Name, colour, 0);
+            SCopy.AddViewsToList(list, "Sheet Number", viewSheet.SheetNumber, colour, 0);
+            #if REVIT2014
+            AddViewsToList(list, viewSheet.Views);
+            #else
+            this.AddViewsToList(list, viewSheet.GetAllPlacedViews());
+            #endif
+            list.Refresh();
+        }
+            
         public static ViewSheet ViewToViewSheet(View view)
         {
             return (view.ViewType != ViewType.DrawingSheet) ? null : view as ViewSheet;
@@ -118,24 +136,6 @@ namespace SCaddins.SCopy
             return !this.existingViews.ContainsKey(title);
         }
 
-        public static void AddViewInfoToList(
-            System.Windows.Forms.ListView list, ViewSheet viewSheet)
-        {
-            if (viewSheet == null) {
-                return;
-            }
-            list.Items.Clear();
-            var colour = System.Drawing.Color.Gray;
-            SCopy.AddViewsToList(list, "Title", viewSheet.Name, colour, 0);
-            SCopy.AddViewsToList(list, "Sheet Number", viewSheet.SheetNumber, colour, 0);
-            #if REVIT2014
-            AddViewsToList(list, viewSheet.Views);
-            #else
-            this.AddViewsToList(list, viewSheet.GetAllPlacedViews());
-            #endif
-            list.Refresh();
-        }
-    
         public void CreateSheets()
         {
             if (this.sheets.Count < 1) {
@@ -165,6 +165,60 @@ namespace SCaddins.SCopy
         #endregion
 
         #region private methods
+        private static void AddViewsToList(
+            System.Windows.Forms.ListView list,
+            ViewSet views)
+        {
+            SCopy.AddViewsToList(
+                list,
+                "Number of viewports",
+                views.Size.ToString(CultureInfo.InvariantCulture),
+                System.Drawing.Color.Gray,
+                1);
+            int i = 1;
+            foreach (View view in views) {
+                SCopy.AddViewsToList(
+                    list,
+                    "View: " + i,
+                    view.Name,
+                    System.Drawing.Color.Black,
+                    1);
+                i++;
+            }
+        }
+        
+        private static XYZ ViewCenterFromTBBottomLeft(BoundingBoxXYZ viewBounds, View view)
+        {
+            XYZ xyzPosition = (viewBounds.Max + viewBounds.Min) / 2.0;
+            return xyzPosition;
+        }
+                      
+        private static Dictionary<ElementId, BoundingBoxXYZ> GetVPDictionary(
+            ViewSheet srcSheet, Document doc)
+        {
+            var result = new Dictionary<ElementId, BoundingBoxXYZ>();
+            foreach (ElementId viewPortId in srcSheet.GetAllViewports()) {
+                var viewPort = (Viewport)doc.GetElement(viewPortId);
+                var viewPortBounds = viewPort.get_BoundingBox(srcSheet);
+                result.Add(
+                    viewPort.ViewId, viewPortBounds);
+            }
+            return result;
+        }
+
+        private static void AddViewsToList(
+            System.Windows.Forms.ListView list,
+            string title,
+            string value,
+            System.Drawing.Color colour,
+            int group)
+        {
+            System.Windows.Forms.ListViewItem item;
+            item = new System.Windows.Forms.ListViewItem(new[] { title, value }, list.Groups[group]);
+            item.ForeColor = colour;
+            list.Items.Add(item);
+        }
+        
         private void AddViewsToList(
              System.Windows.Forms.ListView list,
              ISet<ElementId> views)
@@ -188,41 +242,6 @@ namespace SCaddins.SCopy
             }
         }        
         
-        private static void AddViewsToList(
-            System.Windows.Forms.ListView list,
-            ViewSet views)
-        {
-            SCopy.AddViewsToList(
-                list,
-                "Number of viewports",
-                views.Size.ToString(CultureInfo.InvariantCulture),
-                System.Drawing.Color.Gray,
-                1);
-            int i = 1;
-            foreach (View view in views) {
-                SCopy.AddViewsToList(
-                    list,
-                    "View: " + i,
-                    view.Name,
-                    System.Drawing.Color.Black,
-                    1);
-                i++;
-            }
-        }
-
-        private static void AddViewsToList(
-            System.Windows.Forms.ListView list,
-            string title,
-            string value,
-            System.Drawing.Color colour,
-            int group)
-        {
-            System.Windows.Forms.ListViewItem item;
-            item = new System.Windows.Forms.ListViewItem(new[] { title, value }, list.Groups[group]);
-            item.ForeColor = colour;
-            list.Items.Add(item);
-        }
-
         private void GetViewTemplates()
         {
             this.viewTemplates.Clear();
@@ -290,7 +309,6 @@ namespace SCaddins.SCopy
             }
 
             ViewSheet destSheet = this.AddEmptySheetToDocument(
-                this.sourceTitleBlock.Symbol,
                 sheet.Number,
                 sheet.Title);
 
@@ -307,13 +325,10 @@ namespace SCaddins.SCopy
         }
     
         private ViewSheet AddEmptySheetToDocument(
-            FamilySymbol titleBlock,
             string sheetNumber,
             string sheetTitle)
         {
             ViewSheet result;
-            
-            // result = ViewSheet.Create(this.doc, titleBlock.Id);  
             result = ViewSheet.Create(this.doc, ElementId.InvalidElementId);           
             result.Name = sheetTitle;
             result.SheetNumber = sheetNumber;
@@ -385,7 +400,7 @@ namespace SCaddins.SCopy
                 }
             
                 XYZ sourceViewCentre = SCopy.ViewCenterFromTBBottomLeft(
-                                           this.sourceTitleBlock, srcViewBounds, sheet.SourceSheet);
+                                           srcViewBounds, sheet.SourceSheet);
               
                 switch (view.CreationMode) {
                     case ViewCreationMode.Copy:
@@ -430,13 +445,6 @@ namespace SCaddins.SCopy
             this.PlaceViewOnSheet(sheet.DestinationSheet, destViewId, sourceViewCentre);
         }
 
-        private static XYZ ViewCenterFromTBBottomLeft(
-            FamilyInstance titleBlock, BoundingBoxXYZ viewBounds, View view)
-        {
-            XYZ xyzPosition = (viewBounds.Max + viewBounds.Min) / 2.0;
-            return xyzPosition;
-        }
-
         private FamilyInstance GetTitleBlock(ViewSheet sheet)
         {
             var elemsOnSheet = new FilteredElementCollector(
@@ -450,20 +458,6 @@ namespace SCaddins.SCopy
                 return null;
             }
         }
-        
-        private static Dictionary<ElementId, BoundingBoxXYZ> GetVPDictionary(
-            ViewSheet srcSheet, Document doc)
-        {
-            var result = new Dictionary<ElementId, BoundingBoxXYZ>();
-            foreach (ElementId viewPortId in srcSheet.GetAllViewports()) {
-                var viewPort = (Viewport)doc.GetElement(viewPortId);
-                var viewPortBounds = viewPort.get_BoundingBox(srcSheet);
-                result.Add(
-                    viewPort.ViewId, viewPortBounds);
-            }
-            return result;
-        }
-
         #endregion
     }
 }

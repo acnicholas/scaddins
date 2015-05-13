@@ -19,6 +19,7 @@ namespace SCaddins.SCexport
 {
     using System;
     using System.IO;
+    using System.Security.Permissions;
     using Autodesk.Revit.UI;
 
     /// <summary>
@@ -32,7 +33,8 @@ namespace SCaddins.SCexport
         /// <param name="file">The pdf file to add additional tags to.</param>
         /// <param name="name">This will populate the Title part of the pdf tag.</param>
         /// <param name="rev">This will populate the Keyword part of the pdf tag.</param>
-        public static void TagPDF(string file, string name, string rev)
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        internal static void TagPDF(string file, string name, string rev)
         {
             string s = Environment.GetFolderPath(
                 Environment.SpecialFolder.ProgramFilesX86);
@@ -58,6 +60,7 @@ namespace SCaddins.SCexport
             } 
         }
         
+         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
          private static string CreatePDFMetaFile(string file)
         {
             FileUtilities.WaitForFileAccess(file);

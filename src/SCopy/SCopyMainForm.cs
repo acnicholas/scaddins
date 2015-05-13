@@ -57,21 +57,6 @@ namespace SCaddins.SCopy
         }
     
         #region init component
-    
-        private void AddDataGridColumns()
-        {
-            this.dataGridView1.AutoGenerateColumns = false;
-            this.dataGridView2.AutoGenerateColumns = false;
-            AddColumn("Number", "Number", this.dataGridView1);
-            AddColumn("Title", "Title", this.dataGridView1);
-            AddColumn("OriginalTitle", "Original Title", this.dataGridView2);
-            AddColumn("Title", "Proposed Title", this.dataGridView2);
-            this.AddComboBoxColumns();
-            AddColumn("RevitViewType", "View Type", this.dataGridView2);
-            AddCheckBoxColumn(
-                "DuplicateWithDetailing", "Copy Detailing", this.dataGridView2); 
-        }
-
         private static void AddCheckBoxColumn(string name, string text, DataGridView grid)
         {
             var result = new DataGridViewCheckBoxColumn();
@@ -92,6 +77,27 @@ namespace SCaddins.SCopy
             result.FlatStyle = FlatStyle.Flat;
             return result;        
         }
+        
+        private static void AddColumn(string name, string text, DataGridView grid)
+        {
+            var result = new DataGridViewTextBoxColumn();
+            AddColumnHeader(name, text, result);
+            grid.Columns.Add(result);
+        }
+    
+        private void AddDataGridColumns()
+        {
+            this.dataGridView1.AutoGenerateColumns = false;
+            this.dataGridView2.AutoGenerateColumns = false;
+            AddColumn("Number", "Number", this.dataGridView1);
+            AddColumn("Title", "Title", this.dataGridView1);
+            AddColumn("OriginalTitle", "Original Title", this.dataGridView2);
+            AddColumn("Title", "Proposed Title", this.dataGridView2);
+            this.AddComboBoxColumns();
+            AddColumn("RevitViewType", "View Type", this.dataGridView2);
+            AddCheckBoxColumn(
+                "DuplicateWithDetailing", "Copy Detailing", this.dataGridView2); 
+        }
 
         private void AddComboBoxColumns()
         {
@@ -111,13 +117,6 @@ namespace SCaddins.SCopy
                 result.Items.Add(s);
             }
             dataGridView2.Columns.Add(result);
-        }
-
-        private static void AddColumn(string name, string text, DataGridView grid)
-        {
-            var result = new DataGridViewTextBoxColumn();
-            AddColumnHeader(name, text, result);
-            grid.Columns.Add(result);
         }
 
         private void SetTitle()

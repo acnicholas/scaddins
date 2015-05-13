@@ -31,7 +31,7 @@ namespace SCaddins
             var collection = SCaddins.Scaddins.Default.DisplayOrder;
             
             if (collection.Count < 1) {
-                collection = GetDefualtCollection();
+                collection = GetDefaultCollection();
             }
             
             this.InitializeComponent();
@@ -39,7 +39,7 @@ namespace SCaddins
             this.PopulateListBox(collection);
         }
         
-        public static StringCollection GetDefualtCollection()
+        public static StringCollection GetDefaultCollection()
         {
             var collection = new StringCollection();
                 collection.Add("SCexport");
@@ -64,7 +64,7 @@ namespace SCaddins
         
         private void ApplyDefaultOrder() {
             listBox1.Items.Clear();
-            this.PopulateListBox(GetDefualtCollection());
+            this.PopulateListBox(GetDefaultCollection());
         }
         
         private void ButtonUpClick(object sender, EventArgs e)

@@ -35,13 +35,13 @@ namespace SCaddins.SCloudSChed
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
             this.revisions = new SortableBindingList<RevisionItem>();
-            this.GetRevisions(doc, this.revisions);
+            GetRevisions(doc, this.revisions);
             Form1 form = new Form1(doc, this.revisions);
             form.Show();
             return Autodesk.Revit.UI.Result.Succeeded;
         }
 
-        private void GetRevisions(Document doc, SortableBindingList<RevisionItem> revisions)
+        private static void GetRevisions(Document doc, SortableBindingList<RevisionItem> revisions)
         {
             FilteredElementCollector a;
             a = new FilteredElementCollector(doc);

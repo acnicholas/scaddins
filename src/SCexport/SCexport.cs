@@ -23,10 +23,10 @@ namespace SCaddins.SCexport
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Security.Permissions;
     using System.Xml;
     using System.Xml.Schema;
     using Autodesk.Revit.DB;
-    using Autodesk.Revit.DB.Events;
     using Autodesk.Revit.UI;
     using SCaddins.Common;
 
@@ -296,26 +296,6 @@ namespace SCaddins.SCexport
             } catch {
                 return new DateTime();
             }
-        }
-
-        /// <summary>
-        /// Start a console program - Hidden.
-        /// </summary>
-        /// <param name="exePath">The program to start.</param>
-        /// <param name="args">The args to send to the program.</param>
-        public static void StartHiddenConsoleProg(string exePath, string args)
-        {
-            var startInfo = new System.Diagnostics.ProcessStartInfo();
-            startInfo.CreateNoWindow = true;
-            startInfo.UseShellExecute = false;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.RedirectStandardError = true;
-            startInfo.FileName = exePath;
-            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            startInfo.Arguments = args;
-            var p = new Process();
-            p = System.Diagnostics.Process.Start(startInfo);
-            p.WaitForExit();
         }
 
         /// <summary>
@@ -661,6 +641,27 @@ namespace SCaddins.SCexport
             this.exportDir = SCaddins.SCexport.Settings1.Default.ExportDir;
             this.AcadVersion = AcadVersionFromString(SCaddins.SCexport.Settings1.Default.AcadExportVersion);
         }
+        
+        /// <summary>
+        /// Start a console program - Hidden.
+        /// </summary>
+        /// <param name="exePath">The program to start.</param>
+        /// <param name="args">The args to send to the program.</param>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        protected internal static void StartHiddenConsoleProg(string exePath, string args)
+        {
+            var startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.CreateNoWindow = true;
+            startInfo.UseShellExecute = false;
+            startInfo.RedirectStandardOutput = true;
+            startInfo.RedirectStandardError = true;
+            startInfo.FileName = exePath;
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.Arguments = args;
+            var p = new Process();
+            p = System.Diagnostics.Process.Start(startInfo);
+            p.WaitForExit();
+        }
 
         private static void OpenSheet(UIDocument udoc, ViewSheet view, int inc)
         {
@@ -720,29 +721,6 @@ namespace SCaddins.SCexport
             }
         }
 
-        private void SetDefaultFlags()
-        {
-            if (SCaddins.SCexport.Settings1.Default.AdobePDFMode && this.PDFSanityCheck()) {
-                this.AddExportFlag(SCexport.ExportFlags.PDF);
-            } else if (!SCaddins.SCexport.Settings1.Default.AdobePDFMode && this.GSSanityCheck()) {
-                this.AddExportFlag(ExportFlags.GhostscriptPDF);
-            } else {
-                if (this.PDFSanityCheck()) {
-                     this.AddExportFlag(SCexport.ExportFlags.PDF);   
-                }
-                this.AddExportFlag(ExportFlags.DWG);
-            }
-            if (SCaddins.SCexport.Settings1.Default.TagPDFExports) {
-                this.AddExportFlag(ExportFlags.TagPDFExports);
-            }
-            if (SCaddins.SCexport.Settings1.Default.HideTitleBlocks) {
-                this.AddExportFlag(ExportFlags.NoTitle);
-            }
-            if (SCaddins.SCexport.Settings1.Default.ForceDateRevision) {
-                this.forceDate = true;
-            }
-        }
-
         private static string PercentageSting(int n, int total)
         {
             var result = "Exporting " + n + " of " + total +
@@ -768,6 +746,7 @@ namespace SCaddins.SCexport
                 Microsoft.Win32.RegistryValueKind.String);
         }
 
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         private static void KillAcrotray()
         {
             try {
@@ -779,6 +758,7 @@ namespace SCaddins.SCexport
             }
         }
 
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         private static void SetRegistryVal(string fileName)
         {
             string exe =
@@ -792,6 +772,101 @@ namespace SCaddins.SCexport
                 exe,
                 fileName,
                 Microsoft.Win32.RegistryValueKind.String);
+        }
+        
+                private static void RemoveTitleBlock(
+            SCexportSheet vs,
+            View view,
+            ICollection<ElementId> title,
+            bool hide)
+        {
+            view = doc.GetElement(vs.Id) as View;
+            Transaction t = new Transaction(doc, "Hide Title");
+            t.Start();
+            try {
+                if (hide) {
+                    view.HideElements(title);
+                } else {
+                    view.UnhideElements(title);
+                }
+                t.Commit();
+            } catch {
+                TaskDialog.Show("Revit", "cannot Hide Title");
+                t.RollBack();
+            }
+        }
+        
+        private static void PopulateViewSheetSets(List<ViewSheetSetCombo> vss)
+        {
+            vss.Clear();
+            FilteredElementCollector a;
+            a = new FilteredElementCollector(doc);
+            a.OfClass(typeof(ViewSheetSet));
+            foreach (ViewSheetSet v in a) {
+                vss.Add(new ViewSheetSetCombo(v));
+            }
+        }
+        
+        private static void ExportDWF(SCexportSheet vs)
+        {
+            var views = new ViewSet();
+            views.Insert(vs.Sheet);
+            var opts = new DWFExportOptions();
+            #if REVIT2014
+            opts.CropBoxVisible = false;
+            #endif
+            #if REVIT2015
+            opts.CropBoxVisible = false;
+            #endif
+            opts.ExportingAreas = true;
+            var t = new Transaction(doc, "Export DWF");
+            t.Start();
+            try {
+                string tmp = vs.FullExportName + ".dwf";
+                bool r = doc.Export(vs.ExportDir, tmp, views, opts);
+                t.Commit();
+            } catch {
+                TaskDialog.Show("SCexport", "cannot export dwf");
+                t.RollBack();
+            }
+        }
+
+        private static void ExportDGN(SCexportSheet vs)
+        {
+            var opts = new DGNExportOptions();
+            #if REVIT2012
+            ViewSet views = new ViewSet();
+            views.Insert(vs.Sheet);
+            doc.Export(vs.ExportDir, vs.FullExportName + ".dgn", views, opts);
+            #else
+            ICollection<ElementId> views;
+            views = new List<ElementId>();
+            views.Add(vs.Id);
+            doc.Export(vs.ExportDir, vs.FullExportName, views, opts);
+            #endif
+        }
+        
+        private void SetDefaultFlags()
+        {
+            if (SCaddins.SCexport.Settings1.Default.AdobePDFMode && this.PDFSanityCheck()) {
+                this.AddExportFlag(SCexport.ExportFlags.PDF);
+            } else if (!SCaddins.SCexport.Settings1.Default.AdobePDFMode && this.GSSanityCheck()) {
+                this.AddExportFlag(ExportFlags.GhostscriptPDF);
+            } else {
+                if (this.PDFSanityCheck()) {
+                     this.AddExportFlag(SCexport.ExportFlags.PDF);   
+                }
+                this.AddExportFlag(ExportFlags.DWG);
+            }
+            if (SCaddins.SCexport.Settings1.Default.TagPDFExports) {
+                this.AddExportFlag(ExportFlags.TagPDFExports);
+            }
+            if (SCaddins.SCexport.Settings1.Default.HideTitleBlocks) {
+                this.AddExportFlag(ExportFlags.NoTitle);
+            }
+            if (SCaddins.SCexport.Settings1.Default.ForceDateRevision) {
+                this.forceDate = true;
+            }
         }
 
         private void PopulateSheets(SortableBindingList<SCexportSheet> s)
@@ -909,17 +984,7 @@ namespace SCaddins.SCexport
             return true;
         }
 
-        private static void PopulateViewSheetSets(List<ViewSheetSetCombo> vss)
-        {
-            vss.Clear();
-            FilteredElementCollector a;
-            a = new FilteredElementCollector(doc);
-            a.OfClass(typeof(ViewSheetSet));
-            foreach (ViewSheetSet v in a) {
-                vss.Add(new ViewSheetSetCombo(v));
-            }
-        }
-
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         private void Export(SCexportSheet r)
         {
             if (!r.Verified) {
@@ -953,28 +1018,6 @@ namespace SCaddins.SCexport
                 if (this.exportFlags.HasFlag(SCexport.ExportFlags.DWF)) {
                     SCexport.ExportDWF(r);
                 }
-            }
-        }
-
-        private static void RemoveTitleBlock(
-            SCexportSheet vs,
-            View view,
-            ICollection<ElementId> title,
-            bool hide)
-        {
-            view = doc.GetElement(vs.Id) as View;
-            Transaction t = new Transaction(doc, "Hide Title");
-            t.Start();
-            try {
-                if (hide) {
-                    view.HideElements(title);
-                } else {
-                    view.UnhideElements(title);
-                }
-                t.Commit();
-            } catch {
-                TaskDialog.Show("Revit", "cannot Hide Title");
-                t.RollBack();
             }
         }
 
@@ -1031,45 +1074,7 @@ namespace SCaddins.SCexport
             }
         }
 
-        private static void ExportDWF(SCexportSheet vs)
-        {
-            var views = new ViewSet();
-            views.Insert(vs.Sheet);
-            var opts = new DWFExportOptions();
-            #if REVIT2014
-            opts.CropBoxVisible = false;
-            #endif
-            #if REVIT2015
-            opts.CropBoxVisible = false;
-            #endif
-            opts.ExportingAreas = true;
-            var t = new Transaction(doc, "Export DWF");
-            t.Start();
-            try {
-                string tmp = vs.FullExportName + ".dwf";
-                bool r = doc.Export(vs.ExportDir, tmp, views, opts);
-                t.Commit();
-            } catch {
-                TaskDialog.Show("SCexport", "cannot export dwf");
-                t.RollBack();
-            }
-        }
-
-        private static void ExportDGN(SCexportSheet vs)
-        {
-            var opts = new DGNExportOptions();
-            #if REVIT2012
-            ViewSet views = new ViewSet();
-            views.Insert(vs.Sheet);
-            doc.Export(vs.ExportDir, vs.FullExportName + ".dgn", views, opts);
-            #else
-            ICollection<ElementId> views;
-            views = new List<ElementId>();
-            views.Add(vs.Id);
-            doc.Export(vs.ExportDir, vs.FullExportName, views, opts);
-            #endif
-        }
-
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         private bool ExportGSPDF(SCexportSheet vs)
         {
             PrintManager pm = doc.PrintManager;
@@ -1099,6 +1104,7 @@ namespace SCaddins.SCexport
             return true;
         }
  
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         private bool ExportAdobePDF(SCexportSheet vs)
         {
             PrintManager pm = doc.PrintManager;

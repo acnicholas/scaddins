@@ -168,13 +168,13 @@ namespace SCaddins.SCexport
         /// </summary>
         /// <returns><c>true</c> if the specified filename can be overwritten; otherwise, <c>false</c>.</returns>
         /// <param name="filename"> The filename to check. </param>
-        public static bool CanOverwriteFile(string filename)
+        public static bool CanOverwriteFile(string fileName)
         {
             if (!SCexport.ConfirmOverwrite) {
                 return true;
             }
-            if (System.IO.File.Exists(filename)) {
-                string s = filename + " exists," + System.Environment.NewLine +
+            if (System.IO.File.Exists(fileName)) {
+                string s = fileName + " exists," + System.Environment.NewLine +
                     "do you want do overwrite the existing file?";
                 using (var dialog = new ConfirmationDialog(s))
                 {

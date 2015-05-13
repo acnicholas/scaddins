@@ -37,6 +37,11 @@ namespace SCaddins.SCexport
             this.sheets = sheets;
             this.PopulateList();
         }
+        
+        private static string NewSheetValue(string s, string pattern, string replacement)
+        { 
+            return Regex.Replace(s, pattern, replacement);
+        }
                 
         private void PopulateList()
         {
@@ -50,12 +55,7 @@ namespace SCaddins.SCexport
                 this.listView1.Items.Add(item);
             }
         }
-        
-        private static string NewSheetValue(string s, string pattern, string replacement)
-        { 
-            return Regex.Replace(s, pattern, replacement);
-        }
-        
+                
         private string NewSheetNumber(string number)
         {
             return NewSheetValue(

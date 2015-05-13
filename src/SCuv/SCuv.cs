@@ -53,17 +53,17 @@ namespace SCaddins.SCuv
             ShowSummaryDialog(message);
     }
                     
-        public static string GetNewViewName(View srcView)
+        public static string GetNewViewName(View sourceView)
         { 
-            return Environment.UserName + "-" + srcView.Name + "-" + SCaddins.SCexport.SCexport.GetDateString();           
+            return Environment.UserName + "-" + sourceView.Name + "-" + SCaddins.SCexport.SCexport.GetDateString();           
         } 
         
-        public static void ShowErrorDialog(View srcView)
+        public static void ShowErrorDialog(View sourceView)
         {
             var td = new TaskDialog("SCuv - SCuv copies users views");
             td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
             td.MainInstruction = "Error creating user view for view:";
-            td.MainContent = srcView.Name;
+            td.MainContent = sourceView.Name;
             td.Show();   
         }
 

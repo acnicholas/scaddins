@@ -57,6 +57,24 @@ namespace SCaddins.SCaos
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }
+        
+                private static void LogText(string text)
+        {
+            System.IO.File.AppendAllText(@"c:\Temp\SCaos.txt", text);
+        }
+
+        private static bool ViewNameIsAvailable(Document doc, string name)
+        {
+            var c = new FilteredElementCollector(doc);
+            c.OfClass(typeof(Autodesk.Revit.DB.View));
+            foreach (View view in c) {
+                var v = view as View;
+                if (v.ViewName == name) {
+                    return false;
+                }
+            }
+            return true;
+        }
 
         private string[] GetViewInfo(View view)
         {
@@ -87,24 +105,6 @@ namespace SCaddins.SCaos
                 info[6] = "Sun Azimuth - " + azdeg.ToString(CultureInfo.InvariantCulture);
                 return info;
             }
-        }
-
-        private static void LogText(string text)
-        {
-            System.IO.File.AppendAllText(@"c:\Temp\SCaos.txt", text);
-        }
-
-        private static bool ViewNameIsAvailable(Document doc, string name)
-        {
-            var c = new FilteredElementCollector(doc);
-            c.OfClass(typeof(Autodesk.Revit.DB.View));
-            foreach (View view in c) {
-                var v = view as View;
-                if (v.ViewName == name) {
-                    return false;
-                }
-            }
-            return true;
         }
 
         private void CreateWinterViews(Document doc, UIDocument udoc)

@@ -36,7 +36,7 @@
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE;REVIT2014</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
-    <AssemblyName>SCaddinsDBG</AssemblyName>
+    <AssemblyName>SCaddinsDebug</AssemblyName>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2014\</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2015' ">

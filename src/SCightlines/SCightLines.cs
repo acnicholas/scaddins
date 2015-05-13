@@ -201,6 +201,20 @@ namespace SCaddins.SCightLines
                 }
             }
         }
+        
+        /// <summary>Converts feet to mm
+        /// NOTE: revit system units are feet so this needs to be done
+        /// </summary>
+        /// <param name="EyeToFocusX">
+        /// Length in feet
+        /// </param>
+        /// <returns>
+        /// Returns d in mm
+        /// </returns>
+        private static double FeetToMM(double d)
+        {
+            return d / 304.8;
+        }
 
         /// <summary>
         /// Create a Drafting View with a semi-usefull name
@@ -378,20 +392,6 @@ namespace SCaddins.SCightLines
                     l.LineStyle = style;
                 }
             }
-        }
-
-        /// <summary>Converts feet to mm
-        /// NOTE: revit system units are feet so this needs to be done
-        /// </summary>
-        /// <param name="EyeToFocusX">
-        /// Length in feet
-        /// </param>
-        /// <returns>
-        /// Returns d in mm
-        /// </returns>
-        private static double FeetToMM(double d)
-        {
-            return d / 304.8;
         }
 
         /// <summary>Get the C-Value</summary>

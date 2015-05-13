@@ -43,6 +43,15 @@ namespace SCaddins.SCexport
             this.LoadValues();
         }
         
+        private static void SetPrinter(TextBox textBox)
+        {
+            var dialog = new SelectPrinterDialog();
+            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK) {
+                textBox.Text = dialog.cbxPrinter.SelectedItem.ToString();
+            }  
+        }
+        
         private void LoadValues()
         {
             this.radioPDF.Checked = this.scx.HasFlag(SCexport.ExportFlags.PDF);
@@ -239,16 +248,7 @@ namespace SCaddins.SCexport
         {
             this.SaveValues();
         }
-        
-        private static void SetPrinter(TextBox textBox)
-        {
-            var dialog = new SelectPrinterDialog();
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK) {
-                textBox.Text = dialog.cbxPrinter.SelectedItem.ToString();
-            }  
-        }
-        
+                
         private void ButtonPSPrinterClick(object sender, System.EventArgs e)
         {
             SetPrinter(this.textBoxPSPrinter);

@@ -38,7 +38,6 @@ namespace SCaddins.SCexport
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
             var dh = new DialogHandler(commandData.Application);
-            View currentView = doc.ActiveView;
             var osd = new OpenSheetDialog();
             System.Windows.Forms.DialogResult tdr = osd.ShowDialog();
             if (tdr == System.Windows.Forms.DialogResult.OK) {

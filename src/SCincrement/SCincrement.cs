@@ -86,7 +86,7 @@ namespace SCaddins.SCincrement
                     if (p.StorageType == StorageType.Integer) {
                         this.SetParameterToValue(p, ctr + 12345); // hope this # is unused (could use Failure API to make this more robust
                     } else if (p.StorageType == StorageType.String) {
-                        var ns = p.AsString() + @"zz" + (ctr + 12345).ToString();
+                        var ns = p.AsString() + @"zz" + (ctr + 12345).ToString(CultureInfo.InvariantCulture);
                         p.Set(ns); 
                     }
                     ctr++;

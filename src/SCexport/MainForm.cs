@@ -82,6 +82,31 @@ namespace SCaddins.SCexport
 
             this.Close();
         }
+        
+        private static void ShowHelp()
+        {
+            string s =
+                "A\t    Select all" + System.Environment.NewLine +
+                "C\t    Clear current filter" + System.Environment.NewLine +
+                "J\t    Move selected row down" + System.Environment.NewLine +
+                "K\t    Move selected row up" + System.Environment.NewLine +
+                "L\t    Select *Latest* revision only" + System.Environment.NewLine +
+                "N\t    Select none" + System.Environment.NewLine +
+                "O\t    Open Selected Sheets" + System.Environment.NewLine +
+                "P\t    Preliminary issue(date revision)" + System.Environment.NewLine +
+                "Q\t    Quit" + System.Environment.NewLine +
+                "S\t    Select current sheet only" + System.Environment.NewLine +
+                "T\t    Tip of the day" + System.Environment.NewLine +
+                "V\t    Verify selected sheets" + System.Environment.NewLine +
+                "X\t    Start Export" + System.Environment.NewLine + System.Environment.NewLine +
+                "0-9\t  Filter main view by sheet number" + System.Environment.NewLine + System.Environment.NewLine +
+                "?\t    Help, show keyboard shortcuts (this dialog)" + System.Environment.NewLine +
+                "/\t    Advanced search" + System.Environment.NewLine;
+            var td = new TaskDialog("Keyboard Shortcuts");
+            td.MainInstruction = "Keyboard Shortcuts";
+            td.MainContent = s;
+            td.Show();
+        }
 
         private void PopulateViewSheetSetCombo()
         {
@@ -260,31 +285,6 @@ namespace SCaddins.SCexport
         private void MnuSelectNone_Click(object sender, EventArgs e)
         {
             this.SelectAllOrNone(false);
-        }
-
-        private static void ShowHelp()
-        {
-            string s =
-                "A\t    Select all" + System.Environment.NewLine +
-                "C\t    Clear current filter" + System.Environment.NewLine +
-                "J\t    Move selected row down" + System.Environment.NewLine +
-                "K\t    Move selected row up" + System.Environment.NewLine +
-                "L\t    Select *Latest* revision only" + System.Environment.NewLine +
-                "N\t    Select none" + System.Environment.NewLine +
-                "O\t    Open Selected Sheets" + System.Environment.NewLine +
-                "P\t    Preliminary issue(date revision)" + System.Environment.NewLine +
-                "Q\t    Quit" + System.Environment.NewLine +
-                "S\t    Select current sheet only" + System.Environment.NewLine +
-                "T\t    Tip of the day" + System.Environment.NewLine +
-                "V\t    Verify selected sheets" + System.Environment.NewLine +
-                "X\t    Start Export" + System.Environment.NewLine + System.Environment.NewLine +
-                "0-9\t  Filter main view by sheet number" + System.Environment.NewLine + System.Environment.NewLine +
-                "?\t    Help, show keyboard shortcuts (this dialog)" + System.Environment.NewLine +
-                "/\t    Advanced search" + System.Environment.NewLine;
-            var td = new TaskDialog("Keyboard Shortcuts");
-            td.MainInstruction = "Keyboard Shortcuts";
-            td.MainContent = s;
-            td.Show();
         }
 
         private void MoveUpOrDown(int move)

@@ -39,7 +39,7 @@ namespace SCaddins.SCoord
             return Autodesk.Revit.UI.Result.Succeeded;
         }
 
-        private XYZ ToMGA(ProjectPosition projectPosition, double x, double y, double z)
+        private static XYZ ToMGA(ProjectPosition projectPosition, double x, double y, double z)
         {
             double xp, yp;
             double ang = projectPosition.Angle;
@@ -50,47 +50,7 @@ namespace SCaddins.SCoord
             ny = (xp * Math.Sin(-ang)) + (yp * Math.Cos(-ang));
             return new XYZ(nx, ny, z / FeetToInches);
         }
-
-        private void PlaceMGA(Document doc)
-        {
-            Level levelZero = GetLevelZero(doc);
-            FamilySymbol family = GetSpotCoordFamily(doc);
-            if (levelZero == null || family == null) {
-                return;
-            }
-
-            ProjectLocation currentLocation = doc.ActiveProjectLocation;
-            var origin = new XYZ(0, 0, 0);
-            ProjectPosition projectPosition = currentLocation.get_ProjectPosition(origin);
-
-            var form = new SCoordForm();
-            System.Windows.Forms.DialogResult r = form.ShowDialog();
-
-            if (r == System.Windows.Forms.DialogResult.Cancel) {
-                return;
-            }
-
-            double x = Convert.ToDouble(form.textBoxEW.Text, CultureInfo.CurrentCulture);
-            double y = Convert.ToDouble(form.textBoxNS.Text, CultureInfo.CurrentCulture);
-            double z = Convert.ToDouble(form.textBoxElevation.Text, CultureInfo.CurrentCulture);
-            XYZ newLocation = this.ToMGA(projectPosition, x, y, z);
-
-            var t = new Transaction(doc, "Place SCoord");
-            t.Start();
-            FamilyInstance fi = doc.Create.NewFamilyInstance(
-                                    newLocation,
-                                    family,
-                                    levelZero,
-                                    Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
-            #if REVIT2014
-            Parameter p = fi.get_Parameter("Z");
-            #else
-            Parameter p = fi.LookupParameter("Z");
-            #endif
-            p.Set(newLocation.Z);
-            t.Commit();
-        }
-
+        
         private static FamilySymbol GetSpotCoordFamily(Document doc)
         {
             var collector1 = new FilteredElementCollector(doc);
@@ -144,6 +104,46 @@ namespace SCaddins.SCoord
             }
             TaskDialog.Show("SCoord", "Sea level not found.");
             return null;
+        }
+
+        private void PlaceMGA(Document doc)
+        {
+            Level levelZero = GetLevelZero(doc);
+            FamilySymbol family = GetSpotCoordFamily(doc);
+            if (levelZero == null || family == null) {
+                return;
+            }
+
+            ProjectLocation currentLocation = doc.ActiveProjectLocation;
+            var origin = new XYZ(0, 0, 0);
+            ProjectPosition projectPosition = currentLocation.get_ProjectPosition(origin);
+
+            var form = new SCoordForm();
+            System.Windows.Forms.DialogResult r = form.ShowDialog();
+
+            if (r == System.Windows.Forms.DialogResult.Cancel) {
+                return;
+            }
+
+            double x = Convert.ToDouble(form.textBoxEW.Text, CultureInfo.CurrentCulture);
+            double y = Convert.ToDouble(form.textBoxNS.Text, CultureInfo.CurrentCulture);
+            double z = Convert.ToDouble(form.textBoxElevation.Text, CultureInfo.CurrentCulture);
+            XYZ newLocation = ToMGA(projectPosition, x, y, z);
+
+            var t = new Transaction(doc, "Place SCoord");
+            t.Start();
+            FamilyInstance fi = doc.Create.NewFamilyInstance(
+                                    newLocation,
+                                    family,
+                                    levelZero,
+                                    Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
+            #if REVIT2014
+            Parameter p = fi.get_Parameter("Z");
+            #else
+            Parameter p = fi.LookupParameter("Z");
+            #endif
+            p.Set(newLocation.Z);
+            t.Commit();
         }
     }
 }
