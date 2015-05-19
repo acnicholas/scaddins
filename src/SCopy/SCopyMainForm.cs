@@ -37,7 +37,7 @@ namespace SCaddins.SCopy
             this.InitializeComponent();
             this.SetTitle();
             this.scopy = new SCopy(doc);
-            SCopy.AddViewInfoToList(this.listView1, viewSheet);
+            this.scopy.AddViewInfoToList(this.listView1, viewSheet);
             this.AddDataGridColumns();
         }
         
@@ -151,7 +151,7 @@ namespace SCaddins.SCopy
         private void DataGridView1CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             var sheet = (SCopySheet)dataGridView1.Rows[e.RowIndex].DataBoundItem;
-            SCopy.AddViewInfoToList(this.listView1, sheet.SourceSheet);
+            this.scopy.AddViewInfoToList(this.listView1, sheet.SourceSheet);
             dataGridView2.DataSource = sheet.ViewsOnSheet;
             dataGridView2.Refresh();
         }

@@ -125,15 +125,15 @@ public class SheetNameSegment
         set { this.text = SheetNameSegment.GetSafeFileName(value); }
     }
     
-    public static string GetSafeFileName(string filename)
+    public static string GetSafeFileName(string filenName)
     {
-        if (filename == null) {
+        if (filenName == null) {
             return null;
         }
         foreach (char c in System.IO.Path.GetInvalidFileNameChars()) {
-            filename = filename.Replace(c, '_');
+            filenName = filenName.Replace(c, '_');
         }
-        return filename;
+        return filenName;
     }
 
     private void Init(SegmentType segmentType, string value)

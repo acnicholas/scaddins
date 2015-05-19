@@ -273,7 +273,6 @@ namespace SCaddins.SCexport
             char[] c = delims.ToCharArray();
             int d2 = s.LastIndexOfAny(c);
             int d1 = s.IndexOfAny(c);
-            int len = s.Length;
 
             // FIXME clean this up.
             try {
@@ -389,7 +388,7 @@ namespace SCaddins.SCexport
                     sheet.Sheet.SetAdditionalProjectRevisionIds(il);
                     #else
                     ICollection<ElementId> il = sheet.Sheet.GetAdditionalRevisionIds();
-                    il.Add(r.ID);
+                    il.Add(r.Id);
                     sheet.Sheet.SetAdditionalRevisionIds(il);
                     #endif
                 }

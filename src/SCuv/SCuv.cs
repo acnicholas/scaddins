@@ -122,8 +122,8 @@ namespace SCaddins.SCuv
             Parameter param = newView.get_Parameter("SC-View_Category");
             #else
             var p = newView.GetParameters("SC-View_Category");
-            if(p.Count < 1) {
-                return true ;
+            if (p.Count < 1) {
+                return true;
             }
             Parameter param = p[0];
             #endif

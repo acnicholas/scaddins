@@ -63,7 +63,7 @@ namespace SCaddins.SCexport
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void OpenSelectedViewToolStripMenuItem_Click(
+        public void OpenSelectedViewToolStripMenuItemClick(
                 object sender, EventArgs e)
         {
             var dh = new DialogHandler(
@@ -336,7 +336,7 @@ namespace SCaddins.SCexport
                     this.MnuVerify_Click(sender, e);
                     break;
                 case "O":
-                    this.OpenSelectedViewToolStripMenuItem_Click(sender, e);
+                    this.OpenSelectedViewToolStripMenuItemClick(sender, e);
                     break;
                 case "P":
                     this.scx.ForceDate = !this.scx.ForceDate;

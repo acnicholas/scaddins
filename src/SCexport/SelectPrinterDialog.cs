@@ -26,7 +26,7 @@ namespace SCaddins.SCexport
         {
             this.InitializeComponent();
             foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters) {
-                cbxPrinter.Items.Add(printer);
+                comboBoxPrinter.Items.Add(printer);
             }
         }
     }

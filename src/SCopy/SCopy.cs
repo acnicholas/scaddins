@@ -91,7 +91,12 @@ namespace SCaddins.SCopy
         #endregion
 
         #region public methods
-        public static void AddViewInfoToList(
+        public static ViewSheet ViewToViewSheet(View view)
+        {
+            return (view.ViewType != ViewType.DrawingSheet) ? null : view as ViewSheet;
+        }
+            
+        public void AddViewInfoToList(
             System.Windows.Forms.ListView list, ViewSheet viewSheet)
         {
             if (viewSheet == null) {
@@ -109,11 +114,6 @@ namespace SCaddins.SCopy
             list.Refresh();
         }
             
-        public static ViewSheet ViewToViewSheet(View view)
-        {
-            return (view.ViewType != ViewType.DrawingSheet) ? null : view as ViewSheet;
-        }
-        
         public bool CheckSheetNumberAvailability(string number)
         {
             foreach (SCopySheet s in this.sheets) {
@@ -187,7 +187,7 @@ namespace SCaddins.SCopy
             }
         }
         
-        private static XYZ ViewCenterFromTBBottomLeft(BoundingBoxXYZ viewBounds, View view)
+        private static XYZ ViewCenterFromTBBottomLeft(BoundingBoxXYZ viewBounds)
         {
             XYZ xyzPosition = (viewBounds.Max + viewBounds.Min) / 2.0;
             return xyzPosition;
@@ -350,7 +350,7 @@ namespace SCaddins.SCopy
             do {
                 inc++;
             } while (!this.CheckSheetNumberAvailability(s + "-" + inc.ToString(CultureInfo.InvariantCulture)));
-            return s + "-" + inc.ToString();
+            return s + "-" + inc.ToString(CultureInfo.InvariantCulture);
         }
 
         private void PlaceNewView(
@@ -399,8 +399,7 @@ namespace SCaddins.SCopy
                     continue;
                 }
             
-                XYZ sourceViewCentre = SCopy.ViewCenterFromTBBottomLeft(
-                                           srcViewBounds, sheet.SourceSheet);
+                XYZ sourceViewCentre = SCopy.ViewCenterFromTBBottomLeft(srcViewBounds);
               
                 switch (view.CreationMode) {
                     case ViewCreationMode.Copy:

@@ -48,7 +48,7 @@ namespace SCaddins.SCexport
             var dialog = new SelectPrinterDialog();
             System.Windows.Forms.DialogResult result = dialog.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK) {
-                textBox.Text = dialog.cbxPrinter.SelectedItem.ToString();
+                textBox.Text = dialog.comboBoxPrinter.SelectedItem.ToString();
             }  
         }
         

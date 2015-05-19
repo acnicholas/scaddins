@@ -18,6 +18,7 @@
 namespace SCaddins.Common
 {
     using System;
+    using System.Globalization;
     using System.Linq;
     using System.Reflection;
     using System.Windows.Forms;
@@ -30,10 +31,15 @@ namespace SCaddins.Common
         public AboutBox1()
         {
             this.InitializeComponent();
-            this.Text = string.Format("About {0}", AboutBox1.AssemblyTitle);
+            this.Text = string.Format(
+                CultureInfo.InvariantCulture,
+                "About {0}",
+                AboutBox1.AssemblyTitle);
             this.labelProductName.Text = AboutBox1.AssemblyTitle;
             this.labelVersion.Text = string.Format(
-                "Version {0}", AboutBox1.AssemblyVersion);
+                CultureInfo.InvariantCulture,
+                "Version {0}",
+                AboutBox1.AssemblyVersion);
             this.labelCopyright.Text = AboutBox1.AssemblyCopyright;
             this.textBoxDescription.Text = Constants.License;
         }

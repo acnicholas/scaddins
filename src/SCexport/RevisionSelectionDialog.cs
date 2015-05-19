@@ -43,7 +43,6 @@ namespace SCaddins.SCexport
            
         private void PopulateList()
         {
-            string s = string.Empty;
             FilteredElementCollector a;
             a = new FilteredElementCollector(this.doc);
             a.OfCategory(BuiltInCategory.OST_Revisions);

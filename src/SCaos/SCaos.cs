@@ -135,7 +135,7 @@ namespace SCaddins.SCaos
                 if (ViewNameIsAvailable(doc, vname)) {
                     view.Name = vname;
                 } else {
-                    view.Name = vname + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString() + @")";    
+                    view.Name = vname + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";    
                 }
                 SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
                 sunSettings.StartDateAndTime = new DateTime(2014, 06, 21, i, 0, 0, DateTimeKind.Local);

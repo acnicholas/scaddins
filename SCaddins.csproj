@@ -38,6 +38,7 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <AssemblyName>SCaddinsDebug</AssemblyName>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2014\</ReferencePath>
+    <RunCodeAnalysis>True</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2015' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -50,6 +51,7 @@
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins15</AssemblyName>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2015\</ReferencePath>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2014' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -62,6 +64,7 @@
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins14</AssemblyName>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2014\</ReferencePath>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp">

@@ -38,24 +38,24 @@ namespace SCaddins.SCexport
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectPrinterDialog));
             this.grpSelectPrinter = new System.Windows.Forms.GroupBox();
-            this.cbxPrinter = new System.Windows.Forms.ComboBox();
+            this.comboBoxPrinter = new System.Windows.Forms.ComboBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.grpSelectPrinter.SuspendLayout();
             this.SuspendLayout(); 
-            this.grpSelectPrinter.Controls.Add(this.cbxPrinter);
+            this.grpSelectPrinter.Controls.Add(this.comboBoxPrinter);
             this.grpSelectPrinter.Location = new System.Drawing.Point(12, 12);
             this.grpSelectPrinter.Name = "grpSelectPrinter";
             this.grpSelectPrinter.Size = new System.Drawing.Size(293, 77);
             this.grpSelectPrinter.TabIndex = 0;
             this.grpSelectPrinter.TabStop = false;
             this.grpSelectPrinter.Text = "Select printer from combo box";
-            this.cbxPrinter.FormattingEnabled = true;
-            this.cbxPrinter.Location = new System.Drawing.Point(16, 32);
-            this.cbxPrinter.Name = "cbxPrinter";
-            this.cbxPrinter.Size = new System.Drawing.Size(256, 21);
-            this.cbxPrinter.TabIndex = 0;
+            this.comboBoxPrinter.FormattingEnabled = true;
+            this.comboBoxPrinter.Location = new System.Drawing.Point(16, 32);
+            this.comboBoxPrinter.Name = "cbxPrinter";
+            this.comboBoxPrinter.Size = new System.Drawing.Size(256, 21);
+            this.comboBoxPrinter.TabIndex = 0;
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOK.Location = new System.Drawing.Point(212, 95);
             this.btnOK.Name = "btnOK";
@@ -94,7 +94,7 @@ namespace SCaddins.SCexport
         }
         
         private System.Windows.Forms.GroupBox grpSelectPrinter;
-        public System.Windows.Forms.ComboBox cbxPrinter;
+        public System.Windows.Forms.ComboBox comboBoxPrinter;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.MenuStrip menuStrip1;

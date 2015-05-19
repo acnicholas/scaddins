@@ -229,7 +229,7 @@ namespace SCaddins.SCexport
             this.openSelectedViewToolStripMenuItem.Name = "openSelectedViewToolStripMenuItem";
             this.openSelectedViewToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.openSelectedViewToolStripMenuItem.Text = "Open Selected View";
-            this.openSelectedViewToolStripMenuItem.Click += new System.EventHandler(this.OpenSelectedViewToolStripMenuItem_Click);
+            this.openSelectedViewToolStripMenuItem.Click += new System.EventHandler(this.OpenSelectedViewToolStripMenuItemClick);
             // 
             // toolStripSeparator1
             // 
