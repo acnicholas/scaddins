@@ -264,29 +264,29 @@ namespace SCaddins.SCexport
         /// <summary>
         /// Get a date string in the format of YYYYMMDD.
         /// </summary>
-        /// <param name="s">The string to convert.</param>
+        /// <param name="date">The string to convert.</param>
         /// <returns>A date string in the format of YYYYMMDD.</returns>
-        public static DateTime ToDateTime(string s)
+        public static DateTime ToDateTime(string date)
         {
-            s.Trim();
+            date.Trim();
             string delims = @"-.\/_ ";
             char[] c = delims.ToCharArray();
-            int d2 = s.LastIndexOfAny(c);
-            int d1 = s.IndexOfAny(c);
+            int d2 = date.LastIndexOfAny(c);
+            int d1 = date.IndexOfAny(c);
 
             // FIXME clean this up.
             try {
                 string year = string.Empty;
                 string month = string.Empty;
                 string day = string.Empty;
-                if (s.Length > d2 + 1) {
-                    year = s.Substring(d2 + 1);
+                if (date.Length > d2 + 1) {
+                    year = date.Substring(d2 + 1);
                 }
-                if (s.Length > (d1 + 1) && (d2 - d1 - 1) < s.Length - (d1 + 1)) {
-                    month = s.Substring(d1 + 1, d2 - d1 - 1);
+                if (date.Length > (d1 + 1) && (d2 - d1 - 1) < date.Length - (d1 + 1)) {
+                    month = date.Substring(d1 + 1, d2 - d1 - 1);
                 }
-                if (s.Length > 0 && d1 <= s.Length) {
-                    day = s.Substring(0, d1);
+                if (date.Length > 0 && d1 <= date.Length) {
+                    day = date.Substring(0, d1);
                 }
                 return new DateTime(
                     Convert.ToInt32(year, CultureInfo.InvariantCulture),
@@ -414,21 +414,21 @@ namespace SCaddins.SCexport
             }
         }
         
-        public static ACADVersion AcadVersionFromString(string s)
+        public static ACADVersion AcadVersionFromString(string version)
         {
-            if (s == "R2000") {
+            if (version == "R2000") {
                 return ACADVersion.R2000;
             }
-            if (s == "R2004") {
+            if (version == "R2004") {
                 return ACADVersion.R2004;
             }
-            if (s == "R2007") {
+            if (version == "R2007") {
                 return ACADVersion.R2007;
             }
-            if (s == "R2010") {
+            if (version == "R2010") {
                 return ACADVersion.R2010;
             }
-            if (s == "R2013") {
+            if (version == "R2013") {
                 return ACADVersion.R2013;
             }
             return ACADVersion.Default;
@@ -552,11 +552,11 @@ namespace SCaddins.SCexport
         /// <summary>
         /// Gets or sets the filename scheme to use with exports.
         /// </summary>
-        /// <param name="s"> The filename scheme. </param>
-        public void SetFileNameScheme(string s)
+        /// <param name="newScheme"> The filename scheme. </param>
+        public void SetFileNameScheme(string newScheme)
         {
             foreach (SheetName scheme in this.fileNameTypes) {
-                if (s == scheme.Name) {
+                if (newScheme == scheme.Name) {
                     this.FileNameScheme = scheme;
                 }
             }
