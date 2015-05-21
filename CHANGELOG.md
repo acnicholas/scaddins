@@ -10,6 +10,7 @@
 ####FIXES#####
 
 - [SCaddins] better tooltip help added to ribbon.
+- [SCexport] If destination file exists -> check if it's open/available before attempting an export.
 - [SCexport] removed non-print line-type feature. (causing problems with permissions)
 - [SCexport] check for illegal file names and replace invalid chars with a '_'
 - **[SCexport] correctly assign and save AutoCAD export version.**

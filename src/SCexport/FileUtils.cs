@@ -129,7 +129,7 @@ namespace SCaddins.SCexport
                 return doc.PathName;
             }
         }
-
+            
         /// <summary>
         /// Determines if the specified file is locked.
         /// </summary>
@@ -144,8 +144,8 @@ namespace SCaddins.SCexport
             System.Diagnostics.Debug.WriteLine(msg);
             #endif
             System.IO.FileStream stream = null;
-            if (!file.Exists) {
-                return true;
+            if (file.Exists == false) {
+                return false;
             }
             try {
                 stream = file.Open(
@@ -170,6 +170,19 @@ namespace SCaddins.SCexport
         /// <param name="filename"> The filename to check. </param>
         public static bool CanOverwriteFile(string fileName)
         {
+            if (IsFileLocked(new FileInfo(fileName))){
+                TaskDialog td = new TaskDialog("File in use");
+                td.MainContent = "The file: " + fileName + " appears to be in use." +
+                    System.Environment.NewLine +
+                    "please close it before continuing...";
+                td.MainInstruction = "File in use";
+                td.CommonButtons = TaskDialogCommonButtons.Ok;
+                td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+                td.Show();
+                if (IsFileLocked(new FileInfo(fileName))){
+                    return false;
+                }
+            }
             if (!SCexport.ConfirmOverwrite) {
                 return true;
             }

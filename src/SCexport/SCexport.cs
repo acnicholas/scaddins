@@ -997,7 +997,12 @@ namespace SCaddins.SCexport
 
                 if (this.exportFlags.HasFlag(SCexport.ExportFlags.PDF)) {
                     if (!this.ExportAdobePDF(r)) {
-                        TaskDialog.Show("SCexport", "Could not print pdf");
+                        TaskDialog exportErrorDialog = new TaskDialog("Export Error");
+                        exportErrorDialog.MainContent = "Could not print pdf: " + r.FullExportName;
+                        exportErrorDialog.MainInstruction = "Export Error";
+                        exportErrorDialog.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+                        exportErrorDialog.CommonButtons = TaskDialogCommonButtons.Ok;
+                        exportErrorDialog.Show();
                         return;
                     }
                 }
@@ -1005,7 +1010,7 @@ namespace SCaddins.SCexport
                 if (this.exportFlags.HasFlag(SCexport.ExportFlags.GhostscriptPDF)) {
                     if (!this.ExportGSPDF(r)) {
                         TaskDialog.Show(
-                            "SCexport", "Could not export postscript pdf");
+                            "SCexport", "Could not export postscript pdf: " + r.FullExportName);
                         return;
                     }
                 }
@@ -1114,13 +1119,15 @@ namespace SCaddins.SCexport
             }
 
             SetRegistryVal(vs.FullExportPath(".pdf"));
-
+            
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
                 if (File.Exists(vs.FullExportPath(".pdf"))) {
                     File.Delete(vs.FullExportPath(".pdf"));
                 }
                 pm.SubmitPrint(vs.Sheet);
                 SCexport.KillAcrotray();
+            } else {
+                return false;
             }
             FileUtilities.WaitForFileAccess(vs.FullExportPath(".pdf"));
             return true;
