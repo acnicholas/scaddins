@@ -46,6 +46,11 @@ namespace SCaddins.SCexport
             this.scx = new SCexport(this.doc);
             this.filter = new FilterContextMenu("Filter", -1, null);
             this.InitializeComponent();
+            ToolTip findTip = new ToolTip();
+            findTip.SetToolTip(this.btnFind,
+                               "Use regular expressions to filter the sheet list" +
+                              System.Environment.NewLine +
+                             "Searches both sheet name and number.");
             this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
             this.PopulateViewSheetSetCombo();
             this.PopulateColumns();

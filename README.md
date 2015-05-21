@@ -1,4 +1,4 @@
-![SCexport logo](raw/master/share/icons/scaddins-wix.png)
+![SCexport logo](https://bitbucket.org/anicholas/scaddins/raw/master/share/icons/scaddins-wix.png)
 
 # SCaddins #
 
