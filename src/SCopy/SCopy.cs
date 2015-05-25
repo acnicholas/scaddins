@@ -310,7 +310,8 @@ namespace SCaddins.SCopy
 
             ViewSheet destSheet = this.AddEmptySheetToDocument(
                 sheet.Number,
-                sheet.Title);
+                sheet.Title,
+                sheet.ViewCategory);
 
             sheet.DestinationSheet = destSheet;
             if (sheet.DestinationSheet != null) {
@@ -326,12 +327,18 @@ namespace SCaddins.SCopy
     
         private ViewSheet AddEmptySheetToDocument(
             string sheetNumber,
-            string sheetTitle)
+            string sheetTitle,
+            string viewCategory)
         {
             ViewSheet result;
             result = ViewSheet.Create(this.doc, ElementId.InvalidElementId);           
             result.Name = sheetTitle;
             result.SheetNumber = sheetNumber;
+            var viewCategoryParamList = result.GetParameters(SCopyConstants.SheetCategory);
+            if (viewCategoryParamList.Count > 0) {
+                Parameter viewCategoryParam = viewCategoryParamList.First();
+                viewCategoryParam.Set(viewCategory);
+            }
             return result;
         }
 

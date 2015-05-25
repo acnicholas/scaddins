@@ -24,5 +24,8 @@ public static class SCopyConstants
     
     // mm in a foot
     public const double MillimetersPerFoot = 304.8;
+    
+    // sheet categroy parameter
+    public const string SheetCategory = @"SC-Sheet_Category";
 }
 }

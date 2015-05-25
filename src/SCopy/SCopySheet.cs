@@ -19,7 +19,10 @@ namespace SCaddins.SCopy
 {
     using System;
     using System.ComponentModel;
+    using System.Collections.Generic;
+    using System.Linq;
     using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
     
     /// <summary>
     /// Description of SCopySheet.
@@ -30,6 +33,7 @@ namespace SCaddins.SCopy
         private ViewSheet sourceSheet;
         private string title;
         private string number;
+        private string viewCategory;
         private ViewSheet destinationSheet;              
         private BindingList<SCopyViewOnSheet> viewsOnSheet;
         
@@ -38,7 +42,9 @@ namespace SCaddins.SCopy
             this.scopy = scopy;
             this.number = number;
             this.title = title;
+            //FIXME add "SC_View-Category" var somewhere?
             this.sourceSheet = sourceSheet;
+            this.viewCategory = GetViewCategory(SCopyConstants.SheetCategory);
             this.destinationSheet = null;
             this.viewsOnSheet = new BindingList<SCopyViewOnSheet>();
             #if REVIT2014
@@ -77,6 +83,17 @@ namespace SCaddins.SCopy
                 this.sourceSheet = value;
             }
         }
+        
+        private string GetViewCategory(string parameterName)
+        {
+            var viewCategoryParamList = this.SourceSheet.GetParameters(parameterName);
+            if (viewCategoryParamList.Count > 0) {
+                Parameter viewCategoryParam = viewCategoryParamList.First();
+                string s = viewCategoryParam.AsString();
+                return s;
+            }
+            return "todo";
+        }
 
         public string Number {
             get {
@@ -106,6 +123,19 @@ namespace SCaddins.SCopy
                 this.title = value;
                 if (this.PropertyChanged != null) {
                     this.PropertyChanged(this, new PropertyChangedEventArgs("Title"));
+                }
+            }
+        }
+        
+        public string ViewCategory {
+            get {
+                return this.viewCategory;
+            }
+            
+            set {
+                this.viewCategory = value;
+                if (this.PropertyChanged != null) {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs("ViewCategory"));
                 }
             }
         }
