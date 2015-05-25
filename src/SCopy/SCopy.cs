@@ -334,11 +334,18 @@ namespace SCaddins.SCopy
             result = ViewSheet.Create(this.doc, ElementId.InvalidElementId);           
             result.Name = sheetTitle;
             result.SheetNumber = sheetNumber;
+            #if REVIT2015
             var viewCategoryParamList = result.GetParameters(SCopyConstants.SheetCategory);
             if (viewCategoryParamList.Count > 0) {
                 Parameter viewCategoryParam = viewCategoryParamList.First();
                 viewCategoryParam.Set(viewCategory);
             }
+            #else
+            var s = result.get_Parameter(SCopyConstants.SheetCategory);
+            if(s != null){
+                s.Set(viewCategory);
+            }
+            #endif
             return result;
         }
 

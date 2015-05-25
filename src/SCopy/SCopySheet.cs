@@ -86,12 +86,19 @@ namespace SCaddins.SCopy
         
         private string GetViewCategory(string parameterName)
         {
+            #if REVIT2015
             var viewCategoryParamList = this.SourceSheet.GetParameters(parameterName);
             if (viewCategoryParamList.Count > 0) {
                 Parameter viewCategoryParam = viewCategoryParamList.First();
                 string s = viewCategoryParam.AsString();
                 return s;
             }
+            #else
+            var viewCategoryParam = this.SourceSheet.get_Parameter(SCopyConstants.SheetCategory);
+            if(viewCategoryParam != null){
+                return viewCategoryParam.AsString();
+            }
+            #endif
             return "todo";
         }
 

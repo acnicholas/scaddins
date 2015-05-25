@@ -6,6 +6,7 @@
 - [SCaddins]Improved update dialog box, with option to view change log.
 - **[SCexport]SCopy option for multiple sheets added to the context menu.**
 - [SCopy]Copy button added to enable multiple copies of sheets. 
+- [SCopy]Sheet Category field added for new sheets. 
 
 ####FIXES#####
 
