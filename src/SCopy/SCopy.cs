@@ -91,6 +91,12 @@ namespace SCaddins.SCopy
                 return this.existingViews;
             }
         }
+        
+        public List<string> SheetCategories {
+            get {
+                return this.sheetCategories;
+            }    
+        }
     
         #endregion
 

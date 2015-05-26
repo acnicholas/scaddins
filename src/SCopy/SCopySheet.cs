@@ -140,6 +140,9 @@ namespace SCaddins.SCopy
             }
             
             set {
+                if (value == "<CREATE NEW>"){
+                    TaskDialog.Show("test","new clicked");
+                }
                 this.sheetCategory = value;
                 if (this.PropertyChanged != null) {
                     this.PropertyChanged(this, new PropertyChangedEventArgs("SheetCategory"));

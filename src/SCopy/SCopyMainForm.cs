@@ -91,13 +91,29 @@ namespace SCaddins.SCopy
             this.dataGridView2.AutoGenerateColumns = false;
             AddColumn("Number", "Number", this.dataGridView1);
             AddColumn("Title", "Title", this.dataGridView1);
-            AddColumn("SheetCategory", "Sheet Category", this.dataGridView1);
+           
+            DataGridViewComboBoxColumn cheetCategoryCombo = CreateComboBoxColumn();
+            AddColumnHeader("SheetCategory", "Sheet Category", cheetCategoryCombo);
+            cheetCategoryCombo.SelectedIndexChanged += new EventHandler(cbm_SelectedIndexChanged);
+            cheetCategoryCombo.Items.Add("<CREATE NEW>");
+            foreach (string s in scopy.SheetCategories) {
+                cheetCategoryCombo.Items.Add(s);
+            }
+            dataGridView1.Columns.Add(cheetCategoryCombo);
+             
             AddColumn("OriginalTitle", "Original Title", this.dataGridView2);
             AddColumn("Title", "Proposed Title", this.dataGridView2);
             this.AddComboBoxColumns();
             AddColumn("RevitViewType", "View Type", this.dataGridView2);
             AddCheckBoxColumn(
                 "DuplicateWithDetailing", "Copy Detailing", this.dataGridView2); 
+        }
+        
+        void cbm_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //if (value == "<CREATE NEW>"){
+                    TaskDialog.Show("test","new clicked");
+            //}
         }
 
         private void AddComboBoxColumns()
