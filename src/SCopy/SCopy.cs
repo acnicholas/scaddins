@@ -311,7 +311,7 @@ namespace SCaddins.SCopy
             ViewSheet destSheet = this.AddEmptySheetToDocument(
                 sheet.Number,
                 sheet.Title,
-                sheet.ViewCategory);
+                sheet.SheetCategory);
 
             sheet.DestinationSheet = destSheet;
             if (sheet.DestinationSheet != null) {

@@ -91,7 +91,7 @@ namespace SCaddins.SCopy
             this.dataGridView2.AutoGenerateColumns = false;
             AddColumn("Number", "Number", this.dataGridView1);
             AddColumn("Title", "Title", this.dataGridView1);
-            AddColumn("ViewCategory", "View Category", this.dataGridView1);
+            AddColumn("SheetCategory", "Sheet Category", this.dataGridView1);
             AddColumn("OriginalTitle", "Original Title", this.dataGridView2);
             AddColumn("Title", "Proposed Title", this.dataGridView2);
             this.AddComboBoxColumns();
