@@ -41,6 +41,9 @@ namespace SCaddins.SCopy
         private Dictionary<string, Level> levels =
             new Dictionary<string, Level>();
         
+        private List<string> sheetCategories = 
+            new List<string>();
+        
         private ElementId floorPlanViewFamilyTypeId = null;
            
         public SCopy(Document doc)
@@ -52,6 +55,7 @@ namespace SCaddins.SCopy
             this.GetAllLevelsInModel();
             this.GetAllViewsInModel();
             this.GetFloorPlanViewFamilyTypeId();
+            this.GetAllSheetCategories();
         }
                
         public enum ViewCreationMode
@@ -251,6 +255,33 @@ namespace SCaddins.SCopy
                 if (view.IsTemplate) {
                     this.viewTemplates.Add(view.Name, view);
                 }
+            }
+        }
+        
+        private void GetAllSheetCategories()
+        {
+            this.sheetCategories.Clear();
+            FilteredElementCollector c1 = new FilteredElementCollector(this.doc);
+            c1.OfCategory(BuiltInCategory.OST_Sheets);
+            foreach (View view in c1) {
+                #if REVIT2015
+                var viewCategoryParamList = view.GetParameters(SCopyConstants.SheetCategory);
+                if (viewCategoryParamList.Count > 0) {
+                    Parameter viewCategoryParam = viewCategoryParamList.First();
+                    string s = viewCategoryParam.AsString();
+                    if(!string.IsNullOrEmpty(s) && !sheetCategories.Contains(s)){
+                        sheetCategories.Add(s);
+                    }
+                }
+                #else
+                var viewCategoryParam = view.get_Parameter(SCopyConstants.SheetCategory);
+                if(viewCategoryParam != null){
+                    string s = viewCategoryParam.AsString();
+                     if(!string.IsNullOrEmpty(s) && !sheetCategories.Contains(s)){
+                        sheetCategories.Add(s);
+                    }
+                }
+                #endif
             }
         }
 
