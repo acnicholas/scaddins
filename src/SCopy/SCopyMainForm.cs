@@ -53,7 +53,9 @@ namespace SCaddins.SCopy
                 this.scopy.AddSheet(sheet.Sheet);
             } 
             this.AddDataGridColumns();  
-            dataGridView1.DataSource = this.scopy.Sheets;  
+            dataGridView1.DataSource = this.scopy.Sheets; 
+            this.dataGridView1.CellValueChanged += dataGridView1_CellValueChanged;
+            this.dataGridView1.CurrentCellDirtyStateChanged += dataGridView1_CurrentCellDirtyStateChanged;
         }
     
         #region init component
@@ -89,18 +91,9 @@ namespace SCaddins.SCopy
         {
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView2.AutoGenerateColumns = false;
+                      
             AddColumn("Number", "Number", this.dataGridView1);
-            AddColumn("Title", "Title", this.dataGridView1);
-           
-            DataGridViewComboBoxColumn cheetCategoryCombo = CreateComboBoxColumn();
-            AddColumnHeader("SheetCategory", "Sheet Category", cheetCategoryCombo);
-            cheetCategoryCombo.SelectedIndexChanged += new EventHandler(cbm_SelectedIndexChanged);
-            cheetCategoryCombo.Items.Add("<CREATE NEW>");
-            foreach (string s in scopy.SheetCategories) {
-                cheetCategoryCombo.Items.Add(s);
-            }
-            dataGridView1.Columns.Add(cheetCategoryCombo);
-             
+            AddColumn("Title", "Title", this.dataGridView1);     
             AddColumn("OriginalTitle", "Original Title", this.dataGridView2);
             AddColumn("Title", "Proposed Title", this.dataGridView2);
             this.AddComboBoxColumns();
@@ -108,16 +101,34 @@ namespace SCaddins.SCopy
             AddCheckBoxColumn(
                 "DuplicateWithDetailing", "Copy Detailing", this.dataGridView2); 
         }
-        
-        void cbm_SelectedIndexChanged(object sender, EventArgs e)
+
+        void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            //if (value == "<CREATE NEW>"){
-                    TaskDialog.Show("test","new clicked");
-            //}
+            var cell = (DataGridViewComboBoxCell)dataGridView1.Rows[e.RowIndex].Cells[2];
+            if (cell.Value != null) {
+                TaskDialog.Show("test","new clicked");
+                dataGridView1.Invalidate();
+                dataGridView1.EndEdit();
+            }
+        }
+        
+        void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if ( this.dataGridView1.IsCurrentCellDirty) {
+                dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
         }
 
         private void AddComboBoxColumns()
         {
+            DataGridViewComboBoxColumn cheetCategoryCombo = CreateComboBoxColumn();
+            AddColumnHeader("SheetCategory", "Sheet Category", cheetCategoryCombo);
+            cheetCategoryCombo.Items.Add("NEW");
+            foreach (string s in scopy.SheetCategories) {
+                cheetCategoryCombo.Items.Add(s);
+            }
+            dataGridView1.Columns.Add(cheetCategoryCombo);
+            
             DataGridViewComboBoxColumn result2 = CreateComboBoxColumn();
             AddColumnHeader("ViewTemplateName", "View Template", result2);
             result2.Items.Add(SCopyConstants.MenuItemCopy);
@@ -152,7 +163,6 @@ namespace SCaddins.SCopy
 
         private void ButtonAdd(object sender, EventArgs e)
         {
-            // buttonRemove.Enabled = true;
             var view = this.doc.ActiveView;
             if (view == null) {
                 return;
