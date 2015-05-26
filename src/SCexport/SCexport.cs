@@ -773,13 +773,12 @@ namespace SCaddins.SCexport
                 Microsoft.Win32.RegistryValueKind.String);
         }
         
-                private static void RemoveTitleBlock(
+        private static void RemoveTitleBlock(
             SCexportSheet vs,
-            View view,
             ICollection<ElementId> title,
             bool hide)
         {
-            view = doc.GetElement(vs.Id) as View;
+            View view = doc.GetElement(vs.Id) as View;
             Transaction t = new Transaction(doc, "Hide Title");
             t.Start();
             try {
@@ -1037,7 +1036,7 @@ namespace SCaddins.SCexport
             titleBlockHidden.Add(titleBlock.Id);
 
             if (removeTitle) {
-                SCexport.RemoveTitleBlock(vs, view, titleBlockHidden, true);
+                SCexport.RemoveTitleBlock(vs, titleBlockHidden, true);
             }
 
             PrintManager pm = doc.PrintManager;
@@ -1058,23 +1057,22 @@ namespace SCaddins.SCexport
             ICollection<ElementId> views;
             views = new List<ElementId>();
             views.Add(vs.Id);
+            
             var opts = new DWGExportOptions();
             opts.MergedViews = true;
             opts.FileVersion = this.AcadVersion;
 
-            #if (!REVIT2012)
             pm.PrintRange = PrintRange.Select;
             opts.HideScopeBox = true;
             opts.HideUnreferenceViewTags = true;
-            #endif
 
             bool r;
             var name = vs.FullExportName + ".dwg";
             r = doc.Export(vs.ExportDir, name, views, opts);
             System.Threading.Thread.Sleep(1000);
 
-            if (removeTitle && view != null) {
-                SCexport.RemoveTitleBlock(vs, view, titleBlockHidden, false);
+            if (removeTitle) {
+                SCexport.RemoveTitleBlock(vs, titleBlockHidden, false);
             }
         }
 
