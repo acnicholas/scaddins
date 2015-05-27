@@ -263,7 +263,7 @@ namespace SCaddins.SCopy
                 }
             }
         }
-        
+          
         private void GetAllSheetCategories()
         {
             this.sheetCategories.Clear();

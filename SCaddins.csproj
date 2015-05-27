@@ -204,6 +204,10 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="src\SCopy\SCopySheet.cs" />
+    <Compile Include="src\SCopy\SCopyTextInputForm.cs" />
+    <Compile Include="src\SCopy\SCopyTextInputForm.Designer.cs">
+      <DependentUpon>SCopyTextInputForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\SCopy\SCopyViewOnSheet.cs" />
     <Compile Include="src\SCopy\SCopyViewSelectionDialog.cs" />
     <Compile Include="src\SCopy\SCopyViewSelectionDialog.Designer.cs" />
@@ -300,6 +304,9 @@
       <DependentUpon>SCopyMainForm.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SCopyMainForm.Designer1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\SCopy\SCopyTextInputForm.resx">
+      <DependentUpon>SCopyTextInputForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCopy\SCopyViewSelectionDialog.resx">
       <DependentUpon>SCopyViewSelectionDialog.Designer.cs</DependentUpon>

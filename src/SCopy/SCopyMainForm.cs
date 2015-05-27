@@ -30,6 +30,7 @@ namespace SCaddins.SCopy
     {
         private SCopy scopy;
         private Document doc;
+        DataGridViewComboBoxColumn cheetCategoryCombo;
 
         public MainForm(Document doc, Autodesk.Revit.DB.ViewSheet viewSheet)
         {
@@ -105,8 +106,13 @@ namespace SCaddins.SCopy
         void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             var cell = (DataGridViewComboBoxCell)dataGridView1.Rows[e.RowIndex].Cells[2];
-            if (cell.Value != null) {
-                TaskDialog.Show("test","new clicked");
+            if (cell.Value != null && (string)cell.Value == "NEW") {
+                SCopyTextInputForm form = new SCopyTextInputForm();
+                    System.Windows.Forms.DialogResult dr = form.ShowDialog();
+                    if (dr == System.Windows.Forms.DialogResult.OK) {
+                        cheetCategoryCombo.Items.Add(form.textBox1.Text);
+                        dataGridView1.Rows[e.RowIndex].Cells[2].Value = form.textBox1.Text;
+                    }
                 dataGridView1.Invalidate();
                 dataGridView1.EndEdit();
             }
@@ -121,7 +127,7 @@ namespace SCaddins.SCopy
 
         private void AddComboBoxColumns()
         {
-            DataGridViewComboBoxColumn cheetCategoryCombo = CreateComboBoxColumn();
+            cheetCategoryCombo = CreateComboBoxColumn();
             AddColumnHeader("SheetCategory", "Sheet Category", cheetCategoryCombo);
             cheetCategoryCombo.Items.Add("NEW");
             foreach (string s in scopy.SheetCategories) {

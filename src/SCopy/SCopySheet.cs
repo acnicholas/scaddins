@@ -20,6 +20,7 @@ namespace SCaddins.SCopy
     using System;
     using System.ComponentModel;
     using System.Collections.Generic;
+    //using System.Windows.Forms;
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -140,9 +141,6 @@ namespace SCaddins.SCopy
             }
             
             set {
-                if (value == "NEW"){
-                    TaskDialog.Show("test","new clicked");
-                }
                 this.sheetCategory = value;
                 if (this.PropertyChanged != null) {
                     this.PropertyChanged(this, new PropertyChangedEventArgs("SheetCategory"));
