@@ -27,5 +27,9 @@ public static class SCopyConstants
     
     // sheet categroy parameter
     public const string SheetCategory = @"SC-Sheet_Category";
+    
+    // sheet categroy parameter
+    public const string SheetCategoryCreateCustom = @"<Create New>";
+    
 }
 }

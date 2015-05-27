@@ -106,7 +106,7 @@ namespace SCaddins.SCopy
         void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             var cell = (DataGridViewComboBoxCell)dataGridView1.Rows[e.RowIndex].Cells[2];
-            if (cell.Value != null && (string)cell.Value == "NEW") {
+            if (cell.Value != null && (string)cell.Value == SCopyConstants.SheetCategoryCreateCustom) {
                 SCopyTextInputForm form = new SCopyTextInputForm();
                     System.Windows.Forms.DialogResult dr = form.ShowDialog();
                     if (dr == System.Windows.Forms.DialogResult.OK) {
@@ -129,7 +129,7 @@ namespace SCaddins.SCopy
         {
             cheetCategoryCombo = CreateComboBoxColumn();
             AddColumnHeader("SheetCategory", "Sheet Category", cheetCategoryCombo);
-            cheetCategoryCombo.Items.Add("NEW");
+            cheetCategoryCombo.Items.Add(SCopyConstants.SheetCategoryCreateCustom);
             foreach (string s in scopy.SheetCategories) {
                 cheetCategoryCombo.Items.Add(s);
             }

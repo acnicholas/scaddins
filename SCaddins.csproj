@@ -126,6 +126,10 @@
     <Compile Include="src\ScaddinsOptionsForm.Designer.cs">
       <DependentUpon>ScaddinsOptionsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\ScaddinsOptionsForm.Designer1.cs">
+      <DependentUpon>ScaddinsOptionsForm.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="src\SCam\SCam.cs" />
     <Compile Include="src\SCaos\SCaos.cs" />
     <Compile Include="src\SCaos\SCaosForm.cs" />
@@ -260,6 +264,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\ScaddinsOptionsForm.resx">
       <DependentUpon>ScaddinsOptionsForm.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ScaddinsOptionsForm.Designer1.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCaos\SCaosForm.resx">
       <DependentUpon>SCaosForm.cs</DependentUpon>
