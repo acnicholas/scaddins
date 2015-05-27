@@ -126,6 +126,10 @@
     <Compile Include="src\ScaddinsOptionsForm.Designer.cs">
       <DependentUpon>ScaddinsOptionsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\ScaddinsOptionsForm.Designer1.cs">
+      <DependentUpon>ScaddinsOptionsForm.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="src\SCam\SCam.cs" />
     <Compile Include="src\SCaos\SCaos.cs" />
     <Compile Include="src\SCaos\SCaosForm.cs" />
@@ -204,6 +208,10 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="src\SCopy\SCopySheet.cs" />
+    <Compile Include="src\SCopy\SCopyTextInputForm.cs" />
+    <Compile Include="src\SCopy\SCopyTextInputForm.Designer.cs">
+      <DependentUpon>SCopyTextInputForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\SCopy\SCopyViewOnSheet.cs" />
     <Compile Include="src\SCopy\SCopyViewSelectionDialog.cs" />
     <Compile Include="src\SCopy\SCopyViewSelectionDialog.Designer.cs" />
@@ -256,6 +264,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\ScaddinsOptionsForm.resx">
       <DependentUpon>ScaddinsOptionsForm.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ScaddinsOptionsForm.Designer1.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCaos\SCaosForm.resx">
       <DependentUpon>SCaosForm.cs</DependentUpon>
@@ -300,6 +310,9 @@
       <DependentUpon>SCopyMainForm.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SCopyMainForm.Designer1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\SCopy\SCopyTextInputForm.resx">
+      <DependentUpon>SCopyTextInputForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCopy\SCopyViewSelectionDialog.resx">
       <DependentUpon>SCopyViewSelectionDialog.Designer.cs</DependentUpon>

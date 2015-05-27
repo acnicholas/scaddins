@@ -20,6 +20,7 @@ namespace SCaddins.SCopy
     using System;
     using System.ComponentModel;
     using System.Collections.Generic;
+    //using System.Windows.Forms;
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -33,7 +34,7 @@ namespace SCaddins.SCopy
         private ViewSheet sourceSheet;
         private string title;
         private string number;
-        private string viewCategory;
+        private string sheetCategory;
         private ViewSheet destinationSheet;              
         private BindingList<SCopyViewOnSheet> viewsOnSheet;
         
@@ -44,7 +45,7 @@ namespace SCaddins.SCopy
             this.title = title;
             //FIXME add "SC_View-Category" var somewhere?
             this.sourceSheet = sourceSheet;
-            this.viewCategory = GetViewCategory(SCopyConstants.SheetCategory);
+            this.sheetCategory = GetSheetCategory(SCopyConstants.SheetCategory);
             this.destinationSheet = null;
             this.viewsOnSheet = new BindingList<SCopyViewOnSheet>();
             #if REVIT2014
@@ -84,7 +85,7 @@ namespace SCaddins.SCopy
             }
         }
         
-        private string GetViewCategory(string parameterName)
+        private string GetSheetCategory(string parameterName)
         {
             #if REVIT2015
             var viewCategoryParamList = this.SourceSheet.GetParameters(parameterName);
@@ -134,15 +135,15 @@ namespace SCaddins.SCopy
             }
         }
         
-        public string ViewCategory {
+        public string SheetCategory {
             get {
-                return this.viewCategory;
+                return this.sheetCategory;
             }
             
             set {
-                this.viewCategory = value;
+                this.sheetCategory = value;
                 if (this.PropertyChanged != null) {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("ViewCategory"));
+                    this.PropertyChanged(this, new PropertyChangedEventArgs("SheetCategory"));
                 }
             }
         }
