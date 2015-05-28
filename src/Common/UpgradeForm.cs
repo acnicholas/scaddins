@@ -28,7 +28,7 @@ namespace SCaddins.Common
         public UpgradeForm(Version installed, Version remote)
         {
             this.InitializeComponent();
-            labelInstalledVersion.Text = "Insalled Version: " + installed.ToString();
+            labelInstalledVersion.Text = "Installed Version: " + installed.ToString();
             labelLatestVersion.Text = "Latest Version: " + remote.ToString();
             if (installed < remote) {
                 labelUpgradeNote.Text = "New Version Available!. Click Download (go on, you can do it)";
