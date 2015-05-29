@@ -45,7 +45,7 @@ namespace SCaddins.SCopy
             this.title = title;
             //FIXME add "SC_View-Category" var somewhere?
             this.sourceSheet = sourceSheet;
-            this.sheetCategory = GetSheetCategory(SCopyConstants.SheetCategory);
+            this.sheetCategory = this.GetSheetCategory(SCopyConstants.SheetCategory);
             this.destinationSheet = null;
             this.viewsOnSheet = new BindingList<SCopyViewOnSheet>();
             #if REVIT2014

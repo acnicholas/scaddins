@@ -1029,7 +1029,6 @@ namespace SCaddins.SCexport
         // ...even more than some other things
         private void ExportDWG(SCexportSheet vs, bool removeTitle)
         {
-            View view = null;
             ICollection<ElementId> titleBlockHidden;
             titleBlockHidden = new List<ElementId>();
             var titleBlock = SCexport.GetTitleBlockFamily(vs.SheetNumber, doc);

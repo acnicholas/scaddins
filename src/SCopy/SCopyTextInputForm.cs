@@ -19,22 +19,7 @@ namespace SCaddins.SCopy
     {
         public SCopyTextInputForm()
         {
-            //
-            // The InitializeComponent() call is required for Windows Forms designer support.
-            //
             InitializeComponent();
-            
-            //
-            // TODO: Add constructor code after the InitializeComponent() call.
-            //
-        }
-        void TextBox1TextChanged(object sender, EventArgs e)
-        {
-          
-        }
-        void Button2Click(object sender, EventArgs e)
-        {
-          
         }
     }
 }

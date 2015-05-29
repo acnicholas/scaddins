@@ -66,7 +66,6 @@ namespace SCaddins.SCopy
             this.button2.TabIndex = 1;
             this.button2.Text = "Cancel";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.Button2Click);
             // 
             // textBox1
             // 
@@ -74,7 +73,6 @@ namespace SCaddins.SCopy
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(278, 20);
             this.textBox1.TabIndex = 2;
-            this.textBox1.TextChanged += new System.EventHandler(this.TextBox1TextChanged);
             // 
             // label1
             // 
