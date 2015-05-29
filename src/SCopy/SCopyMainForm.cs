@@ -120,6 +120,8 @@ namespace SCaddins.SCopy
         
         void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
+            if(dataGridView1.CurrentCell.ColumnIndex != 2)
+                return;
             if ( this.dataGridView1.IsCurrentCellDirty) {
                 dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
