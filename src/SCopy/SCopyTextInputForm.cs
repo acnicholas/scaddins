@@ -6,12 +6,12 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace SCaddins.SCopy
 {
+    using System;
+    using System.Windows.Forms;
+    
     /// <summary>
     /// Description of SCopyTextInputForm.
     /// </summary>
@@ -19,7 +19,7 @@ namespace SCaddins.SCopy
     {
         public SCopyTextInputForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

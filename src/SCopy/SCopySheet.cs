@@ -18,12 +18,10 @@
 namespace SCaddins.SCopy
 {
     using System;
-    using System.ComponentModel;
     using System.Collections.Generic;
-    //using System.Windows.Forms;
+    using System.ComponentModel;
     using System.Linq;
     using Autodesk.Revit.DB;
-    using Autodesk.Revit.UI;
     
     /// <summary>
     /// Description of SCopySheet.
@@ -43,7 +41,8 @@ namespace SCaddins.SCopy
             this.scopy = scopy;
             this.number = number;
             this.title = title;
-            //FIXME add "SC_View-Category" var somewhere?
+            
+            // FIXME add "SC_View-Category" var somewhere?
             this.sourceSheet = sourceSheet;
             this.sheetCategory = this.GetSheetCategory(SCopyConstants.SheetCategory);
             this.destinationSheet = null;
@@ -85,24 +84,6 @@ namespace SCaddins.SCopy
             }
         }
         
-        private string GetSheetCategory(string parameterName)
-        {
-            #if REVIT2015
-            var viewCategoryParamList = this.SourceSheet.GetParameters(parameterName);
-            if (viewCategoryParamList.Count > 0) {
-                Parameter viewCategoryParam = viewCategoryParamList.First();
-                string s = viewCategoryParam.AsString();
-                return s;
-            }
-            #else
-            var viewCategoryParam = this.SourceSheet.get_Parameter(SCopyConstants.SheetCategory);
-            if(viewCategoryParam != null){
-                return viewCategoryParam.AsString();
-            }
-            #endif
-            return "todo";
-        }
-
         public string Number {
             get {
                 return this.number;
@@ -153,7 +134,7 @@ namespace SCaddins.SCopy
                 return this.viewsOnSheet;
             }
         }
-               
+        
         public string GetNewViewName(ElementId id)
         {
             foreach (SCopyViewOnSheet v in this.viewsOnSheet) {
@@ -163,6 +144,24 @@ namespace SCaddins.SCopy
             }
             return null;
         }
+        
+        private string GetSheetCategory(string parameterName)
+        {
+            #if REVIT2015
+            var viewCategoryParamList = this.SourceSheet.GetParameters(parameterName);
+            if (viewCategoryParamList.Count > 0) {
+                Parameter viewCategoryParam = viewCategoryParamList.First();
+                string s = viewCategoryParam.AsString();
+                return s;
+            }
+            #else
+            var viewCategoryParam = this.SourceSheet.get_Parameter(SCopyConstants.SheetCategory);
+            if (viewCategoryParam != null) {
+                return viewCategoryParam.AsString();
+            }
+            #endif
+            return "todo";
+        }               
     }
 }
 /* vim: set ts=4 sw=4 nu expandtab: */

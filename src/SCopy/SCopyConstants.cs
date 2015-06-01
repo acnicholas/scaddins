@@ -17,19 +17,18 @@
 
 namespace SCaddins.SCopy
 {
-public static class SCopyConstants
-{
-    // constants for combobox menus
-    public const string MenuItemCopy = @"(Copy)";
+    public static class SCopyConstants
+    {
+        // constants for combobox menus
+        public const string MenuItemCopy = @"(Copy)";
     
-    // mm in a foot
-    public const double MillimetersPerFoot = 304.8;
+        // mm in a foot
+        public const double MillimetersPerFoot = 304.8;
     
-    // sheet categroy parameter
-    public const string SheetCategory = @"SC-Sheet_Category";
+        // sheet categroy parameter
+        public const string SheetCategory = @"SC-Sheet_Category";
     
-    // sheet categroy parameter
-    public const string SheetCategoryCreateCustom = @"<Create New>";
-    
-}
+        // sheet categroy parameter
+        public const string SheetCategoryCreateCustom = @"<Create New>";
+    }
 }

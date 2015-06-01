@@ -275,16 +275,16 @@ namespace SCaddins.SCopy
                 if (viewCategoryParamList.Count > 0) {
                     Parameter viewCategoryParam = viewCategoryParamList.First();
                     string s = viewCategoryParam.AsString();
-                    if(!string.IsNullOrEmpty(s) && !sheetCategories.Contains(s)){
-                        sheetCategories.Add(s);
+                    if (!string.IsNullOrEmpty(s) && !this.sheetCategories.Contains(s)) {
+                        this.sheetCategories.Add(s);
                     }
                 }
                 #else
                 var viewCategoryParam = view.get_Parameter(SCopyConstants.SheetCategory);
-                if(viewCategoryParam != null){
+                if (viewCategoryParam != null) {
                     string s = viewCategoryParam.AsString();
-                     if(!string.IsNullOrEmpty(s) && !sheetCategories.Contains(s)){
-                        sheetCategories.Add(s);
+                     if (!string.IsNullOrEmpty(s) && !this.sheetCategories.Contains(s)) {
+                        this.sheetCategories.Add(s);
                     }
                 }
                 #endif
@@ -379,7 +379,7 @@ namespace SCaddins.SCopy
             }
             #else
             var s = result.get_Parameter(SCopyConstants.SheetCategory);
-            if(s != null){
+            if (s != null) {
                 s.Set(viewCategory);
             }
             #endif

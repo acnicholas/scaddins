@@ -170,7 +170,7 @@ namespace SCaddins.SCexport
         /// <param name="filename"> The filename to check. </param>
         public static bool CanOverwriteFile(string fileName)
         {
-            if (IsFileLocked(new FileInfo(fileName))){
+            if (IsFileLocked(new FileInfo(fileName))) {
                 TaskDialog td = new TaskDialog("File in use");
                 td.MainContent = "The file: " + fileName + " appears to be in use." +
                     System.Environment.NewLine +
@@ -179,7 +179,7 @@ namespace SCaddins.SCexport
                 td.CommonButtons = TaskDialogCommonButtons.Ok;
                 td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
                 td.Show();
-                if (IsFileLocked(new FileInfo(fileName))){
+                if (IsFileLocked(new FileInfo(fileName))) {
                     return false;
                 }
             }

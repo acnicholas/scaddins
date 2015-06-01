@@ -30,7 +30,7 @@ namespace SCaddins.SCopy
     {
         private SCopy scopy;
         private Document doc;
-        DataGridViewComboBoxColumn cheetCategoryCombo;
+        private DataGridViewComboBoxColumn cheetCategoryCombo;
 
         public MainForm(Document doc, Autodesk.Revit.DB.ViewSheet viewSheet)
         {
@@ -55,8 +55,8 @@ namespace SCaddins.SCopy
             } 
             this.AddDataGridColumns();  
             dataGridView1.DataSource = this.scopy.Sheets; 
-            this.dataGridView1.CellValueChanged += dataGridView1_CellValueChanged;
-            this.dataGridView1.CurrentCellDirtyStateChanged += dataGridView1_CurrentCellDirtyStateChanged;
+            this.dataGridView1.CellValueChanged += this.DataGridView1_CellValueChanged;
+            this.dataGridView1.CurrentCellDirtyStateChanged += this.DataGridView1_CurrentCellDirtyStateChanged;
         }
     
         #region init component
@@ -103,14 +103,14 @@ namespace SCaddins.SCopy
                 "DuplicateWithDetailing", "Copy Detailing", this.dataGridView2); 
         }
 
-        void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             var cell = (DataGridViewComboBoxCell)dataGridView1.Rows[e.RowIndex].Cells[2];
             if (cell.Value != null && (string)cell.Value == SCopyConstants.SheetCategoryCreateCustom) {
                 SCopyTextInputForm form = new SCopyTextInputForm();
                     System.Windows.Forms.DialogResult dr = form.ShowDialog();
                     if (dr == System.Windows.Forms.DialogResult.OK) {
-                        cheetCategoryCombo.Items.Add(form.textBox1.Text);
+                        this.cheetCategoryCombo.Items.Add(form.textBox1.Text);
                         dataGridView1.Rows[e.RowIndex].Cells[2].Value = form.textBox1.Text;
                     }
                 dataGridView1.Invalidate();
@@ -118,24 +118,25 @@ namespace SCaddins.SCopy
             }
         }
         
-        void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        private void DataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
-            if(dataGridView1.CurrentCell.ColumnIndex != 2)
+            if (dataGridView1.CurrentCell.ColumnIndex != 2) {
                 return;
-            if ( this.dataGridView1.IsCurrentCellDirty) {
+            }
+            if (this.dataGridView1.IsCurrentCellDirty) {
                 dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
         }
 
         private void AddComboBoxColumns()
         {
-            cheetCategoryCombo = CreateComboBoxColumn();
-            AddColumnHeader("SheetCategory", "Sheet Category", cheetCategoryCombo);
-            cheetCategoryCombo.Items.Add(SCopyConstants.SheetCategoryCreateCustom);
-            foreach (string s in scopy.SheetCategories) {
-                cheetCategoryCombo.Items.Add(s);
+            this.cheetCategoryCombo = CreateComboBoxColumn();
+            AddColumnHeader("SheetCategory", "Sheet Category", this.cheetCategoryCombo);
+            this.cheetCategoryCombo.Items.Add(SCopyConstants.SheetCategoryCreateCustom);
+            foreach (string s in this.scopy.SheetCategories) {
+                this.cheetCategoryCombo.Items.Add(s);
             }
-            dataGridView1.Columns.Add(cheetCategoryCombo);
+            dataGridView1.Columns.Add(this.cheetCategoryCombo);
             
             DataGridViewComboBoxColumn result2 = CreateComboBoxColumn();
             AddColumnHeader("ViewTemplateName", "View Template", result2);
