@@ -25,14 +25,14 @@ namespace SCaddins.SCaos
     /// </summary>
     public partial class SCaosForm : Form
     {
-        public SCaosForm(string[] s, bool currentViewIsIso)
+        public SCaosForm(string[] informationText, bool currentViewIsIso)
         {
             this.InitializeComponent();
             if (!currentViewIsIso) {
                 radioButtonRotateCurrent.Enabled = false;
             }
-            for (int i = 0; i < s.Length; i++) {
-                listBox1.Items.Add(s[i]);
+            for (int i = 0; i < informationText.Length; i++) {
+                listBox1.Items.Add(informationText[i]);
             }
             this.SetTitle();
         }

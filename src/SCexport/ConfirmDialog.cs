@@ -29,10 +29,10 @@ namespace SCaddins.SCexport
         /// Initializes a new instance of the <see cref="ConfirmationDialog"/> class.
         /// </summary>
         /// <param name="s">The full path of the file to evaluate.</param>
-        public ConfirmationDialog(string s)
+        public ConfirmationDialog(string displayMessage)
         {
             this.InitializeComponent();
-            this.textBox1.Text = s;
+            this.textBox1.Text = displayMessage;
             this.checkBox1.Checked = SCexport.ConfirmOverwrite;
         }
 

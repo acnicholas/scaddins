@@ -32,10 +32,10 @@ namespace SCaddins.SCexport
         /// <summary>
         /// Create a new dialog handler.
         /// </summary>
-        /// <param name="uiapp"></param>
-        public DialogHandler(UIApplication uiapp)
+        /// <param name="application"></param>
+        public DialogHandler(UIApplication application)
         {
-            uiapp.DialogBoxShowing += new EventHandler<DialogBoxShowingEventArgs>(this.DismissOpenQuestion);
+            application.DialogBoxShowing += new EventHandler<DialogBoxShowingEventArgs>(this.DismissOpenQuestion);
         }
                
         private void DismissOpenQuestion(object o, DialogBoxShowingEventArgs e)

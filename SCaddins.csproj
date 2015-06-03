@@ -20,6 +20,8 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
     <SourceAnalysisOverrideSettingsFile>Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <CodeAnalysisRules>-Microsoft.Design#CA1020;-Microsoft.Naming#CA1702</CodeAnalysisRules>
+    <RunCodeAnalysis>True</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x64' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -38,7 +40,6 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <AssemblyName>SCaddinsDebug</AssemblyName>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2014\</ReferencePath>
-    <RunCodeAnalysis>True</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2015' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -51,7 +52,6 @@
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins15</AssemblyName>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2015\</ReferencePath>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2014' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -64,7 +64,6 @@
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins14</AssemblyName>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2014\</ReferencePath>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp">

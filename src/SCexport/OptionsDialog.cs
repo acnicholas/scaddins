@@ -54,15 +54,15 @@ namespace SCaddins.SCexport
         
         private void LoadValues()
         {
-            this.radioPDF.Checked = this.scx.HasFlag(SCexport.ExportFlags.PDF);
-            this.radioGSPDF.Checked = this.scx.HasFlag(SCexport.ExportFlags.GhostscriptPDF);
-            this.checkBoxDGN.Checked = this.scx.HasFlag(SCexport.ExportFlags.DGN);
-            this.checkBoxDWG.Checked = this.scx.HasFlag(SCexport.ExportFlags.DWG);
-            this.checkBoxDWF.Checked = this.scx.HasFlag(SCexport.ExportFlags.DWF);
+            this.radioPDF.Checked = this.scx.HasExportOption(SCexport.ExportFlags.PDF);
+            this.radioGSPDF.Checked = this.scx.HasExportOption(SCexport.ExportFlags.GhostscriptPDF);
+            this.checkBoxDGN.Checked = this.scx.HasExportOption(SCexport.ExportFlags.DGN);
+            this.checkBoxDWG.Checked = this.scx.HasExportOption(SCexport.ExportFlags.DWG);
+            this.checkBoxDWF.Checked = this.scx.HasExportOption(SCexport.ExportFlags.DWF);
             this.checkBoxTagPDF.Checked =
-                this.scx.HasFlag(SCexport.ExportFlags.TagPDFExports);
+                this.scx.HasExportOption(SCexport.ExportFlags.TagPDFExports);
             this.checkBoxHideTitleblock.Checked =
-                this.scx.HasFlag(SCexport.ExportFlags.NoTitle);
+                this.scx.HasExportOption(SCexport.ExportFlags.NoTitle);
             this.checkBoxForceDate.Checked = this.scx.ForceDate;
             if (this.scx.FileNameScheme != null) {
                 this.comboBoxScheme.Text = this.scx.FileNameScheme.Name;
@@ -164,9 +164,9 @@ namespace SCaddins.SCexport
             bool flagged, SCexport.ExportFlags val)
         {
             if (flagged == true) {
-                this.scx.AddExportFlag(val);
+                this.scx.AddExportOption(val);
             } else {
-                this.scx.RemoveExportFlag(val);
+                this.scx.RemoveExportOption(val);
             }
         }
         

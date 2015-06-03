@@ -31,9 +31,9 @@ namespace SCaddins.SCexport
                 /// Initializes a new instance of the <see cref="ViewSheetSetCombo"/> class.
                 /// </summary>
                 /// <param name="vss">The view sheet set.</param>
-                public ViewSheetSetCombo(ViewSheetSet vss)
+                public ViewSheetSetCombo(ViewSheetSet viewSheetSet)
                 {
-                        this.ViewSheetSet = vss;
+                        this.ViewSheetSet = viewSheetSet;
                         this.customName = this.ViewSheetSet.Name;
                 }
 

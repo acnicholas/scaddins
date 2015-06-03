@@ -28,16 +28,16 @@ namespace SCaddins.SCuv
     /// </summary>
     public static class SCuv
     {     
-        public static bool CreateUserView(View srcView, Document doc)
+        public static bool CreateUserView(View sourceView, Document doc)
         {
-            if (srcView.ViewType == ViewType.DrawingSheet) {
-                CreateUserViewsFromSheet(srcView as ViewSheet, doc);
+            if (sourceView.ViewType == ViewType.DrawingSheet) {
+                CreateUserViewsFromSheet(sourceView as ViewSheet, doc);
                 return true;
             }
-            if (ValidViewType(srcView.ViewType)) {
-                    return CreateView(srcView, doc);
+            if (ValidViewType(sourceView.ViewType)) {
+                    return CreateView(sourceView, doc);
             }
-            ShowErrorDialog(srcView);
+            ShowErrorDialog(sourceView);
             return false;   
         }
                

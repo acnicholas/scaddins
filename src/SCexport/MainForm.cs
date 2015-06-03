@@ -429,9 +429,9 @@ namespace SCaddins.SCexport
                 ToolStripMenuItem box, SCexport.ExportFlags val)
         {
             if (box.Checked == true) {
-                this.scx.AddExportFlag(val);
+                this.scx.AddExportOption(val);
             } else {
-                this.scx.RemoveExportFlag(val);
+                this.scx.RemoveExportOption(val);
             }
         }
 
@@ -446,19 +446,19 @@ namespace SCaddins.SCexport
         private void UpdateExportButton(int count)
         {
             string s = "Export[" + count + "]:";
-            if (this.scx.HasFlag(SCexport.ExportFlags.PDF)) {
+            if (this.scx.HasExportOption(SCexport.ExportFlags.PDF)) {
                 s += @" " + SCexport.ExportFlags.PDF.ToString();
             }
-            if (this.scx.HasFlag(SCexport.ExportFlags.DWG)) {
+            if (this.scx.HasExportOption(SCexport.ExportFlags.DWG)) {
                 s += @" " + SCexport.ExportFlags.DWG.ToString();
             }
-            if (this.scx.HasFlag(SCexport.ExportFlags.DWF)) {
+            if (this.scx.HasExportOption(SCexport.ExportFlags.DWF)) {
                 s += @" " + SCexport.ExportFlags.DWF.ToString();
             }
-            if (this.scx.HasFlag(SCexport.ExportFlags.DGN)) {
+            if (this.scx.HasExportOption(SCexport.ExportFlags.DGN)) {
                 s += @" " + SCexport.ExportFlags.DGN.ToString();
             }
-            if (this.scx.HasFlag(SCexport.ExportFlags.GhostscriptPDF)) {
+            if (this.scx.HasExportOption(SCexport.ExportFlags.GhostscriptPDF)) {
                 s += @" " + SCexport.ExportFlags.GhostscriptPDF.ToString();
             }
             this.btnExport.Text = s;

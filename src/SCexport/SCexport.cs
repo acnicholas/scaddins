@@ -164,7 +164,7 @@ namespace SCaddins.SCexport
         /// Gets or sets the export flags.
         /// </summary>
         /// <value>The flags.</value>
-        public ExportFlags Flags
+        public ExportFlags ExportOptions
         {
             get; set;
         }
@@ -525,18 +525,18 @@ namespace SCaddins.SCexport
         /// Adds an export flag to the current set of flags.
         /// </summary>
         /// <param name="f"> The Flag to add. </param>
-        public void AddExportFlag(ExportFlags f)
+        public void AddExportOption(ExportFlags exportOptions)
         {
-            this.exportFlags |= f;
+            this.exportFlags |= exportOptions;
         }
 
         /// <summary>
         /// Removes an export flag from the current set of flags.
         /// </summary>
         /// <param name="f"> The flag to remove. </param>
-        public void RemoveExportFlag(ExportFlags f)
+        public void RemoveExportOption(ExportFlags exportOptions)
         {
-            this.exportFlags = this.exportFlags & ~f;
+            this.exportFlags = this.exportFlags & ~exportOptions;
         }
 
         /// <summary>
@@ -544,7 +544,7 @@ namespace SCaddins.SCexport
         /// </summary>
         /// <returns><c>true</c> if this instance has flag the specified f; otherwise, <c>false</c>.</returns>
         /// <param name="f"> The flag to evaluate. </param>
-        public bool HasFlag(ExportFlags f)
+        public bool HasExportOption(ExportFlags f)
         {
             return this.exportFlags.HasFlag(f);
         }
@@ -574,7 +574,7 @@ namespace SCaddins.SCexport
         public void Export(
             ICollection<SCexportSheet> sheets,
             System.Windows.Forms.ToolStripProgressBar pbar,
-            System.Windows.Forms.ToolStripLabel info,
+            System.Windows.Forms.ToolStripItem info,
             System.Windows.Forms.StatusStrip strip)
         {
             // this.ApplyNonPrintLinetype();
@@ -847,20 +847,20 @@ namespace SCaddins.SCexport
         private void SetDefaultFlags()
         {
             if (SCaddins.SCexport.Settings1.Default.AdobePDFMode && this.PDFSanityCheck()) {
-                this.AddExportFlag(SCexport.ExportFlags.PDF);
+                this.AddExportOption(SCexport.ExportFlags.PDF);
             } else if (!SCaddins.SCexport.Settings1.Default.AdobePDFMode && this.GSSanityCheck()) {
-                this.AddExportFlag(ExportFlags.GhostscriptPDF);
+                this.AddExportOption(ExportFlags.GhostscriptPDF);
             } else {
                 if (this.PDFSanityCheck()) {
-                     this.AddExportFlag(SCexport.ExportFlags.PDF);   
+                     this.AddExportOption(SCexport.ExportFlags.PDF);   
                 }
-                this.AddExportFlag(ExportFlags.DWG);
+                this.AddExportOption(ExportFlags.DWG);
             }
             if (SCaddins.SCexport.Settings1.Default.TagPDFExports) {
-                this.AddExportFlag(ExportFlags.TagPDFExports);
+                this.AddExportOption(ExportFlags.TagPDFExports);
             }
             if (SCaddins.SCexport.Settings1.Default.HideTitleBlocks) {
-                this.AddExportFlag(ExportFlags.NoTitle);
+                this.AddExportOption(ExportFlags.NoTitle);
             }
             if (SCaddins.SCexport.Settings1.Default.ForceDateRevision) {
                 this.forceDate = true;

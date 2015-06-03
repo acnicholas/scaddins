@@ -2,24 +2,26 @@
 <Dictionary>
      <Words>
         <Recognized>
+            <Word>s</Word>
             <Word>udoc</Word>
-            <Word>Cexport</Word>
-            <Word>Caos</Word>
-            <Word>Caddins</Word>
-            <Word>Coord</Word>
-            <Word>Cight</Word>
-            <Word>Ched</Word>
+            <Word>cexport</Word>
+            <Word>caos</Word>
+            <Word>cam</Word>
+            <Word>caddins</Word>
+            <Word>coord</Word>
+            <Word>cight</Word>
+            <Word>ched</Word>
             <Word>Sched</Word>
-            <Word>Cincrement</Word>
-            <Word>Cuv</Word>
-            <Word>Culcase</Word>
-            <Word>Cunderlay</Word>
-            <Word>Changelog</Word>
-            <Word>Cwash</Word>
-            <Word>Cwm</Word>
-            <Word>Acad</Word>
-            <Word>Revit</Word>
-            <Word>Ghostscript</Word>
+            <Word>cincrement</Word>
+            <Word>cuv</Word>
+            <Word>culcase</Word>
+            <Word>cunderlay</Word>
+            <Word>changelog</Word>
+            <Word>cwash</Word>
+            <Word>cwm</Word>
+            <Word>acad</Word>
+            <Word>revit</Word>
+            <Word>ghostscript</Word>
             <Word>underlay</Word>
             <Word>underlays</Word>
             <Word>scopy</Word>
@@ -27,11 +29,11 @@
     </Words>
     <Acronyms>
         <CasingExceptions>
+            <Acronym>SC</Acronym>
             <Acronym>DGN</Acronym>
             <Acronym>PDF</Acronym>
             <Acronym>DWF</Acronym>
             <Acronym>DWG</Acronym>
-            <Acronym>SC</Acronym>
             <Acronym>XML</Acronym>
         </CasingExceptions>
     </Acronyms>

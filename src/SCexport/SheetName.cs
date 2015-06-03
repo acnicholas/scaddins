@@ -18,10 +18,12 @@
 namespace SCaddins.SCexport
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// A file name (title block).
     /// </summary>
+[SuppressMessage("Microsoft.Naming","CA1710", Justification="This doesn't need to end in Collection", Scope="Just for this Class")]
 public class SheetName : List<SheetNameSegment>
 {
     /// <summary>

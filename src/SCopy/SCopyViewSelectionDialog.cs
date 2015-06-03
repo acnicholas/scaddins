@@ -30,7 +30,7 @@ namespace SCaddins.SCopy
             this.InitializeComponent();
         }
         
-        public void Add(Autodesk.Revit.DB.View view)
+        public void Add(Autodesk.Revit.DB.Element view)
         {
             listBox1.Items.Add(view.Name);
             

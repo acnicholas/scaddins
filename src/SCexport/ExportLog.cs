@@ -28,7 +28,7 @@ namespace SCaddins.SCexport
         private int warnings;
         private int errors;
         private System.DateTime startTime;
-        private System.DateTime endTime;
+        private System.TimeSpan exportTime;
               
         public ExportLog(System.DateTime startTime)
         {
@@ -37,7 +37,7 @@ namespace SCaddins.SCexport
             this.errorLog = new StringBuilder();
             this.warningLog = new StringBuilder();
             this.startTime = startTime;
-            this.endTime = System.DateTime.MinValue;
+            this.exportTime = System.TimeSpan.MinValue;
         }
         
         public enum LogType {
@@ -45,17 +45,22 @@ namespace SCaddins.SCexport
             Warning,
             Normal
         }
+        
+        public void FinishLogging()
+        {
+            this.exportTime = System.DateTime.Now - this.startTime;
+        }
                       
         public void AddError(string fileName, string msg)
         {
             this.errors++;
-            this.errorLog.AppendLine();
+            this.errorLog.AppendLine(fileName + " - " + msg);
         }
         
         public void AddWarning(string fileName, string msg)
         {   
             this.warnings++;
-            this.warningLog.AppendLine();
+            this.warningLog.AppendLine(fileName + " - " + msg);
         }
         
         public void ShowSummaryDialog(LogType summaryType)
