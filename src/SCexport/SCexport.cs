@@ -575,7 +575,7 @@ namespace SCaddins.SCexport
             ICollection<SCexportSheet> sheets,
             System.Windows.Forms.ToolStripProgressBar pbar,
             System.Windows.Forms.ToolStripItem info,
-            System.Windows.Forms.StatusStrip strip)
+            System.Windows.Forms.Control strip)
         {
             // this.ApplyNonPrintLinetype();
             DateTime startTime = DateTime.Now;

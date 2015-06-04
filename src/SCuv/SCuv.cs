@@ -58,7 +58,7 @@ namespace SCaddins.SCuv
             return Environment.UserName + "-" + sourceView.Name + "-" + SCaddins.SCexport.SCexport.GetDateString();           
         } 
         
-        public static void ShowErrorDialog(View sourceView)
+        public static void ShowErrorDialog(Element sourceView)
         {
             var td = new TaskDialog("SCuv - SCuv copies users views");
             td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;

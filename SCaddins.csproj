@@ -11,8 +11,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <TargetFrameworkProfile />
     <NoWin32Manifest>False</NoWin32Manifest>
-    <SignAssembly>False</SignAssembly>
-    <DelaySign>False</DelaySign>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
@@ -22,6 +20,7 @@
     <SourceAnalysisOverrideSettingsFile>Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <CodeAnalysisRules>-Microsoft.Design#CA1020;-Microsoft.Naming#CA1702</CodeAnalysisRules>
     <RunCodeAnalysis>True</RunCodeAnalysis>
+    <AssemblyOriginatorKeyMode>File</AssemblyOriginatorKeyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x64' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -40,6 +39,9 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <AssemblyName>SCaddinsDebug</AssemblyName>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2014\</ReferencePath>
+    <SignAssembly>False</SignAssembly>
+    <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2015' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -52,6 +54,9 @@
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins15</AssemblyName>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2015\</ReferencePath>
+    <SignAssembly>False</SignAssembly>
+    <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2014' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -64,12 +69,17 @@
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins14</AssemblyName>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2014\</ReferencePath>
+    <SignAssembly>False</SignAssembly>
+    <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Microsoft.Office.Interop.Excel" />
+    <Reference Include="Microsoft.Office.Interop.Excel">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
