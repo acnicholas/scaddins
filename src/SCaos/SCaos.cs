@@ -51,7 +51,11 @@ namespace SCaddins.SCaos
                     this.RotateView(doc.ActiveView, doc, udoc);
                 }
                 if (form.radioButtonWinterViews.Checked) {
-                    this.CreateWinterViews(doc, udoc);
+                    this.CreateWinterViews(doc,
+                                           udoc,
+                                           (DateTime)form.startTime.SelectedItem,
+                                           (DateTime)form.endTime.SelectedItem,
+                                           (TimeSpan)form.interval.SelectedItem);
                 }
             }
 
@@ -107,7 +111,12 @@ namespace SCaddins.SCaos
             }
         }
 
-        private void CreateWinterViews(Document doc, UIDocument udoc)
+        private void CreateWinterViews(Document doc,
+                                       UIDocument udoc,
+                                       DateTime startTime,
+                                       DateTime endTime,
+                                       TimeSpan interval
+                                      )
         {
             ElementId id = null;
 
@@ -127,21 +136,22 @@ namespace SCaddins.SCaos
                 return;
             }
 
-            for (int i = 9; i < 16; i++) {
+            while (startTime <= endTime) {
                 var t = new Transaction(doc);
                 t.Start("Create Solar View");
                 View view = View3D.CreateIsometric(doc, id);
-                var vname = "SOLAR ACCESS - " + i + " JUNE 21";
+                var vname = "SOLAR ACCESS - 21st June - " + startTime.Hour + "." + startTime.Minute;
                 if (ViewNameIsAvailable(doc, vname)) {
                     view.Name = vname;
                 } else {
                     view.Name = vname + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";    
                 }
                 SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
-                sunSettings.StartDateAndTime = new DateTime(2014, 06, 21, i, 0, 0, DateTimeKind.Local);
+                sunSettings.StartDateAndTime = startTime;
                 sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
                 t.Commit();
                 this.RotateView(view, doc, udoc);
+                startTime = startTime.Add(interval);
             }
         }
 

@@ -39,8 +39,13 @@
             this.radioButtonWinterViews = new System.Windows.Forms.RadioButton();
             this.radioButtonRotateCurrent = new System.Windows.Forms.RadioButton();
             this.button3 = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.interval = new System.Windows.Forms.ComboBox();
+            this.endTime = new System.Windows.Forms.ComboBox();
+            this.startTime = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -87,9 +92,9 @@
             this.groupBox2.Controls.Add(this.radioButton3);
             this.groupBox2.Controls.Add(this.radioButtonWinterViews);
             this.groupBox2.Controls.Add(this.radioButtonRotateCurrent);
-            this.groupBox2.Location = new System.Drawing.Point(12, 197);
+            this.groupBox2.Location = new System.Drawing.Point(12, 183);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(370, 184);
+            this.groupBox2.Size = new System.Drawing.Size(370, 132);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Mode";
@@ -97,20 +102,21 @@
             // radioButton1
             // 
             this.radioButton1.Enabled = false;
-            this.radioButton1.Location = new System.Drawing.Point(6, 134);
+            this.radioButton1.Location = new System.Drawing.Point(6, 95);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(326, 36);
+            this.radioButton1.Size = new System.Drawing.Size(358, 36);
             this.radioButton1.TabIndex = 3;
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Culculate Solar Hours - Mass Mode (EXPERIMENTAL)";
             this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.RadioButton1CheckedChanged);
             // 
             // radioButton3
             // 
             this.radioButton3.Enabled = false;
-            this.radioButton3.Location = new System.Drawing.Point(6, 92);
+            this.radioButton3.Location = new System.Drawing.Point(6, 68);
             this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(326, 36);
+            this.radioButton3.Size = new System.Drawing.Size(358, 36);
             this.radioButton3.TabIndex = 2;
             this.radioButton3.TabStop = true;
             this.radioButton3.Text = "Culculate Solar Hours - Room Mode (VERY EXPERIMENTAL)";
@@ -119,7 +125,7 @@
             // 
             // radioButtonWinterViews
             // 
-            this.radioButtonWinterViews.Location = new System.Drawing.Point(6, 57);
+            this.radioButtonWinterViews.Location = new System.Drawing.Point(6, 46);
             this.radioButtonWinterViews.Name = "radioButtonWinterViews";
             this.radioButtonWinterViews.Size = new System.Drawing.Size(290, 29);
             this.radioButtonWinterViews.TabIndex = 1;
@@ -129,7 +135,7 @@
             // 
             // radioButtonRotateCurrent
             // 
-            this.radioButtonRotateCurrent.Location = new System.Drawing.Point(7, 19);
+            this.radioButtonRotateCurrent.Location = new System.Drawing.Point(6, 19);
             this.radioButtonRotateCurrent.Name = "radioButtonRotateCurrent";
             this.radioButtonRotateCurrent.Size = new System.Drawing.Size(283, 32);
             this.radioButtonRotateCurrent.TabIndex = 0;
@@ -147,11 +153,48 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.Button3Click);
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.interval);
+            this.groupBox3.Controls.Add(this.endTime);
+            this.groupBox3.Controls.Add(this.startTime);
+            this.groupBox3.Location = new System.Drawing.Point(12, 320);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(370, 61);
+            this.groupBox3.TabIndex = 5;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Winter View Options";
+            // 
+            // interval
+            // 
+            this.interval.FormattingEnabled = true;
+            this.interval.Location = new System.Drawing.Point(296, 34);
+            this.interval.Name = "interval";
+            this.interval.Size = new System.Drawing.Size(68, 21);
+            this.interval.TabIndex = 2;
+            // 
+            // endTime
+            // 
+            this.endTime.FormattingEnabled = true;
+            this.endTime.Location = new System.Drawing.Point(145, 34);
+            this.endTime.Name = "endTime";
+            this.endTime.Size = new System.Drawing.Size(144, 21);
+            this.endTime.TabIndex = 1;
+            // 
+            // startTime
+            // 
+            this.startTime.FormattingEnabled = true;
+            this.startTime.Location = new System.Drawing.Point(7, 34);
+            this.startTime.Name = "startTime";
+            this.startTime.Size = new System.Drawing.Size(132, 21);
+            this.startTime.TabIndex = 0;
+            // 
             // SCaosForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(394, 420);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.button2);
@@ -163,7 +206,9 @@
             this.Text = "SCaosForm";
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
+
         }
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.Button button3;
@@ -175,5 +220,9 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox3;
+        internal System.Windows.Forms.ComboBox interval;
+        internal System.Windows.Forms.ComboBox endTime;
+        internal System.Windows.Forms.ComboBox startTime;
     }
 }
