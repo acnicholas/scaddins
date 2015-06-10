@@ -140,7 +140,11 @@ namespace SCaddins.SCaos
                 var t = new Transaction(doc);
                 t.Start("Create Solar View");
                 View view = View3D.CreateIsometric(doc, id);
-                var vname = "SOLAR ACCESS - 21st June - " + startTime.Hour + "." + startTime.Minute;
+                var niceMinutes = "00";
+                if (startTime.Minute > 0){
+                    niceMinutes = startTime.Minute.ToString();
+                }    
+                var vname = "SOLAR ACCESS - 21st June - " + startTime.Hour + "." + niceMinutes;
                 if (ViewNameIsAvailable(doc, vname)) {
                     view.Name = vname;
                 } else {
