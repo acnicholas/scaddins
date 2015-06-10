@@ -31,51 +31,29 @@ namespace SCaddins.SCaos
             if (!currentViewIsIso) {
                 radioButtonRotateCurrent.Enabled = false;
             }
+            
             for (int i = 0; i < informationText.Length; i++) {
                 listBox1.Items.Add(informationText[i]);
             }
-            startTime.Items.Add(new DateTime(2014,6,21,8,0,0,DateTimeKind.Local));
-            startTime.Items.Add(new DateTime(2014,6,21,9,0,0,DateTimeKind.Local));
-            startTime.Items.Add(new DateTime(2014,6,21,10,0,0,DateTimeKind.Local));
-            startTime.Items.Add(new DateTime(2014,6,21,11,0,0,DateTimeKind.Local));
-            startTime.Items.Add(new DateTime(2014,6,21,12,0,0,DateTimeKind.Local));
-            startTime.Items.Add(new DateTime(2014,6,21,13,0,0,DateTimeKind.Local));
-            startTime.Items.Add(new DateTime(2014,6,21,14,0,0,DateTimeKind.Local));
-            startTime.Items.Add(new DateTime(2014,6,21,15,0,0,DateTimeKind.Local));
-            startTime.SelectedIndex = 1;
-            endTime.Items.Add(new DateTime(2014,6,21,9,0,0,DateTimeKind.Local));
-            endTime.Items.Add(new DateTime(2014,6,21,10,0,0,DateTimeKind.Local));
-            endTime.Items.Add(new DateTime(2014,6,21,11,0,0,DateTimeKind.Local));
-            endTime.Items.Add(new DateTime(2014,6,21,12,0,0,DateTimeKind.Local));
-            endTime.Items.Add(new DateTime(2014,6,21,13,0,0,DateTimeKind.Local));
-            endTime.Items.Add(new DateTime(2014,6,21,14,0,0,DateTimeKind.Local));
-            endTime.Items.Add(new DateTime(2014,6,21,15,0,0,DateTimeKind.Local));
-            endTime.Items.Add(new DateTime(2014,6,21,16,0,0,DateTimeKind.Local));
+            
+            for (int i = 8; i < 16; i++){
+                startTime.Items.Add(new DateTime(2014,6,21,i,0,0,DateTimeKind.Local));
+                endTime.Items.Add(new DateTime(2014,6,21,i+1,0,0,DateTimeKind.Local));
+            }
+            startTime.SelectedIndex = 1;   
             endTime.SelectedIndex = 6;
+            
             interval.Items.Add(new TimeSpan(0,15,0));
             interval.Items.Add(new TimeSpan(0,30,0));
             interval.Items.Add(new TimeSpan(1,0,0));
             interval.SelectedIndex = 2;
-            this.SetTitle();
-        }
-        
-        private void SetTitle()
-        {
+            
             this.Text = "SCaos by Andrew Nicholas";
         }
-        
+              
         private void Button3Click(object sender, System.EventArgs e)
         {
             System.Diagnostics.Process.Start(Constants.HelpLink);
-        }
-        
-        private void RadioButton3CheckedChanged(object sender, System.EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        void RadioButton1CheckedChanged(object sender, EventArgs e)
-        {
-          
-        }
+        }               
     }
 }

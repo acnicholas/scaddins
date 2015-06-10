@@ -1,3 +1,9 @@
+#15.2 (pre-release)#
+
+####NEW####
+
+- **[SCaos] Create winter views options added, including start time, end time, and interval.**
+
 #15.1#
 
 ####NEW####

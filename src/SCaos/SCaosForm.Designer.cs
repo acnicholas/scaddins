@@ -39,13 +39,16 @@
             this.radioButtonWinterViews = new System.Windows.Forms.RadioButton();
             this.radioButtonRotateCurrent = new System.Windows.Forms.RadioButton();
             this.button3 = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBoxWinterViewOptions = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.interval = new System.Windows.Forms.ComboBox();
             this.endTime = new System.Windows.Forms.ComboBox();
             this.startTime = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.groupBoxWinterViewOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -109,7 +112,6 @@
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Culculate Solar Hours - Mass Mode (EXPERIMENTAL)";
             this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.RadioButton1CheckedChanged);
             // 
             // radioButton3
             // 
@@ -121,7 +123,6 @@
             this.radioButton3.TabStop = true;
             this.radioButton3.Text = "Culculate Solar Hours - Room Mode (VERY EXPERIMENTAL)";
             this.radioButton3.UseVisualStyleBackColor = true;
-            this.radioButton3.CheckedChanged += new System.EventHandler(this.RadioButton3CheckedChanged);
             // 
             // radioButtonWinterViews
             // 
@@ -153,17 +154,44 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.Button3Click);
             // 
-            // groupBox3
+            // groupBoxWinterViewOptions
             // 
-            this.groupBox3.Controls.Add(this.interval);
-            this.groupBox3.Controls.Add(this.endTime);
-            this.groupBox3.Controls.Add(this.startTime);
-            this.groupBox3.Location = new System.Drawing.Point(12, 320);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(370, 61);
-            this.groupBox3.TabIndex = 5;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Winter View Options";
+            this.groupBoxWinterViewOptions.Controls.Add(this.label3);
+            this.groupBoxWinterViewOptions.Controls.Add(this.label2);
+            this.groupBoxWinterViewOptions.Controls.Add(this.label1);
+            this.groupBoxWinterViewOptions.Controls.Add(this.interval);
+            this.groupBoxWinterViewOptions.Controls.Add(this.endTime);
+            this.groupBoxWinterViewOptions.Controls.Add(this.startTime);
+            this.groupBoxWinterViewOptions.Location = new System.Drawing.Point(12, 320);
+            this.groupBoxWinterViewOptions.Name = "groupBoxWinterViewOptions";
+            this.groupBoxWinterViewOptions.Size = new System.Drawing.Size(370, 61);
+            this.groupBoxWinterViewOptions.TabIndex = 5;
+            this.groupBoxWinterViewOptions.TabStop = false;
+            this.groupBoxWinterViewOptions.Text = "Winter View Creation Options";
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(296, 16);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(68, 15);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Interval";
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(145, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(120, 15);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "End Time";
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(7, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(120, 15);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Start Time";
             // 
             // interval
             // 
@@ -194,7 +222,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(394, 420);
-            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBoxWinterViewOptions);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.button2);
@@ -206,7 +234,7 @@
             this.Text = "SCaosForm";
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
+            this.groupBoxWinterViewOptions.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -220,9 +248,12 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBoxWinterViewOptions;
         internal System.Windows.Forms.ComboBox interval;
         internal System.Windows.Forms.ComboBox endTime;
         internal System.Windows.Forms.ComboBox startTime;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }
