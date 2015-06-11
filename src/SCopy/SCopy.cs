@@ -101,12 +101,20 @@ namespace SCaddins.SCopy
         #endregion
 
         #region public methods
+        /// <summary>
+        /// Cast a view to a viewsheet
+        /// </summary>
+        /// <param name="view">A Revit View</param>
+        /// <returns>A Revit ViewSHeet, or null if the source view is not a ViewSheet</returns>
         public static ViewSheet ViewToViewSheet(View view)
         {
             return (view.ViewType != ViewType.DrawingSheet) ? null : view as ViewSheet;
         }
-            
-        public void AddViewInfoToList(
+          
+        /// <summary>
+        /// Add some nice data about a Revit view to a list.
+        /// </summary>
+        public void PopulateViewInfoToList(
             System.Windows.Forms.ListView list, ViewSheet viewSheet)
         {
             if (viewSheet == null) {
@@ -155,7 +163,7 @@ namespace SCaddins.SCopy
             t.Start();
             string summaryText = string.Empty;
             foreach (SCopySheet sheet in this.sheets) {
-                this.CreateSheet(sheet, ref summaryText);
+                this.CreateAndPopulateNewSheet(sheet, ref summaryText);
             }
             t.Commit();
             var td = new TaskDialog("SCopy - Summary");
@@ -216,6 +224,14 @@ namespace SCaddins.SCopy
             return result;
         }
 
+        /// <summary>
+        /// Add info about a revit view to a list (windows form).
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="title"></param>
+        /// <param name="value"></param>
+        /// <param name="colour"></param>
+        /// <param name="group"></param>
         private static void AddViewsToList(
             System.Windows.Forms.ListView list,
             string title,
@@ -230,10 +246,10 @@ namespace SCaddins.SCopy
         }
         
         private void AddViewsToList(
-             System.Windows.Forms.ListView list,
-             ISet<ElementId> views)
+            System.Windows.Forms.ListView list,
+            ISet<ElementId> views)
         {
-           SCopy.AddViewsToList(
+            SCopy.AddViewsToList(
                 list,
                 "Number of viewports",
                 views.Count.ToString(CultureInfo.InvariantCulture),
@@ -250,8 +266,9 @@ namespace SCaddins.SCopy
                     1);
                 i++;
             }
-        }        
-        
+        }
+  
+		        
         private void GetViewTemplates()
         {
             this.viewTemplates.Clear();
@@ -283,7 +300,7 @@ namespace SCaddins.SCopy
                 var viewCategoryParam = view.get_Parameter(SCopyConstants.SheetCategory);
                 if (viewCategoryParam != null) {
                     string s = viewCategoryParam.AsString();
-                     if (!string.IsNullOrEmpty(s) && !this.sheetCategories.Contains(s)) {
+                    if (!string.IsNullOrEmpty(s) && !this.sheetCategories.Contains(s)) {
                         this.sheetCategories.Add(s);
                     }
                 } 
@@ -310,6 +327,16 @@ namespace SCaddins.SCopy
                 }
             }
         }
+        
+        private ElementId GetLegendFamilyTypeId()
+        {
+            foreach (ViewFamilyType vft in new FilteredElementCollector(this.doc).OfClass(typeof(ViewFamilyType))) {
+                if (vft.ViewFamily == ViewFamily.Legend) {
+                    return vft.Id;
+                }
+            }
+        }
+
 
         private void GetAllViewsInModel()
         {
@@ -336,25 +363,35 @@ namespace SCaddins.SCopy
         }
 
         // this is where the action happens
-        private bool CreateSheet(SCopySheet sheet, ref string summary)
+        private bool CreateAndPopulateNewSheet(SCopySheet sheet, ref string summary)
         {
             this.sourceTitleBlock = this.GetTitleBlock(sheet.SourceSheet);
-                        
+            
+            // don't do sheets without a title.            
             if (this.sourceTitleBlock == null) {
                 TaskDialog.Show("SCopy", "No Title Block, exiting now...");
                 return false;
             }
 
+            // create the "blank canvas"
             ViewSheet destSheet = this.AddEmptySheetToDocument(
-                sheet.Number,
-                sheet.Title,
-                sheet.SheetCategory);
-
+                             sheet.Number,
+                             sheet.Title,
+                             sheet.SheetCategory);
+ 
             sheet.DestinationSheet = destSheet;
             if (sheet.DestinationSheet != null) {
-                this.PlaceNewViews(sheet);
+                this.PlaceViewsOnSheet(sheet);
             }
+            
+            this.CopyElementsBetweenSheets(sheet, BuiltInCategory.OST_TextNotes);
+            this.CopyElementsBetweenSheets(sheet, BuiltInCategory.OST_RasterImages);         
+            //this.CopyLinesBetweenSheets(sheet, BuiltInCategory.OST_Lines);
+            this.CopyElementsBetweenSheets(sheet, BuiltInCategory.OST_GenericLines);
+            this.CopyElementsBetweenSheets(sheet, BuiltInCategory.OST_GenericAnnotation);
+            this.CopyElementsBetweenSheets(sheet, BuiltInCategory.OST_TitleBlocks);    
 
+            // create a log...
             var oldNumber = sheet.SourceSheet.SheetNumber;
             var msg = " Sheet: " + oldNumber + " copied to: " + sheet.Number;
             summary += msg + System.Environment.NewLine;
@@ -362,6 +399,8 @@ namespace SCaddins.SCopy
             return true;
         }
     
+        // add an empty sheet to the doc.
+        // this comes first before copying titleblock, views etc.
         private ViewSheet AddEmptySheetToDocument(
             string sheetNumber,
             string sheetTitle,
@@ -386,13 +425,15 @@ namespace SCaddins.SCopy
             return result;
         }
         
+        // put an existing view on a sheet.
+        // just for Legends at the moment.
         private void PlaceExistingViewOnSheet(
             ViewSheet destSheet, View viewToPlace, XYZ srcViewCentre)
         {
             double destViewMidX = srcViewCentre.X;
             double destViewMidY = srcViewCentre.Y;
             var destViewCentre = new XYZ(destViewMidX, destViewMidY, 0);
-            if (viewToPlace.ViewType == ViewType.Legend){
+            if (viewToPlace.ViewType == ViewType.Legend) {
                 Viewport.Create(doc, destSheet.Id, viewToPlace.Id, srcViewCentre);
             }
 
@@ -436,10 +477,22 @@ namespace SCaddins.SCopy
             }
         }
         
-        private void CopyElementsOnSheet(SCopySheet sheet, BuiltInCategory category)
+        private void CopyLinesBetweenSheets(SCopySheet sheet, BuiltInCategory category)
         {
-            var v = sheet.SourceSheet as View;
-            var collector = new FilteredElementCollector(this.doc, v.Id);
+            var collector = new FilteredElementCollector(this.doc, sheet.SourceSheet.Id);         
+            IList<ElementId> list = new List<ElementId>();
+            foreach (CurveElement e in collector) {
+                list.Add(e.Id);
+            }
+            if (list.Count > 0) {	
+                ElementTransformUtils.CopyElements(sheet.SourceSheet, list, sheet.DestinationSheet, null, null);
+            }
+        }
+          
+        private void CopyElementsBetweenSheets(SCopySheet sheet, BuiltInCategory category)
+        {
+            //var v = sheet.SourceSheet as View;
+            var collector = new FilteredElementCollector(this.doc, sheet.SourceSheet.Id);
             collector.OfCategory(category);
             IList<ElementId> list = new List<ElementId>();
             foreach (Element e in collector) {
@@ -450,7 +503,7 @@ namespace SCaddins.SCopy
             }
         }
              
-        private void PlaceNewViews(SCopySheet sheet)
+        private void PlaceViewsOnSheet(SCopySheet sheet)
         {
             Dictionary<ElementId, BoundingBoxXYZ> viewPorts =
                 SCopy.GetVPDictionary(sheet.SourceSheet, this.doc);
@@ -466,7 +519,7 @@ namespace SCaddins.SCopy
               
                 switch (view.CreationMode) {
                     case ViewCreationMode.Copy:
-                        this.CopyViewToSheet(view, sheet, sourceViewCentre);
+                        this.DuplicateViewOntoSheet(view, sheet, sourceViewCentre);
                         break;
                     case ViewCreationMode.CopyAndModify:
                         this.PlaceNewView(view, sheet, sourceViewCentre);
@@ -475,19 +528,16 @@ namespace SCaddins.SCopy
                         this.PlaceExistingViewOnSheet(sheet.DestinationSheet, view.OldView, sourceViewCentre);
                         break;                 
                 }
-            }
-            this.CopyElementsOnSheet(sheet, BuiltInCategory.OST_TextNotes);
-            this.CopyElementsOnSheet(sheet, BuiltInCategory.OST_RasterImages);
-            
-            // CopyElementsOnSheet(sheet, BuiltInCategory.OST_Lines);
-            // CopyElementsOnSheet(sheet, BuiltInCategory.OST_GenericLines);
-            // this.CopyLinesOnSheet(sheet);
-            // CopyElementsOnSheet(sheet, BuiltInCategory.OST_Lines);
-            this.CopyElementsOnSheet(sheet, BuiltInCategory.OST_GenericAnnotation);
-            this.CopyElementsOnSheet(sheet, BuiltInCategory.OST_TitleBlocks);           
+            }       
         }
 
-        private void CopyViewToSheet(
+        /// <summary>
+        /// Copy a view and add it to a sheet
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="sheet"></param>
+        /// <param name="sourceViewCentre"></param>
+        private void DuplicateViewOntoSheet(
             SCopyViewOnSheet view, SCopySheet sheet, XYZ sourceViewCentre)
         {
             var d = view.DuplicateWithDetailing == true ? ViewDuplicateOption.WithDetailing : ViewDuplicateOption.Duplicate;          
@@ -507,10 +557,15 @@ namespace SCaddins.SCopy
             this.PlaceViewOnSheet(sheet.DestinationSheet, destViewId, sourceViewCentre);
         }
 
+        /// <summary>
+        /// Get the title block on a given ViewSheet.
+        /// </summary>
+        /// <param name="sheet"></param>
+        /// <returns>The title block or null if none/multiple are found</returns>
         private FamilyInstance GetTitleBlock(ViewSheet sheet)
         {
             var elemsOnSheet = new FilteredElementCollector(
-                                                        this.doc, sheet.Id);
+                          this.doc, sheet.Id);
             elemsOnSheet.OfCategory(BuiltInCategory.OST_TitleBlocks);
             if (elemsOnSheet.Count() == 1) {
                 var inst = (FamilyInstance)elemsOnSheet.ElementAt(0);
