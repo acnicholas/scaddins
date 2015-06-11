@@ -272,13 +272,13 @@ namespace SCaddins.SCopy
             foreach (View view in c1) {
                 #if REVIT2015
                 var viewCategoryParamList = view.GetParameters(SCopyConstants.SheetCategory);
-                if (viewCategoryParamList.Count > 0) {
+                if (viewCategoryParamList != null && viewCategoryParamList.Count > 0) {
                     Parameter viewCategoryParam = viewCategoryParamList.First();
                     string s = viewCategoryParam.AsString();
                     if (!string.IsNullOrEmpty(s) && !this.sheetCategories.Contains(s)) {
                         this.sheetCategories.Add(s);
                     }
-                }
+                } 
                 #else
                 var viewCategoryParam = view.get_Parameter(SCopyConstants.SheetCategory);
                 if (viewCategoryParam != null) {
@@ -286,7 +286,7 @@ namespace SCaddins.SCopy
                      if (!string.IsNullOrEmpty(s) && !this.sheetCategories.Contains(s)) {
                         this.sheetCategories.Add(s);
                     }
-                }
+                } 
                 #endif
             }
         }
