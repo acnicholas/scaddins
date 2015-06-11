@@ -120,6 +120,7 @@ namespace SCaddins.SCopy
             }
             
             set {
+        		this.sheetCategory = value;
                 if (this.PropertyChanged != null) {
                     this.PropertyChanged(this, new PropertyChangedEventArgs("SheetCategory"));
                 }
