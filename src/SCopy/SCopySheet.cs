@@ -40,9 +40,7 @@ namespace SCaddins.SCopy
         {
             this.scopy = scopy;
             this.number = number;
-            this.title = title;
-            
-            // FIXME add "SC_View-Category" var somewhere?
+            this.title = title; 
             this.sourceSheet = sourceSheet;
             this.sheetCategory = this.GetSheetCategory(SCopyConstants.SheetCategory);
             this.destinationSheet = null;
@@ -122,7 +120,7 @@ namespace SCaddins.SCopy
             }
             
             set {
-                this.sheetCategory = value;
+        		this.sheetCategory = value;
                 if (this.PropertyChanged != null) {
                     this.PropertyChanged(this, new PropertyChangedEventArgs("SheetCategory"));
                 }
@@ -149,18 +147,18 @@ namespace SCaddins.SCopy
         {
             #if REVIT2015
             var viewCategoryParamList = this.SourceSheet.GetParameters(parameterName);
-            if (viewCategoryParamList.Count > 0) {
+            if (viewCategoryParamList != null && viewCategoryParamList.Count > 0) {
                 Parameter viewCategoryParam = viewCategoryParamList.First();
                 string s = viewCategoryParam.AsString();
                 return s;
-            }
+            } 
             #else
             var viewCategoryParam = this.SourceSheet.get_Parameter(SCopyConstants.SheetCategory);
             if (viewCategoryParam != null) {
                 return viewCategoryParam.AsString();
             }
             #endif
-            return "todo";
+            return @"n/a";
         }               
     }
 }

@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2014 by Andrew Nicholas
+﻿// (C) Copyright 2014-2015 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -254,6 +254,11 @@ namespace SCaddins.SCopy
         {
             var sheet = (SCopySheet)dataGridView1.SelectedRows[0].DataBoundItem;
             this.scopy.AddSheet(sheet.SourceSheet);
+        }
+        
+        private void DataGridView1DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            //FIXME this is a hack because I have no idea what I'm doing.  
         }
     }
 }
