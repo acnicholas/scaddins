@@ -110,28 +110,7 @@ namespace SCaddins.SCopy
         {
             return (view.ViewType != ViewType.DrawingSheet) ? null : view as ViewSheet;
         }
-          
-        /// <summary>
-        /// Add some nice data about a Revit view to a list.
-        /// </summary>
-        public void PopulateViewInfoToList(
-            System.Windows.Forms.ListView list, ViewSheet viewSheet)
-        {
-            if (viewSheet == null) {
-                return;
-            }
-            list.Items.Clear();
-            var colour = System.Drawing.Color.Gray;
-            SCopy.AddViewsToList(list, "Title", viewSheet.Name, colour, 0);
-            SCopy.AddViewsToList(list, "Sheet Number", viewSheet.SheetNumber, colour, 0);
-            #if REVIT2014
-            AddViewsToList(list, viewSheet.Views);
-            #else
-            this.AddViewsToList(list, viewSheet.GetAllPlacedViews());
-            #endif
-            list.Refresh();
-        }
-            
+                  
         public bool CheckSheetNumberAvailability(string number)
         {
             foreach (SCopySheet s in this.sheets) {
@@ -183,28 +162,7 @@ namespace SCaddins.SCopy
         #endregion
 
         #region private methods
-        private static void AddViewsToList(
-            System.Windows.Forms.ListView list,
-            ViewSet views)
-        {
-            SCopy.AddViewsToList(
-                list,
-                "Number of viewports",
-                views.Size.ToString(CultureInfo.InvariantCulture),
-                System.Drawing.Color.Gray,
-                1);
-            int i = 1;
-            foreach (View view in views) {
-                SCopy.AddViewsToList(
-                    list,
-                    "View: " + i,
-                    view.Name,
-                    System.Drawing.Color.Black,
-                    1);
-                i++;
-            }
-        }
-        
+         
         private static XYZ ViewCenterFromTBBottomLeft(BoundingBoxXYZ viewBounds)
         {
             XYZ xyzPosition = (viewBounds.Max + viewBounds.Min) / 2.0;
@@ -223,51 +181,6 @@ namespace SCaddins.SCopy
             }
             return result;
         }
-
-        /// <summary>
-        /// Add info about a revit view to a list (windows form).
-        /// </summary>
-        /// <param name="list"></param>
-        /// <param name="title"></param>
-        /// <param name="value"></param>
-        /// <param name="colour"></param>
-        /// <param name="group"></param>
-        private static void AddViewsToList(
-            System.Windows.Forms.ListView list,
-            string title,
-            string value,
-            System.Drawing.Color colour,
-            int group)
-        {
-            System.Windows.Forms.ListViewItem item;
-            item = new System.Windows.Forms.ListViewItem(new[] { title, value }, list.Groups[group]);
-            item.ForeColor = colour;
-            list.Items.Add(item);
-        }
-        
-        private void AddViewsToList(
-            System.Windows.Forms.ListView list,
-            ISet<ElementId> views)
-        {
-            SCopy.AddViewsToList(
-                list,
-                "Number of viewports",
-                views.Count.ToString(CultureInfo.InvariantCulture),
-                System.Drawing.Color.Gray,
-                1);
-            int i = 1;
-            foreach (ElementId id in views) {
-                var view = this.doc.GetElement(id) as View;
-                SCopy.AddViewsToList(
-                    list,
-                    "View: " + i,
-                    view.Name,
-                    System.Drawing.Color.Black,
-                    1);
-                i++;
-            }
-        }
-  
 		        
         private void GetViewTemplates()
         {

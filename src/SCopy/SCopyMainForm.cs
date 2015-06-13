@@ -19,6 +19,7 @@ namespace SCaddins.SCopy
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Windows.Forms;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -38,7 +39,7 @@ namespace SCaddins.SCopy
             this.InitializeComponent();
             this.SetTitle();
             this.scopy = new SCopy(doc);
-            this.scopy.PopulateViewInfoToList(this.listView1, viewSheet);
+            this.PopulateViewInfoList(viewSheet);
             this.AddDataGridColumns();
         }
         
@@ -58,6 +59,76 @@ namespace SCaddins.SCopy
             this.dataGridView1.CellValueChanged += this.DataGridView1_CellValueChanged;
             this.dataGridView1.CurrentCellDirtyStateChanged += this.DataGridView1_CurrentCellDirtyStateChanged;
         }
+        
+                /// <summary>
+        /// Add some nice data about a Revit view to a list.
+        /// </summary>
+        public void PopulateViewInfoList(ViewSheet viewSheet)
+        {
+            if (viewSheet == null) {
+                return;
+            }
+            this.listView1.Items.Clear();
+            var colour = System.Drawing.Color.Gray;
+            this.AddViewsToList("Title", viewSheet.Name, colour, 0);
+            this.AddViewsToList("Sheet Number", viewSheet.SheetNumber, colour, 0);
+            #if REVIT2014
+            AddViewsToList(viewSheet.Views);
+            #else
+            AddViewsToList(viewSheet.GetAllPlacedViews());
+            #endif
+            this.listView1.Refresh();
+        }
+        
+        private void AddViewsToViewInfoList(ViewSet views)
+        {
+            AddViewsToList(
+                "Number of viewports",
+                views.Size.ToString(CultureInfo.InvariantCulture),
+                System.Drawing.Color.Gray,
+                1);
+            int i = 1;
+            foreach (Autodesk.Revit.DB.View view in views) {
+                AddViewsToList(
+                    "View: " + i,
+                    view.Name,
+                    System.Drawing.Color.Black,
+                    1);
+                i++;
+            }
+        }
+        
+         private void AddViewsToList(
+            string title,
+            string value,
+            System.Drawing.Color colour,
+            int group)
+        {
+            System.Windows.Forms.ListViewItem item;
+            item = new System.Windows.Forms.ListViewItem(new[] { title, value }, this.listView1.Groups[group]);
+            item.ForeColor = colour;
+            listView1.Items.Add(item);
+        }
+        
+        private void AddViewsToList(ISet<ElementId> views)
+        {
+            AddViewsToList(
+                "Number of viewports",
+                views.Count.ToString(CultureInfo.InvariantCulture),
+                System.Drawing.Color.Gray,
+                1);
+            int i = 1;
+            foreach (ElementId id in views) {
+                var view = this.doc.GetElement(id) as Autodesk.Revit.DB.View;
+                this.AddViewsToList(
+                    "View: " + i,
+                    view.Name,
+                    System.Drawing.Color.Black,
+                    1);
+                i++;
+            }
+        }
+  
     
         #region init component
         private static void AddCheckBoxColumn(string name, string text, DataGridView grid)
@@ -187,7 +258,7 @@ namespace SCaddins.SCopy
         private void DataGridView1CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             var sheet = (SCopySheet)dataGridView1.Rows[e.RowIndex].DataBoundItem;
-            this.scopy.PopulateViewInfoToList(this.listView1, sheet.SourceSheet);
+            PopulateViewInfoList(sheet.SourceSheet);
             dataGridView2.DataSource = sheet.ViewsOnSheet;
             dataGridView2.Refresh();
         }
