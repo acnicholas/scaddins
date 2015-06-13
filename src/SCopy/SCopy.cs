@@ -328,16 +328,6 @@ namespace SCaddins.SCopy
             }
         }
         
-        private ElementId GetLegendFamilyTypeId()
-        {
-            foreach (ViewFamilyType vft in new FilteredElementCollector(this.doc).OfClass(typeof(ViewFamilyType))) {
-                if (vft.ViewFamily == ViewFamily.Legend) {
-                    return vft.Id;
-                }
-            }
-        }
-
-
         private void GetAllViewsInModel()
         {
             this.existingViews.Clear();
@@ -381,16 +371,11 @@ namespace SCaddins.SCopy
  
             sheet.DestinationSheet = destSheet;
             if (sheet.DestinationSheet != null) {
-                this.PlaceViewsOnSheet(sheet);
+                this.PlaceViewportsOnSheet(sheet);
             }
             
-            this.CopyElementsBetweenSheets(sheet, BuiltInCategory.OST_TextNotes);
-            this.CopyElementsBetweenSheets(sheet, BuiltInCategory.OST_RasterImages);         
-            //this.CopyLinesBetweenSheets(sheet, BuiltInCategory.OST_Lines);
-            this.CopyElementsBetweenSheets(sheet, BuiltInCategory.OST_GenericLines);
-            this.CopyElementsBetweenSheets(sheet, BuiltInCategory.OST_GenericAnnotation);
-            this.CopyElementsBetweenSheets(sheet, BuiltInCategory.OST_TitleBlocks);    
-
+            this.CopyElementsBetweenSheets(sheet);
+    
             // create a log...
             var oldNumber = sheet.SourceSheet.SheetNumber;
             var msg = " Sheet: " + oldNumber + " copied to: " + sheet.Number;
@@ -476,34 +461,21 @@ namespace SCaddins.SCopy
                 this.PlaceViewOnSheet(sheet.DestinationSheet, vp.Id, sourceViewCentre);
             }
         }
-        
-        private void CopyLinesBetweenSheets(SCopySheet sheet, BuiltInCategory category)
+                  
+        private void CopyElementsBetweenSheets(SCopySheet sheet)
         {
-            var collector = new FilteredElementCollector(this.doc, sheet.SourceSheet.Id);         
             IList<ElementId> list = new List<ElementId>();
-            foreach (CurveElement e in collector) {
-                list.Add(e.Id);
-            }
-            if (list.Count > 0) {	
-                ElementTransformUtils.CopyElements(sheet.SourceSheet, list, sheet.DestinationSheet, null, null);
-            }
-        }
-          
-        private void CopyElementsBetweenSheets(SCopySheet sheet, BuiltInCategory category)
-        {
-            //var v = sheet.SourceSheet as View;
-            var collector = new FilteredElementCollector(this.doc, sheet.SourceSheet.Id);
-            collector.OfCategory(category);
-            IList<ElementId> list = new List<ElementId>();
-            foreach (Element e in collector) {
-                list.Add(e.Id);
+            foreach (Element e in new FilteredElementCollector(this.doc).OwnedByView(sheet.SourceSheet.Id)) {
+                if ( !(e is Viewport) ){
+                    list.Add(e.Id);
+                }
             }
             if (list.Count > 0) {
                 ElementTransformUtils.CopyElements(sheet.SourceSheet, list, sheet.DestinationSheet, null, null);
             }
         }
              
-        private void PlaceViewsOnSheet(SCopySheet sheet)
+        private void PlaceViewportsOnSheet(SCopySheet sheet)
         {
             Dictionary<ElementId, BoundingBoxXYZ> viewPorts =
                 SCopy.GetVPDictionary(sheet.SourceSheet, this.doc);
