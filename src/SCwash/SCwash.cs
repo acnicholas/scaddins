@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2013-2014 by Andrew Nicholas andrewnicholas@iinet.net.au
+﻿// (C) Copyright 2013-2015 by Andrew Nicholas andrewnicholas@iinet.net.au
 //
 // This file is part of SCaddins.
 //
@@ -169,10 +169,9 @@ namespace SCaddins.SCwash
             var result = new List<SCwashTreeNode>();
             var f = new FilteredElementCollector(doc);
             f.OfClass(typeof(Autodesk.Revit.DB.View));
-            string s = string.Empty;
             foreach (Autodesk.Revit.DB.View view in f) {  
                 if (view.ViewType == type) {
-                    s = string.Empty;
+                    string s = string.Empty;
                     string d = string.Empty;
                     string num = string.Empty;
                     bool os = false;
@@ -205,10 +204,7 @@ namespace SCaddins.SCwash
                     var tn = new SCwashTreeNode(n);
                     tn.Info = s;
                     tn.Id = view.Id;
-                    if (view.ViewType == ViewType.ProjectBrowser) {
-                        continue;
-                    }
-                    if (view.ViewType == ViewType.SystemBrowser) {
+                    if (view.ViewType == ViewType.ProjectBrowser || view.ViewType == ViewType.SystemBrowser) {
                         continue;
                     }
                     if (view.ViewType != ViewType.Internal) {
