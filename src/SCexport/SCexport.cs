@@ -434,9 +434,9 @@ namespace SCaddins.SCexport
             return ACADVersion.Default;
         }
         
-        public static string AcadVersionToString(ACADVersion a)
+        public static string AcadVersionToString(ACADVersion version)
         {
-            switch (a) {
+            switch (version) {
                 case ACADVersion.R2000:
                     return "R2000";
                 case ACADVersion.R2004:
@@ -573,7 +573,7 @@ namespace SCaddins.SCexport
         /// </param>
         public void Export(
             ICollection<SCexportSheet> sheets,
-            System.Windows.Forms.ToolStripProgressBar pbar,
+            System.Windows.Forms.ToolStripProgressBar progressBar,
             System.Windows.Forms.ToolStripItem info,
             System.Windows.Forms.Control strip)
         {
@@ -582,9 +582,9 @@ namespace SCaddins.SCexport
             TimeSpan elapsedTime = DateTime.Now - startTime;
             var exportLog = new ExportLog(startTime);
             foreach (SCexportSheet sheet in sheets) {
-                pbar.PerformStep();
+                progressBar.PerformStep();
                 elapsedTime = DateTime.Now - startTime;
-                info.Text = SCexport.PercentageSting(pbar.Value, pbar.Maximum) +
+                info.Text = SCexport.PercentageSting(progressBar.Value, progressBar.Maximum) +
                     " - " + SCexport.TimeSpanAsString(elapsedTime);
                 strip.Update();
                 this.Export(sheet);

@@ -61,7 +61,7 @@ namespace SCaddins.SCopy
         public enum ViewCreationMode
         {
             Copy,
-            CopyAndModify,
+            Create,
             Replace,
             Place
         }
@@ -284,7 +284,7 @@ namespace SCaddins.SCopy
  
             sheet.DestinationSheet = destSheet;
             if (sheet.DestinationSheet != null) {
-                this.PlaceViewportsOnSheet(sheet);
+                this.CopyViewportsBetweenSheets(sheet);
             }
             
             this.CopyElementsBetweenSheets(sheet);
@@ -323,27 +323,10 @@ namespace SCaddins.SCopy
             return result;
         }
         
-        // put an existing view on a sheet.
-        // just for Legends at the moment.
         private void PlaceExistingViewOnSheet(
-            ViewSheet destSheet, View viewToPlace, XYZ srcViewCentre)
+            ViewSheet destSheet, ElementId destViewId, XYZ viewCentre)
         {
-            double destViewMidX = srcViewCentre.X;
-            double destViewMidY = srcViewCentre.Y;
-            var destViewCentre = new XYZ(destViewMidX, destViewMidY, 0);
-            if (viewToPlace.ViewType == ViewType.Legend) {
-                Viewport.Create(doc, destSheet.Id, viewToPlace.Id, srcViewCentre);
-            }
-
-        }
-
-        private void PlaceViewOnSheet(
-            ViewSheet destSheet, ElementId destViewId, XYZ srcViewCentre)
-        {
-            double destViewMidX = srcViewCentre.X;
-            double destViewMidY = srcViewCentre.Y;
-            var destViewCentre = new XYZ(destViewMidX, destViewMidY, 0);
-            Viewport.Create(this.doc, destSheet.Id, destViewId, destViewCentre);
+            Viewport.Create(this.doc, destSheet.Id, destViewId, viewCentre);
         }
 
         private string NextSheetNumber(string s)
@@ -355,7 +338,7 @@ namespace SCaddins.SCopy
             return s + "-" + inc.ToString(CultureInfo.InvariantCulture);
         }
         
-        private void PlaceNewView(
+        private void PlaceNewViewOnSheet(
             SCopyViewOnSheet view, SCopySheet sheet, XYZ sourceViewCentre)
         {
             Level level = null;
@@ -371,7 +354,7 @@ namespace SCaddins.SCopy
                         vp.ViewTemplateId = vt.Id;
                     }
                 }
-                this.PlaceViewOnSheet(sheet.DestinationSheet, vp.Id, sourceViewCentre);
+                this.PlaceExistingViewOnSheet(sheet.DestinationSheet, vp.Id, sourceViewCentre);
             }
         }
                   
@@ -388,7 +371,7 @@ namespace SCaddins.SCopy
             }
         }
              
-        private void PlaceViewportsOnSheet(SCopySheet sheet)
+        private void CopyViewportsBetweenSheets(SCopySheet sheet)
         {
             Dictionary<ElementId, BoundingBoxXYZ> viewPorts =
                 SCopy.GetVPDictionary(sheet.SourceSheet, this.doc);
@@ -406,11 +389,11 @@ namespace SCaddins.SCopy
                     case ViewCreationMode.Copy:
                         this.DuplicateViewOntoSheet(view, sheet, sourceViewCentre);
                         break;
-                    case ViewCreationMode.CopyAndModify:
-                        this.PlaceNewView(view, sheet, sourceViewCentre);
+                    case ViewCreationMode.Create:
+                        this.PlaceNewViewOnSheet(view, sheet, sourceViewCentre);
                         break;     
                     case ViewCreationMode.Place:
-                        this.PlaceExistingViewOnSheet(sheet.DestinationSheet, view.OldView, sourceViewCentre);
+                        this.PlaceExistingViewOnSheet(sheet.DestinationSheet, view.OldView.Id, sourceViewCentre);
                         break;                 
                 }
             }       
@@ -439,7 +422,7 @@ namespace SCaddins.SCopy
                     }    
                 }
             }
-            this.PlaceViewOnSheet(sheet.DestinationSheet, destViewId, sourceViewCentre);
+            this.PlaceExistingViewOnSheet(sheet.DestinationSheet, destViewId, sourceViewCentre);
         }
 
         /// <summary>

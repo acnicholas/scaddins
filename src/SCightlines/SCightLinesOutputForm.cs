@@ -43,12 +43,12 @@ namespace SCaddins.SCightLines
         /// <summary>
         /// Update with a given string
         /// </summary>
-        /// <param name="displayString">
+        /// <param name="displayValue">
         /// String to display
         /// </param>
-        public void Update(string displayString)
+        public void Update(string displayValue)
         {
-            textBox1.Text = displayString;
+            textBox1.Text = displayValue;
         }
 
         private void MyForm_FormClosing(object sender, FormClosingEventArgs e)

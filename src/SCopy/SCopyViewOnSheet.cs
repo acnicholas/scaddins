@@ -38,11 +38,11 @@ namespace SCaddins.SCopy
         private bool duplicateWithDetailing;
         private SCopy.ViewCreationMode creationMode;
    
-        public SCopyViewOnSheet(string title, View v, SCopy scopy)
+        public SCopyViewOnSheet(string title, View view, SCopy scopy)
         {
             this.scopy = scopy;
-            this.oldView = v;
-            this.oldId = v.Id;
+            this.oldView = view;
+            this.oldId = view.Id;
             this.originalTitle = title;
             this.SetDefualtCreationMode();
             this.newTitle =
@@ -101,7 +101,7 @@ namespace SCaddins.SCopy
                 this.associatedLevelName = value;
                 if (value != SCopyConstants.MenuItemCopy) {
                     this.DuplicateWithDetailing = false;
-                    this.creationMode = SCopy.ViewCreationMode.CopyAndModify;
+                    this.creationMode = SCopy.ViewCreationMode.Create;
                 } else {
                     this.creationMode = SCopy.ViewCreationMode.Copy;   
                 }

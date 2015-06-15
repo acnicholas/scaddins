@@ -70,26 +70,26 @@ namespace SCaddins.SCopy
             }
             this.listView1.Items.Clear();
             var colour = System.Drawing.Color.Gray;
-            this.AddViewsToList("Title", viewSheet.Name, colour, 0);
-            this.AddViewsToList("Sheet Number", viewSheet.SheetNumber, colour, 0);
+            this.AddItemToViewInfoList("Title", viewSheet.Name, colour, 0);
+            this.AddItemToViewInfoList("Sheet Number", viewSheet.SheetNumber, colour, 0);
             #if REVIT2014
-            AddViewsToList(viewSheet.Views);
+            AddViewsToViewInfoList(viewSheet.Views);
             #else
-            AddViewsToList(viewSheet.GetAllPlacedViews());
+            AddViewsToViewInfoList(viewSheet.GetAllPlacedViews());
             #endif
             this.listView1.Refresh();
         }
         
         private void AddViewsToViewInfoList(ViewSet views)
         {
-            AddViewsToList(
+            AddItemToViewInfoList(
                 "Number of viewports",
                 views.Size.ToString(CultureInfo.InvariantCulture),
                 System.Drawing.Color.Gray,
                 1);
             int i = 1;
             foreach (Autodesk.Revit.DB.View view in views) {
-                AddViewsToList(
+                AddItemToViewInfoList(
                     "View: " + i,
                     view.Name,
                     System.Drawing.Color.Black,
@@ -98,7 +98,7 @@ namespace SCaddins.SCopy
             }
         }
         
-         private void AddViewsToList(
+         private void AddItemToViewInfoList(
             string title,
             string value,
             System.Drawing.Color colour,
@@ -110,9 +110,9 @@ namespace SCaddins.SCopy
             listView1.Items.Add(item);
         }
         
-        private void AddViewsToList(ISet<ElementId> views)
+        private void AddViewsToViewInfoList(ISet<ElementId> views)
         {
-            AddViewsToList(
+            AddItemToViewInfoList(
                 "Number of viewports",
                 views.Count.ToString(CultureInfo.InvariantCulture),
                 System.Drawing.Color.Gray,
@@ -120,7 +120,7 @@ namespace SCaddins.SCopy
             int i = 1;
             foreach (ElementId id in views) {
                 var view = this.doc.GetElement(id) as Autodesk.Revit.DB.View;
-                this.AddViewsToList(
+                this.AddItemToViewInfoList(
                     "View: " + i,
                     view.Name,
                     System.Drawing.Color.Black,
