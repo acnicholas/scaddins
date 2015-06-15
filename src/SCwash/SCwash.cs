@@ -60,13 +60,7 @@ namespace SCaddins.SCwash
             FilteredElementCollector f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_RasterImages);         
             foreach (Element image in f) {
-                string s = string.Empty;
-                ParameterSet p = image.Parameters;
-                foreach (Parameter param in p) {
-                    if (param.HasValue) {
-                        s += param.Definition.Name + " - " + param.AsString() + param.AsValueString() + System.Environment.NewLine;
-                    }
-                }
+                string s =  GetParameterList(image.Parameters);
                 var tn = new SCwashTreeNode(image.Name.ToString());
                 tn.Info = "Name = " + image.Name.ToString() + System.Environment.NewLine +
                 "id - " + image.Id.ToString();
@@ -83,13 +77,7 @@ namespace SCaddins.SCwash
             FilteredElementCollector f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_Revisions);         
             foreach (Element revision in f) {
-                string s = string.Empty;
-                ParameterSet p = revision.Parameters;
-                foreach (Parameter param in p) {
-                    if (param.HasValue) {
-                        s += param.Definition.Name + " - " + param.AsString() + param.AsValueString() + System.Environment.NewLine;
-                    }
-                }
+                string s =  GetParameterList(revision.Parameters);
                 var nodeName = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString() + " - " +
                     revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
                 var tn = new SCwashTreeNode(nodeName);
@@ -162,6 +150,17 @@ namespace SCaddins.SCwash
             //    throw new Exception("Deleting the selected elements in Revit failed.");
             //}
             t.Commit();
+        }
+
+        private static string GetParameterList(ParameterSet p)
+        {
+            string s = string.Empty;
+            foreach (Parameter param in p) {
+                if (param.HasValue) {
+                    s += param.Definition.Name + " - " + param.AsString() + param.AsValueString() + System.Environment.NewLine;
+                }
+            }
+            return s;
         }
 
         // FIXME don't add view templates or project browser views
