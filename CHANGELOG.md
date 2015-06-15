@@ -1,3 +1,11 @@
+#15.3# (pre-release)
+
+####NEW####
+
+- [SCwash] Revision node added so you can purge revisions.
+- [SCopy] "Copy" Legends.
+- [SCopy] Copy detail items.
+
 #15.2#
 
 ####NEW####

@@ -78,9 +78,5 @@ namespace SCaddins.SCloudSChed
             }
             SCloudSched.ExportCloudInfo(this.doc, dictionary);
         }
-        void Button4Click(object sender, EventArgs e)
-        {
-            SCloudSched.DeleteRevisioinClouds(this.doc);
-        }
     }
 }
