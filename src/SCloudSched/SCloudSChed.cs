@@ -89,6 +89,14 @@ namespace SCaddins.SCloudSChed
             }
         }
         
+        private static void DeleteRevisionClouds(Document doc)
+        {
+            FilteredElementCollector a;
+            a = new FilteredElementCollector(doc);
+            a.OfCategory(BuiltInCategory.OST_RevisionClouds); 
+            doc.Delete(a.ToElementIds);
+        }
+        
         private static string GetParamaterAsString(Element revCloud, BuiltInParameter b)
         {
             string result = string.Empty;

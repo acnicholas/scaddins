@@ -88,7 +88,7 @@ namespace SCaddins.SCopy
             }
             
             set {
-                if (value != this.number && this.scopy.CheckSheetNumberAvailability(value)) {
+                if (value != this.number && this.scopy.SheetNumberAvailable(value)) {
                     this.number = value;
                     if (this.PropertyChanged != null) {
                         this.PropertyChanged(

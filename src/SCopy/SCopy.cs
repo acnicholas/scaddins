@@ -58,12 +58,11 @@ namespace SCaddins.SCopy
             this.GetAllSheetCategories();
         }
                
-        public enum ViewCreationMode
+        public enum ViewPortPlacementMode
         {
             Copy,
-            Create,
-            Replace,
-            Place
+            New,
+            Legend
         }
     
         #region properties
@@ -111,7 +110,7 @@ namespace SCaddins.SCopy
             return (view.ViewType != ViewType.DrawingSheet) ? null : view as ViewSheet;
         }
                   
-        public bool CheckSheetNumberAvailability(string number)
+        public bool SheetNumberAvailable(string number)
         {
             foreach (SCopySheet s in this.sheets) {
                 if (s.Number.ToUpper(CultureInfo.InvariantCulture).Equals(number.ToUpper(CultureInfo.InvariantCulture))) {
@@ -121,7 +120,7 @@ namespace SCaddins.SCopy
             return !this.existingSheets.ContainsKey(number);
         }
 
-        public bool CheckViewNameAvailability(string title)
+        public bool ViewNameAvailable(string title)
         {
             foreach (SCopySheet s in this.sheets) {
                 foreach (SCopyViewOnSheet v in s.ViewsOnSheet) {
@@ -284,7 +283,7 @@ namespace SCaddins.SCopy
  
             sheet.DestinationSheet = destSheet;
             if (sheet.DestinationSheet != null) {
-                this.CopyViewportsBetweenSheets(sheet);
+                this.CreateViewports(sheet);
             }
             
             this.CopyElementsBetweenSheets(sheet);
@@ -323,7 +322,7 @@ namespace SCaddins.SCopy
             return result;
         }
         
-        private void PlaceExistingViewOnSheet(
+        private void PlaceViewPortOnSheet(
             ViewSheet destSheet, ElementId destViewId, XYZ viewCentre)
         {
             Viewport.Create(this.doc, destSheet.Id, destViewId, viewCentre);
@@ -334,10 +333,10 @@ namespace SCaddins.SCopy
             int inc = 0;
             do {
                 inc++;
-            } while (!this.CheckSheetNumberAvailability(s + "-" + inc.ToString(CultureInfo.InvariantCulture)));
+            } while (!this.SheetNumberAvailable(s + "-" + inc.ToString(CultureInfo.InvariantCulture)));
             return s + "-" + inc.ToString(CultureInfo.InvariantCulture);
         }
-        
+               
         private void PlaceNewViewOnSheet(
             SCopyViewOnSheet view, SCopySheet sheet, XYZ sourceViewCentre)
         {
@@ -354,57 +353,10 @@ namespace SCaddins.SCopy
                         vp.ViewTemplateId = vt.Id;
                     }
                 }
-                this.PlaceExistingViewOnSheet(sheet.DestinationSheet, vp.Id, sourceViewCentre);
+                this.PlaceViewPortOnSheet(sheet.DestinationSheet, vp.Id, sourceViewCentre);
             }
         }
-                  
-        private void CopyElementsBetweenSheets(SCopySheet sheet)
-        {
-            IList<ElementId> list = new List<ElementId>();
-            foreach (Element e in new FilteredElementCollector(this.doc).OwnedByView(sheet.SourceSheet.Id)) {
-                if ( !(e is Viewport) ){
-                    list.Add(e.Id);
-                }
-            }
-            if (list.Count > 0) {
-                ElementTransformUtils.CopyElements(sheet.SourceSheet, list, sheet.DestinationSheet, null, null);
-            }
-        }
-             
-        private void CopyViewportsBetweenSheets(SCopySheet sheet)
-        {
-            Dictionary<ElementId, BoundingBoxXYZ> viewPorts =
-                SCopy.GetVPDictionary(sheet.SourceSheet, this.doc);
-
-            foreach (SCopyViewOnSheet view in sheet.ViewsOnSheet) {
-                BoundingBoxXYZ srcViewBounds = null;
-                if (!viewPorts.TryGetValue(view.OldId, out srcViewBounds)) {
-                    TaskDialog.Show("SCopy", "Error...");
-                    continue;
-                }
-            
-                XYZ sourceViewCentre = SCopy.ViewCenterFromTBBottomLeft(srcViewBounds);
-              
-                switch (view.CreationMode) {
-                    case ViewCreationMode.Copy:
-                        this.DuplicateViewOntoSheet(view, sheet, sourceViewCentre);
-                        break;
-                    case ViewCreationMode.Create:
-                        this.PlaceNewViewOnSheet(view, sheet, sourceViewCentre);
-                        break;     
-                    case ViewCreationMode.Place:
-                        this.PlaceExistingViewOnSheet(sheet.DestinationSheet, view.OldView.Id, sourceViewCentre);
-                        break;                 
-                }
-            }       
-        }
-
-        /// <summary>
-        /// Copy a view and add it to a sheet
-        /// </summary>
-        /// <param name="view"></param>
-        /// <param name="sheet"></param>
-        /// <param name="sourceViewCentre"></param>
+        
         private void DuplicateViewOntoSheet(
             SCopyViewOnSheet view, SCopySheet sheet, XYZ sourceViewCentre)
         {
@@ -422,14 +374,50 @@ namespace SCaddins.SCopy
                     }    
                 }
             }
-            this.PlaceExistingViewOnSheet(sheet.DestinationSheet, destViewId, sourceViewCentre);
+            this.PlaceViewPortOnSheet(sheet.DestinationSheet, destViewId, sourceViewCentre);
+        }
+                  
+        private void CopyElementsBetweenSheets(SCopySheet sheet)
+        {
+            IList<ElementId> list = new List<ElementId>();
+            foreach (Element e in new FilteredElementCollector(this.doc).OwnedByView(sheet.SourceSheet.Id)) {
+                if ( !(e is Viewport) ){
+                    list.Add(e.Id);
+                }
+            }
+            if (list.Count > 0) {
+                ElementTransformUtils.CopyElements(sheet.SourceSheet, list, sheet.DestinationSheet, null, null);
+            }
+        }
+             
+        private void CreateViewports(SCopySheet sheet)
+        {
+            Dictionary<ElementId, BoundingBoxXYZ> viewPorts =
+                SCopy.GetVPDictionary(sheet.SourceSheet, this.doc);
+
+            foreach (SCopyViewOnSheet view in sheet.ViewsOnSheet) {
+                BoundingBoxXYZ srcViewPort = null;
+                if (!viewPorts.TryGetValue(view.OldId, out srcViewPort)) {
+                    TaskDialog.Show("SCopy", "Error...");
+                    continue;
+                }
+            
+                XYZ sourceViewPortCentre = SCopy.ViewCenterFromTBBottomLeft(srcViewPort);
+              
+                switch (view.CreationMode) {
+                    case ViewPortPlacementMode.Copy:
+                        this.DuplicateViewOntoSheet(view, sheet, sourceViewPortCentre);
+                        break;
+                    case ViewPortPlacementMode.New:
+                        this.PlaceNewViewOnSheet(view, sheet, sourceViewPortCentre);
+                        break;     
+                    case ViewPortPlacementMode.Legend:
+                        this.PlaceViewPortOnSheet(sheet.DestinationSheet, view.OldView.Id, sourceViewPortCentre);
+                        break;                 
+                }
+            }       
         }
 
-        /// <summary>
-        /// Get the title block on a given ViewSheet.
-        /// </summary>
-        /// <param name="sheet"></param>
-        /// <returns>The title block or null if none/multiple are found</returns>
         private FamilyInstance GetTitleBlock(ViewSheet sheet)
         {
             var elemsOnSheet = new FilteredElementCollector(
