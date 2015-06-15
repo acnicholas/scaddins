@@ -176,11 +176,8 @@ namespace SCaddins.SCwash
                     string d = string.Empty;
                     string num = string.Empty;
                     bool os = false;
-                    #if REVIT2014
-                    Parameter p = view.get_Parameter("Dependency");
-                    #else
-                    Parameter p = view.LookupParameter("Dependency");
-                    #endif
+
+                    Parameter p = GetParameterByName("Dependency");
                     s += "Name - " + view.Name + System.Environment.NewLine;
                     if (p != null) {
                         d = p.AsString();
@@ -189,11 +186,8 @@ namespace SCaddins.SCwash
                         }
                         s += "Dependency - " + d + System.Environment.NewLine;
                     }
-                    #if REVIT2014
-                    Parameter p2 = view.get_Parameter("Sheet Number");
-                    #else
-                    Parameter p2 = view.LookupParameter("Sheet Number");
-                    #endif
+
+                    Parameter p2 = GetParameterByName("Sheet Number");
                     if (p2 != null) {
                         num = p2.AsString();
                         s += "Sheet Number - " + num + System.Environment.NewLine;
@@ -227,6 +221,15 @@ namespace SCaddins.SCwash
                 }
             }
             return result;
+        }
+    
+        private static Parameter GetParameterByName(string parameterName)
+        {
+            #if REVIT2014
+            return view.get_Parameter(parameterName);
+            #else
+            return view.LookupParameter(parameterName);
+            #endif
         }
     }
 }
