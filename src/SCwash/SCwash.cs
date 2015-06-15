@@ -76,6 +76,31 @@ namespace SCaddins.SCwash
             }
             return result;
         }
+        
+        public static List<SCwashTreeNode> Revisions(Document doc)
+        {
+            List<SCwashTreeNode> result = new List<SCwashTreeNode>();
+            FilteredElementCollector f = new FilteredElementCollector(doc);
+            f.OfCategory(BuiltInCategory.OST_Revisions);         
+            foreach (Element revision in f) {
+                string s = string.Empty;
+                ParameterSet p = revision.Parameters;
+                foreach (Parameter param in p) {
+                    if (param.HasValue) {
+                        s += param.Definition.Name + " - " + param.AsString() + param.AsValueString() + System.Environment.NewLine;
+                    }
+                }
+                var nodeName = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString() + " - " +
+                    revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
+                var tn = new SCwashTreeNode(nodeName);
+                tn.Info = "Name = " + revision.Name.ToString() + System.Environment.NewLine +
+                "id - " + revision.Id.ToString();
+                tn.Info += System.Environment.NewLine + s;
+                tn.Id = revision.Id;
+                result.Add(tn);
+            }
+            return result;
+        }
 
         public static List<SCwashTreeNode> UnboundRooms(Document doc)
         {
@@ -129,12 +154,13 @@ namespace SCaddins.SCwash
 
         public static void RemoveElements(Document doc, ICollection<ElementId> elements)
         {
-            var t = new Transaction(doc, "Delete Elements");
+            if (elements.Count < 1) return;
+            var t = new Transaction(doc, "Delete Elements"); 
             t.Start();
             ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
-            if (0 == deletedIdSet.Count) {
-                throw new Exception("Deleting the selected elements in Revit failed.");
-            }
+            //if (0 == deletedIdSet.Count) {
+            //    throw new Exception("Deleting the selected elements in Revit failed.");
+            //}
             t.Commit();
         }
 
