@@ -118,13 +118,9 @@ namespace SCaddins.SCexport
         public static string GetCentralFileName(Document doc)
         {
             if (doc.IsWorkshared) {
-            #if REVIT2012
-                return doc.WorksharingCentralFilename;
-            #else
                 ModelPath mp = doc.GetWorksharingCentralModelPath();
                 string s = ModelPathUtils.ConvertModelPathToUserVisiblePath(mp);
                 return s;
-            #endif
             } else {
                 return doc.PathName;
             }

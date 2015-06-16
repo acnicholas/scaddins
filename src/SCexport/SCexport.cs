@@ -810,12 +810,7 @@ namespace SCaddins.SCexport
             var views = new ViewSet();
             views.Insert(vs.Sheet);
             var opts = new DWFExportOptions();
-            #if REVIT2014
             opts.CropBoxVisible = false;
-            #endif
-            #if REVIT2015
-            opts.CropBoxVisible = false;
-            #endif
             opts.ExportingAreas = true;
             var t = new Transaction(doc, "Export DWF");
             t.Start();
@@ -832,16 +827,10 @@ namespace SCaddins.SCexport
         private static void ExportDGN(SCexportSheet vs)
         {
             var opts = new DGNExportOptions();
-            #if REVIT2012
-            ViewSet views = new ViewSet();
-            views.Insert(vs.Sheet);
-            doc.Export(vs.ExportDir, vs.FullExportName + ".dgn", views, opts);
-            #else
             ICollection<ElementId> views;
             views = new List<ElementId>();
             views.Add(vs.Id);
             doc.Export(vs.ExportDir, vs.FullExportName, views, opts);
-            #endif
         }
         
         private void SetDefaultFlags()

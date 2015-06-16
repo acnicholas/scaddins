@@ -80,11 +80,9 @@ namespace SCaddins.SCexport
 
                     ips.PrintParameters.HideScopeBoxes = true;
                     ips.PrintParameters.HideReforWorkPlanes = true;
-                    #if REVIT2013
-                    ips.PrintParameters.HideUnreferencedViewTages = true;
-                    #elif REVIT2014
+                    #if REVIT2014
                     ips.PrintParameters.HideUnreferencedViewTags = true;
-                    #elif REVIT2015
+                    #else
                     ips.PrintParameters.HideUnreferencedViewTags = true;
                     #endif
                     if (s.Contains("FIT")) {
@@ -195,24 +193,6 @@ namespace SCaddins.SCexport
         /// <returns>The matching print setting, or null.</returns>
         public static PrintSetting AssignPrintSetting(Document doc, string ps)
         {
-            #if REVIT2012
-            foreach (PrintSetting printSetting in doc.PrintSettings) {
-                if (printSetting.Name.ToString().Equals("SCX-" + ps)) {
-                    return printSetting;
-                }
-            }
-            try {
-                CreatePrintSetting(doc, ps);
-                foreach (PrintSetting printSetting in doc.PrintSettings) {
-                    if (printSetting.Name.ToString().Equals("SCX-" + ps)) {
-                        return printSetting;
-                    }
-                }
-            } catch {
-                var msg = "SCX-" + ps + " could not be created!";
-                TaskDialog.Show("Creating Papersize", msg);
-            }
-            #else
             foreach (ElementId id in doc.GetPrintSettingIds()) {
                 var ps2 = doc.GetElement(id) as PrintSetting;
                 if (ps2.Name.ToString().Equals("SCX-" + ps)) {
@@ -232,7 +212,6 @@ namespace SCaddins.SCexport
                 var msg = "SCX-" + ps + " could not be created!";
                 TaskDialog.Show("Creating Papersize", msg);
             }
-            #endif
             return null;
         }
         
