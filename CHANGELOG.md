@@ -1,10 +1,14 @@
-#15.3# (pre-release)
+#15.3#
 
 ####NEW####
 
 - [SCwash] Revision node added so you can purge revisions.
 - [SCopy] "Copy" Legends.
 - [SCopy] Copy detail items.
+
+####FIXES#####
+
+- [SCopy] Fixed crash when no Sheet Category parameter is found.
 
 #15.2#
 
