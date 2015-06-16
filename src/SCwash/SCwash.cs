@@ -143,13 +143,11 @@ namespace SCaddins.SCwash
         public static void RemoveElements(Document doc, ICollection<ElementId> elements)
         {
             if (elements.Count < 1) return;
-            var t = new Transaction(doc, "Delete Elements"); 
-            t.Start();
-            ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
-            //if (0 == deletedIdSet.Count) {
-            //    throw new Exception("Deleting the selected elements in Revit failed.");
-            //}
-            t.Commit();
+            using (Transaction t = new Transaction(doc,"Delete Elements")) {
+                t.Start();
+                ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
+                t.Commit();
+            }
         }
 
         private static string GetParameterList(ParameterSet p)
@@ -176,7 +174,7 @@ namespace SCaddins.SCwash
                     string num = string.Empty;
                     bool os = false;
 
-                    Parameter p = GetParameterByName("Dependency");
+                    Parameter p = GetParameterByName(view, "Dependency");
                     s += "Name - " + view.Name + System.Environment.NewLine;
                     if (p != null) {
                         d = p.AsString();
@@ -186,7 +184,7 @@ namespace SCaddins.SCwash
                         s += "Dependency - " + d + System.Environment.NewLine;
                     }
 
-                    Parameter p2 = GetParameterByName("Sheet Number");
+                    Parameter p2 = GetParameterByName(view, "Sheet Number");
                     if (p2 != null) {
                         num = p2.AsString();
                         s += "Sheet Number - " + num + System.Environment.NewLine;
@@ -219,7 +217,9 @@ namespace SCaddins.SCwash
             return result;
         }
     
-        private static Parameter GetParameterByName(string parameterName)
+        private static Parameter GetParameterByName(
+            Autodesk.Revit.DB.View view,
+            string parameterName)
         {
             #if REVIT2014
             return view.get_Parameter(parameterName);

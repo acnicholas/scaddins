@@ -115,6 +115,31 @@ namespace SCaddins.SCwash
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
+            // Make sure at least one revision remains
+            int revisionsToStay = 0;
+            foreach (SCwashTreeNode node in treeView1.Nodes[7].Nodes){
+                if( !node.Checked ) {
+                    // Ok, things shouldn't break here. move on.
+                    revisionsToStay++;
+                    break;
+                }
+            }
+            
+            // Un-mark the first revision because you can't delete them all.
+            if(revisionsToStay == 0){
+                TaskDialog td = new TaskDialog("One last revision");
+                td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+                td.MainInstruction = "The project must have at least one revision!";
+                td.MainContent =  "Press OK for SCwash will keep the first revision for you." + System.Environment.NewLine +
+                    System.Environment.NewLine +
+                    "Press Cancel to select the revision you want to keep.";
+                td.CommonButtons = TaskDialogCommonButtons.Cancel | TaskDialogCommonButtons.Ok;
+                TaskDialogResult tr = td.Show();
+                if (tr == TaskDialogResult.Cancel)
+                    return;
+                treeView1.Nodes[7].Nodes[0].Checked = false;    
+            }
+            
             ICollection<ElementId> elements = new List<ElementId>();
             foreach (SCwashTreeNode node in this.treeView1.Nodes) {
                 if (node.Checked) {
@@ -139,6 +164,7 @@ namespace SCaddins.SCwash
 
         private void TreeView1_AfterCheck(object sender, TreeViewEventArgs e)
         {
+            //treeView1.Nodes[7].Nodes[0].Checked = false;
             SCwashTreeNode tn = e.Node as SCwashTreeNode;
             foreach (SCwashTreeNode child in tn.Nodes) {
                 if (!tn.Checked) {
