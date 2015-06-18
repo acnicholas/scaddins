@@ -115,40 +115,32 @@ namespace SCaddins.SCincrement
             return s.Replace("#VAL#", i.ToString(CultureInfo.InvariantCulture));
         }
 
+        private static Parameter GetParameterByName(
+            Element e,
+            string parameterName)
+        {
+            #if REVIT2014
+            return view.get_Parameter(parameterName);
+            #else
+            return view.LookupParameter(parameterName);
+            #endif
+        }
+
         private Parameter GetParameterForReference(Document doc, Reference r)
         {
             Element e = doc.GetElement(r);
-
-            Parameter p = null;
             if (e is Grid) {
-                #if REVIT2014
-                p = e.get_Parameter("Name");
-                #else
-                p = e.LookupParameter("Name");
-                #endif
+                return GetParameterByName(e, "Name");
             } else if (e is Room) {
-                #if REVIT2014
-                p = e.get_Parameter("Number");
-                #else
-                p = e.LookupParameter("Number");
-                #endif
+                return GetParameterByName(e, "Number");
             } else if (e is FamilyInstance) {
-                #if REVIT2014
-                p = e.get_Parameter("Mark");
-                #else
-                p = e.LookupParameter("Mark");
-                #endif
+                return GetParameterByName(e, "Mark");
             } else if (e is TextNote) {
-                #if REVIT2014
-                p = e.get_Parameter(BuiltInParameter.TEXT_TEXT);
-                #else
-                p = e.LookupParameter("Text");
-                #endif
+                return GetParameterByName(e, "Text");
             } else {
                 TaskDialog.Show("Error", "Unsupported element");
                 return null;
             }
-            return p;
         }
 
         private void SetParameterToValue(Parameter p, int i)
