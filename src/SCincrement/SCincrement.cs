@@ -120,9 +120,9 @@ namespace SCaddins.SCincrement
             string parameterName)
         {
             #if REVIT2014
-            return view.get_Parameter(parameterName);
+            return e.get_Parameter(parameterName);
             #else
-            return view.LookupParameter(parameterName);
+            return e.LookupParameter(parameterName);
             #endif
         }
 
