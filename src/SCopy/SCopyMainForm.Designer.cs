@@ -226,7 +226,7 @@ namespace SCaddins.SCopy
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(284, 18);
             this.label3.TabIndex = 8;
-            this.label3.Text = "Vews on New Sheet: ";
+            this.label3.Text = "Views on New Sheet: ";
             // 
             // dataGridView2
             // 

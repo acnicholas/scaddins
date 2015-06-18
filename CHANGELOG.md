@@ -1,3 +1,11 @@
+#15.4# (pre-release)
+
+####NEW####
+
+####FIXES#####
+
+- [SCopy] Fixed typo on main form. 
+
 #15.3#
 
 ####NEW####
