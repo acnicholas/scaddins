@@ -40,11 +40,11 @@ namespace SCaddins.SCexport
         private static string activeDoc;
         private static string author;
         private static string nonIssueTag;
-        private ExportFlags exportFlags;
+        private Enums.ExportFlags exportFlags;
         private List<SheetName> fileNameTypes;
         private List<ViewSheetSetCombo> allViewSheetSets;
         private SheetName fileNameScheme;
-        private SortableBindingList<SCexportSheet> allSheets;
+        private SortableBindingListCollection<SCexportSheet> allSheets;
         private bool forceDate;
         private string exportDir;
 
@@ -62,9 +62,9 @@ namespace SCaddins.SCexport
             SCexport.ConfirmOverwrite = true;
             SCexport.activeDoc = null;
             this.allViewSheetSets = new List<ViewSheetSetCombo>();
-            this.allSheets = new SortableBindingList<SCexportSheet>();
+            this.allSheets = new SortableBindingListCollection<SCexportSheet>();
             this.fileNameTypes = new List<SheetName>();
-            this.exportFlags = ExportFlags.None;
+            this.exportFlags = Enums.ExportFlags.None;
             this.LoadSettings();
             this.SetDefaultFlags();
             SCexport.PopulateViewSheetSets(this.allViewSheetSets);
@@ -72,40 +72,7 @@ namespace SCaddins.SCexport
             SCexport.FixAcrotrayHang();
         }
 
-        /// <summary>
-        /// Type of export.
-        /// </summary>
-        [Flags]
-        public enum ExportFlags
-        {
-            /// <summary>Export Nothing.</summary>
-            None = 0,
-
-            /// <summary>Export files using Adobe Acrobat.</summary>
-            PDF = 1,
-
-            /// <summary>Export a AutoCAD file.</summary>
-            DWG = 2,
-
-            /// <summary>Export A Microstation file.</summary>
-            DGN = 4,
-
-            /// <summary>Export a Autodesk dwf file.</summary>
-            DWF = 8,
-
-            /// <summary>
-            /// Export files using Ghostscript to vreate pdf's.
-            /// </summary>
-            GhostscriptPDF = 16,
-
-            /// <summary>Remove titleblock from sheet before exporting.
-            /// </summary>
-            NoTitle = 32,
-
-            /// <summary>Tag pdf files with metadata.</summary>
-            TagPDFExports = 64,
-        }
-
+   
         public static bool ConfirmOverwrite
         {
             get;
@@ -150,7 +117,7 @@ namespace SCaddins.SCexport
             get { return this.fileNameTypes; }
         }
 
-        public SortableBindingList<SCexportSheet> AllSheets
+        public SortableBindingListCollection<SCexportSheet> AllSheets
         {
             get { return this.allSheets; }
         }
@@ -164,7 +131,7 @@ namespace SCaddins.SCexport
         /// Gets or sets the export flags.
         /// </summary>
         /// <value>The flags.</value>
-        public ExportFlags ExportOptions
+        public Enums.ExportFlags ExportOptions
         {
             get; set;
         }
@@ -525,7 +492,7 @@ namespace SCaddins.SCexport
         /// Adds an export flag to the current set of flags.
         /// </summary>
         /// <param name="f"> The Flag to add. </param>
-        public void AddExportOption(ExportFlags exportOptions)
+        public void AddExportOption(Enums.ExportFlags exportOptions)
         {
             this.exportFlags |= exportOptions;
         }
@@ -534,7 +501,7 @@ namespace SCaddins.SCexport
         /// Removes an export flag from the current set of flags.
         /// </summary>
         /// <param name="f"> The flag to remove. </param>
-        public void RemoveExportOption(ExportFlags exportOptions)
+        public void RemoveExportOption(Enums.ExportFlags exportOptions)
         {
             this.exportFlags = this.exportFlags & ~exportOptions;
         }
@@ -544,7 +511,7 @@ namespace SCaddins.SCexport
         /// </summary>
         /// <returns><c>true</c> if this instance has flag the specified f; otherwise, <c>false</c>.</returns>
         /// <param name="f"> The flag to evaluate. </param>
-        public bool HasExportOption(ExportFlags f)
+        public bool HasExportOption(Enums.ExportFlags f)
         {
             return this.exportFlags.HasFlag(f);
         }
@@ -591,9 +558,9 @@ namespace SCaddins.SCexport
             }
 
             // Tag file
-            if (this.exportFlags.HasFlag(SCexport.ExportFlags.TagPDFExports) &&
-                (this.exportFlags.HasFlag(SCexport.ExportFlags.PDF) ||
-                 this.exportFlags.HasFlag(SCexport.ExportFlags.GhostscriptPDF)))
+            if (this.exportFlags.HasFlag(Enums.ExportFlags.TagPDFExports) &&
+                (this.exportFlags.HasFlag(Enums.ExportFlags.PDF) ||
+                 this.exportFlags.HasFlag(Enums.ExportFlags.GhostscriptPDF)))
             {
                 foreach (SCexportSheet sheet in sheets) {
                     if (sheet.SheetRevisionDate.Length < 1) {
@@ -836,27 +803,27 @@ namespace SCaddins.SCexport
         private void SetDefaultFlags()
         {
             if (SCaddins.SCexport.Settings1.Default.AdobePDFMode && this.PDFSanityCheck()) {
-                this.AddExportOption(SCexport.ExportFlags.PDF);
+                this.AddExportOption(Enums.ExportFlags.PDF);
             } else if (!SCaddins.SCexport.Settings1.Default.AdobePDFMode && this.GSSanityCheck()) {
-                this.AddExportOption(ExportFlags.GhostscriptPDF);
+                this.AddExportOption(Enums.ExportFlags.GhostscriptPDF);
             } else {
                 if (this.PDFSanityCheck()) {
-                     this.AddExportOption(SCexport.ExportFlags.PDF);   
+                     this.AddExportOption(Enums.ExportFlags.PDF);   
                 }
-                this.AddExportOption(ExportFlags.DWG);
+                this.AddExportOption(Enums.ExportFlags.DWG);
             }
             if (SCaddins.SCexport.Settings1.Default.TagPDFExports) {
-                this.AddExportOption(ExportFlags.TagPDFExports);
+                this.AddExportOption(Enums.ExportFlags.TagPDFExports);
             }
             if (SCaddins.SCexport.Settings1.Default.HideTitleBlocks) {
-                this.AddExportOption(ExportFlags.NoTitle);
+                this.AddExportOption(Enums.ExportFlags.NoTitle);
             }
             if (SCaddins.SCexport.Settings1.Default.ForceDateRevision) {
                 this.forceDate = true;
             }
         }
 
-        private void PopulateSheets(SortableBindingList<SCexportSheet> s)
+        private void PopulateSheets(SortableBindingListCollection<SCexportSheet> s)
         {
             string config = GetConfigFileName(doc);
             bool b = this.ImportXMLinfo(config);
@@ -979,11 +946,11 @@ namespace SCaddins.SCexport
             }
 
             if (r.SCPrintSetting != null) {
-                if (this.exportFlags.HasFlag(SCexport.ExportFlags.DWG)) {
-                    this.ExportDWG(r, this.exportFlags.HasFlag(ExportFlags.NoTitle));
+                if (this.exportFlags.HasFlag(Enums.ExportFlags.DWG)) {
+                    this.ExportDWG(r, this.exportFlags.HasFlag(Enums.ExportFlags.NoTitle));
                 }
 
-                if (this.exportFlags.HasFlag(SCexport.ExportFlags.PDF)) {
+                if (this.exportFlags.HasFlag(Enums.ExportFlags.PDF)) {
                     if (!this.ExportAdobePDF(r)) {
                         TaskDialog exportErrorDialog = new TaskDialog("Export Error");
                         exportErrorDialog.MainContent = "Could not print pdf: " + r.FullExportName;
@@ -995,7 +962,7 @@ namespace SCaddins.SCexport
                     }
                 }
 
-                if (this.exportFlags.HasFlag(SCexport.ExportFlags.GhostscriptPDF)) {
+                if (this.exportFlags.HasFlag(Enums.ExportFlags.GhostscriptPDF)) {
                     if (!this.ExportGSPDF(r)) {
                         TaskDialog.Show(
                             "SCexport", "Could not export postscript pdf: " + r.FullExportName);
@@ -1003,11 +970,11 @@ namespace SCaddins.SCexport
                     }
                 }
 
-                if (this.exportFlags.HasFlag(SCexport.ExportFlags.DGN)) {
+                if (this.exportFlags.HasFlag(Enums.ExportFlags.DGN)) {
                     SCexport.ExportDGN(r);
                 }
 
-                if (this.exportFlags.HasFlag(SCexport.ExportFlags.DWF)) {
+                if (this.exportFlags.HasFlag(Enums.ExportFlags.DWF)) {
                     SCexport.ExportDWF(r);
                 }
             }

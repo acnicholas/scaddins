@@ -16,7 +16,7 @@ namespace SCaddins.SCopy
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        public System.Windows.Forms.TextBox textBox1;
+        internal System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
         
         /// <summary>

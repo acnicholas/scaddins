@@ -126,19 +126,19 @@ namespace SCaddins.SCexport
         {
             switch (f.Column) {
                 case 1:
-                    var bs1 = new SortableBindingList<SCexportSheet>(
+                    var bs1 = new SortableBindingListCollection<SCexportSheet>(
                                   this.scx.AllSheets.Where(
                                       obj => obj.SheetNumber.StartsWith(f.Filter, StringComparison.CurrentCulture) == true).ToList());
                     this.dataGridView1.DataSource = bs1;
                     break;
                 case 3:
-                    var bs3 = new SortableBindingList<SCexportSheet>(
+                    var bs3 = new SortableBindingListCollection<SCexportSheet>(
                                   this.scx.AllSheets.Where(
                                       obj => obj.SheetRevision.StartsWith(f.Filter, StringComparison.CurrentCulture) == true).ToList());
                     this.dataGridView1.DataSource = bs3;
                     break;
                 case 5:
-                    var bs5 = new SortableBindingList<SCexportSheet>(
+                    var bs5 = new SortableBindingListCollection<SCexportSheet>(
                                   this.scx.AllSheets.Where(
                                       obj => obj.SheetRevisionDate.StartsWith(f.Filter, StringComparison.CurrentCulture) == true).ToList());
                     this.dataGridView1.DataSource = bs5;
@@ -148,7 +148,7 @@ namespace SCaddins.SCexport
 
         private void PopulateList(string s)
         {
-            var bs = new SortableBindingList<SCexportSheet>(
+            var bs = new SortableBindingListCollection<SCexportSheet>(
                     this.scx.AllSheets.Where(obj => obj.SheetNumber
                         .StartsWith(s, StringComparison.CurrentCulture) || 
                         obj.SheetNumber.StartsWith("DA" + s, StringComparison.CurrentCulture) == true).ToList());
@@ -165,7 +165,7 @@ namespace SCaddins.SCexport
             if (vss.CustomName == "<All views>") {
                 this.PopulateList();
             } else {
-                var bs = new SortableBindingList<SCexportSheet>();
+                var bs = new SortableBindingListCollection<SCexportSheet>();
                 for (int i = 0; i < this.scx.AllSheets.Count; i++) {
                     foreach (Autodesk.Revit.DB.ViewSheet vs in vss.ViewSheetSet.Views) {
                         if (this.scx.AllSheets[i].Id.Equals(vs.Id)) {
@@ -382,7 +382,7 @@ namespace SCaddins.SCexport
         /// <param name="s">A string of the Sheet Number.</param>
         private void FilterItems(string s)
         {
-            var bs = new SortableBindingList<SCexportSheet>();
+            var bs = new SortableBindingListCollection<SCexportSheet>();
             foreach (DataGridViewRow row in this.dataGridView1.Rows) {
                 var sc = row.DataBoundItem as SCexportSheet;
                 if (sc == null) {
@@ -426,7 +426,7 @@ namespace SCaddins.SCexport
         }
 
         private void ToggleConversionFlag(
-                ToolStripMenuItem box, SCexport.ExportFlags val)
+                ToolStripMenuItem box, Enums.ExportFlags val)
         {
             if (box.Checked == true) {
                 this.scx.AddExportOption(val);
@@ -438,7 +438,7 @@ namespace SCaddins.SCexport
         private void ToggleCheckBoxValue(object sender, EventArgs e)
         {
             var c = (ToolStripMenuItem)sender;
-            var t = (SCexport.ExportFlags)c.Tag;
+            var t = (Enums.ExportFlags)c.Tag;
             this.ToggleConversionFlag(c, t);
             this.UpdateExportButton(this.NumberOfSelectedViews());
         }
@@ -446,20 +446,20 @@ namespace SCaddins.SCexport
         private void UpdateExportButton(int count)
         {
             string s = "Export[" + count + "]:";
-            if (this.scx.HasExportOption(SCexport.ExportFlags.PDF)) {
-                s += @" " + SCexport.ExportFlags.PDF.ToString();
+            if (this.scx.HasExportOption(Enums.ExportFlags.PDF)) {
+                s += @" " + Enums.ExportFlags.PDF.ToString();
             }
-            if (this.scx.HasExportOption(SCexport.ExportFlags.DWG)) {
-                s += @" " + SCexport.ExportFlags.DWG.ToString();
+            if (this.scx.HasExportOption(Enums.ExportFlags.DWG)) {
+                s += @" " + Enums.ExportFlags.DWG.ToString();
             }
-            if (this.scx.HasExportOption(SCexport.ExportFlags.DWF)) {
-                s += @" " + SCexport.ExportFlags.DWF.ToString();
+            if (this.scx.HasExportOption(Enums.ExportFlags.DWF)) {
+                s += @" " + Enums.ExportFlags.DWF.ToString();
             }
-            if (this.scx.HasExportOption(SCexport.ExportFlags.DGN)) {
-                s += @" " + SCexport.ExportFlags.DGN.ToString();
+            if (this.scx.HasExportOption(Enums.ExportFlags.DGN)) {
+                s += @" " + Enums.ExportFlags.DGN.ToString();
             }
-            if (this.scx.HasExportOption(SCexport.ExportFlags.GhostscriptPDF)) {
-                s += @" " + SCexport.ExportFlags.GhostscriptPDF.ToString();
+            if (this.scx.HasExportOption(Enums.ExportFlags.GhostscriptPDF)) {
+                s += @" " + Enums.ExportFlags.GhostscriptPDF.ToString();
             }
             this.btnExport.Text = s;
             this.dataGridView1.Refresh();
@@ -642,7 +642,7 @@ namespace SCaddins.SCexport
         
         private void ShowOptions()
         {
-            var options = new OptionsDialog(this.doc, this.scx, this.dataGridView1);
+            var options = new OptionsDialog(this.doc, this.scx);
             options.ShowDialog();
             this.UpdateExportButton(this.NumberOfSelectedViews());
             this.dataGridView1.Refresh(); 

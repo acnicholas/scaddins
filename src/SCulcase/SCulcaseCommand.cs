@@ -48,7 +48,7 @@ namespace SCaddins.SCulcase
             using (TransactionGroup t = new TransactionGroup(doc, "SCulcase")) {
                       t.Start();
                       if (elems.Count == 0) {
-                          SCulcaseMainForm form = new SCulcaseMainForm(doc);
+                          var form = new SCulcaseMainForm(doc);
                       } else {
                           SCulcase.ConvertSelection(SCulcase.ConversionMode.UpperCase, doc, elems);
                       }

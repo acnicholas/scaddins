@@ -28,7 +28,7 @@ namespace SCaddins.SCloudSChed
     {
         private Document doc;
 
-        public Form1(Document doc, SortableBindingList<RevisionItem> revisions)
+        public Form1(Document doc, SortableBindingListCollection<RevisionItem> revisions)
         {
             this.doc = doc;
             this.InitializeComponent();

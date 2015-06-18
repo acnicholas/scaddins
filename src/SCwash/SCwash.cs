@@ -191,7 +191,7 @@ namespace SCaddins.SCwash
                     if (p2 != null) {
                         num = p2.AsString();
                         s += "Sheet Number - " + num + System.Environment.NewLine;
-                        if (num != "---" && num != string.Empty)
+                        if (num != "---" && !string.IsNullOrEmpty(num))
                             os = true;
                     } else {
                         s += @"Sheet Number - N/A" + System.Environment.NewLine;

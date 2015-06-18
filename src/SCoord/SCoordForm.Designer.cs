@@ -163,9 +163,9 @@ namespace SCaddins.SCoord
             this.ResumeLayout(false);
         }
         private System.Windows.Forms.Label label1;
-        public System.Windows.Forms.TextBox textBoxEW;
-        public System.Windows.Forms.TextBox textBoxNS;
-        public System.Windows.Forms.TextBox textBoxElevation;
+        internal System.Windows.Forms.TextBox textBoxEW;
+        internal System.Windows.Forms.TextBox textBoxNS;
+        internal System.Windows.Forms.TextBox textBoxElevation;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;

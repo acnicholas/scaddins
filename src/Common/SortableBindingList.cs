@@ -36,7 +36,7 @@ namespace SCaddins.Common
     /// <summary>
     /// Sortable binding list.
     /// </summary>
-    public class SortableBindingList<T> : System.ComponentModel.BindingList<T>
+    public class SortableBindingListCollection<T> : System.ComponentModel.BindingList<T>
     {
         #region fields
         private bool sorted;
@@ -48,7 +48,7 @@ namespace SCaddins.Common
         /// <summary>
         /// Initializes a new instance of the <see cref="SCexport.SortableBindingList`1"/> class.
         /// </summary>
-        public SortableBindingList()
+        public SortableBindingListCollection()
         {
         }
 
@@ -56,7 +56,7 @@ namespace SCaddins.Common
         /// Initializes a new instance of the <see cref="SCexport.SortableBindingList`1"/> class.
         /// </summary>
         /// <param name="list">List.</param>
-        public SortableBindingList(System.Collections.Generic.List<T> list) : base(list)
+        public SortableBindingListCollection(System.Collections.Generic.List<T> list) : base(list)
         {
         }
 

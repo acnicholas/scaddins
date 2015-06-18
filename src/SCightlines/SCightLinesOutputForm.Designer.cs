@@ -62,6 +62,6 @@
         private System.Windows.Forms.TextBox textBox1;
 
 
-        public System.EventHandler Form2_Load { get; set; }
+        public System.EventHandler Form2Load { get; set; }
     }
 }

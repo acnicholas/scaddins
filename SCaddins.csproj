@@ -152,6 +152,7 @@
     </Compile>
     <Compile Include="src\SCexport\Constants.cs" />
     <Compile Include="src\SCexport\DialogHandler.cs" />
+    <Compile Include="src\SCexport\Enums.cs" />
     <Compile Include="src\SCexport\ExportLog.cs" />
     <Compile Include="src\SCexport\FileUtils.cs" />
     <Compile Include="src\SCexport\FilterContextMenu.cs" />

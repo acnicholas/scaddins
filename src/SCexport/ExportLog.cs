@@ -18,6 +18,7 @@
 namespace SCaddins.SCexport
 {    
     using System.Text;
+    using SCaddins.SCexport;
     
     public class ExportLog
     {    
@@ -39,13 +40,7 @@ namespace SCaddins.SCexport
             this.startTime = startTime;
             this.exportTime = System.TimeSpan.MinValue;
         }
-        
-        public enum LogType {
-            Error,
-            Warning,
-            Normal
-        }
-        
+               
         public void FinishLogging()
         {
             this.exportTime = System.DateTime.Now - this.startTime;
@@ -63,14 +58,14 @@ namespace SCaddins.SCexport
             this.warningLog.AppendLine(fileName + " - " + msg);
         }
         
-        public void ShowSummaryDialog(LogType summaryType)
+        public void ShowSummaryDialog(Enums.LogType summaryType)
         {
             switch (summaryType) {
-                case LogType.Error:
-                    System.Windows.Forms.MessageBox.Show(this.errorLog.ToString(), this.errors + " Errors found");
+                case Enums.LogType.Error:
+                    Autodesk.Revit.UI.TaskDialog.Show(this.errorLog.ToString(), this.errors + " Errors found");
                     break;
-                case LogType.Warning:
-                    System.Windows.Forms.MessageBox.Show(this.warningLog.ToString(), this.warnings + " Warnings found");
+                case Enums.LogType.Warning:
+                    Autodesk.Revit.UI.TaskDialog.Show(this.warningLog.ToString(), this.warnings + " Warnings found");
                     break;
             }
         }

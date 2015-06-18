@@ -26,7 +26,7 @@ namespace SCaddins.SCloudSChed
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
     {
-        private SortableBindingList<RevisionItem> revisions;
+        private SortableBindingListCollection<RevisionItem> revisions;
 
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
@@ -34,14 +34,14 @@ namespace SCaddins.SCloudSChed
             Autodesk.Revit.DB.ElementSet elements)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            this.revisions = new SortableBindingList<RevisionItem>();
+            this.revisions = new SortableBindingListCollection<RevisionItem>();
             GetRevisions(doc, this.revisions);
             Form1 form = new Form1(doc, this.revisions);
             form.Show();
             return Autodesk.Revit.UI.Result.Succeeded;
         }
 
-        private static void GetRevisions(Document doc, SortableBindingList<RevisionItem> revisions)
+        private static void GetRevisions(Document doc, SortableBindingListCollection<RevisionItem> revisions)
         {
             FilteredElementCollector a;
             a = new FilteredElementCollector(doc);

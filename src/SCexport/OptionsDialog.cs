@@ -32,7 +32,7 @@ namespace SCaddins.SCexport
         /// <summary>
         /// Initializes a new instance of the <see cref="OptionsDialog"/> class.
         /// </summary>
-        public OptionsDialog(Autodesk.Revit.DB.Document doc, SCexport scx, System.Windows.Forms.DataGridView parent)
+        public OptionsDialog(Autodesk.Revit.DB.Document doc, SCexport scx)
         {
             this.doc = doc;
             this.scx = scx;
@@ -54,15 +54,15 @@ namespace SCaddins.SCexport
         
         private void LoadValues()
         {
-            this.radioPDF.Checked = this.scx.HasExportOption(SCexport.ExportFlags.PDF);
-            this.radioGSPDF.Checked = this.scx.HasExportOption(SCexport.ExportFlags.GhostscriptPDF);
-            this.checkBoxDGN.Checked = this.scx.HasExportOption(SCexport.ExportFlags.DGN);
-            this.checkBoxDWG.Checked = this.scx.HasExportOption(SCexport.ExportFlags.DWG);
-            this.checkBoxDWF.Checked = this.scx.HasExportOption(SCexport.ExportFlags.DWF);
+            this.radioPDF.Checked = this.scx.HasExportOption(Enums.ExportFlags.PDF);
+            this.radioGSPDF.Checked = this.scx.HasExportOption(Enums.ExportFlags.GhostscriptPDF);
+            this.checkBoxDGN.Checked = this.scx.HasExportOption(Enums.ExportFlags.DGN);
+            this.checkBoxDWG.Checked = this.scx.HasExportOption(Enums.ExportFlags.DWG);
+            this.checkBoxDWF.Checked = this.scx.HasExportOption(Enums.ExportFlags.DWF);
             this.checkBoxTagPDF.Checked =
-                this.scx.HasExportOption(SCexport.ExportFlags.TagPDFExports);
+                this.scx.HasExportOption(Enums.ExportFlags.TagPDFExports);
             this.checkBoxHideTitleblock.Checked =
-                this.scx.HasExportOption(SCexport.ExportFlags.NoTitle);
+                this.scx.HasExportOption(Enums.ExportFlags.NoTitle);
             this.checkBoxForceDate.Checked = this.scx.ForceDate;
             if (this.scx.FileNameScheme != null) {
                 this.comboBoxScheme.Text = this.scx.FileNameScheme.Name;
@@ -139,19 +139,19 @@ namespace SCaddins.SCexport
             if (!FileUtilities.ConfigFileExists(this.doc)) {
                 this.buttonEditConfig.Enabled = false;
             }
-            this.radioPDF.Tag = SCexport.ExportFlags.PDF;
-            this.checkBoxDGN.Tag = SCexport.ExportFlags.DGN;
-            this.checkBoxDWF.Tag = SCexport.ExportFlags.DWF;
-            this.checkBoxDWG.Tag = SCexport.ExportFlags.DWG;
-            this.radioGSPDF.Tag = SCexport.ExportFlags.GhostscriptPDF;
-            this.checkBoxTagPDF.Tag = SCexport.ExportFlags.TagPDFExports;
-            this.checkBoxHideTitleblock.Tag = SCexport.ExportFlags.NoTitle;
+            this.radioPDF.Tag = Enums.ExportFlags.PDF;
+            this.checkBoxDGN.Tag = Enums.ExportFlags.DGN;
+            this.checkBoxDWF.Tag = Enums.ExportFlags.DWF;
+            this.checkBoxDWG.Tag = Enums.ExportFlags.DWG;
+            this.radioGSPDF.Tag = Enums.ExportFlags.GhostscriptPDF;
+            this.checkBoxTagPDF.Tag = Enums.ExportFlags.TagPDFExports;
+            this.checkBoxHideTitleblock.Tag = Enums.ExportFlags.NoTitle;
         }
         
         private void ToggleCheckBoxValue(object sender, EventArgs e)
         {
             var c = (CheckBox)sender;
-            var t = (SCexport.ExportFlags)c.Tag;
+            var t = (Enums.ExportFlags)c.Tag;
             this.ToggleConversionFlag(c.Checked, t);
             if (this.checkBoxDWG.Checked) {
                 this.checkBoxHideTitleblock.Enabled = true;
@@ -161,7 +161,7 @@ namespace SCaddins.SCexport
         }
         
         private void ToggleConversionFlag(
-            bool flagged, SCexport.ExportFlags val)
+            bool flagged,Enums.ExportFlags val)
         {
             if (flagged == true) {
                 this.scx.AddExportOption(val);
@@ -173,7 +173,7 @@ namespace SCaddins.SCexport
         private void RadioCheckedChanged(object sender, EventArgs e)
         {
             var r = (RadioButton)sender;
-            var t = (SCexport.ExportFlags)r.Tag;
+            var t = (Enums.ExportFlags)r.Tag;
             this.ToggleConversionFlag(r.Checked, t);
         }
         

@@ -94,7 +94,7 @@ namespace SCaddins.SCexport
         }
         
         private System.Windows.Forms.GroupBox grpSelectPrinter;
-        public System.Windows.Forms.ComboBox comboBoxPrinter;
+        internal System.Windows.Forms.ComboBox comboBoxPrinter;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.MenuStrip menuStrip1;

@@ -240,8 +240,8 @@
         }
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.Button button3;
-        public System.Windows.Forms.RadioButton radioButtonRotateCurrent;
-        public System.Windows.Forms.RadioButton radioButtonWinterViews;
+        internal System.Windows.Forms.RadioButton radioButtonRotateCurrent;
+        internal System.Windows.Forms.RadioButton radioButtonWinterViews;
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button2;
