@@ -26,7 +26,7 @@ namespace SCaddins.SCuv
     /// Copy a view; give it a user name, remove any view templates and
     /// categorize it nicely.
     /// </summary>
-    public static class SCuv
+    public static class SCUserView
     {     
         public static bool CreateUserView(View sourceView, Document doc)
         {
@@ -41,21 +41,21 @@ namespace SCaddins.SCuv
             return false;   
         }
                
-        public static void CreateUserViews(ICollection<SCaddins.SCexport.SCexportSheet> sheets, Document doc)
+        public static void CreateUserViews(ICollection<SCaddins.SCexport.ExportSheet> sheets, Document doc)
         {
             string message = string.Empty;
             var t = new Transaction(doc, "SCuv Copies User Views");
             t.Start();
-            foreach (SCaddins.SCexport.SCexportSheet sheet in sheets) {
+            foreach (SCaddins.SCexport.ExportSheet sheet in sheets) {
                 message += CreateUserViewsFromSheet(sheet.Sheet, doc);
             }
             t.Commit();
             ShowSummaryDialog(message);
     }
                     
-        public static string GetNewViewName(View sourceView)
+        public static string GetNewViewName(Element sourceView)
         { 
-            return Environment.UserName + "-" + sourceView.Name + "-" + SCaddins.SCexport.SCexport.GetDateString();           
+            return Environment.UserName + "-" + sourceView.Name + "-" + SCaddins.SCexport.Export.GetDateString;           
         } 
         
         public static void ShowErrorDialog(Element sourceView)

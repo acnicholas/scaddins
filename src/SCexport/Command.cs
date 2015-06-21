@@ -50,8 +50,8 @@ namespace SCaddins.SCexport
             }
             
             // make sure teh file has been saved before continuing
-            if (FileUtilities.GetCentralFileName(
-                commandData.Application.ActiveUIDocument.Document) == string.Empty) {
+            if (string.IsNullOrEmpty(FileUtilities.GetCentralFileName(
+                    commandData.Application.ActiveUIDocument.Document))) {
                 var fail = new TaskDialog("FAIL");
                 fail.MainContent = "Please save the file before continuing";
                 fail.MainIcon = TaskDialogIcon.TaskDialogIconWarning;

@@ -22,6 +22,7 @@ namespace SCaddins.SCwash
     using System.Windows.Forms;
     using Autodesk.Revit.DB;
 
+    [Serializable]
     public class SCwashTreeNode : TreeNode
     {
         public SCwashTreeNode(string name)

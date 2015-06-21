@@ -29,7 +29,7 @@ namespace SCaddins
     using System.Windows.Media.Imaging;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.UI;
-
+    
     [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
@@ -51,7 +51,10 @@ namespace SCaddins
             } catch (WebException e) {
                 TaskDialog.Show("Error: Check For Updates", e.Message); 
                 return;
-            } catch (Exception e) {
+            } catch (InvalidOperationException e) {
+                TaskDialog.Show("Error: Check For Updates", e.Message);
+                return;                             
+            } catch (NotSupportedException e) {
                 TaskDialog.Show("Error: Check For Updates", e.Message);
                 return;                
             }
@@ -104,7 +107,7 @@ namespace SCaddins
             var collection = Scaddins.Default.DisplayOrder;
             
             if (collection.Count < 1) {
-                collection = SCaddinsOptionsForm.GetDefaultCollection();
+                collection = SCaddinsOptionsForm.DefaultCollection;
             }
                                    
             var numberOfAddins = collection.Count;

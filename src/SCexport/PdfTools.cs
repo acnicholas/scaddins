@@ -19,7 +19,7 @@ namespace SCaddins.SCexport
 {
     using System;
     using System.IO;
-    using System.Security.Permissions;
+    using System.Security;
     using Autodesk.Revit.UI;
 
     /// <summary>
@@ -33,7 +33,7 @@ namespace SCaddins.SCexport
         /// <param name="file">The pdf file to add additional tags to.</param>
         /// <param name="name">This will populate the Title part of the pdf tag.</param>
         /// <param name="rev">This will populate the Keyword part of the pdf tag.</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        [SecurityCritical]
         internal static void TagPDF(string file, string name, string rev)
         {
             string s = Environment.GetFolderPath(
@@ -48,7 +48,7 @@ namespace SCaddins.SCexport
                     string prog = s + @"\SCaddins\SCaddins\opt\pdftk.exe";
                     string cmd = "\"" + file + "\" update_info \"" + pdfmetafile +
                         "\" output \"" + file + "\".tmp dont_ask"; 
-                    SCexport.StartHiddenConsoleProg(prog, cmd);
+                    Export.StartHiddenConsoleProg(prog, cmd);
                     FileUtilities.WaitForFileAccess(file);
                     File.Delete(file);
                     File.Move(file + ".tmp", file);
@@ -60,7 +60,7 @@ namespace SCaddins.SCexport
             } 
         }
         
-         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+         [SecurityCritical]
          private static string CreatePDFMetaFile(string file)
         {
             FileUtilities.WaitForFileAccess(file);
@@ -72,7 +72,7 @@ namespace SCaddins.SCexport
                 string prog = s + @"\SCaddins\SCaddins\opt\pdftk.exe";
                 string args = "\"" + file + "\" dump_data output \"" +
                     pdfmetafile + "\"";
-                SCexport.StartHiddenConsoleProg(prog, args);
+                Export.StartHiddenConsoleProg(prog, args);
                 return pdfmetafile;
             } catch {
                 TaskDialog.Show("Error", "Error creating pdf meta file");
@@ -87,7 +87,7 @@ namespace SCaddins.SCexport
                 string s = "InfoKey: Title" + Environment.NewLine +
                     "InfoValue: " + name + Environment.NewLine +
                     "InfoKey: Author" + Environment.NewLine +
-                    "InfoValue: " + SCexport.Author + System.Environment.NewLine +
+                    "InfoValue: " + Export.Author + System.Environment.NewLine +
                     "InfoKey: Keywords" + Environment.NewLine +
                     "InfoValue: " + rev;
                 File.AppendAllText(file, s);

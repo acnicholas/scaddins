@@ -76,7 +76,7 @@ namespace SCaddins.SCloudSChed
                     }
                 }
             }
-            SCloudSched.ExportCloudInfo(this.doc, dictionary);
+            SCloudScheduler.ExportCloudInfo(this.doc, dictionary);
         }
     }
 }

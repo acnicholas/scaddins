@@ -37,29 +37,29 @@ namespace SCaddins.SCexport
             Autodesk.Revit.DB.ElementSet elements)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            var dh = new DialogHandler(commandData.Application);
+            DialogHandler.AddRevitDialogHandler(commandData.Application);
             var osd = new OpenSheetDialog();
             System.Windows.Forms.DialogResult tdr = osd.ShowDialog();
             if (tdr == System.Windows.Forms.DialogResult.OK) {
                 Autodesk.Revit.DB.FamilyInstance result =
-                    SCexport.GetTitleBlockFamily(osd.Value, doc);
+                    Export.GetTitleBlockFamily(osd.Value, doc);
                 if (result == null) {
-                    result = SCexport.GetTitleBlockFamily("CD" + osd.Value, doc);    
+                    result = Export.GetTitleBlockFamily("CD" + osd.Value, doc);    
                 }
                 if (result == null) {
-                    result = SCexport.GetTitleBlockFamily("DA" + osd.Value, doc);    
+                    result = Export.GetTitleBlockFamily("DA" + osd.Value, doc);    
                 }
                 if (result == null) {
-                    result = SCexport.GetTitleBlockFamily("SK" + osd.Value, doc);    
+                    result = Export.GetTitleBlockFamily("SK" + osd.Value, doc);    
                 }
                 if (result == null) {
-                    result = SCexport.GetTitleBlockFamily("AD-CD" + osd.Value, doc);    
+                    result = Export.GetTitleBlockFamily("AD-CD" + osd.Value, doc);    
                 }
                 if (result == null) {
-                    result = SCexport.GetTitleBlockFamily("AD-DA" + osd.Value, doc);    
+                    result = Export.GetTitleBlockFamily("AD-DA" + osd.Value, doc);    
                 }
                 if (result == null) {
-                    result = SCexport.GetTitleBlockFamily("AD-SK" + osd.Value, doc);    
+                    result = Export.GetTitleBlockFamily("AD-SK" + osd.Value, doc);    
                 }
                 if (result != null) {
                     commandData.Application.ActiveUIDocument.ShowElements(result);

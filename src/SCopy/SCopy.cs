@@ -19,12 +19,13 @@ namespace SCaddins.SCopy
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     
-    public class SCopy
+    public class SheetCopy
     {
         private FamilyInstance sourceTitleBlock;
         private Document doc;
@@ -41,12 +42,12 @@ namespace SCaddins.SCopy
         private Dictionary<string, Level> levels =
             new Dictionary<string, Level>();
         
-        private List<string> sheetCategories = 
-            new List<string>();
+        private Collection<string> sheetCategories = 
+            new Collection<string>();
         
         private ElementId floorPlanViewFamilyTypeId = null;
            
-        public SCopy(Document doc)
+        public SheetCopy(Document doc)
         {
             this.doc = doc;
             this.sheets = new System.ComponentModel.BindingList<SCopySheet>();
@@ -58,13 +59,6 @@ namespace SCaddins.SCopy
             this.GetAllSheetCategories();
         }
                
-        public enum ViewPortPlacementMode
-        {
-            Copy,
-            New,
-            Legend
-        }
-    
         #region properties
 
         public System.ComponentModel.BindingList<SCopySheet> Sheets {
@@ -91,7 +85,7 @@ namespace SCaddins.SCopy
             }
         }
         
-        public List<string> SheetCategories {
+        public Collection<string> SheetCategories {
             get {
                 return this.sheetCategories;
             }    
@@ -180,7 +174,7 @@ namespace SCaddins.SCopy
             }
             return result;
         }
-		        
+
         private void GetViewTemplates()
         {
             this.viewTemplates.Clear();
@@ -381,7 +375,7 @@ namespace SCaddins.SCopy
         {
             IList<ElementId> list = new List<ElementId>();
             foreach (Element e in new FilteredElementCollector(this.doc).OwnedByView(sheet.SourceSheet.Id)) {
-                if ( !(e is Viewport) ){
+                if (!(e is Viewport)) {
                     list.Add(e.Id);
                 }
             }
@@ -393,7 +387,7 @@ namespace SCaddins.SCopy
         private void CreateViewports(SCopySheet sheet)
         {
             Dictionary<ElementId, BoundingBoxXYZ> viewPorts =
-                SCopy.GetVPDictionary(sheet.SourceSheet, this.doc);
+                SheetCopy.GetVPDictionary(sheet.SourceSheet, this.doc);
 
             foreach (SCopyViewOnSheet view in sheet.ViewsOnSheet) {
                 BoundingBoxXYZ srcViewPort = null;
@@ -402,7 +396,7 @@ namespace SCaddins.SCopy
                     continue;
                 }
             
-                XYZ sourceViewPortCentre = SCopy.ViewCenterFromTBBottomLeft(srcViewPort);
+                XYZ sourceViewPortCentre = SheetCopy.ViewCenterFromTBBottomLeft(srcViewPort);
               
                 switch (view.CreationMode) {
                     case ViewPortPlacementMode.Copy:

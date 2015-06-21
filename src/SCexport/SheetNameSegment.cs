@@ -54,63 +54,10 @@ public class SheetNameSegment
     }
     
     /// <summary>
-    /// Availabel types of Sheet Name Segments.
-    /// </summary>
-    public enum SegmentType
-    {
-        /// <summary>
-        /// A text segment, can be user specified.
-        /// </summary>
-        Text = 0,
-
-        /// <summary>
-        /// The sheet number of the revivt sheet.
-        /// This is the number on the title block.
-        /// </summary>
-        SheetNumber,
-
-        /// <summary>
-        /// The name of the Revit sheet.
-        /// This is the title on the title block.
-        /// </summary>
-        SheetName,
-
-        /// <summary>
-        /// The project number of the Revit model.
-        /// </summary>
-        ProjectNumber,
-
-        /// <summary>
-        /// The discipline.
-        /// </summary>
-        Discipline,
-
-        /// <summary>
-        /// The revision of the sheet.
-        /// </summary>
-        Revision,
-
-        /// <summary>
-        /// The revision description.
-        /// </summary>
-        RevisionDescription,
-
-        /// <summary>
-        /// A hyphen '-'.
-        /// </summary>
-        Hyphen,
-
-        /// <summary>
-        /// An underscore '_'.
-        /// </summary>
-        Underscore
-    }
-  
-    /// <summary>
     /// Gets the type of segment.
     /// </summary>
     /// <value>The type of segment.</value>
-    public SegmentType Type
+    public SegmentType TypeOfSegment
     {
         get { return this.type; }
     }

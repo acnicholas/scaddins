@@ -36,16 +36,16 @@ namespace SCaddins.SCaos
                 listBox1.Items.Add(informationText[i]);
             }
             
-            for (int i = 8; i < 16; i++){
-                startTime.Items.Add(new DateTime(2014,6,21,i,0,0,DateTimeKind.Local));
-                endTime.Items.Add(new DateTime(2014,6,21,i+1,0,0,DateTimeKind.Local));
+            for (int i = 8; i < 16; i++) {
+                startTime.Items.Add(new DateTime(2014, 6, 21, i, 0, 0, DateTimeKind.Local));
+                endTime.Items.Add(new DateTime(2014, 6, 21, i + 1, 0, 0, DateTimeKind.Local));
             }
             startTime.SelectedIndex = 1;   
             endTime.SelectedIndex = 6;
             
-            interval.Items.Add(new TimeSpan(0,15,0));
-            interval.Items.Add(new TimeSpan(0,30,0));
-            interval.Items.Add(new TimeSpan(1,0,0));
+            interval.Items.Add(new TimeSpan(0, 15, 0));
+            interval.Items.Add(new TimeSpan(0, 30, 0));
+            interval.Items.Add(new TimeSpan(1, 0, 0));
             interval.SelectedIndex = 2;
             
             this.Text = "SCaos by Andrew Nicholas";

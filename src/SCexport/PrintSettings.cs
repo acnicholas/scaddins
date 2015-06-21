@@ -33,25 +33,25 @@ namespace SCaddins.SCexport
         /// i.e A1, A2....A4
         /// FIXME need to add other sizes.
         /// </summary>
-        /// <param name="r">The SCexport sheet to query.</param>
+        /// <param name="sheet">The SCexport sheet to query.</param>
         /// <returns>The sheet size as a String.</returns>    
-        public static string GetSheetSizeAsString(SCexportSheet r)
+        public static string GetSheetSizeAsString(ExportSheet sheet)
         {
             double[] p = { 1189, 841, 594, 420, 297, 210, 297, 420, 594, 841, 1189 };
             string[] s = { "A0", "A1", "A2", "A3", "A4", "A4P", "A3P", "A2P", "A1P", "A0P" };
 
             for (int i = 0; i < s.Length; i++) {
-                if (CheckSheetSize(r.Width, r.Height, p[i], p[i + 1])) {
+                if (CheckSheetSize(sheet.Width, sheet.Height, p[i], p[i + 1])) {
                     return s[i];
                 }
             }
 
-            if (CheckSheetSize(r.Width, r.Height, 1000, 707)) {
+            if (CheckSheetSize(sheet.Width, sheet.Height, 1000, 707)) {
                 return "B1";
             }
 
-            return Math.Round(r.Width).ToString(CultureInfo.InvariantCulture) + "x" +
-                Math.Round(r.Height).ToString(CultureInfo.InvariantCulture);
+            return Math.Round(sheet.Width).ToString(CultureInfo.InvariantCulture) + "x" +
+                Math.Round(sheet.Height).ToString(CultureInfo.InvariantCulture);
         }
         
         /// <summary>
@@ -155,7 +155,7 @@ namespace SCaddins.SCexport
         /// <returns>True if successful.</returns>
         public static bool ApplyPrintSettings(
                 Document doc,
-                SCexportSheet vs,
+                ExportSheet vs,
                 PrintManager pm,
                 string ext,
                 string printerName)
@@ -191,25 +191,25 @@ namespace SCaddins.SCexport
         /// <param name="doc">The Revit doc containing the printsettings.</param>
         /// <param name="ps">The search string.</param>
         /// <returns>The matching print setting, or null.</returns>
-        public static PrintSetting AssignPrintSetting(Document doc, string ps)
+        public static PrintSetting AssignPrintSetting(Document doc, string printSetting)
         {
             foreach (ElementId id in doc.GetPrintSettingIds()) {
                 var ps2 = doc.GetElement(id) as PrintSetting;
-                if (ps2.Name.ToString().Equals("SCX-" + ps)) {
+                if (ps2.Name.ToString().Equals("SCX-" + printSetting)) {
                     return ps2;
                 }
             }
 
             try {
-                CreatePrintSetting(doc, ps);
+                CreatePrintSetting(doc, printSetting);
                 foreach (ElementId id in doc.GetPrintSettingIds()) {
                     var ps2 = doc.GetElement(id) as PrintSetting;
-                    if (ps2.Name.ToString().Equals("SCX-" + ps)) {
+                    if (ps2.Name.ToString().Equals("SCX-" + printSetting)) {
                         return ps2;
                     }
                 }
             } catch {
-                var msg = "SCX-" + ps + " could not be created!";
+                var msg = "SCX-" + printSetting + " could not be created!";
                 TaskDialog.Show("Creating Papersize", msg);
             }
             return null;
@@ -218,14 +218,17 @@ namespace SCaddins.SCexport
         public static bool SetPrinter(
                 Document doc, string name, PrintManager pm)
         {
+            if (string.IsNullOrEmpty(name)) {
+                return false;
+            }
             var t = new Transaction(doc, "Set printer");
             t.Start();
             try {
                 pm.SelectNewPrintDriver(name);
                 t.Commit();
                 return true;
-            } catch {
-                var msg = "Print driver " + name + " not found.  Exiting now";
+            } catch (InvalidOperationException e) {
+                var msg = "Print driver " + name + " not found.  Exiting now. Message: " + e.Message;
                 TaskDialog.Show("SCexport", msg);
                 t.RollBack();
                 return false;

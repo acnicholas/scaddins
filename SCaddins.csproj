@@ -18,7 +18,7 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
     <SourceAnalysisOverrideSettingsFile>Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
-    <CodeAnalysisRules>-Microsoft.Design#CA1020;-Microsoft.Naming#CA1702</CodeAnalysisRules>
+    <CodeAnalysisRules>-Microsoft.Design#CA1020;-Microsoft.Design#CA2210;-Microsoft.Naming#CA1702;-Microsoft.Security#CA2122</CodeAnalysisRules>
     <RunCodeAnalysis>True</RunCodeAnalysis>
     <AssemblyOriginatorKeyMode>File</AssemblyOriginatorKeyMode>
   </PropertyGroup>
@@ -208,6 +208,7 @@
     <Compile Include="src\SCoord\SCoord.cs" />
     <Compile Include="src\SCoord\SCoordForm.cs" />
     <Compile Include="src\SCoord\SCoordForm.Designer.cs" />
+    <Compile Include="src\SCopy\SCopyEnums.cs" />
     <Compile Include="src\SCopy\SCopyMainForm.cs" />
     <Compile Include="src\SCopy\SCopyMainForm.Designer.cs" />
     <Compile Include="src\SCopy\SCopy.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="src\SCopy\SCopyViewSelectionDialog.Designer.cs" />
     <Compile Include="src\SCulcase\SCulcase.cs" />
     <Compile Include="src\SCulcase\SCulcaseCommand.cs" />
+    <Compile Include="src\SCulcase\SCulcaseEnums.cs" />
     <Compile Include="src\SCulcase\SCulcaseInfoDialog.cs" />
     <Compile Include="src\SCulcase\SCulcaseInfoDialog.Designer.cs" />
     <Compile Include="src\SCulcase\SCulcaseMainForm.cs" />

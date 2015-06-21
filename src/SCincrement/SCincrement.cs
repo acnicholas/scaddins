@@ -37,12 +37,12 @@ namespace SCaddins.SCincrement
             UIDocument udoc = commandData.Application.ActiveUIDocument;
             Document doc = udoc.Document;
             UIApplication app = commandData.Application;
-            commandData.Application.DialogBoxShowing += this.DismissDuplicateQuestion;
-            this.RenumberByPicks(udoc, doc, app);
+            commandData.Application.DialogBoxShowing += DismissDuplicateQuestion;
+            RenumberByPicks(udoc, doc, app);
             return Autodesk.Revit.UI.Result.Succeeded;
         }
 
-        public void DismissDuplicateQuestion(object o, DialogBoxShowingEventArgs e)
+        public static void DismissDuplicateQuestion(object value, DialogBoxShowingEventArgs e)
         {
             var t = e as MessageBoxShowingEventArgs;
             if (t != null && t.Message == @"Elements have duplicate 'Number' values.") {
@@ -50,7 +50,7 @@ namespace SCaddins.SCincrement
             }
         }
 
-        public void RenumberByPicks(UIDocument uidoc, Document doc, UIApplication app)
+        public static void RenumberByPicks(UIDocument uidoc, Document doc, UIApplication app)
         {
             IList<Reference> refList = new List<Reference>();
             try {
@@ -68,7 +68,7 @@ namespace SCaddins.SCincrement
                 int startValue = 0;
                 string leftPad = string.Empty;
                 foreach (Reference r in refList) {
-                    Parameter p = this.GetParameterForReference(doc, r);
+                    Parameter p = GetParameterForReference(doc, r);
                     if (p == null) {
                         return;
                     }
@@ -76,15 +76,15 @@ namespace SCaddins.SCincrement
                     if (ctr == 1) {
                         if (p.StorageType == StorageType.Integer) {
                             string s = p.AsString();
-                            startValue = Convert.ToInt16(s);
+                            startValue = Convert.ToInt16(s, CultureInfo.InvariantCulture);
                         } else if (p.StorageType == StorageType.String) {
                             string s = p.AsString();
-                            startValue = Convert.ToInt16(GetSourceNumberAsString(s));
+                            startValue = Convert.ToInt16(GetSourceNumberAsString(s), CultureInfo.InvariantCulture);
                         }
                     }
 
                     if (p.StorageType == StorageType.Integer) {
-                        this.SetParameterToValue(p, ctr + 12345); // hope this # is unused (could use Failure API to make this more robust
+                        SetParameterToValue(p, ctr + 12345); // hope this # is unused (could use Failure API to make this more robust
                     } else if (p.StorageType == StorageType.String) {
                         var ns = p.AsString() + @"zz" + (ctr + 12345).ToString(CultureInfo.InvariantCulture);
                         p.Set(ns); 
@@ -94,9 +94,9 @@ namespace SCaddins.SCincrement
 
                 ctr = startValue;
                 foreach (Reference r in refList) {
-                    Parameter p = this.GetParameterForReference(doc, r);
-                    app.DialogBoxShowing += this.DismissDuplicateQuestion;
-                    this.SetParameterToValue(p, ctr);
+                    Parameter p = GetParameterForReference(doc, r);
+                    app.DialogBoxShowing += DismissDuplicateQuestion;
+                    SetParameterToValue(p, ctr);
                     ctr++;
                 }
                 t.Commit();
@@ -126,7 +126,7 @@ namespace SCaddins.SCincrement
             #endif
         }
 
-        private Parameter GetParameterForReference(Document doc, Reference r)
+        private static Parameter GetParameterForReference(Document doc, Reference r)
         {
             Element e = doc.GetElement(r);
             if (e is Grid) {
@@ -143,7 +143,7 @@ namespace SCaddins.SCincrement
             }
         }
 
-        private void SetParameterToValue(Parameter p, int i)
+        private static void SetParameterToValue(Parameter p, int i)
         {
             if (p.StorageType == StorageType.Integer) {
                 p.Set(i);

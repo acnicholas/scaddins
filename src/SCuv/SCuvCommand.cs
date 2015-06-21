@@ -38,10 +38,10 @@ namespace SCaddins.SCuv
             
             var t = new Transaction(doc, "SCuv Copies User Views");
             t.Start();
-            if (SCuv.CreateUserView(view, doc)) {
-                SCuv.ShowSummaryDialog(SCuv.GetNewViewName(view));
+            if (SCUserView.CreateUserView(view, doc)) {
+                SCUserView.ShowSummaryDialog(SCUserView.GetNewViewName(view));
             } else {
-                SCuv.ShowErrorDialog(view);    
+                SCUserView.ShowErrorDialog(view);    
             }
             t.Commit();
             

@@ -24,7 +24,7 @@ namespace SCaddins.SCexport
     /// <summary>
     /// Description of DialogHandler.
     /// </summary>
-    public class DialogHandler
+    public static class DialogHandler
     {
         public const string DismissNoOpenViewMessage =
             "There is no open view that shows any of the highlighted elements.  Searching through the closed views to find a good view could take a long time.  Continue?";
@@ -33,12 +33,12 @@ namespace SCaddins.SCexport
         /// Create a new dialog handler.
         /// </summary>
         /// <param name="application"></param>
-        public DialogHandler(UIApplication application)
+        public static void AddRevitDialogHandler(UIApplication application)
         {
-            application.DialogBoxShowing += new EventHandler<DialogBoxShowingEventArgs>(this.DismissOpenQuestion);
+            application.DialogBoxShowing += new EventHandler<DialogBoxShowingEventArgs>(DismissOpenQuestion);
         }
                
-        private void DismissOpenQuestion(object o, DialogBoxShowingEventArgs e)
+        private static void DismissOpenQuestion(object o, DialogBoxShowingEventArgs e)
         {
             var t = e as TaskDialogShowingEventArgs;
             if (t != null && t.Message == DismissNoOpenViewMessage) {

@@ -30,7 +30,7 @@ namespace SCaddins.SCexport
 
     public partial class MainForm : Form
     {
-        private SCexport scx;
+        private Export scx;
         private Autodesk.Revit.DB.Document doc;
         private Autodesk.Revit.UI.UIDocument udoc;
         private FilterContextMenu filter;
@@ -43,7 +43,7 @@ namespace SCaddins.SCexport
         {
             this.udoc = udoc;
             this.doc = udoc.Document;
-            this.scx = new SCexport(this.doc);
+            this.scx = new Export(this.doc);
             this.filter = new FilterContextMenu("Filter", -1, null);
             this.InitializeComponent();
             ToolTip findTip = new ToolTip();
@@ -71,15 +71,14 @@ namespace SCaddins.SCexport
         public void OpenSelectedViewToolStripMenuItemClick(
                 object sender, EventArgs e)
         {
-            var dh = new DialogHandler(
-                new UIApplication(this.udoc.Application.Application));
+            DialogHandler.AddRevitDialogHandler(new UIApplication(this.udoc.Application.Application));
             foreach (DataGridViewRow row in this.dataGridView1.SelectedRows) {
-                 var sc = row.DataBoundItem as SCexportSheet;
+                 var sc = row.DataBoundItem as ExportSheet;
                 if (sc == null) {
                     return;
                 }
                  Autodesk.Revit.DB.FamilyInstance result =
-                     SCexport.GetTitleBlockFamily(sc.SheetNumber, this.doc);
+                     Export.GetTitleBlockFamily(sc.SheetNumber, this.doc);
                 if (result != null) {
                     this.udoc.ShowElements(result);
                 }
@@ -126,19 +125,19 @@ namespace SCaddins.SCexport
         {
             switch (f.Column) {
                 case 1:
-                    var bs1 = new SortableBindingListCollection<SCexportSheet>(
+                    var bs1 = new SortableBindingListCollection<ExportSheet>(
                                   this.scx.AllSheets.Where(
                                       obj => obj.SheetNumber.StartsWith(f.Filter, StringComparison.CurrentCulture) == true).ToList());
                     this.dataGridView1.DataSource = bs1;
                     break;
                 case 3:
-                    var bs3 = new SortableBindingListCollection<SCexportSheet>(
+                    var bs3 = new SortableBindingListCollection<ExportSheet>(
                                   this.scx.AllSheets.Where(
                                       obj => obj.SheetRevision.StartsWith(f.Filter, StringComparison.CurrentCulture) == true).ToList());
                     this.dataGridView1.DataSource = bs3;
                     break;
                 case 5:
-                    var bs5 = new SortableBindingListCollection<SCexportSheet>(
+                    var bs5 = new SortableBindingListCollection<ExportSheet>(
                                   this.scx.AllSheets.Where(
                                       obj => obj.SheetRevisionDate.StartsWith(f.Filter, StringComparison.CurrentCulture) == true).ToList());
                     this.dataGridView1.DataSource = bs5;
@@ -148,7 +147,7 @@ namespace SCaddins.SCexport
 
         private void PopulateList(string s)
         {
-            var bs = new SortableBindingListCollection<SCexportSheet>(
+            var bs = new SortableBindingListCollection<ExportSheet>(
                     this.scx.AllSheets.Where(obj => obj.SheetNumber
                         .StartsWith(s, StringComparison.CurrentCulture) || 
                         obj.SheetNumber.StartsWith("DA" + s, StringComparison.CurrentCulture) == true).ToList());
@@ -165,7 +164,7 @@ namespace SCaddins.SCexport
             if (vss.CustomName == "<All views>") {
                 this.PopulateList();
             } else {
-                var bs = new SortableBindingListCollection<SCexportSheet>();
+                var bs = new SortableBindingListCollection<ExportSheet>();
                 for (int i = 0; i < this.scx.AllSheets.Count; i++) {
                     foreach (Autodesk.Revit.DB.ViewSheet vs in vss.ViewSheetSet.Views) {
                         if (this.scx.AllSheets[i].Id.Equals(vs.Id)) {
@@ -212,11 +211,11 @@ namespace SCaddins.SCexport
             this.AddColumn("PrintSettingName", "Print Setting");
         }
 
-        private List<SCexportSheet> SelectedSheets()
+        private List<ExportSheet> SelectedSheets()
         {
-            var result = new List<SCexportSheet>();
+            var result = new List<ExportSheet>();
             foreach (DataGridViewRow row in this.dataGridView1.SelectedRows) {
-                var sc = row.DataBoundItem as SCexportSheet;
+                var sc = row.DataBoundItem as ExportSheet;
                 result.Add(sc);
             }
             return result;
@@ -229,7 +228,7 @@ namespace SCaddins.SCexport
             this.btnFind.Hide();
             this.Refresh();
             this.SetUpPBar(this.NumberOfSelectedViews());
-            this.scx.Export(
+            this.scx.ExportSheets(
                 this.SelectedSheets(),
                 this.progressBar,
                 this.progressInfo,
@@ -247,11 +246,10 @@ namespace SCaddins.SCexport
 
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            try {
                 var s = (ViewSheetSetCombo)this.cmbPrintSet.SelectedItem;
-                this.PopulateList(s);
-            } catch {
-            }
+                if (s != null) {
+                    this.PopulateList(s);
+                }
         }
 
         private void SelectAllOrNone(bool all)
@@ -329,7 +327,7 @@ namespace SCaddins.SCexport
                     this.searchBox.Focus();
                     break;
                 case "L":
-                    string s = SCexport.LatestRevisionDate();
+                    string s = Export.LatestRevisionDate();
                     if (s != null) {
                         this.PopulateList(new FilterContextMenu("temp", 5, s));
                     }
@@ -351,7 +349,7 @@ namespace SCaddins.SCexport
                     this.Close();
                     break;
                 case "S":
-                    this.SelectItem(SCexport.CurrentView());
+                    this.SelectItem(Export.CurrentView());
                     this.dataGridView1.Refresh();
                     break;
                 case "T":
@@ -382,9 +380,9 @@ namespace SCaddins.SCexport
         /// <param name="s">A string of the Sheet Number.</param>
         private void FilterItems(string s)
         {
-            var bs = new SortableBindingListCollection<SCexportSheet>();
+            var bs = new SortableBindingListCollection<ExportSheet>();
             foreach (DataGridViewRow row in this.dataGridView1.Rows) {
-                var sc = row.DataBoundItem as SCexportSheet;
+                var sc = row.DataBoundItem as ExportSheet;
                 if (sc == null) {
                     return;
                 }
@@ -408,7 +406,7 @@ namespace SCaddins.SCexport
         private void SelectItem(string s)
         {
             foreach (DataGridViewRow row in this.dataGridView1.Rows) {
-                var sc = row.DataBoundItem as SCexportSheet;
+                var sc = row.DataBoundItem as ExportSheet;
                 if (sc.SheetNumber.Equals(s)) {
                     this.dataGridView1.ClearSelection();
                     row.Selected = true;
@@ -426,7 +424,7 @@ namespace SCaddins.SCexport
         }
 
         private void ToggleConversionFlag(
-                ToolStripMenuItem box, Enums.ExportFlags val)
+                ToolStripMenuItem box, ExportFlags val)
         {
             if (box.Checked == true) {
                 this.scx.AddExportOption(val);
@@ -438,7 +436,7 @@ namespace SCaddins.SCexport
         private void ToggleCheckBoxValue(object sender, EventArgs e)
         {
             var c = (ToolStripMenuItem)sender;
-            var t = (Enums.ExportFlags)c.Tag;
+            var t = (ExportFlags)c.Tag;
             this.ToggleConversionFlag(c, t);
             this.UpdateExportButton(this.NumberOfSelectedViews());
         }
@@ -446,20 +444,20 @@ namespace SCaddins.SCexport
         private void UpdateExportButton(int count)
         {
             string s = "Export[" + count + "]:";
-            if (this.scx.HasExportOption(Enums.ExportFlags.PDF)) {
-                s += @" " + Enums.ExportFlags.PDF.ToString();
+            if (this.scx.HasExportOption(ExportFlags.PDF)) {
+                s += @" " + ExportFlags.PDF.ToString();
             }
-            if (this.scx.HasExportOption(Enums.ExportFlags.DWG)) {
-                s += @" " + Enums.ExportFlags.DWG.ToString();
+            if (this.scx.HasExportOption(ExportFlags.DWG)) {
+                s += @" " + ExportFlags.DWG.ToString();
             }
-            if (this.scx.HasExportOption(Enums.ExportFlags.DWF)) {
-                s += @" " + Enums.ExportFlags.DWF.ToString();
+            if (this.scx.HasExportOption(ExportFlags.DWF)) {
+                s += @" " + ExportFlags.DWF.ToString();
             }
-            if (this.scx.HasExportOption(Enums.ExportFlags.DGN)) {
-                s += @" " + Enums.ExportFlags.DGN.ToString();
+            if (this.scx.HasExportOption(ExportFlags.DGN)) {
+                s += @" " + ExportFlags.DGN.ToString();
             }
-            if (this.scx.HasExportOption(Enums.ExportFlags.GhostscriptPDF)) {
-                s += @" " + Enums.ExportFlags.GhostscriptPDF.ToString();
+            if (this.scx.HasExportOption(ExportFlags.GhostscriptPDF)) {
+                s += @" " + ExportFlags.GhostscriptPDF.ToString();
             }
             this.btnExport.Text = s;
             this.dataGridView1.Refresh();
@@ -507,7 +505,7 @@ namespace SCaddins.SCexport
                 string f = "NA";
                 this.filterToolStripMenuItem.Enabled = true;
                 var row = (DataGridViewRow)this.dataGridView1.Rows[e.RowIndex];
-                var sc = row.DataBoundItem as SCexportSheet;
+                var sc = row.DataBoundItem as ExportSheet;
                 switch (e.ColumnIndex) {
                 case 1:
                     var c =
@@ -611,7 +609,7 @@ namespace SCaddins.SCexport
 
         private void Button1Click(object sender, EventArgs e)
         {
-            SCexport.PrintA3(this.SelectedSheets(), this.scx.PrinterNameA3);
+            Export.PrintA3(this.SelectedSheets(), this.scx.PrinterNameA3);
         }
 
         private void BtnExportResize(object sender, EventArgs e)
@@ -657,21 +655,21 @@ namespace SCaddins.SCexport
         
         private void AddRevisionToolStripMenuItemClick(object sender, EventArgs e)
         {
-            SCexport.AddRevisions(this.SelectedSheets());
+            Export.AddRevisions(this.SelectedSheets());
             this.Update();
             this.dataGridView1.Refresh();           
         }
         
         private void RenameSelectedSheetsToolStripMenuItemClick(object sender, EventArgs e)
         {
-            SCexport.RenameSheets(this.SelectedSheets());  
+            Export.RenameSheets(this.SelectedSheets());  
             this.Update();
             this.dataGridView1.Refresh();
         }
         
         private void CreateUserViewsToolStripMenuItemClick(object sender, System.EventArgs e)
         {
-            SCuv.SCuv.CreateUserViews(this.SelectedSheets(), this.doc);
+            SCuv.SCUserView.CreateUserViews(this.SelectedSheets(), this.doc);
         }
         
         private void RemoveUnderlaysFromViewsToolStripMenuItemClick(object sender, EventArgs e)
@@ -681,7 +679,7 @@ namespace SCaddins.SCexport
         
         private void FixScalesBarsToolStripMenuItemClick(object sender, EventArgs e)
         {
-            SCexport.FixScaleBars(this.SelectedSheets());  
+            Export.FixScaleBars(this.SelectedSheets());  
             this.Update();
             this.dataGridView1.Refresh();  
         }

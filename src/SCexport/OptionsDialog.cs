@@ -27,12 +27,12 @@ namespace SCaddins.SCexport
     public partial class OptionsDialog : System.Windows.Forms.Form
     {
         private Autodesk.Revit.DB.Document doc;
-        private SCexport scx;
+        private Export scx;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="OptionsDialog"/> class.
         /// </summary>
-        public OptionsDialog(Autodesk.Revit.DB.Document doc, SCexport scx)
+        public OptionsDialog(Autodesk.Revit.DB.Document doc, Export scx)
         {
             this.doc = doc;
             this.scx = scx;
@@ -54,21 +54,21 @@ namespace SCaddins.SCexport
         
         private void LoadValues()
         {
-            this.radioPDF.Checked = this.scx.HasExportOption(Enums.ExportFlags.PDF);
-            this.radioGSPDF.Checked = this.scx.HasExportOption(Enums.ExportFlags.GhostscriptPDF);
-            this.checkBoxDGN.Checked = this.scx.HasExportOption(Enums.ExportFlags.DGN);
-            this.checkBoxDWG.Checked = this.scx.HasExportOption(Enums.ExportFlags.DWG);
-            this.checkBoxDWF.Checked = this.scx.HasExportOption(Enums.ExportFlags.DWF);
+            this.radioPDF.Checked = this.scx.HasExportOption(ExportFlags.PDF);
+            this.radioGSPDF.Checked = this.scx.HasExportOption(ExportFlags.GhostscriptPDF);
+            this.checkBoxDGN.Checked = this.scx.HasExportOption(ExportFlags.DGN);
+            this.checkBoxDWG.Checked = this.scx.HasExportOption(ExportFlags.DWG);
+            this.checkBoxDWF.Checked = this.scx.HasExportOption(ExportFlags.DWF);
             this.checkBoxTagPDF.Checked =
-                this.scx.HasExportOption(Enums.ExportFlags.TagPDFExports);
+                this.scx.HasExportOption(ExportFlags.TagPDFExports);
             this.checkBoxHideTitleblock.Checked =
-                this.scx.HasExportOption(Enums.ExportFlags.NoTitle);
+                this.scx.HasExportOption(ExportFlags.NoTitle);
             this.checkBoxForceDate.Checked = this.scx.ForceDate;
             if (this.scx.FileNameScheme != null) {
                 this.comboBoxScheme.Text = this.scx.FileNameScheme.Name;
             }
             this.comboBoxAutocadVersion.SelectedIndex = 
-                this.comboBoxAutocadVersion.FindStringExact(SCexport.AcadVersionToString(this.scx.AcadVersion));
+                this.comboBoxAutocadVersion.FindStringExact(Export.AcadVersionToString(this.scx.AcadVersion));
             this.checkBox1.Checked = true;
             #if REVIT2012
             this.checkBoxHideTitleblock.Enabled = false;
@@ -139,19 +139,19 @@ namespace SCaddins.SCexport
             if (!FileUtilities.ConfigFileExists(this.doc)) {
                 this.buttonEditConfig.Enabled = false;
             }
-            this.radioPDF.Tag = Enums.ExportFlags.PDF;
-            this.checkBoxDGN.Tag = Enums.ExportFlags.DGN;
-            this.checkBoxDWF.Tag = Enums.ExportFlags.DWF;
-            this.checkBoxDWG.Tag = Enums.ExportFlags.DWG;
-            this.radioGSPDF.Tag = Enums.ExportFlags.GhostscriptPDF;
-            this.checkBoxTagPDF.Tag = Enums.ExportFlags.TagPDFExports;
-            this.checkBoxHideTitleblock.Tag = Enums.ExportFlags.NoTitle;
+            this.radioPDF.Tag = ExportFlags.PDF;
+            this.checkBoxDGN.Tag = ExportFlags.DGN;
+            this.checkBoxDWF.Tag = ExportFlags.DWF;
+            this.checkBoxDWG.Tag = ExportFlags.DWG;
+            this.radioGSPDF.Tag = ExportFlags.GhostscriptPDF;
+            this.checkBoxTagPDF.Tag = ExportFlags.TagPDFExports;
+            this.checkBoxHideTitleblock.Tag = ExportFlags.NoTitle;
         }
         
         private void ToggleCheckBoxValue(object sender, EventArgs e)
         {
             var c = (CheckBox)sender;
-            var t = (Enums.ExportFlags)c.Tag;
+            var t = (ExportFlags)c.Tag;
             this.ToggleConversionFlag(c.Checked, t);
             if (this.checkBoxDWG.Checked) {
                 this.checkBoxHideTitleblock.Enabled = true;
@@ -161,7 +161,7 @@ namespace SCaddins.SCexport
         }
         
         private void ToggleConversionFlag(
-            bool flagged,Enums.ExportFlags val)
+            bool flagged, ExportFlags val)
         {
             if (flagged == true) {
                 this.scx.AddExportOption(val);
@@ -173,7 +173,7 @@ namespace SCaddins.SCexport
         private void RadioCheckedChanged(object sender, EventArgs e)
         {
             var r = (RadioButton)sender;
-            var t = (Enums.ExportFlags)r.Tag;
+            var t = (ExportFlags)r.Tag;
             this.ToggleConversionFlag(r.Checked, t);
         }
         
@@ -191,7 +191,7 @@ namespace SCaddins.SCexport
         private void ComboBoxAutocadVersionSelectedIndexChanged(object sender, EventArgs e)
         {
             this.scx.AcadVersion = 
-                SCexport.AcadVersionFromString(comboBoxAutocadVersion.SelectedItem.ToString());
+                Export.AcadVersionFromString(comboBoxAutocadVersion.SelectedItem.ToString());
         }
               
         private void ButtonCreateConfigClick(object sender, EventArgs e)

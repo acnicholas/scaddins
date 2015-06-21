@@ -19,15 +19,16 @@ namespace SCaddins.SCwash
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows.Forms;
     using Autodesk.Revit.DB;
 
-    public static class SCwash
+    public static class SCwashUtilities
     {
-        public static List<SCwashTreeNode> Imports(Document doc, bool linked)
+        public static Collection<SCwashTreeNode> Imports(Document doc, bool linked)
         {
-            List<SCwashTreeNode> result = new List<SCwashTreeNode>();
+            Collection<SCwashTreeNode> result = new Collection<SCwashTreeNode>();
             FilteredElementCollector f = new FilteredElementCollector(doc);
             f.OfClass(typeof(ImportInstance));
             string s = string.Empty;
@@ -54,13 +55,13 @@ namespace SCaddins.SCwash
             return result;
         }
 
-        public static List<SCwashTreeNode> Images(Document doc)
+        public static Collection<SCwashTreeNode> Images(Document doc)
         {
-            List<SCwashTreeNode> result = new List<SCwashTreeNode>();
+            Collection<SCwashTreeNode> result = new Collection<SCwashTreeNode>();
             FilteredElementCollector f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_RasterImages);         
             foreach (Element image in f) {
-                string s =  GetParameterList(image.Parameters);
+                string s = GetParameterList(image.Parameters);
                 var tn = new SCwashTreeNode(image.Name.ToString());
                 tn.Info = "Name = " + image.Name.ToString() + System.Environment.NewLine +
                 "id - " + image.Id.ToString();
@@ -71,13 +72,13 @@ namespace SCaddins.SCwash
             return result;
         }
         
-        public static List<SCwashTreeNode> Revisions(Document doc)
+        public static Collection<SCwashTreeNode> Revisions(Document doc)
         {
-            List<SCwashTreeNode> result = new List<SCwashTreeNode>();
+            Collection<SCwashTreeNode> result = new Collection<SCwashTreeNode>();
             FilteredElementCollector f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_Revisions);         
             foreach (Element revision in f) {
-                string s =  GetParameterList(revision.Parameters);
+                string s = GetParameterList(revision.Parameters);
                 var nodeName = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString() + " - " +
                     revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
                 var tn = new SCwashTreeNode(nodeName);
@@ -90,9 +91,9 @@ namespace SCaddins.SCwash
             return result;
         }
 
-        public static List<SCwashTreeNode> UnboundRooms(Document doc)
+        public static Collection<SCwashTreeNode> UnboundRooms(Document doc)
         {
-            List<SCwashTreeNode> result = new List<SCwashTreeNode>();
+            Collection<SCwashTreeNode> result = new Collection<SCwashTreeNode>();
             FilteredElementCollector f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_Rooms);         
             foreach (Element room in f) {
@@ -121,7 +122,7 @@ namespace SCaddins.SCwash
 
         public static void AddSheetNodes(Document doc, bool placedOnSheet, TreeNodeCollection nodes)
         {
-            nodes.AddRange(SCwash.Views(doc, placedOnSheet, ViewType.DrawingSheet).ToArray<TreeNode>());
+            nodes.AddRange(SCwashUtilities.Views(doc, placedOnSheet, ViewType.DrawingSheet).ToArray<TreeNode>());
         }
 
         public static void AddViewNodes(Document doc, bool placedOnSheet, TreeNodeCollection nodes)
@@ -130,7 +131,7 @@ namespace SCaddins.SCwash
             foreach (ViewType enumValue in Enum.GetValues(typeof(ViewType))) {
                 if (enumValue != ViewType.DrawingSheet) {
                     nodes.Add(new SCwashTreeNode(enumValue.ToString()));
-                    nodes[i].Nodes.AddRange(SCwash.Views(doc, placedOnSheet, enumValue).ToArray<TreeNode>());
+                    nodes[i].Nodes.AddRange(SCwashUtilities.Views(doc, placedOnSheet, enumValue).ToArray<TreeNode>());
                     if (nodes[i].Nodes.Count < 1) {
                         nodes.Remove(nodes[i]);
                     } else {
@@ -142,8 +143,10 @@ namespace SCaddins.SCwash
 
         public static void RemoveElements(Document doc, ICollection<ElementId> elements)
         {
-            if (elements.Count < 1) return;
-            using (Transaction t = new Transaction(doc,"Delete Elements")) {
+            if (elements.Count < 1) {
+                return;
+            }
+            using (Transaction t = new Transaction(doc, "Delete Elements")) {
                 t.Start();
                 ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
                 t.Commit();
@@ -191,14 +194,15 @@ namespace SCaddins.SCwash
                     if (p2 != null) {
                         num = p2.AsString();
                         s += "Sheet Number - " + num + System.Environment.NewLine;
-                        if (num != "---" && !string.IsNullOrEmpty(num))
+                        if (num != "---" && !string.IsNullOrEmpty(num)) {
                             os = true;
+                        }
                     } else {
                         s += @"Sheet Number - N/A" + System.Environment.NewLine;
                     }
                     s += "Element id - " + view.Id.ToString() + System.Environment.NewLine;
-                    s +=  System.Environment.NewLine + "[EXTENDED INFO]" + System.Environment.NewLine;
-                    s +=  GetParameterList(view.Parameters);
+                    s += System.Environment.NewLine + "[EXTENDED INFO]" + System.Environment.NewLine;
+                    s += GetParameterList(view.Parameters);
                     
                     string n = string.Empty;
                     if (type == ViewType.DrawingSheet) {

@@ -19,11 +19,12 @@ namespace SCaddins.SCexport
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Security.Permissions;
+    using System.Security;
     using System.Xml;
     using System.Xml.Schema;
     using Autodesk.Revit.DB;
@@ -33,18 +34,18 @@ namespace SCaddins.SCexport
     /// <summary>
     /// Export files to comply with SC standard.
     /// </summary>
-    public class SCexport
+    public class Export
     {
         private static Dictionary<string, FamilyInstance> titleBlocks;
         private static Document doc;
         private static string activeDoc;
         private static string author;
         private static string nonIssueTag;
-        private Enums.ExportFlags exportFlags;
-        private List<SheetName> fileNameTypes;
-        private List<ViewSheetSetCombo> allViewSheetSets;
+        private ExportFlags exportFlags;
+        private Collection<SheetName> fileNameTypes;
+        private Collection<ViewSheetSetCombo> allViewSheetSets;
         private SheetName fileNameScheme;
-        private SortableBindingListCollection<SCexportSheet> allSheets;
+        private SortableBindingListCollection<ExportSheet> allSheets;
         private bool forceDate;
         private string exportDir;
 
@@ -54,24 +55,23 @@ namespace SCaddins.SCexport
         /// <param name="doc">
         /// The active Revit doc.
         /// </param>
-        public SCexport(Document doc)
+        public Export(Document doc)
         {
-            SCexport.doc = doc;
+            Export.doc = doc;
             this.fileNameScheme = null;
             this.exportDir = Constants.DefaultExportDir;
-            SCexport.ConfirmOverwrite = true;
-            SCexport.activeDoc = null;
-            this.allViewSheetSets = new List<ViewSheetSetCombo>();
-            this.allSheets = new SortableBindingListCollection<SCexportSheet>();
-            this.fileNameTypes = new List<SheetName>();
-            this.exportFlags = Enums.ExportFlags.None;
+            Export.ConfirmOverwrite = true;
+            Export.activeDoc = null;
+            this.allViewSheetSets = new Collection<ViewSheetSetCombo>();
+            this.allSheets = new SortableBindingListCollection<ExportSheet>();
+            this.fileNameTypes = new Collection<SheetName>();
+            this.exportFlags = ExportFlags.None;
             this.LoadSettings();
             this.SetDefaultFlags();
-            SCexport.PopulateViewSheetSets(this.allViewSheetSets);
+            Export.PopulateViewSheetSets(this.allViewSheetSets);
             this.PopulateSheets(this.allSheets);
-            SCexport.FixAcrotrayHang();
+            Export.FixAcrotrayHang();
         }
-
    
         public static bool ConfirmOverwrite
         {
@@ -112,17 +112,17 @@ namespace SCaddins.SCexport
         /// Gets the available filename schemes.
         /// </summary>
         /// <value>Gets the value of the filenameTypes field.</value>
-        public List<SheetName> FileNameTypes
+        public Collection<SheetName> FileNameTypes
         {
             get { return this.fileNameTypes; }
         }
 
-        public SortableBindingListCollection<SCexportSheet> AllSheets
+        public SortableBindingListCollection<ExportSheet> AllSheets
         {
             get { return this.allSheets; }
         }
 
-        public List<ViewSheetSetCombo> AllViewSheetSets
+        public Collection<ViewSheetSetCombo> AllViewSheetSets
         {
             get { return this.allViewSheetSets; }
         }
@@ -131,7 +131,7 @@ namespace SCaddins.SCexport
         /// Gets or sets the export flags.
         /// </summary>
         /// <value>The flags.</value>
-        public Enums.ExportFlags ExportOptions
+        public ExportFlags ExportOptions
         {
             get; set;
         }
@@ -159,7 +159,7 @@ namespace SCaddins.SCexport
 
             set {
                 this.forceDate = value;
-                foreach (SCexportSheet sheet in this.allSheets) {
+                foreach (ExportSheet sheet in this.allSheets) {
                     sheet.ForceDate = value;
                 }
             }
@@ -177,10 +177,26 @@ namespace SCaddins.SCexport
             set {
                 if (value != null) {
                     this.exportDir = value;
-                    foreach (SCexportSheet sheet in this.allSheets) {
+                    foreach (ExportSheet sheet in this.allSheets) {
                         sheet.ExportDir = value;
                     }
                 }
+            }
+        }
+        
+        /// <summary>
+        /// Gets the current date.
+        /// </summary>
+        /// <returns>
+        /// The date in the format YYYYMMDD.
+        /// </returns>
+        public static string GetDateString {
+            get {
+                DateTime moment = DateTime.Now;
+                string syear = moment.Year.ToString(CultureInfo.CurrentCulture);
+                string smonth = Export.PadLeftZero(moment.Month.ToString(CultureInfo.CurrentCulture), 2);
+                string sday = Export.PadLeftZero(moment.Day.ToString(CultureInfo.CurrentCulture), 2);
+                return syear + smonth + sday;
             }
         }
 
@@ -195,7 +211,7 @@ namespace SCaddins.SCexport
 
             set {
                 this.fileNameScheme = value;
-                foreach (SCexportSheet sheet in this.allSheets) {
+                foreach (ExportSheet sheet in this.allSheets) {
                     sheet.SegmentedFileName = value;
                 }
             }
@@ -231,11 +247,11 @@ namespace SCaddins.SCexport
         /// <summary>
         /// Get a date string in the format of YYYYMMDD.
         /// </summary>
-        /// <param name="date">The string to convert.</param>
+        /// <param name="dateValue">The string to convert.</param>
         /// <returns>A date string in the format of YYYYMMDD.</returns>
-        public static DateTime ToDateTime(string date)
+        public static DateTime ToDateTime(string dateValue)
         {
-            date.Trim();
+            var date = dateValue.Trim();
             string delims = @"-.\/_ ";
             char[] c = delims.ToCharArray();
             int d2 = date.LastIndexOfAny(c);
@@ -259,24 +275,16 @@ namespace SCaddins.SCexport
                     Convert.ToInt32(year, CultureInfo.InvariantCulture),
                     Convert.ToInt32(month, CultureInfo.InvariantCulture),
                     Convert.ToInt32(day, CultureInfo.InvariantCulture));
-            } catch {
+            } catch (ArgumentOutOfRangeException e) { 
+                Debug.WriteLine("Error in ToDateTime:" + e.Message);
                 return new DateTime();
-            }
-        }
-
-        /// <summary>
-        /// Gets the current date.
-        /// </summary>
-        /// <returns>
-        /// The date in the format YYYYMMDD.
-        /// </returns>
-        public static string GetDateString()
-        {
-            DateTime moment = DateTime.Now;
-            string syear = moment.Year.ToString(CultureInfo.CurrentCulture);
-            string smonth = SCexport.PadLeftZero(moment.Month.ToString(CultureInfo.CurrentCulture), 2);
-            string sday = SCexport.PadLeftZero(moment.Day.ToString(CultureInfo.CurrentCulture), 2);
-            return syear + smonth + sday;
+            } catch (FormatException e) {
+                Debug.WriteLine("Error in ToDateTime:" + e.Message);
+                return new DateTime(); 
+            } catch (OverflowException e) {
+                Debug.WriteLine("Error in ToDateTime:" + e.Message);
+                return new DateTime(); 
+            }               
         }
 
         /// <summary>
@@ -319,21 +327,21 @@ namespace SCaddins.SCexport
             OpenSheet(udoc, view, 1);
         }
 
-        public static void RenameSheets(ICollection<SCexportSheet> sheets)
+        public static void RenameSheets(ICollection<ExportSheet> sheets)
         {
             var r = new RenameSheetForm(sheets, doc);
             var result = r.ShowDialog();
-            foreach (SCexportSheet sheet in sheets) {
+            foreach (ExportSheet sheet in sheets) {
                     sheet.UpdateNumber();
                     sheet.UpdateName();
             }
         }
         
-        public static void FixScaleBars(ICollection<SCexportSheet> sheets)
+        public static void FixScaleBars(ICollection<ExportSheet> sheets)
         {
             var t = new Autodesk.Revit.DB.Transaction(doc);
             t.Start("SCexport - Fix Scale Bars");
-            foreach (SCexportSheet sheet in sheets) {
+            foreach (ExportSheet sheet in sheets) {
                 if (!sheet.ValidScaleBar) {
                     sheet.UpdateScaleBarScale();
                 }
@@ -341,14 +349,14 @@ namespace SCaddins.SCexport
             t.Commit();
         }
 
-        public static void AddRevisions(ICollection<SCexportSheet> sheets)
+        public static void AddRevisions(ICollection<ExportSheet> sheets)
         {
             var r = new RevisionSelectionDialog(doc);
             var result = r.ShowDialog();
             if ((r.Id != null) && (result == System.Windows.Forms.DialogResult.OK)) {
                 var t = new Transaction(doc, "SCexport: Add new revisions");
                 t.Start();
-                foreach (SCexportSheet sheet in sheets) {
+                foreach (ExportSheet sheet in sheets) {
                     #if REVIT2014
                     ICollection<ElementId> il = sheet.Sheet.GetAdditionalProjectRevisionIds();
                     il.Add(r.Id);
@@ -360,7 +368,7 @@ namespace SCaddins.SCexport
                     #endif
                 }
                 t.Commit();
-                foreach (SCexportSheet sheet in sheets) {
+                foreach (ExportSheet sheet in sheets) {
                     sheet.UpdateRevision(true);
                 }
             }
@@ -445,13 +453,13 @@ namespace SCaddins.SCexport
         /// </summary>
         /// <param name="sheets"> All the sheets to export. </param>
         public static void PrintA3(
-            ICollection<SCexportSheet> sheets,
+            ICollection<ExportSheet> sheets,
             string printerName)
         {
             PrintManager pm = doc.PrintManager;
 
             // collate the sheets.
-            ICollection<SCexportSheet> sortedSheets = sheets.OrderBy(x => x.SheetNumber).ToList();
+            ICollection<ExportSheet> sortedSheets = sheets.OrderBy(x => x.SheetNumber).ToList();
 
             // FIXME need more than a3
             if (!PrintSettings.ApplyPrintSettings(
@@ -470,7 +478,7 @@ namespace SCaddins.SCexport
             TaskDialogResult tdr = td.Show();
 
             if (tdr == TaskDialogResult.Ok) {
-                foreach (SCexportSheet sheet in sortedSheets) {
+                foreach (ExportSheet sheet in sortedSheets) {
                     pm.SubmitPrint(sheet.Sheet);
                 }
             }
@@ -481,7 +489,7 @@ namespace SCaddins.SCexport
         /// </summary>
         public void Update()
         {
-            foreach (SCexportSheet sc in this.allSheets) {
+            foreach (ExportSheet sc in this.allSheets) {
                 if (!sc.Verified) {
                     sc.UpdateSheetInfo();
                 }
@@ -492,7 +500,7 @@ namespace SCaddins.SCexport
         /// Adds an export flag to the current set of flags.
         /// </summary>
         /// <param name="f"> The Flag to add. </param>
-        public void AddExportOption(Enums.ExportFlags exportOptions)
+        public void AddExportOption(ExportFlags exportOptions)
         {
             this.exportFlags |= exportOptions;
         }
@@ -501,7 +509,7 @@ namespace SCaddins.SCexport
         /// Removes an export flag from the current set of flags.
         /// </summary>
         /// <param name="f"> The flag to remove. </param>
-        public void RemoveExportOption(Enums.ExportFlags exportOptions)
+        public void RemoveExportOption(ExportFlags exportOptions)
         {
             this.exportFlags = this.exportFlags & ~exportOptions;
         }
@@ -510,10 +518,10 @@ namespace SCaddins.SCexport
         /// Determines whether this instance has contains a certain export flag.
         /// </summary>
         /// <returns><c>true</c> if this instance has flag the specified f; otherwise, <c>false</c>.</returns>
-        /// <param name="f"> The flag to evaluate. </param>
-        public bool HasExportOption(Enums.ExportFlags f)
+        /// <param name="option"> The flag to evaluate. </param>
+        public bool HasExportOption(ExportFlags option)
         {
-            return this.exportFlags.HasFlag(f);
+            return this.exportFlags.HasFlag(option);
         }
 
         /// <summary>
@@ -538,8 +546,9 @@ namespace SCaddins.SCexport
         /// <param name="strip">
         /// The title strip that contains the progress bar in info.
         /// </param>
-        public void Export(
-            ICollection<SCexportSheet> sheets,
+        [SecurityCritical]
+        public void ExportSheets(
+            ICollection<ExportSheet> sheets,
             System.Windows.Forms.ToolStripProgressBar progressBar,
             System.Windows.Forms.ToolStripItem info,
             System.Windows.Forms.Control strip)
@@ -547,22 +556,23 @@ namespace SCaddins.SCexport
             // this.ApplyNonPrintLinetype();
             DateTime startTime = DateTime.Now;
             TimeSpan elapsedTime = DateTime.Now - startTime;
-            var exportLog = new ExportLog(startTime);
-            foreach (SCexportSheet sheet in sheets) {
+            
+            // var exportLog = new ExportLog(startTime);
+            foreach (ExportSheet sheet in sheets) {
                 progressBar.PerformStep();
                 elapsedTime = DateTime.Now - startTime;
-                info.Text = SCexport.PercentageSting(progressBar.Value, progressBar.Maximum) +
-                    " - " + SCexport.TimeSpanAsString(elapsedTime);
+                info.Text = Export.PercentageSting(progressBar.Value, progressBar.Maximum) +
+                    " - " + Export.TimeSpanAsString(elapsedTime);
                 strip.Update();
-                this.Export(sheet);
+                this.ExportSheets(sheet);
             }
 
             // Tag file
-            if (this.exportFlags.HasFlag(Enums.ExportFlags.TagPDFExports) &&
-                (this.exportFlags.HasFlag(Enums.ExportFlags.PDF) ||
-                 this.exportFlags.HasFlag(Enums.ExportFlags.GhostscriptPDF)))
+            if (this.exportFlags.HasFlag(ExportFlags.TagPDFExports) &&
+                (this.exportFlags.HasFlag(ExportFlags.PDF) ||
+                 this.exportFlags.HasFlag(ExportFlags.GhostscriptPDF)))
             {
-                foreach (SCexportSheet sheet in sheets) {
+                foreach (ExportSheet sheet in sheets) {
                     if (sheet.SheetRevisionDate.Length < 1) {
                         PdfTools.TagPDF(
                             sheet.FullExportPath(".pdf"),
@@ -613,7 +623,7 @@ namespace SCaddins.SCexport
         /// </summary>
         /// <param name="exePath">The program to start.</param>
         /// <param name="args">The args to send to the program.</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        [SecurityCritical]
         protected internal static void StartHiddenConsoleProg(string exePath, string args)
         {
             var startInfo = new System.Diagnostics.ProcessStartInfo();
@@ -645,10 +655,9 @@ namespace SCaddins.SCexport
             // FIXME don't allow overflow.
             for (int i = 0; i < sortedSheets.Count; i++) {
                 if (sortedSheets[i].SheetNumber == view.SheetNumber) {
-                    var dh = new DialogHandler(
-                        new UIApplication(udoc.Application.Application));
+                    DialogHandler.AddRevitDialogHandler(new UIApplication(udoc.Application.Application));
                     Autodesk.Revit.DB.FamilyInstance result =
-                        SCexport.GetTitleBlockFamily(
+                        Export.GetTitleBlockFamily(
                             sortedSheets[i + inc].SheetNumber, udoc.Document);
                     if (result != null) {
                         udoc.ShowElements(result);
@@ -712,7 +721,7 @@ namespace SCaddins.SCexport
                 Microsoft.Win32.RegistryValueKind.String);
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        [SecurityCritical]
         private static void KillAcrotray()
         {
             try {
@@ -724,7 +733,7 @@ namespace SCaddins.SCexport
             }
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        [SecurityCritical]
         private static void SetRegistryVal(string fileName)
         {
             string exe =
@@ -741,7 +750,7 @@ namespace SCaddins.SCexport
         }
         
         private static void RemoveTitleBlock(
-            SCexportSheet vs,
+            ExportSheet vs,
             ICollection<ElementId> title,
             bool hide)
         {
@@ -755,13 +764,13 @@ namespace SCaddins.SCexport
                     view.UnhideElements(title);
                 }
                 t.Commit();
-            } catch {
-                TaskDialog.Show("Revit", "cannot Hide Title");
+            } catch (Autodesk.Revit.Exceptions.ArgumentException e) {
+                TaskDialog.Show("Revit", "cannot Hide Title: " + e.Message);
                 t.RollBack();
             }
         }
         
-        private static void PopulateViewSheetSets(List<ViewSheetSetCombo> vss)
+        private static void PopulateViewSheetSets(Collection<ViewSheetSetCombo> vss)
         {
             vss.Clear();
             FilteredElementCollector a;
@@ -772,7 +781,7 @@ namespace SCaddins.SCexport
             }
         }
         
-        private static void ExportDWF(SCexportSheet vs)
+        private static void ExportDWF(ExportSheet vs)
         {
             var views = new ViewSet();
             views.Insert(vs.Sheet);
@@ -785,13 +794,16 @@ namespace SCaddins.SCexport
                 string tmp = vs.FullExportName + ".dwf";
                 bool r = doc.Export(vs.ExportDir, tmp, views, opts);
                 t.Commit();
-            } catch {
-                TaskDialog.Show("SCexport", "cannot export dwf");
+            } catch (ArgumentException e) {
+                TaskDialog.Show("SCexport", "cannot export dwf: " + e.Message);
+                t.RollBack();
+            } catch (InvalidOperationException e) {
+                TaskDialog.Show("SCexport", "cannot export dwf: " + e.Message);
                 t.RollBack();
             }
         }
 
-        private static void ExportDGN(SCexportSheet vs)
+        private static void ExportDGN(ExportSheet vs)
         {
             var opts = new DGNExportOptions();
             ICollection<ElementId> views;
@@ -803,39 +815,39 @@ namespace SCaddins.SCexport
         private void SetDefaultFlags()
         {
             if (SCaddins.SCexport.Settings1.Default.AdobePDFMode && this.PDFSanityCheck()) {
-                this.AddExportOption(Enums.ExportFlags.PDF);
+                this.AddExportOption(ExportFlags.PDF);
             } else if (!SCaddins.SCexport.Settings1.Default.AdobePDFMode && this.GSSanityCheck()) {
-                this.AddExportOption(Enums.ExportFlags.GhostscriptPDF);
+                this.AddExportOption(ExportFlags.GhostscriptPDF);
             } else {
                 if (this.PDFSanityCheck()) {
-                     this.AddExportOption(Enums.ExportFlags.PDF);   
+                     this.AddExportOption(ExportFlags.PDF);   
                 }
-                this.AddExportOption(Enums.ExportFlags.DWG);
+                this.AddExportOption(ExportFlags.DWG);
             }
             if (SCaddins.SCexport.Settings1.Default.TagPDFExports) {
-                this.AddExportOption(Enums.ExportFlags.TagPDFExports);
+                this.AddExportOption(ExportFlags.TagPDFExports);
             }
             if (SCaddins.SCexport.Settings1.Default.HideTitleBlocks) {
-                this.AddExportOption(Enums.ExportFlags.NoTitle);
+                this.AddExportOption(ExportFlags.NoTitle);
             }
             if (SCaddins.SCexport.Settings1.Default.ForceDateRevision) {
                 this.forceDate = true;
             }
         }
 
-        private void PopulateSheets(SortableBindingListCollection<SCexportSheet> s)
+        private void PopulateSheets(SortableBindingListCollection<ExportSheet> s)
         {
             string config = GetConfigFileName(doc);
             bool b = this.ImportXMLinfo(config);
             if (!b) {
                 var name =
-                    new SheetName(SheetName.Scheme.Standard);
+                    new SheetName(FilenameScheme.Standard);
                 this.fileNameTypes.Add(name);
                 this.fileNameScheme = name;
             }
             if (this.fileNameTypes.Count <= 0) {
                 var name =
-                    new SheetName(SheetName.Scheme.Standard);
+                    new SheetName(FilenameScheme.Standard);
                 this.fileNameTypes.Add(name);
                 this.fileNameScheme = name;
             }
@@ -847,7 +859,7 @@ namespace SCaddins.SCexport
             a.OfClass(typeof(ViewSheet));
             foreach (ViewSheet v in a) {
                 var scxSheet =
-                    new SCexportSheet(v, doc, this.fileNameTypes[0], this);
+                    new ExportSheet(v, doc, this.fileNameTypes[0], this);
                 s.Add(scxSheet);
             }
         }
@@ -938,19 +950,19 @@ namespace SCaddins.SCexport
             return true;
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        private void Export(SCexportSheet r)
+        [SecurityCritical]
+        private void ExportSheets(ExportSheet r)
         {
             if (!r.Verified) {
                 r.UpdateSheetInfo();
             }
 
             if (r.SCPrintSetting != null) {
-                if (this.exportFlags.HasFlag(Enums.ExportFlags.DWG)) {
-                    this.ExportDWG(r, this.exportFlags.HasFlag(Enums.ExportFlags.NoTitle));
+                if (this.exportFlags.HasFlag(ExportFlags.DWG)) {
+                    this.ExportDWG(r, this.exportFlags.HasFlag(ExportFlags.NoTitle));
                 }
 
-                if (this.exportFlags.HasFlag(Enums.ExportFlags.PDF)) {
+                if (this.exportFlags.HasFlag(ExportFlags.PDF)) {
                     if (!this.ExportAdobePDF(r)) {
                         TaskDialog exportErrorDialog = new TaskDialog("Export Error");
                         exportErrorDialog.MainContent = "Could not print pdf: " + r.FullExportName;
@@ -962,7 +974,7 @@ namespace SCaddins.SCexport
                     }
                 }
 
-                if (this.exportFlags.HasFlag(Enums.ExportFlags.GhostscriptPDF)) {
+                if (this.exportFlags.HasFlag(ExportFlags.GhostscriptPDF)) {
                     if (!this.ExportGSPDF(r)) {
                         TaskDialog.Show(
                             "SCexport", "Could not export postscript pdf: " + r.FullExportName);
@@ -970,12 +982,12 @@ namespace SCaddins.SCexport
                     }
                 }
 
-                if (this.exportFlags.HasFlag(Enums.ExportFlags.DGN)) {
-                    SCexport.ExportDGN(r);
+                if (this.exportFlags.HasFlag(ExportFlags.DGN)) {
+                    Export.ExportDGN(r);
                 }
 
-                if (this.exportFlags.HasFlag(Enums.ExportFlags.DWF)) {
-                    SCexport.ExportDWF(r);
+                if (this.exportFlags.HasFlag(ExportFlags.DWF)) {
+                    Export.ExportDWF(r);
                 }
             }
         }
@@ -983,15 +995,15 @@ namespace SCaddins.SCexport
         // FIXME
         // this could do with a lot of cleaning up!
         // ...even more than some other things
-        private void ExportDWG(SCexportSheet vs, bool removeTitle)
+        private void ExportDWG(ExportSheet vs, bool removeTitle)
         {
             ICollection<ElementId> titleBlockHidden;
             titleBlockHidden = new List<ElementId>();
-            var titleBlock = SCexport.GetTitleBlockFamily(vs.SheetNumber, doc);
+            var titleBlock = Export.GetTitleBlockFamily(vs.SheetNumber, doc);
             titleBlockHidden.Add(titleBlock.Id);
 
             if (removeTitle) {
-                SCexport.RemoveTitleBlock(vs, titleBlockHidden, true);
+                Export.RemoveTitleBlock(vs, titleBlockHidden, true);
             }
 
             PrintManager pm = doc.PrintManager;
@@ -1004,7 +1016,7 @@ namespace SCaddins.SCexport
                 pm.PrintRange = PrintRange.Select;
                 pm.Apply();
                 t.Commit();
-            } catch {
+            } catch (InvalidOperationException) {
                 TaskDialog.Show("Revit", "cannot apply print settings");
                 t.RollBack();
             }
@@ -1027,12 +1039,12 @@ namespace SCaddins.SCexport
             System.Threading.Thread.Sleep(1000);
 
             if (removeTitle) {
-                SCexport.RemoveTitleBlock(vs, titleBlockHidden, false);
+                Export.RemoveTitleBlock(vs, titleBlockHidden, false);
             }
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        private bool ExportGSPDF(SCexportSheet vs)
+        [SecurityCritical]
+        private bool ExportGSPDF(ExportSheet vs)
         {
             PrintManager pm = doc.PrintManager;
 
@@ -1043,7 +1055,7 @@ namespace SCaddins.SCexport
 
             try {
                 pm.SubmitPrint(vs.Sheet);
-            } catch (Exception) {
+            } catch (InvalidOperationException) {
                 File.Delete(vs.FullExportPath(".ps"));
                 pm.SubmitPrint(vs.Sheet);
             }
@@ -1056,13 +1068,13 @@ namespace SCaddins.SCexport
                 "\" \"" + vs.FullExportPath(".pdf") + "\"";
 
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
-                SCexport.StartHiddenConsoleProg("cmd.exe", args);
+                Export.StartHiddenConsoleProg("cmd.exe", args);
             }
             return true;
         }
  
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        private bool ExportAdobePDF(SCexportSheet vs)
+        [SecurityCritical]
+        private bool ExportAdobePDF(ExportSheet vs)
         {
             PrintManager pm = doc.PrintManager;
 
@@ -1078,7 +1090,7 @@ namespace SCaddins.SCexport
                     File.Delete(vs.FullExportPath(".pdf"));
                 }
                 pm.SubmitPrint(vs.Sheet);
-                SCexport.KillAcrotray();
+                Export.KillAcrotray();
             } else {
                 return false;
             }

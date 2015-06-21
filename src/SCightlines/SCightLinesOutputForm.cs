@@ -50,11 +50,5 @@ namespace SCaddins.SCightLines
         {
             textBox1.Text = displayValue;
         }
-
-        private void MyForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            this.Hide();
-            e.Cancel = true; // this cancels the close event.
-        }
     }
 }

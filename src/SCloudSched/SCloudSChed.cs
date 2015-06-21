@@ -23,7 +23,7 @@ namespace SCaddins.SCloudSChed
     using Autodesk.Revit.UI;
     using Microsoft.Office.Interop.Excel;
 
-    public class SCloudSched
+    public static class SCloudScheduler
     {     
         public static void ExportCloudInfo(Document doc, Dictionary<string, RevisionItem> dictionary)
         {
@@ -67,7 +67,8 @@ namespace SCaddins.SCloudSChed
                             } else {
                                 data[cloudNumber, 0] = view.get_Parameter(BuiltInParameter.VIEWPORT_SHEET_NUMBER).AsString();
                             }
-                        } catch {
+                        } catch (Autodesk.Revit.Exceptions.ArgumentNullException e) {
+                            System.Diagnostics.Debug.WriteLine(e.Message);
                         }
                         data[cloudNumber, 1] = GetParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_NUM);
                         data[cloudNumber, 2] = viewName;

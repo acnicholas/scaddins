@@ -25,14 +25,14 @@ namespace SCaddins.SCulcase
     public partial class SCulcaseMainForm : System.Windows.Forms.Form
     {
         private Document doc;
-        private SCulcase.ConversionTypes conversionTypes;
-        private SCulcase.ConversionMode conversionMode;
+        private ConversionTypes conversionTypes;
+        private ConversionMode conversionMode;
 
         public SCulcaseMainForm(Document doc)
         {
             this.doc = doc;    
-            this.conversionTypes = SCulcase.ConversionTypes.None;
-            this.conversionMode = SCulcase.ConversionMode.UpperCase;
+            this.conversionTypes = ConversionTypes.None;
+            this.conversionMode = ConversionMode.UpperCase;
             this.InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.TagCheckBoxes();
@@ -41,11 +41,11 @@ namespace SCaddins.SCulcase
                
         private void TagCheckBoxes()
         {
-            chkAnnotation.Tag = SCulcase.ConversionTypes.Text;
-            chkRooms.Tag = SCulcase.ConversionTypes.RoomNames;
-            chkSheets.Tag = SCulcase.ConversionTypes.SheetNames;
-            chkViews.Tag = SCulcase.ConversionTypes.ViewNames;
-            chkViewTitleOnSheets.Tag = SCulcase.ConversionTypes.TitlesOnSheets;
+            chkAnnotation.Tag = ConversionTypes.Text;
+            chkRooms.Tag = ConversionTypes.RoomNames;
+            chkSheets.Tag = ConversionTypes.SheetNames;
+            chkViews.Tag = ConversionTypes.ViewNames;
+            chkViewTitleOnSheets.Tag = ConversionTypes.TitlesOnSheets;
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -55,31 +55,31 @@ namespace SCaddins.SCulcase
 
         private void BtnTest_Click(object sender, EventArgs e)
         {
-            SCulcase.ConvertAllDryRun(this.conversionMode, this.conversionTypes, this.doc);
+            UppercaseUtilities.ConvertAllDryRun(this.conversionMode, this.conversionTypes, this.doc);
         }
 
         private void RadioButton1_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton1.Checked) {
-                this.conversionMode = SCulcase.ConversionMode.UpperCase;
+                this.conversionMode = ConversionMode.UpperCase;
             }
         }
 
         private void RadioButton2_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton2.Checked) {
-                this.conversionMode = SCulcase.ConversionMode.LowerCase;
+                this.conversionMode = ConversionMode.LowerCase;
             }
         }
         
         private void RadioButton3CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton3.Checked) {
-                this.conversionMode = SCulcase.ConversionMode.TitleCase;
+                this.conversionMode = ConversionMode.TitleCase;
             }
         }
 
-        private void ToggleConversionFlag(CheckBox box, SCulcase.ConversionTypes val)
+        private void ToggleConversionFlag(CheckBox box, ConversionTypes val)
         {
             if (box.Checked == true) {
                 this.conversionTypes |= val;
@@ -91,13 +91,13 @@ namespace SCaddins.SCulcase
         private void ToggleCheckBoxValue(object sender, EventArgs e)
         {
             CheckBox c = (CheckBox)sender;
-            SCulcase.ConversionTypes t = (SCulcase.ConversionTypes)c.Tag;
+            ConversionTypes t = (ConversionTypes)c.Tag;
             this.ToggleConversionFlag(c, t);
         }
       
         private void BtnOKAYClick(object sender, EventArgs e)
         {
-            SCulcase.ConvertAll(this.conversionMode, this.conversionTypes, this.doc);
+            UppercaseUtilities.ConvertAll(this.conversionMode, this.conversionTypes, this.doc);
         }
     }
 }

@@ -26,10 +26,10 @@ namespace SCaddins.SCexport
     /// </summary>
     public partial class RenameSheetForm : Form
     {
-        private ICollection<SCexportSheet> sheets;
+        private ICollection<ExportSheet> sheets;
         private Autodesk.Revit.DB.Document doc;
         
-        public RenameSheetForm(ICollection<SCexportSheet> sheets, Autodesk.Revit.DB.Document doc)
+        public RenameSheetForm(ICollection<ExportSheet> sheets, Autodesk.Revit.DB.Document doc)
         {
             this.sheets = sheets;
             this.doc = doc;
@@ -46,7 +46,7 @@ namespace SCaddins.SCexport
         private void PopulateList()
         {
             listView1.Items.Clear();
-            foreach (SCexportSheet sheet in this.sheets) {
+            foreach (ExportSheet sheet in this.sheets) {
                 var item = new ListViewItem();
                 item.Text = sheet.SheetNumber;
                 item.SubItems.Add(sheet.SheetDescription);
@@ -76,7 +76,7 @@ namespace SCaddins.SCexport
         {
             var t = new Autodesk.Revit.DB.Transaction(this.doc);
             t.Start("SCexport - Rename Sheets");
-            foreach (SCexportSheet sheet in this.sheets) {
+            foreach (ExportSheet sheet in this.sheets) {
                 sheet.Sheet.Name = this.NewSheetName(sheet.SheetDescription);
                 sheet.Sheet.SheetNumber = this.NewSheetNumber(sheet.SheetNumber);
             }

@@ -35,7 +35,7 @@ namespace SCaddins.SCopy
             Document doc = commandData.Application.ActiveUIDocument.Document;
             UIApplication application = commandData.Application;
         
-            Autodesk.Revit.DB.ViewSheet viewSheet = SCopy.ViewToViewSheet(doc.ActiveView);
+            Autodesk.Revit.DB.ViewSheet viewSheet = SheetCopy.ViewToViewSheet(doc.ActiveView);
             if (viewSheet == null) {
                 TaskDialog.Show("SCopy", "Scopy needs to be started in a sheet view...");
                 return Autodesk.Revit.UI.Result.Failed;    

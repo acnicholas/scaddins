@@ -50,9 +50,9 @@ namespace SCaddins.SCexport
                 TaskDialog.Show("SCexport", "PreviousSheet can only be run if the active view is a sheet");
                 return Autodesk.Revit.UI.Result.Failed;   
             } else {
-                var dh = new DialogHandler(commandData.Application);
+                DialogHandler.AddRevitDialogHandler(commandData.Application);
                 var vs = currentView as ViewSheet;
-                SCexport.OpenPreviousSheet(
+                Export.OpenPreviousSheet(
                     commandData.Application.ActiveUIDocument, vs);
                 return Autodesk.Revit.UI.Result.Succeeded;
             }

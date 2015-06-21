@@ -31,7 +31,7 @@ namespace SCaddins
             var collection = SCaddins.Scaddins.Default.DisplayOrder;
             
             if (collection.Count < 1) {
-                collection = GetDefaultCollection();
+                collection = DefaultCollection;
             }
             
             this.InitializeComponent();
@@ -39,9 +39,9 @@ namespace SCaddins
             this.PopulateListBox(collection);
         }
         
-        public static StringCollection GetDefaultCollection()
-        {
-            var collection = new StringCollection();
+        public static StringCollection DefaultCollection {
+            get {
+                var collection = new StringCollection();
                 collection.Add("SCexport");
                 collection.Add("SCulcase");
                 collection.Add("SCoord");
@@ -53,8 +53,9 @@ namespace SCaddins
                 collection.Add("SCincrement");
                 collection.Add("SCloudSched");
                 return collection;
+            }
         }
-        
+              
         private void PopulateListBox(StringCollection collection)
         {
             for (int i = 0; i < collection.Count; i++) {
@@ -64,7 +65,7 @@ namespace SCaddins
         
         private void ApplyDefaultOrder() {
             listBox1.Items.Clear();
-            this.PopulateListBox(GetDefaultCollection());
+            this.PopulateListBox(DefaultCollection);
         }
         
         private void ButtonUpClick(object sender, EventArgs e)

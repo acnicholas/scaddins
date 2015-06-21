@@ -27,7 +27,7 @@ namespace SCaddins.SCopy
     /// </summary>
     public class SCopyViewOnSheet : INotifyPropertyChanged
     {
-        private SCopy scopy;
+        private SheetCopy scopy;
         private string originalTitle;
         private string newTitle;
         private ElementId oldId;
@@ -36,9 +36,9 @@ namespace SCaddins.SCopy
         private string viewTemplateName;
               
         private bool duplicateWithDetailing;
-        private SCopy.ViewPortPlacementMode creationMode;
+        private ViewPortPlacementMode creationMode;
    
-        public SCopyViewOnSheet(string title, View view, SCopy scopy)
+        public SCopyViewOnSheet(string title, View view, SheetCopy scopy)
         {
             this.scopy = scopy;
             this.oldView = view;
@@ -54,7 +54,7 @@ namespace SCaddins.SCopy
         
         public event PropertyChangedEventHandler PropertyChanged;
     
-        public SCopy.ViewPortPlacementMode CreationMode {
+        public ViewPortPlacementMode CreationMode {
             get {
                 return this.creationMode;
             }
@@ -101,9 +101,9 @@ namespace SCaddins.SCopy
                 this.associatedLevelName = value;
                 if (value != SCopyConstants.MenuItemCopy) {
                     this.DuplicateWithDetailing = false;
-                    this.creationMode = SCopy.ViewPortPlacementMode.New;
+                    this.creationMode = ViewPortPlacementMode.New;
                 } else {
-                    this.creationMode = SCopy.ViewPortPlacementMode.Copy;   
+                    this.creationMode = ViewPortPlacementMode.Copy;   
                 }
                 if (this.PropertyChanged != null) {
                     this.PropertyChanged(
@@ -171,9 +171,9 @@ namespace SCaddins.SCopy
         private void SetDefualtCreationMode()
         {
             if (this.oldView.ViewType == ViewType.Legend) {
-                this.creationMode = SCopy.ViewPortPlacementMode.Legend;   
+                this.creationMode = ViewPortPlacementMode.Legend;   
             } else {
-                this.creationMode = SCopy.ViewPortPlacementMode.Copy;
+                this.creationMode = ViewPortPlacementMode.Copy;
             }
         }  
     }

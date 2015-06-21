@@ -32,6 +32,7 @@ namespace SCaddins.Common
 {
     using System;
     using System.Linq;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Sortable binding list.
@@ -56,7 +57,7 @@ namespace SCaddins.Common
         /// Initializes a new instance of the <see cref="SCexport.SortableBindingList`1"/> class.
         /// </summary>
         /// <param name="list">List.</param>
-        public SortableBindingListCollection(System.Collections.Generic.List<T> list) : base(list)
+        public SortableBindingListCollection(List<T> list) : base(list)
         {
         }
 

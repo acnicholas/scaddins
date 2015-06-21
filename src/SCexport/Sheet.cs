@@ -24,7 +24,7 @@ namespace SCaddins.SCexport
     /// <summary>
     /// Class to hold view sheet information.
     /// </summary>
-    public class SCexportSheet
+    public class ExportSheet
     {
         #region Variables
         private DateTime sheetRevisionDateTime;
@@ -56,11 +56,11 @@ namespace SCaddins.SCexport
         /// <param name="doc">The Active Revit Document.</param>
         /// <param name="filenameTemplate">Naming template.</param>
         /// <param name="scx">SCexport instance.</param>
-        public SCexportSheet(
+        public ExportSheet(
                 ViewSheet sheet,
                 Document doc,
                 SheetName fileNameTemplate,
-                SCexport scx)
+                Export scx)
         {
             this.Init(sheet, doc, fileNameTemplate, scx);
         }
@@ -300,15 +300,18 @@ namespace SCaddins.SCexport
           try {
                     #if REVIT2015
                     var p = titleBlock.GetParameters(Constants.TitleScale);
+                    if (p == null || p.Count < 1) {
+                        return string.Empty;
+                    }
                     var s = p[0].AsValueString();
                     #else
                     var s = titleBlock.get_Parameter(Constants.TitleScale).AsValueString();
                     #endif
-                    var d = Convert.ToDouble(s);
+                    var d = Convert.ToDouble(s, CultureInfo.InvariantCulture);
                     return d.ToString(CultureInfo.InvariantCulture);
-                } catch {
+            } catch (FormatException) {
                     return string.Empty;
-                }    
+            }    
         }
 
         /// <summary>
@@ -328,12 +331,12 @@ namespace SCaddins.SCexport
         /// </summary>
         public void UpdateSheetInfo()
         {
-            var titleBlock = SCexport.GetTitleBlockFamily(
+            var titleBlock = Export.GetTitleBlockFamily(
                 this.sheetNumber, this.doc);
             if (titleBlock != null) {
                 this.scale = titleBlock.get_Parameter(
                     BuiltInParameter.SHEET_SCALE).AsString();
-                this.scaleBarScale = SCexportSheet.GetScaleBarScale(titleBlock);
+                this.scaleBarScale = ExportSheet.GetScaleBarScale(titleBlock);
                 this.width = titleBlock.get_Parameter(
                         BuiltInParameter.SHEET_WIDTH).AsDouble();
                 this.height = titleBlock.get_Parameter(
@@ -376,7 +379,7 @@ namespace SCaddins.SCexport
         
         public void UpdateScaleBarScale()
         {
-            var titleBlock = SCexport.GetTitleBlockFamily(
+            var titleBlock = Export.GetTitleBlockFamily(
                 this.sheetNumber, this.doc);
             this.SetScaleBarScale(titleBlock);       
         }
@@ -389,7 +392,7 @@ namespace SCaddins.SCexport
                     BuiltInParameter.SHEET_CURRENT_REVISION_DESCRIPTION).AsString();
             this.sheetRevisionDate = this.sheet.get_Parameter(
                     BuiltInParameter.SHEET_CURRENT_REVISION_DATE).AsString();
-            this.sheetRevisionDateTime = SCexport.ToDateTime(this.sheetRevisionDate);
+            this.sheetRevisionDateTime = Export.ToDateTime(this.sheetRevisionDate);
             if (refreshExportName) {
                 this.SetExportName();
             }
@@ -422,7 +425,7 @@ namespace SCaddins.SCexport
                 ViewSheet viewSheet,
                 Document document,
                 SheetName sheetName,
-                SCexport scx)
+                Export scx)
         {
             this.doc = document;
             this.sheet = viewSheet;
@@ -448,32 +451,32 @@ namespace SCaddins.SCexport
         private void PopulateSegmentedFileName()
         {
             for (int i = 0; i < this.segmentedFileName.Count; i++) {
-                switch (this.segmentedFileName[i].Type) {
-                case SheetNameSegment.SegmentType.SheetNumber:
+                switch (this.segmentedFileName[i].TypeOfSegment) {
+                case SegmentType.SheetNumber:
                     this.segmentedFileName[i].Text = this.sheetNumber;
                     break;
-                case SheetNameSegment.SegmentType.SheetName:
+                case SegmentType.SheetName:
                     this.segmentedFileName[i].Text = this.sheetDescription;
                     break;
-                case SheetNameSegment.SegmentType.ProjectNumber:
+                case SegmentType.ProjectNumber:
                     this.segmentedFileName[i].Text = this.projectNumber;
                     break;
-                case SheetNameSegment.SegmentType.Discipline:
+                case SegmentType.Discipline:
                     if (string.IsNullOrEmpty(this.segmentedFileName[i].Text.Trim())) {
                         this.segmentedFileName[i].Text = this.displineCode;
                     }
                     break;
-                case SheetNameSegment.SegmentType.Revision:
+                case SegmentType.Revision:
                     this.segmentedFileName[i].Text = this.sheetRevision;
                     break;
-                case SheetNameSegment.SegmentType.RevisionDescription:
+                case SegmentType.RevisionDescription:
                     this.segmentedFileName[i].Text =
                         this.sheetRevisionDescription;
                     break;
-                case SheetNameSegment.SegmentType.Hyphen:
+                case SegmentType.Hyphen:
                     this.segmentedFileName[i].Text = "-";
                     break;
-                case SheetNameSegment.SegmentType.Underscore:
+                case SegmentType.Underscore:
                     this.segmentedFileName[i].Text = "_";
                     break;
                 }
@@ -486,14 +489,14 @@ namespace SCaddins.SCexport
         private void SetExportName()
         {
             if (this.forceDate) {
-                this.sheetRevision = SCexport.GetDateString();
+                this.sheetRevision = Export.GetDateString;
             } else {
                 this.sheetRevision = this.sheet.get_Parameter(
                         BuiltInParameter.SHEET_CURRENT_REVISION).AsString();
             }
 
             if (this.sheetRevision.Length < 1) {
-                this.sheetRevision = SCexport.GetDateString();
+                this.sheetRevision = Export.GetDateString;
             }
 
             this.PopulateSegmentedFileName();

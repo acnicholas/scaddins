@@ -18,6 +18,7 @@
 namespace SCaddins.SCightLines
 {
     using System;
+    using System.Globalization;
     using System.Windows.Forms;
     
     /// <summary>
@@ -36,7 +37,7 @@ namespace SCaddins.SCightLines
         /// <summary>
         /// Sight Line Class
         /// </summary>
-        private SCightLines sightLines;
+        private LineOfSight sightLines;
         
         public SCightLinesMainForm(Autodesk.Revit.DB.Document doc)
         {
@@ -51,7 +52,7 @@ namespace SCaddins.SCightLines
             txtY.Text = "1000";
             this.info = new SCightOutputForm("Update first");
             this.info.Hide();
-            this.sightLines = new SCightLines(
+            this.sightLines = new LineOfSight(
                 doc,
                 SCightLinesMainForm.GetDub(txtEyeHeight, 1220),
                 SCightLinesMainForm.GetDub(txtGoing, 900),
@@ -78,11 +79,18 @@ namespace SCaddins.SCightLines
         private static double GetDub(TextBox t, double fallback)
         {
             double d;
+            if (t.Text == null) {
+                return fallback;
+            }
             try {
-                d = double.Parse(t.Text);
-            } catch (Exception) {
+                d = double.Parse(t.Text, CultureInfo.InvariantCulture);
+            } catch (FormatException) {
                 Autodesk.Revit.UI.TaskDialog.Show(
                     "Error", t.Text + ": is not a valid number, SCightlines will use a fallback value");
+                d = fallback;
+            } catch (OverflowException) {
+                Autodesk.Revit.UI.TaskDialog.Show(
+                    "Error", t.Text + ": is too big/small, SCightlines will use a fallback value");
                 d = fallback;
             }
             return d;

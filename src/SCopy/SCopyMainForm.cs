@@ -29,7 +29,7 @@ namespace SCaddins.SCopy
     /// </summary>
     public partial class MainForm : System.Windows.Forms.Form
     {
-        private SCopy scopy;
+        private SheetCopy scopy;
         private Document doc;
         private DataGridViewComboBoxColumn cheetCategoryCombo;
 
@@ -38,20 +38,20 @@ namespace SCaddins.SCopy
             this.doc = doc;
             this.InitializeComponent();
             this.SetTitle();
-            this.scopy = new SCopy(doc);
+            this.scopy = new SheetCopy(doc);
             this.PopulateViewInfoList(viewSheet);
             this.AddDataGridColumns();
         }
         
         public MainForm(
             Document doc,
-            ICollection<SCaddins.SCexport.SCexportSheet> sheets)
+            ICollection<SCaddins.SCexport.ExportSheet> sheets)
         {
             this.doc = doc;
             this.InitializeComponent();
             this.SetTitle();
-            this.scopy = new SCopy(doc);
-            foreach (SCaddins.SCexport.SCexportSheet sheet in sheets) {
+            this.scopy = new SheetCopy(doc);
+            foreach (SCaddins.SCexport.ExportSheet sheet in sheets) {
                 this.scopy.AddSheet(sheet.Sheet);
             } 
             this.AddDataGridColumns();  
@@ -60,78 +60,7 @@ namespace SCaddins.SCopy
             this.dataGridView1.CurrentCellDirtyStateChanged += this.DataGridView1_CurrentCellDirtyStateChanged;
         }
         
-                /// <summary>
-        /// Add some nice data about a Revit view to a list.
-        /// </summary>
-        public void PopulateViewInfoList(ViewSheet viewSheet)
-        {
-            if (viewSheet == null) {
-                return;
-            }
-            this.listView1.Items.Clear();
-            var colour = System.Drawing.Color.Gray;
-            this.AddItemToViewInfoList("Title", viewSheet.Name, colour, 0);
-            this.AddItemToViewInfoList("Sheet Number", viewSheet.SheetNumber, colour, 0);
-            #if REVIT2014
-            AddViewsToViewInfoList(viewSheet.Views);
-            #else
-            AddViewsToViewInfoList(viewSheet.GetAllPlacedViews());
-            #endif
-            this.listView1.Refresh();
-        }
-        
-        private void AddViewsToViewInfoList(ViewSet views)
-        {
-            AddItemToViewInfoList(
-                "Number of viewports",
-                views.Size.ToString(CultureInfo.InvariantCulture),
-                System.Drawing.Color.Gray,
-                1);
-            int i = 1;
-            foreach (Autodesk.Revit.DB.View view in views) {
-                AddItemToViewInfoList(
-                    "View: " + i,
-                    view.Name,
-                    System.Drawing.Color.Black,
-                    1);
-                i++;
-            }
-        }
-        
-         private void AddItemToViewInfoList(
-            string title,
-            string value,
-            System.Drawing.Color colour,
-            int group)
-        {
-            System.Windows.Forms.ListViewItem item;
-            item = new System.Windows.Forms.ListViewItem(new[] { title, value }, this.listView1.Groups[group]);
-            item.ForeColor = colour;
-            listView1.Items.Add(item);
-        }
-        
-        private void AddViewsToViewInfoList(ISet<ElementId> views)
-        {
-            AddItemToViewInfoList(
-                "Number of viewports",
-                views.Count.ToString(CultureInfo.InvariantCulture),
-                System.Drawing.Color.Gray,
-                1);
-            int i = 1;
-            foreach (ElementId id in views) {
-                var view = this.doc.GetElement(id) as Autodesk.Revit.DB.View;
-                this.AddItemToViewInfoList(
-                    "View: " + i,
-                    view.Name,
-                    System.Drawing.Color.Black,
-                    1);
-                i++;
-            }
-        }
-  
-    
-        #region init component
-        private static void AddCheckBoxColumn(string name, string text, DataGridView grid)
+                private static void AddCheckBoxColumn(string name, string text, DataGridView grid)
         {
             var result = new DataGridViewCheckBoxColumn();
             AddColumnHeader(name, text, result);
@@ -158,7 +87,78 @@ namespace SCaddins.SCopy
             AddColumnHeader(name, text, result);
             grid.Columns.Add(result);
         }
-    
+        
+        /// <summary>
+        /// Add some nice data about a Revit view to a list.
+        /// </summary>
+        public void PopulateViewInfoList(ViewSheet viewSheet)
+        {
+            if (viewSheet == null) {
+                return;
+            }
+            this.listView1.Items.Clear();
+            var colour = System.Drawing.Color.Gray;
+            this.AddItemToViewInfoList("Title", viewSheet.Name, colour, 0);
+            this.AddItemToViewInfoList("Sheet Number", viewSheet.SheetNumber, colour, 0);
+            #if REVIT2014
+            AddViewsToViewInfoList(viewSheet.Views);
+            #else
+            this.AddViewsToViewInfoList(viewSheet.GetAllPlacedViews());
+            #endif
+            this.listView1.Refresh();
+        }
+        
+        private void AddViewsToViewInfoList(ViewSet views)
+        {
+            this.AddItemToViewInfoList(
+                "Number of viewports",
+                views.Size.ToString(CultureInfo.InvariantCulture),
+                System.Drawing.Color.Gray,
+                1);
+            int i = 1;
+            foreach (Autodesk.Revit.DB.View view in views) {
+               this.AddItemToViewInfoList(
+                    "View: " + i,
+                    view.Name,
+                    System.Drawing.Color.Black,
+                    1);
+                i++;
+            }
+        }
+        
+         private void AddItemToViewInfoList(
+            string title,
+            string value,
+            System.Drawing.Color colour,
+            int group)
+        {
+            System.Windows.Forms.ListViewItem item;
+            item = new System.Windows.Forms.ListViewItem(new[] { title, value }, this.listView1.Groups[group]);
+            item.ForeColor = colour;
+            listView1.Items.Add(item);
+        }
+        
+        private void AddViewsToViewInfoList(ISet<ElementId> views)
+        {
+            this.AddItemToViewInfoList(
+                "Number of viewports",
+                views.Count.ToString(CultureInfo.InvariantCulture),
+                System.Drawing.Color.Gray,
+                1);
+            int i = 1;
+            foreach (ElementId id in views) {
+                var view = this.doc.GetElement(id) as Autodesk.Revit.DB.View;
+                this.AddItemToViewInfoList(
+                    "View: " + i,
+                    view.Name,
+                    System.Drawing.Color.Black,
+                    1);
+                i++;
+            }
+        }
+  
+        #region init component
+
         private void AddDataGridColumns()
         {
             this.dataGridView1.AutoGenerateColumns = false;
@@ -247,7 +247,7 @@ namespace SCaddins.SCopy
             if (view == null) {
                 return;
             }
-            var viewSheet = SCaddins.SCopy.SCopy.ViewToViewSheet(view);
+            var viewSheet = SCaddins.SCopy.SheetCopy.ViewToViewSheet(view);
             if (viewSheet != null)
             {
                 this.scopy.AddSheet(viewSheet);
@@ -258,7 +258,7 @@ namespace SCaddins.SCopy
         private void DataGridView1CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             var sheet = (SCopySheet)dataGridView1.Rows[e.RowIndex].DataBoundItem;
-            PopulateViewInfoList(sheet.SourceSheet);
+            this.PopulateViewInfoList(sheet.SourceSheet);
             dataGridView2.DataSource = sheet.ViewsOnSheet;
             dataGridView2.Refresh();
         }
@@ -329,7 +329,7 @@ namespace SCaddins.SCopy
         
         private void DataGridView1DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            //FIXME this is a hack because I have no idea what I'm doing.  
+            // FIXME this is a hack because I have no idea what I'm doing.  
         }
     }
 }

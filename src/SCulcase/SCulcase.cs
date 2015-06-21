@@ -24,34 +24,16 @@ namespace SCaddins.SCulcase
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
 
-    public static class SCulcase
+    public static class UppercaseUtilities
     {
         private static bool commit = true;
         private static ConversionMode mode = ConversionMode.UpperCase;
         private static string dryRunLogText = string.Empty;
-
-        [Flags]
-        public enum ConversionTypes
-        {
-            None = 0,
-            Text = 1,
-            SheetNames = 2,
-            ViewNames = 4,
-            TitlesOnSheets = 8,
-            RoomNames = 16
-        }
-
-        public enum ConversionMode
-        {
-            UpperCase,
-            LowerCase,
-            TitleCase
-        }
-
+      
         public static void ConvertAll(ConversionMode mode, ConversionTypes types, Document doc)
         {
             commit = true;
-            SCulcase.mode = mode;
+            UppercaseUtilities.mode = mode;
             Transaction trans = new Transaction(doc);
             trans.Start("Convert all selected types uppercase (SCulcase)");
             Convert(mode, types, doc);
@@ -71,7 +53,7 @@ namespace SCaddins.SCulcase
         public static void ConvertSelection(ConversionMode mode, Document doc, IList<ElementId> elements)
         {
             commit = true;
-            SCulcase.mode = mode;
+            UppercaseUtilities.mode = mode;
             var trans = new Transaction(doc);
             trans.Start("Convert selected elements to uppercase (SCulcase)");
             foreach (Autodesk.Revit.DB.ElementId eid in elements) { 
@@ -98,20 +80,20 @@ namespace SCaddins.SCulcase
 
         private static void Convert(ConversionMode mode, ConversionTypes types, Document doc)
         {
-            SCulcase.mode = mode;
-            if (types.HasFlag(SCulcase.ConversionTypes.Text)) {
+            UppercaseUtilities.mode = mode;
+            if (types.HasFlag(ConversionTypes.Text)) {
                 ConvertAllAnnotation(doc);
             }
-            if (types.HasFlag(SCulcase.ConversionTypes.ViewNames)) {
+            if (types.HasFlag(ConversionTypes.ViewNames)) {
                 ConvertAllViewNames(doc);
             }
-            if (types.HasFlag(SCulcase.ConversionTypes.RoomNames)) {  
+            if (types.HasFlag(ConversionTypes.RoomNames)) {  
                 ConvertAllRooms(doc);
             }
-            if (types.HasFlag(SCulcase.ConversionTypes.SheetNames)) {
+            if (types.HasFlag(ConversionTypes.SheetNames)) {
                 ConvertAllSheetNames(doc);
             }
-            if (types.HasFlag(SCulcase.ConversionTypes.TitlesOnSheets)) {
+            if (types.HasFlag(ConversionTypes.TitlesOnSheets)) {
                 ConvertAllViewNamesOnSheet(doc);
             }
         }

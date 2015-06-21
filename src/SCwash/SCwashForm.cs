@@ -68,14 +68,14 @@ namespace SCaddins.SCwash
             treeView1.Nodes.Add(new SCwashTreeNode("Images"));
             treeView1.Nodes.Add(new SCwashTreeNode("Unbound Rooms"));
             treeView1.Nodes.Add(new SCwashTreeNode("Revisions"));
-            SCwash.AddViewNodes(this.doc, false, treeView1.Nodes[0].Nodes);
-            SCwash.AddViewNodes(this.doc, true, treeView1.Nodes[1].Nodes);
-            SCwash.AddSheetNodes(this.doc, true, treeView1.Nodes[2].Nodes);
-            treeView1.Nodes[3].Nodes.AddRange(SCwash.Imports(this.doc, true).ToArray<TreeNode>());
-            treeView1.Nodes[4].Nodes.AddRange(SCwash.Imports(this.doc, false).ToArray<TreeNode>());
-            treeView1.Nodes[5].Nodes.AddRange(SCwash.Images(this.doc).ToArray<TreeNode>());
-            treeView1.Nodes[6].Nodes.AddRange(SCwash.UnboundRooms(this.doc).ToArray<TreeNode>());
-            treeView1.Nodes[7].Nodes.AddRange(SCwash.Revisions(this.doc).ToArray<TreeNode>());
+            SCwashUtilities.AddViewNodes(this.doc, false, treeView1.Nodes[0].Nodes);
+            SCwashUtilities.AddViewNodes(this.doc, true, treeView1.Nodes[1].Nodes);
+            SCwashUtilities.AddSheetNodes(this.doc, true, treeView1.Nodes[2].Nodes);
+            treeView1.Nodes[3].Nodes.AddRange(SCwashUtilities.Imports(this.doc, true).ToArray<TreeNode>());
+            treeView1.Nodes[4].Nodes.AddRange(SCwashUtilities.Imports(this.doc, false).ToArray<TreeNode>());
+            treeView1.Nodes[5].Nodes.AddRange(SCwashUtilities.Images(this.doc).ToArray<TreeNode>());
+            treeView1.Nodes[6].Nodes.AddRange(SCwashUtilities.UnboundRooms(this.doc).ToArray<TreeNode>());
+            treeView1.Nodes[7].Nodes.AddRange(SCwashUtilities.Revisions(this.doc).ToArray<TreeNode>());
         }
 
         private void TreeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -83,10 +83,10 @@ namespace SCaddins.SCwash
             if (treeView1.SelectedNode != null) {
                 var t = (SCwashTreeNode)treeView1.SelectedNode;
                 textBox1.Text = t.Info;
-                try {
+                if (t.Id != null) {
                     btnShowElement.Text = "Show" + System.Environment.NewLine + t.Id.ToString();
                     btnShowElement.Enabled = true;
-                } catch {
+                } else {
                     btnShowElement.Text = "Show Element";
                     btnShowElement.Enabled = false;
                 }
@@ -117,8 +117,8 @@ namespace SCaddins.SCwash
         {
             // Make sure at least one revision remains
             int revisionsToStay = 0;
-            foreach (SCwashTreeNode node in treeView1.Nodes[7].Nodes){
-                if( !node.Checked ) {
+            foreach (SCwashTreeNode node in treeView1.Nodes[7].Nodes) {
+                if (!node.Checked) {
                     // Ok, things shouldn't break here. move on.
                     revisionsToStay++;
                     break;
@@ -126,17 +126,18 @@ namespace SCaddins.SCwash
             }
             
             // Un-mark the first revision because you can't delete them all.
-            if(revisionsToStay == 0){
+            if (revisionsToStay == 0) {
                 TaskDialog td = new TaskDialog("One last revision");
                 td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
                 td.MainInstruction = "The project must have at least one revision!";
-                td.MainContent =  "Press OK for SCwash will keep the first revision for you." + System.Environment.NewLine +
+                td.MainContent = "Press OK for SCwash will keep the first revision for you." + System.Environment.NewLine +
                     System.Environment.NewLine +
                     "Press Cancel to select the revision you want to keep.";
                 td.CommonButtons = TaskDialogCommonButtons.Cancel | TaskDialogCommonButtons.Ok;
                 TaskDialogResult tr = td.Show();
-                if (tr == TaskDialogResult.Cancel)
+                if (tr == TaskDialogResult.Cancel) {
                     return;
+                }
                 treeView1.Nodes[7].Nodes[0].Checked = false;    
             }
             
@@ -146,7 +147,7 @@ namespace SCaddins.SCwash
                     this.AddSCChildrenToPurgeSet(ref elements, node);
                 }
             }
-            SCwash.RemoveElements(this.doc, elements);
+            SCwashUtilities.RemoveElements(this.doc, elements);
             this.Init();
         }
 
@@ -164,7 +165,7 @@ namespace SCaddins.SCwash
 
         private void TreeView1_AfterCheck(object sender, TreeViewEventArgs e)
         {
-            //treeView1.Nodes[7].Nodes[0].Checked = false;
+            // treeView1.Nodes[7].Nodes[0].Checked = false;
             SCwashTreeNode tn = e.Node as SCwashTreeNode;
             foreach (SCwashTreeNode child in tn.Nodes) {
                 if (!tn.Checked) {

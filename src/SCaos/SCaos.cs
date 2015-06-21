@@ -51,22 +51,18 @@ namespace SCaddins.SCaos
                     this.RotateView(doc.ActiveView, doc, udoc);
                 }
                 if (form.radioButtonWinterViews.Checked) {
-                    this.CreateWinterViews(doc,
-                                           udoc,
-                                           (DateTime)form.startTime.SelectedItem,
-                                           (DateTime)form.endTime.SelectedItem,
-                                           (TimeSpan)form.interval.SelectedItem);
+                    this.CreateWinterViews(
+                        doc,
+                        udoc,
+                        (DateTime)form.startTime.SelectedItem,
+                        (DateTime)form.endTime.SelectedItem,
+                        (TimeSpan)form.interval.SelectedItem);
                 }
             }
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }
         
-                private static void LogText(string text)
-        {
-            System.IO.File.AppendAllText(@"c:\Temp\SCaos.txt", text);
-        }
-
         private static bool ViewNameIsAvailable(Document doc, string name)
         {
             var c = new FilteredElementCollector(doc);
@@ -111,12 +107,12 @@ namespace SCaddins.SCaos
             }
         }
 
-        private void CreateWinterViews(Document doc,
-                                       UIDocument udoc,
-                                       DateTime startTime,
-                                       DateTime endTime,
-                                       TimeSpan interval
-                                      )
+        private void CreateWinterViews(
+            Document doc,
+            UIDocument udoc,
+            DateTime startTime,
+            DateTime endTime,
+            TimeSpan interval)
         {
             ElementId id = null;
 
@@ -141,8 +137,8 @@ namespace SCaddins.SCaos
                 t.Start("Create Solar View");
                 View view = View3D.CreateIsometric(doc, id);
                 var niceMinutes = "00";
-                if (startTime.Minute > 0){
-                    niceMinutes = startTime.Minute.ToString();
+                if (startTime.Minute > 0) {
+                    niceMinutes = startTime.Minute.ToString(CultureInfo.CurrentCulture);
                 }    
                 var vname = "SOLAR ACCESS - 21st June - " + startTime.Hour + "." + niceMinutes;
                 if (ViewNameIsAvailable(doc, vname)) {

@@ -28,7 +28,7 @@ namespace SCaddins.SCopy
     /// </summary>
     public class SCopySheet : INotifyPropertyChanged
     {  
-        private SCopy scopy;
+        private SheetCopy scopy;
         private ViewSheet sourceSheet;
         private string title;
         private string number;
@@ -36,7 +36,7 @@ namespace SCaddins.SCopy
         private ViewSheet destinationSheet;              
         private BindingList<SCopyViewOnSheet> viewsOnSheet;
         
-        public SCopySheet(string number, string title, SCopy scopy, ViewSheet sourceSheet)
+        public SCopySheet(string number, string title, SheetCopy scopy, ViewSheet sourceSheet)
         {
             this.scopy = scopy;
             this.number = number;
@@ -120,7 +120,7 @@ namespace SCaddins.SCopy
             }
             
             set {
-        		this.sheetCategory = value;
+                this.sheetCategory = value;
                 if (this.PropertyChanged != null) {
                     this.PropertyChanged(this, new PropertyChangedEventArgs("SheetCategory"));
                 }

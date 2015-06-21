@@ -49,12 +49,12 @@ namespace SCaddins.SCulcase
                       t.Start();
                       if (elems.Count == 0) {
                           var form = new SCulcaseMainForm(doc);
+                          System.Windows.Forms.DialogResult dialogResult = form.DialogResult;
                       } else {
-                          SCulcase.ConvertSelection(SCulcase.ConversionMode.UpperCase, doc, elems);
+                          UppercaseUtilities.ConvertSelection(ConversionMode.UpperCase, doc, elems);
                       }
                       t.Commit();
             }
-
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }

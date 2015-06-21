@@ -35,7 +35,7 @@ namespace SCaddins.SCoord
         {
             UIDocument udoc = commandData.Application.ActiveUIDocument;
             Document doc = udoc.Document;
-            this.PlaceMGA(doc);
+            PlaceMGA(doc);
             return Autodesk.Revit.UI.Result.Succeeded;
         }
 
@@ -80,7 +80,7 @@ namespace SCaddins.SCoord
                 System.Collections.Generic.ISet<ElementId> sids = fam.GetFamilySymbolIds();
                 foreach (ElementId id in sids) {   
                     FamilySymbol f = doc.GetElement(id) as FamilySymbol;
-                    if (f.Name.ToUpper().Contains("SC-Survey_Point".ToUpper())) {
+                    if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture))) {
                         return f;
                     }
                 }
@@ -106,7 +106,7 @@ namespace SCaddins.SCoord
             return null;
         }
 
-        private void PlaceMGA(Document doc)
+        private static void PlaceMGA(Document doc)
         {
             Level levelZero = GetLevelZero(doc);
             FamilySymbol family = GetSpotCoordFamily(doc);
