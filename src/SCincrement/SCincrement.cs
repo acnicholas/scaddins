@@ -29,19 +29,6 @@ namespace SCaddins.SCincrement
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
     {
-        public Autodesk.Revit.UI.Result Execute(
-            ExternalCommandData commandData,
-            ref string message,
-            Autodesk.Revit.DB.ElementSet elements)
-        {
-            UIDocument udoc = commandData.Application.ActiveUIDocument;
-            Document doc = udoc.Document;
-            UIApplication app = commandData.Application;
-            commandData.Application.DialogBoxShowing += DismissDuplicateQuestion;
-            RenumberByPicks(udoc, doc, app);
-            return Autodesk.Revit.UI.Result.Succeeded;
-        }
-
         public static void DismissDuplicateQuestion(object value, DialogBoxShowingEventArgs e)
         {
             var t = e as MessageBoxShowingEventArgs;
@@ -101,6 +88,19 @@ namespace SCaddins.SCincrement
                 }
                 t.Commit();
             }
+        }
+        
+        public Autodesk.Revit.UI.Result Execute(
+            ExternalCommandData commandData,
+            ref string message,
+            Autodesk.Revit.DB.ElementSet elements)
+        {
+            UIDocument udoc = commandData.Application.ActiveUIDocument;
+            Document doc = udoc.Document;
+            UIApplication app = commandData.Application;
+            commandData.Application.DialogBoxShowing += DismissDuplicateQuestion;
+            RenumberByPicks(udoc, doc, app);
+            return Autodesk.Revit.UI.Result.Succeeded;
         }
 
         private static string GetSourceNumberAsString(string s)

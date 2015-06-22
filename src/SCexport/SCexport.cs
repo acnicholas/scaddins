@@ -72,6 +72,22 @@ namespace SCaddins.SCexport
             this.PopulateSheets(this.allSheets);
             Export.FixAcrotrayHang();
         }
+        
+        /// <summary>
+        /// Gets the current date.
+        /// </summary>
+        /// <returns>
+        /// The date in the format YYYYMMDD.
+        /// </returns>
+        public static string GetDateString {
+            get {
+                DateTime moment = DateTime.Now;
+                string syear = moment.Year.ToString(CultureInfo.CurrentCulture);
+                string smonth = Export.PadLeftZero(moment.Month.ToString(CultureInfo.CurrentCulture), 2);
+                string sday = Export.PadLeftZero(moment.Day.ToString(CultureInfo.CurrentCulture), 2);
+                return syear + smonth + sday;
+            }
+        }
    
         public static bool ConfirmOverwrite
         {
@@ -183,23 +199,7 @@ namespace SCaddins.SCexport
                 }
             }
         }
-        
-        /// <summary>
-        /// Gets the current date.
-        /// </summary>
-        /// <returns>
-        /// The date in the format YYYYMMDD.
-        /// </returns>
-        public static string GetDateString {
-            get {
-                DateTime moment = DateTime.Now;
-                string syear = moment.Year.ToString(CultureInfo.CurrentCulture);
-                string smonth = Export.PadLeftZero(moment.Month.ToString(CultureInfo.CurrentCulture), 2);
-                string sday = Export.PadLeftZero(moment.Day.ToString(CultureInfo.CurrentCulture), 2);
-                return syear + smonth + sday;
-            }
-        }
-
+       
         /// <summary>
         /// Gets or sets the filename sheme.
         /// </summary>

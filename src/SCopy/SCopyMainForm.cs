@@ -60,7 +60,27 @@ namespace SCaddins.SCopy
             this.dataGridView1.CurrentCellDirtyStateChanged += this.DataGridView1_CurrentCellDirtyStateChanged;
         }
         
-                private static void AddCheckBoxColumn(string name, string text, DataGridView grid)
+        /// <summary>
+        /// Add some nice data about a Revit view to a list.
+        /// </summary>
+        public void PopulateViewInfoList(ViewSheet viewSheet)
+        {
+            if (viewSheet == null) {
+                return;
+            }
+            this.listView1.Items.Clear();
+            var colour = System.Drawing.Color.Gray;
+            this.AddItemToViewInfoList("Title", viewSheet.Name, colour, 0);
+            this.AddItemToViewInfoList("Sheet Number", viewSheet.SheetNumber, colour, 0);
+            #if REVIT2014
+            AddViewsToViewInfoList(viewSheet.Views);
+            #else
+            this.AddViewsToViewInfoList(viewSheet.GetAllPlacedViews());
+            #endif
+            this.listView1.Refresh();
+        }
+        
+        private static void AddCheckBoxColumn(string name, string text, DataGridView grid)
         {
             var result = new DataGridViewCheckBoxColumn();
             AddColumnHeader(name, text, result);
@@ -87,27 +107,7 @@ namespace SCaddins.SCopy
             AddColumnHeader(name, text, result);
             grid.Columns.Add(result);
         }
-        
-        /// <summary>
-        /// Add some nice data about a Revit view to a list.
-        /// </summary>
-        public void PopulateViewInfoList(ViewSheet viewSheet)
-        {
-            if (viewSheet == null) {
-                return;
-            }
-            this.listView1.Items.Clear();
-            var colour = System.Drawing.Color.Gray;
-            this.AddItemToViewInfoList("Title", viewSheet.Name, colour, 0);
-            this.AddItemToViewInfoList("Sheet Number", viewSheet.SheetNumber, colour, 0);
-            #if REVIT2014
-            AddViewsToViewInfoList(viewSheet.Views);
-            #else
-            this.AddViewsToViewInfoList(viewSheet.GetAllPlacedViews());
-            #endif
-            this.listView1.Refresh();
-        }
-        
+               
         private void AddViewsToViewInfoList(ViewSet views)
         {
             this.AddItemToViewInfoList(
