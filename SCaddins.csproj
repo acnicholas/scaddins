@@ -35,13 +35,15 @@
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    <DefineConstants>DEBUG;TRACE;REVIT2014</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;REVIT2015</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <AssemblyName>SCaddinsDebug</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2014\</ReferencePath>
+    <ReferencePath>C:\Program Files\Autodesk\Revit 2015\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
+    <StartAction>Program</StartAction>
+    <StartProgram>C:\Program Files\Autodesk\Revit 2015\Revit.exe</StartProgram>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2015' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -73,6 +75,7 @@
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'Any' " />
   <ItemGroup>
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
@@ -112,14 +115,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Common\About.cs" />
-    <Compile Include="src\Common\AboutBox.cs" />
+    <Compile Include="src\Common\AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\Common\AboutBox.Designer.cs" />
     <Compile Include="src\Common\AboutBox.Designer1.cs">
       <DependentUpon>AboutBox.resx</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="src\Common\SortableBindingList.cs" />
-    <Compile Include="src\Common\UpgradeForm.cs" />
+    <Compile Include="src\Common\UpgradeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\Common\UpgradeForm.Designer.cs">
       <DependentUpon>UpgradeForm.cs</DependentUpon>
     </Compile>
@@ -131,7 +138,9 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="src\SCaddinsOptions.cs" />
-    <Compile Include="src\ScaddinsOptionsForm.cs" />
+    <Compile Include="src\ScaddinsOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\ScaddinsOptionsForm.Designer.cs">
       <DependentUpon>ScaddinsOptionsForm.cs</DependentUpon>
     </Compile>
@@ -141,10 +150,14 @@
     </Compile>
     <Compile Include="src\SCam\SCam.cs" />
     <Compile Include="src\SCaos\SCaos.cs" />
-    <Compile Include="src\SCaos\SCaosForm.cs" />
+    <Compile Include="src\SCaos\SCaosForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCaos\SCaosForm.Designer.cs" />
     <Compile Include="src\SCexport\Command.cs" />
-    <Compile Include="src\SCexport\ConfirmDialog.cs" />
+    <Compile Include="src\SCexport\ConfirmDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCexport\ConfirmDialog.Designer.cs" />
     <Compile Include="src\SCexport\ConfirmDialog.Designer1.cs">
       <DependentUpon>ConfirmDialog.resx</DependentUpon>
@@ -156,23 +169,35 @@
     <Compile Include="src\SCexport\ExportLog.cs" />
     <Compile Include="src\SCexport\FileUtils.cs" />
     <Compile Include="src\SCexport\FilterContextMenu.cs" />
-    <Compile Include="src\SCexport\MainForm.cs" />
+    <Compile Include="src\SCexport\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCexport\MainForm.Designer.cs" />
     <Compile Include="src\SCexport\NextSheet.cs" />
     <Compile Include="src\SCexport\OpenSheet.cs" />
-    <Compile Include="src\SCexport\OpenSheetDialog.cs" />
+    <Compile Include="src\SCexport\OpenSheetDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCexport\OpenSheetDialog.Designer.cs" />
-    <Compile Include="src\SCexport\OptionsDialog.cs" />
+    <Compile Include="src\SCexport\OptionsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCexport\OptionsDialog.Designer.cs" />
     <Compile Include="src\SCexport\PdfTools.cs" />
     <Compile Include="src\SCexport\PreviousSheet.cs" />
     <Compile Include="src\SCexport\PrintSettings.cs" />
-    <Compile Include="src\SCexport\RenameSheetForm.cs" />
+    <Compile Include="src\SCexport\RenameSheetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCexport\RenameSheetForm.Designer.cs" />
-    <Compile Include="src\SCexport\RevisionSelectionDialog.cs" />
+    <Compile Include="src\SCexport\RevisionSelectionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCexport\RevisionSelectionDialog.Designer.cs" />
     <Compile Include="src\SCexport\SCexport.cs" />
-    <Compile Include="src\SCexport\SelectPrinterDialog.cs" />
+    <Compile Include="src\SCexport\SelectPrinterDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCexport\SelectPrinterDialog.Designer.cs" />
     <Compile Include="src\SCexport\Settings1.Designer.cs">
       <DependentUpon>Settings1.settings</DependentUpon>
@@ -185,9 +210,13 @@
     <Compile Include="src\SCexport\ViewSheetSetCombo.cs" />
     <Compile Include="src\SCightlines\SCightLines.cs" />
     <Compile Include="src\SCightlines\SCightLinesCommand.cs" />
-    <Compile Include="src\SCightlines\SCightLinesMainForm.cs" />
+    <Compile Include="src\SCightlines\SCightLinesMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCightlines\SCightLinesMainForm.Designer.cs" />
-    <Compile Include="src\SCightlines\SCightLinesOutputForm.cs" />
+    <Compile Include="src\SCightlines\SCightLinesOutputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCightlines\SCightLinesOutputForm.Designer.cs" />
     <Compile Include="src\SCightlines\SCightLinesRow.cs" />
     <Compile Include="src\SCincrement\SCincrement.cs" />
@@ -196,20 +225,28 @@
       <DependentUpon>SCincrementSettings.settings</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="src\SCincrement\SCincrementSettingsForm.cs" />
+    <Compile Include="src\SCincrement\SCincrementSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCincrement\SCincrementSettingsForm.Designer.cs">
       <DependentUpon>SCincrementSettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\SCloudSched\SCloudSchedForm.cs" />
+    <Compile Include="src\SCloudSched\SCloudSchedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCloudSched\SCloudSchedForm.Designer.cs" />
     <Compile Include="src\SCloudSched\RevisionItem.cs" />
     <Compile Include="src\SCloudSched\SCloudSChed.cs" />
     <Compile Include="src\SCloudSched\SCloudSChedCommand.cs" />
     <Compile Include="src\SCoord\SCoord.cs" />
-    <Compile Include="src\SCoord\SCoordForm.cs" />
+    <Compile Include="src\SCoord\SCoordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCoord\SCoordForm.Designer.cs" />
     <Compile Include="src\SCopy\SCopyEnums.cs" />
-    <Compile Include="src\SCopy\SCopyMainForm.cs" />
+    <Compile Include="src\SCopy\SCopyMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCopy\SCopyMainForm.Designer.cs" />
     <Compile Include="src\SCopy\SCopy.cs" />
     <Compile Include="src\SCopy\SCopyCommand.cs" />
@@ -219,19 +256,27 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="src\SCopy\SCopySheet.cs" />
-    <Compile Include="src\SCopy\SCopyTextInputForm.cs" />
+    <Compile Include="src\SCopy\SCopyTextInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCopy\SCopyTextInputForm.Designer.cs">
       <DependentUpon>SCopyTextInputForm.cs</DependentUpon>
     </Compile>
     <Compile Include="src\SCopy\SCopyViewOnSheet.cs" />
-    <Compile Include="src\SCopy\SCopyViewSelectionDialog.cs" />
+    <Compile Include="src\SCopy\SCopyViewSelectionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCopy\SCopyViewSelectionDialog.Designer.cs" />
     <Compile Include="src\SCulcase\SCulcase.cs" />
     <Compile Include="src\SCulcase\SCulcaseCommand.cs" />
     <Compile Include="src\SCulcase\SCulcaseEnums.cs" />
-    <Compile Include="src\SCulcase\SCulcaseInfoDialog.cs" />
+    <Compile Include="src\SCulcase\SCulcaseInfoDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCulcase\SCulcaseInfoDialog.Designer.cs" />
-    <Compile Include="src\SCulcase\SCulcaseMainForm.cs" />
+    <Compile Include="src\SCulcase\SCulcaseMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCulcase\SCulcaseMainForm.Designer.cs" />
     <Compile Include="src\SCunderlay\SCunderlay.cs" />
     <Compile Include="src\SCunderlay\SCunderlayCommand.cs" />
@@ -239,29 +284,13 @@
     <Compile Include="src\SCuv\SCuvCommand.cs" />
     <Compile Include="src\SCwash\SCwash.cs" />
     <Compile Include="src\SCwash\SCwashCommand.cs" />
-    <Compile Include="src\SCwash\SCwashForm.cs" />
+    <Compile Include="src\SCwash\SCwashForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCwash\SCwashForm.Designer.cs" />
     <Compile Include="src\SCwash\SCwashTreeNode.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src" />
-    <Folder Include="src\Common" />
-    <Folder Include="src\Manifest" />
-    <Folder Include="src\Manifest\2015" />
-    <Folder Include="src\Manifest\2014" />
-    <Folder Include="src\SCunderlay" />
-    <Folder Include="src\SCuv" />
-    <Folder Include="src\SCincrement" />
-    <Folder Include="src\SCloudSched" />
-    <Folder Include="src\SCam" />
-    <Folder Include="src\SCoord" />
-    <Folder Include="src\SCwash" />
-    <Folder Include="src\SCulcase" />
-    <Folder Include="src\SCightlines" />
-    <Folder Include="src\SCopy" />
-    <Folder Include="src\SCaos" />
-    <Folder Include="src\SCexport" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="src\Common\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
