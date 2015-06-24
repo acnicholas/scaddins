@@ -21,6 +21,7 @@ namespace SCaddins.SCopy
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Globalization;
+    using System.Diagnostics;
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -141,13 +142,13 @@ namespace SCaddins.SCopy
             var td = new TaskDialog("SCopy - Summary");
             td.MainInstruction = "SCopy - Summary";
             td.MainContent = summaryText;
-            td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+            td.MainIcon = TaskDialogIcon.TaskDialogIconNone;
             td.Show();           
         }
     
         public void AddSheet(ViewSheet sourceSheet)
         {
-            string n = this.NextSheetNumber(sourceSheet.SheetNumber);
+            string n = this.GetNewSheetNumber(sourceSheet.SheetNumber);
             string t = sourceSheet.Name + SCopyConstants.MenuItemCopy;
             this.sheets.Add(new SCopySheet(n, t, this, sourceSheet));
         }
@@ -260,24 +261,18 @@ namespace SCaddins.SCopy
 
         // this is where the action happens
         private bool CreateAndPopulateNewSheet(SCopySheet sheet, ref string summary)
-        {
-            this.sourceTitleBlock = this.GetTitleBlock(sheet.SourceSheet);
-            
-            // don't do sheets without a title.            
-            if (this.sourceTitleBlock == null) {
-                TaskDialog.Show("SCopy", "No Title Block, exiting now...");
-                return false;
-            }
-
+        {        
             // create the "blank canvas"
-            ViewSheet destSheet = this.AddEmptySheetToDocument(
+            sheet.DestinationSheet = this.AddEmptySheetToDocument(
                              sheet.Number,
                              sheet.Title,
                              sheet.SheetCategory);
  
-            sheet.DestinationSheet = destSheet;
             if (sheet.DestinationSheet != null) {
+                Debug.WriteLine(sheet.Number + " added to document.");
                 this.CreateViewports(sheet);
+            } else {
+                return false;
             }
             
             this.CopyElementsBetweenSheets(sheet);
@@ -322,13 +317,23 @@ namespace SCaddins.SCopy
             Viewport.Create(this.doc, destSheet.Id, destViewId, viewCentre);
         }
 
-        private string NextSheetNumber(string s)
+        private string GetNewSheetNumber(string originalNumber)
         {
             int inc = 0;
             do {
                 inc++;
-            } while (!this.SheetNumberAvailable(s + "-" + inc.ToString(CultureInfo.InvariantCulture)));
-            return s + "-" + inc.ToString(CultureInfo.InvariantCulture);
+            } while (!this.SheetNumberAvailable(originalNumber + "-" + inc.ToString(CultureInfo.InvariantCulture)));
+            return originalNumber + "-" + inc.ToString(CultureInfo.InvariantCulture);
+        }
+        
+        private void TryAssignViewTemplate(View view, string templateName)
+        {
+            if (templateName != SCopyConstants.MenuItemCopy) {
+                View vt = null;
+                if (this.viewTemplates.TryGetValue(templateName, out vt)) {
+                    view.ViewTemplateId = vt.Id;
+                }
+            }   
         }
                
         private void PlaceNewViewOnSheet(
@@ -341,12 +346,7 @@ namespace SCaddins.SCopy
                 vp.CropBox = view.OldView.CropBox;
                 vp.CropBoxActive = view.OldView.CropBoxActive;
                 vp.CropBoxVisible = view.OldView.CropBoxVisible;
-                if (view.ViewTemplateName != SCopyConstants.MenuItemCopy) {
-                    View vt = null;
-                    if (this.viewTemplates.TryGetValue(view.ViewTemplateName, out vt)) {
-                        vp.ViewTemplateId = vt.Id;
-                    }
-                }
+                this.TryAssignViewTemplate(vp, view.ViewTemplateName);
                 this.PlaceViewPortOnSheet(sheet.DestinationSheet, vp.Id, sourceViewCentre);
             }
         }
@@ -360,13 +360,8 @@ namespace SCaddins.SCopy
             var v = this.doc.GetElement(destViewId) as View;
             if (newName != null) {
                 v.Name = newName;
-                if (view.ViewTemplateName != SCopyConstants.MenuItemCopy) {
-                    View vt = null;
-                    if (this.viewTemplates.TryGetValue(view.ViewTemplateName, out vt)) {
-                        View dv = this.doc.GetElement(destViewId) as View;
-                        dv.ViewTemplateId = vt.Id;
-                    }    
-                }
+                View dv = this.doc.GetElement(destViewId) as View;  
+                this.TryAssignViewTemplate(dv, view.ViewTemplateName);                
             }
             this.PlaceViewPortOnSheet(sheet.DestinationSheet, destViewId, sourceViewCentre);
         }
@@ -376,10 +371,12 @@ namespace SCaddins.SCopy
             IList<ElementId> list = new List<ElementId>();
             foreach (Element e in new FilteredElementCollector(this.doc).OwnedByView(sheet.SourceSheet.Id)) {
                 if (!(e is Viewport)) {
+                    Debug.WriteLine("adding " + e.GetType().ToString() + " to copy list(CopyElementsBetweenSheets).");
                     list.Add(e.Id);
                 }
             }
             if (list.Count > 0) {
+                Debug.WriteLine("Beggining element copy");
                 ElementTransformUtils.CopyElements(sheet.SourceSheet, list, sheet.DestinationSheet, null, null);
             }
         }
@@ -410,20 +407,6 @@ namespace SCaddins.SCopy
                         break;                 
                 }
             }       
-        }
-
-        private FamilyInstance GetTitleBlock(ViewSheet sheet)
-        {
-            var elemsOnSheet = new FilteredElementCollector(
-                          this.doc, sheet.Id);
-            elemsOnSheet.OfCategory(BuiltInCategory.OST_TitleBlocks);
-            if (elemsOnSheet.Count() == 1) {
-                var inst = (FamilyInstance)elemsOnSheet.ElementAt(0);
-                return inst;
-            } else {
-                TaskDialog.Show("SCopy", "Multiple title blocks found...");
-                return null;
-            }
         }
         #endregion
     }
