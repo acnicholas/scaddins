@@ -22,9 +22,6 @@ namespace SCaddins.SCopy
     using System.Globalization;
     using Autodesk.Revit.DB;
 
-    /// <summary>
-    /// Description of SCopySheetView.
-    /// </summary>
     public class SCopyViewOnSheet : INotifyPropertyChanged
     {
         private SheetCopy scopy;

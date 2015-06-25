@@ -28,7 +28,6 @@ namespace SCaddins.SCopy
     
     public class SheetCopy
     {
-        private FamilyInstance sourceTitleBlock;
         private Document doc;
         private System.ComponentModel.BindingList<SCopySheet> sheets;
         private Dictionary<string, View> existingSheets =

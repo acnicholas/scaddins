@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2014 by Andrew Nicholas
+﻿// (C) Copyright 2014-2015 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -20,9 +20,6 @@ namespace SCaddins.SCopy
     using System;
     using System.Windows.Forms;
 
-    /// <summary>
-    /// Description of Form1.
-    /// </summary>
     public partial class SCopyViewSelectionDialog : Form
     {
         public SCopyViewSelectionDialog()
@@ -33,8 +30,6 @@ namespace SCaddins.SCopy
         public void Add(Autodesk.Revit.DB.Element view)
         {
             listBox1.Items.Add(view.Name);
-            
-            // TODO just do this once.
             listBox1.Sorted = true;
         }
         
