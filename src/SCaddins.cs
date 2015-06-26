@@ -49,18 +49,18 @@ namespace SCaddins
             try {
                 response = (HttpWebResponse)request.GetResponse();
             } catch (WebException e) {
-                TaskDialog.Show("Error: Check For Updates", e.Message); 
+                System.Diagnostics.Debug.WriteLine("Error: Check For Updates WebException: " + e.Message);
                 return;
             } catch (InvalidOperationException e) {
-                TaskDialog.Show("Error: Check For Updates", e.Message);
+                System.Diagnostics.Debug.WriteLine("Error: Check For Updates InvalidOperationException: " + e.Message);
                 return;                             
             } catch (NotSupportedException e) {
-                TaskDialog.Show("Error: Check For Updates", e.Message);
+                System.Diagnostics.Debug.WriteLine("Error: Check For Updates NotSupportedException: " + e.Message);
                 return;                
             }
             
             if (response.StatusCode == HttpStatusCode.NotFound) {
-                TaskDialog.Show("Error: Check For Updates", url + " not found"); 
+                System.Diagnostics.Debug.WriteLine("Error: Check For Updates" + url + " not found");
                 return;
             }
             
@@ -70,9 +70,9 @@ namespace SCaddins
                 try {
                     html = reader.ReadToEnd();
                 } catch (IOException e) {
-                    TaskDialog.Show("Error: Check For Updates", e.Message);    
+                    System.Diagnostics.Debug.WriteLine("Error: Check For Updates IOException: " + e.Message);                    
                 } catch (OutOfMemoryException e) {
-                    TaskDialog.Show("Error: Check For Updates", e.Message);    
+                    System.Diagnostics.Debug.WriteLine("Error: Check For Updates OutOfMemoryException: " + e.Message);                    
                 }
             }
 
