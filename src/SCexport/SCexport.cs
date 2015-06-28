@@ -524,10 +524,6 @@ namespace SCaddins.SCexport
             return this.exportFlags.HasFlag(option);
         }
 
-        /// <summary>
-        /// Gets or sets the filename scheme to use with exports.
-        /// </summary>
-        /// <param name="newScheme"> The filename scheme. </param>
         public void SetFileNameScheme(string newScheme)
         {
             foreach (SheetName scheme in this.fileNameTypes) {
@@ -602,7 +598,7 @@ namespace SCaddins.SCexport
 
         public bool PDFSanityCheck()
         {
-           var ps = new System.Drawing.Printing.PrinterSettings();
+            var ps = new System.Drawing.Printing.PrinterSettings();
             ps.PrinterName = this.PdfPrinterName;
             return ps.IsValid;
         }
@@ -618,27 +614,6 @@ namespace SCaddins.SCexport
             this.AcadVersion = AcadVersionFromString(SCaddins.SCexport.Settings1.Default.AcadExportVersion);
         }
         
-        /// <summary>
-        /// Start a console program - Hidden.
-        /// </summary>
-        /// <param name="exePath">The program to start.</param>
-        /// <param name="args">The args to send to the program.</param>
-        [SecurityCritical]
-        protected internal static void StartHiddenConsoleProg(string exePath, string args)
-        {
-            var startInfo = new System.Diagnostics.ProcessStartInfo();
-            startInfo.CreateNoWindow = true;
-            startInfo.UseShellExecute = false;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.RedirectStandardError = true;
-            startInfo.FileName = exePath;
-            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            startInfo.Arguments = args;
-            var p = new Process();
-            p = System.Diagnostics.Process.Start(startInfo);
-            p.WaitForExit();
-        }
-
         private static void OpenSheet(UIDocument udoc, ViewSheet view, int inc)
         {
             FilteredElementCollector a;
@@ -1068,7 +1043,7 @@ namespace SCaddins.SCexport
                 "\" \"" + vs.FullExportPath(".pdf") + "\"";
 
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
-                Export.StartHiddenConsoleProg("cmd.exe", args);
+                SCaddins.Common.Utils.StartHiddenConsoleProg("cmd.exe", args);
             }
             return true;
         }
