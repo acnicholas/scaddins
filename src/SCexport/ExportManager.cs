@@ -532,6 +532,22 @@ namespace SCaddins.SCexport
                 }
             }
         }
+        
+        public int GetTotalNumberOfExports(ICollection<ExportSheet> sheets)
+        {
+            int i = 0;
+            if (this.HasExportOption(ExportFlags.DGN))
+                i++;
+            if (this.HasExportOption(ExportFlags.DWF))
+                i++;
+            if (this.HasExportOption(ExportFlags.DWG))
+                i++;
+            if (this.HasExportOption(ExportFlags.GhostscriptPDF))
+                i++;
+            if (this.HasExportOption(ExportFlags.PDF))
+                i++;
+            return i * sheets.Count;
+        }
 
         /// <summary>
         /// Export some view sheets..
@@ -549,41 +565,22 @@ namespace SCaddins.SCexport
             System.Windows.Forms.ToolStripItem info,
             System.Windows.Forms.Control strip)
         {
-            // this.ApplyNonPrintLinetype();
             DateTime startTime = DateTime.Now;
             TimeSpan elapsedTime = DateTime.Now - startTime;
             
-            // var exportLog = new ExportLog(startTime);
+            var exportLog = new ExportLog(startTime, GetTotalNumberOfExports(sheets));
+            
             foreach (ExportSheet sheet in sheets) {
                 progressBar.PerformStep();
                 elapsedTime = DateTime.Now - startTime;
                 info.Text = ExportManager.PercentageSting(progressBar.Value, progressBar.Maximum) +
                     " - " + ExportManager.TimeSpanAsString(elapsedTime);
                 strip.Update();
-                this.ExportSheets(sheet);
+                this.ExportSheet(sheet, exportLog);
             }
-
-            // Tag file
-            if (this.exportFlags.HasFlag(ExportFlags.TagPDFExports) &&
-                (this.exportFlags.HasFlag(ExportFlags.PDF) ||
-                 this.exportFlags.HasFlag(ExportFlags.GhostscriptPDF)))
-            {
-                foreach (ExportSheet sheet in sheets) {
-                    if (sheet.SheetRevisionDate.Length < 1) {
-                        PdfTools.TagPDF(
-                            sheet.FullExportPath(".pdf"),
-                            sheet.SheetDescription,
-                            nonIssueTag);
-                    } else {
-                        string s = "[" + sheet.SheetRevisionDate + "] " +
-                            sheet.SheetRevisionDescription;
-                        PdfTools.TagPDF(
-                            sheet.FullExportPath(".pdf"),
-                            sheet.SheetDescription,
-                            s);
-                    }
-                }
-            }
+            
+            exportLog.FinishLogging();
+            exportLog.ShowSummaryDialog();
         }
 
         public bool GSSanityCheck()
@@ -914,44 +911,34 @@ namespace SCaddins.SCexport
         }
 
         [SecurityCritical]
-        private void ExportSheets(ExportSheet r)
+        private void ExportSheet(ExportSheet sheet, ExportLog log)
         {
-            if (!r.Verified) {
-                r.UpdateSheetInfo();
+            if (!sheet.Verified) {
+                sheet.UpdateSheetInfo();
             }
 
-            if (r.SCPrintSetting != null) {
+            if (sheet.SCPrintSetting != null) {
                 if (this.exportFlags.HasFlag(ExportFlags.DWG)) {
-                    this.ExportDWG(r, this.exportFlags.HasFlag(ExportFlags.NoTitle));
+                    this.ExportDWG(sheet, this.exportFlags.HasFlag(ExportFlags.NoTitle));
                 }
 
                 if (this.exportFlags.HasFlag(ExportFlags.PDF)) {
-                    if (!this.ExportAdobePDF(r)) {
-                        TaskDialog exportErrorDialog = new TaskDialog("Export Error");
-                        exportErrorDialog.MainContent = "Could not print pdf: " + r.FullExportName;
-                        exportErrorDialog.MainInstruction = "Export Error";
-                        exportErrorDialog.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-                        exportErrorDialog.CommonButtons = TaskDialogCommonButtons.Ok;
-                        exportErrorDialog.Show();
-                        return;
-                    }
+                    this.ExportAdobePDF(sheet, log);
                 }
 
                 if (this.exportFlags.HasFlag(ExportFlags.GhostscriptPDF)) {
-                    if (!this.ExportGSPDF(r)) {
-                        TaskDialog.Show(
-                            "SCexport", "Could not export postscript pdf: " + r.FullExportName);
-                        return;
-                    }
+                    this.ExportGSPDF(sheet);
                 }
 
                 if (this.exportFlags.HasFlag(ExportFlags.DGN)) {
-                    ExportManager.ExportDGN(r);
+                    ExportManager.ExportDGN(sheet);
                 }
 
                 if (this.exportFlags.HasFlag(ExportFlags.DWF)) {
-                    ExportManager.ExportDWF(r);
+                    ExportManager.ExportDWF(sheet);
                 }
+            } else {
+                log.AddError(sheet.FullExportName, "no print setting assigned.");        
             }
         }
 
@@ -1037,12 +1024,13 @@ namespace SCaddins.SCexport
         }
  
         [SecurityCritical]
-        private bool ExportAdobePDF(ExportSheet vs)
+        private bool ExportAdobePDF(ExportSheet vs, ExportLog log)
         {
             PrintManager pm = doc.PrintManager;
 
             if (!PrintSettings.ApplyPrintSettings(
                 doc, vs, pm, ".pdf", this.PdfPrinterName)) {
+                log.AddError(vs.FullExportName, "failed to assign print setting: " + vs.PrintSettingName);
                 return false;
             }
 
@@ -1052,9 +1040,14 @@ namespace SCaddins.SCexport
                 if (File.Exists(vs.FullExportPath(".pdf"))) {
                     File.Delete(vs.FullExportPath(".pdf"));
                 }
-                pm.SubmitPrint(vs.Sheet);
+                if (pm.SubmitPrint(vs.Sheet)){
+                    log.AddSuccess(vs.FullExportName, "(apparently) completed succesfully");
+                } else {
+                    log.AddError(vs.FullExportName, "failed to print");    
+                }
                 SCaddins.Common.SystemUtils.KillallProcesses("acrotray");
             } else {
+                log.AddError(vs.FullExportName, "could not overwrite file, maybe check permissions?");
                 return false;
             }
             FileUtilities.WaitForFileAccess(vs.FullExportPath(".pdf"));

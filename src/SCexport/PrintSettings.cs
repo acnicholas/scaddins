@@ -179,7 +179,6 @@ namespace SCaddins.SCexport
                 t.Commit();
                 return true;
             } catch {
-                TaskDialog.Show("SCexport", "cannot apply print settings");
                 t.RollBack();
                 return false;
             }
