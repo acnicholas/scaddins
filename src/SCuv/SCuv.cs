@@ -55,7 +55,7 @@ namespace SCaddins.SCuv
                     
         public static string GetNewViewName(Element sourceView)
         { 
-            return Environment.UserName + "-" + sourceView.Name + "-" + SCaddins.SCexport.Export.GetDateString;           
+            return Environment.UserName + "-" + sourceView.Name + "-" + SCaddins.SCexport.ExportManager.GetDateString;           
         } 
         
         public static void ShowErrorDialog(Element sourceView)

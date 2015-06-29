@@ -52,7 +52,7 @@ namespace SCaddins.SCexport
             } else {
                 DialogHandler.AddRevitDialogHandler(commandData.Application);
                 var vs = currentView as ViewSheet;
-                Export.OpenNextSheet(
+                ExportManager.OpenNextSheet(
                     commandData.Application.ActiveUIDocument, vs);
                 return Autodesk.Revit.UI.Result.Succeeded;
             }

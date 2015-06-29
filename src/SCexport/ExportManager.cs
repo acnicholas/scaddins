@@ -34,7 +34,7 @@ namespace SCaddins.SCexport
     /// <summary>
     /// Export files to comply with SC standard.
     /// </summary>
-    public class Export
+    public class ExportManager
     {
         private static Dictionary<string, FamilyInstance> titleBlocks;
         private static Document doc;
@@ -55,22 +55,22 @@ namespace SCaddins.SCexport
         /// <param name="doc">
         /// The active Revit doc.
         /// </param>
-        public Export(Document doc)
+        public ExportManager(Document doc)
         {
-            Export.doc = doc;
+            ExportManager.doc = doc;
             this.fileNameScheme = null;
             this.exportDir = Constants.DefaultExportDir;
-            Export.ConfirmOverwrite = true;
-            Export.activeDoc = null;
+            ExportManager.ConfirmOverwrite = true;
+            ExportManager.activeDoc = null;
             this.allViewSheetSets = new Collection<ViewSheetSetCombo>();
             this.allSheets = new SortableBindingListCollection<ExportSheet>();
             this.fileNameTypes = new Collection<SheetName>();
             this.exportFlags = ExportFlags.None;
             this.LoadSettings();
             this.SetDefaultFlags();
-            Export.PopulateViewSheetSets(this.allViewSheetSets);
+            ExportManager.PopulateViewSheetSets(this.allViewSheetSets);
             this.PopulateSheets(this.allSheets);
-            Export.FixAcrotrayHang();
+            ExportManager.FixAcrotrayHang();
         }
         
         /// <summary>
@@ -83,8 +83,8 @@ namespace SCaddins.SCexport
             get {
                 DateTime moment = DateTime.Now;
                 string syear = moment.Year.ToString(CultureInfo.CurrentCulture);
-                string smonth = Export.PadLeftZero(moment.Month.ToString(CultureInfo.CurrentCulture), 2);
-                string sday = Export.PadLeftZero(moment.Day.ToString(CultureInfo.CurrentCulture), 2);
+                string smonth = ExportManager.PadLeftZero(moment.Month.ToString(CultureInfo.CurrentCulture), 2);
+                string sday = ExportManager.PadLeftZero(moment.Day.ToString(CultureInfo.CurrentCulture), 2);
                 return syear + smonth + sday;
             }
         }
@@ -557,8 +557,8 @@ namespace SCaddins.SCexport
             foreach (ExportSheet sheet in sheets) {
                 progressBar.PerformStep();
                 elapsedTime = DateTime.Now - startTime;
-                info.Text = Export.PercentageSting(progressBar.Value, progressBar.Maximum) +
-                    " - " + Export.TimeSpanAsString(elapsedTime);
+                info.Text = ExportManager.PercentageSting(progressBar.Value, progressBar.Maximum) +
+                    " - " + ExportManager.TimeSpanAsString(elapsedTime);
                 strip.Update();
                 this.ExportSheets(sheet);
             }
@@ -632,7 +632,7 @@ namespace SCaddins.SCexport
                 if (sortedSheets[i].SheetNumber == view.SheetNumber) {
                     DialogHandler.AddRevitDialogHandler(new UIApplication(udoc.Application.Application));
                     Autodesk.Revit.DB.FamilyInstance result =
-                        Export.GetTitleBlockFamily(
+                        ExportManager.GetTitleBlockFamily(
                             sortedSheets[i + inc].SheetNumber, udoc.Document);
                     if (result != null) {
                         udoc.ShowElements(result);
@@ -697,19 +697,7 @@ namespace SCaddins.SCexport
         }
 
         [SecurityCritical]
-        private static void KillAcrotray()
-        {
-            try {
-                foreach (Process proc in Process.GetProcessesByName("acrotray")) {
-                    proc.Kill();
-                }
-            } catch (Exception ex) {
-                TaskDialog.Show("Error", ex.Message);
-            }
-        }
-
-        [SecurityCritical]
-        private static void SetRegistryVal(string fileName)
+        private static void SetAcrobatExportRegistryVal(string fileName)
         {
             string exe =
                 Process.GetCurrentProcess().MainModule.FileName;
@@ -958,11 +946,11 @@ namespace SCaddins.SCexport
                 }
 
                 if (this.exportFlags.HasFlag(ExportFlags.DGN)) {
-                    Export.ExportDGN(r);
+                    ExportManager.ExportDGN(r);
                 }
 
                 if (this.exportFlags.HasFlag(ExportFlags.DWF)) {
-                    Export.ExportDWF(r);
+                    ExportManager.ExportDWF(r);
                 }
             }
         }
@@ -974,11 +962,11 @@ namespace SCaddins.SCexport
         {
             ICollection<ElementId> titleBlockHidden;
             titleBlockHidden = new List<ElementId>();
-            var titleBlock = Export.GetTitleBlockFamily(vs.SheetNumber, doc);
+            var titleBlock = ExportManager.GetTitleBlockFamily(vs.SheetNumber, doc);
             titleBlockHidden.Add(titleBlock.Id);
 
             if (removeTitle) {
-                Export.RemoveTitleBlock(vs, titleBlockHidden, true);
+                ExportManager.RemoveTitleBlock(vs, titleBlockHidden, true);
             }
 
             PrintManager pm = doc.PrintManager;
@@ -1014,7 +1002,7 @@ namespace SCaddins.SCexport
             System.Threading.Thread.Sleep(1000);
 
             if (removeTitle) {
-                Export.RemoveTitleBlock(vs, titleBlockHidden, false);
+                ExportManager.RemoveTitleBlock(vs, titleBlockHidden, false);
             }
         }
 
@@ -1043,7 +1031,7 @@ namespace SCaddins.SCexport
                 "\" \"" + vs.FullExportPath(".pdf") + "\"";
 
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
-                SCaddins.Common.Utils.StartHiddenConsoleProg("cmd.exe", args);
+                SCaddins.Common.ConsoleUtils.StartHiddenConsoleProg("cmd.exe", args);
             }
             return true;
         }
@@ -1058,14 +1046,14 @@ namespace SCaddins.SCexport
                 return false;
             }
 
-            SetRegistryVal(vs.FullExportPath(".pdf"));
+            SetAcrobatExportRegistryVal(vs.FullExportPath(".pdf"));
             
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
                 if (File.Exists(vs.FullExportPath(".pdf"))) {
                     File.Delete(vs.FullExportPath(".pdf"));
                 }
                 pm.SubmitPrint(vs.Sheet);
-                Export.KillAcrotray();
+                SCaddins.Common.SystemUtils.KillallProcesses("acrotray");
             } else {
                 return false;
             }

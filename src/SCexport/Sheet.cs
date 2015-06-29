@@ -60,7 +60,7 @@ namespace SCaddins.SCexport
                 ViewSheet sheet,
                 Document doc,
                 SheetName fileNameTemplate,
-                Export scx)
+                ExportManager scx)
         {
             this.Init(sheet, doc, fileNameTemplate, scx);
         }
@@ -331,7 +331,7 @@ namespace SCaddins.SCexport
         /// </summary>
         public void UpdateSheetInfo()
         {
-            var titleBlock = Export.GetTitleBlockFamily(
+            var titleBlock = ExportManager.GetTitleBlockFamily(
                 this.sheetNumber, this.doc);
             if (titleBlock != null) {
                 this.scale = titleBlock.get_Parameter(
@@ -379,7 +379,7 @@ namespace SCaddins.SCexport
         
         public void UpdateScaleBarScale()
         {
-            var titleBlock = Export.GetTitleBlockFamily(
+            var titleBlock = ExportManager.GetTitleBlockFamily(
                 this.sheetNumber, this.doc);
             this.SetScaleBarScale(titleBlock);       
         }
@@ -392,7 +392,7 @@ namespace SCaddins.SCexport
                     BuiltInParameter.SHEET_CURRENT_REVISION_DESCRIPTION).AsString();
             this.sheetRevisionDate = this.sheet.get_Parameter(
                     BuiltInParameter.SHEET_CURRENT_REVISION_DATE).AsString();
-            this.sheetRevisionDateTime = Export.ToDateTime(this.sheetRevisionDate);
+            this.sheetRevisionDateTime = ExportManager.ToDateTime(this.sheetRevisionDate);
             if (refreshExportName) {
                 this.SetExportName();
             }
@@ -425,7 +425,7 @@ namespace SCaddins.SCexport
                 ViewSheet viewSheet,
                 Document document,
                 SheetName sheetName,
-                Export scx)
+                ExportManager scx)
         {
             this.doc = document;
             this.sheet = viewSheet;
@@ -489,14 +489,14 @@ namespace SCaddins.SCexport
         private void SetExportName()
         {
             if (this.forceDate) {
-                this.sheetRevision = Export.GetDateString;
+                this.sheetRevision = ExportManager.GetDateString;
             } else {
                 this.sheetRevision = this.sheet.get_Parameter(
                         BuiltInParameter.SHEET_CURRENT_REVISION).AsString();
             }
 
             if (this.sheetRevision.Length < 1) {
-                this.sheetRevision = Export.GetDateString;
+                this.sheetRevision = ExportManager.GetDateString;
             }
 
             this.PopulateSegmentedFileName();

@@ -48,7 +48,7 @@ namespace SCaddins.SCexport
                     string prog = s + @"\SCaddins\SCaddins\opt\pdftk.exe";
                     string cmd = "\"" + file + "\" update_info \"" + pdfmetafile +
                         "\" output \"" + file + "\".tmp dont_ask"; 
-                    SCaddins.Common.Utils.StartHiddenConsoleProg(prog, cmd);
+                    SCaddins.Common.ConsoleUtils.StartHiddenConsoleProg(prog, cmd);
                     FileUtilities.WaitForFileAccess(file);
                     File.Delete(file);
                     File.Move(file + ".tmp", file);
@@ -72,7 +72,7 @@ namespace SCaddins.SCexport
                 string prog = s + @"\SCaddins\SCaddins\opt\pdftk.exe";
                 string args = "\"" + file + "\" dump_data output \"" +
                     pdfmetafile + "\"";
-                SCaddins.Common.Utils.StartHiddenConsoleProg(prog, args);
+                SCaddins.Common.ConsoleUtils.StartHiddenConsoleProg(prog, args);
                 return pdfmetafile;
             } catch {
                 TaskDialog.Show("Error", "Error creating pdf meta file");
@@ -87,7 +87,7 @@ namespace SCaddins.SCexport
                 string s = "InfoKey: Title" + Environment.NewLine +
                     "InfoValue: " + name + Environment.NewLine +
                     "InfoKey: Author" + Environment.NewLine +
-                    "InfoValue: " + Export.Author + System.Environment.NewLine +
+                    "InfoValue: " + ExportManager.Author + System.Environment.NewLine +
                     "InfoKey: Keywords" + Environment.NewLine +
                     "InfoValue: " + rev;
                 File.AppendAllText(file, s);

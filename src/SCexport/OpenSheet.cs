@@ -42,24 +42,24 @@ namespace SCaddins.SCexport
             System.Windows.Forms.DialogResult tdr = osd.ShowDialog();
             if (tdr == System.Windows.Forms.DialogResult.OK) {
                 Autodesk.Revit.DB.FamilyInstance result =
-                    Export.GetTitleBlockFamily(osd.Value, doc);
+                    ExportManager.GetTitleBlockFamily(osd.Value, doc);
                 if (result == null) {
-                    result = Export.GetTitleBlockFamily("CD" + osd.Value, doc);    
+                    result = ExportManager.GetTitleBlockFamily("CD" + osd.Value, doc);    
                 }
                 if (result == null) {
-                    result = Export.GetTitleBlockFamily("DA" + osd.Value, doc);    
+                    result = ExportManager.GetTitleBlockFamily("DA" + osd.Value, doc);    
                 }
                 if (result == null) {
-                    result = Export.GetTitleBlockFamily("SK" + osd.Value, doc);    
+                    result = ExportManager.GetTitleBlockFamily("SK" + osd.Value, doc);    
                 }
                 if (result == null) {
-                    result = Export.GetTitleBlockFamily("AD-CD" + osd.Value, doc);    
+                    result = ExportManager.GetTitleBlockFamily("AD-CD" + osd.Value, doc);    
                 }
                 if (result == null) {
-                    result = Export.GetTitleBlockFamily("AD-DA" + osd.Value, doc);    
+                    result = ExportManager.GetTitleBlockFamily("AD-DA" + osd.Value, doc);    
                 }
                 if (result == null) {
-                    result = Export.GetTitleBlockFamily("AD-SK" + osd.Value, doc);    
+                    result = ExportManager.GetTitleBlockFamily("AD-SK" + osd.Value, doc);    
                 }
                 if (result != null) {
                     commandData.Application.ActiveUIDocument.ShowElements(result);

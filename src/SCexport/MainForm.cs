@@ -30,7 +30,7 @@ namespace SCaddins.SCexport
 
     public partial class MainForm : Form
     {
-        private Export scx;
+        private ExportManager scx;
         private Autodesk.Revit.DB.Document doc;
         private Autodesk.Revit.UI.UIDocument udoc;
         private FilterContextMenu filter;
@@ -43,7 +43,7 @@ namespace SCaddins.SCexport
         {
             this.udoc = udoc;
             this.doc = udoc.Document;
-            this.scx = new Export(this.doc);
+            this.scx = new ExportManager(this.doc);
             this.filter = new FilterContextMenu("Filter", -1, null);
             this.InitializeComponent();
             ToolTip findTip = new ToolTip();
@@ -78,7 +78,7 @@ namespace SCaddins.SCexport
                     return;
                 }
                  Autodesk.Revit.DB.FamilyInstance result =
-                     Export.GetTitleBlockFamily(sc.SheetNumber, this.doc);
+                     ExportManager.GetTitleBlockFamily(sc.SheetNumber, this.doc);
                 if (result != null) {
                     this.udoc.ShowElements(result);
                 }
@@ -327,7 +327,7 @@ namespace SCaddins.SCexport
                     this.searchBox.Focus();
                     break;
                 case "L":
-                    string s = Export.LatestRevisionDate();
+                    string s = ExportManager.LatestRevisionDate();
                     if (s != null) {
                         this.PopulateList(new FilterContextMenu("temp", 5, s));
                     }
@@ -349,7 +349,7 @@ namespace SCaddins.SCexport
                     this.Close();
                     break;
                 case "S":
-                    this.SelectItem(Export.CurrentView());
+                    this.SelectItem(ExportManager.CurrentView());
                     this.dataGridView1.Refresh();
                     break;
                 case "T":
@@ -609,7 +609,7 @@ namespace SCaddins.SCexport
 
         private void Button1Click(object sender, EventArgs e)
         {
-            Export.PrintA3(this.SelectedSheets(), this.scx.PrinterNameA3);
+            ExportManager.PrintA3(this.SelectedSheets(), this.scx.PrinterNameA3);
         }
 
         private void BtnExportResize(object sender, EventArgs e)
@@ -655,14 +655,14 @@ namespace SCaddins.SCexport
         
         private void AddRevisionToolStripMenuItemClick(object sender, EventArgs e)
         {
-            Export.AddRevisions(this.SelectedSheets());
+            ExportManager.AddRevisions(this.SelectedSheets());
             this.Update();
             this.dataGridView1.Refresh();           
         }
         
         private void RenameSelectedSheetsToolStripMenuItemClick(object sender, EventArgs e)
         {
-            Export.RenameSheets(this.SelectedSheets());  
+            ExportManager.RenameSheets(this.SelectedSheets());  
             this.Update();
             this.dataGridView1.Refresh();
         }
@@ -679,7 +679,7 @@ namespace SCaddins.SCexport
         
         private void FixScalesBarsToolStripMenuItemClick(object sender, EventArgs e)
         {
-            Export.FixScaleBars(this.SelectedSheets());  
+            ExportManager.FixScaleBars(this.SelectedSheets());  
             this.Update();
             this.dataGridView1.Refresh();  
         }

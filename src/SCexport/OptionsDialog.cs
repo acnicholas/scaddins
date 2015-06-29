@@ -27,12 +27,12 @@ namespace SCaddins.SCexport
     public partial class OptionsDialog : System.Windows.Forms.Form
     {
         private Autodesk.Revit.DB.Document doc;
-        private Export scx;
+        private ExportManager scx;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="OptionsDialog"/> class.
         /// </summary>
-        public OptionsDialog(Autodesk.Revit.DB.Document doc, Export scx)
+        public OptionsDialog(Autodesk.Revit.DB.Document doc, ExportManager scx)
         {
             this.doc = doc;
             this.scx = scx;
@@ -68,7 +68,7 @@ namespace SCaddins.SCexport
                 this.comboBoxScheme.Text = this.scx.FileNameScheme.Name;
             }
             this.comboBoxAutocadVersion.SelectedIndex = 
-                this.comboBoxAutocadVersion.FindStringExact(Export.AcadVersionToString(this.scx.AcadVersion));
+                this.comboBoxAutocadVersion.FindStringExact(ExportManager.AcadVersionToString(this.scx.AcadVersion));
             this.checkBox1.Checked = true;
             #if REVIT2012
             this.checkBoxHideTitleblock.Enabled = false;
@@ -191,7 +191,7 @@ namespace SCaddins.SCexport
         private void ComboBoxAutocadVersionSelectedIndexChanged(object sender, EventArgs e)
         {
             this.scx.AcadVersion = 
-                Export.AcadVersionFromString(comboBoxAutocadVersion.SelectedItem.ToString());
+                ExportManager.AcadVersionFromString(comboBoxAutocadVersion.SelectedItem.ToString());
         }
               
         private void ButtonCreateConfigClick(object sender, EventArgs e)

@@ -30,7 +30,7 @@ namespace SCaddins.SCexport
     {   
         public static bool ConfigFileExists(Document doc)
         {
-             string config = Export.GetConfigFileName(doc);
+             string config = ExportManager.GetConfigFileName(doc);
              return System.IO.File.Exists(config);   
         }
 
@@ -43,7 +43,7 @@ namespace SCaddins.SCexport
         [SecurityCritical]
         public static void EditConfigFile(Document doc)
         {
-            string config = Export.GetConfigFileName(doc);
+            string config = ExportManager.GetConfigFileName(doc);
             if (System.IO.File.Exists(config)) {
                 System.Diagnostics.Process.Start(SCaddins.SCexport.Settings1.Default.TextEditor, config);
             } else {
@@ -57,7 +57,7 @@ namespace SCaddins.SCexport
         /// <param name="doc">The current revit document.</param>
         public static void CreateConfigFile(Document doc)
         {
-            string config = Export.GetConfigFileName(doc);
+            string config = ExportManager.GetConfigFileName(doc);
             TaskDialogResult overwrite = TaskDialogResult.Yes;
             if (System.IO.File.Exists(config)) {
                 string msg = "config exists, do you want to overwrite?";
@@ -182,7 +182,7 @@ namespace SCaddins.SCexport
                     return false;
                 }
             }
-            if (!Export.ConfirmOverwrite) {
+            if (!ExportManager.ConfirmOverwrite) {
                 return true;
             }
             if (System.IO.File.Exists(fileName)) {

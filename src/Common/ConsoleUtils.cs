@@ -1,12 +1,4 @@
-﻿/*
- * Created by SharpDevelop.
- * User: derob
- * Date: 28/06/2015
- * Time: 10:24 PM
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Security;
 using System.Diagnostics;
 
@@ -15,7 +7,7 @@ namespace SCaddins.Common
     /// <summary>
     /// Description of Utils.
     /// </summary>
-    public static class Utils
+    public static class ConsoleUtils
     {
         /// <summary>
         /// Start a console program - Hidden.

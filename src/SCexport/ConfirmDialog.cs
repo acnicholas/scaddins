@@ -33,17 +33,17 @@ namespace SCaddins.SCexport
         {
             this.InitializeComponent();
             this.textBox1.Text = displayMessage;
-            this.checkBox1.Checked = Export.ConfirmOverwrite;
+            this.checkBox1.Checked = ExportManager.ConfirmOverwrite;
         }
 
         private void CheckBox1CheckedChanged(object sender, EventArgs e)
         {
-            Export.ConfirmOverwrite = this.checkBox1.Checked;
+            ExportManager.ConfirmOverwrite = this.checkBox1.Checked;
         }
 
         private void Button2Click(object sender, EventArgs e)
         {
-            Export.ConfirmOverwrite = true;
+            ExportManager.ConfirmOverwrite = true;
         }
     }
 }
