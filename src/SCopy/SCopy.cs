@@ -368,16 +368,32 @@ namespace SCaddins.SCopy
         private void CopyElementsBetweenSheets(SCopySheet sheet)
         {
             IList<ElementId> list = new List<ElementId>();
+            IList<ElementId> curves = new List<ElementId>();
             foreach (Element e in new FilteredElementCollector(this.doc).OwnedByView(sheet.SourceSheet.Id)) {
                 if (!(e is Viewport)) {
                     Debug.WriteLine("adding " + e.GetType().ToString() + " to copy list(CopyElementsBetweenSheets).");
-                    list.Add(e.Id);
+                    if (!(e is CurveElement)) {
+                       list.Add(e.Id);
+                    }
+                    else
+                    {
+                        curves.Add(e.Id);
+                    }
                 }
             }
             if (list.Count > 0) {
                 Debug.WriteLine("Beggining element copy");
                 ElementTransformUtils.CopyElements(sheet.SourceSheet, list, sheet.DestinationSheet, null, null);
             }
+            if (curves.Count > 0)
+            {
+                Debug.WriteLine("Beggining curve copy");
+                Group group = doc.Create.NewGroup(curves);
+                IList<ElementId> groupList = new List<ElementId>();
+                groupList.Add(group.Id);
+                ElementTransformUtils.CopyElements(sheet.SourceSheet, groupList, sheet.DestinationSheet, null, null);
+            }
+
         }
              
         private void CreateViewports(SCopySheet sheet)

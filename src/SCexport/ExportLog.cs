@@ -19,17 +19,18 @@
  {    
     using System.Text;
     using SCaddins.SCexport;
+    using System.Collections.ObjectModel;
     
     public class ExportLog
     {    
         private const string ErrPrefix = "[ERROR]";
         private const string WarningPrefix = "[WARNING]";
-        private StringBuilder errorLog;
-        private StringBuilder warningLog;
-        private StringBuilder successLog;
+        private Collection<ExportLogItem> errorLog;
+        private Collection<ExportLogItem> warningLog;
+        private Collection<ExportLogItem> messageLog;
         private int warnings;
         private int errors;
-        private int successes;
+        private int messages;
         private int totalExports;
         private System.DateTime startTime;
         private System.TimeSpan exportTime;
@@ -38,18 +39,43 @@
         {
             this.errors = 0;
             this.warnings = 0;
-            this.successes = 0;
+            this.messages = 0;
             this.totalExports = totalExports;
-            this.errorLog = new StringBuilder();
-            this.warningLog = new StringBuilder();
-            this.successLog = new StringBuilder();
+            this.errorLog = new Collection<ExportLogItem>();
+            this.warningLog = new Collection<ExportLogItem>();
+            this.messageLog = new Collection<ExportLogItem>();
             this.startTime = startTime;
             this.exportTime = System.TimeSpan.MinValue;
         }
         
-        public StringBuilder ErrorLog
+        public int Warnings
+        {
+            get { return warnings; }
+        }
+        
+        public int Errors
+        {
+            get { return errors; }
+        }
+        
+        public int Messages
+        {
+            get { return messages; }
+        }
+        
+        public Collection<ExportLogItem> ErrorLog
         {
             get { return errorLog; }
+        }
+        
+        public Collection<ExportLogItem> WarningLog
+        {
+            get { return warningLog; }
+        }
+        
+        public Collection<ExportLogItem> MessageLog
+        {
+            get { return messageLog; }
         }
                
         public void FinishLogging()
@@ -59,20 +85,20 @@
         
         public void AddSuccess(string fileName, string msg)
         {
-            this.successes++;
-            this.successLog.AppendLine(fileName + " - " + msg);
+            this.messages++;
+            this.messageLog.Add(new ExportLogItem(msg, fileName));
         }
                       
         public void AddError(string fileName, string msg)
         {
             this.errors++;
-            this.errorLog.AppendLine(fileName + " - " + msg);
+            this.errorLog.Add(new ExportLogItem(msg, fileName));
         }
         
         public void AddWarning(string fileName, string msg)
         {   
             this.warnings++;
-            this.warningLog.AppendLine(fileName + " - " + msg);
+            this.warningLog.Add(new ExportLogItem(msg, fileName));
         }
         
         public void ShowSummaryDialog()

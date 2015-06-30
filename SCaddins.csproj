@@ -169,10 +169,13 @@
     <Compile Include="src\SCexport\DialogHandler.cs" />
     <Compile Include="src\SCexport\Enums.cs" />
     <Compile Include="src\SCexport\ExportLog.cs" />
-    <Compile Include="src\SCexport\ExportLogDialog.cs" />
+    <Compile Include="src\SCexport\ExportLogDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\SCexport\ExportLogDialog.Designer.cs">
       <DependentUpon>ExportLogDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\SCexport\ExportLogItem.cs" />
     <Compile Include="src\SCexport\FileUtils.cs" />
     <Compile Include="src\SCexport\FilterContextMenu.cs" />
     <Compile Include="src\SCexport\MainForm.cs">
