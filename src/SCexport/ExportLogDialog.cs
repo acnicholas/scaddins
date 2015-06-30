@@ -14,18 +14,15 @@ namespace SCaddins.SCexport
             InitializeComponent();
             foreach (ExportLogItem errorItem in log.ErrorLog) {
                 errors.Items.Add(
-                    new ListViewItem(new string[] {errorItem.Filename, errorItem.Description } )
-                   );
+                    new ListViewItem(new string[] {errorItem.Filename, errorItem.Description } ));
             }
             foreach (ExportLogItem warningItem in log.WarningLog) {
                 warnings.Items.Add(
-                    new ListViewItem(new string[] {warningItem.Filename, warningItem.Description} )
-                   );
+                    new ListViewItem(new string[] {warningItem.Filename, warningItem.Description} ));
             }
             foreach (ExportLogItem messageItem in log.MessageLog) {
                 messages.Items.Add(
-                    new ListViewItem(new string[] {messageItem.Filename, messageItem.Description })
-                   );
+                    new ListViewItem(new string[] {messageItem.Filename, messageItem.Description }));
             }
             tabControl1.TabPages[0].Text = log.Messages + " Messages";
             tabControl1.TabPages[1].Text = log.Warnings + " Warnings";
