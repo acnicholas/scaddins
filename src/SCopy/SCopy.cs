@@ -158,7 +158,11 @@ namespace SCaddins.SCopy
          
         private static XYZ ViewCenterFromTBBottomLeft(BoundingBoxXYZ viewBounds)
         {
-            XYZ xyzPosition = (viewBounds.Max + viewBounds.Min) / 2.0;
+            var x1 = viewBounds.Min.X;
+            var x2 = viewBounds.Max.X;
+            var y1 = viewBounds.Min.Y;
+            var y2 = viewBounds.Max.Y;
+            XYZ xyzPosition = new XYZ(x1 + (x2-x1)/2, y1 + (y2-y1)/2, viewBounds.Min.Z);
             return xyzPosition;
         }
                       
@@ -168,9 +172,12 @@ namespace SCaddins.SCopy
             var result = new Dictionary<ElementId, BoundingBoxXYZ>();
             foreach (ElementId viewPortId in srcSheet.GetAllViewports()) {
                 var viewPort = (Viewport)doc.GetElement(viewPortId);
-                var viewPortBounds = viewPort.get_BoundingBox(srcSheet);
+                var viewPortBounds = viewPort.GetBoxOutline();
+                BoundingBoxXYZ bb = new BoundingBoxXYZ();
+                bb.Min = viewPortBounds.MinimumPoint;
+                bb.Max = viewPortBounds.MaximumPoint;
                 result.Add(
-                    viewPort.ViewId, viewPortBounds);
+                    viewPort.ViewId, bb);
             }
             return result;
         }
@@ -372,19 +379,21 @@ namespace SCaddins.SCopy
             foreach (Element e in new FilteredElementCollector(this.doc).OwnedByView(sheet.SourceSheet.Id)) {
                 if (!(e is Viewport)) {
                     Debug.WriteLine("adding " + e.GetType().ToString() + " to copy list(CopyElementsBetweenSheets).");
-//                    if(e is CurveElement) {
-//                        CurveElement c = e as CurveElement;
-//                        if (!(c.LineStyle.IsValidObject)) {
-//                            continue;
-//                        }
-//                    }
+                    if(e is CurveElement) {
+                        continue;
+                    }
                     list.Add(e.Id);
                 }
             }       
-            //if (list.Count > 0 && sheet.DestinationSheet.IsValidObject) {
+
             if (list.Count > 0) {
                 Debug.WriteLine("Beggining element copy");
-                ElementTransformUtils.CopyElements(sheet.SourceSheet, list, sheet.DestinationSheet, null, null);
+                ElementTransformUtils.CopyElements(
+                    sheet.SourceSheet,
+                    list,
+                    sheet.DestinationSheet,
+                    new Transform(ElementTransformUtils.GetTransformFromViewToView(sheet.SourceSheet, sheet.DestinationSheet)),
+                    new CopyPasteOptions());
             }
         }
              
