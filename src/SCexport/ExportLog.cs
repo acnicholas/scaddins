@@ -63,6 +63,11 @@
             get { return messages; }
         }
         
+        public int TotalExports
+        {
+            get { return totalExports; }
+        }
+        
         public Collection<ExportLogItem> ErrorLog
         {
             get { return errorLog; }

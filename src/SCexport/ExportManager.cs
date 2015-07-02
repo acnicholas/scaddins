@@ -580,7 +580,9 @@ namespace SCaddins.SCexport
             }
             
             exportLog.FinishLogging();
-            exportLog.ShowSummaryDialog();
+            if (exportLog.Errors > 0) {
+                exportLog.ShowSummaryDialog();
+            }
         }
 
         public bool GSSanityCheck()

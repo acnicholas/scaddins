@@ -162,7 +162,7 @@ namespace SCaddins.SCopy
             var x2 = viewBounds.Max.X;
             var y1 = viewBounds.Min.Y;
             var y2 = viewBounds.Max.Y;
-            XYZ xyzPosition = new XYZ(x1 + (x2-x1)/2, y1 + (y2-y1)/2, viewBounds.Min.Z);
+            XYZ xyzPosition = new XYZ(x1 + (x2 - x1) / 2, y1 + (y2 - y1) / 2, viewBounds.Min.Z);
             return xyzPosition;
         }
                       

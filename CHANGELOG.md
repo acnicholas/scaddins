@@ -2,9 +2,14 @@
 
 ####NEW####
 
+- [SCexport] Export summary dialog added when errors occur
+
 ####FIXES#####
 
+- [SCopy] Better / more accurate viewport copying. 
+- [SCopy] Disabled detail line copying (CURRENTLY BROKEN)
 - [SCopy] Fixed typo on main form. 
+- [SCwash] Properly show on-sheet vs not-on-sheet views.
 
 #15.3#
 

@@ -11,22 +11,23 @@ namespace SCaddins.SCexport
     {
         public ExportLogDialog(ExportLog log)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             foreach (ExportLogItem errorItem in log.ErrorLog) {
                 errors.Items.Add(
-                    new ListViewItem(new string[] {errorItem.Filename, errorItem.Description } ));
+                    new ListViewItem(new string[] { errorItem.Filename, errorItem.Description } ));
             }
             foreach (ExportLogItem warningItem in log.WarningLog) {
                 warnings.Items.Add(
-                    new ListViewItem(new string[] {warningItem.Filename, warningItem.Description} ));
+                    new ListViewItem(new string[] { warningItem.Filename, warningItem.Description } ));
             }
             foreach (ExportLogItem messageItem in log.MessageLog) {
                 messages.Items.Add(
-                    new ListViewItem(new string[] {messageItem.Filename, messageItem.Description }));
+                    new ListViewItem(new string[] { messageItem.Filename, messageItem.Description }));
             }
             tabControl1.TabPages[0].Text = log.Messages + " Messages";
             tabControl1.TabPages[1].Text = log.Warnings + " Warnings";
             tabControl1.TabPages[2].Text = log.Errors + " Errors";
+            label1.Text = log.TotalExports + " Exports attempted with " + log.Errors + " errors.";
         }
     }
 }
