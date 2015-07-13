@@ -421,7 +421,7 @@ namespace SCaddins.SCopy
                     new Transform(ElementTransformUtils.GetTransformFromViewToView(sheet.SourceSheet, sheet.DestinationSheet)),
                     new CopyPasteOptions());
             }
-            #endif
+//            #endif
         }
              
         private void CreateViewports(SCopySheet sheet)

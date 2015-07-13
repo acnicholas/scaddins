@@ -3,6 +3,7 @@
 ####NEW####
 
 - [SCexport] Export summary dialog added when errors occur
+- [SCaos] Lock solar access views.
 
 ####FIXES#####
 

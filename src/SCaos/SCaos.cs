@@ -168,12 +168,22 @@ namespace SCaddins.SCaos
                 XYZ min = viewBounds.Min;
                 var eye = new XYZ(min.X + ((max.X - min.X) / 2), min.Y + ((max.Y - min.Y) / 2), min.Z + ((max.Z - min.Z) / 2));
                 var forward = new XYZ(-Math.Sin(azimuth), -Math.Cos(azimuth), -Math.Tan(altitude));
-                var up = forward.CrossProduct(new XYZ(Math.Cos(azimuth), -Math.Sin(azimuth), 0));
-                
+                var up = forward.CrossProduct(new XYZ(Math.Cos(azimuth), -Math.Sin(azimuth), 0));  
                 var v3d = (View3D)view;
                 var t = new Transaction(doc);
+                if (v3d.IsLocked ) {
+                    TaskDialog.Show("ERROR", "View is locked, please unlock before rotating"); 
+                    return;
+                }
                 t.Start("Rotate View");
                 v3d.SetOrientation(new ViewOrientation3D(eye, up, forward));
+                if (v3d.CanBeLocked()) {
+                    try {
+                        v3d.SaveOrientationAndLock();
+                    } catch (InvalidOperationException e ) {
+                        System.Diagnostics.Debug.WriteLine(e.Message);
+                    }
+                } 
                 udoc.RefreshActiveView();
                 t.Commit();
             } else {
