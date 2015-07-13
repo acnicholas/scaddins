@@ -11,6 +11,7 @@
 - [SCopy] Disabled detail line copying (CURRENTLY BROKEN)
 - [SCopy] Fixed typo on main form. 
 - [SCwash] Properly show on-sheet vs not-on-sheet views.
+- [SCaos] Don't attempt to rotate locked views.
 
 #15.3#
 

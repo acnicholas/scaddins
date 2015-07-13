@@ -54,6 +54,25 @@ namespace SCaddins.SCaos
         private void Button3Click(object sender, System.EventArgs e)
         {
             System.Diagnostics.Process.Start(Constants.HelpLink);
+        }
+        
+        private void updateOkButton()
+        {
+            if (radioButtonRotateCurrent.Checked || radioButtonWinterViews.Checked){
+                button1.Enabled = true;
+            } else {
+                button1.Enabled = false;    
+            }
+        }
+        
+        private void RadioButtonWinterViewsCheckedChanged(object sender, EventArgs e)
+        {
+            this.updateOkButton();
+        }
+        
+        private void RadioButtonRotateCurrentCheckedChanged(object sender, EventArgs e)
+        {
+            this.updateOkButton();  
         }               
     }
 }

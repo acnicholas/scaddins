@@ -72,6 +72,7 @@
             // button1
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.button1.Enabled = false;
             this.button1.Location = new System.Drawing.Point(308, 387);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
@@ -133,6 +134,7 @@
             this.radioButtonWinterViews.TabStop = true;
             this.radioButtonWinterViews.Text = "Create Winter Views";
             this.radioButtonWinterViews.UseVisualStyleBackColor = true;
+            this.radioButtonWinterViews.CheckedChanged += new System.EventHandler(this.RadioButtonWinterViewsCheckedChanged);
             // 
             // radioButtonRotateCurrent
             // 
@@ -143,6 +145,7 @@
             this.radioButtonRotateCurrent.TabStop = true;
             this.radioButtonRotateCurrent.Text = "Rotate Current View";
             this.radioButtonRotateCurrent.UseVisualStyleBackColor = true;
+            this.radioButtonRotateCurrent.CheckedChanged += new System.EventHandler(this.RadioButtonRotateCurrentCheckedChanged);
             // 
             // button3
             // 
