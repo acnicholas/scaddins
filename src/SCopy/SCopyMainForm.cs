@@ -33,12 +33,12 @@ namespace SCaddins.SCopy
         private Document doc;
         private DataGridViewComboBoxColumn cheetCategoryCombo;
 
-        public MainForm(Document doc, Autodesk.Revit.DB.ViewSheet viewSheet)
+        public MainForm(Document doc, Autodesk.Revit.DB.ViewSheet viewSheet, SheetCopy scopy)
         {
             this.doc = doc;
             this.InitializeComponent();
             this.SetTitle();
-            this.scopy = new SheetCopy(doc);
+            this.scopy = scopy;
             this.PopulateViewInfoList(viewSheet);
             this.AddDataGridColumns();
         }
@@ -236,8 +236,9 @@ namespace SCaddins.SCopy
 
         private void ButtonGO(object sender, EventArgs e)
         {
-            this.scopy.CreateSheets();
             this.Dispose();
+            //this.scopy.CreateSheets();
+            //this.Dispose();
             this.Close();
         }
 

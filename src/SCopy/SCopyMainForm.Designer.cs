@@ -271,6 +271,7 @@ namespace SCaddins.SCopy
             // buttonGo
             // 
             this.buttonGo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonGo.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.buttonGo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonGo.Location = new System.Drawing.Point(855, 479);
             this.buttonGo.Name = "buttonGo";

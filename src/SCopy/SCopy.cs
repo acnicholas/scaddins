@@ -270,9 +270,9 @@ namespace SCaddins.SCopy
         {        
             // create the "blank canvas"
             sheet.DestinationSheet = this.AddEmptySheetToDocument(
-                             sheet.Number,
-                             sheet.Title,
-                             sheet.SheetCategory);
+                sheet.Number,
+                sheet.Title,
+                sheet.SheetCategory);
  
             if (sheet.DestinationSheet != null) {
                 Debug.WriteLine(sheet.Number + " added to document.");
@@ -281,7 +281,11 @@ namespace SCaddins.SCopy
                 return false;
             }
             
-            this.CopyElementsBetweenSheets(sheet);
+            try {
+                this.CopyElementsBetweenSheets(sheet);
+            } catch (InvalidOperationException) {
+            
+            }
     
             // create a log...
             var oldNumber = sheet.SourceSheet.SheetNumber;
@@ -375,18 +379,40 @@ namespace SCaddins.SCopy
         private void CopyElementsBetweenSheets(SCopySheet sheet)
         {
             IList<ElementId> list = new List<ElementId>();
-            IList<ElementId> curves = new List<ElementId>();
             foreach (Element e in new FilteredElementCollector(this.doc).OwnedByView(sheet.SourceSheet.Id)) {
                 if (!(e is Viewport)) {
                     Debug.WriteLine("adding " + e.GetType().ToString() + " to copy list(CopyElementsBetweenSheets).");
                     if(e is CurveElement) {
                         continue;
                     }
-                    list.Add(e.Id);
+                    if (e.IsValidObject && e.ViewSpecific) {
+                        list.Add(e.Id);
+                    }
                 }
-            }       
-
-            if (list.Count > 0) {
+            } 
+            
+//            #if DEBUG
+//            if (list.Count > 0) {
+//                foreach (ElementId id in list) {
+//                    IList<ElementId> list2 = new List<ElementId>();
+//                    list2.Add(id);
+//                    Debug.WriteLine("Beggining element copy");
+//                    if(sheet.SourceSheet.IsValidObject && sheet.DestinationSheet.IsValidObject) {
+//                        try {
+//                            ElementTransformUtils.CopyElements(
+//                                sheet.SourceSheet,
+//                                list2,
+//                                sheet.DestinationSheet,
+//                                new Transform(ElementTransformUtils.GetTransformFromViewToView(sheet.SourceSheet, sheet.DestinationSheet)),
+//                                new CopyPasteOptions());
+//                        } catch (InvalidOperationException e) {
+//                            Debug.WriteLine("Element coping " + list2[0].ToString() + " - " + e.Message);
+//                        }
+//                    }
+//                }
+//            }
+//            #else
+             if (list.Count > 0) {
                 Debug.WriteLine("Beggining element copy");
                 ElementTransformUtils.CopyElements(
                     sheet.SourceSheet,
@@ -395,6 +421,7 @@ namespace SCaddins.SCopy
                     new Transform(ElementTransformUtils.GetTransformFromViewToView(sheet.SourceSheet, sheet.DestinationSheet)),
                     new CopyPasteOptions());
             }
+            #endif
         }
              
         private void CreateViewports(SCopySheet sheet)
