@@ -145,7 +145,7 @@ namespace SCaddins.SCopy
         
         private string GetSheetCategory(string parameterName)
         {
-            #if REVIT2015
+            #if ( REVIT2015 || REVIT2016 )
             var viewCategoryParamList = this.SourceSheet.GetParameters(parameterName);
             if (viewCategoryParamList != null && viewCategoryParamList.Count > 0) {
                 Parameter viewCategoryParam = viewCategoryParamList.First();

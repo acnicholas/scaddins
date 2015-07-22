@@ -200,7 +200,7 @@ namespace SCaddins.SCopy
             FilteredElementCollector c1 = new FilteredElementCollector(this.doc);
             c1.OfCategory(BuiltInCategory.OST_Sheets);
             foreach (View view in c1) {
-                #if REVIT2015
+                #if ( REVIT2015 || REVIT2016 )
                 var viewCategoryParamList = view.GetParameters(SCopyConstants.SheetCategory);
                 if (viewCategoryParamList != null && viewCategoryParamList.Count > 0) {
                     Parameter viewCategoryParam = viewCategoryParamList.First();
@@ -306,7 +306,7 @@ namespace SCaddins.SCopy
             result = ViewSheet.Create(this.doc, ElementId.InvalidElementId);           
             result.Name = sheetTitle;
             result.SheetNumber = sheetNumber;
-            #if REVIT2015
+            #if ( REVIT2015 || REVIT2016 )
             var viewCategoryParamList = result.GetParameters(SCopyConstants.SheetCategory);
             if (viewCategoryParamList.Count > 0) {
                 Parameter viewCategoryParam = viewCategoryParamList.First();

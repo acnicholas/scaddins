@@ -43,6 +43,14 @@
 							</Component>
 							<?endif?>
 						</Directory>
+						<Directory Id="RFAFILES2016" Name="2016">
+						    <?if $(env.R2016) = Enabled ?>
+							<Component Id="SCaddinsRFA2016" Guid="5A4670F8-0154-4072-B3DF-03308798A1CE" DiskId="1" Win64="yes">
+								<CreateFolder />
+								<File Id="_016.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2015\SC-Survey_Point.rfa" />
+							</Component>
+					        <?endif?>
+						</Directory>
 					</Directory>
 				</Directory>
 				<Directory Name="etc" Id="ETCDIR">
@@ -64,6 +72,14 @@
 					<Component Id="SCaddins2015" DiskId="1" Guid="7F1CE98E-1FC3-490F-A5C4-72B69FD0C5A3" Win64="yes">
 						<CreateFolder />
 						<File Id="SCaddins2015.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins15.dll" />
+					</Component>
+				</Directory>
+				<?endif?>
+				<?if $(env.R2016) = Enabled ?>
+				<Directory Id="DLLDIR2016" Name="2016">
+					<Component Id="SCaddins2015" Guid="DFB2A497-BA0C-41DF-8443-29CB5FCD9CF8" DiskId="1" Win64="yes">
+						<CreateFolder />
+						<File Id="SCaddins2016.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins16.dll" />
 					</Component>
 				</Directory>
 				<?endif?>
@@ -90,6 +106,12 @@
 						</Component>
 					</Directory>
 					<?endif?>
+					<Directory Id="NewDirectory" Name="2016">
+						<Component Id="SCaddinsAddin2016" Guid="70474050-0034-4A79-BF47-AF18E41EDC0D" DiskId="1">
+							<CreateFolder />
+							<File Id="SCADDINS16.ADDIN" Name="SCaddins16.addin" Source="..\src\Manifest\2016\SCaddins.addin" />
+						</Component>
+					</Directory>
 				</Directory>
 			</Directory>
 		</Directory>

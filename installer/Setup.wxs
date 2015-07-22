@@ -43,6 +43,18 @@
                     <ComponentRef Id="SCaddinsRFA2015" />
                 </Feature>
                 <?endif?>
+        
+                <?if $(env.R2016) = Enabled ?> 
+                <Feature Id="Revit2016" Level="1" Title="SCaddins for Revit 2016">
+                    <ComponentRef Id="SCaddins2016" />
+                    <ComponentRef Id="SCaddinsAddin2016" />
+                    <ComponentRef Id="SCaddinsIcons" />
+                    <ComponentRef Id="SCaddinsEtc" />
+                    <ComponentRef Id="SCexportConfigProto" />
+                    <ComponentRef Id="SCaddinsOpt32" />
+                    <ComponentRef Id="SCaddinsRFA2016" />
+                </Feature>
+                <?endif?>
 
                 <WixVariable Id="WixUIDialogBmp" Value="wixd.bmp" />
                 <WixVariable Id="WixUIBannerBmp" Value="wixb.bmp" />

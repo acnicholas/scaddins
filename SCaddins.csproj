@@ -86,6 +86,21 @@
     <ErrorReport>prompt</ErrorReport>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release2016' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE;REVIT2016</DefineConstants>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <StartAction>Project</StartAction>
+    <AssemblyName>SCaddins16</AssemblyName>
+    <ReferencePath>C:\Program Files\Autodesk\Revit 2016\</ReferencePath>
+    <SignAssembly>False</SignAssembly>
+    <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
