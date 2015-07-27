@@ -446,6 +446,7 @@ namespace SCaddins.SCexport
             this.id = viewSheet.Id;
             this.UpdateRevision(false);
             this.SetExportName();
+            //this.printSetting = null;
         }
         
         private void PopulateSegmentedFileName()

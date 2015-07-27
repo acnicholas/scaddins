@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace SCaddins.Common
 {
-    public static class SystemUtils
+    public static class SystemUtilities
     {
         [SecurityCritical]
         public static void KillallProcesses(string processName)

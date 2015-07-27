@@ -161,6 +161,7 @@ namespace SCaddins.SCexport
                 string printerName)
         {
             if (vs.SCPrintSetting == null) {
+                vs.UpdateSheetInfo();
                 return false;
             }
 

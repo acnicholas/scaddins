@@ -493,6 +493,9 @@ namespace SCaddins.SCexport
         /// </summary>
         public void Update()
         {
+            PrintManager pm = doc.PrintManager;
+            PrintSettings.SetPrinter(doc, this.PdfPrinterName, pm);
+            
             foreach (ExportSheet sc in this.allSheets) {
                 if (!sc.Verified) {
                     sc.UpdateSheetInfo();
@@ -573,6 +576,11 @@ namespace SCaddins.SCexport
             TimeSpan elapsedTime = DateTime.Now - startTime;
             
             var exportLog = new ExportLog(startTime, GetTotalNumberOfExports(sheets));
+            
+            //set printer now
+            PrintManager pm = doc.PrintManager;
+            //TaskDialog.Show("test",this.PdfPrinterName);
+            PrintSettings.SetPrinter(doc, this.PdfPrinterName, pm);
             
             foreach (ExportSheet sheet in sheets) {
                 progressBar.PerformStep();
@@ -919,10 +927,11 @@ namespace SCaddins.SCexport
         [SecurityCritical]
         private void ExportSheet(ExportSheet sheet, ExportLog log)
         {
+                
             if (!sheet.Verified) {
                 sheet.UpdateSheetInfo();
             }
-
+            
             if (sheet.SCPrintSetting != null) {
                 if (this.exportFlags.HasFlag(ExportFlags.DWG)) {
                     this.ExportDWG(sheet, this.exportFlags.HasFlag(ExportFlags.NoTitle));
@@ -1024,7 +1033,7 @@ namespace SCaddins.SCexport
                 "\" \"" + vs.FullExportPath(".pdf") + "\"";
 
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
-                SCaddins.Common.ConsoleUtils.StartHiddenConsoleProg("cmd.exe", args);
+                SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg("cmd.exe", args);
             }
             return true;
         }
@@ -1032,8 +1041,8 @@ namespace SCaddins.SCexport
         [SecurityCritical]
         private bool ExportAdobePDF(ExportSheet vs, ExportLog log)
         {
-            PrintManager pm = doc.PrintManager;
-
+            PrintManager pm = doc.PrintManager;            
+            
             if (!PrintSettings.ApplyPrintSettings(
                 doc, vs, pm, ".pdf", this.PdfPrinterName)) {
                 log.AddError(vs.FullExportName, "failed to assign print setting: " + vs.PrintSettingName);
@@ -1051,7 +1060,7 @@ namespace SCaddins.SCexport
                 } else {
                     log.AddError(vs.FullExportName, "failed to print");    
                 }
-                SCaddins.Common.SystemUtils.KillallProcesses("acrotray");
+                SCaddins.Common.SystemUtilities.KillallProcesses("acrotray");
             } else {
                 log.AddError(vs.FullExportName, "could not overwrite file, maybe check permissions?");
                 return false;

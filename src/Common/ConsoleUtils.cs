@@ -7,7 +7,7 @@ namespace SCaddins.Common
     /// <summary>
     /// Description of Utils.
     /// </summary>
-    public static class ConsoleUtils
+    public static class ConsoleUtilities
     {
         /// <summary>
         /// Start a console program - Hidden.
