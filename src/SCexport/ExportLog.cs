@@ -50,22 +50,22 @@
         
         public int Warnings
         {
-            get { return warnings; }
+            get { return this.warnings; }
         }
         
         public int Errors
         {
-            get { return errors; }
+            get { return this.errors; }
         }
         
         public int Messages
         {
-            get { return messages; }
+            get { return this.messages; }
         }
         
         public int TotalExports
         {
-            get { return totalExports; }
+            get { return this.totalExports; }
         }
         
         public Collection<ExportLogItem> ErrorLog

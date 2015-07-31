@@ -766,7 +766,7 @@ namespace SCaddins.SCexport
             t.Start();
             try {
                 string tmp = vs.FullExportName + ".dwf";
-                bool r = doc.Export(vs.ExportDir, tmp, views, opts);
+                doc.Export(vs.ExportDir, tmp, views, opts);
                 t.Commit();
             } catch (ArgumentException e) {
                 TaskDialog.Show("SCexport", "cannot export dwf: " + e.Message);

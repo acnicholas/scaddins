@@ -241,8 +241,6 @@ namespace SCaddins.SCopy
         private void ButtonGO(object sender, EventArgs e)
         {
             this.Dispose();
-            //this.scopy.CreateSheets();
-            //this.Dispose();
             this.Close();
         }
 

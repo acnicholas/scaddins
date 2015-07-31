@@ -686,11 +686,11 @@ namespace SCaddins.SCexport
         
         private void CopySheetsToolStripMenuItemClick(object sender, EventArgs e)
         {          
-            var scopy = new SCaddins.SCopy.SheetCopy(doc);            
+            var scopy = new SCaddins.SCopy.SheetCopy(this.doc);            
             var form  = new SCaddins.SCopy.MainForm(this.doc, this.SelectedSheets(), scopy);
             form.Enabled = true;
             System.Windows.Forms.DialogResult result = form.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK){
+            if (result == System.Windows.Forms.DialogResult.OK) {
                 scopy.CreateSheets();
             }            
         }

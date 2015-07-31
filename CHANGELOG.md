@@ -17,6 +17,7 @@
 - [SCopy] Better / more accurate viewport copying. 
 - [SCopy] Disabled detail line copying (CURRENTLY BROKEN)
 - [SCopy] Fixed typo on main form. 
+- [SCopy] Fixed error when running from SCexport context menu
 - [SCwash] Properly show on-sheet vs not-on-sheet views.
 - [SCaos] Don't attempt to rotate locked views.
 
