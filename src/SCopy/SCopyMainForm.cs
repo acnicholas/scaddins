@@ -41,16 +41,20 @@ namespace SCaddins.SCopy
             this.scopy = scopy;
             this.PopulateViewInfoList(viewSheet);
             this.AddDataGridColumns();
+            dataGridView1.DataSource = this.scopy.Sheets; 
+            this.dataGridView1.CellValueChanged += this.DataGridView1_CellValueChanged;
+            this.dataGridView1.CurrentCellDirtyStateChanged += this.DataGridView1_CurrentCellDirtyStateChanged;
         }
         
         public MainForm(
             Document doc,
-            ICollection<SCaddins.SCexport.ExportSheet> sheets)
+            ICollection<SCaddins.SCexport.ExportSheet> sheets,
+            SheetCopy scopy)
         {
             this.doc = doc;
             this.InitializeComponent();
             this.SetTitle();
-            this.scopy = new SheetCopy(doc);
+            this.scopy = scopy;
             foreach (SCaddins.SCexport.ExportSheet sheet in sheets) {
                 this.scopy.AddSheet(sheet.Sheet);
             } 
