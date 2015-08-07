@@ -140,7 +140,7 @@ namespace SCaddins.SCaos
                 if (startTime.Minute > 0) {
                     niceMinutes = startTime.Minute.ToString(CultureInfo.CurrentCulture);
                 }    
-                var vname = "SOLAR ACCESS - 21st June - " + startTime.Hour + "." + niceMinutes;
+                var vname = "SOLAR ACCESS - " + startTime.ToShortDateString() + "-" + startTime.Hour + "." + niceMinutes;  
                 if (ViewNameIsAvailable(doc, vname)) {
                     view.Name = vname;
                 } else {

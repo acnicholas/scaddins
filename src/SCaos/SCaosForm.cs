@@ -36,19 +36,26 @@ namespace SCaddins.SCaos
                 listBox1.Items.Add(informationText[i]);
             }
             
-            for (int i = 8; i < 16; i++) {
-                startTime.Items.Add(new DateTime(2014, 6, 21, i, 0, 0, DateTimeKind.Local));
-                endTime.Items.Add(new DateTime(2014, 6, 21, i + 1, 0, 0, DateTimeKind.Local));
-            }
-            startTime.SelectedIndex = 1;   
-            endTime.SelectedIndex = 6;
-            
+            PopulateTimeSpansDropDowns(new DateTime(2015, 6, 21, 12, 0, 0, DateTimeKind.Local));
+                        
             interval.Items.Add(new TimeSpan(0, 15, 0));
             interval.Items.Add(new TimeSpan(0, 30, 0));
             interval.Items.Add(new TimeSpan(1, 0, 0));
             interval.SelectedIndex = 2;
             
             this.Text = "SCaos by Andrew Nicholas";
+        }
+        
+        private void PopulateTimeSpansDropDowns(DateTime day)
+        {
+            startTime.Items.Clear();
+            endTime.Items.Clear();
+            for (int i = 8; i < 16; i++) {
+                startTime.Items.Add(new DateTime(day.Year, day.Month, day.Day, i, 0, 0, DateTimeKind.Local));
+                endTime.Items.Add(new DateTime(day.Year, day.Month, day.Day, i + 1, 0, 0, DateTimeKind.Local));
+            }
+            startTime.SelectedIndex = 1;   
+            endTime.SelectedIndex = 6;    
         }
               
         private void Button3Click(object sender, System.EventArgs e)
@@ -73,6 +80,11 @@ namespace SCaddins.SCaos
         private void RadioButtonRotateCurrentCheckedChanged(object sender, EventArgs e)
         {
             this.updateOkButton();  
+        }
+        
+        void DateTimePicker1ValueChanged(object sender, EventArgs e)
+        {
+            PopulateTimeSpansDropDowns(dateTimePicker1.Value);
         }               
     }
 }
