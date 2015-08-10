@@ -4,13 +4,14 @@
 
 **Initial release for Revit 2016**
 
-**This release will support Revit 2014,2016 & 2016.**
+**This release(16*) will support Revit 2014,2016 & 2016.**
 
 ####NEW####
 
-- Revit 2016 support
+- **Revit 2016 support**
 - [SCexport] Export summary dialog added when errors occur
 - [SCaos] Lock solar access views.
+- [SCaos] Select export date.
 
 ####FIXES#####
 

@@ -44,7 +44,7 @@ namespace SCaddins.SCopy
             var form = new MainForm(doc, viewSheet, scopy);
             form.Enabled = true;
             System.Windows.Forms.DialogResult result = form.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK){
+            if (result == System.Windows.Forms.DialogResult.OK) {
                 scopy.CreateSheets();
             }
             return Autodesk.Revit.UI.Result.Succeeded;
