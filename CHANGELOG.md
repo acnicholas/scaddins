@@ -1,4 +1,4 @@
-#16.0# (pre-release)
+#16.0#
 
 ####SUMMARY####
 
