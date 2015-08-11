@@ -1,9 +1,8 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace SCaddins.SCexport
-{
+﻿namespace SCaddins.SCexport
+{  
+    using System;
+    using System.Windows.Forms;
+    
     /// <summary>
     /// Description of ExportLogDialog.
     /// </summary>
@@ -14,11 +13,11 @@ namespace SCaddins.SCexport
             this.InitializeComponent();
             foreach (ExportLogItem errorItem in log.ErrorLog) {
                 errors.Items.Add(
-                    new ListViewItem(new string[] { errorItem.Filename, errorItem.Description } ));
+                    new ListViewItem(new string[] { errorItem.Filename, errorItem.Description }));
             }
             foreach (ExportLogItem warningItem in log.WarningLog) {
                 warnings.Items.Add(
-                    new ListViewItem(new string[] { warningItem.Filename, warningItem.Description } ));
+                    new ListViewItem(new string[] { warningItem.Filename, warningItem.Description }));
             }
             foreach (ExportLogItem messageItem in log.MessageLog) {
                 messages.Items.Add(

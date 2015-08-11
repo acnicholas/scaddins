@@ -36,7 +36,7 @@ namespace SCaddins.SCaos
                 listBox1.Items.Add(informationText[i]);
             }
             
-            PopulateTimeSpansDropDowns(new DateTime(2015, 6, 21, 12, 0, 0, DateTimeKind.Local));
+            this.PopulateTimeSpansDropDowns(new DateTime(2015, 6, 21, 12, 0, 0, DateTimeKind.Local));
                         
             interval.Items.Add(new TimeSpan(0, 15, 0));
             interval.Items.Add(new TimeSpan(0, 30, 0));
@@ -62,9 +62,9 @@ namespace SCaddins.SCaos
             System.Diagnostics.Process.Start(Constants.HelpLink);
         }
         
-        private void updateOkButton()
+        private void UpdateOkButton()
         {
-            if (radioButtonRotateCurrent.Checked || radioButtonWinterViews.Checked){
+            if (radioButtonRotateCurrent.Checked || radioButtonWinterViews.Checked) {
                 button1.Enabled = true;
             } else {
                 button1.Enabled = false;    
@@ -73,17 +73,17 @@ namespace SCaddins.SCaos
         
         private void RadioButtonWinterViewsCheckedChanged(object sender, EventArgs e)
         {
-            this.updateOkButton();
+            this.UpdateOkButton();
         }
         
         private void RadioButtonRotateCurrentCheckedChanged(object sender, EventArgs e)
         {
-            this.updateOkButton();  
+            this.UpdateOkButton();  
         }
         
-        void DateTimePicker1ValueChanged(object sender, EventArgs e)
+        private void DateTimePicker1ValueChanged(object sender, EventArgs e)
         {
-            PopulateTimeSpansDropDowns(dateTimePicker1.Value);
+            this.PopulateTimeSpansDropDowns(dateTimePicker1.Value);
         }               
     }
 }

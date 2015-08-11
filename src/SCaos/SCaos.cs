@@ -171,7 +171,7 @@ namespace SCaddins.SCaos
                 var up = forward.CrossProduct(new XYZ(Math.Cos(azimuth), -Math.Sin(azimuth), 0));  
                 var v3d = (View3D)view;
                 var t = new Transaction(doc);
-                if (v3d.IsLocked ) {
+                if (v3d.IsLocked) {
                     TaskDialog.Show("ERROR", "View is locked, please unlock before rotating"); 
                     return;
                 }
@@ -180,7 +180,7 @@ namespace SCaddins.SCaos
                 if (v3d.CanBeLocked()) {
                     try {
                         v3d.SaveOrientationAndLock();
-                    } catch (InvalidOperationException e ) {
+                    } catch (InvalidOperationException e) {
                         System.Diagnostics.Debug.WriteLine(e.Message);
                     }
                 } 

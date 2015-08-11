@@ -17,10 +17,9 @@
 
 namespace SCaddins.Common
 {
-    
-using System;
-using System.Security;
-using System.Diagnostics;
+    using System;
+    using System.Diagnostics;
+    using System.Security;
 
     public static class SystemUtilities
     {

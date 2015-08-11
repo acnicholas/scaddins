@@ -16,10 +16,9 @@
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
  namespace SCaddins.SCexport
- {    
-    using System.Text;
-    using SCaddins.SCexport;
+ {  
     using System.Collections.ObjectModel;
+    using SCaddins.SCexport;
     
     public class ExportLog
     {    
@@ -70,17 +69,17 @@
         
         public Collection<ExportLogItem> ErrorLog
         {
-            get { return errorLog; }
+            get { return this.errorLog; }
         }
         
         public Collection<ExportLogItem> WarningLog
         {
-            get { return warningLog; }
+            get { return this.warningLog; }
         }
         
         public Collection<ExportLogItem> MessageLog
         {
-            get { return messageLog; }
+            get { return this.messageLog; }
         }
                
         public void FinishLogging()

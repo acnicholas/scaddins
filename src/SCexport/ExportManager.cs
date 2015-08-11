@@ -543,16 +543,21 @@ namespace SCaddins.SCexport
         public int GetTotalNumberOfExports(ICollection<ExportSheet> sheets)
         {
             int i = 0;
-            if (this.HasExportOption(ExportFlags.DGN))
+            if (this.HasExportOption(ExportFlags.DGN)) {
                 i++;
-            if (this.HasExportOption(ExportFlags.DWF))
+            }
+            if (this.HasExportOption(ExportFlags.DWF)) {
                 i++;
-            if (this.HasExportOption(ExportFlags.DWG))
+            }
+            if (this.HasExportOption(ExportFlags.DWG)) {
                 i++;
-            if (this.HasExportOption(ExportFlags.GhostscriptPDF))
+            }
+            if (this.HasExportOption(ExportFlags.GhostscriptPDF)) {
                 i++;
-            if (this.HasExportOption(ExportFlags.PDF))
+            }
+            if (this.HasExportOption(ExportFlags.PDF)) {
                 i++;
+            }
             return i * sheets.Count;
         }
 
@@ -575,11 +580,11 @@ namespace SCaddins.SCexport
             DateTime startTime = DateTime.Now;
             TimeSpan elapsedTime = DateTime.Now - startTime;
             
-            var exportLog = new ExportLog(startTime, GetTotalNumberOfExports(sheets));
+            var exportLog = new ExportLog(startTime, this.GetTotalNumberOfExports(sheets));
             
-            //set printer now
+            //// set printer now
             PrintManager pm = doc.PrintManager;
-            //TaskDialog.Show("test",this.PdfPrinterName);
+            //// TaskDialog.Show("test",this.PdfPrinterName);
             PrintSettings.SetPrinter(doc, this.PdfPrinterName, pm);
             
             foreach (ExportSheet sheet in sheets) {
@@ -926,8 +931,7 @@ namespace SCaddins.SCexport
 
         [SecurityCritical]
         private void ExportSheet(ExportSheet sheet, ExportLog log)
-        {
-                
+        {         
             if (!sheet.Verified) {
                 sheet.UpdateSheetInfo();
             }
@@ -1055,7 +1059,7 @@ namespace SCaddins.SCexport
                 if (File.Exists(vs.FullExportPath(".pdf"))) {
                     File.Delete(vs.FullExportPath(".pdf"));
                 }
-                if (pm.SubmitPrint(vs.Sheet)){
+                if (pm.SubmitPrint(vs.Sheet)) {
                     log.AddSuccess(vs.FullExportName, "(apparently) completed succesfully");
                 } else {
                     log.AddError(vs.FullExportName, "failed to print");    
