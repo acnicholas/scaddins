@@ -84,6 +84,6 @@ namespace SCaddins.SCaos
         private void DateTimePicker1ValueChanged(object sender, EventArgs e)
         {
             this.PopulateTimeSpansDropDowns(dateTimePicker1.Value);
-        }               
+        }              
     }
 }

@@ -40,6 +40,7 @@
             this.radioButtonRotateCurrent = new System.Windows.Forms.RadioButton();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBoxWinterViewOptions = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -47,7 +48,6 @@
             this.interval = new System.Windows.Forms.ComboBox();
             this.endTime = new System.Windows.Forms.ComboBox();
             this.startTime = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBoxWinterViewOptions.SuspendLayout();
@@ -176,6 +176,14 @@
             this.groupBoxWinterViewOptions.TabStop = false;
             this.groupBoxWinterViewOptions.Text = "Multi View Creation Options";
             // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(6, 20);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(120, 15);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Date";
+            // 
             // dateTimePicker1
             // 
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
@@ -233,14 +241,6 @@
             this.startTime.Name = "startTime";
             this.startTime.Size = new System.Drawing.Size(132, 21);
             this.startTime.TabIndex = 0;
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(6, 20);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(120, 15);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Date";
             // 
             // SCaosForm
             // 
