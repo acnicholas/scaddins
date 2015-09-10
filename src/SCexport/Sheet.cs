@@ -305,7 +305,12 @@ namespace SCaddins.SCexport
                     }
                     var s = p[0].AsValueString();
                     #else
-                    var s = titleBlock.get_Parameter(Constants.TitleScale).AsValueString();
+                    string s;
+                    try {
+                        s = titleBlock.get_Parameter(Constants.TitleScale).AsValueString();
+                    } catch {
+                        return string.Empty;
+                    }
                     #endif
                     var d = Convert.ToDouble(s, CultureInfo.InvariantCulture);
                     return d.ToString(CultureInfo.InvariantCulture);
