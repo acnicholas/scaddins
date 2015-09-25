@@ -611,12 +611,15 @@ namespace SCaddins.SCexport
         {
             ExportManager.PrintA3(this.SelectedSheets(), this.scx.PrinterNameA3);
         }
-
+        
         private void BtnExportResize(object sender, EventArgs e)
         {
             this.btnPrint.Location = new Point(
                 this.btnExport.Location.X - (this.btnPrint.Width + 2),
                 this.btnExport.Location.Y);
+            this.btnPrintLarge.Location = new Point(
+                this.btnPrint.Location.X - (this.btnPrintLarge.Width + 2),
+                this.btnPrint.Location.Y);
         }
 
         private void MainFormKeyDown(object sender, KeyEventArgs e)
@@ -693,6 +696,11 @@ namespace SCaddins.SCexport
             if (result == System.Windows.Forms.DialogResult.OK) {
                 scopy.CreateSheets();
             }            
+        }
+        
+        private void BtnPrintLargeClick(object sender, EventArgs e)
+        {
+            ExportManager.PrintLargeFormat(this.SelectedSheets(), this.scx.PrinterNameLargeFormat);  
         }
     }
 }

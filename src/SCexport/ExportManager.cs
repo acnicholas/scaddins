@@ -104,6 +104,11 @@ namespace SCaddins.SCexport
             get; set;
         }
 
+        public string PrinterNameLargeFormat
+        {
+            get; set;
+        }
+        
         public string PdfPrinterName
         {
             get; set;
@@ -451,12 +456,27 @@ namespace SCaddins.SCexport
             }
             return (s.Length > 1) ? s : string.Empty;
         }
+        
+        public static void PrintA3(
+            ICollection<ExportSheet> sheets,
+            string printerName)
+        {
+            Print(sheets, printerName);
+        }
+        
+        public static void PrintLargeFormat(
+            ICollection<ExportSheet> sheets,
+            string printerName)
+        {
+            TaskDialog.Show("Large Format Print","Large Format Printing is not enabled just yet... won't be long.");
+            //Print(sheets, printerName);
+        }
 
         /// <summary>
         /// Print the specified sheets.
         /// </summary>
         /// <param name="sheets"> All the sheets to export. </param>
-        public static void PrintA3(
+        public static void Print(
             ICollection<ExportSheet> sheets,
             string printerName)
         {
@@ -624,6 +644,7 @@ namespace SCaddins.SCexport
             this.GhostscriptBinDir = SCaddins.SCexport.Settings1.Default.GSBinDirectory;
             this.PdfPrinterName = SCaddins.SCexport.Settings1.Default.AdobePrinterDriver; 
             this.PrinterNameA3 = SCaddins.SCexport.Settings1.Default.A3PrinterDriver; 
+            this.PrinterNameLargeFormat = SCaddins.SCexport.Settings1.Default.LargeFormatPrinterDriver;
             this.PostscriptPrinterName = SCaddins.SCexport.Settings1.Default.PSPrinterDriver; 
             this.GhostscriptLibDir = SCaddins.SCexport.Settings1.Default.GSLibDirectory; 
             this.exportDir = SCaddins.SCexport.Settings1.Default.ExportDir;

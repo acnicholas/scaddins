@@ -31,6 +31,9 @@
     <Setting Name="HideTitleBlocks" Type="System.Boolean" Scope="User" Roaming="true">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="LargeFormatPrinterDriver" Type="System.String" Scope="User" Roaming="false">
+      <Value Profile="(Default)">\\SCFP02\XEROX6204</Value>
+    </Setting>
     <Setting Name="PSPrinterDriver" Type="System.String" Scope="User" Roaming="true">
       <Value Profile="(Default)">HP Designjet T1100ps 44in PS3</Value>
     </Setting>

@@ -119,6 +119,7 @@ namespace SCaddins.SCexport
             this.btnPrint = new System.Windows.Forms.Button();
             this.btnOptions = new System.Windows.Forms.Button();
             this.btnFind = new System.Windows.Forms.Button();
+            this.btnPrintLarge = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -186,7 +187,7 @@ namespace SCaddins.SCexport
             this.mnuHelp});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.ShowCheckMargin = true;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(257, 370);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(257, 348);
             // 
             // clearFilterToolStripMenuItem
             // 
@@ -479,11 +480,24 @@ namespace SCaddins.SCexport
             this.btnFind.UseVisualStyleBackColor = true;
             this.btnFind.Click += new System.EventHandler(this.BtnFindClick);
             // 
+            // btnPrintLarge
+            // 
+            this.btnPrintLarge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPrintLarge.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnPrintLarge.Location = new System.Drawing.Point(515, 504);
+            this.btnPrintLarge.Name = "btnPrintLarge";
+            this.btnPrintLarge.Size = new System.Drawing.Size(114, 22);
+            this.btnPrintLarge.TabIndex = 16;
+            this.btnPrintLarge.Text = "Print (Large Format)";
+            this.btnPrintLarge.UseVisualStyleBackColor = true;
+            this.btnPrintLarge.Click += new System.EventHandler(this.BtnPrintLargeClick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(779, 534);
+            this.Controls.Add(this.btnPrintLarge);
             this.Controls.Add(this.btnFind);
             this.Controls.Add(this.btnOptions);
             this.Controls.Add(this.btnPrint);
@@ -516,6 +530,7 @@ namespace SCaddins.SCexport
         private System.Windows.Forms.ToolStripMenuItem removeUnderlaysFromViewsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fixScalesBarsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copySheetsToolStripMenuItem;
+        private System.Windows.Forms.Button btnPrintLarge;
         #endregion
         }
     }
