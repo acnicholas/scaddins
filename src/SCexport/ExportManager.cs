@@ -424,32 +424,35 @@ namespace SCaddins.SCexport
             
             TaskDialogResult tdr = ShowPrintWarning();
 
-            if (tdr == TaskDialogResult.Ok) {            
+            if (tdr == TaskDialogResult.Ok) { 
+                bool printSetttingsValid;                
                 foreach (ExportSheet sheet in sortedSheets) {
+                    if(!sheet.Verified) sheet.UpdateSheetInfo();
+                    printSetttingsValid = false;
                     switch (scale) {
                     case (3) :
-                        if (!PrintSettings.ApplyPrintSettings(doc, "A3-FIT", pm, printerName)) {
-                            continue;
+                        if (PrintSettings.ApplyPrintSettings(doc, "A3-FIT", pm, printerName)) {
+                                printSetttingsValid = true;
                         }
                         break;
                     case (2) :
-                        if (!PrintSettings.ApplyPrintSettings(doc, "A2-FIT", pm, printerName)) {
-                            continue;
+                        if (PrintSettings.ApplyPrintSettings(doc, "A2-FIT", pm, printerName)) {
+                            printSetttingsValid = true;
                         }
                         break;
                     case (-1) :
-                        if (int.Parse(sheet.PageSize.Substring(1,2)) > 2) {
-                            if (!PrintSettings.ApplyPrintSettings(doc, sheet.PageSize , pm, PrinterNameA3)) {
-                                continue;
-                            } else {
-                                if (!PrintSettings.ApplyPrintSettings(doc, sheet.PageSize , pm, PrinterNameLargeFormat)) {
-                                    continue; 
-                                }
+                        if (int.Parse(sheet.PageSize.Substring(1,1)) > 2) {
+                            if (PrintSettings.ApplyPrintSettings(doc, sheet.PageSize , pm, this.PrinterNameA3)) {
+                                printSetttingsValid = true;
+                            }
+                        } else {
+                            if (PrintSettings.ApplyPrintSettings(doc, sheet.PageSize , pm, this.PrinterNameLargeFormat)) {
+                               printSetttingsValid = true;
                             }
                         }
                         break;
                     }
-                    pm.SubmitPrint(sheet.Sheet);
+                    if (printSetttingsValid) pm.SubmitPrint(sheet.Sheet);
                 }
             }
         }
