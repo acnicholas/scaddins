@@ -22,9 +22,6 @@ namespace SCaddins.SCexport
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
-    /// <summary>
-    /// Description of PrintSettings.
-    /// </summary>
     public static class PrintSettings
     {
         /// <summary>
@@ -54,23 +51,18 @@ namespace SCaddins.SCexport
                 Math.Round(sheet.Height).ToString(CultureInfo.InvariantCulture);
         }
         
-        /// <summary>
-        /// Create a print setting and add it to the current document.
-        /// </summary>
-        /// <param name="doc">The Revit document to create the print setting in.</param>
-        /// <param name="s">The name of the sheet size - A4,A3,A1...</param>
-        public static void CreatePrintSetting(Document doc, string s)
+        public static void CreatePrintSetting(Document doc, string isoSheetSize)
         {
             PrintManager pm = doc.PrintManager;
             foreach (PaperSize paperSize in pm.PaperSizes) {
-                if (paperSize.Name.Substring(0, 2) == s.Substring(0, 2)) {
+                if (paperSize.Name.Substring(0, 2) == isoSheetSize.Substring(0, 2)) {
                     var t = new Transaction(doc, "Apply print settings");
                     t.Start();
                     var ips = pm.PrintSetup.CurrentPrintSetting;
                     try {
                         ips.PrintParameters.PaperSize = paperSize;
                         ips.PrintParameters.HideCropBoundaries = true;
-                    if (s.Length > 2 && !s.Contains("FIT")) {
+                    if (isoSheetSize.Length > 2 && !isoSheetSize.Contains("FIT")) {
                         ips.PrintParameters.PageOrientation =
                             PageOrientationType.Portrait;
                     } else {
@@ -85,7 +77,7 @@ namespace SCaddins.SCexport
                     #else
                     ips.PrintParameters.HideUnreferencedViewTags = true;
                     #endif
-                    if (s.Contains("FIT")) {
+                    if (isoSheetSize.Contains("FIT")) {
                         ips.PrintParameters.ZoomType = ZoomType.FitToPage;
                         ips.PrintParameters.MarginType = MarginType.NoMargin;
                     } else {
@@ -98,12 +90,12 @@ namespace SCaddins.SCexport
                         ips.PrintParameters.UserDefinedMarginY = 0;
                     }
 
-                    pm.PrintSetup.SaveAs("SCX-" + s);
+                    pm.PrintSetup.SaveAs("SCX-" + isoSheetSize);
                     t.Commit();
                     } catch {
                         TaskDialog.Show(
                             "SCexport",
-                            "Unable to create print setting: " + "SCX-" + s);
+                            "Unable to create print setting: " + "SCX-" + isoSheetSize);
                         t.RollBack();
                     }
                 }
@@ -185,12 +177,6 @@ namespace SCaddins.SCexport
             }
         }
 
-        /// <summary>
-        /// Try to create a print setting to the current Revit document.
-        /// </summary>
-        /// <param name="doc">The Revit doc containing the printsettings.</param>
-        /// <param name="ps">The search string.</param>
-        /// <returns>The matching print setting, or null.</returns>
         public static PrintSetting AssignPrintSetting(Document doc, string printSetting)
         {
             foreach (ElementId id in doc.GetPrintSettingIds()) {

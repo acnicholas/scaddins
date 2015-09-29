@@ -21,9 +21,6 @@ namespace SCaddins.SCexport
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
 
-    /// <summary>
-    /// Description of RenameSheetForm.
-    /// </summary>
     public partial class RenameSheetForm : Form
     {
         private ICollection<ExportSheet> sheets;
@@ -83,13 +80,13 @@ namespace SCaddins.SCexport
             t.Commit();
         }
         
-        private void Button1Click(object sender, EventArgs e)
+        private void TestRunButtonClick(object sender, EventArgs e)
         {
             this.PopulateList();    
             this.listView1.Refresh();
         }
         
-        private void OKClick(object sender, EventArgs e)
+        private void RenameButtonClick(object sender, EventArgs e)
         {
             this.RenameSheets();                
         }      

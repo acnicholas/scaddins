@@ -20,16 +20,9 @@ namespace SCaddins.SCexport
     using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
 
-    /// <summary>
-    /// A file name (title block).
-    /// </summary>
 [SuppressMessage("Microsoft.Naming", "CA1710", Justification = "This doesn't need to end in Collection", Scope = "Just for this Class")]
 public class SheetName : Collection<SheetNameSegment>
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SheetName" /> class.
-    /// </summary>
-    /// <param name="type"> The scheme type.</param>
     public SheetName(FilenameScheme type)
     {
         if (type == FilenameScheme.Standard) {
@@ -53,9 +46,6 @@ public class SheetName : Collection<SheetNameSegment>
         }
     }
     
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SheetName"/> class.
-    /// </summary>
     public SheetName()
     {
         this.Name = "User Defined";

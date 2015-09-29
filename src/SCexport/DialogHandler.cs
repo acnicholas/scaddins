@@ -21,18 +21,11 @@ namespace SCaddins.SCexport
     using Autodesk.Revit.UI;
     using Autodesk.Revit.UI.Events;
     
-    /// <summary>
-    /// Description of DialogHandler.
-    /// </summary>
     public static class DialogHandler
     {
         public const string DismissNoOpenViewMessage =
             "There is no open view that shows any of the highlighted elements.  Searching through the closed views to find a good view could take a long time.  Continue?";
             
-        /// <summary>
-        /// Create a new dialog handler.
-        /// </summary>
-        /// <param name="application"></param>
         public static void AddRevitDialogHandler(UIApplication application)
         {
             application.DialogBoxShowing += new EventHandler<DialogBoxShowingEventArgs>(DismissOpenQuestion);

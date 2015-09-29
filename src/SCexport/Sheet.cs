@@ -49,13 +49,6 @@ namespace SCaddins.SCexport
         private string sheetRevisionDate;
         private string sheetRevisionDescription;
 
-        /// <summary>
-        /// Initializes a new instance of the SCexportSheet class.
-        /// </summary>
-        /// <param name="sheet">The Revit ViewSheet.</param>
-        /// <param name="doc">The Active Revit Document.</param>
-        /// <param name="filenameTemplate">Naming template.</param>
-        /// <param name="scx">SCexport instance.</param>
         public ExportSheet(
                 ViewSheet sheet,
                 Document doc,
@@ -65,19 +58,11 @@ namespace SCaddins.SCexport
             this.Init(sheet, doc, fileNameTemplate, scx);
         }
 
-        /// <summary>
-        /// Gets the size of the page.
-        /// </summary>
-        /// <value>The size of the page.</value>
         public string PageSize
         {
             get { return this.pageSize; }
         }
 
-        /// <summary>
-        /// Gets the name of the print setting.
-        /// </summary>
-        /// <value>The name of the print setting.</value>
         public string PrintSettingName
         {
             get
@@ -86,10 +71,6 @@ namespace SCaddins.SCexport
             }
         }
 
-        /// <summary>
-        /// Gets or sets the name of the segmented file.
-        /// </summary>
-        /// <value>The name of the segmented file.</value>
         public SheetName SegmentedFileName {
             get {
                 return this.segmentedFileName;
@@ -101,10 +82,6 @@ namespace SCaddins.SCexport
             }
         }
 
-        /// <summary>
-        /// Gets the sheet description.
-        /// </summary>
-        /// <value>The sheet description.</value>
         public string SheetDescription
         {
             get { 
@@ -117,10 +94,6 @@ namespace SCaddins.SCexport
             }
         }
 
-        /// <summary>
-        /// Gets the sheet number.
-        /// </summary>
-        /// <value>The sheet number.</value>
         public string SheetNumber
         {
             get {
@@ -133,10 +106,6 @@ namespace SCaddins.SCexport
             }
         }
 
-        /// <summary>
-        /// Gets the sheet revision.
-        /// </summary>
-        /// <value>The sheet revision.</value>
         public string SheetRevision
         {
             get {
@@ -144,10 +113,6 @@ namespace SCaddins.SCexport
             }
         }
 
-        /// <summary>
-        /// Gets the sheet revision description.
-        /// </summary>
-        /// <value>The sheet revision description.</value>
         public string SheetRevisionDescription
         {
             get {
@@ -155,10 +120,6 @@ namespace SCaddins.SCexport
             }
         }
 
-        /// <summary>
-        /// Gets the sheet revision date.
-        /// </summary>
-        /// <value>The sheet revision date.</value>
         public string SheetRevisionDate
         {
             get {
@@ -206,82 +167,46 @@ namespace SCaddins.SCexport
             get { return this.RevitScaleWithoutFormatting() == this.scaleBarScale.Trim(); }
         }
         
-        /// <summary>
-        /// Gets or sets the export dir.
-        /// </summary>
-        /// <value>The export dir.</value>
         public string ExportDir
         {
             get; set;
         }
 
-        /// <summary>
-        /// Gets the sheet.
-        /// </summary>
-        /// <value>The sheet.</value>
         public ViewSheet Sheet
         {
             get { return this.sheet; }
         }
 
-        /// <summary>
-        /// Gets the full name of the export.
-        /// </summary>
-        /// <value>The full name of the export.</value>
         public string FullExportName
         {
             get { return this.fullExportName; }
         }
 
-        /// <summary>
-        /// Gets the identifier.
-        /// </summary>
-        /// <value>The identifier.</value>
         public ElementId Id
         {
             get { return this.id; }
         }
 
-        /// <summary>
-        /// Gets the width.
-        /// </summary>
-        /// <value>The width.</value>
         public double Width
         {
             get { return this.width * 304.8; }
         }
 
-        /// <summary>
-        /// Gets the height.
-        /// </summary>
-        /// <value>The height.</value>
         public double Height
         {
             get { return this.height * 304.8; }
         }
 
-        /// <summary>
-        /// Gets the SC print setting.
-        /// </summary>
-        /// <value>The SC print setting.</value>
         public PrintSetting SCPrintSetting
         {
             get { return this.printSetting; }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="SCexportSheet"/> is verified.
-        /// </summary>
-        /// <value><c>true</c> if verified; otherwise, <c>false</c>.</value>
         public bool Verified
         {
             get { return this.verified; }
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="SCexportSheet"/> force date.
-        /// </summary>
-        /// <value><c>true</c> if force date; otherwise, <c>false</c>.</value>
         public bool ForceDate
         {
             get {
@@ -319,11 +244,6 @@ namespace SCaddins.SCexport
             }    
         }
 
-        /// <summary>
-        /// Fulls export path.
-        /// </summary>
-        /// <returns>The export path.</returns>
-        /// <param name="extension">The file extension.</param>
         public string FullExportPath(string extension)
         {
             return this.ExportDir + "\\" + this.fullExportName + extension;
@@ -488,9 +408,6 @@ namespace SCaddins.SCexport
             }
         }
 
-        /// <summary>
-        /// Set the export name for the sheet.
-        /// </summary>
         private void SetExportName()
         {
             if (this.forceDate) {

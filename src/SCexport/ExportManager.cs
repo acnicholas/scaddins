@@ -31,9 +31,6 @@ namespace SCaddins.SCexport
     using Autodesk.Revit.UI;
     using SCaddins.Common;
 
-    /// <summary>
-    /// Export files to comply with SC standard.
-    /// </summary>
     public class ExportManager
     {
         private static Dictionary<string, FamilyInstance> titleBlocks;
@@ -49,12 +46,6 @@ namespace SCaddins.SCexport
         private bool forceDate;
         private string exportDir;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SCexport" /> class.
-        /// </summary>
-        /// <param name="doc">
-        /// The active Revit doc.
-        /// </param>
         public ExportManager(Document doc)
         {
             ExportManager.doc = doc;
@@ -73,12 +64,7 @@ namespace SCaddins.SCexport
             ExportManager.FixAcrotrayHang();
         }
         
-        /// <summary>
-        /// Gets the current date.
-        /// </summary>
-        /// <returns>
-        /// The date in the format YYYYMMDD.
-        /// </returns>
+        //FIXME - put this in a util class
         public static string GetDateString {
             get {
                 DateTime moment = DateTime.Now;
@@ -148,31 +134,17 @@ namespace SCaddins.SCexport
             get { return this.allViewSheetSets; }
         }
 
-        /// <summary>
-        /// Gets or sets the export flags.
-        /// </summary>
-        /// <value>The flags.</value>
         public ExportFlags ExportOptions
         {
             get; set;
         }
 
-        /// <summary>
-        /// Gets or sets the acad version to export to.
-        /// </summary>
-        /// <value>The acad version.</value>
         public ACADVersion AcadVersion
         {
             get; set;
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether to force the date
-        /// as the current revision.
-        /// <see cref="SCexport"/>.
-        /// </summary>
-        /// <value><c>true</c> if force date; otherwise, <c>false</c>.</value>
-        public bool ForceDate
+        public bool ForceRevisionToDateString
         {
             get {
                 return this.forceDate;
@@ -186,10 +158,6 @@ namespace SCaddins.SCexport
             }
         }
 
-        /// <summary>
-        /// Gets or sets the export dir.
-        /// </summary>
-        /// <value>The export dir.</value>
         public string ExportDir {
             get {
                 return this.exportDir;
@@ -205,10 +173,6 @@ namespace SCaddins.SCexport
             }
         }
        
-        /// <summary>
-        /// Gets or sets the filename sheme.
-        /// </summary>
-        /// <value>The filename sheme.</value>
         public SheetName FileNameScheme {
             get { 
                 return this.fileNameScheme;
@@ -222,14 +186,6 @@ namespace SCaddins.SCexport
             }
         }
 
-        /// <summary>
-        /// Gets the title block family.
-        /// </summary>
-        /// <returns> The title block family. </returns>
-        /// <param name="sheetNumber">
-        /// The sheet number the contains the titleblock.
-        /// </param>
-        /// <param name="doc"> The Revit Document. </param>
         public static FamilyInstance GetTitleBlockFamily(
             string sheetNumber, Document doc)
         {
@@ -249,11 +205,7 @@ namespace SCaddins.SCexport
             return titleBlocks.TryGetValue(sheetNumber, out result) ? result : null;
         }
 
-        /// <summary>
-        /// Get a date string in the format of YYYYMMDD.
-        /// </summary>
-        /// <param name="dateValue">The string to convert.</param>
-        /// <returns>A date string in the format of YYYYMMDD.</returns>
+        //FIXME - put this in util class
         public static DateTime ToDateTime(string dateValue)
         {
             var date = dateValue.Trim();
@@ -307,13 +259,6 @@ namespace SCaddins.SCexport
             return File.Exists(s) ? s : null;
         }
 
-        /// <summary>
-        /// The config file name that SCexport expects to find.
-        /// This will be an xml file with same location and name as the active
-        /// Revit model.
-        /// </summary>
-        /// <param name="doc">The active revit document.</param>
-        /// <returns>The name of the config file.</returns>
         public static string GetConfigFileName(Document doc)
         {
             string central = FileUtilities.GetCentralFileName(doc);
@@ -379,10 +324,6 @@ namespace SCaddins.SCexport
             }
         }
 
-        /// <summary>
-        /// Gets the name of the current view of the active document.
-        /// </summary>
-        /// <returns> The name of the view. </returns>
         public static string CurrentView()
         {
             View v = doc.ActiveView;
@@ -457,11 +398,25 @@ namespace SCaddins.SCexport
             return (s.Length > 1) ? s : string.Empty;
         }
         
+        private static TaskDialogResult ShowPrintWarning()
+        {
+            var td = new TaskDialog("SCexport - Print Warning");
+            td.MainInstruction = "Warning";
+            td.MainContent = "The print feature is experimental, please only export a " +
+                "small selection of sheets until you are sure it is working correctly." +
+                System.Environment.NewLine + System.Environment.NewLine +
+                "Press ok to continue.";
+            td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+            td.CommonButtons = TaskDialogCommonButtons.Ok | TaskDialogCommonButtons.No;
+            TaskDialogResult tdr = td.Show();
+            return tdr;
+        }
+        
         public static void PrintA3(
             ICollection<ExportSheet> sheets,
             string printerName)
         {
-            Print(sheets, printerName);
+            Print(sheets, printerName, -1);
         }
         
         public static void PrintLargeFormat(
@@ -472,45 +427,37 @@ namespace SCaddins.SCexport
             //Print(sheets, printerName);
         }
 
-        /// <summary>
-        /// Print the specified sheets.
-        /// </summary>
-        /// <param name="sheets"> All the sheets to export. </param>
         public static void Print(
             ICollection<ExportSheet> sheets,
-            string printerName)
+            string printerName,
+            int scale)
         {
             PrintManager pm = doc.PrintManager;
 
             // collate the sheets.
             ICollection<ExportSheet> sortedSheets = sheets.OrderBy(x => x.SheetNumber).ToList();
+            
+            TaskDialogResult tdr = ShowPrintWarning();
 
-            // FIXME need more than a3
-            if (!PrintSettings.ApplyPrintSettings(
-                    doc, "A3-FIT", pm, printerName)) {
-                return;
-            }
-
-            var td = new TaskDialog("SCexport - Print Warning");
-            td.MainInstruction = "Warning";
-            td.MainContent = "The print feature is experimental, please only export a " +
-                "small selection of sheets until you are sure it is working correctly." +
-                System.Environment.NewLine + System.Environment.NewLine +
-                "Press ok to continue.";
-            td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-            td.CommonButtons = TaskDialogCommonButtons.Ok | TaskDialogCommonButtons.No;
-            TaskDialogResult tdr = td.Show();
-
-            if (tdr == TaskDialogResult.Ok) {
+            if (tdr == TaskDialogResult.Ok) {            
                 foreach (ExportSheet sheet in sortedSheets) {
+                    switch (scale) {
+                    case (-1) :
+                        if (!PrintSettings.ApplyPrintSettings(doc, "A3-FIT", pm, printerName)) {
+                            continue;
+                        }
+                        break;
+                    case (100) :
+                        if (!PrintSettings.ApplyPrintSettings(doc, sheet.PageSize , pm, printerName)) {
+                            continue;
+                        }
+                        break;
+                    }
                     pm.SubmitPrint(sheet.Sheet);
                 }
             }
         }
 
-        /// <summary>
-        /// Update sheet information.
-        /// </summary>
         public void Update()
         {
             PrintManager pm = doc.PrintManager;
@@ -523,29 +470,16 @@ namespace SCaddins.SCexport
             }
         }
 
-        /// <summary>
-        /// Adds an export flag to the current set of flags.
-        /// </summary>
-        /// <param name="f"> The Flag to add. </param>
         public void AddExportOption(ExportFlags exportOptions)
         {
             this.exportFlags |= exportOptions;
         }
 
-        /// <summary>
-        /// Removes an export flag from the current set of flags.
-        /// </summary>
-        /// <param name="f"> The flag to remove. </param>
         public void RemoveExportOption(ExportFlags exportOptions)
         {
             this.exportFlags = this.exportFlags & ~exportOptions;
         }
 
-        /// <summary>
-        /// Determines whether this instance has contains a certain export flag.
-        /// </summary>
-        /// <returns><c>true</c> if this instance has flag the specified f; otherwise, <c>false</c>.</returns>
-        /// <param name="option"> The flag to evaluate. </param>
         public bool HasExportOption(ExportFlags option)
         {
             return this.exportFlags.HasFlag(option);
@@ -581,15 +515,6 @@ namespace SCaddins.SCexport
             return i * sheets.Count;
         }
 
-        /// <summary>
-        /// Export some view sheets..
-        /// </summary>
-        /// <param name="sheets">The sheets to export.</param>
-        /// <param name="pbar">The progress bar to update.</param>
-        /// <param name="info">Information text to update with progress.</param>
-        /// <param name="strip">
-        /// The title strip that contains the progress bar in info.
-        /// </param>
         [SecurityCritical]
         public void ExportSheets(
             ICollection<ExportSheet> sheets,

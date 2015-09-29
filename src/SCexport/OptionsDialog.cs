@@ -63,7 +63,7 @@ namespace SCaddins.SCexport
                 this.scx.HasExportOption(ExportFlags.TagPDFExports);
             this.checkBoxHideTitleblock.Checked =
                 this.scx.HasExportOption(ExportFlags.NoTitle);
-            this.checkBoxForceDate.Checked = this.scx.ForceDate;
+            this.checkBoxForceDate.Checked = this.scx.ForceRevisionToDateString;
             if (this.scx.FileNameScheme != null) {
                 this.comboBoxScheme.Text = this.scx.FileNameScheme.Name;
             }
@@ -78,6 +78,7 @@ namespace SCaddins.SCexport
             this.textBoxGSBin.Text = this.scx.GhostscriptBinDir;
             this.textBoxGSLib.Text = this.scx.GhostscriptLibDir;
             this.textBoxA3Printer.Text = this.scx.PrinterNameA3;
+            this.textBoxLargeFormatPrinter.Text = this.scx.PrinterNameLargeFormat;
             textBoxTextEditor.Text = SCaddins.SCexport.Settings1.Default.TextEditor;
             checkBoxTagPDF.Checked = SCaddins.SCexport.Settings1.Default.TagPDFExports;
             textBoxExportDir.Text = SCaddins.SCexport.Settings1.Default.ExportDir;
@@ -90,9 +91,11 @@ namespace SCaddins.SCexport
             this.scx.PrinterNameA3 = textBoxA3Printer.Text;
             this.scx.PostscriptPrinterName = textBoxPSPrinter.Text;
             this.scx.PdfPrinterName = textBoxAdobeDriver.Text;
+            this.scx.PrinterNameLargeFormat = textBoxLargeFormatPrinter.Text;
             SCaddins.SCexport.Settings1.Default.GSBinDirectory = this.scx.GhostscriptBinDir;         
             SCaddins.SCexport.Settings1.Default.AdobePrinterDriver = this.scx.PdfPrinterName;  
-            SCaddins.SCexport.Settings1.Default.A3PrinterDriver = this.scx.PrinterNameA3;   
+            SCaddins.SCexport.Settings1.Default.A3PrinterDriver = this.scx.PrinterNameA3;  
+            SCaddins.SCexport.Settings1.Default.LargeFormatPrinterDriver = this.scx.PrinterNameLargeFormat;
             SCaddins.SCexport.Settings1.Default.PSPrinterDriver = this.scx.PostscriptPrinterName;  
             SCaddins.SCexport.Settings1.Default.GSLibDirectory = this.scx.GhostscriptLibDir;  
             SCaddins.SCexport.Settings1.Default.TextEditor = textBoxTextEditor.Text;
@@ -179,7 +182,7 @@ namespace SCaddins.SCexport
         
         private void ForceDateCheckedChanged(object sender, EventArgs e)
         {
-            this.scx.ForceDate = ((CheckBox)sender).Checked;
+            this.scx.ForceRevisionToDateString = ((CheckBox)sender).Checked;
         }
         
         private void ComboBox1SelectedIndexChanged(object sender, EventArgs e)
@@ -264,6 +267,11 @@ namespace SCaddins.SCexport
             SetPrinter(this.textBoxAdobeDriver);
         }
         
+        private void BtnSelectLargeFormatPrinterClick(object sender, EventArgs e)
+        {
+            SetPrinter(this.textBoxLargeFormatPrinter);  
+        }
+        
         private void BtnSelectTextEditorClick(object sender, System.EventArgs e)
         {
             DialogResult result = this.openFileDialog1.ShowDialog();
@@ -285,6 +293,18 @@ namespace SCaddins.SCexport
             if (result == DialogResult.OK) {
                 textBoxExportDir.Text = this.folderBrowserDialog1.SelectedPath;
             }
+        }
+        void Label10Click(object sender, EventArgs e)
+        {
+          
+        }
+        void Label7Click(object sender, EventArgs e)
+        {
+          
+        }
+        void Label2Click(object sender, EventArgs e)
+        {
+          
         }
     }
 }

@@ -27,18 +27,8 @@ namespace SCaddins.SCexport
     [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
 
-    /// <summary>
-    /// The add-in command..
-    /// </summary>
     public class Command : IExternalCommand
     {
-        /// <summary>
-        /// Execute the specified command.
-        /// </summary>
-        /// <param name="commandData">Command data.</param>
-        /// <param name="message">Message for something.</param>
-        /// <param name="elements">Set of selected elements.</param>
-        /// <returns> The result. </returns>
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
             ref string message,
@@ -49,7 +39,6 @@ namespace SCaddins.SCexport
                 System.IO.Directory.CreateDirectory(exportDir);
             }
             
-            // make sure teh file has been saved before continuing
             if (string.IsNullOrEmpty(FileUtilities.GetCentralFileName(
                     commandData.Application.ActiveUIDocument.Document))) {
                 var fail = new TaskDialog("FAIL");

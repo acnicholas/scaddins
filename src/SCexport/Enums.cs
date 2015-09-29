@@ -1,19 +1,24 @@
-﻿/*
- * Created by SharpDevelop.
- * User: andrewn
- * Date: 18/06/15
- * Time: 1:32 PM
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
- 
+﻿// (C) Copyright 2015 by Andrew Nicholas
+//
+// This file is part of SCaddins.
+//
+// SCaddins is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// SCaddins is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
+
 namespace SCaddins.SCexport
 {
     using System;
     
-    /// <summary>
-    /// Type of export.
-    /// </summary>
     [Flags]
     public enum ExportFlags
     {
@@ -51,10 +56,7 @@ namespace SCaddins.SCexport
         Warning,
         Normal
     }
-    
-    /// <summary>
-    /// Availabel types of Sheet Name Segments.
-    /// </summary>
+   
     public enum SegmentType
     {
         /// <summary>
@@ -105,9 +107,6 @@ namespace SCaddins.SCexport
         Underscore
     }
         
-    /// <summary>
-    /// Filename Scheme.
-    /// </summary>
     public enum FilenameScheme
     {
         /// <summary>

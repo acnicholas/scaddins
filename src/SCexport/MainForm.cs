@@ -342,7 +342,7 @@ namespace SCaddins.SCexport
                     this.OpenSelectedViewToolStripMenuItemClick(sender, e);
                     break;
                 case "P":
-                    this.scx.ForceDate = !this.scx.ForceDate;
+                    this.scx.ForceRevisionToDateString = !this.scx.ForceRevisionToDateString;
                         this.dataGridView1.Refresh();
                     break;
                 case "Q":
@@ -612,6 +612,11 @@ namespace SCaddins.SCexport
             ExportManager.PrintA3(this.SelectedSheets(), this.scx.PrinterNameA3);
         }
         
+        private void BtnPrintLargeClick(object sender, EventArgs e)
+        {
+            ExportManager.PrintLargeFormat(this.SelectedSheets(), this.scx.PrinterNameLargeFormat);  
+        }
+        
         private void BtnExportResize(object sender, EventArgs e)
         {
             this.btnPrint.Location = new Point(
@@ -696,12 +701,7 @@ namespace SCaddins.SCexport
             if (result == System.Windows.Forms.DialogResult.OK) {
                 scopy.CreateSheets();
             }            
-        }
-        
-        private void BtnPrintLargeClick(object sender, EventArgs e)
-        {
-            ExportManager.PrintLargeFormat(this.SelectedSheets(), this.scx.PrinterNameLargeFormat);  
-        }
+        } 
     }
 }
 

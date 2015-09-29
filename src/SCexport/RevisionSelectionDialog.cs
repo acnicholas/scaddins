@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2013-2014 by Andrew Nicholas
+﻿// (C) Copyright 2013-2015 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -21,9 +21,6 @@ namespace SCaddins.SCexport
     using System.Windows.Forms;
     using Autodesk.Revit.DB;
     
-    /// <summary>
-    /// Description of RevisionSelectionDialog.
-    /// </summary>
     public partial class RevisionSelectionDialog : System.Windows.Forms.Form
     {
         private ElementId id;

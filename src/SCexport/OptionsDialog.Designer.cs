@@ -89,6 +89,7 @@ namespace SCaddins.SCexport
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.btnDefaultExportDir = new System.Windows.Forms.Button();
             this.textBoxExportDir = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -123,6 +124,9 @@ namespace SCaddins.SCexport
             this.label4 = new System.Windows.Forms.Label();
             this.textBoxGSBin = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnSelectLargeFormatPrinter = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.textBoxLargeFormatPrinter = new System.Windows.Forms.TextBox();
             this.btnSelectAdobePrinter = new System.Windows.Forms.Button();
             this.btnSelectA3Printer = new System.Windows.Forms.Button();
             this.btnSelectPSPrinter = new System.Windows.Forms.Button();
@@ -135,7 +139,6 @@ namespace SCaddins.SCexport
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -203,6 +206,16 @@ namespace SCaddins.SCexport
             this.groupBox6.TabIndex = 20;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Export Destination";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(9, 57);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(366, 23);
+            this.button4.TabIndex = 26;
+            this.button4.Text = "Export to USQ Working Files";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.ButtonWorkingFilesClick);
             // 
             // btnDefaultExportDir
             // 
@@ -422,14 +435,14 @@ namespace SCaddins.SCexport
             this.groupBox3.Controls.Add(this.buttonCreateConfig);
             this.groupBox3.Location = new System.Drawing.Point(6, 20);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(386, 124);
+            this.groupBox3.Size = new System.Drawing.Size(386, 82);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Project Configuratation";
             // 
             // btnSelectTextEditor
             // 
-            this.btnSelectTextEditor.Location = new System.Drawing.Point(347, 81);
+            this.btnSelectTextEditor.Location = new System.Drawing.Point(352, 48);
             this.btnSelectTextEditor.Name = "btnSelectTextEditor";
             this.btnSelectTextEditor.Size = new System.Drawing.Size(24, 20);
             this.btnSelectTextEditor.TabIndex = 15;
@@ -439,14 +452,14 @@ namespace SCaddins.SCexport
             // 
             // textBoxTextEditor
             // 
-            this.textBoxTextEditor.Location = new System.Drawing.Point(152, 82);
+            this.textBoxTextEditor.Location = new System.Drawing.Point(157, 49);
             this.textBoxTextEditor.Name = "textBoxTextEditor";
             this.textBoxTextEditor.Size = new System.Drawing.Size(189, 20);
             this.textBoxTextEditor.TabIndex = 14;
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(10, 85);
+            this.label8.Location = new System.Drawing.Point(15, 52);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(121, 17);
             this.label8.TabIndex = 6;
@@ -456,9 +469,9 @@ namespace SCaddins.SCexport
             // 
             this.buttonEditConfig.Image = ((System.Drawing.Image)(resources.GetObject("buttonEditConfig.Image")));
             this.buttonEditConfig.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonEditConfig.Location = new System.Drawing.Point(17, 48);
+            this.buttonEditConfig.Location = new System.Drawing.Point(208, 19);
             this.buttonEditConfig.Name = "buttonEditConfig";
-            this.buttonEditConfig.Size = new System.Drawing.Size(354, 23);
+            this.buttonEditConfig.Size = new System.Drawing.Size(168, 23);
             this.buttonEditConfig.TabIndex = 1;
             this.buttonEditConfig.Text = "Edit Config File";
             this.buttonEditConfig.UseVisualStyleBackColor = true;
@@ -470,7 +483,7 @@ namespace SCaddins.SCexport
             this.buttonCreateConfig.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.buttonCreateConfig.Location = new System.Drawing.Point(17, 19);
             this.buttonCreateConfig.Name = "buttonCreateConfig";
-            this.buttonCreateConfig.Size = new System.Drawing.Size(354, 23);
+            this.buttonCreateConfig.Size = new System.Drawing.Size(185, 23);
             this.buttonCreateConfig.TabIndex = 0;
             this.buttonCreateConfig.Text = "Create Project Config File";
             this.buttonCreateConfig.UseVisualStyleBackColor = true;
@@ -484,9 +497,9 @@ namespace SCaddins.SCexport
             this.groupBox2.Controls.Add(this.textBoxGSLib);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.textBoxGSBin);
-            this.groupBox2.Location = new System.Drawing.Point(6, 273);
+            this.groupBox2.Location = new System.Drawing.Point(6, 257);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(386, 94);
+            this.groupBox2.Size = new System.Drawing.Size(386, 110);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Ghostscript Options";
@@ -543,6 +556,9 @@ namespace SCaddins.SCexport
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnSelectLargeFormatPrinter);
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.textBoxLargeFormatPrinter);
             this.groupBox1.Controls.Add(this.btnSelectAdobePrinter);
             this.groupBox1.Controls.Add(this.btnSelectA3Printer);
             this.groupBox1.Controls.Add(this.btnSelectPSPrinter);
@@ -552,12 +568,38 @@ namespace SCaddins.SCexport
             this.groupBox1.Controls.Add(this.textBoxPSPrinter);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.textBoxAdobeDriver);
-            this.groupBox1.Location = new System.Drawing.Point(6, 150);
+            this.groupBox1.Location = new System.Drawing.Point(6, 108);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(386, 117);
+            this.groupBox1.Size = new System.Drawing.Size(386, 143);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Printer Options";
+            // 
+            // btnSelectLargeFormatPrinter
+            // 
+            this.btnSelectLargeFormatPrinter.Location = new System.Drawing.Point(347, 102);
+            this.btnSelectLargeFormatPrinter.Name = "btnSelectLargeFormatPrinter";
+            this.btnSelectLargeFormatPrinter.Size = new System.Drawing.Size(24, 20);
+            this.btnSelectLargeFormatPrinter.TabIndex = 16;
+            this.btnSelectLargeFormatPrinter.Text = "...";
+            this.btnSelectLargeFormatPrinter.UseVisualStyleBackColor = true;
+            this.btnSelectLargeFormatPrinter.Click += new System.EventHandler(this.BtnSelectLargeFormatPrinterClick);
+            // 
+            // label10
+            // 
+            this.label10.Location = new System.Drawing.Point(6, 106);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(133, 20);
+            this.label10.TabIndex = 15;
+            this.label10.Text = "Large format printer name";
+            this.label10.Click += new System.EventHandler(this.Label10Click);
+            // 
+            // textBoxLargeFormatPrinter
+            // 
+            this.textBoxLargeFormatPrinter.Location = new System.Drawing.Point(152, 103);
+            this.textBoxLargeFormatPrinter.Name = "textBoxLargeFormatPrinter";
+            this.textBoxLargeFormatPrinter.Size = new System.Drawing.Size(189, 20);
+            this.textBoxLargeFormatPrinter.TabIndex = 14;
             // 
             // btnSelectAdobePrinter
             // 
@@ -591,11 +633,12 @@ namespace SCaddins.SCexport
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(10, 79);
+            this.label7.Location = new System.Drawing.Point(6, 79);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(121, 17);
+            this.label7.Size = new System.Drawing.Size(121, 20);
             this.label7.TabIndex = 9;
             this.label7.Text = "A3 printer name";
+            this.label7.Click += new System.EventHandler(this.Label7Click);
             // 
             // textBoxA3Printer
             // 
@@ -606,11 +649,12 @@ namespace SCaddins.SCexport
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(10, 53);
+            this.label2.Location = new System.Drawing.Point(6, 53);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(121, 17);
             this.label2.TabIndex = 7;
             this.label2.Text = "Postscript printer name";
+            this.label2.Click += new System.EventHandler(this.Label2Click);
             // 
             // textBoxPSPrinter
             // 
@@ -621,7 +665,7 @@ namespace SCaddins.SCexport
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(10, 27);
+            this.label1.Location = new System.Drawing.Point(6, 27);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(121, 17);
             this.label1.TabIndex = 5;
@@ -648,16 +692,6 @@ namespace SCaddins.SCexport
             this.button3.TabIndex = 9;
             this.button3.Text = "Cancel";
             this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(9, 57);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(366, 23);
-            this.button4.TabIndex = 26;
-            this.button4.Text = "Export to USQ Working Files";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.ButtonWorkingFilesClick);
             // 
             // OptionsDialog
             // 
@@ -705,5 +739,8 @@ namespace SCaddins.SCexport
         private System.Windows.Forms.Button btnSelectPSPrinter;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btnSelectLargeFormatPrinter;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox textBoxLargeFormatPrinter;
     }
 }

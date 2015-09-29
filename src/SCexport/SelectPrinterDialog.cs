@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2014 by Andrew Nicholas
+﻿// (C) Copyright 2014-2015 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //

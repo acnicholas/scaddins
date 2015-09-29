@@ -19,9 +19,6 @@ namespace SCaddins.SCexport
 {
     using System;
 
-    /// <summary>
-    /// Description of Constants.
-    /// </summary>
     public static class Constants
     {
         /// <summary>

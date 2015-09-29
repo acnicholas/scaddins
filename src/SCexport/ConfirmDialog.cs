@@ -20,15 +20,8 @@ namespace SCaddins.SCexport
     using System;
     using System.Windows.Forms;
     
-    /// <summary>
-    /// Description of ConfirmationDialog.
-    /// </summary>
     public partial class ConfirmationDialog : Form
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConfirmationDialog"/> class.
-        /// </summary>
-        /// <param name="s">The full path of the file to evaluate.</param>
         public ConfirmationDialog(string displayMessage)
         {
             this.InitializeComponent();

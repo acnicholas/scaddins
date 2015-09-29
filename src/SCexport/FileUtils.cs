@@ -34,12 +34,6 @@ namespace SCaddins.SCexport
              return System.IO.File.Exists(config);   
         }
 
-        /// <summary>
-        /// Use your systems defualt editor to edit the config file
-        /// for the current revit model - if it exists.
-        /// </summary>
-        /// <param name="doc">The current Revit document.</param>
-        /// 
         [SecurityCritical]
         public static void EditConfigFile(Document doc)
         {
@@ -51,10 +45,6 @@ namespace SCaddins.SCexport
             }
         }
 
-        /// <summary>
-        /// Create a config file for the current revit model.
-        /// </summary>
-        /// <param name="doc">The current revit document.</param>
         public static void CreateConfigFile(Document doc)
         {
             string config = ExportManager.GetConfigFileName(doc);
@@ -79,11 +69,6 @@ namespace SCaddins.SCexport
             }
         }
 
-        /// <summary>
-        /// Determines if the givin string is a valid windows filename.
-        /// </summary>
-        /// <returns><c>true</c> if it is a valid filename; otherwise, <c>false</c>.</returns>
-        /// <param name="fileName"> File name. </param>
         public static bool IsValidFileName(string fileName)
         {
            var valid = !string.IsNullOrEmpty(fileName) &&
@@ -91,10 +76,7 @@ namespace SCaddins.SCexport
            return valid;
         }
 
-        /// <summary>
-        /// Loop until a file is accessible.
-        /// </summary>
-        /// <param name="file"> The file to check.</param>
+        //FIXME - add delay param
         public static void WaitForFileAccess(string file)
         {
            #if DEBUG
@@ -113,11 +95,6 @@ namespace SCaddins.SCexport
            }
         }
 
-        /// <summary>
-        /// Gets the central filename.
-        /// </summary>
-        /// <returns>The central filename.</returns>
-        /// <param name="doc">The current Revit document.</param>
         public static string GetCentralFileName(Document doc)
         {
             if (doc.IsWorkshared) {
@@ -129,11 +106,6 @@ namespace SCaddins.SCexport
             }
         }
             
-        /// <summary>
-        /// Determines if the specified file is locked.
-        /// </summary>
-        /// <returns><c>true</c> if the specified file is locked; otherwise, <c>false</c>.</returns>
-        /// <param name="file"> The file to evaluate.</param>
         public static bool IsFileLocked(System.IO.FileInfo file)
         {
             #if DEBUG
@@ -162,11 +134,6 @@ namespace SCaddins.SCexport
             return false;
         }
 
-        /// <summary>
-        /// Determines if a file can be overwritten.
-        /// </summary>
-        /// <returns><c>true</c> if the specified filename can be overwritten; otherwise, <c>false</c>.</returns>
-        /// <param name="filename"> The filename to check. </param>
         public static bool CanOverwriteFile(string fileName)
         {
             if (IsFileLocked(new FileInfo(fileName))) {
@@ -201,12 +168,6 @@ namespace SCaddins.SCexport
             }
         }
 
-        /// <summary>
-        /// Get the full path of a file.
-        /// Useful for binary executables that exist on the PATH variable.
-        /// </summary>
-        /// <param name="fileName">Exe file to query.</param>
-        /// <returns>The full path as a string.</returns>
         public static string GetFullPath(string fileName)
         {
             if (File.Exists(fileName)) {

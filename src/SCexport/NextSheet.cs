@@ -31,14 +31,6 @@ namespace SCaddins.SCexport
     /// </summary>
     public class NextSheet : IExternalCommand
     {
-        /// <summary>
-        /// Run the NextSheet Command.
-        /// Exit if the current view is not a Sheet.
-        /// </summary>
-        /// <param name="commandData"></param>
-        /// <param name="message"></param>
-        /// <param name="elements"></param>
-        /// <returns></returns>
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
             ref string message,

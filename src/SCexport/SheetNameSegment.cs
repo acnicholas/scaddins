@@ -17,9 +17,6 @@
 
 namespace SCaddins.SCexport
 {
-/// <summary>
-/// Sheet name segment.
-/// </summary>
 public class SheetNameSegment
 { 
     private SegmentType type;

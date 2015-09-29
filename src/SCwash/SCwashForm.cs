@@ -165,7 +165,6 @@ namespace SCaddins.SCwash
 
         private void TreeView1_AfterCheck(object sender, TreeViewEventArgs e)
         {
-            // treeView1.Nodes[7].Nodes[0].Checked = false;
             SCwashTreeNode tn = e.Node as SCwashTreeNode;
             foreach (SCwashTreeNode child in tn.Nodes) {
                 if (!tn.Checked) {

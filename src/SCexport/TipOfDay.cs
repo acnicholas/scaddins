@@ -19,9 +19,6 @@ namespace SCaddins.SCexport
 {
     using System;
     
-    /// <summary>
-    /// Description of TipOfDay.
-    /// </summary>
     public static class TipOfDay
     {
         private static readonly string[] Tips =
@@ -54,10 +51,6 @@ namespace SCaddins.SCexport
                 @"    type '^12' to find files that start with '12'"
         };
 
-        /// <summary>
-        /// Create a random tip-of-the-day.
-        /// </summary>
-        /// <returns> A tip of the day string.</returns>
         public static string Tip()
         {
             var random = new Random();
