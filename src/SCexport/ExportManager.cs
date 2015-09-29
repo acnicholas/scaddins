@@ -411,23 +411,8 @@ namespace SCaddins.SCexport
             TaskDialogResult tdr = td.Show();
             return tdr;
         }
-        
-        public static void PrintA3(
-            ICollection<ExportSheet> sheets,
-            string printerName)
-        {
-            Print(sheets, printerName, -1);
-        }
-        
-        public static void PrintLargeFormat(
-            ICollection<ExportSheet> sheets,
-            string printerName)
-        {
-            TaskDialog.Show("Large Format Print","Large Format Printing is not enabled just yet... won't be long.");
-            //Print(sheets, printerName);
-        }
-
-        public static void Print(
+            
+        public void Print(
             ICollection<ExportSheet> sheets,
             string printerName,
             int scale)
@@ -442,14 +427,25 @@ namespace SCaddins.SCexport
             if (tdr == TaskDialogResult.Ok) {            
                 foreach (ExportSheet sheet in sortedSheets) {
                     switch (scale) {
-                    case (-1) :
+                    case (3) :
                         if (!PrintSettings.ApplyPrintSettings(doc, "A3-FIT", pm, printerName)) {
                             continue;
                         }
                         break;
-                    case (100) :
-                        if (!PrintSettings.ApplyPrintSettings(doc, sheet.PageSize , pm, printerName)) {
+                    case (2) :
+                        if (!PrintSettings.ApplyPrintSettings(doc, "A2-FIT", pm, printerName)) {
                             continue;
+                        }
+                        break;
+                    case (-1) :
+                        if (int.Parse(sheet.PageSize.Substring(1,2)) > 2) {
+                            if (!PrintSettings.ApplyPrintSettings(doc, sheet.PageSize , pm, PrinterNameA3)) {
+                                continue;
+                            } else {
+                                if (!PrintSettings.ApplyPrintSettings(doc, sheet.PageSize , pm, PrinterNameLargeFormat)) {
+                                    continue; 
+                                }
+                            }
                         }
                         break;
                     }

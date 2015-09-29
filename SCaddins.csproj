@@ -207,6 +207,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\SCexport\MainForm.Designer.cs" />
+    <Compile Include="src\SCexport\MenuButton.cs" />
     <Compile Include="src\SCexport\NextSheet.cs" />
     <Compile Include="src\SCexport\OpenSheet.cs" />
     <Compile Include="src\SCexport\OpenSheetDialog.cs">

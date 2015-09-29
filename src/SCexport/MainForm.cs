@@ -34,6 +34,7 @@ namespace SCaddins.SCexport
         private Autodesk.Revit.DB.Document doc;
         private Autodesk.Revit.UI.UIDocument udoc;
         private FilterContextMenu filter;
+        private MenuButton printButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainForm"/> class.
@@ -46,6 +47,9 @@ namespace SCaddins.SCexport
             this.scx = new ExportManager(this.doc);
             this.filter = new FilterContextMenu("Filter", -1, null);
             this.InitializeComponent();
+            this.printButton = new MenuButton(printButtonContextMenu);
+            InitPrintButton();
+            this.Controls.Add(this.printButton);
             ToolTip findTip = new ToolTip();
             var findTipText = "Use regular expressions to filter the sheet list" +
                 System.Environment.NewLine +
@@ -63,11 +67,19 @@ namespace SCaddins.SCexport
             this.dataGridView1.Select();
         }
         
-        /// <summary>
-        /// Attempt to open the selected view.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        private void InitPrintButton()
+        {
+        this.printButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.printButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.printButton.Location = new System.Drawing.Point(635, 504);
+            this.printButton.Name = "btnPrint";
+            this.printButton.Size = new System.Drawing.Size(55, 22);
+            this.printButton.TabIndex = 13;
+            this.printButton.Text = "Print";
+            this.printButton.UseVisualStyleBackColor = true;
+            //this.printButton.Click += new System.EventHandler(this.Button1Click);
+        }
+        
         public void OpenSelectedViewToolStripMenuItemClick(
                 object sender, EventArgs e)
         {
@@ -224,7 +236,7 @@ namespace SCaddins.SCexport
         private void BtnExport_Click(object sender, EventArgs e)
         {
             this.btnExport.Hide();
-            this.btnPrint.Hide();
+            this.printButton.Hide();
             this.btnFind.Hide();
             this.Refresh();
             this.SetUpPBar(this.NumberOfSelectedViews());
@@ -606,25 +618,12 @@ namespace SCaddins.SCexport
                 this.searchBox.Visible = false;
            }
         }
-
-        private void Button1Click(object sender, EventArgs e)
-        {
-            ExportManager.PrintA3(this.SelectedSheets(), this.scx.PrinterNameA3);
-        }
-        
-        private void BtnPrintLargeClick(object sender, EventArgs e)
-        {
-            ExportManager.PrintLargeFormat(this.SelectedSheets(), this.scx.PrinterNameLargeFormat);  
-        }
-        
+       
         private void BtnExportResize(object sender, EventArgs e)
         {
-            this.btnPrint.Location = new Point(
-                this.btnExport.Location.X - (this.btnPrint.Width + 2),
+            this.printButton.Location = new Point(
+                this.btnExport.Location.X - (this.printButton.Width + 2),
                 this.btnExport.Location.Y);
-            this.btnPrintLarge.Location = new Point(
-                this.btnPrint.Location.X - (this.btnPrintLarge.Width + 2),
-                this.btnPrint.Location.Y);
         }
 
         private void MainFormKeyDown(object sender, KeyEventArgs e)
@@ -701,6 +700,21 @@ namespace SCaddins.SCexport
             if (result == System.Windows.Forms.DialogResult.OK) {
                 scopy.CreateSheets();
             }            
+        }
+
+        private void PrintA3ToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            scx.Print(this.SelectedSheets(), this.scx.PrinterNameA3, 3);  
+        }
+        
+        private void PrintA2ToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            scx.Print(this.SelectedSheets(), this.scx.PrinterNameLargeFormat, 2);  
+        }
+        
+        private void PrintFullSizeToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            scx.Print(this.SelectedSheets(), this.scx.PrinterNameLargeFormat, -1);  
         } 
     }
 }

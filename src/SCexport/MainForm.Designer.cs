@@ -22,7 +22,6 @@ namespace SCaddins.SCexport
     /// </summary>
     public partial class MainForm
     {
-        private System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.ToolStripProgressBar progressBar;
         private System.Windows.Forms.ToolStripStatusLabel progressInfo;
         private System.Windows.Forms.StatusStrip statusStrip1;
@@ -116,13 +115,18 @@ namespace SCaddins.SCexport
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.progressInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.btnPrint = new System.Windows.Forms.Button();
             this.btnOptions = new System.Windows.Forms.Button();
             this.btnFind = new System.Windows.Forms.Button();
-            this.btnPrintLarge = new System.Windows.Forms.Button();
+            this.printButtonContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.printA3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.printA2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.printFullSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            this.printButtonContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnExport
@@ -439,19 +443,6 @@ namespace SCaddins.SCexport
             this.progressBar.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.progressBar.Size = new System.Drawing.Size(450, 24);
             // 
-            // btnPrint
-            // 
-            this.btnPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPrint.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnPrint.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnPrint.Location = new System.Drawing.Point(635, 504);
-            this.btnPrint.Name = "btnPrint";
-            this.btnPrint.Size = new System.Drawing.Size(55, 22);
-            this.btnPrint.TabIndex = 13;
-            this.btnPrint.Text = "Print (A3)";
-            this.btnPrint.UseVisualStyleBackColor = true;
-            this.btnPrint.Click += new System.EventHandler(this.Button1Click);
-            // 
             // btnOptions
             // 
             this.btnOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -480,27 +471,55 @@ namespace SCaddins.SCexport
             this.btnFind.UseVisualStyleBackColor = true;
             this.btnFind.Click += new System.EventHandler(this.BtnFindClick);
             // 
-            // btnPrintLarge
+            // printButtonContextMenu
             // 
-            this.btnPrintLarge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPrintLarge.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnPrintLarge.Location = new System.Drawing.Point(515, 504);
-            this.btnPrintLarge.Name = "btnPrintLarge";
-            this.btnPrintLarge.Size = new System.Drawing.Size(114, 22);
-            this.btnPrintLarge.TabIndex = 16;
-            this.btnPrintLarge.Text = "Print (Large Format)";
-            this.btnPrintLarge.UseVisualStyleBackColor = true;
-            this.btnPrintLarge.Click += new System.EventHandler(this.BtnPrintLargeClick);
+            this.printButtonContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.printA3ToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.printA2ToolStripMenuItem,
+            this.toolStripMenuItem2,
+            this.printFullSizeToolStripMenuItem});
+            this.printButtonContextMenu.Name = "pintButtonContextMenu";
+            this.printButtonContextMenu.Size = new System.Drawing.Size(182, 104);
+            // 
+            // printA3ToolStripMenuItem
+            // 
+            this.printA3ToolStripMenuItem.Name = "printA3ToolStripMenuItem";
+            this.printA3ToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.printA3ToolStripMenuItem.Text = "Print A3 (scale to fit)";
+            this.printA3ToolStripMenuItem.Click += new System.EventHandler(this.PrintA3ToolStripMenuItemClick);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(178, 6);
+            // 
+            // printA2ToolStripMenuItem
+            // 
+            this.printA2ToolStripMenuItem.Name = "printA2ToolStripMenuItem";
+            this.printA2ToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.printA2ToolStripMenuItem.Text = "Print A2 (scale to fit)";
+            this.printA2ToolStripMenuItem.Click += new System.EventHandler(this.PrintA2ToolStripMenuItemClick);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(178, 6);
+            // 
+            // printFullSizeToolStripMenuItem
+            // 
+            this.printFullSizeToolStripMenuItem.Name = "printFullSizeToolStripMenuItem";
+            this.printFullSizeToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.printFullSizeToolStripMenuItem.Text = "Print Full Size";
+            this.printFullSizeToolStripMenuItem.Click += new System.EventHandler(this.PrintFullSizeToolStripMenuItemClick);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(779, 534);
-            this.Controls.Add(this.btnPrintLarge);
             this.Controls.Add(this.btnFind);
             this.Controls.Add(this.btnOptions);
-            this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.searchBox);
             this.Controls.Add(this.dataGridView1);
@@ -521,6 +540,7 @@ namespace SCaddins.SCexport
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.printButtonContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -530,7 +550,12 @@ namespace SCaddins.SCexport
         private System.Windows.Forms.ToolStripMenuItem removeUnderlaysFromViewsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fixScalesBarsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copySheetsToolStripMenuItem;
-        private System.Windows.Forms.Button btnPrintLarge;
+        private System.Windows.Forms.ContextMenuStrip printButtonContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem printA3ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem printA2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem printFullSizeToolStripMenuItem;
         #endregion
         }
     }
