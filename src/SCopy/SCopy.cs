@@ -158,7 +158,7 @@ namespace SCaddins.SCopy
             var x2 = viewBounds.Max.X;
             var y1 = viewBounds.Min.Y;
             var y2 = viewBounds.Max.Y;
-            XYZ xyzPosition = new XYZ((x1 + (x2 - x1)) / 2, (y1 + (y2 - y1)) / 2, viewBounds.Min.Z);
+            var xyzPosition = new XYZ((x1 + (x2 - x1)) / 2, (y1 + (y2 - y1)) / 2, viewBounds.Min.Z);
             return xyzPosition;
         }
                       
@@ -169,7 +169,7 @@ namespace SCaddins.SCopy
             foreach (ElementId viewPortId in srcSheet.GetAllViewports()) {
                 var viewPort = (Viewport)doc.GetElement(viewPortId);
                 var viewPortBounds = viewPort.GetBoxOutline();
-                BoundingBoxXYZ bb = new BoundingBoxXYZ();
+                var bb = new BoundingBoxXYZ();
                 bb.Min = viewPortBounds.MinimumPoint;
                 bb.Max = viewPortBounds.MaximumPoint;
                 result.Add(
@@ -220,7 +220,7 @@ namespace SCaddins.SCopy
         private void GetAllSheets()
         {
             this.existingSheets.Clear();
-            FilteredElementCollector c1 = new FilteredElementCollector(this.doc);
+            var c1 = new FilteredElementCollector(this.doc);
             c1.OfCategory(BuiltInCategory.OST_Sheets);
             foreach (View view in c1) {
                 ViewSheet vs = view as ViewSheet;
@@ -240,8 +240,7 @@ namespace SCaddins.SCopy
         private void GetAllViewsInModel()
         {
             this.existingViews.Clear();
-            FilteredElementCollector c = new FilteredElementCollector(this.doc);
-            c.OfClass(typeof(Autodesk.Revit.DB.View));
+            FilteredElementCollector c = new FilteredElementCollector(this.doc).OfClass(typeof(Autodesk.Revit.DB.View));
             foreach (View view in c) {
                 View v = view as View;
                 View vv;
@@ -254,8 +253,7 @@ namespace SCaddins.SCopy
         private void GetAllLevelsInModel()
         {
             this.levels.Clear();
-            FilteredElementCollector c3 = new FilteredElementCollector(this.doc);
-            c3.OfClass(typeof(Level));
+            var c3 = new FilteredElementCollector(this.doc).OfClass(typeof(Level));
             foreach (Level l in c3) {
                 this.levels.Add(l.Name.ToString(), l);
             }
@@ -264,7 +262,6 @@ namespace SCaddins.SCopy
         // this is where the action happens
         private bool CreateAndPopulateNewSheet(SCopySheet sheet, ref string summary)
         {        
-            // create the "blank canvas"
             sheet.DestinationSheet = this.AddEmptySheetToDocument(
                 sheet.Number,
                 sheet.Title,
@@ -282,7 +279,7 @@ namespace SCaddins.SCopy
             } catch (InvalidOperationException e) {
                 Debug.WriteLine(e.Message);
             } 
-            //// create a log...
+
             var oldNumber = sheet.SourceSheet.SheetNumber;
             var msg = " Sheet: " + oldNumber + " copied to: " + sheet.Number;
             summary += msg + System.Environment.NewLine;
@@ -365,7 +362,7 @@ namespace SCaddins.SCopy
             var v = this.doc.GetElement(destViewId) as View;
             if (newName != null) {
                 v.Name = newName;
-                View dv = this.doc.GetElement(destViewId) as View;  
+                var dv = this.doc.GetElement(destViewId) as View;  
                 this.TryAssignViewTemplate(dv, view.ViewTemplateName);                
             }
             this.PlaceViewPortOnSheet(sheet.DestinationSheet, destViewId, sourceViewCentre);

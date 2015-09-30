@@ -127,19 +127,11 @@ namespace SCaddins.SCexport
             }
         }
 
-        /// <summary>
-        /// Gets the sheet revision date time.
-        /// </summary>
-        /// <value>The sheet revision date time.</value>
         public DateTime SheetRevisionDateTime
         {
             get { return this.sheetRevisionDateTime; }
         }
 
-        /// <summary>
-        /// Gets the scale.
-        /// </summary>
-        /// <value>The scale.</value>
         public string Scale
         {
             get {
@@ -339,13 +331,6 @@ namespace SCaddins.SCexport
             }          
         }
                
-        /// <summary>
-        /// Initializes initial values.
-        /// </summary>
-        /// <param name="viewSheet">The Revit ViewSheet.</param>
-        /// <param name="document">The Active Revit Document.</param>
-        /// <param name="sheetName">Naming template.</param>
-        /// <param name="scx">SCexport instance.</param>
         private void Init(
                 ViewSheet viewSheet,
                 Document document,
