@@ -361,7 +361,7 @@ namespace SCaddins.SCexport
                     this.Close();
                     break;
                 case "S":
-                    this.SelectItem(ExportManager.CurrentView());
+                    this.SelectItem(ExportManager.CurrentViewName());
                     this.dataGridView1.Refresh();
                     break;
                 case "T":

@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2012-2014 by Andrew Nicholas
+﻿// (C) Copyright 2012-2015 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -23,12 +23,6 @@ namespace SCaddins.SCightLines
     using Autodesk.Revit.ApplicationServices;
     using Autodesk.Revit.DB;
 
-    /// <summary>
-    /// Create sight lines diagrams and/or Tables
-    /// </summary>
-    /// <author>
-    /// Andrew Nicholas
-    /// </author>
     public class LineOfSight
     {
         private Document doc;
@@ -84,17 +78,10 @@ namespace SCaddins.SCightLines
                 distanceToFirstRowY);
         }
 
-        /// <summary>
-        /// The string that will get outputed to the Information form
-        /// </summary>
         public string InfoString {
             get { return this.infoString; }
         }
 
-        /// <summary>
-        /// Update/Change all parameters.
-        /// i.e when changes are made to GUI frontend
-        /// </summary>
         public void Update(
             double eyeHeight,
             double treadSize,
@@ -117,9 +104,6 @@ namespace SCaddins.SCightLines
             this.infoString = this.UpdateInfoString();
         }
 
-        /// <summary>
-        /// Draw the sightlines
-        /// </summary>
         public void Draw()
         {
             string times = System.DateTime.Now.ToString();
@@ -202,27 +186,13 @@ namespace SCaddins.SCightLines
             }
         }
         
-        /// <summary>Converts feet to mm
-        /// NOTE: revit system units are feet so this needs to be done
-        /// </summary>
-        /// <param name="EyeToFocusX">
-        /// Length in feet
-        /// </param>
-        /// <returns>
-        /// Returns d in mm
-        /// </returns>
+        //FIXME put this in a utility class
         private static double FeetToMM(double d)
         {
             return d / 304.8;
         }
 
-        /// <summary>
-        /// Create a Drafting View with a semi-usefull name
-        /// </summary>
-        /// <param name="s">
-        /// Name of the the drafting view
-        /// </param>
-        private ViewDrafting CreateLineOfSightDraftingView(string s)
+        private ViewDrafting CreateLineOfSightDraftingView(string newViewName)
         {
             ViewDrafting view = null;
             #if REVIT2014
@@ -235,13 +205,10 @@ namespace SCaddins.SCightLines
                     .FirstOrDefault<ViewFamilyType>(x => ViewFamily.Drafting == x.ViewFamily);
             view = ViewDrafting.Create(this.doc, viewFamilyType.Id);
             #endif
-            view.ViewName = s;
+            view.ViewName = newViewName;
             return view;
         }
 
-        /// <summary>
-        /// Update all the rows
-        /// </summary>
         private void UpdateRows()
         {
             for (int i = 0; i < this.numberOfRows; i++) {
@@ -263,10 +230,6 @@ namespace SCaddins.SCightLines
             }
         }
 
-        /// <summary>
-        /// Draw the Riser.
-        /// </summary>
-        /// <param name="i">The riser number.</param>
         private void DrawRiser(int i)
         {
             if (i == 0) {
@@ -286,10 +249,6 @@ namespace SCaddins.SCightLines
             }
         }
 
-        /// <summary>
-        /// Draw the Going.
-        /// </summary>
-        /// <param name="i">The going(tread) number.</param>
         private void DrawGoing(int i)
         {
             string igo = "Wide Lines";
@@ -313,9 +272,6 @@ namespace SCaddins.SCightLines
             TextElement testy = this.doc.Create.NewTextNote(this.view, origin, normal_base, normal_up, LineOfSight.FeetToMM(10), f, s);
         }
 
-        /// <summary>
-        /// Update the string that will get outputed
-        /// </summary>
         private string UpdateInfoString()
         {
             string s;
@@ -353,7 +309,7 @@ namespace SCaddins.SCightLines
             try {
                 Line line = Line.CreateBound(point1, point2);
                 var detailCurve = this.doc.Create.NewDetailCurve(this.view, line) as DetailLine;
-                this.SetLineType(detailCurve, s);
+                this.SetLineTypeByName(detailCurve, s);
             } catch (ArgumentNullException e) {
                 Console.WriteLine(e.Message);
             } catch (Autodesk.Revit.Exceptions.ArgumentsInconsistentException e) {
@@ -376,38 +332,20 @@ namespace SCaddins.SCightLines
                           app.Create.NewXYZ(1, 0, 0),
                           app.Create.NewXYZ(0, 1, 0));
             DetailArc detailCurve = this.doc.Create.NewDetailCurve(this.view, arc) as DetailArc;
-            this.SetLineType(detailCurve, s);
+            this.SetLineTypeByName(detailCurve, s);
         }
 
-        /// <summary>
-        /// Set the Revit linetype of a DetailCurve
-        /// </summary>
-        /// <param name="l">
-        /// DetailCurve to set
-        /// </param>
-        /// <param name="s">
-        /// Name of the linetype
-        /// </param>
-        private void SetLineType(DetailCurve l, string s)
+
+        private void SetLineTypeByName(DetailCurve detailLine, string styleName)
         {
-            foreach (ElementId styleId in l.GetLineStyleIds()) {
+            foreach (ElementId styleId in detailLine.GetLineStyleIds()) {
                 Element style = this.doc.GetElement(styleId);
-                if (style.Name.Equals(s)) {
-                    l.LineStyle = style;
+                if (style.Name.Equals(styleName)) {
+                    detailLine.LineStyle = style;
                 }
             }
         }
 
-        /// <summary>Get the C-Value</summary>
-        /// <param name="i">
-        /// The row to calculate
-        /// </param>
-        /// <param name="nextn">
-        /// The riser height(RiserHeight) of the next row(i+1)
-        /// </param>
-        /// <returns>
-        /// The C-Value as a double
-        /// </returns>
         private double GetCValue(int i, double nextn)
         {
             return ((this.rows[i].EyeToFocusX * (this.rows[i].HeightToFocus + nextn)) / (this.rows[i].EyeToFocusX + this.treadSize)) - this.rows[i].HeightToFocus;

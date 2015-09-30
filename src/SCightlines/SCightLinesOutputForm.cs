@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2012-2014 by Andrew Nicholas
+﻿// (C) Copyright 2012-2015 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -20,32 +20,14 @@ namespace SCaddins.SCightLines
     using System;
     using System.Windows.Forms;
     
-    /// <summary>
-    /// Form to display text values of the current settings
-    /// </summary>
-    /// <author>
-    /// Andrew Nicholas
-    /// </author>
     public partial class SCightOutputForm : Form
     {
-        /// <summary>
-        /// Initialise with a given string
-        /// </summary>
-        /// <param name="s">
-        /// String to display
-        /// </param>
-        public SCightOutputForm(string s)
+        public SCightOutputForm(string displayValue)
         {
             this.InitializeComponent();
-            this.Update(s);
+            this.Update(displayValue);
         }
 
-        /// <summary>
-        /// Update with a given string
-        /// </summary>
-        /// <param name="displayValue">
-        /// String to display
-        /// </param>
         public void Update(string displayValue)
         {
             textBox1.Text = displayValue;

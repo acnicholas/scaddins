@@ -94,11 +94,7 @@ namespace SCaddins.SCopy
         #endregion
 
         #region public methods
-        /// <summary>
-        /// Cast a view to a viewsheet
-        /// </summary>
-        /// <param name="view">A Revit View</param>
-        /// <returns>A Revit ViewSHeet, or null if the source view is not a ViewSheet</returns>
+
         public static ViewSheet ViewToViewSheet(View view)
         {
             return (view.ViewType != ViewType.DrawingSheet) ? null : view as ViewSheet;

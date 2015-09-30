@@ -17,58 +17,40 @@
 
 namespace SCaddins.SCightLines
 { 
-    /// <summary>
-    /// Class to hold row(tread) values
-    /// </summary>
-    /// <author>
-    /// Andrew Nicholas
-    /// </author>
     public class SCightLinesRow
     {
         public SCightLinesRow()
         {
         }
         
-        /// <summary> the c value</summary> 
         public double CValue
         {
-            get;
-            set;
+            get; set;
         }
 
-        /// <summary> horizontal distane from eye to focus</summary> 
         public double EyeToFocusX
         {
-            get;
-            set;
+            get; set;
         }
 
-        /// <summary> the riser height</summary> 
         public double RiserHeight
         {
-            get;
-            set;
+            get; set;
         }
 
-        /// <summary> vertical height to the point of focus</summary> 
         public double HeightToFocus
         {
-            get;
-            set;
+            get; set;
         }
 
-        /// <summary> the seating row depth</summary> 
         public double Going
         {
-            get;
-            set;
+            get; set;
         }
 
-        /// <summary> the eye height</summary> 
         public double EyeHeight
         {
-            get;
-            set;
+            get; set;
         }
 
         public void Initialize(

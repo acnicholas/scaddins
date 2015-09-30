@@ -111,8 +111,10 @@ namespace SCaddins.SCexport
         
         private void AssignDWGReleaseMenuTags()
         {
+                #if (!REVIT2016)
                 this.comboBoxAutocadVersion.Items.Add("R2000");  
                 this.comboBoxAutocadVersion.Items.Add("R2004");
+                #endif
                 this.comboBoxAutocadVersion.Items.Add("R2007");
                 this.comboBoxAutocadVersion.Items.Add("R2010");
                 this.comboBoxAutocadVersion.Items.Add("R2013");      
@@ -129,12 +131,9 @@ namespace SCaddins.SCexport
         
         private void InitializeComponentsMore()
         {
-            if (this.scx.GSSanityCheck()) {
-                this.radioGSPDF.Enabled = true;
-            }
-            if (this.scx.PDFSanityCheck()) {
-                this.radioPDF.Enabled = true;
-            }
+            this.radioGSPDF.Enabled |= this.scx.GSSanityCheck();
+            this.radioPDF.Enabled |= this.scx.PDFSanityCheck();
+            
             if (!this.radioPDF.Enabled && !this.radioGSPDF.Enabled) {
                 this.checkBox1.Enabled = false;
                 this.checkBox1.Text = "PDF disabled, check settings!!!";

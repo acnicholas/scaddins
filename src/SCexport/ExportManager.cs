@@ -77,8 +77,7 @@ namespace SCaddins.SCexport
    
         public static bool ConfirmOverwrite
         {
-            get;
-            set;
+            get; set;
         }
 
         public static string Author {
@@ -115,10 +114,6 @@ namespace SCaddins.SCexport
             get; set;
         }
 
-        /// <summary>
-        /// Gets the available filename schemes.
-        /// </summary>
-        /// <value>Gets the value of the filenameTypes field.</value>
         public Collection<SheetName> FileNameTypes
         {
             get { return this.fileNameTypes; }
@@ -244,15 +239,6 @@ namespace SCaddins.SCexport
             }               
         }
 
-        /// <summary>
-        /// Creates a custom XML config file in the same folder as the active
-        /// document.
-        /// </summary>
-        /// <param name="doc">The current revit document.</param>
-        /// <returns>
-        /// The full path to the project config file for
-        /// the active Revit document.
-        /// </returns>
         public static string CreateSCexportConfig(Document doc)
         {
             string s = GetConfigFileName(doc);
@@ -324,7 +310,7 @@ namespace SCaddins.SCexport
             }
         }
 
-        public static string CurrentView()
+        public static string CurrentViewName()
         {
             View v = doc.ActiveView;
             if (v.ViewType == ViewType.DrawingSheet) {
@@ -377,10 +363,6 @@ namespace SCaddins.SCexport
             }
         }
 
-        /// <summary>
-        /// The date of the latest revision in the current doc.
-        /// </summary>
-        /// <returns>The revision date.</returns>
         public static string LatestRevisionDate()
         {
             string s = string.Empty;
@@ -417,39 +399,27 @@ namespace SCaddins.SCexport
             string printerName,
             int scale)
         {
-            PrintManager pm = doc.PrintManager;
-
-            // collate the sheets.
-            ICollection<ExportSheet> sortedSheets = sheets.OrderBy(x => x.SheetNumber).ToList();
-            
+            PrintManager pm = doc.PrintManager;            
             TaskDialogResult tdr = ShowPrintWarning();
 
             if (tdr == TaskDialogResult.Ok) { 
                 bool printSetttingsValid;                
-                foreach (ExportSheet sheet in sortedSheets) {
+                foreach (ExportSheet sheet in sheets.OrderBy(x => x.SheetNumber).ToList()) {
+                    
                     if(!sheet.Verified) sheet.UpdateSheetInfo();
                     printSetttingsValid = false;
+                    
                     switch (scale) {
                     case (3) :
-                        if (PrintSettings.ApplyPrintSettings(doc, "A3-FIT", pm, printerName)) {
-                                printSetttingsValid = true;
-                        }
+                        printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, "A3-FIT", pm, printerName);
                         break;
                     case (2) :
-                        if (PrintSettings.ApplyPrintSettings(doc, "A2-FIT", pm, printerName)) {
-                            printSetttingsValid = true;
-                        }
+                        printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, "A2-FIT", pm, printerName);
                         break;
-                    case (-1) :
-                        if (int.Parse(sheet.PageSize.Substring(1,1)) > 2) {
-                            if (PrintSettings.ApplyPrintSettings(doc, sheet.PageSize , pm, this.PrinterNameA3)) {
-                                printSetttingsValid = true;
-                            }
-                        } else {
-                            if (PrintSettings.ApplyPrintSettings(doc, sheet.PageSize , pm, this.PrinterNameLargeFormat)) {
-                               printSetttingsValid = true;
-                            }
-                        }
+                    default :
+                        int i = int.Parse(sheet.PageSize.Substring(1,1));
+                        string printerNameTmp = i > 2 ? "this.PrinterNameA3" : this.PrinterNameLargeFormat;
+                        printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, sheet.PageSize, pm, printerNameTmp);
                         break;
                     }
                     if (printSetttingsValid) pm.SubmitPrint(sheet.Sheet);
@@ -526,9 +496,7 @@ namespace SCaddins.SCexport
             
             var exportLog = new ExportLog(startTime, this.GetTotalNumberOfExports(sheets));
             
-            //// set printer now
             PrintManager pm = doc.PrintManager;
-            //// TaskDialog.Show("test",this.PdfPrinterName);
             PrintSettings.SetPrinter(doc, this.PdfPrinterName, pm);
             
             foreach (ExportSheet sheet in sheets) {
@@ -905,6 +873,14 @@ namespace SCaddins.SCexport
                 log.AddError(sheet.FullExportName, "no print setting assigned.");        
             }
         }
+        
+        private void ApplyDefaultDWGExportOptions(ref DWGExportOptions opts)
+        {
+            opts.MergedViews = true;
+            opts.FileVersion = this.AcadVersion;
+            opts.HideScopeBox = true;
+            opts.HideUnreferenceViewTags = true;
+        }
 
         // FIXME
         // this could do with a lot of cleaning up!
@@ -940,16 +916,12 @@ namespace SCaddins.SCexport
             views.Add(vs.Id);
             
             var opts = new DWGExportOptions();
-            opts.MergedViews = true;
-            opts.FileVersion = this.AcadVersion;
+            ApplyDefaultDWGExportOptions(ref opts);
 
             pm.PrintRange = PrintRange.Select;
-            opts.HideScopeBox = true;
-            opts.HideUnreferenceViewTags = true;
 
-            bool r;
             var name = vs.FullExportName + ".dwg";
-            r = doc.Export(vs.ExportDir, name, views, opts);
+            doc.Export(vs.ExportDir, name, views, opts);
             System.Threading.Thread.Sleep(1000);
 
             if (removeTitle) {
