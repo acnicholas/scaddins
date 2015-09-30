@@ -181,8 +181,7 @@ namespace SCaddins.SCopy
         private void GetViewTemplates()
         {
             this.viewTemplates.Clear();
-            FilteredElementCollector c = new FilteredElementCollector(this.doc);
-            c.OfCategory(BuiltInCategory.OST_Views);
+            var c = new FilteredElementCollector(this.doc).OfCategory(BuiltInCategory.OST_Views);
             foreach (View view in c) {
                 if (view.IsTemplate) {
                     this.viewTemplates.Add(view.Name, view);
@@ -193,8 +192,7 @@ namespace SCaddins.SCopy
         private void GetAllSheetCategories()
         {
             this.sheetCategories.Clear();
-            FilteredElementCollector c1 = new FilteredElementCollector(this.doc);
-            c1.OfCategory(BuiltInCategory.OST_Sheets);
+            var c1 = new FilteredElementCollector(this.doc).OfCategory(BuiltInCategory.OST_Sheets);
             foreach (View view in c1) {
                 #if ( REVIT2015 || REVIT2016 )
                 var viewCategoryParamList = view.GetParameters(SCopyConstants.SheetCategory);
@@ -223,7 +221,7 @@ namespace SCaddins.SCopy
             var c1 = new FilteredElementCollector(this.doc);
             c1.OfCategory(BuiltInCategory.OST_Sheets);
             foreach (View view in c1) {
-                ViewSheet vs = view as ViewSheet;
+                var vs = view as ViewSheet;
                 this.existingSheets.Add(vs.SheetNumber, view);
             }
         }

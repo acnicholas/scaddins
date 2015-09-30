@@ -79,7 +79,7 @@ namespace SCaddins.SCoord
                 #else
                 System.Collections.Generic.ISet<ElementId> sids = fam.GetFamilySymbolIds();
                 foreach (ElementId id in sids) {   
-                    FamilySymbol f = doc.GetElement(id) as FamilySymbol;
+                    var f = doc.GetElement(id) as FamilySymbol;
                     if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture))) {
                         return f;
                     }

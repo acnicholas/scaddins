@@ -21,10 +21,7 @@ namespace SCaddins.SCopy
     {
         // constants for combobox menus
         public const string MenuItemCopy = @"(Copy)";
-    
-        // mm in a foot
-        public const double MillimetersPerFoot = 304.8;
-    
+        
         // sheet categroy parameter
         public const string SheetCategory = @"SC-Sheet_Category";
     

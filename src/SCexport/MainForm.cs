@@ -50,7 +50,7 @@ namespace SCaddins.SCexport
             this.printButton = new MenuButton(printButtonContextMenu);
             InitPrintButton();
             this.Controls.Add(this.printButton);
-            ToolTip findTip = new ToolTip();
+            var findTip = new ToolTip();
             var findTipText = "Use regular expressions to filter the sheet list" +
                 System.Environment.NewLine +
                 "Searches both sheet name and number."; 

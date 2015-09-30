@@ -64,17 +64,6 @@ namespace SCaddins.SCexport
             ExportManager.FixAcrotrayHang();
         }
         
-        //FIXME - put this in a util class
-        public static string GetDateString {
-            get {
-                DateTime moment = DateTime.Now;
-                string syear = moment.Year.ToString(CultureInfo.CurrentCulture);
-                string smonth = ExportManager.PadLeftZero(moment.Month.ToString(CultureInfo.CurrentCulture), 2);
-                string sday = ExportManager.PadLeftZero(moment.Day.ToString(CultureInfo.CurrentCulture), 2);
-                return syear + smonth + sday;
-            }
-        }
-   
         public static bool ConfirmOverwrite
         {
             get; set;
@@ -199,46 +188,7 @@ namespace SCaddins.SCexport
 
             return titleBlocks.TryGetValue(sheetNumber, out result) ? result : null;
         }
-
-        //FIXME - put this in util class
-        public static DateTime ToDateTime(string dateValue)
-        {
-            var date = dateValue.Trim();
-            string delims = @"-.\/_ ";
-            char[] c = delims.ToCharArray();
-            int d2 = date.LastIndexOfAny(c);
-            int d1 = date.IndexOfAny(c);
-
-            // FIXME clean this up.
-            try {
-                string year = string.Empty;
-                string month = string.Empty;
-                string day = string.Empty;
-                if (date.Length > d2 + 1) {
-                    year = date.Substring(d2 + 1);
-                }
-                if (date.Length > (d1 + 1) && (d2 - d1 - 1) < date.Length - (d1 + 1)) {
-                    month = date.Substring(d1 + 1, d2 - d1 - 1);
-                }
-                if (date.Length > 0 && d1 <= date.Length) {
-                    day = date.Substring(0, d1);
-                }
-                return new DateTime(
-                    Convert.ToInt32(year, CultureInfo.InvariantCulture),
-                    Convert.ToInt32(month, CultureInfo.InvariantCulture),
-                    Convert.ToInt32(day, CultureInfo.InvariantCulture));
-            } catch (ArgumentOutOfRangeException e) { 
-                Debug.WriteLine("Error in ToDateTime:" + e.Message);
-                return new DateTime();
-            } catch (FormatException e) {
-                Debug.WriteLine("Error in ToDateTime:" + e.Message);
-                return new DateTime(); 
-            } catch (OverflowException e) {
-                Debug.WriteLine("Error in ToDateTime:" + e.Message);
-                return new DateTime(); 
-            }               
-        }
-
+        
         public static string CreateSCexportConfig(Document doc)
         {
             string s = GetConfigFileName(doc);
@@ -508,7 +458,6 @@ namespace SCaddins.SCexport
                 this.ExportSheet(sheet, exportLog);
             }
             
-            exportLog.FinishLogging();
             if (exportLog.Errors > 0) {
                 exportLog.ShowSummaryDialog();
             }
@@ -569,7 +518,6 @@ namespace SCaddins.SCexport
                     return;
                 }
             }
-            TaskDialog.Show("TEST", "stuffed");
         }
 
         private static Dictionary<string, FamilyInstance> AllTitleBlocks(
@@ -591,15 +539,6 @@ namespace SCaddins.SCexport
             return result;
         }
 
-        private static string PadLeftZero(string s, int desiredLength)
-        {
-            if (s.Length == desiredLength - 1) {
-                return "0" + s;
-            } else {
-                return s;
-            }
-        }
-
         private static string PercentageSting(int n, int total)
         {
             var result = "Exporting " + n + " of " + total +
@@ -610,9 +549,9 @@ namespace SCaddins.SCexport
         private static string TimeSpanAsString(TimeSpan time)
         {
             var result = "Elapsed Time: " +
-                PadLeftZero(time.Hours.ToString(CultureInfo.CurrentCulture), 2) + "h:" +
-                PadLeftZero(time.Minutes.ToString(CultureInfo.CurrentCulture), 2) + "m:" +
-                PadLeftZero(time.Seconds.ToString(CultureInfo.CurrentCulture), 2) + "s";
+                MiscUtilities.PadLeftZeros(time.Hours.ToString(CultureInfo.CurrentCulture), 2) + "h:" +
+                MiscUtilities.PadLeftZeros(time.Minutes.ToString(CultureInfo.CurrentCulture), 2) + "m:" +
+                MiscUtilities.PadLeftZeros(time.Seconds.ToString(CultureInfo.CurrentCulture), 2) + "s";
             return result;
         }
 
@@ -646,8 +585,8 @@ namespace SCaddins.SCexport
             ICollection<ElementId> title,
             bool hide)
         {
-            View view = doc.GetElement(vs.Id) as View;
-            Transaction t = new Transaction(doc, "Hide Title");
+            var view = doc.GetElement(vs.Id) as View;
+            var t = new Transaction(doc, "Hide Title");
             t.Start();
             try {
                 if (hide) {
@@ -666,8 +605,7 @@ namespace SCaddins.SCexport
         {
             vss.Clear();
             FilteredElementCollector a;
-            a = new FilteredElementCollector(doc);
-            a.OfClass(typeof(ViewSheetSet));
+            a = new FilteredElementCollector(doc).OfClass(typeof(ViewSheetSet));
             foreach (ViewSheetSet v in a) {
                 vss.Add(new ViewSheetSetCombo(v));
             }
@@ -722,9 +660,7 @@ namespace SCaddins.SCexport
             if (SCaddins.SCexport.Settings1.Default.HideTitleBlocks) {
                 this.AddExportOption(ExportFlags.NoTitle);
             }
-            if (SCaddins.SCexport.Settings1.Default.ForceDateRevision) {
-                this.forceDate = true;
-            }
+            this.forceDate |= SCaddins.SCexport.Settings1.Default.ForceDateRevision;
         }
 
         private void PopulateSheets(SortableBindingListCollection<ExportSheet> s)
@@ -882,9 +818,6 @@ namespace SCaddins.SCexport
             opts.HideUnreferenceViewTags = true;
         }
 
-        // FIXME
-        // this could do with a lot of cleaning up!
-        // ...even more than some other things
         private void ExportDWG(ExportSheet vs, bool removeTitle)
         {
             ICollection<ElementId> titleBlockHidden;

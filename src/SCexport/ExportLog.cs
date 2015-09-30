@@ -32,7 +32,6 @@
         private int messages;
         private int totalExports;
         private System.DateTime startTime;
-        private System.TimeSpan exportTime;
               
         public ExportLog(System.DateTime startTime, int totalExports)
         {
@@ -44,7 +43,6 @@
             this.warningLog = new Collection<ExportLogItem>();
             this.messageLog = new Collection<ExportLogItem>();
             this.startTime = startTime;
-            this.exportTime = System.TimeSpan.MinValue;
         }
         
         public int Warnings
@@ -81,12 +79,7 @@
         {
             get { return this.messageLog; }
         }
-               
-        public void FinishLogging()
-        {
-            this.exportTime = System.DateTime.Now - this.startTime;
-        }
-        
+                      
         public void AddSuccess(string fileName, string msg)
         {
             this.messages++;
@@ -107,7 +100,7 @@
         
         public void ShowSummaryDialog()
         {
-            ExportLogDialog logDialog = new ExportLogDialog(this);
+            var logDialog = new ExportLogDialog(this);
             logDialog.ShowDialog();
         }
     }

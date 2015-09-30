@@ -45,7 +45,7 @@ namespace SCaddins.SCulcase
             #else
             IList<ElementId> elems = document.Selection.GetElementIds().ToList<ElementId>();
             #endif
-            using (TransactionGroup t = new TransactionGroup(doc, "SCulcase")) {
+            using (var t = new TransactionGroup(doc, "SCulcase")) {
                       t.Start();
                       if (elems.Count == 0) {
                           var form = new SCulcaseMainForm(doc);

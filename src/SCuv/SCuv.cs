@@ -21,6 +21,7 @@ namespace SCaddins.SCuv
     using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using SCaddins.Common;
 
     /// <summary>
     /// Copy a view; give it a user name, remove any view templates and
@@ -55,7 +56,7 @@ namespace SCaddins.SCuv
                     
         public static string GetNewViewName(Element sourceView)
         { 
-            return Environment.UserName + "-" + sourceView.Name + "-" + SCaddins.SCexport.ExportManager.GetDateString;           
+            return Environment.UserName + "-" + sourceView.Name + "-" + MiscUtilities.GetDateString;           
         } 
         
         public static void ShowErrorDialog(Element sourceView)

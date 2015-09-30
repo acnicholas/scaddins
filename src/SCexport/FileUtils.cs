@@ -50,7 +50,7 @@ namespace SCaddins.SCexport
             string config = ExportManager.GetConfigFileName(doc);
             TaskDialogResult overwrite = TaskDialogResult.Yes;
             if (System.IO.File.Exists(config)) {
-                string msg = "config exists, do you want to overwrite?";
+                const string msg = "config exists, do you want to overwrite?";
                 overwrite = TaskDialog.Show(
                     "WARNING",
                     msg,
@@ -137,7 +137,7 @@ namespace SCaddins.SCexport
         public static bool CanOverwriteFile(string fileName)
         {
             if (IsFileLocked(new FileInfo(fileName))) {
-                TaskDialog td = new TaskDialog("File in use");
+                var td = new TaskDialog("File in use");
                 td.MainContent = "The file: " + fileName + " appears to be in use." +
                     System.Environment.NewLine +
                     "please close it before continuing...";

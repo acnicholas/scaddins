@@ -167,11 +167,7 @@ namespace SCaddins.SCopy
         
         private void SetDefualtCreationMode()
         {
-            if (this.oldView.ViewType == ViewType.Legend) {
-                this.creationMode = ViewPortPlacementMode.Legend;   
-            } else {
-                this.creationMode = ViewPortPlacementMode.Copy;
-            }
+            this.creationMode = this.oldView.ViewType == ViewType.Legend ? ViewPortPlacementMode.Legend : ViewPortPlacementMode.Copy;
         }  
     }
 }

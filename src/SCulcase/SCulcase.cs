@@ -34,7 +34,7 @@ namespace SCaddins.SCulcase
         {
             commit = true;
             UppercaseUtilities.mode = mode;
-            Transaction trans = new Transaction(doc);
+            var trans = new Transaction(doc);
             trans.Start("Convert all selected types uppercase (SCulcase)");
             Convert(mode, types, doc);
             trans.Commit();
@@ -45,7 +45,7 @@ namespace SCaddins.SCulcase
             commit = false; 
             dryRunLogText = string.Empty;
             Convert(mode, types, doc);
-            SCulcaseInfoDialog info = new SCulcaseInfoDialog();
+            var info = new SCulcaseInfoDialog();
             info.SetText(dryRunLogText);
             info.Show();
         }
@@ -62,15 +62,15 @@ namespace SCaddins.SCulcase
                 var enumCategory = (BuiltInCategory)category.Id.IntegerValue;
                 switch (enumCategory) {
                     case BuiltInCategory.OST_Views:
-                        View v = (View)e;
+                        var v = (View)e;
                         ConvertViewName(v);
                         break;
                     case BuiltInCategory.OST_TextNotes:
-                        TextElement text = (TextElement)e;
+                        var text = (TextElement)e;
                         ConvertAnnotation(text);
                         break;
                     case BuiltInCategory.OST_Rooms:
-                        Room room = (Room)e;
+                        var room = (Room)e;
                         ConvertRoom(room);
                         break;
                 }
@@ -113,7 +113,7 @@ namespace SCaddins.SCulcase
             var f = new FilteredElementCollector(doc);
             f.OfCategory(BuiltInCategory.OST_Views);
             foreach (Element e in f) {
-                View v = (View)e;
+                var v = (View)e;
                 ConvertViewName(v);
             }
         }
@@ -226,11 +226,7 @@ namespace SCaddins.SCulcase
 
         private static bool ValidRevitName(string s)
         {
-            if (s.Contains("{") || s.Contains("}")) {
-                return false;
-            } else {
-                return true;
-            }
+            return !(s.Contains("{") || s.Contains("}"));
         }
     }
 }

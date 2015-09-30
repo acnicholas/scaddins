@@ -148,6 +148,7 @@
       <DependentUpon>AboutBox.resx</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="src\Common\MiscUtils.cs" />
     <Compile Include="src\Common\SortableBindingList.cs" />
     <Compile Include="src\Common\SystemUtils.cs" />
     <Compile Include="src\Common\UpgradeForm.cs">

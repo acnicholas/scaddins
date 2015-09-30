@@ -29,11 +29,9 @@ namespace SCaddins.SCopy
     public class SCopySheet : INotifyPropertyChanged
     {  
         private SheetCopy scopy;
-        private ViewSheet sourceSheet;
         private string title;
         private string number;
-        private string sheetCategory;
-        private ViewSheet destinationSheet;              
+        private string sheetCategory;            
         private BindingList<SCopyViewOnSheet> viewsOnSheet;
         
         public SCopySheet(string number, string title, SheetCopy scopy, ViewSheet sourceSheet)
@@ -41,9 +39,9 @@ namespace SCaddins.SCopy
             this.scopy = scopy;
             this.number = number;
             this.title = title; 
-            this.sourceSheet = sourceSheet;
+            this.SourceSheet = sourceSheet;
             this.sheetCategory = this.GetSheetCategory(SCopyConstants.SheetCategory);
-            this.destinationSheet = null;
+            this.DestinationSheet = null;
             this.viewsOnSheet = new BindingList<SCopyViewOnSheet>();
             #if REVIT2014
             foreach (View v in sourceSheet.Views) {
@@ -53,7 +51,7 @@ namespace SCaddins.SCopy
             foreach (ElementId id in sourceSheet.GetAllPlacedViews()) {              
                 Element element = sourceSheet.Document.GetElement(id);
                 if (element != null) {
-                    View v = element as View;
+                    var v = element as View;
                     this.viewsOnSheet.Add(new SCopyViewOnSheet(v.Name, v, scopy));
                 }
             }
@@ -63,23 +61,11 @@ namespace SCaddins.SCopy
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ViewSheet DestinationSheet {
-            get {
-                return this.destinationSheet;
-            }
-            
-            set {
-                this.destinationSheet = value;
-            }
+            get; set;    
         }
                 
         public ViewSheet SourceSheet {
-            get {
-                return this.sourceSheet;
-            }
-            
-            set {
-                this.sourceSheet = value;
-            }
+            get; set;    
         }
         
         public string Number {

@@ -23,15 +23,7 @@ namespace SCaddins.SCexport
     using Autodesk.Revit.UI;
 
     public static class PrintSettings
-    {
-        /// <summary>
-        /// Return the sheet size as a String.
-        /// from http://en.wikipedia.org/wiki/Paper_size
-        /// i.e A1, A2....A4
-        /// FIXME need to add other sizes.
-        /// </summary>
-        /// <param name="sheet">The SCexport sheet to query.</param>
-        /// <returns>The sheet size as a String.</returns>    
+    {  
         public static string GetSheetSizeAsString(ExportSheet sheet)
         {
             double[] p = { 1189, 841, 594, 420, 297, 210, 297, 420, 594, 841, 1189 };

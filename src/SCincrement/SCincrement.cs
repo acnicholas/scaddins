@@ -49,7 +49,7 @@ namespace SCaddins.SCincrement
             {
             }
 
-            using (Transaction t = new Transaction(doc, "Renumber")) {
+            using (var t = new Transaction(doc, "Renumber")) {
                 t.Start();
                 int ctr = 1;
                 int startValue = 0;

@@ -35,7 +35,7 @@ namespace SCaddins.SCunderlay
                 }  
                 #else
                 foreach (ElementId id in sheet.Sheet.GetAllPlacedViews()) {
-                    View v = (View)doc.GetElement(id);
+                    var v = (View)doc.GetElement(id);
                     RemoveUnderlay(v);
                 } 
                 #endif

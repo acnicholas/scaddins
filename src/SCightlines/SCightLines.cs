@@ -22,6 +22,7 @@ namespace SCaddins.SCightLines
     using System.Linq;
     using Autodesk.Revit.ApplicationServices;
     using Autodesk.Revit.DB;
+    using SCaddins.Common;
 
     public class LineOfSight
     {
@@ -186,12 +187,6 @@ namespace SCaddins.SCightLines
             }
         }
         
-        //FIXME put this in a utility class
-        private static double FeetToMM(double d)
-        {
-            return d / 304.8;
-        }
-
         private ViewDrafting CreateLineOfSightDraftingView(string newViewName)
         {
             ViewDrafting view = null;
@@ -266,10 +261,10 @@ namespace SCaddins.SCightLines
         private void DrawText(double x, double y, double vx, double vy, string s, TextAlignFlags f)
         {
             Application app = this.doc.Application;
-            XYZ origin = app.Create.NewXYZ(LineOfSight.FeetToMM(x), LineOfSight.FeetToMM(y), 0);
+            XYZ origin = app.Create.NewXYZ(MiscUtilities.FeetToMM(x), MiscUtilities.FeetToMM(y), 0);
             XYZ normal_base = app.Create.NewXYZ(vx, vy, 0);
             XYZ normal_up = app.Create.NewXYZ(0, 1, 0);
-            TextElement testy = this.doc.Create.NewTextNote(this.view, origin, normal_base, normal_up, LineOfSight.FeetToMM(10), f, s);
+            TextElement testy = this.doc.Create.NewTextNote(this.view, origin, normal_base, normal_up, MiscUtilities.FeetToMM(10), f, s);
         }
 
         private string UpdateInfoString()
@@ -303,9 +298,9 @@ namespace SCaddins.SCightLines
         private void DrawLine(double x1, double y1, double x2, double y2, string s)
         {
             Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
-            double z = 0.0;
-            XYZ point1 = app.Create.NewXYZ(LineOfSight.FeetToMM(x1), LineOfSight.FeetToMM(y1), LineOfSight.FeetToMM(z));
-            XYZ point2 = app.Create.NewXYZ(LineOfSight.FeetToMM(x2), LineOfSight.FeetToMM(y2), LineOfSight.FeetToMM(z));
+            const double z = 0.0;
+            XYZ point1 = app.Create.NewXYZ(MiscUtilities.FeetToMM(x1), MiscUtilities.FeetToMM(y1), MiscUtilities.FeetToMM(z));
+            XYZ point2 = app.Create.NewXYZ(MiscUtilities.FeetToMM(x2), MiscUtilities.FeetToMM(y2), MiscUtilities.FeetToMM(z));
             try {
                 Line line = Line.CreateBound(point1, point2);
                 var detailCurve = this.doc.Create.NewDetailCurve(this.view, line) as DetailLine;
@@ -322,16 +317,16 @@ namespace SCaddins.SCightLines
         private void DrawCircle(double x1, double y1, string s)
         {
             Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
-            double z = 0.0;
-            XYZ point1 = app.Create.NewXYZ(LineOfSight.FeetToMM(x1), LineOfSight.FeetToMM(y1), LineOfSight.FeetToMM(z));
+            const double z = 0.0;
+            XYZ point1 = app.Create.NewXYZ(MiscUtilities.FeetToMM(x1), MiscUtilities.FeetToMM(y1), MiscUtilities.FeetToMM(z));
             Arc arc = Arc.Create(
                           point1,
-                          LineOfSight.FeetToMM(125),
+                          MiscUtilities.FeetToMM(125),
                           0,
                           360, 
                           app.Create.NewXYZ(1, 0, 0),
                           app.Create.NewXYZ(0, 1, 0));
-            DetailArc detailCurve = this.doc.Create.NewDetailCurve(this.view, arc) as DetailArc;
+            var detailCurve = this.doc.Create.NewDetailCurve(this.view, arc) as DetailArc;
             this.SetLineTypeByName(detailCurve, s);
         }
 

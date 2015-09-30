@@ -20,6 +20,7 @@ namespace SCaddins.SCexport
     using System;
     using System.Globalization;
     using Autodesk.Revit.DB;
+    using SCaddins.Common;
 
     /// <summary>
     /// Class to hold view sheet information.
@@ -309,7 +310,7 @@ namespace SCaddins.SCexport
                     BuiltInParameter.SHEET_CURRENT_REVISION_DESCRIPTION).AsString();
             this.sheetRevisionDate = this.sheet.get_Parameter(
                     BuiltInParameter.SHEET_CURRENT_REVISION_DATE).AsString();
-            this.sheetRevisionDateTime = ExportManager.ToDateTime(this.sheetRevisionDate);
+            this.sheetRevisionDateTime = SCaddins.Common.MiscUtilities.ToDateTime(this.sheetRevisionDate);
             if (refreshExportName) {
                 this.SetExportName();
             }
@@ -396,14 +397,14 @@ namespace SCaddins.SCexport
         private void SetExportName()
         {
             if (this.forceDate) {
-                this.sheetRevision = ExportManager.GetDateString;
+                this.sheetRevision = MiscUtilities.GetDateString;
             } else {
                 this.sheetRevision = this.sheet.get_Parameter(
                         BuiltInParameter.SHEET_CURRENT_REVISION).AsString();
             }
 
             if (this.sheetRevision.Length < 1) {
-                this.sheetRevision = ExportManager.GetDateString;
+                this.sheetRevision = MiscUtilities.GetDateString;
             }
 
             this.PopulateSegmentedFileName();
