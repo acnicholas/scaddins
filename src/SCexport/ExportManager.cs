@@ -63,7 +63,7 @@ namespace SCaddins.SCexport
             this.PopulateSheets(this.allSheets);
             ExportManager.FixAcrotrayHang();
         }
-        
+
         public static bool ConfirmOverwrite
         {
             get; set;
@@ -82,7 +82,7 @@ namespace SCaddins.SCexport
         {
             get; set;
         }
-        
+
         public string PdfPrinterName
         {
             get; set;
@@ -156,9 +156,9 @@ namespace SCaddins.SCexport
                 }
             }
         }
-       
+
         public SheetName FileNameScheme {
-            get { 
+            get {
                 return this.fileNameScheme;
             }
 
@@ -188,7 +188,7 @@ namespace SCaddins.SCexport
 
             return titleBlocks.TryGetValue(sheetNumber, out result) ? result : null;
         }
-        
+
         public static string CreateSCexportConfig(Document doc)
         {
             string s = GetConfigFileName(doc);
@@ -222,7 +222,7 @@ namespace SCaddins.SCexport
                     sheet.UpdateName();
             }
         }
-        
+
         public static void FixScaleBars(ICollection<ExportSheet> sheets)
         {
             var t = new Autodesk.Revit.DB.Transaction(doc);
@@ -270,7 +270,7 @@ namespace SCaddins.SCexport
                 return null;
             }
         }
-        
+
         public static ACADVersion AcadVersionFromString(string version)
         {
             #if (!REVIT2016)
@@ -289,7 +289,7 @@ namespace SCaddins.SCexport
             }
             return (version == "R2013") ? ACADVersion.R2013 : ACADVersion.Default;
         }
-        
+
         public static string AcadVersionToString(ACADVersion version)
         {
             switch (version) {
@@ -298,7 +298,7 @@ namespace SCaddins.SCexport
                     return "R2000";
                 case ACADVersion.R2004:
                     return "R2004";
-                #endif    
+                #endif
                 case ACADVersion.R2007:
                     return "R2007";
                 case ACADVersion.R2010:
@@ -315,8 +315,7 @@ namespace SCaddins.SCexport
             string s = string.Empty;
             int i = -1;
             FilteredElementCollector a;
-            a = new FilteredElementCollector(doc);
-            a.OfCategory(BuiltInCategory.OST_Revisions);
+            a = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Revisions);
             foreach (Element e in a) {
                 int j = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger();
                 if (j > i) {
@@ -326,7 +325,7 @@ namespace SCaddins.SCexport
             }
             return (s.Length > 1) ? s : string.Empty;
         }
-        
+
         private static TaskDialogResult ShowPrintWarning()
         {
             var td = new TaskDialog("SCexport - Print Warning");
@@ -340,22 +339,22 @@ namespace SCaddins.SCexport
             TaskDialogResult tdr = td.Show();
             return tdr;
         }
-            
+ 
         public void Print(
             ICollection<ExportSheet> sheets,
             string printerName,
             int scale)
         {
-            PrintManager pm = doc.PrintManager;            
+            PrintManager pm = doc.PrintManager;
             TaskDialogResult tdr = ShowPrintWarning();
 
             if (tdr == TaskDialogResult.Ok) { 
-                bool printSetttingsValid;                
+                bool printSetttingsValid;
                 foreach (ExportSheet sheet in sheets.OrderBy(x => x.SheetNumber).ToList()) {
-                    
+
                     if(!sheet.Verified) sheet.UpdateSheetInfo();
                     printSetttingsValid = false;
-                    
+
                     switch (scale) {
                     case (3) :
                         printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, "A3-FIT", pm, printerName);
@@ -378,7 +377,7 @@ namespace SCaddins.SCexport
         {
             PrintManager pm = doc.PrintManager;
             PrintSettings.SetPrinter(doc, this.PdfPrinterName, pm);
-            
+
             foreach (ExportSheet sc in this.allSheets) {
                 if (!sc.Verified) {
                     sc.UpdateSheetInfo();
@@ -409,7 +408,7 @@ namespace SCaddins.SCexport
                 }
             }
         }
-        
+
         public int GetTotalNumberOfExports(ICollection<ExportSheet> sheets)
         {
             int i = 0;
@@ -440,12 +439,12 @@ namespace SCaddins.SCexport
         {
             DateTime startTime = DateTime.Now;
             TimeSpan elapsedTime = DateTime.Now - startTime;
-            
+
             var exportLog = new ExportLog(startTime, this.GetTotalNumberOfExports(sheets));
-            
+
             PrintManager pm = doc.PrintManager;
             PrintSettings.SetPrinter(doc, this.PdfPrinterName, pm);
-            
+
             foreach (ExportSheet sheet in sheets) {
                 progressBar.PerformStep();
                 elapsedTime = DateTime.Now - startTime;
@@ -454,7 +453,7 @@ namespace SCaddins.SCexport
                 strip.Update();
                 this.ExportSheet(sheet, exportLog);
             }
-            
+
             if (exportLog.Errors > 0) {
                 exportLog.ShowSummaryDialog();
             }
@@ -488,7 +487,7 @@ namespace SCaddins.SCexport
             this.exportDir = SCaddins.SCexport.Settings1.Default.ExportDir;
             this.AcadVersion = AcadVersionFromString(SCaddins.SCexport.Settings1.Default.AcadExportVersion);
         }
-        
+
         private static void OpenSheet(UIDocument udoc, ViewSheet view, int inc)
         {
             FilteredElementCollector a;
@@ -572,7 +571,7 @@ namespace SCaddins.SCexport
                 fileName,
                 Microsoft.Win32.RegistryValueKind.String);
         }
-        
+
         private static void RemoveTitleBlock(
             ExportSheet vs,
             ICollection<ElementId> title,
@@ -593,7 +592,7 @@ namespace SCaddins.SCexport
                 t.RollBack();
             }
         }
-        
+
         private static void PopulateViewSheetSets(Collection<ViewSheetSetCombo> vss)
         {
             vss.Clear();
@@ -603,7 +602,7 @@ namespace SCaddins.SCexport
                 vss.Add(new ViewSheetSetCombo(v));
             }
         }
-        
+
         private static void ExportDWF(ExportSheet vs)
         {
             var views = new ViewSet();
@@ -634,7 +633,7 @@ namespace SCaddins.SCexport
             views.Add(vs.Id);
             doc.Export(vs.ExportDir, vs.FullExportName, views, opts);
         }
-        
+ 
         private void SetDefaultFlags()
         {
             if (SCaddins.SCexport.Settings1.Default.AdobePDFMode && this.PDFSanityCheck()) {
@@ -773,11 +772,11 @@ namespace SCaddins.SCexport
 
         [SecurityCritical]
         private void ExportSheet(ExportSheet sheet, ExportLog log)
-        {         
+        {
             if (!sheet.Verified) {
                 sheet.UpdateSheetInfo();
             }
-            
+
             if (sheet.SCPrintSetting != null) {
                 if (this.exportFlags.HasFlag(ExportFlags.DWG)) {
                     this.ExportDWG(sheet, this.exportFlags.HasFlag(ExportFlags.NoTitle));
@@ -799,10 +798,10 @@ namespace SCaddins.SCexport
                     ExportManager.ExportDWF(sheet);
                 }
             } else {
-                log.AddError(sheet.FullExportName, "no print setting assigned.");        
+                log.AddError(sheet.FullExportName, "no print setting assigned.");
             }
         }
-        
+
         private void ApplyDefaultDWGExportOptions(ref DWGExportOptions opts)
         {
             opts.MergedViews = true;
@@ -840,7 +839,7 @@ namespace SCaddins.SCexport
             ICollection<ElementId> views;
             views = new List<ElementId>();
             views.Add(vs.Id);
-            
+
             var opts = new DWGExportOptions();
             ApplyDefaultDWGExportOptions(ref opts);
 
@@ -884,12 +883,12 @@ namespace SCaddins.SCexport
             }
             return true;
         }
- 
+
         [SecurityCritical]
         private bool ExportAdobePDF(ExportSheet vs, ExportLog log)
         {
-            PrintManager pm = doc.PrintManager;            
-            
+            PrintManager pm = doc.PrintManager;
+
             if (!PrintSettings.ApplyPrintSettings(
                 doc, vs, pm, ".pdf", this.PdfPrinterName)) {
                 log.AddError(vs.FullExportName, "failed to assign print setting: " + vs.PrintSettingName);
@@ -897,7 +896,7 @@ namespace SCaddins.SCexport
             }
 
             SetAcrobatExportRegistryVal(vs.FullExportPath(".pdf"));
-            
+
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
                 if (File.Exists(vs.FullExportPath(".pdf"))) {
                     File.Delete(vs.FullExportPath(".pdf"));

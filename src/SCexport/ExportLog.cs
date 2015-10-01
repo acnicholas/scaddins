@@ -16,12 +16,12 @@
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
  namespace SCaddins.SCexport
- {  
+ {
     using System.Collections.ObjectModel;
     using SCaddins.SCexport;
-    
+
     public class ExportLog
-    {    
+    {
         private const string ErrPrefix = "[ERROR]";
         private const string WarningPrefix = "[WARNING]";
         private Collection<ExportLogItem> errorLog;
@@ -32,7 +32,7 @@
         private int messages;
         private int totalExports;
         private System.DateTime startTime;
-              
+
         public ExportLog(System.DateTime startTime, int totalExports)
         {
             this.errors = 0;
@@ -44,60 +44,60 @@
             this.messageLog = new Collection<ExportLogItem>();
             this.startTime = startTime;
         }
-        
+
         public int Warnings
         {
             get { return this.warnings; }
         }
-        
+
         public int Errors
         {
             get { return this.errors; }
         }
-        
+
         public int Messages
         {
             get { return this.messages; }
         }
-        
+
         public int TotalExports
         {
             get { return this.totalExports; }
         }
-        
+
         public Collection<ExportLogItem> ErrorLog
         {
             get { return this.errorLog; }
         }
-        
+
         public Collection<ExportLogItem> WarningLog
         {
             get { return this.warningLog; }
         }
-        
+
         public Collection<ExportLogItem> MessageLog
         {
             get { return this.messageLog; }
         }
-                      
+
         public void AddSuccess(string fileName, string msg)
         {
             this.messages++;
             this.messageLog.Add(new ExportLogItem(msg, fileName));
         }
-                      
+
         public void AddError(string fileName, string msg)
         {
             this.errors++;
             this.errorLog.Add(new ExportLogItem(msg, fileName));
         }
-        
+
         public void AddWarning(string fileName, string msg)
-        {   
+        {
             this.warnings++;
             this.warningLog.Add(new ExportLogItem(msg, fileName));
         }
-        
+
         public void ShowSummaryDialog()
         {
             var logDialog = new ExportLogDialog(this);

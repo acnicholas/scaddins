@@ -23,15 +23,12 @@ namespace SCaddins.SCexport
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
-    /// <summary>
-    /// Generic file input and output functions.
-    /// </summary>
     public static class FileUtilities
-    {   
+    {
         public static bool ConfigFileExists(Document doc)
         {
              string config = ExportManager.GetConfigFileName(doc);
-             return System.IO.File.Exists(config);   
+             return System.IO.File.Exists(config);
         }
 
         [SecurityCritical]
@@ -79,12 +76,6 @@ namespace SCaddins.SCexport
         //FIXME - add delay param
         public static void WaitForFileAccess(string file)
         {
-           #if DEBUG
-           string msg = "Waiting for file access: " +
-                         System.Environment.NewLine +
-                         file;
-           System.Diagnostics.Debug.WriteLine(msg);
-           #endif
            int i = 0;
            while (IsFileLocked(new FileInfo(file))) {
                 System.Threading.Thread.Sleep(2000);
@@ -105,15 +96,9 @@ namespace SCaddins.SCexport
                 return doc.PathName;
             }
         }
-            
+
         public static bool IsFileLocked(System.IO.FileInfo file)
         {
-            #if DEBUG
-            string msg = "File is locked: " +
-                          System.Environment.NewLine +
-                          file.FullName;
-            System.Diagnostics.Debug.WriteLine(msg);
-            #endif
             System.IO.FileStream stream = null;
             if (file.Exists == false) {
                 return false;

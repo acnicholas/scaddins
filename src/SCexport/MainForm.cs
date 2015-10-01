@@ -36,10 +36,6 @@ namespace SCaddins.SCexport
         private FilterContextMenu filter;
         private MenuButton printButton;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MainForm"/> class.
-        /// </summary>
-        /// <param name="udoc"> The active revit uidoc.</param>
         public MainForm(Autodesk.Revit.UI.UIDocument udoc)
         {
             this.udoc = udoc;
@@ -66,7 +62,7 @@ namespace SCaddins.SCexport
             this.dataGridView1.Focus();
             this.dataGridView1.Select();
         }
-        
+
         private void InitPrintButton()
         {
             this.printButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -78,7 +74,7 @@ namespace SCaddins.SCexport
             this.printButton.Text = "Print";
             this.printButton.UseVisualStyleBackColor = true;
         }
-        
+
         public void OpenSelectedViewToolStripMenuItemClick(
                 object sender, EventArgs e)
         {
@@ -97,7 +93,7 @@ namespace SCaddins.SCexport
 
             this.Close();
         }
-        
+
         private static void ShowHelp()
         {
             string s =
@@ -672,24 +668,24 @@ namespace SCaddins.SCexport
             this.Update();
             this.dataGridView1.Refresh();
         }
-        
+
         private void CreateUserViewsToolStripMenuItemClick(object sender, System.EventArgs e)
         {
             SCuv.SCUserView.CreateUserViews(this.SelectedSheets(), this.doc);
         }
-        
+
         private void RemoveUnderlaysFromViewsToolStripMenuItemClick(object sender, EventArgs e)
         {
             SCunderlay.Utilities.RemoveUnderlays(this.SelectedSheets(), this.doc);
         }
-        
+
         private void FixScalesBarsToolStripMenuItemClick(object sender, EventArgs e)
         {
             ExportManager.FixScaleBars(this.SelectedSheets());  
             this.Update();
             this.dataGridView1.Refresh();  
         }
-        
+
         private void CopySheetsToolStripMenuItemClick(object sender, EventArgs e)
         {          
             var scopy = new SCaddins.SCopy.SheetCopy(this.doc);            
@@ -705,12 +701,12 @@ namespace SCaddins.SCexport
         {
             scx.Print(this.SelectedSheets(), this.scx.PrinterNameA3, 3);  
         }
-        
+
         private void PrintA2ToolStripMenuItemClick(object sender, EventArgs e)
         {
             scx.Print(this.SelectedSheets(), this.scx.PrinterNameLargeFormat, 2);  
         }
-        
+
         private void PrintFullSizeToolStripMenuItemClick(object sender, EventArgs e)
         {
             scx.Print(this.SelectedSheets(), this.scx.PrinterNameLargeFormat, -1);  

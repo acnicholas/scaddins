@@ -43,30 +43,13 @@ namespace SCaddins.SCexport
             if (tdr == System.Windows.Forms.DialogResult.OK) {
                 Autodesk.Revit.DB.FamilyInstance result =
                     ExportManager.GetTitleBlockFamily(osd.Value, doc);
-                if (result == null) {
-                    result = ExportManager.GetTitleBlockFamily("CD" + osd.Value, doc);    
-                }
-                if (result == null) {
-                    result = ExportManager.GetTitleBlockFamily("DA" + osd.Value, doc);    
-                }
-                if (result == null) {
-                    result = ExportManager.GetTitleBlockFamily("SK" + osd.Value, doc);    
-                }
-                if (result == null) {
-                    result = ExportManager.GetTitleBlockFamily("AD-CD" + osd.Value, doc);    
-                }
-                if (result == null) {
-                    result = ExportManager.GetTitleBlockFamily("AD-DA" + osd.Value, doc);    
-                }
-                if (result == null) {
-                    result = ExportManager.GetTitleBlockFamily("AD-SK" + osd.Value, doc);    
-                }
+                string[] possiblePrefixes = {"CD", "DA", "SK", "AD-CD", "AD-DA", "AD-SK"};
+                do {
+                    result = ExportManager.GetTitleBlockFamily("CD" + osd.Value, doc);
+                } while (result == null);
                 if (result != null) {
                     commandData.Application.ActiveUIDocument.ShowElements(result);
                     return Autodesk.Revit.UI.Result.Succeeded;
-                } else {
-                    TaskDialog.Show("SCexport", "Sheet: " + osd.Value + " cannot be found.");
-                    return Autodesk.Revit.UI.Result.Failed;
                 }
             } else {
                 TaskDialog.Show("SCexport", "Sheet: " + osd.Value + " cannot be found.");

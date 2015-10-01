@@ -16,10 +16,10 @@
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace SCaddins.SCexport
-{  
+{
     using System;
     using System.Windows.Forms;
-    
+
     public partial class ExportLogDialog : Form
     {
         public ExportLogDialog(ExportLog log)

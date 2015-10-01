@@ -21,38 +21,39 @@ using System.Windows.Forms;
 
 namespace SCaddins.SCexport
 {
-  public class MenuButton : Button
-{
-    public ContextMenuStrip Menu { get; set; }
-    
-    public MenuButton()
+    public class MenuButton : Button
     {
-        Menu = null;
-    }
-    
-    public MenuButton(ContextMenuStrip menu)
-    {
-        Menu = menu;
-    }
+        public ContextMenuStrip Menu { get; set; }
 
-    protected override void OnMouseDown(MouseEventArgs mevent)
-    {
-        base.OnMouseDown(mevent);
-        if (Menu != null && mevent.Button == MouseButtons.Left) {
-            Menu.Show(this, mevent.Location);
+        public MenuButton()
+        {
+            Menu = null;
+        }
+
+        public MenuButton(ContextMenuStrip menu)
+        {
+            Menu = menu;
+        }
+
+        protected override void OnMouseDown(MouseEventArgs mevent)
+        {
+            base.OnMouseDown(mevent);
+            if (Menu != null && mevent.Button == MouseButtons.Left) {
+                Menu.Show(this, mevent.Location);
+            }
+        }
+
+        protected override void OnPaint(PaintEventArgs pevent)
+        {
+            base.OnPaint(pevent);
+
+            int arrowX = ClientRectangle.Width - 14;
+            int arrowY = ClientRectangle.Height / 2 - 1;
+
+            Brush brush = Enabled ? SystemBrushes.ControlText : SystemBrushes.ButtonShadow;
+            Point[] arrows = new Point[] { new Point(arrowX, arrowY), new Point(arrowX + 7, arrowY), new Point(arrowX + 3, arrowY + 4) };
+            pevent.Graphics.FillPolygon(brush, arrows);
         }
     }
-
-    protected override void OnPaint(PaintEventArgs pevent)
-    {
-        base.OnPaint(pevent);
-
-        int arrowX = ClientRectangle.Width - 14;
-        int arrowY = ClientRectangle.Height / 2 - 1;
-
-        Brush brush = Enabled ? SystemBrushes.ControlText : SystemBrushes.ButtonShadow;
-        Point[] arrows = new Point[] { new Point(arrowX, arrowY), new Point(arrowX + 7, arrowY), new Point(arrowX + 3, arrowY + 4) };
-        pevent.Graphics.FillPolygon(brush, arrows);
-    }
 }
-}
+/* vim: set ts=4 sw=4 nu expandtab: */
