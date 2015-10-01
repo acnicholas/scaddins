@@ -287,10 +287,7 @@ namespace SCaddins.SCexport
             if (version == "R2010") {
                 return ACADVersion.R2010;
             }
-            if (version == "R2013") {
-                return ACADVersion.R2013;
-            }
-            return ACADVersion.Default;
+            return (version == "R2013") ? ACADVersion.R2013 : ACADVersion.Default;
         }
         
         public static string AcadVersionToString(ACADVersion version)
@@ -569,10 +566,6 @@ namespace SCaddins.SCexport
         {
             string exe =
                 Process.GetCurrentProcess().MainModule.FileName;
-            #if DEBUG
-            string msg = "Reg set as: " + System.Environment.NewLine + exe;
-            Debug.WriteLine(msg);
-            #endif
             Microsoft.Win32.Registry.SetValue(
                 Constants.AcrobatPrinterJobControl,
                 exe,

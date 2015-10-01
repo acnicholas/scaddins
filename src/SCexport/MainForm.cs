@@ -69,7 +69,7 @@ namespace SCaddins.SCexport
         
         private void InitPrintButton()
         {
-        this.printButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.printButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.printButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.printButton.Location = new System.Drawing.Point(635, 504);
             this.printButton.Name = "btnPrint";
@@ -77,7 +77,6 @@ namespace SCaddins.SCexport
             this.printButton.TabIndex = 13;
             this.printButton.Text = "Print";
             this.printButton.UseVisualStyleBackColor = true;
-            //this.printButton.Click += new System.EventHandler(this.Button1Click);
         }
         
         public void OpenSelectedViewToolStripMenuItemClick(

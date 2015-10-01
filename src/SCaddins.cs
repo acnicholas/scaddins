@@ -44,7 +44,7 @@ namespace SCaddins
         // FIXME this is messy
         public static void CheckForUpdates(bool newOnly)
         {
-            var url = SCaddins.Constants.DownloadLink;
+            const string url = SCaddins.Constants.DownloadLink;
             var request = (HttpWebRequest)WebRequest.Create(url);
             HttpWebResponse response;
             try {
@@ -79,7 +79,7 @@ namespace SCaddins
 
             var r = new Regex("href=\"(.*)\">.*SCaddins-win64-(.*).msi</a>");
             Match m = r.Match(html);
-            Version latestVersion = new Version(0, 0, 0, 0);
+            var latestVersion = new Version(0, 0, 0, 0);
             while (m.Success)
             {
                 var v = new Version(m.Groups[2].Value);

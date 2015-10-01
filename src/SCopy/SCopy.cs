@@ -312,7 +312,7 @@ namespace SCaddins.SCopy
         }
         
         private void PlaceViewPortOnSheet(
-            ViewSheet destSheet, ElementId destViewId, XYZ viewCentre)
+            Element destSheet, ElementId destViewId, XYZ viewCentre)
         {
             Viewport.Create(this.doc, destSheet.Id, destViewId, viewCentre);
         }

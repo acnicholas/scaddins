@@ -34,7 +34,7 @@ namespace SCaddins.SCexport
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            string exportDir = Constants.DefaultExportDir;
+            const string exportDir = Constants.DefaultExportDir;
             if (!System.IO.Directory.Exists(exportDir)) {
                 System.IO.Directory.CreateDirectory(exportDir);
             }

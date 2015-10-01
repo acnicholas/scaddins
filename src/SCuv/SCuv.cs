@@ -89,7 +89,7 @@ namespace SCaddins.SCuv
             } 
             #else
             foreach (ElementId id in vs.GetAllPlacedViews()) {
-                View v = (View)doc.GetElement(id);
+                var v = (View)doc.GetElement(id);
                 if (ValidViewType(v.ViewType)) {
                     CreateView(v, doc);
                     message += GetNewViewName(v) + Environment.NewLine;

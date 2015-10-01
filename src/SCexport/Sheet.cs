@@ -275,10 +275,7 @@ namespace SCaddins.SCexport
                 } else {
                     return "0";
                 }
-                if (string.IsNullOrEmpty(result.Trim())) {
-                    return "0";
-                }
-                return result.Substring(i + 2).Trim();
+                return string.IsNullOrEmpty(result.Trim()) ? "0" : result.Substring(i + 2).Trim();
         }
 
         public void UpdateNumber()

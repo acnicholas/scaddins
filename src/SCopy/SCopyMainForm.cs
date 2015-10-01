@@ -182,7 +182,7 @@ namespace SCaddins.SCopy
         {
             var cell = (DataGridViewComboBoxCell)dataGridView1.Rows[e.RowIndex].Cells[2];
             if (cell.Value != null && (string)cell.Value == SCopyConstants.SheetCategoryCreateCustom) {
-                SCopyTextInputForm form = new SCopyTextInputForm();
+                var form = new SCopyTextInputForm();
                     System.Windows.Forms.DialogResult dr = form.ShowDialog();
                     if (dr == System.Windows.Forms.DialogResult.OK) {
                         this.cheetCategoryCombo.Items.Add(form.textBox1.Text);
