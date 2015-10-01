@@ -85,7 +85,7 @@ namespace SCaddins.SCexport
                     return;
                 }
                  Autodesk.Revit.DB.FamilyInstance result =
-                     ExportManager.GetTitleBlockFamily(sc.SheetNumber, this.doc);
+                     ExportManager.TitleBlockInstanceFromSheetNumber(sc.SheetNumber, this.doc);
                 if (result != null) {
                     this.udoc.ShowElements(result);
                 }

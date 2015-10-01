@@ -38,23 +38,27 @@ namespace SCaddins.SCexport
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
             DialogHandler.AddRevitDialogHandler(commandData.Application);
-            var osd = new OpenSheetDialog();
-            System.Windows.Forms.DialogResult tdr = osd.ShowDialog();
-            if (tdr == System.Windows.Forms.DialogResult.OK) {
-                Autodesk.Revit.DB.FamilyInstance result =
-                    ExportManager.GetTitleBlockFamily(osd.Value, doc);
-                string[] possiblePrefixes = {"CD", "DA", "SK", "AD-CD", "AD-DA", "AD-SK"};
-                do {
-                    result = ExportManager.GetTitleBlockFamily("CD" + osd.Value, doc);
-                } while (result == null);
-                if (result != null) {
-                    commandData.Application.ActiveUIDocument.ShowElements(result);
-                    return Autodesk.Revit.UI.Result.Succeeded;
-                }
-            } else {
-                TaskDialog.Show("SCexport", "Sheet: " + osd.Value + " cannot be found.");
+            
+            var openSheetDialog = new OpenSheetDialog();
+            System.Windows.Forms.DialogResult openSheetDialogResult = openSheetDialog.ShowDialog();
+            
+            if (openSheetDialogResult != System.Windows.Forms.DialogResult.OK) {
                 return Autodesk.Revit.UI.Result.Failed;
             }
+            
+            FamilyInstance titleBlockInstance = null;
+            string[] possiblePrefixes = {string.Empty, "CD", "DA", "SK", "AD-CD", "AD-DA", "AD-SK"};
+            foreach (string s in possiblePrefixes) {
+                titleBlockInstance = 
+                    ExportManager.TitleBlockInstanceFromSheetNumber(s + openSheetDialog.Value, doc);
+                if (titleBlockInstance != null) {
+                    commandData.Application.ActiveUIDocument.ShowElements(titleBlockInstance);
+                    return Autodesk.Revit.UI.Result.Succeeded;
+                }
+            }
+            
+            TaskDialog.Show("SCexport", "Sheet: " + openSheetDialog.Value + " cannot be found.");
+            return Autodesk.Revit.UI.Result.Failed;
         }
     }
 }

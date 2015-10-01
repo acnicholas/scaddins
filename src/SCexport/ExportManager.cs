@@ -170,7 +170,7 @@ namespace SCaddins.SCexport
             }
         }
 
-        public static FamilyInstance GetTitleBlockFamily(
+        public static FamilyInstance TitleBlockInstanceFromSheetNumber(
             string sheetNumber, Document doc)
         {
             FamilyInstance result;
@@ -506,7 +506,7 @@ namespace SCaddins.SCexport
                 if (sortedSheets[i].SheetNumber == view.SheetNumber) {
                     DialogHandler.AddRevitDialogHandler(new UIApplication(udoc.Application.Application));
                     Autodesk.Revit.DB.FamilyInstance result =
-                        ExportManager.GetTitleBlockFamily(
+                        ExportManager.TitleBlockInstanceFromSheetNumber(
                             sortedSheets[i + inc].SheetNumber, udoc.Document);
                     if (result != null) {
                         udoc.ShowElements(result);
@@ -814,7 +814,7 @@ namespace SCaddins.SCexport
         {
             ICollection<ElementId> titleBlockHidden;
             titleBlockHidden = new List<ElementId>();
-            var titleBlock = ExportManager.GetTitleBlockFamily(vs.SheetNumber, doc);
+            var titleBlock = ExportManager.TitleBlockInstanceFromSheetNumber(vs.SheetNumber, doc);
             titleBlockHidden.Add(titleBlock.Id);
 
             if (removeTitle) {

@@ -249,7 +249,7 @@ namespace SCaddins.SCexport
         /// </summary>
         public void UpdateSheetInfo()
         {
-            var titleBlock = ExportManager.GetTitleBlockFamily(
+            var titleBlock = ExportManager.TitleBlockInstanceFromSheetNumber(
                 this.sheetNumber, this.doc);
             if (titleBlock != null) {
                 this.scale = titleBlock.get_Parameter(
@@ -294,7 +294,7 @@ namespace SCaddins.SCexport
         
         public void UpdateScaleBarScale()
         {
-            var titleBlock = ExportManager.GetTitleBlockFamily(
+            var titleBlock = ExportManager.TitleBlockInstanceFromSheetNumber(
                 this.sheetNumber, this.doc);
             this.SetScaleBarScale(titleBlock);       
         }
