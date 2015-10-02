@@ -15,24 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Diagnostics;
-using System.Globalization;
-
 namespace SCaddins.Common
-{
-
+{   
+    using System;
+    using System.Diagnostics;
+    using System.Globalization;
+    
     public static class MiscUtilities
     { 
-        public static string PadLeftZeros(string s, int desiredLength)
-        {
-            if (s.Length == desiredLength - 1) {
-                return "0" + s;
-            } else {
-                return s;
-            }
-        }
-        
         public static string GetDateString {
             get {
                 DateTime moment = DateTime.Now;
@@ -43,9 +33,18 @@ namespace SCaddins.Common
             }
         }
         
-        public static double FeetToMM(double d)
+        public static string PadLeftZeros(string s, int desiredLength)
         {
-            return d / 304.8;
+            if (s.Length == desiredLength - 1) {
+                return "0" + s;
+            } else {
+                return s;
+            }
+        }
+                
+        public static double FeetToMM(double lengthInFeet)
+        {
+            return lengthInFeet / 304.8;
         }
         
         public static DateTime ToDateTime(string dateValue)
