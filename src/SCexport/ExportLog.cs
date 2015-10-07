@@ -31,7 +31,6 @@
         private int errors;
         private int messages;
         private int totalExports;
-        private System.DateTime startTime;
 
         public ExportLog(System.DateTime startTime, int totalExports)
         {
@@ -42,7 +41,6 @@
             this.errorLog = new Collection<ExportLogItem>();
             this.warningLog = new Collection<ExportLogItem>();
             this.messageLog = new Collection<ExportLogItem>();
-            this.startTime = startTime;
         }
 
         public int Warnings

@@ -44,7 +44,7 @@ namespace SCaddins.SCexport
             this.filter = new FilterContextMenu("Filter", -1, null);
             this.InitializeComponent();
             this.printButton = new MenuButton(printButtonContextMenu);
-            InitPrintButton();
+            this.InitPrintButton();
             this.Controls.Add(this.printButton);
             var findTip = new ToolTip();
             var findTipText = "Use regular expressions to filter the sheet list" +
@@ -61,18 +61,6 @@ namespace SCaddins.SCexport
             this.UpdateExportButton(0);
             this.dataGridView1.Focus();
             this.dataGridView1.Select();
-        }
-
-        private void InitPrintButton()
-        {
-            this.printButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.printButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.printButton.Location = new System.Drawing.Point(635, 504);
-            this.printButton.Name = "btnPrint";
-            this.printButton.Size = new System.Drawing.Size(55, 22);
-            this.printButton.TabIndex = 13;
-            this.printButton.Text = "Print";
-            this.printButton.UseVisualStyleBackColor = true;
         }
 
         public void OpenSelectedViewToolStripMenuItemClick(
@@ -117,6 +105,18 @@ namespace SCaddins.SCexport
             td.MainInstruction = "Keyboard Shortcuts";
             td.MainContent = s;
             td.Show();
+        }
+        
+        private void InitPrintButton()
+        {
+            this.printButton.Anchor = (System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+            this.printButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.printButton.Location = new System.Drawing.Point(635, 504);
+            this.printButton.Name = "btnPrint";
+            this.printButton.Size = new System.Drawing.Size(55, 22);
+            this.printButton.TabIndex = 13;
+            this.printButton.Text = "Print";
+            this.printButton.UseVisualStyleBackColor = true;
         }
 
         private void PopulateViewSheetSetCombo()
@@ -699,17 +699,17 @@ namespace SCaddins.SCexport
 
         private void PrintA3ToolStripMenuItemClick(object sender, EventArgs e)
         {
-            scx.Print(this.SelectedSheets(), this.scx.PrinterNameA3, 3);  
+            this.scx.Print(this.SelectedSheets(), this.scx.PrinterNameA3, 3);  
         }
 
         private void PrintA2ToolStripMenuItemClick(object sender, EventArgs e)
         {
-            scx.Print(this.SelectedSheets(), this.scx.PrinterNameLargeFormat, 2);  
+            this.scx.Print(this.SelectedSheets(), this.scx.PrinterNameLargeFormat, 2);  
         }
 
         private void PrintFullSizeToolStripMenuItemClick(object sender, EventArgs e)
         {
-            scx.Print(this.SelectedSheets(), this.scx.PrinterNameLargeFormat, -1);  
+            this.scx.Print(this.SelectedSheets(), this.scx.PrinterNameLargeFormat, -1);  
         } 
     }
 }

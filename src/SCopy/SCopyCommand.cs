@@ -33,7 +33,6 @@ namespace SCaddins.SCopy
             Autodesk.Revit.DB.ElementSet elements)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            UIApplication application = commandData.Application;
         
             Autodesk.Revit.DB.ViewSheet viewSheet = SheetCopy.ViewToViewSheet(doc.ActiveView);
             if (viewSheet == null) {

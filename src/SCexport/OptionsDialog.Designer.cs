@@ -592,7 +592,6 @@ namespace SCaddins.SCexport
             this.label10.Size = new System.Drawing.Size(133, 20);
             this.label10.TabIndex = 15;
             this.label10.Text = "Large format printer name";
-            this.label10.Click += new System.EventHandler(this.Label10Click);
             // 
             // textBoxLargeFormatPrinter
             // 
@@ -638,7 +637,6 @@ namespace SCaddins.SCexport
             this.label7.Size = new System.Drawing.Size(121, 20);
             this.label7.TabIndex = 9;
             this.label7.Text = "A3 printer name";
-            this.label7.Click += new System.EventHandler(this.Label7Click);
             // 
             // textBoxA3Printer
             // 
@@ -654,7 +652,6 @@ namespace SCaddins.SCexport
             this.label2.Size = new System.Drawing.Size(121, 17);
             this.label2.TabIndex = 7;
             this.label2.Text = "Postscript printer name";
-            this.label2.Click += new System.EventHandler(this.Label2Click);
             // 
             // textBoxPSPrinter
             // 

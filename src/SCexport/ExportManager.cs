@@ -215,11 +215,13 @@ namespace SCaddins.SCexport
 
         public static void RenameSheets(ICollection<ExportSheet> sheets)
         {
-            var r = new RenameSheetForm(sheets, doc);
-            var result = r.ShowDialog();
-            foreach (ExportSheet sheet in sheets) {
+            var renameSheetDialog = new RenameSheetForm(sheets, doc);
+            var result = renameSheetDialog.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK) {
+                foreach (ExportSheet sheet in sheets) {
                     sheet.UpdateNumber();
                     sheet.UpdateName();
+                }
             }
         }
 
@@ -326,20 +328,6 @@ namespace SCaddins.SCexport
             return (s.Length > 1) ? s : string.Empty;
         }
 
-        private static TaskDialogResult ShowPrintWarning()
-        {
-            var td = new TaskDialog("SCexport - Print Warning");
-            td.MainInstruction = "Warning";
-            td.MainContent = "The print feature is experimental, please only export a " +
-                "small selection of sheets until you are sure it is working correctly." +
-                System.Environment.NewLine + System.Environment.NewLine +
-                "Press ok to continue.";
-            td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-            td.CommonButtons = TaskDialogCommonButtons.Ok | TaskDialogCommonButtons.No;
-            TaskDialogResult tdr = td.Show();
-            return tdr;
-        }
- 
         public void Print(
             ICollection<ExportSheet> sheets,
             string printerName,
@@ -351,24 +339,27 @@ namespace SCaddins.SCexport
             if (tdr == TaskDialogResult.Ok) { 
                 bool printSetttingsValid;
                 foreach (ExportSheet sheet in sheets.OrderBy(x => x.SheetNumber).ToList()) {
-
-                    if(!sheet.Verified) sheet.UpdateSheetInfo();
+                    if (!sheet.Verified) {
+                        sheet.UpdateSheetInfo();
+                    }
                     printSetttingsValid = false;
 
                     switch (scale) {
-                    case (3) :
+                    case 3:
                         printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, "A3-FIT", pm, printerName);
                         break;
-                    case (2) :
+                    case 2:
                         printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, "A2-FIT", pm, printerName);
                         break;
-                    default :
-                        int i = int.Parse(sheet.PageSize.Substring(1,1));
+                    default:
+                        int i = int.Parse(sheet.PageSize.Substring(1, 1));
                         string printerNameTmp = i > 2 ? "this.PrinterNameA3" : this.PrinterNameLargeFormat;
                         printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, sheet.PageSize, pm, printerNameTmp);
                         break;
                     }
-                    if (printSetttingsValid) pm.SubmitPrint(sheet.Sheet);
+                    if (printSetttingsValid) {
+                        pm.SubmitPrint(sheet.Sheet);
+                    }
                 }
             }
         }
@@ -533,6 +524,20 @@ namespace SCaddins.SCexport
             }
 
             return result;
+        }
+        
+        private static TaskDialogResult ShowPrintWarning()
+        {
+            var td = new TaskDialog("SCexport - Print Warning");
+            td.MainInstruction = "Warning";
+            td.MainContent = "The print feature is experimental, please only export a " +
+                "small selection of sheets until you are sure it is working correctly." +
+                System.Environment.NewLine + System.Environment.NewLine +
+                "Press ok to continue.";
+            td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+            td.CommonButtons = TaskDialogCommonButtons.Ok | TaskDialogCommonButtons.No;
+            TaskDialogResult tdr = td.Show();
+            return tdr;
         }
 
         private static string PercentageSting(int n, int total)

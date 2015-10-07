@@ -330,7 +330,6 @@ namespace SCaddins.SCightLines
             this.SetLineTypeByName(detailCurve, s);
         }
 
-
         private void SetLineTypeByName(DetailCurve detailLine, string styleName)
         {
             foreach (ElementId styleId in detailLine.GetLineStyleIds()) {

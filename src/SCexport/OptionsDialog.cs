@@ -291,19 +291,7 @@ namespace SCaddins.SCexport
             DialogResult result = this.folderBrowserDialog1.ShowDialog();
             if (result == DialogResult.OK) {
                 textBoxExportDir.Text = this.folderBrowserDialog1.SelectedPath;
-            }
-        }
-        void Label10Click(object sender, EventArgs e)
-        {
-          
-        }
-        void Label7Click(object sender, EventArgs e)
-        {
-          
-        }
-        void Label2Click(object sender, EventArgs e)
-        {
-          
+            }          
         }
     }
 }

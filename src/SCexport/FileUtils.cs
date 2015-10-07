@@ -47,10 +47,10 @@ namespace SCaddins.SCexport
             string config = ExportManager.GetConfigFileName(doc);
             TaskDialogResult overwrite = TaskDialogResult.Yes;
             if (System.IO.File.Exists(config)) {
-                const string msg = "config exists, do you want to overwrite?";
+                const string FileExistsMessage = "config exists, do you want to overwrite?";
                 overwrite = TaskDialog.Show(
                     "WARNING",
-                    msg,
+                    FileExistsMessage,
                     TaskDialogCommonButtons.No | TaskDialogCommonButtons.Yes);
             }
 
@@ -73,7 +73,7 @@ namespace SCaddins.SCexport
            return valid;
         }
 
-        //FIXME - add delay param
+        ////FIXME - add delay param
         public static void WaitForFileAccess(string file)
         {
            int i = 0;

@@ -28,8 +28,8 @@ namespace SCaddins.SCwash
     {
         public static Collection<SCwashTreeNode> Imports(Document doc, bool linked)
         {
-            Collection<SCwashTreeNode> result = new Collection<SCwashTreeNode>();
-            FilteredElementCollector f = new FilteredElementCollector(doc);
+            var result = new Collection<SCwashTreeNode>();
+            var f = new FilteredElementCollector(doc);
             f.OfClass(typeof(ImportInstance));
             string s = string.Empty;
             string name = string.Empty;
@@ -57,9 +57,8 @@ namespace SCaddins.SCwash
 
         public static Collection<SCwashTreeNode> Images(Document doc)
         {
-            Collection<SCwashTreeNode> result = new Collection<SCwashTreeNode>();
-            FilteredElementCollector f = new FilteredElementCollector(doc);
-            f.OfCategory(BuiltInCategory.OST_RasterImages);         
+            var result = new Collection<SCwashTreeNode>();
+            var f = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_RasterImages);
             foreach (Element image in f) {
                 string s = GetParameterList(image.Parameters);
                 var tn = new SCwashTreeNode(image.Name.ToString());
@@ -74,9 +73,8 @@ namespace SCaddins.SCwash
         
         public static Collection<SCwashTreeNode> Revisions(Document doc)
         {
-            Collection<SCwashTreeNode> result = new Collection<SCwashTreeNode>();
-            FilteredElementCollector f = new FilteredElementCollector(doc);
-            f.OfCategory(BuiltInCategory.OST_Revisions);         
+            var result = new Collection<SCwashTreeNode>();
+            var f = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Revisions);         
             foreach (Element revision in f) {
                 string s = GetParameterList(revision.Parameters);
                 var nodeName = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString() + " - " +
@@ -93,9 +91,8 @@ namespace SCaddins.SCwash
 
         public static Collection<SCwashTreeNode> UnboundRooms(Document doc)
         {
-            Collection<SCwashTreeNode> result = new Collection<SCwashTreeNode>();
-            FilteredElementCollector f = new FilteredElementCollector(doc);
-            f.OfCategory(BuiltInCategory.OST_Rooms);         
+            var result = new Collection<SCwashTreeNode>();
+            var f = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Rooms);         
             foreach (Element room in f) {
                 string s = string.Empty;
                 bool bound = false;
@@ -146,9 +143,10 @@ namespace SCaddins.SCwash
             if (elements.Count < 1) {
                 return;
             }
-            using (Transaction t = new Transaction(doc, "Delete Elements")) {
+            using (var t = new Transaction(doc, "Delete Elements")) {
                 t.Start();
                 ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
+                System.Diagnostics.Debug.WriteLine(deletedIdSet.Count.ToString() + " Elements Deleted.");
                 t.Commit();
             }
         }
@@ -168,8 +166,7 @@ namespace SCaddins.SCwash
         private static List<SCwashTreeNode> Views(Document doc, bool placedOnSheet, ViewType type)
         {
             var result = new List<SCwashTreeNode>();
-            var f = new FilteredElementCollector(doc);
-            f.OfClass(typeof(Autodesk.Revit.DB.View));
+            var f = new FilteredElementCollector(doc).OfClass(typeof(Autodesk.Revit.DB.View));
             foreach (Autodesk.Revit.DB.View view in f) {  
                 if (view.ViewType == type) {
                     string s = string.Empty;
@@ -194,9 +191,7 @@ namespace SCaddins.SCwash
                     if (p2 != null) {
                         num = p2.AsString();
                         s += "Sheet Number - " + num + System.Environment.NewLine;
-                        if (num != "---" && !string.IsNullOrEmpty(num)) {
-                            os = true;
-                        }
+                        os |= (num != "---" && !string.IsNullOrEmpty(num));
                     } else {
                         s += @"Sheet Number - N/A" + System.Environment.NewLine;
                     }
@@ -232,7 +227,7 @@ namespace SCaddins.SCwash
         }
     
         private static Parameter GetParameterByName(
-            Autodesk.Revit.DB.View view,
+            Autodesk.Revit.DB.Element view,
             string parameterName)
         {
             #if REVIT2014

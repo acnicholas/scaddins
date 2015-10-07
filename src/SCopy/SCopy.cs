@@ -239,11 +239,11 @@ namespace SCaddins.SCopy
         {
             this.existingViews.Clear();
             FilteredElementCollector c = new FilteredElementCollector(this.doc).OfClass(typeof(Autodesk.Revit.DB.View));
-            foreach (View view in c) {
-                View v = view as View;
-                View vv;
-                if (!this.existingViews.TryGetValue(v.Name, out vv)) {
-                    this.existingViews.Add(v.Name, view);
+            foreach (Element element in c) {
+                var view = element as View;
+                View tmpView;
+                if (!this.existingViews.TryGetValue(view.Name, out tmpView)) {
+                    this.existingViews.Add(view.Name, view);
                 }
             }
         }
@@ -252,8 +252,8 @@ namespace SCaddins.SCopy
         {
             this.levels.Clear();
             var c3 = new FilteredElementCollector(this.doc).OfClass(typeof(Level));
-            foreach (Level l in c3) {
-                this.levels.Add(l.Name.ToString(), l);
+            foreach (Element element in c3) {
+                this.levels.Add(element.Name.ToString(), element as Level);
             }
         }
 

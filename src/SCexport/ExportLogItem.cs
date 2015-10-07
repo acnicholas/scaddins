@@ -21,6 +21,12 @@ namespace SCaddins.SCexport
 
     public class ExportLogItem
     {
+        public ExportLogItem(string description, string filename)
+        {
+            this.Filename = filename;
+            this.Description = description;
+        }
+        
         public string Filename
         {
             get; set;
@@ -29,12 +35,6 @@ namespace SCaddins.SCexport
         public string Description
         {
             get; set;
-        }
-
-        public ExportLogItem(string description, string filename)
-        {
-            this.Filename = filename;
-            this.Description = description;
         }
     }
 }

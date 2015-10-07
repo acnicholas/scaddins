@@ -15,31 +15,31 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-
 namespace SCaddins.SCexport
 {
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+    
     public class MenuButton : Button
     {
         public ContextMenuStrip Menu { get; set; }
 
         public MenuButton()
         {
-            Menu = null;
+            this.Menu = null;
         }
 
         public MenuButton(ContextMenuStrip menu)
         {
-            Menu = menu;
+            this.Menu = menu;
         }
 
         protected override void OnMouseDown(MouseEventArgs mevent)
         {
             base.OnMouseDown(mevent);
-            if (Menu != null && mevent.Button == MouseButtons.Left) {
-                Menu.Show(this, mevent.Location);
+            if (this.Menu != null && mevent.Button == MouseButtons.Left) {
+                this.Menu.Show(this, mevent.Location);
             }
         }
 
@@ -48,7 +48,7 @@ namespace SCaddins.SCexport
             base.OnPaint(pevent);
 
             int arrowX = ClientRectangle.Width - 14;
-            int arrowY = ClientRectangle.Height / 2 - 1;
+            int arrowY = (ClientRectangle.Height / 2) - 1;
 
             Brush brush = Enabled ? SystemBrushes.ControlText : SystemBrushes.ButtonShadow;
             Point[] arrows = new Point[] { new Point(arrowX, arrowY), new Point(arrowX + 7, arrowY), new Point(arrowX + 3, arrowY + 4) };

@@ -44,8 +44,8 @@ namespace SCaddins
         // FIXME this is messy
         public static void CheckForUpdates(bool newOnly)
         {
-            const string url = SCaddins.Constants.DownloadLink;
-            var request = (HttpWebRequest)WebRequest.Create(url);
+            const string DownloadURL = SCaddins.Constants.DownloadLink;
+            var request = (HttpWebRequest)WebRequest.Create(DownloadURL);
             HttpWebResponse response;
             try {
                 response = (HttpWebResponse)request.GetResponse();
@@ -61,7 +61,7 @@ namespace SCaddins
             }
             
             if (response.StatusCode == HttpStatusCode.NotFound) {
-                System.Diagnostics.Debug.WriteLine("Error: Check For Updates" + url + " not found");
+                System.Diagnostics.Debug.WriteLine("Error: Check For Updates" + DownloadURL + " not found");
                 return;
             }
             

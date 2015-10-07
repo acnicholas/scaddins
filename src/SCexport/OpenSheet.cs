@@ -47,7 +47,7 @@ namespace SCaddins.SCexport
             }
             
             FamilyInstance titleBlockInstance = null;
-            string[] possiblePrefixes = {string.Empty, "CD", "DA", "SK", "AD-CD", "AD-DA", "AD-SK"};
+            string[] possiblePrefixes = { string.Empty, "CD", "DA", "SK", "AD-CD", "AD-DA", "AD-SK" };
             foreach (string s in possiblePrefixes) {
                 titleBlockInstance = 
                     ExportManager.TitleBlockInstanceFromSheetNumber(s + openSheetDialog.Value, doc);
