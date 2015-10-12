@@ -298,9 +298,9 @@ namespace SCaddins.SCightLines
         private void DrawLine(double x1, double y1, double x2, double y2, string s)
         {
             Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
-            const double z = 0.0;
-            XYZ point1 = app.Create.NewXYZ(MiscUtilities.FeetToMM(x1), MiscUtilities.FeetToMM(y1), MiscUtilities.FeetToMM(z));
-            XYZ point2 = app.Create.NewXYZ(MiscUtilities.FeetToMM(x2), MiscUtilities.FeetToMM(y2), MiscUtilities.FeetToMM(z));
+            const double Z = 0.0;
+            XYZ point1 = app.Create.NewXYZ(MiscUtilities.FeetToMM(x1), MiscUtilities.FeetToMM(y1), MiscUtilities.FeetToMM(Z));
+            XYZ point2 = app.Create.NewXYZ(MiscUtilities.FeetToMM(x2), MiscUtilities.FeetToMM(y2), MiscUtilities.FeetToMM(Z));
             try {
                 Line line = Line.CreateBound(point1, point2);
                 var detailCurve = this.doc.Create.NewDetailCurve(this.view, line) as DetailLine;
@@ -317,8 +317,8 @@ namespace SCaddins.SCightLines
         private void DrawCircle(double x1, double y1, string s)
         {
             Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
-            const double z = 0.0;
-            XYZ point1 = app.Create.NewXYZ(MiscUtilities.FeetToMM(x1), MiscUtilities.FeetToMM(y1), MiscUtilities.FeetToMM(z));
+            const double Z = 0.0;
+            XYZ point1 = app.Create.NewXYZ(MiscUtilities.FeetToMM(x1), MiscUtilities.FeetToMM(y1), MiscUtilities.FeetToMM(Z));
             Arc arc = Arc.Create(
                           point1,
                           MiscUtilities.FeetToMM(125),

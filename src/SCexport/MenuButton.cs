@@ -23,8 +23,6 @@ namespace SCaddins.SCexport
     
     public class MenuButton : Button
     {
-        public ContextMenuStrip Menu { get; set; }
-
         public MenuButton()
         {
             this.Menu = null;
@@ -34,6 +32,8 @@ namespace SCaddins.SCexport
         {
             this.Menu = menu;
         }
+        
+        public ContextMenuStrip Menu { get; set; }
 
         protected override void OnMouseDown(MouseEventArgs mevent)
         {

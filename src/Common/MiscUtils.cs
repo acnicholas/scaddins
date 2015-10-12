@@ -50,8 +50,8 @@ namespace SCaddins.Common
         public static DateTime ToDateTime(string dateValue)
         {
             var date = dateValue.Trim();
-            const string delims = @"-.\/_ ";
-            char[] c = delims.ToCharArray();
+            const string DateDelimiters = @"-.\/_ ";
+            char[] c = DateDelimiters.ToCharArray();
             int d2 = date.LastIndexOfAny(c);
             int d1 = date.IndexOfAny(c);
 
