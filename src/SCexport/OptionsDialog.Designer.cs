@@ -589,7 +589,7 @@ namespace SCaddins.SCexport
             // 
             this.label10.Location = new System.Drawing.Point(6, 106);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(133, 20);
+            this.label10.Size = new System.Drawing.Size(140, 20);
             this.label10.TabIndex = 15;
             this.label10.Text = "Large format printer name";
             // 

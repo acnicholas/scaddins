@@ -37,7 +37,6 @@ namespace SCaddins.SCexport
         private static Document doc;
         private static string activeDoc;
         private static string author;
-        private static string nonIssueTag;
         private ExportFlags exportFlags;
         private Collection<SheetName> fileNameTypes;
         private Collection<ViewSheetSetCombo> allViewSheetSets;
@@ -733,7 +732,6 @@ namespace SCaddins.SCexport
             }
 
             author = "SCexport";
-            nonIssueTag = Constants.PdfNonissueTag;
 
             var reader = new XmlTextReader(filename);
 
@@ -746,9 +744,6 @@ namespace SCaddins.SCexport
                             switch (reader.Name) {
                                 case "Author":
                                     author = reader.ReadString();
-                                    break;
-                                case "NonIssueTag":
-                                    nonIssueTag = reader.ReadString();
                                     break;
                             }
                         }
@@ -846,7 +841,7 @@ namespace SCaddins.SCexport
             views.Add(vs.Id);
 
             var opts = new DWGExportOptions();
-            ApplyDefaultDWGExportOptions(ref opts);
+            this.ApplyDefaultDWGExportOptions(ref opts);
 
             pm.PrintRange = PrintRange.Select;
 
