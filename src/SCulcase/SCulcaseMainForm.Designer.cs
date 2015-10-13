@@ -70,6 +70,7 @@
             // 
             // btnOKAY
             // 
+            this.btnOKAY.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOKAY.Location = new System.Drawing.Point(276, 287);
             this.btnOKAY.Name = "btnOKAY";
             this.btnOKAY.Size = new System.Drawing.Size(75, 23);
@@ -224,6 +225,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
+
         }
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.CheckBox chkRevisions;

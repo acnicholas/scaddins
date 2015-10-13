@@ -239,7 +239,7 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="src\SCexport\Sheet.cs" />
-    <Compile Include="src\SCexport\SheetName.cs" />
+    <Compile Include="src\SCexport\SegmentedSheetName.cs" />
     <Compile Include="src\SCexport\SheetNameSegment.cs" />
     <Compile Include="src\SCexport\TipOfDay.cs" />
     <Compile Include="src\SCexport\ViewSheetSetCombo.cs" />

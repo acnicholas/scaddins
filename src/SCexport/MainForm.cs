@@ -431,7 +431,7 @@ namespace SCaddins.SCexport
         }
 
         private void ToggleConversionFlag(
-                ToolStripMenuItem box, ExportFlags val)
+                ToolStripMenuItem box, ExportOptions val)
         {
             if (box.Checked == true) {
                 this.scx.AddExportOption(val);
@@ -443,7 +443,7 @@ namespace SCaddins.SCexport
         private void ToggleCheckBoxValue(object sender, EventArgs e)
         {
             var c = (ToolStripMenuItem)sender;
-            var t = (ExportFlags)c.Tag;
+            var t = (ExportOptions)c.Tag;
             this.ToggleConversionFlag(c, t);
             this.UpdateExportButton(this.NumberOfSelectedViews());
         }
@@ -451,20 +451,20 @@ namespace SCaddins.SCexport
         private void UpdateExportButton(int count)
         {
             string s = "Export[" + count + "]:";
-            if (this.scx.HasExportOption(ExportFlags.PDF)) {
-                s += @" " + ExportFlags.PDF.ToString();
+            if (this.scx.HasExportOption(ExportOptions.PDF)) {
+                s += @" " + ExportOptions.PDF.ToString();
             }
-            if (this.scx.HasExportOption(ExportFlags.DWG)) {
-                s += @" " + ExportFlags.DWG.ToString();
+            if (this.scx.HasExportOption(ExportOptions.DWG)) {
+                s += @" " + ExportOptions.DWG.ToString();
             }
-            if (this.scx.HasExportOption(ExportFlags.DWF)) {
-                s += @" " + ExportFlags.DWF.ToString();
+            if (this.scx.HasExportOption(ExportOptions.DWF)) {
+                s += @" " + ExportOptions.DWF.ToString();
             }
-            if (this.scx.HasExportOption(ExportFlags.DGN)) {
-                s += @" " + ExportFlags.DGN.ToString();
+            if (this.scx.HasExportOption(ExportOptions.DGN)) {
+                s += @" " + ExportOptions.DGN.ToString();
             }
-            if (this.scx.HasExportOption(ExportFlags.GhostscriptPDF)) {
-                s += @" " + ExportFlags.GhostscriptPDF.ToString();
+            if (this.scx.HasExportOption(ExportOptions.GhostscriptPDF)) {
+                s += @" " + ExportOptions.GhostscriptPDF.ToString();
             }
             this.btnExport.Text = s;
             this.dataGridView1.Refresh();

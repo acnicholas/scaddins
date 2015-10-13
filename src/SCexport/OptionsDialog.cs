@@ -54,15 +54,15 @@ namespace SCaddins.SCexport
         
         private void LoadValues()
         {
-            this.radioPDF.Checked = this.scx.HasExportOption(ExportFlags.PDF);
-            this.radioGSPDF.Checked = this.scx.HasExportOption(ExportFlags.GhostscriptPDF);
-            this.checkBoxDGN.Checked = this.scx.HasExportOption(ExportFlags.DGN);
-            this.checkBoxDWG.Checked = this.scx.HasExportOption(ExportFlags.DWG);
-            this.checkBoxDWF.Checked = this.scx.HasExportOption(ExportFlags.DWF);
+            this.radioPDF.Checked = this.scx.HasExportOption(ExportOptions.PDF);
+            this.radioGSPDF.Checked = this.scx.HasExportOption(ExportOptions.GhostscriptPDF);
+            this.checkBoxDGN.Checked = this.scx.HasExportOption(ExportOptions.DGN);
+            this.checkBoxDWG.Checked = this.scx.HasExportOption(ExportOptions.DWG);
+            this.checkBoxDWF.Checked = this.scx.HasExportOption(ExportOptions.DWF);
             this.checkBoxTagPDF.Checked =
-                this.scx.HasExportOption(ExportFlags.TagPDFExports);
+                this.scx.HasExportOption(ExportOptions.TagPDFExports);
             this.checkBoxHideTitleblock.Checked =
-                this.scx.HasExportOption(ExportFlags.NoTitle);
+                this.scx.HasExportOption(ExportOptions.NoTitle);
             this.checkBoxForceDate.Checked = this.scx.ForceRevisionToDateString;
             if (this.scx.FileNameScheme != null) {
                 this.comboBoxScheme.Text = this.scx.FileNameScheme.Name;
@@ -122,7 +122,7 @@ namespace SCaddins.SCexport
                 
         private void PopulateSchemeMenu()
         {
-            foreach (SheetName scxn in this.scx.FileNameTypes) {
+            foreach (SegmentedSheetName scxn in this.scx.FileNameTypes) {
                 if (scxn.Name != null) {
                     this.comboBoxScheme.Items.Add(scxn.Name);
                 }
@@ -141,19 +141,19 @@ namespace SCaddins.SCexport
             if (!FileUtilities.ConfigFileExists(this.doc)) {
                 this.buttonEditConfig.Enabled = false;
             }
-            this.radioPDF.Tag = ExportFlags.PDF;
-            this.checkBoxDGN.Tag = ExportFlags.DGN;
-            this.checkBoxDWF.Tag = ExportFlags.DWF;
-            this.checkBoxDWG.Tag = ExportFlags.DWG;
-            this.radioGSPDF.Tag = ExportFlags.GhostscriptPDF;
-            this.checkBoxTagPDF.Tag = ExportFlags.TagPDFExports;
-            this.checkBoxHideTitleblock.Tag = ExportFlags.NoTitle;
+            this.radioPDF.Tag = ExportOptions.PDF;
+            this.checkBoxDGN.Tag = ExportOptions.DGN;
+            this.checkBoxDWF.Tag = ExportOptions.DWF;
+            this.checkBoxDWG.Tag = ExportOptions.DWG;
+            this.radioGSPDF.Tag = ExportOptions.GhostscriptPDF;
+            this.checkBoxTagPDF.Tag = ExportOptions.TagPDFExports;
+            this.checkBoxHideTitleblock.Tag = ExportOptions.NoTitle;
         }
         
         private void ToggleCheckBoxValue(object sender, EventArgs e)
         {
             var c = (CheckBox)sender;
-            var t = (ExportFlags)c.Tag;
+            var t = (ExportOptions)c.Tag;
             this.ToggleConversionFlag(c.Checked, t);
             if (this.checkBoxDWG.Checked) {
                 this.checkBoxHideTitleblock.Enabled = true;
@@ -163,7 +163,7 @@ namespace SCaddins.SCexport
         }
         
         private void ToggleConversionFlag(
-            bool flagged, ExportFlags val)
+            bool flagged, ExportOptions val)
         {
             if (flagged == true) {
                 this.scx.AddExportOption(val);
@@ -175,7 +175,7 @@ namespace SCaddins.SCexport
         private void RadioCheckedChanged(object sender, EventArgs e)
         {
             var r = (RadioButton)sender;
-            var t = (ExportFlags)r.Tag;
+            var t = (ExportOptions)r.Tag;
             this.ToggleConversionFlag(r.Checked, t);
         }
         

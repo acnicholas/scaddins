@@ -23,9 +23,6 @@ namespace SCaddins.SCopy
     using System.Linq;
     using Autodesk.Revit.DB;
     
-    /// <summary>
-    /// Description of SCopySheet.
-    /// </summary>
     public class SCopySheet : INotifyPropertyChanged
     {  
         private SheetCopy scopy;

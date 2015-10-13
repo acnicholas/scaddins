@@ -17,6 +17,7 @@
 
  namespace SCaddins.SCexport
  {
+    using System;
     using System.Collections.ObjectModel;
     using SCaddins.SCexport;
 
@@ -31,12 +32,14 @@
         private int errors;
         private int messages;
         private int totalExports;
+        private DateTime startTime;
 
-        public ExportLog(System.DateTime startTime, int totalExports)
+        public ExportLog(DateTime startTime, int totalExports)
         {
             this.errors = 0;
             this.warnings = 0;
             this.messages = 0;
+            this.startTime = startTime;
             this.totalExports = totalExports;
             this.errorLog = new Collection<ExportLogItem>();
             this.warningLog = new Collection<ExportLogItem>();
@@ -76,6 +79,11 @@
         public Collection<ExportLogItem> MessageLog
         {
             get { return this.messageLog; }
+        }
+        
+        public TimeSpan TimeSinceStart
+        {
+            get { return DateTime.Now - this.startTime; }
         }
 
         public void AddSuccess(string fileName, string msg)

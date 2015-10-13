@@ -37,10 +37,10 @@ namespace SCaddins.SCexport
         private static Document doc;
         private static string activeDoc;
         private static string author;
-        private ExportFlags exportFlags;
-        private Collection<SheetName> fileNameTypes;
+        private ExportOptions exportFlags;
+        private Collection<SegmentedSheetName> fileNameTypes;
         private Collection<ViewSheetSetCombo> allViewSheetSets;
-        private SheetName fileNameScheme;
+        private SegmentedSheetName fileNameScheme;
         private SortableBindingListCollection<ExportSheet> allSheets;
         private bool forceDate;
         private string exportDir;
@@ -54,8 +54,8 @@ namespace SCaddins.SCexport
             ExportManager.activeDoc = null;
             this.allViewSheetSets = new Collection<ViewSheetSetCombo>();
             this.allSheets = new SortableBindingListCollection<ExportSheet>();
-            this.fileNameTypes = new Collection<SheetName>();
-            this.exportFlags = ExportFlags.None;
+            this.fileNameTypes = new Collection<SegmentedSheetName>();
+            this.exportFlags = ExportOptions.None;
             this.LoadSettings();
             this.SetDefaultFlags();
             ExportManager.PopulateViewSheetSets(this.allViewSheetSets);
@@ -102,7 +102,7 @@ namespace SCaddins.SCexport
             get; set;
         }
 
-        public Collection<SheetName> FileNameTypes
+        public Collection<SegmentedSheetName> FileNameTypes
         {
             get { return this.fileNameTypes; }
         }
@@ -117,7 +117,7 @@ namespace SCaddins.SCexport
             get { return this.allViewSheetSets; }
         }
 
-        public ExportFlags ExportOptions
+        public ExportOptions ExportOptions
         {
             get; set;
         }
@@ -156,16 +156,9 @@ namespace SCaddins.SCexport
             }
         }
 
-        public SheetName FileNameScheme {
+        public SegmentedSheetName FileNameScheme {
             get {
                 return this.fileNameScheme;
-            }
-
-            set {
-                this.fileNameScheme = value;
-                foreach (ExportSheet sheet in this.allSheets) {
-                    sheet.SegmentedFileName = value;
-                }
             }
         }
 
@@ -375,26 +368,29 @@ namespace SCaddins.SCexport
             }
         }
 
-        public void AddExportOption(ExportFlags exportOptions)
+        public void AddExportOption(ExportOptions exportOptions)
         {
             this.exportFlags |= exportOptions;
         }
 
-        public void RemoveExportOption(ExportFlags exportOptions)
+        public void RemoveExportOption(ExportOptions exportOptions)
         {
             this.exportFlags = this.exportFlags & ~exportOptions;
         }
 
-        public bool HasExportOption(ExportFlags option)
+        public bool HasExportOption(ExportOptions option)
         {
             return this.exportFlags.HasFlag(option);
         }
 
         public void SetFileNameScheme(string newScheme)
         {
-            foreach (SheetName scheme in this.fileNameTypes) {
+            foreach (SegmentedSheetName scheme in this.fileNameTypes) {
                 if (newScheme == scheme.Name) {
-                    this.FileNameScheme = scheme;
+                    this.fileNameScheme = scheme;
+                    foreach (ExportSheet sheet in this.allSheets) {
+                        sheet.SegmentedFileName = this.fileNameScheme;
+                    } 
                 }
             }
         }
@@ -402,19 +398,19 @@ namespace SCaddins.SCexport
         public int GetTotalNumberOfExports(ICollection<ExportSheet> sheets)
         {
             int i = 0;
-            if (this.HasExportOption(ExportFlags.DGN)) {
+            if (this.HasExportOption(ExportOptions.DGN)) {
                 i++;
             }
-            if (this.HasExportOption(ExportFlags.DWF)) {
+            if (this.HasExportOption(ExportOptions.DWF)) {
                 i++;
             }
-            if (this.HasExportOption(ExportFlags.DWG)) {
+            if (this.HasExportOption(ExportOptions.DWG)) {
                 i++;
             }
-            if (this.HasExportOption(ExportFlags.GhostscriptPDF)) {
+            if (this.HasExportOption(ExportOptions.GhostscriptPDF)) {
                 i++;
             }
-            if (this.HasExportOption(ExportFlags.PDF)) {
+            if (this.HasExportOption(ExportOptions.PDF)) {
                 i++;
             }
             return i * sheets.Count;
@@ -641,20 +637,20 @@ namespace SCaddins.SCexport
         private void SetDefaultFlags()
         {
             if (SCaddins.SCexport.Settings1.Default.AdobePDFMode && this.PDFSanityCheck()) {
-                this.AddExportOption(ExportFlags.PDF);
+                this.AddExportOption(ExportOptions.PDF);
             } else if (!SCaddins.SCexport.Settings1.Default.AdobePDFMode && this.GSSanityCheck()) {
-                this.AddExportOption(ExportFlags.GhostscriptPDF);
+                this.AddExportOption(ExportOptions.GhostscriptPDF);
             } else {
                 if (this.PDFSanityCheck()) {
-                     this.AddExportOption(ExportFlags.PDF);   
+                     this.AddExportOption(ExportOptions.PDF);   
                 }
-                this.AddExportOption(ExportFlags.DWG);
+                this.AddExportOption(ExportOptions.DWG);
             }
             if (SCaddins.SCexport.Settings1.Default.TagPDFExports) {
-                this.AddExportOption(ExportFlags.TagPDFExports);
+                this.AddExportOption(ExportOptions.TagPDFExports);
             }
             if (SCaddins.SCexport.Settings1.Default.HideTitleBlocks) {
-                this.AddExportOption(ExportFlags.NoTitle);
+                this.AddExportOption(ExportOptions.NoTitle);
             }
             this.forceDate |= SCaddins.SCexport.Settings1.Default.ForceDateRevision;
         }
@@ -665,13 +661,13 @@ namespace SCaddins.SCexport
             bool b = this.ImportXMLinfo(config);
             if (!b) {
                 var name =
-                    new SheetName(FilenameScheme.Standard);
+                    new SegmentedSheetName(FilenameScheme.Standard);
                 this.fileNameTypes.Add(name);
                 this.fileNameScheme = name;
             }
             if (this.fileNameTypes.Count <= 0) {
                 var name =
-                    new SheetName(FilenameScheme.Standard);
+                    new SegmentedSheetName(FilenameScheme.Standard);
                 this.fileNameTypes.Add(name);
                 this.fileNameScheme = name;
             }
@@ -753,7 +749,7 @@ namespace SCaddins.SCexport
 
                 if (reader.NodeType == XmlNodeType.Element &&
                     reader.Name == "FilenameScheme") {
-                    var name = new SheetName();
+                    var name = new SegmentedSheetName();
                     if (reader.AttributeCount > 0) {
                         name.Name = reader.GetAttribute("label");
                     }
@@ -763,7 +759,10 @@ namespace SCaddins.SCexport
             }
 
             if (this.fileNameTypes.Count > 0) {
-                this.FileNameScheme = this.fileNameTypes[0];
+                this.fileNameScheme = this.fileNameTypes[0];
+                foreach (ExportSheet sheet in this.allSheets) {
+                    sheet.SegmentedFileName = this.fileNameScheme;
+                }
             }
 
             reader.Close();
@@ -778,23 +777,23 @@ namespace SCaddins.SCexport
             }
 
             if (sheet.SCPrintSetting != null) {
-                if (this.exportFlags.HasFlag(ExportFlags.DWG)) {
-                    this.ExportDWG(sheet, this.exportFlags.HasFlag(ExportFlags.NoTitle));
+                if (this.exportFlags.HasFlag(ExportOptions.DWG)) {
+                    this.ExportDWG(sheet, this.exportFlags.HasFlag(ExportOptions.NoTitle));
                 }
 
-                if (this.exportFlags.HasFlag(ExportFlags.PDF)) {
+                if (this.exportFlags.HasFlag(ExportOptions.PDF)) {
                     this.ExportAdobePDF(sheet, log);
                 }
 
-                if (this.exportFlags.HasFlag(ExportFlags.GhostscriptPDF)) {
+                if (this.exportFlags.HasFlag(ExportOptions.GhostscriptPDF)) {
                     this.ExportGSPDF(sheet);
                 }
 
-                if (this.exportFlags.HasFlag(ExportFlags.DGN)) {
+                if (this.exportFlags.HasFlag(ExportOptions.DGN)) {
                     ExportManager.ExportDGN(sheet);
                 }
 
-                if (this.exportFlags.HasFlag(ExportFlags.DWF)) {
+                if (this.exportFlags.HasFlag(ExportOptions.DWF)) {
                     ExportManager.ExportDWF(sheet);
                 }
             } else {
@@ -906,7 +905,7 @@ namespace SCaddins.SCexport
                 } else {
                     log.AddError(vs.FullExportName, "failed to print");    
                 }
-                SCaddins.Common.SystemUtilities.KillallProcesses("acrotray");
+                SCaddins.Common.SystemUtilities.KillAllProcesses("acrotray");
             } else {
                 log.AddError(vs.FullExportName, "could not overwrite file, maybe check permissions?");
                 return false;

@@ -32,7 +32,7 @@ namespace SCaddins.SCexport
         private Document doc;
         private ElementId id;
         private PrintSetting printSetting;
-        private SheetName segmentedFileName;
+        private SegmentedSheetName segmentedFileName;
         private ViewSheet sheet;
         private bool forceDate;
         private bool verified;
@@ -53,7 +53,7 @@ namespace SCaddins.SCexport
         public ExportSheet(
                 ViewSheet sheet,
                 Document doc,
-                SheetName fileNameTemplate,
+                SegmentedSheetName fileNameTemplate,
                 ExportManager scx)
         {
             this.Init(sheet, doc, fileNameTemplate, scx);
@@ -72,7 +72,7 @@ namespace SCaddins.SCexport
             }
         }
 
-        public SheetName SegmentedFileName {
+        public SegmentedSheetName SegmentedFileName {
             get {
                 return this.segmentedFileName;
             }
@@ -332,7 +332,7 @@ namespace SCaddins.SCexport
         private void Init(
                 ViewSheet viewSheet,
                 Document document,
-                SheetName sheetName,
+                SegmentedSheetName sheetName,
                 ExportManager scx)
         {
             this.doc = document;

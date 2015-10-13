@@ -53,7 +53,6 @@ namespace SCaddins.SCincrement
                 t.Start();
                 int ctr = 1;
                 int startValue = 0;
-                string leftPad = string.Empty;
                 foreach (Reference r in refList) {
                     Parameter p = GetParameterForReference(doc, r);
                     if (p == null) {

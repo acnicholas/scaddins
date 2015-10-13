@@ -264,7 +264,7 @@ namespace SCaddins.SCightLines
             XYZ origin = app.Create.NewXYZ(MiscUtilities.FeetToMM(x), MiscUtilities.FeetToMM(y), 0);
             XYZ normal_base = app.Create.NewXYZ(vx, vy, 0);
             XYZ normal_up = app.Create.NewXYZ(0, 1, 0);
-            TextElement testy = this.doc.Create.NewTextNote(this.view, origin, normal_base, normal_up, MiscUtilities.FeetToMM(10), f, s);
+            this.doc.Create.NewTextNote(this.view, origin, normal_base, normal_up, MiscUtilities.FeetToMM(10), f, s);
         }
 
         private string UpdateInfoString()

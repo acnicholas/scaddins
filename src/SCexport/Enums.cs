@@ -20,7 +20,7 @@ namespace SCaddins.SCexport
     using System;
     
     [Flags]
-    public enum ExportFlags
+    public enum ExportOptions
     {
         /// <summary>Export Nothing.</summary>
         None = 0,

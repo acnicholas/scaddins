@@ -20,9 +20,6 @@ namespace SCaddins.SCaos
     using System;
     using System.Windows.Forms;
 
-    /// <summary>
-    /// Description of SCaosForm.
-    /// </summary>
     public partial class SCaosForm : Form
     {
         public SCaosForm(string[] informationText, bool currentViewIsIso)

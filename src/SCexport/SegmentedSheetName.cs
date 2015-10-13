@@ -21,9 +21,9 @@ namespace SCaddins.SCexport
     using System.Diagnostics.CodeAnalysis;
 
 [SuppressMessage("Microsoft.Naming", "CA1710", Justification = "This doesn't need to end in Collection", Scope = "Just for this Class")]
-public class SheetName : Collection<SheetNameSegment>
+public class SegmentedSheetName : Collection<SheetNameSegment>
 {
-    public SheetName(FilenameScheme type)
+    public SegmentedSheetName(FilenameScheme type)
     {
         if (type == FilenameScheme.Standard) {
             this.Name = "YYYYMMDD-AD-NNN[R]";
@@ -46,7 +46,7 @@ public class SheetName : Collection<SheetNameSegment>
         }
     }
     
-    public SheetName()
+    public SegmentedSheetName()
     {
         this.Name = "User Defined";
     }

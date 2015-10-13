@@ -49,7 +49,7 @@ namespace SCaddins.SCulcase
                       t.Start();
                       if (elems.Count == 0) {
                           var form = new SCulcaseMainForm(doc);
-                          System.Windows.Forms.DialogResult dialogResult = form.DialogResult;
+                          System.Diagnostics.Debug.Print(form.DialogResult.ToString());
                       } else {
                           UppercaseUtilities.ConvertSelection(ConversionMode.UpperCase, doc, elems);
                       }

@@ -33,7 +33,6 @@ namespace SCaddins.SCuv
             Autodesk.Revit.DB.ElementSet elements)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            UIApplication application = commandData.Application;
             View view = doc.ActiveView;
             
             var t = new Transaction(doc, "SCuv Copies User Views");

@@ -24,7 +24,7 @@ namespace SCaddins.Common
     public static class SystemUtilities
     {
         [SecurityCritical]
-        public static void KillallProcesses(string processName)
+        public static void KillAllProcesses(string processName)
         {
             try {
                 foreach (Process proc in Process.GetProcessesByName(processName)) {

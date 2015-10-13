@@ -45,7 +45,7 @@ namespace SCaddins
         public static void CheckForUpdates(bool newOnly)
         {
             const string DownloadURL = SCaddins.Constants.DownloadLink;
-            var request = (HttpWebRequest)WebRequest.Create(DownloadURL);
+            var request = (HttpWebRequest)WebRequest.Create(new Uri(DownloadURL));
             HttpWebResponse response;
             try {
                 response = (HttpWebResponse)request.GetResponse();
