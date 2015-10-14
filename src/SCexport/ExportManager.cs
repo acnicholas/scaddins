@@ -871,14 +871,17 @@ namespace SCaddins.SCexport
             }
 
             FileUtilities.WaitForFileAccess(vs.FullExportPath(".ps"));
-
+            
+            string prog = 
+                "\"" + this.GhostscriptLibDir  + @"\ps2pdf" + "\"";
+            
             string args = 
-                @"/c " + this.GhostscriptLibDir  + @"\ps2pdf -sPAPERSIZE#" +
+                "-sPAPERSIZE#" +
                 vs.PageSize.ToLower(CultureInfo.CurrentCulture) + " \"" + vs.FullExportPath(".ps") +
                 "\" \"" + vs.FullExportPath(".pdf") + "\"";
 
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
-                SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg("cmd.exe", args);
+                SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg(prog, args);
             }
             return true;
         }

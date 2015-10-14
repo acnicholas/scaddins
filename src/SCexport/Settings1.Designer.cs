@@ -12,7 +12,7 @@ namespace SCaddins.SCexport {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ICSharpCode.SettingsEditor.SettingsCodeGeneratorTool", "5.0.0.4755")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ICSharpCode.SettingsEditor.SettingsCodeGeneratorTool", "5.1.0.5134")]
     public sealed partial class Settings1 : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings1 defaultInstance = ((Settings1)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings1())));
@@ -103,7 +103,7 @@ namespace SCaddins.SCexport {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files\\gs\\gs8.71\\bin")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files\\gs\\gs9.15\\bin")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public string GSBinDirectory {
             get {
@@ -116,7 +116,7 @@ namespace SCaddins.SCexport {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files\\gs\\gs8.71\\lib")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files\\gs\\gs9.15\\lib")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public string GSLibDirectory {
             get {
@@ -142,7 +142,7 @@ namespace SCaddins.SCexport {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("\\\\SCFP02\\XEROX6204")]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\\\SCAPP01\\DocuWide3035 (PS)")]
         public string LargeFormatPrinterDriver {
             get {
                 return ((string)(this["LargeFormatPrinterDriver"]));
@@ -154,7 +154,7 @@ namespace SCaddins.SCexport {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("HP Designjet T1100ps 44in PS3")]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\\\SCAPP01\\DocuWide3035 (PS)")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public string PSPrinterDriver {
             get {

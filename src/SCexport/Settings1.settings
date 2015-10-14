@@ -23,19 +23,19 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="GSBinDirectory" Type="System.String" Scope="User" Roaming="true">
-      <Value Profile="(Default)">C:\Program Files\gs\gs8.71\bin</Value>
+      <Value Profile="(Default)">C:\Program Files\gs\gs9.15\bin</Value>
     </Setting>
     <Setting Name="GSLibDirectory" Type="System.String" Scope="User" Roaming="true">
-      <Value Profile="(Default)">C:\Program Files\gs\gs8.71\lib</Value>
+      <Value Profile="(Default)">C:\Program Files\gs\gs9.15\lib</Value>
     </Setting>
     <Setting Name="HideTitleBlocks" Type="System.Boolean" Scope="User" Roaming="true">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="LargeFormatPrinterDriver" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)">\\SCFP02\XEROX6204</Value>
+      <Value Profile="(Default)">\\SCAPP01\DocuWide3035 (PS)</Value>
     </Setting>
     <Setting Name="PSPrinterDriver" Type="System.String" Scope="User" Roaming="true">
-      <Value Profile="(Default)">HP Designjet T1100ps 44in PS3</Value>
+      <Value Profile="(Default)">\\SCAPP01\DocuWide3035 (PS)</Value>
     </Setting>
     <Setting Name="TagPDFExports" Type="System.Boolean" Scope="User" Roaming="true">
       <Value Profile="(Default)">False</Value>
