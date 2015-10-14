@@ -1,5 +1,16 @@
 #SCaddins Revision Log#
 
+#16.1 (pre-release)#
+
+####NEW####
+
+- **[SCexport] Large format printer support**
+
+####FIXES#####
+
+- [SCaos] Do not lock user views. 
+- [SCexport] Postscript pdf printing "seems to work".
+
 #16.0#
 
 ####SUMMARY####
