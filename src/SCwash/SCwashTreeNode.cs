@@ -19,18 +19,24 @@ namespace SCaddins.SCwash
 {
     using System;
     using System.Linq;
+    using System.Runtime.Serialization;
     using System.Windows.Forms;
     using Autodesk.Revit.DB;
 
     [Serializable]
     public class SCwashTreeNode : TreeNode
-    {
+    {       
         public SCwashTreeNode(string name)
             : base(name)
         {
             this.Info = "-";
             this.Id = null;
             this.Checked = true;
+        }
+        
+        protected SCwashTreeNode(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
         }
 
         public string Info {

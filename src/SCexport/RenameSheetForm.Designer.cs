@@ -53,7 +53,7 @@ namespace SCaddins.SCexport
             this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
             this.TestRunButton = new System.Windows.Forms.Button();
             this.RenameButton = new System.Windows.Forms.Button();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.CancelRenameButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -128,14 +128,14 @@ namespace SCaddins.SCexport
             // 
             // CancelButton
             // 
-            this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(463, 468);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 5;
-            this.CancelButton.Text = "Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelRenameButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CancelRenameButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CancelRenameButton.Location = new System.Drawing.Point(463, 468);
+            this.CancelRenameButton.Name = "CancelButton";
+            this.CancelRenameButton.Size = new System.Drawing.Size(75, 23);
+            this.CancelRenameButton.TabIndex = 5;
+            this.CancelRenameButton.Text = "Cancel";
+            this.CancelRenameButton.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -234,7 +234,7 @@ namespace SCaddins.SCexport
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(631, 503);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.CancelRenameButton);
             this.Controls.Add(this.RenameButton);
             this.Controls.Add(this.TestRunButton);
             this.Controls.Add(this.listView1);
@@ -258,7 +258,7 @@ namespace SCaddins.SCexport
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button CancelRenameButton;
         private System.Windows.Forms.Button RenameButton;
         private System.Windows.Forms.Button TestRunButton;
         private System.Windows.Forms.TextBox textBoxNumberReplace;

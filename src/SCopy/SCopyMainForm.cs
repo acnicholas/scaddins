@@ -271,7 +271,6 @@ namespace SCaddins.SCopy
             if (e.ColumnIndex < 0 || e.RowIndex < 0) {
                 return;
             }
-            DataGridViewCell cell = dataGridView1[e.ColumnIndex, e.RowIndex];
         }
         
         private void DataGridView2CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)

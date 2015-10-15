@@ -31,16 +31,18 @@ namespace SCaddins.Common
         /// </summary>
         /// <param name="exePath">The program to start.</param>
         /// <param name="args">The args to send to the program.</param>
-        //[SecurityCritical]
+        [SecurityCritical]
         public static void StartHiddenConsoleProg(string exePath, string args)
         {
             var startInfo = new System.Diagnostics.ProcessStartInfo();
-            //startInfo.CreateNoWindow = false;
-            //startInfo.UseShellExecute = true;
-            //startInfo.RedirectStandardOutput = false;
-            //startInfo.RedirectStandardError = false;
+            
+            // startInfo.CreateNoWindow = false;
+            // startInfo.UseShellExecute = true;
+            // startInfo.RedirectStandardOutput = false;
+            // startInfo.RedirectStandardError = false;
             startInfo.FileName = exePath;
-            //startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             startInfo.Arguments = args;
             var p = new Process();
             p = System.Diagnostics.Process.Start(startInfo);

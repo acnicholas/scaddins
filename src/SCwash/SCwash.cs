@@ -20,6 +20,7 @@ namespace SCaddins.SCwash
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Globalization;
     using System.Linq;
     using System.Windows.Forms;
     using Autodesk.Revit.DB;
@@ -146,7 +147,7 @@ namespace SCaddins.SCwash
             using (var t = new Transaction(doc, "Delete Elements")) {
                 t.Start();
                 ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
-                System.Diagnostics.Debug.WriteLine(deletedIdSet.Count.ToString() + " Elements Deleted.");
+                System.Diagnostics.Debug.WriteLine(deletedIdSet.Count.ToString(CultureInfo.CurrentCulture) + " Elements Deleted.");
                 t.Commit();
             }
         }

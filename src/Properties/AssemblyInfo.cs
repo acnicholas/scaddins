@@ -17,6 +17,7 @@
 #region Using directives
 using System;
 using System.Reflection;
+using System.Resources;
 using System.Runtime.InteropServices;
 
 #endregion
@@ -31,6 +32,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright 2012-2015 Andrew Nicholas")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+[assembly: NeutralResourcesLanguage("en")]
+
+// FIXME make this true...
+[assembly: CLSCompliant(false)]
 
 // This sets the default COM visibility of types in the assembly to invisible.
 // If you need to expose a type to COM, use [ComVisible(true)] on that type.
@@ -43,4 +48,4 @@ using System.Runtime.InteropServices;
 // - Minor should be for features and critical bugs
 // - Revision is Bug fixes, ad-hoc patches, any minor changes.
 // - Build is an (automated)incremented build number.
-[assembly: AssemblyVersion("16.0.1.3")]
+[assembly: AssemblyVersion("16.0.1.4")]
