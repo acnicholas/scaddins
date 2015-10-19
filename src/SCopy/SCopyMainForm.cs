@@ -77,7 +77,7 @@ namespace SCaddins.SCopy
             this.AddItemToViewInfoList("Title", viewSheet.Name, colour, 0);
             this.AddItemToViewInfoList("Sheet Number", viewSheet.SheetNumber, colour, 0);
             #if REVIT2014
-            AddViewsToViewInfoList(viewSheet.Views);
+            this.AddViewsToViewInfoList(viewSheet.Views);
             #else
             this.AddViewsToViewInfoList(viewSheet.GetAllPlacedViews());
             #endif

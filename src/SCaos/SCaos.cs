@@ -177,7 +177,7 @@ namespace SCaddins.SCaos
                 }
                 t.Start("Rotate View");
                 v3d.SetOrientation(new ViewOrientation3D(eye, up, forward));
-                if (v3d.CanBeLocked() && !v3d.Name.StartsWith("{")) {
+                if (v3d.CanBeLocked() && !v3d.Name.StartsWith("{", StringComparison.OrdinalIgnoreCase)) {
                     try {
                         v3d.SaveOrientationAndLock();
                     } catch (InvalidOperationException e) {

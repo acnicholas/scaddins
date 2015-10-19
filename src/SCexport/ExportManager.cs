@@ -344,7 +344,7 @@ namespace SCaddins.SCexport
                         printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, "A2-FIT", pm, printerName);
                         break;
                     default:
-                        int i = int.Parse(sheet.PageSize.Substring(1, 1));
+                        int i = int.Parse(sheet.PageSize.Substring(1, 1), CultureInfo.InvariantCulture);
                         string printerNameTmp = i > 2 ? "this.PrinterNameA3" : this.PrinterNameLargeFormat;
                         printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, sheet.PageSize, pm, printerNameTmp);
                         break;

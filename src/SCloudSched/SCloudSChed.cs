@@ -18,13 +18,15 @@
 namespace SCaddins.SCloudSChed
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Microsoft.Office.Interop.Excel;
-
+    
     public static class SCloudScheduler
     {     
+        [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", Justification = "Because.")]        
         public static void ExportCloudInfo(Document doc, Dictionary<string, RevisionItem> dictionary)
         {
             const string ExportFilename = @"C:\Temp\SClouds";
@@ -92,12 +94,12 @@ namespace SCaddins.SCloudSChed
               
         private static string GetParamaterAsString(Element revCloud, BuiltInParameter b)
         {
-            string result = string.Empty;
-            try {
-                result += revCloud.get_Parameter(b).AsString();
-            } catch {
+            var p = revCloud.get_Parameter(b);
+            if (p == null) {
+                return string.Empty;
             }
-            return result;
+            string result = p.AsString();
+            return string.IsNullOrEmpty(result) ? string.Empty : result;
         }
    
         /// <summary>
@@ -108,6 +110,7 @@ namespace SCaddins.SCloudSChed
         /// <param name="rows"></param>
         /// <param name="columns"></param>
         /// <param name="worksheet"></param>
+        [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", Justification = "Because.")]
         private static void WriteArray(string[,] data, int rows, int columns, Worksheet worksheet)
         {
             if (worksheet != null) {

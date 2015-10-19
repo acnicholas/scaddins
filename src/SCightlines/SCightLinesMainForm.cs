@@ -107,14 +107,8 @@ namespace SCaddins.SCightLines
                 SCightLinesMainForm.GetDub(this.txtRows, 10),
                 SCightLinesMainForm.GetDub(this.txtX, 10000),
                 SCightLinesMainForm.GetDub(this.txtY, 1000));
-            try {
-                this.info.Update(this.sightLines.InfoString);
-                this.info.Show();
-            } catch {
-                this.info = new SCightOutputForm("Update first");
-                this.info.Update(this.sightLines.InfoString);
-                this.info.Show();
-            }
+            this.info.Update(this.sightLines.InfoString);
+            this.info.Show();
         }
 
         private void ButtonCreate_Click(object sender, EventArgs e)

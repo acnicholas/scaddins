@@ -136,7 +136,7 @@ namespace SCaddins.SCopy
                 return s;
             } 
             #else
-            var viewCategoryParam = this.SourceSheet.get_Parameter(SCopyConstants.SheetCategory);
+            var viewCategoryParam = this.SourceSheet.get_Parameter(parameterName);
             if (viewCategoryParam != null) {
                 return viewCategoryParam.AsString();
             }

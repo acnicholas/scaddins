@@ -35,11 +35,10 @@ namespace SCaddins.Common
         
         public static string PadLeftZeros(string s, int desiredLength)
         {
-            if (s.Length == desiredLength - 1) {
+            if (desiredLength > 1 && s.Length == desiredLength - 1) {
                 return "0" + s;
-            } else {
-                return s;
             }
+            return s;
         }
                 
         public static double FeetToMM(double lengthInFeet)
