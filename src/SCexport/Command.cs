@@ -60,7 +60,7 @@ namespace SCaddins.SCexport
                 }
 
                 transaction.Commit();
-            } catch (System.Exception ex) {
+            } catch (InvalidOperationException ex) {
                 transaction.RollBack();
                 message = ex.Message;
                 return Result.Failed;

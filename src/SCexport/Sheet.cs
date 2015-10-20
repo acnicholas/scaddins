@@ -75,12 +75,7 @@ namespace SCaddins.SCexport
         public SegmentedSheetName SegmentedFileName {
             get {
                 return this.segmentedFileName;
-            }
-            
-            set {
-                this.segmentedFileName = value;
-                this.SetExportName();
-            }
+            }     
         }
 
         public string SheetDescription
@@ -277,6 +272,12 @@ namespace SCaddins.SCexport
                 }
                 return string.IsNullOrEmpty(result.Trim()) ? "0" : result.Substring(i + 2).Trim();
         }
+        
+        public void SetSegmentedSheetName(SegmentedSheetName segmentedFileName)
+        {
+            this.segmentedFileName = segmentedFileName;
+            this.SetExportName();
+        }
 
         public void UpdateNumber()
         {
@@ -315,18 +316,20 @@ namespace SCaddins.SCexport
         
         public void SetScaleBarScale(Element titleBlock)
         {
-            try {
                 #if ( REVIT2015 || REVIT2016)
                 var tb = titleBlock.GetParameters(Constants.TitleScale);
+                if (tb == null) {
+                    return;
+                }
                 Parameter p = tb[0];
                 #else
                 Parameter p = titleBlock.get_Parameter(Constants.TitleScale);
+                if (p == null) {
+                    return;
+                }
                 #endif
                 p.SetValueString(this.RevitScaleWithoutFormatting());
-                this.scaleBarScale = this.RevitScaleWithoutFormatting();
-            } catch {
-                return;
-            }          
+                this.scaleBarScale = this.RevitScaleWithoutFormatting();          
         }
                
         private void Init(

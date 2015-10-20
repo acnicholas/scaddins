@@ -43,9 +43,10 @@ namespace SCaddins.SCexport
                 Math.Round(sheet.Height).ToString(CultureInfo.InvariantCulture);
         }
         
-        public static void CreatePrintSetting(Document doc, string isoSheetSize)
+        public static bool CreatePrintSetting(Document doc, string isoSheetSize)
         {
             PrintManager pm = doc.PrintManager;
+            bool success = false;
             foreach (PaperSize paperSize in pm.PaperSizes) {
                 if (paperSize.Name.Substring(0, 2) == isoSheetSize.Substring(0, 2)) {
                     var t = new Transaction(doc, "Apply print settings");
@@ -54,37 +55,39 @@ namespace SCaddins.SCexport
                     try {
                         ips.PrintParameters.PaperSize = paperSize;
                         ips.PrintParameters.HideCropBoundaries = true;
-                    if (isoSheetSize.Length > 2 && !isoSheetSize.Contains("FIT")) {
-                        ips.PrintParameters.PageOrientation =
+                        if (isoSheetSize.Length > 2 && !isoSheetSize.Contains("FIT")) {
+                            ips.PrintParameters.PageOrientation =
                             PageOrientationType.Portrait;
-                    } else {
-                        ips.PrintParameters.PageOrientation =
+                        } else {
+                            ips.PrintParameters.PageOrientation =
                             PageOrientationType.Landscape;
-                    }
+                        }
 
-                    ips.PrintParameters.HideScopeBoxes = true;
-                    ips.PrintParameters.HideReforWorkPlanes = true;
-                    #if REVIT2014
-                    ips.PrintParameters.HideUnreferencedViewTags = true;
-                    #else
-                    ips.PrintParameters.HideUnreferencedViewTags = true;
-                    #endif
-                    if (isoSheetSize.Contains("FIT")) {
-                        ips.PrintParameters.ZoomType = ZoomType.FitToPage;
-                        ips.PrintParameters.MarginType = MarginType.NoMargin;
-                    } else {
-                        ips.PrintParameters.ZoomType = ZoomType.Zoom;
-                        ips.PrintParameters.Zoom = 100;
-                        ips.PrintParameters.PaperPlacement =
+                        ips.PrintParameters.HideScopeBoxes = true;
+                        ips.PrintParameters.HideReforWorkPlanes = true;
+                        #if REVIT2014
+                        ips.PrintParameters.HideUnreferencedViewTags = true;
+                        #else
+                        ips.PrintParameters.HideUnreferencedViewTags = true;
+                        #endif
+                        if (isoSheetSize.Contains("FIT")) {
+                            ips.PrintParameters.ZoomType = ZoomType.FitToPage;
+                            ips.PrintParameters.MarginType = MarginType.NoMargin;
+                        } else {
+                            ips.PrintParameters.ZoomType = ZoomType.Zoom;
+                            ips.PrintParameters.Zoom = 100;
+                            ips.PrintParameters.PaperPlacement =
                             PaperPlacementType.Margins;
-                        ips.PrintParameters.MarginType = MarginType.UserDefined;
-                        ips.PrintParameters.UserDefinedMarginX = 0;
-                        ips.PrintParameters.UserDefinedMarginY = 0;
-                    }
+                            ips.PrintParameters.MarginType = MarginType.UserDefined;
+                            ips.PrintParameters.UserDefinedMarginX = 0;
+                            ips.PrintParameters.UserDefinedMarginY = 0;
+                        }
 
-                    pm.PrintSetup.SaveAs("SCX-" + isoSheetSize);
-                    t.Commit();
-                    } catch {
+                        pm.PrintSetup.SaveAs("SCX-" + isoSheetSize);
+                        t.Commit();
+                        success = true;
+                    } catch (InvalidOperationException ex) {
+                        System.Diagnostics.Debug.Print(ex.Message);
                         TaskDialog.Show(
                             "SCexport",
                             "Unable to create print setting: " + "SCX-" + isoSheetSize);
@@ -92,6 +95,7 @@ namespace SCaddins.SCexport
                     }
                 }
             }
+            return success;
         }
             
         public static bool ApplyPrintSettings(
@@ -121,22 +125,14 @@ namespace SCaddins.SCexport
                 pm.Apply();
                 t.Commit();
                 return true;
-            } catch {
+            } catch (InvalidOperationException ex) {
+                System.Diagnostics.Debug.Print(ex.Message);
                 TaskDialog.Show("SCexport", "cannot apply print settings");
                 t.RollBack();
                 return false;
             }  
         }
         
-        /// <summary>
-        /// Apply a print setting to the current document.
-        /// </summary>
-        /// <param name="doc">The Revit document to create the print setting in.</param>
-        /// <param name="vs">The Sheet containing the print setting.</param>
-        /// <param name="pm">The Current print manager.</param>
-        /// <param name="ext">The file extension to append on the exported file.</param>
-        /// <param name="printerName">The name of the printer to print to.</param>
-        /// <returns>True if successful.</returns>
         public static bool ApplyPrintSettings(
                 Document doc,
                 ExportSheet vs,
@@ -163,7 +159,8 @@ namespace SCaddins.SCexport
                 pm.Apply();
                 t.Commit();
                 return true;
-            } catch {
+            } catch (InvalidOperationException ex) {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 t.RollBack();
                 return false;
             }
@@ -178,18 +175,19 @@ namespace SCaddins.SCexport
                 }
             }
 
-            try {
-                CreatePrintSetting(doc, printSetting);
-                foreach (ElementId id in doc.GetPrintSettingIds()) {
-                    var ps2 = doc.GetElement(id) as PrintSetting;
-                    if (ps2.Name.ToString().Equals("SCX-" + printSetting)) {
-                        return ps2;
-                    }
-                }
-            } catch {
-                var msg = "SCX-" + printSetting + " could not be created!";
-                TaskDialog.Show("Creating Papersize", msg);
+            if (!CreatePrintSetting(doc, printSetting)) {
+                return null;
             }
+            
+            foreach (ElementId id in doc.GetPrintSettingIds()) {
+                var ps2 = doc.GetElement(id) as PrintSetting;
+                if (ps2 != null && ps2.Name.ToString().Equals("SCX-" + printSetting)) {
+                    return ps2;
+                }
+            }
+                
+            var msg = "SCX-" + printSetting + " could not be created!";
+            TaskDialog.Show("Creating Papersize", msg);
             return null;
         }
         

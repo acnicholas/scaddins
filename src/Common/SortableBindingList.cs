@@ -32,6 +32,7 @@ namespace SCaddins.Common
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     public class SortableBindingListCollection<T> : System.ComponentModel.BindingList<T>
@@ -44,6 +45,7 @@ namespace SCaddins.Common
         {
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "Borrowed code...")]
         public SortableBindingListCollection(List<T> list) : base(list)
         {
         }

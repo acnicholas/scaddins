@@ -389,7 +389,7 @@ namespace SCaddins.SCexport
                 if (newScheme == scheme.Name) {
                     this.fileNameScheme = scheme;
                     foreach (ExportSheet sheet in this.allSheets) {
-                        sheet.SegmentedFileName = this.fileNameScheme;
+                        sheet.SetSegmentedSheetName(this.fileNameScheme);
                     } 
                 }
             }
@@ -699,6 +699,9 @@ namespace SCaddins.SCexport
 
         private bool ValidateXML(string filename)
         {
+            if (filename == null || !File.Exists(filename)) {
+                return false;
+            }
             try {
                 var settings = new XmlReaderSettings();
                 settings.Schemas.Add(
@@ -711,7 +714,23 @@ namespace SCaddins.SCexport
                     new ValidationEventHandler(this.ValidationEventHandler);
                 document.Validate(eventHandler);
                 return true;
-            } catch (Exception ex) {
+            } catch (XmlSchemaValidationException ex) {
+                TaskDialog.Show(
+                    "SCexport", "Error reading xml file: " + ex.Message);
+                return false;
+            } catch (XmlException ex) {
+                TaskDialog.Show(
+                    "SCexport", "Error reading xml file: " + ex.Message);
+                return false;
+            } catch (XmlSchemaException ex) {
+                TaskDialog.Show(
+                    "SCexport", "Error reading xml file: " + ex.Message);
+                return false;
+            } catch (ArgumentNullException ex) {
+                TaskDialog.Show(
+                    "SCexport", "Error reading xml file: " + ex.Message);
+                return false;
+            } catch (UriFormatException ex) {
                 TaskDialog.Show(
                     "SCexport", "Error reading xml file: " + ex.Message);
                 return false;
@@ -761,7 +780,7 @@ namespace SCaddins.SCexport
             if (this.fileNameTypes.Count > 0) {
                 this.fileNameScheme = this.fileNameTypes[0];
                 foreach (ExportSheet sheet in this.allSheets) {
-                    sheet.SegmentedFileName = this.fileNameScheme;
+                    sheet.SetSegmentedSheetName(this.fileNameScheme);
                 }
             }
 

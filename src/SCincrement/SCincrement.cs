@@ -44,9 +44,14 @@ namespace SCaddins.SCincrement
                 while (true) {
                     refList.Add(uidoc.Selection.PickObject(ObjectType.Element, "Select elements in order to be renumbered. ESC when finished."));
                 }
-            }
-            catch
-            {
+            } catch (ArgumentOutOfRangeException ex) {
+                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
+            } catch (ArgumentNullException ex) {
+                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
+            } catch (OperationCanceledException ex) {
+                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
+            } catch (Autodesk.Revit.Exceptions.ForbiddenForDynamicUpdateException ex) {
+                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
             }
 
             using (var t = new Transaction(doc, "Renumber")) {

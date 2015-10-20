@@ -30,7 +30,11 @@ namespace SCaddins.Common
                 foreach (Process proc in Process.GetProcessesByName(processName)) {
                     proc.Kill();
                 }
-            } catch (Exception ex) {
+            } catch (InvalidOperationException ex) {
+                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
+            } catch (NotSupportedException ex) {
+                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
+            } catch (System.ComponentModel.Win32Exception ex) {
                 Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
             }
         }
