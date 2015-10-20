@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <!--
-     SCexport config file example.
-     Andrew Nicholas 20150315
+     SCexport config file template.
+     Andrew Nicholas 20151020
 
      Place this in the same folder as your Central file and rename it to
      REVIT_FILE_NAME.xml
@@ -18,10 +18,10 @@
         <Underscore>
         <Hyphen>
 
-        **Can add a value to thses nodes
+        **Can add a value to these nodes
      -->
 
-<SCexport name="test">
+<SCexport name="Generic SCexport config file">
 
   <!--Default export dir TODO-->
     
@@ -88,11 +88,24 @@
     <Revision/>
   </FilenameScheme>
 
+  <!--This is deprecated-->
   <PDFTagSettings>
     <Author>SCexport</Author>
     <NonIssueTag>***NOT FOR ISSUE***</NonIssueTag>
   </PDFTagSettings>
-
+  
+  <!--Command to run after each pdf export-->
+  <PostPDFExportHook>
+     <Command>pdftk.exe</Command>
+     <Args></Args>
+  </PostPDFExportHook>
+ 
+ <!--Command to run after each dwg export--> 
+  <PostDWGExportHook>
+     <Command>REN</Command>
+     <Args>%%filename%%.dwg filename%%_dwg.dwg</Args>
+  </PostDWGExportHook>
+  
 </SCexport>
 
   <!-- vim: set nu tabstop=4 shiftwidth=4 expandtab : -->

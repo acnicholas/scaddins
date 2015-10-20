@@ -44,12 +44,12 @@
 							<?endif?>
 						</Directory>
 						<Directory Id="RFAFILES2016" Name="2016">
-						    <?if $(env.R2016) = Enabled ?>
+							<?if $(env.R2016) = Enabled ?>
 							<Component Id="SCaddinsRFA2016" Guid="5A4670F8-0154-4072-B3DF-03308798A1CE" DiskId="1" Win64="yes">
 								<CreateFolder />
 								<File Id="_016.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2015\SC-Survey_Point.rfa" />
 							</Component>
-					        <?endif?>
+							<?endif?>
 						</Directory>
 					</Directory>
 				</Directory>
@@ -112,19 +112,6 @@
 							<File Id="SCADDINS16.ADDIN" Name="SCaddins16.addin" Source="..\src\Manifest\2016\SCaddins.addin" />
 						</Component>
 					</Directory>
-				</Directory>
-			</Directory>
-		</Directory>
-	</Directory>
-	<Directory Id="ProgramFilesFolder" Name="ProgramFilesFolder">
-		<Directory Id="SCaddinsParent" Name="SCaddins">
-			<Directory Id="SCaddins" Name="SCaddins">
-				<Directory Id="OPT32DIR" Name="opt">
-					<Component Id="SCaddinsOpt32" Guid="D5251FB8-6BFE-4313-81EE-B59A6660745A" Win64="no">
-						<CreateFolder />
-						<File Id="LIBICONV2.DLL" Name="libiconv2.dll" Source="..\opt\libiconv2.dll" />
-						<File Id="PDFTK.EXE" Name="pdftk.exe" Source="..\opt\pdftk.exe" />
-					</Component>
 				</Directory>
 			</Directory>
 		</Directory>

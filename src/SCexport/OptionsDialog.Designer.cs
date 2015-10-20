@@ -51,7 +51,6 @@ namespace SCaddins.SCexport
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.CheckBox checkBoxHideTitleblock;
-        private System.Windows.Forms.CheckBox checkBoxTagPDF;
         private System.Windows.Forms.CheckBox checkBoxForceDate;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabControl tabControl1;
@@ -99,7 +98,6 @@ namespace SCaddins.SCexport
             this.label6 = new System.Windows.Forms.Label();
             this.comboBoxAutocadVersion = new System.Windows.Forms.ComboBox();
             this.checkBoxForceDate = new System.Windows.Forms.CheckBox();
-            this.checkBoxTagPDF = new System.Windows.Forms.CheckBox();
             this.checkBoxHideTitleblock = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -249,7 +247,6 @@ namespace SCaddins.SCexport
             this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Controls.Add(this.comboBoxAutocadVersion);
             this.groupBox4.Controls.Add(this.checkBoxForceDate);
-            this.groupBox4.Controls.Add(this.checkBoxTagPDF);
             this.groupBox4.Controls.Add(this.checkBoxHideTitleblock);
             this.groupBox4.Location = new System.Drawing.Point(3, 238);
             this.groupBox4.Name = "groupBox4";
@@ -301,16 +298,6 @@ namespace SCaddins.SCexport
             this.checkBoxForceDate.Text = "Force the revision to be today\'s date [YYYYMMDD]";
             this.checkBoxForceDate.UseVisualStyleBackColor = true;
             this.checkBoxForceDate.CheckedChanged += new System.EventHandler(this.ForceDateCheckedChanged);
-            // 
-            // checkBoxTagPDF
-            // 
-            this.checkBoxTagPDF.Location = new System.Drawing.Point(6, 146);
-            this.checkBoxTagPDF.Name = "checkBoxTagPDF";
-            this.checkBoxTagPDF.Size = new System.Drawing.Size(223, 28);
-            this.checkBoxTagPDF.TabIndex = 9;
-            this.checkBoxTagPDF.Text = "Tag PDF exports";
-            this.checkBoxTagPDF.UseVisualStyleBackColor = true;
-            this.checkBoxTagPDF.CheckedChanged += new System.EventHandler(this.ToggleCheckBoxValue);
             // 
             // checkBoxHideTitleblock
             // 

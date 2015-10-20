@@ -27,7 +27,6 @@
                     <ComponentRef Id="SCaddinsIcons" />
                     <ComponentRef Id="SCaddinsEtc" />
                     <ComponentRef Id="SCexportConfigProto" />
-                    <ComponentRef Id="SCaddinsOpt32" />
                     <ComponentRef Id="SCaddinsRFA2014" />
                 </Feature>
                 <?endif?>
@@ -39,7 +38,6 @@
                     <ComponentRef Id="SCaddinsIcons" />
                     <ComponentRef Id="SCaddinsEtc" />
                     <ComponentRef Id="SCexportConfigProto" />
-                    <ComponentRef Id="SCaddinsOpt32" />
                     <ComponentRef Id="SCaddinsRFA2015" />
                 </Feature>
                 <?endif?>
@@ -51,7 +49,6 @@
                     <ComponentRef Id="SCaddinsIcons" />
                     <ComponentRef Id="SCaddinsEtc" />
                     <ComponentRef Id="SCexportConfigProto" />
-                    <ComponentRef Id="SCaddinsOpt32" />
                     <ComponentRef Id="SCaddinsRFA2016" />
                 </Feature>
                 <?endif?>

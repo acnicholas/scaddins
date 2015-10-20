@@ -59,8 +59,6 @@ namespace SCaddins.SCexport
             this.checkBoxDGN.Checked = this.scx.HasExportOption(ExportOptions.DGN);
             this.checkBoxDWG.Checked = this.scx.HasExportOption(ExportOptions.DWG);
             this.checkBoxDWF.Checked = this.scx.HasExportOption(ExportOptions.DWF);
-            this.checkBoxTagPDF.Checked =
-                this.scx.HasExportOption(ExportOptions.TagPDFExports);
             this.checkBoxHideTitleblock.Checked =
                 this.scx.HasExportOption(ExportOptions.NoTitle);
             this.checkBoxForceDate.Checked = this.scx.ForceRevisionToDateString;
@@ -80,7 +78,6 @@ namespace SCaddins.SCexport
             this.textBoxA3Printer.Text = this.scx.PrinterNameA3;
             this.textBoxLargeFormatPrinter.Text = this.scx.PrinterNameLargeFormat;
             textBoxTextEditor.Text = SCaddins.SCexport.Settings1.Default.TextEditor;
-            checkBoxTagPDF.Checked = SCaddins.SCexport.Settings1.Default.TagPDFExports;
             textBoxExportDir.Text = SCaddins.SCexport.Settings1.Default.ExportDir;
         }
         
@@ -99,11 +96,9 @@ namespace SCaddins.SCexport
             SCaddins.SCexport.Settings1.Default.PSPrinterDriver = this.scx.PostscriptPrinterName;  
             SCaddins.SCexport.Settings1.Default.GSLibDirectory = this.scx.GhostscriptLibDir;  
             SCaddins.SCexport.Settings1.Default.TextEditor = textBoxTextEditor.Text;
-            SCaddins.SCexport.Settings1.Default.TagPDFExports = checkBoxTagPDF.Checked;
             SCaddins.SCexport.Settings1.Default.ExportDir = this.textBoxExportDir.Text;
             SCaddins.SCexport.Settings1.Default.AdobePDFMode = radioPDF.Checked;
             SCaddins.SCexport.Settings1.Default.ForceDateRevision = checkBoxForceDate.Checked;
-            SCaddins.SCexport.Settings1.Default.TagPDFExports = checkBoxTagPDF.Checked;
             SCaddins.SCexport.Settings1.Default.HideTitleBlocks = checkBoxHideTitleblock.Checked;
             SCaddins.SCexport.Settings1.Default.AcadExportVersion = this.comboBoxAutocadVersion.SelectedItem.ToString();
             SCaddins.SCexport.Settings1.Default.Save();
@@ -146,7 +141,6 @@ namespace SCaddins.SCexport
             this.checkBoxDWF.Tag = ExportOptions.DWF;
             this.checkBoxDWG.Tag = ExportOptions.DWG;
             this.radioGSPDF.Tag = ExportOptions.GhostscriptPDF;
-            this.checkBoxTagPDF.Tag = ExportOptions.TagPDFExports;
             this.checkBoxHideTitleblock.Tag = ExportOptions.NoTitle;
         }
         

@@ -45,9 +45,6 @@ namespace SCaddins.SCexport
         /// <summary>Remove titleblock from sheet before exporting.
         /// </summary>
         NoTitle = 32,
-
-        /// <summary>Tag pdf files with metadata.</summary>
-        TagPDFExports = 64,
     }
         
     public enum LogType

@@ -646,9 +646,6 @@ namespace SCaddins.SCexport
                 }
                 this.AddExportOption(ExportOptions.DWG);
             }
-            if (SCaddins.SCexport.Settings1.Default.TagPDFExports) {
-                this.AddExportOption(ExportOptions.TagPDFExports);
-            }
             if (SCaddins.SCexport.Settings1.Default.HideTitleBlocks) {
                 this.AddExportOption(ExportOptions.NoTitle);
             }
