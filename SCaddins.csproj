@@ -219,6 +219,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\SCexport\OptionsDialog.Designer.cs" />
+    <Compile Include="src\SCexport\PostExportHookCommand.cs" />
     <Compile Include="src\SCexport\PreviousSheet.cs" />
     <Compile Include="src\SCexport\PrintSettings.cs" />
     <Compile Include="src\SCexport\RenameSheetForm.cs">

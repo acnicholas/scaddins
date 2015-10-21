@@ -40,6 +40,7 @@ namespace SCaddins.SCexport
         private ExportOptions exportFlags;
         private Collection<SegmentedSheetName> fileNameTypes;
         private Collection<ViewSheetSetCombo> allViewSheetSets;
+        private Collection<PostExportHookCommand> postExportHooks;
         private SegmentedSheetName fileNameScheme;
         private SortableBindingListCollection<ExportSheet> allSheets;
         private bool forceDate;
@@ -55,6 +56,7 @@ namespace SCaddins.SCexport
             this.allViewSheetSets = new Collection<ViewSheetSetCombo>();
             this.allSheets = new SortableBindingListCollection<ExportSheet>();
             this.fileNameTypes = new Collection<SegmentedSheetName>();
+            this.postExportHooks = new Collection<PostExportHookCommand>();
             this.exportFlags = ExportOptions.None;
             this.LoadSettings();
             this.SetDefaultFlags();
@@ -762,6 +764,31 @@ namespace SCaddins.SCexport
                     } while (!(reader.NodeType == XmlNodeType.EndElement &&
                                reader.Name == "PDFTagSettings"));
                 }
+                
+                 if (reader.NodeType == XmlNodeType.Element && reader.Name == "PostExportHook") {
+                    var hook = new PostExportHookCommand();
+                    if (reader.AttributeCount > 0) {
+                        hook.SetName(reader.GetAttribute("name"));
+                    }
+                    do {
+                        reader.Read();
+                        if (reader.NodeType == XmlNodeType.Element) {
+                            switch (reader.Name) {
+                                case "Command":
+                                    hook.SetCommand(reader.ReadString());
+                                    break;
+                                case "Args":
+                                    hook.SetArguments(reader.ReadString());
+                                    break;
+                                case "SupportedFileExtensions":
+                                    hook.AddSupportedFilenameExtension(reader.ReadString());
+                                    break;
+                            }
+                        }
+                    } while (!(reader.NodeType == XmlNodeType.EndElement &&
+                               reader.Name == "PostExportHook"));
+                    this.postExportHooks.Add(hook);
+                }
 
                 if (reader.NodeType == XmlNodeType.Element &&
                     reader.Name == "FilenameScheme") {
@@ -924,12 +951,20 @@ namespace SCaddins.SCexport
                 } else {
                     log.AddError(vs.FullExportName, "failed to print");    
                 }
+                FileUtilities.WaitForFileAccess(vs.FullExportPath(".pdf"));
+                
+                foreach (PostExportHookCommand hook in this.postExportHooks) {
+                    if (hook.HasExtension("pdf")) {
+                        hook.Run();
+                    }
+                }
+                
                 SCaddins.Common.SystemUtilities.KillAllProcesses("acrotray");
             } else {
                 log.AddError(vs.FullExportName, "could not overwrite file, maybe check permissions?");
                 return false;
             }
-            FileUtilities.WaitForFileAccess(vs.FullExportPath(".pdf"));
+            
             return true;
         }
     }

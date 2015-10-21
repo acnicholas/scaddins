@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<!--
+<!-- 
      SCexport config file template.
      Andrew Nicholas 20151020
 
      Place this in the same folder as your Central file and rename it to
      REVIT_FILE_NAME.xml
+-->
+
+<!--
+     #### FilenameSchemes #### 
+     The node <FilenameScheme> is used to define one or more export schemes
 
      Available parameters(xml nodes) are:
         <ProjectNumber>
@@ -19,13 +24,36 @@
         <Hyphen>
 
         **Can add a value to these nodes
-     -->
+-->
+
+<!--
+    #### PostExportHook #### 
+    These will run after an export.
+
+    Available parameters(xml nodes) are:
+     <Command>
+     <Args>
+     <SupportedFileExtensions>
+
+     Use the following replacement string where needed:
+        $height;
+        $width;
+        $displineCode;
+        $fullExportName;
+        $pageSize;
+        $projectNumber;
+        $scale;
+        $scaleBarScale;
+        $sheetDescription;
+        $sheetNumber;
+        $sheetRevision;
+        $sheetRevisionDate;
+        $sheetRevisionDescription;
+ -->
 
 <SCexport name="Generic SCexport config file">
-
-  <!--Default export dir TODO-->
     
-  <!--Architectural naming scheme (USQ)-->
+  <!--Naming scheme examples-->
   <FilenameScheme label="Architectural USQ">
     <ProjectNumber/>
     <Hyphen/>
@@ -34,8 +62,17 @@
     <Revision/>
     <Text>]</Text>
   </FilenameScheme>
+    
+  <FilenameScheme label="Export Hook Example">
+    <ProjectNumber/>
+    <Hyphen/>
+    <SheetNumber/>
+    <Text>[</Text>
+    <Revision/>
+    <Text>]</Text>
+    <PostExportHooks>tagPdfs convertToPng</PostExportHooks>
+  </FilenameScheme>
 
-  <!--Architectural naming scheme (AD discipline)-->
   <FilenameScheme label="Architectural AD">
     <ProjectNumber/>
     <Hyphen/>
@@ -47,7 +84,6 @@
     <Text>]</Text>
   </FilenameScheme>
 
-  <!--Landscape naming scheme (LD discipline)-->
   <FilenameScheme label="Landscape LD">
     <ProjectNumber/>
     <Hyphen/>
@@ -59,7 +95,6 @@
     <Text>]</Text>
   </FilenameScheme>
 
-  <!--Bracketed revisions-->
   <FilenameScheme label="Brackets">
     <ProjectNumber/>
     <Hyphen/>
@@ -71,7 +106,6 @@
     <Text>)</Text>
   </FilenameScheme>
 
-  <!--C revision-->
   <FilenameScheme label="CRevisions">
     <Text>49-FV-SC001</Text>
     <Hyphen/>
@@ -81,31 +115,31 @@
     <Revision/>
   </FilenameScheme>
 
-  <!--Basic naming scheme-->
   <FilenameScheme label="Simple">
     <SheetNumber/>
     <Underscore/>
     <Revision/>
   </FilenameScheme>
 
-  <!--This is deprecated-->
-  <PDFTagSettings>
-    <Author>SCexport</Author>
-    <NonIssueTag>***NOT FOR ISSUE***</NonIssueTag>
-  </PDFTagSettings>
-  
-  <!--Command to run after each pdf export-->
-  <PostPDFExportHook>
+  <!--Post Export Hook Exmaples-->
+  <PostExportHook name="tagPdfs">
      <Command>pdftk.exe</Command>
      <Args></Args>
+     <SupportedFileExtensions>pdf</SupportedFileExtensions>
+  </PostPDFExportHook>
+
+  <PostExportHook name="convertToPng">
+     <Command>convert.exe</Command>
+     <Args></Args>
+     <SupportedFileExtensions>pdf</SupportedFileExtensions>
+  </PostPDFExportHook>
+
+  <PostExportHook name="aconexDWGSuffix">
+     <Command>ren</Command>
+     <Args>$fullExportName.$extension $fullExportName_DWG.$extension</Args>
+     <SupportedFileExtensions>dwg</SupportedFileExtensions>
   </PostPDFExportHook>
  
- <!--Command to run after each dwg export--> 
-  <PostDWGExportHook>
-     <Command>REN</Command>
-     <Args>%%filename%%.dwg filename%%_dwg.dwg</Args>
-  </PostDWGExportHook>
-  
 </SCexport>
 
   <!-- vim: set nu tabstop=4 shiftwidth=4 expandtab : -->
