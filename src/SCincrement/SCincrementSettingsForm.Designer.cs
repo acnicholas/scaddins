@@ -53,6 +53,8 @@ namespace SCaddins.SCincrement
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.customParamTextBox = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.destReplacementTextBox = new System.Windows.Forms.TextBox();
             this.destSearchTextBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -65,12 +67,13 @@ namespace SCaddins.SCincrement
             this.searchTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.CustomParamCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(13, 221);
+            this.button1.Location = new System.Drawing.Point(12, 296);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(129, 23);
             this.button1.TabIndex = 0;
@@ -81,7 +84,7 @@ namespace SCaddins.SCincrement
             // button2
             // 
             this.button2.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button2.Location = new System.Drawing.Point(421, 221);
+            this.button2.Location = new System.Drawing.Point(421, 296);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 1;
@@ -92,7 +95,7 @@ namespace SCaddins.SCincrement
             // button3
             // 
             this.button3.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button3.Location = new System.Drawing.Point(340, 221);
+            this.button3.Location = new System.Drawing.Point(340, 296);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 2;
@@ -102,6 +105,9 @@ namespace SCaddins.SCincrement
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.CustomParamCheckBox);
+            this.groupBox1.Controls.Add(this.customParamTextBox);
+            this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.destReplacementTextBox);
             this.groupBox1.Controls.Add(this.destSearchTextBox);
             this.groupBox1.Controls.Add(this.label5);
@@ -116,10 +122,25 @@ namespace SCaddins.SCincrement
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(484, 203);
+            this.groupBox1.Size = new System.Drawing.Size(484, 278);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
+            // 
+            // customParamTextBox
+            // 
+            this.customParamTextBox.Location = new System.Drawing.Point(295, 245);
+            this.customParamTextBox.Name = "customParamTextBox";
+            this.customParamTextBox.Size = new System.Drawing.Size(183, 20);
+            this.customParamTextBox.TabIndex = 17;
+            // 
+            // label7
+            // 
+            this.label7.Location = new System.Drawing.Point(6, 248);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(195, 23);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "Custom Parameter Name";
             // 
             // destReplacementTextBox
             // 
@@ -211,11 +232,20 @@ namespace SCaddins.SCincrement
             this.label1.TabIndex = 0;
             this.label1.Text = "Source Search Pattern";
             // 
+            // CustomParamCheckBox
+            // 
+            this.CustomParamCheckBox.Location = new System.Drawing.Point(6, 221);
+            this.CustomParamCheckBox.Name = "CustomParamCheckBox";
+            this.CustomParamCheckBox.Size = new System.Drawing.Size(170, 24);
+            this.CustomParamCheckBox.TabIndex = 18;
+            this.CustomParamCheckBox.Text = "Use Custom Parameter";
+            this.CustomParamCheckBox.UseVisualStyleBackColor = true;
+            // 
             // SCincrementSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(505, 257);
+            this.ClientSize = new System.Drawing.Size(502, 331);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -234,5 +264,8 @@ namespace SCaddins.SCincrement
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox destReplacementTextBox;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox customParamTextBox;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox CustomParamCheckBox;
     }
 }

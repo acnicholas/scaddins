@@ -53,6 +53,8 @@ namespace SCaddins.SCincrement
             SCincrementSettings.Default.SourceReplacePattern = this.replacementTextBox.Text;
             SCincrementSettings.Default.DestinationReplacePattern = this.destReplacementTextBox.Text;
             SCincrementSettings.Default.DestinationSearchPattern = this.destSearchTextBox.Text;
+            SCincrementSettings.Default.CustomParameterName = this.customParamTextBox.Text;
+            SCincrementSettings.Default.UseCustomParameterName = this.CustomParamCheckBox.Checked;
             SCincrementSettings.Default.Save();
         }
         
