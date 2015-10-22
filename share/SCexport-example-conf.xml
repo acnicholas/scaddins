@@ -63,14 +63,13 @@
     <Text>]</Text>
   </FilenameScheme>
     
-  <FilenameScheme label="Export Hook Example">
+  <FilenameScheme label="Export Hook Example" hooks="tagPdfs convertToPng">
     <ProjectNumber/>
     <Hyphen/>
     <SheetNumber/>
     <Text>[</Text>
     <Revision/>
     <Text>]</Text>
-    <PostExportHooks>tagPdfs convertToPng</PostExportHooks>
   </FilenameScheme>
 
   <FilenameScheme label="Architectural AD">

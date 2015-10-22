@@ -36,6 +36,11 @@ namespace SCaddins.SCexport
             this.supportedFilenameExtensions = new Collection<string>();
         }
         
+        public string Name
+        {
+            get { return this.name; }
+        }
+        
         public void Run()
         {
             Autodesk.Revit.UI.TaskDialog.Show("DEBUG", this.cmd + " --- " + this.args);

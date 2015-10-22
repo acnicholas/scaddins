@@ -40,7 +40,8 @@ namespace SCaddins.SCexport
         private ExportOptions exportFlags;
         private Collection<SegmentedSheetName> fileNameTypes;
         private Collection<ViewSheetSetCombo> allViewSheetSets;
-        private Collection<PostExportHookCommand> postExportHooks;
+        private Dictionary<string, PostExportHookCommand> postExportHooks;
+        private string activePostExportHooks;
         private SegmentedSheetName fileNameScheme;
         private SortableBindingListCollection<ExportSheet> allSheets;
         private bool forceDate;
@@ -56,8 +57,9 @@ namespace SCaddins.SCexport
             this.allViewSheetSets = new Collection<ViewSheetSetCombo>();
             this.allSheets = new SortableBindingListCollection<ExportSheet>();
             this.fileNameTypes = new Collection<SegmentedSheetName>();
-            this.postExportHooks = new Collection<PostExportHookCommand>();
+            this.postExportHooks = new Dictionary<string, PostExportHookCommand>();
             this.exportFlags = ExportOptions.None;
+            this.activePostExportHooks = string.Empty;
             this.LoadSettings();
             this.SetDefaultFlags();
             ExportManager.PopulateViewSheetSets(this.allViewSheetSets);
@@ -787,7 +789,7 @@ namespace SCaddins.SCexport
                         }
                     } while (!(reader.NodeType == XmlNodeType.EndElement &&
                                reader.Name == "PostExportHook"));
-                    this.postExportHooks.Add(hook);
+                    this.postExportHooks.Add(hook.Name, hook);
                 }
 
                 if (reader.NodeType == XmlNodeType.Element &&
@@ -953,9 +955,11 @@ namespace SCaddins.SCexport
                 }
                 FileUtilities.WaitForFileAccess(vs.FullExportPath(".pdf"));
                 
-                foreach (PostExportHookCommand hook in this.postExportHooks) {
-                    if (hook.HasExtension("pdf")) {
-                        hook.Run();
+                for (int i = 0; i < this.postExportHooks.Count; i++) {
+                    if (this.postExportHooks.ElementAt(1).Value.HasExtension("pdf")) {
+                        if (this.activePostExportHooks.Contains(this.postExportHooks.ElementAt(1).Key)) {
+                            this.postExportHooks.ElementAt(1).Value.Run();
+                        }
                     }
                 }
                 
