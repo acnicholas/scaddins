@@ -4,6 +4,9 @@
     <Profile Name="(Default)" />
   </Profiles>
   <Settings>
+    <Setting Name="CustomParameterName" Type="System.String" Scope="User" Roaming="false">
+      <Value Profile="(Default)">Window Instance Number</Value>
+    </Setting>
     <Setting Name="DestinationReplacePattern" Type="System.String" Scope="User" Roaming="false">
       <Value Profile="(Default)">#VAL#$2</Value>
     </Setting>
@@ -21,6 +24,9 @@
     </Setting>
     <Setting Name="SourceSearchPattern" Type="System.String" Scope="User" Roaming="false">
       <Value Profile="(Default)">(^\d*).*$</Value>
+    </Setting>
+    <Setting Name="UseCustomParameterName" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>
