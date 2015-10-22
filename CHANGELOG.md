@@ -1,10 +1,15 @@
 #SCaddins Revision Log#
 
-#16.1 (pre-release)#
+#16.2 (pre-release)#
+
+- [SCexport] Post export hooks added.
+
+#16.1#
 
 ####NEW####
 
 - **[SCexport] Large format printer support**
+- **[SCincrement] Custom paramter support**
 
 ####FIXES#####
 
