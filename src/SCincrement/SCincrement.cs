@@ -42,21 +42,17 @@ namespace SCaddins.SCincrement
             IList<Reference> refList = new List<Reference>();
             try {
                 while (true) {
-                    var r = uidoc.Selection.PickObject(ObjectType.Element, "Select elements in order to be renumbered. ESC when finished.");
-                    if (r != null) {
-                        refList.Add(r);
-                    } 
-                    if (refList.Count == 5) break;
+                    refList.Add(uidoc.Selection.PickObject(ObjectType.Element, "Select elements in order to be renumbered. ESC when finished."));
                 }
-            } catch (ArgumentOutOfRangeException ex) {
-                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
-            } catch (ArgumentNullException ex) {
-                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
-            } catch (OperationCanceledException ex) {
-                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
-            } catch (Autodesk.Revit.Exceptions.ForbiddenForDynamicUpdateException ex) {
-                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
-            }
+//            } catch (ArgumentOutOfRangeException ex) {
+//                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
+//            } catch (ArgumentNullException ex) {
+//                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
+//            } catch (OperationCanceledException ex) {
+//                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
+//            } catch (Autodesk.Revit.Exceptions.ForbiddenForDynamicUpdateException ex) {
+//                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
+            } catch {}
             
             if(refList.Count == 0) {
                 return;
