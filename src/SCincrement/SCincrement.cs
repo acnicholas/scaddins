@@ -42,7 +42,11 @@ namespace SCaddins.SCincrement
             IList<Reference> refList = new List<Reference>();
             try {
                 while (true) {
-                    refList.Add(uidoc.Selection.PickObject(ObjectType.Element, "Select elements in order to be renumbered. ESC when finished."));
+                    var r = uidoc.Selection.PickObject(ObjectType.Element, "Select elements in order to be renumbered. ESC when finished.");
+                    if (r != null) {
+                        refList.Add(r);
+                    } 
+                    if (refList.Count == 5) break;
                 }
             } catch (ArgumentOutOfRangeException ex) {
                 Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
@@ -52,6 +56,10 @@ namespace SCaddins.SCincrement
                 Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
             } catch (Autodesk.Revit.Exceptions.ForbiddenForDynamicUpdateException ex) {
                 Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
+            }
+            
+            if(refList.Count == 0) {
+                return;
             }
 
             using (var t = new Transaction(doc, "Renumber")) {
@@ -114,6 +122,7 @@ namespace SCaddins.SCincrement
 
         private static string GetDestinationNumberAsString(string s, int i)
         {
+ 
             s = Regex.Replace(s, @"(^.*)(zz.*$)", @"$1");
             s = Regex.Replace(s, SCincrementSettings.Default.DestinationSearchPattern, SCincrementSettings.Default.DestinationReplacePattern);
             return s.Replace("#VAL#", i.ToString(CultureInfo.InvariantCulture));
@@ -155,6 +164,10 @@ namespace SCaddins.SCincrement
             if (p.StorageType == StorageType.Integer) {
                 p.Set(i);
             } else if (p.StorageType == StorageType.String) {
+                string s = p.AsString();
+                if(string.IsNullOrEmpty(s)){
+                    s = "0";
+                }
                 p.Set(GetDestinationNumberAsString(p.AsString(), i));
             }
         }
