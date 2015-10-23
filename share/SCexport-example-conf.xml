@@ -125,19 +125,19 @@
      <Command>pdftk.exe</Command>
      <Args></Args>
      <SupportedFileExtensions>pdf</SupportedFileExtensions>
-  </PostPDFExportHook>
+  </PostExportHook>
 
   <PostExportHook name="convertToPng">
      <Command>convert.exe</Command>
      <Args></Args>
      <SupportedFileExtensions>pdf</SupportedFileExtensions>
-  </PostPDFExportHook>
+  </PostExportHook>
 
   <PostExportHook name="aconexDWGSuffix">
      <Command>ren</Command>
      <Args>$fullExportName.$extension $fullExportName_DWG.$extension</Args>
      <SupportedFileExtensions>dwg</SupportedFileExtensions>
-  </PostPDFExportHook>
+  </PostExportHook>
  
 </SCexport>
 
