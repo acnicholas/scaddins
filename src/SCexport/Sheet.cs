@@ -63,6 +63,11 @@ namespace SCaddins.SCexport
         {
             get { return this.pageSize; }
         }
+        
+        public string ProjectNumber
+        {
+            get { return this.projectNumber; }
+        }
 
         public string PrintSettingName
         {

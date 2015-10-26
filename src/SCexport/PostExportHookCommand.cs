@@ -18,7 +18,6 @@
 namespace SCaddins.SCexport
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     
     public class PostExportHookCommand
@@ -41,11 +40,11 @@ namespace SCaddins.SCexport
             get { return this.name; }
         }
         
-        public void Run(SCaddins.SCexport.ExportSheet sheet)
+        public void Run(SCaddins.SCexport.ExportSheet sheet, string extension)
         {
-            Autodesk.Revit.UI.TaskDialog.Show("DEBUG", this.cmd + " --- " + this.args);
-            
-            // Common.ConsoleUtilities.StartHiddenConsoleProg(this.cmd, this.args);
+            string a = this.CreateArgs(sheet, extension);
+            Autodesk.Revit.UI.TaskDialog.Show("DEBUG", this.cmd + " --- " + a);      
+            // Common.ConsoleUtilities.StartHiddenConsoleProg(this.cmd, a);
         }
         
         public void SetCommand(string cmd)
@@ -86,6 +85,66 @@ namespace SCaddins.SCexport
                 s += fne + System.Environment.NewLine;
             }
             return s;
+        }
+        
+        /*
+        $height;
+        $width;
+        $fullExportName;
+        $fullExportPath;
+        $exportDir;
+        $pageSize;
+        $projectNumber;
+        $sheetDescription;
+        $sheetNumber;
+        $sheetRevision;
+        $sheetRevisionDate;
+        $sheetRevisionDescription;
+        $fileExtension;
+        */
+        private string CreateArgs(SCaddins.SCexport.ExportSheet sheet, string extension)
+        {
+            string result = this.args;
+            if (this.args.Contains(@"$height")) {
+                result = result.Replace(@"$height", sheet.Height.ToString());
+            }
+            if (this.args.Contains(@"$width")) {
+                result = result.Replace(@"$width", sheet.Width.ToString());
+            }
+            if (this.args.Contains(@"$fullExportName")) {
+                result = result.Replace(@"$fullExportName", sheet.FullExportName);
+            }
+            if (this.args.Contains(@"$fullExportPath")) {
+                result = result.Replace(@"$fullExportPath", sheet.FullExportPath(extension));
+            }
+            if (this.args.Contains(@"$exportDir")) {
+                result = result.Replace(@"$exportDir", sheet.ExportDir);
+            }
+            if (this.args.Contains(@"$pageSize")) {
+                result = result.Replace(@"$pageSize", sheet.PageSize);
+            }
+            if (this.args.Contains(@"$projectNumber")) {
+                result = result.Replace(@"$projectNumber", sheet.ProjectNumber);
+            }
+            if (this.args.Contains(@"$sheetDescription")) {
+                result = result.Replace(@"$sheetDescription", sheet.SheetDescription);
+            }
+            if (this.args.Contains(@"$sheetNumber")) {
+                result = result.Replace(@"$sheetNumber", sheet.SheetNumber);
+            }
+            if (this.args.Contains(@"$sheetRevision")) {
+                result = result.Replace(@"$sheetRevision", sheet.SheetRevision);
+            }
+            if (this.args.Contains(@"$sheetRevisionDate")) {
+                result = result.Replace(@"$sheetRevisionDate", sheet.SheetRevisionDate);
+            }
+            if (this.args.Contains(@"$sheetRevisionDescription")) {
+                result = result.Replace(@"$sheetRevisionDescription", sheet.SheetRevisionDescription);
+            } 
+            if (this.args.Contains(@"$fileExtension")) {
+                result = result.Replace(@"$fileExtension", extension);
+            } 
+            return result;
         }
     }
 }

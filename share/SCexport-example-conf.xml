@@ -36,19 +36,18 @@
      <SupportedFileExtensions>
 
      Use the following replacement string where needed:
-        $height;
-        $width;
-        $displineCode;
-        $fullExportName;
-        $pageSize;
-        $projectNumber;
-        $scale;
-        $scaleBarScale;
-        $sheetDescription;
-        $sheetNumber;
-        $sheetRevision;
-        $sheetRevisionDate;
-        $sheetRevisionDescription;
+        $height
+        $width
+        $fullExportName
+        $fullExportPath
+        $exportDir
+        $pageSize
+        $projectNumber
+        $sheetDescription
+        $sheetNumber
+        $sheetRevision
+        $sheetRevisionDate
+        $sheetRevisionDescription
  -->
 
 <SCexport name="Generic SCexport config file">

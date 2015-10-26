@@ -935,9 +935,9 @@ namespace SCaddins.SCexport
 
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
                 SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg(prog, args);
+                FileUtilities.WaitForFileAccess(vs.FullExportPath(".pdf"));
+                this.RunExportHooks("pdf", vs);
             }
-            
-            this.RunExportHooks("pdf", vs);
 
             return true;
         }
@@ -950,7 +950,7 @@ namespace SCaddins.SCexport
                         return;
                     } else {
                         if (this.fileNameScheme.Hooks.Contains(this.postExportHooks.ElementAt(i).Key)) {
-                            this.postExportHooks.ElementAt(i).Value.Run(vs);
+                            this.postExportHooks.ElementAt(i).Value.Run(vs, extension);
                         }
                     }
                 }  
