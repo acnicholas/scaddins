@@ -24,6 +24,7 @@ namespace SCaddins.SCexport
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Security;
     using System.Xml;
     using System.Xml.Schema;
@@ -41,7 +42,6 @@ namespace SCaddins.SCexport
         private Collection<SegmentedSheetName> fileNameTypes;
         private Collection<ViewSheetSetCombo> allViewSheetSets;
         private Dictionary<string, PostExportHookCommand> postExportHooks;
-        private string activePostExportHooks;
         private SegmentedSheetName fileNameScheme;
         private SortableBindingListCollection<ExportSheet> allSheets;
         private bool forceDate;
@@ -59,7 +59,6 @@ namespace SCaddins.SCexport
             this.fileNameTypes = new Collection<SegmentedSheetName>();
             this.postExportHooks = new Dictionary<string, PostExportHookCommand>();
             this.exportFlags = ExportOptions.None;
-            this.activePostExportHooks = string.Empty;
             this.LoadSettings();
             this.SetDefaultFlags();
             ExportManager.PopulateViewSheetSets(this.allViewSheetSets);
@@ -190,12 +189,16 @@ namespace SCaddins.SCexport
             string s = GetConfigFileName(doc);
             return File.Exists(s) ? s : null;
         }
-
+        
         public static string GetConfigFileName(Document doc)
         {
+            #if DEBUG
+            string s = @"C:\Andrew\code\cs\scaddins\share\SCexport-example-conf.xml";
+            #else
             string central = FileUtilities.GetCentralFileName(doc);
             string s = Path.GetDirectoryName(central) + @"\" +
                 Path.GetFileNameWithoutExtension(central) + ".xml";
+            #endif
             return s;
         }
 
@@ -705,8 +708,12 @@ namespace SCaddins.SCexport
             }
             try {
                 var settings = new XmlReaderSettings();
+                #if !DEBUG
                 settings.Schemas.Add(
                     null, SCaddins.Constants.InstallDir + @"\etc\SCexport.xsd");
+                #else
+                settings.Schemas.Add(null, @"C:\Andrew\code\cs\scaddins\etc\SCexport.xsd");
+                #endif
                 settings.ValidationType = ValidationType.Schema;
                 XmlReader reader = XmlReader.Create(filename, settings);
                 var document = new XmlDocument();
@@ -797,6 +804,7 @@ namespace SCaddins.SCexport
                     var name = new SegmentedSheetName();
                     if (reader.AttributeCount > 0) {
                         name.Name = reader.GetAttribute("label");
+                        name.Hooks = reader.GetAttribute("hooks");
                     }
                     name.AddNodesFromXML(reader);
                     this.fileNameTypes.Add(name);
@@ -928,7 +936,25 @@ namespace SCaddins.SCexport
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
                 SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg(prog, args);
             }
+            
+            this.RunExportHooks("pdf", vs);
+
             return true;
+        }
+        
+        private void RunExportHooks(string extension, ExportSheet vs)
+        {
+            for (int i = 0; i < this.postExportHooks.Count; i++) {
+                if (this.postExportHooks.ElementAt(i).Value.HasExtension(extension)) {
+                    if (string.IsNullOrEmpty(this.fileNameScheme.Hooks)) {
+                        return;
+                    } else {
+                        if (this.fileNameScheme.Hooks.Contains(this.postExportHooks.ElementAt(i).Key)) {
+                            this.postExportHooks.ElementAt(i).Value.Run(vs);
+                        }
+                    }
+                }  
+            }
         }
 
         [SecurityCritical]
@@ -955,13 +981,7 @@ namespace SCaddins.SCexport
                 }
                 FileUtilities.WaitForFileAccess(vs.FullExportPath(".pdf"));
                 
-                for (int i = 0; i < this.postExportHooks.Count; i++) {
-                    if (this.postExportHooks.ElementAt(1).Value.HasExtension("pdf")) {
-                        if (this.activePostExportHooks.Contains(this.postExportHooks.ElementAt(1).Key)) {
-                            this.postExportHooks.ElementAt(1).Value.Run();
-                        }
-                    }
-                }
+                this.RunExportHooks("pdf", vs);
                 
                 SCaddins.Common.SystemUtilities.KillAllProcesses("acrotray");
             } else {

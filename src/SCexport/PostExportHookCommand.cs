@@ -41,7 +41,7 @@ namespace SCaddins.SCexport
             get { return this.name; }
         }
         
-        public void Run()
+        public void Run(SCaddins.SCexport.ExportSheet sheet)
         {
             Autodesk.Revit.UI.TaskDialog.Show("DEBUG", this.cmd + " --- " + this.args);
             
@@ -70,7 +70,22 @@ namespace SCaddins.SCexport
         
         public bool HasExtension(string extension)
         {
+            if (string.IsNullOrEmpty(extension)) {
+                return false;    
+            }
+            if (this.supportedFilenameExtensions == null || this.supportedFilenameExtensions.Count < 1) {
+                return false;
+            }
             return this.supportedFilenameExtensions.Contains(extension);
+        }
+        
+        public string ListExtensions()
+        {
+            string s = string.Empty;
+            foreach (string fne in this.supportedFilenameExtensions) {
+                s += fne + System.Environment.NewLine;
+            }
+            return s;
         }
     }
 }

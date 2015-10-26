@@ -106,12 +106,14 @@
 						</Component>
 					</Directory>
 					<?endif?>
+				    <?if $(env.R2016) = Enabled ?>
 					<Directory Id="SCaddinsAddin2016Directory" Name="2016">
 						<Component Id="SCaddinsAddin2016" Guid="70474050-0034-4A79-BF47-AF18E41EDC0D" DiskId="1">
 							<CreateFolder />
 							<File Id="SCADDINS16.ADDIN" Name="SCaddins16.addin" Source="..\src\Manifest\2016\SCaddins.addin" />
 						</Component>
 					</Directory>
+			        <?endif?>
 				</Directory>
 			</Directory>
 		</Directory>

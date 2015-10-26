@@ -16,6 +16,7 @@ namespace SCaddins.SCincrement
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Text.RegularExpressions;
     using Autodesk.Revit.DB;
@@ -37,6 +38,7 @@ namespace SCaddins.SCincrement
             }
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Because this hach only works this way...")]  
         public static void RenumberByPicks(UIDocument uidoc, Document doc, UIApplication app)
         {
             IList<Reference> refList = new List<Reference>();
@@ -44,17 +46,10 @@ namespace SCaddins.SCincrement
                 while (true) {
                     refList.Add(uidoc.Selection.PickObject(ObjectType.Element, "Select elements in order to be renumbered. ESC when finished."));
                 }
-//            } catch (ArgumentOutOfRangeException ex) {
-//                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
-//            } catch (ArgumentNullException ex) {
-//                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
-//            } catch (OperationCanceledException ex) {
-//                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
-//            } catch (Autodesk.Revit.Exceptions.ForbiddenForDynamicUpdateException ex) {
-//                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
-            } catch {}
+            } catch {
+            }
             
-            if(refList.Count == 0) {
+            if (refList.Count == 0) {
                 return;
             }
 
@@ -117,8 +112,7 @@ namespace SCaddins.SCincrement
         }
 
         private static string GetDestinationNumberAsString(string s, int i)
-        {
- 
+        { 
             s = Regex.Replace(s, @"(^.*)(zz.*$)", @"$1");
             s = Regex.Replace(s, SCincrementSettings.Default.DestinationSearchPattern, SCincrementSettings.Default.DestinationReplacePattern);
             return s.Replace("#VAL#", i.ToString(CultureInfo.InvariantCulture));
@@ -161,7 +155,7 @@ namespace SCaddins.SCincrement
                 p.Set(i);
             } else if (p.StorageType == StorageType.String) {
                 string s = p.AsString();
-                if(string.IsNullOrEmpty(s)){
+                if (string.IsNullOrEmpty(s)) {
                     s = "0";
                 }
                 p.Set(GetDestinationNumberAsString(p.AsString(), i));

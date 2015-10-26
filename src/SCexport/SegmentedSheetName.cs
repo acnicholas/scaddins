@@ -60,7 +60,13 @@ public class SegmentedSheetName : Collection<SheetNameSegment>
         get;
         set;
     }
-   
+    
+    public string Hooks
+    {
+        get;
+        set;
+    }
+
     /// <summary>
     /// Adds the nodes from XML config file.
     /// </summary>
@@ -109,7 +115,7 @@ public class SegmentedSheetName : Collection<SheetNameSegment>
                     && reader.Name == "FilenameScheme"));
     }
     
-        private void Add(SegmentType s, string val)
+    private void Add(SegmentType s, string val)
     {
             this.Add(new SheetNameSegment(s, val));
     }
