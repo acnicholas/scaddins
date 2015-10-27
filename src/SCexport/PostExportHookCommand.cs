@@ -43,8 +43,10 @@ namespace SCaddins.SCexport
         public void Run(SCaddins.SCexport.ExportSheet sheet, string extension)
         {
             string a = this.CreateArgs(sheet, extension);
-            Autodesk.Revit.UI.TaskDialog.Show("DEBUG", this.cmd + " --- " + a);      
-            // Common.ConsoleUtilities.StartHiddenConsoleProg(this.cmd, a);
+            #if DEBUG
+            Autodesk.Revit.UI.TaskDialog.Show("DEBUG", this.cmd + " " + a); 
+            #endif            
+            Common.ConsoleUtilities.StartHiddenConsoleProg(this.cmd, a);
         }
         
         public void SetCommand(string cmd)

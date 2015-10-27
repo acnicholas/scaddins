@@ -899,7 +899,10 @@ namespace SCaddins.SCexport
 
             var name = vs.FullExportName + ".dwg";
             doc.Export(vs.ExportDir, name, views, opts);
-            System.Threading.Thread.Sleep(1000);
+            
+            // System.Threading.Thread.Sleep(1000);          
+            FileUtilities.WaitForFileAccess(vs.FullExportPath(".dwg"));
+            this.RunExportHooks("dwg", vs);
 
             if (removeTitle) {
                 ExportManager.RemoveTitleBlock(vs, titleBlockHidden, false);

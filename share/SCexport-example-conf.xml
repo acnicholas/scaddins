@@ -26,33 +26,9 @@
         **Can add a value to these nodes
 -->
 
-<!--
-    #### PostExportHook #### 
-    These will run after an export.
-
-    Available parameters(xml nodes) are:
-     <Command>
-     <Args>
-     <SupportedFileExtensions>
-
-     Use the following replacement string where needed:
-        $height
-        $width
-        $fullExportName
-        $fullExportPath
-        $exportDir
-        $pageSize
-        $projectNumber
-        $sheetDescription
-        $sheetNumber
-        $sheetRevision
-        $sheetRevisionDate
-        $sheetRevisionDescription
- -->
-
 <SCexport name="Generic SCexport config file">
     
-  <!--Naming scheme examples-->
+  <!--This is the first scheme. The first is the default-->
   <FilenameScheme label="Architectural USQ">
     <ProjectNumber/>
     <Hyphen/>
@@ -62,7 +38,18 @@
     <Text>]</Text>
   </FilenameScheme>
     
-  <FilenameScheme label="Export Hook Example" hooks="tagPdfs convertToPng">
+  <!--this scheme renames dwg files after export-->
+  <FilenameScheme label="Architectural USQ and ACONEX" hooks="aconexDWGSuffix">
+    <ProjectNumber/>
+    <Hyphen/>
+    <SheetNumber/>
+    <Text>[</Text>
+    <Revision/>
+    <Text>]</Text>
+  </FilenameScheme>
+ 
+  <!--this scheme creates transparent png files after a pfg export-->    
+  <FilenameScheme label="Marketing Plans" hooks="convertToPng">
     <ProjectNumber/>
     <Hyphen/>
     <SheetNumber/>
@@ -119,22 +106,53 @@
     <Revision/>
   </FilenameScheme>
 
-  <!--Post Export Hook Exmaples-->
-  <PostExportHook name="tagPdfs">
-     <Command>pdftk.exe</Command>
-     <Args></Args>
-     <SupportedFileExtensions>pdf</SupportedFileExtensions>
-  </PostExportHook>
+  <!--
+    #### PostExportHook #### 
+    Hooks  will run after an export.
 
+    Available parameters(xml nodes) are:
+     <Command>
+     <Args>
+     <SupportedFileExtensions>
+
+     Use the following replacement string where needed:
+        $height
+        $width
+        $fullExportName
+        $fullExportPath
+        $exportDir
+        $pageSize
+        $projectNumber
+        $sheetDescription
+        $sheetNumber
+        $sheetRevision
+        $sheetRevisionDate
+        $sheetRevisionDescription
+   -->
+
+  <!--
+    ## convert exported pdf to a transparent png on the fly ##
+
+    rem place this text in a script called createPNG.bat
+    rem you will need:
+    rem	-	imagemagick http://imagemagick.sourceforge.net/http/www/archives.html
+    rem	-	ghostscript http://www.ghostscript.com/download/
+
+    convert -size 1920x1080 xc:white temp.png
+    convert -transparent white temp.png canvas.png
+    convert -fuzz 10%% -transparent white -density 300 -resize x1080 %1 temp.png
+    composite -gravity center temp.png canvas.png %1.png
+  -->
   <PostExportHook name="convertToPng">
-     <Command>convert.exe</Command>
-     <Args></Args>
+     <Command>C:\Temp\createPNG.bat</Command>
+     <Args>$exportDir\$fullExportName.$fileExtension</Args>
      <SupportedFileExtensions>pdf</SupportedFileExtensions>
   </PostExportHook>
 
+  <!--simple hook to rename dwg files with a _DWG suffix-->
   <PostExportHook name="aconexDWGSuffix">
-     <Command>ren</Command>
-     <Args>$fullExportName.$extension $fullExportName_DWG.$extension</Args>
+     <Command>cmd.exe</Command>
+     <Args> /C RENAME "$exportDir\$fullExportName.$fileExtension" "$fullExportName_DWG.$fileExtension"</Args>
      <SupportedFileExtensions>dwg</SupportedFileExtensions>
   </PostExportHook>
  
