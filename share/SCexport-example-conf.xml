@@ -2,7 +2,7 @@
 
 <!-- 
      SCexport config file template.
-     Andrew Nicholas 20151020
+     Andrew Nicholas 20151027
 
      Place this in the same folder as your Central file and rename it to
      REVIT_FILE_NAME.xml
@@ -57,11 +57,9 @@
     <Revision/>
     <Text>]</Text>
   </FilenameScheme>
-
-  <FilenameScheme label="Architectural AD">
+  
+  <FilenameScheme label="PDF Watermarker" hooks="watermark">
     <ProjectNumber/>
-    <Hyphen/>
-    <Discipline>AD</Discipline>
     <Hyphen/>
     <SheetNumber/>
     <Text>[</Text>
@@ -131,7 +129,7 @@
    -->
 
   <!--
-    ## convert exported pdf to a transparent png on the fly ##
+    #### convert exported pdf to a transparent png on the fly ####
 
     rem place this text in a script called createPNG.bat
     rem you will need:
@@ -154,6 +152,19 @@
      <Command>cmd.exe</Command>
      <Args> /C RENAME "$exportDir\$fullExportName.$fileExtension" "$fullExportName_DWG.$fileExtension"</Args>
      <SupportedFileExtensions>dwg</SupportedFileExtensions>
+  </PostExportHook>
+  
+  <!--add a watermark to pdf's
+  requires:
+    https://www.pdflabs.com/tools/pdftk-server/
+    
+  example command:
+    input.pdf background watermark.pdf output output.pdf
+  -->
+  <PostExportHook name="watermark">
+     <Command>"C:\Program Files (x86)\PDFtk Server\bin\pdftk.exe"</Command>
+     <Args> "$exportDir\$fullExportName.$fileExtension" background "$exportDir\watermark.pdf" output "$exportDir\$fullExportName-WM.$fileExtension"</Args>
+     <SupportedFileExtensions>pdf</SupportedFileExtensions>
   </PostExportHook>
  
 </SCexport>
