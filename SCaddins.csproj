@@ -326,7 +326,6 @@
     <Compile Include="src\SCwash\SCwashForm.Designer.cs" />
     <Compile Include="src\SCwash\SCwashTreeNode.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="src\Common\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
@@ -406,6 +405,8 @@
   <ItemGroup>
     <None Include="app.config" />
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+    <None Include="etc\SCexport.xsd" />
+    <None Include="share\SCexport-example-conf.xml" />
     <None Include="src\Manifest\2014\SCaddins.addin" />
     <None Include="src\Manifest\2015\SCaddins.addin" />
     <None Include="src\Scaddins.settings">
@@ -420,6 +421,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>SCincrementSettings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="etc" />
+    <Folder Include="share" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Condition="'$(Configuration)' == 'Debug'" Project="C:\Program Files (x86)\MSBuild\StyleCop\v4.7\StyleCop.targets" />

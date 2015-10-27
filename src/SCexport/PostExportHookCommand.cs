@@ -19,6 +19,7 @@ namespace SCaddins.SCexport
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Globalization;
     
     public class PostExportHookCommand
     {
@@ -108,10 +109,10 @@ namespace SCaddins.SCexport
         {
             string result = this.args;
             if (this.args.Contains(@"$height")) {
-                result = result.Replace(@"$height", sheet.Height.ToString());
+                result = result.Replace(@"$height", sheet.Height.ToString(CultureInfo.InvariantCulture));
             }
             if (this.args.Contains(@"$width")) {
-                result = result.Replace(@"$width", sheet.Width.ToString());
+                result = result.Replace(@"$width", sheet.Width.ToString(CultureInfo.InvariantCulture));
             }
             if (this.args.Contains(@"$fullExportName")) {
                 result = result.Replace(@"$fullExportName", sheet.FullExportName);

@@ -1,18 +1,17 @@
-<?xml version="1.0" encoding="utf-8" ?>
-
+<?xml version="1.0" encoding="utf-8"?>
 <!-- 
      SCexport config file template.
      Andrew Nicholas 20151027
 
-     Place this in the same folder as your Central file and rename it to
+     Place this in the same folder as your Revit Central file and rename it to
      REVIT_FILE_NAME.xml
 -->
+<SCexport name="Generic SCexport config file">
+    <!-- #### FilenameSchemes info #### -->
+    <!-- 
+    Define exprort name schemes by using the one or more of the nodes <FilenameScheme>
 
-<!--
-     #### FilenameSchemes #### 
-     The node <FilenameScheme> is used to define one or more export schemes
-
-     Available parameters(xml nodes) are:
+    Available xml nodes are:
         <ProjectNumber>
         <SheetNumber>
         <Discipline>**
@@ -24,96 +23,96 @@
         <Hyphen>
 
         **Can add a value to these nodes
--->
-
-<SCexport name="Generic SCexport config file">
+    -->
     
-  <!--This is the first scheme. The first is the default-->
-  <FilenameScheme label="Architectural USQ">
-    <ProjectNumber/>
-    <Hyphen/>
-    <SheetNumber/>
-    <Text>[</Text>
-    <Revision/>
-    <Text>]</Text>
-  </FilenameScheme>
+    <!--This is the first scheme. The first is the default-->
+    <FilenameScheme label="Architectural">
+        <ProjectNumber />
+        <Hyphen />
+        <SheetNumber />
+        <Text>[</Text>
+        <Revision />
+        <Text>]</Text>
+    </FilenameScheme>
     
-  <!--this scheme renames dwg files after export-->
-  <FilenameScheme label="Architectural USQ and ACONEX" hooks="aconexDWGSuffix">
-    <ProjectNumber/>
-    <Hyphen/>
-    <SheetNumber/>
-    <Text>[</Text>
-    <Revision/>
-    <Text>]</Text>
-  </FilenameScheme>
- 
-  <!--this scheme creates transparent png files after a pfg export-->    
-  <FilenameScheme label="Marketing Plans" hooks="convertToPng">
-    <ProjectNumber/>
-    <Hyphen/>
-    <SheetNumber/>
-    <Text>[</Text>
-    <Revision/>
-    <Text>]</Text>
-  </FilenameScheme>
-  
-  <FilenameScheme label="PDF Watermarker" hooks="watermark">
-    <ProjectNumber/>
-    <Hyphen/>
-    <SheetNumber/>
-    <Text>[</Text>
-    <Revision/>
-    <Text>]</Text>
-  </FilenameScheme>
+    <!--Renames dwg files after export-->
+    <FilenameScheme label="Architectural USQ and ACONEX" hooks="aconexDWGSuffix">
+        <ProjectNumber />
+        <Hyphen />
+        <SheetNumber />
+        <Text>[</Text>
+        <Revision />
+        <Text>]</Text>
+    </FilenameScheme>
+    
+    <!--Creates a transparent png files after each pdf export-->
+    <FilenameScheme label="Marketing Plans" hooks="convertToPng">
+        <ProjectNumber />
+        <Hyphen />
+        <SheetNumber />
+        <Text>[</Text>
+        <Revision />
+        <Text>]</Text>
+    </FilenameScheme>
+    
+    <!--Add a watermark-->
+    <FilenameScheme label="PDF Watermarker" hooks="watermark">
+        <ProjectNumber />
+        <Hyphen />
+        <SheetNumber />
+        <Text>[</Text>
+        <Revision />
+        <Text>]</Text>
+    </FilenameScheme>
+    
+    <FilenameScheme label="Landscape LD">
+        <ProjectNumber />
+        <Hyphen />
+        <Discipline>LD</Discipline>
+        <Hyphen />
+        <SheetNumber />
+        <Text>[</Text>
+        <Revision />
+        <Text>]</Text>
+    </FilenameScheme>
+    
+    <FilenameScheme label="Brackets">
+        <ProjectNumber />
+        <Hyphen />
+        <Discipline>
+        </Discipline>
+        <Hyphen />
+        <SheetNumber />
+        <Text>(</Text>
+        <Revision />
+        <Text>)</Text>
+    </FilenameScheme>
+    
+    <FilenameScheme label="CRevisions">
+        <Text>49-FV-SC001</Text>
+        <Hyphen />
+        <SheetNumber />
+        <Underscore />
+        <Text>C</Text>
+        <Revision />
+    </FilenameScheme>
+    
+    <FilenameScheme label="Simple">
+        <SheetNumber />
+        <Underscore />
+        <Revision />
+    </FilenameScheme>
+    
+    <!-- #### PostExportHook info #### -->
+    <!--    
+    Hooks will run after an export if the active FilenameScheme defines the hook name.
 
-  <FilenameScheme label="Landscape LD">
-    <ProjectNumber/>
-    <Hyphen/>
-    <Discipline>LD</Discipline>
-    <Hyphen/>
-    <SheetNumber/>
-    <Text>[</Text>
-    <Revision/>
-    <Text>]</Text>
-  </FilenameScheme>
-
-  <FilenameScheme label="Brackets">
-    <ProjectNumber/>
-    <Hyphen/>
-    <Discipline></Discipline>
-    <Hyphen/>
-    <SheetNumber/>
-    <Text>(</Text>
-    <Revision/>
-    <Text>)</Text>
-  </FilenameScheme>
-
-  <FilenameScheme label="CRevisions">
-    <Text>49-FV-SC001</Text>
-    <Hyphen/>
-    <SheetNumber/>
-    <Underscore/>
-    <Text>C</Text>
-    <Revision/>
-  </FilenameScheme>
-
-  <FilenameScheme label="Simple">
-    <SheetNumber/>
-    <Underscore/>
-    <Revision/>
-  </FilenameScheme>
-
-  <!--
-    #### PostExportHook #### 
-    Hooks  will run after an export.
-
-    Available parameters(xml nodes) are:
+    Available nodes are:
      <Command>
      <Args>
      <SupportedFileExtensions>
 
-     Use the following replacement string where needed:
+     The following replacement strings can be used in the "Args" node:
         $height
         $width
         $fullExportName
@@ -126,47 +125,46 @@
         $sheetRevision
         $sheetRevisionDate
         $sheetRevisionDescription
-   -->
-
-  <!--
-    #### convert exported pdf to a transparent png on the fly ####
-
-    rem place this text in a script called createPNG.bat
-    rem you will need:
-    rem	-	imagemagick http://imagemagick.sourceforge.net/http/www/archives.html
-    rem	-	ghostscript http://www.ghostscript.com/download/
-
-    convert -size 1920x1080 xc:white temp.png
-    convert -transparent white temp.png canvas.png
-    convert -fuzz 10%% -transparent white -density 300 -resize x1080 %1 temp.png
-    composite -gravity center temp.png canvas.png %1.png
-  -->
-  <PostExportHook name="convertToPng">
-     <Command>C:\Temp\createPNG.bat</Command>
-     <Args>$exportDir\$fullExportName.$fileExtension</Args>
-     <SupportedFileExtensions>pdf</SupportedFileExtensions>
-  </PostExportHook>
-
-  <!--simple hook to rename dwg files with a _DWG suffix-->
-  <PostExportHook name="aconexDWGSuffix">
-     <Command>cmd.exe</Command>
-     <Args> /C RENAME "$exportDir\$fullExportName.$fileExtension" "$fullExportName_DWG.$fileExtension"</Args>
-     <SupportedFileExtensions>dwg</SupportedFileExtensions>
-  </PostExportHook>
-  
-  <!--add a watermark to pdf's
-  requires:
-    https://www.pdflabs.com/tools/pdftk-server/
+    -->
     
-  example command:
-    input.pdf background watermark.pdf output output.pdf
-  -->
-  <PostExportHook name="watermark">
-     <Command>"C:\Program Files (x86)\PDFtk Server\bin\pdftk.exe"</Command>
-     <Args> "$exportDir\$fullExportName.$fileExtension" background "$exportDir\watermark.pdf" output "$exportDir\$fullExportName-WM.$fileExtension"</Args>
-     <SupportedFileExtensions>pdf</SupportedFileExtensions>
-  </PostExportHook>
- 
+    
+    <!--
+    convert each exported pdf to a transparent png
+
+    requirements:
+        imagemagick http://imagemagick.sourceforge.net/http/www/archives.html
+        ghostscript http://www.ghostscript.com/download/
+
+    place the following text in a script called C:\Temp\createPNG.bat:
+
+        convert -size 1920x1080 xc:white temp.png
+        convert -transparent white temp.png canvas.png
+        convert -fuzz 10%% -transparent white -density 300 -resize x1080 %1 temp.png
+        composite -gravity center temp.png canvas.png %1.png
+    -->
+    <PostExportHook name="convertToPng">
+        <Command>C:\Temp\createPNG.bat</Command>
+        <Args>$exportDir\$fullExportName.$fileExtension</Args>
+        <SupportedFileExtensions>pdf</SupportedFileExtensions>
+    </PostExportHook>
+    
+    
+    <!--simple hook to rename dwg files with a _DWG suffix-->
+    <PostExportHook name="aconexDWGSuffix">
+        <Command>cmd.exe</Command>
+        <Args> /C RENAME "$exportDir\$fullExportName.$fileExtension" "$fullExportName_DWG.$fileExtension"</Args>
+        <SupportedFileExtensions>dwg</SupportedFileExtensions>
+    </PostExportHook>
+    
+    
+    <!--add a watermark to pdf's
+      requires: https://www.pdflabs.com/tools/pdftk-server/
+    -->
+    <PostExportHook name="watermark">
+        <Command>"C:\Program Files (x86)\PDFtk Server\bin\pdftk.exe"</Command>
+        <Args> "$exportDir\$fullExportName.$fileExtension" background "$exportDir\watermark.pdf" output "$exportDir\$fullExportName-WM.$fileExtension"</Args>
+        <SupportedFileExtensions>pdf</SupportedFileExtensions>
+    </PostExportHook>
 </SCexport>
 
-  <!-- vim: set nu tabstop=4 shiftwidth=4 expandtab : -->
+<!-- vim: set nu tabstop=4 shiftwidth=4 expandtab : -->
