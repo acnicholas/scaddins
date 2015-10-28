@@ -2,7 +2,9 @@
 
 #16.2 (pre-release)#
 
-- [SCexport] Post export hooks added.
+####NEW####
+
+- **[SCexport] Post export hooks added.**
 
 #16.1#
 
