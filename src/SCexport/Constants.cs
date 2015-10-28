@@ -44,11 +44,6 @@ namespace SCaddins.SCexport
         /// <summary> Param name of scale bar visibily. </summary>
         public const string TitleScale = "Scale Bar 1 to";
 
-        /// <summary> 
-        /// The defualt text to add to an exported pdf's "Author" tag.
-        /// </summary>
-        public const string PdfAuthor = "SCexport";
-
         /// <summary>
         /// SCexport registry path.
         /// </summary>

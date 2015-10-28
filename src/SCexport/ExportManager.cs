@@ -37,7 +37,6 @@ namespace SCaddins.SCexport
         private static Dictionary<string, FamilyInstance> titleBlocks;
         private static Document doc;
         private static string activeDoc;
-        private static string author;
         private ExportOptions exportFlags;
         private Collection<SegmentedSheetName> fileNameTypes;
         private Collection<ViewSheetSetCombo> allViewSheetSets;
@@ -69,10 +68,6 @@ namespace SCaddins.SCexport
         public static bool ConfirmOverwrite
         {
             get; set;
-        }
-
-        public static string Author {
-            get { return author; }
         }
 
         public string PrinterNameA3
@@ -193,6 +188,7 @@ namespace SCaddins.SCexport
         public static string GetConfigFileName(Document doc)
         {
             #if DEBUG
+            Debug.WriteLine("getting config file for " + doc.Title);
             string s = @"C:\Andrew\code\cs\scaddins\share\SCexport-example-conf.xml";
             #else
             string central = FileUtilities.GetCentralFileName(doc);
@@ -754,26 +750,9 @@ namespace SCaddins.SCexport
                 return false;
             }
 
-            author = "SCexport";
-
             var reader = new XmlTextReader(filename);
 
-            while (reader.Read()) {
-                if (reader.NodeType == XmlNodeType.Element &&
-                    reader.Name == "PDFTagSettings") {
-                    do {
-                        reader.Read();
-                        if (reader.NodeType == XmlNodeType.Element) {
-                            switch (reader.Name) {
-                                case "Author":
-                                    author = reader.ReadString();
-                                    break;
-                            }
-                        }
-                    } while (!(reader.NodeType == XmlNodeType.EndElement &&
-                               reader.Name == "PDFTagSettings"));
-                }
-                
+            while (reader.Read()) {               
                  if (reader.NodeType == XmlNodeType.Element && reader.Name == "PostExportHook") {
                     var hook = new PostExportHookCommand();
                     if (reader.AttributeCount > 0) {
