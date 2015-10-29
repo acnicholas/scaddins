@@ -2,5 +2,6 @@
 
 # SCaddins #
 
-SCaddins is a collection of Revit add-ins. Currently is supports Revit version 2014-2016
+SCaddins is a collection of Revit add-ins. Currently Revit versions 2014-2016 are supported.  
+
 Have a look at the [**wiki**](https://bitbucket.org/anicholas/scaddins/wiki/Home) for more information on each utility.
