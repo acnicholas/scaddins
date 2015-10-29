@@ -6,27 +6,25 @@
      Place this in the same folder as your Revit Central file and rename it to
      REVIT_FILE_NAME.xml
 -->
+
+<!-- 
+     For help see: https://bitbucket.org/anicholas/scaddins/wiki/SCexport#markdown-header-xml-project-configuration-file
+-->
+
 <SCexport name="Generic SCexport config file">
-    <!-- #### FilenameSchemes info #### -->
-    <!-- 
-    Define exprort name schemes by using the one or more of the nodes <FilenameScheme>
 
-    Available xml nodes are:
-        <ProjectNumber>
-        <SheetNumber>
-        <Discipline>**
-        <Text>**
-        <Revision>
-        <RevisionDescription>
-        <SheetName>
-        <Underscore>
-        <Hyphen>
-
-        **Can add a value to these nodes
-    -->
-    
     <!--This is the first scheme. The first is the default-->
     <FilenameScheme label="Architectural">
+        <ProjectNumber />
+        <Hyphen />
+        <SheetNumber />
+        <Text>[</Text>
+        <Revision />
+        <Text>]</Text>
+    </FilenameScheme>
+    
+    <!--Tag pdf's after export-->
+    <FilenameScheme label="Architectural" hooks="tagPdf">
         <ProjectNumber />
         <Hyphen />
         <SheetNumber />
@@ -103,30 +101,16 @@
         <Revision />
     </FilenameScheme>
     
-    <!-- #### PostExportHook info #### -->
-    <!--    
-    Hooks will run after an export if the active FilenameScheme defines the hook name.
-
-    Available nodes are:
-     <Command>
-     <Args>
-     <SupportedFileExtensions>
-
-     The following replacement strings can be used in the "Args" node:
-        $height
-        $width
-        $fullExportName
-        $fullExportPath
-        $exportDir
-        $pageSize
-        $projectNumber
-        $sheetDescription
-        $sheetNumber
-        $sheetRevision
-        $sheetRevisionDate
-        $sheetRevisionDescription
+    <!--
+    Tag pdf's after export   
+    requirements:
+        ExifTool http://owl.phy.queensu.ca/~phil/exiftool/
     -->
-    
+    <PostExportHook name="tagPdf">
+        <Command>C:\exiftool\exiftool.exe</Command>
+        <Args>-Title="$fullExportName - $sheetDescription" -Author="Scott Carver Pty Ltd" -Subject="$projectNumber" $exportDir\$fullExportName.$fileExtension</Args>
+        <SupportedFileExtensions>pdf</SupportedFileExtensions>
+    </PostExportHook>
     
     <!--
     convert each exported pdf to a transparent png
