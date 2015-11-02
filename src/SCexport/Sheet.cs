@@ -364,7 +364,6 @@ namespace SCaddins.SCexport
         
         private string PopulateSegmentedFileName()
         {
-            string result = this.segmentedFileName.NameFormat;
             return PostExportHookCommand.FormatConfigurationString(this, this.segmentedFileName.NameFormat, string.Empty);
         }
 

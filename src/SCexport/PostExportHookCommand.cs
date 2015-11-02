@@ -41,11 +41,56 @@ namespace SCaddins.SCexport
             get { return this.name; }
         }
         
+        public static string FormatConfigurationString(SCaddins.SCexport.ExportSheet sheet, string value, string extension)
+        {
+            string result = value;
+            if (value.Contains(@"$height")) {
+                result = result.Replace(@"$height", sheet.Height.ToString(CultureInfo.InvariantCulture));
+            }
+            if (value.Contains(@"$width")) {
+                result = result.Replace(@"$width", sheet.Width.ToString(CultureInfo.InvariantCulture));
+            }
+            if (value.Contains(@"$fullExportName")) {
+                result = result.Replace(@"$fullExportName", sheet.FullExportName);
+            }
+            if (value.Contains(@"$fullExportPath")) {
+                result = result.Replace(@"$fullExportPath", sheet.FullExportPath(extension));
+            }
+            if (value.Contains(@"$exportDir")) {
+                result = result.Replace(@"$exportDir", sheet.ExportDir);
+            }
+            if (value.Contains(@"$pageSize")) {
+                result = result.Replace(@"$pageSize", sheet.PageSize);
+            }
+            if (value.Contains(@"$projectNumber")) {
+                result = result.Replace(@"$projectNumber", sheet.ProjectNumber);
+            }
+            if (value.Contains(@"$sheetDescription")) {
+                result = result.Replace(@"$sheetDescription", sheet.SheetDescription);
+            }
+            if (value.Contains(@"$sheetNumber")) {
+                result = result.Replace(@"$sheetNumber", sheet.SheetNumber);
+            }
+            if (value.Contains(@"$sheetRevision")) {
+                result = result.Replace(@"$sheetRevision", sheet.SheetRevision);
+            }
+            if (value.Contains(@"$sheetRevisionDate")) {
+                result = result.Replace(@"$sheetRevisionDate", sheet.SheetRevisionDate);
+            }
+            if (value.Contains(@"$sheetRevisionDescription")) {
+                result = result.Replace(@"$sheetRevisionDescription", sheet.SheetRevisionDescription);
+            } 
+            if (value.Contains(@"$fileExtension")) {
+                result = result.Replace(@"$fileExtension", extension);
+            } 
+            return result;
+        }
+                
         public void Run(SCaddins.SCexport.ExportSheet sheet, string extension)
         {
-            string a = FormatConfigurationString(sheet, this.cmd, extension);
+            string a = FormatConfigurationString(sheet, this.args, extension);
             #if DEBUG
-            Autodesk.Revit.UI.TaskDialog.Show("DEBUG", this.cmd + " " + a); 
+            Autodesk.Revit.UI.TaskDialog.Show("DEBUG", this.args + " " + a); 
             #endif            
             Common.ConsoleUtilities.StartHiddenConsoleProg(this.cmd, a);
         }
@@ -88,66 +133,6 @@ namespace SCaddins.SCexport
                 s += fne + System.Environment.NewLine;
             }
             return s;
-        }
-        
-        /*
-        $height;
-        $width;
-        $fullExportName;
-        $fullExportPath;
-        $exportDir;
-        $pageSize;
-        $projectNumber;
-        $sheetDescription;
-        $sheetNumber;
-        $sheetRevision;
-        $sheetRevisionDate;
-        $sheetRevisionDescription;
-        $fileExtension;
-        */
-        public static string FormatConfigurationString(SCaddins.SCexport.ExportSheet sheet, string formatString, string extension)
-        {
-            string result = formatString;
-            if (formatString.Contains(@"$height")) {
-                result = result.Replace(@"$height", sheet.Height.ToString(CultureInfo.InvariantCulture));
-            }
-            if (formatString.Contains(@"$width")) {
-                result = result.Replace(@"$width", sheet.Width.ToString(CultureInfo.InvariantCulture));
-            }
-            if (formatString.Contains(@"$fullExportName")) {
-                result = result.Replace(@"$fullExportName", sheet.FullExportName);
-            }
-            if (formatString.Contains(@"$fullExportPath")) {
-                result = result.Replace(@"$fullExportPath", sheet.FullExportPath(extension));
-            }
-            if (formatString.Contains(@"$exportDir")) {
-                result = result.Replace(@"$exportDir", sheet.ExportDir);
-            }
-            if (formatString.Contains(@"$pageSize")) {
-                result = result.Replace(@"$pageSize", sheet.PageSize);
-            }
-            if (formatString.Contains(@"$projectNumber")) {
-                result = result.Replace(@"$projectNumber", sheet.ProjectNumber);
-            }
-            if (formatString.Contains(@"$sheetDescription")) {
-                result = result.Replace(@"$sheetDescription", sheet.SheetDescription);
-            }
-            if (formatString.Contains(@"$sheetNumber")) {
-                result = result.Replace(@"$sheetNumber", sheet.SheetNumber);
-            }
-            if (formatString.Contains(@"$sheetRevision")) {
-                result = result.Replace(@"$sheetRevision", sheet.SheetRevision);
-            }
-            if (formatString.Contains(@"$sheetRevisionDate")) {
-                result = result.Replace(@"$sheetRevisionDate", sheet.SheetRevisionDate);
-            }
-            if (formatString.Contains(@"$sheetRevisionDescription")) {
-                result = result.Replace(@"$sheetRevisionDescription", sheet.SheetRevisionDescription);
-            } 
-            if (formatString.Contains(@"$fileExtension")) {
-                result = result.Replace(@"$fileExtension", extension);
-            } 
-            return result;
         }
     }
 }

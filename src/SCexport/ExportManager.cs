@@ -661,14 +661,15 @@ namespace SCaddins.SCexport
             bool b = this.ImportXMLinfo(config);
             if (!b) {
                 var name = new SegmentedSheetName();
-                name.Name = "";
-                name.NameFormat = "";
+                name.Name = "YYYYMMDD-AD-NNN";
+                name.NameFormat = "$projectNumber-$sheetNumber[$sheetRevision]";
                 this.fileNameTypes.Add(name);
                 this.fileNameScheme = name;
             }
             if (this.fileNameTypes.Count <= 0) {
-                var name =
-                    new SegmentedSheetName(FilenameScheme.Standard);
+                var name = new SegmentedSheetName();
+                name.Name = "YYYYMMDD-AD-NNN";
+                name.NameFormat = "$projectNumber-$sheetNumber[$sheetRevision]";
                 this.fileNameTypes.Add(name);
                 this.fileNameScheme = name;
             }
@@ -679,8 +680,7 @@ namespace SCaddins.SCexport
             a.OfCategory(BuiltInCategory.OST_Sheets);
             a.OfClass(typeof(ViewSheet));
             foreach (ViewSheet v in a) {
-                var scxSheet =
-                    new ExportSheet(v, doc, this.fileNameTypes[0], this);
+                var scxSheet = new ExportSheet(v, doc, this.fileNameTypes[0], this);
                 s.Add(scxSheet);
             }
         }
@@ -754,7 +754,7 @@ namespace SCaddins.SCexport
             var reader = new XmlTextReader(filename);
 
             while (reader.Read()) {               
-                 if (reader.NodeType == XmlNodeType.Element && reader.Name == "PostExportHook") {
+                if (reader.NodeType == XmlNodeType.Element && reader.Name == "PostExportHook") {
                     var hook = new PostExportHookCommand();
                     if (reader.AttributeCount > 0) {
                         hook.SetName(reader.GetAttribute("name"));
@@ -775,18 +775,27 @@ namespace SCaddins.SCexport
                             }
                         }
                     } while (!(reader.NodeType == XmlNodeType.EndElement &&
-                               reader.Name == "PostExportHook"));
+                             reader.Name == "PostExportHook"));
                     this.postExportHooks.Add(hook.Name, hook);
                 }
 
-                if (reader.NodeType == XmlNodeType.Element &&
-                    reader.Name == "FilenameScheme") {
+                if (reader.NodeType == XmlNodeType.Element && reader.Name == "FilenameScheme") {
                     var name = new SegmentedSheetName();
                     if (reader.AttributeCount > 0) {
                         name.Name = reader.GetAttribute("label");
                         name.Hooks = reader.GetAttribute("hooks");
                     }
-                    // name.AddNodesFromXML(reader);
+                    do {
+                        reader.Read();
+                        if (reader.NodeType == XmlNodeType.Element) {
+                            switch (reader.Name) {
+                                case "Format":
+                                    name.NameFormat = reader.ReadString();
+                                    break;
+                            }
+                        }
+                    } while (!(reader.NodeType == XmlNodeType.EndElement &&
+                             reader.Name == "FilenameScheme"));
                     this.fileNameTypes.Add(name);
                 }
             }
@@ -879,8 +888,7 @@ namespace SCaddins.SCexport
 
             var name = vs.FullExportName + ".dwg";
             doc.Export(vs.ExportDir, name, views, opts);
-            
-            // System.Threading.Thread.Sleep(1000);          
+                     
             FileUtilities.WaitForFileAccess(vs.FullExportPath(".dwg"));
             this.RunExportHooks("dwg", vs);
 

@@ -17,7 +17,6 @@
 
 namespace SCaddins.SCexport
 {
-
     public class SegmentedSheetName
     {
         public SegmentedSheetName()
