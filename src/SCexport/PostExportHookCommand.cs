@@ -43,7 +43,7 @@ namespace SCaddins.SCexport
         
         public void Run(SCaddins.SCexport.ExportSheet sheet, string extension)
         {
-            string a = this.CreateArgs(sheet, extension);
+            string a = FormatConfigurationString(sheet, this.cmd, extension);
             #if DEBUG
             Autodesk.Revit.UI.TaskDialog.Show("DEBUG", this.cmd + " " + a); 
             #endif            
@@ -105,46 +105,46 @@ namespace SCaddins.SCexport
         $sheetRevisionDescription;
         $fileExtension;
         */
-        private string CreateArgs(SCaddins.SCexport.ExportSheet sheet, string extension)
+        public static string FormatConfigurationString(SCaddins.SCexport.ExportSheet sheet, string formatString, string extension)
         {
-            string result = this.args;
-            if (this.args.Contains(@"$height")) {
+            string result = formatString;
+            if (formatString.Contains(@"$height")) {
                 result = result.Replace(@"$height", sheet.Height.ToString(CultureInfo.InvariantCulture));
             }
-            if (this.args.Contains(@"$width")) {
+            if (formatString.Contains(@"$width")) {
                 result = result.Replace(@"$width", sheet.Width.ToString(CultureInfo.InvariantCulture));
             }
-            if (this.args.Contains(@"$fullExportName")) {
+            if (formatString.Contains(@"$fullExportName")) {
                 result = result.Replace(@"$fullExportName", sheet.FullExportName);
             }
-            if (this.args.Contains(@"$fullExportPath")) {
+            if (formatString.Contains(@"$fullExportPath")) {
                 result = result.Replace(@"$fullExportPath", sheet.FullExportPath(extension));
             }
-            if (this.args.Contains(@"$exportDir")) {
+            if (formatString.Contains(@"$exportDir")) {
                 result = result.Replace(@"$exportDir", sheet.ExportDir);
             }
-            if (this.args.Contains(@"$pageSize")) {
+            if (formatString.Contains(@"$pageSize")) {
                 result = result.Replace(@"$pageSize", sheet.PageSize);
             }
-            if (this.args.Contains(@"$projectNumber")) {
+            if (formatString.Contains(@"$projectNumber")) {
                 result = result.Replace(@"$projectNumber", sheet.ProjectNumber);
             }
-            if (this.args.Contains(@"$sheetDescription")) {
+            if (formatString.Contains(@"$sheetDescription")) {
                 result = result.Replace(@"$sheetDescription", sheet.SheetDescription);
             }
-            if (this.args.Contains(@"$sheetNumber")) {
+            if (formatString.Contains(@"$sheetNumber")) {
                 result = result.Replace(@"$sheetNumber", sheet.SheetNumber);
             }
-            if (this.args.Contains(@"$sheetRevision")) {
+            if (formatString.Contains(@"$sheetRevision")) {
                 result = result.Replace(@"$sheetRevision", sheet.SheetRevision);
             }
-            if (this.args.Contains(@"$sheetRevisionDate")) {
+            if (formatString.Contains(@"$sheetRevisionDate")) {
                 result = result.Replace(@"$sheetRevisionDate", sheet.SheetRevisionDate);
             }
-            if (this.args.Contains(@"$sheetRevisionDescription")) {
+            if (formatString.Contains(@"$sheetRevisionDescription")) {
                 result = result.Replace(@"$sheetRevisionDescription", sheet.SheetRevisionDescription);
             } 
-            if (this.args.Contains(@"$fileExtension")) {
+            if (formatString.Contains(@"$fileExtension")) {
                 result = result.Replace(@"$fileExtension", extension);
             } 
             return result;

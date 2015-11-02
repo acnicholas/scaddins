@@ -40,6 +40,17 @@ namespace SCaddins.Common
             }
             return s;
         }
+        
+        public static string GetSafeFileName(string fileName)
+        {
+            if (fileName == null) {
+                return null;
+            }
+            foreach (char c in System.IO.Path.GetInvalidFileNameChars()) {
+                fileName = fileName.Replace(c, '_');
+            }
+            return fileName;
+        }
                 
         public static double FeetToMM(double lengthInFeet)
         {

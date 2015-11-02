@@ -660,8 +660,9 @@ namespace SCaddins.SCexport
             string config = GetConfigFileName(doc);
             bool b = this.ImportXMLinfo(config);
             if (!b) {
-                var name =
-                    new SegmentedSheetName(FilenameScheme.Standard);
+                var name = new SegmentedSheetName();
+                name.Name = "";
+                name.NameFormat = "";
                 this.fileNameTypes.Add(name);
                 this.fileNameScheme = name;
             }
@@ -785,7 +786,7 @@ namespace SCaddins.SCexport
                         name.Name = reader.GetAttribute("label");
                         name.Hooks = reader.GetAttribute("hooks");
                     }
-                    name.AddNodesFromXML(reader);
+                    // name.AddNodesFromXML(reader);
                     this.fileNameTypes.Add(name);
                 }
             }
