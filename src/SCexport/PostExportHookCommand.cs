@@ -44,45 +44,19 @@ namespace SCaddins.SCexport
         public static string FormatConfigurationString(SCaddins.SCexport.ExportSheet sheet, string value, string extension)
         {
             string result = value;
-            if (value.Contains(@"$height")) {
-                result = result.Replace(@"$height", sheet.Height.ToString(CultureInfo.InvariantCulture));
-            }
-            if (value.Contains(@"$width")) {
-                result = result.Replace(@"$width", sheet.Width.ToString(CultureInfo.InvariantCulture));
-            }
-            if (value.Contains(@"$fullExportName")) {
-                result = result.Replace(@"$fullExportName", sheet.FullExportName);
-            }
-            if (value.Contains(@"$fullExportPath")) {
-                result = result.Replace(@"$fullExportPath", sheet.FullExportPath(extension));
-            }
-            if (value.Contains(@"$exportDir")) {
-                result = result.Replace(@"$exportDir", sheet.ExportDir);
-            }
-            if (value.Contains(@"$pageSize")) {
-                result = result.Replace(@"$pageSize", sheet.PageSize);
-            }
-            if (value.Contains(@"$projectNumber")) {
-                result = result.Replace(@"$projectNumber", sheet.ProjectNumber);
-            }
-            if (value.Contains(@"$sheetDescription")) {
-                result = result.Replace(@"$sheetDescription", sheet.SheetDescription);
-            }
-            if (value.Contains(@"$sheetNumber")) {
-                result = result.Replace(@"$sheetNumber", sheet.SheetNumber);
-            }
-            if (value.Contains(@"$sheetRevision")) {
-                result = result.Replace(@"$sheetRevision", sheet.SheetRevision);
-            }
-            if (value.Contains(@"$sheetRevisionDate")) {
-                result = result.Replace(@"$sheetRevisionDate", sheet.SheetRevisionDate);
-            }
-            if (value.Contains(@"$sheetRevisionDescription")) {
-                result = result.Replace(@"$sheetRevisionDescription", sheet.SheetRevisionDescription);
-            } 
-            if (value.Contains(@"$fileExtension")) {
-                result = result.Replace(@"$fileExtension", extension);
-            } 
+            result = result.Replace(@"$height", sheet.Height.ToString(CultureInfo.InvariantCulture));    
+            result = result.Replace(@"$width", sheet.Width.ToString(CultureInfo.InvariantCulture));
+            result = result.Replace(@"$fullExportName", sheet.FullExportName);
+            result = result.Replace(@"$fullExportPath", sheet.FullExportPath(extension));
+            result = result.Replace(@"$exportDir", sheet.ExportDir);
+            result = result.Replace(@"$pageSize", sheet.PageSize);
+            result = result.Replace(@"$projectNumber", sheet.ProjectNumber);
+            result = result.Replace(@"$sheetDescription", sheet.SheetDescription);
+            result = result.Replace(@"$sheetNumber", sheet.SheetNumber);
+            result = result.Replace(@"$sheetRevision", sheet.SheetRevision);
+            result = result.Replace(@"$sheetRevisionDate", sheet.SheetRevisionDate);
+            result = result.Replace(@"$sheetRevisionDescription", sheet.SheetRevisionDescription);
+            result = result.Replace(@"$fileExtension", extension);
             return result;
         }
                 
