@@ -22,9 +22,6 @@ namespace SCaddins.SCexport
     using Autodesk.Revit.DB;
     using SCaddins.Common;
 
-    /// <summary>
-    /// Class to hold view sheet information.
-    /// </summary>
     public class ExportSheet
     {
         #region Variables

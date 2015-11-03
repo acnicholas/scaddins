@@ -21,17 +21,11 @@ namespace SCaddins.SCexport
     using System.Windows.Forms;
     using Autodesk.Revit.DB;
     
-    /// <summary>
-    /// Description of SCexportOptionsDialog.
-    /// </summary>
     public partial class OptionsDialog : System.Windows.Forms.Form
     {
         private Autodesk.Revit.DB.Document doc;
         private ExportManager scx;
         
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OptionsDialog"/> class.
-        /// </summary>
         public OptionsDialog(Autodesk.Revit.DB.Document doc, ExportManager scx)
         {
             this.doc = doc;
@@ -68,9 +62,6 @@ namespace SCaddins.SCexport
             this.comboBoxAutocadVersion.SelectedIndex = 
                 this.comboBoxAutocadVersion.FindStringExact(ExportManager.AcadVersionToString(this.scx.AcadVersion));
             this.checkBox1.Checked = true;
-            #if REVIT2012
-            this.checkBoxHideTitleblock.Enabled = false;
-            #endif
             this.textBoxAdobeDriver.Text = this.scx.PdfPrinterName;
             this.textBoxPSPrinter.Text = this.scx.PostscriptPrinterName;
             this.textBoxGSBin.Text = this.scx.GhostscriptBinDir;

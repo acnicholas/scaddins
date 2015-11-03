@@ -26,9 +26,6 @@ namespace SCaddins.SCexport
    [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
    [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
 
-    /// <summary>
-    /// Open a selected sheet in the current Revit doc.
-    /// </summary>
     public class OpenSheet : IExternalCommand
     {
         public Autodesk.Revit.UI.Result Execute(

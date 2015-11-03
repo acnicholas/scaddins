@@ -26,9 +26,6 @@ namespace SCaddins.SCexport
    [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
    [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     
-    /// <summary>
-    /// Open the previous Sheet in the current Revit Doc.
-    /// </summary>
     public class PreviousSheet : IExternalCommand
     {
         public Autodesk.Revit.UI.Result Execute(
