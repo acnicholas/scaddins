@@ -782,14 +782,17 @@ namespace SCaddins.SCexport
                 if (reader.NodeType == XmlNodeType.Element && reader.Name == "FilenameScheme") {
                     var name = new SegmentedSheetName();
                     if (reader.AttributeCount > 0) {
-                        name.Name = reader.GetAttribute("label");
-                        name.Hooks = reader.GetAttribute("hooks");
+                        name.Name = reader.GetAttribute("name");
+                        //name.Hooks = reader.GetAttribute("hooks");
                     }
                     do {
                         reader.Read();
                         if (reader.NodeType == XmlNodeType.Element) {
                             switch (reader.Name) {
                                 case "Format":
+                                    name.NameFormat = reader.ReadString();
+                                    break;
+                                case "Hook":
                                     name.NameFormat = reader.ReadString();
                                     break;
                             }
@@ -937,7 +940,7 @@ namespace SCaddins.SCexport
         {
             for (int i = 0; i < this.postExportHooks.Count; i++) {
                 if (this.postExportHooks.ElementAt(i).Value.HasExtension(extension)) {
-                    if (string.IsNullOrEmpty(this.fileNameScheme.Hooks)) {
+                    if (this.fileNameScheme.Hooks.Count < 1) {
                         return;
                     } else {
                         if (this.fileNameScheme.Hooks.Contains(this.postExportHooks.ElementAt(i).Key)) {

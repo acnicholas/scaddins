@@ -7,9 +7,9 @@
                     <xs:complexType>
                         <xs:sequence>
                                 <xs:element name="Format" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                <xs:element name="Hook" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
                         </xs:sequence>
-                        <xs:attribute name="label" type="xs:string" use="required" />
-                        <xs:attribute name="hooks" type="xs:string" use="optional" />
+                        <xs:attribute name="name" type="xs:string" use="required" />
                     </xs:complexType>
                 </xs:element>
                 <xs:element minOccurs="0" maxOccurs="unbounded" name="PostExportHook">
@@ -17,7 +17,7 @@
                         <xs:sequence>
                             <xs:element name="Command" type="xs:string" minOccurs="0" maxOccurs="1" />
                             <xs:element name="Args" type="xs:string" minOccurs="0" maxOccurs="1"/>
-                            <xs:element name="SupportedFileExtensions" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                            <xs:element name="SupportedFileExtensions" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
                         </xs:sequence>
                         <xs:attribute name="name" type="xs:string" use="required" />
                     </xs:complexType>

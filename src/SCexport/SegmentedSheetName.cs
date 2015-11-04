@@ -17,10 +17,15 @@
 
 namespace SCaddins.SCexport
 {
+    using System.Collections.ObjectModel;
+    
     public class SegmentedSheetName
     {
+        private Collection<string> hooks;
+        
         public SegmentedSheetName()
         {
+            this.hooks = new Collection<string>();
             this.Name = "YYYYMMDD-AD-NNN[R]";
         }
         
@@ -32,9 +37,15 @@ namespace SCaddins.SCexport
             get; set;
         }
     
-        public string Hooks {
-            get; set;
+        public Collection<string> Hooks {
+            get {return hooks;}
         }
+        
+        public void AddHook(string hookName)
+        {
+            hooks.Add(hookName);
+        }
+        
     }
 }
 

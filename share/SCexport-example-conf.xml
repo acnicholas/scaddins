@@ -31,39 +31,44 @@
 <SCexport name="Generic SCexport config file">
 
     <!--This is the first scheme. The first is the default-->
-    <FilenameScheme label="Architectural">
+    <FilenameScheme name="Architectural">
         <Format>$projectNumber-$sheetNumber[$sheetRevision]</Format>
     </FilenameScheme>
     
     <!--Tag pdf's after export-->
-    <FilenameScheme label="Architectural" hooks="tagPdf">
+    <FilenameScheme name="Architectural" hooks="tagPdf">
         <Format>$projectNumber-$sheetNumber[$sheetRevision]</Format>
+        <Hook>aconexDWGSuffix</Hook>
     </FilenameScheme>
     
     <!--Renames dwg files after export-->
-    <FilenameScheme label="Architectural USQ and ACONEX" hooks="aconexDWGSuffix">
+    <FilenameScheme name="Architectural USQ and ACONEX">
         <Format>$projectNumber-$sheetNumber[$sheetRevision]</Format>
+        <Hook>aconexDWGSuffix</Hook>
     </FilenameScheme>
     
     <!--Creates a transparent png files after each pdf export-->
-    <FilenameScheme label="Marketing Plans" hooks="convertToPng">
+    <FilenameScheme name="Marketing Plans">
         <Format>$projectNumber-$sheetNumber[$sheetRevision]</Format>
+        <Hook>convertToPng</Hook>
+        <Hook>aconexDWGSuffix</Hook>
     </FilenameScheme>
     
     <!--Add a watermark-->
-    <FilenameScheme label="PDF Watermarker" hooks="watermark">
+    <FilenameScheme name="PDF Watermarker">
         <Format>$projectNumber-$sheetNumber[$sheetRevision]</Format>
+        <Hook>watermark</Hook>
     </FilenameScheme>
      
-    <FilenameScheme label="Brackets">
+    <FilenameScheme name="Brackets">
         <Format>$projectNumber-$sheetNumber($sheetRevision)</Format>
     </FilenameScheme>
     
-    <FilenameScheme label="CRevisions">
+    <FilenameScheme name="CRevisions">
         <Format>49-FV-SC001-$sheetNumber_$sheetRevision</Format>
     </FilenameScheme>
     
-    <FilenameScheme label="Simple">
+    <FilenameScheme name="Simple">
         <Format>$sheetNumber_$sheetRevision</Format>
     </FilenameScheme>
     
