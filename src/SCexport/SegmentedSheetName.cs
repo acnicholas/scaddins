@@ -38,14 +38,13 @@ namespace SCaddins.SCexport
         }
     
         public Collection<string> Hooks {
-            get {return hooks;}
+            get { return this.hooks; }
         }
         
         public void AddHook(string hookName)
         {
-            hooks.Add(hookName);
+            this.hooks.Add(hookName);
         }
-        
     }
 }
 

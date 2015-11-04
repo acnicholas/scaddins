@@ -28,8 +28,6 @@
     $sheetRevisionDescription
 -->
 
-<SCexport name="Generic SCexport config file">
-
     <!--This is the first scheme. The first is the default-->
     <FilenameScheme name="Architectural">
         <Format>$projectNumber-$sheetNumber[$sheetRevision]</Format>
@@ -121,6 +119,4 @@
         <Args> "$exportDir\$fullExportName.$fileExtension" background "$exportDir\watermark.pdf" output "$exportDir\$fullExportName-WM.$fileExtension"</Args>
         <SupportedFileExtensions>pdf</SupportedFileExtensions>
     </PostExportHook>
-</SCexport>
-
 <!-- vim: set nu tabstop=4 shiftwidth=4 expandtab : -->

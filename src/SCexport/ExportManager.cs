@@ -783,7 +783,6 @@ namespace SCaddins.SCexport
                     var name = new SegmentedSheetName();
                     if (reader.AttributeCount > 0) {
                         name.Name = reader.GetAttribute("name");
-                        //name.Hooks = reader.GetAttribute("hooks");
                     }
                     do {
                         reader.Read();
