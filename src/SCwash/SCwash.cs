@@ -71,7 +71,7 @@ namespace SCaddins.SCwash
             }
             return result;
         }
-        
+
         public static Collection<SCwashTreeNode> Revisions(Document doc)
         {
             var result = new Collection<SCwashTreeNode>();
@@ -176,7 +176,7 @@ namespace SCaddins.SCwash
                     bool os = false;
 
                     Parameter p = GetParameterByName(view, "Dependency");
-                    
+
                     s += "Name - " + view.Name + System.Environment.NewLine;
                     if (p != null) {
                         d = p.AsString();
@@ -199,21 +199,21 @@ namespace SCaddins.SCwash
                     s += "Element id - " + view.Id.ToString() + System.Environment.NewLine;
                     s += System.Environment.NewLine + "[EXTENDED INFO]" + System.Environment.NewLine;
                     s += GetParameterList(view.Parameters);
-                    
+
                     string n = string.Empty;
                     if (type == ViewType.DrawingSheet) {
                         n = num + " - " + view.Name;
                     } else {
                         n = view.Name;
                     }
-                    
+
                     var tn = new SCwashTreeNode(n);
                     tn.Info = s;
                     tn.Id = view.Id;
                     if (view.ViewType == ViewType.ProjectBrowser || view.ViewType == ViewType.SystemBrowser) {
                         continue;
                     }
-                    
+
                     if (view.ViewType != ViewType.Internal) {
                         if (os && placedOnSheet) {
                             result.Add(tn);
@@ -226,7 +226,7 @@ namespace SCaddins.SCwash
             }
             return result;
         }
-    
+
         private static Parameter GetParameterByName(
             Autodesk.Revit.DB.Element view,
             string parameterName)

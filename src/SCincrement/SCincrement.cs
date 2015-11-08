@@ -48,7 +48,7 @@ namespace SCaddins.SCincrement
                 }
             } catch {
             }
-            
+
             if (refList.Count == 0) {
                 return;
             }
@@ -92,7 +92,7 @@ namespace SCaddins.SCincrement
                 t.Commit();
             }
         }
-        
+
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
             ref string message,

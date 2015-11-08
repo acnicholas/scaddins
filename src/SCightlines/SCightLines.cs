@@ -186,7 +186,7 @@ namespace SCaddins.SCightLines
                 }
             }
         }
-        
+
         private ViewDrafting CreateLineOfSightDraftingView(string newViewName)
         {
             ViewDrafting view = null;

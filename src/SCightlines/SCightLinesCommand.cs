@@ -29,20 +29,20 @@ namespace SCaddins.SCightLines
             ExternalCommandData commandData,
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
-        {           
+        {
             using (Transaction t = new Transaction(commandData.Application.ActiveUIDocument.Document)) {          
                 if (t.Start("SCightlines") == TransactionStatus.Started) {
                     SCightLinesMainForm opts = new SCightLinesMainForm(commandData.Application.ActiveUIDocument.Document);
                     opts.Show();
                 }
-                
+
                 if (TransactionStatus.Committed != t.Commit()) {
                    TaskDialog.Show("Failure", "Transaction could not be committed");
                    t.RollBack();
-               }               
+               }
             }
-            
+
             return Autodesk.Revit.UI.Result.Succeeded;
-        }          
-    }    
+        }
+    }
 }

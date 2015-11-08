@@ -62,7 +62,7 @@ namespace SCaddins.SCaos
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }
-        
+
         private static bool ViewNameIsAvailable(Document doc, string name)
         {
             var c = new FilteredElementCollector(doc);

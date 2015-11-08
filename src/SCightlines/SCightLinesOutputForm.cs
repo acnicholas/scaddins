@@ -19,7 +19,7 @@ namespace SCaddins.SCightLines
 {
     using System;
     using System.Windows.Forms;
-    
+
     public partial class SCightOutputForm : Form
     {
         public SCightOutputForm(string displayValue)
