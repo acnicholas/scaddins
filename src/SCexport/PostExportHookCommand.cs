@@ -20,31 +20,31 @@ namespace SCaddins.SCexport
     using System;
     using System.Collections.ObjectModel;
     using System.Globalization;
-    
+
     public class PostExportHookCommand
     {
         private string cmd;
         private string args;
         private string name;
         private Collection<string> supportedFilenameExtensions;
-                               
+
         public PostExportHookCommand()
         {
             this.cmd = string.Empty;
-            this.args = string.Empty;  
-            this.name = string.Empty;    
+            this.args = string.Empty;
+            this.name = string.Empty;
             this.supportedFilenameExtensions = new Collection<string>();
         }
-        
+
         public string Name
         {
             get { return this.name; }
         }
-        
+
         public static string FormatConfigurationString(SCaddins.SCexport.ExportSheet sheet, string value, string extension)
         {
             string result = value;
-            result = result.Replace(@"$height", sheet.Height.ToString(CultureInfo.InvariantCulture));    
+            result = result.Replace(@"$height", sheet.Height.ToString(CultureInfo.InvariantCulture));
             result = result.Replace(@"$width", sheet.Width.ToString(CultureInfo.InvariantCulture));
             result = result.Replace(@"$fullExportName", sheet.FullExportName);
             result = result.Replace(@"$fullExportPath", sheet.FullExportPath(extension));
@@ -59,47 +59,47 @@ namespace SCaddins.SCexport
             result = result.Replace(@"$fileExtension", extension);
             return result;
         }
-                
+
         public void Run(SCaddins.SCexport.ExportSheet sheet, string extension)
         {
             string a = FormatConfigurationString(sheet, this.args, extension);
             #if DEBUG
-            Autodesk.Revit.UI.TaskDialog.Show("DEBUG", this.args + " " + a); 
-            #endif            
+            Autodesk.Revit.UI.TaskDialog.Show("DEBUG", this.args + " " + a);
+            #endif
             Common.ConsoleUtilities.StartHiddenConsoleProg(this.cmd, a);
         }
-        
+
         public void SetCommand(string cmd)
         {
             this.cmd = cmd;
         }
-        
+
         public void SetArguments(string args)
         {
             this.args = args;
         }
-        
+
         public void SetName(string name)
         {
             this.name = name;
         }
-        
+
         public void AddSupportedFilenameExtension(string extension)
         {
             this.supportedFilenameExtensions.Add(extension);
         }
-        
+
         public bool HasExtension(string extension)
         {
             if (string.IsNullOrEmpty(extension)) {
-                return false;    
+                return false;
             }
             if (this.supportedFilenameExtensions == null || this.supportedFilenameExtensions.Count < 1) {
                 return false;
             }
             return this.supportedFilenameExtensions.Contains(extension);
         }
-        
+
         public string ListExtensions()
         {
             string s = string.Empty;
@@ -110,3 +110,4 @@ namespace SCaddins.SCexport
         }
     }
 }
+/* vim: set ts=4 sw=4 nu expandtab: */

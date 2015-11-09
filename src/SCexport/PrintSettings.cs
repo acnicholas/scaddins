@@ -42,7 +42,7 @@ namespace SCaddins.SCexport
             return Math.Round(sheet.Width).ToString(CultureInfo.InvariantCulture) + "x" +
                 Math.Round(sheet.Height).ToString(CultureInfo.InvariantCulture);
         }
-        
+
         public static bool CreatePrintSetting(Document doc, string isoSheetSize)
         {
             PrintManager pm = doc.PrintManager;
@@ -97,7 +97,7 @@ namespace SCaddins.SCexport
             }
             return success;
         }
-            
+
         public static bool ApplyPrintSettings(
                 Document doc,
                 string size,
@@ -105,7 +105,7 @@ namespace SCaddins.SCexport
                 string printerName)
         {
             PrintSetting ps = PrintSettings.AssignPrintSetting(doc, size);
-            
+
             if (ps == null) {
                 return false;
             }
@@ -118,7 +118,7 @@ namespace SCaddins.SCexport
             t.Start();
             try {
                 pm.PrintSetup.CurrentPrintSetting = ps;
-                pm.PrintRange = PrintRange.Current;                
+                pm.PrintRange = PrintRange.Current;
                 pm.PrintSetup.CurrentPrintSetting.PrintParameters.MarginType = MarginType.NoMargin;
                 pm.PrintSetup.InSession.PrintParameters.MarginType = MarginType.NoMargin;
                 pm.PrintToFile = false;
@@ -130,9 +130,9 @@ namespace SCaddins.SCexport
                 TaskDialog.Show("SCexport", "cannot apply print settings");
                 t.RollBack();
                 return false;
-            }  
+            }
         }
-        
+
         public static bool ApplyPrintSettings(
                 Document doc,
                 ExportSheet vs,
@@ -178,19 +178,19 @@ namespace SCaddins.SCexport
             if (!CreatePrintSetting(doc, printSetting)) {
                 return null;
             }
-            
+
             foreach (ElementId id in doc.GetPrintSettingIds()) {
                 var ps2 = doc.GetElement(id) as PrintSetting;
                 if (ps2 != null && ps2.Name.ToString().Equals("SCX-" + printSetting)) {
                     return ps2;
                 }
             }
-                
+
             var msg = "SCX-" + printSetting + " could not be created!";
             TaskDialog.Show("Creating Papersize", msg);
             return null;
         }
-        
+
         public static bool SetPrinter(
                 Document doc, string name, PrintManager pm)
         {
@@ -210,7 +210,7 @@ namespace SCaddins.SCexport
                 return false;
             }
         }
-        
+
         private static bool CheckSheetSize(
             double width, double height, double tw, double th)
         {

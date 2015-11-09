@@ -37,7 +37,7 @@ namespace SCaddins.SCexport
             View currentView = doc.ActiveView;
             if (currentView.ViewType != ViewType.DrawingSheet) {
                 TaskDialog.Show("SCexport", "NextSheet can only be run if the active view is a sheet");
-                return Autodesk.Revit.UI.Result.Failed;   
+                return Autodesk.Revit.UI.Result.Failed;
             } else {
                 DialogHandler.AddRevitDialogHandler(commandData.Application);
                 var vs = currentView as ViewSheet;

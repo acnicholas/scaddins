@@ -20,12 +20,12 @@ namespace SCaddins.SCexport
     using System;
     using System.Windows.Forms;
     using Autodesk.Revit.DB;
-    
+
     public partial class OptionsDialog : System.Windows.Forms.Form
     {
         private Autodesk.Revit.DB.Document doc;
         private ExportManager scx;
-        
+
         public OptionsDialog(Autodesk.Revit.DB.Document doc, ExportManager scx)
         {
             this.doc = doc;
@@ -36,16 +36,16 @@ namespace SCaddins.SCexport
             this.PopulateSchemeMenu();
             this.LoadValues();
         }
-        
+
         private static void SetPrinter(TextBox textBox)
         {
             var dialog = new SelectPrinterDialog();
             System.Windows.Forms.DialogResult result = dialog.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK) {
                 textBox.Text = dialog.comboBoxPrinter.SelectedItem.ToString();
-            }  
+            }
         }
-        
+
         private void LoadValues()
         {
             this.radioPDF.Checked = this.scx.HasExportOption(ExportOptions.PDF);
@@ -71,7 +71,7 @@ namespace SCaddins.SCexport
             textBoxTextEditor.Text = SCaddins.SCexport.Settings1.Default.TextEditor;
             textBoxExportDir.Text = SCaddins.SCexport.Settings1.Default.ExportDir;
         }
-        
+
         private void SaveValues()
         {
             this.scx.GhostscriptBinDir = textBoxGSBin.Text;
@@ -80,12 +80,12 @@ namespace SCaddins.SCexport
             this.scx.PostscriptPrinterName = textBoxPSPrinter.Text;
             this.scx.PdfPrinterName = textBoxAdobeDriver.Text;
             this.scx.PrinterNameLargeFormat = textBoxLargeFormatPrinter.Text;
-            SCaddins.SCexport.Settings1.Default.GSBinDirectory = this.scx.GhostscriptBinDir;         
-            SCaddins.SCexport.Settings1.Default.AdobePrinterDriver = this.scx.PdfPrinterName;  
-            SCaddins.SCexport.Settings1.Default.A3PrinterDriver = this.scx.PrinterNameA3;  
+            SCaddins.SCexport.Settings1.Default.GSBinDirectory = this.scx.GhostscriptBinDir;
+            SCaddins.SCexport.Settings1.Default.AdobePrinterDriver = this.scx.PdfPrinterName;
+            SCaddins.SCexport.Settings1.Default.A3PrinterDriver = this.scx.PrinterNameA3;
             SCaddins.SCexport.Settings1.Default.LargeFormatPrinterDriver = this.scx.PrinterNameLargeFormat;
-            SCaddins.SCexport.Settings1.Default.PSPrinterDriver = this.scx.PostscriptPrinterName;  
-            SCaddins.SCexport.Settings1.Default.GSLibDirectory = this.scx.GhostscriptLibDir;  
+            SCaddins.SCexport.Settings1.Default.PSPrinterDriver = this.scx.PostscriptPrinterName;
+            SCaddins.SCexport.Settings1.Default.GSLibDirectory = this.scx.GhostscriptLibDir;
             SCaddins.SCexport.Settings1.Default.TextEditor = textBoxTextEditor.Text;
             SCaddins.SCexport.Settings1.Default.ExportDir = this.textBoxExportDir.Text;
             SCaddins.SCexport.Settings1.Default.AdobePDFMode = radioPDF.Checked;
@@ -94,18 +94,18 @@ namespace SCaddins.SCexport
             SCaddins.SCexport.Settings1.Default.AcadExportVersion = this.comboBoxAutocadVersion.SelectedItem.ToString();
             SCaddins.SCexport.Settings1.Default.Save();
         }
-        
+
         private void AssignDWGReleaseMenuTags()
         {
                 #if (!REVIT2016)
-                this.comboBoxAutocadVersion.Items.Add("R2000");  
+                this.comboBoxAutocadVersion.Items.Add("R2000");
                 this.comboBoxAutocadVersion.Items.Add("R2004");
                 #endif
                 this.comboBoxAutocadVersion.Items.Add("R2007");
                 this.comboBoxAutocadVersion.Items.Add("R2010");
-                this.comboBoxAutocadVersion.Items.Add("R2013");      
+                this.comboBoxAutocadVersion.Items.Add("R2013");
         }
-                
+
         private void PopulateSchemeMenu()
         {
             foreach (SegmentedSheetName scxn in this.scx.FileNameTypes) {
@@ -114,12 +114,12 @@ namespace SCaddins.SCexport
                 }
             }
         }
-        
+
         private void InitializeComponentsMore()
         {
             this.radioGSPDF.Enabled |= this.scx.GSSanityCheck();
             this.radioPDF.Enabled |= this.scx.PDFSanityCheck();
-            
+
             if (!this.radioPDF.Enabled && !this.radioGSPDF.Enabled) {
                 this.checkBox1.Enabled = false;
                 this.checkBox1.Text = "PDF disabled, check settings!!!";
@@ -134,7 +134,7 @@ namespace SCaddins.SCexport
             this.radioGSPDF.Tag = ExportOptions.GhostscriptPDF;
             this.checkBoxHideTitleblock.Tag = ExportOptions.NoTitle;
         }
-        
+
         private void ToggleCheckBoxValue(object sender, EventArgs e)
         {
             var c = (CheckBox)sender;
@@ -146,7 +146,7 @@ namespace SCaddins.SCexport
                 this.checkBoxHideTitleblock.Enabled = false;
             }
         }
-        
+
         private void ToggleConversionFlag(
             bool flagged, ExportOptions val)
         {
@@ -156,52 +156,52 @@ namespace SCaddins.SCexport
                 this.scx.RemoveExportOption(val);
             }
         }
-        
+
         private void RadioCheckedChanged(object sender, EventArgs e)
         {
             var r = (RadioButton)sender;
             var t = (ExportOptions)r.Tag;
             this.ToggleConversionFlag(r.Checked, t);
         }
-        
+
         private void ForceDateCheckedChanged(object sender, EventArgs e)
         {
             this.scx.ForceRevisionToDateString = ((CheckBox)sender).Checked;
         }
-        
+
         private void ComboBox1SelectedIndexChanged(object sender, EventArgs e)
         {
             string s = this.comboBoxScheme.Text;
             this.scx.SetFileNameScheme(s);
         }
-        
+
         private void ComboBoxAutocadVersionSelectedIndexChanged(object sender, EventArgs e)
         {
             this.scx.AcadVersion = 
                 ExportManager.AcadVersionFromString(comboBoxAutocadVersion.SelectedItem.ToString());
         }
-              
+
         private void ButtonCreateConfigClick(object sender, EventArgs e)
         {
             FileUtilities.CreateConfigFile(this.doc);
             this.buttonEditConfig.Enabled = true;
         }
-        
+
         private void ButtonEditConfigClick(object sender, EventArgs e)
-        {  
+        {
             FileUtilities.EditConfigFile(this.doc);
         }
-                   
+
         private void ButtonWorkingFilesClick(object sender, EventArgs e)
         {
             textBoxExportDir.Text = Constants.UnionSquareWorkingFiles;
         }
-        
+
         private void Button5Click(object sender, EventArgs e)
         {
             SCaddins.SCaddinsApp.CheckForUpdates(false);
         }
-        
+
         private void CheckBox1CheckedChanged(object sender, EventArgs e)
         {
             if (!this.checkBox1.Checked) {
@@ -214,7 +214,7 @@ namespace SCaddins.SCexport
                 this.radioPDF.Enabled |= this.scx.PDFSanityCheck();
             }
         }
-        
+
         private void GSBinDirClick(object sender, System.EventArgs e)
         {
             DialogResult result = this.folderBrowserDialog1.ShowDialog();
@@ -222,7 +222,7 @@ namespace SCaddins.SCexport
                 textBoxGSBin.Text = this.folderBrowserDialog1.SelectedPath;
             }
         }
-        
+
         private void GSLibDirClick(object sender, System.EventArgs e)
         {
             DialogResult result = this.folderBrowserDialog1.ShowDialog();
@@ -230,32 +230,32 @@ namespace SCaddins.SCexport
                 textBoxGSLib.Text = this.folderBrowserDialog1.SelectedPath;
             }
         }
-        
+
         private void Button1Click(object sender, System.EventArgs e)
         {
             this.SaveValues();
         }
-                
+
         private void ButtonPSPrinterClick(object sender, System.EventArgs e)
         {
             SetPrinter(this.textBoxPSPrinter);
         }
-        
+
         private void ButtonA3PrinterClick(object sender, System.EventArgs e)
         {
             SetPrinter(this.textBoxA3Printer);
         }
-        
+
         private void ButtonAdobePrinterClick(object sender, System.EventArgs e)
         {
             SetPrinter(this.textBoxAdobeDriver);
         }
-        
+
         private void BtnSelectLargeFormatPrinterClick(object sender, EventArgs e)
         {
-            SetPrinter(this.textBoxLargeFormatPrinter);  
+            SetPrinter(this.textBoxLargeFormatPrinter);
         }
-        
+
         private void BtnSelectTextEditorClick(object sender, System.EventArgs e)
         {
             DialogResult result = this.openFileDialog1.ShowDialog();
@@ -263,20 +263,20 @@ namespace SCaddins.SCexport
                 textBoxTextEditor.Text = this.openFileDialog1.FileName;
             }
         }
-        
+
         private void Button2Click(object sender, System.EventArgs e)
         {
             SCaddins.SCexport.Settings1.Default.Reset();
             this.scx.LoadSettings();
             this.LoadValues();
         }
-             
+
         private void BtnDefaultExportDirClick(object sender, System.EventArgs e)
         {
             DialogResult result = this.folderBrowserDialog1.ShowDialog();
             if (result == DialogResult.OK) {
                 textBoxExportDir.Text = this.folderBrowserDialog1.SelectedPath;
-            }          
+            }
         }
     }
 }

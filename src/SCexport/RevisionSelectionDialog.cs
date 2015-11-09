@@ -20,12 +20,12 @@ namespace SCaddins.SCexport
     using System;
     using System.Windows.Forms;
     using Autodesk.Revit.DB;
-    
+
     public partial class RevisionSelectionDialog : System.Windows.Forms.Form
     {
         private ElementId id;
         private Document doc;
-        
+
         public RevisionSelectionDialog(Document doc)
         {
             this.doc = doc;
@@ -33,11 +33,11 @@ namespace SCaddins.SCexport
             this.InitializeComponent();
             this.PopulateList();
         }
-        
+
         public ElementId Id {
             get { return this.id; }
         }
-           
+
         private void PopulateList()
         {
             FilteredElementCollector a;
@@ -54,7 +54,7 @@ namespace SCaddins.SCexport
                 this.listView1.Items.Add(item);
             }
         }
-        
+
         private void ListView1SelectedIndexChanged(object sender, EventArgs e)
         {
             var i  = this.listView1.SelectedIndices;

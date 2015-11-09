@@ -80,7 +80,7 @@
         {
             get { return this.messageLog; }
         }
-        
+
         public TimeSpan TimeSinceStart
         {
             get { return DateTime.Now - this.startTime; }
