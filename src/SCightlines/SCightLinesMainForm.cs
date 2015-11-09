@@ -20,6 +20,7 @@ namespace SCaddins.SCightLines
     using System;
     using System.Globalization;
     using System.Windows.Forms;
+    
     public partial class SCightLinesMainForm : Form
     {
         private SCightOutputForm info;

@@ -700,6 +700,7 @@ namespace SCaddins.SCexport
 
         private bool ValidateXML(string filename)
         {
+            string errorMessage = string.Empty;
             if (filename == null || !File.Exists(filename)) {
                 return false;
             }
@@ -720,26 +721,22 @@ namespace SCaddins.SCexport
                 document.Validate(eventHandler);
                 return true;
             } catch (XmlSchemaValidationException ex) {
-                TaskDialog.Show(
-                    "SCexport", "Error reading xml file: " + ex.Message);
-                return false;
+                errorMessage += "Error reading xml file:" + filename + " - " + ex.Message;
             } catch (XmlException ex) {
-                TaskDialog.Show(
-                    "SCexport", "Error reading xml file: " + ex.Message);
-                return false;
+                errorMessage += "Error reading xml file:" + filename + " - " + ex.Message;
             } catch (XmlSchemaException ex) {
-                TaskDialog.Show(
-                    "SCexport", "Error reading xml file: " + ex.Message);
-                return false;
+                errorMessage += "Error reading xml file:" + filename + " - " + ex.Message;
             } catch (ArgumentNullException ex) {
-                TaskDialog.Show(
-                    "SCexport", "Error reading xml file: " + ex.Message);
-                return false;
+                errorMessage += "Error reading xml file:" + filename + " - " + ex.Message;
             } catch (UriFormatException ex) {
-                TaskDialog.Show(
-                    "SCexport", "Error reading xml file: " + ex.Message);
-                return false;
+                errorMessage += "Error reading xml file:" + filename + " - " + ex.Message;
             }
+            TaskDialog td = new TaskDialog("SCexport - XML Config error");
+            td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+            td.MainInstruction = "SCexport - XML Config error";
+            td.MainContent = errorMessage;
+            td.Show();
+            return false;   
         }
 
         private bool ImportXMLinfo(string filename)
