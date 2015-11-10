@@ -116,7 +116,6 @@ namespace SCaddins.SCaos
         {
             ElementId id = null;
 
-            // get the viewid
             var collector = new FilteredElementCollector(doc);
             collector.OfClass(typeof(ViewFamilyType));
             foreach (Element e in collector) {

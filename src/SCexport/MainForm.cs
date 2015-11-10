@@ -49,8 +49,8 @@ namespace SCaddins.SCexport
             var findTip = new ToolTip();
             var findTipText = "Use regular expressions to filter the sheet list" +
                 System.Environment.NewLine +
-                "Searches both sheet name and number."; 
-            findTip.SetToolTip(this.btnFind, findTipText);              
+                "Searches both sheet name and number.";
+            findTip.SetToolTip(this.btnFind, findTipText);
             this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
             this.PopulateViewSheetSetCombo();
             this.PopulateColumns();

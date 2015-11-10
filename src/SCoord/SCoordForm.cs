@@ -19,7 +19,7 @@ namespace SCaddins.SCoord
 {
     using System;
     using System.Windows.Forms;
-    
+
     public partial class SCoordForm : Form
     {
         public SCoordForm()

@@ -523,7 +523,7 @@ namespace SCaddins.SCexport
 
             return result;
         }
-        
+
         private static TaskDialogResult ShowPrintWarning()
         {
             var td = new TaskDialog("SCexport - Print Warning");

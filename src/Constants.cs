@@ -43,7 +43,7 @@ namespace SCaddins
         /// <summary> Web [http] link to download binaries. </summary>
         public const string DownloadLink =
             "https://bitbucket.org/anicholas/scaddins/downloads";
-        
+
         /// <summary> Web [http] link to changelog. </summary>
         public const string ChangelogLink =
             "https://bitbucket.org/anicholas/scaddins/raw/master/CHANGELOG.md";
@@ -51,7 +51,7 @@ namespace SCaddins
         /// <summary> Web [http] link to forum. </summary>
         public const string HelpLink =
             "https://bitbucket.org/anicholas/scaddins/wiki/Home";
-        
+
         /// <summary> License to display in about box. </summary>
         public static readonly string License =
             "SCaddins is free software: you can redistribute it and/or modify " +

@@ -25,7 +25,7 @@ namespace SCaddins.SCwash
 
     [Serializable]
     public class SCwashTreeNode : TreeNode
-    {       
+    {
         public SCwashTreeNode(string name)
             : base(name)
         {
@@ -33,7 +33,7 @@ namespace SCaddins.SCwash
             this.Id = null;
             this.Checked = true;
         }
-        
+
         protected SCwashTreeNode(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {

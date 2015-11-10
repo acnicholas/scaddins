@@ -41,7 +41,7 @@ namespace SCaddins.SCulcase
             IList<ElementId> elems = new List<ElementId>();
             foreach (Element e in eset) {
                 elems.Add(e.Id);
-            }         
+            }
             #else
             IList<ElementId> elems = document.Selection.GetElementIds().ToList<ElementId>();
             #endif

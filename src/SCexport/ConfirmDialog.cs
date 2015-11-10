@@ -19,7 +19,7 @@ namespace SCaddins.SCexport
 {
     using System;
     using System.Windows.Forms;
-    
+
     public partial class ConfirmationDialog : Form
     {
         public ConfirmationDialog(string displayMessage)

@@ -20,7 +20,7 @@ namespace SCaddins.SCulcase
     using System;
     using System.Linq;
     using System.Windows.Forms;
-    
+
     public partial class SCulcaseInfoDialog : Form
     {
         public SCulcaseInfoDialog()
