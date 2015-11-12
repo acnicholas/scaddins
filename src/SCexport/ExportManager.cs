@@ -192,8 +192,7 @@ namespace SCaddins.SCexport
             string s = @"C:\Andrew\code\cs\scaddins\share\SCexport-example-conf.xml";
             #else
             string central = FileUtilities.GetCentralFileName(doc);
-            string s = Path.GetDirectoryName(central) + @"\" +
-                Path.GetFileNameWithoutExtension(central) + ".xml";
+            string s = Path.GetDirectoryName(central) + @"\SCexport.xml";
             #endif
             return s;
         }
