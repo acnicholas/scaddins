@@ -789,7 +789,7 @@ namespace SCaddins.SCexport
                                     name.NameFormat = reader.ReadString();
                                     break;
                                 case "Hook":
-                                    name.NameFormat = reader.ReadString();
+                                    name.Hooks.Add(reader.ReadString());
                                     break;
                             }
                         }

@@ -27,6 +27,7 @@
     $sheetRevisionDate 
     $sheetRevisionDescription
 -->
+<SCexport>
 
     <!--This is the first scheme. The first is the default-->
     <FilenameScheme name="Architectural">
@@ -34,9 +35,9 @@
     </FilenameScheme>
     
     <!--Tag pdf's after export-->
-    <FilenameScheme name="Architectural" hooks="tagPdf">
+    <FilenameScheme name="Architectural with PDF tagging">
         <Format>$projectNumber-$sheetNumber[$sheetRevision]</Format>
-        <Hook>aconexDWGSuffix</Hook>
+        <Hook>tagPdf</Hook>
     </FilenameScheme>
     
     <!--Renames dwg files after export-->
@@ -119,4 +120,6 @@
         <Args> "$exportDir\$fullExportName.$fileExtension" background "$exportDir\watermark.pdf" output "$exportDir\$fullExportName-WM.$fileExtension"</Args>
         <SupportedFileExtensions>pdf</SupportedFileExtensions>
     </PostExportHook>
+    
+</SCexport>
 <!-- vim: set nu tabstop=4 shiftwidth=4 expandtab : -->
