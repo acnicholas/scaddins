@@ -36,9 +36,9 @@
     </FilenameScheme>
     
     <!--Tag pdf's after export-->
-    <FilenameScheme name="Architectural">
+    <FilenameScheme name="Architectural with PDF tagging">
         <Format>$projectNumber-$sheetNumber[$sheetRevision]</Format>
-        <Hook>aconexDWGSuffix</Hook>
+        <Hook>tagPdf</Hook>
     </FilenameScheme>
     
     <!--Renames dwg files after export-->
@@ -123,4 +123,3 @@
     </PostExportHook>
     
 </SCexport>
-<!-- vim: set nu tabstop=4 shiftwidth=4 expandtab : -->
