@@ -408,6 +408,7 @@
     <None Include="share\SCexport-example-conf.xml" />
     <None Include="src\Manifest\2014\SCaddins.addin" />
     <None Include="src\Manifest\2015\SCaddins.addin" />
+    <None Include="src\Manifest\2016\SCaddins.addin" />
     <None Include="src\Scaddins.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Scaddins.Designer.cs</LastGenOutput>
@@ -424,6 +425,7 @@
   <ItemGroup>
     <Folder Include="etc" />
     <Folder Include="share" />
+    <Folder Include="src\Manifest\2016" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Condition="'$(Configuration)' == 'Debug'" Project="C:\Program Files (x86)\MSBuild\StyleCop\v4.7\StyleCop.targets" />

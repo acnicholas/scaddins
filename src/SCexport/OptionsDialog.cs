@@ -192,11 +192,6 @@ namespace SCaddins.SCexport
             FileUtilities.EditConfigFile(this.doc);
         }
 
-        private void ButtonWorkingFilesClick(object sender, EventArgs e)
-        {
-            textBoxExportDir.Text = Constants.UnionSquareWorkingFiles;
-        }
-
         private void Button5Click(object sender, EventArgs e)
         {
             SCaddins.SCaddinsApp.CheckForUpdates(false);
