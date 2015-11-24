@@ -6,40 +6,23 @@
                 <xs:element maxOccurs="unbounded" name="FilenameScheme">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:choice maxOccurs="unbounded">
-                                <xs:element name="ProjectNumber" />
-                                <xs:element name="Hyphen" />
-                                <xs:element name="SheetNumber" />
-                                <xs:element name="Text" type="xs:string" />
-                                <xs:element name="Revision" />
-                                <xs:element name="Discipline" type="xs:string" />
-                                <xs:element name="Underscore" />
-                            </xs:choice>
+                            <xs:element name="Format" type="xs:string" />
+                            <xs:element minOccurs="0" maxOccurs="unbounded" name="Hook" type="xs:string" />
                         </xs:sequence>
-                        <xs:attribute name="label" type="xs:string" use="optional" />
-                        <xs:attribute name="hooks" type="xs:string" use="optional" />
+                        <xs:attribute name="name" type="xs:string" use="required" />
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="PDFTagSettings" minOccurs="0" maxOccurs="1">
+                <xs:element maxOccurs="unbounded" name="PostExportHook">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="Author" type="xs:string" minOccurs="0" maxOccurs="1"/>
-                            <xs:element name="NonIssueTag" type="xs:string" minOccurs="0" maxOccurs="1"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element minOccurs="0" maxOccurs="unbounded" name="PostExportHook">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="Command" type="xs:string" minOccurs="0" maxOccurs="1" />
-                            <xs:element name="Args" type="xs:string" minOccurs="0" maxOccurs="1"/>
-                            <xs:element name="SupportedFileExtensions" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                            <xs:element name="Command" type="xs:string" />
+                            <xs:element name="Args" type="xs:string" />
+                            <xs:element name="SupportedFileExtensions" type="xs:string" />
                         </xs:sequence>
                         <xs:attribute name="name" type="xs:string" use="required" />
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>
-            <xs:attribute name="name" type="xs:string" use="required" />
         </xs:complexType>
     </xs:element>
 </xs:schema>

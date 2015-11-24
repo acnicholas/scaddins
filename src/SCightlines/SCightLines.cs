@@ -186,7 +186,7 @@ namespace SCaddins.SCightLines
                 }
             }
         }
-        
+
         private ViewDrafting CreateLineOfSightDraftingView(string newViewName)
         {
             ViewDrafting view = null;
@@ -265,6 +265,14 @@ namespace SCaddins.SCightLines
             XYZ normal_base = app.Create.NewXYZ(vx, vy, 0);
             XYZ normal_up = app.Create.NewXYZ(0, 1, 0);
             #if REVIT2016
+            TextNoteOptions tno = new TextNoteOptions();
+            if(f.HasFlag(TextAlignFlags.TEF_ALIGN_CENTER)) {
+                tno.HorizontalAlignment = HorizontalTextAlignment.Center;
+            }
+            if(f.HasFlag(TextAlignFlags.TEF_ALIGN_LEFT)) {
+                tno.HorizontalAlignment = HorizontalTextAlignment.Left;
+            }  
+             
             TextNote.Create(this.doc, this.view.Id, origin, s, new TextNoteOptions());
             #else
             this.doc.Create.NewTextNote(this.view, origin, normal_base, normal_up, MiscUtilities.FeetToMM(10), f, s);

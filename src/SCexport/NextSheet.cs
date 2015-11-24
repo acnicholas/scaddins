@@ -26,9 +26,6 @@ namespace SCaddins.SCexport
    [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
    [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
 
-    /// <summary>
-    /// Open the next Sheet in the current Revit Doc.
-    /// </summary>
     public class NextSheet : IExternalCommand
     {
         public Autodesk.Revit.UI.Result Execute(
@@ -40,7 +37,7 @@ namespace SCaddins.SCexport
             View currentView = doc.ActiveView;
             if (currentView.ViewType != ViewType.DrawingSheet) {
                 TaskDialog.Show("SCexport", "NextSheet can only be run if the active view is a sheet");
-                return Autodesk.Revit.UI.Result.Failed;   
+                return Autodesk.Revit.UI.Result.Failed;
             } else {
                 DialogHandler.AddRevitDialogHandler(commandData.Application);
                 var vs = currentView as ViewSheet;

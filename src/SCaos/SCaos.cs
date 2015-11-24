@@ -62,7 +62,7 @@ namespace SCaddins.SCaos
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }
-        
+
         private static bool ViewNameIsAvailable(Document doc, string name)
         {
             var c = new FilteredElementCollector(doc);
@@ -116,7 +116,6 @@ namespace SCaddins.SCaos
         {
             ElementId id = null;
 
-            // get the viewid
             var collector = new FilteredElementCollector(doc);
             collector.OfClass(typeof(ViewFamilyType));
             foreach (Element e in collector) {

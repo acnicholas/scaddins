@@ -16,13 +16,13 @@
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace SCaddins.Common
-{   
+{
     using System;
     using System.Diagnostics;
     using System.Globalization;
-    
+
     public static class MiscUtilities
-    { 
+    {
         public static string GetDateString {
             get {
                 DateTime moment = DateTime.Now;
@@ -32,7 +32,7 @@ namespace SCaddins.Common
                 return syear + smonth + sday;
             }
         }
-        
+
         public static string PadLeftZeros(string s, int desiredLength)
         {
             if (desiredLength > 1 && s.Length == desiredLength - 1) {
@@ -40,12 +40,23 @@ namespace SCaddins.Common
             }
             return s;
         }
-                
+
+        public static string GetSafeFileName(string fileName)
+        {
+            if (fileName == null) {
+                return null;
+            }
+            foreach (char c in System.IO.Path.GetInvalidFileNameChars()) {
+                fileName = fileName.Replace(c, '_');
+            }
+            return fileName;
+        }
+
         public static double FeetToMM(double lengthInFeet)
         {
             return lengthInFeet / 304.8;
         }
-        
+
         public static DateTime ToDateTime(string dateValue)
         {
             var date = dateValue.Trim();
@@ -80,7 +91,7 @@ namespace SCaddins.Common
             } catch (OverflowException e) {
                 Debug.WriteLine("Error in ToDateTime:" + e.Message);
                 return new DateTime(); 
-            }               
-        }   
+            }
+        }
     }
 }

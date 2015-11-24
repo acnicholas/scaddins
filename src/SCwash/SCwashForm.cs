@@ -40,7 +40,7 @@ namespace SCaddins.SCwash
             this.Init();
             textBox1.Text = "Select an item to show additional information";
         }
-        
+
         public void CheckAllNodes(TreeNodeCollection nodes)
         {
             foreach (TreeNode node in nodes) {
@@ -124,7 +124,7 @@ namespace SCaddins.SCwash
                     break;
                 }
             }
-            
+
             // Un-mark the first revision because you can't delete them all.
             if (revisionsToStay == 0) {
                 TaskDialog td = new TaskDialog("One last revision");
@@ -140,7 +140,7 @@ namespace SCaddins.SCwash
                 }
                 treeView1.Nodes[7].Nodes[0].Checked = false;    
             }
-            
+
             ICollection<ElementId> elements = new List<ElementId>();
             foreach (SCwashTreeNode node in this.treeView1.Nodes) {
                 if (node.Checked) {

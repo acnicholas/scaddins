@@ -14,6 +14,7 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
+
 namespace SCaddins.SCexport
 {
     using System;
@@ -25,21 +26,21 @@ namespace SCaddins.SCexport
     {
         private ICollection<ExportSheet> sheets;
         private Autodesk.Revit.DB.Document doc;
-        
+
         public RenameSheetForm(ICollection<ExportSheet> sheets, Autodesk.Revit.DB.Document doc)
         {
             this.sheets = sheets;
             this.doc = doc;
-            this.InitializeComponent();            
+            this.InitializeComponent();
             this.sheets = sheets;
             this.PopulateList();
         }
-        
+
         private static string NewSheetValue(string s, string pattern, string replacement)
-        { 
+        {
             return Regex.Replace(s, pattern, replacement);
         }
-                
+
         private void PopulateList()
         {
             listView1.Items.Clear();
@@ -52,7 +53,7 @@ namespace SCaddins.SCexport
                 this.listView1.Items.Add(item);
             }
         }
-                
+
         private string NewSheetNumber(string number)
         {
             return NewSheetValue(
@@ -60,7 +61,7 @@ namespace SCaddins.SCexport
                 this.textBoxNumberPattern.Text,
                 this.textBoxNumberReplace.Text);
         }
-        
+
         private string NewSheetName(string name)
         {
             return NewSheetValue(
@@ -68,7 +69,7 @@ namespace SCaddins.SCexport
                 this.textBoxNamePattern.Text,
                 this.textBoxNameReplace.Text);
         }
-        
+
         private void RenameSheets()
         {
             var t = new Autodesk.Revit.DB.Transaction(this.doc);
@@ -79,16 +80,18 @@ namespace SCaddins.SCexport
             }
             t.Commit();
         }
-        
+
         private void TestRunButtonClick(object sender, EventArgs e)
         {
-            this.PopulateList();    
+            this.PopulateList();
             this.listView1.Refresh();
         }
-        
+
         private void RenameButtonClick(object sender, EventArgs e)
         {
-            this.RenameSheets();                
-        }      
+            this.RenameSheets();
+        }
     }
 }
+
+/* vim: set ts=4 sw=4 nu expandtab: */

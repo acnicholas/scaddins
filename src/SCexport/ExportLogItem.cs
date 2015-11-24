@@ -26,7 +26,7 @@ namespace SCaddins.SCexport
             this.Filename = filename;
             this.Description = description;
         }
-        
+
         public string Filename
         {
             get; set;

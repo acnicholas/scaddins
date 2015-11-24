@@ -50,7 +50,7 @@ namespace SCaddins.SCoord
             ny = (xp * Math.Sin(-ang)) + (yp * Math.Cos(-ang));
             return new XYZ(nx, ny, z / FeetToInches);
         }
-        
+
         private static FamilySymbol GetSpotCoordFamily(Document doc)
         {
             var collector1 = new FilteredElementCollector(doc);

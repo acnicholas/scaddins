@@ -273,8 +273,7 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "SCloudSChed", "SCloudSChed", dll, "SCaddins.SCloudSChed.Command");
             AssignPushButtonImage(pbd, "scloudsched-rvt-16.png", 16);
-            pbd.ToolTip =
-                "Schedule all revision clouds (in Excel).";
+            pbd.ToolTip = "Schedule all revision clouds (in Excel).";
             return pbd;
         }
         
@@ -283,8 +282,7 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "SCincrement", "SCincrement", dll, "SCaddins.SCincrement.Command");
             AssignPushButtonImage(pbd, "scincrement-rvt-16.png", 16);
-            pbd.ToolTip =
-                "Increment room numbers and family marks.";
+            pbd.ToolTip = "Increment room numbers and family marks.";
             return pbd;
         }
         
@@ -293,8 +291,7 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "SCincrementSettings", "SCincrementSettings", dll, "SCaddins.SCincrement.SCincrementSettingsCommand");
             AssignPushButtonImage(pbd, "scincrement-rvt-16.png", 16);
-            pbd.ToolTip =
-                "Increment settings.";
+            pbd.ToolTip = "Increment settings.";
             return pbd;
         }
         
@@ -303,8 +300,7 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "SCaddinsOptions", "SCaddinsOptions", dll, "SCaddins.SCaddinsOptions");
             AssignPushButtonImage(pbd, "gear.png", 16);
-            pbd.ToolTip =
-                "SCaddins settings.";
+            pbd.ToolTip = "SCaddins settings.";
             return pbd;
         }
         
@@ -313,8 +309,7 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "SCuv", "SCuv", dll, "SCaddins.SCuv.Command");
             AssignPushButtonImage(pbd, "user.png", 16);
-            pbd.ToolTip =
-                "Create a user view.";
+            pbd.ToolTip = "Create a user view.";
             return pbd;
         }
         

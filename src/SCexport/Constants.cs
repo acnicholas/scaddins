@@ -49,12 +49,6 @@ namespace SCaddins.SCexport
         /// </summary>
         public const string RegistryPath = 
             @"HKEY_CURRENT_USER\Software\SCaddins\SCexport";
-                
-        public static string UnionSquareWorkingFiles {
-            get { return System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + 
-                    @"\workingfiles\unionsquare.scottcarver.com.au";
-            }
-        }
     }
 }
 

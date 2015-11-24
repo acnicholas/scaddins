@@ -18,7 +18,7 @@
 namespace SCaddins.SCulcase
 {
     using System;
-    
+
     [Flags]
     public enum ConversionTypes
     {

@@ -88,7 +88,6 @@ namespace SCaddins.SCexport
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.button4 = new System.Windows.Forms.Button();
             this.btnDefaultExportDir = new System.Windows.Forms.Button();
             this.textBoxExportDir = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -194,7 +193,6 @@ namespace SCaddins.SCexport
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.button4);
             this.groupBox6.Controls.Add(this.btnDefaultExportDir);
             this.groupBox6.Controls.Add(this.textBoxExportDir);
             this.groupBox6.Controls.Add(this.label9);
@@ -204,16 +202,6 @@ namespace SCaddins.SCexport
             this.groupBox6.TabIndex = 20;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Export Destination";
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(9, 57);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(366, 23);
-            this.button4.TabIndex = 26;
-            this.button4.Text = "Export to USQ Working Files";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.ButtonWorkingFilesClick);
             // 
             // btnDefaultExportDir
             // 
@@ -722,7 +710,6 @@ namespace SCaddins.SCexport
         private System.Windows.Forms.Button btnSelectA3Printer;
         private System.Windows.Forms.Button btnSelectPSPrinter;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button btnSelectLargeFormatPrinter;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox textBoxLargeFormatPrinter;

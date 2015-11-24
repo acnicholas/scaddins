@@ -16,14 +16,11 @@
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace SCaddins.Common
-{   
+{
     using System;
     using System.Windows.Forms;
-    
-    /// <summary>
-    /// Description of UpgradeForm.
-    /// </summary>
-    public partial class UpgradeForm : Form     
+
+    public partial class UpgradeForm : Form
     {
         public UpgradeForm(Version installed, Version remote)
         {
@@ -36,16 +33,16 @@ namespace SCaddins.Common
                 buttonLog.Enabled = true;
             } else {
                 labelUpgradeNote.Text = "SCaddins is up to date. Nice one.";
-                buttonDownload.Enabled = false;   
+                buttonDownload.Enabled = false;
                 buttonLog.Enabled = true;
             }
         }
-        
+
         private void Button3Click(object sender, EventArgs e)
         {
           System.Diagnostics.Process.Start(SCaddins.Constants.DownloadLink);
         }
-        
+
         private void Button1Click(object sender, EventArgs e)
         {
           System.Diagnostics.Process.Start(SCaddins.Constants.ChangelogLink);  

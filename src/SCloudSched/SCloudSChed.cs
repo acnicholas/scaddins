@@ -23,9 +23,9 @@ namespace SCaddins.SCloudSChed
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Microsoft.Office.Interop.Excel;
-    
+
     public static class SCloudScheduler
-    {     
+    {
         [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", Justification = "Because.")]        
         public static void ExportCloudInfo(Document doc, Dictionary<string, RevisionItem> dictionary)
         {
@@ -91,7 +91,7 @@ namespace SCaddins.SCloudSChed
                 excelWorkbook.Close();
             }
         }
-              
+
         private static string GetParamaterAsString(Element revCloud, BuiltInParameter b)
         {
             var p = revCloud.get_Parameter(b);
@@ -101,7 +101,7 @@ namespace SCaddins.SCloudSChed
             string result = p.AsString();
             return string.IsNullOrEmpty(result) ? string.Empty : result;
         }
-   
+
         /// <summary>
         /// Write to an excel worksheet
         /// from here:
@@ -119,6 +119,6 @@ namespace SCaddins.SCloudSChed
                 var writeRange = worksheet.Range[startCell, endCell];
                 writeRange.Value2 = data;
             }
-        } 
-    }    
+        }
+    }
 }

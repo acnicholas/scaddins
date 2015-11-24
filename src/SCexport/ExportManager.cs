@@ -192,8 +192,7 @@ namespace SCaddins.SCexport
             string s = @"C:\Andrew\code\cs\scaddins\share\SCexport-example-conf.xml";
             #else
             string central = FileUtilities.GetCentralFileName(doc);
-            string s = Path.GetDirectoryName(central) + @"\" +
-                Path.GetFileNameWithoutExtension(central) + ".xml";
+            string s = Path.GetDirectoryName(central) + @"\SCexport.xml";
             #endif
             return s;
         }
@@ -523,7 +522,7 @@ namespace SCaddins.SCexport
 
             return result;
         }
-        
+
         private static TaskDialogResult ShowPrintWarning()
         {
             var td = new TaskDialog("SCexport - Print Warning");
@@ -660,14 +659,16 @@ namespace SCaddins.SCexport
             string config = GetConfigFileName(doc);
             bool b = this.ImportXMLinfo(config);
             if (!b) {
-                var name =
-                    new SegmentedSheetName(FilenameScheme.Standard);
+                var name = new SegmentedSheetName();
+                name.Name = "YYYYMMDD-AD-NNN";
+                name.NameFormat = "$projectNumber-$sheetNumber[$sheetRevision]";
                 this.fileNameTypes.Add(name);
                 this.fileNameScheme = name;
             }
             if (this.fileNameTypes.Count <= 0) {
-                var name =
-                    new SegmentedSheetName(FilenameScheme.Standard);
+                var name = new SegmentedSheetName();
+                name.Name = "YYYYMMDD-AD-NNN";
+                name.NameFormat = "$projectNumber-$sheetNumber[$sheetRevision]";
                 this.fileNameTypes.Add(name);
                 this.fileNameScheme = name;
             }
@@ -678,8 +679,7 @@ namespace SCaddins.SCexport
             a.OfCategory(BuiltInCategory.OST_Sheets);
             a.OfClass(typeof(ViewSheet));
             foreach (ViewSheet v in a) {
-                var scxSheet =
-                    new ExportSheet(v, doc, this.fileNameTypes[0], this);
+                var scxSheet = new ExportSheet(v, doc, this.fileNameTypes[0], this);
                 s.Add(scxSheet);
             }
         }
@@ -699,6 +699,7 @@ namespace SCaddins.SCexport
 
         private bool ValidateXML(string filename)
         {
+            string errorMessage = string.Empty;
             if (filename == null || !File.Exists(filename)) {
                 return false;
             }
@@ -719,26 +720,22 @@ namespace SCaddins.SCexport
                 document.Validate(eventHandler);
                 return true;
             } catch (XmlSchemaValidationException ex) {
-                TaskDialog.Show(
-                    "SCexport", "Error reading xml file: " + ex.Message);
-                return false;
+                errorMessage += "Error reading xml file:" + filename + " - " + ex.Message;
             } catch (XmlException ex) {
-                TaskDialog.Show(
-                    "SCexport", "Error reading xml file: " + ex.Message);
-                return false;
+                errorMessage += "Error reading xml file:" + filename + " - " + ex.Message;
             } catch (XmlSchemaException ex) {
-                TaskDialog.Show(
-                    "SCexport", "Error reading xml file: " + ex.Message);
-                return false;
+                errorMessage += "Error reading xml file:" + filename + " - " + ex.Message;
             } catch (ArgumentNullException ex) {
-                TaskDialog.Show(
-                    "SCexport", "Error reading xml file: " + ex.Message);
-                return false;
+                errorMessage += "Error reading xml file:" + filename + " - " + ex.Message;
             } catch (UriFormatException ex) {
-                TaskDialog.Show(
-                    "SCexport", "Error reading xml file: " + ex.Message);
-                return false;
+                errorMessage += "Error reading xml file:" + filename + " - " + ex.Message;
             }
+            TaskDialog td = new TaskDialog("SCexport - XML Config error");
+            td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+            td.MainInstruction = "SCexport - XML Config error";
+            td.MainContent = errorMessage;
+            td.Show();
+            return false;   
         }
 
         private bool ImportXMLinfo(string filename)
@@ -753,7 +750,7 @@ namespace SCaddins.SCexport
             var reader = new XmlTextReader(filename);
 
             while (reader.Read()) {               
-                 if (reader.NodeType == XmlNodeType.Element && reader.Name == "PostExportHook") {
+                if (reader.NodeType == XmlNodeType.Element && reader.Name == "PostExportHook") {
                     var hook = new PostExportHookCommand();
                     if (reader.AttributeCount > 0) {
                         hook.SetName(reader.GetAttribute("name"));
@@ -774,18 +771,29 @@ namespace SCaddins.SCexport
                             }
                         }
                     } while (!(reader.NodeType == XmlNodeType.EndElement &&
-                               reader.Name == "PostExportHook"));
+                             reader.Name == "PostExportHook"));
                     this.postExportHooks.Add(hook.Name, hook);
                 }
 
-                if (reader.NodeType == XmlNodeType.Element &&
-                    reader.Name == "FilenameScheme") {
+                if (reader.NodeType == XmlNodeType.Element && reader.Name == "FilenameScheme") {
                     var name = new SegmentedSheetName();
                     if (reader.AttributeCount > 0) {
-                        name.Name = reader.GetAttribute("label");
-                        name.Hooks = reader.GetAttribute("hooks");
+                        name.Name = reader.GetAttribute("name");
                     }
-                    name.AddNodesFromXML(reader);
+                    do {
+                        reader.Read();
+                        if (reader.NodeType == XmlNodeType.Element) {
+                            switch (reader.Name) {
+                                case "Format":
+                                    name.NameFormat = reader.ReadString();
+                                    break;
+                                case "Hook":
+                                    name.Hooks.Add(reader.ReadString());
+                                    break;
+                            }
+                        }
+                    } while (!(reader.NodeType == XmlNodeType.EndElement &&
+                             reader.Name == "FilenameScheme"));
                     this.fileNameTypes.Add(name);
                 }
             }
@@ -878,8 +886,7 @@ namespace SCaddins.SCexport
 
             var name = vs.FullExportName + ".dwg";
             doc.Export(vs.ExportDir, name, views, opts);
-            
-            // System.Threading.Thread.Sleep(1000);          
+                     
             FileUtilities.WaitForFileAccess(vs.FullExportPath(".dwg"));
             this.RunExportHooks("dwg", vs);
 
@@ -910,9 +917,12 @@ namespace SCaddins.SCexport
             string prog = 
                 "\"" + this.GhostscriptLibDir  + @"\ps2pdf" + "\"";
             
+            string size =  vs.PageSize.ToLower(CultureInfo.CurrentCulture);
+            string sizeFix =size.ToLower(CultureInfo.CurrentCulture).Replace("p","");
+            
             string args = 
                 "-sPAPERSIZE#" +
-                vs.PageSize.ToLower(CultureInfo.CurrentCulture) + " \"" + vs.FullExportPath(".ps") +
+                sizeFix + " \"" + vs.FullExportPath(".ps") +
                 "\" \"" + vs.FullExportPath(".pdf") + "\"";
 
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
@@ -928,7 +938,7 @@ namespace SCaddins.SCexport
         {
             for (int i = 0; i < this.postExportHooks.Count; i++) {
                 if (this.postExportHooks.ElementAt(i).Value.HasExtension(extension)) {
-                    if (string.IsNullOrEmpty(this.fileNameScheme.Hooks)) {
+                    if (this.fileNameScheme.Hooks.Count < 1) {
                         return;
                     } else {
                         if (this.fileNameScheme.Hooks.Contains(this.postExportHooks.ElementAt(i).Key)) {

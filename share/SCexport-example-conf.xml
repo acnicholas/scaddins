@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 
      SCexport config file template.
-     Andrew Nicholas 20151027
+     Andrew Nicholas 201511115
 
      Place this in the same folder as your Revit Central file and rename it to
      REVIT_FILE_NAME.xml
@@ -11,99 +11,70 @@
      For help see: https://bitbucket.org/anicholas/scaddins/wiki/SCexport#markdown-header-xml-project-configuration-file
 -->
 
-<SCexport name="Generic SCexport config file">
+<!-- 
+    Available replacement strings:
+    
+    $height 
+    $width
+    $fullExportName
+    $fullExportPath 
+    $exportDir
+    $pageSize
+    $projectNumber  
+    $sheetDescription 
+    $sheetNumber
+    $sheetRevision
+    $sheetRevisionDate 
+    $sheetRevisionDescription
+-->
+
+<SCexport>
 
     <!--This is the first scheme. The first is the default-->
-    <FilenameScheme label="Architectural">
-        <ProjectNumber />
-        <Hyphen />
-        <SheetNumber />
-        <Text>[</Text>
-        <Revision />
-        <Text>]</Text>
+    <FilenameScheme name="Architectural">
+        <Format>$projectNumber-$sheetNumber[$sheetRevision]</Format>
     </FilenameScheme>
     
     <!--Tag pdf's after export-->
-    <FilenameScheme label="Architectural" hooks="tagPdf">
-        <ProjectNumber />
-        <Hyphen />
-        <SheetNumber />
-        <Text>[</Text>
-        <Revision />
-        <Text>]</Text>
+    <FilenameScheme name="Architectural with PDF tagging">
+        <Format>$projectNumber-$sheetNumber[$sheetRevision]</Format>
+        <Hook>tagPdf</Hook>
     </FilenameScheme>
     
     <!--Renames dwg files after export-->
-    <FilenameScheme label="Architectural USQ and ACONEX" hooks="aconexDWGSuffix">
-        <ProjectNumber />
-        <Hyphen />
-        <SheetNumber />
-        <Text>[</Text>
-        <Revision />
-        <Text>]</Text>
+    <FilenameScheme name="Architectural USQ and ACONEX">
+        <Format>$projectNumber-$sheetNumber[$sheetRevision]</Format>
+        <Hook>aconexDWGSuffix</Hook>
     </FilenameScheme>
     
     <!--Creates a transparent png files after each pdf export-->
-    <FilenameScheme label="Marketing Plans" hooks="convertToPng">
-        <ProjectNumber />
-        <Hyphen />
-        <SheetNumber />
-        <Text>[</Text>
-        <Revision />
-        <Text>]</Text>
+    <FilenameScheme name="Marketing Plans">
+        <Format>$projectNumber-$sheetNumber[$sheetRevision]</Format>
+        <Hook>convertToPng</Hook>
+        <Hook>aconexDWGSuffix</Hook>
     </FilenameScheme>
     
     <!--Add a watermark-->
-    <FilenameScheme label="PDF Watermarker" hooks="watermark">
-        <ProjectNumber />
-        <Hyphen />
-        <SheetNumber />
-        <Text>[</Text>
-        <Revision />
-        <Text>]</Text>
+    <FilenameScheme name="PDF Watermarker">
+        <Format>$projectNumber-$sheetNumber[$sheetRevision]</Format>
+        <Hook>watermark</Hook>
+    </FilenameScheme>
+     
+    <FilenameScheme name="Brackets">
+        <Format>$projectNumber-$sheetNumber($sheetRevision)</Format>
     </FilenameScheme>
     
-    <FilenameScheme label="Landscape LD">
-        <ProjectNumber />
-        <Hyphen />
-        <Discipline>LD</Discipline>
-        <Hyphen />
-        <SheetNumber />
-        <Text>[</Text>
-        <Revision />
-        <Text>]</Text>
+    <FilenameScheme name="CRevisions">
+        <Format>49-FV-SC001-$sheetNumber_$sheetRevision</Format>
     </FilenameScheme>
     
-    <FilenameScheme label="Brackets">
-        <ProjectNumber />
-        <Hyphen />
-        <Discipline>
-        </Discipline>
-        <Hyphen />
-        <SheetNumber />
-        <Text>(</Text>
-        <Revision />
-        <Text>)</Text>
-    </FilenameScheme>
-    
-    <FilenameScheme label="CRevisions">
-        <Text>49-FV-SC001</Text>
-        <Hyphen />
-        <SheetNumber />
-        <Underscore />
-        <Text>C</Text>
-        <Revision />
-    </FilenameScheme>
-    
-    <FilenameScheme label="Simple">
-        <SheetNumber />
-        <Underscore />
-        <Revision />
+    <FilenameScheme name="Simple">
+        <Format>$sheetNumber_$sheetRevision</Format>
     </FilenameScheme>
     
     <!--
-    Tag pdf's after export   
-    requirements:
+        Tag pdf's after export   
+        requirements:
         ExifTool http://owl.phy.queensu.ca/~phil/exiftool/
     -->
     <PostExportHook name="tagPdf">
@@ -113,13 +84,13 @@
     </PostExportHook>
     
     <!--
-    convert each exported pdf to a transparent png
+        convert each exported pdf to a transparent png
 
-    requirements:
-        imagemagick http://imagemagick.sourceforge.net/http/www/archives.html
-        ghostscript http://www.ghostscript.com/download/
+        requirements:
+            imagemagick http://imagemagick.sourceforge.net/http/www/archives.html
+            ghostscript http://www.ghostscript.com/download/
 
-    place the following text in a script called C:\Temp\createPNG.bat:
+        place the following text in a script called C:\Temp\createPNG.bat:
 
         convert -size 1920x1080 xc:white temp.png
         convert -transparent white temp.png canvas.png
@@ -141,14 +112,14 @@
     </PostExportHook>
     
     
-    <!--add a watermark to pdf's
-      requires: https://www.pdflabs.com/tools/pdftk-server/
+    <!--
+        add a watermark to pdf's
+        requires: https://www.pdflabs.com/tools/pdftk-server/
     -->
     <PostExportHook name="watermark">
         <Command>"C:\Program Files (x86)\PDFtk Server\bin\pdftk.exe"</Command>
         <Args> "$exportDir\$fullExportName.$fileExtension" background "$exportDir\watermark.pdf" output "$exportDir\$fullExportName-WM.$fileExtension"</Args>
         <SupportedFileExtensions>pdf</SupportedFileExtensions>
     </PostExportHook>
+    
 </SCexport>
-
-<!-- vim: set nu tabstop=4 shiftwidth=4 expandtab : -->

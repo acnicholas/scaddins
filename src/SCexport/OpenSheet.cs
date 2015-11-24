@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2013-2014 by Andrew Nicholas
+﻿// (C) Copyright 2013-2015 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -26,9 +26,6 @@ namespace SCaddins.SCexport
    [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
    [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
 
-    /// <summary>
-    /// Open a selected sheet in the current Revit doc.
-    /// </summary>
     public class OpenSheet : IExternalCommand
     {
         public Autodesk.Revit.UI.Result Execute(
@@ -38,14 +35,14 @@ namespace SCaddins.SCexport
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
             DialogHandler.AddRevitDialogHandler(commandData.Application);
-            
+
             var openSheetDialog = new OpenSheetDialog();
             System.Windows.Forms.DialogResult openSheetDialogResult = openSheetDialog.ShowDialog();
-            
+
             if (openSheetDialogResult != System.Windows.Forms.DialogResult.OK) {
                 return Autodesk.Revit.UI.Result.Failed;
             }
-            
+
             FamilyInstance titleBlockInstance = null;
             string[] possiblePrefixes = { string.Empty, "CD", "DA", "SK", "AD-CD", "AD-DA", "AD-SK" };
             foreach (string s in possiblePrefixes) {
@@ -56,7 +53,7 @@ namespace SCaddins.SCexport
                     return Autodesk.Revit.UI.Result.Succeeded;
                 }
             }
-            
+
             TaskDialog.Show("SCexport", "Sheet: " + openSheetDialog.Value + " cannot be found.");
             return Autodesk.Revit.UI.Result.Failed;
         }

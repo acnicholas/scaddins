@@ -20,67 +20,86 @@ namespace SCaddins.SCexport
     using System;
     using System.Collections.ObjectModel;
     using System.Globalization;
-    
+
     public class PostExportHookCommand
     {
         private string cmd;
         private string args;
         private string name;
         private Collection<string> supportedFilenameExtensions;
-                               
+
         public PostExportHookCommand()
         {
             this.cmd = string.Empty;
-            this.args = string.Empty;  
-            this.name = string.Empty;    
+            this.args = string.Empty;
+            this.name = string.Empty;
             this.supportedFilenameExtensions = new Collection<string>();
         }
-        
+
         public string Name
         {
             get { return this.name; }
         }
-        
+
+        public static string FormatConfigurationString(SCaddins.SCexport.ExportSheet sheet, string value, string extension)
+        {
+            string result = value;
+            result = result.Replace(@"$height", sheet.Height.ToString(CultureInfo.InvariantCulture));
+            result = result.Replace(@"$width", sheet.Width.ToString(CultureInfo.InvariantCulture));
+            result = result.Replace(@"$fullExportName", sheet.FullExportName);
+            result = result.Replace(@"$fullExportPath", sheet.FullExportPath(extension));
+            result = result.Replace(@"$exportDir", sheet.ExportDir);
+            result = result.Replace(@"$pageSize", sheet.PageSize);
+            result = result.Replace(@"$projectNumber", sheet.ProjectNumber);
+            result = result.Replace(@"$sheetDescription", sheet.SheetDescription);
+            result = result.Replace(@"$sheetNumber", sheet.SheetNumber);
+            result = result.Replace(@"$sheetRevision", sheet.SheetRevision);
+            result = result.Replace(@"$sheetRevisionDate", sheet.SheetRevisionDate);
+            result = result.Replace(@"$sheetRevisionDescription", sheet.SheetRevisionDescription);
+            result = result.Replace(@"$fileExtension", extension);
+            return result;
+        }
+
         public void Run(SCaddins.SCexport.ExportSheet sheet, string extension)
         {
-            string a = this.CreateArgs(sheet, extension);
+            string a = FormatConfigurationString(sheet, this.args, extension);
             #if DEBUG
-            Autodesk.Revit.UI.TaskDialog.Show("DEBUG", this.cmd + " " + a); 
-            #endif            
+            Autodesk.Revit.UI.TaskDialog.Show("DEBUG", this.args + " " + a);
+            #endif
             Common.ConsoleUtilities.StartHiddenConsoleProg(this.cmd, a);
         }
-        
+
         public void SetCommand(string cmd)
         {
             this.cmd = cmd;
         }
-        
+
         public void SetArguments(string args)
         {
             this.args = args;
         }
-        
+
         public void SetName(string name)
         {
             this.name = name;
         }
-        
+
         public void AddSupportedFilenameExtension(string extension)
         {
             this.supportedFilenameExtensions.Add(extension);
         }
-        
+
         public bool HasExtension(string extension)
         {
             if (string.IsNullOrEmpty(extension)) {
-                return false;    
+                return false;
             }
             if (this.supportedFilenameExtensions == null || this.supportedFilenameExtensions.Count < 1) {
                 return false;
             }
             return this.supportedFilenameExtensions.Contains(extension);
         }
-        
+
         public string ListExtensions()
         {
             string s = string.Empty;
@@ -89,65 +108,6 @@ namespace SCaddins.SCexport
             }
             return s;
         }
-        
-        /*
-        $height;
-        $width;
-        $fullExportName;
-        $fullExportPath;
-        $exportDir;
-        $pageSize;
-        $projectNumber;
-        $sheetDescription;
-        $sheetNumber;
-        $sheetRevision;
-        $sheetRevisionDate;
-        $sheetRevisionDescription;
-        $fileExtension;
-        */
-        private string CreateArgs(SCaddins.SCexport.ExportSheet sheet, string extension)
-        {
-            string result = this.args;
-            if (this.args.Contains(@"$height")) {
-                result = result.Replace(@"$height", sheet.Height.ToString(CultureInfo.InvariantCulture));
-            }
-            if (this.args.Contains(@"$width")) {
-                result = result.Replace(@"$width", sheet.Width.ToString(CultureInfo.InvariantCulture));
-            }
-            if (this.args.Contains(@"$fullExportName")) {
-                result = result.Replace(@"$fullExportName", sheet.FullExportName);
-            }
-            if (this.args.Contains(@"$fullExportPath")) {
-                result = result.Replace(@"$fullExportPath", sheet.FullExportPath(extension));
-            }
-            if (this.args.Contains(@"$exportDir")) {
-                result = result.Replace(@"$exportDir", sheet.ExportDir);
-            }
-            if (this.args.Contains(@"$pageSize")) {
-                result = result.Replace(@"$pageSize", sheet.PageSize);
-            }
-            if (this.args.Contains(@"$projectNumber")) {
-                result = result.Replace(@"$projectNumber", sheet.ProjectNumber);
-            }
-            if (this.args.Contains(@"$sheetDescription")) {
-                result = result.Replace(@"$sheetDescription", sheet.SheetDescription);
-            }
-            if (this.args.Contains(@"$sheetNumber")) {
-                result = result.Replace(@"$sheetNumber", sheet.SheetNumber);
-            }
-            if (this.args.Contains(@"$sheetRevision")) {
-                result = result.Replace(@"$sheetRevision", sheet.SheetRevision);
-            }
-            if (this.args.Contains(@"$sheetRevisionDate")) {
-                result = result.Replace(@"$sheetRevisionDate", sheet.SheetRevisionDate);
-            }
-            if (this.args.Contains(@"$sheetRevisionDescription")) {
-                result = result.Replace(@"$sheetRevisionDescription", sheet.SheetRevisionDescription);
-            } 
-            if (this.args.Contains(@"$fileExtension")) {
-                result = result.Replace(@"$fileExtension", extension);
-            } 
-            return result;
-        }
     }
 }
+/* vim: set ts=4 sw=4 nu expandtab: */

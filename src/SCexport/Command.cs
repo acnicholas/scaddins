@@ -37,7 +37,7 @@ namespace SCaddins.SCexport
             if (!System.IO.Directory.Exists(Constants.DefaultExportDir)) {
                 System.IO.Directory.CreateDirectory(Constants.DefaultExportDir);
             }
-            
+
             if (string.IsNullOrEmpty(FileUtilities.GetCentralFileName(
                     commandData.Application.ActiveUIDocument.Document))) {
                 var fail = new TaskDialog("FAIL");
@@ -46,7 +46,7 @@ namespace SCaddins.SCexport
                 fail.Show();
                 return Result.Failed;
             }
-            
+
             MainForm form = null;
             var transaction = new TransactionGroup(
                     commandData.Application.ActiveUIDocument.Document);

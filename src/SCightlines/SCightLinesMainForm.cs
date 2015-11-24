@@ -21,24 +21,11 @@ namespace SCaddins.SCightLines
     using System.Globalization;
     using System.Windows.Forms;
     
-    /// <summary>
-    /// The main form for the Line of Sight Utility
-    /// </summary>
-    /// <author>
-    /// Andrew Nicholas
-    /// </author>
     public partial class SCightLinesMainForm : Form
     {
-        /// <summary>
-        /// Form to display Riser/Tread info
-        /// </summary>
         private SCightOutputForm info;
-        
-        /// <summary>
-        /// Sight Line Class
-        /// </summary>
         private LineOfSight sightLines;
-        
+
         public SCightLinesMainForm(Autodesk.Revit.DB.Document doc)
         {
             this.InitializeComponent();

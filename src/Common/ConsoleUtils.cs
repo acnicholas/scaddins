@@ -16,32 +16,24 @@
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace SCaddins.Common
-{  
+{
     using System;
     using System.Diagnostics;
     using System.Security;
 
-    /// <summary>
-    /// Description of Utils.
-    /// </summary>
     public static class ConsoleUtilities
     {
-        /// <summary>
-        /// Start a console program - Hidden.
-        /// </summary>
-        /// <param name="exePath">The program to start.</param>
-        /// <param name="args">The args to send to the program.</param>
         [SecurityCritical]
         public static void StartHiddenConsoleProg(string exePath, string args)
         {
             var startInfo = new System.Diagnostics.ProcessStartInfo();
-            
+
             // startInfo.CreateNoWindow = false;
             // startInfo.UseShellExecute = true;
             // startInfo.RedirectStandardOutput = false;
             // startInfo.RedirectStandardError = false;
             startInfo.FileName = exePath;
-            
+
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             startInfo.Arguments = args;
             var p = new Process();

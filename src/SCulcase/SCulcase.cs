@@ -29,7 +29,7 @@ namespace SCaddins.SCulcase
         private static bool commit = true;
         private static ConversionMode mode = ConversionMode.UpperCase;
         private static string dryRunLogText = string.Empty;
-      
+
         public static void ConvertAll(ConversionMode mode, ConversionTypes types, Document doc)
         {
             commit = true;

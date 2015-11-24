@@ -22,9 +22,6 @@ namespace SCaddins.SCexport
     using Autodesk.Revit.DB;
     using SCaddins.Common;
 
-    /// <summary>
-    /// Class to hold view sheet information.
-    /// </summary>
     public class ExportSheet
     {
         #region Variables
@@ -38,7 +35,6 @@ namespace SCaddins.SCexport
         private bool verified;
         private double height;
         private double width;
-        private string displineCode;
         private string fullExportName;
         private string pageSize;
         private string projectNumber;
@@ -347,7 +343,6 @@ namespace SCaddins.SCexport
             this.sheet = viewSheet;
             this.segmentedFileName = sheetName;
             this.verified = false;
-            this.displineCode = "AD";
             this.ExportDir = scx.ExportDir;
             this.sheetNumber = viewSheet.get_Parameter(
                     BuiltInParameter.SHEET_NUMBER).AsString();
@@ -364,39 +359,9 @@ namespace SCaddins.SCexport
             this.SetExportName();
         }
         
-        private void PopulateSegmentedFileName()
+        private string PopulateSegmentedFileName()
         {
-            for (int i = 0; i < this.segmentedFileName.Count; i++) {
-                switch (this.segmentedFileName[i].TypeOfSegment) {
-                case SegmentType.SheetNumber:
-                    this.segmentedFileName[i].Text = this.sheetNumber;
-                    break;
-                case SegmentType.SheetName:
-                    this.segmentedFileName[i].Text = this.sheetDescription;
-                    break;
-                case SegmentType.ProjectNumber:
-                    this.segmentedFileName[i].Text = this.projectNumber;
-                    break;
-                case SegmentType.Discipline:
-                    if (string.IsNullOrEmpty(this.segmentedFileName[i].Text.Trim())) {
-                        this.segmentedFileName[i].Text = this.displineCode;
-                    }
-                    break;
-                case SegmentType.Revision:
-                    this.segmentedFileName[i].Text = this.sheetRevision;
-                    break;
-                case SegmentType.RevisionDescription:
-                    this.segmentedFileName[i].Text =
-                        this.sheetRevisionDescription;
-                    break;
-                case SegmentType.Hyphen:
-                    this.segmentedFileName[i].Text = "-";
-                    break;
-                case SegmentType.Underscore:
-                    this.segmentedFileName[i].Text = "_";
-                    break;
-                }
-            }
+            return PostExportHookCommand.FormatConfigurationString(this, this.segmentedFileName.NameFormat, string.Empty);
         }
 
         private void SetExportName()
@@ -405,18 +370,14 @@ namespace SCaddins.SCexport
                 this.sheetRevision = MiscUtilities.GetDateString;
             } else {
                 this.sheetRevision = this.sheet.get_Parameter(
-                        BuiltInParameter.SHEET_CURRENT_REVISION).AsString();
+                    BuiltInParameter.SHEET_CURRENT_REVISION).AsString();
             }
 
             if (this.sheetRevision.Length < 1) {
                 this.sheetRevision = MiscUtilities.GetDateString;
             }
 
-            this.PopulateSegmentedFileName();
-            this.fullExportName = null;
-            foreach (SheetNameSegment s in this.segmentedFileName) {
-                this.fullExportName += s.Text;
-            }
+            this.fullExportName = this.PopulateSegmentedFileName();
         }
     }
 }

@@ -20,15 +20,15 @@ namespace SCaddins.SCincrement
     using System;
     using System.Globalization;
     using System.Windows.Forms;
-    
+
     public partial class SCincrementSettingsForm : Form
     {
         public SCincrementSettingsForm()
         {
             this.InitializeComponent();
-            this.LoadSettings();     
+            this.LoadSettings();
         }
-        
+
         private void LoadSettings()
         {
             this.offsetTextBox.Text = SCincrementSettings.Default.OffsetValue.ToString(CultureInfo.CurrentCulture);
@@ -40,13 +40,13 @@ namespace SCaddins.SCincrement
             this.customParamTextBox.Text = SCincrementSettings.Default.CustomParameterName;
             this.CustomParamCheckBox.Checked = SCincrementSettings.Default.UseCustomParameterName;
         }
-        
+
         private void Button1Click(object sender, EventArgs e)
         {
             SCincrementSettings.Default.Reset();
             this.LoadSettings();
         }
-        
+
         private void Button2Click(object sender, EventArgs e)
         {
             SCincrementSettings.Default.OffsetValue = int.Parse(this.offsetTextBox.Text, CultureInfo.InvariantCulture);
@@ -59,7 +59,7 @@ namespace SCaddins.SCincrement
             SCincrementSettings.Default.UseCustomParameterName = this.CustomParamCheckBox.Checked;
             SCincrementSettings.Default.Save();
         }
-        
+
         private void Button3Click(object sender, EventArgs e)
         {
           // do nothing...

@@ -25,9 +25,6 @@ namespace SCaddins.Common
 
     public partial class AboutBox1 : Form
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AboutBox1" /> class.
-        /// </summary>
         public AboutBox1()
         {
             this.InitializeComponent();
@@ -44,10 +41,6 @@ namespace SCaddins.Common
             this.textBoxDescription.Text = Constants.License;
         }
 
-        /// <summary>
-        /// Gets the assembly title.
-        /// </summary>
-        /// <value> Gets the assembly of this program.</value>
         public static string AssemblyTitle
         {
             get
@@ -67,10 +60,6 @@ namespace SCaddins.Common
             }
         }
 
-        /// <summary>
-        /// Gets the version of this program.
-        /// </summary>
-        /// <value> The version of this program.</value>
         public static string AssemblyVersion
         {
             get
@@ -80,10 +69,6 @@ namespace SCaddins.Common
             }
         }
 
-        /// <summary>
-        /// Gets a description of the program.
-        /// </summary>
-        /// <value> Gets the description of the program.</value>
         public static string AssemblyDescription
         {
             get
@@ -94,10 +79,6 @@ namespace SCaddins.Common
             }
         }
 
-        /// <summary>
-        /// Gets the Assembly Product.
-        /// </summary>
-        /// <value> The Assembly Product.</value>
         public static string AssemblyProduct
         {
             get
@@ -108,10 +89,6 @@ namespace SCaddins.Common
             }
         }
 
-        /// <summary>
-        /// Gets The copyright.
-        /// </summary>
-        /// <value> The copyright.</value>
         public static string AssemblyCopyright
         {
             get
@@ -122,10 +99,6 @@ namespace SCaddins.Common
             }
         }
 
-        /// <summary>
-        /// Gets The company.
-        /// </summary>
-        /// <value> Gets the company name.</value>
         public static string AssemblyCompany
         {
             get
