@@ -2,9 +2,22 @@
 
 #16.2 (pre-release)#
 
+####SUMMARY####
+
+**Configuration file format changed**. The old fomrat will now only work with versions <= 16.1.
+
+For details see the ; [**Wiki Page**](https://bitbucket.org/anicholas/scaddins/wiki/SCexport)
+
+
 ####NEW####
 
+- **[SCexport] Configuration file format changed.**
 - **[SCexport] Post export hooks added.**
+
+####FIXES#####
+
+- [SCexport] Portrait printing now works with Postscript(Ghostscript) option.
+- [SCexport] removed unused/optional binaries from installation package.
 
 #16.1#
 
