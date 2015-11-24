@@ -917,9 +917,12 @@ namespace SCaddins.SCexport
             string prog = 
                 "\"" + this.GhostscriptLibDir  + @"\ps2pdf" + "\"";
             
+            string size =  vs.PageSize.ToLower(CultureInfo.CurrentCulture);
+            string sizeFix =size.ToLower(CultureInfo.CurrentCulture).Replace("p","");
+            
             string args = 
                 "-sPAPERSIZE#" +
-                vs.PageSize.ToLower(CultureInfo.CurrentCulture) + " \"" + vs.FullExportPath(".ps") +
+                sizeFix + " \"" + vs.FullExportPath(".ps") +
                 "\" \"" + vs.FullExportPath(".pdf") + "\"";
 
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
