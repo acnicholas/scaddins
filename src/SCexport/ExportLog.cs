@@ -19,6 +19,7 @@
  {
     using System;
     using System.Collections.ObjectModel;
+    using System.Text;
     using SCaddins.SCexport;
 
     public class ExportLog
@@ -28,6 +29,7 @@
         private Collection<ExportLogItem> errorLog;
         private Collection<ExportLogItem> warningLog;
         private Collection<ExportLogItem> messageLog;
+        private StringBuilder fullLog;
         private int warnings;
         private int errors;
         private int messages;
@@ -39,6 +41,7 @@
             this.errors = 0;
             this.warnings = 0;
             this.messages = 0;
+            this.fullLog = new StringBuilder();
             this.startTime = startTime;
             this.totalExports = totalExports;
             this.errorLog = new Collection<ExportLogItem>();
@@ -80,26 +83,34 @@
         {
             get { return this.messageLog; }
         }
+        
+        public string FullOutputLog
+        {
+            get { return fullLog.ToString(); }
+        }
 
         public TimeSpan TimeSinceStart
         {
             get { return DateTime.Now - this.startTime; }
         }
 
-        public void AddSuccess(string fileName, string msg)
+        public void AddMessage(string fileName, string msg)
         {
+            this.AddLogItem(fileName, msg);
             this.messages++;
             this.messageLog.Add(new ExportLogItem(msg, fileName));
         }
 
         public void AddError(string fileName, string msg)
         {
+            this.AddLogItem(fileName, "(EE)" + msg);
             this.errors++;
             this.errorLog.Add(new ExportLogItem(msg, fileName));
         }
 
         public void AddWarning(string fileName, string msg)
         {
+            this.AddLogItem(fileName, "(WW)" + msg);
             this.warnings++;
             this.warningLog.Add(new ExportLogItem(msg, fileName));
         }
@@ -108,6 +119,11 @@
         {
             var logDialog = new ExportLogDialog(this);
             logDialog.ShowDialog();
+        }
+        
+        private void AddLogItem(string fileName, string msg)
+        {
+            this.fullLog.Append("[").Append(fileName).Append("] - ").Append(msg).AppendLine();
         }
     }
  }

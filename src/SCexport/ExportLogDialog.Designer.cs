@@ -23,7 +23,7 @@ namespace SCaddins.SCexport
         /// Designer variable used to keep track of non-visual components.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl Tabs;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.ListView messages;
         private System.Windows.Forms.TabPage tabPage2;
@@ -37,6 +37,8 @@ namespace SCaddins.SCexport
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TabPage OutputTab;
+        private System.Windows.Forms.TextBox textBox1;
         
         /// <summary>
         /// Disposes resources used by the form.
@@ -60,7 +62,7 @@ namespace SCaddins.SCexport
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExportLogDialog));
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.Tabs = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.messages = new System.Windows.Forms.ListView();
             this.Filename = new System.Windows.Forms.ColumnHeader();
@@ -73,26 +75,30 @@ namespace SCaddins.SCexport
             this.errors = new System.Windows.Forms.ListView();
             this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
+            this.OutputTab = new System.Windows.Forms.TabPage();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.tabControl1.SuspendLayout();
+            this.Tabs.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.OutputTab.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // Tabs
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.Tabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Location = new System.Drawing.Point(12, 35);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(519, 383);
-            this.tabControl1.TabIndex = 0;
+            this.Tabs.Controls.Add(this.tabPage1);
+            this.Tabs.Controls.Add(this.tabPage2);
+            this.Tabs.Controls.Add(this.tabPage3);
+            this.Tabs.Controls.Add(this.OutputTab);
+            this.Tabs.Location = new System.Drawing.Point(12, 35);
+            this.Tabs.Name = "Tabs";
+            this.Tabs.SelectedIndex = 0;
+            this.Tabs.Size = new System.Drawing.Size(519, 383);
+            this.Tabs.TabIndex = 0;
             // 
             // tabPage1
             // 
@@ -198,6 +204,27 @@ namespace SCaddins.SCexport
             this.columnHeader4.Text = "Description";
             this.columnHeader4.Width = 600;
             // 
+            // OutputTab
+            // 
+            this.OutputTab.Controls.Add(this.textBox1);
+            this.OutputTab.Location = new System.Drawing.Point(4, 22);
+            this.OutputTab.Name = "OutputTab";
+            this.OutputTab.Padding = new System.Windows.Forms.Padding(3);
+            this.OutputTab.Size = new System.Drawing.Size(511, 357);
+            this.OutputTab.TabIndex = 3;
+            this.OutputTab.Text = "Output";
+            this.OutputTab.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox1.Location = new System.Drawing.Point(3, 3);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox1.Size = new System.Drawing.Size(505, 351);
+            this.textBox1.TabIndex = 0;
+            // 
             // label1
             // 
             this.label1.Location = new System.Drawing.Point(12, 9);
@@ -212,16 +239,18 @@ namespace SCaddins.SCexport
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(543, 430);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.Tabs);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ExportLogDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Export Summary";
             this.TopMost = true;
-            this.tabControl1.ResumeLayout(false);
+            this.Tabs.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.OutputTab.ResumeLayout(false);
+            this.OutputTab.PerformLayout();
             this.ResumeLayout(false);
 
         }

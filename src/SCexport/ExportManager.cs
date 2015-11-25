@@ -575,20 +575,26 @@ namespace SCaddins.SCexport
         }
 
         [SecurityCritical]
-        private static void SetAcrobatExportRegistryVal(string fileName)
+        private static void SetAcrobatExportRegistryVal(string fileName, ExportLog log)
         {
             string exe =
                 Process.GetCurrentProcess().MainModule.FileName;
             try {
-            Microsoft.Win32.Registry.SetValue(
-                Constants.AcrobatPrinterJobControl,
-                exe,
-                fileName,
-                Microsoft.Win32.RegistryValueKind.String);
-            } catch ( UnauthorizedAccessException ex) {
-                TaskDialog.Show("Acrobat Error", "UnauthorizedAccessException, cannot write to windows registry");
-            } catch (Exception ex){
-                TaskDialog.Show("Acrobat Error", "Fixme");    
+                log.AddMessage(fileName, "Attempting to set Acrobat Registry Value with value");
+                log.AddMessage(fileName, @"   Reg: " +  Constants.AcrobatPrinterJobControl);
+                log.AddMessage(fileName, @"   Exe: " +  exe);
+                log.AddMessage(fileName, @"   Filename: " +  fileName);
+                Microsoft.Win32.Registry.SetValue(
+                    Constants.AcrobatPrinterJobControl,
+                    exe,
+                    fileName,
+                    Microsoft.Win32.RegistryValueKind.String);
+            } catch (UnauthorizedAccessException ex) {
+                log.AddError(fileName, @"UnauthorizedAccessException, cannot write to windows registry");
+                log.AddError(fileName, ex.Message);
+            } catch (SecurityException ex) {
+                log.AddError(fileName, @"SecurityException cannot write to windows registry");
+                log.AddError(fileName, ex.Message);
             }
         }
 
@@ -917,9 +923,11 @@ namespace SCaddins.SCexport
         private bool ExportGSPDF(ExportSheet vs)
         {
             PrintManager pm = doc.PrintManager;
+            
+            log.AddMessage(vs.FullExportName, "Applying print setting: " + vs.PrintSettingName);
 
-            if (!PrintSettings.ApplyPrintSettings(
-                doc, vs, pm, ".ps", this.PostscriptPrinterName)) {
+            if (!PrintSettings.ApplyPrintSettings(doc, vs, pm, ".ps", this.PostscriptPrinterName)) {
+                log.AddError(vs.FullExportName, "failed to assign print setting: " + vs.PrintSettingName);
                 return false;
             }
 
@@ -971,23 +979,25 @@ namespace SCaddins.SCexport
         private bool ExportAdobePDF(ExportSheet vs, ExportLog log)
         {
             PrintManager pm = doc.PrintManager;
+            
+            log.AddMessage(vs.FullExportName, "Applying print setting: " + vs.PrintSettingName);
 
-            if (!PrintSettings.ApplyPrintSettings(
-                doc, vs, pm, ".pdf", this.PdfPrinterName)) {
+            if (!PrintSettings.ApplyPrintSettings(doc, vs, pm, ".pdf", this.PdfPrinterName)) {
                 log.AddError(vs.FullExportName, "failed to assign print setting: " + vs.PrintSettingName);
                 return false;
             }
 
-            SetAcrobatExportRegistryVal(vs.FullExportPath(".pdf"));
+            SetAcrobatExportRegistryVal(vs.FullExportPath(".pdf"), log);
 
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
                 if (File.Exists(vs.FullExportPath(".pdf"))) {
                     File.Delete(vs.FullExportPath(".pdf"));
                 }
+                log.AddMessage(vs.FullExportName, "Submitting print...");
                 if (pm.SubmitPrint(vs.Sheet)) {
-                    log.AddSuccess(vs.FullExportName, "(apparently) completed succesfully");
+                    log.AddMessage(vs.FullExportName, "(apparently) completed succesfully");
                 } else {
-                    log.AddError(vs.FullExportName, "failed to print");    
+                    log.AddError(vs.FullExportName, "Failed to print");    
                 }
                 FileUtilities.WaitForFileAccess(vs.FullExportPath(".pdf"));
                 
@@ -995,7 +1005,7 @@ namespace SCaddins.SCexport
                 
                 SCaddins.Common.SystemUtilities.KillAllProcesses("acrotray");
             } else {
-                log.AddError(vs.FullExportName, "could not overwrite file, maybe check permissions?");
+                log.AddError(vs.FullExportName, "Could not overwrite file, maybe check permissions?");
                 return false;
             }
             
