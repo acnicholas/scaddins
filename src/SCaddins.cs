@@ -41,7 +41,6 @@ namespace SCaddins
             get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
         }
                 
-        // FIXME this is messy
         public static void CheckForUpdates(bool newOnly)
         {
             const string DownloadURL = SCaddins.Constants.DownloadLink;

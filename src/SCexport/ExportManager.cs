@@ -185,8 +185,20 @@ namespace SCaddins.SCexport
             return File.Exists(s) ? s : null;
         }
         
+        public static string GetOldConfigFileName(Document doc)
+        {
+            string central = FileUtilities.GetCentralFileName(doc);
+            string s = Path.GetDirectoryName(central) + @"\" +
+                Path.GetFileNameWithoutExtension(central) + ".xml";
+            return s;
+        }
+        
         public static string GetConfigFileName(Document doc)
         {
+            //if (File.Exists(GetOldConfigFileName(doc))) {
+            //    TaskDialog.Show("Old config found");
+            //}
+            
             #if DEBUG
             Debug.WriteLine("getting config file for " + doc.Title);
             string s = @"C:\Andrew\code\cs\scaddins\share\SCexport-example-conf.xml";
@@ -567,11 +579,17 @@ namespace SCaddins.SCexport
         {
             string exe =
                 Process.GetCurrentProcess().MainModule.FileName;
+            try {
             Microsoft.Win32.Registry.SetValue(
                 Constants.AcrobatPrinterJobControl,
                 exe,
                 fileName,
                 Microsoft.Win32.RegistryValueKind.String);
+            } catch ( UnauthorizedAccessException ex) {
+                TaskDialog.Show("Acrobat Error", "UnauthorizedAccessException, cannot write to windows registry");
+            } catch (Exception ex){
+                TaskDialog.Show("Acrobat Error", "Fixme");    
+            }
         }
 
         private static void RemoveTitleBlock(
