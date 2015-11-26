@@ -86,7 +86,7 @@
         
         public string FullOutputLog
         {
-            get { return fullLog.ToString(); }
+            get { return this.fullLog.ToString(); }
         }
 
         public TimeSpan TimeSinceStart

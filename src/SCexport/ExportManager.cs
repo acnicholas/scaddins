@@ -195,9 +195,9 @@ namespace SCaddins.SCexport
         
         public static string GetConfigFileName(Document doc)
         {
-            //if (File.Exists(GetOldConfigFileName(doc))) {
-            //    TaskDialog.Show("Old config found");
-            //}
+            // if (File.Exists(GetOldConfigFileName(doc))) {
+            //     TaskDialog.Show("Old config found");
+            // }
             
             #if DEBUG
             Debug.WriteLine("getting config file for " + doc.Title);
@@ -454,9 +454,13 @@ namespace SCaddins.SCexport
                 this.ExportSheet(sheet, exportLog);
             }
 
+            #if DEBUG
+            exportLog.ShowSummaryDialog();
+            #else
             if (exportLog.Errors > 0) {
                 exportLog.ShowSummaryDialog();
             }
+            #endif
         }
 
         public bool GSSanityCheck()
@@ -581,9 +585,9 @@ namespace SCaddins.SCexport
                 Process.GetCurrentProcess().MainModule.FileName;
             try {
                 log.AddMessage(fileName, "Attempting to set Acrobat Registry Value with value");
-                log.AddMessage(fileName, @"   Reg: " +  Constants.AcrobatPrinterJobControl);
-                log.AddMessage(fileName, @"   Exe: " +  exe);
-                log.AddMessage(fileName, @"   Filename: " +  fileName);
+                log.AddMessage(fileName, @"   Reg: " + Constants.AcrobatPrinterJobControl);
+                log.AddMessage(fileName, @"   Exe: " + exe);
+                log.AddMessage(fileName, @"   Filename: " + fileName);
                 Microsoft.Win32.Registry.SetValue(
                     Constants.AcrobatPrinterJobControl,
                     exe,
@@ -850,7 +854,7 @@ namespace SCaddins.SCexport
                 }
 
                 if (this.exportFlags.HasFlag(ExportOptions.GhostscriptPDF)) {
-                    this.ExportGSPDF(sheet);
+                    this.ExportGSPDF(sheet, log);
                 }
 
                 if (this.exportFlags.HasFlag(ExportOptions.DGN)) {
@@ -875,12 +879,15 @@ namespace SCaddins.SCexport
 
         private void ExportDWG(ExportSheet vs, bool removeTitle)
         {
+            log.AddMessage(vs.FullExportName, "### Starting Ghostscipt PDF Export. ###");
+            
             ICollection<ElementId> titleBlockHidden;
             titleBlockHidden = new List<ElementId>();
             var titleBlock = ExportManager.TitleBlockInstanceFromSheetNumber(vs.SheetNumber, doc);
             titleBlockHidden.Add(titleBlock.Id);
 
             if (removeTitle) {
+                log.AddMessage(vs.FullExportName, "Attempting to hide Title Block (temporarily)");
                 ExportManager.RemoveTitleBlock(vs, titleBlockHidden, true);
             }
 
@@ -895,7 +902,7 @@ namespace SCaddins.SCexport
                 pm.Apply();
                 t.Commit();
             } catch (InvalidOperationException) {
-                TaskDialog.Show("Revit", "cannot apply print settings");
+                log.AddError(vs.FullExportName, "Attempting to hide Title Block (temporarily)");
                 t.RollBack();
             }
 
@@ -920,8 +927,10 @@ namespace SCaddins.SCexport
         }
 
         [SecurityCritical]
-        private bool ExportGSPDF(ExportSheet vs)
+        private bool ExportGSPDF(ExportSheet vs, ExportLog log)
         {
+            log.AddMessage(vs.FullExportName, "### Starting Ghostscipt PDF Export ###");
+            
             PrintManager pm = doc.PrintManager;
             
             log.AddMessage(vs.FullExportName, "Applying print setting: " + vs.PrintSettingName);
@@ -930,6 +939,8 @@ namespace SCaddins.SCexport
                 log.AddError(vs.FullExportName, "failed to assign print setting: " + vs.PrintSettingName);
                 return false;
             }
+            
+            log.AddMessage(vs.FullExportName, "Submitting Postscript print.");
 
             try {
                 pm.SubmitPrint(vs.Sheet);
@@ -937,24 +948,28 @@ namespace SCaddins.SCexport
                 File.Delete(vs.FullExportPath(".ps"));
                 pm.SubmitPrint(vs.Sheet);
             }
+            
+            log.AddMessage(vs.FullExportName, "Printing: " + vs.FullExportPath(".ps"));
 
             FileUtilities.WaitForFileAccess(vs.FullExportPath(".ps"));
             
-            string prog = 
-                "\"" + this.GhostscriptLibDir  + @"\ps2pdf" + "\"";
+            log.AddMessage(vs.FullExportName, "...OK");
             
-            string size =  vs.PageSize.ToLower(CultureInfo.CurrentCulture);
-            string sizeFix =size.ToLower(CultureInfo.CurrentCulture).Replace("p","");
-            
+            string prog =  "\"" + this.GhostscriptLibDir  + @"\ps2pdf" + "\"";
+            string size = vs.PageSize.ToLower(CultureInfo.CurrentCulture);
+            string sizeFix =size.ToLower(CultureInfo.CurrentCulture).Replace("p", string.Empty);   
             string args = 
                 "-sPAPERSIZE#" +
                 sizeFix + " \"" + vs.FullExportPath(".ps") +
                 "\" \"" + vs.FullExportPath(".pdf") + "\"";
 
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
+                log.AddMessage(vs.FullExportName, "Converting to PDF with: " + prog + " " + args);
                 SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg(prog, args);
                 FileUtilities.WaitForFileAccess(vs.FullExportPath(".pdf"));
                 this.RunExportHooks("pdf", vs);
+            } else {
+                log.AddWarning(vs.FullExportName, "Unable to overwrite existing file: " + vs.FullExportPath(".pdf"));    
             }
 
             return true;
