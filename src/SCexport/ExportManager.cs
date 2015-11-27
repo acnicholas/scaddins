@@ -846,7 +846,7 @@ namespace SCaddins.SCexport
 
             if (sheet.SCPrintSetting != null) {
                 if (this.exportFlags.HasFlag(ExportOptions.DWG)) {
-                    this.ExportDWG(sheet, this.exportFlags.HasFlag(ExportOptions.NoTitle));
+                    this.ExportDWG(sheet, this.exportFlags.HasFlag(ExportOptions.NoTitle), log);
                 }
 
                 if (this.exportFlags.HasFlag(ExportOptions.PDF)) {
@@ -877,7 +877,7 @@ namespace SCaddins.SCexport
             opts.HideUnreferenceViewTags = true;
         }
 
-        private void ExportDWG(ExportSheet vs, bool removeTitle)
+        private void ExportDWG(ExportSheet vs, bool removeTitle, ExportLog log)
         {
             log.AddMessage(vs.FullExportName, "### Starting Ghostscipt PDF Export. ###");
             
@@ -930,6 +930,7 @@ namespace SCaddins.SCexport
         private bool ExportGSPDF(ExportSheet vs, ExportLog log)
         {
             log.AddMessage(vs.FullExportName, "### Starting Ghostscipt PDF Export ###");
+            log.AddMessage(vs.FullExportName, vs.ToString());
             
             PrintManager pm = doc.PrintManager;
             
