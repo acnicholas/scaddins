@@ -212,7 +212,7 @@ namespace SCaddins
         private static PushButtonData LoadSCoord(string dll)
         {
             var pbd = new PushButtonData(
-                           "Scoord", "Scoord", dll, "SCaddins.SCoord.Command");
+                           "Scoord", "Place Coordinate", dll, "SCaddins.SCoord.Command");
             AssignPushButtonImage(pbd, @"scoord-rvt-16.png", 16);
             pbd.ToolTip =
                 "Place a family at a specified shared coordinate.";
@@ -222,7 +222,7 @@ namespace SCaddins
         private static PushButtonData LoadSCulcase(string dll)
         {
             var pbd = new PushButtonData(
-                           "SCulcase", "SCulcase", dll, "SCaddins.SCulcase.Command");
+                           "SCulcase", "Change Case", dll, "SCaddins.SCulcase.Command");
             AssignPushButtonImage(pbd, @"sculcase-rvt-16.png", 16);
             pbd.ToolTip =
                 "Convert text from upper to lower case, or vise-versa";
@@ -235,7 +235,7 @@ namespace SCaddins
         private static PushButtonData LoadSCwash(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCwash", "SCwash", dll, "SCaddins.SCwash.Command");
+                              "SCwash", "Destructive Purge", dll, "SCaddins.SCwash.Command");
             AssignPushButtonImage(pbd, "scwash-rvt-16.png", 16);
             pbd.ToolTip =
                 "Clean up your model, in a more destructive way than a purge.";
@@ -260,7 +260,7 @@ namespace SCaddins
         private static PushButtonData LoadSCightlines(string dll)
         { 
             var pbd = new PushButtonData(
-                              "SCightLines", "SCightLines", dll, "SCaddins.SCightLines.Command");
+                              "SCightLines", "Line of Sight", dll, "SCaddins.SCightLines.Command");
             AssignPushButtonImage(pbd, "scightlines-rvt-16.png", 16);
             pbd.ToolTip =
                 "Create line of sight details for stadium seating.";
@@ -270,7 +270,7 @@ namespace SCaddins
         private static PushButtonData LoadSCloudShed(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCloudSChed", "SCloudSChed", dll, "SCaddins.SCloudSChed.Command");
+                              "SCloudSChed", "Schedule Clouds", dll, "SCaddins.SCloudSChed.Command");
             AssignPushButtonImage(pbd, "scloudsched-rvt-16.png", 16);
             pbd.ToolTip = "Schedule all revision clouds (in Excel).";
             return pbd;
@@ -279,7 +279,7 @@ namespace SCaddins
         private static PushButtonData LoadSCincrement(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCincrement", "SCincrement", dll, "SCaddins.SCincrement.Command");
+                              "SCincrement", "Increment Tool", dll, "SCaddins.SCincrement.Command");
             AssignPushButtonImage(pbd, "scincrement-rvt-16.png", 16);
             pbd.ToolTip = "Increment room numbers and family marks.";
             return pbd;
@@ -288,7 +288,7 @@ namespace SCaddins
         private static PushButtonData LoadSCincrementSettings(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCincrementSettings", "SCincrementSettings", dll, "SCaddins.SCincrement.SCincrementSettingsCommand");
+                              "SCincrementSettings", "Increment Tool Settings", dll, "SCaddins.SCincrement.SCincrementSettingsCommand");
             AssignPushButtonImage(pbd, "scincrement-rvt-16.png", 16);
             pbd.ToolTip = "Increment settings.";
             return pbd;
@@ -297,7 +297,7 @@ namespace SCaddins
         private static PushButtonData LoadSCaddinSettings(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCaddinsOptions", "SCaddinsOptions", dll, "SCaddins.SCaddinsOptions");
+                              "SCaddinsOptions", "Options", dll, "SCaddins.SCaddinsOptions");
             AssignPushButtonImage(pbd, "gear.png", 16);
             pbd.ToolTip = "SCaddins settings.";
             return pbd;
@@ -315,7 +315,7 @@ namespace SCaddins
         private static PushButtonData LoadAbout(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCaddinsAbout", "SCaddinsAbout", dll, "SCaddins.Common.About");
+                              "SCaddinsAbout", "About", dll, "SCaddins.Common.About");
             AssignPushButtonImage(pbd, "help.png", 16);
             pbd.ToolTip = "About SCaddins.";
             return pbd;

@@ -33,22 +33,23 @@
         private int warnings;
         private int errors;
         private int messages;
-        private int totalExports;
         private DateTime startTime;
+        private DateTime endTime;
 
-        public ExportLog(DateTime startTime, int totalExports)
+        public ExportLog()
         {
             this.errors = 0;
             this.warnings = 0;
             this.messages = 0;
             this.fullLog = new StringBuilder();
-            this.startTime = startTime;
-            this.totalExports = totalExports;
+            this.startTime = DateTime.Now;
+            this.endTime = DateTime.Now;
+            this.TotalExports = 0;
             this.errorLog = new Collection<ExportLogItem>();
             this.warningLog = new Collection<ExportLogItem>();
             this.messageLog = new Collection<ExportLogItem>();
         }
-
+                
         public int Warnings
         {
             get { return this.warnings; }
@@ -66,7 +67,7 @@
 
         public int TotalExports
         {
-            get { return this.totalExports; }
+            get; set;
         }
 
         public Collection<ExportLogItem> ErrorLog
@@ -93,26 +94,34 @@
         {
             get { return DateTime.Now - this.startTime; }
         }
-
+        
         public void AddMessage(string fileName, string msg)
         {
-            this.AddLogItem(fileName, msg);
+            this.AddLogItem(msg);
             this.messages++;
             this.messageLog.Add(new ExportLogItem(msg, fileName));
         }
 
         public void AddError(string fileName, string msg)
         {
-            this.AddLogItem(fileName, "(EE)" + msg);
+            this.AddLogItem("(EE)" + msg);
             this.errors++;
             this.errorLog.Add(new ExportLogItem(msg, fileName));
         }
 
         public void AddWarning(string fileName, string msg)
         {
-            this.AddLogItem(fileName, "(WW)" + msg);
+            this.AddLogItem("(WW)" + msg);
             this.warnings++;
             this.warningLog.Add(new ExportLogItem(msg, fileName));
+        }
+        
+        public void Clear()
+        {
+            this.errorLog.Clear();
+            this.messageLog.Clear();
+            this.warningLog.Clear();
+            this.fullLog.Clear();
         }
 
         public void ShowSummaryDialog()
@@ -121,9 +130,19 @@
             logDialog.ShowDialog();
         }
         
-        private void AddLogItem(string fileName, string msg)
+        public void Start()
         {
-            this.fullLog.Append("[").Append(fileName).Append("] - ").Append(msg).AppendLine();
+            this.startTime = DateTime.Now;
+        }
+        
+        public void Stop()
+        {
+            this.endTime = DateTime.Now;
+        }
+        
+        private void AddLogItem(string msg)
+        {
+            this.fullLog.Append(msg).AppendLine();
         }
     }
  }

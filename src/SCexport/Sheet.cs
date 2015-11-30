@@ -335,9 +335,51 @@ namespace SCaddins.SCexport
         
         public override string ToString()
         {
-            return string.Format("ExportSheet: SheetRevisionDateTime={0}, Doc={1}, Id={2}, PrintSetting={3}, SegmentedFileName={4}, Sheet={5}, ForceDate={6}, Verified={7}, Height={8}, Width={9}, FullExportName={10}, PageSize={11}, ProjectNumber={12}, Scale={13}, ScaleBarScale={14}, SheetDescription={15}, SheetNumber={16}, SheetRevision={17}, SheetRevisionDate={18}, SheetRevisionDescription={19}, ExportDir={20}]", sheetRevisionDateTime, doc, id, printSetting, segmentedFileName, sheet, forceDate, verified, height, width, fullExportName, pageSize, projectNumber, scale, scaleBarScale, sheetDescription, sheetNumber, sheetRevision, sheetRevisionDate, sheetRevisionDescription, ExportDir);
+            return string.Format(
+                "Sheet information: " + Environment.NewLine +
+                "    SheetRevisionDateTime={0}," + Environment.NewLine +
+                "    Doc={1}," + Environment.NewLine +
+                "    Id={2}," + Environment.NewLine +
+                "    PrintSetting={3}," + Environment.NewLine +
+                "    SegmentedFileName={4}," + Environment.NewLine +
+                "    Sheet={5}," + Environment.NewLine +
+                "    ForceDate={6}," + Environment.NewLine +
+                "    Verified={7}," + Environment.NewLine +
+                "    Height={8}," + Environment.NewLine +
+                "    Width={9}," + Environment.NewLine +
+                "    FullExportName={10}," + Environment.NewLine +
+                "    PageSize={11}," + Environment.NewLine +
+                "    ProjectNumber={12}," + Environment.NewLine +
+                "    Scale={13}," + Environment.NewLine +
+                "    ScaleBarScale={14}," + Environment.NewLine +
+                "    SheetDescription={15}," + Environment.NewLine +
+                "    SheetNumber={16}," + Environment.NewLine +
+                "    SheetRevision={17}," + Environment.NewLine +
+                "    SheetRevisionDate={18}," + Environment.NewLine +
+                "    SheetRevisionDescription={19}," + Environment.NewLine +
+                "    ExportDir={20}]",
+                this.sheetRevisionDateTime,
+                this.doc.PathName,
+                this.id,
+                this.printSetting,
+                this.segmentedFileName,
+                this.sheet,
+                this.forceDate,
+                this.verified,
+                this.height,
+                this.width,
+                this.fullExportName,
+                this.pageSize,
+                this.projectNumber,
+                this.scale,
+                this.scaleBarScale,
+                this.sheetDescription,
+                this.sheetNumber,
+                this.sheetRevision,
+                this.sheetRevisionDate,
+                this.sheetRevisionDescription,
+                this.ExportDir);
         }
-
                
         private void Init(
                 ViewSheet viewSheet,

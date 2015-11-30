@@ -38,6 +38,7 @@ namespace SCaddins.SCexport
         private static Document doc;
         private static string activeDoc;
         private ExportOptions exportFlags;
+        private ExportLog log;
         private Collection<SegmentedSheetName> fileNameTypes;
         private Collection<ViewSheetSetCombo> allViewSheetSets;
         private Dictionary<string, PostExportHookCommand> postExportHooks;
@@ -53,6 +54,7 @@ namespace SCaddins.SCexport
             this.exportDir = Constants.DefaultExportDir;
             ExportManager.ConfirmOverwrite = true;
             ExportManager.activeDoc = null;
+            this.log = new ExportLog();
             this.allViewSheetSets = new Collection<ViewSheetSetCombo>();
             this.allSheets = new SortableBindingListCollection<ExportSheet>();
             this.fileNameTypes = new Collection<SegmentedSheetName>();
@@ -439,11 +441,11 @@ namespace SCaddins.SCexport
         {
             DateTime startTime = DateTime.Now;
             TimeSpan elapsedTime = DateTime.Now - startTime;
-
-            var exportLog = new ExportLog(startTime, this.GetTotalNumberOfExports(sheets));
-
             PrintManager pm = doc.PrintManager;
             PrintSettings.SetPrinter(doc, this.PdfPrinterName, pm);
+            this.log.Clear();
+            this.log.TotalExports = progressBar.Maximum;
+            this.log.Start();
 
             foreach (ExportSheet sheet in sheets) {
                 progressBar.PerformStep();
@@ -451,11 +453,13 @@ namespace SCaddins.SCexport
                 info.Text = ExportManager.PercentageSting(progressBar.Value, progressBar.Maximum) +
                     " - " + ExportManager.TimeSpanAsString(elapsedTime);
                 strip.Update();
-                this.ExportSheet(sheet, exportLog);
+                this.ExportSheet(sheet);
             }
+            
+            this.log.Stop();
 
             #if DEBUG
-            exportLog.ShowSummaryDialog();
+            this.log.ShowSummaryDialog();
             #else
             if (exportLog.Errors > 0) {
                 exportLog.ShowSummaryDialog();
@@ -838,7 +842,7 @@ namespace SCaddins.SCexport
         }
 
         [SecurityCritical]
-        private void ExportSheet(ExportSheet sheet, ExportLog log)
+        private void ExportSheet(ExportSheet sheet)
         {
             if (!sheet.Verified) {
                 sheet.UpdateSheetInfo();
@@ -846,15 +850,15 @@ namespace SCaddins.SCexport
 
             if (sheet.SCPrintSetting != null) {
                 if (this.exportFlags.HasFlag(ExportOptions.DWG)) {
-                    this.ExportDWG(sheet, this.exportFlags.HasFlag(ExportOptions.NoTitle), log);
+                    this.ExportDWG(sheet, this.exportFlags.HasFlag(ExportOptions.NoTitle));
                 }
 
                 if (this.exportFlags.HasFlag(ExportOptions.PDF)) {
-                    this.ExportAdobePDF(sheet, log);
+                    this.ExportAdobePDF(sheet);
                 }
 
                 if (this.exportFlags.HasFlag(ExportOptions.GhostscriptPDF)) {
-                    this.ExportGSPDF(sheet, log);
+                    this.ExportGSPDF(sheet);
                 }
 
                 if (this.exportFlags.HasFlag(ExportOptions.DGN)) {
@@ -865,7 +869,7 @@ namespace SCaddins.SCexport
                     ExportManager.ExportDWF(sheet);
                 }
             } else {
-                log.AddError(sheet.FullExportName, "no print setting assigned.");
+                this.log.AddError(sheet.FullExportName, "no print setting assigned.");
             }
         }
 
@@ -877,9 +881,9 @@ namespace SCaddins.SCexport
             opts.HideUnreferenceViewTags = true;
         }
 
-        private void ExportDWG(ExportSheet vs, bool removeTitle, ExportLog log)
+        private void ExportDWG(ExportSheet vs, bool removeTitle)
         {
-            log.AddMessage(vs.FullExportName, "### Starting Ghostscipt PDF Export. ###");
+            this.log.AddMessage(vs.FullExportName, "### Starting Ghostscipt PDF Export. ###");
             
             ICollection<ElementId> titleBlockHidden;
             titleBlockHidden = new List<ElementId>();
@@ -887,7 +891,7 @@ namespace SCaddins.SCexport
             titleBlockHidden.Add(titleBlock.Id);
 
             if (removeTitle) {
-                log.AddMessage(vs.FullExportName, "Attempting to hide Title Block (temporarily)");
+                this.log.AddMessage(vs.FullExportName, "Attempting to hide Title Block (temporarily)");
                 ExportManager.RemoveTitleBlock(vs, titleBlockHidden, true);
             }
 
@@ -902,7 +906,7 @@ namespace SCaddins.SCexport
                 pm.Apply();
                 t.Commit();
             } catch (InvalidOperationException) {
-                log.AddError(vs.FullExportName, "Attempting to hide Title Block (temporarily)");
+                this.log.AddError(vs.FullExportName, "Attempting to hide Title Block (temporarily)");
                 t.RollBack();
             }
 
@@ -927,21 +931,21 @@ namespace SCaddins.SCexport
         }
 
         [SecurityCritical]
-        private bool ExportGSPDF(ExportSheet vs, ExportLog log)
+        private bool ExportGSPDF(ExportSheet vs)
         {
-            log.AddMessage(vs.FullExportName, "### Starting Ghostscipt PDF Export ###");
-            log.AddMessage(vs.FullExportName, vs.ToString());
+            this.log.AddMessage(vs.FullExportName, "### Starting Ghostscipt PDF Export ###");
+            this.log.AddMessage(vs.FullExportName, vs.ToString());
             
             PrintManager pm = doc.PrintManager;
             
-            log.AddMessage(vs.FullExportName, "Applying print setting: " + vs.PrintSettingName);
+            this.log.AddMessage(vs.FullExportName, "Applying print setting: " + vs.PrintSettingName);
 
             if (!PrintSettings.ApplyPrintSettings(doc, vs, pm, ".ps", this.PostscriptPrinterName)) {
-                log.AddError(vs.FullExportName, "failed to assign print setting: " + vs.PrintSettingName);
+                this.log.AddError(vs.FullExportName, "failed to assign print setting: " + vs.PrintSettingName);
                 return false;
             }
             
-            log.AddMessage(vs.FullExportName, "Submitting Postscript print.");
+            this.log.AddMessage(vs.FullExportName, "Submitting Postscript print.");
 
             try {
                 pm.SubmitPrint(vs.Sheet);
@@ -950,27 +954,27 @@ namespace SCaddins.SCexport
                 pm.SubmitPrint(vs.Sheet);
             }
             
-            log.AddMessage(vs.FullExportName, "Printing: " + vs.FullExportPath(".ps"));
+            this.log.AddMessage(vs.FullExportName, "Printing: " + vs.FullExportPath(".ps"));
 
             FileUtilities.WaitForFileAccess(vs.FullExportPath(".ps"));
             
-            log.AddMessage(vs.FullExportName, "...OK");
+            this.log.AddMessage(vs.FullExportName, "...OK");
             
-            string prog =  "\"" + this.GhostscriptLibDir  + @"\ps2pdf" + "\"";
+            string prog = "\"" + this.GhostscriptLibDir  + @"\ps2pdf" + "\"";
             string size = vs.PageSize.ToLower(CultureInfo.CurrentCulture);
-            string sizeFix =size.ToLower(CultureInfo.CurrentCulture).Replace("p", string.Empty);   
+            string sizeFix = size.ToLower(CultureInfo.CurrentCulture).Replace("p", string.Empty);   
             string args = 
                 "-sPAPERSIZE#" +
                 sizeFix + " \"" + vs.FullExportPath(".ps") +
                 "\" \"" + vs.FullExportPath(".pdf") + "\"";
 
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
-                log.AddMessage(vs.FullExportName, "Converting to PDF with: " + prog + " " + args);
+                this.log.AddMessage(vs.FullExportName, "Converting to PDF with: " + prog + " " + args);
                 SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg(prog, args);
                 FileUtilities.WaitForFileAccess(vs.FullExportPath(".pdf"));
                 this.RunExportHooks("pdf", vs);
             } else {
-                log.AddWarning(vs.FullExportName, "Unable to overwrite existing file: " + vs.FullExportPath(".pdf"));    
+                this.log.AddWarning(vs.FullExportName, "Unable to overwrite existing file: " + vs.FullExportPath(".pdf"));    
             }
 
             return true;
@@ -992,28 +996,28 @@ namespace SCaddins.SCexport
         }
 
         [SecurityCritical]
-        private bool ExportAdobePDF(ExportSheet vs, ExportLog log)
+        private bool ExportAdobePDF(ExportSheet vs)
         {
             PrintManager pm = doc.PrintManager;
             
-            log.AddMessage(vs.FullExportName, "Applying print setting: " + vs.PrintSettingName);
+            this.log.AddMessage(vs.FullExportName, "Applying print setting: " + vs.PrintSettingName);
 
             if (!PrintSettings.ApplyPrintSettings(doc, vs, pm, ".pdf", this.PdfPrinterName)) {
-                log.AddError(vs.FullExportName, "failed to assign print setting: " + vs.PrintSettingName);
+                this.log.AddError(vs.FullExportName, "failed to assign print setting: " + vs.PrintSettingName);
                 return false;
             }
 
-            SetAcrobatExportRegistryVal(vs.FullExportPath(".pdf"), log);
+            SetAcrobatExportRegistryVal(vs.FullExportPath(".pdf"), this.log);
 
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
                 if (File.Exists(vs.FullExportPath(".pdf"))) {
                     File.Delete(vs.FullExportPath(".pdf"));
                 }
-                log.AddMessage(vs.FullExportName, "Submitting print...");
+                this.log.AddMessage(vs.FullExportName, "Submitting print...");
                 if (pm.SubmitPrint(vs.Sheet)) {
-                    log.AddMessage(vs.FullExportName, "(apparently) completed succesfully");
+                    this.log.AddMessage(vs.FullExportName, "(apparently) completed succesfully");
                 } else {
-                    log.AddError(vs.FullExportName, "Failed to print");    
+                    this.log.AddError(vs.FullExportName, "Failed to print");    
                 }
                 FileUtilities.WaitForFileAccess(vs.FullExportPath(".pdf"));
                 
@@ -1021,7 +1025,7 @@ namespace SCaddins.SCexport
                 
                 SCaddins.Common.SystemUtilities.KillAllProcesses("acrotray");
             } else {
-                log.AddError(vs.FullExportName, "Could not overwrite file, maybe check permissions?");
+                this.log.AddError(vs.FullExportName, "Could not overwrite file, maybe check permissions?");
                 return false;
             }
             
