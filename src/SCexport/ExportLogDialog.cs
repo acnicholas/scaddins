@@ -33,12 +33,8 @@ namespace SCaddins.SCexport
                 warnings.Items.Add(
                     new ListViewItem(new string[] { warningItem.Filename, warningItem.Description }));
             }
-            foreach (ExportLogItem messageItem in log.MessageLog) {
-                messages.Items.Add(
-                    new ListViewItem(new string[] { messageItem.Filename, messageItem.Description }));
-            }
+
             textBox1.Text = log.FullOutputLog;
-            Tabs.TabPages[0].Text = log.Messages + " Messages";
             Tabs.TabPages[1].Text = log.Warnings + " Warnings";
             Tabs.TabPages[2].Text = log.Errors + " Errors";
             label1.Text = log.TotalExports + " Exports attempted with " + log.Errors + " errors.";

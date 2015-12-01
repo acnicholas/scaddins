@@ -199,8 +199,7 @@ namespace SCaddins.SCexport
         {
             // if (File.Exists(GetOldConfigFileName(doc))) {
             //     TaskDialog.Show("Old config found");
-            // }
-            
+            // }            
             #if DEBUG
             Debug.WriteLine("getting config file for " + doc.Title);
             string s = @"C:\Andrew\code\cs\scaddins\share\SCexport-example-conf.xml";
@@ -346,6 +345,8 @@ namespace SCaddins.SCexport
 
             if (tdr == TaskDialogResult.Ok) { 
                 bool printSetttingsValid;
+                log.Clear();
+                log.Start("Starting Print");
                 foreach (ExportSheet sheet in sheets.OrderBy(x => x.SheetNumber).ToList()) {
                     if (!sheet.Verified) {
                         sheet.UpdateSheetInfo();
@@ -354,21 +355,29 @@ namespace SCaddins.SCexport
 
                     switch (scale) {
                     case 3:
-                        printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, "A3-FIT", pm, printerName);
+                        printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, "A3-FIT", pm, printerName, log);
                         break;
                     case 2:
-                        printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, "A2-FIT", pm, printerName);
+                        printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, "A2-FIT", pm, printerName, log);
                         break;
                     default:
                         int i = int.Parse(sheet.PageSize.Substring(1, 1), CultureInfo.InvariantCulture);
                         string printerNameTmp = i > 2 ? "this.PrinterNameA3" : this.PrinterNameLargeFormat;
-                        printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, sheet.PageSize, pm, printerNameTmp);
+                        printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, sheet.PageSize, pm, printerNameTmp, log);
                         break;
                     }
                     if (printSetttingsValid) {
                         pm.SubmitPrint(sheet.Sheet);
                     }
                 }
+                log.Stop("Finished Print");
+                #if DEBUG
+            this.log.ShowSummaryDialog();
+                #else
+                if (exportLog.Errors > 0) {
+                    exportLog.ShowSummaryDialog();
+                }
+                #endif
             }
         }
 
@@ -445,7 +454,7 @@ namespace SCaddins.SCexport
             PrintSettings.SetPrinter(doc, this.PdfPrinterName, pm);
             this.log.Clear();
             this.log.TotalExports = progressBar.Maximum;
-            this.log.Start();
+            this.log.Start("Export Started");
 
             foreach (ExportSheet sheet in sheets) {
                 progressBar.PerformStep();
@@ -456,7 +465,7 @@ namespace SCaddins.SCexport
                 this.ExportSheet(sheet);
             }
             
-            this.log.Stop();
+            this.log.Stop("Export Complete");
 
             #if DEBUG
             this.log.ShowSummaryDialog();

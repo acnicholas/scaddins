@@ -24,14 +24,10 @@ namespace SCaddins.SCexport
         /// </summary>
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.TabControl Tabs;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.ListView messages;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage WarningTab;
         private System.Windows.Forms.ListView warnings;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage ErrorTab;
         private System.Windows.Forms.ListView errors;
-        private System.Windows.Forms.ColumnHeader Filename;
-        private System.Windows.Forms.ColumnHeader Description;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
@@ -63,15 +59,11 @@ namespace SCaddins.SCexport
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExportLogDialog));
             this.Tabs = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.messages = new System.Windows.Forms.ListView();
-            this.Filename = new System.Windows.Forms.ColumnHeader();
-            this.Description = new System.Windows.Forms.ColumnHeader();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.WarningTab = new System.Windows.Forms.TabPage();
             this.warnings = new System.Windows.Forms.ListView();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.ErrorTab = new System.Windows.Forms.TabPage();
             this.errors = new System.Windows.Forms.ListView();
             this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
@@ -79,9 +71,8 @@ namespace SCaddins.SCexport
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.Tabs.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
+            this.WarningTab.SuspendLayout();
+            this.ErrorTab.SuspendLayout();
             this.OutputTab.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -90,62 +81,25 @@ namespace SCaddins.SCexport
             this.Tabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Tabs.Controls.Add(this.tabPage1);
-            this.Tabs.Controls.Add(this.tabPage2);
-            this.Tabs.Controls.Add(this.tabPage3);
             this.Tabs.Controls.Add(this.OutputTab);
+            this.Tabs.Controls.Add(this.WarningTab);
+            this.Tabs.Controls.Add(this.ErrorTab);
             this.Tabs.Location = new System.Drawing.Point(12, 35);
             this.Tabs.Name = "Tabs";
             this.Tabs.SelectedIndex = 0;
             this.Tabs.Size = new System.Drawing.Size(519, 383);
             this.Tabs.TabIndex = 0;
             // 
-            // tabPage1
+            // WarningTab
             // 
-            this.tabPage1.Controls.Add(this.messages);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(511, 357);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Messages";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // messages
-            // 
-            this.messages.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.Filename,
-            this.Description});
-            this.messages.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.messages.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.messages.Location = new System.Drawing.Point(3, 3);
-            this.messages.MultiSelect = false;
-            this.messages.Name = "messages";
-            this.messages.Size = new System.Drawing.Size(505, 351);
-            this.messages.TabIndex = 0;
-            this.messages.UseCompatibleStateImageBehavior = false;
-            this.messages.View = System.Windows.Forms.View.Details;
-            // 
-            // Filename
-            // 
-            this.Filename.Text = "Filename";
-            this.Filename.Width = 120;
-            // 
-            // Description
-            // 
-            this.Description.Text = "Descripition";
-            this.Description.Width = 600;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.warnings);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(511, 357);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Warnings";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.WarningTab.Controls.Add(this.warnings);
+            this.WarningTab.Location = new System.Drawing.Point(4, 22);
+            this.WarningTab.Name = "WarningTab";
+            this.WarningTab.Padding = new System.Windows.Forms.Padding(3);
+            this.WarningTab.Size = new System.Drawing.Size(511, 357);
+            this.WarningTab.TabIndex = 1;
+            this.WarningTab.Text = "Warnings";
+            this.WarningTab.UseVisualStyleBackColor = true;
             // 
             // warnings
             // 
@@ -170,16 +124,16 @@ namespace SCaddins.SCexport
             this.columnHeader2.Text = "Description";
             this.columnHeader2.Width = 600;
             // 
-            // tabPage3
+            // ErrorTab
             // 
-            this.tabPage3.Controls.Add(this.errors);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(511, 357);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Errors";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.ErrorTab.Controls.Add(this.errors);
+            this.ErrorTab.Location = new System.Drawing.Point(4, 22);
+            this.ErrorTab.Name = "ErrorTab";
+            this.ErrorTab.Padding = new System.Windows.Forms.Padding(3);
+            this.ErrorTab.Size = new System.Drawing.Size(511, 357);
+            this.ErrorTab.TabIndex = 2;
+            this.ErrorTab.Text = "Errors";
+            this.ErrorTab.UseVisualStyleBackColor = true;
             // 
             // errors
             // 
@@ -246,9 +200,8 @@ namespace SCaddins.SCexport
             this.Text = "Export Summary";
             this.TopMost = true;
             this.Tabs.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
+            this.WarningTab.ResumeLayout(false);
+            this.ErrorTab.ResumeLayout(false);
             this.OutputTab.ResumeLayout(false);
             this.OutputTab.PerformLayout();
             this.ResumeLayout(false);

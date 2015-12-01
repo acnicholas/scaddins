@@ -102,22 +102,31 @@ namespace SCaddins.SCexport
                 Document doc,
                 string size,
                 PrintManager pm,
-                string printerName)
+                string printerName,
+                ExportLog log)
         {
-            PrintSetting ps = PrintSettings.AssignPrintSetting(doc, size);
+            log.AddMessage(null, "Retrieving Revit Print Settings");
+            PrintSetting ps = PrintSettings.GetPrintSetting(doc, size);
 
             if (ps == null) {
+                log.AddError(null, "Retrieving Revit Print Settings FAILED");
                 return false;
             }
-
+            
+            log.AddMessage(null, "Using printer : " + printerName);
             if (!PrintSettings.SetPrinter(doc, printerName, pm)) {
+                log.AddError(null, "Cannot set printer: " + printerName);
                 return false;
             }
-
+            
             var t = new Transaction(doc, "Apply print settings");
             t.Start();
             try {
-                pm.PrintSetup.CurrentPrintSetting = ps;
+                if(ps.IsValidObject) {
+                    pm.PrintSetup.CurrentPrintSetting = ps;
+                } else {
+                    log.AddWarning(null, "Print Setup is readonly!");
+                }
                 pm.PrintRange = PrintRange.Current;
                 pm.PrintSetup.CurrentPrintSetting.PrintParameters.MarginType = MarginType.NoMargin;
                 pm.PrintSetup.InSession.PrintParameters.MarginType = MarginType.NoMargin;
@@ -125,9 +134,9 @@ namespace SCaddins.SCexport
                 pm.Apply();
                 t.Commit();
                 return true;
-            } catch (InvalidOperationException ex) {
+            } catch (Exception ex) {
                 System.Diagnostics.Debug.Print(ex.Message);
-                TaskDialog.Show("SCexport", "cannot apply print settings");
+                log.AddError(null, ex.ToString());
                 t.RollBack();
                 return false;
             }
@@ -166,7 +175,7 @@ namespace SCaddins.SCexport
             }
         }
 
-        public static PrintSetting AssignPrintSetting(Document doc, string printSetting)
+        public static PrintSetting GetPrintSetting(Document doc, string printSetting)
         {
             foreach (ElementId id in doc.GetPrintSettingIds()) {
                 var ps2 = doc.GetElement(id) as PrintSetting;

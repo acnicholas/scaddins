@@ -257,7 +257,7 @@ namespace SCaddins.SCexport
                         BuiltInParameter.SHEET_HEIGHT).AsDouble();
             }
             this.pageSize = PrintSettings.GetSheetSizeAsString(this);
-            this.printSetting = PrintSettings.AssignPrintSetting(
+            this.printSetting = PrintSettings.GetPrintSetting(
                     this.doc, this.pageSize);
             this.verified = true;
         }
