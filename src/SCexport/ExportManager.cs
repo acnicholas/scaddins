@@ -345,8 +345,8 @@ namespace SCaddins.SCexport
 
             if (tdr == TaskDialogResult.Ok) { 
                 bool printSetttingsValid;
-                log.Clear();
-                log.Start("Starting Print");
+                this.log.Clear();
+                this.log.Start("Starting Print");
                 foreach (ExportSheet sheet in sheets.OrderBy(x => x.SheetNumber).ToList()) {
                     if (!sheet.Verified) {
                         sheet.UpdateSheetInfo();
@@ -355,24 +355,24 @@ namespace SCaddins.SCexport
 
                     switch (scale) {
                     case 3:
-                        printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, "A3-FIT", pm, printerName, log);
+                        printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, "A3-FIT", pm, printerName, this.log);
                         break;
                     case 2:
-                        printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, "A2-FIT", pm, printerName, log);
+                        printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, "A2-FIT", pm, printerName, this.log);
                         break;
                     default:
                         int i = int.Parse(sheet.PageSize.Substring(1, 1), CultureInfo.InvariantCulture);
                         string printerNameTmp = i > 2 ? "this.PrinterNameA3" : this.PrinterNameLargeFormat;
-                        printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, sheet.PageSize, pm, printerNameTmp, log);
+                        printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, sheet.PageSize, pm, printerNameTmp, this.log);
                         break;
                     }
                     if (printSetttingsValid) {
                         pm.SubmitPrint(sheet.Sheet);
                     }
                 }
-                log.Stop("Finished Print");
+                this.log.Stop("Finished Print");
                 #if DEBUG
-            this.log.ShowSummaryDialog();
+                this.log.ShowSummaryDialog();
                 #else
                 if (exportLog.Errors > 0) {
                     exportLog.ShowSummaryDialog();

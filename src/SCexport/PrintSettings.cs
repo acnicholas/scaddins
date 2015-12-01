@@ -122,7 +122,7 @@ namespace SCaddins.SCexport
             var t = new Transaction(doc, "Apply print settings");
             t.Start();
             try {
-                if(ps.IsValidObject) {
+                if (ps.IsValidObject) {
                     pm.PrintSetup.CurrentPrintSetting = ps;
                 } else {
                     log.AddWarning(null, "Print Setup is readonly!");
