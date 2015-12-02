@@ -98,24 +98,16 @@ namespace SCaddins.SCexport
             return success;
         }
 
-        public static bool ApplyPrintSettings(
+        public static bool PrintToDevice(
                 Document doc,
                 string size,
                 PrintManager pm,
                 string printerName,
                 ExportLog log)
         {
-            log.AddMessage(null, "Retrieving Revit Print Settings");
-            PrintSetting ps = PrintSettings.GetPrintSetting(doc, size);
-
-            if (ps == null) {
-                log.AddError(null, "Retrieving Revit Print Settings FAILED");
-                return false;
-            }
+            PrintSetting ps = LoadRevitPrintSetting(doc, size, pm, printerName, log);
             
-            log.AddMessage(null, "Using printer : " + printerName);
-            if (!PrintSettings.SetPrinter(doc, printerName, pm)) {
-                log.AddError(null, "Cannot set printer: " + printerName);
+            if (ps == null) {
                 return false;
             }
             
@@ -142,7 +134,7 @@ namespace SCaddins.SCexport
             }
         }
 
-        public static bool ApplyPrintSettings(
+        public static bool PrintToFile(
                 Document doc,
                 ExportSheet vs,
                 PrintManager pm,
@@ -154,7 +146,7 @@ namespace SCaddins.SCexport
                 return false;
             }
 
-            if (!PrintSettings.SetPrinter(doc, printerName, pm)) {
+            if (!PrintSettings.SetPrinterByName(doc, printerName, pm)) {
                 return false;
             }
 
@@ -175,7 +167,7 @@ namespace SCaddins.SCexport
             }
         }
 
-        public static PrintSetting GetPrintSetting(Document doc, string printSetting)
+        public static PrintSetting GetPrintSettingByName(Document doc, string printSetting)
         {
             foreach (ElementId id in doc.GetPrintSettingIds()) {
                 var ps2 = doc.GetElement(id) as PrintSetting;
@@ -200,7 +192,7 @@ namespace SCaddins.SCexport
             return null;
         }
 
-        public static bool SetPrinter(
+        public static bool SetPrinterByName(
                 Document doc, string name, PrintManager pm)
         {
             if (string.IsNullOrEmpty(name)) {
@@ -220,6 +212,30 @@ namespace SCaddins.SCexport
             }
         }
 
+        private static PrintSetting LoadRevitPrintSetting(
+                Document doc,
+                string size,
+                PrintManager pm,
+                string printerName,
+                ExportLog log)
+        {       
+            log.AddMessage(null, "Attempting to Load Revit Print Settings:" + size);
+            PrintSetting ps = PrintSettings.GetPrintSettingByName(doc, size);
+
+            if (ps == null) {
+                log.AddError(null, "Retrieving Revit Print Settings FAILED");
+                return null;
+            }
+            
+            log.AddMessage(null, "Using printer : " + printerName);
+            if (!PrintSettings.SetPrinterByName(doc, printerName, pm)) {
+                log.AddError(null, "Cannot set printer: " + printerName);
+                return null;
+            } 
+            
+            return ps;
+        }
+        
         private static bool CheckSheetSize(
             double width, double height, double tw, double th)
         {

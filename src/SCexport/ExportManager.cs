@@ -355,15 +355,15 @@ namespace SCaddins.SCexport
 
                     switch (scale) {
                     case 3:
-                        printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, "A3-FIT", pm, printerName, this.log);
+                        printSetttingsValid |= PrintSettings.PrintToDevice(doc, "A3-FIT", pm, printerName, this.log);
                         break;
                     case 2:
-                        printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, "A2-FIT", pm, printerName, this.log);
+                        printSetttingsValid |= PrintSettings.PrintToDevice(doc, "A2-FIT", pm, printerName, this.log);
                         break;
                     default:
                         int i = int.Parse(sheet.PageSize.Substring(1, 1), CultureInfo.InvariantCulture);
                         string printerNameTmp = i > 2 ? "this.PrinterNameA3" : this.PrinterNameLargeFormat;
-                        printSetttingsValid |= PrintSettings.ApplyPrintSettings(doc, sheet.PageSize, pm, printerNameTmp, this.log);
+                        printSetttingsValid |= PrintSettings.PrintToDevice(doc, sheet.PageSize, pm, printerNameTmp, this.log);
                         break;
                     }
                     if (printSetttingsValid) {
@@ -384,7 +384,7 @@ namespace SCaddins.SCexport
         public void Update()
         {
             PrintManager pm = doc.PrintManager;
-            PrintSettings.SetPrinter(doc, this.PdfPrinterName, pm);
+            PrintSettings.SetPrinterByName(doc, this.PdfPrinterName, pm);
 
             foreach (ExportSheet sc in this.allSheets) {
                 if (!sc.Verified) {
@@ -451,7 +451,7 @@ namespace SCaddins.SCexport
             DateTime startTime = DateTime.Now;
             TimeSpan elapsedTime = DateTime.Now - startTime;
             PrintManager pm = doc.PrintManager;
-            PrintSettings.SetPrinter(doc, this.PdfPrinterName, pm);
+            PrintSettings.SetPrinterByName(doc, this.PdfPrinterName, pm);
             this.log.Clear();
             this.log.TotalExports = progressBar.Maximum;
             this.log.Start("Export Started");
@@ -949,7 +949,7 @@ namespace SCaddins.SCexport
             
             this.log.AddMessage(vs.FullExportName, "Applying print setting: " + vs.PrintSettingName);
 
-            if (!PrintSettings.ApplyPrintSettings(doc, vs, pm, ".ps", this.PostscriptPrinterName)) {
+            if (!PrintSettings.PrintToFile(doc, vs, pm, ".ps", this.PostscriptPrinterName)) {
                 this.log.AddError(vs.FullExportName, "failed to assign print setting: " + vs.PrintSettingName);
                 return false;
             }
@@ -1011,7 +1011,7 @@ namespace SCaddins.SCexport
             
             this.log.AddMessage(vs.FullExportName, "Applying print setting: " + vs.PrintSettingName);
 
-            if (!PrintSettings.ApplyPrintSettings(doc, vs, pm, ".pdf", this.PdfPrinterName)) {
+            if (!PrintSettings.PrintToFile(doc, vs, pm, ".pdf", this.PdfPrinterName)) {
                 this.log.AddError(vs.FullExportName, "failed to assign print setting: " + vs.PrintSettingName);
                 return false;
             }

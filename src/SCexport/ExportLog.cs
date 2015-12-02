@@ -120,7 +120,7 @@
         
         public void Start(string message)
         {
-            AddLogItem(message);
+            this.AddLogItem(message);
             this.startTime = DateTime.Now;
         }
         
