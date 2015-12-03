@@ -72,12 +72,14 @@ namespace SCaddins.SCexport
                         #endif
                         if (isoSheetSize.Contains("FIT")) {
                             ips.PrintParameters.ZoomType = ZoomType.FitToPage;
-                            ips.PrintParameters.MarginType = MarginType.NoMargin;
+                            ips.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
+                            ips.PrintParameters.MarginType = MarginType.UserDefined;
+                            ips.PrintParameters.UserDefinedMarginX = 0;
+                            ips.PrintParameters.UserDefinedMarginY = 0;
                         } else {
                             ips.PrintParameters.ZoomType = ZoomType.Zoom;
                             ips.PrintParameters.Zoom = 100;
-                            ips.PrintParameters.PaperPlacement =
-                            PaperPlacementType.Margins;
+                            ips.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
                             ips.PrintParameters.MarginType = MarginType.UserDefined;
                             ips.PrintParameters.UserDefinedMarginX = 0;
                             ips.PrintParameters.UserDefinedMarginY = 0;

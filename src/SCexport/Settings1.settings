@@ -37,6 +37,9 @@
     <Setting Name="PSPrinterDriver" Type="System.String" Scope="User" Roaming="true">
       <Value Profile="(Default)">\\SCAPP01\DocuWide3035 (PS)</Value>
     </Setting>
+    <Setting Name="ShowExportLog" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
     <Setting Name="TagPDFExports" Type="System.Boolean" Scope="User" Roaming="true">
       <Value Profile="(Default)">False</Value>
     </Setting>

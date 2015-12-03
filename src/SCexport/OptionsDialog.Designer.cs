@@ -136,6 +136,7 @@ namespace SCaddins.SCexport
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.button3 = new System.Windows.Forms.Button();
+            this.checkBoxShowExportLog = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -379,6 +380,7 @@ namespace SCaddins.SCexport
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.checkBoxShowExportLog);
             this.tabPage3.Controls.Add(this.button5);
             this.tabPage3.Controls.Add(this.groupBox3);
             this.tabPage3.Controls.Add(this.groupBox2);
@@ -474,7 +476,7 @@ namespace SCaddins.SCexport
             this.groupBox2.Controls.Add(this.textBoxGSBin);
             this.groupBox2.Location = new System.Drawing.Point(6, 257);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(386, 110);
+            this.groupBox2.Size = new System.Drawing.Size(386, 93);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Ghostscript Options";
@@ -665,6 +667,15 @@ namespace SCaddins.SCexport
             this.button3.Text = "Cancel";
             this.button3.UseVisualStyleBackColor = true;
             // 
+            // checkBoxShowExportLog
+            // 
+            this.checkBoxShowExportLog.Location = new System.Drawing.Point(23, 359);
+            this.checkBoxShowExportLog.Name = "checkBoxShowExportLog";
+            this.checkBoxShowExportLog.Size = new System.Drawing.Size(354, 24);
+            this.checkBoxShowExportLog.TabIndex = 10;
+            this.checkBoxShowExportLog.Text = "Show export log after export completion (will always show on an error)";
+            this.checkBoxShowExportLog.UseVisualStyleBackColor = true;
+            // 
             // OptionsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -713,5 +724,6 @@ namespace SCaddins.SCexport
         private System.Windows.Forms.Button btnSelectLargeFormatPrinter;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox textBoxLargeFormatPrinter;
+        private System.Windows.Forms.CheckBox checkBoxShowExportLog;
     }
 }
