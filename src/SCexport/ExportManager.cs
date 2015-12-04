@@ -375,8 +375,8 @@ namespace SCaddins.SCexport
                 #if DEBUG
                 this.log.ShowSummaryDialog();
                 #else
-                if (exportLog.Errors > 0) {
-                    exportLog.ShowSummaryDialog();
+                if (this.log.Errors > 0) {
+                    this.log.ShowSummaryDialog();
                 }
                 #endif
             }
@@ -471,8 +471,8 @@ namespace SCaddins.SCexport
             #if DEBUG
             this.log.ShowSummaryDialog();
             #else
-            if (exportLog.Errors > 0) {
-                exportLog.ShowSummaryDialog();
+            if (this.log.Errors > 0) {
+                this.log.ShowSummaryDialog();
             }
             #endif
         }
