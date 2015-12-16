@@ -863,7 +863,8 @@ namespace SCaddins.SCexport
             }
 
             if (sheet.SCPrintSetting != null) {
-                if (this.exportFlags.HasFlag(ExportOptions.DWG)) {
+                var startTime = DateTime.Now;
+                if (this.exportFlags.HasFlag(ExportOptions.DWG)) {             
                     this.ExportDWG(sheet, this.exportFlags.HasFlag(ExportOptions.NoTitle));
                 }
 
@@ -882,6 +883,8 @@ namespace SCaddins.SCexport
                 if (this.exportFlags.HasFlag(ExportOptions.DWF)) {
                     ExportManager.ExportDWF(sheet);
                 }
+                var elapsedTime = DateTime.Now - startTime;
+                log.AddMessage(null, "Elapsed Time for last export: " + elapsedTime.ToString());
             } else {
                 this.log.AddError(sheet.FullExportName, "no print setting assigned.");
             }
@@ -897,7 +900,7 @@ namespace SCaddins.SCexport
 
         private void ExportDWG(ExportSheet vs, bool removeTitle)
         {
-            this.log.AddMessage(vs.FullExportName, "### Starting Ghostscipt PDF Export. ###");
+            this.log.AddMessage(vs.FullExportName, Environment.NewLine + "### Starting Ghostscipt PDF Export. ###");
             
             ICollection<ElementId> titleBlockHidden;
             titleBlockHidden = new List<ElementId>();
@@ -947,7 +950,7 @@ namespace SCaddins.SCexport
         [SecurityCritical]
         private bool ExportGSPDF(ExportSheet vs)
         {
-            this.log.AddMessage(vs.FullExportName, "### Starting Ghostscipt PDF Export ###");
+            this.log.AddMessage(vs.FullExportName, Environment.NewLine + "### Starting Ghostscipt PDF Export ###");
             this.log.AddMessage(vs.FullExportName, vs.ToString());
             
             PrintManager pm = doc.PrintManager;
