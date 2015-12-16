@@ -45,6 +45,12 @@ namespace SCaddins.SCexport
         {
             this.hooks.Add(hookName);
         }
+        
+        public override string ToString()
+        {
+            return string.Format("[SegmentedSheetName Hooks={0}, Name={1}, NameFormat={2}]", hooks, Name, NameFormat);
+        }
+
     }
 }
 

@@ -357,7 +357,7 @@ namespace SCaddins.SCexport
                 "    SheetRevision={17}," + Environment.NewLine +
                 "    SheetRevisionDate={18}," + Environment.NewLine +
                 "    SheetRevisionDescription={19}," + Environment.NewLine +
-                "    ExportDir={20}]",
+                "    ExportDir={20}",
                 this.sheetRevisionDateTime,
                 this.doc.PathName,
                 this.id,

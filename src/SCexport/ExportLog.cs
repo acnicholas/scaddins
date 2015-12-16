@@ -122,11 +122,14 @@
         {
             this.AddLogItem(message);
             this.startTime = DateTime.Now;
+            this.AddLogItem("Start Time: " +  this.startTime.ToLongTimeString());
         }
         
         public void Stop(string message)
         {
             this.endTime = DateTime.Now;
+            this.AddLogItem("End Time: " + this.endTime.ToLongTimeString());
+            this.AddLogItem("Total Export Time: " + this.TotalExportTime.ToString());
         }
         
         private void AddLogItem(string msg)
