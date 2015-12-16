@@ -70,6 +70,7 @@ namespace SCaddins.SCexport
             this.textBoxLargeFormatPrinter.Text = this.scx.PrinterNameLargeFormat;
             textBoxTextEditor.Text = SCaddins.SCexport.Settings1.Default.TextEditor;
             textBoxExportDir.Text = SCaddins.SCexport.Settings1.Default.ExportDir;
+            this.checkBoxShowExportLog.Checked = this.scx.ShowExportLog;
         }
 
         private void SaveValues()
@@ -80,6 +81,7 @@ namespace SCaddins.SCexport
             this.scx.PostscriptPrinterName = textBoxPSPrinter.Text;
             this.scx.PdfPrinterName = textBoxAdobeDriver.Text;
             this.scx.PrinterNameLargeFormat = textBoxLargeFormatPrinter.Text;
+            this.scx.ShowExportLog = this.checkBoxShowExportLog.Checked;
             SCaddins.SCexport.Settings1.Default.GSBinDirectory = this.scx.GhostscriptBinDir;
             SCaddins.SCexport.Settings1.Default.AdobePrinterDriver = this.scx.PdfPrinterName;
             SCaddins.SCexport.Settings1.Default.A3PrinterDriver = this.scx.PrinterNameA3;
@@ -92,6 +94,7 @@ namespace SCaddins.SCexport
             SCaddins.SCexport.Settings1.Default.ForceDateRevision = checkBoxForceDate.Checked;
             SCaddins.SCexport.Settings1.Default.HideTitleBlocks = checkBoxHideTitleblock.Checked;
             SCaddins.SCexport.Settings1.Default.AcadExportVersion = this.comboBoxAutocadVersion.SelectedItem.ToString();
+            SCaddins.SCexport.Settings1.Default.ShowExportLog = this.checkBoxShowExportLog.Checked;
             SCaddins.SCexport.Settings1.Default.Save();
         }
 

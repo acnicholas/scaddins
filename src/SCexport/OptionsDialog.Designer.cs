@@ -106,6 +106,7 @@ namespace SCaddins.SCexport
             this.checkBoxDGN = new System.Windows.Forms.CheckBox();
             this.checkBoxDWG = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.checkBoxShowExportLog = new System.Windows.Forms.CheckBox();
             this.button5 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnSelectTextEditor = new System.Windows.Forms.Button();
@@ -136,7 +137,6 @@ namespace SCaddins.SCexport
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.button3 = new System.Windows.Forms.Button();
-            this.checkBoxShowExportLog = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -393,11 +393,20 @@ namespace SCaddins.SCexport
             this.tabPage3.Text = "Advanced";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // checkBoxShowExportLog
+            // 
+            this.checkBoxShowExportLog.Location = new System.Drawing.Point(12, 359);
+            this.checkBoxShowExportLog.Name = "checkBoxShowExportLog";
+            this.checkBoxShowExportLog.Size = new System.Drawing.Size(380, 24);
+            this.checkBoxShowExportLog.TabIndex = 10;
+            this.checkBoxShowExportLog.Text = "Show export log after export completion (will always show on an error)";
+            this.checkBoxShowExportLog.UseVisualStyleBackColor = true;
+            // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(23, 389);
+            this.button5.Location = new System.Drawing.Point(12, 389);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(354, 23);
+            this.button5.Size = new System.Drawing.Size(370, 23);
             this.button5.TabIndex = 9;
             this.button5.Text = "Check for Updates";
             this.button5.UseVisualStyleBackColor = true;
@@ -666,15 +675,6 @@ namespace SCaddins.SCexport
             this.button3.TabIndex = 9;
             this.button3.Text = "Cancel";
             this.button3.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxShowExportLog
-            // 
-            this.checkBoxShowExportLog.Location = new System.Drawing.Point(23, 359);
-            this.checkBoxShowExportLog.Name = "checkBoxShowExportLog";
-            this.checkBoxShowExportLog.Size = new System.Drawing.Size(354, 24);
-            this.checkBoxShowExportLog.TabIndex = 10;
-            this.checkBoxShowExportLog.Text = "Show export log after export completion (will always show on an error)";
-            this.checkBoxShowExportLog.UseVisualStyleBackColor = true;
             // 
             // OptionsDialog
             // 

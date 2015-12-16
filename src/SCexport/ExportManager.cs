@@ -45,7 +45,6 @@ namespace SCaddins.SCexport
         private SegmentedSheetName fileNameScheme;
         private SortableBindingListCollection<ExportSheet> allSheets;
         private bool forceDate;
-        private bool showExportLog;
         private string exportDir;
 
         public ExportManager(Document doc)
@@ -161,6 +160,10 @@ namespace SCaddins.SCexport
             get {
                 return this.fileNameScheme;
             }
+        }
+        
+        public bool ShowExportLog {
+            get; set;
         }
 
         public static FamilyInstance TitleBlockInstanceFromSheetNumber(
@@ -471,7 +474,7 @@ namespace SCaddins.SCexport
             #if DEBUG
             this.log.ShowSummaryDialog();
             #else
-            if (this.log.Errors > 0) {
+            if (this.log.Errors > 0 || this.ShowExportLog) {
                 this.log.ShowSummaryDialog();
             }
             #endif
@@ -504,7 +507,7 @@ namespace SCaddins.SCexport
             this.GhostscriptLibDir = SCaddins.SCexport.Settings1.Default.GSLibDirectory; 
             this.exportDir = SCaddins.SCexport.Settings1.Default.ExportDir;
             this.AcadVersion = AcadVersionFromString(SCaddins.SCexport.Settings1.Default.AcadExportVersion);
-            this.showExportLog = SCaddins.SCexport.Settings1.Default.ShowExportLog;
+            this.ShowExportLog = SCaddins.SCexport.Settings1.Default.ShowExportLog;
         }
 
         private static void OpenSheet(UIDocument udoc, ViewSheet view, int inc)
