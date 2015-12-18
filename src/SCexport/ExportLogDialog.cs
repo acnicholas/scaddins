@@ -35,6 +35,7 @@ namespace SCaddins.SCexport
             }
 
             textBox1.Text = log.FullOutputLog;
+            textBox1.ScrollToCaret();
             Tabs.TabPages[1].Text = log.Warnings + " Warnings";
             Tabs.TabPages[2].Text = log.Errors + " Errors";
             label1.Text = log.TotalExports + " Exports attempted with " + log.Errors + " errors.";

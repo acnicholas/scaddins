@@ -221,7 +221,7 @@ namespace SCaddins.SCexport
                 string printerName,
                 ExportLog log)
         {       
-            log.AddMessage(null, "Attempting to Load Revit Print Settings:" + size);
+            log.AddMessage("Attempting to Load Revit Print Settings:" + size);
             PrintSetting ps = PrintSettings.GetPrintSettingByName(doc, size);
 
             if (ps == null) {
@@ -229,7 +229,7 @@ namespace SCaddins.SCexport
                 return null;
             }
             
-            log.AddMessage(null, "Using printer : " + printerName);
+            log.AddMessage("Using printer : " + printerName);
             if (!PrintSettings.SetPrinterByName(doc, printerName, pm)) {
                 log.AddError(null, "Cannot set printer: " + printerName);
                 return null;

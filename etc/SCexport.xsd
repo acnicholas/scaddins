@@ -17,7 +17,7 @@
                         <xs:sequence>
                             <xs:element name="Command" type="xs:string" />
                             <xs:element name="Args" type="xs:string" />
-                            <xs:element name="SupportedFileExtensions" type="xs:string" />
+                            <xs:element minOccurs="0" maxOccurs="unbounded" name="SupportedFileExtension" type="xs:string" />
                         </xs:sequence>
                         <xs:attribute name="name" type="xs:string" use="required" />
                     </xs:complexType>

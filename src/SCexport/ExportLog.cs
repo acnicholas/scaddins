@@ -86,7 +86,7 @@
             get { return this.endTime - this.startTime; }
         }
         
-        public void AddMessage(string fileName, string msg)
+        public void AddMessage(string msg)
         {
             this.AddLogItem(msg);
         }
@@ -122,11 +122,12 @@
         {
             this.AddLogItem(message);
             this.startTime = DateTime.Now;
-            this.AddLogItem("Start Time: " +  this.startTime.ToLongTimeString());
+            this.AddLogItem("Start Time: " + this.startTime.ToLongTimeString());
         }
         
         public void Stop(string message)
         {
+            this.AddLogItem(message);
             this.endTime = DateTime.Now;
             this.AddLogItem("End Time: " + this.endTime.ToLongTimeString());
             this.AddLogItem("Total Export Time: " + this.TotalExportTime.ToString());

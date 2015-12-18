@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 
      SCexport config file template.
-     Andrew Nicholas 201511115
+     Andrew Nicholas 20151218
 
      Place this in the same folder as your Revit Central file and rename it to
-     REVIT_FILE_NAME.xml
+     SCexport.xml
 -->
 
 <!-- 
@@ -80,7 +80,7 @@
     <PostExportHook name="tagPdf">
         <Command>C:\exiftool\exiftool.exe</Command>
         <Args>-Title="$fullExportName - $sheetDescription" -Author="Scott Carver Pty Ltd" -Subject="$projectNumber" $exportDir\$fullExportName.$fileExtension</Args>
-        <SupportedFileExtensions>pdf</SupportedFileExtensions>
+        <SupportedFileExtension>pdf</SupportedFileExtension>
     </PostExportHook>
     
     <!--
@@ -100,7 +100,7 @@
     <PostExportHook name="convertToPng">
         <Command>C:\Temp\createPNG.bat</Command>
         <Args>$exportDir\$fullExportName.$fileExtension</Args>
-        <SupportedFileExtensions>pdf</SupportedFileExtensions>
+        <SupportedFileExtension>pdf</SupportedFileExtension>
     </PostExportHook>
     
     
@@ -108,7 +108,7 @@
     <PostExportHook name="aconexDWGSuffix">
         <Command>cmd.exe</Command>
         <Args> /C RENAME "$exportDir\$fullExportName.$fileExtension" "$fullExportName_DWG.$fileExtension"</Args>
-        <SupportedFileExtensions>dwg</SupportedFileExtensions>
+        <SupportedFileExtension>dwg</SupportedFileExtension>
     </PostExportHook>
     
     
@@ -119,7 +119,7 @@
     <PostExportHook name="watermark">
         <Command>"C:\Program Files (x86)\PDFtk Server\bin\pdftk.exe"</Command>
         <Args> "$exportDir\$fullExportName.$fileExtension" background "$exportDir\watermark.pdf" output "$exportDir\$fullExportName-WM.$fileExtension"</Args>
-        <SupportedFileExtensions>pdf</SupportedFileExtensions>
+        <SupportedFileExtension>pdf</SupportedFileExtension>
     </PostExportHook>
     
 </SCexport>
