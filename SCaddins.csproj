@@ -324,6 +324,8 @@
     </Compile>
     <Compile Include="src\SCwash\SCwashForm.Designer.cs" />
     <Compile Include="src\SCwash\SCwashTreeNode.cs" />
+    <Compile Include="src\SCwm\SCwm.cs" />
+    <Compile Include="src\SCwm\SCwmCommands.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="src\Common\AboutBox.resx">
@@ -421,11 +423,13 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>SCincrementSettings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="src\SCwm\SCwm.ahk" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="etc" />
     <Folder Include="share" />
     <Folder Include="src\Manifest\2016" />
+    <Folder Include="src\SCwm" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Condition="'$(Configuration)' == 'Debug'" Project="C:\Program Files (x86)\MSBuild\StyleCop\v4.7\StyleCop.targets" />
