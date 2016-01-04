@@ -23,6 +23,12 @@ namespace SCaddins.SCwm
 
     public static class SCwm
     {
+        public static void MaximizeWindow(UIApplication app)
+        {
+            const string Cmd = @"C:\Andrew\code\cs\scaddins\etc\SCwmMaximizeWindow.exe";
+            SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg(Cmd, string.Empty);       
+        }
+        
         public static void TileWindows(UIApplication app, int mainWidthPercentage)
         {
             const string Cmd = @"C:\Andrew\code\cs\scaddins\etc\SCwm.exe";
@@ -31,12 +37,15 @@ namespace SCaddins.SCwm
             var activeView = app.ActiveUIDocument.ActiveView;
             var activeFileName = System.IO.Path.GetFileName(app.ActiveUIDocument.Document.PathName);
             var mainWidth = GetDrawingAreaWidth(app) * mainWidthPercentage / 100;
+            //if(GetNumberOfPhysicalScreens() > 1) {
+            //    mainWidth = 
+            //}
             var mainHeight = GetDrawingAreaHeight(app) - 4;
             var minorWidth = GetDrawingAreaWidth(app) - mainWidth;
             
             // set main window location
             var args = "\"" + activeView.Name + "\"" + " 0 0 " + mainWidth + " " + mainHeight;
-            SCexport.SCexport.StartHiddenConsoleProg(Cmd, args);
+            SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg(Cmd, args);
             
             // set secondary window locations
             var numberOfViews = GetNumberOfOpenViews(app);
@@ -54,11 +63,16 @@ namespace SCaddins.SCwm
                     var viewName = v.Name + " - " + System.IO.Path.GetFileName(doc.PathName);
                     if (viewName != activeView.Name + " - " + activeFileName) {
                         var args2 = "\"" + v.Name + "\" " + mainWidth + " " + (th * i) + " " + minorWidth + " " + th;
-                        SCexport.SCexport.StartHiddenConsoleProg(Cmd, args2);
+                        SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg(Cmd, args2);
                         i++;
                     }
                 }
             }
+        }
+        
+        public static int GetNumberOfPhysicalScreens()
+        {
+            return System.Windows.Forms.Screen.AllScreens.Length;
         }
            
         public static int GetDrawingAreaWidth(UIApplication app) {

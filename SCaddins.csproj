@@ -326,6 +326,7 @@
     <Compile Include="src\SCwash\SCwashTreeNode.cs" />
     <Compile Include="src\SCwm\SCwm.cs" />
     <Compile Include="src\SCwm\SCwmCommands.cs" />
+    <Compile Include="src\SCwm\SCwmMaximizeUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="src\Common\AboutBox.resx">

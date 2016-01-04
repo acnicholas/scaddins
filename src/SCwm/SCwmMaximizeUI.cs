@@ -25,7 +25,7 @@ namespace SCaddins.SCwm
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
-    public class Command : IExternalCommand
+    public class MaximizeUI : IExternalCommand
     {
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
@@ -33,7 +33,7 @@ namespace SCaddins.SCwm
             Autodesk.Revit.DB.ElementSet elements)
         {
             UIApplication application = commandData.Application; 
-            SCwm.TileWindows(application, 65);
+            SCwm.MaximizeWindow(application);
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }
