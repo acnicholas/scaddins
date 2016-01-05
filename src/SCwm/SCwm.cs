@@ -36,9 +36,10 @@ namespace SCaddins.SCwm
             var activeView = app.ActiveUIDocument.ActiveView;
             var activeFileName = System.IO.Path.GetFileName(app.ActiveUIDocument.Document.PathName);
             var mainWidth = GetDrawingAreaWidth(app) * mainWidthPercentage / 100;
-            //if(GetNumberOfPhysicalScreens() > 1) {
-            //    mainWidth = 
-            //}
+            if(GetNumberOfPhysicalScreens() > 1) {
+                System.Windows.Forms.Screen mainScreen = GetScreen(0);
+                mainWidth = mainScreen.Bounds.Width - GetDrawingAreaX(app);
+            }
             var mainHeight = GetDrawingAreaHeight(app) - 4;
             var minorWidth = GetDrawingAreaWidth(app) - mainWidth;
             
@@ -73,6 +74,11 @@ namespace SCaddins.SCwm
         {
             return System.Windows.Forms.Screen.AllScreens.Length;
         }
+        
+        public static System.Windows.Forms.Screen GetScreen(int screenNumber)
+        {
+            return System.Windows.Forms.Screen.AllScreens[screenNumber];
+        }
            
         public static int GetDrawingAreaWidth(UIApplication app) {
             var rect = app.DrawingAreaExtents;
@@ -82,6 +88,11 @@ namespace SCaddins.SCwm
         public static int GetDrawingAreaHeight(UIApplication app) {
             var rect = app.DrawingAreaExtents;
             return rect.Bottom - rect.Top;
+        }
+        
+        public static int GetDrawingAreaX(UIApplication app) {
+            var rect = app.DrawingAreaExtents;
+            return rect.Left;
         }
         
         public static int GetNumberOfOpenViews(UIApplication app)

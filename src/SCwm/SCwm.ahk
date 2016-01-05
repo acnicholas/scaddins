@@ -12,5 +12,11 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 SetTitleMatchMode, 2
 ControlGet, ctrlH, HWND,, %1%, Revit
+
+;UNCOMMENT TO REMOVE TITLE
+WinSet, Style, -0xC00000, ahk_id %ctrlH%
+;UNCOMMENT FOR THIN BORDERS
+WinSet, Style, -0x400000, ahk_id %ctrlH%
+
 WinMove, ahk_id %ctrlH%,,%2%, %3%, %4%, %5%
 Exit
