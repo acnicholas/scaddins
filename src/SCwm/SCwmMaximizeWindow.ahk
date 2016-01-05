@@ -5,11 +5,22 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 WinGetActiveTitle, Title
 WinRestore, %Title%
+
+;WinGetPos, X, Y, W, H, %Title%
+
 SysGet, MonitorPrimary, MonitorPrimary
 SysGet, MainWindow, MonitorWorkArea, MonitorPrimary
 SysGet, X1, 76
 SysGet, Y1, 77
 SysGet, Width, 78
 ;SysGet, Height, 1
-WinMove, %Title%,, X1, Y1, Width, MainWindowBottom
+
+;MsgBox,, %W%
+;MsgBox,, %Width%
+
+; if W < Width
+    WinMove, %Title%,, X1, Y1, Width, MainWindowBottom
+; else
+;     WinMaximize, A
+    
 Exit

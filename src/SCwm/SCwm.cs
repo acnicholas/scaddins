@@ -33,7 +33,6 @@ namespace SCaddins.SCwm
         {
             const string Cmd = @"C:\Andrew\code\cs\scaddins\etc\SCwm.exe";
             
-            // const string cmd = @"C:\Users\deroB\Documents\Code\scaddins\etc\SCwm.exe";
             var activeView = app.ActiveUIDocument.ActiveView;
             var activeFileName = System.IO.Path.GetFileName(app.ActiveUIDocument.Document.PathName);
             var mainWidth = GetDrawingAreaWidth(app) * mainWidthPercentage / 100;
