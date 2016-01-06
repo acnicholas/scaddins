@@ -1,4 +1,4 @@
-// (C) Copyright 2015 by Andrew Nicholas
+// (C) Copyright 2015-2016 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -45,7 +45,7 @@ namespace SCaddins.SCwm
             
             // set main window location
             var args = "\"" + activeView.Name + "\"" + " 0 0 " + mainWidth + " " + mainHeight;
-            SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg(Cmd, args);
+            SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg(Cmd, args, 0);
             
             // set secondary window locations
             var numberOfViews = GetNumberOfOpenViews(app);
@@ -63,7 +63,7 @@ namespace SCaddins.SCwm
                     var viewName = v.Name + " - " + System.IO.Path.GetFileName(doc.PathName);
                     if (viewName != activeView.Name + " - " + activeFileName) {
                         var args2 = "\"" + v.Name + "\" " + mainWidth + " " + (th * i) + " " + minorWidth + " " + th;
-                        SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg(Cmd, args2);
+                        SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg(Cmd, args2, 0);
                         i++;
                     }
                 }

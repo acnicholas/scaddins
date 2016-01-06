@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2015 by Andrew Nicholas
+﻿// (C) Copyright 2015-2016 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -26,19 +26,20 @@ namespace SCaddins.Common
         [SecurityCritical]
         public static void StartHiddenConsoleProg(string exePath, string args)
         {
+            StartHiddenConsoleProg(exePath, args, 20000);
+        }
+        
+        [SecurityCritical]
+        public static void StartHiddenConsoleProg(string exePath, string args, int waitTime)
+        {
             var startInfo = new System.Diagnostics.ProcessStartInfo();
-
-            // startInfo.CreateNoWindow = false;
-            // startInfo.UseShellExecute = true;
-            // startInfo.RedirectStandardOutput = false;
-            // startInfo.RedirectStandardError = false;
             startInfo.FileName = exePath;
 
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             startInfo.Arguments = args;
             var p = new Process();
             p = System.Diagnostics.Process.Start(startInfo);
-            p.WaitForExit(20000);
+            p.WaitForExit(waitTime);
         }
     }
 }
