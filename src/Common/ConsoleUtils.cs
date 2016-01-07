@@ -36,7 +36,9 @@ namespace SCaddins.Common
             startInfo.FileName = exePath;
 
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            startInfo.Arguments = args;
+            if (!string.IsNullOrEmpty(args)) {
+                startInfo.Arguments = args;
+            }
             var p = new Process();
             p = System.Diagnostics.Process.Start(startInfo);
             p.WaitForExit(waitTime);

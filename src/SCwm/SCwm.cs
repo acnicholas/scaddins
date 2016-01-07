@@ -23,16 +23,15 @@ namespace SCaddins.SCwm
 
     public static class SCwm
     {
+        const string Cmd = @"C:\Andrew\code\cs\scaddins\etc\SCwm.exe";
+        
         public static void MaximizeWindow(UIApplication app)
         {
-            const string Cmd = @"C:\Andrew\code\cs\scaddins\etc\SCwmMaximizeWindow.exe";
             SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg(Cmd, string.Empty);       
         }
         
         public static void TileWindows(UIApplication app, int mainWidthPercentage)
         {
-            const string Cmd = @"C:\Andrew\code\cs\scaddins\etc\SCwm.exe";
-            
             var activeView = app.ActiveUIDocument.ActiveView;
             var activeFileName = System.IO.Path.GetFileName(app.ActiveUIDocument.Document.PathName);
             var mainWidth = GetDrawingAreaWidth(app) * mainWidthPercentage / 100;
