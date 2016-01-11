@@ -23,16 +23,47 @@ namespace SCaddins.SCwm
 
     public static class SCwm
     {
-        const string Cmd = @"C:\Andrew\code\cs\scaddins\etc\SCwm.exe";
         
-        public static void MaximizeWindow(UIApplication app)
+        private static View activeView;
+        private const string Cmd = @"C:\Andrew\code\cs\scaddins\etc\SCwm.exe";
+        
+        public static void MaximizeWindow()
         {
             SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg(Cmd, string.Empty);       
         }
         
+        public static void SwapWindows(UIApplication app, int mainWidthPercentage)
+        {
+            //hack to get largest window         
+        }
+        
+//        public static string GetLargestUIViewName(UIApplication app)
+//        {
+//           var activeFileName = System.IO.Path.GetFileName(app.ActiveUIDocument.Document.PathName);
+//           View largestView;
+//           var largestViewName = activeFileName;
+//           foreach (Document doc in app.Application.Documents) {
+//                UIDocument udoc = new UIDocument(doc);   
+//                foreach (UIView view in udoc.GetOpenUIViews()) {
+//                    if(ViewArea(view) > largestView) {
+//                        largestViewName = view    
+//                    }
+//                }
+//            }    
+//        }
+            
+        public static int ViewArea(UIView view)
+        {
+            int x = view.GetWindowRectangle().Left;
+            int y = view.GetWindowRectangle().Top;
+            int w = view.GetWindowRectangle().Right - x;
+            int h = view.GetWindowRectangle().Bottom - y;
+            return w * h;
+        }
+                
         public static void TileWindows(UIApplication app, int mainWidthPercentage)
         {
-            var activeView = app.ActiveUIDocument.ActiveView;
+            activeView = app.ActiveUIDocument.ActiveView;
             var activeFileName = System.IO.Path.GetFileName(app.ActiveUIDocument.Document.PathName);
             var mainWidth = GetDrawingAreaWidth(app) * mainWidthPercentage / 100;
             if(GetNumberOfPhysicalScreens() > 1) {
@@ -48,12 +79,12 @@ namespace SCaddins.SCwm
             
             // set secondary window locations
             var numberOfViews = GetNumberOfOpenViews(app);
-            var th = GetDrawingAreaHeight(app) / (numberOfViews - 1);
-            
             if (numberOfViews == 1) {
                 return;
             }
             
+            var th = GetDrawingAreaHeight(app) / (numberOfViews - 1);
+                     
             int i = 0;
             foreach (Document doc in app.Application.Documents) {
                 UIDocument udoc = new UIDocument(doc);   

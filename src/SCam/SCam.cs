@@ -37,27 +37,69 @@ namespace SCaddins.SCam
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
             View currentView = doc.ActiveView;
+            
+            switch (currentView.ViewType) {
+                case ViewType.ThreeD:
+                    CreatePerspectiveFrom3D(doc, currentView as View3D);
+                    break;
+                case ViewType.FloorPlan:
+                    CreatePerspectiveFromPlan(commandData.Application.ActiveUIDocument, currentView);
+                    break;
+            }
 
+            return Autodesk.Revit.UI.Result.Succeeded;
+        }
+        
+        private static IEnumerable<ViewFamilyType> Get3DViewFamilyTypes(Document doc)
+        {
             IEnumerable<ViewFamilyType> viewFamilyTypes
                 = from elem in new FilteredElementCollector(doc)
                 .OfClass(typeof(ViewFamilyType))
                 let type = elem as ViewFamilyType
                 where type.ViewFamily == ViewFamily.ThreeDimensional
-                select type;
-
-            var v3 = currentView as View3D;
-            ViewOrientation3D vo = v3.GetOrientation();
-
+                select type;   
+            return viewFamilyTypes;
+        }
+        
+        public static XYZ GetMiddleOfActiveViewWindow(UIDocument udoc, View planView)
+        {
+            foreach (UIView view in udoc.GetOpenUIViews()) {
+                View v = (View)udoc.Document.GetElement(view.ViewId);
+                //var viewName = v.Name + " - " + System.IO.Path.GetFileName(udoc.Document.PathName);
+                if(v.Name == planView.Name) {
+                    XYZ topLeft = view.GetZoomCorners()[0];
+                    XYZ bottomRight = view.GetZoomCorners()[3];
+                    double middleX = bottomRight.X - (bottomRight.X - topLeft.X)/2;
+                    double middleY = bottomRight.Y - (bottomRight.Y - topLeft.Y)/2;  
+                    return new XYZ(middleX,middleY,view.GetZoomCorners()[0].Z);
+                }
+            }
+            return new XYZ();
+        }    
+                
+        private static void CreatePerspectiveFromPlan(UIDocument udoc, View planView)
+        {
+            XYZ eye = GetMiddleOfActiveViewWindow(udoc, planView);
+            TaskDialog.Show("test", eye.X + "-" + eye.Y + "-" + eye.Z);
+            XYZ up = new XYZ(0,1,0);
+            XYZ forward = new XYZ(0,0,-1);
+            ViewOrientation3D v = new ViewOrientation3D(eye, up, forward);
+            var t = new Transaction(udoc.Document);
+            t.Start("Create perspective view");
+            View3D np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
+            np.SetOrientation(new ViewOrientation3D(v.EyePosition, v.UpDirection, v.ForwardDirection));
+            t.Commit();
+        }
+    
+        private static void CreatePerspectiveFrom3D(Document doc, View3D view)
+        {
+            ViewOrientation3D v = view.GetOrientation();
             var t = new Transaction(doc);
             t.Start("Create perspective view");
-
-            View3D np = View3D.CreatePerspective(doc, viewFamilyTypes.First().Id);
-            np.SetOrientation(new ViewOrientation3D(vo.EyePosition, vo.UpDirection, vo.ForwardDirection));
-
+            View3D np = View3D.CreatePerspective(doc, Get3DViewFamilyTypes(doc).First().Id);
+            np.SetOrientation(new ViewOrientation3D(v.EyePosition, v.UpDirection, v.ForwardDirection));
             t.Commit();
-
-            return Autodesk.Revit.UI.Result.Succeeded;
-        }
+        }   
     }
 }
 

@@ -32,8 +32,7 @@ namespace SCaddins.SCwm
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            UIApplication application = commandData.Application; 
-            SCwm.MaximizeWindow(application);
+            SCwm.MaximizeWindow();
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }
