@@ -68,10 +68,10 @@ namespace SCaddins.SCam
                 //var viewName = v.Name + " - " + System.IO.Path.GetFileName(udoc.Document.PathName);
                 if(v.Name == planView.Name) {
                     XYZ topLeft = view.GetZoomCorners()[0];
-                    XYZ bottomRight = view.GetZoomCorners()[3];
+                    XYZ bottomRight = view.GetZoomCorners()[1];
                     double middleX = bottomRight.X - (bottomRight.X - topLeft.X)/2;
-                    double middleY = bottomRight.Y - (bottomRight.Y - topLeft.Y)/2;  
-                    return new XYZ(middleX,middleY,view.GetZoomCorners()[0].Z);
+                    double middleY = bottomRight.Y - (bottomRight.Y - topLeft.Y)/2;                    
+                    return new XYZ(middleX,middleY,view.GetZoomCorners()[0].Z + 30);
                 }
             }
             return new XYZ();
