@@ -42,8 +42,16 @@ namespace SCaddins.SCam
                 case ViewType.ThreeD:
                     CreatePerspectiveFrom3D(doc, currentView as View3D);
                     break;
-                case ViewType.FloorPlan:
+               case ViewType.FloorPlan:
                     CreatePerspectiveFromPlan(commandData.Application.ActiveUIDocument, currentView);
+                    break;
+                default:
+                    TaskDialog td = new TaskDialog("SCam - SC Camera Tool");
+                    td.MainInstruction = "Oops!";
+                    td.MainContent = "Currently cameras can only be created in 3d and Plan views" +
+                        System.Environment.NewLine +
+                        "Please create sections/elevations from an isometric view";
+                    td.Show();
                     break;
             }
 
@@ -61,25 +69,49 @@ namespace SCaddins.SCam
             return viewFamilyTypes;
         }
         
-        public static XYZ GetMiddleOfActiveViewWindow(UIDocument udoc, View planView)
+        public static UIView ActiveUIView(UIDocument udoc, View planView)
         {
-            foreach (UIView view in udoc.GetOpenUIViews()) {
+                foreach (UIView view in udoc.GetOpenUIViews()) {
                 View v = (View)udoc.Document.GetElement(view.ViewId);
-                //var viewName = v.Name + " - " + System.IO.Path.GetFileName(udoc.Document.PathName);
                 if(v.Name == planView.Name) {
-                    XYZ topLeft = view.GetZoomCorners()[0];
-                    XYZ bottomRight = view.GetZoomCorners()[1];
-                    double middleX = bottomRight.X - (bottomRight.X - topLeft.X)/2;
-                    double middleY = bottomRight.Y - (bottomRight.Y - topLeft.Y)/2;                    
-                    return new XYZ(middleX,middleY,view.GetZoomCorners()[0].Z + 30);
+                    return view;
                 }
             }
-            return new XYZ();
-        }    
+            return null;   
+        }
+        
+        public static XYZ GetMiddleOfActiveViewWindow(UIView view)
+        { 
+            if(view == null) {
+                return new XYZ();
+            }
+            XYZ topLeft = view.GetZoomCorners()[0];
+            XYZ bottomRight = view.GetZoomCorners()[1];
+            double middleX = bottomRight.X - ((bottomRight.X - topLeft.X) / 2);
+            double middleY = bottomRight.Y - ((bottomRight.Y - topLeft.Y) / 2);
+            return new XYZ(middleX, middleY, view.GetZoomCorners()[0].Z + 30);
+        }  
+        
+        public static BoundingBoxXYZ ViewExtentsBoundingBox(UIView view)
+        {
+            if (view == null) return new BoundingBoxXYZ();
+            BoundingBoxXYZ result = new BoundingBoxXYZ();
+            XYZ min = new XYZ(view.GetZoomCorners()[0].X, view.GetZoomCorners()[0].Y, view.GetZoomCorners()[0].Z - 4);
+            XYZ max = new XYZ(view.GetZoomCorners()[1].X, view.GetZoomCorners()[1].Y, view.GetZoomCorners()[1].Z + 4);
+            result.set_Bounds(0, min);
+            result.set_Bounds(1, max);
+            return result;
+        }
+
+        public static void ApplySectionBoxToView(BoundingBoxXYZ bounds, View3D view)
+        {
+            view.SetSectionBox(bounds);
+        }
                 
         private static void CreatePerspectiveFromPlan(UIDocument udoc, View planView)
         {
-            XYZ eye = GetMiddleOfActiveViewWindow(udoc, planView);
+            UIView view = ActiveUIView(udoc, planView);
+            XYZ eye = GetMiddleOfActiveViewWindow(view);
             TaskDialog.Show("test", eye.X + "-" + eye.Y + "-" + eye.Z);
             XYZ up = new XYZ(0,1,0);
             XYZ forward = new XYZ(0,0,-1);
@@ -88,6 +120,7 @@ namespace SCaddins.SCam
             t.Start("Create perspective view");
             View3D np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
             np.SetOrientation(new ViewOrientation3D(v.EyePosition, v.UpDirection, v.ForwardDirection));
+            ApplySectionBoxToView(ViewExtentsBoundingBox(view), np);
             t.Commit();
         }
     
