@@ -87,9 +87,12 @@ namespace SCaddins.SCam
             }
             XYZ topLeft = view.GetZoomCorners()[0];
             XYZ bottomRight = view.GetZoomCorners()[1];
-            double middleX = bottomRight.X - ((bottomRight.X - topLeft.X) / 2);
-            double middleY = bottomRight.Y - ((bottomRight.Y - topLeft.Y) / 2);
-            return new XYZ(middleX, middleY, view.GetZoomCorners()[0].Z + 30);
+            double width = bottomRight.X - topLeft.X;
+            double height = bottomRight.Y - topLeft.Y;
+            double middleX = bottomRight.X - (width / 2);
+            double middleY = bottomRight.Y - (height / 2);
+            double eyeHeight = height > width ? (height * 1.5) : width;
+            return new XYZ(middleX, middleY, eyeHeight);
         }  
         
         public static BoundingBoxXYZ ViewExtentsBoundingBox(UIView view)
@@ -111,8 +114,8 @@ namespace SCaddins.SCam
         private static void CreatePerspectiveFromPlan(UIDocument udoc, View planView)
         {
             UIView view = ActiveUIView(udoc, planView);
-            XYZ eye = GetMiddleOfActiveViewWindow(view);
-            TaskDialog.Show("test", eye.X + "-" + eye.Y + "-" + eye.Z);
+            XYZ eye = GetMiddleOfActiveViewWindow(view);            
+            //TaskDialog.Show("test", eye.X + "-" + eye.Y + "-" + eye.Z);
             XYZ up = new XYZ(0,1,0);
             XYZ forward = new XYZ(0,0,-1);
             ViewOrientation3D v = new ViewOrientation3D(eye, up, forward);
