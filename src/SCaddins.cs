@@ -138,7 +138,7 @@ namespace SCaddins
                     GetButtonByIndex(collection, 8),
                     GetButtonByIndex(collection, 9));
             }
-            
+                        
             ribbonPanel.AddSlideOut();
 
             // FIXME - dont do this again.

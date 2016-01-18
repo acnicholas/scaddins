@@ -40,7 +40,7 @@ namespace SCaddins.SCam
             
             switch (currentView.ViewType) {
                 case ViewType.ThreeD:
-                    CreatePerspectiveFrom3D(doc, currentView as View3D);
+                    CreatePerspectiveFrom3D(commandData.Application.ActiveUIDocument, currentView as View3D);
                     break;
                case ViewType.FloorPlan:
                     CreatePerspectiveFromPlan(commandData.Application.ActiveUIDocument, currentView);
@@ -115,7 +115,6 @@ namespace SCaddins.SCam
         {
             UIView view = ActiveUIView(udoc, planView);
             XYZ eye = GetMiddleOfActiveViewWindow(view);            
-            //TaskDialog.Show("test", eye.X + "-" + eye.Y + "-" + eye.Z);
             XYZ up = new XYZ(0,1,0);
             XYZ forward = new XYZ(0,0,-1);
             ViewOrientation3D v = new ViewOrientation3D(eye, up, forward);
@@ -127,13 +126,14 @@ namespace SCaddins.SCam
             t.Commit();
         }
     
-        private static void CreatePerspectiveFrom3D(Document doc, View3D view)
+        private static void CreatePerspectiveFrom3D(UIDocument udoc, View3D view)
         {
             ViewOrientation3D v = view.GetOrientation();
-            var t = new Transaction(doc);
+            var t = new Transaction(udoc.Document);
             t.Start("Create perspective view");
-            View3D np = View3D.CreatePerspective(doc, Get3DViewFamilyTypes(doc).First().Id);
-            np.SetOrientation(new ViewOrientation3D(v.EyePosition, v.UpDirection, v.ForwardDirection));
+            XYZ centreOfScreen = GetMiddleOfActiveViewWindow(ActiveUIView(udoc, (View)view));
+            View3D np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
+            np.SetOrientation(new ViewOrientation3D(new XYZ(centreOfScreen.X, centreOfScreen.Y, v.EyePosition.Z), v.UpDirection, v.ForwardDirection));
             t.Commit();
         }   
     }
