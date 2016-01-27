@@ -44,7 +44,8 @@ namespace SCaddins.SCloudSChed
             a = new FilteredElementCollector(doc);
             a.OfCategory(BuiltInCategory.OST_RevisionClouds);
 
-            string[,] data = new string[a.ToElements().Count + 1, 7];
+            string[,] data = new string[a.ToElements().Count + 1, 8];
+            data[0, 7] = "GUID";
             data[0, 0] = "Sheet Number";
             data[0, 1] = "Revision Number";
             data[0, 2] = "Sheet Name";
@@ -57,9 +58,10 @@ namespace SCaddins.SCloudSChed
                 string description = GetParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_DESCRIPTION);
                 string date = GetParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_DATE);
                 RevisionItem revItem;
-                if (dictionary.TryGetValue(date + description, out revItem)) {
+                if (dictionary.TryGetValue(date + description, out revItem)) {     
                     if (revItem.Export) {
-                        cloudNumber++;
+                        cloudNumber++; 
+                        data[cloudNumber, 7] = revCloud.Id.IntegerValue.ToString();
                         string viewName = string.Empty;
                         try {
                             View view = (View)doc.GetElement(revCloud.OwnerViewId);
@@ -85,7 +87,7 @@ namespace SCaddins.SCloudSChed
             if (cloudNumber < 1) {
                 TaskDialog.Show("WARNING", "no clouds found to export");
             } else {
-                WriteArray(data, cloudNumber, 7, excelWorksheet);
+                WriteArray(data, cloudNumber, 8, excelWorksheet);
                 TaskDialog.Show("Finished", cloudNumber + @" revision clouds sheduled in the file " + ExportFilename);
                 excelWorkbook.SaveAs(ExportFilename, XlFileFormat.xlWorkbookNormal);
                 excelWorkbook.Close();
@@ -115,7 +117,7 @@ namespace SCaddins.SCloudSChed
         {
             if (worksheet != null) {
                 var startCell = worksheet.Cells[1, 1] as Range;
-                var endCell = worksheet.Cells[rows, columns] as Range;
+                var endCell = worksheet.Cells[rows+1, columns] as Range;
                 var writeRange = worksheet.Range[startCell, endCell];
                 writeRange.Value2 = data;
             }
