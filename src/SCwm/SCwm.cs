@@ -22,10 +22,9 @@ namespace SCaddins.SCwm
     using Autodesk.Revit.UI;
 
     public static class SCwm
-    {
-        
-        private static View activeView;
+    {       
         private const string Cmd = @"C:\Andrew\code\cs\scaddins\etc\SCwm.exe";
+        private static View activeView;
         
         public static void MaximizeWindow()
         {
@@ -34,24 +33,9 @@ namespace SCaddins.SCwm
         
         public static void SwapWindows(UIApplication app, int mainWidthPercentage)
         {
-            //hack to get largest window         
+            // hack to get largest window         
         }
-        
-//        public static string GetLargestUIViewName(UIApplication app)
-//        {
-//           var activeFileName = System.IO.Path.GetFileName(app.ActiveUIDocument.Document.PathName);
-//           View largestView;
-//           var largestViewName = activeFileName;
-//           foreach (Document doc in app.Application.Documents) {
-//                UIDocument udoc = new UIDocument(doc);   
-//                foreach (UIView view in udoc.GetOpenUIViews()) {
-//                    if(ViewArea(view) > largestView) {
-//                        largestViewName = view    
-//                    }
-//                }
-//            }    
-//        }
-            
+                  
         public static int ViewArea(UIView view)
         {
             int x = view.GetWindowRectangle().Left;
@@ -66,7 +50,7 @@ namespace SCaddins.SCwm
             activeView = app.ActiveUIDocument.ActiveView;
             var activeFileName = System.IO.Path.GetFileName(app.ActiveUIDocument.Document.PathName);
             var mainWidth = GetDrawingAreaWidth(app) * mainWidthPercentage / 100;
-            if(GetNumberOfPhysicalScreens() > 1) {
+            if (GetNumberOfPhysicalScreens() > 1) {
                 System.Windows.Forms.Screen mainScreen = GetScreen(0);
                 mainWidth = mainScreen.Bounds.Width - GetDrawingAreaX(app);
             }

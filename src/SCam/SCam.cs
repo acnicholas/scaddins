@@ -57,23 +57,12 @@ namespace SCaddins.SCam
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }
-        
-        private static IEnumerable<ViewFamilyType> Get3DViewFamilyTypes(Document doc)
-        {
-            IEnumerable<ViewFamilyType> viewFamilyTypes
-                = from elem in new FilteredElementCollector(doc)
-                .OfClass(typeof(ViewFamilyType))
-                let type = elem as ViewFamilyType
-                where type.ViewFamily == ViewFamily.ThreeDimensional
-                select type;   
-            return viewFamilyTypes;
-        }
-        
+               
         public static UIView ActiveUIView(UIDocument udoc, View planView)
         {
                 foreach (UIView view in udoc.GetOpenUIViews()) {
                 View v = (View)udoc.Document.GetElement(view.ViewId);
-                if(v.Name == planView.Name) {
+                if (v.Name == planView.Name) {
                     return view;
                 }
             }
@@ -82,7 +71,7 @@ namespace SCaddins.SCam
         
         public static XYZ GetMiddleOfActiveViewWindow(UIView view)
         { 
-            if(view == null) {
+            if (view == null) {
                 return new XYZ();
             }
             XYZ topLeft = view.GetZoomCorners()[0];
@@ -97,7 +86,9 @@ namespace SCaddins.SCam
         
         public static BoundingBoxXYZ ViewExtentsBoundingBox(UIView view)
         {
-            if (view == null) return new BoundingBoxXYZ();
+            if (view == null) {
+                return new BoundingBoxXYZ();
+            }
             BoundingBoxXYZ result = new BoundingBoxXYZ();
             XYZ min = new XYZ(view.GetZoomCorners()[0].X, view.GetZoomCorners()[0].Y, view.GetZoomCorners()[0].Z - 4);
             XYZ max = new XYZ(view.GetZoomCorners()[1].X, view.GetZoomCorners()[1].Y, view.GetZoomCorners()[1].Z + 4);
@@ -115,8 +106,8 @@ namespace SCaddins.SCam
         {
             UIView view = ActiveUIView(udoc, planView);
             XYZ eye = GetMiddleOfActiveViewWindow(view);            
-            XYZ up = new XYZ(0,1,0);
-            XYZ forward = new XYZ(0,0,-1);
+            XYZ up = new XYZ(0, 1, 0);
+            XYZ forward = new XYZ(0, 0, -1);
             ViewOrientation3D v = new ViewOrientation3D(eye, up, forward);
             var t = new Transaction(udoc.Document);
             t.Start("Create perspective view");
@@ -124,6 +115,17 @@ namespace SCaddins.SCam
             np.SetOrientation(new ViewOrientation3D(v.EyePosition, v.UpDirection, v.ForwardDirection));
             ApplySectionBoxToView(ViewExtentsBoundingBox(view), np);
             t.Commit();
+        }
+        
+        private static IEnumerable<ViewFamilyType> Get3DViewFamilyTypes(Document doc)
+        {
+            IEnumerable<ViewFamilyType> viewFamilyTypes
+                = from elem in new FilteredElementCollector(doc)
+                .OfClass(typeof(ViewFamilyType))
+                let type = elem as ViewFamilyType
+                where type.ViewFamily == ViewFamily.ThreeDimensional
+                select type;   
+            return viewFamilyTypes;
         }
     
         private static void CreatePerspectiveFrom3D(UIDocument udoc, View3D view)

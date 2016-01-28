@@ -117,7 +117,7 @@ namespace SCaddins.SCloudSChed
         {
             if (worksheet != null) {
                 var startCell = worksheet.Cells[1, 1] as Range;
-                var endCell = worksheet.Cells[rows+1, columns] as Range;
+                var endCell = worksheet.Cells[rows + 1, columns] as Range;
                 var writeRange = worksheet.Range[startCell, endCell];
                 writeRange.Value2 = data;
             }

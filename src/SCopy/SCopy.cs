@@ -1,4 +1,4 @@
-// (C) Copyright 2014-2015 by Andrew Nicholas
+// (C) Copyright 2014-2016 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -151,29 +151,17 @@ namespace SCaddins.SCopy
         #endregion
 
         #region private methods
-         
-        private static XYZ ViewCenterFromTBBottomLeft(BoundingBoxXYZ viewBounds)
-        {
-            var x1 = viewBounds.Min.X;
-            var x2 = viewBounds.Max.X;
-            var y1 = viewBounds.Min.Y;
-            var y2 = viewBounds.Max.Y;
-            var xyzPosition = new XYZ((x1 + (x2 - x1)) / 2, (y1 + (y2 - y1)) / 2, viewBounds.Min.Z);
-            return xyzPosition;
-        }
-                      
-        private static Dictionary<ElementId, BoundingBoxXYZ> GetVPDictionary(
+                              
+        private static Dictionary<ElementId, XYZ> GetVPDictionary(
             ViewSheet srcSheet, Document doc)
         {
-            var result = new Dictionary<ElementId, BoundingBoxXYZ>();
+            var result = new Dictionary<ElementId, XYZ>();
             foreach (ElementId viewPortId in srcSheet.GetAllViewports()) {
                 var viewPort = (Viewport)doc.GetElement(viewPortId);
-                var viewPortBounds = viewPort.GetBoxOutline();
+                var viewPortCentre = viewPort.GetBoxCenter();
                 var bb = new BoundingBoxXYZ();
-                bb.Min = viewPortBounds.MinimumPoint;
-                bb.Max = viewPortBounds.MaximumPoint;
                 result.Add(
-                    viewPort.ViewId, bb);
+                    viewPort.ViewId, viewPortCentre);
             }
             return result;
         }
@@ -393,18 +381,16 @@ namespace SCaddins.SCopy
              
         private void CreateViewports(SCopySheet sheet)
         {
-            Dictionary<ElementId, BoundingBoxXYZ> viewPorts =
+            Dictionary<ElementId, XYZ> viewPorts =
                 SheetCopy.GetVPDictionary(sheet.SourceSheet, this.doc);
 
             foreach (SCopyViewOnSheet view in sheet.ViewsOnSheet) {
-                BoundingBoxXYZ srcViewPort = null;
-                if (!viewPorts.TryGetValue(view.OldId, out srcViewPort)) {
+                XYZ sourceViewPortCentre = null;
+                if (!viewPorts.TryGetValue(view.OldId, out sourceViewPortCentre)) {
                     TaskDialog.Show("SCopy", "Error...");
                     continue;
                 }
-            
-                XYZ sourceViewPortCentre = SheetCopy.ViewCenterFromTBBottomLeft(srcViewPort);
-              
+                             
                 switch (view.CreationMode) {
                     case ViewPortPlacementMode.Copy:
                         this.DuplicateViewOntoSheet(view, sheet, sourceViewPortCentre);
