@@ -159,7 +159,6 @@ namespace SCaddins.SCopy
             foreach (ElementId viewPortId in srcSheet.GetAllViewports()) {
                 var viewPort = (Viewport)doc.GetElement(viewPortId);
                 var viewPortCentre = viewPort.GetBoxCenter();
-                var bb = new BoundingBoxXYZ();
                 result.Add(
                     viewPort.ViewId, viewPortCentre);
             }

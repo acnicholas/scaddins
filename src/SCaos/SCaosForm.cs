@@ -61,7 +61,7 @@ namespace SCaddins.SCaos
 
         private void UpdateOkButton()
         {
-            if (radioButtonRotateCurrent.Checked || radioButtonWinterViews.Checked) {
+            if (radioButtonRotateCurrent.Checked || radioButtonWinterViews.Checked || radioButtonShadowPlans.Checked) {
                 button1.Enabled = true;
             } else {
                 button1.Enabled = false;
@@ -81,6 +81,11 @@ namespace SCaddins.SCaos
         private void DateTimePicker1ValueChanged(object sender, EventArgs e)
         {
             this.PopulateTimeSpansDropDowns(dateTimePicker1.Value);
+        }
+        
+        private void RadioButtonShadowPlansCheckedChanged(object sender, EventArgs e)
+        {
+            this.UpdateOkButton();   
         }
     }
 }

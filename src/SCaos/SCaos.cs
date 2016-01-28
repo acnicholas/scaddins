@@ -58,6 +58,14 @@ namespace SCaddins.SCaos
                         (DateTime)form.endTime.SelectedItem,
                         (TimeSpan)form.interval.SelectedItem);
                 }
+                if (form.radioButtonShadowPlans.Checked) {
+                    this.CreateShadowPlanViews(
+                        doc,
+                        udoc,
+                        (DateTime)form.startTime.SelectedItem,
+                        (DateTime)form.endTime.SelectedItem,
+                        (TimeSpan)form.interval.SelectedItem);
+                }
             }
 
             return Autodesk.Revit.UI.Result.Succeeded;
@@ -106,6 +114,78 @@ namespace SCaddins.SCaos
                 return info;
             }
         }
+        
+        private static ElementId GetViewFamilyId(Document doc, ViewFamily viewFamilyType)
+        {
+            var collector = new FilteredElementCollector(doc);
+            collector.OfClass(typeof(ViewFamilyType));
+            foreach (Element e in collector) {
+                var vft = (ViewFamilyType)e;
+                if (vft.ViewFamily == viewFamilyType) {
+                    return vft.Id;
+                }
+            }  
+            return null;
+        }
+        
+        private static ElementId GetHighestLevel(Document doc)
+        {
+            var collector = new FilteredElementCollector(doc);
+            collector.OfClass(typeof(Level));
+            double highestLevel = -1;
+            ElementId highestId = null;
+            foreach (Element e in collector) {
+                var level = (Level)e;
+                if(highestLevel < 0 || level.Elevation > highestLevel) {
+                    highestLevel = level.Elevation;
+                    highestId = level.Id;
+                }
+            }  
+            return highestId;    
+        }
+        
+        private static string GetNiceViewName(Document doc, string request)
+        {
+            if (ViewNameIsAvailable(doc, request)) {
+                return request;
+            } else {
+               return request + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";
+            }
+        }
+               
+        private void CreateShadowPlanViews(
+            Document doc,
+            UIDocument udoc,
+            DateTime startTime,
+            DateTime endTime,
+            TimeSpan interval)
+        {
+             ElementId id = GetViewFamilyId(doc, ViewFamily.FloorPlan);
+             ElementId levelId = GetHighestLevel(doc);
+
+             // FIXME add error message here
+             if (id == null || levelId == null) {
+                 return;
+             }
+            
+              while (startTime <= endTime) {
+                var t = new Transaction(doc);
+                t.Start("Create Shadow Plans");
+                View view = ViewPlan.Create(doc, id, levelId);
+                var niceMinutes = "00";
+                if (startTime.Minute > 0) {
+                    niceMinutes = startTime.Minute.ToString(CultureInfo.CurrentCulture);
+                }    
+                var vname = "SHADOW PLAN - " + startTime.ToShortDateString() + "-" + startTime.Hour + "." + niceMinutes;  
+                view.Name = GetNiceViewName(doc, vname);
+                SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
+                sunSettings.StartDateAndTime = startTime;
+                sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
+                view.SunlightIntensity = 50;
+                t.Commit();
+                startTime = startTime.Add(interval);
+            }
+        }
 
         private void CreateWinterViews(
             Document doc,
@@ -114,17 +194,7 @@ namespace SCaddins.SCaos
             DateTime endTime,
             TimeSpan interval)
         {
-            ElementId id = null;
-
-            var collector = new FilteredElementCollector(doc);
-            collector.OfClass(typeof(ViewFamilyType));
-            foreach (Element e in collector) {
-                var vft = (ViewFamilyType)e;
-                if (vft.ViewFamily == ViewFamily.ThreeDimensional) {
-                    id = vft.Id;
-                    break;
-                }
-            }
+            ElementId id = GetViewFamilyId(doc, ViewFamily.ThreeDimensional);
 
             // FIXME add error message here
             if (id == null) {
@@ -140,11 +210,7 @@ namespace SCaddins.SCaos
                     niceMinutes = startTime.Minute.ToString(CultureInfo.CurrentCulture);
                 }    
                 var vname = "SOLAR ACCESS - " + startTime.ToShortDateString() + "-" + startTime.Hour + "." + niceMinutes;  
-                if (ViewNameIsAvailable(doc, vname)) {
-                    view.Name = vname;
-                } else {
-                    view.Name = vname + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";    
-                }
+                view.Name = GetNiceViewName(doc, vname);
                 SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
                 sunSettings.StartDateAndTime = startTime;
                 sunSettings.SunAndShadowType = SunAndShadowType.StillImage;

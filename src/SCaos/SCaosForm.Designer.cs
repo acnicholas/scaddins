@@ -35,7 +35,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.radioButtonShadowPlans = new System.Windows.Forms.RadioButton();
             this.radioButtonWinterViews = new System.Windows.Forms.RadioButton();
             this.radioButtonRotateCurrent = new System.Windows.Forms.RadioButton();
             this.button3 = new System.Windows.Forms.Button();
@@ -95,7 +95,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.radioButton1);
-            this.groupBox2.Controls.Add(this.radioButton3);
+            this.groupBox2.Controls.Add(this.radioButtonShadowPlans);
             this.groupBox2.Controls.Add(this.radioButtonWinterViews);
             this.groupBox2.Controls.Add(this.radioButtonRotateCurrent);
             this.groupBox2.Location = new System.Drawing.Point(12, 183);
@@ -116,16 +116,16 @@
             this.radioButton1.Text = "Culculate Solar Hours - Mass Mode (EXPERIMENTAL)";
             this.radioButton1.UseVisualStyleBackColor = true;
             // 
-            // radioButton3
+            // radioButtonShadowPlans
             // 
-            this.radioButton3.Enabled = false;
-            this.radioButton3.Location = new System.Drawing.Point(6, 68);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(358, 36);
-            this.radioButton3.TabIndex = 2;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Culculate Solar Hours - Room Mode (VERY EXPERIMENTAL)";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioButtonShadowPlans.Location = new System.Drawing.Point(6, 68);
+            this.radioButtonShadowPlans.Name = "radioButtonShadowPlans";
+            this.radioButtonShadowPlans.Size = new System.Drawing.Size(358, 36);
+            this.radioButtonShadowPlans.TabIndex = 2;
+            this.radioButtonShadowPlans.TabStop = true;
+            this.radioButtonShadowPlans.Text = "Create Multiple Shadow Plans ";
+            this.radioButtonShadowPlans.UseVisualStyleBackColor = true;
+            this.radioButtonShadowPlans.CheckedChanged += new System.EventHandler(this.RadioButtonShadowPlansCheckedChanged);
             // 
             // radioButtonWinterViews
             // 
@@ -134,7 +134,7 @@
             this.radioButtonWinterViews.Size = new System.Drawing.Size(290, 29);
             this.radioButtonWinterViews.TabIndex = 1;
             this.radioButtonWinterViews.TabStop = true;
-            this.radioButtonWinterViews.Text = "Create Multi Views";
+            this.radioButtonWinterViews.Text = "Create Multiple Angle of Sun Views (3d)";
             this.radioButtonWinterViews.UseVisualStyleBackColor = true;
             this.radioButtonWinterViews.CheckedChanged += new System.EventHandler(this.RadioButtonWinterViewsCheckedChanged);
             // 
@@ -267,7 +267,7 @@
         private System.Windows.Forms.Button button3;
         internal System.Windows.Forms.RadioButton radioButtonRotateCurrent;
         internal System.Windows.Forms.RadioButton radioButtonWinterViews;
-        private System.Windows.Forms.RadioButton radioButton3;
+        internal System.Windows.Forms.RadioButton radioButtonShadowPlans;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
