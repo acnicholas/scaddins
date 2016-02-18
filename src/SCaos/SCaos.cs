@@ -172,6 +172,7 @@ namespace SCaddins.SCaos
                 var t = new Transaction(doc);
                 t.Start("Create Shadow Plans");
                 View view = ViewPlan.Create(doc, id, levelId);
+                view.ViewTemplateId = ElementId.InvalidElementId;
                 var niceMinutes = "00";
                 if (startTime.Minute > 0) {
                     niceMinutes = startTime.Minute.ToString(CultureInfo.CurrentCulture);
@@ -206,6 +207,7 @@ namespace SCaddins.SCaos
                 var t = new Transaction(doc);
                 t.Start("Create Solar View");
                 View view = View3D.CreateIsometric(doc, id);
+                view.ViewTemplateId = ElementId.InvalidElementId;
                 var niceMinutes = "00";
                 if (startTime.Minute > 0) {
                     niceMinutes = startTime.Minute.ToString(CultureInfo.CurrentCulture);
