@@ -82,6 +82,7 @@ namespace SCaddins.SCexport
             this.scx.PdfPrinterName = textBoxAdobeDriver.Text;
             this.scx.PrinterNameLargeFormat = textBoxLargeFormatPrinter.Text;
             this.scx.ShowExportLog = this.checkBoxShowExportLog.Checked;
+            this.scx.ExportDir = this.textBoxExportDir.Text;
             SCaddins.SCexport.Settings1.Default.GSBinDirectory = this.scx.GhostscriptBinDir;
             SCaddins.SCexport.Settings1.Default.AdobePrinterDriver = this.scx.PdfPrinterName;
             SCaddins.SCexport.Settings1.Default.A3PrinterDriver = this.scx.PrinterNameA3;

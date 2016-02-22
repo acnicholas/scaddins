@@ -182,7 +182,7 @@ namespace SCaddins.SCaos
                 SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
                 sunSettings.StartDateAndTime = startTime;
                 sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
-                sunSettings.Visible = true;
+                //sunSettings.Visible = true;
                 view.SunlightIntensity = 50;
                 t.Commit();
                 startTime = startTime.Add(interval);
