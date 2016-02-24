@@ -10,20 +10,11 @@ public class Sample {
   private const String stylesheet = "test.xsl";
 
   public static void Main() {
-
-    // Create the XslTransform object and load the style sheet.
     XslCompiledTransform xslt = new XslCompiledTransform();
     xslt.Load(stylesheet);
-
-    // Load the file to transform.
-    XPathDocument doc = new XPathDocument(filename);
-
-    // Create the writer.             
+    XPathDocument doc = new XPathDocument(filename);          
     XmlWriter writer = XmlWriter.Create(Console.Out, xslt.OutputSettings);
-
-    // Transform the file and send the output to the console.
     xslt.Transform(doc, writer);
     writer.Close();
-
   }
 }
