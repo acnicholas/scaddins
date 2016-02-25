@@ -13,6 +13,9 @@ For details see the ; [**Wiki Page**](https://bitbucket.org/anicholas/scaddins/w
 
 - **[SCexport] Configuration file format changed.**
 - **[SCexport] Post export hooks added.**
+- [SCopy] Open newly created sheet (the first sheet will be opened).
+- **[SCaos] Create plan views (multi-mode).**
+- **[SCam] Create plan perspective views.**
 
 ####FIXES#####
 

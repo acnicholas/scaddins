@@ -29,6 +29,7 @@ namespace SCaddins.SCopy
     public class SheetCopy
     {
         private Document doc;
+        private UIDocument uidoc;
         private System.ComponentModel.BindingList<SCopySheet> sheets;
         private Dictionary<string, View> existingSheets =
             new Dictionary<string, View>();
@@ -47,9 +48,10 @@ namespace SCaddins.SCopy
         
         private ElementId floorPlanViewFamilyTypeId = null;
            
-        public SheetCopy(Document doc)
+        public SheetCopy(UIDocument uidoc)
         {
-            this.doc = doc;
+            this.doc = uidoc.Document;
+            this.uidoc = uidoc;
             this.sheets = new System.ComponentModel.BindingList<SCopySheet>();
             this.GetViewTemplates();
             this.GetAllSheets();
@@ -127,18 +129,35 @@ namespace SCaddins.SCopy
             if (this.sheets.Count < 1) {
                 return;
             }
+            
             var t = new Transaction(this.doc, "SCopy");
             t.Start();
+            int n = 0;
+            string e = string.Empty;
             string summaryText = string.Empty;
+            
             foreach (SCopySheet sheet in this.sheets) {
-                this.CreateAndPopulateNewSheet(sheet, ref summaryText);
+                n++;
+                if(n == 1 && this.CreateAndPopulateNewSheet(sheet, ref summaryText)) {
+                    e = sheet.DestinationSheet.SheetNumber;
+                }
             }
             t.Commit();
+            
+            //open first sheet
+            if (!string.IsNullOrEmpty(e)) {
+               uidoc.ShowElements(SCaddins.SCexport.ExportManager.TitleBlockInstanceFromSheetNumber(e, doc));  
+            }
+            
+            if(uidoc.GetOpenUIViews().Count > 0) {
+                (uidoc.GetOpenUIViews())[0].ZoomToFit();
+            }
+            
             var td = new TaskDialog("SCopy - Summary");
             td.MainInstruction = "SCopy - Summary";
             td.MainContent = summaryText;
             td.MainIcon = TaskDialogIcon.TaskDialogIconNone;
-            td.Show();           
+            td.Show(); 
         }
     
         public void AddSheet(ViewSheet sourceSheet)

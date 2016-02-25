@@ -39,7 +39,7 @@ namespace SCaddins.SCopy
                 TaskDialog.Show("SCopy", "Scopy needs to be started in a sheet view...");
                 return Autodesk.Revit.UI.Result.Failed;    
             }
-            var scopy = new SheetCopy(doc);
+            var scopy = new SheetCopy(commandData.Application.ActiveUIDocument);
             var form = new MainForm(doc, viewSheet, scopy);
             form.Enabled = true;
             System.Windows.Forms.DialogResult result = form.ShowDialog();

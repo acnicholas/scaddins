@@ -688,7 +688,7 @@ namespace SCaddins.SCexport
 
         private void CopySheetsToolStripMenuItemClick(object sender, EventArgs e)
         {          
-            var scopy = new SCaddins.SCopy.SheetCopy(this.doc);            
+            var scopy = new SCaddins.SCopy.SheetCopy(this.udoc);            
             var form  = new SCaddins.SCopy.MainForm(this.doc, this.SelectedSheets(), scopy);
             form.Enabled = true;
             System.Windows.Forms.DialogResult result = form.ShowDialog();
