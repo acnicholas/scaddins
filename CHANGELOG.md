@@ -1,6 +1,6 @@
 #SCaddins Revision Log#
 
-#16.2 (pre-release)#
+#16.2#
 
 ####SUMMARY####
 
