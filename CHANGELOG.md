@@ -4,7 +4,7 @@
 
 ####SUMMARY####
 
-**Configuration file format changed**. The old fomrat will now only work with versions <= 16.1.
+**Configuration file format changed**. The old format will now only work with versions <= 16.1.
 
 For details see the ; [**Wiki Page**](https://bitbucket.org/anicholas/scaddins/wiki/SCexport)
 
@@ -19,6 +19,7 @@ For details see the ; [**Wiki Page**](https://bitbucket.org/anicholas/scaddins/w
 
 ####FIXES#####
 
+- [SCopy] Better view placement.
 - [SCexport] Portrait printing now works with Postscript(Ghostscript) option.
 - [SCexport] removed unused/optional binaries from installation package.
 
