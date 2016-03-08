@@ -100,7 +100,7 @@
   <AddIn Type="Command">
     <Assembly>C:\Program Files\SCaddins\SCaddins\2015\SCaddins.dll</Assembly>
     <AddInId>6457B009-5CFC-4743-BD9E-58DEE07679A7</AddInId>
-    <FullClassName>SCaddins.SCam.SCam</FullClassName>
+    <FullClassName>SCaddins.SCam.Command</FullClassName>
     <Text>SCam - by AndyMac</Text>
     <VendorId>BEER</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
