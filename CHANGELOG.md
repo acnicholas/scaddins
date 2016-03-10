@@ -1,5 +1,11 @@
 #SCaddins Revision Log#
 
+#16.3 PRE_RELEASE#
+
+####FIXES#####
+
+- [SCopy] Do not copy revisions.
+
 #16.2#
 
 ####SUMMARY####
