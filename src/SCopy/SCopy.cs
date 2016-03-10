@@ -357,11 +357,23 @@ namespace SCaddins.SCopy
             }
         }
         
+        private void deleteRevisionClouds(ElementId viewId)
+        {
+            FilteredElementCollector collector = new FilteredElementCollector(this.doc, viewId);
+            collector.OfCategory(BuiltInCategory.OST_RevisionClouds);
+            var clouds = new List<ElementId>();
+            foreach (Element e in collector) {
+                clouds.Add(e.Id);
+            }
+            doc.Delete(clouds);
+        }
+        
         private void DuplicateViewOntoSheet(
             SCopyViewOnSheet view, SCopySheet sheet, XYZ sourceViewCentre)
         {
             var d = view.DuplicateWithDetailing == true ? ViewDuplicateOption.WithDetailing : ViewDuplicateOption.Duplicate;          
             ElementId destViewId = view.OldView.Duplicate(d);
+            this.deleteRevisionClouds(destViewId);
             string newName = sheet.GetNewViewName(view.OldView.Id);
             var v = this.doc.GetElement(destViewId) as View;
             if (newName != null) {
@@ -376,7 +388,7 @@ namespace SCaddins.SCopy
         {
             IList<ElementId> list = new List<ElementId>();
             foreach (Element e in new FilteredElementCollector(this.doc).OwnedByView(sheet.SourceSheet.Id)) {
-                if (!(e is Viewport)) {
+                if (!(e is Viewport) && !(e is Revision)) {
                     Debug.WriteLine("adding " + e.GetType().ToString() + " to copy list(CopyElementsBetweenSheets).");
                     if (e is CurveElement) {
                         continue;
