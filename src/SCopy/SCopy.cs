@@ -265,7 +265,7 @@ namespace SCaddins.SCopy
 
         // this is where the action happens
         private bool CreateAndPopulateNewSheet(SCopySheet sheet, ref string summary)
-        {        
+        {           
             sheet.DestinationSheet = this.AddEmptySheetToDocument(
                 sheet.Number,
                 sheet.Title,
@@ -388,7 +388,7 @@ namespace SCaddins.SCopy
         {
             IList<ElementId> list = new List<ElementId>();
             foreach (Element e in new FilteredElementCollector(this.doc).OwnedByView(sheet.SourceSheet.Id)) {
-                if (!(e is Viewport) && !(e is Revision)) {
+                if (!(e is Viewport)) {
                     Debug.WriteLine("adding " + e.GetType().ToString() + " to copy list(CopyElementsBetweenSheets).");
                     if (e is CurveElement) {
                         continue;
@@ -406,6 +406,7 @@ namespace SCaddins.SCopy
                     sheet.DestinationSheet,
                     new Transform(ElementTransformUtils.GetTransformFromViewToView(sheet.SourceSheet, sheet.DestinationSheet)),
                     new CopyPasteOptions());
+                this.deleteRevisionClouds(sheet.DestinationSheet.Id);
             }
         }
              
