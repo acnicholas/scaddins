@@ -5,6 +5,7 @@
 ####FIXES#####
 
 - [SCopy] Do not copy revisions.
+- [SCexport] Option added to remove revisions when renaming sheets.
 
 #16.2#
 
