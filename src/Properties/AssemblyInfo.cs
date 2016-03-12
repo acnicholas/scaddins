@@ -29,7 +29,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SCaddins")]
-[assembly: AssemblyCopyright("Copyright 2012-2015 Andrew Nicholas")]
+[assembly: AssemblyCopyright("Copyright 2012-2016 Andrew Nicholas")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
@@ -48,4 +48,4 @@ using System.Runtime.InteropServices;
 // - Minor should be for features and critical bugs
 // - Revision is Bug fixes, ad-hoc patches, any minor changes.
 // - Build is an (automated)incremented build number.
-[assembly: AssemblyVersion("16.2.0.0")]
+[assembly: AssemblyVersion("16.2.1.0")]

@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2014 by Andrew Nicholas
+﻿// (C) Copyright 2014-2016 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -69,14 +69,66 @@ namespace SCaddins.SCexport
                 this.textBoxNamePattern.Text,
                 this.textBoxNameReplace.Text);
         }
+        
+        private void removeRevivionsOnSheet() {
+            
+        }
 
         private void RenameSheets()
         {
+            bool removeRevisions = false;
             var t = new Autodesk.Revit.DB.Transaction(this.doc);
             t.Start("SCexport - Rename Sheets");
+            Autodesk.Revit.UI.TaskDialog td = new Autodesk.Revit.UI.TaskDialog("Remove revisions?");
+            td.MainIcon = Autodesk.Revit.UI.TaskDialogIcon.TaskDialogIconWarning;
+            td.CommonButtons = Autodesk.Revit.UI.TaskDialogCommonButtons.No | Autodesk.Revit.UI.TaskDialogCommonButtons.Yes;
+            td.MainInstruction = "Remove Revisions?";
+            td.MainContent = "do you want to remove all revisions from the selected sheets after renaming them?";
+            Autodesk.Revit.UI.TaskDialogResult tdr = td.Show();
+            
+            if (tdr == Autodesk.Revit.UI.TaskDialogResult.Yes) {
+                removeRevisions = true;
+            }
+            
             foreach (ExportSheet sheet in this.sheets) {
                 sheet.Sheet.Name = this.NewSheetName(sheet.SheetDescription);
                 sheet.Sheet.SheetNumber = this.NewSheetNumber(sheet.SheetNumber);
+                   
+                if (removeRevisions) {  
+                
+                    //remove revisions on sheets
+                    sheet.Sheet.SetAdditionalProjectRevisionIds(new List<Autodesk.Revit.DB.ElementId>());
+              
+                    Autodesk.Revit.DB.View view = sheet.Sheet as Autodesk.Revit.DB.View;
+                    //Autodesk.Revit.DB.View view = sheet.Sheet;
+                               
+                    #if REVIT2014
+                    foreach (Autodesk.Revit.DB.View v in sheet.Sheet.Views) {
+                        SCopy.SheetCopy.deleteRevisionClouds(v.Id, this.doc);
+                    }
+                    #else
+                    List<Autodesk.Revit.DB.Revision> hiddenRevisionClouds = SCopy.SheetCopy.getAllHiddenRevisions(this.doc);
+                    //turn on hidden revisions
+                    foreach (Autodesk.Revit.DB.Revision rev in hiddenRevisionClouds) {
+                        rev.Visibility = Autodesk.Revit.DB.RevisionVisibility.CloudAndTagVisible;
+                    }
+                    
+                    doc.Regenerate();
+                
+                    //remove clouds on view
+                    SCopy.SheetCopy.deleteRevisionClouds(view.Id, this.doc);     
+                
+                    //remove clouds in viewports                    
+                    foreach (Autodesk.Revit.DB.ElementId id in sheet.Sheet.GetAllPlacedViews()) {
+                        SCopy.SheetCopy.deleteRevisionClouds(id, this.doc);
+                    }
+                 
+                    //re-hide hidden revisions
+                    foreach (Autodesk.Revit.DB.Revision rev in hiddenRevisionClouds) {
+                        rev.Visibility = Autodesk.Revit.DB.RevisionVisibility.Hidden;
+                    }
+                    #endif
+                }
             }
             t.Commit();
         }

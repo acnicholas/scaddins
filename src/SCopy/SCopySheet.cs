@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2014-2015 by Andrew Nicholas
+﻿// (C) Copyright 2014-2016 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -54,7 +54,7 @@ namespace SCaddins.SCopy
             }
             #endif
         }
-        
+               
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ViewSheet DestinationSheet {

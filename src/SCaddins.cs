@@ -306,7 +306,7 @@ namespace SCaddins
         private static PushButtonData LoadSCuv(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCuv", "SCuv", dll, "SCaddins.SCuv.Command");
+                              "SCuv", "User View", dll, "SCaddins.SCuv.Command");
             AssignPushButtonImage(pbd, "user.png", 16);
             pbd.ToolTip = "Create a user view.";
             return pbd;
@@ -324,7 +324,7 @@ namespace SCaddins
         private static PushButtonData LoadSCopy(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCopy", "SCopy", dll, "SCaddins.SCopy.Command");
+                              "SCopy", "Copy Sheets", dll, "SCaddins.SCopy.Command");
             AssignPushButtonImage(pbd, "scopy-rvt-16.png", 16);
             pbd.SetContextualHelp(
                 new ContextualHelp(

@@ -19,7 +19,6 @@
     <WarningLevel>4</WarningLevel>
     <SourceAnalysisOverrideSettingsFile>Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <CodeAnalysisRules>-Microsoft.Design#CA1020;-Microsoft.Design#CA2210;-Microsoft.Naming#CA1702;-Microsoft.Security#CA2122</CodeAnalysisRules>
-    <RunCodeAnalysis>True</RunCodeAnalysis>
     <AssemblyOriginatorKeyMode>File</AssemblyOriginatorKeyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x64' ">
@@ -44,6 +43,7 @@
     <DelaySign>False</DelaySign>
     <StartAction>Program</StartAction>
     <StartProgram>C:\Program Files\Autodesk\Revit 2015\Revit.exe</StartProgram>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2015' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -59,6 +59,7 @@
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
+    <RunCodeAnalysis>True</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2014' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -74,6 +75,7 @@
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'Any' ">
     <BaseAddress>4194304</BaseAddress>
@@ -100,6 +102,7 @@
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
+    <RunCodeAnalysis>True</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp">

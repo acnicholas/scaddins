@@ -45,6 +45,10 @@ namespace SCaddins.SCopy
         
         private Collection<string> sheetCategories = 
             new Collection<string>();
+    
+        #if !REVIT2014        
+        private List<Revision> hiddenRevisionClouds = new List<Revision>();
+        #endif
         
         private ElementId floorPlanViewFamilyTypeId = null;
            
@@ -53,6 +57,9 @@ namespace SCaddins.SCopy
             this.doc = uidoc.Document;
             this.uidoc = uidoc;
             this.sheets = new System.ComponentModel.BindingList<SCopySheet>();
+            #if !REVIT2014   
+            this.hiddenRevisionClouds = getAllHiddenRevisions(this.doc);
+            #endif
             this.GetViewTemplates();
             this.GetAllSheets();
             this.GetAllLevelsInModel();
@@ -130,19 +137,20 @@ namespace SCaddins.SCopy
                 return;
             }
             
-            var t = new Transaction(this.doc, "SCopy");
-            t.Start();
             int n = 0;
             string e = string.Empty;
             string summaryText = string.Empty;
             
-            foreach (SCopySheet sheet in this.sheets) {
-                n++;
-                if(n == 1 && this.CreateAndPopulateNewSheet(sheet, ref summaryText)) {
-                    e = sheet.DestinationSheet.SheetNumber;
+            using (Transaction  t = new Transaction(this.doc, "SCopy")) {
+                t.Start();
+                foreach (SCopySheet sheet in this.sheets) {
+                    n++;
+                    if(n == 1 && this.CreateAndPopulateNewSheet(sheet, ref summaryText)) {
+                        e = sheet.DestinationSheet.SheetNumber;
+                    }
                 }
+                t.Commit();
             }
-            t.Commit();
             
             //open first sheet
             if (!string.IsNullOrEmpty(e)) {
@@ -265,7 +273,14 @@ namespace SCaddins.SCopy
 
         // this is where the action happens
         private bool CreateAndPopulateNewSheet(SCopySheet sheet, ref string summary)
-        {           
+        { 
+            //turn on hidden revisions
+            #if !REVIT2014
+            foreach (Revision rev in this.hiddenRevisionClouds) {
+                rev.Visibility = RevisionVisibility.CloudAndTagVisible;
+            }
+            #endif
+            
             sheet.DestinationSheet = this.AddEmptySheetToDocument(
                 sheet.Number,
                 sheet.Title,
@@ -283,6 +298,13 @@ namespace SCaddins.SCopy
             } catch (InvalidOperationException e) {
                 Debug.WriteLine(e.Message);
             } 
+            
+            //re-hide hidden revision clouds
+            #if !REVIT2014
+            foreach (Revision rev in this.hiddenRevisionClouds) {
+                rev.Visibility = RevisionVisibility.Hidden;
+            }
+            #endif
 
             var oldNumber = sheet.SourceSheet.SheetNumber;
             var msg = " Sheet: " + oldNumber + " copied to: " + sheet.Number;
@@ -357,15 +379,31 @@ namespace SCaddins.SCopy
             }
         }
         
-        private void deleteRevisionClouds(ElementId viewId)
+        #if !REVIT2014
+        public static List<Revision> getAllHiddenRevisions(Document doc)
         {
-            FilteredElementCollector collector = new FilteredElementCollector(this.doc, viewId);
+            var revisions = new List<Revision>();
+            FilteredElementCollector collector = new FilteredElementCollector(doc);    
+            collector.OfCategory(BuiltInCategory.OST_Revisions);
+            foreach (Element e in collector) {
+                Revision rev = e as Revision;
+                if (rev.Visibility == RevisionVisibility.Hidden) {
+                    revisions.Add(rev);
+                }
+            }
+            return revisions;
+        }
+        #endif
+        
+        public static void deleteRevisionClouds(ElementId viewId, Document doc)
+        {            
+            FilteredElementCollector collector = new FilteredElementCollector(doc, viewId);
             collector.OfCategory(BuiltInCategory.OST_RevisionClouds);
             var clouds = new List<ElementId>();
             foreach (Element e in collector) {
                 clouds.Add(e.Id);
             }
-            doc.Delete(clouds);
+            doc.Delete(clouds);          
         }
         
         private void DuplicateViewOntoSheet(
@@ -373,7 +411,7 @@ namespace SCaddins.SCopy
         {
             var d = view.DuplicateWithDetailing == true ? ViewDuplicateOption.WithDetailing : ViewDuplicateOption.Duplicate;          
             ElementId destViewId = view.OldView.Duplicate(d);
-            this.deleteRevisionClouds(destViewId);
+            deleteRevisionClouds(destViewId, this.doc);
             string newName = sheet.GetNewViewName(view.OldView.Id);
             var v = this.doc.GetElement(destViewId) as View;
             if (newName != null) {
@@ -406,7 +444,7 @@ namespace SCaddins.SCopy
                     sheet.DestinationSheet,
                     new Transform(ElementTransformUtils.GetTransformFromViewToView(sheet.SourceSheet, sheet.DestinationSheet)),
                     new CopyPasteOptions());
-                this.deleteRevisionClouds(sheet.DestinationSheet.Id);
+                deleteRevisionClouds(sheet.DestinationSheet.Id, this.doc);
             }
         }
              
