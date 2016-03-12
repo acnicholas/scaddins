@@ -103,6 +103,7 @@ namespace SCaddins.SCexport
                     //Autodesk.Revit.DB.View view = sheet.Sheet;
                                
                     #if REVIT2014
+                    SCopy.SheetCopy.deleteRevisionClouds(view.Id, this.doc); 
                     foreach (Autodesk.Revit.DB.View v in sheet.Sheet.Views) {
                         SCopy.SheetCopy.deleteRevisionClouds(v.Id, this.doc);
                     }
