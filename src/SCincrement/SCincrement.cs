@@ -93,6 +93,25 @@ namespace SCaddins.SCincrement
             }
         }
 
+        
+        public static void RenumberBySpline(ElementId id, Document doc)
+        {
+            FilteredElementCollector collector = new FilteredElementCollector(doc, doc.ActiveView.Id);
+            collector.OfCategory(BuiltInCategory.OST_Rooms);
+
+            Element spline = doc.GetElement(id);
+            if (spline is CurveElement) {
+                CurveElement ce = spline as CurveElement;
+                foreach (Element e in collector) {
+                    Room room = e as Room;
+                    if ( ce.CurveElementType == CurveElementType.ModelCurve) {
+                        //IntersectionResultArray results;
+                        //SetComparisonResult result = ce.GeometryCurve.Intersect(room.Geometry, out results );
+                    }
+                }
+            }
+        }
+        
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
             ref string message,
@@ -102,7 +121,22 @@ namespace SCaddins.SCincrement
             Document doc = udoc.Document;
             UIApplication app = commandData.Application;
             commandData.Application.DialogBoxShowing += DismissDuplicateQuestion;
-            RenumberByPicks(udoc, doc, app);
+            
+            #if REVIT2014
+            ElementSet eset = udoc.Selection.Elements;
+            IList<ElementId> elems = new List<ElementId>();
+            foreach (Element e in eset) {
+                elems.Add(e.Id);
+            }
+            #else
+            IList<ElementId> elems = doc.Selection.GetElementIds().ToList<ElementId>();
+            #endif
+            
+            if (elems.Count == 0) {
+                RenumberByPicks(udoc, doc, app);
+            } else {
+                RenumberBySpline(elems[0], doc);
+            }
             return Autodesk.Revit.UI.Result.Succeeded;
         }
 
