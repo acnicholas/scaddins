@@ -97,7 +97,13 @@ namespace SCaddins.SCexport
                 if (removeRevisions) {  
                 
                     //remove revisions on sheets
+                    #if REVIT2014
                     sheet.Sheet.SetAdditionalProjectRevisionIds(new List<Autodesk.Revit.DB.ElementId>());
+                    #else
+                    ICollection<Autodesk.Revit.DB.ElementId> revisions = sheet.Sheet.GetAdditionalRevisionIds();
+                    revisions.Clear();
+                    sheet.Sheet.SetAdditionalRevisionIds(revisions);
+                    #endif
               
                     Autodesk.Revit.DB.View view = sheet.Sheet as Autodesk.Revit.DB.View;
                     //Autodesk.Revit.DB.View view = sheet.Sheet;

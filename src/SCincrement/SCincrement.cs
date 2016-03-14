@@ -17,6 +17,7 @@ namespace SCaddins.SCincrement
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Globalization;
     using System.Text.RegularExpressions;
     using Autodesk.Revit.DB;
@@ -129,7 +130,7 @@ namespace SCaddins.SCincrement
                 elems.Add(e.Id);
             }
             #else
-            IList<ElementId> elems = doc.Selection.GetElementIds().ToList<ElementId>();
+            IList<ElementId> elems = udoc.Selection.GetElementIds().ToList<ElementId>();
             #endif
             
             if (elems.Count == 0) {
