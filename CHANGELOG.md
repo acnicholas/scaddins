@@ -4,8 +4,10 @@
 
 ####FIXES#####
 
-- [SCopy] Do not copy revisions.
-- [SCexport] Option added to remove revisions when renaming sheets.
+- **[SCopy] Do not copy revisions.**
+- [SCopy] Fixed error when creating multiple sheet copies from the SCexport context menu.
+- [SCopy] Fixed exception when clicking SCopy column headers.
+- **[SCexport] Option added to remove revisions when renaming sheets.**
 - [SCexport] Fixed view set drop-down error.
 
 #16.2#
