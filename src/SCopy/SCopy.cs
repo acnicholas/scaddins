@@ -138,23 +138,23 @@ namespace SCaddins.SCopy
             }
             
             int n = 0;
-            string e = string.Empty;
+            string firstSheetNumber = string.Empty;
             string summaryText = string.Empty;
             
             using (Transaction  t = new Transaction(this.doc, "SCopy")) {
                 t.Start();
                 foreach (SCopySheet sheet in this.sheets) {
                     n++;
-                    if(n == 1 && this.CreateAndPopulateNewSheet(sheet, ref summaryText)) {
-                        e = sheet.DestinationSheet.SheetNumber;
+                    if(this.CreateAndPopulateNewSheet(sheet, ref summaryText) && n == 1) {
+                        firstSheetNumber = sheet.DestinationSheet.SheetNumber;
                     }
                 }
                 t.Commit();
             }
             
             //open first sheet
-            if (!string.IsNullOrEmpty(e)) {
-               uidoc.ShowElements(SCaddins.SCexport.ExportManager.TitleBlockInstanceFromSheetNumber(e, doc));  
+            if (!string.IsNullOrEmpty(firstSheetNumber)) {
+                uidoc.ShowElements(SCaddins.SCexport.ExportManager.TitleBlockInstanceFromSheetNumber(firstSheetNumber, doc));  
             }
             
             if(uidoc.GetOpenUIViews().Count > 0) {

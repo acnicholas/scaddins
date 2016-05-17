@@ -260,6 +260,10 @@ namespace SCaddins.SCopy
 
         private void DataGridView1CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if (e.RowIndex == -1) { 
+                 return;
+            }                 
+            
             var sheet = (SCopySheet)dataGridView1.Rows[e.RowIndex].DataBoundItem;
             this.PopulateViewInfoList(sheet.SourceSheet);
             dataGridView2.DataSource = sheet.ViewsOnSheet;
