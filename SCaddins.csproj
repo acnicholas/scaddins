@@ -185,6 +185,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\SCaos\SCaosForm.Designer.cs" />
+    <Compile Include="src\SCasfar\SCasfar.cs" />
     <Compile Include="src\SCexport\Command.cs" />
     <Compile Include="src\SCexport\ConfirmDialog.cs">
       <SubType>Form</SubType>
@@ -433,6 +434,7 @@
     <Folder Include="etc" />
     <Folder Include="share" />
     <Folder Include="src\Manifest\2016" />
+    <Folder Include="src\SCasfar" />
     <Folder Include="src\SCwm" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -261,7 +261,7 @@ namespace SCaddins.SCightLines
         private void DrawText(double x, double y, double vx, double vy, string s, TextAlignFlags f)
         {
             Application app = this.doc.Application;
-            XYZ origin = app.Create.NewXYZ(MiscUtilities.FeetToMM(x), MiscUtilities.FeetToMM(y), 0);
+            XYZ origin = app.Create.NewXYZ(MiscUtilities.MMtoFeet(x), MiscUtilities.MMtoFeet(y), 0);
             XYZ normal_base = app.Create.NewXYZ(vx, vy, 0);
             XYZ normal_up = app.Create.NewXYZ(0, 1, 0);
             #if REVIT2016
@@ -311,8 +311,8 @@ namespace SCaddins.SCightLines
         {
             Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
             const double Z = 0.0;
-            XYZ point1 = app.Create.NewXYZ(MiscUtilities.FeetToMM(x1), MiscUtilities.FeetToMM(y1), MiscUtilities.FeetToMM(Z));
-            XYZ point2 = app.Create.NewXYZ(MiscUtilities.FeetToMM(x2), MiscUtilities.FeetToMM(y2), MiscUtilities.FeetToMM(Z));
+            XYZ point1 = app.Create.NewXYZ(MiscUtilities.MMtoFeet(x1), MiscUtilities.MMtoFeet(y1), MiscUtilities.MMtoFeet(Z));
+            XYZ point2 = app.Create.NewXYZ(MiscUtilities.MMtoFeet(x2), MiscUtilities.MMtoFeet(y2), MiscUtilities.MMtoFeet(Z));
             try {
                 Line line = Line.CreateBound(point1, point2);
                 var detailCurve = this.doc.Create.NewDetailCurve(this.view, line) as DetailLine;
@@ -330,10 +330,10 @@ namespace SCaddins.SCightLines
         {
             Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
             const double Z = 0.0;
-            XYZ point1 = app.Create.NewXYZ(MiscUtilities.FeetToMM(x1), MiscUtilities.FeetToMM(y1), MiscUtilities.FeetToMM(Z));
+            XYZ point1 = app.Create.NewXYZ(MiscUtilities.MMtoFeet(x1), MiscUtilities.MMtoFeet(y1), MiscUtilities.MMtoFeet(Z));
             Arc arc = Arc.Create(
                           point1,
-                          MiscUtilities.FeetToMM(125),
+                          MiscUtilities.MMtoFeet(125),
                           0,
                           360, 
                           app.Create.NewXYZ(1, 0, 0),

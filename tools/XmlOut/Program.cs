@@ -9,7 +9,7 @@ public class Sample {
   private const String filename = "test.xml";
   private const String stylesheet = "test.xsl";
 
-  public static void Main() {
+  public static void Main() {               
     XslCompiledTransform xslt = new XslCompiledTransform();
     xslt.Load(stylesheet);
     XPathDocument doc = new XPathDocument(filename);          

@@ -52,9 +52,9 @@ namespace SCaddins.Common
             return fileName;
         }
 
-        public static double FeetToMM(double lengthInFeet)
+        public static double MMtoFeet(double lengthInMM)
         {
-            return lengthInFeet / 304.8;
+            return lengthInMM / 304.8;
         }
 
         public static DateTime ToDateTime(string dateValue)

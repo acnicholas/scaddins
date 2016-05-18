@@ -144,7 +144,7 @@ namespace SCaddins.SCaos
             return highestId;    
         }
         
-        private static string GetNiceViewName(Document doc, string request)
+        public static string GetNiceViewName(Document doc, string request)
         {
             if (ViewNameIsAvailable(doc, request)) {
                 return request;
