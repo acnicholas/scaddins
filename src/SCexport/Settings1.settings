@@ -17,7 +17,7 @@
       <Value Profile="(Default)">Adobe PDF</Value>
     </Setting>
     <Setting Name="ExportDir" Type="System.String" Scope="User" Roaming="true">
-      <Value Profile="(Default)">c:/Temp</Value>
+      <Value Profile="(Default)">C:\Temp</Value>
     </Setting>
     <Setting Name="ForceDateRevision" Type="System.Boolean" Scope="User" Roaming="true">
       <Value Profile="(Default)">False</Value>

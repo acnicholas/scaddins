@@ -77,7 +77,7 @@ namespace SCaddins.SCexport {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("c:/Temp")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Temp")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public string ExportDir {
             get {
