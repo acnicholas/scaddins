@@ -37,7 +37,11 @@ namespace SCaddins.SCopy
         
             Autodesk.Revit.DB.ViewSheet viewSheet = SheetCopy.ViewToViewSheet(doc.ActiveView);
             if (viewSheet == null) {
-                TaskDialog.Show("SCopy", "Scopy needs to be started in a sheet view...");
+                TaskDialog td = new TaskDialog("SCopy");
+                td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+                td.MainInstruction = "Scopy[Sheet Copy] needs to be started in a sheet view...";
+                td.MainContent = "If you would like to copy multiple sheets please run via the SCexport context menu";
+                td.Show();
                 return Autodesk.Revit.UI.Result.Failed;    
             }
             var scopy = new SheetCopy(commandData.Application.ActiveUIDocument);
