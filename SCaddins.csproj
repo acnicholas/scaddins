@@ -317,6 +317,10 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\SCulcase\SCulcaseMainForm.Designer.cs" />
+    <Compile Include="src\SCulcase\SCulcaseMainForm2.cs" />
+    <Compile Include="src\SCulcase\SCulcaseMainForm2.Designer.cs">
+      <DependentUpon>SCulcaseMainForm2.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\SCunderlay\SCunderlay.cs" />
     <Compile Include="src\SCunderlay\SCunderlayCommand.cs" />
     <Compile Include="src\SCuv\SCuv.cs" />
@@ -402,6 +406,9 @@
     <EmbeddedResource Include="src\SCulcase\SCulcaseInfoDialog.resx" />
     <EmbeddedResource Include="src\SCulcase\SCulcaseMainForm.resx">
       <DependentUpon>SCulcaseMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\SCulcase\SCulcaseMainForm2.resx">
+      <DependentUpon>SCulcaseMainForm2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCwash\SCwashForm.resx">
       <DependentUpon>SCwashForm.cs</DependentUpon>

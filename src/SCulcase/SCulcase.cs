@@ -77,6 +77,26 @@ namespace SCaddins.SCulcase
             }
             trans.Commit();
         }
+        
+        private static void Rename(ConversionMode mode, ConversionTypes types, Document doc)
+        {
+            UppercaseUtilities.mode = mode;
+            if (types.HasFlag(ConversionTypes.Text)) {
+                ConvertAllAnnotation(doc);
+            }
+            if (types.HasFlag(ConversionTypes.ViewNames)) {
+                ConvertAllViewNames(doc);
+            }
+            if (types.HasFlag(ConversionTypes.RoomNames)) {  
+                ConvertAllRooms(doc);
+            }
+            if (types.HasFlag(ConversionTypes.SheetNames)) {
+                ConvertAllSheetNames(doc);
+            }
+            if (types.HasFlag(ConversionTypes.TitlesOnSheets)) {
+                ConvertAllViewNamesOnSheet(doc);
+            }
+        }
 
         private static void Convert(ConversionMode mode, ConversionTypes types, Document doc)
         {
