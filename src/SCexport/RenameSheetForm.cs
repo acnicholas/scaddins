@@ -21,19 +21,30 @@ namespace SCaddins.SCexport
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
+    using SCaddins.SCopy;
 
     public partial class RenameSheetForm : Form
     {
-        private ICollection<ExportSheet> sheets;
+        private ICollection<ExportSheet> exportSheets;
+        private System.ComponentModel.BindingList<SCopySheet> scopySheets;
         private Autodesk.Revit.DB.Document doc;
 
         public RenameSheetForm(ICollection<ExportSheet> sheets, Autodesk.Revit.DB.Document doc)
         {
-            this.sheets = sheets;
             this.doc = doc;
+            this.scopySheets = null;
+            this.exportSheets = sheets;
             this.InitializeComponent();
-            this.sheets = sheets;
-            this.PopulateList();
+            this.PopulateList(this.exportSheets);
+        }
+        
+        public RenameSheetForm(System.ComponentModel.BindingList<SCopySheet> sheets, Autodesk.Revit.DB.Document doc)
+        {
+            this.doc = doc;
+            this.scopySheets = sheets;
+            this.exportSheets = null;
+            this.InitializeComponent();
+            this.PopulateList(this.scopySheets);
         }
 
         private static string NewSheetValue(string s, string pattern, string replacement)
@@ -41,10 +52,10 @@ namespace SCaddins.SCexport
             return Regex.Replace(s, pattern, replacement);
         }
 
-        private void PopulateList()
+        private void PopulateList(ICollection<ExportSheet> sheets)
         {
             listView1.Items.Clear();
-            foreach (ExportSheet sheet in this.sheets) {
+            foreach (ExportSheet sheet in sheets) {
                 var item = new ListViewItem();
                 item.Text = sheet.SheetNumber;
                 item.SubItems.Add(sheet.SheetDescription);
@@ -52,6 +63,19 @@ namespace SCaddins.SCexport
                 item.SubItems.Add(this.NewSheetName(sheet.SheetDescription));
                 this.listView1.Items.Add(item);
             }
+        }
+        
+        private void PopulateList(System.ComponentModel.BindingList<SCopySheet> sheets)
+        {
+              listView1.Items.Clear();
+              foreach (SCopySheet sheet in sheets) {
+                  var item = new ListViewItem();
+                  item.Text = sheet.Number;
+                  item.SubItems.Add(sheet.Title);
+                  item.SubItems.Add(this.NewSheetNumber(sheet.Number));
+                  item.SubItems.Add(this.NewSheetName(sheet.Title));
+                  this.listView1.Items.Add(item);
+              }
         }
 
         private string NewSheetNumber(string number)
@@ -73,8 +97,51 @@ namespace SCaddins.SCexport
         private void removeRevivionsOnSheet() {
             
         }
-
-        private void RenameSheets()
+        
+        private void RemoveRevisions(ExportSheet sheet)
+        {
+            //remove revisions on sheets
+            #if REVIT2014
+                    sheet.Sheet.SetAdditionalProjectRevisionIds(new List<Autodesk.Revit.DB.ElementId>());
+            #else
+            ICollection<Autodesk.Revit.DB.ElementId> revisions = sheet.Sheet.GetAdditionalRevisionIds();
+            revisions.Clear();
+            sheet.Sheet.SetAdditionalRevisionIds(revisions);
+            #endif
+              
+            Autodesk.Revit.DB.View view = sheet.Sheet as Autodesk.Revit.DB.View;
+            //Autodesk.Revit.DB.View view = sheet.Sheet;
+                               
+            #if REVIT2014
+                    SCopy.SheetCopy.deleteRevisionClouds(view.Id, this.doc); 
+                    foreach (Autodesk.Revit.DB.View v in sheet.Sheet.Views) {
+                        SCopy.SheetCopy.deleteRevisionClouds(v.Id, this.doc);
+                    }
+            #else
+            List<Autodesk.Revit.DB.Revision> hiddenRevisionClouds = SCopy.SheetCopy.getAllHiddenRevisions(this.doc);
+            //turn on hidden revisions
+            foreach (Autodesk.Revit.DB.Revision rev in hiddenRevisionClouds) {
+                rev.Visibility = Autodesk.Revit.DB.RevisionVisibility.CloudAndTagVisible;
+            }
+                    
+            doc.Regenerate();
+                
+            //remove clouds on view
+            SCopy.SheetCopy.deleteRevisionClouds(view.Id, this.doc);     
+                
+            //remove clouds in viewports                    
+            foreach (Autodesk.Revit.DB.ElementId id in sheet.Sheet.GetAllPlacedViews()) {
+                SCopy.SheetCopy.deleteRevisionClouds(id, this.doc);
+            }
+                 
+            //re-hide hidden revisions
+            foreach (Autodesk.Revit.DB.Revision rev in hiddenRevisionClouds) {
+                rev.Visibility = Autodesk.Revit.DB.RevisionVisibility.Hidden;
+            }
+            #endif    
+        }
+        
+        private void RenameSheets(ICollection<ExportSheet> sheets)
         {
             bool removeRevisions = false;
             var t = new Autodesk.Revit.DB.Transaction(this.doc);
@@ -90,65 +157,45 @@ namespace SCaddins.SCexport
                 removeRevisions = true;
             }
             
-            foreach (ExportSheet sheet in this.sheets) {
+            foreach (ExportSheet sheet in sheets) {
                 sheet.Sheet.Name = this.NewSheetName(sheet.SheetDescription);
                 sheet.Sheet.SheetNumber = this.NewSheetNumber(sheet.SheetNumber);
                    
                 if (removeRevisions) {  
-                
-                    //remove revisions on sheets
-                    #if REVIT2014
-                    sheet.Sheet.SetAdditionalProjectRevisionIds(new List<Autodesk.Revit.DB.ElementId>());
-                    #else
-                    ICollection<Autodesk.Revit.DB.ElementId> revisions = sheet.Sheet.GetAdditionalRevisionIds();
-                    revisions.Clear();
-                    sheet.Sheet.SetAdditionalRevisionIds(revisions);
-                    #endif
-              
-                    Autodesk.Revit.DB.View view = sheet.Sheet as Autodesk.Revit.DB.View;
-                    //Autodesk.Revit.DB.View view = sheet.Sheet;
-                               
-                    #if REVIT2014
-                    SCopy.SheetCopy.deleteRevisionClouds(view.Id, this.doc); 
-                    foreach (Autodesk.Revit.DB.View v in sheet.Sheet.Views) {
-                        SCopy.SheetCopy.deleteRevisionClouds(v.Id, this.doc);
-                    }
-                    #else
-                    List<Autodesk.Revit.DB.Revision> hiddenRevisionClouds = SCopy.SheetCopy.getAllHiddenRevisions(this.doc);
-                    //turn on hidden revisions
-                    foreach (Autodesk.Revit.DB.Revision rev in hiddenRevisionClouds) {
-                        rev.Visibility = Autodesk.Revit.DB.RevisionVisibility.CloudAndTagVisible;
-                    }
-                    
-                    doc.Regenerate();
-                
-                    //remove clouds on view
-                    SCopy.SheetCopy.deleteRevisionClouds(view.Id, this.doc);     
-                
-                    //remove clouds in viewports                    
-                    foreach (Autodesk.Revit.DB.ElementId id in sheet.Sheet.GetAllPlacedViews()) {
-                        SCopy.SheetCopy.deleteRevisionClouds(id, this.doc);
-                    }
-                 
-                    //re-hide hidden revisions
-                    foreach (Autodesk.Revit.DB.Revision rev in hiddenRevisionClouds) {
-                        rev.Visibility = Autodesk.Revit.DB.RevisionVisibility.Hidden;
-                    }
-                    #endif
+                    RemoveRevisions(sheet);
                 }
             }
             t.Commit();
         }
 
+        private void RenameSheets(System.ComponentModel.BindingList<SCopySheet> sheets)
+        {
+            //var t = new Autodesk.Revit.DB.Transaction(this.doc);
+            //t.Start("SCexport - Rename Sheets");
+            foreach (SCopySheet sheet in sheets) {
+                sheet.Title = this.NewSheetName(sheet.Title);
+                sheet.Number = this.NewSheetNumber(sheet.Number);
+            }
+            //t.Commit();
+        }
+
         private void TestRunButtonClick(object sender, EventArgs e)
         {
-            this.PopulateList();
+            if (this.scopySheets != null) {
+                this.PopulateList(this.scopySheets);
+            } else {
+                this.PopulateList(this.exportSheets);    
+            }
             this.listView1.Refresh();
         }
 
         private void RenameButtonClick(object sender, EventArgs e)
         {
-            this.RenameSheets();
+            if (this.scopySheets != null) {
+                this.RenameSheets(this.scopySheets);
+            } else {
+                this.RenameSheets(this.exportSheets);    
+            }
         }
     }
 }

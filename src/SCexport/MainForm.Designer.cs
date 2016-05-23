@@ -191,7 +191,7 @@ namespace SCaddins.SCexport
             this.mnuHelp});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.ShowCheckMargin = true;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(257, 348);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(257, 370);
             // 
             // clearFilterToolStripMenuItem
             // 
@@ -419,10 +419,10 @@ namespace SCaddins.SCexport
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.progressInfo,
             this.progressBar});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 481);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 504);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.statusStrip1.Size = new System.Drawing.Size(735, 30);
+            this.statusStrip1.Size = new System.Drawing.Size(779, 30);
             this.statusStrip1.TabIndex = 12;
             this.statusStrip1.Text = "statusStrip1";
             this.statusStrip1.Visible = false;
@@ -431,7 +431,7 @@ namespace SCaddins.SCexport
             // 
             this.progressInfo.Name = "progressInfo";
             this.progressInfo.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.progressInfo.Size = new System.Drawing.Size(268, 25);
+            this.progressInfo.Size = new System.Drawing.Size(312, 25);
             this.progressInfo.Spring = true;
             this.progressInfo.Text = "toolStripStatusLabel1";
             this.progressInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -480,7 +480,7 @@ namespace SCaddins.SCexport
             this.toolStripMenuItem2,
             this.printFullSizeToolStripMenuItem});
             this.printButtonContextMenu.Name = "pintButtonContextMenu";
-            this.printButtonContextMenu.Size = new System.Drawing.Size(182, 104);
+            this.printButtonContextMenu.Size = new System.Drawing.Size(182, 82);
             // 
             // printA3ToolStripMenuItem
             // 

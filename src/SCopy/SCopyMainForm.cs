@@ -42,6 +42,8 @@ namespace SCaddins.SCopy
             this.PopulateViewInfoList(viewSheet);
             this.AddDataGridColumns();
             dataGridView1.DataSource = this.scopy.Sheets; 
+            this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
+            this.dataGridView2.ContextMenuStrip = this.contextMenuStrip2;
             this.dataGridView1.CellValueChanged += this.DataGridView1_CellValueChanged;
             this.dataGridView1.CurrentCellDirtyStateChanged += this.DataGridView1_CurrentCellDirtyStateChanged;
         }
@@ -314,19 +316,7 @@ namespace SCaddins.SCopy
             buttonRemove.Enabled = dataGridView1.SelectedRows.Count > 0;
             button1.Enabled = dataGridView1.SelectedRows.Count > 0;
         }
-           
-        private void DataGridView2SelectionChanged(object sender, EventArgs e)
-        {
-            bool planEnough = true;
-            foreach (DataGridViewRow row in dataGridView2.SelectedRows) {
-                var view = row.DataBoundItem as SCopyViewOnSheet;
-                if (!view.PlanEnough()) {
-                    planEnough = false;       
-                }
-            }
-            buttonReplace.Enabled = (dataGridView2.SelectedRows.Count == 1) && planEnough;
-        }
-        
+          
         private void Button1Click(object sender, EventArgs e)
         {
             var sheet = (SCopySheet)dataGridView1.SelectedRows[0].DataBoundItem;
@@ -336,6 +326,17 @@ namespace SCaddins.SCopy
         private void DataGridView1DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
             // FIXME this is a hack because I have no idea what I'm doing.  
+        }
+
+        private void ReplaceTextregexToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            //foreach (DataGridViewRow row in dataGridView1.SelectedRows) {
+            //    var sheet = row.DataBoundItem as SCopySheet;
+            //    
+            //} 
+            SCaddins.SCexport.RenameSheetForm renameForm = new SCaddins.SCexport.RenameSheetForm(this.scopy.Sheets, this.doc);
+            renameForm.ShowDialog();
+            dataGridView1.Refresh();
         }
     }
 }

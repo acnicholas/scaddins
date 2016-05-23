@@ -275,7 +275,7 @@ namespace SCaddins.SCightLines
              
             TextNote.Create(this.doc, this.view.Id, origin, s, new TextNoteOptions());
             #else
-            this.doc.Create.NewTextNote(this.view, origin, normal_base, normal_up, MiscUtilities.FeetToMM(10), f, s);
+            this.doc.Create.NewTextNote(this.view, origin, normal_base, normal_up, MiscUtilities.MMtoFeet(10), f, s);
             #endif
         }
 

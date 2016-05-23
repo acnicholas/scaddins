@@ -36,6 +36,7 @@ namespace SCaddins.SCopy
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Basic Information", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("ViewPorts", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Shedules", System.Windows.Forms.HorizontalAlignment.Left);
@@ -49,12 +50,15 @@ namespace SCaddins.SCopy
             this.buttonRemove = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.buttonReplace = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.buttonGo = new System.Windows.Forms.Button();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.replaceTextregexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.replaceTextregexToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -65,6 +69,8 @@ namespace SCaddins.SCopy
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
+            this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -176,7 +182,6 @@ namespace SCaddins.SCopy
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.buttonReplace);
             this.splitContainer2.Panel2.Controls.Add(this.label3);
             this.splitContainer2.Panel2.Controls.Add(this.dataGridView2);
             this.splitContainer2.Size = new System.Drawing.Size(672, 428);
@@ -207,19 +212,6 @@ namespace SCaddins.SCopy
             this.dataGridView1.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.DataGridView1DataError);
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.DataGridView1SelectionChanged);
             // 
-            // buttonReplace
-            // 
-            this.buttonReplace.AllowDrop = true;
-            this.buttonReplace.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonReplace.Enabled = false;
-            this.buttonReplace.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonReplace.Location = new System.Drawing.Point(557, 17);
-            this.buttonReplace.Name = "buttonReplace";
-            this.buttonReplace.Size = new System.Drawing.Size(112, 23);
-            this.buttonReplace.TabIndex = 13;
-            this.buttonReplace.Text = "Replace View";
-            this.buttonReplace.UseVisualStyleBackColor = true;
-            // 
             // label3
             // 
             this.label3.Location = new System.Drawing.Point(0, 17);
@@ -239,13 +231,12 @@ namespace SCaddins.SCopy
             this.dataGridView2.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.dataGridView2.Location = new System.Drawing.Point(0, 43);
+            this.dataGridView2.Location = new System.Drawing.Point(3, 49);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dataGridView2.Size = new System.Drawing.Size(672, 198);
             this.dataGridView2.TabIndex = 7;
             this.dataGridView2.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DataGridView2CellFormatting);
-            this.dataGridView2.SelectionChanged += new System.EventHandler(this.DataGridView2SelectionChanged);
             // 
             // buttonAdd
             // 
@@ -281,6 +272,33 @@ namespace SCaddins.SCopy
             this.buttonGo.UseVisualStyleBackColor = true;
             this.buttonGo.Click += new System.EventHandler(this.ButtonGO);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.replaceTextregexToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(176, 48);
+            // 
+            // replaceTextregexToolStripMenuItem
+            // 
+            this.replaceTextregexToolStripMenuItem.Name = "replaceTextregexToolStripMenuItem";
+            this.replaceTextregexToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.replaceTextregexToolStripMenuItem.Text = "Replace Text(regex)";
+            this.replaceTextregexToolStripMenuItem.Click += new System.EventHandler(this.ReplaceTextregexToolStripMenuItemClick);
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.replaceTextregexToolStripMenuItem1});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(179, 26);
+            // 
+            // replaceTextregexToolStripMenuItem1
+            // 
+            this.replaceTextregexToolStripMenuItem1.Name = "replaceTextregexToolStripMenuItem1";
+            this.replaceTextregexToolStripMenuItem1.Size = new System.Drawing.Size(178, 22);
+            this.replaceTextregexToolStripMenuItem1.Text = "Replace Text (regex)";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -303,10 +321,11 @@ namespace SCaddins.SCopy
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
+            this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
-        private System.Windows.Forms.Button buttonReplace;
         private System.Windows.Forms.Button buttonRemove;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView dataGridView2;
@@ -321,6 +340,10 @@ namespace SCaddins.SCopy
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem replaceTextregexToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem replaceTextregexToolStripMenuItem1;
         
   
     }
