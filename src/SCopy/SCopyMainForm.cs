@@ -330,13 +330,21 @@ namespace SCaddins.SCopy
 
         private void ReplaceTextregexToolStripMenuItemClick(object sender, EventArgs e)
         {
-            //foreach (DataGridViewRow row in dataGridView1.SelectedRows) {
-            //    var sheet = row.DataBoundItem as SCopySheet;
-            //    
-            //} 
             SCaddins.SCexport.RenameSheetForm renameForm = new SCaddins.SCexport.RenameSheetForm(this.scopy.Sheets, this.doc);
             renameForm.ShowDialog();
             dataGridView1.Refresh();
+        }
+        
+        private void Button2Click(object sender, EventArgs e)
+        {
+            SCaddins.SCexport.RenameSheetForm renameForm = new SCaddins.SCexport.RenameSheetForm(this.scopy.Sheets, this.doc);
+            renameForm.ShowDialog();
+            dataGridView1.Refresh();  
+        }
+        
+        private void Button3Click(object sender, EventArgs e)
+        {
+          
         }
     }
 }

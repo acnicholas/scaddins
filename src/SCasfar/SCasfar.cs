@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2016 by Andrew Nicholas
+// (C) Copyright 2016 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -38,6 +38,10 @@ namespace SCaddins.SCasfar
             Document doc = commandData.Application.ActiveUIDocument.Document;
             //View currentView = doc.ActiveView;
             
+            SCasfarForm form = new SCasfarForm(doc);
+            form.ShowDialog();
+            return Autodesk.Revit.UI.Result.Succeeded;
+            
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             collector.OfClass(typeof(SpatialElement));
             foreach (Element e in collector) {
@@ -54,7 +58,9 @@ namespace SCaddins.SCasfar
                 //create plans
                 ViewPlan plan = ViewPlan.Create(doc,GetFloorPlanViewFamilyTypeId(doc), room.Level.Id);
                 BoundingBoxXYZ boundingBox = room.get_BoundingBox(plan);
-                plan.CropBox = CreateOffsetBoundingBox(2, boundingBox);;
+                
+                //set a large bounding box to stop annotations from interfering with placement
+                plan.CropBox = CreateOffsetBoundingBox(200, boundingBox);;
                 plan.CropBoxActive = true;
                 plan.Name = GetViewNameFromRoomNumber(room, doc);
                 plan.Scale = 20;
@@ -62,10 +68,18 @@ namespace SCaddins.SCasfar
                 //put them on sheets
                 ViewSheet sheet = ViewSheet.Create(doc, GetFirstTitleBlock(doc));
                 sheet.Name = GetSheetNameFromRoomNumber(room, doc);
-                Viewport.Create(doc, sheet.Id, plan.Id, new XYZ(
+                
+                Viewport vp = Viewport.Create(doc, sheet.Id, plan.Id, new XYZ(
                     SCaddins.Common.MiscUtilities.MMtoFeet(840/2),
                     SCaddins.Common.MiscUtilities.MMtoFeet(594/2),
                     0));
+                
+                //shrink the bounding box now that it is placed
+                plan.CropBox = CreateOffsetBoundingBox(2, boundingBox);;
+                
+                //FIXME - To set an empty vie title 0this seems to work with the standard revit template...
+                vp.ChangeTypeId(vp.GetValidTypes().Last());
+  
                 t.Commit();
             }
             
@@ -74,7 +88,7 @@ namespace SCaddins.SCasfar
      }
      
      //FIXME use this in SCopy.
-     private static ElementId GetFloorPlanViewFamilyTypeId(Document doc)
+     private ElementId GetFloorPlanViewFamilyTypeId(Document doc)
      {
             foreach (ViewFamilyType vft in new FilteredElementCollector(doc).OfClass(typeof(ViewFamilyType))) {
                 if (vft.ViewFamily == ViewFamily.FloorPlan) {
@@ -98,7 +112,7 @@ namespace SCaddins.SCasfar
          if (depo == null) return false;
          return depo.AsString() == "1. Unit";
      }
-     
+          
      private ElementId GetFirstTitleBlock(Document doc)
      {
          //TODO this is a super hack...
@@ -121,12 +135,7 @@ namespace SCaddins.SCasfar
          //FIXME move this to somewhere nices than SCaos.Command
          return SCaddins.SCaos.Command.GetNiceViewName(doc, request);
      }
-     
-//     private string GetViewNameFromRoomNumber(SpatialElement room, string searchPattern, string replacementPattern)
-//     {
-//         
-//     }
-     
+         
      private BoundingBoxXYZ CreateOffsetBoundingBox(double offset, BoundingBoxXYZ origBox)
      {
          XYZ min = new XYZ(origBox.Min.X - offset, origBox.Min.Y - offset, origBox.Min.Z);

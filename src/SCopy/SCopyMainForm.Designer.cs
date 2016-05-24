@@ -46,10 +46,12 @@ namespace SCaddins.SCopy
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
+            this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.buttonRemove = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.button3 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.buttonAdd = new System.Windows.Forms.Button();
@@ -88,6 +90,7 @@ namespace SCaddins.SCopy
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.button2);
             this.splitContainer1.Panel2.Controls.Add(this.button1);
             this.splitContainer1.Panel2.Controls.Add(this.buttonRemove);
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
@@ -140,6 +143,18 @@ namespace SCaddins.SCopy
             // 
             this.columnHeader2.Width = 123;
             // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Location = new System.Drawing.Point(233, 4);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(108, 23);
+            this.button2.TabIndex = 13;
+            this.button2.Text = "Rename Sheets";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.Button2Click);
+            // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -182,6 +197,7 @@ namespace SCaddins.SCopy
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.button3);
             this.splitContainer2.Panel2.Controls.Add(this.label3);
             this.splitContainer2.Panel2.Controls.Add(this.dataGridView2);
             this.splitContainer2.Size = new System.Drawing.Size(672, 428);
@@ -212,9 +228,22 @@ namespace SCaddins.SCopy
             this.dataGridView1.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.DataGridView1DataError);
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.DataGridView1SelectionChanged);
             // 
+            // button3
+            // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.Enabled = false;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Location = new System.Drawing.Point(560, 7);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(108, 23);
+            this.button3.TabIndex = 14;
+            this.button3.Text = "Rename Views";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.Button3Click);
+            // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(0, 17);
+            this.label3.Location = new System.Drawing.Point(3, 12);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(284, 18);
             this.label3.TabIndex = 8;
@@ -231,10 +260,10 @@ namespace SCaddins.SCopy
             this.dataGridView2.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.dataGridView2.Location = new System.Drawing.Point(3, 49);
+            this.dataGridView2.Location = new System.Drawing.Point(3, 36);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dataGridView2.Size = new System.Drawing.Size(672, 198);
+            this.dataGridView2.Size = new System.Drawing.Size(672, 211);
             this.dataGridView2.TabIndex = 7;
             this.dataGridView2.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DataGridView2CellFormatting);
             // 
@@ -277,12 +306,12 @@ namespace SCaddins.SCopy
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.replaceTextregexToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(176, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(177, 26);
             // 
             // replaceTextregexToolStripMenuItem
             // 
             this.replaceTextregexToolStripMenuItem.Name = "replaceTextregexToolStripMenuItem";
-            this.replaceTextregexToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.replaceTextregexToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.replaceTextregexToolStripMenuItem.Text = "Replace Text(regex)";
             this.replaceTextregexToolStripMenuItem.Click += new System.EventHandler(this.ReplaceTextregexToolStripMenuItemClick);
             // 
@@ -291,12 +320,12 @@ namespace SCaddins.SCopy
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.replaceTextregexToolStripMenuItem1});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(179, 26);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(180, 26);
             // 
             // replaceTextregexToolStripMenuItem1
             // 
             this.replaceTextregexToolStripMenuItem1.Name = "replaceTextregexToolStripMenuItem1";
-            this.replaceTextregexToolStripMenuItem1.Size = new System.Drawing.Size(178, 22);
+            this.replaceTextregexToolStripMenuItem1.Size = new System.Drawing.Size(179, 22);
             this.replaceTextregexToolStripMenuItem1.Text = "Replace Text (regex)";
             // 
             // MainForm
@@ -344,6 +373,8 @@ namespace SCaddins.SCopy
         private System.Windows.Forms.ToolStripMenuItem replaceTextregexToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem replaceTextregexToolStripMenuItem1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
         
   
     }
