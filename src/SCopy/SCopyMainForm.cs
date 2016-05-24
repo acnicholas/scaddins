@@ -107,7 +107,7 @@ namespace SCaddins.SCopy
             return result;        
         }
         
-        private static void AddColumn(string name, string text, DataGridView grid)
+        public static void AddColumn(string name, string text, DataGridView grid)
         {
             var result = new DataGridViewTextBoxColumn();
             AddColumnHeader(name, text, result);

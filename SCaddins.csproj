@@ -185,6 +185,11 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\SCaos\SCaosForm.Designer.cs" />
+    <Compile Include="src\SCasfar\MainForm.cs" />
+    <Compile Include="src\SCasfar\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\SCasfar\RoomToPlanCandidate.cs" />
     <Compile Include="src\SCasfar\SCasfar.cs" />
     <Compile Include="src\SCexport\Command.cs" />
     <Compile Include="src\SCexport\ConfirmDialog.cs">
@@ -352,6 +357,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCaos\SCaosForm.resx">
       <DependentUpon>SCaosForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\SCasfar\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCexport\ConfirmDialog.resx">
       <DependentUpon>ConfirmDialog.cs</DependentUpon>

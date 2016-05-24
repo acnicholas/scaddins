@@ -24,50 +24,65 @@ namespace SCaddins.SCasfar
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
-    [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
-    [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
-
- public class Command : IExternalCommand
-    {
-        public Autodesk.Revit.UI.Result Execute(
+    [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
+    [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
+    [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
+    public class Command : IExternalCommand
+    {        
+         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            //View currentView = doc.ActiveView;
+            var candidates = new System.ComponentModel.BindingList<RoomToPlanCandidate>();
             
-            SCasfarForm form = new SCasfarForm(doc);
-            form.ShowDialog();
-            return Autodesk.Revit.UI.Result.Succeeded;
+            //View currentView = doc.ActiveView;
+            //SCasfarForm form = new SCasfarForm(doc);
+            //form.ShowDialog();
+            //return Autodesk.Revit.UI.Result.Succeeded;
             
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             collector.OfClass(typeof(SpatialElement));
             foreach (Element e in collector) {
-
                 //if (!isUnit(e)) {
                 //    continue;
                 //}
-
                 SpatialElement room = e as SpatialElement;
-                
-                Transaction t = new Transaction(doc, "Rooms to Views");
-                t.Start();
-                
+                candidates.Add(new RoomToPlanCandidate(room, doc));
+            }
+            
+            var mainForm = new MainForm(candidates);
+            mainForm.ShowDialog();
+            return Autodesk.Revit.UI.Result.Succeeded;
+     }
+        
+     public static void CreateViewsAndSheets(Document doc, ICollection<RoomToPlanCandidate> candidates)
+     {
+        Transaction t = new Transaction(doc, "Rooms to Views");
+        t.Start(); 
+        foreach (RoomToPlanCandidate candidate in candidates) {
+            CreateViewAndSheet(doc, candidate);
+        }
+        t.Commit();         
+     }
+     
+     private static void CreateViewAndSheet(Document doc, RoomToPlanCandidate candidate)
+     {   
                 //create plans
-                ViewPlan plan = ViewPlan.Create(doc,GetFloorPlanViewFamilyTypeId(doc), room.Level.Id);
-                BoundingBoxXYZ boundingBox = room.get_BoundingBox(plan);
+                ViewPlan plan = ViewPlan.Create(doc, GetFloorPlanViewFamilyTypeId(doc), candidate.Room.Level.Id);
+                BoundingBoxXYZ boundingBox = candidate.Room.get_BoundingBox(plan);
                 
                 //set a large bounding box to stop annotations from interfering with placement
                 plan.CropBox = CreateOffsetBoundingBox(200, boundingBox);;
                 plan.CropBoxActive = true;
-                plan.Name = GetViewNameFromRoomNumber(room, doc);
+                plan.Name = candidate.DestViewName;
                 plan.Scale = 20;
                 
                 //put them on sheets
                 ViewSheet sheet = ViewSheet.Create(doc, GetFirstTitleBlock(doc));
-                sheet.Name = GetSheetNameFromRoomNumber(room, doc);
+                sheet.Name = candidate.DestSheetName;
+                sheet.SheetNumber = candidate.DestSheetNumber;
                 
                 Viewport vp = Viewport.Create(doc, sheet.Id, plan.Id, new XYZ(
                     SCaddins.Common.MiscUtilities.MMtoFeet(840/2),
@@ -79,16 +94,10 @@ namespace SCaddins.SCasfar
                 
                 //FIXME - To set an empty vie title 0this seems to work with the standard revit template...
                 vp.ChangeTypeId(vp.GetValidTypes().Last());
-  
-                t.Commit();
-            }
-            
-
-            return Autodesk.Revit.UI.Result.Succeeded;
      }
      
      //FIXME use this in SCopy.
-     private ElementId GetFloorPlanViewFamilyTypeId(Document doc)
+     private static ElementId GetFloorPlanViewFamilyTypeId(Document doc)
      {
             foreach (ViewFamilyType vft in new FilteredElementCollector(doc).OfClass(typeof(ViewFamilyType))) {
                 if (vft.ViewFamily == ViewFamily.FloorPlan) {
@@ -113,7 +122,7 @@ namespace SCaddins.SCasfar
          return depo.AsString() == "1. Unit";
      }
           
-     private ElementId GetFirstTitleBlock(Document doc)
+     private static ElementId GetFirstTitleBlock(Document doc)
      {
          //TODO this is a super hack...
          foreach (Element e in new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_TitleBlocks)) {
@@ -121,22 +130,8 @@ namespace SCaddins.SCasfar
          }
          return ElementId.InvalidElementId;
      }
-     
-     private string GetViewNameFromRoomNumber(SpatialElement room, Document doc)
-     {
-         string request = room.Number + " - " + room.Name;
-         //FIXME move this to somewhere nices than SCaos.Command
-         return SCaddins.SCaos.Command.GetNiceViewName(doc, request);
-     }
-     
-     private string GetSheetNameFromRoomNumber(SpatialElement room, Document doc)
-     {
-         string request = "MK" + room.Number;
-         //FIXME move this to somewhere nices than SCaos.Command
-         return SCaddins.SCaos.Command.GetNiceViewName(doc, request);
-     }
-         
-     private BoundingBoxXYZ CreateOffsetBoundingBox(double offset, BoundingBoxXYZ origBox)
+              
+     private static BoundingBoxXYZ CreateOffsetBoundingBox(double offset, BoundingBoxXYZ origBox)
      {
          XYZ min = new XYZ(origBox.Min.X - offset, origBox.Min.Y - offset, origBox.Min.Z);
          XYZ max = new XYZ(origBox.Max.X + offset, origBox.Max.Y + offset, origBox.Max.Z);
