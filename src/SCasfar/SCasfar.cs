@@ -23,6 +23,7 @@ namespace SCaddins.SCasfar
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using Autodesk.Revit.DB.Architecture;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -36,19 +37,14 @@ namespace SCaddins.SCasfar
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
             var candidates = new System.ComponentModel.BindingList<RoomToPlanCandidate>();
-            
-            //View currentView = doc.ActiveView;
-            //SCasfarForm form = new SCasfarForm(doc);
-            //form.ShowDialog();
-            //return Autodesk.Revit.UI.Result.Succeeded;
-            
+                        
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             collector.OfClass(typeof(SpatialElement));
             foreach (Element e in collector) {
                 //if (!isUnit(e)) {
                 //    continue;
                 //}
-                SpatialElement room = e as SpatialElement;
+                Room room = e as Room;
                 candidates.Add(new RoomToPlanCandidate(room, doc));
             }
             

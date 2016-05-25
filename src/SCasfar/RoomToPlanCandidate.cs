@@ -22,6 +22,7 @@ namespace SCaddins.SCasfar
     using System.ComponentModel;
     using System.Linq;
     using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Architecture;
     
     public class RoomToPlanCandidate : INotifyPropertyChanged
     {  
@@ -29,7 +30,7 @@ namespace SCaddins.SCasfar
         private string destSheetName; 
         private string destSheetNumber; 
         
-        public RoomToPlanCandidate(SpatialElement room, Document doc)
+        public RoomToPlanCandidate(Room room, Document doc)
         {
             this.Room = room;
             this.DestSheetName = GetDefaultSheetName(doc);
