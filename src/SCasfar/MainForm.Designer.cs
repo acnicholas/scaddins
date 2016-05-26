@@ -18,7 +18,6 @@ namespace SCaddins.SCasfar
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         
@@ -48,7 +47,6 @@ namespace SCaddins.SCasfar
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -82,12 +80,13 @@ namespace SCaddins.SCasfar
             this.button2.FlatAppearance.BorderSize = 0;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-            this.button2.Location = new System.Drawing.Point(42, 509);
+            this.button2.Location = new System.Drawing.Point(36, 509);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(29, 23);
             this.button2.TabIndex = 2;
             this.button2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.Button2Click);
             // 
             // button3
             // 
@@ -101,14 +100,7 @@ namespace SCaddins.SCasfar
             this.button3.TabIndex = 3;
             this.button3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.button3.UseVisualStyleBackColor = false;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox1.Location = new System.Drawing.Point(77, 511);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(147, 20);
-            this.textBox1.TabIndex = 4;
+            this.button3.Click += new System.EventHandler(this.Button3Click);
             // 
             // button4
             // 
@@ -137,7 +129,6 @@ namespace SCaddins.SCasfar
             this.ClientSize = new System.Drawing.Size(690, 544);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -146,7 +137,6 @@ namespace SCaddins.SCasfar
             this.Text = "SCasfar - Creates a Sheet from a Room";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
     }

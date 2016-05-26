@@ -17,37 +17,34 @@
 
 namespace SCaddins.SCasfar
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    using Autodesk.Revit.DB.Architecture;
+
     public class RoomFilter
     {
         
-        private LogicalOperators lo;
-        private ComparisonOperators co;
+
+        private Collection<RoomFilterItem> filters;
         
-        public enum LogicalOperators
-        {
-            AND,
-            OR,
-            NOT
-        }
-        
-        public enum ComparisonOperators
-        {
-            Equals,
-            NotEqual,
-            GreaterThan,
-            LessThan,
-            GreaterThanOrEqual,
-            LessThanOrEqual
-        }
-        
+
         public RoomFilter()
-        {
-            
+        {   
+            this.filters = new Collection<RoomFilterItem>();
+            this.filters.Clear();
         }
         
-        public bool PassesFilter()
+        public void AddFilterItem(RoomFilterItem item)
         {
-            return true;
+            this.filters.Add(item);
+        }
+        
+        public bool PassesFilter(Room room)
+        {
+            bool pass = false;
+            return pass;
         }
             
     }

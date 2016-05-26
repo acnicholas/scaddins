@@ -22,16 +22,27 @@ namespace SCaddins.SCasfar
     using System;
     using System.Drawing;
     using System.Windows.Forms;
+    using System.Collections.ObjectModel;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     
     public partial class MainForm : System.Windows.Forms.Form
     {
-        public MainForm(System.ComponentModel.BindingList<RoomToPlanCandidate> candidates)
+        private System.ComponentModel.BindingList<RoomToPlanCandidate> candidates;
+        private System.ComponentModel.BindingList<RoomToPlanCandidate> originalCandidates;
+        private Document doc;
+        private RoomFilterDialog rfd;
+        private RoomFilter rf;
+        
+        public MainForm(System.ComponentModel.BindingList<RoomToPlanCandidate> candidates, Document doc)
         {
             InitializeComponent();          
             this.AddDataGridColumns();  
-            dataGridView1.DataSource = candidates; 
+            this.candidates = candidates; 
+            this.originalCandidates = candidates;
+            this.doc = doc;
+            this.rf = new RoomFilter();
+            this.rfd = new RoomFilterDialog(doc, ref rf);
         }
         
         private void AddDataGridColumns()
@@ -44,6 +55,30 @@ namespace SCaddins.SCasfar
             SCaddins.SCopy.MainForm.AddColumn("DestSheetNumber", "New Sheet Number", this.dataGridView1);
             SCaddins.SCopy.MainForm.AddColumn("DestSheetName", "New Sheet Name", this.dataGridView1);
             //this.AddComboBoxColumns(); 
+        }
+        
+        private  void Button2Click(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = candidates;   
+        }
+        
+        private void Button3Click(object sender, EventArgs e)
+        {
+            rfd.ShowDialog();
+
+            Collection<RoomToPlanCandidate> toRemove = new Collection<RoomToPlanCandidate>();
+
+            foreach(RoomToPlanCandidate c in candidates){
+                TaskDialog.Show("test", c.DestViewName);
+                //if(!c.PassesFilter()){
+                //    toRemove.Add(c);
+                //}
+            }
+            foreach(RoomToPlanCandidate c in toRemove){
+                candidates.Remove(c);
+            }
+            
+            dataGridView1.Refresh();
         }
         
     }

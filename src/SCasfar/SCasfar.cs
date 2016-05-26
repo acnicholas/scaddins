@@ -37,7 +37,7 @@ namespace SCaddins.SCasfar
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
             var candidates = new System.ComponentModel.BindingList<RoomToPlanCandidate>();
-                        
+                                  
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             collector.OfClass(typeof(SpatialElement));
             foreach (Element e in collector) {
@@ -48,7 +48,7 @@ namespace SCaddins.SCasfar
                 candidates.Add(new RoomToPlanCandidate(room, doc));
             }
             
-            var mainForm = new MainForm(candidates);
+            var mainForm = new MainForm(candidates, doc);
             mainForm.ShowDialog();
             return Autodesk.Revit.UI.Result.Succeeded;
      }

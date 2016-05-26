@@ -95,6 +95,11 @@ namespace SCaddins.SCasfar
                 }
             }
         }
+        
+        public bool PassesFilter(RoomFilter filter)
+        {
+            return true;
+        }
                 
         private string GetDefaultViewName(Document doc)
         {

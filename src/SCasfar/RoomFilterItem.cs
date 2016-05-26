@@ -17,14 +17,21 @@
 
 namespace SCaddins.SCasfar
 {
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    using Autodesk.Revit.DB.Architecture;
+    
     public class RoomFilterItem
     {
+       private LogicalOperators lo;
+       private ComparisonOperators co;
+       private Parameter parameter;
+       private string test;
         
         public enum LogicalOperators
         {
             AND,
-            OR,
-            NOT
+            OR
         }
         
         public enum ComparisonOperators
@@ -34,7 +41,17 @@ namespace SCaddins.SCasfar
             GreaterThan,
             LessThan,
             GreaterThanOrEqual,
-            LessThanOrEqual
+            LessThanOrEqual,
+            Contains,
+            Matches
+        }
+        
+        public RoomFilterItem(LogicalOperators lo, ComparisonOperators co, Parameter parameter, string test)
+        {
+            this.lo = lo;
+            this.co = co;
+            this.parameter = parameter;
+            this.test = test;
         }
         
         public bool PassesFilter()

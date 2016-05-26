@@ -189,6 +189,12 @@
     <Compile Include="src\SCasfar\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\SCasfar\RoomFilter.cs" />
+    <Compile Include="src\SCasfar\RoomFilterDialog.cs" />
+    <Compile Include="src\SCasfar\RoomFilterDialog.Designer.cs">
+      <DependentUpon>RoomFilterDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\SCasfar\RoomFilterItem.cs" />
     <Compile Include="src\SCasfar\RoomToPlanCandidate.cs" />
     <Compile Include="src\SCasfar\SCasfar.cs" />
     <Compile Include="src\SCexport\Command.cs" />
@@ -360,6 +366,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCasfar\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\SCasfar\RoomFilterDialog.resx">
+      <DependentUpon>RoomFilterDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\SCexport\ConfirmDialog.resx">
       <DependentUpon>ConfirmDialog.cs</DependentUpon>
