@@ -17,6 +17,7 @@
 
 namespace SCaddins.SCasfar
 {
+    using System;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Autodesk.Revit.DB.Architecture;
@@ -25,13 +26,12 @@ namespace SCaddins.SCasfar
     {
        private LogicalOperators lo;
        private ComparisonOperators co;
-       private Parameter parameter;
+       private string parameterName;
        private string test;
         
         public enum LogicalOperators
         {
-            AND,
-            OR
+            AND
         }
         
         public enum ComparisonOperators
@@ -46,17 +46,44 @@ namespace SCaddins.SCasfar
             Matches
         }
         
-        public RoomFilterItem(LogicalOperators lo, ComparisonOperators co, Parameter parameter, string test)
+        public RoomFilterItem(string lo, string co, string parameter, string test)
         {
-            this.lo = lo;
-            this.co = co;
-            this.parameter = parameter;
-            this.test = test;
+           this.lo = (RoomFilterItem.LogicalOperators) Enum.Parse(typeof(RoomFilterItem.LogicalOperators), lo);
+           this.co = (RoomFilterItem.ComparisonOperators) Enum.Parse(typeof(RoomFilterItem.ComparisonOperators), co);
+           this.parameterName = parameter;
+           this.test = test;
         }
         
-        public bool PassesFilter()
+        public bool IsValid()
         {
             return true;
+        }
+        
+        private Parameter ParamFromString(Room room, string name)
+        {
+            if(room.GetParameters(name).Count > 0) {
+                return room.GetParameters(name)[0];
+            }
+            return null;
+        }
+        
+        public bool PassesFilter(Room room)
+        {
+            bool pass = true;
+            Parameter param = ParamFromString(room, this.parameterName);
+            if (param == null) {
+                return false;
+            }
+            
+            //switch (this.lo){
+            //    case LogicalOperators.AND:
+            switch (this.co) {
+                case ComparisonOperators.Equals:
+                    pass = param.AsString() == this.test;
+                    break;
+            }
+            //}
+            return pass;
         }
             
     }

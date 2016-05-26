@@ -14,35 +14,37 @@ namespace SCaddins.SCasfar
         /// Designer variable used to keep track of non-visual components.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBoxCO1;
         private System.Windows.Forms.ComboBox comboBoxP1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.ComboBox comboBoxP2;
-        private System.Windows.Forms.ComboBox comboBox4;
-        private System.Windows.Forms.ComboBox comboBox5;
-        private System.Windows.Forms.ComboBox comboBox6;
+        private System.Windows.Forms.ComboBox comboBoxCO2;
+        private System.Windows.Forms.ComboBox comboBoxLO2;
+        private System.Windows.Forms.ComboBox comboBoxLO3;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.ComboBox comboBoxP3;
-        private System.Windows.Forms.ComboBox comboBox8;
-        private System.Windows.Forms.ComboBox comboBox9;
+        private System.Windows.Forms.ComboBox comboBoxCO3;
+        private System.Windows.Forms.ComboBox comboBoxLO4;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.ComboBox comboBoxP4;
-        private System.Windows.Forms.ComboBox comboBox11;
-        private System.Windows.Forms.ComboBox comboBox12;
+        private System.Windows.Forms.ComboBox comboBoxCO4;
+        private System.Windows.Forms.ComboBox comboBoxLO5;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.ComboBox comboBoxP5;
-        private System.Windows.Forms.ComboBox comboBox14;
-        private System.Windows.Forms.ComboBox comboBox15;
+        private System.Windows.Forms.ComboBox comboBoxCO5;
+        private System.Windows.Forms.ComboBox comboBoxLO6;
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.ComboBox comboBoxP6;
-        private System.Windows.Forms.ComboBox comboBox17;
-        private System.Windows.Forms.ComboBox comboBox18;
+        private System.Windows.Forms.ComboBox comboBoxCO6;
+        private System.Windows.Forms.ComboBox comboBoxLO7;
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.ComboBox comboBoxP7;
-        private System.Windows.Forms.ComboBox comboBox20;
+        private System.Windows.Forms.ComboBox comboBoxCO7;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
         
         /// <summary>
         /// Disposes resources used by the form.
@@ -65,50 +67,52 @@ namespace SCaddins.SCasfar
         /// </summary>
         private void InitializeComponent()
         {
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBoxCO1 = new System.Windows.Forms.ComboBox();
             this.comboBoxP1 = new System.Windows.Forms.ComboBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.comboBoxP2 = new System.Windows.Forms.ComboBox();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.comboBox5 = new System.Windows.Forms.ComboBox();
-            this.comboBox6 = new System.Windows.Forms.ComboBox();
+            this.comboBoxCO2 = new System.Windows.Forms.ComboBox();
+            this.comboBoxLO2 = new System.Windows.Forms.ComboBox();
+            this.comboBoxLO3 = new System.Windows.Forms.ComboBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.comboBoxP3 = new System.Windows.Forms.ComboBox();
-            this.comboBox8 = new System.Windows.Forms.ComboBox();
-            this.comboBox9 = new System.Windows.Forms.ComboBox();
+            this.comboBoxCO3 = new System.Windows.Forms.ComboBox();
+            this.comboBoxLO4 = new System.Windows.Forms.ComboBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.comboBoxP4 = new System.Windows.Forms.ComboBox();
-            this.comboBox11 = new System.Windows.Forms.ComboBox();
-            this.comboBox12 = new System.Windows.Forms.ComboBox();
+            this.comboBoxCO4 = new System.Windows.Forms.ComboBox();
+            this.comboBoxLO5 = new System.Windows.Forms.ComboBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.comboBoxP5 = new System.Windows.Forms.ComboBox();
-            this.comboBox14 = new System.Windows.Forms.ComboBox();
-            this.comboBox15 = new System.Windows.Forms.ComboBox();
+            this.comboBoxCO5 = new System.Windows.Forms.ComboBox();
+            this.comboBoxLO6 = new System.Windows.Forms.ComboBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.comboBoxP6 = new System.Windows.Forms.ComboBox();
-            this.comboBox17 = new System.Windows.Forms.ComboBox();
-            this.comboBox18 = new System.Windows.Forms.ComboBox();
+            this.comboBoxCO6 = new System.Windows.Forms.ComboBox();
+            this.comboBoxLO7 = new System.Windows.Forms.ComboBox();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.comboBoxP7 = new System.Windows.Forms.ComboBox();
-            this.comboBox20 = new System.Windows.Forms.ComboBox();
+            this.comboBoxCO7 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // comboBox1
+            // comboBoxCO1
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(205, 12);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 0;
+            this.comboBoxCO1.FormattingEnabled = true;
+            this.comboBoxCO1.Location = new System.Drawing.Point(205, 12);
+            this.comboBoxCO1.Name = "comboBoxCO1";
+            this.comboBoxCO1.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxCO1.TabIndex = 0;
             // 
-            // comboBox2
+            // comboBoxP1
             // 
             this.comboBoxP1.FormattingEnabled = true;
             this.comboBoxP1.Location = new System.Drawing.Point(84, 12);
-            this.comboBoxP1.Name = "comboBox2";
+            this.comboBoxP1.Name = "comboBoxP1";
             this.comboBoxP1.Size = new System.Drawing.Size(115, 21);
             this.comboBoxP1.TabIndex = 1;
             // 
@@ -126,37 +130,38 @@ namespace SCaddins.SCasfar
             this.textBox2.Size = new System.Drawing.Size(174, 20);
             this.textBox2.TabIndex = 5;
             // 
-            // comboBox3
+            // comboBoxP2
             // 
             this.comboBoxP2.FormattingEnabled = true;
             this.comboBoxP2.Location = new System.Drawing.Point(84, 39);
-            this.comboBoxP2.Name = "comboBox3";
+            this.comboBoxP2.Name = "comboBoxP2";
             this.comboBoxP2.Size = new System.Drawing.Size(115, 21);
             this.comboBoxP2.TabIndex = 4;
             // 
-            // comboBox4
+            // comboBoxCO2
             // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(205, 39);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(121, 21);
-            this.comboBox4.TabIndex = 3;
+            this.comboBoxCO2.FormattingEnabled = true;
+            this.comboBoxCO2.Location = new System.Drawing.Point(205, 39);
+            this.comboBoxCO2.Name = "comboBoxCO2";
+            this.comboBoxCO2.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxCO2.TabIndex = 3;
             // 
-            // comboBox5
+            // comboBoxLO2
             // 
-            this.comboBox5.FormattingEnabled = true;
-            this.comboBox5.Location = new System.Drawing.Point(26, 38);
-            this.comboBox5.Name = "comboBox5";
-            this.comboBox5.Size = new System.Drawing.Size(52, 21);
-            this.comboBox5.TabIndex = 6;
+            this.comboBoxLO2.FormattingEnabled = true;
+            this.comboBoxLO2.Location = new System.Drawing.Point(27, 39);
+            this.comboBoxLO2.Name = "comboBoxLO2";
+            this.comboBoxLO2.Size = new System.Drawing.Size(52, 21);
+            this.comboBoxLO2.TabIndex = 6;
             // 
-            // comboBox6
+            // comboBoxLO3
             // 
-            this.comboBox6.FormattingEnabled = true;
-            this.comboBox6.Location = new System.Drawing.Point(26, 66);
-            this.comboBox6.Name = "comboBox6";
-            this.comboBox6.Size = new System.Drawing.Size(53, 21);
-            this.comboBox6.TabIndex = 10;
+            this.comboBoxLO3.FormattingEnabled = true;
+            this.comboBoxLO3.Location = new System.Drawing.Point(26, 66);
+            this.comboBoxLO3.Name = "comboBoxLO3";
+            this.comboBoxLO3.Size = new System.Drawing.Size(53, 21);
+            this.comboBoxLO3.TabIndex = 10;
+            this.comboBoxLO3.SelectedIndexChanged += new System.EventHandler(this.ComboBox6SelectedIndexChanged);
             // 
             // textBox3
             // 
@@ -165,29 +170,29 @@ namespace SCaddins.SCasfar
             this.textBox3.Size = new System.Drawing.Size(174, 20);
             this.textBox3.TabIndex = 9;
             // 
-            // comboBox7
+            // comboBoxP3
             // 
             this.comboBoxP3.FormattingEnabled = true;
             this.comboBoxP3.Location = new System.Drawing.Point(84, 66);
-            this.comboBoxP3.Name = "comboBox7";
+            this.comboBoxP3.Name = "comboBoxP3";
             this.comboBoxP3.Size = new System.Drawing.Size(115, 21);
             this.comboBoxP3.TabIndex = 8;
             // 
-            // comboBox8
+            // comboBoxCO3
             // 
-            this.comboBox8.FormattingEnabled = true;
-            this.comboBox8.Location = new System.Drawing.Point(205, 66);
-            this.comboBox8.Name = "comboBox8";
-            this.comboBox8.Size = new System.Drawing.Size(121, 21);
-            this.comboBox8.TabIndex = 7;
+            this.comboBoxCO3.FormattingEnabled = true;
+            this.comboBoxCO3.Location = new System.Drawing.Point(205, 66);
+            this.comboBoxCO3.Name = "comboBoxCO3";
+            this.comboBoxCO3.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxCO3.TabIndex = 7;
             // 
-            // comboBox9
+            // comboBoxLO4
             // 
-            this.comboBox9.FormattingEnabled = true;
-            this.comboBox9.Location = new System.Drawing.Point(26, 93);
-            this.comboBox9.Name = "comboBox9";
-            this.comboBox9.Size = new System.Drawing.Size(53, 21);
-            this.comboBox9.TabIndex = 14;
+            this.comboBoxLO4.FormattingEnabled = true;
+            this.comboBoxLO4.Location = new System.Drawing.Point(26, 93);
+            this.comboBoxLO4.Name = "comboBoxLO4";
+            this.comboBoxLO4.Size = new System.Drawing.Size(53, 21);
+            this.comboBoxLO4.TabIndex = 14;
             // 
             // textBox4
             // 
@@ -196,29 +201,29 @@ namespace SCaddins.SCasfar
             this.textBox4.Size = new System.Drawing.Size(174, 20);
             this.textBox4.TabIndex = 13;
             // 
-            // comboBox10
+            // comboBoxP4
             // 
             this.comboBoxP4.FormattingEnabled = true;
             this.comboBoxP4.Location = new System.Drawing.Point(84, 93);
-            this.comboBoxP4.Name = "comboBox10";
+            this.comboBoxP4.Name = "comboBoxP4";
             this.comboBoxP4.Size = new System.Drawing.Size(115, 21);
             this.comboBoxP4.TabIndex = 12;
             // 
-            // comboBox11
+            // comboBoxCO4
             // 
-            this.comboBox11.FormattingEnabled = true;
-            this.comboBox11.Location = new System.Drawing.Point(205, 93);
-            this.comboBox11.Name = "comboBox11";
-            this.comboBox11.Size = new System.Drawing.Size(121, 21);
-            this.comboBox11.TabIndex = 11;
+            this.comboBoxCO4.FormattingEnabled = true;
+            this.comboBoxCO4.Location = new System.Drawing.Point(205, 93);
+            this.comboBoxCO4.Name = "comboBoxCO4";
+            this.comboBoxCO4.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxCO4.TabIndex = 11;
             // 
-            // comboBox12
+            // comboBoxLO5
             // 
-            this.comboBox12.FormattingEnabled = true;
-            this.comboBox12.Location = new System.Drawing.Point(26, 120);
-            this.comboBox12.Name = "comboBox12";
-            this.comboBox12.Size = new System.Drawing.Size(53, 21);
-            this.comboBox12.TabIndex = 18;
+            this.comboBoxLO5.FormattingEnabled = true;
+            this.comboBoxLO5.Location = new System.Drawing.Point(26, 120);
+            this.comboBoxLO5.Name = "comboBoxLO5";
+            this.comboBoxLO5.Size = new System.Drawing.Size(53, 21);
+            this.comboBoxLO5.TabIndex = 18;
             // 
             // textBox5
             // 
@@ -227,29 +232,29 @@ namespace SCaddins.SCasfar
             this.textBox5.Size = new System.Drawing.Size(174, 20);
             this.textBox5.TabIndex = 17;
             // 
-            // comboBox13
+            // comboBoxP5
             // 
             this.comboBoxP5.FormattingEnabled = true;
             this.comboBoxP5.Location = new System.Drawing.Point(84, 120);
-            this.comboBoxP5.Name = "comboBox13";
+            this.comboBoxP5.Name = "comboBoxP5";
             this.comboBoxP5.Size = new System.Drawing.Size(115, 21);
             this.comboBoxP5.TabIndex = 16;
             // 
-            // comboBox14
+            // comboBoxCO5
             // 
-            this.comboBox14.FormattingEnabled = true;
-            this.comboBox14.Location = new System.Drawing.Point(205, 120);
-            this.comboBox14.Name = "comboBox14";
-            this.comboBox14.Size = new System.Drawing.Size(121, 21);
-            this.comboBox14.TabIndex = 15;
+            this.comboBoxCO5.FormattingEnabled = true;
+            this.comboBoxCO5.Location = new System.Drawing.Point(205, 120);
+            this.comboBoxCO5.Name = "comboBoxCO5";
+            this.comboBoxCO5.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxCO5.TabIndex = 15;
             // 
-            // comboBox15
+            // comboBoxLO6
             // 
-            this.comboBox15.FormattingEnabled = true;
-            this.comboBox15.Location = new System.Drawing.Point(26, 146);
-            this.comboBox15.Name = "comboBox15";
-            this.comboBox15.Size = new System.Drawing.Size(52, 21);
-            this.comboBox15.TabIndex = 22;
+            this.comboBoxLO6.FormattingEnabled = true;
+            this.comboBoxLO6.Location = new System.Drawing.Point(26, 146);
+            this.comboBoxLO6.Name = "comboBoxLO6";
+            this.comboBoxLO6.Size = new System.Drawing.Size(52, 21);
+            this.comboBoxLO6.TabIndex = 22;
             // 
             // textBox6
             // 
@@ -258,29 +263,29 @@ namespace SCaddins.SCasfar
             this.textBox6.Size = new System.Drawing.Size(174, 20);
             this.textBox6.TabIndex = 21;
             // 
-            // comboBox16
+            // comboBoxP6
             // 
             this.comboBoxP6.FormattingEnabled = true;
             this.comboBoxP6.Location = new System.Drawing.Point(84, 147);
-            this.comboBoxP6.Name = "comboBox16";
+            this.comboBoxP6.Name = "comboBoxP6";
             this.comboBoxP6.Size = new System.Drawing.Size(115, 21);
             this.comboBoxP6.TabIndex = 20;
             // 
-            // comboBox17
+            // comboBoxCO6
             // 
-            this.comboBox17.FormattingEnabled = true;
-            this.comboBox17.Location = new System.Drawing.Point(205, 147);
-            this.comboBox17.Name = "comboBox17";
-            this.comboBox17.Size = new System.Drawing.Size(121, 21);
-            this.comboBox17.TabIndex = 19;
+            this.comboBoxCO6.FormattingEnabled = true;
+            this.comboBoxCO6.Location = new System.Drawing.Point(205, 147);
+            this.comboBoxCO6.Name = "comboBoxCO6";
+            this.comboBoxCO6.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxCO6.TabIndex = 19;
             // 
-            // comboBox18
+            // comboBoxLO7
             // 
-            this.comboBox18.FormattingEnabled = true;
-            this.comboBox18.Location = new System.Drawing.Point(26, 174);
-            this.comboBox18.Name = "comboBox18";
-            this.comboBox18.Size = new System.Drawing.Size(53, 21);
-            this.comboBox18.TabIndex = 26;
+            this.comboBoxLO7.FormattingEnabled = true;
+            this.comboBoxLO7.Location = new System.Drawing.Point(26, 174);
+            this.comboBoxLO7.Name = "comboBoxLO7";
+            this.comboBoxLO7.Size = new System.Drawing.Size(53, 21);
+            this.comboBoxLO7.TabIndex = 26;
             // 
             // textBox7
             // 
@@ -289,29 +294,30 @@ namespace SCaddins.SCasfar
             this.textBox7.Size = new System.Drawing.Size(174, 20);
             this.textBox7.TabIndex = 25;
             // 
-            // comboBox19
+            // comboBoxP7
             // 
             this.comboBoxP7.FormattingEnabled = true;
             this.comboBoxP7.Location = new System.Drawing.Point(84, 174);
-            this.comboBoxP7.Name = "comboBox19";
+            this.comboBoxP7.Name = "comboBoxP7";
             this.comboBoxP7.Size = new System.Drawing.Size(115, 21);
             this.comboBoxP7.TabIndex = 24;
             // 
-            // comboBox20
+            // comboBoxCO7
             // 
-            this.comboBox20.FormattingEnabled = true;
-            this.comboBox20.Location = new System.Drawing.Point(205, 174);
-            this.comboBox20.Name = "comboBox20";
-            this.comboBox20.Size = new System.Drawing.Size(121, 21);
-            this.comboBox20.TabIndex = 23;
+            this.comboBoxCO7.FormattingEnabled = true;
+            this.comboBoxCO7.Location = new System.Drawing.Point(205, 174);
+            this.comboBoxCO7.Name = "comboBoxCO7";
+            this.comboBoxCO7.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxCO7.TabIndex = 23;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(399, 220);
+            this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.button1.Location = new System.Drawing.Point(431, 219);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 27;
-            this.button1.Text = "button1";
+            this.button1.Text = "OK";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1Click);
             // 
@@ -321,43 +327,64 @@ namespace SCaddins.SCasfar
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 28;
-            this.button2.Text = "button2";
+            this.button2.Text = "Reset";
             this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(350, 219);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 29;
+            this.button3.Text = "Apply";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.button4.Location = new System.Drawing.Point(269, 219);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 30;
+            this.button4.Text = "Cancel";
+            this.button4.UseVisualStyleBackColor = true;
             // 
             // RoomFilterDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(518, 254);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.comboBox18);
+            this.Controls.Add(this.comboBoxLO7);
             this.Controls.Add(this.textBox7);
             this.Controls.Add(this.comboBoxP7);
-            this.Controls.Add(this.comboBox20);
-            this.Controls.Add(this.comboBox15);
+            this.Controls.Add(this.comboBoxCO7);
+            this.Controls.Add(this.comboBoxLO6);
             this.Controls.Add(this.textBox6);
             this.Controls.Add(this.comboBoxP6);
-            this.Controls.Add(this.comboBox17);
-            this.Controls.Add(this.comboBox12);
+            this.Controls.Add(this.comboBoxCO6);
+            this.Controls.Add(this.comboBoxLO5);
             this.Controls.Add(this.textBox5);
             this.Controls.Add(this.comboBoxP5);
-            this.Controls.Add(this.comboBox14);
-            this.Controls.Add(this.comboBox9);
+            this.Controls.Add(this.comboBoxCO5);
+            this.Controls.Add(this.comboBoxLO4);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.comboBoxP4);
-            this.Controls.Add(this.comboBox11);
-            this.Controls.Add(this.comboBox6);
+            this.Controls.Add(this.comboBoxCO4);
+            this.Controls.Add(this.comboBoxLO3);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.comboBoxP3);
-            this.Controls.Add(this.comboBox8);
-            this.Controls.Add(this.comboBox5);
+            this.Controls.Add(this.comboBoxCO3);
+            this.Controls.Add(this.comboBoxLO2);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.comboBoxP2);
-            this.Controls.Add(this.comboBox4);
+            this.Controls.Add(this.comboBoxCO2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.comboBoxP1);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.comboBoxCO1);
             this.Name = "RoomFilterDialog";
             this.Text = "RoomFilterDialog";
             this.ResumeLayout(false);

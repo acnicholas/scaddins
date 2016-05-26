@@ -39,10 +39,11 @@ namespace SCaddins.SCasfar
             InitializeComponent();          
             this.AddDataGridColumns();  
             this.candidates = candidates; 
-            this.originalCandidates = candidates;
+            this.originalCandidates = new System.ComponentModel.BindingList<RoomToPlanCandidate>();
+            Copy(candidates, originalCandidates);
             this.doc = doc;
             this.rf = new RoomFilter();
-            this.rfd = new RoomFilterDialog(doc, ref rf);
+            this.rfd = new RoomFilterDialog(doc, rf);
         }
         
         private void AddDataGridColumns()
@@ -57,28 +58,45 @@ namespace SCaddins.SCasfar
             //this.AddComboBoxColumns(); 
         }
         
-        private  void Button2Click(object sender, EventArgs e)
+        private  void ButtonRefreshClick(object sender, EventArgs e)
         {
             dataGridView1.DataSource = candidates;   
         }
         
-        private void Button3Click(object sender, EventArgs e)
+        private void Copy(Collection<RoomToPlanCandidate> src, Collection<RoomToPlanCandidate> dest)
         {
-            rfd.ShowDialog();
-
-            Collection<RoomToPlanCandidate> toRemove = new Collection<RoomToPlanCandidate>();
-
-            foreach(RoomToPlanCandidate c in candidates){
-                TaskDialog.Show("test", c.DestViewName);
-                //if(!c.PassesFilter()){
-                //    toRemove.Add(c);
-                //}
+             dest.Clear();
+             foreach (RoomToPlanCandidate c in src) {
+                dest.Add(c);
+            }    
+        }
+        
+        private void ButtonFilterClick(object sender, EventArgs e)
+        {
+            DialogResult dr = rfd.ShowDialog();
+            if (dr == DialogResult.OK) {
+                Collection<RoomToPlanCandidate> toRemove = new Collection<RoomToPlanCandidate>();
+                foreach (RoomToPlanCandidate c in candidates) {
+                    if (!c.PassesFilter(rf)) {
+                        toRemove.Add(c);
+                    }
+                }
+                foreach (RoomToPlanCandidate c in toRemove) {
+                    candidates.Remove(c);
+                }
             }
-            foreach(RoomToPlanCandidate c in toRemove){
-                candidates.Remove(c);
-            }
-            
             dataGridView1.Refresh();
+        }
+        
+        private void ButtonResetClick(object sender, EventArgs e)
+        {
+            Copy(originalCandidates, candidates);  
+            dataGridView1.Refresh();
+        }
+        
+        private void ButtonGoClick(object sender, EventArgs e)
+        {
+          
         }
         
     }

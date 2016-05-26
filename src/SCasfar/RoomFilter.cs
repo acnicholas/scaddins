@@ -43,8 +43,14 @@ namespace SCaddins.SCasfar
         
         public bool PassesFilter(Room room)
         {
-            bool pass = false;
-            return pass;
+            foreach(RoomFilterItem item in filters) {
+                if (item.IsValid()) {
+                    if(!item.PassesFilter(room)){
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
             
     }

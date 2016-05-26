@@ -40,7 +40,7 @@ namespace SCaddins.SCasfar
                
         public event PropertyChangedEventHandler PropertyChanged;
                
-        public SpatialElement Room {
+        public Room Room {
             get; set;    
         }
         
@@ -98,7 +98,7 @@ namespace SCaddins.SCasfar
         
         public bool PassesFilter(RoomFilter filter)
         {
-            return true;
+            return filter.PassesFilter(this.Room);
         }
                 
         private string GetDefaultViewName(Document doc)
