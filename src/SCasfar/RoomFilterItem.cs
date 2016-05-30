@@ -67,6 +67,64 @@ namespace SCaddins.SCasfar
             return null;
         }
         
+        private bool ParameterValueMatchesString(Parameter param, string value)
+        {
+            if (!param.HasValue || string.IsNullOrWhiteSpace(value)){
+                return false;
+            }
+            switch (param.StorageType){
+                case StorageType.Double:
+                    double parse;
+                    if (Double.TryParse(value, out parse)){
+                        return param.AsDouble().CompareTo(parse) == 0;
+                    } else {
+                        return false;
+                    }
+                case StorageType.String:
+                    return param.AsString() == value;
+                case StorageType.Integer:
+                       int iparse;
+                    if (Int32.TryParse(value, out iparse)){
+                           return param.AsInteger().CompareTo(iparse) == 0;
+                    } else {
+                        return false;
+                    }
+                case StorageType.ElementId:
+                    return false;
+                default:
+                    return false;
+            }
+        }
+        
+        private bool ParameterValueLessThanString(Parameter param, string value)
+        {
+            if (!param.HasValue || string.IsNullOrWhiteSpace(value)){
+                return false;
+            }
+            switch (param.StorageType){
+                case StorageType.Double:
+                    double parse;
+                    if (Double.TryParse(value, out parse)){
+                        return param.AsDouble().CompareTo(parse) < 0;
+                    } else {
+                        return false;
+                    }
+                case StorageType.String:
+                    return false;
+                case StorageType.Integer:
+                       int iparse;
+                    if (Int32.TryParse(value, out iparse)){
+                           return param.AsInteger().CompareTo(iparse) < 0;
+                    } else {
+                        return false;
+                    }
+                case StorageType.ElementId:
+                    return false;
+                default:
+                    return false;
+            }
+        }
+        
         public bool PassesFilter(Room room)
         {
             bool pass = true;
@@ -79,8 +137,11 @@ namespace SCaddins.SCasfar
             //    case LogicalOperators.AND:
             switch (this.co) {
                 case ComparisonOperators.Equals:
-                    pass = param.AsString() == this.test;
+                    pass = ParameterValueMatchesString(param, this.test);
                     break;
+                case ComparisonOperators.LessThan:
+                    pass = ParameterValueLessThanString(param, this.test);
+                    break;    
             }
             //}
             return pass;

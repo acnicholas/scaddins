@@ -95,7 +95,7 @@ namespace SCaddins.SCasfar
                 }
             }
         }
-        
+               
         public bool PassesFilter(RoomFilter filter)
         {
             return filter.PassesFilter(this.Room);

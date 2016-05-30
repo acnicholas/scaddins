@@ -57,7 +57,7 @@ namespace SCaddins.SCasfar
             comboBoxLO7.DataSource = Enum.GetValues(typeof(RoomFilterItem.LogicalOperators));
         }
         
-        void Button1Click(object sender, EventArgs e)
+        void ButtonOKClick(object sender, EventArgs e)
         {
             if( !string.IsNullOrWhiteSpace(comboBoxP1.Text)){
                 var item = new RoomFilterItem("AND", comboBoxCO1.Text, comboBoxP1.Text, textBox1.Text);
@@ -95,9 +95,28 @@ namespace SCaddins.SCasfar
                 //TaskDialog.Show(comboBoxP7.Text, comboBoxP7.Text);
             }
         }
-        void ComboBox6SelectedIndexChanged(object sender, EventArgs e)
+        
+        public void Clear()
         {
-          
+            filter.Clear();
+            foreach (System.Windows.Forms.Control c in this.Controls) {
+                if(c is System.Windows.Forms.TextBox) {
+                    ((System.Windows.Forms.TextBox)c).Text = string.Empty;
+                }
+                if(c is System.Windows.Forms.ComboBox) {
+                   ((System.Windows.Forms.ComboBox)c).Text = string.Empty;
+                }
+            }    
+        }
+                
+        void ButtonResetClick(object sender, EventArgs e)
+        {
+            Clear();
+        }
+        
+        void ButtonApplyClick(object sender, EventArgs e)
+        {
+            ButtonOKClick(sender, e);
         }
     }
 }

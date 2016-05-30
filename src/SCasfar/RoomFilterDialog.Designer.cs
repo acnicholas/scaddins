@@ -41,9 +41,9 @@ namespace SCaddins.SCasfar
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.ComboBox comboBoxP7;
         private System.Windows.Forms.ComboBox comboBoxCO7;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button buttonOK;
+        private System.Windows.Forms.Button buttonReset;
+        private System.Windows.Forms.Button buttonApply;
         private System.Windows.Forms.Button button4;
         
         /// <summary>
@@ -94,9 +94,9 @@ namespace SCaddins.SCasfar
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.comboBoxP7 = new System.Windows.Forms.ComboBox();
             this.comboBoxCO7 = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.buttonOK = new System.Windows.Forms.Button();
+            this.buttonReset = new System.Windows.Forms.Button();
+            this.buttonApply = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -161,7 +161,6 @@ namespace SCaddins.SCasfar
             this.comboBoxLO3.Name = "comboBoxLO3";
             this.comboBoxLO3.Size = new System.Drawing.Size(53, 21);
             this.comboBoxLO3.TabIndex = 10;
-            this.comboBoxLO3.SelectedIndexChanged += new System.EventHandler(this.ComboBox6SelectedIndexChanged);
             // 
             // textBox3
             // 
@@ -310,34 +309,36 @@ namespace SCaddins.SCasfar
             this.comboBoxCO7.Size = new System.Drawing.Size(121, 21);
             this.comboBoxCO7.TabIndex = 23;
             // 
-            // button1
+            // buttonOK
             // 
-            this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button1.Location = new System.Drawing.Point(431, 219);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 27;
-            this.button1.Text = "OK";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Button1Click);
+            this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.buttonOK.Location = new System.Drawing.Point(431, 219);
+            this.buttonOK.Name = "buttonOK";
+            this.buttonOK.Size = new System.Drawing.Size(75, 23);
+            this.buttonOK.TabIndex = 27;
+            this.buttonOK.Text = "OK";
+            this.buttonOK.UseVisualStyleBackColor = true;
+            this.buttonOK.Click += new System.EventHandler(this.ButtonOKClick);
             // 
-            // button2
+            // buttonReset
             // 
-            this.button2.Location = new System.Drawing.Point(12, 220);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 28;
-            this.button2.Text = "Reset";
-            this.button2.UseVisualStyleBackColor = true;
+            this.buttonReset.Location = new System.Drawing.Point(12, 220);
+            this.buttonReset.Name = "buttonReset";
+            this.buttonReset.Size = new System.Drawing.Size(75, 23);
+            this.buttonReset.TabIndex = 28;
+            this.buttonReset.Text = "Reset";
+            this.buttonReset.UseVisualStyleBackColor = true;
+            this.buttonReset.Click += new System.EventHandler(this.ButtonResetClick);
             // 
-            // button3
+            // buttonApply
             // 
-            this.button3.Location = new System.Drawing.Point(350, 219);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 29;
-            this.button3.Text = "Apply";
-            this.button3.UseVisualStyleBackColor = true;
+            this.buttonApply.Location = new System.Drawing.Point(350, 219);
+            this.buttonApply.Name = "buttonApply";
+            this.buttonApply.Size = new System.Drawing.Size(75, 23);
+            this.buttonApply.TabIndex = 29;
+            this.buttonApply.Text = "Apply";
+            this.buttonApply.UseVisualStyleBackColor = true;
+            this.buttonApply.Click += new System.EventHandler(this.ButtonApplyClick);
             // 
             // button4
             // 
@@ -355,9 +356,9 @@ namespace SCaddins.SCasfar
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(518, 254);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonApply);
+            this.Controls.Add(this.buttonReset);
+            this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.comboBoxLO7);
             this.Controls.Add(this.textBox7);
             this.Controls.Add(this.comboBoxP7);

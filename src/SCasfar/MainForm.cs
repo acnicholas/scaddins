@@ -20,6 +20,7 @@
 namespace SCaddins.SCasfar
 {
     using System;
+    using System.Collections.Generic;
     using System.Drawing;
     using System.Windows.Forms;
     using System.Collections.ObjectModel;
@@ -44,6 +45,8 @@ namespace SCaddins.SCasfar
             this.doc = doc;
             this.rf = new RoomFilter();
             this.rfd = new RoomFilterDialog(doc, rf);
+            this.dataGridView1.Columns[0].DefaultCellStyle.ForeColor = System.Drawing.Color.Gray;
+            this.dataGridView1.Columns[1].DefaultCellStyle.ForeColor = System.Drawing.Color.Gray;  
         }
         
         private void AddDataGridColumns()
@@ -51,7 +54,7 @@ namespace SCaddins.SCasfar
             this.dataGridView1.AutoGenerateColumns = false;
                       
             SCaddins.SCopy.MainForm.AddColumn("Number", "Room Number", this.dataGridView1);
-            SCaddins.SCopy.MainForm.AddColumn("Name", "Room Name", this.dataGridView1);     
+            SCaddins.SCopy.MainForm.AddColumn("Name", "Room Name", this.dataGridView1);            
             SCaddins.SCopy.MainForm.AddColumn("DestViewName", "New Plan Name", this.dataGridView1);
             SCaddins.SCopy.MainForm.AddColumn("DestSheetNumber", "New Sheet Number", this.dataGridView1);
             SCaddins.SCopy.MainForm.AddColumn("DestSheetName", "New Sheet Name", this.dataGridView1);
@@ -91,10 +94,19 @@ namespace SCaddins.SCasfar
         private void ButtonResetClick(object sender, EventArgs e)
         {
             Copy(originalCandidates, candidates);  
+            rfd.Clear();
             dataGridView1.Refresh();
         }
         
         private void ButtonGoClick(object sender, EventArgs e)
+        {
+            var c = new System.ComponentModel.BindingList<RoomToPlanCandidate>(); 
+            for (int i = 0; i < dataGridView1.SelectedRows.Count; i++){
+                c.Add((RoomToPlanCandidate)dataGridView1.SelectedRows[i].DataBoundItem);
+            }
+            SCasfar.Command.CreateViewsAndSheets(doc, c);
+        }
+        void Button1Click(object sender, EventArgs e)
         {
           
         }

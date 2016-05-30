@@ -41,6 +41,11 @@ namespace SCaddins.SCasfar
             this.filters.Add(item);
         }
         
+        public void Clear()
+        {
+            this.filters.Clear();
+        }
+        
         public bool PassesFilter(Room room)
         {
             foreach(RoomFilterItem item in filters) {
