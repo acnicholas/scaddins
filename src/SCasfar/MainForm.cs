@@ -32,6 +32,7 @@ namespace SCaddins.SCasfar
         private System.ComponentModel.BindingList<RoomToPlanCandidate> candidates;
         private System.ComponentModel.BindingList<RoomToPlanCandidate> originalCandidates;
         private Document doc;
+        private RoomInfoDilaog info;
         private RoomFilterDialog rfd;
         private RoomFilter rf;
         
@@ -45,8 +46,33 @@ namespace SCaddins.SCasfar
             this.doc = doc;
             this.rf = new RoomFilter();
             this.rfd = new RoomFilterDialog(doc, rf);
+            this.info = new RoomInfoDilaog();
+            info.TopMost = true;
+            
+            //make not editable columns gray
             this.dataGridView1.Columns[0].DefaultCellStyle.ForeColor = System.Drawing.Color.Gray;
             this.dataGridView1.Columns[1].DefaultCellStyle.ForeColor = System.Drawing.Color.Gray;  
+            
+            //assign tooltips
+            ToolTip filterTip = new ToolTip();
+            filterTip.SetToolTip(this.buttonFilter,@"Filter the room list(above) by selected parameter values.");
+            ToolTip renameTip = new ToolTip();
+            filterTip.SetToolTip(this.buttonRename,@"Bulk rename selected items in the list above.");
+            
+            //load list into view
+            LoadDataGridSource();
+            
+        }
+        
+        private void LoadDataGridSource()
+        {
+            //FIXME, do this LargeRoomCountWarning();
+            dataGridView1.DataSource = candidates;     
+        }
+        
+        private void LargeRoomCountWarning()
+        {
+            
         }
         
         private void AddDataGridColumns()
@@ -59,11 +85,6 @@ namespace SCaddins.SCasfar
             SCaddins.SCopy.MainForm.AddColumn("DestSheetNumber", "New Sheet Number", this.dataGridView1);
             SCaddins.SCopy.MainForm.AddColumn("DestSheetName", "New Sheet Name", this.dataGridView1);
             //this.AddComboBoxColumns(); 
-        }
-        
-        private  void ButtonRefreshClick(object sender, EventArgs e)
-        {
-            dataGridView1.DataSource = candidates;   
         }
         
         private void Copy(Collection<RoomToPlanCandidate> src, Collection<RoomToPlanCandidate> dest)
@@ -106,9 +127,22 @@ namespace SCaddins.SCasfar
             }
             SCasfar.Command.CreateViewsAndSheets(doc, c);
         }
-        void Button1Click(object sender, EventArgs e)
+        
+        void DataGridView1SelectionChanged(object sender, EventArgs e)
         {
-          
+            RoomToPlanCandidate c = (RoomToPlanCandidate)dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].DataBoundItem;
+            //TaskDialog.Show("test",c.Room.Name);
+            info.UpdateRoomInfo(c.Room);
+            info.Refresh();
+        }
+        
+        void ButtonInfoClick(object sender, EventArgs e)
+        {
+            if (info.Visible ) {
+                info.Hide();
+            } else {
+                info.Show();
+            }
         }
         
     }

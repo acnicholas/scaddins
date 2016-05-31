@@ -31,7 +31,9 @@ namespace SCaddins.SCasfar
             
             Room room = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Rooms).FirstElement() as Room;
             
-            foreach (Parameter p in room.Parameters) {               
+            foreach (Parameter p in room.Parameters) {  
+                //don't add ElementID values yet (too much effort)
+                if (p.StorageType != StorageType.ElementId && p.StorageType != StorageType.None) {
                 comboBoxP1.Items.Add(p.Definition.Name);
                 comboBoxP2.Items.Add(p.Definition.Name);
                 comboBoxP3.Items.Add(p.Definition.Name);
@@ -39,6 +41,7 @@ namespace SCaddins.SCasfar
                 comboBoxP5.Items.Add(p.Definition.Name);
                 comboBoxP6.Items.Add(p.Definition.Name);
                 comboBoxP7.Items.Add(p.Definition.Name);
+                }
             }
             
             comboBoxCO1.DataSource = Enum.GetValues(typeof(RoomFilterItem.ComparisonOperators));
