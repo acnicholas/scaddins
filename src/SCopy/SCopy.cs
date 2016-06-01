@@ -61,9 +61,9 @@ namespace SCaddins.SCopy
             this.hiddenRevisionClouds = getAllHiddenRevisions(this.doc);
             #endif
             this.GetViewTemplates();
-            this.GetAllSheets();
+            GetAllSheets(existingSheets, doc);
             this.GetAllLevelsInModel();
-            this.GetAllViewsInModel();
+            GetAllViewsInModel(existingViews, doc);
             this.GetFloorPlanViewFamilyTypeId();
             this.GetAllSheetCategories();
         }
@@ -229,14 +229,14 @@ namespace SCaddins.SCopy
             }
         }
 
-        private void GetAllSheets()
+        public static void GetAllSheets(Dictionary<string, View> existingSheets, Document doc)
         {
-            this.existingSheets.Clear();
-            var c1 = new FilteredElementCollector(this.doc);
+            existingSheets.Clear();
+            var c1 = new FilteredElementCollector(doc);
             c1.OfCategory(BuiltInCategory.OST_Sheets);
             foreach (View view in c1) {
                 var vs = view as ViewSheet;
-                this.existingSheets.Add(vs.SheetNumber, view);
+                existingSheets.Add(vs.SheetNumber, view);
             }
         }
 
@@ -249,15 +249,15 @@ namespace SCaddins.SCopy
             }
         }
         
-        private void GetAllViewsInModel()
+        public static void GetAllViewsInModel(Dictionary<string, View> existingViews, Document doc)
         {
-            this.existingViews.Clear();
-            FilteredElementCollector c = new FilteredElementCollector(this.doc).OfClass(typeof(Autodesk.Revit.DB.View));
+            existingViews.Clear();
+            FilteredElementCollector c = new FilteredElementCollector(doc).OfClass(typeof(Autodesk.Revit.DB.View));
             foreach (Element element in c) {
                 var view = element as View;
                 View tmpView;
-                if (!this.existingViews.TryGetValue(view.Name, out tmpView)) {
-                    this.existingViews.Add(view.Name, view);
+                if (!existingViews.TryGetValue(view.Name, out tmpView)) {
+                    existingViews.Add(view.Name, view);
                 }
             }
         }

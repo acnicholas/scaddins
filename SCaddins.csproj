@@ -200,6 +200,7 @@
       <DependentUpon>RoomInfoDilaog.cs</DependentUpon>
     </Compile>
     <Compile Include="src\SCasfar\RoomToPlanCandidate.cs" />
+    <Compile Include="src\SCasfar\Command.cs" />
     <Compile Include="src\SCasfar\SCasfar.cs" />
     <Compile Include="src\SCexport\Command.cs" />
     <Compile Include="src\SCexport\ConfirmDialog.cs">

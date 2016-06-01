@@ -33,9 +33,15 @@ namespace SCaddins.SCasfar
         public RoomToPlanCandidate(Room room, Document doc)
         {
             this.Room = room;
-            this.DestSheetName = GetDefaultSheetName(doc);
+            //this.DestSheetName = GetDefaultSheetName(doc);
             this.DestSheetNumber = Number;
-            this.DestViewName = GetDefaultViewName(doc);
+            //this.DestViewName = GetDefaultViewName(doc);
+        }
+        
+        public void DetDefualtValues(string destSheetName, string destViewName, Document doc)
+        {
+            this.DestSheetName = GetDefaultSheetName(doc);
+            this.DestViewName = GetDefaultViewName(doc);    
         }
                
         public event PropertyChangedEventHandler PropertyChanged;

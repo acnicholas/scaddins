@@ -29,20 +29,19 @@ namespace SCaddins.SCasfar
     
     public partial class MainForm : System.Windows.Forms.Form
     {
-        private System.ComponentModel.BindingList<RoomToPlanCandidate> candidates;
         private System.ComponentModel.BindingList<RoomToPlanCandidate> originalCandidates;
         private Document doc;
         private RoomInfoDilaog info;
         private RoomFilterDialog rfd;
         private RoomFilter rf;
+        private SCasfar scasfar;
         
-        public MainForm(System.ComponentModel.BindingList<RoomToPlanCandidate> candidates, Document doc)
+        public MainForm(SCasfar scasfar, Document doc)
         {
             InitializeComponent();          
             this.AddDataGridColumns();  
-            this.candidates = candidates; 
             this.originalCandidates = new System.ComponentModel.BindingList<RoomToPlanCandidate>();
-            Copy(candidates, originalCandidates);
+            Copy(scasfar.Candidates, originalCandidates);
             this.doc = doc;
             this.rf = new RoomFilter();
             this.rfd = new RoomFilterDialog(doc, rf);
@@ -67,7 +66,7 @@ namespace SCaddins.SCasfar
         private void LoadDataGridSource()
         {
             //FIXME, do this LargeRoomCountWarning();
-            dataGridView1.DataSource = candidates;     
+            dataGridView1.DataSource = scasfar.Candidates;     
         }
         
         private void LargeRoomCountWarning()
@@ -77,14 +76,12 @@ namespace SCaddins.SCasfar
         
         private void AddDataGridColumns()
         {
-            this.dataGridView1.AutoGenerateColumns = false;
-                      
+            this.dataGridView1.AutoGenerateColumns = false;           
             SCaddins.SCopy.MainForm.AddColumn("Number", "Room Number", this.dataGridView1);
             SCaddins.SCopy.MainForm.AddColumn("Name", "Room Name", this.dataGridView1);            
             SCaddins.SCopy.MainForm.AddColumn("DestViewName", "New Plan Name", this.dataGridView1);
             SCaddins.SCopy.MainForm.AddColumn("DestSheetNumber", "New Sheet Number", this.dataGridView1);
             SCaddins.SCopy.MainForm.AddColumn("DestSheetName", "New Sheet Name", this.dataGridView1);
-            //this.AddComboBoxColumns(); 
         }
         
         private void Copy(Collection<RoomToPlanCandidate> src, Collection<RoomToPlanCandidate> dest)
@@ -106,7 +103,7 @@ namespace SCaddins.SCasfar
                     }
                 }
                 foreach (RoomToPlanCandidate c in toRemove) {
-                    candidates.Remove(c);
+                    scasfar.Candidates.Remove(c);
                 }
             }
             dataGridView1.Refresh();
@@ -114,7 +111,7 @@ namespace SCaddins.SCasfar
         
         private void ButtonResetClick(object sender, EventArgs e)
         {
-            Copy(originalCandidates, candidates);  
+            Copy(originalCandidates, SCasfar.);  
             rfd.Clear();
             dataGridView1.Refresh();
         }
@@ -125,13 +122,12 @@ namespace SCaddins.SCasfar
             for (int i = 0; i < dataGridView1.SelectedRows.Count; i++){
                 c.Add((RoomToPlanCandidate)dataGridView1.SelectedRows[i].DataBoundItem);
             }
-            SCasfar.Command.CreateViewsAndSheets(doc, c);
+            SCasfar.CreateViewsAndSheets(doc, c);
         }
         
         void DataGridView1SelectionChanged(object sender, EventArgs e)
         {
             RoomToPlanCandidate c = (RoomToPlanCandidate)dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].DataBoundItem;
-            //TaskDialog.Show("test",c.Room.Name);
             info.UpdateRoomInfo(c.Room);
             info.Refresh();
         }
