@@ -19,7 +19,6 @@ namespace SCaddins.SCasfar
 {
     using System;
     using Autodesk.Revit.DB;
-    using Autodesk.Revit.UI;
     using Autodesk.Revit.DB.Architecture;
     
     public class RoomFilterItem

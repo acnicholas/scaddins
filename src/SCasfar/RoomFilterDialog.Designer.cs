@@ -332,6 +332,7 @@ namespace SCaddins.SCasfar
             // 
             // buttonApply
             // 
+            this.buttonApply.Enabled = false;
             this.buttonApply.Location = new System.Drawing.Point(350, 219);
             this.buttonApply.Name = "buttonApply";
             this.buttonApply.Size = new System.Drawing.Size(75, 23);

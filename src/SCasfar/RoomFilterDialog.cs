@@ -8,8 +8,9 @@ namespace SCaddins.SCasfar
     public partial class RoomFilterDialog : System.Windows.Forms.Form
     {
         private RoomFilter filter;
+        private RoomConversionManager parent;
         
-        public RoomFilterDialog(Document doc, RoomFilter filter)
+        public RoomFilterDialog(RoomFilter filter, Document doc)
         {
             InitializeComponent();
             
@@ -48,31 +49,31 @@ namespace SCaddins.SCasfar
         
         void ButtonOKClick(object sender, EventArgs e)
         {
-            if( !string.IsNullOrWhiteSpace(comboBoxP1.Text)){
+            if( !string.IsNullOrWhiteSpace(comboBoxP1.Text) && !string.IsNullOrWhiteSpace(textBox1.Text)){
                 var item = new RoomFilterItem("AND", comboBoxCO1.Text, comboBoxP1.Text, textBox1.Text);
                 filter.AddFilterItem(item);
             }
-            if( !string.IsNullOrWhiteSpace(comboBoxP2.Text)){
+            if( !string.IsNullOrWhiteSpace(comboBoxP2.Text) && !string.IsNullOrWhiteSpace(textBox2.Text)){
                 var item = new RoomFilterItem(comboBoxLO2.Text, comboBoxCO2.Text, comboBoxP2.Text, textBox2.Text);
                 filter.AddFilterItem(item);
             }
-            if( !string.IsNullOrWhiteSpace(comboBoxP3.Text)){
+            if( !string.IsNullOrWhiteSpace(comboBoxP3.Text) && !string.IsNullOrWhiteSpace(textBox3.Text)){
                 var item = new RoomFilterItem(comboBoxLO3.Text, comboBoxCO3.Text, comboBoxP3.Text, textBox3.Text);
                 filter.AddFilterItem(item);
             }
-            if( !string.IsNullOrWhiteSpace(comboBoxP4.Text)){
+            if( !string.IsNullOrWhiteSpace(comboBoxP4.Text) && !string.IsNullOrWhiteSpace(textBox4.Text)){
                 var item = new RoomFilterItem(comboBoxLO4.Text, comboBoxCO4.Text, comboBoxP4.Text, textBox4.Text);
                 filter.AddFilterItem(item);
             }
-            if( !string.IsNullOrWhiteSpace(comboBoxP5.Text)){
+            if( !string.IsNullOrWhiteSpace(comboBoxP5.Text) && !string.IsNullOrWhiteSpace(textBox5.Text)){
                 var item = new RoomFilterItem(comboBoxLO5.Text, comboBoxCO5.Text, comboBoxP5.Text, textBox5.Text);
                 filter.AddFilterItem(item);
             }
-            if( !string.IsNullOrWhiteSpace(comboBoxP6.Text)){
+            if( !string.IsNullOrWhiteSpace(comboBoxP6.Text) && !string.IsNullOrWhiteSpace(textBox6.Text)){
                 var item = new RoomFilterItem(comboBoxLO6.Text, comboBoxCO6.Text, comboBoxP6.Text, textBox6.Text);
                 filter.AddFilterItem(item);
             }
-            if( !string.IsNullOrWhiteSpace(comboBoxP7.Text)){
+            if( !string.IsNullOrWhiteSpace(comboBoxP7.Text) && !string.IsNullOrWhiteSpace(textBox7.Text)){
                 var item = new RoomFilterItem(comboBoxLO7.Text, comboBoxCO7.Text, comboBoxP7.Text, textBox7.Text);
                 filter.AddFilterItem(item);
             }

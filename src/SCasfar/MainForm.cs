@@ -29,24 +29,23 @@ namespace SCaddins.SCasfar
     
     public partial class MainForm : System.Windows.Forms.Form
     {
-        private System.ComponentModel.BindingList<RoomToPlanCandidate> originalCandidates;
+        private SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> originalCandidates;
         //private Document doc;
         private RoomInfoDilaog info;
         private RoomFilterDialog rfd;
         private RoomFilter rf;
-        private SCasfar scasfar;
+        private RoomConversionManager scasfar;
         
-        public MainForm(SCasfar scasfar, Document doc)
+        public MainForm(RoomConversionManager scasfar)
         {
             InitializeComponent();          
-            
-            
+
             this.scasfar = scasfar;
             
             this.AddDataGridColumns();  
             //this.doc = doc;
             this.rf = new RoomFilter();
-            this.rfd = new RoomFilterDialog(doc, rf);
+            this.rfd = new RoomFilterDialog(rf, scasfar.Doc);
             this.info = new RoomInfoDilaog();
             info.TopMost = true;
             
@@ -63,6 +62,8 @@ namespace SCaddins.SCasfar
             //load list into view
             LoadDataGridSource();
             
+            //dataGridView1.Sort(dataGridView1.Columns[1], System.ComponentModel.ListSortDirection.Ascending);
+            
         }
         
         private void LoadDataGridSource()
@@ -70,12 +71,7 @@ namespace SCaddins.SCasfar
             //FIXME, do this LargeRoomCountWarning();
             dataGridView1.DataSource = scasfar.Candidates;     
         }
-        
-        private void LargeRoomCountWarning()
-        {
-            
-        }
-        
+              
         private void AddDataGridColumns()
         {
             this.dataGridView1.AutoGenerateColumns = false;           
@@ -90,13 +86,13 @@ namespace SCaddins.SCasfar
         {
             DialogResult dr = rfd.ShowDialog();
             if (dr == DialogResult.OK) {
-                Collection<RoomToPlanCandidate> toRemove = new Collection<RoomToPlanCandidate>();
-                foreach (RoomToPlanCandidate c in scasfar.Candidates) {
+                Collection<RoomConversionCandidate> toRemove = new Collection<RoomConversionCandidate>();
+                foreach (RoomConversionCandidate c in scasfar.Candidates) {
                     if (!c.PassesFilter(rf)) {
                         toRemove.Add(c);
                     }
                 }
-                foreach (RoomToPlanCandidate c in toRemove) {
+                foreach (RoomConversionCandidate c in toRemove) {
                     scasfar.Candidates.Remove(c);
                 }
             }
@@ -105,25 +101,29 @@ namespace SCaddins.SCasfar
         
         private void ButtonResetClick(object sender, EventArgs e)
         {
+            dataGridView1.DataSource = null;
             scasfar.Reset();
             rfd.Clear();
+            LoadDataGridSource();
             dataGridView1.Refresh();
         }
         
         private void ButtonGoClick(object sender, EventArgs e)
         {
-            var c = new System.ComponentModel.BindingList<RoomToPlanCandidate>(); 
+            var c = new System.ComponentModel.BindingList<RoomConversionCandidate>(); 
             for (int i = 0; i < dataGridView1.SelectedRows.Count; i++){
-                c.Add((RoomToPlanCandidate)dataGridView1.SelectedRows[i].DataBoundItem);
+                c.Add((RoomConversionCandidate)dataGridView1.SelectedRows[i].DataBoundItem);
             }
             //SCasfar.CreateViewsAndSheets(doc, c);
         }
         
         void DataGridView1SelectionChanged(object sender, EventArgs e)
         {
-            RoomToPlanCandidate c = (RoomToPlanCandidate)dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].DataBoundItem;
-            info.UpdateRoomInfo(c.Room);
-            info.Refresh();
+            if (this.dataGridView1.CurrentCell != null && this.dataGridView1.CurrentCell.RowIndex != -1) {
+                RoomConversionCandidate c = (RoomConversionCandidate)dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].DataBoundItem;
+                info.UpdateRoomInfo(c.Room);
+                info.Refresh();
+            }
         }
         
         void ButtonInfoClick(object sender, EventArgs e)
@@ -134,7 +134,7 @@ namespace SCaddins.SCasfar
                 info.Show();
             }
         }
-        
+               
     }
   
 }

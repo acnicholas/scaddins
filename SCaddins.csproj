@@ -199,9 +199,9 @@
     <Compile Include="src\SCasfar\RoomInfoDilaog.Designer.cs">
       <DependentUpon>RoomInfoDilaog.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\SCasfar\RoomToPlanCandidate.cs" />
+    <Compile Include="src\SCasfar\RoomConversionCandidate.cs" />
     <Compile Include="src\SCasfar\Command.cs" />
-    <Compile Include="src\SCasfar\SCasfar.cs" />
+    <Compile Include="src\SCasfar\RoomConversionManager.cs" />
     <Compile Include="src\SCexport\Command.cs" />
     <Compile Include="src\SCexport\ConfirmDialog.cs">
       <SubType>Form</SubType>

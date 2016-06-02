@@ -20,30 +20,22 @@ namespace SCaddins.SCasfar
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using Autodesk.Revit.DB.Architecture;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
-    {
-        private Dictionary<string, View> existingSheets =
-            new Dictionary<string, View>();
-        
-        private Dictionary<string, View> existingViews =
-            new Dictionary<string, View>();
-        
+    {      
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            var scasfar = new SCasfar(doc);
-            var mainForm = new MainForm(scasfar, doc);
+            var roomConversionManager = new RoomConversionManager(doc);
+            var mainForm = new MainForm(roomConversionManager);
             mainForm.ShowDialog();
             return Autodesk.Revit.UI.Result.Succeeded;
         }

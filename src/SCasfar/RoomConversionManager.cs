@@ -13,7 +13,7 @@ namespace SCaddins.SCasfar
     using Autodesk.Revit.DB.Architecture;
     using System.Globalization;
 
-    public class SCasfar
+    public class RoomConversionManager
     {
         private Dictionary<string, View> existingSheets =
             new Dictionary<string, View>();
@@ -21,37 +21,44 @@ namespace SCaddins.SCasfar
         private Dictionary<string, View> existingViews =
             new Dictionary<string, View>();
         
-        private System.ComponentModel.BindingList<RoomToPlanCandidate> allCandidates;
+        private SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> allCandidates;
+        private Document doc;
         
-        public System.ComponentModel.BindingList<RoomToPlanCandidate> Candidates
+        public SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> Candidates
         {
             get; set;
         }
-         
-        public SCasfar(Document doc)
+        
+        public Document Doc
         {
-            Candidates = new System.ComponentModel.BindingList<RoomToPlanCandidate>();  
-            allCandidates = new System.ComponentModel.BindingList<RoomToPlanCandidate>();           
-            SCopy.SheetCopy.GetAllSheets(existingSheets, doc);
-            SCopy.SheetCopy.GetAllViewsInModel(existingViews, doc);                             
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            get{ return doc; }
+        }
+         
+        public RoomConversionManager(Document doc)
+        {
+            Candidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();  
+            this.allCandidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();    
+            this.doc =  doc;
+            SCopy.SheetCopy.GetAllSheets(existingSheets, this.doc);
+            SCopy.SheetCopy.GetAllViewsInModel(existingViews, this.doc);                             
+            FilteredElementCollector collector = new FilteredElementCollector(this.doc);
             collector.OfClass(typeof(SpatialElement));
             foreach (Element e in collector) {
-                if (!isUnit(e)) {
-                    continue;
-                }
+                //if (!isUnit(e)) {
+                //    continue;
+                //}
                 Room room = e as Room;
-                allCandidates.Add(new RoomToPlanCandidate(room, doc ,existingSheets, existingViews));
+                allCandidates.Add(new RoomConversionCandidate(room, doc ,existingSheets, existingViews));
             }
             this.Reset(); 
         }
         
-        public static void CreateViewsAndSheets(Document doc, ICollection<RoomToPlanCandidate> candidates)
+        public void CreateViewsAndSheets()
         {
             Transaction t = new Transaction(doc, "Rooms to Views");
             t.Start(); 
-            foreach (RoomToPlanCandidate candidate in candidates) {
-                CreateViewAndSheet(doc, candidate);
+            foreach (RoomConversionCandidate candidate in this.Candidates) {
+                this.CreateViewAndSheet(candidate);
             }
             t.Commit();         
         }
@@ -59,12 +66,12 @@ namespace SCaddins.SCasfar
         public void Reset()
         {
              Candidates.Clear();
-             foreach (RoomToPlanCandidate c in allCandidates) {
+             foreach (RoomConversionCandidate c in allCandidates) {
                 Candidates.Add(c);
             }    
         }
-     
-        private static void CreateViewAndSheet(Document doc, RoomToPlanCandidate candidate)
+           
+        private void CreateViewAndSheet(RoomConversionCandidate candidate)
         {   
             //create plans
             ViewPlan plan = ViewPlan.Create(doc, GetFloorPlanViewFamilyTypeId(doc), candidate.Room.Level.Id);
@@ -82,7 +89,7 @@ namespace SCaddins.SCasfar
             sheet.Name = candidate.DestSheetName;
             sheet.SheetNumber = candidate.DestSheetNumber;
                 
-            Viewport vp = Viewport.Create(doc, sheet.Id, plan.Id, new XYZ(
+            Viewport vp = Viewport.Create(this.doc, sheet.Id, plan.Id, new XYZ(
                                   SCaddins.Common.MiscUtilities.MMtoFeet(840 / 2),
                                   SCaddins.Common.MiscUtilities.MMtoFeet(594 / 2),
                                   0));

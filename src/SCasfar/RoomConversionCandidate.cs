@@ -25,14 +25,14 @@ namespace SCaddins.SCasfar
     using Autodesk.Revit.DB.Architecture;
     using System.Globalization;
     
-    public class RoomToPlanCandidate : INotifyPropertyChanged
+    public class RoomConversionCandidate : INotifyPropertyChanged
     {  
         private Room room;
         private string destViewName;
         private string destSheetName; 
         private string destSheetNumber; 
         
-        public RoomToPlanCandidate(
+        public RoomConversionCandidate(
             Room room,
             Document doc,
             Dictionary<string, View> existingSheets,

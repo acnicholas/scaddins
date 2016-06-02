@@ -18,7 +18,7 @@ namespace SCaddins.SCasfar
     /// Description of RoomInfoDilaog.
     /// </summary>
     public partial class RoomInfoDilaog : System.Windows.Forms.Form
-    {
+    {     
         public RoomInfoDilaog()
         {
             InitializeComponent();
@@ -26,6 +26,9 @@ namespace SCaddins.SCasfar
             listView1.Columns.Add("Parameter");
             listView1.Columns.Add("Value");
             listView1.Columns.Add("Type");
+            listView1.Columns[0].Width = 200;
+            listView1.Columns[1].Width = 200;
+            listView1.Columns[2].Width = 100;
         }
         
         public void UpdateRoomInfo(Room room)
