@@ -23,46 +23,47 @@ namespace SCaddins.SCasfar
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
+    using System.Globalization;
     
     public class RoomToPlanCandidate : INotifyPropertyChanged
     {  
+        private Room room;
         private string destViewName;
         private string destSheetName; 
         private string destSheetNumber; 
         
-        public RoomToPlanCandidate(Room room, Document doc)
+        public RoomToPlanCandidate(
+            Room room,
+            Document doc,
+            Dictionary<string, View> existingSheets,
+            Dictionary<string, View> existingViews)
         {
-            this.Room = room;
-            //this.DestSheetName = GetDefaultSheetName(doc);
-            this.DestSheetNumber = Number;
-            //this.DestViewName = GetDefaultViewName(doc);
+            this.room = room;
+            this.destSheetName = GetDefaultSheetName();
+            this.destSheetNumber = GetDefaultSheetNumber(doc, existingSheets);
+            this.destViewName = GetDefaultViewName(doc, existingViews);
         }
-        
-        public void DetDefualtValues(string destSheetName, string destViewName, Document doc)
-        {
-            this.DestSheetName = GetDefaultSheetName(doc);
-            this.DestViewName = GetDefaultViewName(doc);    
-        }
-               
+            
         public event PropertyChangedEventHandler PropertyChanged;
                
         public Room Room {
-            get; set;    
+            get {
+                return room;
+            }
         }
         
         public string Number {
             get {
-                return Room.Number;
+                return room.Number;
             }
         }
         
         public string Name {
             get {
-                return Room.Name;
+                return room.Name.Replace(room.Number,"").Trim();
             }
         }
        
-
         public string DestViewName {
             get {
                 return this.destViewName;
@@ -107,19 +108,33 @@ namespace SCaddins.SCasfar
             return filter.PassesFilter(this.Room);
         }
                 
-        private string GetDefaultViewName(Document doc)
+        private string GetDefaultViewName(Document doc, Dictionary<string, View> existingViews)
         {
             string request = this.Number + " - " + this.Name;
-            //FIXME move this to somewhere nicer than SCaos.Command
-            return SCaddins.SCaos.Command.GetNiceViewName(doc, request);
+            if(existingViews.ContainsKey(request)){
+                return request + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";       
+            } else {
+                return request;
+            }
         }
         
-        private string GetDefaultSheetName(Document doc)
+        private string GetDefaultSheetName()
         {
-            string request = this.Number + " - " + this.Name;
-            //FIXME move this to somewhere nicer than SCaos.Command
-            return SCaddins.SCaos.Command.GetNiceViewName(doc, request);
+            //this is OK, sheets can cave duplicate names
+            return this.Number + " - " + this.Name;
         }
+        
+        private string GetDefaultSheetNumber(Document doc, Dictionary<string, View> existingSheets)
+        {
+            string request = this.Number;
+            if(existingSheets.ContainsKey(request)){
+                return request + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";       
+            } else {
+                return request;
+            }
+        }
+        
+        
         
     }
 }

@@ -5,11 +5,13 @@ namespace SCaddins.SCasfar
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Autodesk.Revit.DB.Architecture;
+    using System.Globalization;
 
     public class SCasfar
     {
@@ -19,6 +21,8 @@ namespace SCaddins.SCasfar
         private Dictionary<string, View> existingViews =
             new Dictionary<string, View>();
         
+        private System.ComponentModel.BindingList<RoomToPlanCandidate> allCandidates;
+        
         public System.ComponentModel.BindingList<RoomToPlanCandidate> Candidates
         {
             get; set;
@@ -26,7 +30,8 @@ namespace SCaddins.SCasfar
          
         public SCasfar(Document doc)
         {
-            Candidates = new System.ComponentModel.BindingList<RoomToPlanCandidate>();   
+            Candidates = new System.ComponentModel.BindingList<RoomToPlanCandidate>();  
+            allCandidates = new System.ComponentModel.BindingList<RoomToPlanCandidate>();           
             SCopy.SheetCopy.GetAllSheets(existingSheets, doc);
             SCopy.SheetCopy.GetAllViewsInModel(existingViews, doc);                             
             FilteredElementCollector collector = new FilteredElementCollector(doc);
@@ -36,9 +41,9 @@ namespace SCaddins.SCasfar
                     continue;
                 }
                 Room room = e as Room;
-                var c = new RoomToPlanCandidate(room, doc);
-                Candidates.Add(new RoomToPlanCandidate(room, doc));
+                allCandidates.Add(new RoomToPlanCandidate(room, doc ,existingSheets, existingViews));
             }
+            this.Reset(); 
         }
         
         public static void CreateViewsAndSheets(Document doc, ICollection<RoomToPlanCandidate> candidates)
@@ -49,6 +54,14 @@ namespace SCaddins.SCasfar
                 CreateViewAndSheet(doc, candidate);
             }
             t.Commit();         
+        }
+        
+        public void Reset()
+        {
+             Candidates.Clear();
+             foreach (RoomToPlanCandidate c in allCandidates) {
+                Candidates.Add(c);
+            }    
         }
      
         private static void CreateViewAndSheet(Document doc, RoomToPlanCandidate candidate)

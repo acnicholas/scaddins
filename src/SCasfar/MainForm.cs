@@ -30,7 +30,7 @@ namespace SCaddins.SCasfar
     public partial class MainForm : System.Windows.Forms.Form
     {
         private System.ComponentModel.BindingList<RoomToPlanCandidate> originalCandidates;
-        private Document doc;
+        //private Document doc;
         private RoomInfoDilaog info;
         private RoomFilterDialog rfd;
         private RoomFilter rf;
@@ -39,10 +39,12 @@ namespace SCaddins.SCasfar
         public MainForm(SCasfar scasfar, Document doc)
         {
             InitializeComponent();          
+            
+            
+            this.scasfar = scasfar;
+            
             this.AddDataGridColumns();  
-            this.originalCandidates = new System.ComponentModel.BindingList<RoomToPlanCandidate>();
-            Copy(scasfar.Candidates, originalCandidates);
-            this.doc = doc;
+            //this.doc = doc;
             this.rf = new RoomFilter();
             this.rfd = new RoomFilterDialog(doc, rf);
             this.info = new RoomInfoDilaog();
@@ -83,21 +85,13 @@ namespace SCaddins.SCasfar
             SCaddins.SCopy.MainForm.AddColumn("DestSheetNumber", "New Sheet Number", this.dataGridView1);
             SCaddins.SCopy.MainForm.AddColumn("DestSheetName", "New Sheet Name", this.dataGridView1);
         }
-        
-        private void Copy(Collection<RoomToPlanCandidate> src, Collection<RoomToPlanCandidate> dest)
-        {
-             dest.Clear();
-             foreach (RoomToPlanCandidate c in src) {
-                dest.Add(c);
-            }    
-        }
-        
+               
         private void ButtonFilterClick(object sender, EventArgs e)
         {
             DialogResult dr = rfd.ShowDialog();
             if (dr == DialogResult.OK) {
                 Collection<RoomToPlanCandidate> toRemove = new Collection<RoomToPlanCandidate>();
-                foreach (RoomToPlanCandidate c in candidates) {
+                foreach (RoomToPlanCandidate c in scasfar.Candidates) {
                     if (!c.PassesFilter(rf)) {
                         toRemove.Add(c);
                     }
@@ -111,7 +105,7 @@ namespace SCaddins.SCasfar
         
         private void ButtonResetClick(object sender, EventArgs e)
         {
-            Copy(originalCandidates, SCasfar.);  
+            scasfar.Reset();
             rfd.Clear();
             dataGridView1.Refresh();
         }
@@ -122,7 +116,7 @@ namespace SCaddins.SCasfar
             for (int i = 0; i < dataGridView1.SelectedRows.Count; i++){
                 c.Add((RoomToPlanCandidate)dataGridView1.SelectedRows[i].DataBoundItem);
             }
-            SCasfar.CreateViewsAndSheets(doc, c);
+            //SCasfar.CreateViewsAndSheets(doc, c);
         }
         
         void DataGridView1SelectionChanged(object sender, EventArgs e)
