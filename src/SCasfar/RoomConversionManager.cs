@@ -44,11 +44,12 @@ namespace SCaddins.SCasfar
             FilteredElementCollector collector = new FilteredElementCollector(this.doc);
             collector.OfClass(typeof(SpatialElement));
             foreach (Element e in collector) {
-                //if (!isUnit(e)) {
-                //    continue;
-                //}
-                Room room = e as Room;
-                allCandidates.Add(new RoomConversionCandidate(room, doc ,existingSheets, existingViews));
+                if (e.IsValidObject && (e is Room)) {
+                    Room room = e as Room;
+                    if(room.Area > 0) {
+                        allCandidates.Add(new RoomConversionCandidate(room, doc ,existingSheets, existingViews));
+                    }
+                }
             }
             this.Reset(); 
         }

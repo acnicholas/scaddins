@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 namespace SCaddins.SCasfar
 {
     using System;
@@ -29,8 +27,6 @@ namespace SCaddins.SCasfar
     
     public partial class MainForm : System.Windows.Forms.Form
     {
-        private SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> originalCandidates;
-        //private Document doc;
         private RoomInfoDilaog info;
         private RoomFilterDialog rfd;
         private RoomFilter rf;
@@ -41,9 +37,7 @@ namespace SCaddins.SCasfar
             InitializeComponent();          
 
             this.scasfar = scasfar;
-            
             this.AddDataGridColumns();  
-            //this.doc = doc;
             this.rf = new RoomFilter();
             this.rfd = new RoomFilterDialog(rf, scasfar.Doc);
             this.info = new RoomInfoDilaog();
@@ -133,8 +127,6 @@ namespace SCaddins.SCasfar
             } else {
                 info.Show();
             }
-        }
-               
-    }
-  
+        }             
+    } 
 }
