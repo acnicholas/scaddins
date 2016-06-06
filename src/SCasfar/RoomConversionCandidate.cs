@@ -61,16 +61,16 @@ namespace SCaddins.SCasfar
         
         public string Name {
             get {
-                if(string.IsNullOrWhiteSpace(room.Number)){
-                       return room.Name;
-                   } else {
-                        string r = room.Name.Replace(room.Number,"").Trim();
-                        return string.IsNullOrWhiteSpace(r) ? "-" : r;
-                   }
+                if (string.IsNullOrWhiteSpace(room.Number)) {
+                    return room.Name;
+                } else {
+                    string r = room.Name.Replace(room.Number, "").Trim();
+                    return string.IsNullOrWhiteSpace(r) ? "-" : r;
+                }
             }
         }
        
-        public string DestViewName {
+        public string DestinationViewName {
             get {
                 return this.destViewName;
             }
@@ -78,12 +78,12 @@ namespace SCaddins.SCasfar
             set {
                 this.destViewName = value;
                 if (this.PropertyChanged != null) {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("DestViewName"));
+                    this.PropertyChanged(this, new PropertyChangedEventArgs("DestinationViewName"));
                 }
             }
         }
         
-        public string DestSheetNumber {
+        public string DestinationSheetNumber {
             get {
                 return this.destSheetNumber;
             }
@@ -91,12 +91,12 @@ namespace SCaddins.SCasfar
             set {
                 this.destSheetNumber = value;
                 if (this.PropertyChanged != null) {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("DestSheetNumber"));
+                    this.PropertyChanged(this, new PropertyChangedEventArgs("DestinationSheetNumber"));
                 }
             }
         }
         
-        public string DestSheetName {
+        public string DestinationSheetName {
             get {
                 return this.destSheetName;
             }
@@ -104,7 +104,7 @@ namespace SCaddins.SCasfar
             set {
                  this.destSheetName = value;
                 if (this.PropertyChanged != null) {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("DestSheetName"));
+                    this.PropertyChanged(this, new PropertyChangedEventArgs("DestinationSheetName"));
                 }
             }
         }

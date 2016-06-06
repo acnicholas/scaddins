@@ -92,13 +92,13 @@ namespace SCaddins.SCasfar
             plan.CropBox = CreateOffsetBoundingBox(200, boundingBox);
             ;
             plan.CropBoxActive = true;
-            plan.Name = candidate.DestViewName;
+            plan.Name = candidate.DestinationViewName;
             plan.Scale = 20;
                 
             //put them on sheets
             ViewSheet sheet = ViewSheet.Create(doc, GetFirstTitleBlock(doc));
-            sheet.Name = candidate.DestSheetName;
-            sheet.SheetNumber = candidate.DestSheetNumber;
+            sheet.Name = candidate.DestinationSheetName;
+            sheet.SheetNumber = candidate.DestinationSheetNumber;
                 
             Viewport vp = Viewport.Create(this.doc, sheet.Id, plan.Id, new XYZ(
                                   SCaddins.Common.MiscUtilities.MMtoFeet(840 / 2),

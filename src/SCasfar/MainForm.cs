@@ -18,12 +18,8 @@
 namespace SCaddins.SCasfar
 {
     using System;
-    using System.Collections.Generic;
-    using System.Drawing;
     using System.Windows.Forms;
     using System.Collections.ObjectModel;
-    using Autodesk.Revit.DB;
-    using Autodesk.Revit.UI;
     
     public partial class MainForm : System.Windows.Forms.Form
     {
@@ -51,7 +47,7 @@ namespace SCaddins.SCasfar
             ToolTip filterTip = new ToolTip();
             filterTip.SetToolTip(this.buttonFilter,@"Filter the room list(above) by selected parameter values.");
             ToolTip renameTip = new ToolTip();
-            filterTip.SetToolTip(this.buttonRename,@"Bulk rename selected items in the list above.");
+            renameTip.SetToolTip(this.buttonRename,@"Bulk rename selected items in the list above.");
             
             //load list into view
             LoadDataGridSource();
@@ -71,9 +67,9 @@ namespace SCaddins.SCasfar
             this.dataGridView1.AutoGenerateColumns = false;           
             SCaddins.SCopy.MainForm.AddColumn("Number", "Room Number", this.dataGridView1);
             SCaddins.SCopy.MainForm.AddColumn("Name", "Room Name", this.dataGridView1);            
-            SCaddins.SCopy.MainForm.AddColumn("DestViewName", "New Plan Name", this.dataGridView1);
-            SCaddins.SCopy.MainForm.AddColumn("DestSheetNumber", "New Sheet Number", this.dataGridView1);
-            SCaddins.SCopy.MainForm.AddColumn("DestSheetName", "New Sheet Name", this.dataGridView1);
+            SCaddins.SCopy.MainForm.AddColumn("DestinationViewName", "New Plan Name", this.dataGridView1);
+            SCaddins.SCopy.MainForm.AddColumn("DestinationSheetNumber", "New Sheet Number", this.dataGridView1);
+            SCaddins.SCopy.MainForm.AddColumn("DestinationSheetName", "New Sheet Name", this.dataGridView1);
         }
                
         private void ButtonFilterClick(object sender, EventArgs e)

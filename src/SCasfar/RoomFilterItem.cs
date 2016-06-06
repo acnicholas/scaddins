@@ -23,10 +23,10 @@ namespace SCaddins.SCasfar
     
     public class RoomFilterItem
     {
-       private LogicalOperators lo;
-       private ComparisonOperators co;
-       private string parameterName;
-       private string test;
+       LogicalOperators lo;
+       ComparisonOperators co;
+       string parameterName;
+       string test;
         
         public enum LogicalOperators
         {
@@ -39,10 +39,10 @@ namespace SCaddins.SCasfar
             NotEqual,
             GreaterThan,
             LessThan,
-            GreaterThanOrEqual,
-            LessThanOrEqual,
+            //GreaterThanOrEqual,
+            //LessThanOrEqual,
             Contains,
-            Matches
+            //Matches
         }
         
         public RoomFilterItem(string lo, string co, string parameter, string test)
@@ -65,29 +65,19 @@ namespace SCaddins.SCasfar
             }
             return null;
         }
-        
-        private bool ParameterValueMatchesString(Parameter param, string value)
+                
+        private bool ParameterValueContainsString(Parameter param, string value)
         {
             if (!param.HasValue || string.IsNullOrWhiteSpace(value)){
                 return false;
             }
             switch (param.StorageType){
-                case StorageType.Double:
-                    double parse;
-                    if (Double.TryParse(value, out parse)){
-                        return param.AsDouble().CompareTo(parse) == 0;
-                    } else {
+                case StorageType.Double:          
                         return false;
-                    }
                 case StorageType.String:
-                    return param.AsString() == value;
+                        return param.AsString().Contains(value);
                 case StorageType.Integer:
-                       int iparse;
-                    if (Int32.TryParse(value, out iparse)){
-                           return param.AsInteger().CompareTo(iparse) == 0;
-                    } else {
                         return false;
-                    }
                 case StorageType.ElementId:
                     return false;
                 default:
@@ -95,57 +85,65 @@ namespace SCaddins.SCasfar
             }
         }
         
-        private bool ParameterValueLessThanString(Parameter param, string value)
+        private int ParameterComparedToString(Parameter param, string value)
         {
+            const int result = 441976;
             if (!param.HasValue || string.IsNullOrWhiteSpace(value)){
-                return false;
+                return result;
             }
             switch (param.StorageType){
                 case StorageType.Double:
                     double parse;
                     if (Double.TryParse(value, out parse)){
-                        return param.AsDouble().CompareTo(parse) < 0;
-                    } else {
-                        return false;
-                    }
+                        return param.AsDouble().CompareTo(parse);
+                    } 
+                    break;
                 case StorageType.String:
-                    return false;
-                case StorageType.Integer:
-                       int iparse;
-                    if (Int32.TryParse(value, out iparse)){
-                           return param.AsInteger().CompareTo(iparse) < 0;
+                    int sparse, sparse2;
+                    if (Int32.TryParse(value, out sparse) && Int32.TryParse(param.AsString(), out sparse2)){
+                           return sparse2.CompareTo(sparse);
                     } else {
-                        return false;
+                        return param.AsString() == value ? 0 : result;
                     }
+                case StorageType.Integer:
+                    int iparse;
+                    if (Int32.TryParse(value, out iparse)){
+                           return param.AsInteger().CompareTo(iparse);
+                    }
+                    break;
                 case StorageType.ElementId:
-                    return false;
+                    return result;
                 default:
-                    return false;
+                    return result;
             }
+            return result;
         }
         
         public bool PassesFilter(Room room)
         {
-            bool pass = true;
             Parameter param = ParamFromString(room, this.parameterName);
             if (param == null) {
                 return false;
             }
             
-            //switch (this.lo){
-            //    case LogicalOperators.AND:
+            if (this.co == ComparisonOperators.Contains) {
+                return ParameterValueContainsString(param, this.test);       
+            }
+            
+            int p = ParameterComparedToString(param, this.test);
+            
             switch (this.co) {
                 case ComparisonOperators.Equals:
-                    pass = ParameterValueMatchesString(param, this.test);
-                    break;
+                    return p == 0;
                 case ComparisonOperators.LessThan:
-                    pass = ParameterValueLessThanString(param, this.test);
-                    break;   
-                case ComparisonOperators.Contains:
-                    pass = ParameterValueGreaterThanString(param, this.test);    
+                    return p < 0 && p != 441976;
+                case ComparisonOperators.GreaterThan:
+                    return p > 0 && p != 441976;
+                case ComparisonOperators.NotEqual:
+                    return p != 0 && p != 441976;
+                default:
+                    return false;
             }
-            //}
-            return pass;
         }
             
     }

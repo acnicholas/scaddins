@@ -16,6 +16,7 @@
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using SCaddins.SCasfar;
@@ -25,7 +26,6 @@ namespace SCaddins.SCasfar
     public partial class RoomFilterDialog : System.Windows.Forms.Form
     {
         private RoomFilter filter;
-        private RoomConversionManager parent;
         
         public RoomFilterDialog(RoomFilter filter, Document doc)
         {
@@ -35,18 +35,24 @@ namespace SCaddins.SCasfar
             
             Room room = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Rooms).FirstElement() as Room;
             
+            var s = new List<String>();
             foreach (Parameter p in room.Parameters) {  
                 //don't add ElementID values yet (too much effort)
                 if (p.StorageType != StorageType.ElementId && p.StorageType != StorageType.None) {
-                comboBoxP1.Items.Add(p.Definition.Name);
-                comboBoxP2.Items.Add(p.Definition.Name);
-                comboBoxP3.Items.Add(p.Definition.Name);
-                comboBoxP4.Items.Add(p.Definition.Name);
-                comboBoxP5.Items.Add(p.Definition.Name);
-                comboBoxP6.Items.Add(p.Definition.Name);
-                comboBoxP7.Items.Add(p.Definition.Name);
+                    s.Add(p.Definition.Name);
                 }
             }
+            
+            s.Sort();
+            string[] s2 = s.ToArray();
+            
+            comboBoxP1.Items.AddRange(s2);
+            comboBoxP2.Items.AddRange(s2);
+            comboBoxP3.Items.AddRange(s2);
+            comboBoxP4.Items.AddRange(s2);
+            comboBoxP5.Items.AddRange(s2);
+            comboBoxP6.Items.AddRange(s2);
+            comboBoxP7.Items.AddRange(s2);
             
             comboBoxCO1.DataSource = Enum.GetValues(typeof(RoomFilterItem.ComparisonOperators));
             comboBoxCO2.DataSource = Enum.GetValues(typeof(RoomFilterItem.ComparisonOperators));
