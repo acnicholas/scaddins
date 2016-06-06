@@ -140,7 +140,9 @@ namespace SCaddins.SCasfar
                     break;
                 case ComparisonOperators.LessThan:
                     pass = ParameterValueLessThanString(param, this.test);
-                    break;    
+                    break;   
+                case ComparisonOperators.Contains:
+                    pass = ParameterValueGreaterThanString(param, this.test);    
             }
             //}
             return pass;

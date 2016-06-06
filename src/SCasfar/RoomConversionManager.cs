@@ -1,17 +1,27 @@
-﻿
-using System;
+﻿// (C) Copyright 2016 by Andrew Nicholas
+//
+// This file is part of SCaddins.
+//
+// SCaddins is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// SCaddins is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace SCaddins.SCasfar
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
-    using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
-    using Autodesk.Revit.UI;
     using Autodesk.Revit.DB.Architecture;
-    using System.Globalization;
 
     public class RoomConversionManager
     {
@@ -46,7 +56,7 @@ namespace SCaddins.SCasfar
             foreach (Element e in collector) {
                 if (e.IsValidObject && (e is Room)) {
                     Room room = e as Room;
-                    if(room.Area > 0) {
+                    if(room.Area > 0 && room.Location != null) {
                         allCandidates.Add(new RoomConversionCandidate(room, doc ,existingSheets, existingViews));
                     }
                 }

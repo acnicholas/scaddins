@@ -54,13 +54,19 @@ namespace SCaddins.SCasfar
         
         public string Number {
             get {
-                return room.Number;
+                string n = room.Number;
+                return string.IsNullOrWhiteSpace(n) ? "-" : n;
             }
         }
         
         public string Name {
             get {
-                return room.Name.Replace(room.Number,"").Trim();
+                if(string.IsNullOrWhiteSpace(room.Number)){
+                       return room.Name;
+                   } else {
+                        string r = room.Name.Replace(room.Number,"").Trim();
+                        return string.IsNullOrWhiteSpace(r) ? "-" : r;
+                   }
             }
         }
        

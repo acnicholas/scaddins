@@ -17,16 +17,12 @@
 
 namespace SCaddins.SCasfar
 {
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using Autodesk.Revit.DB;
-    using Autodesk.Revit.UI;
     using Autodesk.Revit.DB.Architecture;
 
     public class RoomFilter
     {
         
-
         private Collection<RoomFilterItem> filters;
         
 
