@@ -63,6 +63,10 @@ namespace SCaddins.SCasfar
                     return string.Empty;
             }   
         }
+        void RoomInfoDilaogFormClosing(object sender, FormClosingEventArgs e)
+        {
+          
+        }
         
     }
 }

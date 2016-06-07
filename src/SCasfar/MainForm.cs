@@ -98,13 +98,18 @@ namespace SCaddins.SCasfar
             dataGridView1.Refresh();
         }
         
-        private void ButtonGoClick(object sender, EventArgs e)
+        private System.ComponentModel.BindingList<RoomConversionCandidate> GetSelectedCandidates()
         {
             var c = new System.ComponentModel.BindingList<RoomConversionCandidate>(); 
             for (int i = 0; i < dataGridView1.SelectedRows.Count; i++){
                 c.Add((RoomConversionCandidate)dataGridView1.SelectedRows[i].DataBoundItem);
             }
-            //SCasfar.CreateViewsAndSheets(doc, c);
+            return c;
+        }
+        
+        private void ButtonGoClick(object sender, EventArgs e)
+        {
+            scasfar.CreateViewsAndSheets(GetSelectedCandidates());
         }
         
         void DataGridView1SelectionChanged(object sender, EventArgs e)
@@ -123,6 +128,43 @@ namespace SCaddins.SCasfar
             } else {
                 info.Show();
             }
+        }
+
+        void Button3Click(object sender, EventArgs e)
+        {
+            scasfar.CreateRoomMasses(GetSelectedCandidates());  
+        }
+        
+        void MainFormFormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.info.Dispose();
+            this.rfd.Dispose();
+            this.Dispose();
+        }
+        
+        void ButtonRenameClick(object sender, EventArgs e)
+        {
+          
+        }
+        
+        void RadioButton1CheckedChanged(object sender, EventArgs e)
+        {
+            buttonGo.Enabled = radioButton1.Checked;
+             if (buttonGo.Enabled) {
+                    dataGridView1.Columns[2].Visible = true;
+                    dataGridView1.Columns[3].Visible = true;
+                    dataGridView1.Columns[4].Visible = true;
+             }
+        }
+        
+        void RadioButton2CheckedChanged(object sender, EventArgs e)
+        { 
+                button3.Enabled = radioButton2.Checked; 
+                if (button3.Enabled) {
+                    dataGridView1.Columns[2].Visible = false;
+                    dataGridView1.Columns[3].Visible = false;
+                    dataGridView1.Columns[4].Visible = false;
+                }
         }             
     } 
 }

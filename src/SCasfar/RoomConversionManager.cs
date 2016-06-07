@@ -34,13 +34,12 @@ namespace SCaddins.SCasfar
         private SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> allCandidates;
         private Document doc;
         
-        public SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> Candidates
-        {
-            get; set;
+        public SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> Candidates {
+            get;
+            set;
         }
         
-        public Document Doc
-        {
+        public Document Doc {
             get{ return doc; }
         }
          
@@ -48,7 +47,7 @@ namespace SCaddins.SCasfar
         {
             Candidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();  
             this.allCandidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();    
-            this.doc =  doc;
+            this.doc = doc;
             SCopy.SheetCopy.GetAllSheets(existingSheets, this.doc);
             SCopy.SheetCopy.GetAllViewsInModel(existingViews, this.doc);                             
             FilteredElementCollector collector = new FilteredElementCollector(this.doc);
@@ -56,32 +55,110 @@ namespace SCaddins.SCasfar
             foreach (Element e in collector) {
                 if (e.IsValidObject && (e is Room)) {
                     Room room = e as Room;
-                    if(room.Area > 0 && room.Location != null) {
-                        allCandidates.Add(new RoomConversionCandidate(room, doc ,existingSheets, existingViews));
+                    if (room.Area > 0 && room.Location != null) {
+                        allCandidates.Add(new RoomConversionCandidate(room, doc, existingSheets, existingViews));
                     }
                 }
             }
             this.Reset(); 
         }
         
-        public void CreateViewsAndSheets()
+        public void CreateViewsAndSheets(System.ComponentModel.BindingList<RoomConversionCandidate> candidates)
         {
             Transaction t = new Transaction(doc, "Rooms to Views");
             t.Start(); 
-            foreach (RoomConversionCandidate candidate in this.Candidates) {
-                this.CreateViewAndSheet(candidate);
+            foreach (RoomConversionCandidate c in candidates) {
+                this.CreateViewAndSheet(c);
             }
             t.Commit();         
         }
         
+        public void CreateRoomMasses(System.ComponentModel.BindingList<RoomConversionCandidate> candidates)
+        {
+            int errCount = 0;
+            int roomCount = 0;
+            var t = new Transaction(doc, "Rooms to Masses");
+            t.Start(); 
+            foreach (RoomConversionCandidate c in candidates) {
+                roomCount++;
+                if (!this.CreateRoomMass(c.Room)) {
+                    errCount++;
+                }
+            }
+            t.Commit();  
+            Autodesk.Revit.UI.TaskDialog.Show(
+                        "Rooms To Masses",
+                        (roomCount - errCount) + " Room masses created with " + errCount + " errors."
+                        );
+        }
+        
         public void Reset()
         {
-             Candidates.Clear();
-             foreach (RoomConversionCandidate c in allCandidates) {
+            Candidates.Clear();
+            foreach (RoomConversionCandidate c in allCandidates) {
                 Candidates.Add(c);
             }    
         }
-           
+        
+        private void CopyAllParameters(Element host, Element  dest)
+        {
+            if (host == null || dest == null)
+                return;
+            
+            foreach (Parameter param in host.Parameters) {
+                Parameter paramDest = dest.LookupParameter(param.Definition.Name);
+                if (paramDest != null && paramDest.StorageType == param.StorageType) {
+                    switch (param.StorageType) {
+                        case StorageType.String:
+                            string v = param.AsString();
+                            if (!string.IsNullOrEmpty(v)) {
+                                paramDest.Set(v);
+                            }
+                            break;
+                        case StorageType.Integer:
+                            int b = param.AsInteger();
+                            if (b != -1) {
+                                paramDest.Set(b);
+                            }
+                            break;
+                        case StorageType.Double:
+                            double d = param.AsDouble();
+                            if (d != null) {
+                                paramDest.Set(d);
+                            }
+                            break;                                
+                    }
+                }        
+            } 
+        }
+        
+        private bool CreateRoomMass(Room room)
+        {
+            try {
+                var height = room.LookupParameter("Limit Offset");
+                var curves = new List<CurveLoop>();
+                var spatialBoundaryOptions = new SpatialElementBoundaryOptions();
+                spatialBoundaryOptions.StoreFreeBoundaryFaces = true;
+                var loop = new CurveLoop();
+                var bdySegs = room.GetBoundarySegments(spatialBoundaryOptions);
+                foreach (BoundarySegment seg in bdySegs[0]) {
+                    loop.Append(seg.Curve);
+                }
+                
+                curves.Add(loop);
+                SolidOptions options = new SolidOptions(ElementId.InvalidElementId, ElementId.InvalidElementId);
+                Solid roomSolid = GeometryCreationUtilities.CreateExtrusionGeometry(curves, new XYZ(0, 0, 1), height.AsDouble(), options);
+                DirectShape roomShape = DirectShape.CreateElement(doc, new ElementId(BuiltInCategory.OST_Mass), "A", "B");
+                roomShape.SetShape(new GeometryObject[] { roomSolid });
+                
+                CopyAllParameters(room, roomShape);
+
+            } catch (Exception ex) {
+                return false;
+            }
+            return true;
+        }
+                
         private void CreateViewAndSheet(RoomConversionCandidate candidate)
         {   
             //create plans
@@ -101,9 +178,9 @@ namespace SCaddins.SCasfar
             sheet.SheetNumber = candidate.DestinationSheetNumber;
                 
             Viewport vp = Viewport.Create(this.doc, sheet.Id, plan.Id, new XYZ(
-                                  SCaddins.Common.MiscUtilities.MMtoFeet(840 / 2),
-                                  SCaddins.Common.MiscUtilities.MMtoFeet(594 / 2),
-                                  0));
+                              SCaddins.Common.MiscUtilities.MMtoFeet(840 / 2),
+                              SCaddins.Common.MiscUtilities.MMtoFeet(594 / 2),
+                              0));
                 
             //shrink the bounding box now that it is placed
             plan.CropBox = CreateOffsetBoundingBox(2, boundingBox);
@@ -113,7 +190,6 @@ namespace SCaddins.SCasfar
             vp.ChangeTypeId(vp.GetValidTypes().Last());
         }
      
-        //FIXME use this in SCopy.
         private static ElementId GetFloorPlanViewFamilyTypeId(Document doc)
         {
             foreach (ViewFamilyType vft in new FilteredElementCollector(doc).OfClass(typeof(ViewFamilyType))) {
@@ -131,15 +207,7 @@ namespace SCaddins.SCasfar
             double y = b.Min.Y + ((b.Max.Y - b.Min.Y) / 2);
             return new XYZ(x, y, 0);
         }
-     
-        private bool isUnit(Element room)
-        {
-            var depo = room.LookupParameter("Department");
-            if (depo == null)
-                return false;
-            return depo.AsString() == "1. Unit";
-        }
-          
+              
         private static ElementId GetFirstTitleBlock(Document doc)
         {
             //TODO this is a super hack...

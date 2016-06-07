@@ -60,6 +60,7 @@ namespace SCaddins.SCasfar
             this.Controls.Add(this.listView1);
             this.Name = "RoomInfoDilaog";
             this.Text = "RoomInfoDilaog";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RoomInfoDilaogFormClosing);
             this.ResumeLayout(false);
 
         }
