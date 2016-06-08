@@ -19,6 +19,8 @@ namespace SCaddins.SCasfar
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
@@ -31,6 +33,9 @@ namespace SCaddins.SCasfar
         private Dictionary<string, View> existingViews =
             new Dictionary<string, View>();
         
+        private Dictionary<string, ElementId> titleBlocks = 
+            new Dictionary<string, ElementId>();
+        
         private SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> allCandidates;
         private Document doc;
         
@@ -42,12 +47,17 @@ namespace SCaddins.SCasfar
         public Document Doc {
             get{ return doc; }
         }
+        
+        public Dictionary<string, ElementId> TitleBlocks {
+            get{ return titleBlocks; }
+        }
          
         public RoomConversionManager(Document doc)
         {
             Candidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();  
             this.allCandidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();    
             this.doc = doc;
+            this.titleBlocks = GetAllTitleBlockTypes(this.doc);
             SCopy.SheetCopy.GetAllSheets(existingSheets, this.doc);
             SCopy.SheetCopy.GetAllViewsInModel(existingViews, this.doc);                             
             FilteredElementCollector collector = new FilteredElementCollector(this.doc);
@@ -71,6 +81,23 @@ namespace SCaddins.SCasfar
                 this.CreateViewAndSheet(c);
             }
             t.Commit();         
+        }
+        
+        public static Dictionary<string, ElementId> GetAllTitleBlockTypes(Document doc)
+        {
+            var result = new Dictionary<string, ElementId>();
+
+            FilteredElementCollector a = new FilteredElementCollector(doc)
+                .OfCategory(BuiltInCategory.OST_TitleBlocks).OfClass(typeof(FamilySymbol));
+
+            foreach (FamilySymbol e in a) {
+                var s = e.Family.Name + "-" + e.Name;
+                if (!result.ContainsKey(s)) {
+                    result.Add(s, e.GetTypeId());
+                }
+            }
+
+            return result;
         }
         
         public void CreateRoomMasses(System.ComponentModel.BindingList<RoomConversionCandidate> candidates)

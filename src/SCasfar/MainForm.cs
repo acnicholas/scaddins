@@ -18,6 +18,8 @@
 namespace SCaddins.SCasfar
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Windows.Forms;
     using System.Collections.ObjectModel;
     
@@ -33,7 +35,8 @@ namespace SCaddins.SCasfar
             InitializeComponent();          
 
             this.scasfar = scasfar;
-            this.AddDataGridColumns();  
+            this.AddDataGridColumns(); 
+            this.PopulateTitleblockCombo();
             this.rf = new RoomFilter();
             this.rfd = new RoomFilterDialog(rf, scasfar.Doc);
             this.info = new RoomInfoDilaog();
@@ -56,9 +59,17 @@ namespace SCaddins.SCasfar
             
         }
         
+        private void PopulateTitleblockCombo()
+        {
+            foreach (var key in scasfar.TitleBlocks.Keys){
+                comboBoxTitles.Items.Add(key);
+            }
+            comboBoxTitles.SelectedIndex = 0;
+            //scasfar.SetTitleBlockId();
+        }
+        
         private void LoadDataGridSource()
         {
-            //FIXME, do this LargeRoomCountWarning();
             dataGridView1.DataSource = scasfar.Candidates;     
         }
               

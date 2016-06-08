@@ -26,6 +26,7 @@ namespace SCaddins.SCasfar
         private System.Windows.Forms.RadioButton radioButton2;
 
         private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.ComboBox comboBoxTitles;
         
         /// <summary>
         /// Disposes resources used by the form.
@@ -58,6 +59,7 @@ namespace SCaddins.SCasfar
             this.button3 = new System.Windows.Forms.Button();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.comboBoxTitles = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -191,11 +193,20 @@ namespace SCaddins.SCasfar
             this.radioButton2.UseVisualStyleBackColor = true;
             this.radioButton2.CheckedChanged += new System.EventHandler(this.RadioButton2CheckedChanged);
             // 
+            // comboBoxTitles
+            // 
+            this.comboBoxTitles.FormattingEnabled = true;
+            this.comboBoxTitles.Location = new System.Drawing.Point(12, 511);
+            this.comboBoxTitles.Name = "comboBoxTitles";
+            this.comboBoxTitles.Size = new System.Drawing.Size(167, 21);
+            this.comboBoxTitles.TabIndex = 13;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(690, 544);
+            this.Controls.Add(this.comboBoxTitles);
             this.Controls.Add(this.radioButton2);
             this.Controls.Add(this.radioButton1);
             this.Controls.Add(this.button3);
