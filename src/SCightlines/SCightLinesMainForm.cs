@@ -26,7 +26,7 @@ namespace SCaddins.SCightLines
         private SCightOutputForm info;
         private LineOfSight sightLines;
 
-        public SCightLinesMainForm(Autodesk.Revit.DB.Document doc)
+        public SCightLinesMainForm(Autodesk.Revit.DB.Document doc, LineOfSight sightlines)
         {
             this.InitializeComponent();
             txtEyeHeight.Text = "1220";
@@ -39,18 +39,7 @@ namespace SCaddins.SCightLines
             txtY.Text = "1000";
             this.info = new SCightOutputForm("Update first");
             this.info.Hide();
-            this.sightLines = new LineOfSight(
-                doc,
-                SCightLinesMainForm.GetDub(txtEyeHeight, 1220),
-                SCightLinesMainForm.GetDub(txtGoing, 900),
-                SCightLinesMainForm.GetDub(txtInc, 15),
-                SCightLinesMainForm.GetDub(txtMinC, 60),
-                SCightLinesMainForm.GetDub(txtRiser, 180), 
-                SCightLinesMainForm.GetDub(txtRows, 20),
-                SCightLinesMainForm.GetDub(txtX, 12000),
-                SCightLinesMainForm.GetDub(txtY, 1000));
-            this.Show();
-            this.Focus();
+            this.sightLines = sightlines;
         }
 
         /// <summary>
@@ -63,7 +52,7 @@ namespace SCaddins.SCightLines
         /// Fallback value.
         /// i.e. value to apply if text cannot be parsed
         /// </param>
-        private static double GetDub(TextBox t, double fallback)
+        public static double GetDub(TextBox t, double fallback)
         {
             double d;
             if (t.Text == null) {

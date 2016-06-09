@@ -30,18 +30,10 @@ namespace SCaddins.SCightLines
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            using (Transaction t = new Transaction(commandData.Application.ActiveUIDocument.Document)) {          
-                if (t.Start("SCightlines") == TransactionStatus.Started) {
-                    SCightLinesMainForm opts = new SCightLinesMainForm(commandData.Application.ActiveUIDocument.Document);
-                    opts.Show();
-                }
-
-                if (TransactionStatus.Committed != t.Commit()) {
-                   TaskDialog.Show("Failure", "Transaction could not be committed");
-                   t.RollBack();
-               }
-            }
-
+            Document doc = commandData.Application.ActiveUIDocument.Document;
+            LineOfSight sightLines = new LineOfSight(doc, 1220, 900, 15, 60, 180 , 20, 12000, 1000);
+            SCightLinesMainForm opts = new SCightLinesMainForm(doc, sightLines);
+            opts.ShowDialog();
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }

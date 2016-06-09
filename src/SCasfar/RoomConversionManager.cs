@@ -38,6 +38,7 @@ namespace SCaddins.SCasfar
         
         private SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> allCandidates;
         private Document doc;
+        private ElementId activeTitleBlock;
         
         public SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> Candidates {
             get;
@@ -48,8 +49,19 @@ namespace SCaddins.SCasfar
             get{ return doc; }
         }
         
-        public Dictionary<string, ElementId> TitleBlocks {
+        public Dictionary<string, ElementId> TitleBlocks
+        {
             get{ return titleBlocks; }
+        }
+        
+        public ElementId ActiveTitleBlock
+        {
+            get {
+                return activeTitleBlock != null ? activeTitleBlock : ElementId.InvalidElementId;
+            }
+            set {
+                activeTitleBlock = value != null ? value : ElementId.InvalidElementId;
+            }
         }
          
         public RoomConversionManager(Document doc)
@@ -58,6 +70,7 @@ namespace SCaddins.SCasfar
             this.allCandidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();    
             this.doc = doc;
             this.titleBlocks = GetAllTitleBlockTypes(this.doc);
+            this.activeTitleBlock = this.titleBlocks.FirstOrDefault().Value;
             SCopy.SheetCopy.GetAllSheets(existingSheets, this.doc);
             SCopy.SheetCopy.GetAllViewsInModel(existingViews, this.doc);                             
             FilteredElementCollector collector = new FilteredElementCollector(this.doc);
@@ -96,6 +109,9 @@ namespace SCaddins.SCasfar
                     result.Add(s, e.GetTypeId());
                 }
             }
+            
+            //add an empty title in case there's none
+            result.Add("none",ElementId.InvalidElementId);
 
             return result;
         }
@@ -129,6 +145,9 @@ namespace SCaddins.SCasfar
         
         private void CopyAllParameters(Element host, Element  dest)
         {
+            #if REVIT2014
+            return;
+            #else
             if (host == null || dest == null)
                 return;
             
@@ -157,10 +176,14 @@ namespace SCaddins.SCasfar
                     }
                 }        
             } 
+            #endif
         }
         
         private bool CreateRoomMass(Room room)
         {
+            #if REVIT2014
+            return false;
+            #else
             try {
                 var height = room.LookupParameter("Limit Offset");
                 var curves = new List<CurveLoop>();
@@ -168,7 +191,7 @@ namespace SCaddins.SCasfar
                 spatialBoundaryOptions.StoreFreeBoundaryFaces = true;
                 var loop = new CurveLoop();
                 var bdySegs = room.GetBoundarySegments(spatialBoundaryOptions);
-                foreach (BoundarySegment seg in bdySegs[0]) {
+                foreach (var seg in bdySegs[0]) {
                     loop.Append(seg.Curve);
                 }
                 
@@ -184,6 +207,7 @@ namespace SCaddins.SCasfar
                 return false;
             }
             return true;
+            #endif
         }
                 
         private void CreateViewAndSheet(RoomConversionCandidate candidate)

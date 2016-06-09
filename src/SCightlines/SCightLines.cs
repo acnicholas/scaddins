@@ -107,6 +107,10 @@ namespace SCaddins.SCightLines
 
         public void Draw()
         {
+            
+            Transaction t = new Transaction(doc, "Create sight line view");
+            t.Start(); 
+            
             string times = System.DateTime.Now.ToString();
 
             this.view = this.CreateLineOfSightDraftingView(
@@ -184,7 +188,8 @@ namespace SCaddins.SCightLines
                         this.rows[i].RiserHeight.ToString(CultureInfo.InvariantCulture),
                         TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_BOTTOM);
                 }
-            }
+            }    
+            t.Commit();
         }
 
         private ViewDrafting CreateLineOfSightDraftingView(string newViewName)
@@ -266,14 +271,14 @@ namespace SCaddins.SCightLines
             XYZ normal_up = app.Create.NewXYZ(0, 1, 0);
             #if REVIT2016
             TextNoteOptions tno = new TextNoteOptions();
+            tno.TypeId = doc.GetDefaultElementTypeId(ElementTypeGroup.TextNoteType);
             if(f.HasFlag(TextAlignFlags.TEF_ALIGN_CENTER)) {
                 tno.HorizontalAlignment = HorizontalTextAlignment.Center;
             }
             if(f.HasFlag(TextAlignFlags.TEF_ALIGN_LEFT)) {
                 tno.HorizontalAlignment = HorizontalTextAlignment.Left;
             }  
-             
-            TextNote.Create(this.doc, this.view.Id, origin, s, new TextNoteOptions());
+            TextNote.Create(this.doc, this.view.Id, origin, s, tno);
             #else
             this.doc.Create.NewTextNote(this.view, origin, normal_base, normal_up, MiscUtilities.MMtoFeet(10), f, s);
             #endif

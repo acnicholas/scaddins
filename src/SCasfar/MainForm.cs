@@ -165,6 +165,7 @@ namespace SCaddins.SCasfar
                     dataGridView1.Columns[2].Visible = true;
                     dataGridView1.Columns[3].Visible = true;
                     dataGridView1.Columns[4].Visible = true;
+                    comboBoxTitles.Visible = true;
              }
         }
         
@@ -175,6 +176,7 @@ namespace SCaddins.SCasfar
                     dataGridView1.Columns[2].Visible = false;
                     dataGridView1.Columns[3].Visible = false;
                     dataGridView1.Columns[4].Visible = false;
+                    comboBoxTitles.Visible = false;
                 }
         }             
     } 

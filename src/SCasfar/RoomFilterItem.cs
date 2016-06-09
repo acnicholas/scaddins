@@ -60,10 +60,14 @@ namespace SCaddins.SCasfar
         
         private Parameter ParamFromString(Room room, string name)
         {
+            #if REVIT2014
+            return null;
+            #else
             if(room.GetParameters(name).Count > 0) {
                 return room.GetParameters(name)[0];
             }
             return null;
+            #endif
         }
                 
         private bool ParameterValueContainsString(Parameter param, string value)
