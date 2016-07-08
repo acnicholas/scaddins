@@ -72,10 +72,17 @@ namespace SCaddins.SCunderlay
         private static void RemoveUnderlay(Element element)
         {
             if (element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_Views) {
+                #if REVIT2016
+                var param = element.get_Parameter(BuiltInParameter.VIEW_UNDERLAY_BOTTOM_ID);
+                if (param != null) {
+                    param.Set(ElementId.InvalidElementId);
+                }
+                #else
                 var param = element.get_Parameter(BuiltInParameter.VIEW_UNDERLAY_ID);
                 if (param != null) {
                     param.Set(ElementId.InvalidElementId);
                 }
+                #endif
             }   
         }     
     }

@@ -17,13 +17,18 @@
 
 namespace SCaddins.SCloudSChed
 {
+    //using System.Collections.Generic;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Microsoft.Office.Interop.Excel;
 
+    [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
+    [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
+    [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public static class SCloudScheduler
     {
         [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", Justification = "Because.")]        
@@ -93,6 +98,8 @@ namespace SCaddins.SCloudSChed
                 excelWorkbook.Close();
             }
         }
+        
+      
 
         private static string GetParamaterAsString(Element revCloud, BuiltInParameter b)
         {

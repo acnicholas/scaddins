@@ -19,16 +19,21 @@ namespace SCaddins.SCloudSChed
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows.Forms;
     using Autodesk.Revit.DB;
+     using Autodesk.Revit.UI;
     using SCaddins.Common;
 
+    [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
+    [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
+    [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public partial class Form1 : System.Windows.Forms.Form
     {
         private Document doc;
 
-        public Form1(Document doc, SortableBindingListCollection<RevisionItem> revisions)
+        public Form1(Document doc, SortableBindingListCollection<RevisionCloudItem> revisions)
         {
             this.doc = doc;
             this.InitializeComponent();
@@ -38,7 +43,7 @@ namespace SCaddins.SCloudSChed
         private void SelectAll(bool all)
         {
             foreach (DataGridViewRow row in this.dataGridView1.Rows) {
-                RevisionItem rev = row.DataBoundItem as RevisionItem;
+                RevisionCloudItem rev = row.DataBoundItem as RevisionCloudItem;
                 if (rev != null) {
                     if (all) {
                         if (!rev.Export) {
@@ -78,5 +83,70 @@ namespace SCaddins.SCloudSChed
             }
             SCloudScheduler.ExportCloudInfo(this.doc, dictionary);
         }
+        
+        private void AssignRevisionToClouds(Collection<RevisionCloudItem> revisionClouds)
+        {
+            #if (!REVIT2014)
+            //TaskDialog.Show("test","Started AssignRevisionToClouds");  
+            var r = new SCaddins.SCexport.RevisionSelectionDialog(doc);
+            var result = r.ShowDialog();
+            if(result == System.Windows.Forms.DialogResult.OK){
+                //TaskDialog.Show("test","OK Clicked");      
+            } else {
+                return;
+            }
+            if (r.Id != null) {
+                //TaskDialog.Show("test",r.Id.ToString());
+            } else {
+                TaskDialog.Show("test","id is null"); 
+                return;
+            }
+            //if ((r.Id != null) && (result == System.Windows.Forms.DialogResult.OK)) {
+            using (var t = new Transaction(doc, "Assign Revisions to Clouds")) {
+                t.Start();
+                foreach (RevisionCloudItem rc in revisionClouds) {
+                    //TaskDialog.Show("test","in loop"); 
+                    if (rc != null) {
+                        //TaskDialog.Show("test","assigning revesions");
+                        rc.GetCloud().RevisionId = r.Id;
+                    } else {
+                        //TaskDialog.Show("test","NOT assigning revesions");    
+                    }
+                }
+            //dataGridView1.Refresh();
+            //dataGridView1.Update();
+            //this.Close();
+            //this.Dispose();
+                t.Commit();
+            }
+            //}
+            //} else {
+            //    TaskDialog.Show("test","Rev id null");    
+            //}
+            #endif
+        }
+        
+        
+        
+        void Button4Click(object sender, EventArgs e)
+        {
+           Collection<RevisionCloudItem> cloudSelection = new Collection<RevisionCloudItem>();
+           foreach (DataGridViewRow row in this.dataGridView1.Rows) {
+                RevisionCloudItem rev = row.DataBoundItem as RevisionCloudItem;
+                if (rev.Export) {
+                    cloudSelection.Add(rev);
+                    //TaskDialog.Show("Test","something added");
+                } else {
+                    //TaskDialog.Show("Test","nothing added");
+                }
+            }  
+            //TaskDialog.Show("Test","Attempting to assign revisions to: " + cloudSelection.Count + " cloud[s].");
+            //using (var t = new Transaction(doc, "Assign Revisions to Clouds")) {
+            //    t.Start();
+            AssignRevisionToClouds(cloudSelection);
+            //    t.Commit();
+            //}
+        }
+        
     }
 }

@@ -39,7 +39,7 @@ namespace SCaddins.SCexport
         public const string ExampleConfigFileName = "SCexport-example-conf.xml";
 
         /// <summary>The export directory.</summary>
-        public const string DefaultExportDir = "C:\\Temp";
+        public const string DefaultExportDir = @"C:\Temp";
                
         /// <summary> Param name of scale bar visibily. </summary>
         public const string TitleScale = "Scale Bar 1 to";

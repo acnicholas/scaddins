@@ -26,7 +26,7 @@ namespace SCaddins.SCloudSChed
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
     {
-        private SortableBindingListCollection<RevisionItem> revisions;
+        private SortableBindingListCollection<RevisionCloudItem> revisionClouds;
 
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
@@ -34,25 +34,40 @@ namespace SCaddins.SCloudSChed
             Autodesk.Revit.DB.ElementSet elements)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            this.revisions = new SortableBindingListCollection<RevisionItem>();
-            GetRevisions(doc, this.revisions);
-            Form1 form = new Form1(doc, this.revisions);
-            form.Show();
+            this.revisionClouds = new SortableBindingListCollection<RevisionCloudItem>();
+            //GetRevisions(doc, this.revisions);
+            GetRevisionClouds(doc, this.revisionClouds);
+            Form1 form = new Form1(doc, this.revisionClouds);
+            form.ShowDialog();
             return Autodesk.Revit.UI.Result.Succeeded;
         }
-
-        private static void GetRevisions(Document doc, SortableBindingListCollection<RevisionItem> revisions)
+        
+        private static void GetRevisionClouds(Document doc, SortableBindingListCollection<RevisionCloudItem> revisionClouds)
         {
+             #if !(REVIT2014)
             FilteredElementCollector a;
             a = new FilteredElementCollector(doc);
-            a.OfCategory(BuiltInCategory.OST_Revisions);
-            foreach (Element e in a) {
-                int seq = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger();
-                string date = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString();
-                int issued = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_ISSUED).AsInteger();
-                string description = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
-                revisions.Add(new RevisionItem(date, description, issued == 1, seq));
+            a.OfCategory(BuiltInCategory.OST_RevisionClouds);
+            a.OfClass(typeof(RevisionCloud));
+            foreach (RevisionCloud e in a) {  
+                //TaskDialog.Show("test",e.Name);
+                revisionClouds.Add(new RevisionCloudItem(doc, e));
             }
+            #endif
         }
+
+//        private static void GetRevisions(Document doc, SortableBindingListCollection<RevisionItem> revisions)
+//        {
+//            FilteredElementCollector a;
+//            a = new FilteredElementCollector(doc);
+//            a.OfCategory(BuiltInCategory.OST_Revisions);
+//            foreach (Element e in a) {
+//                int seq = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger();
+//                string date = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString();
+//                int issued = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_ISSUED).AsInteger();
+//                string description = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
+//                revisions.Add(new RevisionItem(date, description, issued == 1, seq));
+//            }
+//        }
     }  
 }

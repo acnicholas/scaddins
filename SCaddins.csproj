@@ -286,6 +286,7 @@
     <Compile Include="src\SCincrement\SCincrementSettingsForm.Designer.cs">
       <DependentUpon>SCincrementSettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\SCloudSched\RevisionCloudItem.cs" />
     <Compile Include="src\SCloudSched\SCloudSchedForm.cs">
       <SubType>Form</SubType>
     </Compile>
