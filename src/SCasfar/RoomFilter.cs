@@ -22,26 +22,24 @@ namespace SCaddins.SCasfar
 
     public class RoomFilter
     {
-        
         private Collection<RoomFilterItem> filters;
-        
 
         public RoomFilter()
-        {   
+        {
             this.filters = new Collection<RoomFilterItem>();
             this.filters.Clear();
         }
-        
+
         public void AddFilterItem(RoomFilterItem item)
         {
             this.filters.Add(item);
         }
-        
+
         public void Clear()
         {
             this.filters.Clear();
         }
-        
+
         public bool PassesFilter(Room room)
         {
             foreach(RoomFilterItem item in filters) {
@@ -53,7 +51,5 @@ namespace SCaddins.SCasfar
             }
             return true;
         }
-            
     }
-    
 }

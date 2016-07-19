@@ -20,19 +20,19 @@ namespace SCaddins.SCasfar
     using System;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
-    
+
     public class RoomFilterItem
     {
        LogicalOperators lo;
        ComparisonOperators co;
        string parameterName;
        string test;
-        
+
         public enum LogicalOperators
         {
             AND
         }
-        
+
         public enum ComparisonOperators
         {
             Equals,
@@ -44,7 +44,7 @@ namespace SCaddins.SCasfar
             Contains,
             //Matches
         }
-        
+
         public RoomFilterItem(string lo, string co, string parameter, string test)
         {
            this.lo = (RoomFilterItem.LogicalOperators) Enum.Parse(typeof(RoomFilterItem.LogicalOperators), lo);
@@ -52,12 +52,12 @@ namespace SCaddins.SCasfar
            this.parameterName = parameter;
            this.test = test;
         }
-        
+
         public bool IsValid()
         {
             return true;
         }
-        
+
         private Parameter ParamFromString(Room room, string name)
         {
             #if REVIT2014
@@ -69,14 +69,14 @@ namespace SCaddins.SCasfar
             return null;
             #endif
         }
-                
+
         private bool ParameterValueContainsString(Parameter param, string value)
         {
             if (!param.HasValue || string.IsNullOrWhiteSpace(value)){
                 return false;
             }
             switch (param.StorageType){
-                case StorageType.Double:          
+                case StorageType.Double:
                         return false;
                 case StorageType.String:
                         return param.AsString().Contains(value);
@@ -88,7 +88,7 @@ namespace SCaddins.SCasfar
                     return false;
             }
         }
-        
+
         private int ParameterComparedToString(Parameter param, string value)
         {
             const int result = 441976;
@@ -122,20 +122,20 @@ namespace SCaddins.SCasfar
             }
             return result;
         }
-        
+
         public bool PassesFilter(Room room)
         {
             Parameter param = ParamFromString(room, this.parameterName);
             if (param == null) {
                 return false;
             }
-            
+
             if (this.co == ComparisonOperators.Contains) {
-                return ParameterValueContainsString(param, this.test);       
+                return ParameterValueContainsString(param, this.test);
             }
-            
+
             int p = ParameterComparedToString(param, this.test);
-            
+
             switch (this.co) {
                 case ComparisonOperators.Equals:
                     return p == 0;
@@ -149,8 +149,6 @@ namespace SCaddins.SCasfar
                     return false;
             }
         }
-            
     }
-    
 }
 

@@ -26,7 +26,7 @@ namespace SCaddins.SCasfar
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
-    {      
+    {
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
             ref string message,
@@ -38,7 +38,6 @@ namespace SCaddins.SCasfar
             mainForm.ShowDialog();
             return Autodesk.Revit.UI.Result.Succeeded;
         }
-        
     }
 }
 

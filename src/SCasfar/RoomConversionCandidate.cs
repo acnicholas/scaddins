@@ -24,41 +24,41 @@ namespace SCaddins.SCasfar
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
     using System.Globalization;
-    
+
     public class RoomConversionCandidate : INotifyPropertyChanged
-    {  
+    {
         private Room room;
         private string destViewName;
         private string destSheetName; 
         private string destSheetNumber; 
-        
+
         public RoomConversionCandidate(
-            Room room,
-            Document doc,
-            Dictionary<string, View> existingSheets,
-            Dictionary<string, View> existingViews)
+                Room room,
+                Document doc,
+                Dictionary<string, View> existingSheets,
+                Dictionary<string, View> existingViews)
         {
             this.room = room;
             this.destSheetName = GetDefaultSheetName();
             this.destSheetNumber = GetDefaultSheetNumber(doc, existingSheets);
             this.destViewName = GetDefaultViewName(doc, existingViews);
         }
-            
+
         public event PropertyChangedEventHandler PropertyChanged;
-               
+
         public Room Room {
             get {
                 return room;
             }
         }
-        
+
         public string Number {
             get {
                 string n = room.Number;
                 return string.IsNullOrWhiteSpace(n) ? "-" : n;
             }
         }
-        
+
         public string Name {
             get {
                 if (string.IsNullOrWhiteSpace(room.Number)) {
@@ -69,12 +69,11 @@ namespace SCaddins.SCasfar
                 }
             }
         }
-       
+
         public string DestinationViewName {
             get {
                 return this.destViewName;
             }
-            
             set {
                 this.destViewName = value;
                 if (this.PropertyChanged != null) {
@@ -82,12 +81,11 @@ namespace SCaddins.SCasfar
                 }
             }
         }
-        
+
         public string DestinationSheetNumber {
             get {
                 return this.destSheetNumber;
             }
-            
             set {
                 this.destSheetNumber = value;
                 if (this.PropertyChanged != null) {
@@ -95,25 +93,24 @@ namespace SCaddins.SCasfar
                 }
             }
         }
-        
+
         public string DestinationSheetName {
             get {
                 return this.destSheetName;
             }
-            
             set {
-                 this.destSheetName = value;
+                this.destSheetName = value;
                 if (this.PropertyChanged != null) {
                     this.PropertyChanged(this, new PropertyChangedEventArgs("DestinationSheetName"));
                 }
             }
         }
-               
+
         public bool PassesFilter(RoomFilter filter)
         {
             return filter.PassesFilter(this.Room);
         }
-                
+
         private string GetDefaultViewName(Document doc, Dictionary<string, View> existingViews)
         {
             string request = this.Number + " - " + this.Name;
@@ -123,13 +120,13 @@ namespace SCaddins.SCasfar
                 return request;
             }
         }
-        
+
         private string GetDefaultSheetName()
         {
             //this is OK, sheets can cave duplicate names
             return this.Number + " - " + this.Name;
         }
-        
+
         private string GetDefaultSheetNumber(Document doc, Dictionary<string, View> existingSheets)
         {
             string request = this.Number;
@@ -139,9 +136,6 @@ namespace SCaddins.SCasfar
                 return request;
             }
         }
-        
-        
-        
     }
 }
 /* vim: set ts=4 sw=4 nu expandtab: */
