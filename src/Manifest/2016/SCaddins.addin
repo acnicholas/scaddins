@@ -45,7 +45,7 @@
     <Assembly>C:\Program Files\SCaddins\SCaddins\2016\SCaddins.dll</Assembly>
     <AddInId>0B0208EB-8CBA-4C38-91A3-9C88AF4F1740</AddInId>
     <FullClassName>SCaddins.SCoord.Command</FullClassName>
-    <Name>SCoord</Name>
+    <Name>Place Coordinate</Name>
     <VendorId>SCEQ</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
   </AddIn>
@@ -57,6 +57,7 @@
     <Assembly>C:\Program Files\SCaddins\SCaddins\2016\SCaddins.dll</Assembly>
     <AddInId>FFF3F287-A296-4B06-8DF6-970E89554963</AddInId>
     <FullClassName>SCaddins.SCulcase.Command</FullClassName>
+    <Name>Convert to Upper/Lower Case</Name>
     <VendorId>BEER</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
   </AddIn>
@@ -68,6 +69,7 @@
     <Assembly>C:\Program Files\SCaddins\SCaddins\2016\SCaddins.dll</Assembly>
     <AddInId>1CAE2CB8-0B87-4794-A0BF-6B982B4C972C</AddInId>
     <FullClassName>SCaddins.SCopy.Command</FullClassName>
+     <Name>Copy Sheets</Name>
     <VendorId>BEER</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
   </AddIn>
@@ -78,7 +80,7 @@
     <Assembly>C:\Program Files\SCaddins\SCaddins\2016\SCaddins.dll</Assembly>
     <AddInId>389B88A6-6545-4288-92E1-4F4ADAFC9C3B</AddInId>
     <FullClassName>SCaddins.SCightLines.Command</FullClassName>
-    <Name>SCightLines - Line of Sight Utility</Name>
+    <Name>Line of Sight Utility</Name>
     <VendorId>SCEQ</VendorId>
     <VendorDescription>Andrew Nicholas, andrewn@scottcarver.com.au</VendorDescription>
   </AddIn>
@@ -89,7 +91,7 @@
     <Assembly>C:\Program Files\SCaddins\SCaddins\2016\SCaddins.dll</Assembly>
     <AddInId>5F9C93D8-51F0-46DE-84E0-7F3BF5B932ED</AddInId>
     <FullClassName>SCaddins.SCincrement.Command</FullClassName>
-    <Name>SCincrement - Increment Some Stuff</Name>
+    <Name>Increment Some Stuff</Name>
     <VendorId>SCEQ</VendorId>
     <VendorDescription>Andrew Nicholas, andrewn@scottcarver.com.au</VendorDescription>
   </AddIn>
@@ -101,7 +103,7 @@
     <Assembly>C:\Program Files\SCaddins\SCaddins\2016\SCaddins.dll</Assembly>
     <AddInId>6457B009-5CFC-4743-BD9E-58DEE07679A7</AddInId>
     <FullClassName>SCaddins.SCam.Command</FullClassName>
-    <Text>SCam - by AndyMac</Text>
+    <Name>Create Perspective View</Name>
     <VendorId>BEER</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
   </AddIn>
@@ -112,7 +114,7 @@
     <Assembly>C:\Program Files\SCaddins\SCaddins\2016\SCaddins.dll</Assembly>
     <AddInId>2165241D-1B26-458C-A632-A4901646FBF0</AddInId>
     <FullClassName>SCaddins.SCloudSChed.Command</FullClassName>
-    <Name>SCloudSChed - Revision Cloud Scheduler</Name>
+    <Name>Revision Cloud Tools</Name>
     <VendorId>BEER</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
   </AddIn>
@@ -123,7 +125,7 @@
     <Assembly>C:\Program Files\SCaddins\SCaddins\2016\SCaddins.dll</Assembly>
     <AddInId>710593C9-91D0-4BB1-8D22-A21EF499D600</AddInId>
     <FullClassName>SCaddins.SCuv.Command</FullClassName>
-    <Name>SCuv - SCuv creates user views</Name>
+    <Name>Creates a user view[s]</Name>
     <VendorId>BEER</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
   </AddIn>
@@ -134,7 +136,7 @@
     <Assembly>C:\Program Files\SCaddins\SCaddins\2016\SCaddins.dll</Assembly>
     <AddInId>5F498B25-2E27-4191-A4A9-94FA362691EC</AddInId>
     <FullClassName>SCaddins.SCwm.Command</FullClassName>
-    <Name>SCwm - Tile Windows</Name>
+    <Name>Tile Windows</Name>
     <VendorId>BEER</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
   </AddIn>
@@ -143,23 +145,9 @@
     <Assembly>C:\Program Files\SCaddins\SCaddins\2016\SCaddins.dll</Assembly>
     <AddInId>5AFAC4A6-61E4-4772-B290-DFF0F6898472</AddInId>
     <FullClassName>SCaddins.SCwm.MaximizeUI</FullClassName>
-    <Name>SCuv - Maximize Revit Over Multiple Screens</Name>
+    <Name>Maximize Revit Over Multiple Screens</Name>
     <VendorId>BEER</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
 </AddIn>
-
- <!-- About -->
-
-
- <!-- About -->
-
-<AddIn Type="Command">
-    <Assembly>C:\Program Files\SCaddins\SCaddins\2016\SCaddins.dll</Assembly>
-    <AddInId>63EEC004-ACE1-4259-BBBA-B2BF6F2FDE5B</AddInId>
-    <FullClassName>SCaddins.About.Command</FullClassName>
-    <Name>About SCaddins</Name>
-    <VendorId>BEER</VendorId>
-    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
-  </AddIn>
 
 </RevitAddIns>

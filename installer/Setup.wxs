@@ -24,7 +24,6 @@
                 <Feature Id="Revit2014" Level="1" Title="SCaddins for Revit 2014">
                     <ComponentRef Id="SCaddins2014" />
                     <ComponentRef Id="SCaddinsAddin2014" />
-                    <ComponentRef Id="SCaddinsIcons" />
                     <ComponentRef Id="SCaddinsEtc" />
                     <ComponentRef Id="SCexportConfigProto" />
                     <ComponentRef Id="SCaddinsRFA2014" />
@@ -35,7 +34,6 @@
                 <Feature Id="Revit2015" Level="1" Title="SCaddins for Revit 2015">
                     <ComponentRef Id="SCaddins2015" />
                     <ComponentRef Id="SCaddinsAddin2015" />
-                    <ComponentRef Id="SCaddinsIcons" />
                     <ComponentRef Id="SCaddinsEtc" />
                     <ComponentRef Id="SCexportConfigProto" />
                     <ComponentRef Id="SCaddinsRFA2015" />
@@ -46,7 +44,6 @@
                 <Feature Id="Revit2016" Level="1" Title="SCaddins for Revit 2016">
                     <ComponentRef Id="SCaddins2016" />
                     <ComponentRef Id="SCaddinsAddin2016" />
-                    <ComponentRef Id="SCaddinsIcons" />
                     <ComponentRef Id="SCaddinsEtc" />
                     <ComponentRef Id="SCexportConfigProto" />
                     <ComponentRef Id="SCaddinsRFA2016" />

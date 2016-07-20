@@ -446,6 +446,19 @@
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
     <None Include="etc\SCexport.xsd" />
     <None Include="share\SCexport-example-conf.xml" />
+    <EmbeddedResource Include="src\Assets\scopy-rvt-16.png" />
+    <EmbeddedResource Include="src\Assets\scam-rvt-16.png" />
+    <EmbeddedResource Include="src\Assets\scaos-rvt-16.png" />
+    <EmbeddedResource Include="src\Assets\scexport-rvt.png" />
+    <EmbeddedResource Include="src\Assets\scightlines-rvt-16.png" />
+    <EmbeddedResource Include="src\Assets\scincrement-rvt-16.png" />
+    <EmbeddedResource Include="src\Assets\scloudsched-rvt-16.png" />
+    <EmbeddedResource Include="src\Assets\scoord-rvt-16.png" />
+    <EmbeddedResource Include="src\Assets\sculcase-rvt-16.png" />
+    <EmbeddedResource Include="src\Assets\scwash-rvt-16.png" />
+    <EmbeddedResource Include="src\Assets\gear.png" />
+    <EmbeddedResource Include="src\Assets\help.png" />
+    <EmbeddedResource Include="src\Assets\user.png" />
     <None Include="src\Manifest\2014\SCaddins.addin" />
     <None Include="src\Manifest\2015\SCaddins.addin" />
     <None Include="src\Manifest\2016\SCaddins.addin" />
@@ -467,6 +480,7 @@
     <Folder Include="etc" />
     <Folder Include="share" />
     <Folder Include="src\Manifest\2016" />
+    <Folder Include="src\Assets" />
     <Folder Include="src\SCasfar" />
     <Folder Include="src\SCwm" />
   </ItemGroup>

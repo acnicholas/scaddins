@@ -20,13 +20,12 @@ namespace SCaddins
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.Specialized;
-    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Net;
     using System.Reflection;
     using System.Text.RegularExpressions;
+    using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.UI;
@@ -103,52 +102,40 @@ namespace SCaddins
         
         public Autodesk.Revit.UI.Result OnStartup(
             UIControlledApplication application)
-        {
-            var collection = Scaddins.Default.DisplayOrder;
-            
-            if (collection.Count < 1) {
-                collection = SCaddinsOptionsForm.DefaultCollection;
-            }
-                                   
-            var numberOfAddins = collection.Count;
-            
+        {            
             var ribbonPanel = TryGetPanel(application, "Scott Carver");
+                               
             
-            if (numberOfAddins > 0) {
-                ribbonPanel.AddItem(GetButtonByIndex(collection, 0));
-            }
-            
-            if (numberOfAddins > 3) {
-            ribbonPanel.AddStackedItems(
-                    GetButtonByIndex(collection, 1),
-                    GetButtonByIndex(collection, 2),
-                    GetButtonByIndex(collection, 3));
-            }
-            
-            if (numberOfAddins > 6) {
-            ribbonPanel.AddStackedItems(
-                    GetButtonByIndex(collection, 4),
-                    GetButtonByIndex(collection, 5),
-                    GetButtonByIndex(collection, 6));
-            }
-            
-            if (numberOfAddins > 9) {
-            ribbonPanel.AddStackedItems(
-                    GetButtonByIndex(collection, 7),
-                    GetButtonByIndex(collection, 8),
-                    GetButtonByIndex(collection, 9));
-            }
-                        
-            ribbonPanel.AddSlideOut();
 
-            // FIXME - dont do this again.
             string scdll =
                 new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
+            
+            ribbonPanel.AddItem(LoadScexport(scdll));
+            ribbonPanel.AddStackedItems(
+                LoadSCoord(scdll),
+                LoadSCulcase(scdll),
+                LoadSCwash(scdll)
+            );
+            ribbonPanel.AddStackedItems(
+                LoadSCaos(scdll),
+                LoadSCopy(scdll),
+                LoadSCloudShed(scdll)
+            );
+            ribbonPanel.AddStackedItems(
+                LoadSCightlines(scdll),
+                LoadSCincrement(scdll),
+                LoadSCuv(scdll)
+            );
+            //ribbonPanel.AddItem(LoadSCasfar(scdll));
+            //ribbonPanel.AddItem(LoadSCam(scdll));
+            
+            ribbonPanel.AddSlideOut();
 
-             ribbonPanel.AddStackedItems(
-                    LoadAbout(scdll),
-                    LoadSCincrementSettings(scdll),
-                    LoadSCaddinSettings(scdll));
+            ribbonPanel.AddStackedItems(
+                LoadAbout(scdll),
+                LoadSCincrementSettings(scdll),
+                LoadSCaddinSettings(scdll)
+            );
                         
             if (SCaddins.Scaddins.Default.UpgradeCheckOnStartUp) {    
                 CheckForUpdates(true);
@@ -161,46 +148,14 @@ namespace SCaddins
         {
             return Result.Succeeded;
         }
-              
-        private static PushButtonData GetButtonByName(string name)
-        {
-            string scdll =
-                new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
-
-            switch (name.ToLower(CultureInfo.CurrentCulture)) {
-                case "scexport":
-                    return LoadScexport(scdll);
-                case "scoord":
-                    return LoadSCoord(scdll);
-                case "sculcase":
-                    return LoadSCulcase(scdll);
-                case "scwash":
-                    return LoadSCwash(scdll);
-                case "scaos":
-                    return LoadSCaos(scdll);
-                case "scopy":
-                    return LoadSCopy(scdll);
-                case "scloudsched":
-                    return LoadSCloudShed(scdll);
-                case "scightlines":
-                    return LoadSCightlines(scdll);
-                case "scincrement":
-                    return LoadSCincrement(scdll);
-                case "scuv":
-                    return LoadSCuv(scdll);
-                default:
-                    return null;
-            }
-        }
-        
+                   
         private static PushButtonData LoadScexport(string dll)
         {
             var pbd = new PushButtonData(
                           "SCexport", "SCexport", dll, "SCaddins.SCexport.Command");
-            AssignPushButtonImage(pbd, @"scexport-rvt.png", 32);
+            AssignPushButtonImage(pbd, @"SCaddins.src.Assets.scexport-rvt.png", 32, dll);
             pbd.SetContextualHelp(
-                new ContextualHelp(
-                    ContextualHelpType.Url, Constants.HelpLink));
+                new ContextualHelp(ContextualHelpType.Url, Constants.HelpLink));
             pbd.ToolTip =
                 "Export PDF/DWG file[s] with pre defined naming standards";
             pbd.LongDescription =
@@ -213,7 +168,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                            "Scoord", "Place Coordinate", dll, "SCaddins.SCoord.Command");
-            AssignPushButtonImage(pbd, @"scoord-rvt-16.png", 16);
+            AssignPushButtonImage(pbd, @"SCaddins.src.Assets.scoord-rvt-16.png", 16, dll);
             pbd.ToolTip =
                 "Place a family at a specified shared coordinate.";
             return pbd;
@@ -223,7 +178,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                            "SCulcase", "Change Case", dll, "SCaddins.SCulcase.Command");
-            AssignPushButtonImage(pbd, @"sculcase-rvt-16.png", 16);
+            AssignPushButtonImage(pbd, @"SCaddins.src.Assets.sculcase-rvt-16.png", 16, dll);
             pbd.ToolTip =
                 "Convert text from upper to lower case, or vise-versa";
             pbd.LongDescription =
@@ -236,7 +191,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCwash", "Destructive Purge", dll, "SCaddins.SCwash.Command");
-            AssignPushButtonImage(pbd, "scwash-rvt-16.png", 16);
+            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scwash-rvt-16.png", 16, dll);
             pbd.ToolTip =
                 "Clean up your model, in a more destructive way than a purge.";
             return pbd;
@@ -249,7 +204,7 @@ namespace SCaddins
             pbd.SetContextualHelp(
                 new ContextualHelp(
                     ContextualHelpType.Url, Constants.HelpLink));
-            AssignPushButtonImage(pbd, "scaos-rvt-16.png", 16);
+            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scaos-rvt-16.png", 16, dll);
             pbd.ToolTip =
                 "Rotate a 3d view to the location of the sun.";
             pbd.LongDescription =
@@ -261,7 +216,7 @@ namespace SCaddins
         { 
             var pbd = new PushButtonData(
                               "SCightLines", "Line of Sight", dll, "SCaddins.SCightLines.Command");
-            AssignPushButtonImage(pbd, "scightlines-rvt-16.png", 16);
+            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scightlines-rvt-16.png", 16, dll);
             pbd.ToolTip =
                 "Create line of sight details for stadium seating.";
             return pbd;
@@ -271,7 +226,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCloudSChed", "Schedule Clouds", dll, "SCaddins.SCloudSChed.Command");
-            AssignPushButtonImage(pbd, "scloudsched-rvt-16.png", 16);
+            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scloudsched-rvt-16.png", 16, dll);
             pbd.ToolTip = "Schedule all revision clouds (in Excel).";
             return pbd;
         }
@@ -280,7 +235,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCincrement", "Increment Tool", dll, "SCaddins.SCincrement.Command");
-            AssignPushButtonImage(pbd, "scincrement-rvt-16.png", 16);
+            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scincrement-rvt-16.png", 16, dll);
             pbd.ToolTip = "Increment room numbers and family marks.";
             return pbd;
         }
@@ -289,7 +244,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCincrementSettings", "Increment Tool Settings", dll, "SCaddins.SCincrement.SCincrementSettingsCommand");
-            AssignPushButtonImage(pbd, "scincrement-rvt-16.png", 16);
+            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scincrement-rvt-16.png", 16, dll);
             pbd.ToolTip = "Increment settings.";
             return pbd;
         }
@@ -298,7 +253,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCaddinsOptions", "Options", dll, "SCaddins.SCaddinsOptions");
-            AssignPushButtonImage(pbd, "gear.png", 16);
+            AssignPushButtonImage(pbd, "SCaddins.src.Assets.gear.png", 16, dll);
             pbd.ToolTip = "SCaddins settings.";
             return pbd;
         }
@@ -307,7 +262,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCuv", "User View", dll, "SCaddins.SCuv.Command");
-            AssignPushButtonImage(pbd, "user.png", 16);
+            AssignPushButtonImage(pbd, "SCaddins.src.Assets.user.png", 16, dll);
             pbd.ToolTip = "Create a user view.";
             return pbd;
         }
@@ -316,7 +271,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCaddinsAbout", "About", dll, "SCaddins.Common.About");
-            AssignPushButtonImage(pbd, "help.png", 16);
+            AssignPushButtonImage(pbd, "SCaddins.src.Assets.help.png", 16, dll);
             pbd.ToolTip = "About SCaddins.";
             return pbd;
         }
@@ -325,7 +280,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCopy", "Copy Sheets", dll, "SCaddins.SCopy.Command");
-            AssignPushButtonImage(pbd, "scopy-rvt-16.png", 16);
+            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scopy-rvt-16.png", 16, dll);
             pbd.SetContextualHelp(
                 new ContextualHelp(
                     ContextualHelpType.Url,
@@ -339,12 +294,12 @@ namespace SCaddins
             return pbd;
         }
               
-        private static void AssignPushButtonImage(PushButtonData pb, string iconName, int size)
+        private static void AssignPushButtonImage(PushButtonData pb, string iconName, int size, string dll)
         {
             if (size == -1) {
                 size = 32;
             }
-            BitmapSource image = LoadBitmapImage(SCaddins.Constants.IconDir + iconName, size);
+            ImageSource image = LoadPngImgSource(iconName, dll);
             if (image != null && pb != null) {
                 if (size == 32) {
                     pb.LargeImage = image;
@@ -354,23 +309,22 @@ namespace SCaddins
             }
         }
 
-        private static BitmapSource LoadBitmapImage(string imagePath, int size)
+        //from https://github.com/WeConnect/issue-tracker/blob/master/Case.IssueTracker.Revit/Entry/AppMain.cs
+        private static ImageSource LoadPngImgSource(string sourceName, string path)
         {
-            if (File.Exists(imagePath)) {
-                var uriImage = new Uri(imagePath);
-                return new BitmapImage(uriImage);   
-            } else {
-                List<System.Windows.Media.Color> colors = new List<System.Windows.Media.Color>();
-                var c = System.Windows.Media.Color.FromRgb(128, 128, 128);
-                colors.Add(c);
-                BitmapPalette colourPalette = new BitmapPalette(colors);
-                var pixArray = System.Array.CreateInstance(typeof(byte), size * size);
-                return BitmapImage.Create(size, size, 95, 96, System.Windows.Media.PixelFormats.Indexed8, colourPalette, pixArray, 1); 
+            try {
+                Assembly m_assembly = Assembly.LoadFrom(Path.Combine(path));
+                Stream m_icon = m_assembly.GetManifestResourceStream(sourceName);
+                PngBitmapDecoder m_decoder = new PngBitmapDecoder(m_icon, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+                ImageSource m_source = m_decoder.Frames[0];
+                return (m_source);
+            } catch {
             }
-        }
+            return null;
 
-        private static RibbonPanel TryGetPanel(
-            UIControlledApplication application, string name)
+        }
+        
+        private static RibbonPanel TryGetPanel(UIControlledApplication application, string name)
         {
             List<RibbonPanel> loadedPanels = application.GetRibbonPanels();
             foreach (RibbonPanel p in loadedPanels) {
@@ -378,13 +332,7 @@ namespace SCaddins
                     return p;
                 }
             }
-
             return application.CreateRibbonPanel(name);
-        }
-        
-        private static PushButtonData GetButtonByIndex(StringCollection collection, int index)
-        {
-            return GetButtonByName(collection[index]);
         }
     }
 }

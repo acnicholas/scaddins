@@ -4,9 +4,6 @@
     <Profile Name="(Default)" />
   </Profiles>
   <Settings>
-    <Setting Name="DisplayOrder" Type="System.Collections.Specialized.StringCollection" Scope="User" Description="test" Roaming="false">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="UpgradeCheckOnStartUp" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>

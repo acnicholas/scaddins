@@ -2,6 +2,10 @@
 
 #16.3 PRE_RELEASE#
 
+####NEW####
+
+- [SCloudSched] Assign revisions to clouds.
+
 ####FIXES#####
 
 - **[SCopy] Do not copy revisions.**
