@@ -37,13 +37,16 @@ namespace SCaddins.SCam
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
             View currentView = doc.ActiveView;
-            
+
             switch (currentView.ViewType) {
                 case ViewType.ThreeD:
                     CreatePerspectiveFrom3D(commandData.Application.ActiveUIDocument, currentView as View3D);
                     break;
                case ViewType.FloorPlan:
                     CreatePerspectiveFromPlan(commandData.Application.ActiveUIDocument, currentView);
+                    break;
+                case ViewType.Section:
+                    CreatePerspectiveFromSection(commandData.Application.ActiveUIDocument, currentView);
                     break;
                 default:
                     TaskDialog td = new TaskDialog("SCam - SC Camera Tool");
@@ -96,12 +99,25 @@ namespace SCaddins.SCam
             result.set_Bounds(1, max);
             return result;
         }
+        
+        public static BoundingBoxXYZ SectionViewExtentsBoundingBox(UIView view)
+        {
+            if (view == null) {
+                return new BoundingBoxXYZ();
+            }
+            BoundingBoxXYZ result = new BoundingBoxXYZ();
+            XYZ min = new XYZ(view.GetZoomCorners()[0].X, view.GetZoomCorners()[0].Y, view.GetZoomCorners()[0].Z - 4);
+            XYZ max = new XYZ(view.GetZoomCorners()[1].X, view.GetZoomCorners()[1].Y, view.GetZoomCorners()[1].Z + 4);
+            result.set_Bounds(0, min);
+            result.set_Bounds(1, max);
+            return result;
+        }
 
         public static void ApplySectionBoxToView(BoundingBoxXYZ bounds, View3D view)
         {
             view.SetSectionBox(bounds);
         }
-                
+
         private static void CreatePerspectiveFromPlan(UIDocument udoc, View planView)
         {
             UIView view = ActiveUIView(udoc, planView);
@@ -114,6 +130,21 @@ namespace SCaddins.SCam
             View3D np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
             np.SetOrientation(new ViewOrientation3D(v.EyePosition, v.UpDirection, v.ForwardDirection));
             ApplySectionBoxToView(ViewExtentsBoundingBox(view), np);
+            t.Commit();
+        }
+        
+        private static void CreatePerspectiveFromSection(UIDocument udoc, View sectionView)
+        {
+            UIView view = ActiveUIView(udoc, sectionView);
+            XYZ eye = GetMiddleOfActiveViewWindow(view);            
+            XYZ up = new XYZ(0, 0, 1);
+            XYZ forward = new XYZ(0, 0, -1);
+            ViewOrientation3D v = new ViewOrientation3D(eye, up, forward);
+            var t = new Transaction(udoc.Document);
+            t.Start("Create perspective view");
+            View3D np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
+            np.SetOrientation(new ViewOrientation3D(v.EyePosition, v.UpDirection, v.ForwardDirection));
+            ApplySectionBoxToView(SectionViewExtentsBoundingBox(view), np);
             t.Commit();
         }
         
@@ -137,7 +168,7 @@ namespace SCaddins.SCam
             View3D np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
             np.SetOrientation(new ViewOrientation3D(new XYZ(centreOfScreen.X, centreOfScreen.Y, v.EyePosition.Z), v.UpDirection, v.ForwardDirection));
             t.Commit();
-        }   
+        }
     }
 }
 

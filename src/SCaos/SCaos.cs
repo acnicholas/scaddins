@@ -114,7 +114,7 @@ namespace SCaddins.SCaos
                 return info;
             }
         }
-        
+
         private static ElementId GetViewFamilyId(Document doc, ViewFamily viewFamilyType)
         {
             var collector = new FilteredElementCollector(doc);
@@ -127,7 +127,7 @@ namespace SCaddins.SCaos
             }  
             return null;
         }
-        
+
         private static ElementId GetHighestLevel(Document doc)
         {
             var collector = new FilteredElementCollector(doc);
@@ -140,10 +140,10 @@ namespace SCaddins.SCaos
                     highestLevel = level.Elevation;
                     highestId = level.Id;
                 }
-            }  
-            return highestId;    
+            }
+            return highestId;
         }
-        
+
         public static string GetNiceViewName(Document doc, string request)
         {
             if (ViewNameIsAvailable(doc, request)) {
@@ -152,7 +152,7 @@ namespace SCaddins.SCaos
                return request + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";
             }
         }
-               
+
         private void CreateShadowPlanViews(
             Document doc,
             UIDocument udoc,
@@ -167,7 +167,7 @@ namespace SCaddins.SCaos
              if (id == null || levelId == null) {
                  return;
              }
-            
+
               while (startTime <= endTime) {
                 var t = new Transaction(doc);
                 t.Start("Create Shadow Plans");

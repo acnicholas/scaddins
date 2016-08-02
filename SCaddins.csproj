@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ProjectGuid>{AD62F888-78A1-4E0B-9820-5989630FC8C6}</ProjectGuid>
     <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release2016</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <OutputType>Library</OutputType>
     <RootNamespace>SCaddins</RootNamespace>
@@ -37,7 +37,7 @@
     <DefineConstants>DEBUG;TRACE;REVIT2015</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <AssemblyName>SCaddinsDebug</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2015\</ReferencePath>
+    <ReferencePath>lib\Autodesk\Revit 2016</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
@@ -55,7 +55,7 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins15</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2015\</ReferencePath>
+    <ReferencePath>lib\Autodesk\Revit 2015\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
@@ -71,7 +71,7 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins14</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2014\</ReferencePath>
+    <ReferencePath>lib\Autodesk\Revit 2014\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
@@ -98,7 +98,7 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins16</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2016\</ReferencePath>
+    <ReferencePath>lib\Autodesk\Revit 2016\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>

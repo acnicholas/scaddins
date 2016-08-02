@@ -24,7 +24,7 @@ namespace SCaddins.SCasfar
 {
 
     public partial class RoomInfoDilaog : System.Windows.Forms.Form
-    {     
+    {
         public RoomInfoDilaog()
         {
             InitializeComponent();
@@ -36,7 +36,7 @@ namespace SCaddins.SCasfar
             listView1.Columns[1].Width = 200;
             listView1.Columns[2].Width = 100;
         }
-        
+
         public void UpdateRoomInfo(Room room)
         {
             this.Text = room.Name;
@@ -47,7 +47,7 @@ namespace SCaddins.SCasfar
                 }
             }
         }
-        
+
         private string GetParamValueAsString(Parameter param)
         {
             switch (param.StorageType){
@@ -61,12 +61,7 @@ namespace SCaddins.SCasfar
                     return string.Empty;
                 default:
                     return string.Empty;
-            }   
+            }
         }
-        void RoomInfoDilaogFormClosing(object sender, FormClosingEventArgs e)
-        {
-          
-        }
-        
     }
 }

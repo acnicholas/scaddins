@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2014-2015 by Andrew Nicholas (andrewnicholas@iinet.net.au)
+﻿// (C) Copyright 2014-2016 by Andrew Nicholas (andrewnicholas@iinet.net.au)
 //
 // This file is part of SCaddins.
 //
@@ -29,7 +29,7 @@ namespace SCaddins
     using System.Windows.Media.Imaging;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.UI;
-        
+
     [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
@@ -39,7 +39,7 @@ namespace SCaddins
         {
             get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
         }
-                
+
         public static void CheckForUpdates(bool newOnly)
         {
             const string DownloadURL = SCaddins.Constants.DownloadLink;
@@ -57,12 +57,12 @@ namespace SCaddins
                 System.Diagnostics.Debug.WriteLine("Error: Check For Updates NotSupportedException: " + e.Message);
                 return;                
             }
-            
+
             if (response.StatusCode == HttpStatusCode.NotFound) {
                 System.Diagnostics.Debug.WriteLine("Error: Check For Updates" + DownloadURL + " not found");
                 return;
             }
-            
+
             string html = string.Empty;
             using (var reader = new StreamReader(response.GetResponseStream()))
             {
@@ -86,7 +86,7 @@ namespace SCaddins
                 }
                 m = m.NextMatch();
             }
-            
+
             var installedVersion = SCaddinsApp.Version;
 
             if (latestVersion > installedVersion) {
@@ -99,17 +99,15 @@ namespace SCaddins
                 }
             }
         }
-        
+
         public Autodesk.Revit.UI.Result OnStartup(
             UIControlledApplication application)
-        {            
+        {
             var ribbonPanel = TryGetPanel(application, "Scott Carver");
-                               
-            
 
             string scdll =
                 new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
-            
+
             ribbonPanel.AddItem(LoadScexport(scdll));
             ribbonPanel.AddStackedItems(
                 LoadSCoord(scdll),
@@ -128,7 +126,7 @@ namespace SCaddins
             );
             //ribbonPanel.AddItem(LoadSCasfar(scdll));
             //ribbonPanel.AddItem(LoadSCam(scdll));
-            
+
             ribbonPanel.AddSlideOut();
 
             ribbonPanel.AddStackedItems(
@@ -136,11 +134,11 @@ namespace SCaddins
                 LoadSCincrementSettings(scdll),
                 LoadSCaddinSettings(scdll)
             );
-                        
+
             if (SCaddins.Scaddins.Default.UpgradeCheckOnStartUp) {    
                 CheckForUpdates(true);
             }
-            
+
             return Result.Succeeded;
         }
 
@@ -148,7 +146,7 @@ namespace SCaddins
         {
             return Result.Succeeded;
         }
-                   
+
         private static PushButtonData LoadScexport(string dll)
         {
             var pbd = new PushButtonData(
@@ -230,7 +228,7 @@ namespace SCaddins
             pbd.ToolTip = "Schedule all revision clouds (in Excel).";
             return pbd;
         }
-        
+
         private static PushButtonData LoadSCincrement(string dll)
         {
             var pbd = new PushButtonData(
@@ -239,7 +237,7 @@ namespace SCaddins
             pbd.ToolTip = "Increment room numbers and family marks.";
             return pbd;
         }
-        
+
         private static PushButtonData LoadSCincrementSettings(string dll)
         {
             var pbd = new PushButtonData(
@@ -248,7 +246,7 @@ namespace SCaddins
             pbd.ToolTip = "Increment settings.";
             return pbd;
         }
-        
+
         private static PushButtonData LoadSCaddinSettings(string dll)
         {
             var pbd = new PushButtonData(
@@ -257,7 +255,7 @@ namespace SCaddins
             pbd.ToolTip = "SCaddins settings.";
             return pbd;
         }
-        
+
         private static PushButtonData LoadSCuv(string dll)
         {
             var pbd = new PushButtonData(
@@ -266,7 +264,7 @@ namespace SCaddins
             pbd.ToolTip = "Create a user view.";
             return pbd;
         }
-        
+
         private static PushButtonData LoadAbout(string dll)
         {
             var pbd = new PushButtonData(
@@ -293,7 +291,7 @@ namespace SCaddins
             "NOTE: After the new sheet is created, view names may need to be munaually edit.";
             return pbd;
         }
-              
+
         private static void AssignPushButtonImage(PushButtonData pb, string iconName, int size, string dll)
         {
             if (size == -1) {
@@ -323,7 +321,7 @@ namespace SCaddins
             return null;
 
         }
-        
+
         private static RibbonPanel TryGetPanel(UIControlledApplication application, string name)
         {
             List<RibbonPanel> loadedPanels = application.GetRibbonPanels();
