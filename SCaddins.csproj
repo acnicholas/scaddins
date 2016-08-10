@@ -341,7 +341,12 @@
     </Compile>
     <Compile Include="src\SCunderlay\SCunderlay.cs" />
     <Compile Include="src\SCunderlay\SCunderlayCommand.cs" />
+    <Compile Include="src\SCunjoin\SCunjoin.cs" />
     <Compile Include="src\SCunjoin\SCunjoinCommand.cs" />
+    <Compile Include="src\SCunjoin\SCunjoinForm.cs" />
+    <Compile Include="src\SCunjoin\SCunjoinForm.Designer.cs">
+      <DependentUpon>SCunjoinForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\SCuv\SCuv.cs" />
     <Compile Include="src\SCuv\SCuvCommand.cs" />
     <Compile Include="src\SCwash\SCwash.cs" />
@@ -438,6 +443,9 @@
     <EmbeddedResource Include="src\SCulcase\SCulcaseMainForm2.resx">
       <DependentUpon>SCulcaseMainForm2.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="src\SCunjoin\SCunjoinForm.resx">
+      <DependentUpon>SCunjoinForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\SCwash\SCwashForm.resx">
       <DependentUpon>SCwashForm.cs</DependentUpon>
       <CustomToolNamespace>SCaddins.SCwash</CustomToolNamespace>
@@ -461,7 +469,8 @@
     <EmbeddedResource Include="src\Assets\gear.png" />
     <EmbeddedResource Include="src\Assets\help.png" />
     <EmbeddedResource Include="src\Assets\user.png" />
-    <None Include="src\Assets\scasfar-rvt-16.png" />
+    <EmbeddedResource Include="src\Assets\scasfar-rvt-16.png" />
+    <None Include="src\Assets\scunjoin-rvt-16.png" />
     <None Include="src\Manifest\2014\SCaddins.addin" />
     <None Include="src\Manifest\2015\SCaddins.addin" />
     <None Include="src\Manifest\2016\SCaddins.addin" />

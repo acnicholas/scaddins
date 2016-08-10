@@ -15,58 +15,31 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCunjion
+namespace SCaddins.SCunjoin
 {
-    using System;
     using Autodesk.Revit.DB;
-    
-    
-    public class WallUnjoiner : IUpdater
+    using Autodesk.Revit.UI;
+
+    [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
+    [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
+    [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
+    public class Command : IExternalCommand
     {
-        static AddInId appId;
-        static UpdaterId updaterId;
-
-        public WallUnjoiner(AddInId id) 
+        public Result Execute(
+            ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            appId = id;
-            updaterId = new UpdaterId(appId, new Guid("04D4BBFC-D7C2-4327-99B6-02C6B41B163C"));
-        }
+            Document doc = commandData.Application.ActiveUIDocument.Document;
+            View view = doc.ActiveView;
 
-        public void Execute(UpdaterData data)
-        {
-            if (!SCaddins.Scaddins.Default.UnjoinNewWalls) {
-                return;
+            //FIXME opem dialog.
+            var form = new SCunjoinForm();
+            System.Windows.Forms.DialogResult result = form.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK) {
+                SCaddins.Scaddins.Default.UnjoinNewWalls = form.checkBox1.Checked;
+                SCaddins.Scaddins.Default.Save();
             }
 
-            Document doc = data.GetDocument();
-
-            foreach (ElementId id in data.GetAddedElementIds()) {
-                Wall wall = doc.GetElement(id) as Wall;
-                if (wall != null) {
-                    WallUtils.DisallowWallJoinAtEnd(wall, 0);
-                    WallUtils.DisallowWallJoinAtEnd(wall, 1);
-                }
-            }
-        }
-
-        public string GetAdditionalInformation()
-        {
-            return "Wall Unjoiner: Unjoins all newly created walls.";
-        }
-
-        public ChangePriority GetChangePriority()
-        {
-            return ChangePriority.FloorsRoofsStructuralWalls;
-        }
-
-        public UpdaterId GetUpdaterId()
-        {
-            return updaterId;
-        }
-
-        public string GetUpdaterName()
-        {
-            return "Wall Unjoiner";
+            return Result.Succeeded;
         }
     }
 }

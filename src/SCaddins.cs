@@ -143,7 +143,7 @@ namespace SCaddins
             }
             
             // Register wall updater with Revit
-            var updater = new SCaddins.SCunjion.WallUnjoiner(application.ActiveAddInId);
+            var updater = new SCaddins.SCunjoin.WallUnjoiner(application.ActiveAddInId);
             UpdaterRegistry.RegisterUpdater(updater);
 
             // Change Scope = any Wall element
@@ -157,7 +157,7 @@ namespace SCaddins
 
         public Result OnShutdown(UIControlledApplication application)
         {
-            var updater = new SCaddins.SCunjion.WallUnjoiner(application.ActiveAddInId);
+            var updater = new SCaddins.SCunjoin.WallUnjoiner(application.ActiveAddInId);
             UpdaterRegistry.UnregisterUpdater(updater.GetUpdaterId());
             return Result.Succeeded;
         }
