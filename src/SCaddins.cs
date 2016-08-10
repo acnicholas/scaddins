@@ -29,6 +29,7 @@ namespace SCaddins
     using System.Windows.Media.Imaging;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.UI;
+    using Autodesk.Revit.DB;
 
     [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -52,10 +53,10 @@ namespace SCaddins
                 return;
             } catch (InvalidOperationException e) {
                 System.Diagnostics.Debug.WriteLine("Error: Check For Updates InvalidOperationException: " + e.Message);
-                return;                             
+                return;
             } catch (NotSupportedException e) {
                 System.Diagnostics.Debug.WriteLine("Error: Check For Updates NotSupportedException: " + e.Message);
-                return;                
+                return;
             }
 
             if (response.StatusCode == HttpStatusCode.NotFound) {
@@ -69,9 +70,9 @@ namespace SCaddins
                 try {
                     html = reader.ReadToEnd();
                 } catch (IOException e) {
-                    System.Diagnostics.Debug.WriteLine("Error: Check For Updates IOException: " + e.Message);                    
+                    System.Diagnostics.Debug.WriteLine("Error: Check For Updates IOException: " + e.Message);
                 } catch (OutOfMemoryException e) {
-                    System.Diagnostics.Debug.WriteLine("Error: Check For Updates OutOfMemoryException: " + e.Message);                    
+                    System.Diagnostics.Debug.WriteLine("Error: Check For Updates OutOfMemoryException: " + e.Message);
                 }
             }
 
@@ -99,7 +100,7 @@ namespace SCaddins
                 }
             }
         }
-
+            
         public Autodesk.Revit.UI.Result OnStartup(
             UIControlledApplication application)
         {
@@ -124,8 +125,10 @@ namespace SCaddins
                 LoadSCincrement(scdll),
                 LoadSCuv(scdll)
             );
-            //ribbonPanel.AddItem(LoadSCasfar(scdll));
-            //ribbonPanel.AddItem(LoadSCam(scdll));
+            ribbonPanel.AddStackedItems(
+                LoadSCasfar(scdll),
+                LoadSCam(scdll)
+            );
 
             ribbonPanel.AddSlideOut();
 
@@ -138,12 +141,24 @@ namespace SCaddins
             if (SCaddins.Scaddins.Default.UpgradeCheckOnStartUp) {    
                 CheckForUpdates(true);
             }
+            
+            // Register wall updater with Revit
+            var updater = new SCaddins.SCunjion.WallUnjoiner(application.ActiveAddInId);
+            UpdaterRegistry.RegisterUpdater(updater);
 
+            // Change Scope = any Wall element
+            ElementClassFilter wallFilter = new ElementClassFilter(typeof(Wall));
+
+            // Change type = element addition
+            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), wallFilter, Element.GetChangeTypeElementAddition());
+   
             return Result.Succeeded;
         }
 
         public Result OnShutdown(UIControlledApplication application)
         {
+            var updater = new SCaddins.SCunjion.WallUnjoiner(application.ActiveAddInId);
+            UpdaterRegistry.UnregisterUpdater(updater.GetUpdaterId());
             return Result.Succeeded;
         }
 
@@ -262,6 +277,24 @@ namespace SCaddins
                               "SCuv", "User View", dll, "SCaddins.SCuv.Command");
             AssignPushButtonImage(pbd, "SCaddins.src.Assets.user.png", 16, dll);
             pbd.ToolTip = "Create a user view.";
+            return pbd;
+        }
+
+        private static PushButtonData LoadSCam(string dll)
+        {
+            var pbd = new PushButtonData(
+                              "SCam", "Create camera from view", dll, "SCaddins.SCam.Command");
+            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scam-rvt-16.png", 16, dll);
+            pbd.ToolTip = "Create a perspective view from the current view (3d or plan).";
+            return pbd;
+        }
+
+        private static PushButtonData LoadSCasfar(string dll)
+        {
+            var pbd = new PushButtonData(
+                              "SCasfar", "SCasfar creates a sheet from a room", dll, "SCaddins.SCasfar.Command");
+            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scasfar-rvt-16.png", 16, dll);
+            pbd.ToolTip = "SCasfar creates a sheet and/or solid(mass) from a room.";
             return pbd;
         }
 

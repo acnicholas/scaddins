@@ -27,11 +27,13 @@ namespace SCaddins
         {           
             this.InitializeComponent();
             this.checkBox1.Checked = SCaddins.Scaddins.Default.UpgradeCheckOnStartUp;
+            this.checkBox2.Checked = SCaddins.Scaddins.Default.UnjoinNewWalls;
         }
                                   
         private void ButtonOKClick(object sender, EventArgs e)
         {
             SCaddins.Scaddins.Default.UpgradeCheckOnStartUp = checkBox1.Checked;
+            SCaddins.Scaddins.Default.UnjoinNewWalls = checkBox2.Checked;
             SCaddins.Scaddins.Default.Save();
         }
     }

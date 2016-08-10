@@ -141,7 +141,6 @@ namespace SCaddins.SCasfar
             this.buttonRename.TabIndex = 8;
             this.buttonRename.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.buttonRename.UseVisualStyleBackColor = false;
-            this.buttonRename.Click += new System.EventHandler(this.ButtonRenameClick);
             // 
             // button2
             // 

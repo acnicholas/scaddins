@@ -125,18 +125,18 @@ namespace SCaddins.SCasfar
 
         public bool PassesFilter(Room room)
         {
-            Parameter param = ParamFromString(room, this.parameterName);
+            Parameter param = ParamFromString(room, parameterName);
             if (param == null) {
                 return false;
             }
 
-            if (this.co == ComparisonOperators.Contains) {
-                return ParameterValueContainsString(param, this.test);
+            if (co == ComparisonOperators.Contains) {
+                return ParameterValueContainsString(param, test);
             }
 
-            int p = ParameterComparedToString(param, this.test);
+            int p = ParameterComparedToString(param, test);
 
-            switch (this.co) {
+            switch (co) {
                 case ComparisonOperators.Equals:
                     return p == 0;
                 case ComparisonOperators.LessThan:

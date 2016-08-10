@@ -32,12 +32,12 @@ namespace SCaddins.SCasfar
 
         public void AddFilterItem(RoomFilterItem item)
         {
-            this.filters.Add(item);
+            filters.Add(item);
         }
 
         public void Clear()
         {
-            this.filters.Clear();
+            filters.Clear();
         }
 
         public bool PassesFilter(Room room)

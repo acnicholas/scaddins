@@ -37,7 +37,7 @@
     <DefineConstants>DEBUG;TRACE;REVIT2015</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <AssemblyName>SCaddinsDebug</AssemblyName>
-    <ReferencePath>lib\Autodesk\Revit 2016</ReferencePath>
+    <ReferencePath>C:\Program Files\Autodesk\Revit 2016\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
@@ -55,7 +55,7 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins15</AssemblyName>
-    <ReferencePath>lib\Autodesk\Revit 2015\</ReferencePath>
+    <ReferencePath>C:\Program Files\Autodesk\Revit 2015\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
@@ -71,7 +71,7 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins14</AssemblyName>
-    <ReferencePath>lib\Autodesk\Revit 2014\</ReferencePath>
+    <ReferencePath>C:\Program Files\Autodesk\Revit 2014\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
@@ -98,7 +98,7 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins16</AssemblyName>
-    <ReferencePath>lib\Autodesk\Revit 2016\</ReferencePath>
+    <ReferencePath>C:\Program Files\Autodesk\Revit 2016\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
@@ -116,11 +116,11 @@
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="RevitAPI">
-      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2015\RevitAPI.dll</HintPath>
+      <HintPath>lib\Autodesk\Revit 2016\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2015\RevitAPIUI.dll</HintPath>
+      <HintPath>lib\Autodesk\Revit 2016\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -341,6 +341,7 @@
     </Compile>
     <Compile Include="src\SCunderlay\SCunderlay.cs" />
     <Compile Include="src\SCunderlay\SCunderlayCommand.cs" />
+    <Compile Include="src\SCunjoin\SCunjoinCommand.cs" />
     <Compile Include="src\SCuv\SCuv.cs" />
     <Compile Include="src\SCuv\SCuvCommand.cs" />
     <Compile Include="src\SCwash\SCwash.cs" />
@@ -460,6 +461,7 @@
     <EmbeddedResource Include="src\Assets\gear.png" />
     <EmbeddedResource Include="src\Assets\help.png" />
     <EmbeddedResource Include="src\Assets\user.png" />
+    <None Include="src\Assets\scasfar-rvt-16.png" />
     <None Include="src\Manifest\2014\SCaddins.addin" />
     <None Include="src\Manifest\2015\SCaddins.addin" />
     <None Include="src\Manifest\2016\SCaddins.addin" />
@@ -482,6 +484,7 @@
     <Folder Include="share" />
     <Folder Include="src\Manifest\2016" />
     <Folder Include="src\Assets" />
+    <Folder Include="src\SCunjoin" />
     <Folder Include="src\SCasfar" />
     <Folder Include="src\SCwm" />
   </ItemGroup>

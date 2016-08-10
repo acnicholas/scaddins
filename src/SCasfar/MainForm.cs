@@ -18,10 +18,8 @@
 namespace SCaddins.SCasfar
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Windows.Forms;
-    using System.Collections.ObjectModel;
     
     public partial class MainForm : System.Windows.Forms.Form
     {
@@ -29,7 +27,7 @@ namespace SCaddins.SCasfar
         private RoomFilterDialog rfd;
         private RoomFilter rf;
         private RoomConversionManager scasfar;
-        
+
         public MainForm(RoomConversionManager scasfar)
         {
             InitializeComponent();          
@@ -41,24 +39,23 @@ namespace SCaddins.SCasfar
             this.rfd = new RoomFilterDialog(rf, scasfar.Doc);
             this.info = new RoomInfoDilaog();
             info.TopMost = true;
-            
+
             //make not editable columns gray
             this.dataGridView1.Columns[0].DefaultCellStyle.ForeColor = System.Drawing.Color.Gray;
             this.dataGridView1.Columns[1].DefaultCellStyle.ForeColor = System.Drawing.Color.Gray;  
-            
+
             //assign tooltips
-            ToolTip filterTip = new ToolTip();
+            var filterTip = new ToolTip();
             filterTip.SetToolTip(this.buttonFilter,@"Filter the room list(above) by selected parameter values.");
-            ToolTip renameTip = new ToolTip();
+            var renameTip = new ToolTip();
             renameTip.SetToolTip(this.buttonRename,@"Bulk rename selected items in the list above.");
-            
+
             //load list into view
             LoadDataGridSource();
-            
+
             //dataGridView1.Sort(dataGridView1.Columns[1], System.ComponentModel.ListSortDirection.Ascending);
-            
         }
-        
+
         private void PopulateTitleblockCombo()
         {
             foreach (var key in scasfar.TitleBlocks.Keys){
@@ -67,22 +64,22 @@ namespace SCaddins.SCasfar
             comboBoxTitles.SelectedIndex = 0;
             //scasfar.SetTitleBlockId();
         }
-        
+
         private void LoadDataGridSource()
         {
             dataGridView1.DataSource = scasfar.Candidates;     
         }
-              
+
         private void AddDataGridColumns()
         {
             this.dataGridView1.AutoGenerateColumns = false;           
-            SCaddins.SCopy.MainForm.AddColumn("Number", "Room Number", this.dataGridView1);
-            SCaddins.SCopy.MainForm.AddColumn("Name", "Room Name", this.dataGridView1);            
-            SCaddins.SCopy.MainForm.AddColumn("DestinationViewName", "New Plan Name", this.dataGridView1);
-            SCaddins.SCopy.MainForm.AddColumn("DestinationSheetNumber", "New Sheet Number", this.dataGridView1);
-            SCaddins.SCopy.MainForm.AddColumn("DestinationSheetName", "New Sheet Name", this.dataGridView1);
+            SCaddins.SCopy.MainForm.AddColumn("Number", "Room Number", dataGridView1);
+            SCaddins.SCopy.MainForm.AddColumn("Name", "Room Name", dataGridView1);            
+            SCaddins.SCopy.MainForm.AddColumn("DestinationViewName", "New Plan Name", dataGridView1);
+            SCaddins.SCopy.MainForm.AddColumn("DestinationSheetNumber", "New Sheet Number", dataGridView1);
+            SCaddins.SCopy.MainForm.AddColumn("DestinationSheetName", "New Sheet Name", dataGridView1);
         }
-               
+
         private void ButtonFilterClick(object sender, EventArgs e)
         {
             DialogResult dr = rfd.ShowDialog();
@@ -99,7 +96,7 @@ namespace SCaddins.SCasfar
             }
             dataGridView1.Refresh();
         }
-        
+
         private void ButtonResetClick(object sender, EventArgs e)
         {
             dataGridView1.DataSource = null;
@@ -108,7 +105,7 @@ namespace SCaddins.SCasfar
             LoadDataGridSource();
             dataGridView1.Refresh();
         }
-        
+
         private System.ComponentModel.BindingList<RoomConversionCandidate> GetSelectedCandidates()
         {
             var c = new System.ComponentModel.BindingList<RoomConversionCandidate>(); 
@@ -117,21 +114,21 @@ namespace SCaddins.SCasfar
             }
             return c;
         }
-        
+
         private void ButtonGoClick(object sender, EventArgs e)
         {
             scasfar.CreateViewsAndSheets(GetSelectedCandidates());
         }
-        
+
         void DataGridView1SelectionChanged(object sender, EventArgs e)
         {
-            if (this.dataGridView1.CurrentCell != null && this.dataGridView1.CurrentCell.RowIndex != -1) {
-                RoomConversionCandidate c = (RoomConversionCandidate)dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].DataBoundItem;
+            if (dataGridView1.CurrentCell != null && dataGridView1.CurrentCell.RowIndex != -1) {
+                var c = (RoomConversionCandidate)dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].DataBoundItem;
                 info.UpdateRoomInfo(c.Room);
                 info.Refresh();
             }
         }
-        
+
         void ButtonInfoClick(object sender, EventArgs e)
         {
             if (info.Visible ) {
@@ -145,19 +142,14 @@ namespace SCaddins.SCasfar
         {
             scasfar.CreateRoomMasses(GetSelectedCandidates());  
         }
-        
+
         void MainFormFormClosing(object sender, FormClosingEventArgs e)
         {
-            this.info.Dispose();
-            this.rfd.Dispose();
-            this.Dispose();
+            info.Dispose();
+            rfd.Dispose();
+            Dispose();
         }
-        
-        void ButtonRenameClick(object sender, EventArgs e)
-        {
-          
-        }
-        
+
         void RadioButton1CheckedChanged(object sender, EventArgs e)
         {
             buttonGo.Enabled = radioButton1.Checked;

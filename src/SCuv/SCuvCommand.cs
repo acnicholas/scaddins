@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2014 by Andrew Nicholas
+﻿// (C) Copyright 2014-2016 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -17,8 +17,6 @@
 
 namespace SCaddins.SCuv
 {
-    using System;
-    using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
@@ -27,14 +25,12 @@ namespace SCaddins.SCuv
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
     {
-        public Autodesk.Revit.UI.Result Execute(
-            ExternalCommandData commandData,
-            ref string message,
-            Autodesk.Revit.DB.ElementSet elements)
+        public Result Execute(
+            ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
             View view = doc.ActiveView;
-            
+
             var t = new Transaction(doc, "SCuv Copies User Views");
             t.Start();
             if (SCUserView.CreateUserView(view, doc)) {
@@ -43,8 +39,8 @@ namespace SCaddins.SCuv
                 SCUserView.ShowErrorDialog(view);    
             }
             t.Commit();
-            
-            return Autodesk.Revit.UI.Result.Succeeded;
+
+            return Result.Succeeded;
         }
     }
 }
