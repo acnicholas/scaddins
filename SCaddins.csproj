@@ -470,7 +470,7 @@
     <EmbeddedResource Include="src\Assets\help.png" />
     <EmbeddedResource Include="src\Assets\user.png" />
     <EmbeddedResource Include="src\Assets\scasfar-rvt-16.png" />
-    <None Include="src\Assets\scunjoin-rvt-16.png" />
+    <EmbeddedResource Include="src\Assets\scunjoin-rvt-16.png" />
     <None Include="src\Manifest\2014\SCaddins.addin" />
     <None Include="src\Manifest\2015\SCaddins.addin" />
     <None Include="src\Manifest\2016\SCaddins.addin" />

@@ -127,7 +127,8 @@ namespace SCaddins
             );
             ribbonPanel.AddStackedItems(
                 LoadSCasfar(scdll),
-                LoadSCam(scdll)
+                LoadSCam(scdll),
+                LoadSCunjoin(scdll)
             );
 
             ribbonPanel.AddSlideOut();
@@ -240,7 +241,7 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "SCloudSChed", "Schedule Clouds", dll, "SCaddins.SCloudSChed.Command");
             AssignPushButtonImage(pbd, "SCaddins.src.Assets.scloudsched-rvt-16.png", 16, dll);
-            pbd.ToolTip = "Schedule all revision clouds (in Excel).";
+            pbd.ToolTip = "Unjoin both wall end after theya wall is created.";
             return pbd;
         }
 
@@ -279,11 +280,20 @@ namespace SCaddins
             pbd.ToolTip = "Create a user view.";
             return pbd;
         }
+        
+        private static PushButtonData LoadSCunjoin(string dll)
+        {
+            var pbd = new PushButtonData(
+                              "SCunjoin", "Unjoin Walls", dll, "SCaddins.SCunjoin.Command");
+            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scunjoin-rvt-16.png", 16, dll);
+            pbd.ToolTip = "Create a user view.";
+            return pbd;
+        }
 
         private static PushButtonData LoadSCam(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCam", "Create camera from view", dll, "SCaddins.SCam.Command");
+                              "SCam", "Create Perspective", dll, "SCaddins.SCam.Command");
             AssignPushButtonImage(pbd, "SCaddins.src.Assets.scam-rvt-16.png", 16, dll);
             pbd.ToolTip = "Create a perspective view from the current view (3d or plan).";
             return pbd;
@@ -292,7 +302,7 @@ namespace SCaddins
         private static PushButtonData LoadSCasfar(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCasfar", "SCasfar creates a sheet from a room", dll, "SCaddins.SCasfar.Command");
+                              "SCasfar", "Room Tools", dll, "SCaddins.SCasfar.Command");
             AssignPushButtonImage(pbd, "SCaddins.src.Assets.scasfar-rvt-16.png", 16, dll);
             pbd.ToolTip = "SCasfar creates a sheet and/or solid(mass) from a room.";
             return pbd;

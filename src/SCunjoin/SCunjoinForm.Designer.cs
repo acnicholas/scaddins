@@ -48,7 +48,7 @@ namespace SCaddins.SCunjoin
             // 
             this.checkBox1.Location = new System.Drawing.Point(12, 12);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(170, 24);
+            this.checkBox1.Size = new System.Drawing.Size(234, 24);
             this.checkBox1.TabIndex = 0;
             this.checkBox1.Text = "Unjoin new walls when placed";
             this.checkBox1.UseVisualStyleBackColor = true;
