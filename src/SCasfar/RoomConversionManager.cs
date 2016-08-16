@@ -149,15 +149,22 @@ namespace SCaddins.SCasfar
             #else
             if (host == null || dest == null)
                 return;
-
+            
+            if (!host.IsValidObject || !dest.IsValidObject)
+                return;
+            
             foreach (Parameter param in host.Parameters) {
+                if (!param.HasValue) {
+                    continue;
+                }
+                
                 Parameter paramDest = dest.LookupParameter(param.Definition.Name);
                 if (paramDest != null && paramDest.StorageType == param.StorageType) {
                     switch (param.StorageType) {
                         case StorageType.String:
                             string v = param.AsString();
                             if (!string.IsNullOrEmpty(v)) {
-                                paramDest.Set(v);
+                                paramDest.SetValueString(v);
                             }
                             break;
                         case StorageType.Integer:
@@ -168,9 +175,9 @@ namespace SCaddins.SCasfar
                             break;
                         case StorageType.Double:
                             double d = param.AsDouble();
-                            if (d != null) {
+                            //if (d != null) {
                                 paramDest.Set(d);
-                            }
+                            //}
                             break;
                     }
                 }
