@@ -241,7 +241,7 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "SCloudSChed", "Schedule Clouds", dll, "SCaddins.SCloudSChed.Command");
             AssignPushButtonImage(pbd, "SCaddins.src.Assets.scloudsched-rvt-16.png", 16, dll);
-            pbd.ToolTip = "Unjoin both wall end after theya wall is created.";
+            pbd.ToolTip = "Schedule revision clouds and/or re-assign revisions to them.";
             return pbd;
         }
 
@@ -286,7 +286,7 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "SCunjoin", "Unjoin Walls", dll, "SCaddins.SCunjoin.Command");
             AssignPushButtonImage(pbd, "SCaddins.src.Assets.scunjoin-rvt-16.png", 16, dll);
-            pbd.ToolTip = "Create a user view.";
+            pbd.ToolTip = "Unjoin walls automatically after placement.";
             return pbd;
         }
 
@@ -304,7 +304,7 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "SCasfar", "Room Tools", dll, "SCaddins.SCasfar.Command");
             AssignPushButtonImage(pbd, "SCaddins.src.Assets.scasfar-rvt-16.png", 16, dll);
-            pbd.ToolTip = "SCasfar creates a sheet and/or solid(mass) from a room.";
+            pbd.ToolTip = "Creates sheets and/or solids(masses) from a selection of rooms.";
             return pbd;
         }
 

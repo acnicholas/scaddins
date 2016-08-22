@@ -705,20 +705,36 @@ namespace SCaddins.SCexport
                 scopy.CreateSheets();
             }            
         }
+        
+        private void Print(string printerName, int scale)
+        {
+            this.btnExport.Hide();
+            this.printButton.Hide();
+            this.btnFind.Hide();
+            this.Refresh();   
+            this.SetUpPBar(this.NumberOfSelectedViews());
+            this.scx.Print(this.SelectedSheets(),
+                           printerName,
+                           scale,
+                           this.progressBar,
+                           this.progressInfo,
+                           this.statusStrip1);   
+            this.Close();  // end SCexport     
+        }
 
         private void PrintA3ToolStripMenuItemClick(object sender, EventArgs e)
         {
-            this.scx.Print(this.SelectedSheets(), this.scx.PrinterNameA3, 3);  
+            this.Print(this.scx.PrinterNameA3, 3);
         }
 
         private void PrintA2ToolStripMenuItemClick(object sender, EventArgs e)
         {
-            this.scx.Print(this.SelectedSheets(), this.scx.PrinterNameLargeFormat, 2);  
+            this.Print(this.scx.PrinterNameLargeFormat, 2);
         }
 
         private void PrintFullSizeToolStripMenuItemClick(object sender, EventArgs e)
         {
-            this.scx.Print(this.SelectedSheets(), this.scx.PrinterNameLargeFormat, -1);  
+            this.Print( this.scx.PrinterNameLargeFormat, -1);
         } 
     }
 }

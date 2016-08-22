@@ -342,16 +342,29 @@ namespace SCaddins.SCexport
         public void Print(
             ICollection<ExportSheet> sheets,
             string printerName,
-            int scale)
+            int scale,
+            System.Windows.Forms.ToolStripProgressBar progressBar,
+            System.Windows.Forms.ToolStripItem info,
+            System.Windows.Forms.Control strip)
         {
             PrintManager pm = doc.PrintManager;
             TaskDialogResult tdr = ShowPrintWarning();
+            
+            DateTime startTime = DateTime.Now;
+            TimeSpan elapsedTime = DateTime.Now - startTime;
 
             if (tdr == TaskDialogResult.Ok) { 
                 bool printSetttingsValid;
                 this.log.Clear();
                 this.log.Start("Starting Print");
                 foreach (ExportSheet sheet in sheets.OrderBy(x => x.SheetNumber).ToList()) {
+                    
+                    progressBar.PerformStep();
+                    elapsedTime = DateTime.Now - startTime;
+                    info.Text = ExportManager.PercentageSting(progressBar.Value, progressBar.Maximum) +
+                    " - " + ExportManager.TimeSpanAsString(elapsedTime);
+                    strip.Update();
+                    
                     if (!sheet.Verified) {
                         sheet.UpdateSheetInfo();
                     }
