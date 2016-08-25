@@ -145,7 +145,7 @@ namespace SCaddins
             
             // Register wall updater with Revit
             var updater = new SCaddins.SCunjoin.WallUnjoiner(application.ActiveAddInId);
-            UpdaterRegistry.RegisterUpdater(updater);
+            UpdaterRegistry.RegisterUpdater(updater, true);
 
             // Change Scope = any Wall element
             ElementClassFilter wallFilter = new ElementClassFilter(typeof(Wall));
@@ -211,7 +211,7 @@ namespace SCaddins
             return pbd;
         }
 
-        private static PushButtonData LoadSCaos(string dll)
+        public static PushButtonData LoadSCaos(string dll)
         {
             var pbd = new PushButtonData(
                               "SCaos", "Angle Of Sun", dll, "SCaddins.SCaos.Command");
@@ -317,7 +317,7 @@ namespace SCaddins
             return pbd;
         }
 
-        private static PushButtonData LoadSCopy(string dll)
+        public static PushButtonData LoadSCopy(string dll)
         {
             var pbd = new PushButtonData(
                               "SCopy", "Copy Sheets", dll, "SCaddins.SCopy.Command");
@@ -335,7 +335,7 @@ namespace SCaddins
             return pbd;
         }
 
-        private static void AssignPushButtonImage(PushButtonData pb, string iconName, int size, string dll)
+        public static void AssignPushButtonImage(PushButtonData pb, string iconName, int size, string dll)
         {
             if (size == -1) {
                 size = 32;
@@ -351,7 +351,7 @@ namespace SCaddins
         }
 
         //from https://github.com/WeConnect/issue-tracker/blob/master/Case.IssueTracker.Revit/Entry/AppMain.cs
-        private static ImageSource LoadPngImgSource(string sourceName, string path)
+        public static ImageSource LoadPngImgSource(string sourceName, string path)
         {
             try {
                 Assembly m_assembly = Assembly.LoadFrom(Path.Combine(path));
@@ -365,7 +365,7 @@ namespace SCaddins
 
         }
 
-        private static RibbonPanel TryGetPanel(UIControlledApplication application, string name)
+        public static RibbonPanel TryGetPanel(UIControlledApplication application, string name)
         {
             List<RibbonPanel> loadedPanels = application.GetRibbonPanels();
             foreach (RibbonPanel p in loadedPanels) {
