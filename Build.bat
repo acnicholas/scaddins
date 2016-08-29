@@ -19,6 +19,20 @@ if exist .\bin\Release\SCaddins16.dll set R2016=Enabled
 
 call %msBuildDir%\msbuild.exe %SWITCHES% installer/SCaddins.Installer.wixproj /property:Configuration="Release" /property:Platform="x64" /target:Clean,Build
 
+cd src/SCopy/
+
+call %msBuildDir%\msbuild.exe %SWITCHES% /property:Configuration="Release2014" /property:Platform="x64" /target:Clean,Build SheetCopier.csproj /l:FileLogger,Microsoft.Build.Engine;logfile=..\..\var\log\SCopy_MSBuild_Release2014.log
+call %msBuildDir%\msbuild.exe %SWITCHES% /property:Configuration="Release2015" /property:Platform="x64" /target:Clean,Build SheetCopier.csproj /l:FileLogger,Microsoft.Build.Engine;logfile=..\..\var\log\SCopy_MSBuild_Release2015.log
+call %msBuildDir%\msbuild.exe %SWITCHES% /property:Configuration="Release2016" /property:Platform="x64" /target:Clean,Build SheetCopier.csproj 
+/l:FileLogger,Microsoft.Build.Engine;logfile=..\..\var\log\SCopy_MSBuild_Release2016.log
+
+cd ../SCaos
+
+call %msBuildDir%\msbuild.exe %SWITCHES% /property:Configuration="Release2014" /property:Platform="x64" /target:Clean,Build AngleOfSun.csproj /l:FileLogger,Microsoft.Build.Engine;logfile=..\..\var\log\AngleOfSun_MSBuild_Release2014.log
+call %msBuildDir%\msbuild.exe %SWITCHES% /property:Configuration="Release2015" /property:Platform="x64" /target:Clean,Build AngleOfSun.csproj /l:FileLogger,Microsoft.Build.Engine;logfile=..\..\var\log\AngleOfSun_MSBuild_Release2015.log
+call %msBuildDir%\msbuild.exe %SWITCHES% /property:Configuration="Release2016" /property:Platform="x64" /target:Clean,Build AngleOfSun.csproj /l:FileLogger,Microsoft.Build.Engine;logfile=..\..\var\log\AngleOfSun_MSBuild_Release2016.log
+
+
 set msBuildDir=
 
 pause

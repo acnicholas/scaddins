@@ -90,12 +90,37 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\UpgradeForm.cs">
+      <Link>UpgradeForm.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\UpgradeForm.Designer.cs">
+      <Link>UpgradeForm.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Constants.cs">
+      <Link>Constants.cs</Link>
+    </Compile>
+    <Compile Include="..\SCaddins.cs">
+      <Link>SCaddins.cs</Link>
+    </Compile>
+    <Compile Include="..\SCaddins.Designer.cs">
+      <Link>SCaddins.Designer.cs</Link>
+      <DependentUpon>SCaddins.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\SCunjoin\SCunjoin.cs">
+      <Link>SCunjoin.cs</Link>
+    </Compile>
     <Compile Include="AngleOfSun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -103,11 +128,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SCaddins.csproj">
-      <Project>{ad62f888-78a1-4e0b-9820-5989630fc8c6}</Project>
-      <Name>SCaddins</Name>
-      <Private>False</Private>
-    </ProjectReference>
+    <EmbeddedResource Include="..\Common\UpgradeForm.resx">
+      <Link>UpgradeForm.resx</Link>
+      <DependentUpon>UpgradeForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

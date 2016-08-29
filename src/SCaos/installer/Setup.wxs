@@ -1,0 +1,70 @@
+﻿<?xml version="1.0"?>
+<?define Version = "!(bind.fileVersion.SCaddins2014.dll)" ?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="*"
+        Name="SCaddins - SC Revit Addins (64 bit)"
+        Language="1033"
+        Version="$(var.Version)"
+        UpgradeCode="07AD607C-D456-47A6-A45F-3E8C6BD88278"
+        Manufacturer="Andrew Nicholas">
+        <Package Description="SC Revit Add-ins."
+            Comments="SCaddins - SC Revit Add-ins"
+            InstallerVersion="200"
+            Compressed="yes"/>
+        <!--
+                        Source media for the installation. 
+                        Specifies a single cab file to be embedded in the installer's .msi. 
+                -->
+                <Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
+
+                <!-- Installation directory and files are defined in Files.wxs -->
+                <Directory Id="TARGETDIR" Name="SourceDir"/>	
+
+                <?if $(env.R2014) = Enabled ?> 
+                <Feature Id="Revit2014" Level="1" Title="SCaddins for Revit 2014">
+                    <ComponentRef Id="SCaddins2014" />
+                    <ComponentRef Id="SCaddinsAddin2014" />
+                    <ComponentRef Id="SCaddinsEtc" />
+                    <ComponentRef Id="SCexportConfigProto" />
+                    <ComponentRef Id="SCaddinsRFA2014" />
+                </Feature>
+                <?endif?>
+
+                <?if $(env.R2015) = Enabled ?> 
+                <Feature Id="Revit2015" Level="1" Title="SCaddins for Revit 2015">
+                    <ComponentRef Id="SCaddins2015" />
+                    <ComponentRef Id="SCaddinsAddin2015" />
+                    <ComponentRef Id="SCaddinsEtc" />
+                    <ComponentRef Id="SCexportConfigProto" />
+                    <ComponentRef Id="SCaddinsRFA2015" />
+                </Feature>
+                <?endif?>
+        
+                <?if $(env.R2016) = Enabled ?> 
+                <Feature Id="Revit2016" Level="1" Title="SCaddins for Revit 2016">
+                    <ComponentRef Id="SCaddins2016" />
+                    <ComponentRef Id="SCaddinsAddin2016" />
+                    <ComponentRef Id="SCaddinsEtc" />
+                    <ComponentRef Id="SCexportConfigProto" />
+                    <ComponentRef Id="SCaddinsRFA2016" />
+                </Feature>
+                <?endif?>
+
+                <WixVariable Id="WixUIDialogBmp" Value="wixd.bmp" />
+                <WixVariable Id="WixUIBannerBmp" Value="wixb.bmp" />
+                <Icon Id="sc.ico" SourceFile="..\share\icons\64x64\sc.ico" />
+                <Property Id="ARPPRODUCTICON" Value="sc.ico" />
+                <Property Id="ARPCONTACT" Value="andrewnicholas@iinet.net.au" />
+                <Property Id="ARPHELPLINK" Value="https://bitbucket.org/anicholas/scaddins/wiki/Home"/>
+                <Property Id="ARPURLUPDATEINFO" Value="https://bitbucket.org/anicholas/scaddins/downloads" />
+
+                <MajorUpgrade AllowDowngrades="yes"/>
+
+                <UI Id='Mondo'>
+                    <UIRef Id="WixUI_Mondo"/>
+                    <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="SetupTypeDlg" Order="3">1</Publish>
+                    <Publish Dialog="SetupTypeDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="3">1</Publish>	
+                </UI>
+
+            </Product>
+        </Wix>

@@ -71,6 +71,9 @@
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="RevitAPI">
       <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2016\RevitAPI.dll</HintPath>
       <Private>False</Private>
@@ -88,25 +91,172 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\ConsoleUtils.cs">
+      <Link>ConsoleUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\MiscUtils.cs">
+      <Link>MiscUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\SortableBindingList.cs">
+      <Link>SortableBindingList.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\SystemUtils.cs">
+      <Link>SystemUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\UpgradeForm.cs">
+      <Link>UpgradeForm.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\UpgradeForm.Designer.cs">
+      <Link>UpgradeForm.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Constants.cs">
+      <Link>Constants.cs</Link>
+    </Compile>
+    <Compile Include="..\SCaddins.cs">
+      <Link>SCaddins.cs</Link>
+    </Compile>
+    <Compile Include="..\SCaddins.Designer.cs">
+      <Link>SCaddins.Designer.cs</Link>
+      <DependentUpon>SCaddins.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\SCexport\ConfirmDialog.cs">
+      <Link>ConfirmDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\ConfirmDialog.Designer.cs">
+      <Link>ConfirmDialog.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\ConfirmDialog.Designer1.cs">
+      <Link>ConfirmDialog.Designer1.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\Constants.cs">
+      <Link>Constants.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\DialogHandler.cs">
+      <Link>DialogHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\Enums.cs">
+      <Link>Enums.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\ExportLog.cs">
+      <Link>ExportLog.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\ExportLogDialog.cs">
+      <Link>ExportLogDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\ExportLogDialog.Designer.cs">
+      <Link>ExportLogDialog.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\ExportLogItem.cs">
+      <Link>ExportLogItem.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\ExportManager.cs">
+      <Link>ExportManager.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\FileUtils.cs">
+      <Link>FileUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\PostExportHookCommand.cs">
+      <Link>PostExportHookCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\PrintSettings.cs">
+      <Link>PrintSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\RenameSheetForm.cs">
+      <Link>RenameSheetForm.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\RenameSheetForm.Designer.cs">
+      <Link>RenameSheetForm.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\RevisionSelectionDialog.cs">
+      <Link>RevisionSelectionDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\RevisionSelectionDialog.Designer.cs">
+      <Link>RevisionSelectionDialog.Designer.cs</Link>
+      <DependentUpon>RevisionSelectionDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\SCexport\SegmentedSheetName.cs">
+      <Link>SegmentedSheetName.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\Settings1.Designer.cs">
+      <Link>Settings1.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\Sheet.cs">
+      <Link>Sheet.cs</Link>
+    </Compile>
+    <Compile Include="..\SCexport\ViewSheetSetCombo.cs">
+      <Link>ViewSheetSetCombo.cs</Link>
+    </Compile>
+    <Compile Include="..\SCunjoin\SCunjoin.cs">
+      <Link>SCunjoin.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SCopy.cs" />
+    <Compile Include="SCopyCommand.cs" />
+    <Compile Include="SCopyConstants.cs" />
+    <Compile Include="SCopyEnums.cs" />
+    <Compile Include="SCopyMainForm.cs" />
+    <Compile Include="SCopyMainForm.Designer.cs" />
+    <Compile Include="SCopyMainForm.Designer1.cs" />
+    <Compile Include="SCopySheet.cs" />
+    <Compile Include="SCopyTextInputForm.cs" />
+    <Compile Include="SCopyTextInputForm.Designer.cs" />
+    <Compile Include="SCopyViewOnSheet.cs" />
+    <Compile Include="SCopyViewSelectionDialog.cs" />
+    <Compile Include="SCopyViewSelectionDialog.Designer.cs">
+      <DependentUpon>SegmentedSheetName.cs</DependentUpon>
+    </Compile>
     <Compile Include="SheetCopier.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\SCexport\Settings1.settings">
+      <Link>Settings1.settings</Link>
+    </None>
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SCaddins.csproj">
-      <Project>{ad62f888-78a1-4e0b-9820-5989630fc8c6}</Project>
-      <Name>SCaddins</Name>
-      <Private>False</Private>
-    </ProjectReference>
+    <EmbeddedResource Include="..\Common\UpgradeForm.resx">
+      <Link>UpgradeForm.resx</Link>
+      <DependentUpon>UpgradeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\SCexport\ConfirmDialog.resx">
+      <Link>ConfirmDialog.resx</Link>
+      <DependentUpon>ConfirmDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\SCexport\ExportLogDialog.resx">
+      <Link>ExportLogDialog.resx</Link>
+      <DependentUpon>ExportLogDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\SCexport\RenameSheetForm.resx">
+      <Link>RenameSheetForm.resx</Link>
+      <DependentUpon>RenameSheetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\SCexport\RevisionSelectionDialog.resx">
+      <Link>RevisionSelectionDialog.resx</Link>
+      <DependentUpon>RevisionSelectionDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SCopyMainForm.resx">
+      <DependentUpon>SCopyMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SCopyTextInputForm.resx">
+      <DependentUpon>SCopyTextInputForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SCopyViewSelectionDialog.resx">
+      <DependentUpon>SCopyViewSelectionDialog.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

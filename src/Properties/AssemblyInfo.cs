@@ -48,4 +48,4 @@ using System.Runtime.InteropServices;
 // - Minor should be for features and critical bugs
 // - Revision is Bug fixes, ad-hoc patches, any minor changes.
 // - Build is an (automated)incremented build number.
-[assembly: AssemblyVersion("16.2.6.0")]
+[assembly: AssemblyVersion("16.2.7.0")]
