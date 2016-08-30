@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0"?>
-<?define Version = "!(bind.fileVersion.SCaddins2014.dll)" ?>
+<?define Version = "!(bind.fileVersion.AngleOfSun16.dll)" ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Product Id="*"
-        Name="SCaddins - SC Revit Addins (64 bit)"
+        Name="Angle Of Sun (64 bit)"
         Language="1033"
         Version="$(var.Version)"
-        UpgradeCode="07AD607C-D456-47A6-A45F-3E8C6BD88278"
+        UpgradeCode="B3DAF919-48C5-441D-83D7-71F7270F3233"
         Manufacturer="Andrew Nicholas">
-        <Package Description="SC Revit Add-ins."
-            Comments="SCaddins - SC Revit Add-ins"
+        <Package Description="Angle Of Sun Add-in for Revit."
+            Comments="Angle Of Sun Revit Add-in"
             InstallerVersion="200"
             Compressed="yes"/>
         <!--
@@ -21,39 +21,37 @@
                 <Directory Id="TARGETDIR" Name="SourceDir"/>	
 
                 <?if $(env.R2014) = Enabled ?> 
-                <Feature Id="Revit2014" Level="1" Title="SCaddins for Revit 2014">
-                    <ComponentRef Id="SCaddins2014" />
-                    <ComponentRef Id="SCaddinsAddin2014" />
-                    <ComponentRef Id="SCaddinsEtc" />
-                    <ComponentRef Id="SCexportConfigProto" />
-                    <ComponentRef Id="SCaddinsRFA2014" />
+                <Feature Id="Revit2014" Level="1" Title="Angle Of Sun for Revit 2014">
+                    <ComponentRef Id="AngleOfSun2014" />
+                    <ComponentRef Id="AngleOfSunAddin2014" />
                 </Feature>
                 <?endif?>
-
+                
                 <?if $(env.R2015) = Enabled ?> 
-                <Feature Id="Revit2015" Level="1" Title="SCaddins for Revit 2015">
-                    <ComponentRef Id="SCaddins2015" />
-                    <ComponentRef Id="SCaddinsAddin2015" />
-                    <ComponentRef Id="SCaddinsEtc" />
-                    <ComponentRef Id="SCexportConfigProto" />
-                    <ComponentRef Id="SCaddinsRFA2015" />
+                <Feature Id="Revit2015" Level="1" Title="Angle Of Sun for Revit 2015">
+                    <ComponentRef Id="AngleOfSun2015" />
+                    <ComponentRef Id="AngleOfSunAddin2015" />
                 </Feature>
                 <?endif?>
-        
+                
                 <?if $(env.R2016) = Enabled ?> 
-                <Feature Id="Revit2016" Level="1" Title="SCaddins for Revit 2016">
-                    <ComponentRef Id="SCaddins2016" />
-                    <ComponentRef Id="SCaddinsAddin2016" />
-                    <ComponentRef Id="SCaddinsEtc" />
-                    <ComponentRef Id="SCexportConfigProto" />
-                    <ComponentRef Id="SCaddinsRFA2016" />
+                <Feature Id="Revit2016" Level="1" Title="Angle Of Sun for Revit 2016">
+                    <ComponentRef Id="AngleOfSun2016" />
+                    <ComponentRef Id="AngleOfSunAddin2016" />
+                </Feature>
+                <?endif?>
+                
+                <?if $(env.R2017) = Enabled ?> 
+                <Feature Id="Revit2017" Level="1" Title="Angle Of Sun for Revit 2017">
+                    <ComponentRef Id="AngleOfSun2017" />
+                    <ComponentRef Id="AngleOfSunAddin2017" />
                 </Feature>
                 <?endif?>
 
                 <WixVariable Id="WixUIDialogBmp" Value="wixd.bmp" />
                 <WixVariable Id="WixUIBannerBmp" Value="wixb.bmp" />
-                <Icon Id="sc.ico" SourceFile="..\share\icons\64x64\sc.ico" />
-                <Property Id="ARPPRODUCTICON" Value="sc.ico" />
+                <Icon Id="aos.ico" SourceFile="AngleOfSun.ico" />
+                <Property Id="ARPPRODUCTICON" Value="aos.ico" />
                 <Property Id="ARPCONTACT" Value="andrewnicholas@iinet.net.au" />
                 <Property Id="ARPHELPLINK" Value="https://bitbucket.org/anicholas/scaddins/wiki/Home"/>
                 <Property Id="ARPURLUPDATEINFO" Value="https://bitbucket.org/anicholas/scaddins/downloads" />

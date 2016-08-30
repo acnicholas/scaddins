@@ -187,7 +187,7 @@ namespace SCaddins.SCasfar
 
         private bool CreateRoomMass(Room room)
         {
-            #if REVIT2014
+            #if REVIT2014 || REVIT2017
             return false;
             #else
             try {

@@ -7,7 +7,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <OutputType>Library</OutputType>
     <RootNamespace>AngleOfSun</RootNamespace>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <NoWin32Manifest>False</NoWin32Manifest>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
@@ -17,6 +17,7 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
     <OutputPath>bin\Release\</OutputPath>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x64' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -64,6 +65,14 @@
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2016\</ReferencePath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release2017' ">
+    <AssemblyName>AngleOfSun17</AssemblyName>
+    <DefineConstants>REVIT2017</DefineConstants>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <ReferencePath>C:\Program Files\Autodesk\Revit 2017\</ReferencePath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp">
@@ -123,15 +132,25 @@
     </Compile>
     <Compile Include="AngleOfSun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SCaos.cs" />
+    <Compile Include="SCaosForm.cs" />
+    <Compile Include="SCaosForm.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <EmbeddedResource Include="Assets\scaos-rvt.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Common\UpgradeForm.resx">
       <Link>UpgradeForm.resx</Link>
       <DependentUpon>UpgradeForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SCaosForm.resx">
+      <DependentUpon>SCaosForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

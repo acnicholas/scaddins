@@ -269,7 +269,7 @@ namespace SCaddins.SCightLines
             XYZ origin = app.Create.NewXYZ(MiscUtilities.MMtoFeet(x), MiscUtilities.MMtoFeet(y), 0);
             XYZ normal_base = app.Create.NewXYZ(vx, vy, 0);
             XYZ normal_up = app.Create.NewXYZ(0, 1, 0);
-            #if REVIT2016
+            #if REVIT2016 || REVIT2017
             TextNoteOptions tno = new TextNoteOptions();
             tno.TypeId = doc.GetDefaultElementTypeId(ElementTypeGroup.TextNoteType);
             if(f.HasFlag(TextAlignFlags.TEF_ALIGN_CENTER)) {

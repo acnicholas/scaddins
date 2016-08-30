@@ -39,7 +39,7 @@ namespace SCaddins
             string scdll =
                 new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
 
-            ribbonPanel.AddItem(SCaddinsApp.LoadSCaos(scdll));
+            ribbonPanel.AddItem(SCaddinsApp.LoadSCaos(scdll, 32));
             
             return Result.Succeeded;
         }

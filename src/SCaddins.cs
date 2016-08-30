@@ -116,8 +116,8 @@ namespace SCaddins
                 LoadSCwash(scdll)
             );
             ribbonPanel.AddStackedItems(
-                LoadSCaos(scdll),
-                LoadSCopy(scdll),
+                LoadSCaos(scdll, 16),
+                LoadSCopy(scdll, 16),
                 LoadSCloudShed(scdll)
             );
             ribbonPanel.AddStackedItems(
@@ -211,14 +211,18 @@ namespace SCaddins
             return pbd;
         }
 
-        public static PushButtonData LoadSCaos(string dll)
+        public static PushButtonData LoadSCaos(string dll, int iconSize)
         {
             var pbd = new PushButtonData(
                               "SCaos", "Angle Of Sun", dll, "SCaddins.SCaos.Command");
             pbd.SetContextualHelp(
                 new ContextualHelp(
                     ContextualHelpType.Url, Constants.HelpLink));
-            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scaos-rvt-16.png", 16, dll);
+            if(iconSize == 16) {
+                AssignPushButtonImage(pbd, "SCaddins.src.Assets.scaos-rvt-16.png", 16, dll);
+            } else {
+                AssignPushButtonImage(pbd, "AngleOfSun.Assets.scaos-rvt.png", 32, dll);
+            }
             pbd.ToolTip =
                 "Rotate a 3d view to the location of the sun.";
             pbd.LongDescription =
@@ -317,11 +321,15 @@ namespace SCaddins
             return pbd;
         }
 
-        public static PushButtonData LoadSCopy(string dll)
+        public static PushButtonData LoadSCopy(string dll, int iconSize)
         {
             var pbd = new PushButtonData(
                               "SCopy", "Copy Sheets", dll, "SCaddins.SCopy.Command");
-            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scopy-rvt-16.png", 16, dll);
+            if(iconSize == 16) {
+                AssignPushButtonImage(pbd, "SCaddins.src.Assets.scopy-rvt-16.png", 16, dll);
+            } else {
+                AssignPushButtonImage(pbd, "SheetCopier.Assets.scopy-rvt.png", 32, dll);    
+            }
             pbd.SetContextualHelp(
                 new ContextualHelp(
                     ContextualHelpType.Url,

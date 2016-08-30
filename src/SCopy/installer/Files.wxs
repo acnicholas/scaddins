@@ -1,0 +1,80 @@
+﻿<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<DirectoryRef Id="TARGETDIR">
+	<Directory Id="ProgramFiles64Folder" Name="ProgramFiles64Folder">
+		<Directory Name="SCaddins" Id="SCADDINS">
+			<Directory Name="SheetCopier" Id="INSTALLDIR">
+				<?if $(env.R2014) = Enabled ?>
+				<Directory Id="DLLDIR2014" Name="2014">
+					<Component Id="SheetCopier2014" DiskId="1" Win64="yes" Guid="0D76910C-F3CB-4C59-82FA-CF5BCB7D56DE">
+						<CreateFolder />
+						<File Id="SheetCopier14.dll" Name="SheetCopier.dll" Source="..\bin\Release\SheetCopier14.dll" />
+					</Component>
+				</Directory>
+				<?endif?>
+				<?if $(env.R2015) = Enabled ?>
+				<Directory Id="DLLDIR2015" Name="2015">
+					<Component Id="SheetCopier2015" DiskId="1" Win64="yes" Guid="E97129DE-9E98-4502-AA95-34C22738B276">
+						<CreateFolder />
+						<File Id="SheetCopier15.dll" Name="SheetCopier.dll" Source="..\bin\Release\SheetCopier15.dll" />
+					</Component>
+				</Directory>
+				<?endif?>
+				<?if $(env.R2016) = Enabled ?>
+				<Directory Id="DLLDIR2016" Name="2016">
+					<Component Id="SheetCopier2016" DiskId="1" Win64="yes" Guid="F79B0B1C-84C2-4550-872A-77EBED9DEC73">
+						<CreateFolder />
+						<File Id="SheetCopier16.dll" Name="SheetCopier.dll" Source="..\bin\Release\SheetCopier16.dll" />
+					</Component>
+				</Directory>
+				<?endif?>
+				<Directory Id="DLLDIR2017" Name="2017">
+					<Component Id="SheetCopier2017" DiskId="1" Guid="4D5BAD7F-E2EC-4A4C-B973-33993845F82A">
+						<CreateFolder />
+						<File Id="SheetCopier17.dll" Name="SheetCopier.dll" Source="..\bin\Release\SheetCopier17.dll" />
+					</Component>
+				</Directory>
+			</Directory>
+		</Directory>
+	</Directory>
+	<Directory Name="CommonAppDataFolder" Id="CommonAppDataFolder">
+		<Directory Name="Autodesk" Id="Autodesk">
+			<Directory Name="REVIT" Id="REVIT">
+				<Directory Name="Addins" Id="Addins">
+					<?if $(env.R2014) = Enabled ?>
+					<Directory Id="R2014" Name="2014">
+						<Component Id="SheetCopierAddin2014" DiskId="1" Guid="C50B7F62-696C-4C22-A080-24214E9475A7">
+							<CreateFolder />
+							<File Id="SheetCopier14.ADDIN" Name="SheetCopier.addin" Source="..\Manifest\2014\SheetCopier.addin" />
+						</Component>
+					</Directory>
+					<?endif?>
+					<?if $(env.R2015) = Enabled ?>
+					<Directory Id="SCaddinsAddin2015Directory" Name="2015">
+						<Component Id="SheetCopierAddin2015" DiskId="1" Guid="1C612D6F-FB51-4C88-BBD3-C18EE1F6FD58">
+							<CreateFolder />
+							<File Id="SheetCopier15.ADDIN" Name="SheetCopier.addin" Source="..\Manifest\2015\SheetCopier.addin" />
+						</Component>
+					</Directory>
+					<?endif?>
+					<?if $(env.R2016) = Enabled ?>
+					<Directory Id="SCaddinsAddin2016Directory" Name="2016">
+						<Component Id="SheetCopierAddin2016" DiskId="1" Guid="48448529-D8A6-4655-BB11-2BBBCB1F5B38">
+							<CreateFolder />
+							<File Id="SheetCopier16.ADDIN" Name="SheetCopier.addin" Source="..\Manifest\2016\SheetCopier.addin" />
+						</Component>
+					</Directory>
+					<?endif?>
+					<Directory Id="NewDirectory" Name="2017">
+						<Component Id="SheetCopierAddin2017" DiskId="1" Guid="0C45255A-D3B4-4036-B5EE-A862FBDA6F2D">
+							<CreateFolder />
+							<File Id="SheetCopier17.ADDIN" Name="SheetCopier.addin" Source="..\Manifest\2017\SheetCopier.addin" />
+						</Component>
+					</Directory>
+				</Directory>
+			</Directory>
+		</Directory>
+	</Directory>
+</DirectoryRef>
+	</Fragment>
+</Wix>

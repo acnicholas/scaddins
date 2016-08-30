@@ -212,7 +212,7 @@ namespace SCaddins.SCexport
         public static string GetScaleBarScale(Element titleBlock)
         {
           try {
-                    #if (REVIT2015 || REVIT2016)
+                #if (REVIT2015 || REVIT2016 || REVIT2017)
                     var p = titleBlock.GetParameters(Constants.TitleScale);
                     if (p == null || p.Count < 1) {
                         return string.Empty;
@@ -317,7 +317,7 @@ namespace SCaddins.SCexport
         
         public void SetScaleBarScale(Element titleBlock)
         {
-                #if ( REVIT2015 || REVIT2016)
+                #if ( REVIT2015 || REVIT2016 || REVIT2017)
                 var tb = titleBlock.GetParameters(Constants.TitleScale);
                 if (tb == null) {
                     return;
