@@ -22,28 +22,24 @@
 
                 <?if $(env.R2014) = Enabled ?> 
                 <Feature Id="Revit2014" Level="1" Title="Angle Of Sun for Revit 2014">
-                    <ComponentRef Id="AngleOfSun2014" />
                     <ComponentRef Id="AngleOfSunAddin2014" />
                 </Feature>
                 <?endif?>
                 
                 <?if $(env.R2015) = Enabled ?> 
                 <Feature Id="Revit2015" Level="1" Title="Angle Of Sun for Revit 2015">
-                    <ComponentRef Id="AngleOfSun2015" />
                     <ComponentRef Id="AngleOfSunAddin2015" />
                 </Feature>
                 <?endif?>
                 
                 <?if $(env.R2016) = Enabled ?> 
                 <Feature Id="Revit2016" Level="1" Title="Angle Of Sun for Revit 2016">
-                    <ComponentRef Id="AngleOfSun2016" />
                     <ComponentRef Id="AngleOfSunAddin2016" />
                 </Feature>
                 <?endif?>
                 
                 <?if $(env.R2017) = Enabled ?> 
                 <Feature Id="Revit2017" Level="1" Title="Angle Of Sun for Revit 2017">
-                    <ComponentRef Id="AngleOfSun2017" />
                     <ComponentRef Id="AngleOfSunAddin2017" />
                 </Feature>
                 <?endif?>

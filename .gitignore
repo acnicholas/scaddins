@@ -53,6 +53,12 @@ _ReSharper*/
 #NuGet
 packages/
 
+#lib
+lib/
+
+#opt
+opt/
+
 #ncrunch
 *ncrunch*
 *crunch*.local.xml

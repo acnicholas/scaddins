@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <RevitAddIns>   
   <AddIn Type="Application">
-    <Assembly>C:\Program Files\SCaddins\AngleOfSun\2014\AngleOfSun.dll</Assembly>
+    <Assembly>.\AngleOfSun.dll</Assembly>
     <AddInId>2C4714FF-50CB-476B-B368-D014EE3DE2B6</AddInId>
     <FullClassName>SCaddins.AngleOfSun</FullClassName>
     <Name>Angle Of Sun</Name>

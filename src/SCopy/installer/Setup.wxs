@@ -11,7 +11,7 @@
             Comments="Sheet Copier Revit Add-in"
             InstallerVersion="200"
             Compressed="yes"/>
-        <!--
+                <!--
                         Source media for the installation. 
                         Specifies a single cab file to be embedded in the installer's .msi. 
                 -->
@@ -22,28 +22,24 @@
 
                 <?if $(env.R2014) = Enabled ?> 
                 <Feature Id="Revit2014" Level="1" Title="Sheet Copier for Revit 2014">
-                    <ComponentRef Id="SheetCopier2014" />
                     <ComponentRef Id="SheetCopierAddin2014" />
                 </Feature>
                 <?endif?>
                 
                 <?if $(env.R2015) = Enabled ?> 
                 <Feature Id="Revit2015" Level="1" Title="Sheet Copier for Revit 2015">
-                    <ComponentRef Id="SheetCopier2015" />
                     <ComponentRef Id="SheetCopierAddin2015" />
                 </Feature>
                 <?endif?>
                 
                 <?if $(env.R2016) = Enabled ?> 
                 <Feature Id="Revit2016" Level="1" Title="Sheet Copier for Revit 2016">
-                    <ComponentRef Id="SheetCopier2016" />
                     <ComponentRef Id="SheetCopierAddin2016" />
                 </Feature>
                 <?endif?>
                 
                 <?if $(env.R2017) = Enabled ?> 
                 <Feature Id="Revit2017" Level="1" Title="Sheet Copier for Revit 2017">
-                    <ComponentRef Id="SheetCopier2017" />
                     <ComponentRef Id="SheetCopierAddin2017" />
                 </Feature>
                 <?endif?>
