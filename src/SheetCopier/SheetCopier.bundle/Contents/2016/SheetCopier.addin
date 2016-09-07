@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>   
+  <AddIn Type="Application">
+    <Assembly>.\SheetCopier.dll</Assembly>
+    <AddInId>973540BA-C4CD-448E-8055-225905E9F0FB</AddInId>
+    <FullClassName>SCaddins.SheetCopier</FullClassName>
+    <Name>Sheet Copier</Name>
+    <VendorId>BEER</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
+  </AddIn>
+</RevitAddIns>

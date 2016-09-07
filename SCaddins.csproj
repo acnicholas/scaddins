@@ -178,6 +178,20 @@
       <DependentUpon>UpgradeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Common\ConsoleUtils.cs" />
+    <Compile Include="src\ParameterUtils\EditTextParameters.cs" />
+    <Compile Include="src\ParameterUtils\TextCaseEnums.cs" />
+    <Compile Include="src\ParameterUtils\ChangeCaseInfoDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ParameterUtils\SCulcaseInfoDialog.Designer.cs" />
+    <Compile Include="src\ParameterUtils\SCulcaseMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ParameterUtils\SCulcaseMainForm.Designer.cs" />
+    <Compile Include="src\ParameterUtils\SCulcaseMainForm2.cs" />
+    <Compile Include="src\ParameterUtils\SCulcaseMainForm2.Designer.cs">
+      <DependentUpon>SCulcaseMainForm2.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\Properties\AssemblyInfo.cs" />
     <Compile Include="src\Constants.cs" />
     <Compile Include="src\SCaddins.cs" />
@@ -196,185 +210,170 @@
       <DependentUpon>ScaddinsOptionsForm.resx</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="src\SCam\SCam.cs" />
-    <Compile Include="src\SCaos\SCaos.cs" />
-    <Compile Include="src\SCaos\SCaosForm.cs">
+    <Compile Include="src\ViewUtils\CameraFromViewCommand.cs" />
+    <Compile Include="src\SolarUtils\SolarViews.cs" />
+    <Compile Include="src\SolarUtils\SolarViewsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SCaos\SCaosForm.Designer.cs" />
-    <Compile Include="src\SCasfar\MainForm.cs" />
-    <Compile Include="src\SCasfar\MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="src\SolarUtils\SolarViewsForm.Designer.cs" />
+    <Compile Include="src\RoomUtils\RoomUtilsForm.cs" />
+    <Compile Include="src\RoomUtils\RoomUtilsForm.Designer.cs">
+      <DependentUpon>RoomUtilsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\SCasfar\RoomFilter.cs" />
-    <Compile Include="src\SCasfar\RoomFilterDialog.cs" />
-    <Compile Include="src\SCasfar\RoomFilterDialog.Designer.cs">
+    <Compile Include="src\RoomUtils\RoomFilter.cs" />
+    <Compile Include="src\RoomUtils\RoomFilterDialog.cs" />
+    <Compile Include="src\RoomUtils\RoomFilterDialog.Designer.cs">
       <DependentUpon>RoomFilterDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\SCasfar\RoomFilterItem.cs" />
-    <Compile Include="src\SCasfar\RoomInfoDilaog.cs" />
-    <Compile Include="src\SCasfar\RoomInfoDilaog.Designer.cs">
+    <Compile Include="src\RoomUtils\RoomFilterItem.cs" />
+    <Compile Include="src\RoomUtils\RoomInfoDilaog.cs" />
+    <Compile Include="src\RoomUtils\RoomInfoDilaog.Designer.cs">
       <DependentUpon>RoomInfoDilaog.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\SCasfar\RoomConversionCandidate.cs" />
-    <Compile Include="src\SCasfar\Command.cs" />
-    <Compile Include="src\SCasfar\RoomConversionManager.cs" />
-    <Compile Include="src\SCexport\Command.cs" />
-    <Compile Include="src\SCexport\ConfirmDialog.cs">
+    <Compile Include="src\RoomUtils\RoomConversionCandidate.cs" />
+    <Compile Include="src\RoomUtils\RoomUtilsCommand.cs" />
+    <Compile Include="src\RoomUtils\RoomConversionManager.cs" />
+    <Compile Include="src\ExportManager\Command.cs" />
+    <Compile Include="src\ExportManager\ConfirmDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SCexport\ConfirmDialog.Designer.cs" />
-    <Compile Include="src\SCexport\ConfirmDialog.Designer1.cs">
+    <Compile Include="src\ExportManager\ConfirmDialog.Designer.cs" />
+    <Compile Include="src\ExportManager\ConfirmDialog.Designer1.cs">
       <DependentUpon>ConfirmDialog.resx</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="src\SCexport\Constants.cs" />
-    <Compile Include="src\SCexport\DialogHandler.cs" />
-    <Compile Include="src\SCexport\Enums.cs" />
-    <Compile Include="src\SCexport\ExportLog.cs" />
-    <Compile Include="src\SCexport\ExportLogDialog.cs">
+    <Compile Include="src\ExportManager\Constants.cs" />
+    <Compile Include="src\ExportManager\DialogHandler.cs" />
+    <Compile Include="src\ExportManager\Enums.cs" />
+    <Compile Include="src\ExportManager\ExportLog.cs" />
+    <Compile Include="src\ExportManager\ExportLogDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SCexport\ExportLogDialog.Designer.cs">
+    <Compile Include="src\ExportManager\ExportLogDialog.Designer.cs">
       <DependentUpon>ExportLogDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\SCexport\ExportLogItem.cs" />
-    <Compile Include="src\SCexport\FileUtils.cs" />
-    <Compile Include="src\SCexport\FilterContextMenu.cs" />
-    <Compile Include="src\SCexport\MainForm.cs">
+    <Compile Include="src\ExportManager\ExportLogItem.cs" />
+    <Compile Include="src\ExportManager\FileUtils.cs" />
+    <Compile Include="src\ExportManager\FilterContextMenu.cs" />
+    <Compile Include="src\ExportManager\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SCexport\MainForm.Designer.cs" />
-    <Compile Include="src\SCexport\MenuButton.cs" />
-    <Compile Include="src\SCexport\NextSheet.cs" />
-    <Compile Include="src\SCexport\OpenSheet.cs" />
-    <Compile Include="src\SCexport\OpenSheetDialog.cs">
+    <Compile Include="src\ExportManager\MainForm.Designer.cs" />
+    <Compile Include="src\ExportManager\MenuButton.cs" />
+    <Compile Include="src\ExportManager\NextSheet.cs" />
+    <Compile Include="src\ExportManager\OpenSheet.cs" />
+    <Compile Include="src\ExportManager\OpenSheetDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SCexport\OpenSheetDialog.Designer.cs" />
-    <Compile Include="src\SCexport\OptionsDialog.cs">
+    <Compile Include="src\ExportManager\OpenSheetDialog.Designer.cs" />
+    <Compile Include="src\ExportManager\OptionsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SCexport\OptionsDialog.Designer.cs" />
-    <Compile Include="src\SCexport\PostExportHookCommand.cs" />
-    <Compile Include="src\SCexport\PreviousSheet.cs" />
-    <Compile Include="src\SCexport\PrintSettings.cs" />
-    <Compile Include="src\SCexport\RenameSheetForm.cs">
+    <Compile Include="src\ExportManager\OptionsDialog.Designer.cs" />
+    <Compile Include="src\ExportManager\PostExportHookCommand.cs" />
+    <Compile Include="src\ExportManager\PreviousSheet.cs" />
+    <Compile Include="src\ExportManager\PrintSettings.cs" />
+    <Compile Include="src\ExportManager\RenameSheetForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SCexport\RenameSheetForm.Designer.cs" />
-    <Compile Include="src\SCexport\RevisionSelectionDialog.cs">
+    <Compile Include="src\ExportManager\RenameSheetForm.Designer.cs" />
+    <Compile Include="src\ExportManager\RevisionSelectionDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SCexport\RevisionSelectionDialog.Designer.cs" />
-    <Compile Include="src\SCexport\ExportManager.cs" />
-    <Compile Include="src\SCexport\SelectPrinterDialog.cs">
+    <Compile Include="src\ExportManager\RevisionSelectionDialog.Designer.cs" />
+    <Compile Include="src\ExportManager\ExportManager.cs" />
+    <Compile Include="src\ExportManager\SelectPrinterDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SCexport\SelectPrinterDialog.Designer.cs" />
-    <Compile Include="src\SCexport\Settings1.Designer.cs">
+    <Compile Include="src\ExportManager\SelectPrinterDialog.Designer.cs" />
+    <Compile Include="src\ExportManager\Settings1.Designer.cs">
       <DependentUpon>Settings1.settings</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="src\SCexport\Sheet.cs" />
-    <Compile Include="src\SCexport\SegmentedSheetName.cs" />
-    <Compile Include="src\SCexport\TipOfDay.cs" />
-    <Compile Include="src\SCexport\ViewSheetSetCombo.cs" />
-    <Compile Include="src\SCightlines\SCightLines.cs" />
-    <Compile Include="src\SCightlines\SCightLinesCommand.cs" />
-    <Compile Include="src\SCightlines\SCightLinesMainForm.cs">
+    <Compile Include="src\ExportManager\Sheet.cs" />
+    <Compile Include="src\ExportManager\SegmentedSheetName.cs" />
+    <Compile Include="src\ExportManager\TipOfDay.cs" />
+    <Compile Include="src\ExportManager\ViewSheetSetCombo.cs" />
+    <Compile Include="src\LineOfSite\LineOfSight.cs" />
+    <Compile Include="src\LineOfSite\LineOfSightCommand.cs" />
+    <Compile Include="src\LineOfSite\LineOfSightMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SCightlines\SCightLinesMainForm.Designer.cs" />
-    <Compile Include="src\SCightlines\SCightLinesOutputForm.cs">
+    <Compile Include="src\LineOfSite\LineOfSightMainForm.Designer.cs" />
+    <Compile Include="src\LineOfSite\LineOfSightOutputForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SCightlines\SCightLinesOutputForm.Designer.cs" />
-    <Compile Include="src\SCightlines\SCightLinesRow.cs" />
-    <Compile Include="src\SCincrement\SCincrement.cs" />
-    <Compile Include="src\SCincrement\SCincrementSettings.cs" />
-    <Compile Include="src\SCincrement\SCincrementSettings.Designer.cs">
+    <Compile Include="src\LineOfSite\LineOfSightOutputForm.Designer.cs" />
+    <Compile Include="src\LineOfSite\LineOfSightRow.cs" />
+    <Compile Include="src\ParameterUtils\Increment.cs" />
+    <Compile Include="src\ParameterUtils\SCincrementSettings.cs" />
+    <Compile Include="src\ParameterUtils\SCincrementSettings.Designer.cs">
       <DependentUpon>SCincrementSettings.settings</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="src\SCincrement\SCincrementSettingsForm.cs">
+    <Compile Include="src\ParameterUtils\SCincrementSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SCincrement\SCincrementSettingsForm.Designer.cs">
+    <Compile Include="src\ParameterUtils\SCincrementSettingsForm.Designer.cs">
       <DependentUpon>SCincrementSettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\SCloudSched\RevisionCloudItem.cs" />
-    <Compile Include="src\SCloudSched\SCloudSchedForm.cs">
+    <Compile Include="src\Revisions\RevisionCloudItem.cs" />
+    <Compile Include="src\Revisions\SCloudSchedForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SCloudSched\SCloudSchedForm.Designer.cs" />
-    <Compile Include="src\SCloudSched\RevisionItem.cs" />
-    <Compile Include="src\SCloudSched\SCloudSChed.cs" />
-    <Compile Include="src\SCloudSched\SCloudSChedCommand.cs" />
-    <Compile Include="src\SCoord\SCoord.cs" />
-    <Compile Include="src\SCoord\SCoordForm.cs">
+    <Compile Include="src\Revisions\SCloudSchedForm.Designer.cs" />
+    <Compile Include="src\Revisions\RevisionItem.cs" />
+    <Compile Include="src\Revisions\RevisionCloud.cs" />
+    <Compile Include="src\Revisions\SCloudSChedCommand.cs" />
+    <Compile Include="src\PlaceCoordinate\PlaceCoordinate.cs" />
+    <Compile Include="src\PlaceCoordinate\PlaceCoordinateForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SCoord\SCoordForm.Designer.cs" />
-    <Compile Include="src\SCopy\SCopyEnums.cs" />
-    <Compile Include="src\SCopy\SCopyMainForm.cs">
+    <Compile Include="src\PlaceCoordinate\PlaceCoordinateForm.Designer.cs" />
+    <Compile Include="src\SheetCopier\SheetCopierEnums.cs" />
+    <Compile Include="src\SheetCopier\SheetCopierMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SCopy\SCopyMainForm.Designer.cs" />
-    <Compile Include="src\SCopy\SCopy.cs" />
-    <Compile Include="src\SCopy\SCopyCommand.cs" />
-    <Compile Include="src\SCopy\SCopyConstants.cs" />
-    <Compile Include="src\SCopy\SCopyMainForm.Designer1.cs">
-      <DependentUpon>SCopyMainForm.resx</DependentUpon>
+    <Compile Include="src\SheetCopier\SheetCopierMainForm.Designer.cs" />
+    <Compile Include="src\SheetCopier\SheetCopierManager.cs" />
+    <Compile Include="src\SheetCopier\SheetCopierCommand.cs" />
+    <Compile Include="src\SheetCopier\SheetCopierConstants.cs" />
+    <Compile Include="src\SheetCopier\SheetCopierMainForm.Designer1.cs">
+      <DependentUpon>SheetCopierMainForm.resx</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="src\SCopy\SCopySheet.cs" />
-    <Compile Include="src\SCopy\SCopyTextInputForm.cs">
+    <Compile Include="src\SheetCopier\SheetCopierSheet.cs" />
+    <Compile Include="src\SheetCopier\SheetCopierTextInputForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SCopy\SCopyTextInputForm.Designer.cs">
-      <DependentUpon>SCopyTextInputForm.cs</DependentUpon>
+    <Compile Include="src\SheetCopier\SheetCopierTextInputForm.Designer.cs">
+      <DependentUpon>SheetCopierTextInputForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\SCopy\SCopyViewOnSheet.cs" />
-    <Compile Include="src\SCopy\SCopyViewSelectionDialog.cs">
+    <Compile Include="src\SheetCopier\SheetCopierViewOnSheet.cs" />
+    <Compile Include="src\SheetCopier\SheetCopierViewSelectionDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SCopy\SCopyViewSelectionDialog.Designer.cs" />
-    <Compile Include="src\SCulcase\SCulcase.cs" />
-    <Compile Include="src\SCulcase\SCulcaseCommand.cs" />
-    <Compile Include="src\SCulcase\SCulcaseEnums.cs" />
-    <Compile Include="src\SCulcase\SCulcaseInfoDialog.cs">
+    <Compile Include="src\SheetCopier\SheetCopierViewSelectionDialog.Designer.cs" />
+    <Compile Include="src\ModelUpdates\WallUnjoiner.cs" />
+    <Compile Include="src\ModelUpdates\WallUnjoinerCommand.cs" />
+    <Compile Include="src\ModelUpdates\WallUnjoinerForm.cs" />
+    <Compile Include="src\ModelUpdates\WallUnjoinerForm.Designer.cs">
+      <DependentUpon>WallUnjoinerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\DestructivePurge\DestructivePurge.cs" />
+    <Compile Include="src\DestructivePurge\DestructivePurgeCommand.cs" />
+    <Compile Include="src\DestructivePurge\DestructivePurgeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SCulcase\SCulcaseInfoDialog.Designer.cs" />
-    <Compile Include="src\SCulcase\SCulcaseMainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\SCulcase\SCulcaseMainForm.Designer.cs" />
-    <Compile Include="src\SCulcase\SCulcaseMainForm2.cs" />
-    <Compile Include="src\SCulcase\SCulcaseMainForm2.Designer.cs">
-      <DependentUpon>SCulcaseMainForm2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\SCunderlay\SCunderlay.cs" />
-    <Compile Include="src\SCunderlay\SCunderlayCommand.cs" />
-    <Compile Include="src\SCunjoin\SCunjoin.cs" />
-    <Compile Include="src\SCunjoin\SCunjoinCommand.cs" />
-    <Compile Include="src\SCunjoin\SCunjoinForm.cs" />
-    <Compile Include="src\SCunjoin\SCunjoinForm.Designer.cs">
-      <DependentUpon>SCunjoinForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\SCuv\SCuv.cs" />
-    <Compile Include="src\SCuv\SCuvCommand.cs" />
-    <Compile Include="src\SCwash\SCwash.cs" />
-    <Compile Include="src\SCwash\SCwashCommand.cs" />
-    <Compile Include="src\SCwash\SCwashForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\SCwash\SCwashForm.Designer.cs" />
-    <Compile Include="src\SCwash\SCwashTreeNode.cs" />
-    <Compile Include="src\SCwm\SCwm.cs" />
-    <Compile Include="src\SCwm\SCwmCommands.cs" />
-    <Compile Include="src\SCwm\SCwmMaximizeUI.cs" />
+    <Compile Include="src\DestructivePurge\DestructivePurgeForm.Designer.cs" />
+    <Compile Include="src\DestructivePurge\DestructivePurgeTreeNode.cs" />
+    <Compile Include="src\ViewUtils\ViewUnderlays.cs" />
+    <Compile Include="src\ViewUtils\RemoveUnderlaysCommand.cs" />
+    <Compile Include="src\ViewUtils\UserView.cs" />
+    <Compile Include="src\ViewUtils\CreateUserViewCommand.cs" />
+    <Compile Include="src\WindowManager\WindowManager.cs" />
+    <Compile Include="src\WindowManager\WindowManagerCommands.cs" />
+    <Compile Include="src\WindowManager\WindowManagerMaximizeUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="src\Common\AboutBox.resx">
@@ -385,85 +384,85 @@
     <EmbeddedResource Include="src\Common\UpgradeForm.resx">
       <DependentUpon>UpgradeForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="src\ParameterUtils\SCulcaseInfoDialog.resx" />
+    <EmbeddedResource Include="src\ParameterUtils\SCulcaseMainForm.resx">
+      <DependentUpon>SCulcaseMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ParameterUtils\SCulcaseMainForm2.resx">
+      <DependentUpon>SCulcaseMainForm2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\ScaddinsOptionsForm.resx">
       <DependentUpon>ScaddinsOptionsForm.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ScaddinsOptionsForm.Designer1.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCaos\SCaosForm.resx">
-      <DependentUpon>SCaosForm.cs</DependentUpon>
+    <EmbeddedResource Include="src\SolarUtils\SolarViewsForm.resx">
+      <DependentUpon>SolarViewsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCasfar\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="src\RoomUtils\RoomUtilsForm.resx">
+      <DependentUpon>RoomUtilsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCasfar\RoomFilterDialog.resx">
+    <EmbeddedResource Include="src\RoomUtils\RoomFilterDialog.resx">
       <DependentUpon>RoomFilterDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCasfar\RoomInfoDilaog.resx">
+    <EmbeddedResource Include="src\RoomUtils\RoomInfoDilaog.resx">
       <DependentUpon>RoomInfoDilaog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCexport\ConfirmDialog.resx">
+    <EmbeddedResource Include="src\ExportManager\ConfirmDialog.resx">
       <DependentUpon>ConfirmDialog.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ConfirmDialog.Designer1.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCexport\ExportLogDialog.resx">
+    <EmbeddedResource Include="src\ExportManager\ExportLogDialog.resx">
       <DependentUpon>ExportLogDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCexport\MainForm.resx">
+    <EmbeddedResource Include="src\ExportManager\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCexport\OpenSheetDialog.resx">
+    <EmbeddedResource Include="src\ExportManager\OpenSheetDialog.resx">
       <DependentUpon>OpenSheetDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCexport\OptionsDialog.resx">
+    <EmbeddedResource Include="src\ExportManager\OptionsDialog.resx">
       <DependentUpon>OptionsDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCexport\RenameSheetForm.resx">
+    <EmbeddedResource Include="src\ExportManager\RenameSheetForm.resx">
       <DependentUpon>RenameSheetForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCexport\RevisionSelectionDialog.resx">
+    <EmbeddedResource Include="src\ExportManager\RevisionSelectionDialog.resx">
       <DependentUpon>RevisionSelectionDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCexport\SelectPrinterDialog.resx">
+    <EmbeddedResource Include="src\ExportManager\SelectPrinterDialog.resx">
       <DependentUpon>SelectPrinterDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCightlines\SCightLinesMainForm.resx">
-      <DependentUpon>SCightLinesMainForm.cs</DependentUpon>
+    <EmbeddedResource Include="src\LineOfSite\LineOfSightMainForm.resx">
+      <DependentUpon>LineOfSightMainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCightlines\SCightLinesOutputForm.resx" />
-    <EmbeddedResource Include="src\SCincrement\SCincrementSettingsForm.resx">
+    <EmbeddedResource Include="src\LineOfSite\LineOfSightOutputForm.resx" />
+    <EmbeddedResource Include="src\ParameterUtils\SCincrementSettingsForm.resx">
       <DependentUpon>SCincrementSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCloudSched\SCloudSchedForm.resx">
+    <EmbeddedResource Include="src\Revisions\SCloudSchedForm.resx">
       <DependentUpon>SCloudSchedForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCoord\SCoordForm.resx">
-      <DependentUpon>SCoordForm.cs</DependentUpon>
+    <EmbeddedResource Include="src\PlaceCoordinate\PlaceCoordinateForm.resx">
+      <DependentUpon>PlaceCoordinateForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCopy\SCopyMainForm.resx">
-      <DependentUpon>SCopyMainForm.cs</DependentUpon>
+    <EmbeddedResource Include="src\SheetCopier\SheetCopierMainForm.resx">
+      <DependentUpon>SheetCopierMainForm.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SCopyMainForm.Designer1.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCopy\SCopyTextInputForm.resx">
-      <DependentUpon>SCopyTextInputForm.cs</DependentUpon>
+    <EmbeddedResource Include="src\SheetCopier\SheetCopierTextInputForm.resx">
+      <DependentUpon>SheetCopierTextInputForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCopy\SCopyViewSelectionDialog.resx">
-      <DependentUpon>SCopyViewSelectionDialog.Designer.cs</DependentUpon>
+    <EmbeddedResource Include="src\SheetCopier\SCopyViewSelectionDialog.resx">
+      <DependentUpon>SheetCopierViewSelectionDialog.Designer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCulcase\SCulcaseInfoDialog.resx" />
-    <EmbeddedResource Include="src\SCulcase\SCulcaseMainForm.resx">
-      <DependentUpon>SCulcaseMainForm.cs</DependentUpon>
+    <EmbeddedResource Include="src\ModelUpdates\WallUnjoinerForm.resx">
+      <DependentUpon>WallUnjoinerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SCulcase\SCulcaseMainForm2.resx">
-      <DependentUpon>SCulcaseMainForm2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\SCunjoin\SCunjoinForm.resx">
-      <DependentUpon>SCunjoinForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\SCwash\SCwashForm.resx">
-      <DependentUpon>SCwashForm.cs</DependentUpon>
+    <EmbeddedResource Include="src\DestructivePurge\DestructivePurgeForm.resx">
+      <DependentUpon>DestructivePurgeForm.cs</DependentUpon>
       <CustomToolNamespace>SCaddins.SCwash</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
@@ -487,31 +486,31 @@
     <EmbeddedResource Include="src\Assets\user.png" />
     <EmbeddedResource Include="src\Assets\scasfar-rvt-16.png" />
     <EmbeddedResource Include="src\Assets\scunjoin-rvt-16.png" />
-    <None Include="src\Manifest\2014\SCaddins.addin" />
-    <None Include="src\Manifest\2015\SCaddins.addin" />
-    <None Include="src\Manifest\2016\SCaddins.addin" />
+    <None Include="src\Manifests\2014\SCaddins.addin" />
+    <None Include="src\Manifests\2015\SCaddins.addin" />
+    <None Include="src\Manifests\2016\SCaddins.addin" />
     <None Include="src\Scaddins.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Scaddins.Designer.cs</LastGenOutput>
     </None>
-    <None Include="src\SCexport\Settings1.settings">
+    <None Include="src\ExportManager\Settings1.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
     </None>
-    <None Include="src\SCincrement\SCincrementSettings.settings">
+    <None Include="src\ParameterUtils\SCincrementSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>SCincrementSettings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="src\SCwm\SCwm.ahk" />
+    <None Include="src\WindowManager\WindowManager.ahk" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="etc" />
     <Folder Include="share" />
-    <Folder Include="src\Manifest\2016" />
+    <Folder Include="src\Manifests\2016" />
     <Folder Include="src\Assets" />
-    <Folder Include="src\SCunjoin" />
-    <Folder Include="src\SCasfar" />
-    <Folder Include="src\SCwm" />
+    <Folder Include="src\ModelUpdates" />
+    <Folder Include="src\RoomUtils" />
+    <Folder Include="src\WindowManager" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Condition="'$(Configuration)' == 'Debug'" Project="C:\Program Files (x86)\MSBuild\StyleCop\v4.7\StyleCop.targets" />

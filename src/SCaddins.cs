@@ -144,7 +144,7 @@ namespace SCaddins
             }
             
             // Register wall updater with Revit
-            var updater = new SCaddins.SCunjoin.WallUnjoiner(application.ActiveAddInId);
+            var updater = new SCaddins.ModelUpdates.WallUnjoiner(application.ActiveAddInId);
             UpdaterRegistry.RegisterUpdater(updater, true);
 
             // Change Scope = any Wall element
@@ -158,7 +158,7 @@ namespace SCaddins
 
         public Result OnShutdown(UIControlledApplication application)
         {
-            var updater = new SCaddins.SCunjoin.WallUnjoiner(application.ActiveAddInId);
+            var updater = new SCaddins.ModelUpdates.WallUnjoiner(application.ActiveAddInId);
             UpdaterRegistry.UnregisterUpdater(updater.GetUpdaterId());
             return Result.Succeeded;
         }
@@ -214,7 +214,7 @@ namespace SCaddins
         public static PushButtonData LoadSCaos(string dll, int iconSize)
         {
             var pbd = new PushButtonData(
-                              "SCaos", "Angle Of Sun", dll, "SCaddins.SCaos.Command");
+                              "SCaos", "Angle Of Sun", dll, "SCaddins.SolarUtils.Command");
             pbd.SetContextualHelp(
                 new ContextualHelp(
                     ContextualHelpType.Url, Constants.HelpLink));
