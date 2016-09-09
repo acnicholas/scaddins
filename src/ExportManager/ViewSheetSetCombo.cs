@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCexport
+namespace SCaddins.ExportManager
 {
         using System;
         using Autodesk.Revit.DB;

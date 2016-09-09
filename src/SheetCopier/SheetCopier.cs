@@ -16,7 +16,7 @@
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
 // [assembly: System.CLSCompliant(true)]
-namespace SCaddins
+namespace SCaddins.SheetCopier
 {
     using System;
     using System.Linq;

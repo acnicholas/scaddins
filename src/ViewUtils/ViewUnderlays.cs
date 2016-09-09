@@ -24,11 +24,11 @@ namespace SCaddins.ViewUtils
     public static class ViewUnderlays
     {
         public static void RemoveUnderlays(
-            ICollection<SCaddins.SCexport.ExportSheet> sheets, Document doc)
+            ICollection<SCaddins.ExportManager.ExportSheet> sheets, Document doc)
         {
             var t = new Transaction(doc, "Remove Underlays");
             t.Start();
-            foreach (SCaddins.SCexport.ExportSheet sheet in sheets) {
+            foreach (SCaddins.ExportManager.ExportSheet sheet in sheets) {
                 #if REVIT2014
                 foreach (View v in sheet.Sheet.Views) {
                     RemoveUnderlay(v);

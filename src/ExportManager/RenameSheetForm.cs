@@ -15,13 +15,13 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCexport
+namespace SCaddins.ExportManager
 {
     using System;
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
-    using SCaddins.SCopy;
+    using SCaddins.SheetCopier;
 
     public partial class RenameSheetForm : Form
     {
@@ -113,12 +113,12 @@ namespace SCaddins.SCexport
             //Autodesk.Revit.DB.View view = sheet.Sheet;
                                
             #if REVIT2014
-                    SCopy.SheetCopy.deleteRevisionClouds(view.Id, this.doc); 
+                    SheetCopierManager.deleteRevisionClouds(view.Id, this.doc); 
                     foreach (Autodesk.Revit.DB.View v in sheet.Sheet.Views) {
-                        SCopy.SheetCopy.deleteRevisionClouds(v.Id, this.doc);
+                        SheetCopierManager.deleteRevisionClouds(v.Id, this.doc);
                     }
             #else
-            List<Autodesk.Revit.DB.Revision> hiddenRevisionClouds = SCopy.SheetCopierManager.getAllHiddenRevisions(this.doc);
+            List<Autodesk.Revit.DB.Revision> hiddenRevisionClouds = SheetCopierManager.getAllHiddenRevisions(this.doc);
             //turn on hidden revisions
             foreach (Autodesk.Revit.DB.Revision rev in hiddenRevisionClouds) {
                 rev.Visibility = Autodesk.Revit.DB.RevisionVisibility.CloudAndTagVisible;
@@ -127,11 +127,11 @@ namespace SCaddins.SCexport
             doc.Regenerate();
                 
             //remove clouds on view
-            SCopy.SheetCopierManager.deleteRevisionClouds(view.Id, this.doc);     
+            SheetCopierManager.deleteRevisionClouds(view.Id, this.doc);     
                 
             //remove clouds in viewports                    
             foreach (Autodesk.Revit.DB.ElementId id in sheet.Sheet.GetAllPlacedViews()) {
-                SCopy.SheetCopierManager.deleteRevisionClouds(id, this.doc);
+                SheetCopierManager.deleteRevisionClouds(id, this.doc);
             }
                  
             //re-hide hidden revisions

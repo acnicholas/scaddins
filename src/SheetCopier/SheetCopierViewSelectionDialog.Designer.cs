@@ -1,4 +1,4 @@
-﻿namespace SCaddins.SCopy
+﻿namespace SCaddins.SheetCopier
 {
     partial class SCopyViewSelectionDialog
     {

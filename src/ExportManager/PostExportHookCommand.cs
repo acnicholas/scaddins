@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCexport
+namespace SCaddins.ExportManager
 {
     using System;
     using System.Collections.ObjectModel;
@@ -41,7 +41,7 @@ namespace SCaddins.SCexport
             get { return this.name; }
         }
 
-        public static string FormatConfigurationString(SCaddins.SCexport.ExportSheet sheet, string value, string extension)
+        public static string FormatConfigurationString(SCaddins.ExportManager.ExportSheet sheet, string value, string extension)
         {
             string result = value;
             result = result.Replace(@"$height", sheet.Height.ToString(CultureInfo.InvariantCulture));
@@ -60,7 +60,7 @@ namespace SCaddins.SCexport
             return result;
         }
 
-        public void Run(SCaddins.SCexport.ExportSheet sheet, string extension)
+        public void Run(SCaddins.ExportManager.ExportSheet sheet, string extension)
         {
             string a = FormatConfigurationString(sheet, this.args, extension);
             #if DEBUG

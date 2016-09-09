@@ -23,6 +23,11 @@ if exist .\bin\Release\SCaddins15.dll set R2015=Enabled
 if exist .\bin\Release\SCaddins16.dll set R2016=Enabled
 if exist .\bin\Release\SCaddins17.dll set R2017=Enabled
 
+powershell -Command "(gc SCaddins.addin) -replace '_REVIT_VERSION_', '2014' | Out-File bin\Release\SCaddins2014.addin" || goto :error
+powershell -Command "(gc SCaddins.addin) -replace '_REVIT_VERSION_', '2015' | Out-File bin\Release\SCaddins2015.addin" || goto :error
+powershell -Command "(gc SCaddins.addin) -replace '_REVIT_VERSION_', '2016' | Out-File bin\Release\SCaddins2016.addin" || goto :error
+powershell -Command "(gc SCaddins.addin) -replace '_REVIT_VERSION_', '2017' | Out-File bin\Release\SCaddins2017.addin" || goto :error
+
 call %msBuildDir%\msbuild.exe %SWITCHES% installer/SCaddins.Installer.wixproj /property:Configuration="Release" /property:Platform="x64" /target:Clean,Build /l:FileLogger,Microsoft.Build.Engine;logfile=var\log\MSBuild_Installer.log || goto :error
 
 set msBuildDir=

@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCopy
+namespace SCaddins.SheetCopier
 {
     using System;
     using System.Windows.Forms;

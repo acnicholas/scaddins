@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCopy
+namespace SCaddins.SheetCopier
 {
     using System;
     using System.Linq;
@@ -33,7 +33,7 @@ namespace SCaddins.SCopy
             Autodesk.Revit.DB.ElementSet elements)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            SCaddins.SCexport.DialogHandler.AddRevitDialogHandler(commandData.Application);
+            SCaddins.ExportManager.DialogHandler.AddRevitDialogHandler(commandData.Application);
         
             Autodesk.Revit.DB.ViewSheet viewSheet = SheetCopierManager.ViewToViewSheet(doc.ActiveView);
             if (viewSheet == null) {

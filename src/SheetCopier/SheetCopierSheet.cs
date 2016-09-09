@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCopy
+namespace SCaddins.SheetCopier
 {
     using System;
     using System.Collections.Generic;
@@ -42,7 +42,7 @@ namespace SCaddins.SCopy
             this.viewsOnSheet = new BindingList<SheetCopierViewOnSheet>();
             #if REVIT2014
             foreach (View v in sourceSheet.Views) {
-                this.viewsOnSheet.Add(new SCopyViewOnSheet(v.Name, v, scopy));
+                this.viewsOnSheet.Add(new SheetCopierViewOnSheet(v.Name, v, scopy));
             }
             #else
             foreach (ElementId id in sourceSheet.GetAllPlacedViews()) {              

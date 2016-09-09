@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCexport
+namespace SCaddins.ExportManager
 {
     using System;
     using System.Collections.Generic;
@@ -697,8 +697,8 @@ namespace SCaddins.SCexport
 
         private void CopySheetsToolStripMenuItemClick(object sender, EventArgs e)
         {          
-            var scopy = new SCaddins.SCopy.SheetCopierManager(this.udoc);            
-            var form  = new SCaddins.SCopy.MainForm(this.doc, this.SelectedSheets(), scopy);
+            var scopy = new SCaddins.SheetCopier.SheetCopierManager(this.udoc);            
+            var form  = new SCaddins.SheetCopier.MainForm(this.doc, this.SelectedSheets(), scopy);
             form.Enabled = true;
             System.Windows.Forms.DialogResult result = form.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK) {

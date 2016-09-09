@@ -34,6 +34,14 @@
 									</Component>
 									<?endif?>
 								</Directory>
+                                <Directory Id="RFAFILES2017" Name="2017">
+									<?if $(env.R2017) = Enabled ?>
+									<Component Id="SCaddinsRFA2017" Guid="12A17D8D-5DC0-413B-8B71-C0F36B2BB9C7" DiskId="1" Win64="yes">
+										<CreateFolder />
+										<File Id="_017.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2015\SC-Survey_Point.rfa" />
+									</Component>
+									<?endif?>
+								</Directory>
 							</Directory>
 						</Directory>
 						<Directory Name="etc" Id="ETCDIR">
@@ -66,6 +74,14 @@
 							</Component>
 						</Directory>
 						<?endif?>
+                        <?if $(env.R2017) = Enabled ?>
+						<Directory Id="DLLDIR2017" Name="2017">
+							<Component Id="SCaddins2017" Guid="BC1E0969-FB15-446C-B35B-8AF899054B21" DiskId="1" Win64="yes">
+								<CreateFolder />
+								<File Id="SCaddins2017.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins17.dll" />
+							</Component>
+						</Directory>
+						<?endif?>
 					</Directory>
 				</Directory>
 			</Directory>
@@ -77,7 +93,7 @@
 							<Directory Id="R2014" Name="2014">
 								<Component Id="SCaddinsAddin2014" DiskId="1" Guid="ED49B2CE-28D8-4E49-8CD0-063DAB6DD0BA">
 									<CreateFolder />
-									<File Id="SCADDINS14.ADDIN" Name="SCaddins14.addin" Source="..\src\Manifest\2014\SCaddins.addin" />
+									<File Id="SCADDINS14.ADDIN" Name="SCaddins14.addin" Source="..\bin\Release\SCaddins2014.addin" />
 								</Component>
 							</Directory>
 							<?endif?>
@@ -85,7 +101,7 @@
 							<Directory Id="SCaddinsAddin2015Directory" Name="2015">
 								<Component Id="SCaddinsAddin2015" DiskId="1" Guid="F70553D6-1822-4937-96DF-1B262F214DD3">
 									<CreateFolder />
-									<File Id="SCADDINS15.ADDIN" Name="SCaddins15.addin" Source="..\src\Manifest\2015\SCaddins.addin" />
+									<File Id="SCADDINS15.ADDIN" Name="SCaddins15.addin" Source="..\bin\Release\SCaddins2015.addin" />
 								</Component>
 							</Directory>
 							<?endif?>
@@ -93,7 +109,15 @@
 							<Directory Id="SCaddinsAddin2016Directory" Name="2016">
 								<Component Id="SCaddinsAddin2016" Guid="70474050-0034-4A79-BF47-AF18E41EDC0D" DiskId="1">
 									<CreateFolder />
-									<File Id="SCADDINS16.ADDIN" Name="SCaddins16.addin" Source="..\src\Manifest\2016\SCaddins.addin" />
+									<File Id="SCADDINS16.ADDIN" Name="SCaddins16.addin" Source="..\bin\Release\SCaddins2016.addin" />
+								</Component>
+							</Directory>
+							<?endif?>
+                            <?if $(env.R2017) = Enabled ?>
+							<Directory Id="SCaddinsAddin2017Directory" Name="2017">
+								<Component Id="SCaddinsAddin2017" Guid="F2D456ED-8A1C-4B3C-9926-770369DA8E42" DiskId="1">
+									<CreateFolder />
+									<File Id="SCADDINS17.ADDIN" Name="SCaddins17.addin" Source="..\bin\Release\SCaddins2017.addin" />
 								</Component>
 							</Directory>
 							<?endif?>

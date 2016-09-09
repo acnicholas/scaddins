@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCexport
+namespace SCaddins.ExportManager
 {
     using System;
     using System.Windows.Forms;
@@ -68,8 +68,8 @@ namespace SCaddins.SCexport
             this.textBoxGSLib.Text = this.scx.GhostscriptLibDir;
             this.textBoxA3Printer.Text = this.scx.PrinterNameA3;
             this.textBoxLargeFormatPrinter.Text = this.scx.PrinterNameLargeFormat;
-            textBoxTextEditor.Text = SCaddins.SCexport.Settings1.Default.TextEditor;
-            textBoxExportDir.Text = SCaddins.SCexport.Settings1.Default.ExportDir;
+            textBoxTextEditor.Text = SCaddins.ExportManager.Settings1.Default.TextEditor;
+            textBoxExportDir.Text = SCaddins.ExportManager.Settings1.Default.ExportDir;
             this.checkBoxShowExportLog.Checked = this.scx.ShowExportLog;
         }
 
@@ -83,20 +83,20 @@ namespace SCaddins.SCexport
             this.scx.PrinterNameLargeFormat = textBoxLargeFormatPrinter.Text;
             this.scx.ShowExportLog = this.checkBoxShowExportLog.Checked;
             this.scx.ExportDir = this.textBoxExportDir.Text;
-            SCaddins.SCexport.Settings1.Default.GSBinDirectory = this.scx.GhostscriptBinDir;
-            SCaddins.SCexport.Settings1.Default.AdobePrinterDriver = this.scx.PdfPrinterName;
-            SCaddins.SCexport.Settings1.Default.A3PrinterDriver = this.scx.PrinterNameA3;
-            SCaddins.SCexport.Settings1.Default.LargeFormatPrinterDriver = this.scx.PrinterNameLargeFormat;
-            SCaddins.SCexport.Settings1.Default.PSPrinterDriver = this.scx.PostscriptPrinterName;
-            SCaddins.SCexport.Settings1.Default.GSLibDirectory = this.scx.GhostscriptLibDir;
-            SCaddins.SCexport.Settings1.Default.TextEditor = textBoxTextEditor.Text;
-            SCaddins.SCexport.Settings1.Default.ExportDir = this.textBoxExportDir.Text;
-            SCaddins.SCexport.Settings1.Default.AdobePDFMode = radioPDF.Checked;
-            SCaddins.SCexport.Settings1.Default.ForceDateRevision = checkBoxForceDate.Checked;
-            SCaddins.SCexport.Settings1.Default.HideTitleBlocks = checkBoxHideTitleblock.Checked;
-            SCaddins.SCexport.Settings1.Default.AcadExportVersion = this.comboBoxAutocadVersion.SelectedItem.ToString();
-            SCaddins.SCexport.Settings1.Default.ShowExportLog = this.checkBoxShowExportLog.Checked;
-            SCaddins.SCexport.Settings1.Default.Save();
+            SCaddins.ExportManager.Settings1.Default.GSBinDirectory = this.scx.GhostscriptBinDir;
+            SCaddins.ExportManager.Settings1.Default.AdobePrinterDriver = this.scx.PdfPrinterName;
+            SCaddins.ExportManager.Settings1.Default.A3PrinterDriver = this.scx.PrinterNameA3;
+            SCaddins.ExportManager.Settings1.Default.LargeFormatPrinterDriver = this.scx.PrinterNameLargeFormat;
+            SCaddins.ExportManager.Settings1.Default.PSPrinterDriver = this.scx.PostscriptPrinterName;
+            SCaddins.ExportManager.Settings1.Default.GSLibDirectory = this.scx.GhostscriptLibDir;
+            SCaddins.ExportManager.Settings1.Default.TextEditor = textBoxTextEditor.Text;
+            SCaddins.ExportManager.Settings1.Default.ExportDir = this.textBoxExportDir.Text;
+            SCaddins.ExportManager.Settings1.Default.AdobePDFMode = radioPDF.Checked;
+            SCaddins.ExportManager.Settings1.Default.ForceDateRevision = checkBoxForceDate.Checked;
+            SCaddins.ExportManager.Settings1.Default.HideTitleBlocks = checkBoxHideTitleblock.Checked;
+            SCaddins.ExportManager.Settings1.Default.AcadExportVersion = this.comboBoxAutocadVersion.SelectedItem.ToString();
+            SCaddins.ExportManager.Settings1.Default.ShowExportLog = this.checkBoxShowExportLog.Checked;
+            SCaddins.ExportManager.Settings1.Default.Save();
         }
 
         private void AssignDWGReleaseMenuTags()
@@ -265,7 +265,7 @@ namespace SCaddins.SCexport
 
         private void Button2Click(object sender, System.EventArgs e)
         {
-            SCaddins.SCexport.Settings1.Default.Reset();
+            SCaddins.ExportManager.Settings1.Default.Reset();
             this.scx.LoadSettings();
             this.LoadValues();
         }

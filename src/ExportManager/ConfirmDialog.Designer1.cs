@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SCaddins.SCexport {
+namespace SCaddins.ExportManager {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace SCaddins.SCexport {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SCaddins.SCexport.ConfirmDialog", typeof(ConfirmDialog).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SCaddins.ExportManager.ConfirmDialog", typeof(ConfirmDialog).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

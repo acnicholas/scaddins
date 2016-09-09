@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SCaddins.SCopy {
+namespace SCaddins.SheetCopier {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace SCaddins.SCopy {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SCaddins.SCopy.SCopyMainForm", typeof(SCopyMainForm).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SCaddins.SheetCopier.SCopyMainForm", typeof(SCopyMainForm).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

@@ -134,6 +134,9 @@
     <Compile Include="..\Constants.cs">
       <Link>Constants.cs</Link>
     </Compile>
+    <Compile Include="..\ModelUpdater\WallUnjoiner.cs">
+      <Link>WallUnjoiner.cs</Link>
+    </Compile>
     <Compile Include="..\SCaddins.cs">
       <Link>SCaddins.cs</Link>
     </Compile>
@@ -141,96 +144,93 @@
       <Link>SCaddins.Designer.cs</Link>
       <DependentUpon>SCaddins.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\SCexport\ConfirmDialog.cs">
+    <Compile Include="..\ExportManager\ConfirmDialog.cs">
       <Link>ConfirmDialog.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\ConfirmDialog.Designer.cs">
+    <Compile Include="..\ExportManager\ConfirmDialog.Designer.cs">
       <Link>ConfirmDialog.Designer.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\ConfirmDialog.Designer1.cs">
+    <Compile Include="..\ExportManager\ConfirmDialog.Designer1.cs">
       <Link>ConfirmDialog.Designer1.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\Constants.cs">
+    <Compile Include="..\ExportManager\Constants.cs">
       <Link>Constants.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\DialogHandler.cs">
+    <Compile Include="..\ExportManager\DialogHandler.cs">
       <Link>DialogHandler.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\Enums.cs">
+    <Compile Include="..\ExportManager\Enums.cs">
       <Link>Enums.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\ExportLog.cs">
+    <Compile Include="..\ExportManager\ExportLog.cs">
       <Link>ExportLog.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\ExportLogDialog.cs">
+    <Compile Include="..\ExportManager\ExportLogDialog.cs">
       <Link>ExportLogDialog.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\ExportLogDialog.Designer.cs">
+    <Compile Include="..\ExportManager\ExportLogDialog.Designer.cs">
       <Link>ExportLogDialog.Designer.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\ExportLogItem.cs">
+    <Compile Include="..\ExportManager\ExportLogItem.cs">
       <Link>ExportLogItem.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\ExportManager.cs">
+    <Compile Include="..\ExportManager\ExportManager.cs">
       <Link>ExportManager.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\FileUtils.cs">
+    <Compile Include="..\ExportManager\FileUtils.cs">
       <Link>FileUtils.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\PostExportHookCommand.cs">
+    <Compile Include="..\ExportManager\PostExportHookCommand.cs">
       <Link>PostExportHookCommand.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\PrintSettings.cs">
+    <Compile Include="..\ExportManager\PrintSettings.cs">
       <Link>PrintSettings.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\RenameSheetForm.cs">
+    <Compile Include="..\ExportManager\RenameSheetForm.cs">
       <Link>RenameSheetForm.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\RenameSheetForm.Designer.cs">
+    <Compile Include="..\ExportManager\RenameSheetForm.Designer.cs">
       <Link>RenameSheetForm.Designer.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\RevisionSelectionDialog.cs">
+    <Compile Include="..\ExportManager\RevisionSelectionDialog.cs">
       <Link>RevisionSelectionDialog.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\RevisionSelectionDialog.Designer.cs">
+    <Compile Include="..\ExportManager\RevisionSelectionDialog.Designer.cs">
       <Link>RevisionSelectionDialog.Designer.cs</Link>
       <DependentUpon>RevisionSelectionDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\SCexport\SegmentedSheetName.cs">
+    <Compile Include="..\ExportManager\SegmentedSheetName.cs">
       <Link>SegmentedSheetName.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\Settings1.Designer.cs">
+    <Compile Include="..\ExportManager\Settings1.Designer.cs">
       <Link>Settings1.Designer.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\Sheet.cs">
+    <Compile Include="..\ExportManager\Sheet.cs">
       <Link>Sheet.cs</Link>
     </Compile>
-    <Compile Include="..\SCexport\ViewSheetSetCombo.cs">
+    <Compile Include="..\ExportManager\ViewSheetSetCombo.cs">
       <Link>ViewSheetSetCombo.cs</Link>
     </Compile>
-    <Compile Include="..\SCunjoin\SCunjoin.cs">
-      <Link>SCunjoin.cs</Link>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SCopy.cs" />
-    <Compile Include="SCopyCommand.cs" />
-    <Compile Include="SCopyConstants.cs" />
-    <Compile Include="SCopyEnums.cs" />
-    <Compile Include="SCopyMainForm.cs" />
-    <Compile Include="SCopyMainForm.Designer.cs" />
-    <Compile Include="SCopyMainForm.Designer1.cs" />
-    <Compile Include="SCopySheet.cs" />
-    <Compile Include="SCopyTextInputForm.cs" />
-    <Compile Include="SCopyTextInputForm.Designer.cs" />
-    <Compile Include="SCopyViewOnSheet.cs" />
-    <Compile Include="SCopyViewSelectionDialog.cs" />
-    <Compile Include="SCopyViewSelectionDialog.Designer.cs">
+    <Compile Include="SheetCopierManager.cs" />
+    <Compile Include="SheetCopierCommand.cs" />
+    <Compile Include="SheetCopierConstants.cs" />
+    <Compile Include="SheetCopierEnums.cs" />
+    <Compile Include="SheetCopierMainForm.cs" />
+    <Compile Include="SheetCopierMainForm.Designer.cs" />
+    <Compile Include="SheetCopierMainForm.Designer1.cs" />
+    <Compile Include="SheetCopierSheet.cs" />
+    <Compile Include="SheetCopierTextInputForm.cs" />
+    <Compile Include="SheetCopierTextInputForm.Designer.cs" />
+    <Compile Include="SheetCopierViewOnSheet.cs" />
+    <Compile Include="SheetCopierViewSelectionDialog.cs" />
+    <Compile Include="SheetCopierViewSelectionDialog.Designer.cs">
       <DependentUpon>SegmentedSheetName.cs</DependentUpon>
     </Compile>
     <Compile Include="SheetCopier.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\SCexport\Settings1.settings">
+    <None Include="..\ExportManager\Settings1.settings">
       <Link>Settings1.settings</Link>
     </None>
     <None Include="app.config" />
@@ -241,30 +241,30 @@
       <Link>UpgradeForm.resx</Link>
       <DependentUpon>UpgradeForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\SCexport\ConfirmDialog.resx">
+    <EmbeddedResource Include="..\ExportManager\ConfirmDialog.resx">
       <Link>ConfirmDialog.resx</Link>
       <DependentUpon>ConfirmDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\SCexport\ExportLogDialog.resx">
+    <EmbeddedResource Include="..\ExportManager\ExportLogDialog.resx">
       <Link>ExportLogDialog.resx</Link>
       <DependentUpon>ExportLogDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\SCexport\RenameSheetForm.resx">
+    <EmbeddedResource Include="..\ExportManager\RenameSheetForm.resx">
       <Link>RenameSheetForm.resx</Link>
       <DependentUpon>RenameSheetForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\SCexport\RevisionSelectionDialog.resx">
+    <EmbeddedResource Include="..\ExportManager\RevisionSelectionDialog.resx">
       <Link>RevisionSelectionDialog.resx</Link>
       <DependentUpon>RevisionSelectionDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SCopyMainForm.resx">
-      <DependentUpon>SCopyMainForm.cs</DependentUpon>
+    <EmbeddedResource Include="SheetCopierMainForm.resx">
+      <DependentUpon>SheetCopierMainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SCopyTextInputForm.resx">
-      <DependentUpon>SCopyTextInputForm.cs</DependentUpon>
+    <EmbeddedResource Include="SheetCopierTextInputForm.resx">
+      <DependentUpon>SheetCopierTextInputForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SCopyViewSelectionDialog.resx">
-      <DependentUpon>SCopyViewSelectionDialog.cs</DependentUpon>
+    <EmbeddedResource Include="SheetCopierViewSelectionDialog.resx">
+      <DependentUpon>SheetCopierViewSelectionDialog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

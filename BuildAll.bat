@@ -1,12 +1,17 @@
-call ./Build.bat || goto :error
+call Build.bat || goto :error
+echo ### SCaddins build complete ###
 
-cd src/SCopy/
-call ./Build.bat || goto :error
-call ./Bundle.bat || goto :error
+cd src/SheetCopier/
+call Build.bat || goto :error
+echo ### SheetCopier build complete ###
+call Bundle.bat || goto :error
+echo ### SheetCopier bundle created ###
 
-cd ../SCaos
-call ./Build.bat || goto :error
-call ./Bundle.bat || goto :error
+cd ../SolarUtils
+call Build.bat || goto :error
+echo ### AngleOfSun build complete ###
+call Bundle.bat || goto :error
+echo ### AngleOfSun bundle created ###
 
 echo ####################################
 echo BuildAll.bat completed without errors

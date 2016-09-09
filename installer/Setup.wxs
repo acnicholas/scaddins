@@ -49,6 +49,16 @@
                     <ComponentRef Id="SCaddinsRFA2016" />
                 </Feature>
                 <?endif?>
+                
+                <?if $(env.R2017) = Enabled ?> 
+                <Feature Id="Revit2017" Level="1" Title="SCaddins for Revit 2017">
+                    <ComponentRef Id="SCaddins2017" />
+                    <ComponentRef Id="SCaddinsAddin2017" />
+                    <ComponentRef Id="SCaddinsEtc" />
+                    <ComponentRef Id="SCexportConfigProto" />
+                    <ComponentRef Id="SCaddinsRFA2017" />
+                </Feature>
+                <?endif?>
 
                 <WixVariable Id="WixUIDialogBmp" Value="wixd.bmp" />
                 <WixVariable Id="WixUIBannerBmp" Value="wixb.bmp" />

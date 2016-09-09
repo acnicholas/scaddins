@@ -88,7 +88,7 @@ namespace SCaddins.SCloudSChed
         {
             #if (!REVIT2014)
             //TaskDialog.Show("test","Started AssignRevisionToClouds");  
-            var r = new SCaddins.SCexport.RevisionSelectionDialog(doc);
+            var r = new SCaddins.ExportManager.RevisionSelectionDialog(doc);
             var result = r.ShowDialog();
             if(result == System.Windows.Forms.DialogResult.OK){
                 //TaskDialog.Show("test","OK Clicked");      

@@ -42,12 +42,12 @@ namespace SCaddins.ViewUtils
             return false;   
         }
                
-        public static void Create(ICollection<SCaddins.SCexport.ExportSheet> sheets, Document doc)
+        public static void Create(ICollection<SCaddins.ExportManager.ExportSheet> sheets, Document doc)
         {
             string message = string.Empty;
             var t = new Transaction(doc, "SCuv Copies User Views");
             t.Start();
-            foreach (SCaddins.SCexport.ExportSheet sheet in sheets) {
+            foreach (SCaddins.ExportManager.ExportSheet sheet in sheets) {
                 message += Create(sheet.Sheet, doc);
             }
             t.Commit();

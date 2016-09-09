@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCopy
+namespace SCaddins.SheetCopier
 {
     using System;
     using System.Collections.Generic;
@@ -155,7 +155,7 @@ namespace SCaddins.SCopy
             
             //open first sheet
             if (!string.IsNullOrEmpty(firstSheetNumber)) {
-                uidoc.ShowElements(SCaddins.SCexport.ExportManager.TitleBlockInstanceFromSheetNumber(firstSheetNumber, doc));  
+                uidoc.ShowElements(SCaddins.ExportManager.ExportManager.TitleBlockInstanceFromSheetNumber(firstSheetNumber, doc));  
             }
             
             if(uidoc.GetOpenUIViews().Count > 0) {
@@ -219,7 +219,7 @@ namespace SCaddins.SCopy
                     }
                 } 
                 #else
-                var viewCategoryParam = view.get_Parameter(SCopyConstants.SheetCategory);
+                var viewCategoryParam = view.get_Parameter(SheetCopierConstants.SheetCategory);
                 if (viewCategoryParam != null) {
                     string s = viewCategoryParam.AsString();
                     if (!string.IsNullOrEmpty(s) && !this.sheetCategories.Contains(s)) {
@@ -332,7 +332,7 @@ namespace SCaddins.SCopy
                 viewCategoryParam.Set(viewCategory);
             }
             #else
-            var s = result.get_Parameter(SCopyConstants.SheetCategory);
+            var s = result.get_Parameter(SheetCopierConstants.SheetCategory);
             if (s != null) {
                 s.Set(viewCategory);
             }

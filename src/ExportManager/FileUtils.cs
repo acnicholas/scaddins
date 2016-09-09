@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCexport
+namespace SCaddins.ExportManager
 {
     using System;
     using System.IO;
@@ -36,7 +36,7 @@ namespace SCaddins.SCexport
         {
             string config = ExportManager.GetConfigFileName(doc);
             if (System.IO.File.Exists(config)) {
-                System.Diagnostics.Process.Start(SCaddins.SCexport.Settings1.Default.TextEditor, config);
+                System.Diagnostics.Process.Start(SCaddins.ExportManager.Settings1.Default.TextEditor, config);
             } else {
                 TaskDialog.Show("SCexport", "config file does not exist");
             }

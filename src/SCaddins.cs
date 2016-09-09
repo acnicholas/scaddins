@@ -144,7 +144,7 @@ namespace SCaddins
             }
             
             // Register wall updater with Revit
-            var updater = new SCaddins.ModelUpdates.WallUnjoiner(application.ActiveAddInId);
+            var updater = new  ModelUpdater.WallUnjoiner(application.ActiveAddInId);
             UpdaterRegistry.RegisterUpdater(updater, true);
 
             // Change Scope = any Wall element
@@ -158,7 +158,7 @@ namespace SCaddins
 
         public Result OnShutdown(UIControlledApplication application)
         {
-            var updater = new SCaddins.ModelUpdates.WallUnjoiner(application.ActiveAddInId);
+            var updater = new ModelUpdater.WallUnjoiner(application.ActiveAddInId);
             UpdaterRegistry.UnregisterUpdater(updater.GetUpdaterId());
             return Result.Succeeded;
         }
@@ -166,7 +166,7 @@ namespace SCaddins
         private static PushButtonData LoadScexport(string dll)
         {
             var pbd = new PushButtonData(
-                          "SCexport", "SCexport", dll, "SCaddins.SCexport.Command");
+                          "SCexport", "SCexport", dll, "SCaddins.ExportManager.Command");
             AssignPushButtonImage(pbd, @"SCaddins.src.Assets.scexport-rvt.png", 32, dll);
             pbd.SetContextualHelp(
                 new ContextualHelp(ContextualHelpType.Url, Constants.HelpLink));
@@ -233,7 +233,7 @@ namespace SCaddins
         private static PushButtonData LoadSCightlines(string dll)
         { 
             var pbd = new PushButtonData(
-                              "SCightLines", "Line of Sight", dll, "SCaddins.SCightLines.Command");
+                              "SCightLines", "Line of Sight", dll, "SCaddins.LineOfSight.Command");
             AssignPushButtonImage(pbd, "SCaddins.src.Assets.scightlines-rvt-16.png", 16, dll);
             pbd.ToolTip =
                 "Create line of sight details for stadium seating.";
@@ -306,7 +306,7 @@ namespace SCaddins
         private static PushButtonData LoadSCasfar(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCasfar", "Room Tools", dll, "SCaddins.SCasfar.Command");
+                              "SCasfar", "Room Tools", dll, "SCaddins.RoomConvertor.Command");
             AssignPushButtonImage(pbd, "SCaddins.src.Assets.scasfar-rvt-16.png", 16, dll);
             pbd.ToolTip = "Creates sheets and/or solids(masses) from a selection of rooms.";
             return pbd;
@@ -324,7 +324,7 @@ namespace SCaddins
         public static PushButtonData LoadSCopy(string dll, int iconSize)
         {
             var pbd = new PushButtonData(
-                              "SCopy", "Copy Sheets", dll, "SCaddins.SCopy.Command");
+                              "SCopy", "Copy Sheets", dll, "SCaddins.SheetCopier.Command");
             if(iconSize == 16) {
                 AssignPushButtonImage(pbd, "SCaddins.src.Assets.scopy-rvt-16.png", 16, dll);
             } else {

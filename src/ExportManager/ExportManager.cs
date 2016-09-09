@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCexport
+namespace SCaddins.ExportManager
 {
     using System;
     using System.Collections.Generic;
@@ -512,15 +512,15 @@ namespace SCaddins.SCexport
 
         public void LoadSettings()
         {
-            this.GhostscriptBinDir = SCaddins.SCexport.Settings1.Default.GSBinDirectory;
-            this.PdfPrinterName = SCaddins.SCexport.Settings1.Default.AdobePrinterDriver; 
-            this.PrinterNameA3 = SCaddins.SCexport.Settings1.Default.A3PrinterDriver; 
-            this.PrinterNameLargeFormat = SCaddins.SCexport.Settings1.Default.LargeFormatPrinterDriver;
-            this.PostscriptPrinterName = SCaddins.SCexport.Settings1.Default.PSPrinterDriver; 
-            this.GhostscriptLibDir = SCaddins.SCexport.Settings1.Default.GSLibDirectory; 
-            this.exportDir = SCaddins.SCexport.Settings1.Default.ExportDir;
-            this.AcadVersion = AcadVersionFromString(SCaddins.SCexport.Settings1.Default.AcadExportVersion);
-            this.ShowExportLog = SCaddins.SCexport.Settings1.Default.ShowExportLog;
+            this.GhostscriptBinDir = SCaddins.ExportManager.Settings1.Default.GSBinDirectory;
+            this.PdfPrinterName = SCaddins.ExportManager.Settings1.Default.AdobePrinterDriver; 
+            this.PrinterNameA3 = SCaddins.ExportManager.Settings1.Default.A3PrinterDriver; 
+            this.PrinterNameLargeFormat = SCaddins.ExportManager.Settings1.Default.LargeFormatPrinterDriver;
+            this.PostscriptPrinterName = SCaddins.ExportManager.Settings1.Default.PSPrinterDriver; 
+            this.GhostscriptLibDir = SCaddins.ExportManager.Settings1.Default.GSLibDirectory; 
+            this.exportDir = SCaddins.ExportManager.Settings1.Default.ExportDir;
+            this.AcadVersion = AcadVersionFromString(SCaddins.ExportManager.Settings1.Default.AcadExportVersion);
+            this.ShowExportLog = SCaddins.ExportManager.Settings1.Default.ShowExportLog;
         }
 
         private static void OpenSheet(UIDocument udoc, ViewSheet view, int inc)
@@ -697,9 +697,9 @@ namespace SCaddins.SCexport
  
         private void SetDefaultFlags()
         {
-            if (SCaddins.SCexport.Settings1.Default.AdobePDFMode && this.PDFSanityCheck()) {
+            if (SCaddins.ExportManager.Settings1.Default.AdobePDFMode && this.PDFSanityCheck()) {
                 this.AddExportOption(ExportOptions.PDF);
-            } else if (!SCaddins.SCexport.Settings1.Default.AdobePDFMode && this.GSSanityCheck()) {
+            } else if (!SCaddins.ExportManager.Settings1.Default.AdobePDFMode && this.GSSanityCheck()) {
                 this.AddExportOption(ExportOptions.GhostscriptPDF);
             } else {
                 if (this.PDFSanityCheck()) {
@@ -707,10 +707,10 @@ namespace SCaddins.SCexport
                 }
                 this.AddExportOption(ExportOptions.DWG);
             }
-            if (SCaddins.SCexport.Settings1.Default.HideTitleBlocks) {
+            if (SCaddins.ExportManager.Settings1.Default.HideTitleBlocks) {
                 this.AddExportOption(ExportOptions.NoTitle);
             }
-            this.forceDate |= SCaddins.SCexport.Settings1.Default.ForceDateRevision;
+            this.forceDate |= SCaddins.ExportManager.Settings1.Default.ForceDateRevision;
         }
 
         private void PopulateSheets(SortableBindingListCollection<ExportSheet> s)

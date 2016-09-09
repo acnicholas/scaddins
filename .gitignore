@@ -68,3 +68,5 @@ opt/
 
 #Test files
 *.testsettings
+AngleOfSun.bundle
+SheetCopier.bundle

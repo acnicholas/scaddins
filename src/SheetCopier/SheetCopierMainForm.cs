@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCopy
+namespace SCaddins.SheetCopier
 {
     using System;
     using System.Collections.Generic;
@@ -50,13 +50,13 @@ namespace SCaddins.SCopy
         
         public MainForm(
             Document doc,
-            ICollection<SCaddins.SCexport.ExportSheet> sheets, SheetCopierManager scopy)
+            ICollection<SCaddins.ExportManager.ExportSheet> sheets, SheetCopierManager scopy)
         {
             this.doc = doc;
             this.InitializeComponent();
             this.SetTitle();
             this.scopy = scopy;
-            foreach (SCaddins.SCexport.ExportSheet sheet in sheets) {
+            foreach (SCaddins.ExportManager.ExportSheet sheet in sheets) {
                 this.scopy.AddSheet(sheet.Sheet);
             } 
             this.AddDataGridColumns();  
@@ -329,14 +329,14 @@ namespace SCaddins.SCopy
 
         private void ReplaceTextregexToolStripMenuItemClick(object sender, EventArgs e)
         {
-            SCaddins.SCexport.RenameSheetForm renameForm = new SCaddins.SCexport.RenameSheetForm(this.scopy.Sheets, this.doc);
+            SCaddins.ExportManager.RenameSheetForm renameForm = new SCaddins.ExportManager.RenameSheetForm(this.scopy.Sheets, this.doc);
             renameForm.ShowDialog();
             dataGridView1.Refresh();
         }
         
         private void Button2Click(object sender, EventArgs e)
         {
-            SCaddins.SCexport.RenameSheetForm renameForm = new SCaddins.SCexport.RenameSheetForm(this.scopy.Sheets, this.doc);
+            SCaddins.ExportManager.RenameSheetForm renameForm = new SCaddins.ExportManager.RenameSheetForm(this.scopy.Sheets, this.doc);
             renameForm.ShowDialog();
             dataGridView1.Refresh();  
         }
