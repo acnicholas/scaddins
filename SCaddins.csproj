@@ -510,6 +510,12 @@
     <Folder Include="src\RoomConvertor" />
     <Folder Include="src\WindowManager" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="src\ghostscriptsharp\GhostScriptSharp\GhostscriptSharp.csproj">
+      <Project>{56605627-e6fa-4f47-9440-fb877cea5c84}</Project>
+      <Name>GhostscriptSharp</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Condition="'$(Configuration)' == 'Debug'" Project="C:\Program Files (x86)\MSBuild\StyleCop\v4.7\StyleCop.targets" />
 </Project>

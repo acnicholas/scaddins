@@ -234,7 +234,7 @@ namespace SCaddins.SheetCopier
 
         private void SetTitle()
         {
-            this.Text = "SCopy by Andrew Nicholas";
+            this.Text = "Sheet Copier by Andrew Nicholas";
         }
     
         #endregion
