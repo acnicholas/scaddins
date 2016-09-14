@@ -39,8 +39,9 @@ namespace SCaddins.SheetCopier
             if (viewSheet == null) {
                 TaskDialog td = new TaskDialog("SCopy");
                 td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-                td.MainInstruction = "Scopy[Sheet Copy] needs to be started in a sheet view...";
-                td.MainContent = "If you would like to copy multiple sheets please run via the SCexport context menu";
+                td.MainInstruction = "The Copy Sheets add-in needs to be started in a sheet view.";
+                //FIXME add sheet selection to SheetCopier
+                td.MainContent = "Please open the sheet you wish to copy before running...";
                 td.Show();
                 return Autodesk.Revit.UI.Result.Failed;    
             }

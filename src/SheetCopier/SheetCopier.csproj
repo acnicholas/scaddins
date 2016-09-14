@@ -235,6 +235,7 @@
     </None>
     <None Include="app.config" />
     <EmbeddedResource Include="Assets\scopy-rvt.png" />
+    <None Include="SheetCopier.addin" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Common\UpgradeForm.resx">

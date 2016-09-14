@@ -115,6 +115,7 @@
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Culculate Solar Hours - Mass Mode (EXPERIMENTAL)";
             this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.Visible = false;
             // 
             // radioButtonShadowPlans
             // 
@@ -256,7 +257,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SCaosForm";
-            this.Text = "SCaos - Angle Of Sun";
+            this.Text = "Angle Of Sun - Create view[s] from the sun";
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBoxWinterViewOptions.ResumeLayout(false);

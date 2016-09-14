@@ -39,7 +39,6 @@ namespace SCaddins.SolarUtils
             interval.Items.Add(new TimeSpan(0, 30, 0));
             interval.Items.Add(new TimeSpan(1, 0, 0));
             interval.SelectedIndex = 2;
-            this.Text = "SCaos by Andrew Nicholas";
         }
 
         private void PopulateTimeSpansDropDowns(DateTime day)

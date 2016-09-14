@@ -191,7 +191,7 @@ namespace SCaddins
         private static PushButtonData LoadSCulcase(string dll)
         {
             var pbd = new PushButtonData(
-                           "SCulcase", "Change Case", dll, "SCaddins.SCulcase.Command");
+                           "SCulcase", "Change Case", dll, "SCaddins.ParameterUtils.EditTextParameters");
             AssignPushButtonImage(pbd, @"SCaddins.src.Assets.sculcase-rvt-16.png", 16, dll);
             pbd.ToolTip =
                 "Convert text from upper to lower case, or vise-versa";
@@ -252,7 +252,7 @@ namespace SCaddins
         private static PushButtonData LoadSCincrement(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCincrement", "Increment Tool", dll, "SCaddins.SCincrement.Command");
+                              "SCincrement", "Increment Tool", dll, "SCaddins.ParameterUtils.Command");
             AssignPushButtonImage(pbd, "SCaddins.src.Assets.scincrement-rvt-16.png", 16, dll);
             pbd.ToolTip = "Increment room numbers and family marks.";
             return pbd;
@@ -261,7 +261,7 @@ namespace SCaddins
         private static PushButtonData LoadSCincrementSettings(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCincrementSettings", "Increment Tool Settings", dll, "SCaddins.SCincrement.SCincrementSettingsCommand");
+                              "SCincrementSettings", "Increment Tool Settings", dll, "SCaddins.ParameterUtils.SCincrementSettingsCommand");
             AssignPushButtonImage(pbd, "SCaddins.src.Assets.scincrement-rvt-16.png", 16, dll);
             pbd.ToolTip = "Increment settings.";
             return pbd;
@@ -279,7 +279,7 @@ namespace SCaddins
         private static PushButtonData LoadSCuv(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCuv", "User View", dll, "SCaddins.SCuv.Command");
+                              "SCuv", "User View", dll, "SCaddins.ViewUtils.CreateUserViewCommand");
             AssignPushButtonImage(pbd, "SCaddins.src.Assets.user.png", 16, dll);
             pbd.ToolTip = "Create a user view.";
             return pbd;
@@ -288,7 +288,7 @@ namespace SCaddins
         private static PushButtonData LoadSCunjoin(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCunjoin", "Unjoin Walls", dll, "SCaddins.SCunjoin.Command");
+                              "SCunjoin", "Unjoin Walls", dll, "SCaddins.ModelUpdater.Command");
             AssignPushButtonImage(pbd, "SCaddins.src.Assets.scunjoin-rvt-16.png", 16, dll);
             pbd.ToolTip = "Unjoin walls automatically after placement.";
             return pbd;
@@ -297,7 +297,7 @@ namespace SCaddins
         private static PushButtonData LoadSCam(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCam", "Create Perspective", dll, "SCaddins.SCam.Command");
+                              "SCam", "Create Perspective", dll, "SCaddins.ViewUtils.CameraFromViewCommand");
             AssignPushButtonImage(pbd, "SCaddins.src.Assets.scam-rvt-16.png", 16, dll);
             pbd.ToolTip = "Create a perspective view from the current view (3d or plan).";
             return pbd;
@@ -306,7 +306,7 @@ namespace SCaddins
         private static PushButtonData LoadSCasfar(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCasfar", "Room Tools", dll, "SCaddins.RoomConvertor.Command");
+                              "SCasfar", "Room Tools", dll, "SCaddins.RoomConvertor.RoomConvertorCommand");
             AssignPushButtonImage(pbd, "SCaddins.src.Assets.scasfar-rvt-16.png", 16, dll);
             pbd.ToolTip = "Creates sheets and/or solids(masses) from a selection of rooms.";
             return pbd;

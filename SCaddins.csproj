@@ -472,6 +472,7 @@
     <None Include="app.config" />
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
     <None Include="etc\SCexport.xsd" />
+    <None Include="SCaddins.addin" />
     <None Include="share\SCexport-example-conf.xml" />
     <EmbeddedResource Include="src\Assets\scopy-rvt-16.png" />
     <EmbeddedResource Include="src\Assets\scam-rvt-16.png" />

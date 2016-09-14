@@ -140,6 +140,7 @@
     <EmbeddedResource Include="SolarViewsForm.resx">
       <DependentUpon>SolarViewsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="AngleOfSun.addin" />
     <None Include="app.config" />
     <EmbeddedResource Include="Assets\scaos-rvt.png" />
   </ItemGroup>

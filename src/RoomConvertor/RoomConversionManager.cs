@@ -187,7 +187,7 @@ namespace SCaddins.RoomConvertor
 
         private bool CreateRoomMass(Room room)
         {
-            #if REVIT2014 || REVIT2017
+            #if REVIT2014
             return false;
             #else
             try {
@@ -198,7 +198,11 @@ namespace SCaddins.RoomConvertor
                 var loop = new CurveLoop();
                 var bdySegs = room.GetBoundarySegments(spatialBoundaryOptions);
                 foreach (var seg in bdySegs[0]) {
+                    #if !REVIT2017
                     loop.Append(seg.Curve);
+                    #else
+                    loop.Append(seg.GetCurve());
+                    #endif
                 }
 
                 curves.Add(loop);

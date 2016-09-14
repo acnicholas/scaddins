@@ -1,10 +1,16 @@
 #SCaddins Revision Log#
 
-#16.3 PRE_RELEASE#
+#17.0 PRE_RELEASE#
 
 ####NEW####
 
+- **Revit 2017 support**
+- **Room Tools added**
+- **Unjoin Walls added**
+- **Create Perspective added**
 - [SCloudSched] Assign revisions to clouds.
+- [SCopy] Rename sheets option added.
+- [SCexport] Progress bar added when printing files.
 
 ####FIXES#####
 

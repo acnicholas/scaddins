@@ -1057,7 +1057,7 @@ namespace SCaddins.ExportManager
                 FileUtilities.WaitForFileAccess(vs.FullExportPath(".pdf"));
                 
                 this.RunExportHooks("pdf", vs);
-                
+                             
                 SCaddins.Common.SystemUtilities.KillAllProcesses("acrotray");
             } else {
                 this.log.AddError(vs.FullExportName, "Could not overwrite file, maybe check permissions?");

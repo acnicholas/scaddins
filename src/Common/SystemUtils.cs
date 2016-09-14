@@ -31,11 +31,11 @@ namespace SCaddins.Common
                     proc.Kill();
                 }
             } catch (InvalidOperationException ex) {
-                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
+                Autodesk.Revit.UI.TaskDialog.Show("InvalidOperationException", ex.Message);
             } catch (NotSupportedException ex) {
-                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
+                Autodesk.Revit.UI.TaskDialog.Show("NotSupportedException", ex.Message);
             } catch (System.ComponentModel.Win32Exception ex) {
-                Autodesk.Revit.UI.TaskDialog.Show("Error", ex.Message);
+                //Autodesk.Revit.UI.TaskDialog.Show("Win32Exception", ex.Message);
             }
         }
     }
