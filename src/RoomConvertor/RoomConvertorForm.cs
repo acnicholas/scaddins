@@ -170,6 +170,11 @@ namespace SCaddins.RoomConvertor
                     dataGridView1.Columns[4].Visible = false;
                     comboBoxTitles.Visible = false;
                 }
+        }
+        
+        void Button4Click(object sender, EventArgs e)
+        {
+            scasfar.SynchronizeMassesToRooms();
         }             
     } 
 }

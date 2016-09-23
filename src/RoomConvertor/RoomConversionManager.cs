@@ -153,36 +153,86 @@ namespace SCaddins.RoomConvertor
             if (!host.IsValidObject || !dest.IsValidObject)
                 return;
             
+            //copy source id to "RoomId" parameter is it exists.
+            //roomId should only exist in masses....
+            Parameter paramRoomId = dest.LookupParameter("RoomId");
+            if (paramRoomId != null &&  paramRoomId.StorageType == StorageType.Integer){
+                paramRoomId.Set(host.Id.IntegerValue);
+            }
+            
             foreach (Parameter param in host.Parameters) {
-                if (!param.HasValue) {
+                //return;
+                if (!param.HasValue && param != null && !param.UserModifiable) {
                     continue;
                 }
-                
+                //return;
+                              
                 Parameter paramDest = dest.LookupParameter(param.Definition.Name);
-                if (paramDest != null && paramDest.StorageType == param.StorageType) {
+                if (paramDest != null && paramDest.UserModifiable && paramDest.StorageType == param.StorageType) {
+                    //return;
                     switch (param.StorageType) {
                         case StorageType.String:
+                            //break;
                             string v = param.AsString();
-                            if (!string.IsNullOrEmpty(v)) {
-                                paramDest.SetValueString(v);
+                            if (!string.IsNullOrEmpty(v) && !string.IsNullOrWhiteSpace(v) && !paramDest.IsReadOnly) {
+                                //paramDest.SetValueString(v);
+                                paramDest.Set(v);
                             }
                             break;
                         case StorageType.Integer:
+                            //break;
                             int b = param.AsInteger();
-                            if (b != -1) {
+                            if (b != -1 && !paramDest.IsReadOnly) {
                                 paramDest.Set(b);
                             }
                             break;
                         case StorageType.Double:
+                            //break;
                             double d = param.AsDouble();
-                            //if (d != null) {
+                            if (d != null && !paramDest.IsReadOnly) {
                                 paramDest.Set(d);
-                            //}
+                            }
                             break;
                     }
                 }
             }
             #endif
+        }
+        
+        public void SynchronizeMassesToRooms()
+        {
+          var t = new Transaction(doc, "Synchronize Masses to Rooms");
+          t.Start(); 
+          
+          Autodesk.Revit.UI.TaskDialog.Show("test", "Synchronizing masses to rooms.");
+          
+          FilteredElementCollector collector = 
+              new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Mass).OfClass(typeof(DirectShape));
+          
+          int i = 0;
+          
+            foreach (Element e in collector) {
+                //i++;
+                Parameter p = e.LookupParameter("RoomId");
+                i++;
+                //if (p != null && p.StorageType == StorageType.Integer) {
+                //    i++;
+                int intId = p.AsInteger();
+                if (intId > 0) {
+                    ElementId id = new ElementId(intId);
+                    //Autodesk.Revit.UI.TaskDialog.Show("test", id.ToString());
+                    Element room = doc.GetElement(id);
+                    if (room != null) {
+                        //i++;
+                        CopyAllParameters(e, room);
+                    }
+                }
+               // }
+            }
+          
+          Autodesk.Revit.UI.TaskDialog.Show("test", i + " masses synchronized");
+          t.Commit();
+          
         }
 
         private bool CreateRoomMass(Room room)
@@ -210,7 +260,7 @@ namespace SCaddins.RoomConvertor
                 Solid roomSolid = GeometryCreationUtilities.CreateExtrusionGeometry(curves, new XYZ(0, 0, 1), height.AsDouble(), options);
                 DirectShape roomShape = DirectShape.CreateElement(doc, new ElementId(BuiltInCategory.OST_Mass), "A", "B");
                 roomShape.SetShape(new GeometryObject[] { roomSolid });
-
+                //Autodesk.Revit.UI.TaskDialog.Show("test", roomShape.GetType().ToString());
                 CopyAllParameters(room, roomShape);
 
             } catch (Exception ex) {
@@ -228,7 +278,6 @@ namespace SCaddins.RoomConvertor
 
             //Set a large bounding box to stop annotations from interfering with placement
             plan.CropBox = CreateOffsetBoundingBox(200, boundingBox);
-            ;
             plan.CropBoxActive = true;
             plan.Name = candidate.DestinationViewName;
             plan.Scale = 20;
@@ -245,9 +294,8 @@ namespace SCaddins.RoomConvertor
 
             //Shrink the bounding box now that it is placed
             plan.CropBox = CreateOffsetBoundingBox(2, boundingBox);
-            ;
 
-            //FIXME - To set an empty vie title this seems to work with the standard revit template...
+            //FIXME - To set an empty view title - so far this seems to work with the standard revit template...
             vp.ChangeTypeId(vp.GetValidTypes().Last());
         }
 

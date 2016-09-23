@@ -27,6 +27,7 @@ namespace SCaddins.RoomConvertor
 
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.ComboBox comboBoxTitles;
+        private System.Windows.Forms.Button button4;
         
         /// <summary>
         /// Disposes resources used by the form.
@@ -60,6 +61,7 @@ namespace SCaddins.RoomConvertor
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.comboBoxTitles = new System.Windows.Forms.ComboBox();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -80,6 +82,7 @@ namespace SCaddins.RoomConvertor
             // buttonGo
             // 
             this.buttonGo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonGo.Enabled = false;
             this.buttonGo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonGo.Location = new System.Drawing.Point(568, 509);
             this.buttonGo.Name = "buttonGo";
@@ -159,7 +162,6 @@ namespace SCaddins.RoomConvertor
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Enabled = false;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Location = new System.Drawing.Point(465, 509);
             this.button3.Name = "button3";
@@ -171,24 +173,23 @@ namespace SCaddins.RoomConvertor
             // 
             // radioButton1
             // 
-            this.radioButton1.Checked = true;
             this.radioButton1.Location = new System.Drawing.Point(12, 9);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(202, 24);
+            this.radioButton1.Size = new System.Drawing.Size(208, 24);
             this.radioButton1.TabIndex = 11;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Plan/Sheet Creation Mode";
+            this.radioButton1.Text = "Create Plan and Sheet from Rooms";
             this.radioButton1.UseVisualStyleBackColor = true;
             this.radioButton1.CheckedChanged += new System.EventHandler(this.RadioButton1CheckedChanged);
             // 
             // radioButton2
             // 
-            this.radioButton2.Location = new System.Drawing.Point(174, 9);
+            this.radioButton2.Checked = true;
+            this.radioButton2.Location = new System.Drawing.Point(213, 9);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(181, 24);
             this.radioButton2.TabIndex = 12;
             this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Mass Creation Mode";
+            this.radioButton2.Text = "Create Masses from Rooms";
             this.radioButton2.UseVisualStyleBackColor = true;
             this.radioButton2.CheckedChanged += new System.EventHandler(this.RadioButton2CheckedChanged);
             // 
@@ -201,11 +202,24 @@ namespace SCaddins.RoomConvertor
             this.comboBoxTitles.Size = new System.Drawing.Size(167, 21);
             this.comboBoxTitles.TabIndex = 13;
             // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Location = new System.Drawing.Point(237, 509);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(141, 23);
+            this.button4.TabIndex = 14;
+            this.button4.Text = "Sync Masses to Room";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.Button4Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(690, 544);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.comboBoxTitles);
             this.Controls.Add(this.radioButton2);
             this.Controls.Add(this.radioButton1);

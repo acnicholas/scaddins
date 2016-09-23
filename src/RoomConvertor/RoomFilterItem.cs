@@ -69,6 +69,11 @@ namespace SCaddins.RoomConvertor
             return null;
             #endif
         }
+        
+        private bool ParameterEqualsLevel(string value, Room room)
+        {            
+            return room.Level.Name == value;           
+        }
 
         private bool ParameterValueContainsString(Parameter param, string value)
         {
@@ -103,12 +108,12 @@ namespace SCaddins.RoomConvertor
                     } 
                     break;
                 case StorageType.String:
-                    int sparse, sparse2;
-                    if (Int32.TryParse(value, out sparse) && Int32.TryParse(param.AsString(), out sparse2)){
-                           return sparse2.CompareTo(sparse);
-                    } else {
-                        return param.AsString() == value ? 0 : result;
-                    }
+                    //int sparse, sparse2;
+                    //if (Int32.TryParse(value, out sparse) && Int32.TryParse(param.AsValueString(), out sparse2)){
+                    //       return sparse2.CompareTo(sparse);
+                    //} else {
+                    return param.AsString().Equals(value) ? 0 : result;
+                    //}
                 case StorageType.Integer:
                     int iparse;
                     if (Int32.TryParse(value, out iparse)){
@@ -129,6 +134,14 @@ namespace SCaddins.RoomConvertor
             if (param == null) {
                 return false;
             }
+            
+            //if (this.parameterName == "Level") {
+            //    Document doc = room.Document;
+            //    var test = param.AsValueString();
+            //    Autodesk.Revit.UI.TaskDialog.Show("Level Check", this.parameterName + " - " + test);
+            //    return true;
+            //    //return ParameterEqualsLevel(test, room);
+            //}
 
             if (co == ComparisonOperators.Contains) {
                 return ParameterValueContainsString(param, test);
