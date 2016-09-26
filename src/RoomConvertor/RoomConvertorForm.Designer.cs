@@ -15,17 +15,16 @@ namespace SCaddins.RoomConvertor
         /// </summary>
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button buttonGo;
         private System.Windows.Forms.Button buttonFilter;
         private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button buttonRename;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button buttonMain;
 
-        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButtonCreateMasses;
 
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton radioButtonCreateSheets;
         private System.Windows.Forms.ComboBox comboBoxTitles;
         private System.Windows.Forms.Button button4;
         
@@ -51,15 +50,14 @@ namespace SCaddins.RoomConvertor
         private void InitializeComponent()        {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.buttonGo = new System.Windows.Forms.Button();
             this.buttonFilter = new System.Windows.Forms.Button();
             this.buttonReset = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.buttonRename = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.buttonMain = new System.Windows.Forms.Button();
+            this.radioButtonCreateSheets = new System.Windows.Forms.RadioButton();
+            this.radioButtonCreateMasses = new System.Windows.Forms.RadioButton();
             this.comboBoxTitles = new System.Windows.Forms.ComboBox();
             this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -79,19 +77,6 @@ namespace SCaddins.RoomConvertor
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.DataGridView1SelectionChanged);
             // 
-            // buttonGo
-            // 
-            this.buttonGo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonGo.Enabled = false;
-            this.buttonGo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonGo.Location = new System.Drawing.Point(568, 509);
-            this.buttonGo.Name = "buttonGo";
-            this.buttonGo.Size = new System.Drawing.Size(110, 23);
-            this.buttonGo.TabIndex = 1;
-            this.buttonGo.Text = "Create Sheets";
-            this.buttonGo.UseVisualStyleBackColor = true;
-            this.buttonGo.Click += new System.EventHandler(this.ButtonGoClick);
-            // 
             // buttonFilter
             // 
             this.buttonFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -110,11 +95,11 @@ namespace SCaddins.RoomConvertor
             // 
             this.buttonReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonReset.Location = new System.Drawing.Point(384, 509);
+            this.buttonReset.Location = new System.Drawing.Point(235, 509);
             this.buttonReset.Name = "buttonReset";
-            this.buttonReset.Size = new System.Drawing.Size(75, 23);
+            this.buttonReset.Size = new System.Drawing.Size(133, 23);
             this.buttonReset.TabIndex = 6;
-            this.buttonReset.Text = "Reset";
+            this.buttonReset.Text = "Reset View Filters";
             this.buttonReset.UseVisualStyleBackColor = true;
             this.buttonReset.Click += new System.EventHandler(this.ButtonResetClick);
             // 
@@ -159,39 +144,39 @@ namespace SCaddins.RoomConvertor
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.ButtonInfoClick);
             // 
-            // button3
+            // buttonMain
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Location = new System.Drawing.Point(465, 509);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(97, 23);
-            this.button3.TabIndex = 10;
-            this.button3.Text = "Create Masses";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.Button3Click);
+            this.buttonMain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonMain.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonMain.Location = new System.Drawing.Point(521, 509);
+            this.buttonMain.Name = "buttonMain";
+            this.buttonMain.Size = new System.Drawing.Size(157, 23);
+            this.buttonMain.TabIndex = 10;
+            this.buttonMain.Text = "Create Masses";
+            this.buttonMain.UseVisualStyleBackColor = true;
+            this.buttonMain.Click += new System.EventHandler(this.Button3Click);
             // 
-            // radioButton1
+            // radioButtonCreateSheets
             // 
-            this.radioButton1.Location = new System.Drawing.Point(12, 9);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(208, 24);
-            this.radioButton1.TabIndex = 11;
-            this.radioButton1.Text = "Create Plan and Sheet from Rooms";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.RadioButton1CheckedChanged);
+            this.radioButtonCreateSheets.Location = new System.Drawing.Point(12, 9);
+            this.radioButtonCreateSheets.Name = "radioButtonCreateSheets";
+            this.radioButtonCreateSheets.Size = new System.Drawing.Size(208, 24);
+            this.radioButtonCreateSheets.TabIndex = 11;
+            this.radioButtonCreateSheets.Text = "Create Plan and Sheet from Rooms";
+            this.radioButtonCreateSheets.UseVisualStyleBackColor = true;
+            this.radioButtonCreateSheets.CheckedChanged += new System.EventHandler(this.RadioButton1CheckedChanged);
             // 
-            // radioButton2
+            // radioButtonCreateMasses
             // 
-            this.radioButton2.Checked = true;
-            this.radioButton2.Location = new System.Drawing.Point(213, 9);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(181, 24);
-            this.radioButton2.TabIndex = 12;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Create Masses from Rooms";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.RadioButton2CheckedChanged);
+            this.radioButtonCreateMasses.Checked = true;
+            this.radioButtonCreateMasses.Location = new System.Drawing.Point(213, 9);
+            this.radioButtonCreateMasses.Name = "radioButtonCreateMasses";
+            this.radioButtonCreateMasses.Size = new System.Drawing.Size(181, 24);
+            this.radioButtonCreateMasses.TabIndex = 12;
+            this.radioButtonCreateMasses.TabStop = true;
+            this.radioButtonCreateMasses.Text = "Create Masses from Rooms";
+            this.radioButtonCreateMasses.UseVisualStyleBackColor = true;
+            this.radioButtonCreateMasses.CheckedChanged += new System.EventHandler(this.RadioButton2CheckedChanged);
             // 
             // comboBoxTitles
             // 
@@ -199,14 +184,14 @@ namespace SCaddins.RoomConvertor
             this.comboBoxTitles.FormattingEnabled = true;
             this.comboBoxTitles.Location = new System.Drawing.Point(12, 511);
             this.comboBoxTitles.Name = "comboBoxTitles";
-            this.comboBoxTitles.Size = new System.Drawing.Size(167, 21);
+            this.comboBoxTitles.Size = new System.Drawing.Size(145, 21);
             this.comboBoxTitles.TabIndex = 13;
             // 
             // button4
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Location = new System.Drawing.Point(237, 509);
+            this.button4.Location = new System.Drawing.Point(374, 509);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(141, 23);
             this.button4.TabIndex = 14;
@@ -221,15 +206,14 @@ namespace SCaddins.RoomConvertor
             this.ClientSize = new System.Drawing.Size(690, 544);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.comboBoxTitles);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.radioButtonCreateMasses);
+            this.Controls.Add(this.radioButtonCreateSheets);
+            this.Controls.Add(this.buttonMain);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.buttonRename);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.buttonReset);
             this.Controls.Add(this.buttonFilter);
-            this.Controls.Add(this.buttonGo);
             this.Controls.Add(this.dataGridView1);
             this.Name = "MainForm";
             this.Text = "SCasfar - Creates a Sheet from a Room";

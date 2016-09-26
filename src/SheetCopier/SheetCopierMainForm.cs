@@ -106,11 +106,17 @@ namespace SCaddins.SheetCopier
             return result;        
         }
         
-        public static void AddColumn(string name, string text, DataGridView grid)
+        public static void AddColumn(string name, string text, DataGridView grid, bool visible)
         {
             var result = new DataGridViewTextBoxColumn();
+            result.Visible = visible;
             AddColumnHeader(name, text, result);
             grid.Columns.Add(result);
+        }
+        
+        public static void AddColumn(string name, string text, DataGridView grid)
+        {
+            AddColumn(name, text, grid, true);
         }
                
         private void AddViewsToViewInfoList(ViewSet views)

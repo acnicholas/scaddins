@@ -41,8 +41,8 @@ namespace SCaddins.RoomConvertor
             info.TopMost = true;
 
             //make not editable columns gray
-            this.dataGridView1.Columns[0].DefaultCellStyle.ForeColor = System.Drawing.Color.Gray;
-            this.dataGridView1.Columns[1].DefaultCellStyle.ForeColor = System.Drawing.Color.Gray;  
+            this.dataGridView1.Columns[0].DefaultCellStyle.ForeColor = System.Drawing.Color.DarkSlateGray;  
+            this.dataGridView1.Columns[1].DefaultCellStyle.ForeColor = System.Drawing.Color.DarkSlateGray;  
 
             //assign tooltips
             var filterTip = new ToolTip();
@@ -75,9 +75,9 @@ namespace SCaddins.RoomConvertor
             this.dataGridView1.AutoGenerateColumns = false;           
             SCaddins.SheetCopier.MainForm.AddColumn("Number", "Room Number", dataGridView1);
             SCaddins.SheetCopier.MainForm.AddColumn("Name", "Room Name", dataGridView1);            
-            SCaddins.SheetCopier.MainForm.AddColumn("DestinationViewName", "New Plan Name", dataGridView1);
-            SCaddins.SheetCopier.MainForm.AddColumn("DestinationSheetNumber", "New Sheet Number", dataGridView1);
-            SCaddins.SheetCopier.MainForm.AddColumn("DestinationSheetName", "New Sheet Name", dataGridView1);
+            SCaddins.SheetCopier.MainForm.AddColumn("DestinationViewName", "New Plan Name", dataGridView1, false);
+            SCaddins.SheetCopier.MainForm.AddColumn("DestinationSheetNumber", "New Sheet Number", dataGridView1, false);
+            SCaddins.SheetCopier.MainForm.AddColumn("DestinationSheetName", "New Sheet Name", dataGridView1, false);
         }
 
         private void ButtonFilterClick(object sender, EventArgs e)
@@ -140,7 +140,12 @@ namespace SCaddins.RoomConvertor
 
         void Button3Click(object sender, EventArgs e)
         {
-            scasfar.CreateRoomMasses(GetSelectedCandidates());  
+            Button button = sender as Button;
+            if(button.Text == "Create Masses") {
+                scasfar.CreateRoomMasses(GetSelectedCandidates());      
+            } else {
+                scasfar.CreateViewsAndSheets(GetSelectedCandidates());
+            }
         }
 
         void MainFormFormClosing(object sender, FormClosingEventArgs e)
@@ -149,29 +154,21 @@ namespace SCaddins.RoomConvertor
             rfd.Dispose();
             Dispose();
         }
+        
+        void ToggleMainButtonText()
+        {
+            buttonMain.Text = radioButtonCreateMasses.Checked ? "Create Masses" : "Create Plans and Sheets" ;
+            bool b = radioButtonCreateSheets.Checked;
+            dataGridView1.Columns[2].Visible = b;
+            dataGridView1.Columns[3].Visible = b;
+            dataGridView1.Columns[4].Visible = b; 
+        }
 
         void RadioButton1CheckedChanged(object sender, EventArgs e)
         {
-            buttonGo.Enabled = radioButton1.Checked;
-             if (buttonGo.Enabled) {
-                    dataGridView1.Columns[2].Visible = true;
-                    dataGridView1.Columns[3].Visible = true;
-                    dataGridView1.Columns[4].Visible = true;
-                    comboBoxTitles.Visible = true;
-             }
+            ToggleMainButtonText();
         }
-        
-        void RadioButton2CheckedChanged(object sender, EventArgs e)
-        { 
-                button3.Enabled = radioButton2.Checked; 
-                if (button3.Enabled) {
-                    dataGridView1.Columns[2].Visible = false;
-                    dataGridView1.Columns[3].Visible = false;
-                    dataGridView1.Columns[4].Visible = false;
-                    comboBoxTitles.Visible = false;
-                }
-        }
-        
+               
         void Button4Click(object sender, EventArgs e)
         {
             scasfar.SynchronizeMassesToRooms();
