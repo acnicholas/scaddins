@@ -201,6 +201,14 @@ namespace SCaddins.RoomConvertor
         
         public void SynchronizeMassesToRooms()
         {
+          #if REVIT2014
+            Autodesk.Revit.UI.TaskDialog.Show(
+              "Synchronize Masses To Rooms",
+              "Synchronizing masses and rooms is not available in Revit 2014"
+             );
+            return;
+          #else 
+            
           var t = new Transaction(doc, "Synchronize Masses to Rooms");
           t.Start(); 
           
@@ -232,6 +240,8 @@ namespace SCaddins.RoomConvertor
           
           Autodesk.Revit.UI.TaskDialog.Show("test", i + " masses synchronized");
           t.Commit();
+          
+          #endif
           
         }
 

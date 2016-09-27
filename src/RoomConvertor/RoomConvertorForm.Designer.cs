@@ -176,7 +176,6 @@ namespace SCaddins.RoomConvertor
             this.radioButtonCreateMasses.TabStop = true;
             this.radioButtonCreateMasses.Text = "Create Masses from Rooms";
             this.radioButtonCreateMasses.UseVisualStyleBackColor = true;
-            this.radioButtonCreateMasses.CheckedChanged += new System.EventHandler(this.RadioButton2CheckedChanged);
             // 
             // comboBoxTitles
             // 
