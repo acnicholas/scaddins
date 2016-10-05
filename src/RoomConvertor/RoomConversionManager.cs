@@ -143,6 +143,9 @@ namespace SCaddins.RoomConvertor
              
         private void CopyAllMassParametersToRooms(Element host, Room  dest)
         {
+            #if REVIT2014
+            return;
+            #else
             Parameter name = host.LookupParameter("Name");
             if (name != null &&  name.StorageType == StorageType.String){
                 dest.Name = name.AsString();
@@ -154,16 +157,21 @@ namespace SCaddins.RoomConvertor
             }
             
             CopyAllParameters(host, dest);
+            #endif
         }
         
         private void CopyAllRoomParametersToMasses(Element host, Element  dest)
         {
+            #if REVIT2014
+            return;
+            #else
             Parameter paramRoomId = dest.LookupParameter("RoomId");
             if (paramRoomId != null &&  paramRoomId.StorageType == StorageType.Integer){
                 paramRoomId.Set(host.Id.IntegerValue);
             }
             
             CopyAllParameters(host, dest);
+            #endif
         }
         
         private bool ValidElements(Element host, Element  dest)
