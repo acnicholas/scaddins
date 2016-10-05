@@ -19,7 +19,6 @@ namespace SCaddins.RoomConvertor
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
@@ -141,53 +140,68 @@ namespace SCaddins.RoomConvertor
                 Candidates.Add(c);
             }
         }
+             
+        private void CopyAllMassParametersToRooms(Element host, Room  dest)
+        {
+            Parameter name = host.LookupParameter("Name");
+            if (name != null &&  name.StorageType == StorageType.String){
+                dest.Name = name.AsString();
+            }
+                        
+            Parameter number = host.LookupParameter("Number");
+            if (number != null &&  number.StorageType == StorageType.String){
+                dest.Number = number.AsString();
+            }
+            
+            CopyAllParameters(host, dest);
+        }
+        
+        private void CopyAllRoomParametersToMasses(Element host, Element  dest)
+        {
+            Parameter paramRoomId = dest.LookupParameter("RoomId");
+            if (paramRoomId != null &&  paramRoomId.StorageType == StorageType.Integer){
+                paramRoomId.Set(host.Id.IntegerValue);
+            }
+            
+            CopyAllParameters(host, dest);
+        }
+        
+        private bool ValidElements(Element host, Element  dest)
+        {
+            if (host == null || dest == null) return false;
+            if (!host.IsValidObject || !dest.IsValidObject) return false;  
+            return true;
+        }
 
         private void CopyAllParameters(Element host, Element  dest)
         {
             #if REVIT2014
             return;
             #else
-            if (host == null || dest == null)
-                return;
-            
-            if (!host.IsValidObject || !dest.IsValidObject)
-                return;
-            
-            //copy source id to "RoomId" parameter is it exists.
-            //roomId should only exist in masses....
-            Parameter paramRoomId = dest.LookupParameter("RoomId");
-            if (paramRoomId != null &&  paramRoomId.StorageType == StorageType.Integer){
-                paramRoomId.Set(host.Id.IntegerValue);
-            }
-            
+            if(!ValidElements(host, dest)) return;
+                        
             foreach (Parameter param in host.Parameters) {
-                //return;
-                if (!param.HasValue && param != null && !param.UserModifiable) {
+                
+                if (!param.HasValue || param == null) {
                     continue;
                 }
-                //return;
                               
                 Parameter paramDest = dest.LookupParameter(param.Definition.Name);
                 if (paramDest != null && paramDest.UserModifiable && paramDest.StorageType == param.StorageType) {
-                    //return;
                     switch (param.StorageType) {
                         case StorageType.String:
-                            //break;
-                            string v = param.AsString();
-                            if (!string.IsNullOrEmpty(v) && !string.IsNullOrWhiteSpace(v) && !paramDest.IsReadOnly) {
-                                //paramDest.SetValueString(v);
+                            if(!paramDest.IsReadOnly && paramDest.UserModifiable){
+                                string v = param.AsString();
                                 paramDest.Set(v);
                             }
                             break;
                         case StorageType.Integer:
-                            //break;
                             int b = param.AsInteger();
                             if (b != -1 && !paramDest.IsReadOnly) {
                                 paramDest.Set(b);
                             }
                             break;
                         case StorageType.Double:
-                            //break;
                             double d = param.AsDouble();
                             if (d != null && !paramDest.IsReadOnly) {
                                 paramDest.Set(d);
@@ -220,22 +234,16 @@ namespace SCaddins.RoomConvertor
           int i = 0;
           
             foreach (Element e in collector) {
-                //i++;
                 Parameter p = e.LookupParameter("RoomId");
                 i++;
-                //if (p != null && p.StorageType == StorageType.Integer) {
-                //    i++;
                 int intId = p.AsInteger();
                 if (intId > 0) {
                     ElementId id = new ElementId(intId);
-                    //Autodesk.Revit.UI.TaskDialog.Show("test", id.ToString());
                     Element room = doc.GetElement(id);
                     if (room != null) {
-                        //i++;
-                        CopyAllParameters(e, room);
+                        CopyAllMassParametersToRooms(e, (Room)room);
                     }
                 }
-               // }
             }
           
           Autodesk.Revit.UI.TaskDialog.Show("test", i + " masses synchronized");
@@ -271,7 +279,7 @@ namespace SCaddins.RoomConvertor
                 DirectShape roomShape = DirectShape.CreateElement(doc, new ElementId(BuiltInCategory.OST_Mass), "A", "B");
                 roomShape.SetShape(new GeometryObject[] { roomSolid });
                 //Autodesk.Revit.UI.TaskDialog.Show("test", roomShape.GetType().ToString());
-                CopyAllParameters(room, roomShape);
+                CopyAllRoomParametersToMasses(room, roomShape);
 
             } catch (Exception ex) {
                 return false;
@@ -348,6 +356,5 @@ namespace SCaddins.RoomConvertor
             result.Max = max;
             return result;
         }
-
     }
 }
