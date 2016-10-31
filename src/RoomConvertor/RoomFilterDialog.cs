@@ -54,20 +54,20 @@ namespace SCaddins.RoomConvertor
             comboBoxP6.Items.AddRange(s2);
             comboBoxP7.Items.AddRange(s2);
             
-            comboBoxCO1.DataSource = Enum.GetValues(typeof(RoomFilterItem.ComparisonOperators));
-            comboBoxCO2.DataSource = Enum.GetValues(typeof(RoomFilterItem.ComparisonOperators));
-            comboBoxCO3.DataSource = Enum.GetValues(typeof(RoomFilterItem.ComparisonOperators));
-            comboBoxCO4.DataSource = Enum.GetValues(typeof(RoomFilterItem.ComparisonOperators));
-            comboBoxCO5.DataSource = Enum.GetValues(typeof(RoomFilterItem.ComparisonOperators));
-            comboBoxCO6.DataSource = Enum.GetValues(typeof(RoomFilterItem.ComparisonOperators));
-            comboBoxCO7.DataSource = Enum.GetValues(typeof(RoomFilterItem.ComparisonOperators));
+            comboBoxCO1.DataSource = Enum.GetValues(typeof(ComparisonOperator));
+            comboBoxCO2.DataSource = Enum.GetValues(typeof(ComparisonOperator));
+            comboBoxCO3.DataSource = Enum.GetValues(typeof(ComparisonOperator));
+            comboBoxCO4.DataSource = Enum.GetValues(typeof(ComparisonOperator));
+            comboBoxCO5.DataSource = Enum.GetValues(typeof(ComparisonOperator));
+            comboBoxCO6.DataSource = Enum.GetValues(typeof(ComparisonOperator));
+            comboBoxCO7.DataSource = Enum.GetValues(typeof(ComparisonOperator));
             
-            comboBoxLO2.DataSource = Enum.GetValues(typeof(RoomFilterItem.LogicalOperators));
-            comboBoxLO3.DataSource = Enum.GetValues(typeof(RoomFilterItem.LogicalOperators));
-            comboBoxLO4.DataSource = Enum.GetValues(typeof(RoomFilterItem.LogicalOperators));
-            comboBoxLO5.DataSource = Enum.GetValues(typeof(RoomFilterItem.LogicalOperators));
-            comboBoxLO6.DataSource = Enum.GetValues(typeof(RoomFilterItem.LogicalOperators));
-            comboBoxLO7.DataSource = Enum.GetValues(typeof(RoomFilterItem.LogicalOperators));
+            comboBoxLO2.DataSource = Enum.GetValues(typeof(LogicalOperator));
+            comboBoxLO3.DataSource = Enum.GetValues(typeof(LogicalOperator));
+            comboBoxLO4.DataSource = Enum.GetValues(typeof(LogicalOperator));
+            comboBoxLO5.DataSource = Enum.GetValues(typeof(LogicalOperator));
+            comboBoxLO6.DataSource = Enum.GetValues(typeof(LogicalOperator));
+            comboBoxLO7.DataSource = Enum.GetValues(typeof(LogicalOperator));
         }
         
         void ButtonOKClick(object sender, EventArgs e)

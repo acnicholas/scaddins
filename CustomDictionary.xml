@@ -26,6 +26,7 @@
             <Word>ghostscript</Word>
             <Word>underlay</Word>
             <Word>underlays</Word>
+            <Word>unjoiner</Word>
             <Word>scopy</Word>
         </Recognized>
     </Words>
@@ -36,6 +37,7 @@
             <Acronym>PDF</Acronym>
             <Acronym>DWF</Acronym>
             <Acronym>DWG</Acronym>
+            <Acronym>PNG</Acronym>
             <Acronym>XML</Acronym>
         </CasingExceptions>
     </Acronyms>

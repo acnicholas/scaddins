@@ -32,7 +32,7 @@ namespace SCaddins.LineOfSight
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
             LineOfSight sightLines = new LineOfSight(doc, 1220, 900, 15, 60, 180 , 20, 12000, 1000);
-            SCightLinesMainForm opts = new SCightLinesMainForm(doc, sightLines);
+            SCightLinesMainForm opts = new SCightLinesMainForm(sightLines);
             opts.ShowDialog();
             return Autodesk.Revit.UI.Result.Succeeded;
         }

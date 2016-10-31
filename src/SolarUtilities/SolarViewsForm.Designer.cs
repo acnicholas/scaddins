@@ -1,4 +1,4 @@
-﻿namespace SCaddins.SolarUtils
+﻿namespace SCaddins.SolarUtilities
 {
     partial class SCaosForm
     {

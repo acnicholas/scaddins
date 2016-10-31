@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2014-2016 by Andrew Nicholas
+﻿// (C) Copyright 2015 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -15,33 +15,23 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.ViewUtils
+namespace SCaddins.ViewUtilities
 {
-    using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-
+    
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
-    public class CreateUserViewCommand : IExternalCommand
-    {
-        public Result Execute(
-            ExternalCommandData commandData, ref string message, ElementSet elements)
+    public class RemoveUnderlaysCommand : IExternalCommand
+    {    
+        public Autodesk.Revit.UI.Result Execute(
+            ExternalCommandData commandData,
+            ref string message,
+            Autodesk.Revit.DB.ElementSet elements)
         {
-            Document doc = commandData.Application.ActiveUIDocument.Document;
-            View view = doc.ActiveView;
-
-            var t = new Transaction(doc, "SCuv Copies User Views");
-            t.Start();
-            if (UserView.Create(view, doc)) {
-                UserView.ShowSummaryDialog(UserView.GetNewViewName(view));
-            } else {
-                UserView.ShowErrorDialog(view);    
-            }
-            t.Commit();
-
+            var uidoc = commandData.Application.ActiveUIDocument;
+            ViewUnderlays.RemoveUnderlays(uidoc);
             return Result.Succeeded;
-        }
+        }     
     }
 }
-/* vim: set ts=4 sw=4 nu expandtab: */

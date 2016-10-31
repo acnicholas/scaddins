@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SolarUtils
+namespace SCaddins.SolarUtilities
 {
     using System;
     using System.Globalization;
@@ -59,9 +59,8 @@ namespace SCaddins.SolarUtils
                         (TimeSpan)form.interval.SelectedItem);
                 }
                 if (form.radioButtonShadowPlans.Checked) {
-                    this.CreateShadowPlanViews(
+                    CreateShadowPlanViews(
                         doc,
-                        udoc,
                         (DateTime)form.startTime.SelectedItem,
                         (DateTime)form.endTime.SelectedItem,
                         (TimeSpan)form.interval.SelectedItem);
@@ -153,9 +152,8 @@ namespace SCaddins.SolarUtils
             }
         }
 
-        private void CreateShadowPlanViews(
+        private static void CreateShadowPlanViews(
             Document doc,
-            UIDocument udoc,
             DateTime startTime,
             DateTime endTime,
             TimeSpan interval)

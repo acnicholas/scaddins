@@ -26,13 +26,13 @@ namespace SCaddins.RoomConvertor
         private RoomInfoDialog info;
         private RoomFilterDialog rfd;
         private RoomFilter rf;
-        private RoomConversionManager scasfar;
+        private RoomConversionManager roomConversionManager;
 
         public MainForm(RoomConversionManager scasfar)
         {
             InitializeComponent();          
 
-            this.scasfar = scasfar;
+            this.roomConversionManager = scasfar;
             this.AddDataGridColumns(); 
             this.PopulateTitleblockCombo();
             this.rf = new RoomFilter();
@@ -58,7 +58,7 @@ namespace SCaddins.RoomConvertor
 
         private void PopulateTitleblockCombo()
         {
-            foreach (var key in scasfar.TitleBlocks.Keys){
+            foreach (var key in roomConversionManager.TitleBlocks.Keys){
                 comboBoxTitles.Items.Add(key);
             }
             comboBoxTitles.SelectedIndex = 0;
@@ -67,7 +67,7 @@ namespace SCaddins.RoomConvertor
 
         private void LoadDataGridSource()
         {
-            dataGridView1.DataSource = scasfar.Candidates;     
+            dataGridView1.DataSource = roomConversionManager.Candidates;     
         }
 
         private void AddDataGridColumns()
@@ -85,13 +85,13 @@ namespace SCaddins.RoomConvertor
             DialogResult dr = rfd.ShowDialog();
             if (dr == DialogResult.OK) {
                 Collection<RoomConversionCandidate> toRemove = new Collection<RoomConversionCandidate>();
-                foreach (RoomConversionCandidate c in scasfar.Candidates) {
+                foreach (RoomConversionCandidate c in roomConversionManager.Candidates) {
                     if (!c.PassesFilter(rf)) {
                         toRemove.Add(c);
                     }
                 }
                 foreach (RoomConversionCandidate c in toRemove) {
-                    scasfar.Candidates.Remove(c);
+                    roomConversionManager.Candidates.Remove(c);
                 }
             }
             dataGridView1.Refresh();
@@ -100,7 +100,7 @@ namespace SCaddins.RoomConvertor
         private void ButtonResetClick(object sender, EventArgs e)
         {
             dataGridView1.DataSource = null;
-            scasfar.Reset();
+            roomConversionManager.Reset();
             rfd.Clear();
             LoadDataGridSource();
             dataGridView1.Refresh();
@@ -117,7 +117,7 @@ namespace SCaddins.RoomConvertor
 
         private void ButtonGoClick(object sender, EventArgs e)
         {
-            scasfar.CreateViewsAndSheets(GetSelectedCandidates());
+            roomConversionManager.CreateViewsAndSheets(GetSelectedCandidates());
         }
 
         void DataGridView1SelectionChanged(object sender, EventArgs e)
@@ -142,9 +142,9 @@ namespace SCaddins.RoomConvertor
         {
             Button button = sender as Button;
             if(button.Text == "Create Masses") {
-                scasfar.CreateRoomMasses(GetSelectedCandidates());      
+                roomConversionManager.CreateRoomMasses(GetSelectedCandidates());      
             } else {
-                scasfar.CreateViewsAndSheets(GetSelectedCandidates());
+                roomConversionManager.CreateViewsAndSheets(GetSelectedCandidates());
             }
         }
 
@@ -171,7 +171,7 @@ namespace SCaddins.RoomConvertor
                
         void Button4Click(object sender, EventArgs e)
         {
-            scasfar.SynchronizeMassesToRooms();
+            roomConversionManager.SynchronizeMassesToRooms();
         }             
     } 
 }

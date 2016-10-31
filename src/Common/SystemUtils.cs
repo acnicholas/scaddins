@@ -35,7 +35,7 @@ namespace SCaddins.Common
             } catch (NotSupportedException ex) {
                 Autodesk.Revit.UI.TaskDialog.Show("NotSupportedException", ex.Message);
             } catch (System.ComponentModel.Win32Exception ex) {
-                //Autodesk.Revit.UI.TaskDialog.Show("Win32Exception", ex.Message);
+                Debug.WriteLine(ex.Message);
             }
         }
     }

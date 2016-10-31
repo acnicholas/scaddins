@@ -23,42 +23,25 @@ namespace SCaddins.RoomConvertor
 
     public class RoomFilterItem
     {
-       LogicalOperators lo;
-       ComparisonOperators co;
+       LogicalOperator lo;
+       ComparisonOperator co;
        string parameterName;
        string test;
 
-        public enum LogicalOperators
-        {
-            AND
-        }
-
-        public enum ComparisonOperators
-        {
-            Equals,
-            NotEqual,
-            GreaterThan,
-            LessThan,
-            //GreaterThanOrEqual,
-            //LessThanOrEqual,
-            Contains,
-            //Matches
-        }
-
         public RoomFilterItem(string lo, string co, string parameter, string test)
         {
-           this.lo = (RoomFilterItem.LogicalOperators) Enum.Parse(typeof(RoomFilterItem.LogicalOperators), lo);
-           this.co = (RoomFilterItem.ComparisonOperators) Enum.Parse(typeof(RoomFilterItem.ComparisonOperators), co);
+           this.lo = (LogicalOperator) Enum.Parse(typeof(LogicalOperator), lo);
+           this.co = (ComparisonOperator) Enum.Parse(typeof(ComparisonOperator), co);
            this.parameterName = parameter;
            this.test = test;
         }
 
-        public bool IsValid()
+        public static bool IsValid()
         {
             return true;
         }
 
-        private Parameter ParamFromString(Room room, string name)
+        private static Parameter ParamFromString(Room room, string name)
         {
             #if REVIT2014
             return null;
@@ -70,12 +53,7 @@ namespace SCaddins.RoomConvertor
             #endif
         }
         
-        private bool ParameterEqualsLevel(string value, Room room)
-        {            
-            return room.Level.Name == value;           
-        }
-
-        private bool ParameterValueContainsString(Parameter param, string value)
+        private static bool ParameterValueContainsString(Parameter param, string value)
         {
             if (!param.HasValue || string.IsNullOrWhiteSpace(value)){
                 return false;
@@ -94,7 +72,7 @@ namespace SCaddins.RoomConvertor
             }
         }
 
-        private int ParameterComparedToString(Parameter param, string value)
+        private static int ParameterComparedToString(Parameter param, string value)
         {
             const int result = 441976;
             if (!param.HasValue || string.IsNullOrWhiteSpace(value)){
@@ -130,6 +108,11 @@ namespace SCaddins.RoomConvertor
 
         public bool PassesFilter(Room room)
         {
+            //FIXME add OR oprion one day.
+            if (lo != LogicalOperator.And){
+                return false;
+            }
+            
             Parameter param = ParamFromString(room, parameterName);
             if (param == null) {
                 return false;
@@ -143,20 +126,20 @@ namespace SCaddins.RoomConvertor
             //    //return ParameterEqualsLevel(test, room);
             //}
 
-            if (co == ComparisonOperators.Contains) {
+            if (co == ComparisonOperator.Contains) {
                 return ParameterValueContainsString(param, test);
             }
 
             int p = ParameterComparedToString(param, test);
 
             switch (co) {
-                case ComparisonOperators.Equals:
+                case ComparisonOperator.Equals:
                     return p == 0;
-                case ComparisonOperators.LessThan:
+                case ComparisonOperator.LessThan:
                     return p < 0 && p != 441976;
-                case ComparisonOperators.GreaterThan:
+                case ComparisonOperator.GreaterThan:
                     return p > 0 && p != 441976;
-                case ComparisonOperators.NotEqual:
+                case ComparisonOperator.NotEqual:
                     return p != 0 && p != 441976;
                 default:
                     return false;

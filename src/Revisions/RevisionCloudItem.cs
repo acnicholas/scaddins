@@ -32,23 +32,27 @@ namespace SCaddins.SCloudSChed
         
         #if !(REVIT2014)
         private RevisionCloud cloud;
+        public RevisionCloud GetCloud
+        {
+            get{ return this.cloud;}
+        }
         #endif
 
         #if !(REVIT2014)
-        public RevisionCloudItem(Document doc, RevisionCloud e)
+        public RevisionCloudItem(Document doc, RevisionCloud revisionCloud)
         {
-            this.sequence = e.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION_NUM).AsInteger();
-            Parameter p = e.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION);
+            this.sequence = revisionCloud.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION_NUM).AsInteger();
+            Parameter p = revisionCloud.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION);
             //Revision r = p.AsValueString as Revision;
             this.revision = p.AsValueString();
-            this.date = e.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION_DATE).AsString();
-            this.description = e.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION_DESCRIPTION).AsString();
-            this.id = e.Id;
+            this.date = revisionCloud.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION_DATE).AsString();
+            this.description = revisionCloud.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION_DESCRIPTION).AsString();
+            this.id = revisionCloud.Id;
             this.export = false;
-            this.cloud = e;
-            if(cloud.GetSheetIds().Count == 1) {
+            this.cloud = revisionCloud;
+            if(revisionCloud.GetSheetIds().Count == 1) {
                 ElementId id2 = null;
-                foreach (ElementId id3 in cloud.GetSheetIds()) {
+                foreach (ElementId id3 in revisionCloud.GetSheetIds()) {
                     id2 = id3;
                     break;
                 }
@@ -67,11 +71,11 @@ namespace SCaddins.SCloudSChed
                     this.sheetName = "Error";    
                 }
             }
-            if(cloud.GetSheetIds().Count > 1) {
+            if(revisionCloud.GetSheetIds().Count > 1) {
                 this.sheetNumber = "Multiple";
                  this.sheetName = "Multiple";
             }
-            if(cloud.GetSheetIds().Count < 1) {
+            if(revisionCloud.GetSheetIds().Count < 1) {
                 this.sheetNumber = "None";
                 this.sheetName = "Multiple";
             }
@@ -122,17 +126,6 @@ namespace SCaddins.SCloudSChed
            
         public ElementId Id {
             get { return this.id; }
-        }
-        
-         #if !(REVIT2014)
-        public RevisionCloud GetCloud()
-        {
-            return this.cloud;
-        }
-        #endif
-        
-        
-        
-        
+        }        
     }
 }

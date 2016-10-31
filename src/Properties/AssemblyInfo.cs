@@ -14,6 +14,7 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
+
 #region Using directives
 using System;
 using System.Reflection;
@@ -41,11 +42,3 @@ using System.Runtime.InteropServices;
 // If you need to expose a type to COM, use [ComVisible(true)] on that type.
 [assembly: ComVisible(false)]
 
-// The assembly version has following format :
-//
-// Major.Minor.Revision.Build
-// - Major should be the highest Revit version SCaddins is compiles against.
-// - Minor should be for features and critical bugs
-// - Revision is Bug fixes, ad-hoc patches, any minor changes.
-// - Build is an (automated)incremented build number.
-[assembly: AssemblyVersion("17.0.0.0")]

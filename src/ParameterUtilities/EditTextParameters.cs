@@ -113,25 +113,25 @@ namespace SCaddins.ParameterUtils
             trans.Commit();
         }
         
-        private static void Rename(ConversionMode mode, ConversionTypes types, Document doc)
-        {
-            EditTextParameters.mode = mode;
-            if (types.HasFlag(ConversionTypes.Text)) {
-                ConvertAllAnnotation(doc);
-            }
-            if (types.HasFlag(ConversionTypes.ViewNames)) {
-                ConvertAllViewNames(doc);
-            }
-            if (types.HasFlag(ConversionTypes.RoomNames)) {  
-                ConvertAllRooms(doc);
-            }
-            if (types.HasFlag(ConversionTypes.SheetNames)) {
-                ConvertAllSheetNames(doc);
-            }
-            if (types.HasFlag(ConversionTypes.TitlesOnSheets)) {
-                ConvertAllViewNamesOnSheet(doc);
-            }
-        }
+//        private static void Rename(ConversionMode mode, ConversionTypes types, Document doc)
+//        {
+//            EditTextParameters.mode = mode;
+//            if (types.HasFlag(ConversionTypes.Text)) {
+//                ConvertAllAnnotation(doc);
+//            }
+//            if (types.HasFlag(ConversionTypes.ViewNames)) {
+//                ConvertAllViewNames(doc);
+//            }
+//            if (types.HasFlag(ConversionTypes.RoomNames)) {  
+//                ConvertAllRooms(doc);
+//            }
+//            if (types.HasFlag(ConversionTypes.SheetNames)) {
+//                ConvertAllSheetNames(doc);
+//            }
+//            if (types.HasFlag(ConversionTypes.TitlesOnSheets)) {
+//                ConvertAllViewNamesOnSheet(doc);
+//            }
+//        }
 
         private static void Convert(ConversionMode mode, ConversionTypes types, Document doc)
         {

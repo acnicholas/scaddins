@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.ViewUtils
+namespace SCaddins.ViewUtilities
 {
     using System.Collections.Generic;
     using Autodesk.Revit.DB;

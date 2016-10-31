@@ -15,17 +15,23 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.ModelUpdater
+namespace SCaddins.RoomConvertor
 {
-    using System;
-    using System.Windows.Forms;
-
-    public partial class ModelUpdaterForm : Form
+    public enum LogicalOperator
     {
-        public ModelUpdaterForm()
-        {
-            InitializeComponent();
-            this.checkBox1.Checked = SCaddins.Scaddins.Default.UnjoinNewWalls;
-        }
+        And
+    }
+
+    public enum ComparisonOperator
+    {
+        Equals,
+        NotEqual,
+        GreaterThan,
+        LessThan,
+        //GreaterThanOrEqual,
+        //LessThanOrEqual,
+        Contains,
+        //Matches
     }
 }
+

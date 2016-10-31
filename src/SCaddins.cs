@@ -113,31 +113,26 @@ namespace SCaddins
             ribbonPanel.AddStackedItems(
                 LoadSCoord(scdll),
                 LoadSCulcase(scdll),
-                LoadSCwash(scdll)
-            );
+                LoadSCwash(scdll));
             ribbonPanel.AddStackedItems(
                 LoadSCaos(scdll, 16),
                 LoadSCopy(scdll, 16),
-                LoadSCloudShed(scdll)
-            );
+                LoadSCloudShed(scdll));
             ribbonPanel.AddStackedItems(
                 LoadSCightlines(scdll),
                 LoadSCincrement(scdll),
-                LoadSCuv(scdll)
-            );
+                LoadSCuv(scdll));
             ribbonPanel.AddStackedItems(
                 LoadSCasfar(scdll),
                 LoadSCam(scdll),
-                LoadSCunjoin(scdll)
-            );
+                LoadSCunjoin(scdll));
 
             ribbonPanel.AddSlideOut();
 
             ribbonPanel.AddStackedItems(
                 LoadAbout(scdll),
                 LoadSCincrementSettings(scdll),
-                LoadSCaddinSettings(scdll)
-            );
+                LoadSCaddinSettings(scdll));
 
             if (SCaddins.Scaddins.Default.UpgradeCheckOnStartUp) {    
                 CheckForUpdates(true);
@@ -214,7 +209,7 @@ namespace SCaddins
         public static PushButtonData LoadSCaos(string dll, int iconSize)
         {
             var pbd = new PushButtonData(
-                              "SCaos", "Angle Of Sun", dll, "SCaddins.SolarUtils.Command");
+                              "SCaos", "Angle Of Sun", dll, "SCaddins.SolarUtilities.Command");
             pbd.SetContextualHelp(
                 new ContextualHelp(
                     ContextualHelpType.Url, Constants.HelpLink));
@@ -279,7 +274,7 @@ namespace SCaddins
         private static PushButtonData LoadSCuv(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCuv", "User View", dll, "SCaddins.ViewUtils.CreateUserViewCommand");
+                              "SCuv", "User View", dll, "SCaddins.ViewUtilities.CreateUserViewCommand");
             AssignPushButtonImage(pbd, "SCaddins.src.Assets.user.png", 16, dll);
             pbd.ToolTip = "Create a user view.";
             return pbd;
@@ -297,7 +292,7 @@ namespace SCaddins
         private static PushButtonData LoadSCam(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCam", "Create Perspective", dll, "SCaddins.ViewUtils.CameraFromViewCommand");
+                              "SCam", "Create Perspective", dll, "SCaddins.ViewUtilities.CameraFromViewCommand");
             AssignPushButtonImage(pbd, "SCaddins.src.Assets.scam-rvt-16.png", 16, dll);
             pbd.ToolTip = "Create a perspective view from the current view (3d or plan).";
             return pbd;
@@ -343,23 +338,23 @@ namespace SCaddins
             return pbd;
         }
 
-        public static void AssignPushButtonImage(PushButtonData pb, string iconName, int size, string dll)
+        public static void AssignPushButtonImage(ButtonData pushButtonData, string iconName, int size, string dll)
         {
             if (size == -1) {
                 size = 32;
             }
-            ImageSource image = LoadPngImgSource(iconName, dll);
-            if (image != null && pb != null) {
+            ImageSource image = LoadPNGImageSource(iconName, dll);
+            if (image != null && pushButtonData != null) {
                 if (size == 32) {
-                    pb.LargeImage = image;
+                    pushButtonData.LargeImage = image;
                 } else {
-                    pb.Image = image;
+                    pushButtonData.Image = image;
                 }
             }
         }
 
         //from https://github.com/WeConnect/issue-tracker/blob/master/Case.IssueTracker.Revit/Entry/AppMain.cs
-        public static ImageSource LoadPngImgSource(string sourceName, string path)
+        public static ImageSource LoadPNGImageSource(string sourceName, string path)
         {
             try {
                 Assembly m_assembly = Assembly.LoadFrom(Path.Combine(path));
@@ -367,10 +362,10 @@ namespace SCaddins
                 PngBitmapDecoder m_decoder = new PngBitmapDecoder(m_icon, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
                 ImageSource m_source = m_decoder.Frames[0];
                 return (m_source);
-            } catch {
+            } catch (Exception ex){
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                return null;
             }
-            return null;
-
         }
 
         public static RibbonPanel TryGetPanel(UIControlledApplication application, string name)

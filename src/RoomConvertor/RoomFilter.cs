@@ -39,11 +39,11 @@ namespace SCaddins.RoomConvertor
         {
             filters.Clear();
         }
-
+        
         public bool PassesFilter(Room room)
         {
             foreach(RoomFilterItem item in filters) {
-                if (item.IsValid()) {
+                if (RoomFilterItem.IsValid()) {
                     if(!item.PassesFilter(room)){
                         return false;
                     }

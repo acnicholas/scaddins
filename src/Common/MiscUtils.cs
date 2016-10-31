@@ -52,7 +52,7 @@ namespace SCaddins.Common
             return fileName;
         }
 
-        public static double MMtoFeet(double lengthInMM)
+        public static double MillimetersToFeet(double lengthInMM)
         {
             return lengthInMM / 304.8;
         }

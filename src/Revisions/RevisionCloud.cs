@@ -69,7 +69,7 @@ namespace SCaddins.SCloudSChed
                         data[cloudNumber, 7] = revCloud.Id.IntegerValue.ToString();
                         string viewName = string.Empty;
                         try {
-                            View view = (View)doc.GetElement(revCloud.OwnerViewId);
+                            var view = (View)doc.GetElement(revCloud.OwnerViewId);
                             viewName = view.ViewName;
                             if (view.ViewType == ViewType.DrawingSheet) {
                                 data[cloudNumber, 0] = ((ViewSheet)view).SheetNumber.ToString();

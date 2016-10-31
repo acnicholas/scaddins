@@ -680,12 +680,12 @@ namespace SCaddins.ExportManager
 
         private void CreateUserViewsToolStripMenuItemClick(object sender, System.EventArgs e)
         {
-            ViewUtils.UserView.Create(this.SelectedSheets(), this.doc);
+            ViewUtilities.UserView.Create(this.SelectedSheets(), this.doc);
         }
 
         private void RemoveUnderlaysFromViewsToolStripMenuItemClick(object sender, EventArgs e)
         {
-            ViewUtils.ViewUnderlays.RemoveUnderlays(this.SelectedSheets(), this.doc);
+            ViewUtilities.ViewUnderlays.RemoveUnderlays(this.SelectedSheets(), this.doc);
         }
 
         private void FixScalesBarsToolStripMenuItemClick(object sender, EventArgs e)

@@ -37,10 +37,10 @@ namespace SCaddins.RoomConvertor
         private SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> allCandidates;
         private Document doc;
         private ElementId activeTitleBlock;
+        private SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> candidates;
 
         public SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> Candidates {
-            get;
-            set;
+            get{ return candidates; }
         }
 
         public Document Doc {
@@ -64,7 +64,7 @@ namespace SCaddins.RoomConvertor
 
         public RoomConversionManager(Document doc)
         {
-            Candidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();
+            candidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();
             this.allCandidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();
             this.doc = doc;
             this.titleBlocks = GetAllTitleBlockTypes(this.doc);
@@ -77,7 +77,7 @@ namespace SCaddins.RoomConvertor
                 if (e.IsValidObject && (e is Room)) {
                     Room room = e as Room;
                     if (room.Area > 0 && room.Location != null) {
-                        allCandidates.Add(new RoomConversionCandidate(room, doc, existingSheets, existingViews));
+                        allCandidates.Add(new RoomConversionCandidate(room, existingSheets, existingViews));
                     }
                 }
             }
@@ -141,7 +141,7 @@ namespace SCaddins.RoomConvertor
             }
         }
              
-        private void CopyAllMassParametersToRooms(Element host, Room  dest)
+        private static void CopyAllMassParametersToRooms(Element host, Room  dest)
         {
             #if REVIT2014
             return;
@@ -160,7 +160,7 @@ namespace SCaddins.RoomConvertor
             #endif
         }
         
-        private void CopyAllRoomParametersToMasses(Element host, Element  dest)
+        private static void CopyAllRoomParametersToMasses(Element host, Element  dest)
         {
             #if REVIT2014
             return;
@@ -174,14 +174,14 @@ namespace SCaddins.RoomConvertor
             #endif
         }
         
-        private bool ValidElements(Element host, Element  dest)
+        private static bool ValidElements(Element host, Element  dest)
         {
             if (host == null || dest == null) return false;
             if (!host.IsValidObject || !dest.IsValidObject) return false;  
             return true;
         }
 
-        private void CopyAllParameters(Element host, Element  dest)
+        private static void CopyAllParameters(Element host, Element  dest)
         {
             #if REVIT2014
             return;
@@ -211,7 +211,7 @@ namespace SCaddins.RoomConvertor
                             break;
                         case StorageType.Double:
                             double d = param.AsDouble();
-                            if (d != null && !paramDest.IsReadOnly) {
+                            if (!paramDest.IsReadOnly) {
                                 paramDest.Set(d);
                             }
                             break;
@@ -274,10 +274,10 @@ namespace SCaddins.RoomConvertor
                 var loop = new CurveLoop();
                 var bdySegs = room.GetBoundarySegments(spatialBoundaryOptions);
                 foreach (var seg in bdySegs[0]) {
-                    #if !REVIT2017
-                    loop.Append(seg.Curve);
-                    #else
+                    #if REVIT2017 || REVIT2016
                     loop.Append(seg.GetCurve());
+                    #else
+                    loop.Append(seg.Curve);
                     #endif
                 }
 
@@ -290,6 +290,7 @@ namespace SCaddins.RoomConvertor
                 CopyAllRoomParametersToMasses(room, roomShape);
 
             } catch (Exception ex) {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 return false;
             }
             return true;
@@ -314,8 +315,8 @@ namespace SCaddins.RoomConvertor
             sheet.SheetNumber = candidate.DestinationSheetNumber;
 
             Viewport vp = Viewport.Create(this.doc, sheet.Id, plan.Id, new XYZ(
-                              SCaddins.Common.MiscUtilities.MMtoFeet(840 / 2),
-                              SCaddins.Common.MiscUtilities.MMtoFeet(594 / 2),
+                              SCaddins.Common.MiscUtilities.MillimetersToFeet(840 / 2),
+                              SCaddins.Common.MiscUtilities.MillimetersToFeet(594 / 2),
                               0));
 
             //Shrink the bounding box now that it is placed
@@ -335,13 +336,13 @@ namespace SCaddins.RoomConvertor
             return null;
         }
 
-        private XYZ CentreOfSheet(ViewSheet sheet)
-        {
-            BoundingBoxXYZ b = sheet.get_BoundingBox(sheet);
-            double x = b.Min.X + ((b.Max.X - b.Min.X) / 2);
-            double y = b.Min.Y + ((b.Max.Y - b.Min.Y) / 2);
-            return new XYZ(x, y, 0);
-        }
+//        private static XYZ CentreOfSheet(ViewSheet sheet)
+//        {
+//            BoundingBoxXYZ b = sheet.get_BoundingBox(sheet);
+//            double x = b.Min.X + ((b.Max.X - b.Min.X) / 2);
+//            double y = b.Min.Y + ((b.Max.Y - b.Min.Y) / 2);
+//            return new XYZ(x, y, 0);
+//        }
 
         private static ElementId GetFirstTitleBlock(Document doc)
         {

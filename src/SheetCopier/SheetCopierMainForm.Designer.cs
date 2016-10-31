@@ -239,7 +239,6 @@ namespace SCaddins.SheetCopier
             this.button3.TabIndex = 14;
             this.button3.Text = "Rename Views";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.Button3Click);
             // 
             // label3
             // 

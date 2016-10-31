@@ -34,14 +34,13 @@ namespace SCaddins.RoomConvertor
 
         public RoomConversionCandidate(
                 Room room,
-                Document doc,
                 Dictionary<string, View> existingSheets,
                 Dictionary<string, View> existingViews)
         {
             this.room = room;
             this.destSheetName = GetDefaultSheetName();
-            this.destSheetNumber = GetDefaultSheetNumber(doc, existingSheets);
-            this.destViewName = GetDefaultViewName(doc, existingViews);
+            this.destSheetNumber = GetDefaultSheetNumber(existingSheets);
+            this.destViewName = GetDefaultViewName(existingViews);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -111,7 +110,7 @@ namespace SCaddins.RoomConvertor
             return filter.PassesFilter(this.Room);
         }
 
-        private string GetDefaultViewName(Document doc, Dictionary<string, View> existingViews)
+        private string GetDefaultViewName(Dictionary<string, View> existingViews)
         {
             string request = this.Number + " - " + this.Name;
             if(existingViews.ContainsKey(request)){
@@ -127,7 +126,7 @@ namespace SCaddins.RoomConvertor
             return this.Number + " - " + this.Name;
         }
 
-        private string GetDefaultSheetNumber(Document doc, Dictionary<string, View> existingSheets)
+        private string GetDefaultSheetNumber(Dictionary<string, View> existingSheets)
         {
             string request = this.Number;
             if(existingSheets.ContainsKey(request)){

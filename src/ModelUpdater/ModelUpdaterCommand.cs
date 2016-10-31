@@ -32,7 +32,7 @@ namespace SCaddins.ModelUpdater
             View view = doc.ActiveView;
 
             //FIXME opem dialog.
-            var form = new SCunjoinForm();
+            var form = new ModelUpdaterForm();
             System.Windows.Forms.DialogResult result = form.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK) {
                 SCaddins.Scaddins.Default.UnjoinNewWalls = form.checkBox1.Checked;

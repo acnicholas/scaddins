@@ -26,7 +26,7 @@ namespace SCaddins.LineOfSight
         private SCightOutputForm info;
         private LineOfSight sightLines;
 
-        public SCightLinesMainForm(Autodesk.Revit.DB.Document doc, LineOfSight sightlines)
+        public SCightLinesMainForm(LineOfSight sightlines)
         {
             this.InitializeComponent();
             txtEyeHeight.Text = "1220";
@@ -45,28 +45,28 @@ namespace SCaddins.LineOfSight
         /// <summary>
         /// Get a double value from a textbox
         /// </summary>
-        /// <param name="t">
+        /// <param name="textBox">
         /// Name of the the TextBox
         /// </param>
         /// <param name="fallback">
         /// Fallback value.
         /// i.e. value to apply if text cannot be parsed
         /// </param>
-        public static double GetDub(TextBox t, double fallback)
+        public static double GetDub(TextBox textBox, double fallback)
         {
             double d;
-            if (t.Text == null) {
+            if (textBox.Text == null) {
                 return fallback;
             }
             try {
-                d = double.Parse(t.Text, CultureInfo.InvariantCulture);
+                d = double.Parse(textBox.Text, CultureInfo.InvariantCulture);
             } catch (FormatException) {
                 Autodesk.Revit.UI.TaskDialog.Show(
-                    "Error", t.Text + ": is not a valid number, SCightlines will use a fallback value");
+                    "Error", textBox.Text + ": is not a valid number, SCightlines will use a fallback value");
                 d = fallback;
             } catch (OverflowException) {
                 Autodesk.Revit.UI.TaskDialog.Show(
-                    "Error", t.Text + ": is too big/small, SCightlines will use a fallback value");
+                    "Error", textBox.Text + ": is too big/small, SCightlines will use a fallback value");
                 d = fallback;
             }
             return d;

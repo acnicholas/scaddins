@@ -26,16 +26,16 @@ namespace SCaddins.WindowManager
         private const string Cmd = @"C:\Andrew\code\cs\scaddins\etc\SCwm.exe";
         private static View activeView;
         
+        public static int NumberOfPhysicalScreens
+        {
+            get {return System.Windows.Forms.Screen.AllScreens.Length;}
+        }
+        
         public static void MaximizeWindow()
         {
             SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg(Cmd, string.Empty);       
         }
-        
-        public static void SwapWindows(UIApplication app, int mainWidthPercentage)
-        {
-            // hack to get largest window         
-        }
-                  
+                         
         public static int ViewArea(UIView view)
         {
             int x = view.GetWindowRectangle().Left;
@@ -50,7 +50,7 @@ namespace SCaddins.WindowManager
             activeView = app.ActiveUIDocument.ActiveView;
             var activeFileName = System.IO.Path.GetFileName(app.ActiveUIDocument.Document.PathName);
             var mainWidth = GetDrawingAreaWidth(app) * mainWidthPercentage / 100;
-            if (GetNumberOfPhysicalScreens() > 1) {
+            if (NumberOfPhysicalScreens > 1) {
                 System.Windows.Forms.Screen mainScreen = GetScreen(0);
                 mainWidth = mainScreen.Bounds.Width - GetDrawingAreaX(app);
             }
@@ -83,12 +83,7 @@ namespace SCaddins.WindowManager
                 }
             }
         }
-        
-        public static int GetNumberOfPhysicalScreens()
-        {
-            return System.Windows.Forms.Screen.AllScreens.Length;
-        }
-        
+              
         public static System.Windows.Forms.Screen GetScreen(int screenNumber)
         {
             return System.Windows.Forms.Screen.AllScreens[screenNumber];

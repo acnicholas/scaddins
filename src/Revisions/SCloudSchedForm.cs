@@ -87,65 +87,42 @@ namespace SCaddins.SCloudSChed
         private void AssignRevisionToClouds(Collection<RevisionCloudItem> revisionClouds)
         {
             #if (!REVIT2014)
-            //TaskDialog.Show("test","Started AssignRevisionToClouds");  
             var r = new SCaddins.ExportManager.RevisionSelectionDialog(doc);
             var result = r.ShowDialog();
-            if(result == System.Windows.Forms.DialogResult.OK){
-                //TaskDialog.Show("test","OK Clicked");      
+            if (result == System.Windows.Forms.DialogResult.OK) {      
             } else {
                 return;
             }
             if (r.Id != null) {
-                //TaskDialog.Show("test",r.Id.ToString());
             } else {
-                TaskDialog.Show("test","id is null"); 
+                TaskDialog.Show("test", "id is null"); 
                 return;
             }
-            //if ((r.Id != null) && (result == System.Windows.Forms.DialogResult.OK)) {
             using (var t = new Transaction(doc, "Assign Revisions to Clouds")) {
                 t.Start();
-                foreach (RevisionCloudItem rc in revisionClouds) {
-                    //TaskDialog.Show("test","in loop"); 
+                foreach (RevisionCloudItem rc in revisionClouds) { 
                     if (rc != null) {
-                        //TaskDialog.Show("test","assigning revesions");
-                        rc.GetCloud().RevisionId = r.Id;
-                    } else {
-                        //TaskDialog.Show("test","NOT assigning revesions");    
+                        rc.GetCloud.RevisionId = r.Id;
+                    } else {  
                     }
                 }
-            //dataGridView1.Refresh();
-            //dataGridView1.Update();
-            //this.Close();
-            //this.Dispose();
                 t.Commit();
             }
-            //}
-            //} else {
-            //    TaskDialog.Show("test","Rev id null");    
-            //}
             #endif
         }
-        
-        
-        
-        void Button4Click(object sender, EventArgs e)
+                
+        private void Button4Click(object sender, EventArgs e)
         {
            Collection<RevisionCloudItem> cloudSelection = new Collection<RevisionCloudItem>();
            foreach (DataGridViewRow row in this.dataGridView1.Rows) {
                 RevisionCloudItem rev = row.DataBoundItem as RevisionCloudItem;
                 if (rev.Export) {
                     cloudSelection.Add(rev);
-                    //TaskDialog.Show("Test","something added");
                 } else {
-                    //TaskDialog.Show("Test","nothing added");
+
                 }
             }  
-            //TaskDialog.Show("Test","Attempting to assign revisions to: " + cloudSelection.Count + " cloud[s].");
-            //using (var t = new Transaction(doc, "Assign Revisions to Clouds")) {
-            //    t.Start();
             AssignRevisionToClouds(cloudSelection);
-            //    t.Commit();
-            //}
         }
         
     }

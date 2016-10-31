@@ -266,7 +266,7 @@ namespace SCaddins.LineOfSight
         private void DrawText(double x, double y, double vx, double vy, string s, TextAlignFlags f)
         {
             Application app = this.doc.Application;
-            XYZ origin = app.Create.NewXYZ(MiscUtilities.MMtoFeet(x), MiscUtilities.MMtoFeet(y), 0);
+            XYZ origin = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x), MiscUtilities.MillimetersToFeet(y), 0);
             XYZ normal_base = app.Create.NewXYZ(vx, vy, 0);
             XYZ normal_up = app.Create.NewXYZ(0, 1, 0);
             #if REVIT2016 || REVIT2017
@@ -280,7 +280,7 @@ namespace SCaddins.LineOfSight
             }  
             TextNote.Create(this.doc, this.view.Id, origin, s, tno);
             #else
-            this.doc.Create.NewTextNote(this.view, origin, normal_base, normal_up, MiscUtilities.MMtoFeet(10), f, s);
+            this.doc.Create.NewTextNote(this.view, origin, normal_base, normal_up, MiscUtilities.MillimetersToFeet(10), f, s);
             #endif
         }
 
@@ -316,8 +316,8 @@ namespace SCaddins.LineOfSight
         {
             Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
             const double Z = 0.0;
-            XYZ point1 = app.Create.NewXYZ(MiscUtilities.MMtoFeet(x1), MiscUtilities.MMtoFeet(y1), MiscUtilities.MMtoFeet(Z));
-            XYZ point2 = app.Create.NewXYZ(MiscUtilities.MMtoFeet(x2), MiscUtilities.MMtoFeet(y2), MiscUtilities.MMtoFeet(Z));
+            XYZ point1 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x1), MiscUtilities.MillimetersToFeet(y1), MiscUtilities.MillimetersToFeet(Z));
+            XYZ point2 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x2), MiscUtilities.MillimetersToFeet(y2), MiscUtilities.MillimetersToFeet(Z));
             try {
                 Line line = Line.CreateBound(point1, point2);
                 var detailCurve = this.doc.Create.NewDetailCurve(this.view, line) as DetailLine;
@@ -335,10 +335,10 @@ namespace SCaddins.LineOfSight
         {
             Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
             const double Z = 0.0;
-            XYZ point1 = app.Create.NewXYZ(MiscUtilities.MMtoFeet(x1), MiscUtilities.MMtoFeet(y1), MiscUtilities.MMtoFeet(Z));
+            XYZ point1 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x1), MiscUtilities.MillimetersToFeet(y1), MiscUtilities.MillimetersToFeet(Z));
             Arc arc = Arc.Create(
                           point1,
-                          MiscUtilities.MMtoFeet(125),
+                          MiscUtilities.MillimetersToFeet(125),
                           0,
                           360, 
                           app.Create.NewXYZ(1, 0, 0),

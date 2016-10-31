@@ -6,7 +6,7 @@ VisualStudioVersion = 12.0.20827.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCaddins", "SCaddins.csproj", "{AD62F888-78A1-4E0B-9820-5989630FC8C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleOfSun", "src\SolarUtils\AngleOfSun.csproj", "{E1D3578F-9F23-4B9B-AEE2-248116EC3098}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleOfSun", "src\SolarUtilities\AngleOfSun.csproj", "{E1D3578F-9F23-4B9B-AEE2-248116EC3098}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SheetCopier", "src\SheetCopier\SheetCopier.csproj", "{D59681E5-7C94-4E0E-9B10-744B84F12789}"
 EndProject

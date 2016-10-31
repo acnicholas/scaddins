@@ -93,11 +93,7 @@ namespace SCaddins.ExportManager
                 this.textBoxNamePattern.Text,
                 this.textBoxNameReplace.Text);
         }
-        
-        private void removeRevivionsOnSheet() {
-            
-        }
-        
+                
         private void RemoveRevisions(ExportSheet sheet)
         {
             //remove revisions on sheets
@@ -113,12 +109,12 @@ namespace SCaddins.ExportManager
             //Autodesk.Revit.DB.View view = sheet.Sheet;
                                
             #if REVIT2014
-                    SheetCopierManager.deleteRevisionClouds(view.Id, this.doc); 
+                    SheetCopierManager.DeleteRevisionClouds(view.Id, this.doc); 
                     foreach (Autodesk.Revit.DB.View v in sheet.Sheet.Views) {
-                        SheetCopierManager.deleteRevisionClouds(v.Id, this.doc);
+                        SheetCopierManager.DeleteRevisionClouds(v.Id, this.doc);
                     }
             #else
-            List<Autodesk.Revit.DB.Revision> hiddenRevisionClouds = SheetCopierManager.getAllHiddenRevisions(this.doc);
+            List<Autodesk.Revit.DB.Revision> hiddenRevisionClouds = SheetCopierManager.GetAllHiddenRevisions(this.doc);
             //turn on hidden revisions
             foreach (Autodesk.Revit.DB.Revision rev in hiddenRevisionClouds) {
                 rev.Visibility = Autodesk.Revit.DB.RevisionVisibility.CloudAndTagVisible;
@@ -127,11 +123,11 @@ namespace SCaddins.ExportManager
             doc.Regenerate();
                 
             //remove clouds on view
-            SheetCopierManager.deleteRevisionClouds(view.Id, this.doc);     
+            SheetCopierManager.DeleteRevisionClouds(view.Id, this.doc);     
                 
             //remove clouds in viewports                    
             foreach (Autodesk.Revit.DB.ElementId id in sheet.Sheet.GetAllPlacedViews()) {
-                SheetCopierManager.deleteRevisionClouds(id, this.doc);
+                SheetCopierManager.DeleteRevisionClouds(id, this.doc);
             }
                  
             //re-hide hidden revisions

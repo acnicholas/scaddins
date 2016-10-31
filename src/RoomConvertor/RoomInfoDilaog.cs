@@ -48,7 +48,7 @@ namespace SCaddins.RoomConvertor
             }
         }
 
-        private string GetParamValueAsString(Parameter param)
+        private static string GetParamValueAsString(Parameter param)
         {
             switch (param.StorageType){
                 case StorageType.Double:

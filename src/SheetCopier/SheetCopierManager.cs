@@ -46,6 +46,8 @@ namespace SCaddins.SheetCopier
         
         private Collection<string> sheetCategories = 
             new Collection<string>();
+        
+        private string summaryText;
     
         #if !REVIT2014        
         private List<Revision> hiddenRevisionClouds = new List<Revision>();
@@ -55,11 +57,12 @@ namespace SCaddins.SheetCopier
            
         public SheetCopierManager(UIDocument uidoc)
         {
+            this.summaryText = string.Empty;
             this.doc = uidoc.Document;
             this.uidoc = uidoc;
             this.sheets = new System.ComponentModel.BindingList<SheetCopierSheet>();
             #if !REVIT2014   
-            this.hiddenRevisionClouds = getAllHiddenRevisions(this.doc);
+            this.hiddenRevisionClouds = GetAllHiddenRevisions(this.doc);
             #endif
             this.GetViewTemplates();
             GetAllSheets(existingSheets, doc);
@@ -140,13 +143,13 @@ namespace SCaddins.SheetCopier
             
             int n = 0;
             string firstSheetNumber = string.Empty;
-            string summaryText = string.Empty;
+            summaryText = string.Empty;
             
             using (Transaction  t = new Transaction(this.doc, "SCopy")) {
                 t.Start("Copy Sheets");
                 foreach (SheetCopierSheet sheet in this.sheets) {
                     n++;
-                    if(this.CreateAndPopulateNewSheet(sheet, ref summaryText) && n == 1) {
+                    if(this.CreateAndPopulateNewSheet(sheet, summaryText) && n == 1) {
                         firstSheetNumber = sheet.DestinationSheet.SheetNumber;
                     }
                 }
@@ -273,7 +276,7 @@ namespace SCaddins.SheetCopier
         }
 
         // this is where the action happens
-        public bool CreateAndPopulateNewSheet(SheetCopierSheet sheet, ref string summary)
+        public bool CreateAndPopulateNewSheet(SheetCopierSheet sheet, string summary)
         { 
             //turn on hidden revisions
             #if !REVIT2014
@@ -383,7 +386,7 @@ namespace SCaddins.SheetCopier
         }
         
         #if !REVIT2014
-        public static List<Revision> getAllHiddenRevisions(Document doc)
+        public static List<Revision> GetAllHiddenRevisions(Document doc)
         {
             var revisions = new List<Revision>();
             FilteredElementCollector collector = new FilteredElementCollector(doc);    
@@ -398,7 +401,7 @@ namespace SCaddins.SheetCopier
         }
         #endif
         
-        public static void deleteRevisionClouds(ElementId viewId, Document doc)
+        public static void DeleteRevisionClouds(ElementId viewId, Document doc)
         {            
             FilteredElementCollector collector = new FilteredElementCollector(doc, viewId);
             collector.OfCategory(BuiltInCategory.OST_RevisionClouds);
@@ -416,7 +419,7 @@ namespace SCaddins.SheetCopier
         {
             var d = view.DuplicateWithDetailing == true ? ViewDuplicateOption.WithDetailing : ViewDuplicateOption.Duplicate;          
             ElementId destViewId = view.OldView.Duplicate(d);
-            deleteRevisionClouds(destViewId, this.doc);
+            DeleteRevisionClouds(destViewId, this.doc);
             string newName = sheet.GetNewViewName(view.OldView.Id);
             var v = this.doc.GetElement(destViewId) as View;
             if (newName != null) {
@@ -449,7 +452,7 @@ namespace SCaddins.SheetCopier
                     sheet.DestinationSheet,
                     new Transform(ElementTransformUtils.GetTransformFromViewToView(sheet.SourceSheet, sheet.DestinationSheet)),
                     new CopyPasteOptions());
-                deleteRevisionClouds(sheet.DestinationSheet.Id, this.doc);
+                DeleteRevisionClouds(sheet.DestinationSheet.Id, this.doc);
             }
         }
              

@@ -8,7 +8,7 @@
  */
 namespace SCaddins.ModelUpdater
 {
-    partial class SCunjoinForm
+    partial class ModelUpdaterForm
     {
         /// <summary>
         /// Designer variable used to keep track of non-visual components.

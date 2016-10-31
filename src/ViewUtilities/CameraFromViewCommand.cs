@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.ViewUtils
+namespace SCaddins.ViewUtilities
 {
     using System;
     using System.Collections.Generic;
@@ -63,7 +63,7 @@ namespace SCaddins.ViewUtils
             return Autodesk.Revit.UI.Result.Succeeded;
         }
                
-        public static UIView ActiveUIView(UIDocument udoc, View planView)
+        public static UIView ActiveUIView(UIDocument udoc, Element planView)
         {
                 foreach (UIView view in udoc.GetOpenUIViews()) {
                 View v = (View)udoc.Document.GetElement(view.ViewId);

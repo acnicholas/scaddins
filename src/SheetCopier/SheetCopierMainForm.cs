@@ -346,11 +346,6 @@ namespace SCaddins.SheetCopier
             renameForm.ShowDialog();
             dataGridView1.Refresh();  
         }
-        
-        private void Button3Click(object sender, EventArgs e)
-        {
-          
-        }
     }
 }
 /* vim: set ts=4 sw=4 nu expandtab: */
