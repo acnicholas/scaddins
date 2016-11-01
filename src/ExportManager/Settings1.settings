@@ -34,8 +34,14 @@
     <Setting Name="LargeFormatPrinterDriver" Type="System.String" Scope="User" Roaming="false">
       <Value Profile="(Default)">\\SCAPP01\DocuWide3035 (PS)</Value>
     </Setting>
+    <Setting Name="NorthPointVisibilityParameter" Type="System.String" Scope="User" Roaming="false">
+      <Value Profile="(Default)">North Point</Value>
+    </Setting>
     <Setting Name="PSPrinterDriver" Type="System.String" Scope="User" Roaming="true">
       <Value Profile="(Default)">\\SCAPP01\DocuWide3035 (PS)</Value>
+    </Setting>
+    <Setting Name="ScalebarScaleParameter" Type="System.String" Scope="User" Roaming="false">
+      <Value Profile="(Default)">Scalebar Scale</Value>
     </Setting>
     <Setting Name="ShowExportLog" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">False</Value>

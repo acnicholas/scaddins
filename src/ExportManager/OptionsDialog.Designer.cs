@@ -137,6 +137,11 @@ namespace SCaddins.ExportManager
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.button3 = new System.Windows.Forms.Button();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -146,6 +151,7 @@ namespace SCaddins.ExportManager
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // button2
@@ -181,6 +187,7 @@ namespace SCaddins.ExportManager
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox7);
             this.tabPage2.Controls.Add(this.groupBox6);
             this.tabPage2.Controls.Add(this.groupBox4);
             this.tabPage2.Controls.Add(this.groupBox5);
@@ -199,7 +206,7 @@ namespace SCaddins.ExportManager
             this.groupBox6.Controls.Add(this.label9);
             this.groupBox6.Location = new System.Drawing.Point(3, 134);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(389, 98);
+            this.groupBox6.Size = new System.Drawing.Size(389, 61);
             this.groupBox6.TabIndex = 20;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Export Destination";
@@ -237,25 +244,25 @@ namespace SCaddins.ExportManager
             this.groupBox4.Controls.Add(this.comboBoxAutocadVersion);
             this.groupBox4.Controls.Add(this.checkBoxForceDate);
             this.groupBox4.Controls.Add(this.checkBoxHideTitleblock);
-            this.groupBox4.Location = new System.Drawing.Point(3, 238);
+            this.groupBox4.Location = new System.Drawing.Point(3, 286);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(389, 174);
+            this.groupBox4.Size = new System.Drawing.Size(389, 126);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Export Options";
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(6, 55);
+            this.label5.Location = new System.Drawing.Point(7, 53);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(124, 23);
+            this.label5.Size = new System.Drawing.Size(124, 18);
             this.label5.TabIndex = 14;
             this.label5.Text = "File naming scheme";
             // 
             // comboBoxScheme
             // 
             this.comboBoxScheme.FormattingEnabled = true;
-            this.comboBoxScheme.Location = new System.Drawing.Point(192, 57);
+            this.comboBoxScheme.Location = new System.Drawing.Point(192, 50);
             this.comboBoxScheme.Name = "comboBoxScheme";
             this.comboBoxScheme.Size = new System.Drawing.Size(180, 21);
             this.comboBoxScheme.TabIndex = 13;
@@ -263,16 +270,16 @@ namespace SCaddins.ExportManager
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(6, 26);
+            this.label6.Location = new System.Drawing.Point(6, 23);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(100, 23);
+            this.label6.Size = new System.Drawing.Size(100, 18);
             this.label6.TabIndex = 12;
             this.label6.Text = "AutoCAD Version";
             // 
             // comboBoxAutocadVersion
             // 
             this.comboBoxAutocadVersion.FormattingEnabled = true;
-            this.comboBoxAutocadVersion.Location = new System.Drawing.Point(192, 23);
+            this.comboBoxAutocadVersion.Location = new System.Drawing.Point(192, 20);
             this.comboBoxAutocadVersion.Name = "comboBoxAutocadVersion";
             this.comboBoxAutocadVersion.Size = new System.Drawing.Size(180, 21);
             this.comboBoxAutocadVersion.TabIndex = 11;
@@ -280,9 +287,9 @@ namespace SCaddins.ExportManager
             // 
             // checkBoxForceDate
             // 
-            this.checkBoxForceDate.Location = new System.Drawing.Point(6, 86);
+            this.checkBoxForceDate.Location = new System.Drawing.Point(6, 79);
             this.checkBoxForceDate.Name = "checkBoxForceDate";
-            this.checkBoxForceDate.Size = new System.Drawing.Size(311, 24);
+            this.checkBoxForceDate.Size = new System.Drawing.Size(311, 19);
             this.checkBoxForceDate.TabIndex = 10;
             this.checkBoxForceDate.Text = "Force the revision to be today\'s date [YYYYMMDD]";
             this.checkBoxForceDate.UseVisualStyleBackColor = true;
@@ -291,9 +298,9 @@ namespace SCaddins.ExportManager
             // checkBoxHideTitleblock
             // 
             this.checkBoxHideTitleblock.Enabled = false;
-            this.checkBoxHideTitleblock.Location = new System.Drawing.Point(6, 116);
+            this.checkBoxHideTitleblock.Location = new System.Drawing.Point(6, 107);
             this.checkBoxHideTitleblock.Name = "checkBoxHideTitleblock";
-            this.checkBoxHideTitleblock.Size = new System.Drawing.Size(231, 24);
+            this.checkBoxHideTitleblock.Size = new System.Drawing.Size(231, 19);
             this.checkBoxHideTitleblock.TabIndex = 8;
             this.checkBoxHideTitleblock.Text = "Hide titleblocks (DWG exports only)";
             this.checkBoxHideTitleblock.UseVisualStyleBackColor = true;
@@ -676,6 +683,49 @@ namespace SCaddins.ExportManager
             this.button3.Text = "Cancel";
             this.button3.UseVisualStyleBackColor = true;
             // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.label12);
+            this.groupBox7.Controls.Add(this.label11);
+            this.groupBox7.Controls.Add(this.textBox2);
+            this.groupBox7.Controls.Add(this.textBox1);
+            this.groupBox7.Location = new System.Drawing.Point(3, 201);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(389, 79);
+            this.groupBox7.TabIndex = 21;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Title Block Parameters";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(192, 19);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(179, 20);
+            this.textBox1.TabIndex = 0;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(192, 45);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(179, 20);
+            this.textBox2.TabIndex = 1;
+            // 
+            // label11
+            // 
+            this.label11.Location = new System.Drawing.Point(9, 22);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(148, 23);
+            this.label11.TabIndex = 2;
+            this.label11.Text = "Scalebar Scale";
+            // 
+            // label12
+            // 
+            this.label12.Location = new System.Drawing.Point(9, 45);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(148, 23);
+            this.label12.TabIndex = 3;
+            this.label12.Text = "North Point Visibility";
+            // 
             // OptionsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -704,6 +754,8 @@ namespace SCaddins.ExportManager
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.ResumeLayout(false);
 
         } 
@@ -725,5 +777,10 @@ namespace SCaddins.ExportManager
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox textBoxLargeFormatPrinter;
         private System.Windows.Forms.CheckBox checkBoxShowExportLog;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
