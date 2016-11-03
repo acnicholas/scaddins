@@ -73,7 +73,7 @@ namespace SCaddins.RoomConvertor
         void ButtonOKClick(object sender, EventArgs e)
         {
             if( !string.IsNullOrWhiteSpace(comboBoxP1.Text) && !string.IsNullOrWhiteSpace(textBox1.Text)){
-                var item = new RoomFilterItem("AND", comboBoxCO1.Text, comboBoxP1.Text, textBox1.Text);
+                var item = new RoomFilterItem("And", comboBoxCO1.Text, comboBoxP1.Text, textBox1.Text);
                 filter.AddFilterItem(item);
             }
             if( !string.IsNullOrWhiteSpace(comboBoxP2.Text) && !string.IsNullOrWhiteSpace(textBox2.Text)){
