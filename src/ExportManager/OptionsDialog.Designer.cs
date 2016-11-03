@@ -87,6 +87,11 @@ namespace SCaddins.ExportManager
             this.button1 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textBoxNorthPointVisibilty = new System.Windows.Forms.TextBox();
+            this.textBoxScalebarScale = new System.Windows.Forms.TextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.btnDefaultExportDir = new System.Windows.Forms.Button();
             this.textBoxExportDir = new System.Windows.Forms.TextBox();
@@ -137,13 +142,9 @@ namespace SCaddins.ExportManager
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.button3 = new System.Windows.Forms.Button();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -151,7 +152,6 @@ namespace SCaddins.ExportManager
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // button2
@@ -198,6 +198,49 @@ namespace SCaddins.ExportManager
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "General";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.label12);
+            this.groupBox7.Controls.Add(this.label11);
+            this.groupBox7.Controls.Add(this.textBoxNorthPointVisibilty);
+            this.groupBox7.Controls.Add(this.textBoxScalebarScale);
+            this.groupBox7.Location = new System.Drawing.Point(3, 201);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(389, 79);
+            this.groupBox7.TabIndex = 21;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Title Block Parameters";
+            // 
+            // label12
+            // 
+            this.label12.Location = new System.Drawing.Point(9, 45);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(148, 23);
+            this.label12.TabIndex = 3;
+            this.label12.Text = "North Point Visibility";
+            // 
+            // label11
+            // 
+            this.label11.Location = new System.Drawing.Point(9, 22);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(148, 23);
+            this.label11.TabIndex = 2;
+            this.label11.Text = "Scalebar Scale";
+            // 
+            // textBoxNorthPointVisibilty
+            // 
+            this.textBoxNorthPointVisibilty.Location = new System.Drawing.Point(192, 45);
+            this.textBoxNorthPointVisibilty.Name = "textBoxNorthPointVisibilty";
+            this.textBoxNorthPointVisibilty.Size = new System.Drawing.Size(179, 20);
+            this.textBoxNorthPointVisibilty.TabIndex = 1;
+            // 
+            // textBoxScalebarScale
+            // 
+            this.textBoxScalebarScale.Location = new System.Drawing.Point(192, 19);
+            this.textBoxScalebarScale.Name = "textBoxScalebarScale";
+            this.textBoxScalebarScale.Size = new System.Drawing.Size(179, 20);
+            this.textBoxScalebarScale.TabIndex = 0;
             // 
             // groupBox6
             // 
@@ -683,49 +726,6 @@ namespace SCaddins.ExportManager
             this.button3.Text = "Cancel";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // groupBox7
-            // 
-            this.groupBox7.Controls.Add(this.label12);
-            this.groupBox7.Controls.Add(this.label11);
-            this.groupBox7.Controls.Add(this.textBox2);
-            this.groupBox7.Controls.Add(this.textBox1);
-            this.groupBox7.Location = new System.Drawing.Point(3, 201);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(389, 79);
-            this.groupBox7.TabIndex = 21;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Title Block Parameters";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(192, 19);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(179, 20);
-            this.textBox1.TabIndex = 0;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(192, 45);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(179, 20);
-            this.textBox2.TabIndex = 1;
-            // 
-            // label11
-            // 
-            this.label11.Location = new System.Drawing.Point(9, 22);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(148, 23);
-            this.label11.TabIndex = 2;
-            this.label11.Text = "Scalebar Scale";
-            // 
-            // label12
-            // 
-            this.label12.Location = new System.Drawing.Point(9, 45);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(148, 23);
-            this.label12.TabIndex = 3;
-            this.label12.Text = "North Point Visibility";
-            // 
             // OptionsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -743,6 +743,8 @@ namespace SCaddins.ExportManager
             this.Text = "SCexport Options";
             this.tabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -754,8 +756,6 @@ namespace SCaddins.ExportManager
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
             this.ResumeLayout(false);
 
         } 
@@ -780,7 +780,7 @@ namespace SCaddins.ExportManager
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxNorthPointVisibilty;
+        private System.Windows.Forms.TextBox textBoxScalebarScale;
     }
 }

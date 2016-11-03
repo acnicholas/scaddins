@@ -33,6 +33,7 @@ namespace SCaddins.ExportManager
         private ViewSheet sheet;
         private bool forceDate;
         private bool verified;
+        private int northPointVisible;
         private double height;
         private double width;
         private string fullExportName;
@@ -165,6 +166,17 @@ namespace SCaddins.ExportManager
         {
             get { return this.sheet; }
         }
+        
+        public string NorthPointVisible
+        {
+            get { 
+                if (northPointVisible == 1)
+                    return "Yes";
+                if (northPointVisible == 0)
+                    return "No";
+                return "-";
+            }
+        }
 
         public string FullExportName
         {
@@ -209,24 +221,47 @@ namespace SCaddins.ExportManager
         }
         #endregion
         
+        public static int GetNorthPointVisiblity(Element titleBlock)
+        {
+          try {
+                #if (REVIT2015 || REVIT2016 || REVIT2017)
+                    var p = titleBlock.GetParameters(Settings1.Default.NorthPointVisibilityParameter);
+                    if (p == null || p.Count < 1) {
+                        return 2;
+                    }
+                    int d = p[0].AsInteger();
+                    #else
+                    int d;
+                    try {
+                        d = titleBlock.get_Parameter(Settings1.Default.ScalebarScaleParameter).AsInteger();
+                    } catch {
+                        return 2;
+                    }
+                    #endif
+                    return d;
+            } catch (FormatException) {
+                    return 2;
+            }    
+        }
+
+        
         public static string GetScaleBarScale(Element titleBlock)
         {
           try {
                 #if (REVIT2015 || REVIT2016 || REVIT2017)
-                    var p = titleBlock.GetParameters(Constants.TitleScale);
+                    var p = titleBlock.GetParameters(Settings1.Default.ScalebarScaleParameter);
                     if (p == null || p.Count < 1) {
                         return string.Empty;
                     }
-                    var s = p[0].AsValueString();
+                    double d = p[0].AsDouble();
                     #else
-                    string s;
+                    double d;
                     try {
-                        s = titleBlock.get_Parameter(Constants.TitleScale).AsValueString();
+                        d = titleBlock.get_Parameter(Settings1.Default.ScalebarScaleParameter).AsDouble();
                     } catch {
                         return string.Empty;
                     }
                     #endif
-                    var d = Convert.ToDouble(s, CultureInfo.InvariantCulture);
                     return d.ToString(CultureInfo.InvariantCulture);
             } catch (FormatException) {
                     return string.Empty;
@@ -251,6 +286,7 @@ namespace SCaddins.ExportManager
                 this.scale = titleBlock.get_Parameter(
                     BuiltInParameter.SHEET_SCALE).AsString();
                 this.scaleBarScale = ExportSheet.GetScaleBarScale(titleBlock);
+                this.northPointVisible = ExportSheet.GetNorthPointVisiblity(titleBlock);
                 this.width = titleBlock.get_Parameter(
                         BuiltInParameter.SHEET_WIDTH).AsDouble();
                 this.height = titleBlock.get_Parameter(
@@ -300,6 +336,33 @@ namespace SCaddins.ExportManager
                 this.sheetNumber, this.doc);
             this.SetScaleBarScale(titleBlock);       
         }
+        
+        public void ToggleNorthPoint()
+        {
+            var titleBlock = ExportManager.TitleBlockInstanceFromSheetNumber(
+                this.sheetNumber, this.doc);
+            
+                string northPointVisibility = SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter;
+            
+                #if ( REVIT2015 || REVIT2016 || REVIT2017)
+                var tb = titleBlock.GetParameters(northPointVisibility);
+                if (tb == null) {
+                    return;
+                }
+                Parameter p = tb[0];
+                #else
+                Parameter p = titleBlock.get_Parameter(northPointVisibility);
+                if (p == null) {
+                    return;
+                }
+                #endif
+                int b = p.AsInteger();
+                if (b == 2) return;
+                b = b == 1 ? 0 : 1;
+                p.Set(b);
+                this.northPointVisible = b;         
+             
+        }
 
         public void UpdateRevision(bool refreshExportName)
         {
@@ -317,18 +380,21 @@ namespace SCaddins.ExportManager
         
         public void SetScaleBarScale(Element titleBlock)
         {
+                string titleScale = SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter;
+            
                 #if ( REVIT2015 || REVIT2016 || REVIT2017)
-                var tb = titleBlock.GetParameters(Constants.TitleScale);
+                var tb = titleBlock.GetParameters(titleScale);
                 if (tb == null) {
                     return;
                 }
                 Parameter p = tb[0];
                 #else
-                Parameter p = titleBlock.get_Parameter(Constants.TitleScale);
+                Parameter p = titleBlock.get_Parameter(titleScale);
                 if (p == null) {
                     return;
                 }
                 #endif
+                //p.SetValueString(this.RevitScaleWithoutFormatting());
                 p.SetValueString(this.RevitScaleWithoutFormatting());
                 this.scaleBarScale = this.RevitScaleWithoutFormatting();          
         }
@@ -399,8 +465,10 @@ namespace SCaddins.ExportManager
             this.projectNumber = document.ProjectInformation.Number;
             this.width = 841;
             this.height = 594;
+            //this.scaleValue = 
             this.scale = string.Empty;
             this.scaleBarScale = string.Empty;
+            this.northPointVisible = 2;
             this.pageSize = string.Empty;
             this.id = viewSheet.Id;
             this.UpdateRevision(false);

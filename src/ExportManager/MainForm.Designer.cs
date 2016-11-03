@@ -98,6 +98,7 @@ namespace SCaddins.ExportManager
             this.removeUnderlaysFromViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.renameSelectedSheetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fixScalesBarsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toggleNorthPointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createUserViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuSelectAll = new System.Windows.Forms.ToolStripMenuItem();
@@ -181,6 +182,7 @@ namespace SCaddins.ExportManager
             this.removeUnderlaysFromViewsToolStripMenuItem,
             this.renameSelectedSheetsToolStripMenuItem,
             this.fixScalesBarsToolStripMenuItem,
+            this.toggleNorthPointToolStripMenuItem,
             this.createUserViewsToolStripMenuItem,
             this.toolStripSeparator6,
             this.mnuSelectAll,
@@ -191,7 +193,7 @@ namespace SCaddins.ExportManager
             this.mnuHelp});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.ShowCheckMargin = true;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(257, 348);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(257, 392);
             // 
             // clearFilterToolStripMenuItem
             // 
@@ -280,6 +282,14 @@ namespace SCaddins.ExportManager
             this.fixScalesBarsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.fixScalesBarsToolStripMenuItem.Text = "Fix Scale Bars";
             this.fixScalesBarsToolStripMenuItem.Click += new System.EventHandler(this.FixScalesBarsToolStripMenuItemClick);
+            // 
+            // toggleNorthPointToolStripMenuItem
+            // 
+            this.toggleNorthPointToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("toggleNorthPointToolStripMenuItem.Image")));
+            this.toggleNorthPointToolStripMenuItem.Name = "toggleNorthPointToolStripMenuItem";
+            this.toggleNorthPointToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.toggleNorthPointToolStripMenuItem.Text = "Toggle North Point";
+            this.toggleNorthPointToolStripMenuItem.Click += new System.EventHandler(this.ToggleNorthPointToolStripMenuItemClick);
             // 
             // createUserViewsToolStripMenuItem
             // 
@@ -556,6 +566,7 @@ namespace SCaddins.ExportManager
         private System.Windows.Forms.ToolStripMenuItem printA2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem printFullSizeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toggleNorthPointToolStripMenuItem;
         #endregion
         }
     }

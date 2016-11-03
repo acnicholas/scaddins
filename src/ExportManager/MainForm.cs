@@ -223,6 +223,7 @@ namespace SCaddins.ExportManager
             this.AddDateColumn("SheetRevisionDateTime", "Revision Date");
             this.AddColumn("ExportDir", "Export Dir");
             this.AddColumn("Scale", "Scale");
+            this.AddColumn("NorthPointVisible", "North Point");
             this.AddColumn("PageSize", "Page Size");
             this.AddColumn("PrintSettingName", "Print Setting");
         }
@@ -735,6 +736,13 @@ namespace SCaddins.ExportManager
         private void PrintFullSizeToolStripMenuItemClick(object sender, EventArgs e)
         {
             this.Print( this.scx.PrinterNameLargeFormat, -1);
+        }
+        
+        private void ToggleNorthPointToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            ExportManager.ToggleNorthPoints(this.SelectedSheets());  
+            this.Update();
+            this.dataGridView1.Refresh();    
         } 
     }
 }

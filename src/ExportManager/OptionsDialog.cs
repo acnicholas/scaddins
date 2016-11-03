@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2013-2015 by Andrew Nicholas
+﻿// (C) Copyright 2013-2016 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -62,6 +62,8 @@ namespace SCaddins.ExportManager
             this.comboBoxAutocadVersion.SelectedIndex = 
                 this.comboBoxAutocadVersion.FindStringExact(ExportManager.AcadVersionToString(this.scx.AcadVersion));
             this.checkBox1.Checked = true;
+            this.textBoxScalebarScale.Text = SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter;
+            this.textBoxNorthPointVisibilty.Text = SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter;
             this.textBoxAdobeDriver.Text = this.scx.PdfPrinterName;
             this.textBoxPSPrinter.Text = this.scx.PostscriptPrinterName;
             this.textBoxGSBin.Text = this.scx.GhostscriptBinDir;
@@ -96,12 +98,14 @@ namespace SCaddins.ExportManager
             SCaddins.ExportManager.Settings1.Default.HideTitleBlocks = checkBoxHideTitleblock.Checked;
             SCaddins.ExportManager.Settings1.Default.AcadExportVersion = this.comboBoxAutocadVersion.SelectedItem.ToString();
             SCaddins.ExportManager.Settings1.Default.ShowExportLog = this.checkBoxShowExportLog.Checked;
+            SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter = this.textBoxNorthPointVisibilty.Text;
+            SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter = this.textBoxScalebarScale.Text;
             SCaddins.ExportManager.Settings1.Default.Save();
         }
 
         private void AssignDWGReleaseMenuTags()
         {
-                #if (!REVIT2016)
+                #if (!REVIT2016 && !REVIT2017)
                 this.comboBoxAutocadVersion.Items.Add("R2000");
                 this.comboBoxAutocadVersion.Items.Add("R2004");
                 #endif
