@@ -1,6 +1,6 @@
 #SCaddins Revision Log#
 
-#17.0 PRE_RELEASE#
+#17.0#
 
 ####NEW####
 
@@ -11,6 +11,7 @@
 - [SCloudSched] Assign revisions to clouds.
 - [SCopy] Rename sheets option added.
 - [SCexport] Progress bar added when printing files.
+- [SCexport] North Point column added to GUI.
 
 ####FIXES#####
 
