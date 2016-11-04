@@ -117,7 +117,7 @@ namespace SCaddins.RoomConvertor
 
         private void ButtonGoClick(object sender, EventArgs e)
         {
-            roomConversionManager.CreateViewsAndSheets(GetSelectedCandidates());
+            roomConversionManager.CreateViewsAndSheets(GetSelectedCandidates(), this.comboBoxTitles.Text);
         }
 
         void DataGridView1SelectionChanged(object sender, EventArgs e)
@@ -144,7 +144,7 @@ namespace SCaddins.RoomConvertor
             if(button.Text == "Create Masses") {
                 roomConversionManager.CreateRoomMasses(GetSelectedCandidates());      
             } else {
-                roomConversionManager.CreateViewsAndSheets(GetSelectedCandidates());
+                roomConversionManager.CreateViewsAndSheets(GetSelectedCandidates(), this.comboBoxTitles.Text);
             }
         }
 

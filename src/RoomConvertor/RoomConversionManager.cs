@@ -84,12 +84,12 @@ namespace SCaddins.RoomConvertor
             this.Reset();
         }
 
-        public void CreateViewsAndSheets(System.ComponentModel.BindingList<RoomConversionCandidate> candidates)
+        public void CreateViewsAndSheets(System.ComponentModel.BindingList<RoomConversionCandidate> candidates, string titleBlockName)
         {
             Transaction t = new Transaction(doc, "Rooms to Views");
             t.Start(); 
             foreach (RoomConversionCandidate c in candidates) {
-                this.CreateViewAndSheet(c);
+                this.CreateViewAndSheet(c, titleBlockName);
             }
             t.Commit();
         }
@@ -104,6 +104,7 @@ namespace SCaddins.RoomConvertor
             foreach (FamilySymbol e in a) {
                 var s = e.Family.Name + "-" + e.Name;
                 if (!result.ContainsKey(s)) {
+                    //Autodesk.Revit.UI.TaskDialog.Show("test",  e.GetTypeId().IntegerValue.ToString());
                     result.Add(s, e.GetTypeId());
                 }
             }
@@ -297,7 +298,7 @@ namespace SCaddins.RoomConvertor
             #endif
         }
 
-        private void CreateViewAndSheet(RoomConversionCandidate candidate)
+        private void CreateViewAndSheet(RoomConversionCandidate candidate, string titleBlockName)
         {
             //Create plans
             ViewPlan plan = ViewPlan.Create(doc, GetFloorPlanViewFamilyTypeId(doc), candidate.Room.Level.Id);
@@ -310,7 +311,7 @@ namespace SCaddins.RoomConvertor
             plan.Scale = 20;
 
             //Put them on sheets
-            ViewSheet sheet = ViewSheet.Create(doc, GetFirstTitleBlock(doc));
+            ViewSheet sheet = ViewSheet.Create(doc, GetTitleBlockIdByName(titleBlockName));
             sheet.Name = candidate.DestinationSheetName;
             sheet.SheetNumber = candidate.DestinationSheetNumber;
 
@@ -344,16 +345,16 @@ namespace SCaddins.RoomConvertor
 //            return new XYZ(x, y, 0);
 //        }
 
-        private static ElementId GetFirstTitleBlock(Document doc)
+        private ElementId GetTitleBlockIdByName(string titleBlockName)
         {
-            //TODO this is a super hack...
-            //Add a dialog to choose title
-            foreach (Element e in new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_TitleBlocks)) {
-                if (e.IsValidObject) {
-                    return e.Id;
-                }
+            //Autodesk.Revit.UI.TaskDialog.Show("test", "Attempting to get title block with name: " + titleBlockName);
+            ElementId id;
+            if (this.titleBlocks.TryGetValue(titleBlockName, out id)){
+                //Autodesk.Revit.UI.TaskDialog.Show("test", "Success!!! ID No. is: " + id);
+                return id;
+            } else {
+                return ElementId.InvalidElementId;
             }
-            return ElementId.InvalidElementId;
         }
 
         private static BoundingBoxXYZ CreateOffsetBoundingBox(double offset, BoundingBoxXYZ origBox)
