@@ -62,7 +62,6 @@ namespace SCaddins.RoomConvertor
                 comboBoxTitles.Items.Add(key);
             }
             comboBoxTitles.SelectedIndex = 0;
-            //scasfar.SetTitleBlockId();
         }
 
         private void LoadDataGridSource()
@@ -113,11 +112,6 @@ namespace SCaddins.RoomConvertor
                 c.Add((RoomConversionCandidate)dataGridView1.SelectedRows[i].DataBoundItem);
             }
             return c;
-        }
-
-        private void ButtonGoClick(object sender, EventArgs e)
-        {
-            roomConversionManager.CreateViewsAndSheets(GetSelectedCandidates(), this.comboBoxTitles.Text);
         }
 
         void DataGridView1SelectionChanged(object sender, EventArgs e)
