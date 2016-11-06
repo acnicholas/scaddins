@@ -62,7 +62,6 @@ namespace SCaddins.RoomConvertor
                 comboBoxTitles.Items.Add(key);
             }
             comboBoxTitles.SelectedIndex = 0;
-            //scasfar.SetTitleBlockId();
         }
 
         private void LoadDataGridSource()
@@ -115,11 +114,6 @@ namespace SCaddins.RoomConvertor
             return c;
         }
 
-        private void ButtonGoClick(object sender, EventArgs e)
-        {
-            roomConversionManager.CreateViewsAndSheets(GetSelectedCandidates());
-        }
-
         void DataGridView1SelectionChanged(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentCell != null && dataGridView1.CurrentCell.RowIndex != -1) {
@@ -144,7 +138,7 @@ namespace SCaddins.RoomConvertor
             if(button.Text == "Create Masses") {
                 roomConversionManager.CreateRoomMasses(GetSelectedCandidates());      
             } else {
-                roomConversionManager.CreateViewsAndSheets(GetSelectedCandidates());
+                roomConversionManager.CreateViewsAndSheets(GetSelectedCandidates(), this.comboBoxTitles.Text);
             }
         }
 

@@ -32,7 +32,12 @@ call %msBuildDir%\msbuild.exe %SWITCHES% installer/SCaddins.Installer.wixproj /p
 
 set msBuildDir=
 
-echo Build complete
+echo Build complete.
+echo Revit versions suppoerted:
+if %R2014% EQU Enabled echo --- R2014 build OK ---
+if %R2015% EQU Enabled echo --- R2015 build OK ---
+if %R2016% EQU Enabled echo --- R2016 build OK ---
+if %R2017% EQU Enabled echo --- R2017 build OK ---
 
 goto :EOF
 

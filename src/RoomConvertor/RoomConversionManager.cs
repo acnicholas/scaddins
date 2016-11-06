@@ -36,7 +36,6 @@ namespace SCaddins.RoomConvertor
 
         private SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> allCandidates;
         private Document doc;
-        private ElementId activeTitleBlock;
         private SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> candidates;
 
         public SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> Candidates {
@@ -52,23 +51,12 @@ namespace SCaddins.RoomConvertor
             get{ return titleBlocks; }
         }
 
-        public ElementId ActiveTitleBlock
-        {
-            get {
-                return activeTitleBlock != null ? activeTitleBlock : ElementId.InvalidElementId;
-            }
-            set {
-                activeTitleBlock = value != null ? value : ElementId.InvalidElementId;
-            }
-        }
-
         public RoomConversionManager(Document doc)
         {
             candidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();
             this.allCandidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();
             this.doc = doc;
             this.titleBlocks = GetAllTitleBlockTypes(this.doc);
-            this.activeTitleBlock = this.titleBlocks.FirstOrDefault().Value;
             SheetCopier.SheetCopierManager.GetAllSheets(existingSheets, this.doc);
             SheetCopier.SheetCopierManager.GetAllViewsInModel(existingViews, this.doc);
             FilteredElementCollector collector = new FilteredElementCollector(this.doc);
@@ -84,12 +72,14 @@ namespace SCaddins.RoomConvertor
             this.Reset();
         }
 
-        public void CreateViewsAndSheets(System.ComponentModel.BindingList<RoomConversionCandidate> candidates)
+        public void CreateViewsAndSheets(
+            System.ComponentModel.BindingList<RoomConversionCandidate> candidates,
+            string titleBlockName)
         {
             Transaction t = new Transaction(doc, "Rooms to Views");
             t.Start(); 
             foreach (RoomConversionCandidate c in candidates) {
-                this.CreateViewAndSheet(c);
+                this.CreateViewAndSheet(c, titleBlockName);
             }
             t.Commit();
         }
@@ -104,7 +94,7 @@ namespace SCaddins.RoomConvertor
             foreach (FamilySymbol e in a) {
                 var s = e.Family.Name + "-" + e.Name;
                 if (!result.ContainsKey(s)) {
-                    result.Add(s, e.GetTypeId());
+                    result.Add(s, e.Id);
                 }
             }
 
@@ -112,6 +102,13 @@ namespace SCaddins.RoomConvertor
             result.Add("none",ElementId.InvalidElementId);
 
             return result;
+        }
+        
+        private ElementId GetTitleBlockByName(string titleBlockName)
+        {
+            ElementId id = ElementId.InvalidElementId;
+            bool titleFound = this.titleBlocks.TryGetValue(titleBlockName, out id);
+            return titleFound ? id : ElementId.InvalidElementId;
         }
 
         public void CreateRoomMasses(System.ComponentModel.BindingList<RoomConversionCandidate> candidates)
@@ -234,7 +231,7 @@ namespace SCaddins.RoomConvertor
           var t = new Transaction(doc, "Synchronize Masses to Rooms");
           t.Start(); 
           
-          Autodesk.Revit.UI.TaskDialog.Show("test", "Synchronizing masses to rooms.");
+          Autodesk.Revit.UI.TaskDialog.Show("Synchronize Masses to Rooms", "Synchronizing masses to rooms.");
           
           FilteredElementCollector collector = 
               new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Mass).OfClass(typeof(DirectShape));
@@ -254,7 +251,7 @@ namespace SCaddins.RoomConvertor
                 }
             }
           
-          Autodesk.Revit.UI.TaskDialog.Show("test", i + " masses synchronized");
+          Autodesk.Revit.UI.TaskDialog.Show("Synchronize Masses to Rooms", i + " masses synchronized");
           t.Commit();
           
           #endif
@@ -297,32 +294,34 @@ namespace SCaddins.RoomConvertor
             #endif
         }
 
-        private void CreateViewAndSheet(RoomConversionCandidate candidate)
+        private void CreateViewAndSheet(RoomConversionCandidate candidate, string titleBlockName)
         {
-            //Create plans
-            ViewPlan plan = ViewPlan.Create(doc, GetFloorPlanViewFamilyTypeId(doc), candidate.Room.Level.Id);
-            BoundingBoxXYZ boundingBox = candidate.Room.get_BoundingBox(plan);
-
-            //Set a large bounding box to stop annotations from interfering with placement
-            plan.CropBox = CreateOffsetBoundingBox(200, boundingBox);
-            plan.CropBoxActive = true;
-            plan.Name = candidate.DestinationViewName;
-            plan.Scale = 20;
-
-            //Put them on sheets
-            ViewSheet sheet = ViewSheet.Create(doc, GetFirstTitleBlock(doc));
+            //Create sheet
+            ViewSheet sheet = ViewSheet.Create(doc, GetTitleBlockByName(titleBlockName));
             sheet.Name = candidate.DestinationSheetName;
             sheet.SheetNumber = candidate.DestinationSheetNumber;
+            
+            //Get Centre before placing any views
+            XYZ sheetCentre = CentreOfSheet(sheet, this.doc);
+            
+            //Create plan of room
+            ViewPlan plan = ViewPlan.Create(doc, GetFloorPlanViewFamilyTypeId(doc), candidate.Room.Level.Id);
+            plan.CropBoxActive = true;
+            plan.ViewTemplateId = ElementId.InvalidElementId;
+            plan.Scale = 20;
+            BoundingBoxXYZ originalBoundingBox = candidate.Room.get_BoundingBox(plan);
 
-            Viewport vp = Viewport.Create(this.doc, sheet.Id, plan.Id, new XYZ(
-                              SCaddins.Common.MiscUtilities.MillimetersToFeet(840 / 2),
-                              SCaddins.Common.MiscUtilities.MillimetersToFeet(594 / 2),
-                              0));
+            //Set a large bounding box before placing view - to stop annotations from interfering with placement
+            plan.CropBox = CreateOffsetBoundingBox(200, originalBoundingBox);
+            plan.Name = candidate.DestinationViewName;
 
+            //Create viewport
+            Viewport vp = Viewport.Create(this.doc, sheet.Id, plan.Id, sheetCentre);
+            
             //Shrink the bounding box now that it is placed
-            plan.CropBox = CreateOffsetBoundingBox(2, boundingBox);
+            plan.CropBox = originalBoundingBox;
 
-            //FIXME - To set an empty view title - so far this seems to work with the standard revit template...
+            //FIXME - To set an empty view title - so far this seems to work with the standard revit template...            
             vp.ChangeTypeId(vp.GetValidTypes().Last());
         }
 
@@ -336,24 +335,17 @@ namespace SCaddins.RoomConvertor
             return null;
         }
 
-//        private static XYZ CentreOfSheet(ViewSheet sheet)
-//        {
-//            BoundingBoxXYZ b = sheet.get_BoundingBox(sheet);
-//            double x = b.Min.X + ((b.Max.X - b.Min.X) / 2);
-//            double y = b.Min.Y + ((b.Max.Y - b.Min.Y) / 2);
-//            return new XYZ(x, y, 0);
-//        }
-
-        private static ElementId GetFirstTitleBlock(Document doc)
+        private static XYZ CentreOfSheet(ViewSheet sheet, Document doc)
         {
-            //TODO this is a super hack...
-            //Add a dialog to choose title
-            foreach (Element e in new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_TitleBlocks)) {
-                if (e.IsValidObject) {
-                    return e.Id;
-                }
+            FilteredElementCollector c = new FilteredElementCollector(doc, sheet.Id);
+            c.OfCategory(BuiltInCategory.OST_TitleBlocks);
+            foreach ( Element e in c) {
+                BoundingBoxXYZ b = e.get_BoundingBox(sheet);
+                double x = b.Min.X + ((b.Max.X - b.Min.X) / 2);
+                double y = b.Min.Y + ((b.Max.Y - b.Min.Y) / 2);
+                return new XYZ(x, y, 0);
             }
-            return ElementId.InvalidElementId;
+            return new XYZ(0,0,0);
         }
 
         private static BoundingBoxXYZ CreateOffsetBoundingBox(double offset, BoundingBoxXYZ origBox)
