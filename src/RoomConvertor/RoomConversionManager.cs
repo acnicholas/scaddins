@@ -50,6 +50,15 @@ namespace SCaddins.RoomConvertor
         {
             get{ return titleBlocks; }
         }
+        
+        public ElementId TitleBlockId
+        {
+            get; set;
+        }
+        
+        public int Scale{
+            get; set;
+        }
 
         public RoomConversionManager(Document doc)
         {
@@ -57,6 +66,8 @@ namespace SCaddins.RoomConvertor
             this.allCandidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();
             this.doc = doc;
             this.titleBlocks = GetAllTitleBlockTypes(this.doc);
+            this.TitleBlockId = ElementId.InvalidElementId;
+            this.Scale = 50;
             SheetCopier.SheetCopierManager.GetAllSheets(existingSheets, this.doc);
             SheetCopier.SheetCopierManager.GetAllViewsInModel(existingViews, this.doc);
             FilteredElementCollector collector = new FilteredElementCollector(this.doc);
@@ -73,13 +84,12 @@ namespace SCaddins.RoomConvertor
         }
 
         public void CreateViewsAndSheets(
-            System.ComponentModel.BindingList<RoomConversionCandidate> candidates,
-            string titleBlockName)
+            System.ComponentModel.BindingList<RoomConversionCandidate> candidates)
         {
             Transaction t = new Transaction(doc, "Rooms to Views");
             t.Start(); 
             foreach (RoomConversionCandidate c in candidates) {
-                this.CreateViewAndSheet(c, titleBlockName);
+                this.CreateViewAndSheet(c);
             }
             t.Commit();
         }
@@ -104,7 +114,7 @@ namespace SCaddins.RoomConvertor
             return result;
         }
         
-        private ElementId GetTitleBlockByName(string titleBlockName)
+        public ElementId GetTitleBlockByName(string titleBlockName)
         {
             ElementId id = ElementId.InvalidElementId;
             bool titleFound = this.titleBlocks.TryGetValue(titleBlockName, out id);
@@ -294,10 +304,10 @@ namespace SCaddins.RoomConvertor
             #endif
         }
 
-        private void CreateViewAndSheet(RoomConversionCandidate candidate, string titleBlockName)
+        private void CreateViewAndSheet(RoomConversionCandidate candidate)
         {
             //Create plans
-            ViewSheet sheet = ViewSheet.Create(doc, GetTitleBlockByName(titleBlockName));
+            ViewSheet sheet = ViewSheet.Create(doc, this.TitleBlockId);
             sheet.Name = candidate.DestinationSheetName;
             sheet.SheetNumber = candidate.DestinationSheetNumber;
             
@@ -308,7 +318,7 @@ namespace SCaddins.RoomConvertor
             ViewPlan plan = ViewPlan.Create(doc, GetFloorPlanViewFamilyTypeId(doc), candidate.Room.Level.Id);
             plan.CropBoxActive = true;
             plan.ViewTemplateId = ElementId.InvalidElementId;
-            plan.Scale = 20;
+            plan.Scale = this.Scale;
             BoundingBoxXYZ originalBoundingBox = candidate.Room.get_BoundingBox(plan);
 
             //Put them on sheets

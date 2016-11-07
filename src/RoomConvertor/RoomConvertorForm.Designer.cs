@@ -16,7 +16,6 @@ namespace SCaddins.RoomConvertor
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button buttonFilter;
-        private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button buttonRename;
         private System.Windows.Forms.Button button2;
@@ -25,8 +24,8 @@ namespace SCaddins.RoomConvertor
         private System.Windows.Forms.RadioButton radioButtonCreateMasses;
 
         private System.Windows.Forms.RadioButton radioButtonCreateSheets;
-        private System.Windows.Forms.ComboBox comboBoxTitles;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button3;
         
         /// <summary>
         /// Disposes resources used by the form.
@@ -51,15 +50,14 @@ namespace SCaddins.RoomConvertor
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.buttonFilter = new System.Windows.Forms.Button();
-            this.buttonReset = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.buttonRename = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.buttonMain = new System.Windows.Forms.Button();
             this.radioButtonCreateSheets = new System.Windows.Forms.RadioButton();
             this.radioButtonCreateMasses = new System.Windows.Forms.RadioButton();
-            this.comboBoxTitles = new System.Windows.Forms.ComboBox();
             this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -83,25 +81,13 @@ namespace SCaddins.RoomConvertor
             this.buttonFilter.FlatAppearance.BorderSize = 0;
             this.buttonFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonFilter.Image = ((System.Drawing.Image)(resources.GetObject("buttonFilter.Image")));
-            this.buttonFilter.Location = new System.Drawing.Point(579, 10);
+            this.buttonFilter.Location = new System.Drawing.Point(558, 10);
             this.buttonFilter.Name = "buttonFilter";
             this.buttonFilter.Size = new System.Drawing.Size(29, 23);
             this.buttonFilter.TabIndex = 3;
             this.buttonFilter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.buttonFilter.UseVisualStyleBackColor = false;
             this.buttonFilter.Click += new System.EventHandler(this.ButtonFilterClick);
-            // 
-            // buttonReset
-            // 
-            this.buttonReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonReset.Location = new System.Drawing.Point(235, 509);
-            this.buttonReset.Name = "buttonReset";
-            this.buttonReset.Size = new System.Drawing.Size(133, 23);
-            this.buttonReset.TabIndex = 6;
-            this.buttonReset.Text = "Reset View Filters";
-            this.buttonReset.UseVisualStyleBackColor = true;
-            this.buttonReset.Click += new System.EventHandler(this.ButtonResetClick);
             // 
             // button1
             // 
@@ -123,7 +109,7 @@ namespace SCaddins.RoomConvertor
             this.buttonRename.FlatAppearance.BorderSize = 0;
             this.buttonRename.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonRename.Image = ((System.Drawing.Image)(resources.GetObject("buttonRename.Image")));
-            this.buttonRename.Location = new System.Drawing.Point(614, 10);
+            this.buttonRename.Location = new System.Drawing.Point(618, 10);
             this.buttonRename.Name = "buttonRename";
             this.buttonRename.Size = new System.Drawing.Size(29, 23);
             this.buttonRename.TabIndex = 8;
@@ -154,7 +140,7 @@ namespace SCaddins.RoomConvertor
             this.buttonMain.TabIndex = 10;
             this.buttonMain.Text = "Create Masses";
             this.buttonMain.UseVisualStyleBackColor = true;
-            this.buttonMain.Click += new System.EventHandler(this.Button3Click);
+            this.buttonMain.Click += new System.EventHandler(this.ButtonMainClick);
             // 
             // radioButtonCreateSheets
             // 
@@ -177,15 +163,6 @@ namespace SCaddins.RoomConvertor
             this.radioButtonCreateMasses.Text = "Create Masses from Rooms";
             this.radioButtonCreateMasses.UseVisualStyleBackColor = true;
             // 
-            // comboBoxTitles
-            // 
-            this.comboBoxTitles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.comboBoxTitles.FormattingEnabled = true;
-            this.comboBoxTitles.Location = new System.Drawing.Point(12, 511);
-            this.comboBoxTitles.Name = "comboBoxTitles";
-            this.comboBoxTitles.Size = new System.Drawing.Size(145, 21);
-            this.comboBoxTitles.TabIndex = 13;
-            // 
             // button4
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -198,20 +175,33 @@ namespace SCaddins.RoomConvertor
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.Button4Click);
             // 
+            // button3
+            // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.FlatAppearance.BorderSize = 0;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
+            this.button3.Location = new System.Drawing.Point(585, 12);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(29, 23);
+            this.button3.TabIndex = 15;
+            this.button3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.ButtonResetFiltersClick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(690, 544);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.comboBoxTitles);
             this.Controls.Add(this.radioButtonCreateMasses);
             this.Controls.Add(this.radioButtonCreateSheets);
             this.Controls.Add(this.buttonMain);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.buttonRename);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.buttonReset);
             this.Controls.Add(this.buttonFilter);
             this.Controls.Add(this.dataGridView1);
             this.Name = "MainForm";

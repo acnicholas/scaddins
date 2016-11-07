@@ -34,7 +34,6 @@ namespace SCaddins.RoomConvertor
 
             this.roomConversionManager = scasfar;
             this.AddDataGridColumns(); 
-            this.PopulateTitleblockCombo();
             this.rf = new RoomFilter();
             this.rfd = new RoomFilterDialog(rf, scasfar.Doc);
             this.info = new RoomInfoDialog();
@@ -54,14 +53,6 @@ namespace SCaddins.RoomConvertor
             LoadDataGridSource();
 
             //dataGridView1.Sort(dataGridView1.Columns[1], System.ComponentModel.ListSortDirection.Ascending);
-        }
-
-        private void PopulateTitleblockCombo()
-        {
-            foreach (var key in roomConversionManager.TitleBlocks.Keys){
-                comboBoxTitles.Items.Add(key);
-            }
-            comboBoxTitles.SelectedIndex = 0;
         }
 
         private void LoadDataGridSource()
@@ -96,15 +87,6 @@ namespace SCaddins.RoomConvertor
             dataGridView1.Refresh();
         }
 
-        private void ButtonResetClick(object sender, EventArgs e)
-        {
-            dataGridView1.DataSource = null;
-            roomConversionManager.Reset();
-            rfd.Clear();
-            LoadDataGridSource();
-            dataGridView1.Refresh();
-        }
-
         private System.ComponentModel.BindingList<RoomConversionCandidate> GetSelectedCandidates()
         {
             var c = new System.ComponentModel.BindingList<RoomConversionCandidate>(); 
@@ -132,14 +114,13 @@ namespace SCaddins.RoomConvertor
             }
         }
 
-        void Button3Click(object sender, EventArgs e)
+        void ButtonResetFiltersClick(object sender, EventArgs e)
         {
-            Button button = sender as Button;
-            if(button.Text == "Create Masses") {
-                roomConversionManager.CreateRoomMasses(GetSelectedCandidates());      
-            } else {
-                roomConversionManager.CreateViewsAndSheets(GetSelectedCandidates(), this.comboBoxTitles.Text);
-            }
+            dataGridView1.DataSource = null;
+            roomConversionManager.Reset();
+            rfd.Clear();
+            LoadDataGridSource();
+            dataGridView1.Refresh();
         }
 
         void MainFormFormClosing(object sender, FormClosingEventArgs e)
@@ -166,6 +147,20 @@ namespace SCaddins.RoomConvertor
         void Button4Click(object sender, EventArgs e)
         {
             roomConversionManager.SynchronizeMassesToRooms();
+        }
+              
+        void ButtonMainClick(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            if(button.Text == "Create Masses") {
+                roomConversionManager.CreateRoomMasses(GetSelectedCandidates());      
+            } else {
+                RoomToSheetWizard wizard = new RoomToSheetWizard(this.roomConversionManager);
+                DialogResult result = wizard.ShowDialog();
+                if(result == DialogResult.OK) {
+                    roomConversionManager.CreateViewsAndSheets(GetSelectedCandidates());
+                }
+            } 
         }             
     } 
 }
