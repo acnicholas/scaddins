@@ -80,6 +80,7 @@ namespace SCaddins.RoomConvertor
                     }
                 }
             }
+            //Initially add all canditates.
             this.Reset();
         }
 

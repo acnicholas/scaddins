@@ -30,6 +30,14 @@ namespace SCaddins.RoomConvertor
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
             var roomConversionManager = new RoomConversionManager(doc);
+            if (roomConversionManager.Candidates.Count == 0) {
+                TaskDialog td = new TaskDialog("Room Tools - Slight Problem...");
+                td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+                td.MainInstruction = "No Rooms Found in Model";
+                td.MainContent = "Room Tools will now exit as there's not much use continuing.";
+                td.Show();
+                return Result.Failed;
+            }
             var mainForm = new MainForm(roomConversionManager);
             mainForm.ShowDialog();
             return Result.Succeeded;
