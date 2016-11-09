@@ -23,6 +23,7 @@ namespace SCaddins.SheetCopier
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Globalization;
+    using System.Text;
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -47,7 +48,7 @@ namespace SCaddins.SheetCopier
         private Collection<string> sheetCategories = 
             new Collection<string>();
         
-        private string summaryText;
+        private StringBuilder summaryText;
     
         #if !REVIT2014        
         private List<Revision> hiddenRevisionClouds = new List<Revision>();
@@ -57,7 +58,7 @@ namespace SCaddins.SheetCopier
            
         public SheetCopierManager(UIDocument uidoc)
         {
-            this.summaryText = string.Empty;
+            this.summaryText = new StringBuilder();
             this.doc = uidoc.Document;
             this.uidoc = uidoc;
             this.sheets = new System.ComponentModel.BindingList<SheetCopierSheet>();
@@ -143,7 +144,7 @@ namespace SCaddins.SheetCopier
             
             int n = 0;
             string firstSheetNumber = string.Empty;
-            summaryText = string.Empty;
+            summaryText.Clear();
             
             using (Transaction  t = new Transaction(this.doc, "SCopy")) {
                 t.Start("Copy Sheets");
@@ -167,7 +168,7 @@ namespace SCaddins.SheetCopier
             
             var td = new TaskDialog("SCopy - Summary");
             td.MainInstruction = "SCopy - Summary";
-            td.MainContent = summaryText;
+            td.MainContent = summaryText.ToString();
             td.MainIcon = TaskDialogIcon.TaskDialogIconNone;
             td.Show(); 
         }
@@ -276,7 +277,7 @@ namespace SCaddins.SheetCopier
         }
 
         // this is where the action happens
-        public bool CreateAndPopulateNewSheet(SheetCopierSheet sheet, string summary)
+        public bool CreateAndPopulateNewSheet(SheetCopierSheet sheet, StringBuilder summary)
         { 
             //turn on hidden revisions
             #if !REVIT2014
@@ -312,7 +313,7 @@ namespace SCaddins.SheetCopier
 
             var oldNumber = sheet.SourceSheet.SheetNumber;
             var msg = " Sheet: " + oldNumber + " copied to: " + sheet.Number;
-            summary += msg + System.Environment.NewLine;
+            summary.Append(msg + System.Environment.NewLine);
 
             return true;
         }

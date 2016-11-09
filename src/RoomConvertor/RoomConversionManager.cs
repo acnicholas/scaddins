@@ -50,12 +50,12 @@ namespace SCaddins.RoomConvertor
         {
             get{ return titleBlocks; }
         }
-        
+
         public ElementId TitleBlockId
         {
             get; set;
         }
-        
+
         public int Scale{
             get; set;
         }
@@ -114,7 +114,7 @@ namespace SCaddins.RoomConvertor
 
             return result;
         }
-        
+
         public ElementId GetTitleBlockByName(string titleBlockName)
         {
             ElementId id = ElementId.InvalidElementId;
@@ -148,7 +148,7 @@ namespace SCaddins.RoomConvertor
                 Candidates.Add(c);
             }
         }
-             
+
         private static void CopyAllMassParametersToRooms(Element host, Room  dest)
         {
             #if REVIT2014
@@ -158,16 +158,16 @@ namespace SCaddins.RoomConvertor
             if (name != null &&  name.StorageType == StorageType.String){
                 dest.Name = name.AsString();
             }
-                        
+
             Parameter number = host.LookupParameter("Number");
             if (number != null &&  number.StorageType == StorageType.String){
                 dest.Number = number.AsString();
             }
-            
+
             CopyAllParameters(host, dest);
             #endif
         }
-        
+
         private static void CopyAllRoomParametersToMasses(Element host, Element  dest)
         {
             #if REVIT2014
@@ -177,11 +177,11 @@ namespace SCaddins.RoomConvertor
             if (paramRoomId != null &&  paramRoomId.StorageType == StorageType.Integer){
                 paramRoomId.Set(host.Id.IntegerValue);
             }
-            
+
             CopyAllParameters(host, dest);
             #endif
         }
-        
+
         private static bool ValidElements(Element host, Element  dest)
         {
             if (host == null || dest == null) return false;
@@ -228,7 +228,7 @@ namespace SCaddins.RoomConvertor
             }
             #endif
         }
-        
+
         public void SynchronizeMassesToRooms()
         {
           #if REVIT2014
@@ -237,18 +237,15 @@ namespace SCaddins.RoomConvertor
               "Synchronizing masses and rooms is not available in Revit 2014"
              );
             return;
-          #else 
-            
+          #else
+
           var t = new Transaction(doc, "Synchronize Masses to Rooms");
           t.Start(); 
-          
-          Autodesk.Revit.UI.TaskDialog.Show("Synchronize Masses to Rooms", "Synchronizing masses to rooms.");
-          
+
           FilteredElementCollector collector = 
               new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Mass).OfClass(typeof(DirectShape));
-          
+
           int i = 0;
-          
             foreach (Element e in collector) {
                 Parameter p = e.LookupParameter("RoomId");
                 i++;
@@ -264,7 +261,7 @@ namespace SCaddins.RoomConvertor
           
           Autodesk.Revit.UI.TaskDialog.Show("Synchronize Masses to Rooms", i + " masses synchronized");
           t.Commit();
-          
+
           #endif
           
         }
@@ -294,7 +291,6 @@ namespace SCaddins.RoomConvertor
                 Solid roomSolid = GeometryCreationUtilities.CreateExtrusionGeometry(curves, new XYZ(0, 0, 1), height.AsDouble(), options);
                 DirectShape roomShape = DirectShape.CreateElement(doc, new ElementId(BuiltInCategory.OST_Mass), "A", "B");
                 roomShape.SetShape(new GeometryObject[] { roomSolid });
-                //Autodesk.Revit.UI.TaskDialog.Show("test", roomShape.GetType().ToString());
                 CopyAllRoomParametersToMasses(room, roomShape);
 
             } catch (Exception ex) {
@@ -311,10 +307,10 @@ namespace SCaddins.RoomConvertor
             ViewSheet sheet = ViewSheet.Create(doc, this.TitleBlockId);
             sheet.Name = candidate.DestinationSheetName;
             sheet.SheetNumber = candidate.DestinationSheetNumber;
-            
+
             //Get Centre before placing any views
             XYZ sheetCentre = CentreOfSheet(sheet, this.doc);
-            
+
             //Create plan of room
             ViewPlan plan = ViewPlan.Create(doc, GetFloorPlanViewFamilyTypeId(doc), candidate.Room.Level.Id);
             plan.CropBoxActive = true;
@@ -328,7 +324,7 @@ namespace SCaddins.RoomConvertor
 
             //Shrink the bounding box now that it is placed
             Viewport vp = Viewport.Create(this.doc, sheet.Id, plan.Id, sheetCentre);
-            
+
             //Shrink the bounding box now that it is placed
             plan.CropBox = originalBoundingBox;
 

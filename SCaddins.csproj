@@ -212,6 +212,10 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="src\SharedAssemblyInfo.cs" />
+    <Compile Include="src\SheetCopier\SCopyMainForm.Designer1.cs">
+      <DependentUpon>SheetCopierMainForm.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="src\SolarUtilities\AngleOfSun.cs" />
     <Compile Include="src\SolarUtilities\SolarViews.cs" />
     <Compile Include="src\SolarUtilities\SolarViewsForm.cs" />
