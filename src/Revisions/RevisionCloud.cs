@@ -1,4 +1,4 @@
-// (C) Copyright 2013-2014 by Andrew Nicholas
+// (C) Copyright 2013-2016 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -32,14 +32,16 @@ namespace SCaddins.SCloudSChed
     public static class SCloudScheduler
     {
         [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", Justification = "Because.")]        
-        public static void ExportCloudInfo(Document doc, Dictionary<string, RevisionItem> dictionary)
+        public static void ExportCloudInfo(Document doc, Dictionary<string, RevisionItem> dictionary, string exportFilename)
         {
-            const string ExportFilename = @"C:\Temp\SClouds";
-            Microsoft.Office.Interop.Excel.Application excelApp;
+
+            string ExportFilename = exportFilename != string.Empty ?  exportFilename : @"C:\Temp\SClouds";
+            Application excelApp;
             Worksheet excelWorksheet;
             Workbook excelWorkbook;
 
-            excelApp = new Microsoft.Office.Interop.Excel.Application();
+            //FIXME this seems broken.
+            excelApp = new Application();
             excelApp.Visible = false;
             excelWorkbook = (Workbook)excelApp.Workbooks.Add(Missing.Value);
             excelWorksheet = (Worksheet)excelWorkbook.ActiveSheet;

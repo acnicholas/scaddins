@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2013-2014 by Andrew Nicholas
+﻿// (C) Copyright 2013-2016 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -81,7 +81,13 @@ namespace SCaddins.SCloudSChed
                     }
                 }
             }
-            SCloudScheduler.ExportCloudInfo(this.doc, dictionary);
+            var saveFileDialogResult = saveFileDialog1.ShowDialog();
+            
+            var saveFileName = string.Empty;
+            if (saveFileDialogResult == DialogResult.OK) {
+                saveFileName = saveFileDialog1.FileName;
+            }
+            SCloudScheduler.ExportCloudInfo(this.doc, dictionary, saveFileName);
         }
         
         private void AssignRevisionToClouds(Collection<RevisionCloudItem> revisionClouds)

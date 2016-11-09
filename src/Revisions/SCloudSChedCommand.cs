@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2013-2014 by Andrew Nicholas
+﻿// (C) Copyright 2013-2016 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -35,7 +35,6 @@ namespace SCaddins.SCloudSChed
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
             this.revisionClouds = new SortableBindingListCollection<RevisionCloudItem>();
-            //GetRevisions(doc, this.revisions);
             GetRevisionClouds(doc, this.revisionClouds);
             Form1 form = new Form1(doc, this.revisionClouds);
             form.ShowDialog();
