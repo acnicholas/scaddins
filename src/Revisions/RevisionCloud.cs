@@ -25,6 +25,7 @@ namespace SCaddins.SCloudSChed
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Microsoft.Office.Interop.Excel;
+    using SCaddins.Common;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -32,7 +33,7 @@ namespace SCaddins.SCloudSChed
     public static class SCloudScheduler
     {
         [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", Justification = "Because.")]        
-        public static void ExportCloudInfo(Document doc, Dictionary<string, RevisionItem> dictionary, string exportFilename)
+        public static void ExportCloudInfo(Document doc, Dictionary<string, RevisionCloudItem> dictionary, string exportFilename)
         {
 
             string ExportFilename = exportFilename != string.Empty ?  exportFilename : @"C:\Temp\SClouds";
@@ -64,7 +65,7 @@ namespace SCaddins.SCloudSChed
             foreach (Element revCloud in a) {
                 string description = GetParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_DESCRIPTION);
                 string date = GetParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_DATE);
-                RevisionItem revItem;
+                RevisionCloudItem revItem;
                 if (dictionary.TryGetValue(date + description, out revItem)) {     
                     if (revItem.Export) {
                         cloudNumber++; 
@@ -101,9 +102,24 @@ namespace SCaddins.SCloudSChed
             }
         }
         
-      
+        
+        public static SortableBindingListCollection<RevisionCloudItem> GetRevisionClouds(Document doc)
+        {
+             #if !(REVIT2014)
+            var revisionClouds = new SortableBindingListCollection<RevisionCloudItem>();
+            FilteredElementCollector a;
+            a = new FilteredElementCollector(doc);
+            a.OfCategory(BuiltInCategory.OST_RevisionClouds);
+            a.OfClass(typeof(RevisionCloud));
+            foreach (RevisionCloud e in a) {  
+                revisionClouds.Add(new RevisionCloudItem(doc, e));
+            }
+            return revisionClouds;
+            #endif
+            return null;
+        }
 
-        private static string GetParamaterAsString(Element revCloud, BuiltInParameter b)
+        public static string GetParamaterAsString(Element revCloud, BuiltInParameter b)
         {
             var p = revCloud.get_Parameter(b);
             if (p == null) {

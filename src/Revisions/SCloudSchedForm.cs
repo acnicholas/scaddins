@@ -33,11 +33,11 @@ namespace SCaddins.SCloudSChed
     {
         private Document doc;
 
-        public Form1(Document doc, SortableBindingListCollection<RevisionCloudItem> revisions)
+        public Form1(Document doc)
         {
             this.doc = doc;
             this.InitializeComponent();
-            dataGridView1.DataSource = revisions;
+            dataGridView1.DataSource = SCloudScheduler.GetRevisionClouds(doc);
         }
 
         private void SelectAll(bool all)
@@ -68,12 +68,17 @@ namespace SCaddins.SCloudSChed
         {
              this.SelectAll(false);
         }
-
-        private void Button3_Click(object sender, EventArgs e)
+        
+        private void NoSelectionErrorDialog()
         {
-            Dictionary<string, RevisionItem> dictionary = new Dictionary<string, RevisionItem>();
+            
+        }
+
+        private void ButtonScheduleRevisionsClick(object sender, EventArgs e)
+        {         
+            Dictionary<string, RevisionCloudItem> dictionary = new Dictionary<string, RevisionCloudItem>();
             foreach (DataGridViewRow row in this.dataGridView1.Rows) {
-                RevisionItem rev = row.DataBoundItem as RevisionItem;
+                RevisionCloudItem rev = row.DataBoundItem as RevisionCloudItem;
                 if (rev != null) {
                     string s = rev.Date + rev.Description;
                     if (!dictionary.ContainsKey(s)) {
@@ -108,7 +113,7 @@ namespace SCaddins.SCloudSChed
                 t.Start();
                 foreach (RevisionCloudItem rc in revisionClouds) { 
                     if (rc != null) {
-                        rc.GetCloud.RevisionId = r.Id;
+                        rc.SetCloudId(r.Id);
                     } else {  
                     }
                 }
@@ -117,7 +122,7 @@ namespace SCaddins.SCloudSChed
             #endif
         }
                 
-        private void Button4Click(object sender, EventArgs e)
+        private void ButtonAssignRevisionsClick(object sender, EventArgs e)
         {
            Collection<RevisionCloudItem> cloudSelection = new Collection<RevisionCloudItem>();
            foreach (DataGridViewRow row in this.dataGridView1.Rows) {
@@ -129,6 +134,12 @@ namespace SCaddins.SCloudSChed
                 }
             }  
             AssignRevisionToClouds(cloudSelection);
+            dataGridView1.DataSource = SCloudScheduler.GetRevisionClouds(doc);
+            this.dataGridView1.Refresh();
+        }
+        void ButtonDeleteRevisionsClick(object sender, EventArgs e)
+        {
+          
         }
         
     }

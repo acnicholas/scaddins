@@ -332,7 +332,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\Revisions\SCloudSchedForm.Designer.cs" />
-    <Compile Include="src\Revisions\RevisionItem.cs" />
     <Compile Include="src\Revisions\RevisionCloud.cs" />
     <Compile Include="src\Revisions\SCloudSChedCommand.cs" />
     <Compile Include="src\PlaceCoordinate\PlaceCoordinate.cs" />
