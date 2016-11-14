@@ -15,16 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCloudSChed
+namespace SCaddins.RevisionUtilities
 {
     using Autodesk.Revit.DB;
     
-    public class RevisionCloudItem
+    public class RevisionCloudItem : RevisionItem
     {
-        private bool export;
-        private string description;
-        private string date;
-        private int sequence;
         private string sheetNumber;
         private string sheetName;
         private ElementId id;
@@ -36,12 +32,12 @@ namespace SCaddins.SCloudSChed
         #if !(REVIT2014)
         public RevisionCloudItem(Document doc, RevisionCloud revisionCloud)
         {
-            this.sequence = revisionCloud.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION_NUM).AsInteger();
+            Sequence = revisionCloud.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION_NUM).AsInteger();
             Parameter p = revisionCloud.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION);
-            this.date = revisionCloud.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION_DATE).AsString();
-            this.description = revisionCloud.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION_DESCRIPTION).AsString();
+            Date = revisionCloud.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION_DATE).AsString();
+            Description = revisionCloud.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION_DESCRIPTION).AsString();
             this.id = revisionCloud.Id;
-            this.export = false;
+            Export = false;
             this.cloud = revisionCloud;
             if (revisionCloud.GetSheetIds().Count == 1) {
                 ElementId id2 = null;
@@ -88,20 +84,7 @@ namespace SCaddins.SCloudSChed
             this.export = false;
         }
         #endif
-        
-        public bool Export {
-            get { return this.export; }
-            set { this.export = value; }
-        }
-               
-        public string Description {
-            get { return this.description; }
-        }
-        
-        public string Date {
-            get { return this.date; }
-        }
-        
+                              
         public string SheetNumber {
             get { return this.sheetNumber; }
         }
@@ -109,11 +92,7 @@ namespace SCaddins.SCloudSChed
         public string SheetName {
             get { return this.sheetName; }
         }
-
-        public int Sequence {
-            get { return this.sequence; }
-        }
-           
+          
         public ElementId Id {
             get { return this.id; }
         }  

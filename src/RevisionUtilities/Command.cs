@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCloudSChed
+namespace SCaddins.RevisionUtilities
 {
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -33,7 +33,7 @@ namespace SCaddins.SCloudSChed
             Autodesk.Revit.DB.ElementSet elements)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            Form1 form = new Form1(doc);
+            RevisionUtilitiesForm form = new RevisionUtilitiesForm(doc);
             form.ShowDialog();
             return Autodesk.Revit.UI.Result.Succeeded;
         }

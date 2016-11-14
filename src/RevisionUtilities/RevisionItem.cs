@@ -15,33 +15,37 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCloudSChed
+namespace SCaddins.RevisionUtilities
 {
+    using Autodesk.Revit.DB;
+    
     public class RevisionItem
     {
-        private bool export;
-        private string description;
-        private string date;
-
-        public RevisionItem(string date, string description, bool issued, int sequence)
+        public RevisionItem()
         {
-            this.description = description;
-            this.date = date;
-            this.Issued = issued;
-            this.Sequence = sequence;
+        }
+        
+        public RevisionItem(Document doc, Revision revision)
+        {
+            this.Description = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
+            this.Date = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString();
+            this.Issued = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_ISSUED).AsInteger() == 1;
+            this.Sequence = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger();
         }
 
         public bool Export {
-            get { return this.export; }
-            set { this.export = value; }
+            get;
+            set;
         }
 
         public string Description {
-            get { return this.description; }
+            get;
+            set;
         }
 
         public string Date {
-            get { return this.date; }
+            get;
+            set;
         }
 
         public bool Issued {
@@ -54,3 +58,4 @@ namespace SCaddins.SCloudSChed
             set;
         }
     }
+}

@@ -238,7 +238,7 @@ namespace SCaddins
         private static PushButtonData LoadSCloudShed(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCloudSChed", "Schedule Clouds", dll, "SCaddins.SCloudSChed.Command");
+                              "SCloudSChed", "Schedule Clouds", dll, "SCaddins.RevisionUtilities.Command");
             AssignPushButtonImage(pbd, "SCaddins.src.Assets.scloudsched-rvt-16.png", 16, dll);
             pbd.ToolTip = "Schedule revision clouds and/or re-assign revisions to them.";
             return pbd;

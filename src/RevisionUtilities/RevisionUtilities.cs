@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCloudSChed
+namespace SCaddins.RevisionUtilities
 {
     //using System.Collections.Generic;
     using System.Collections.Generic;
@@ -30,10 +30,10 @@ namespace SCaddins.SCloudSChed
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
-    public static class SCloudScheduler
+    public static class RevisionUtilities
     {
         [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", Justification = "Because.")]        
-        public static void ExportCloudInfo(Document doc, Dictionary<string, RevisionCloudItem> dictionary, string exportFilename)
+        public static void ExportCloudInfo(Document doc, Dictionary<string, RevisionItem> dictionary, string exportFilename)
         {
 
             string ExportFilename = exportFilename != string.Empty ?  exportFilename : @"C:\Temp\SClouds";
@@ -65,7 +65,7 @@ namespace SCaddins.SCloudSChed
             foreach (Element revCloud in a) {
                 string description = GetParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_DESCRIPTION);
                 string date = GetParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_DATE);
-                RevisionCloudItem revItem;
+                RevisionItem revItem;
                 if (dictionary.TryGetValue(date + description, out revItem)) {     
                     if (revItem.Export) {
                         cloudNumber++; 
@@ -116,8 +116,68 @@ namespace SCaddins.SCloudSChed
             }
             return revisionClouds;
             #endif
+            #if (REVIT2014)
             return null;
+            #endif
         }
+        
+        public static SortableBindingListCollection<RevisionItem> GetRevisions(Document doc)
+        {
+             #if !(REVIT2014)
+            var revisions = new SortableBindingListCollection<RevisionItem>();
+            FilteredElementCollector a;
+            a = new FilteredElementCollector(doc);
+            a.OfCategory(BuiltInCategory.OST_Revisions);
+            a.OfClass(typeof(Revision));
+            foreach (Revision e in a) {  
+                revisions.Add(new RevisionItem(doc, e));
+            }
+            return revisions;
+            #endif
+            #if (REVIT2014)
+            return null;
+            #endif
+        }
+        
+        public static void AssignRevisionToClouds(Document doc, Collection<RevisionCloudItem> revisionClouds)
+        {
+            #if (!REVIT2014)
+            var r = new SCaddins.ExportManager.RevisionSelectionDialog(doc);
+            var result = r.ShowDialog();
+            if (result != System.Windows.Forms.DialogResult.OK) {      
+                return;
+            }
+            if (r.Id == null) {
+                TaskDialog.Show("test", "id is null"); 
+                return;
+            }
+            using (var t = new Transaction(doc, "Assign Revisions to Clouds")) {
+                t.Start();
+                foreach (RevisionCloudItem rc in revisionClouds) { 
+                    if (rc != null) {
+                        rc.SetCloudId(r.Id);
+                    } 
+                }
+                t.Commit();
+            }
+            #endif
+        }
+        
+         public static void DeleteRevisionClouds(Document doc, Collection<RevisionCloudItem> revisionClouds)
+        {
+            #if (!REVIT2014)
+            using (var t = new Transaction(doc, "Deleting Revision Clouds")) {
+                t.Start();
+                foreach (RevisionCloudItem rc in revisionClouds) { 
+                    if (rc != null) {
+                        doc.Delete(rc.Id);
+                    }
+                }
+                t.Commit();
+            }
+            #endif
+        }
+        
 
         public static string GetParamaterAsString(Element revCloud, BuiltInParameter b)
         {
