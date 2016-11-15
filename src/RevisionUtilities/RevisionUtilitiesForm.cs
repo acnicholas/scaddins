@@ -37,7 +37,7 @@ namespace SCaddins.RevisionUtilities
         {
             this.doc = doc;
             this.InitializeComponent();
-            dataGridView1.DataSource = RevisionUtilities.GetRevisions(doc);
+            this.RefreshDataGridView();
         }
 
         private void SelectAll(bool all)
@@ -63,7 +63,7 @@ namespace SCaddins.RevisionUtilities
         
         private void ButtonScheduleRevisionsClick(object sender, EventArgs e)
         {         
-            Dictionary<string, RevisionItem> dictionary = new Dictionary<string, RevisionItem>();
+            var dictionary = new Dictionary<string, RevisionItem>();
             foreach (RevisionItem rev in this.SelectedRevisionItems()) {
                 if (rev != null) {
                     string s = rev.Date + rev.Description;
@@ -109,11 +109,12 @@ namespace SCaddins.RevisionUtilities
         {
            Collection<RevisionItem> selection = new Collection<RevisionItem>();
            foreach (DataGridViewRow row in this.dataGridView1.Rows) {
-                RevisionItem rev = row.DataBoundItem as RevisionItem;
+                RevisionItem rev = (RevisionItem)row.DataBoundItem;
                 if (rev.Export) {
                     selection.Add(rev);
                 } 
             } 
+           TaskDialog.Show("test", selection.Count.ToString());
            return selection;
         }
         
@@ -122,9 +123,27 @@ namespace SCaddins.RevisionUtilities
             if(radioButtonRevisions.Checked) {  
                 dataGridView1.DataSource = RevisionUtilities.GetRevisions(doc);                  
             } else {
-                dataGridView1.DataSource = RevisionUtilities.GetRevisionClouds(doc);    
+                dataGridView1.DataSource = RevisionUtilities.GetRevisionClouds(doc); 
+                AdjustColumnOrder();
             }
             this.dataGridView1.Refresh();
+        }
+        
+        private void AdjustColumnOrder()
+        {
+            //customersDataGridView.Columns["CustomerID"].Visible = false;
+            dataGridView1.Columns["Export"].DisplayIndex = 0;
+            dataGridView1.Columns["Description"].DisplayIndex = 1;
+            dataGridView1.Columns["Date"].DisplayIndex = 2;
+            dataGridView1.Columns["SheetNumber"].DisplayIndex = 3;
+            dataGridView1.Columns["Revision"].DisplayIndex = 4;
+            dataGridView1.Columns["SheetName"].DisplayIndex = 5;
+            dataGridView1.Columns["HostViewName"].DisplayIndex = 6;
+            dataGridView1.Columns["Mark"].DisplayIndex = 7;
+            dataGridView1.Columns["Comments"].DisplayIndex = 8;
+            dataGridView1.Columns["Id"].DisplayIndex = 9;
+            dataGridView1.Columns["Sequence"].DisplayIndex = 10;
+            dataGridView1.Columns["Issued"].DisplayIndex = 11;
         }
         
         private void RadioButtonRevisionsCheckedChanged(object sender, EventArgs e)

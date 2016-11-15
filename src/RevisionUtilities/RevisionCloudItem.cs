@@ -18,71 +18,34 @@
 namespace SCaddins.RevisionUtilities
 {
     using Autodesk.Revit.DB;
+    using System.Linq;
     
     public class RevisionCloudItem : RevisionItem
     {
         private string sheetNumber;
         private string sheetName;
+        private string revision;
+        private string mark;
+        private string comments;
+        private string hostViewName; //for clouds not on sheets
         private ElementId id;
         
         #if !(REVIT2014)
         private RevisionCloud cloud;
-        #endif
 
-        #if !(REVIT2014)
-        public RevisionCloudItem(Document doc, RevisionCloud revisionCloud)
+        public RevisionCloudItem(Document doc, RevisionCloud revisionCloud) : base(doc, revisionCloud)
         {
-            Sequence = revisionCloud.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION_NUM).AsInteger();
-            Parameter p = revisionCloud.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION);
-            Date = revisionCloud.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION_DATE).AsString();
-            Description = revisionCloud.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION_DESCRIPTION).AsString();
+            this.mark = revisionCloud.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString();
+            this.comments = revisionCloud.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS).AsString();
             this.id = revisionCloud.Id;
-            Export = false;
+            this.revision = string.Empty;
             this.cloud = revisionCloud;
-            if (revisionCloud.GetSheetIds().Count == 1) {
-                ElementId id2 = null;
-                foreach (ElementId id3 in revisionCloud.GetSheetIds()) {
-                    id2 = id3;
-                    break;
-                }
-                if (id2 != null) {
-                    Element e2 = doc.GetElement(id2);
-                    ViewSheet vs = (ViewSheet)e2;
-                    if (vs != null) {
-                        this.sheetNumber = vs.SheetNumber;
-                        this.sheetName = vs.Name;
-                    } else {
-                        this.sheetNumber = "Error";
-                        this.sheetName = "Error";
-                    }
-                } else {
-                    this.sheetNumber = "Error";
-                    this.sheetName = "Error";    
-                }
-            }
-            
-            if (revisionCloud.GetSheetIds().Count > 1) {
-                this.sheetNumber = "Multiple";
-                this.sheetName = "Multiple";
-            }
-            
-            if (revisionCloud.GetSheetIds().Count < 1) {
-                this.sheetNumber = "None";
-                this.sheetName = "Multiple";
-            }  
+            this.hostViewName = GetHostViewName(doc);
+            UpdateSheetNameAndNumberStrings(doc);
+         
         }
         #else
-        public RevisionCloudItem(Element e)
-        {
-            this.sequence = e.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION_NUM).AsInteger();
-            Parameter p = e.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION);
-            //Revision r = p.AsValueString as Revision;
-            this.revision = p.AsValueString();
-            this.date = e.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION_DATE).AsString();
-            this.description = e.get_Parameter(BuiltInParameter.REVISION_CLOUD_REVISION_DESCRIPTION).AsString();
-            this.id = e.Id;
-            this.export = false;
-        }
+        //FIXME remove all Revit 2014 support  - only support last 3 versions.
         #endif
                               
         public string SheetNumber {
@@ -92,16 +55,60 @@ namespace SCaddins.RevisionUtilities
         public string SheetName {
             get { return this.sheetName; }
         }
+        
+        public string HostViewName {
+            get { return this.hostViewName; }
+        }
           
         public ElementId Id {
             get { return this.id; }
-        }  
+        } 
+
+        public string Revision {
+            get { return this.revision; }
+        }
+
+        public string Mark {
+            get { return this.mark; }
+        } 
+
+        public string Comments {
+            get { return this.comments; }
+        }        
 
         #if !(REVIT2014)
         public void SetCloudId(ElementId id)
         {
             cloud.RevisionId = id;;
         }
-        #endif        
+
+        private string GetHostViewName(Document doc)
+        {
+            return doc.GetElement(cloud.OwnerViewId).Name;
+        }
+
+        private void UpdateSheetNameAndNumberStrings(Document doc)
+        {
+           this.sheetNumber = "-";
+           this.sheetName = "-";
+           if (cloud.GetSheetIds().Count == 1) {
+               ElementId id2 = cloud.GetSheetIds().ToList().First<ElementId>();
+                if (id2 != null) {
+                    Element e2 = doc.GetElement(id2);
+                    ViewSheet vs = (ViewSheet)e2;
+                    if (vs != null) {
+                        this.sheetNumber = vs.SheetNumber;
+                        this.revision = vs.get_Parameter(BuiltInParameter.SHEET_CURRENT_REVISION).AsString();
+                        this.sheetName = vs.Name;
+                    } 
+                }
+            }
+            
+            if (cloud.GetSheetIds().Count > 1) {
+                this.sheetNumber = "Multiple";
+                this.sheetName = "Multiple";
+            }   
+        }
+        #endif
     }
 }

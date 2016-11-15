@@ -21,16 +21,35 @@ namespace SCaddins.RevisionUtilities
     
     public class RevisionItem
     {
-        public RevisionItem()
+        private string description;
+        private string date;
+        private bool issued;
+        private int sequence;
+        
+        #if !REVIT2014
+        public RevisionItem(Document doc, RevisionCloud revisionCloud)
         {
+            var revision = doc.GetElement(revisionCloud.RevisionId);
+            Init(revision);
         }
         
+
         public RevisionItem(Document doc, Revision revision)
         {
-            this.Description = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
-            this.Date = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString();
-            this.Issued = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_ISSUED).AsInteger() == 1;
-            this.Sequence = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger();
+            Init(revision);
+        }
+//        #else
+//        public RevisionItem(Document doc)
+//        {
+//        }
+        #endif
+        
+        private void Init(Element revision)
+        {
+            this.description = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
+            this.date = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString();
+            this.issued = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_ISSUED).AsInteger() == 1;
+            this.sequence = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger();    
         }
 
         public bool Export {
@@ -39,23 +58,19 @@ namespace SCaddins.RevisionUtilities
         }
 
         public string Description {
-            get;
-            set;
+            get { return this.description;}
         }
 
         public string Date {
-            get;
-            set;
+            get { return this.date;}
         }
-
-        public bool Issued {
-            get;
-            set;
-        }
-
+       
         public int Sequence {
-            get;
-            set;
+            get { return this.sequence;}
+        }
+        
+        public bool Issued {
+            get { return this.issued;}
         }
     }
 }

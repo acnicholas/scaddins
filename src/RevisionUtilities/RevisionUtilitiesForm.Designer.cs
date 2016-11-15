@@ -46,6 +46,9 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToOrderColumns = true;
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -56,13 +59,13 @@
             this.dataGridView1.Name = "dataGridView1";
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridView1.Size = new System.Drawing.Size(541, 448);
+            this.dataGridView1.Size = new System.Drawing.Size(709, 512);
             this.dataGridView1.TabIndex = 0;
             // 
             // buttonSelectAll
             // 
             this.buttonSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSelectAll.Location = new System.Drawing.Point(559, 304);
+            this.buttonSelectAll.Location = new System.Drawing.Point(727, 368);
             this.buttonSelectAll.Name = "buttonSelectAll";
             this.buttonSelectAll.Size = new System.Drawing.Size(161, 23);
             this.buttonSelectAll.TabIndex = 1;
@@ -73,7 +76,7 @@
             // buttonSelectNone
             // 
             this.buttonSelectNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSelectNone.Location = new System.Drawing.Point(559, 333);
+            this.buttonSelectNone.Location = new System.Drawing.Point(727, 397);
             this.buttonSelectNone.Name = "buttonSelectNone";
             this.buttonSelectNone.Size = new System.Drawing.Size(161, 23);
             this.buttonSelectNone.TabIndex = 2;
@@ -84,7 +87,7 @@
             // buttonScheduleRevisions
             // 
             this.buttonScheduleRevisions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonScheduleRevisions.Location = new System.Drawing.Point(559, 455);
+            this.buttonScheduleRevisions.Location = new System.Drawing.Point(727, 519);
             this.buttonScheduleRevisions.Name = "buttonScheduleRevisions";
             this.buttonScheduleRevisions.Size = new System.Drawing.Size(160, 23);
             this.buttonScheduleRevisions.TabIndex = 3;
@@ -104,7 +107,7 @@
             // 
             this.buttonAssignRevisons.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonAssignRevisons.Enabled = false;
-            this.buttonAssignRevisons.Location = new System.Drawing.Point(559, 426);
+            this.buttonAssignRevisons.Location = new System.Drawing.Point(727, 490);
             this.buttonAssignRevisons.Name = "buttonAssignRevisons";
             this.buttonAssignRevisons.Size = new System.Drawing.Size(160, 23);
             this.buttonAssignRevisons.TabIndex = 6;
@@ -116,7 +119,7 @@
             // 
             this.buttonDeleteRevisions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonDeleteRevisions.Enabled = false;
-            this.buttonDeleteRevisions.Location = new System.Drawing.Point(559, 397);
+            this.buttonDeleteRevisions.Location = new System.Drawing.Point(727, 461);
             this.buttonDeleteRevisions.Name = "buttonDeleteRevisions";
             this.buttonDeleteRevisions.Size = new System.Drawing.Size(160, 23);
             this.buttonDeleteRevisions.TabIndex = 7;
@@ -137,7 +140,7 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.radioButtonClouds);
             this.groupBox1.Controls.Add(this.radioButtonRevisions);
-            this.groupBox1.Location = new System.Drawing.Point(559, 30);
+            this.groupBox1.Location = new System.Drawing.Point(727, 30);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(161, 88);
             this.groupBox1.TabIndex = 8;
@@ -170,7 +173,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(727, 490);
+            this.ClientSize = new System.Drawing.Size(895, 554);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonDeleteRevisions);
             this.Controls.Add(this.buttonAssignRevisons);

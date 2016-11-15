@@ -48,12 +48,10 @@ namespace SCaddins.RevisionUtilities
             excelWorksheet = (Worksheet)excelWorkbook.ActiveSheet;
 
             int cloudNumber = 0;
-            FilteredElementCollector a;
-            a = new FilteredElementCollector(doc);
-            a.OfCategory(BuiltInCategory.OST_RevisionClouds);
+            
+            SortableBindingListCollection<RevisionCloudItem> allRevisionClouds = GetRevisionClouds(doc);
 
-            string[,] data = new string[a.ToElements().Count + 1, 8];
-            data[0, 7] = "GUID";
+            string[,] data = new string[allRevisionClouds.Count + 1, 8]; 
             data[0, 0] = "Sheet Number";
             data[0, 1] = "Revision Number";
             data[0, 2] = "Sheet Name";
@@ -61,34 +59,19 @@ namespace SCaddins.RevisionUtilities
             data[0, 4] = "Revision Comment";
             data[0, 5] = "Revision Date";
             data[0, 6] = "Revision Description";
+            data[0, 7] = "GUID";
 
-            foreach (Element revCloud in a) {
-                string description = GetParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_DESCRIPTION);
-                string date = GetParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_DATE);
-                RevisionItem revItem;
-                if (dictionary.TryGetValue(date + description, out revItem)) {     
-                    if (revItem.Export) {
-                        cloudNumber++; 
-                        data[cloudNumber, 7] = revCloud.Id.IntegerValue.ToString();
-                        string viewName = string.Empty;
-                        try {
-                            var view = (View)doc.GetElement(revCloud.OwnerViewId);
-                            viewName = view.ViewName;
-                            if (view.ViewType == ViewType.DrawingSheet) {
-                                data[cloudNumber, 0] = ((ViewSheet)view).SheetNumber.ToString();
-                            } else {
-                                data[cloudNumber, 0] = view.get_Parameter(BuiltInParameter.VIEWPORT_SHEET_NUMBER).AsString();
-                            }
-                        } catch (Autodesk.Revit.Exceptions.ArgumentNullException e) {
-                            System.Diagnostics.Debug.WriteLine(e.Message);
-                        }
-                        data[cloudNumber, 1] = GetParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_NUM);
-                        data[cloudNumber, 2] = viewName;
-                        data[cloudNumber, 3] = GetParamaterAsString(revCloud, BuiltInParameter.ALL_MODEL_MARK);
-                        data[cloudNumber, 4] = GetParamaterAsString(revCloud, BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS);
-                        data[cloudNumber, 5] = GetParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_DATE);
-                        data[cloudNumber, 6] = GetParamaterAsString(revCloud, BuiltInParameter.REVISION_CLOUD_REVISION_DESCRIPTION);
-                    }
+            foreach (RevisionCloudItem revCloud in allRevisionClouds) {
+                if (dictionary.ContainsKey(revCloud.Date + revCloud.Description)) {     
+                    cloudNumber++; 
+                    data[cloudNumber, 0] = revCloud.SheetNumber;
+                    data[cloudNumber, 1] = revCloud.Revision;
+                    data[cloudNumber, 2] = revCloud.SheetName;
+                    data[cloudNumber, 3] = revCloud.Mark;
+                    data[cloudNumber, 4] = revCloud.Comments;
+                    data[cloudNumber, 5] = revCloud.Date;
+                    data[cloudNumber, 6] = revCloud.Description;
+                    data[cloudNumber, 7] = revCloud.Id.IntegerValue.ToString();
                 }
             }
 
@@ -128,9 +111,10 @@ namespace SCaddins.RevisionUtilities
             FilteredElementCollector a;
             a = new FilteredElementCollector(doc);
             a.OfCategory(BuiltInCategory.OST_Revisions);
-            a.OfClass(typeof(Revision));
             foreach (Revision e in a) {  
-                revisions.Add(new RevisionItem(doc, e));
+                if(e.IsValidObject) {
+                    revisions.Add(new RevisionItem(doc, e));
+                }
             }
             return revisions;
             #endif
