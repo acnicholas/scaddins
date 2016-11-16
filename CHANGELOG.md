@@ -1,5 +1,18 @@
 #SCaddins Revision Log#
 
+#17.1 - PRE RELEASE#
+
+####SUMMARY####
+
+**Revit 2014 Support dropped. This further releases(17*) will support Revit 2015,2016 & 2017.**
+
+#17.0.1#
+
+####FIXES#####
+
+- Wall unjoiner defualt setting set to OFF.
+- Fixed solar view diloag error.
+- Fixed room filters in Room Tools
 #17.0#
 
 ####NEW####
