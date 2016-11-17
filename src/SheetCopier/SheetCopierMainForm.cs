@@ -77,11 +77,7 @@ namespace SCaddins.SheetCopier
             var colour = System.Drawing.Color.Gray;
             this.AddItemToViewInfoList("Title", viewSheet.Name, colour, 0);
             this.AddItemToViewInfoList("Sheet Number", viewSheet.SheetNumber, colour, 0);
-            #if REVIT2014
-            this.AddViewsToViewInfoList(viewSheet.Views);
-            #else
             this.AddViewsToViewInfoList(viewSheet.GetAllPlacedViews());
-            #endif
             this.listView1.Refresh();
         }
         

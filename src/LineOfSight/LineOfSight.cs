@@ -195,16 +195,12 @@ namespace SCaddins.LineOfSight
         private ViewDrafting CreateLineOfSightDraftingView(string newViewName)
         {
             ViewDrafting view = null;
-            #if REVIT2014
-            view = this.doc.Create.NewViewDrafting();
-            #else
             ViewFamilyType viewFamilyType =
                 new FilteredElementCollector(this.doc)
                     .OfClass(typeof(ViewFamilyType))
                     .Cast<ViewFamilyType>()
                     .FirstOrDefault<ViewFamilyType>(x => ViewFamily.Drafting == x.ViewFamily);
             view = ViewDrafting.Create(this.doc, viewFamilyType.Id);
-            #endif
             view.ViewName = newViewName;
             return view;
         }

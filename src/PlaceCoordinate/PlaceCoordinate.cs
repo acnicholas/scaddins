@@ -70,13 +70,6 @@ namespace SCaddins.SCoord
                 Family fam;
                 doc.LoadFamily(family, out fam);
                 loadFamily.Commit();
-                #if REVIT2014
-                foreach (FamilySymbol f in fam.Symbols) {
-                    if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture))) {
-                        return f;
-                    }
-                }
-                #else
                 System.Collections.Generic.ISet<ElementId> sids = fam.GetFamilySymbolIds();
                 foreach (ElementId id in sids) {   
                     var f = doc.GetElement(id) as FamilySymbol;
@@ -84,7 +77,6 @@ namespace SCaddins.SCoord
                         return f;
                     }
                 }
-                #endif
             }
             TaskDialog.Show("SCoord", "Family SC-Survey_Point not found.");
             return null;
@@ -137,11 +129,7 @@ namespace SCaddins.SCoord
                                     family,
                                     levelZero,
                                     Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
-            #if REVIT2014
-            Parameter p = fi.get_Parameter("Z");
-            #else
             Parameter p = fi.LookupParameter("Z");
-            #endif
             p.Set(newLocation.Z);
             t.Commit();
         }

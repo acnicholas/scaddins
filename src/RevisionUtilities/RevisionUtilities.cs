@@ -88,7 +88,6 @@ namespace SCaddins.RevisionUtilities
         
         public static SortableBindingListCollection<RevisionCloudItem> GetRevisionClouds(Document doc)
         {
-             #if !(REVIT2014)
             var revisionClouds = new SortableBindingListCollection<RevisionCloudItem>();
             FilteredElementCollector a;
             a = new FilteredElementCollector(doc);
@@ -98,15 +97,10 @@ namespace SCaddins.RevisionUtilities
                 revisionClouds.Add(new RevisionCloudItem(doc, e));
             }
             return revisionClouds;
-            #endif
-            #if (REVIT2014)
-            return null;
-            #endif
         }
         
         public static SortableBindingListCollection<RevisionItem> GetRevisions(Document doc)
         {
-             #if !(REVIT2014)
             var revisions = new SortableBindingListCollection<RevisionItem>();
             FilteredElementCollector a;
             a = new FilteredElementCollector(doc);
@@ -117,15 +111,10 @@ namespace SCaddins.RevisionUtilities
                 }
             }
             return revisions;
-            #endif
-            #if (REVIT2014)
-            return null;
-            #endif
         }
         
         public static void AssignRevisionToClouds(Document doc, Collection<RevisionCloudItem> revisionClouds)
         {
-            #if (!REVIT2014)
             var r = new SCaddins.ExportManager.RevisionSelectionDialog(doc);
             var result = r.ShowDialog();
             if (result != System.Windows.Forms.DialogResult.OK) {      
@@ -144,12 +133,10 @@ namespace SCaddins.RevisionUtilities
                 }
                 t.Commit();
             }
-            #endif
         }
         
          public static void DeleteRevisionClouds(Document doc, Collection<RevisionCloudItem> revisionClouds)
         {
-            #if (!REVIT2014)
             using (var t = new Transaction(doc, "Deleting Revision Clouds")) {
                 t.Start();
                 foreach (RevisionCloudItem rc in revisionClouds) { 
@@ -159,7 +146,6 @@ namespace SCaddins.RevisionUtilities
                 }
                 t.Commit();
             }
-            #endif
         }
         
 

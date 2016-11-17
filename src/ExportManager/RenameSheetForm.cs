@@ -97,23 +97,13 @@ namespace SCaddins.ExportManager
         private void RemoveRevisions(ExportSheet sheet)
         {
             //remove revisions on sheets
-            #if REVIT2014
-                    sheet.Sheet.SetAdditionalProjectRevisionIds(new List<Autodesk.Revit.DB.ElementId>());
-            #else
             ICollection<Autodesk.Revit.DB.ElementId> revisions = sheet.Sheet.GetAdditionalRevisionIds();
             revisions.Clear();
             sheet.Sheet.SetAdditionalRevisionIds(revisions);
-            #endif
               
             Autodesk.Revit.DB.View view = sheet.Sheet as Autodesk.Revit.DB.View;
             //Autodesk.Revit.DB.View view = sheet.Sheet;
                                
-            #if REVIT2014
-                    SheetCopierManager.DeleteRevisionClouds(view.Id, this.doc); 
-                    foreach (Autodesk.Revit.DB.View v in sheet.Sheet.Views) {
-                        SheetCopierManager.DeleteRevisionClouds(v.Id, this.doc);
-                    }
-            #else
             List<Autodesk.Revit.DB.Revision> hiddenRevisionClouds = SheetCopierManager.GetAllHiddenRevisions(this.doc);
             //turn on hidden revisions
             foreach (Autodesk.Revit.DB.Revision rev in hiddenRevisionClouds) {
@@ -133,8 +123,7 @@ namespace SCaddins.ExportManager
             //re-hide hidden revisions
             foreach (Autodesk.Revit.DB.Revision rev in hiddenRevisionClouds) {
                 rev.Visibility = Autodesk.Revit.DB.RevisionVisibility.Hidden;
-            }
-            #endif    
+            }  
         }
         
         private void RenameSheets(ICollection<ExportSheet> sheets)

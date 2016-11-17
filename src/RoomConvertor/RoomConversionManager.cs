@@ -151,9 +151,6 @@ namespace SCaddins.RoomConvertor
 
         private static void CopyAllMassParametersToRooms(Element host, Room  dest)
         {
-            #if REVIT2014
-            return;
-            #else
             Parameter name = host.LookupParameter("Name");
             if (name != null &&  name.StorageType == StorageType.String){
                 dest.Name = name.AsString();
@@ -165,21 +162,16 @@ namespace SCaddins.RoomConvertor
             }
 
             CopyAllParameters(host, dest);
-            #endif
         }
 
         private static void CopyAllRoomParametersToMasses(Element host, Element  dest)
         {
-            #if REVIT2014
-            return;
-            #else
             Parameter paramRoomId = dest.LookupParameter("RoomId");
             if (paramRoomId != null &&  paramRoomId.StorageType == StorageType.Integer){
                 paramRoomId.Set(host.Id.IntegerValue);
             }
 
             CopyAllParameters(host, dest);
-            #endif
         }
 
         private static bool ValidElements(Element host, Element  dest)
@@ -191,9 +183,6 @@ namespace SCaddins.RoomConvertor
 
         private static void CopyAllParameters(Element host, Element  dest)
         {
-            #if REVIT2014
-            return;
-            #else
             if(!ValidElements(host, dest)) return;
                         
             foreach (Parameter param in host.Parameters) {
@@ -226,19 +215,10 @@ namespace SCaddins.RoomConvertor
                     }
                 }
             }
-            #endif
         }
 
         public void SynchronizeMassesToRooms()
         {
-          #if REVIT2014
-            Autodesk.Revit.UI.TaskDialog.Show(
-              "Synchronize Masses To Rooms",
-              "Synchronizing masses and rooms is not available in Revit 2014"
-             );
-            return;
-          #else
-
           var t = new Transaction(doc, "Synchronize Masses to Rooms");
           t.Start(); 
 
@@ -260,17 +240,11 @@ namespace SCaddins.RoomConvertor
             }
           
           Autodesk.Revit.UI.TaskDialog.Show("Synchronize Masses to Rooms", i + " masses synchronized");
-          t.Commit();
-
-          #endif
-          
+          t.Commit();         
         }
 
         private bool CreateRoomMass(Room room)
         {
-            #if REVIT2014
-            return false;
-            #else
             try {
                 var height = room.LookupParameter("Limit Offset");
                 var curves = new List<CurveLoop>();
@@ -298,7 +272,6 @@ namespace SCaddins.RoomConvertor
                 return false;
             }
             return true;
-            #endif
         }
 
         private void CreateViewAndSheet(RoomConversionCandidate candidate)

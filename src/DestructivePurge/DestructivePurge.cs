@@ -231,11 +231,7 @@ namespace SCaddins.SCwash
             Autodesk.Revit.DB.Element view,
             string parameterName)
         {
-            #if REVIT2014
-            return view.get_Parameter(parameterName);
-            #else
             return view.LookupParameter(parameterName);
-            #endif
         }
     }
 }

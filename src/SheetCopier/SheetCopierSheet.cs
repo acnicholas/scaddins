@@ -40,11 +40,6 @@ namespace SCaddins.SheetCopier
             this.sheetCategory = this.GetSheetCategory(SheetCopierConstants.SheetCategory);
             this.DestinationSheet = null;
             this.viewsOnSheet = new BindingList<SheetCopierViewOnSheet>();
-            #if REVIT2014
-            foreach (View v in sourceSheet.Views) {
-                this.viewsOnSheet.Add(new SheetCopierViewOnSheet(v.Name, v, scopy));
-            }
-            #else
             foreach (ElementId id in sourceSheet.GetAllPlacedViews()) {              
                 Element element = sourceSheet.Document.GetElement(id);
                 if (element != null) {
@@ -52,7 +47,6 @@ namespace SCaddins.SheetCopier
                     this.viewsOnSheet.Add(new SheetCopierViewOnSheet(v.Name, v, scopy));
                 }
             }
-            #endif
         }
                
         public event PropertyChangedEventHandler PropertyChanged;

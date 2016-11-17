@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0"?>
-<?define Version = "!(bind.fileVersion.SCaddins2014.dll)" ?>
+<?define Version = "!(bind.fileVersion.SCaddins2015.dll)" ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Product Id="*"
         Name="SCaddins - SC Revit Addins (64 bit)"
@@ -19,16 +19,6 @@
 
                 <!-- Installation directory and files are defined in Files.wxs -->
                 <Directory Id="TARGETDIR" Name="SourceDir"/>	
-
-                <?if $(env.R2014) = Enabled ?> 
-                <Feature Id="Revit2014" Level="1" Title="SCaddins for Revit 2014">
-                    <ComponentRef Id="SCaddins2014" />
-                    <ComponentRef Id="SCaddinsAddin2014" />
-                    <ComponentRef Id="SCaddinsEtc" />
-                    <ComponentRef Id="SCexportConfigProto" />
-                    <ComponentRef Id="SCaddinsRFA2014" />
-                </Feature>
-                <?endif?>
 
                 <?if $(env.R2015) = Enabled ?> 
                 <Feature Id="Revit2015" Level="1" Title="SCaddins for Revit 2015">

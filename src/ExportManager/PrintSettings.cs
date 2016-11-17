@@ -65,11 +65,7 @@ namespace SCaddins.ExportManager
 
                         ips.PrintParameters.HideScopeBoxes = true;
                         ips.PrintParameters.HideReforWorkPlanes = true;
-                        #if REVIT2014
                         ips.PrintParameters.HideUnreferencedViewTags = true;
-                        #else
-                        ips.PrintParameters.HideUnreferencedViewTags = true;
-                        #endif
                         if (isoSheetSize.Contains("FIT")) {
                             ips.PrintParameters.ZoomType = ZoomType.FitToPage;
                             ips.PrintParameters.PaperPlacement = PaperPlacementType.Margins;

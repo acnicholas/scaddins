@@ -42,15 +42,7 @@ namespace SCaddins.ParameterUtils
             Document doc = commandData.Application.ActiveUIDocument.Document;
             UIApplication application = commandData.Application;
             UIDocument document = application.ActiveUIDocument;
-            #if REVIT2014
-            ElementSet eset = document.Selection.Elements;
-            IList<ElementId> elems = new List<ElementId>();
-            foreach (Element e in eset) {
-                elems.Add(e.Id);
-            }
-            #else
             IList<ElementId> elems = document.Selection.GetElementIds().ToList<ElementId>();
-            #endif
             using (var t = new TransactionGroup(doc, "SCulcase")) {
                       t.Start();
                       if (elems.Count == 0) {
@@ -235,11 +227,7 @@ namespace SCaddins.ParameterUtils
 
         private static void ConvertRoom(Room room)
         {
-            #if REVIT2014
-            Parameter param = room.get_Parameter("Name");
-            #else
             Parameter param = room.LookupParameter("Name");
-            #endif
             if (commit) {
                 param.Set(NewString(param.AsString(), mode));
             } else {

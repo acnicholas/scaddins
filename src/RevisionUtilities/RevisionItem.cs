@@ -26,7 +26,6 @@ namespace SCaddins.RevisionUtilities
         private bool issued;
         private int sequence;
         
-        #if !REVIT2014
         public RevisionItem(Document doc, RevisionCloud revisionCloud)
         {
             var revision = doc.GetElement(revisionCloud.RevisionId);
@@ -38,12 +37,7 @@ namespace SCaddins.RevisionUtilities
         {
             Init(revision);
         }
-//        #else
-//        public RevisionItem(Document doc)
-//        {
-//        }
-        #endif
-        
+     
         private void Init(Element revision)
         {
             this.description = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();

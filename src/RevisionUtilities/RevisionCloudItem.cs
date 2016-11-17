@@ -30,7 +30,6 @@ namespace SCaddins.RevisionUtilities
         private string hostViewName; //for clouds not on sheets
         private ElementId id;
         
-        #if !(REVIT2014)
         private RevisionCloud cloud;
 
         public RevisionCloudItem(Document doc, RevisionCloud revisionCloud) : base(doc, revisionCloud)
@@ -44,9 +43,6 @@ namespace SCaddins.RevisionUtilities
             UpdateSheetNameAndNumberStrings(doc);
          
         }
-        #else
-        //FIXME remove all Revit 2014 support  - only support last 3 versions.
-        #endif
                               
         public string SheetNumber {
             get { return this.sheetNumber; }
@@ -76,7 +72,6 @@ namespace SCaddins.RevisionUtilities
             get { return this.comments; }
         }        
 
-        #if !(REVIT2014)
         public void SetCloudId(ElementId id)
         {
             cloud.RevisionId = id;;
@@ -109,6 +104,5 @@ namespace SCaddins.RevisionUtilities
                 this.sheetName = "Multiple";
             }   
         }
-        #endif
     }
 }

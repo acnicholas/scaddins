@@ -29,16 +29,10 @@ namespace SCaddins.ViewUtilities
             var t = new Transaction(doc, "Remove Underlays");
             t.Start();
             foreach (SCaddins.ExportManager.ExportSheet sheet in sheets) {
-                #if REVIT2014
-                foreach (View v in sheet.Sheet.Views) {
-                    RemoveUnderlay(v);
-                }  
-                #else
                 foreach (ElementId id in sheet.Sheet.GetAllPlacedViews()) {
                     var v = (View)doc.GetElement(id);
                     RemoveUnderlay(v);
                 } 
-                #endif
             }
             t.Commit();            
         }
@@ -46,17 +40,6 @@ namespace SCaddins.ViewUtilities
         public static void RemoveUnderlays(UIDocument uidoc)
         {
             var selection = uidoc.Selection;
-            #if REVIT2014
-            if (selection.Elements.Size < 1) {
-                return;
-            }
-            var t = new Transaction(uidoc.Document);
-            t.Start("Remove Underlays");
-            foreach (Element element in selection.Elements) {
-                RemoveUnderlay(element);
-            }
-            t.Commit();
-            #else
             if (selection.GetElementIds().Count < 1) {
                 return;
             }
@@ -66,7 +49,6 @@ namespace SCaddins.ViewUtilities
                 RemoveUnderlay(uidoc.Document.GetElement(id));
             }
             t.Commit();
-            #endif
         }
         
         private static void RemoveUnderlay(Element element)

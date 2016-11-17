@@ -123,15 +123,7 @@ namespace SCaddins.ParameterUtils
             UIApplication app = commandData.Application;
             commandData.Application.DialogBoxShowing += DismissDuplicateQuestion;
             
-            #if REVIT2014
-            ElementSet eset = udoc.Selection.Elements;
-            IList<ElementId> elems = new List<ElementId>();
-            foreach (Element e in eset) {
-                elems.Add(e.Id);
-            }
-            #else
             IList<ElementId> elems = udoc.Selection.GetElementIds().ToList<ElementId>();
-            #endif
             
             if (elems.Count == 0) {
                 RenumberByPicks(udoc, doc, app);
@@ -157,11 +149,7 @@ namespace SCaddins.ParameterUtils
             Element e,
             string parameterName)
         {
-            #if REVIT2014
-            return e.get_Parameter(parameterName);
-            #else
             return e.LookupParameter(parameterName);
-            #endif
         }
 
         private static Parameter GetParameterForReference(Document doc, Reference r)
