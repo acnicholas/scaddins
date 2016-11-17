@@ -7,7 +7,7 @@ echo ### SheetCopier build complete ###
 call Bundle.bat || goto :error
 echo ### SheetCopier bundle created ###
 
-cd ../SolarUtils
+cd ../SolarUtilities
 call Build.bat || goto :error
 echo ### AngleOfSun build complete ###
 call Bundle.bat || goto :error
