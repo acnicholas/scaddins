@@ -207,7 +207,6 @@ namespace SCaddins.SheetCopier
             this.sheetCategories.Clear();
             var c1 = new FilteredElementCollector(this.doc).OfCategory(BuiltInCategory.OST_Sheets);
             foreach (View view in c1) {
-                #if ( REVIT2015 || REVIT2016 || REVIT2017 )
                 var viewCategoryParamList = view.GetParameters(SheetCopierConstants.SheetCategory);
                 if (viewCategoryParamList != null && viewCategoryParamList.Count > 0) {
                     Parameter viewCategoryParam = viewCategoryParamList.First();
@@ -216,15 +215,6 @@ namespace SCaddins.SheetCopier
                         this.sheetCategories.Add(s);
                     }
                 } 
-                #else
-                var viewCategoryParam = view.get_Parameter(SheetCopierConstants.SheetCategory);
-                if (viewCategoryParam != null) {
-                    string s = viewCategoryParam.AsString();
-                    if (!string.IsNullOrEmpty(s) && !this.sheetCategories.Contains(s)) {
-                        this.sheetCategories.Add(s);
-                    }
-                } 
-                #endif
             }
         }
 

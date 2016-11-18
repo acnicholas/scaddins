@@ -224,20 +224,11 @@ namespace SCaddins.ExportManager
         public static int GetNorthPointVisiblity(Element titleBlock)
         {
           try {
-                #if (REVIT2015 || REVIT2016 || REVIT2017)
                     var p = titleBlock.GetParameters(Settings1.Default.NorthPointVisibilityParameter);
                     if (p == null || p.Count < 1) {
                         return 2;
                     }
                     int d = p[0].AsInteger();
-                    #else
-                    int d;
-                    try {
-                        d = titleBlock.get_Parameter(Settings1.Default.ScalebarScaleParameter).AsInteger();
-                    } catch {
-                        return 2;
-                    }
-                    #endif
                     return d;
             } catch (FormatException) {
                     return 2;
@@ -248,20 +239,11 @@ namespace SCaddins.ExportManager
         public static string GetScaleBarScale(Element titleBlock)
         {
           try {
-                #if (REVIT2015 || REVIT2016 || REVIT2017)
                     var p = titleBlock.GetParameters(Settings1.Default.ScalebarScaleParameter);
                     if (p == null || p.Count < 1) {
                         return string.Empty;
                     }
                     double d = p[0].AsDouble();
-                    #else
-                    double d;
-                    try {
-                        d = titleBlock.get_Parameter(Settings1.Default.ScalebarScaleParameter).AsDouble();
-                    } catch {
-                        return string.Empty;
-                    }
-                    #endif
                     return d.ToString(CultureInfo.InvariantCulture);
             } catch (FormatException) {
                     return string.Empty;
@@ -344,18 +326,11 @@ namespace SCaddins.ExportManager
             
                 string northPointVisibility = SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter;
             
-                #if ( REVIT2015 || REVIT2016 || REVIT2017)
                 var tb = titleBlock.GetParameters(northPointVisibility);
                 if (tb == null) {
                     return;
                 }
                 Parameter p = tb[0];
-                #else
-                Parameter p = titleBlock.get_Parameter(northPointVisibility);
-                if (p == null) {
-                    return;
-                }
-                #endif
                 int b = p.AsInteger();
                 if (b == 2) return;
                 b = b == 1 ? 0 : 1;
@@ -381,20 +356,11 @@ namespace SCaddins.ExportManager
         public void SetScaleBarScale(Element titleBlock)
         {
                 string titleScale = SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter;
-            
-                #if ( REVIT2015 || REVIT2016 || REVIT2017)
                 var tb = titleBlock.GetParameters(titleScale);
                 if (tb == null) {
                     return;
                 }
                 Parameter p = tb[0];
-                #else
-                Parameter p = titleBlock.get_Parameter(titleScale);
-                if (p == null) {
-                    return;
-                }
-                #endif
-                //p.SetValueString(this.RevitScaleWithoutFormatting());
                 p.SetValueString(this.RevitScaleWithoutFormatting());
                 this.scaleBarScale = this.RevitScaleWithoutFormatting();          
         }

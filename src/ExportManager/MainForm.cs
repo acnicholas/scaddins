@@ -173,21 +173,12 @@ namespace SCaddins.ExportManager
             } else {
                 var bs = new SortableBindingListCollection<ExportSheet>();
                 for (int i = 0; i < this.scx.AllSheets.Count; i++) {
-                    #if REVIT2016
                     foreach (Autodesk.Revit.DB.View vs in vss.ViewSheetSet.Views) {
                         if (this.scx.AllSheets[i].Id.Equals(vs.Id)) {
                             bs.Add(this.scx.AllSheets[i]);
                             break;
                         }
                     }
-                    #else
-                    foreach (Autodesk.Revit.DB.ViewSheet vs in vss.ViewSheetSet.Views) {
-                        if (this.scx.AllSheets[i].Id.Equals(vs.Id)) {
-                            bs.Add(this.scx.AllSheets[i]);
-                            break;
-                        }
-                    }
-                    #endif
                 }
                 this.dataGridView1.DataSource = bs;
             }

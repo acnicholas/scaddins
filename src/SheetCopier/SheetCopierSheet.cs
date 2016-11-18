@@ -122,19 +122,12 @@ namespace SCaddins.SheetCopier
         
         private string GetSheetCategory(string parameterName)
         {
-            #if ( REVIT2015 || REVIT2016 || REVIT2017 )
             var viewCategoryParamList = this.SourceSheet.GetParameters(parameterName);
             if (viewCategoryParamList != null && viewCategoryParamList.Count > 0) {
                 Parameter viewCategoryParam = viewCategoryParamList.First();
                 string s = viewCategoryParam.AsString();
                 return s;
             } 
-            #else
-            var viewCategoryParam = this.SourceSheet.get_Parameter(parameterName);
-            if (viewCategoryParam != null) {
-                return viewCategoryParam.AsString();
-            }
-            #endif
             return @"n/a";
         }               
     }
