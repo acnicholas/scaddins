@@ -12,7 +12,6 @@ if exist "%RevDir%\Revit 2015\RevitAPI.dll" call %msBuildDir%\msbuild.exe %SWITC
 if exist "%RevDir%\Revit 2016\RevitAPI.dll" call %msBuildDir%\msbuild.exe %SWITCHES% /property:Configuration="Release2016" /property:Platform="x64" /target:Clean,Build SCaddins.csproj /l:FileLogger,Microsoft.Build.Engine;logfile=var\log\MSBuild_Release2016.log || goto :error
 if exist "%RevDir%\Revit 2017\RevitAPI.dll" call %msBuildDir%\msbuild.exe %SWITCHES% /property:Configuration="Release2017" /property:Platform="x64" /target:Clean,Build SCaddins.csproj /l:FileLogger,Microsoft.Build.Engine;logfile=var\log\MSBuild_Release2017.log || goto :error
 
-set R2014=Disabled
 set R2015=Disabled
 set R2016=Disabled
 set R2017=Disabled
