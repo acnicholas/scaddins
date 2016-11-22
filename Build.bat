@@ -24,15 +24,14 @@ powershell -Command "(gc SCaddins.addin) -replace '_REVIT_VERSION_', '2015' | Ou
 powershell -Command "(gc SCaddins.addin) -replace '_REVIT_VERSION_', '2016' | Out-File bin\Release\SCaddins2016.addin" || goto :error
 powershell -Command "(gc SCaddins.addin) -replace '_REVIT_VERSION_', '2017' | Out-File bin\Release\SCaddins2017.addin" || goto :error
 
-call %msBuildDir%\msbuild.exe %SWITCHES% installer/SCaddins.Installer.wixproj /property:Configuration="Release" /property:Platform="x64" /target:Clean,Build /l:FileLogger,Microsoft.Build.Engine;logfile=var\log\MSBuild_Installer.log || goto :error
-
 set msBuildDir=
 
 echo Build complete.
-echo Revit versions suppoerted:
+echo Revit versions supported:
 if %R2015% EQU Enabled echo --- R2015 build OK ---
 if %R2016% EQU Enabled echo --- R2016 build OK ---
 if %R2017% EQU Enabled echo --- R2017 build OK ---
+if "%1%" NEQ "noPauseOnCompletion" pause
 
 goto :EOF
 

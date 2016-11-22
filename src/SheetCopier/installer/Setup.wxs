@@ -19,13 +19,7 @@
 
                 <!-- Installation directory and files are defined in Files.wxs -->
                 <Directory Id="TARGETDIR" Name="SourceDir"/>	
-
-                <?if $(env.R2014) = Enabled ?> 
-                <Feature Id="Revit2014" Level="1" Title="Sheet Copier for Revit 2014">
-                    <ComponentRef Id="SheetCopierAddin2014" />
-                </Feature>
-                <?endif?>
-                
+               
                 <?if $(env.R2015) = Enabled ?> 
                 <Feature Id="Revit2015" Level="1" Title="Sheet Copier for Revit 2015">
                     <ComponentRef Id="SheetCopierAddin2015" />

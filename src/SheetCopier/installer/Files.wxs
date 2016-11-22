@@ -5,15 +5,6 @@
 		<Directory Name="Autodesk" Id="Autodesk">
 			<Directory Name="REVIT" Id="REVIT">
 				<Directory Name="Addins" Id="Addins">
-					<?if $(env.R2014) = Enabled ?>
-					<Directory Id="R2014" Name="2014">
-						<Component Id="SheetCopierAddin2014" DiskId="1" Guid="C50B7F62-696C-4C22-A080-24214E9475A7">
-							<CreateFolder />
-							<File Id="SheetCopier14.ADDIN" Name="SheetCopier.addin" Source="..\SheetCopier.addin" />
-							<File Id="SheetCopier14.dll" Name="SheetCopier.dll" Source="..\bin\Release\SheetCopier14.dll" />
-						</Component>
-					</Directory>
-					<?endif?>
 					<?if $(env.R2015) = Enabled ?>
 					<Directory Id="SCaddinsAddin2015Directory" Name="2015">
 						<Component Id="SheetCopierAddin2015" DiskId="1" Guid="1C612D6F-FB51-4C88-BBD3-C18EE1F6FD58">

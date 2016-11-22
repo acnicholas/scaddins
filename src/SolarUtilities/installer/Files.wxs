@@ -5,15 +5,6 @@
 		<Directory Name="Autodesk" Id="Autodesk">
 			<Directory Name="REVIT" Id="REVIT">
 				<Directory Name="Addins" Id="Addins">
-					<?if $(env.R2014) = Enabled ?>
-					<Directory Id="R2014" Name="2014">
-						<Component Id="AngleOfSunAddin2014" DiskId="1" Guid="15CB323E-890D-4A60-9CAC-E6ECA61D453F">
-							<CreateFolder />
-							<File Id="ANGLEOFSUN14.ADDIN" Name="AngleOfSun.addin" Source="..\AngleOfSun.addin" />
-                            <File Id="AngleOfSun14.dll" Name="AngleOfSun.dll" Source="..\bin\Release\AngleOfSun14.dll" />
-						</Component>
-					</Directory>
-					<?endif?>
 					<?if $(env.R2015) = Enabled ?>
 					<Directory Id="SCaddinsAddin2015Directory" Name="2015">
 						<Component Id="AngleOfSunAddin2015" DiskId="1" Guid="CDC2F6D5-243C-4470-BE6D-4620B8A04A57">
