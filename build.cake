@@ -1,15 +1,9 @@
 using Cake.Common.Diagnostics;
 using System.IO;
 
-// ARGUMENTS
-
 var target = Argument("target", "Default");
 var solutionFile = GetFiles("./*.sln").First();
 var solutionFileWix = GetFiles("installer/SCaddins.Installer.wixproj").First();
-
-// PREPARATION
-
-// Define directories.
 var buildDir = Directory("./bin/Release");
 
 // METHODS
@@ -21,6 +15,11 @@ public MSBuildSettings GetBuildSettings(string config)
 			.WithTarget("Clean,Build")
             .WithProperty("Platform","x64")
             .SetVerbosity(Verbosity.Normal);
+}
+
+public bool APIAvailable(string revitVersion)
+{
+    return FileExists(@"C:\Program Files\Autodesk\Revit " + revitVersion + "\RevitAPI.dll")
 }
 
 // TASKS
@@ -41,26 +40,26 @@ Task("CreateAddinManifests")
 
 Task("Revit2015")
     .IsDependentOn("Restore-NuGet-Packages")
-    .WithCriteria(FileExists(@"C:\Program Files\Autodesk\Revit 2015\RevitAPI.dll"))
+    .WithCriteria(APIAvailable("2015"))
     .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2015")));
 
 Task("Revit2016")
     .IsDependentOn("Restore-NuGet-Packages")
-    .WithCriteria(FileExists(@"C:\Program Files\Autodesk\Revit 2016\RevitAPI.dll"))
+    .WithCriteria(APIAvailable("2016"))
     .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2016")));
 
 Task("Revit2017")
     .IsDependentOn("Restore-NuGet-Packages")
-    .WithCriteria(FileExists(@"C:\Program Files\Autodesk\Revit 2017\RevitAPI.dll"))
+    .WithCriteria(APIAvailable("2017"))
     .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2017")));
 
 Task("Dist")
     .IsDependentOn("Default")
     .Does(() =>
 {
-      Environment.SetEnvironmentVariable("R2015", FileExists(@"C:\Program Files\Autodesk\Revit 2015\RevitAPI.dll") ? "Enabled" : "Disabled");
-	  Environment.SetEnvironmentVariable("R2016", FileExists(@"C:\Program Files\Autodesk\Revit 2016\RevitAPI.dll") ? "Enabled" : "Disabled");
-	  Environment.SetEnvironmentVariable("R2017", FileExists(@"C:\Program Files\Autodesk\Revit 2017\RevitAPI.dll") ? "Enabled" : "Disabled");
+      Environment.SetEnvironmentVariable("R2015", APIAvailable("2015") ? "Enabled" : "Disabled");
+	  Environment.SetEnvironmentVariable("R2016", APIAvailable("2016") ? "Enabled" : "Disabled");
+	  Environment.SetEnvironmentVariable("R2017", APIAvailable("2017") ? "Enabled" : "Disabled");
       var settings = new MSBuildSettings();
       settings.SetConfiguration("Release");
 	  settings.WithTarget("Clean,Build");
