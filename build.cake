@@ -4,7 +4,7 @@ using System.IO;
 var target = Argument("target", "Default");
 var solutionFile = GetFiles("./*.sln").First();
 var solutionFileWix = GetFiles("installer/SCaddins.Installer.wixproj").First();
-var buildDir = Directory("./bin/Release");
+var buildDir = Directory(@"./bin/Release");
 
 // METHODS
 
@@ -19,7 +19,7 @@ public MSBuildSettings GetBuildSettings(string config)
 
 public bool APIAvailable(string revitVersion)
 {
-    return FileExists(@"C:\Program Files\Autodesk\Revit " + revitVersion + "\RevitAPI.dll")
+    return FileExists(@"C:\Program Files\Autodesk\Revit " + revitVersion + @"\RevitAPI.dll");
 }
 
 // TASKS
