@@ -121,11 +121,11 @@
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="RevitAPI">
-      <HintPath>lib\Autodesk\Revit 2016\RevitAPI.dll</HintPath>
+      <HintPath>lib\$(Configuration)\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>lib\Autodesk\Revit 2016\RevitAPIUI.dll</HintPath>
+      <HintPath>lib\$(Configuration)\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
