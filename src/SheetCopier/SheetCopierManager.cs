@@ -377,10 +377,21 @@ namespace SCaddins.SheetCopier
             FilteredElementCollector collector = new FilteredElementCollector(doc, viewId);
             collector.OfCategory(BuiltInCategory.OST_RevisionClouds);
             var clouds = new List<ElementId>();
+            var issuedClouds = new List<Revision>();
             foreach (Element e in collector) {
+                var cloud = e as RevisionCloud;
+                var revisionId = cloud.RevisionId;
+                var revision = doc.GetElement(revisionId) as Revision;
+                if(revision.Issued) {
+                    revision.Issued = false;
+                    issuedClouds.Add(revision);
+                }
                 clouds.Add(e.Id);
             }
-            doc.Delete(clouds);          
+            doc.Delete(clouds);  
+            foreach (Revision r in issuedClouds) {
+                r.Issued = true;
+            }
         }
         
         private void DuplicateViewOntoSheet(
