@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ProjectGuid>{AD62F888-78A1-4E0B-9820-5989630FC8C6}</ProjectGuid>
     <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <Configuration Condition=" '$(Configuration)' == '' ">Release2016</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <OutputType>Library</OutputType>
     <RootNamespace>SCaddins</RootNamespace>
@@ -34,15 +34,15 @@
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    <DefineConstants>DEBUG;TRACE;REVIT2015</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;REVIT2017</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <AssemblyName>SCaddinsDebug</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2016\</ReferencePath>
+    <ReferencePath>C:\Program Files\Autodesk\Revit 2017\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
     <StartAction>Program</StartAction>
-    <StartProgram>C:\Program Files\Autodesk\Revit 2015\Revit.exe</StartProgram>
+    <StartProgram>C:\Program Files\Autodesk\Revit 2017\Revit.exe</StartProgram>
     <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2015' ">
