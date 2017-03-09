@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0"?>
-<?define Version = "!(bind.fileVersion.SCaddins2015.dll)" ?>
+<?define Version = "!(bind.fileVersion.SCaddins2017.dll)" ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Product Id="*"
         Name="SCaddins - SC Revit Addins (64 bit)"
