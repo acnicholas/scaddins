@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <Import Project="packages\WiX.3.10.3\build\wix.props" Condition="Exists('packages\WiX.3.10.3\build\wix.props')" />
   <PropertyGroup>
     <ProjectGuid>{FC00A9A2-1FAF-4809-9223-2D361F60B767}</ProjectGuid>
     <ProjectTypeGuids>{CFEE4113-1246-4D54-95CB-156813CB8593}</ProjectTypeGuids>
@@ -11,10 +12,12 @@
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <SupressIces>ICE45</SupressIces>
-	<SuppressIces>ICE61</SuppressIces>
-	<DefineSolutionProperties>false</DefineSolutionProperties>
+    <SuppressIces>ICE61</SuppressIces>
+    <DefineSolutionProperties>false</DefineSolutionProperties>
     <WixVariables>WixUILicenseRtf=license.rtf</WixVariables>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x64' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -39,7 +42,50 @@
     <Compile Include="Setup.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="license.rtf" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.Client">
+      <HintPath>packages\NuGet.Client.4.0.0\lib\net45\NuGet.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.Common">
+      <HintPath>packages\NuGet.Common.4.0.0\lib\net45\NuGet.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.ContentModel">
+      <HintPath>packages\NuGet.ContentModel.4.0.0\lib\net45\NuGet.ContentModel.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.Frameworks">
+      <HintPath>packages\NuGet.Frameworks.4.0.0\lib\net45\NuGet.Frameworks.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.Packaging">
+      <HintPath>packages\NuGet.Packaging.4.0.0\lib\net45\NuGet.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.Packaging.Core">
+      <HintPath>packages\NuGet.Packaging.Core.4.0.0\lib\net45\NuGet.Packaging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.Packaging.Core.Types">
+      <HintPath>packages\NuGet.Packaging.Core.Types.4.0.0\lib\net45\NuGet.Packaging.Core.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.Repositories">
+      <HintPath>packages\NuGet.Repositories.4.0.0\lib\net45\NuGet.Repositories.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.RuntimeModel">
+      <HintPath>packages\NuGet.RuntimeModel.4.0.0\lib\net45\NuGet.RuntimeModel.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.Versioning">
+      <HintPath>packages\NuGet.Versioning.4.0.0\lib\net45\NuGet.Versioning.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <Target Name="AfterBuild">

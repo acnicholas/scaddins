@@ -1,7 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-# SharpDevelop 5.0
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+# SharpDevelop 5.1
+VisualStudioVersion = 12.0.20827.3
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{CFEE4113-1246-4D54-95CB-156813CB8593}") = "SCaddins.Installer", "SCaddins.Installer.wixproj", "{FC00A9A2-1FAF-4809-9223-2D361F60B767}"
 EndProject
 Global

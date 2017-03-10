@@ -28,6 +28,14 @@ Task("Clean").Does(() => CleanDirectory(buildDir));
 
 Task("Restore-NuGet-Packages").Does(() => NuGetRestore(solutionFile));
 
+Task("Restore-Installer-NuGet-Packages").Does(() => 
+{
+    var settings = new NuGetRestoreSettings();
+    settings.PackagesDirectory = @"installer/packages";
+    settings.WorkingDirectory = @"installer";
+    NuGetRestore(solutionFileWix, settings);
+});
+
 Task("CreateAddinManifests")
     .Does(() =>
 {
@@ -55,6 +63,7 @@ Task("Revit2017")
 
 Task("Dist")
     .IsDependentOn("Default")
+    .IsDependentOn("Restore-Installer-NuGet-Packages")
     .Does(() =>
 {
       Environment.SetEnvironmentVariable("R2015", APIAvailable("2015") ? "Enabled" : "Disabled");
