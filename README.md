@@ -6,12 +6,15 @@ SCaddins is a collection of Revit add-ins. Currently Revit versions 2015-2017 ar
 
 Have a look at the [**wiki**](https://github.com/anderob/scaddins.wiki/Home) for more information on each utility.
 
+### Latest Version ###
 
-## Building and Installing ##
+Download the latest version from [**here**](https://github.com/acnicholas/scaddins/releases/latest)
+
+### Build from Source ###
 
 Run the powershell script `build.ps1` to build the project.
 
-SCaddins attempt to build for Revit versions 2015-2017 by looking for RevitAPI.dll and RevitAPIUI.dll in the following standard locations:
+SCaddins will attempt to build for Revit versions 2015-2017 by looking for RevitAPI.dll and RevitAPIUI.dll in the following standard locations:
 
  - C:\Program Files\AutoDesk\Revit 2015
  - C:\Program Files\AutoDesk\Revit 2016
