@@ -14,7 +14,7 @@ Download the latest version from [**here**](https://github.com/acnicholas/scaddi
 
 Run the powershell script `build.ps1` to build the project.
 
-SCaddins will attempt to build for Revit versions 2015-2017 by looking for RevitAPI.dll and RevitAPIUI.dll in the following standard locations:
+SCaddins will attempt to build for availble Revit versions (2015-2017) by looking for RevitAPI[UI].dll in the following standard locations:
 
  - C:\Program Files\AutoDesk\Revit 2015
  - C:\Program Files\AutoDesk\Revit 2016
@@ -22,4 +22,4 @@ SCaddins will attempt to build for Revit versions 2015-2017 by looking for Revit
  
 To build the msi installer run:
 
-`build.ps1 --Target=dist`
+`build.ps1 -Target "Dist"`
