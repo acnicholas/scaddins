@@ -39,20 +39,20 @@ namespace SCaddins.RoomConvertor
             this.info = new RoomInfoDialog();
             info.TopMost = true;
 
-            //make not editable columns gray
+            // make not editable columns gray
             this.dataGridView1.Columns[0].DefaultCellStyle.ForeColor = System.Drawing.Color.DarkSlateGray;  
             this.dataGridView1.Columns[1].DefaultCellStyle.ForeColor = System.Drawing.Color.DarkSlateGray;  
 
-            //assign tooltips
+            // assign tooltips
             var filterTip = new ToolTip();
-            filterTip.SetToolTip(this.buttonFilter,@"Filter the room list(above) by selected parameter values.");
+            filterTip.SetToolTip(this.buttonFilter, @"Filter the room list(above) by selected parameter values.");
             var renameTip = new ToolTip();
-            renameTip.SetToolTip(this.buttonRename,@"Bulk rename selected items in the list above.");
+            renameTip.SetToolTip(this.buttonRename, @"Bulk rename selected items in the list above.");
 
-            //load list into view
+            // load list into view
             LoadDataGridSource();
 
-            //dataGridView1.Sort(dataGridView1.Columns[1], System.ComponentModel.ListSortDirection.Ascending);
+            // dataGridView1.Sort(dataGridView1.Columns[1], System.ComponentModel.ListSortDirection.Ascending);
         }
 
         private void LoadDataGridSource()
@@ -62,7 +62,7 @@ namespace SCaddins.RoomConvertor
 
         private void AddDataGridColumns()
         {
-            this.dataGridView1.AutoGenerateColumns = false;           
+            dataGridView1.AutoGenerateColumns = false;           
             SCaddins.SheetCopier.MainForm.AddColumn("Number", "Room Number", dataGridView1);
             SCaddins.SheetCopier.MainForm.AddColumn("Name", "Room Name", dataGridView1);            
             SCaddins.SheetCopier.MainForm.AddColumn("DestinationViewName", "New Plan Name", dataGridView1, false);
@@ -74,7 +74,7 @@ namespace SCaddins.RoomConvertor
         {
             DialogResult dr = rfd.ShowDialog();
             if (dr == DialogResult.OK) {
-                Collection<RoomConversionCandidate> toRemove = new Collection<RoomConversionCandidate>();
+                var toRemove = new Collection<RoomConversionCandidate>();
                 foreach (RoomConversionCandidate c in roomConversionManager.Candidates) {
                     if (!c.PassesFilter(rf)) {
                         toRemove.Add(c);
@@ -90,7 +90,7 @@ namespace SCaddins.RoomConvertor
         private System.ComponentModel.BindingList<RoomConversionCandidate> GetSelectedCandidates()
         {
             var c = new System.ComponentModel.BindingList<RoomConversionCandidate>(); 
-            for (int i = 0; i < dataGridView1.SelectedRows.Count; i++){
+            for (int i = 0; i < dataGridView1.SelectedRows.Count; i++) {
                 c.Add((RoomConversionCandidate)dataGridView1.SelectedRows[i].DataBoundItem);
             }
             return c;
@@ -107,7 +107,7 @@ namespace SCaddins.RoomConvertor
 
         void ButtonInfoClick(object sender, EventArgs e)
         {
-            if (info.Visible ) {
+            if (info.Visible) {
                 info.Hide();
             } else {
                 info.Show();
@@ -132,7 +132,7 @@ namespace SCaddins.RoomConvertor
         
         void ToggleMainButtonText()
         {
-            buttonMain.Text = radioButtonCreateMasses.Checked ? "Create Masses" : "Create Plans and Sheets" ;
+            buttonMain.Text = radioButtonCreateMasses.Checked ? "Create Masses" : "Create Plans and Sheets";
             bool b = radioButtonCreateSheets.Checked;
             dataGridView1.Columns[2].Visible = b;
             dataGridView1.Columns[3].Visible = b;
@@ -152,12 +152,12 @@ namespace SCaddins.RoomConvertor
         void ButtonMainClick(object sender, EventArgs e)
         {
             Button button = sender as Button;
-            if(button.Text == "Create Masses") {
+            if (button.Text == "Create Masses") {
                 roomConversionManager.CreateRoomMasses(GetSelectedCandidates());      
             } else {
                 RoomToSheetWizard wizard = new RoomToSheetWizard(this.roomConversionManager);
                 DialogResult result = wizard.ShowDialog();
-                if(result == DialogResult.OK) {
+                if (result == DialogResult.OK) {
                     roomConversionManager.CreateViewsAndSheets(GetSelectedCandidates());
                 }
             } 

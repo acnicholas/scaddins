@@ -37,7 +37,7 @@ namespace SCaddins.RoomConvertor
             
             var s = new List<String>();
             foreach (Parameter p in room.Parameters) {  
-                //don't add ElementID values yet (too much effort)
+                // don't add ElementID values yet (too much effort)
                 if (p.StorageType != StorageType.ElementId && p.StorageType != StorageType.None) {
                     s.Add(p.Definition.Name);
                 }
@@ -72,31 +72,31 @@ namespace SCaddins.RoomConvertor
         
         void ButtonOKClick(object sender, EventArgs e)
         {
-            if( !string.IsNullOrWhiteSpace(comboBoxP1.Text) && !string.IsNullOrWhiteSpace(textBox1.Text)){
+            if (!string.IsNullOrWhiteSpace(comboBoxP1.Text) && !string.IsNullOrWhiteSpace(textBox1.Text)) {
                 var item = new RoomFilterItem("And", comboBoxCO1.Text, comboBoxP1.Text, textBox1.Text);
                 filter.AddFilterItem(item);
             }
-            if( !string.IsNullOrWhiteSpace(comboBoxP2.Text) && !string.IsNullOrWhiteSpace(textBox2.Text)){
+            if (!string.IsNullOrWhiteSpace(comboBoxP2.Text) && !string.IsNullOrWhiteSpace(textBox2.Text)) {
                 var item = new RoomFilterItem(comboBoxLO2.Text, comboBoxCO2.Text, comboBoxP2.Text, textBox2.Text);
                 filter.AddFilterItem(item);
             }
-            if( !string.IsNullOrWhiteSpace(comboBoxP3.Text) && !string.IsNullOrWhiteSpace(textBox3.Text)){
+            if (!string.IsNullOrWhiteSpace(comboBoxP3.Text) && !string.IsNullOrWhiteSpace(textBox3.Text)) {
                 var item = new RoomFilterItem(comboBoxLO3.Text, comboBoxCO3.Text, comboBoxP3.Text, textBox3.Text);
                 filter.AddFilterItem(item);
             }
-            if( !string.IsNullOrWhiteSpace(comboBoxP4.Text) && !string.IsNullOrWhiteSpace(textBox4.Text)){
+            if (!string.IsNullOrWhiteSpace(comboBoxP4.Text) && !string.IsNullOrWhiteSpace(textBox4.Text)) {
                 var item = new RoomFilterItem(comboBoxLO4.Text, comboBoxCO4.Text, comboBoxP4.Text, textBox4.Text);
                 filter.AddFilterItem(item);
             }
-            if( !string.IsNullOrWhiteSpace(comboBoxP5.Text) && !string.IsNullOrWhiteSpace(textBox5.Text)){
+            if (!string.IsNullOrWhiteSpace(comboBoxP5.Text) && !string.IsNullOrWhiteSpace(textBox5.Text)) {
                 var item = new RoomFilterItem(comboBoxLO5.Text, comboBoxCO5.Text, comboBoxP5.Text, textBox5.Text);
                 filter.AddFilterItem(item);
             }
-            if( !string.IsNullOrWhiteSpace(comboBoxP6.Text) && !string.IsNullOrWhiteSpace(textBox6.Text)){
+			if (!string.IsNullOrWhiteSpace(comboBoxP6.Text) && !string.IsNullOrWhiteSpace(textBox6.Text)) {
                 var item = new RoomFilterItem(comboBoxLO6.Text, comboBoxCO6.Text, comboBoxP6.Text, textBox6.Text);
                 filter.AddFilterItem(item);
             }
-            if( !string.IsNullOrWhiteSpace(comboBoxP7.Text) && !string.IsNullOrWhiteSpace(textBox7.Text)){
+            if( !string.IsNullOrWhiteSpace(comboBoxP7.Text) && !string.IsNullOrWhiteSpace(textBox7.Text)) {
                 var item = new RoomFilterItem(comboBoxLO7.Text, comboBoxCO7.Text, comboBoxP7.Text, textBox7.Text);
                 filter.AddFilterItem(item);
             }
@@ -126,3 +126,4 @@ namespace SCaddins.RoomConvertor
         }
     }
 }
+/* vim: set ts=4 sw=4 nu expandtab: */

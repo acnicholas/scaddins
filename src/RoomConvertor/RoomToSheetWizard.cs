@@ -19,14 +19,14 @@ namespace SCaddins.RoomConvertor
             InitializeComponent();
             this.PopulateTitleblockCombo();
              
-            //set titleblock combo to last index which should be none.
+            // set titleblock combo to last index which should be none.
             this.comboBoxTitles.SelectedIndex = this.comboBoxTitles.Items.Count - 1;
             this.textBox1.Text = roomConversionManager.Scale.ToString();
         }
         
         private void PopulateTitleblockCombo()
         {
-            foreach (var key in roomConversionManager.TitleBlocks.Keys){
+            foreach (var key in roomConversionManager.TitleBlocks.Keys) {
                 comboBoxTitles.Items.Add(key);
             }
             comboBoxTitles.SelectedIndex = 0;
@@ -34,7 +34,7 @@ namespace SCaddins.RoomConvertor
              
         private void ButtonOKClicked(object sender, EventArgs e)
         {
-            //roomConversionManager.ViewTemplateId = ElementId.InvalidElementId;
+            // roomConversionManager.ViewTemplateId = ElementId.InvalidElementId;
             int i = 0;
             if (int.TryParse(textBox1.Text, out i)) {
                 roomConversionManager.Scale = i;

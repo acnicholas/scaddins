@@ -96,31 +96,31 @@ namespace SCaddins.ExportManager
                 
         private void RemoveRevisions(ExportSheet sheet)
         {
-            //remove revisions on sheets
+            // remove revisions on sheets
             ICollection<Autodesk.Revit.DB.ElementId> revisions = sheet.Sheet.GetAdditionalRevisionIds();
             revisions.Clear();
             sheet.Sheet.SetAdditionalRevisionIds(revisions);
               
             Autodesk.Revit.DB.View view = sheet.Sheet as Autodesk.Revit.DB.View;
-            //Autodesk.Revit.DB.View view = sheet.Sheet;
+            // Autodesk.Revit.DB.View view = sheet.Sheet;
                                
             List<Autodesk.Revit.DB.Revision> hiddenRevisionClouds = SheetCopierManager.GetAllHiddenRevisions(this.doc);
-            //turn on hidden revisions
+            // turn on hidden revisions
             foreach (Autodesk.Revit.DB.Revision rev in hiddenRevisionClouds) {
                 rev.Visibility = Autodesk.Revit.DB.RevisionVisibility.CloudAndTagVisible;
             }
                     
             doc.Regenerate();
                 
-            //remove clouds on view
+            // remove clouds on view
             SheetCopierManager.DeleteRevisionClouds(view.Id, this.doc);     
                 
-            //remove clouds in viewports                    
+            // remove clouds in viewports                    
             foreach (Autodesk.Revit.DB.ElementId id in sheet.Sheet.GetAllPlacedViews()) {
                 SheetCopierManager.DeleteRevisionClouds(id, this.doc);
             }
                  
-            //re-hide hidden revisions
+            // re-hide hidden revisions
             foreach (Autodesk.Revit.DB.Revision rev in hiddenRevisionClouds) {
                 rev.Visibility = Autodesk.Revit.DB.RevisionVisibility.Hidden;
             }  
@@ -155,13 +155,10 @@ namespace SCaddins.ExportManager
 
         private void RenameSheets(System.ComponentModel.BindingList<SheetCopierSheet> sheets)
         {
-            //var t = new Autodesk.Revit.DB.Transaction(this.doc);
-            //t.Start("SCexport - Rename Sheets");
             foreach (SheetCopierSheet sheet in sheets) {
                 sheet.Title = this.NewSheetName(sheet.Title);
                 sheet.Number = this.NewSheetNumber(sheet.Number);
             }
-            //t.Commit();
         }
 
         private void TestRunButtonClick(object sender, EventArgs e)

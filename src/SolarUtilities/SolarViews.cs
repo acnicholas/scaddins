@@ -135,7 +135,7 @@ namespace SCaddins.SolarUtilities
             ElementId highestId = null;
             foreach (Element e in collector) {
                 var level = (Level)e;
-                if(highestLevel < 0 || level.Elevation > highestLevel) {
+                if (highestLevel < 0 || level.Elevation > highestLevel) {
                     highestLevel = level.Elevation;
                     highestId = level.Id;
                 }
@@ -180,7 +180,6 @@ namespace SCaddins.SolarUtilities
                 SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
                 sunSettings.StartDateAndTime = startTime;
                 sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
-                //sunSettings.Visible = true;
                 view.SunlightIntensity = 50;
                 t.Commit();
                 startTime = startTime.Add(interval);

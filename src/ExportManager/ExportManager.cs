@@ -252,9 +252,7 @@ namespace SCaddins.ExportManager
             var t = new Autodesk.Revit.DB.Transaction(doc);
             t.Start("SCexport - Toggle North Points");
             foreach (ExportSheet sheet in sheets) {
-                //if (!sheet.ValidScaleBar) {
                 sheet.ToggleNorthPoint();
-                //}
             }
             t.Commit();
         }

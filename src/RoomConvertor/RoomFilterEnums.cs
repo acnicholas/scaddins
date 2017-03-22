@@ -28,10 +28,10 @@ namespace SCaddins.RoomConvertor
         NotEqual,
         GreaterThan,
         LessThan,
-        //GreaterThanOrEqual,
-        //LessThanOrEqual,
+        // GreaterThanOrEqual,
+        // LessThanOrEqual,
         Contains,
-        //Matches
+        // Matches
     }
 }
 

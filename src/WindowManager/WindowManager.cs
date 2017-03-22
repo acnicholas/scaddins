@@ -28,7 +28,7 @@ namespace SCaddins.WindowManager
         
         public static int NumberOfPhysicalScreens
         {
-            get {return System.Windows.Forms.Screen.AllScreens.Length;}
+            get { return System.Windows.Forms.Screen.AllScreens.Length; }
         }
         
         public static void MaximizeWindow()

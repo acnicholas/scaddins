@@ -32,11 +32,11 @@ namespace SCaddins.ExportManager
     {
         private ExportManager scx;
         private Autodesk.Revit.DB.Document doc;
-        private Autodesk.Revit.UI.UIDocument udoc;
+        private UIDocument udoc;
         private FilterContextMenu filter;
         private MenuButton printButton;
 
-        public MainForm(Autodesk.Revit.UI.UIDocument udoc)
+        public MainForm(UIDocument udoc)
         {
             this.udoc = udoc;
             this.doc = udoc.Document;
@@ -48,7 +48,7 @@ namespace SCaddins.ExportManager
             this.Controls.Add(this.printButton);
             var findTip = new ToolTip();
             var findTipText = "Use regular expressions to filter the sheet list" +
-                System.Environment.NewLine +
+                Environment.NewLine +
                 "Searches both sheet name and number.";
             findTip.SetToolTip(this.btnFind, findTipText);
             this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
@@ -689,10 +689,10 @@ namespace SCaddins.ExportManager
 
         private void CopySheetsToolStripMenuItemClick(object sender, EventArgs e)
         {          
-            var scopy = new SCaddins.SheetCopier.SheetCopierManager(this.udoc);            
-            var form  = new SCaddins.SheetCopier.MainForm(this.doc, this.SelectedSheets(), scopy);
+            var scopy = new SCaddins.SheetCopier.SheetCopierManager(udoc);            
+            var form  = new SCaddins.SheetCopier.MainForm(doc, SelectedSheets(), scopy);
             form.Enabled = true;
-            System.Windows.Forms.DialogResult result = form.ShowDialog();
+            DialogResult result = form.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK) {
                 scopy.CreateSheets();
             }            
@@ -700,40 +700,40 @@ namespace SCaddins.ExportManager
         
         private void Print(string printerName, int scale)
         {
-            this.btnExport.Hide();
-            this.printButton.Hide();
-            this.btnFind.Hide();
-            this.Refresh();   
-            this.SetUpPBar(this.NumberOfSelectedViews());
-            this.scx.Print(this.SelectedSheets(),
+            btnExport.Hide();
+            printButton.Hide();
+            btnFind.Hide();
+            Refresh();   
+            SetUpPBar(NumberOfSelectedViews());
+            scx.Print(SelectedSheets(),
                            printerName,
                            scale,
-                           this.progressBar,
-                           this.progressInfo,
-                           this.statusStrip1);   
-            this.Close();  // end SCexport     
+                           progressBar,
+                           progressInfo,
+                           statusStrip1);   
+            Close();  // end SCexport     
         }
 
         private void PrintA3ToolStripMenuItemClick(object sender, EventArgs e)
         {
-            this.Print(this.scx.PrinterNameA3, 3);
+            Print(scx.PrinterNameA3, 3);
         }
 
         private void PrintA2ToolStripMenuItemClick(object sender, EventArgs e)
         {
-            this.Print(this.scx.PrinterNameLargeFormat, 2);
+            Print(scx.PrinterNameLargeFormat, 2);
         }
 
         private void PrintFullSizeToolStripMenuItemClick(object sender, EventArgs e)
         {
-            this.Print( this.scx.PrinterNameLargeFormat, -1);
+            Print(scx.PrinterNameLargeFormat, -1);
         }
         
         private void ToggleNorthPointToolStripMenuItemClick(object sender, EventArgs e)
         {
-            ExportManager.ToggleNorthPoints(this.SelectedSheets());  
-            this.Update();
-            this.dataGridView1.Refresh();    
+            ExportManager.ToggleNorthPoints(SelectedSheets());  
+            Update();
+            dataGridView1.Refresh();    
         } 
     }
 }

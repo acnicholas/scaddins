@@ -42,9 +42,9 @@ namespace SCaddins.RoomConvertor
         
         public bool PassesFilter(Room room)
         {
-            foreach(RoomFilterItem item in filters) {
+            foreach (RoomFilterItem item in filters) {
                 if (RoomFilterItem.IsValid()) {
-                    if(!item.PassesFilter(room)){
+                    if (!item.PassesFilter(room)) {
                         return false;
                     }
                 }
@@ -53,3 +53,4 @@ namespace SCaddins.RoomConvertor
         }
     }
 }
+/* vim: set ts=4 sw=4 nu expandtab: */

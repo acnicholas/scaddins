@@ -52,19 +52,19 @@ namespace SCaddins.RevisionUtilities
         }
 
         public string Description {
-            get { return this.description;}
+            get { return this.description; }
         }
 
         public string Date {
-            get { return this.date;}
+            get { return this.date; }
         }
        
         public int Sequence {
-            get { return this.sequence;}
+            get { return this.sequence; }
         }
         
         public bool Issued {
-            get { return this.issued;}
+            get { return this.issued; }
         }
     }
 }

@@ -17,7 +17,7 @@
 
 namespace SCaddins.RevisionUtilities
 {
-    //using System.Collections.Generic;
+    // using System.Collections.Generic;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
@@ -36,12 +36,12 @@ namespace SCaddins.RevisionUtilities
         public static void ExportCloudInfo(Document doc, Dictionary<string, RevisionItem> dictionary, string exportFilename)
         {
 
-            string ExportFilename = exportFilename != string.Empty ?  exportFilename : @"C:\Temp\SClouds";
+            string ExportFilename = exportFilename != string.Empty ? exportFilename : @"C:\Temp\SClouds";
             Application excelApp;
             Worksheet excelWorksheet;
             Workbook excelWorkbook;
 
-            //FIXME this seems broken.
+            // FIXME this seems broken.
             excelApp = new Application();
             excelApp.Visible = false;
             excelWorkbook = (Workbook)excelApp.Workbooks.Add(Missing.Value);
@@ -106,7 +106,7 @@ namespace SCaddins.RevisionUtilities
             a = new FilteredElementCollector(doc);
             a.OfCategory(BuiltInCategory.OST_Revisions);
             foreach (Revision e in a) {  
-                if(e.IsValidObject) {
+                if (e.IsValidObject) {
                     revisions.Add(new RevisionItem(doc, e));
                 }
             }

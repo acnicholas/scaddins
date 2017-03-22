@@ -20,6 +20,7 @@
     <SourceAnalysisOverrideSettingsFile>Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <CodeAnalysisRules>-Microsoft.Design#CA1020;-Microsoft.Design#CA2210;-Microsoft.Naming#CA1702;-Microsoft.Security#CA2122</CodeAnalysisRules>
     <AssemblyOriginatorKeyMode>File</AssemblyOriginatorKeyMode>
+    <GenerateFullPaths>True</GenerateFullPaths>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x64' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -105,6 +106,9 @@
     <RunCodeAnalysis>True</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AdWindows">
+      <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\AdWindows.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -121,12 +125,19 @@
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="RevitAPI">
-      <HintPath>lib\$(Configuration)\RevitAPI.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\RevitAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="RevitAPIIFC">
+      <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\RevitAPIIFC.dll</HintPath>
+    </Reference>
+    <Reference Include="RevitAPIMacros">
+      <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\RevitAPIMacros.dll</HintPath>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>lib\$(Configuration)\RevitAPIUI.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\RevitAPIUI.dll</HintPath>
+    </Reference>
+    <Reference Include="RevitAPIUIMacros">
+      <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\RevitAPIUIMacros.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -516,5 +527,5 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Condition="'$(Configuration)' == 'Debug'" Project="C:\Program Files (x86)\MSBuild\StyleCop\v4.7\StyleCop.targets" />
+  <Import Project="packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets" Condition="Exists('packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets') And '$(Configuration)' == 'Debug'" />
 </Project>

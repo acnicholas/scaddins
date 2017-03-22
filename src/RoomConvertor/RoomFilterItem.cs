@@ -30,8 +30,8 @@ namespace SCaddins.RoomConvertor
 
         public RoomFilterItem(string lo, string co, string parameter, string test)
         {
-           this.lo = (LogicalOperator) Enum.Parse(typeof(LogicalOperator), lo);
-           this.co = (ComparisonOperator) Enum.Parse(typeof(ComparisonOperator), co);
+           this.lo = (LogicalOperator)Enum.Parse(typeof(LogicalOperator), lo);
+           this.co = (ComparisonOperator)Enum.Parse(typeof(ComparisonOperator), co);
            this.parameterName = parameter;
            this.test = test;
         }
@@ -104,7 +104,7 @@ namespace SCaddins.RoomConvertor
 
         public bool PassesFilter(Room room)
         {
-            //FIXME add OR oprion one day.
+            // FIXME add OR oprion one day.
             if (lo != LogicalOperator.And){
                 return false;
             }
@@ -143,4 +143,5 @@ namespace SCaddins.RoomConvertor
         }
     }
 }
+/* vim: set ts=4 sw=4 nu expandtab: */
 

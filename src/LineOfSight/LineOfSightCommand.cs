@@ -25,16 +25,17 @@ namespace SCaddins.LineOfSight
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
     {
-        public Autodesk.Revit.UI.Result Execute(
-            ExternalCommandData commandData,
-            ref string message,
-            Autodesk.Revit.DB.ElementSet elements)
+        public Result Execute(
+                ExternalCommandData commandData,
+                ref string message,
+                ElementSet elements)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            LineOfSight sightLines = new LineOfSight(doc, 1220, 900, 15, 60, 180 , 20, 12000, 1000);
-            SCightLinesMainForm opts = new SCightLinesMainForm(sightLines);
+            var sightLines = new LineOfSight(doc, 1220, 900, 15, 60, 180, 20, 12000, 1000);
+            var opts = new SCightLinesMainForm(sightLines);
             opts.ShowDialog();
-            return Autodesk.Revit.UI.Result.Succeeded;
+            return Result.Succeeded;
         }
     }
 }
+/* vim: set ts=4 sw=4 nu expandtab: */

@@ -27,7 +27,7 @@ namespace SCaddins.RevisionUtilities
         private string revision;
         private string mark;
         private string comments;
-        private string hostViewName; //for clouds not on sheets
+        private string hostViewName; // for clouds not on sheets
         private ElementId id;
         
         private RevisionCloud cloud;

@@ -111,9 +111,7 @@ namespace SCaddins.ViewUtilities
             XYZ min = new XYZ(view.GetZoomCorners()[0].X, view.GetZoomCorners()[0].Y, view.GetZoomCorners()[0].Z - 4);
             XYZ max = new XYZ(view.GetZoomCorners()[1].X, view.GetZoomCorners()[1].Y, view.GetZoomCorners()[1].Z + 4);
             result.set_Bounds(0, min);
-            //result.Bounds(0, min);
             result.set_Bounds(1, max);
-            //result.Bounds(1, max);
             return result;
         }
 

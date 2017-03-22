@@ -268,10 +268,10 @@ namespace SCaddins.LineOfSight
             #if REVIT2016 || REVIT2017
             TextNoteOptions tno = new TextNoteOptions();
             tno.TypeId = doc.GetDefaultElementTypeId(ElementTypeGroup.TextNoteType);
-            if(f.HasFlag(TextAlignFlags.TEF_ALIGN_CENTER)) {
+            if (f.HasFlag(TextAlignFlags.TEF_ALIGN_CENTER)) {
                 tno.HorizontalAlignment = HorizontalTextAlignment.Center;
             }
-            if(f.HasFlag(TextAlignFlags.TEF_ALIGN_LEFT)) {
+            if (f.HasFlag(TextAlignFlags.TEF_ALIGN_LEFT)) {
                 tno.HorizontalAlignment = HorizontalTextAlignment.Left;
             }  
             TextNote.Create(this.doc, this.view.Id, origin, s, tno);

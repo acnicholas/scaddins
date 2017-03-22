@@ -94,7 +94,6 @@ namespace SCaddins.ParameterUtils
             }
         }
 
-        
         public static void RenumberBySpline(ElementId id, Document doc)
         {
             FilteredElementCollector collector = new FilteredElementCollector(doc, doc.ActiveView.Id);
@@ -105,9 +104,9 @@ namespace SCaddins.ParameterUtils
                 CurveElement ce = spline as CurveElement;
                 foreach (Element e in collector) {
                     Room room = e as Room;
-                    if ( ce.CurveElementType == CurveElementType.ModelCurve) {
-                        //IntersectionResultArray results;
-                        //SetComparisonResult result = ce.GeometryCurve.Intersect(room.Geometry, out results );
+                    if (ce.CurveElementType == CurveElementType.ModelCurve) {
+                        // IntersectionResultArray results;
+                        // SetComparisonResult result = ce.GeometryCurve.Intersect(room.Geometry, out results );
                     }
                 }
             }

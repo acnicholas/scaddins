@@ -183,7 +183,7 @@ namespace SCaddins.RoomConvertor
 
         private static void CopyAllParameters(Element host, Element  dest)
         {
-            if(!ValidElements(host, dest)) return;
+            if (!ValidElements(host, dest)) return;
                         
             foreach (Parameter param in host.Parameters) {
                 
@@ -195,7 +195,7 @@ namespace SCaddins.RoomConvertor
                 if (paramDest != null && paramDest.UserModifiable && paramDest.StorageType == param.StorageType) {
                     switch (param.StorageType) {
                         case StorageType.String:
-                            if(!paramDest.IsReadOnly && paramDest.UserModifiable){
+                            if (!paramDest.IsReadOnly && paramDest.UserModifiable) {
                                 string v = param.AsString();
                                 paramDest.Set(v);
                             }
@@ -276,32 +276,32 @@ namespace SCaddins.RoomConvertor
 
         private void CreateViewAndSheet(RoomConversionCandidate candidate)
         {
-            //Create plans
+            // Create plans
             ViewSheet sheet = ViewSheet.Create(doc, this.TitleBlockId);
             sheet.Name = candidate.DestinationSheetName;
             sheet.SheetNumber = candidate.DestinationSheetNumber;
 
-            //Get Centre before placing any views
+            // Get Centre before placing any views
             XYZ sheetCentre = CentreOfSheet(sheet, this.doc);
 
-            //Create plan of room
+            // Create plan of room
             ViewPlan plan = ViewPlan.Create(doc, GetFloorPlanViewFamilyTypeId(doc), candidate.Room.Level.Id);
             plan.CropBoxActive = true;
             plan.ViewTemplateId = ElementId.InvalidElementId;
             plan.Scale = this.Scale;
             BoundingBoxXYZ originalBoundingBox = candidate.Room.get_BoundingBox(plan);
 
-            //Put them on sheets
+            // Put them on sheets
             plan.CropBox = CreateOffsetBoundingBox(200, originalBoundingBox);
             plan.Name = candidate.DestinationViewName;
 
-            //Shrink the bounding box now that it is placed
+            // Shrink the bounding box now that it is placed
             Viewport vp = Viewport.Create(this.doc, sheet.Id, plan.Id, sheetCentre);
 
-            //Shrink the bounding box now that it is placed
+            // Shrink the bounding box now that it is placed
             plan.CropBox = originalBoundingBox;
 
-            //FIXME - To set an empty view title - so far this seems to work with the standard revit template...
+            // FIXME - To set an empty view title - so far this seems to work with the standard revit template...
             vp.ChangeTypeId(vp.GetValidTypes().Last());
         }
 
@@ -319,13 +319,13 @@ namespace SCaddins.RoomConvertor
         {
             FilteredElementCollector c = new FilteredElementCollector(doc, sheet.Id);
             c.OfCategory(BuiltInCategory.OST_TitleBlocks);
-            foreach ( Element e in c) {
+            foreach (Element e in c) {
                 BoundingBoxXYZ b = e.get_BoundingBox(sheet);
                 double x = b.Min.X + ((b.Max.X - b.Min.X) / 2);
                 double y = b.Min.Y + ((b.Max.Y - b.Min.Y) / 2);
                 return new XYZ(x, y, 0);
             }
-            return new XYZ(0,0,0);
+			return new XYZ(0, 0, 0);
         }
 
         private static BoundingBoxXYZ CreateOffsetBoundingBox(double offset, BoundingBoxXYZ origBox)
@@ -339,3 +339,4 @@ namespace SCaddins.RoomConvertor
         }
     }
 }
+/* vim: set ts=4 sw=4 nu expandtab: */

@@ -120,7 +120,7 @@ namespace SCaddins.RevisionUtilities
         
         private void RefreshDataGridView()
         {
-            if(radioButtonRevisions.Checked) {  
+            if (radioButtonRevisions.Checked) {  
                 dataGridView1.DataSource = RevisionUtilities.GetRevisions(doc);                  
             } else {
                 dataGridView1.DataSource = RevisionUtilities.GetRevisionClouds(doc); 
@@ -131,7 +131,7 @@ namespace SCaddins.RevisionUtilities
         
         private void AdjustColumnOrder()
         {
-            //customersDataGridView.Columns["CustomerID"].Visible = false;
+            // customersDataGridView.Columns["CustomerID"].Visible = false;
             dataGridView1.Columns["Export"].DisplayIndex = 0;
             dataGridView1.Columns["Description"].DisplayIndex = 1;
             dataGridView1.Columns["Date"].DisplayIndex = 2;
@@ -148,11 +148,11 @@ namespace SCaddins.RevisionUtilities
         
         private void RadioButtonRevisionsCheckedChanged(object sender, EventArgs e)
         {
-            if(radioButtonRevisions.Checked) {
+            if (radioButtonRevisions.Checked) {
                 this.labelDataGridTitle.Text = "Select Revision To Schedule";
             }
             RadioButton rb = sender as RadioButton;
-            if (rb != null && rb.Checked){
+            if (rb != null && rb.Checked) {
                 this.buttonAssignRevisons.Enabled = false;
                 this.buttonDeleteRevisions.Enabled = false;
                 RefreshDataGridView();
@@ -161,11 +161,11 @@ namespace SCaddins.RevisionUtilities
         
         private void RadioButtonCloudsCheckedChanged(object sender, EventArgs e)
         {
-             if(radioButtonClouds.Checked) {
+             if (radioButtonClouds.Checked) {
                 this.labelDataGridTitle.Text = "Select Revision Cloud To Schedule,Delete or Re-assign";
             }
             RadioButton rb = sender as RadioButton;
-            if (rb != null && rb.Checked){
+            if (rb != null && rb.Checked) {
                 this.buttonAssignRevisons.Enabled = true;
                 this.buttonDeleteRevisions.Enabled = true;
                 RefreshDataGridView();

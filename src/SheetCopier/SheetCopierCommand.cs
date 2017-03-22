@@ -40,12 +40,12 @@ namespace SCaddins.SheetCopier
                 TaskDialog td = new TaskDialog("SCopy");
                 td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
                 td.MainInstruction = "The Copy Sheets add-in needs to be started in a sheet view.";
-                //FIXME add sheet selection to SheetCopier
+                // FIXME add sheet selection to SheetCopier
                 td.MainContent = "Please open the sheet you wish to copy before running...";
                 td.Show();
                 return Autodesk.Revit.UI.Result.Failed;    
             }
-            var scopy =  new SheetCopierManager(commandData.Application.ActiveUIDocument);
+            var scopy = new SheetCopierManager(commandData.Application.ActiveUIDocument);
             var form = new MainForm(doc, viewSheet, scopy);
             form.Enabled = true;
             System.Windows.Forms.DialogResult result = form.ShowDialog();

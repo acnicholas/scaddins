@@ -1,5 +1,5 @@
 
-//test// (C) Copyright 2014-2016 by Andrew Nicholas
+// (C) Copyright 2014-2016 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -132,7 +132,7 @@ namespace SCaddins.SheetCopier
 
         public void CreateSheets()
         {
-            if (this.sheets.Count < 1) {
+            if (sheets.Count < 1) {
                 return;
             }
             
@@ -140,23 +140,23 @@ namespace SCaddins.SheetCopier
             string firstSheetNumber = string.Empty;
             summaryText.Clear();
             
-            using (Transaction  t = new Transaction(this.doc, "SCopy")) {
+            using (var t = new Transaction(this.doc, "SCopy")) {
                 t.Start("Copy Sheets");
-                foreach (SheetCopierSheet sheet in this.sheets) {
+                foreach (SheetCopierSheet sheet in sheets) {
                     n++;
-                    if(this.CreateAndPopulateNewSheet(sheet, summaryText) && n == 1) {
+                    if (CreateAndPopulateNewSheet(sheet, summaryText) && n == 1) {
                         firstSheetNumber = sheet.DestinationSheet.SheetNumber;
                     }
                 }
                 t.Commit();
             }
             
-            //open first sheet
+            // open first sheet
             if (!string.IsNullOrEmpty(firstSheetNumber)) {
                 uidoc.ShowElements(SCaddins.ExportManager.ExportManager.TitleBlockInstanceFromSheetNumber(firstSheetNumber, doc));  
             }
             
-            if(uidoc.GetOpenUIViews().Count > 0) {
+            if (uidoc.GetOpenUIViews().Count > 0) {
                 (uidoc.GetOpenUIViews())[0].ZoomToFit();
             }
             
@@ -263,7 +263,7 @@ namespace SCaddins.SheetCopier
         // this is where the action happens
         public bool CreateAndPopulateNewSheet(SheetCopierSheet sheet, StringBuilder summary)
         { 
-            //turn on hidden revisions
+            // turn on hidden revisions
             foreach (Revision rev in this.hiddenRevisionClouds) {
                 rev.Visibility = RevisionVisibility.CloudAndTagVisible;
             }
@@ -382,7 +382,7 @@ namespace SCaddins.SheetCopier
                 var cloud = e as RevisionCloud;
                 var revisionId = cloud.RevisionId;
                 var revision = doc.GetElement(revisionId) as Revision;
-                if(revision.Issued) {
+                if (revision.Issued) {
                     revision.Issued = false;
                     issuedClouds.Add(revision);
                 }

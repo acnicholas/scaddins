@@ -31,7 +31,7 @@ namespace SCaddins.ModelUpdater
             Document doc = commandData.Application.ActiveUIDocument.Document;
             View view = doc.ActiveView;
 
-            //FIXME opem dialog.
+            // FIXME opem dialog.
             var form = new ModelUpdaterForm();
             System.Windows.Forms.DialogResult result = form.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK) {
