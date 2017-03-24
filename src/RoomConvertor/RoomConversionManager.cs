@@ -244,6 +244,28 @@ namespace SCaddins.RoomConvertor
         }
 
         private bool CreateRoomMass(Room room)
+        {    
+            try {
+                SpatialElementGeometryCalculator calculator = new SpatialElementGeometryCalculator(doc);
+                SpatialElementGeometryResults results = calculator.CalculateSpatialElementGeometry(room);
+                Solid roomSolid = results.GetGeometry(); 
+                DirectShape roomShape = DirectShape.CreateElement(doc, new ElementId(BuiltInCategory.OST_Mass), "A", "B");
+                roomShape.SetShape(new GeometryObject[] { roomSolid });
+                CopyAllRoomParametersToMasses(room, roomShape);
+
+            } catch (Exception ex) {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                return false;
+            }
+            return true;
+
+        }
+
+        // Create room mass by extruding the outling curve.
+        // seems to be a fair bit faster than using GetGeometry.
+        // ...900 rooms in 7 seconds vs 1m30 for GetGeometry
+        // FIXME. doesnt work for for rooms with 0 Limit Offset (i.e rooms bound by another level)
+        private bool CreateRoomMassByExtrusion(Room room)
         {
             try {
                 var height = room.LookupParameter("Limit Offset");
