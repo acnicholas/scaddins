@@ -4,9 +4,6 @@
     <Profile Name="(Default)" />
   </Profiles>
   <Settings>
-    <Setting Name="UnjoinNewWalls" Type="System.Boolean" Scope="User" Roaming="false">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="UpgradeCheckOnStartUp" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>

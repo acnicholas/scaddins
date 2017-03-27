@@ -363,12 +363,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\SheetCopier\SheetCopierViewSelectionDialog.Designer.cs" />
-    <Compile Include="src\ModelUpdater\WallUnjoiner.cs" />
-    <Compile Include="src\ModelUpdater\ModelUpdaterCommand.cs" />
-    <Compile Include="src\ModelUpdater\ModelUpdaterForm.cs" />
-    <Compile Include="src\ModelUpdater\ModelUpdaterForm.Designer.cs">
-      <DependentUpon>ModelUpdaterForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="src\DestructivePurge\DestructivePurge.cs" />
     <Compile Include="src\DestructivePurge\DestructivePurgeCommand.cs" />
     <Compile Include="src\DestructivePurge\DestructivePurgeForm.cs">
@@ -464,9 +458,6 @@
     <EmbeddedResource Include="src\SheetCopier\SheetCopierViewSelectionDialog.resx">
       <DependentUpon>SheetCopierViewSelectionDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\ModelUpdater\ModelUpdaterForm.resx">
-      <DependentUpon>ModelUpdaterForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="src\DestructivePurge\DestructivePurgeForm.resx">
       <DependentUpon>DestructivePurgeForm.cs</DependentUpon>
       <CustomToolNamespace>SCaddins.SCwash</CustomToolNamespace>
@@ -515,7 +506,6 @@
     <Folder Include="etc" />
     <Folder Include="share" />
     <Folder Include="src\Assets" />
-    <Folder Include="src\ModelUpdater" />
     <Folder Include="src\RoomConvertor" />
     <Folder Include="src\SolarUtilities" />
     <Folder Include="src\WindowManager" />

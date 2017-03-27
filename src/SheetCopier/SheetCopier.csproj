@@ -132,9 +132,6 @@
     <Compile Include="..\Constants.cs">
       <Link>Constants.cs</Link>
     </Compile>
-    <Compile Include="..\ModelUpdater\WallUnjoiner.cs">
-      <Link>WallUnjoiner.cs</Link>
-    </Compile>
     <Compile Include="..\SCaddins.cs">
       <Link>SCaddins.cs</Link>
     </Compile>

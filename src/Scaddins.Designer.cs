@@ -26,18 +26,6 @@ namespace SCaddins {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool UnjoinNewWalls {
-            get {
-                return ((bool)(this["UnjoinNewWalls"]));
-            }
-            set {
-                this["UnjoinNewWalls"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool UpgradeCheckOnStartUp {
             get {
                 return ((bool)(this["UpgradeCheckOnStartUp"]));

@@ -137,24 +137,12 @@ namespace SCaddins
             if (SCaddins.Scaddins.Default.UpgradeCheckOnStartUp) {    
                 CheckForUpdates(true);
             }
-            
-            // Register wall updater with Revit
-            var updater = new  ModelUpdater.WallUnjoiner(application.ActiveAddInId);
-            UpdaterRegistry.RegisterUpdater(updater, true);
 
-            // Change Scope = any Wall element
-            ElementClassFilter wallFilter = new ElementClassFilter(typeof(Wall));
-
-            // Change type = element addition
-            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), wallFilter, Element.GetChangeTypeElementAddition());
-   
             return Result.Succeeded;
         }
 
         public Result OnShutdown(UIControlledApplication application)
         {
-            var updater = new ModelUpdater.WallUnjoiner(application.ActiveAddInId);
-            UpdaterRegistry.UnregisterUpdater(updater.GetUpdaterId());
             return Result.Succeeded;
         }
 
