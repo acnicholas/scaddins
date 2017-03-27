@@ -140,28 +140,34 @@ namespace SCaddins.SheetCopier
             string firstSheetNumber = string.Empty;
             summaryText.Clear();
             
-            using (var t = new Transaction(this.doc, "SCopy")) {
-                t.Start("Copy Sheets");
-                foreach (SheetCopierSheet sheet in sheets) {
-                    n++;
-                    if (CreateAndPopulateNewSheet(sheet, summaryText) && n == 1) {
-                        firstSheetNumber = sheet.DestinationSheet.SheetNumber;
-                    }
-                }
-                t.Commit();
+            using (var t = new Transaction(this.doc, "Copy Sheets")) {
+            	if (t.Start() == TransactionStatus.Started) {
+            		foreach (SheetCopierSheet sheet in sheets) {
+            			n++;
+            			if (CreateAndPopulateNewSheet(sheet, summaryText) && n == 1) {
+            				firstSheetNumber = sheet.DestinationSheet.SheetNumber;
+            			}
+            		}
+            		if (TransactionStatus.Committed != t.Commit()) {
+            			TaskDialog.Show("Copy Sheets Failure", "Transaction could not be committed");
+            		} else {
+						// try to open the first sheet created
+						if (!string.IsNullOrEmpty(firstSheetNumber)) {
+							var titleBlockFamilyInstance = SCaddins.ExportManager.ExportManager.TitleBlockInstanceFromSheetNumber(firstSheetNumber, doc);
+							if (titleBlockFamilyInstance != null) {
+								uidoc.ShowElements(titleBlockFamilyInstance); 
+							}
+						}
+						// This shouldn't be required
+						// if (uidoc.GetOpenUIViews().Count > 0) {
+						//	 (uidoc.GetOpenUIViews())[0].ZoomToFit();
+						// }	
+            		}
+            	}
             }
-            
-            // open first sheet
-            if (!string.IsNullOrEmpty(firstSheetNumber)) {
-                uidoc.ShowElements(SCaddins.ExportManager.ExportManager.TitleBlockInstanceFromSheetNumber(firstSheetNumber, doc));  
-            }
-            
-            if (uidoc.GetOpenUIViews().Count > 0) {
-                (uidoc.GetOpenUIViews())[0].ZoomToFit();
-            }
-            
-            var td = new TaskDialog("SCopy - Summary");
-            td.MainInstruction = "SCopy - Summary";
+
+            var td = new TaskDialog("Copy Sheets - Summary");
+            td.MainInstruction = "Copy Sheets - Summary";
             td.MainContent = summaryText.ToString();
             td.MainIcon = TaskDialogIcon.TaskDialogIconNone;
             td.Show(); 
