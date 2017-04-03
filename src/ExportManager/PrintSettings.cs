@@ -24,6 +24,10 @@ namespace SCaddins.ExportManager
 
     public static class PrintSettings
     {  
+        /// <summary>
+        /// Return the papersize of the current sheet
+        /// FIXME add sizes other that iso A*
+        /// </summary>
         public static string GetSheetSizeAsString(ExportSheet sheet)
         {
             double[] p = { 1189, 841, 594, 420, 297, 210, 297, 420, 594, 841, 1189 };
@@ -239,6 +243,7 @@ namespace SCaddins.ExportManager
         {
             double w = Math.Round(width);
             double h = Math.Round(height);
+            // use a tollerance of 2mm.
             return tw + 2 > w && tw - 2 < w && th + 2 > h && th - 2 < h;
         }
     }
