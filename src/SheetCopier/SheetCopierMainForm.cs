@@ -317,6 +317,11 @@ namespace SCaddins.SheetCopier
             buttonRemove.Enabled = dataGridView1.SelectedRows.Count > 0;
             button1.Enabled = dataGridView1.SelectedRows.Count > 0;
         }
+        
+        private void DataGridView2SelectionChanged(object sender, EventArgs e)
+        {
+            buttonRemoveView.Enabled = dataGridView2.SelectedRows.Count > 0;
+        }
           
         private void Button1Click(object sender, EventArgs e)
         {
@@ -341,6 +346,17 @@ namespace SCaddins.SheetCopier
             SCaddins.ExportManager.RenameSheetForm renameForm = new SCaddins.ExportManager.RenameSheetForm(this.scopy.Sheets, this.doc);
             renameForm.ShowDialog();
             dataGridView1.Refresh();  
+        }
+        
+        private void ButtonRemoveViewClick(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridView2.SelectedRows) {
+                var view = row.DataBoundItem as SheetCopierViewOnSheet; 
+                foreach (DataGridViewRow row2 in dataGridView1.SelectedRows) {
+                    var sheet = row2.DataBoundItem as SheetCopierSheet;
+                    sheet.ViewsOnSheet.Remove(view);
+                }
+            }  
         }
     }
 }

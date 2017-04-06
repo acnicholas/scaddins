@@ -51,6 +51,7 @@ namespace SCaddins.SheetCopier
             this.buttonRemove = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.buttonRemoveView = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
@@ -197,6 +198,7 @@ namespace SCaddins.SheetCopier
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.buttonRemoveView);
             this.splitContainer2.Panel2.Controls.Add(this.button3);
             this.splitContainer2.Panel2.Controls.Add(this.label3);
             this.splitContainer2.Panel2.Controls.Add(this.dataGridView2);
@@ -227,6 +229,19 @@ namespace SCaddins.SheetCopier
             this.dataGridView1.CurrentCellDirtyStateChanged += new System.EventHandler(this.DataGridView1_CurrentCellDirtyStateChanged);
             this.dataGridView1.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.DataGridView1DataError);
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.DataGridView1SelectionChanged);
+            // 
+            // buttonRemoveView
+            // 
+            this.buttonRemoveView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonRemoveView.Enabled = false;
+            this.buttonRemoveView.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonRemoveView.Location = new System.Drawing.Point(442, 7);
+            this.buttonRemoveView.Name = "buttonRemoveView";
+            this.buttonRemoveView.Size = new System.Drawing.Size(108, 23);
+            this.buttonRemoveView.TabIndex = 15;
+            this.buttonRemoveView.Text = "Remove View";
+            this.buttonRemoveView.UseVisualStyleBackColor = true;
+            this.buttonRemoveView.Click += new System.EventHandler(this.ButtonRemoveViewClick);
             // 
             // button3
             // 
@@ -265,6 +280,7 @@ namespace SCaddins.SheetCopier
             this.dataGridView2.Size = new System.Drawing.Size(672, 211);
             this.dataGridView2.TabIndex = 7;
             this.dataGridView2.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DataGridView2CellFormatting);
+            this.dataGridView2.SelectionChanged += new System.EventHandler(this.DataGridView2SelectionChanged);
             // 
             // buttonAdd
             // 
@@ -374,6 +390,8 @@ namespace SCaddins.SheetCopier
         private System.Windows.Forms.ToolStripMenuItem replaceTextregexToolStripMenuItem1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button buttonRemoveView;
+
         
   
     }

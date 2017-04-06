@@ -31,7 +31,6 @@ namespace SCaddins.SheetCopier
         private string associatedLevelName;
         private View oldView;
         private string viewTemplateName;
-              
         private bool duplicateWithDetailing;
         private ViewPortPlacementMode creationMode;
    
@@ -147,7 +146,7 @@ namespace SCaddins.SheetCopier
                 }
             }
         }
-        
+               
         public static bool PlanEnough(ViewType vt)
         {
             switch (vt) {
