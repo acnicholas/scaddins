@@ -46,22 +46,6 @@
     <StartProgram>C:\Program Files\Autodesk\Revit 2017\Revit.exe</StartProgram>
     <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release2015' ">
-    <OutputPath>bin\Release\</OutputPath>
-    <DebugSymbols>False</DebugSymbols>
-    <DebugType>None</DebugType>
-    <Optimize>True</Optimize>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <DefineConstants>TRACE;REVIT2015</DefineConstants>
-    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
-    <StartAction>Project</StartAction>
-    <AssemblyName>SCaddins15</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2015\</ReferencePath>
-    <SignAssembly>False</SignAssembly>
-    <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>False</DelaySign>
-    <RunCodeAnalysis>True</RunCodeAnalysis>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'Any' ">
     <BaseAddress>4194304</BaseAddress>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -100,6 +84,22 @@
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins17</AssemblyName>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2017\</ReferencePath>
+    <SignAssembly>False</SignAssembly>
+    <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
+    <RunCodeAnalysis>True</RunCodeAnalysis>
+  </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release2018' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE;REVIT2018</DefineConstants>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <StartAction>Project</StartAction>
+    <AssemblyName>SCaddins18</AssemblyName>
+    <ReferencePath>C:\Program Files\Autodesk\Revit 2018\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>

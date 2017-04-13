@@ -40,16 +40,10 @@ Task("CreateAddinManifests")
     .Does(() =>
 {
     string text = System.IO.File.ReadAllText("SCaddins.addin");
-    System.IO.File.WriteAllText(@"bin\Release\SCaddins2015.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2015"));
     System.IO.File.WriteAllText(@"bin\Release\SCaddins2016.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2016"));
     System.IO.File.WriteAllText(@"bin\Release\SCaddins2017.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2017"));
+    System.IO.File.WriteAllText(@"bin\Release\SCaddins2018.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2018"));
 });
-
-
-Task("Revit2015")
-    .IsDependentOn("Restore-NuGet-Packages")
-    .WithCriteria(APIAvailable("2015"))
-    .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2015")));
 
 Task("Revit2016")
     .IsDependentOn("Restore-NuGet-Packages")
@@ -60,15 +54,20 @@ Task("Revit2017")
     .IsDependentOn("Restore-NuGet-Packages")
     .WithCriteria(APIAvailable("2017"))
     .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2017")));
+    
+Task("Revit2018")
+    .IsDependentOn("Restore-NuGet-Packages")
+    .WithCriteria(APIAvailable("2018"))
+    .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2018")));
 
 Task("Dist")
     .IsDependentOn("Default")
     .IsDependentOn("Restore-Installer-NuGet-Packages")
     .Does(() =>
 {
-      Environment.SetEnvironmentVariable("R2015", APIAvailable("2015") ? "Enabled" : "Disabled");
 	  Environment.SetEnvironmentVariable("R2016", APIAvailable("2016") ? "Enabled" : "Disabled");
 	  Environment.SetEnvironmentVariable("R2017", APIAvailable("2017") ? "Enabled" : "Disabled");
+      Environment.SetEnvironmentVariable("R2017", APIAvailable("2018") ? "Enabled" : "Disabled");
       var settings = new MSBuildSettings();
       settings.SetConfiguration("Release");
 	  settings.WithTarget("Clean,Build");
@@ -78,9 +77,9 @@ Task("Dist")
 
 Task("Default")
     .IsDependentOn("Clean")
-    .IsDependentOn("Revit2015")
     .IsDependentOn("Revit2016")
     .IsDependentOn("Revit2017")
+    .IsDependentOn("Revit2018")
 	.IsDependentOn("CreateAddinManifests");
 
 RunTarget(target);
