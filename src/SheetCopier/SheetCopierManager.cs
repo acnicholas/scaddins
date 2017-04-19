@@ -155,13 +155,11 @@ namespace SCaddins.SheetCopier
 						if (!string.IsNullOrEmpty(firstSheetNumber)) {
 							var titleBlockFamilyInstance = SCaddins.ExportManager.ExportManager.TitleBlockInstanceFromSheetNumber(firstSheetNumber, doc);
 							if (titleBlockFamilyInstance != null) {
+							    SCaddins.ExportManager.DialogHandler.AddRevitDialogHandler(new UIApplication(this.doc.Application));
 								uidoc.ShowElements(titleBlockFamilyInstance); 
 							}
 						}
-						// This shouldn't be required
-						// if (uidoc.GetOpenUIViews().Count > 0) {
-						//	 (uidoc.GetOpenUIViews())[0].ZoomToFit();
-						// }	
+	
             		}
             	}
             }
