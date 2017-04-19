@@ -11,7 +11,7 @@
             Comments="SCaddins - SC Revit Add-ins"
             InstallerVersion="200"
             Compressed="yes"/>
-        <!--
+                <!--
                         Source media for the installation. 
                         Specifies a single cab file to be embedded in the installer's .msi. 
                 -->
@@ -20,16 +20,6 @@
                 <!-- Installation directory and files are defined in Files.wxs -->
                 <Directory Id="TARGETDIR" Name="SourceDir"/>	
 
-                <?if $(env.R2015) = Enabled ?> 
-                <Feature Id="Revit2015" Level="1" Title="SCaddins for Revit 2015">
-                    <ComponentRef Id="SCaddins2015" />
-                    <ComponentRef Id="SCaddinsAddin2015" />
-                    <ComponentRef Id="SCaddinsEtc" />
-                    <ComponentRef Id="SCexportConfigProto" />
-                    <ComponentRef Id="SCaddinsRFA2015" />
-                </Feature>
-                <?endif?>
-        
                 <?if $(env.R2016) = Enabled ?> 
                 <Feature Id="Revit2016" Level="1" Title="SCaddins for Revit 2016">
                     <ComponentRef Id="SCaddins2016" />
@@ -47,6 +37,16 @@
                     <ComponentRef Id="SCaddinsEtc" />
                     <ComponentRef Id="SCexportConfigProto" />
                     <ComponentRef Id="SCaddinsRFA2017" />
+                </Feature>
+                <?endif?>
+                
+                <?if $(env.R2018) = Enabled ?> 
+                <Feature Id="Revit2018" Level="1" Title="SCaddins for Revit 2018">
+                    <ComponentRef Id="SCaddins2018" />
+                    <ComponentRef Id="SCaddinsAddin2018" />
+                    <ComponentRef Id="SCaddinsEtc" />
+                    <ComponentRef Id="SCexportConfigProto" />
+                    <ComponentRef Id="SCaddinsRFA2018" />
                 </Feature>
                 <?endif?>
 

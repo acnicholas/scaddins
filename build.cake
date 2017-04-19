@@ -67,7 +67,7 @@ Task("Dist")
 {
 	  Environment.SetEnvironmentVariable("R2016", APIAvailable("2016") ? "Enabled" : "Disabled");
 	  Environment.SetEnvironmentVariable("R2017", APIAvailable("2017") ? "Enabled" : "Disabled");
-      Environment.SetEnvironmentVariable("R2017", APIAvailable("2018") ? "Enabled" : "Disabled");
+      Environment.SetEnvironmentVariable("R2018", APIAvailable("2018") ? "Enabled" : "Disabled");
       var settings = new MSBuildSettings();
       settings.SetConfiguration("Release");
 	  settings.WithTarget("Clean,Build");

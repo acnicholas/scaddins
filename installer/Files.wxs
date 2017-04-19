@@ -10,14 +10,6 @@
 								<CreateFolder />
 							</Component>
 							<Directory Id="RFADIR" Name="rfa">
-								<Directory Id="RFAFILES2015" Name="2015">
-									<?if $(env.R2015) = Enabled ?>
-									<Component Id="SCaddinsRFA2015" Guid="C7F27B1E-7471-420B-B72E-00E21A153A01" DiskId="1" Win64="yes">
-										<CreateFolder />
-										<File Id="_015.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2015\SC-Survey_Point.rfa" />
-									</Component>
-									<?endif?>
-								</Directory>
 								<Directory Id="RFAFILES2016" Name="2016">
 									<?if $(env.R2016) = Enabled ?>
 									<Component Id="SCaddinsRFA2016" Guid="5A4670F8-0154-4072-B3DF-03308798A1CE" DiskId="1" Win64="yes">
@@ -26,13 +18,21 @@
 									</Component>
 									<?endif?>
 								</Directory>
-                                <Directory Id="RFAFILES2017" Name="2017">
+								<Directory Id="RFAFILES2017" Name="2017">
 									<?if $(env.R2017) = Enabled ?>
 									<Component Id="SCaddinsRFA2017" Guid="12A17D8D-5DC0-413B-8B71-C0F36B2BB9C7" DiskId="1" Win64="yes">
 										<CreateFolder />
 										<File Id="_017.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2015\SC-Survey_Point.rfa" />
 									</Component>
 									<?endif?>
+								</Directory>
+								<Directory Id="RFAFILES2018" Name="2018">
+                                    <?if $(env.R2018) = Enabled ?>
+									<Component Id="SCaddinsRFA2018" Guid="1610E6AA-DDA3-4D1E-B734-174CFBB94313" Win64="yes" DiskId="1">
+										<CreateFolder />
+										<File Id="_018.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2015\SC-Survey_Point.rfa" />
+									</Component>
+                                    <?endif?>
 								</Directory>
 							</Directory>
 						</Directory>
@@ -42,14 +42,6 @@
 								<File Id="SCEXPORT.XSD" Name="SCexport.xsd" Source="..\etc\SCexport.xsd" />
 							</Component>
 						</Directory>
-						<?if $(env.R2015) = Enabled ?>
-						<Directory Id="DLLDIR2015" Name="2015">
-							<Component Id="SCaddins2015" DiskId="1" Guid="7F1CE98E-1FC3-490F-A5C4-72B69FD0C5A3" Win64="yes">
-								<CreateFolder />
-								<File Id="SCaddins2015.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins15.dll" />
-							</Component>
-						</Directory>
-						<?endif?>
 						<?if $(env.R2016) = Enabled ?>
 						<Directory Id="DLLDIR2016" Name="2016">
 							<Component Id="SCaddins2016" Guid="DFB2A497-BA0C-41DF-8443-29CB5FCD9CF8" DiskId="1" Win64="yes">
@@ -58,11 +50,19 @@
 							</Component>
 						</Directory>
 						<?endif?>
-                        <?if $(env.R2017) = Enabled ?>
+						<?if $(env.R2017) = Enabled ?>
 						<Directory Id="DLLDIR2017" Name="2017">
 							<Component Id="SCaddins2017" Guid="BC1E0969-FB15-446C-B35B-8AF899054B21" DiskId="1" Win64="yes">
 								<CreateFolder />
 								<File Id="SCaddins2017.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins17.dll" />
+							</Component>
+						</Directory>
+						<?endif?>
+						<?if $(env.R2018) = Enabled ?>
+						<Directory Id="DLLDIR2018" Name="2018">
+							<Component Id="SCaddins2018" Guid="0A8DD595-4441-4020-B028-261905422C49" Win64="yes" DiskId="1">
+								<CreateFolder />
+								<File Id="SCaddins2018.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins18.dll" />
 							</Component>
 						</Directory>
 						<?endif?>
@@ -73,14 +73,6 @@
 				<Directory Name="Autodesk" Id="Autodesk">
 					<Directory Name="REVIT" Id="REVIT">
 						<Directory Name="Addins" Id="Addins">
-							<?if $(env.R2015) = Enabled ?>
-							<Directory Id="SCaddinsAddin2015Directory" Name="2015">
-								<Component Id="SCaddinsAddin2015" DiskId="1" Guid="F70553D6-1822-4937-96DF-1B262F214DD3">
-									<CreateFolder />
-									<File Id="SCADDINS15.ADDIN" Name="SCaddins15.addin" Source="..\bin\Release\SCaddins2015.addin" />
-								</Component>
-							</Directory>
-							<?endif?>
 							<?if $(env.R2016) = Enabled ?>
 							<Directory Id="SCaddinsAddin2016Directory" Name="2016">
 								<Component Id="SCaddinsAddin2016" Guid="70474050-0034-4A79-BF47-AF18E41EDC0D" DiskId="1">
@@ -89,11 +81,19 @@
 								</Component>
 							</Directory>
 							<?endif?>
-                            <?if $(env.R2017) = Enabled ?>
+							<?if $(env.R2017) = Enabled ?>
 							<Directory Id="SCaddinsAddin2017Directory" Name="2017">
 								<Component Id="SCaddinsAddin2017" Guid="F2D456ED-8A1C-4B3C-9926-770369DA8E42" DiskId="1">
 									<CreateFolder />
 									<File Id="SCADDINS17.ADDIN" Name="SCaddins17.addin" Source="..\bin\Release\SCaddins2017.addin" />
+								</Component>
+							</Directory>
+							<?endif?>
+							<?if $(env.R2018) = Enabled ?>
+							<Directory Id="SCaddinsAddin2018Directory" Name="2018">
+								<Component Id="SCaddinsAddin2018" Guid="67944DB5-77B9-4CB6-82E8-5B8C2EAFD213" DiskId="1">
+									<CreateFolder />
+									<File Id="SCADDINS18.ADDIN" Name="SCaddins18.addin" Source="..\bin\Release\SCaddins2018.addin" />
 								</Component>
 							</Directory>
 							<?endif?>
