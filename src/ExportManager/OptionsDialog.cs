@@ -105,10 +105,6 @@ namespace SCaddins.ExportManager
 
         private void AssignDWGReleaseMenuTags()
         {
-                #if (!REVIT2016 && !REVIT2017)
-                this.comboBoxAutocadVersion.Items.Add("R2000");
-                this.comboBoxAutocadVersion.Items.Add("R2004");
-                #endif
                 this.comboBoxAutocadVersion.Items.Add("R2007");
                 this.comboBoxAutocadVersion.Items.Add("R2010");
                 this.comboBoxAutocadVersion.Items.Add("R2013");

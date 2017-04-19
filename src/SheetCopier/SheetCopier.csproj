@@ -46,15 +46,6 @@
     <OutputPath>bin\Release\</OutputPath>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release2015' ">
-    <AssemblyName>SheetCopier15</AssemblyName>
-    <DefineConstants>REVIT2015</DefineConstants>
-    <Optimize>False</Optimize>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2015\</ReferencePath>
-    <OutputPath>bin\Release\</OutputPath>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2016' ">
     <AssemblyName>SheetCopier16</AssemblyName>
     <DefineConstants>REVIT2016</DefineConstants>
@@ -71,6 +62,15 @@
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2017\</ReferencePath>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release2018' ">
+    <AssemblyName>SheetCopier18</AssemblyName>
+    <DefineConstants>REVIT2018</DefineConstants>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <ReferencePath>C:\Program Files\Autodesk\Revit 2018\</ReferencePath>
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>

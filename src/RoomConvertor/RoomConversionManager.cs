@@ -275,11 +275,7 @@ namespace SCaddins.RoomConvertor
                 var loop = new CurveLoop();
                 var bdySegs = room.GetBoundarySegments(spatialBoundaryOptions);
                 foreach (var seg in bdySegs[0]) {
-                    #if REVIT2017 || REVIT2016
                     loop.Append(seg.GetCurve());
-                    #else
-                    loop.Append(seg.Curve);
-                    #endif
                 }
 
                 curves.Add(loop);

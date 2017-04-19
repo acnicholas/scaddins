@@ -265,7 +265,6 @@ namespace SCaddins.LineOfSight
             XYZ origin = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x), MiscUtilities.MillimetersToFeet(y), 0);
             XYZ normal_base = app.Create.NewXYZ(vx, vy, 0);
             XYZ normal_up = app.Create.NewXYZ(0, 1, 0);
-            #if REVIT2016 || REVIT2017
             TextNoteOptions tno = new TextNoteOptions();
             tno.TypeId = doc.GetDefaultElementTypeId(ElementTypeGroup.TextNoteType);
             if (f.HasFlag(TextAlignFlags.TEF_ALIGN_CENTER)) {
@@ -275,9 +274,6 @@ namespace SCaddins.LineOfSight
                 tno.HorizontalAlignment = HorizontalTextAlignment.Left;
             }  
             TextNote.Create(this.doc, this.view.Id, origin, s, tno);
-            #else
-            this.doc.Create.NewTextNote(this.view, origin, normal_base, normal_up, MiscUtilities.MillimetersToFeet(10), f, s);
-            #endif
         }
 
         private string UpdateInfoString()
