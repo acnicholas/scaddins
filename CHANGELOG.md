@@ -1,10 +1,10 @@
 #SCaddins Revision Log#
 
-#17.1 - PRE RELEASE#
+#18.0 - PRE RELEASE#
 
 ####SUMMARY####
 
-**Revit 2014 Support dropped. This further releases(17*) will support Revit 2015,2016 & 2017.**
+**Revit 2014-2015 Support dropped. Further releases(18*) will support Revit 2016,2017 & 2018.**
 
 #17.0.1#
 
