@@ -124,8 +124,7 @@ namespace SCaddins
                 LoadSCuv(scdll));
             ribbonPanel.AddStackedItems(
                 LoadSCasfar(scdll),
-                LoadSCam(scdll),
-                LoadSCunjoin(scdll));
+                LoadSCam(scdll));
 
             ribbonPanel.AddSlideOut();
 
@@ -268,15 +267,6 @@ namespace SCaddins
             return pbd;
         }
         
-        private static PushButtonData LoadSCunjoin(string dll)
-        {
-            var pbd = new PushButtonData(
-                              "SCunjoin", "Unjoin Walls", dll, "SCaddins.ModelUpdater.Command");
-            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scunjoin-rvt-16.png", 16, dll);
-            pbd.ToolTip = "Unjoin walls automatically after placement.";
-            return pbd;
-        }
-
         private static PushButtonData LoadSCam(string dll)
         {
             var pbd = new PushButtonData(

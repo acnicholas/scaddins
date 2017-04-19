@@ -89,7 +89,7 @@
     <DelaySign>False</DelaySign>
     <RunCodeAnalysis>True</RunCodeAnalysis>
   </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release2018' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release2018' ">
     <OutputPath>bin\Release\</OutputPath>
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
@@ -487,7 +487,6 @@
     <EmbeddedResource Include="src\Assets\help.png" />
     <EmbeddedResource Include="src\Assets\user.png" />
     <EmbeddedResource Include="src\Assets\scasfar-rvt-16.png" />
-    <EmbeddedResource Include="src\Assets\scunjoin-rvt-16.png" />
     <None Include="src\Scaddins.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Scaddins.Designer.cs</LastGenOutput>
