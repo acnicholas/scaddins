@@ -31,15 +31,18 @@ namespace SCaddins.ViewUtilities
             Document doc = commandData.Application.ActiveUIDocument.Document;
             View view = doc.ActiveView;
 
-            var t = new Transaction(doc, "SCuv Copies User Views");
-            t.Start();
-            if (UserView.Create(view, doc)) {
-                UserView.ShowSummaryDialog(UserView.GetNewViewName(doc, view));
-            } else {
-                UserView.ShowErrorDialog(view);    
+            using (Transaction t =  new Transaction(doc)) {
+                if (t.Start("SCuv Copies User View") == TransactionStatus.Started) {
+                    if (UserView.Create(view, doc)) {
+                        UserView.ShowSummaryDialog(UserView.GetNewViewName(doc, view));
+                    } else {
+                        UserView.ShowErrorDialog(view);    
+                    }
+                    if (t.Commit() != TransactionStatus.Committed) {
+                        TaskDialog.Show("Failed", "Could not create user view[s]");
+                    }
+                }
             }
-            t.Commit();
-
             return Result.Succeeded;
         }
     }
