@@ -357,8 +357,11 @@ namespace SCaddins.ExportManager
         public void SetScaleBarScale(Element titleBlock)
         {
                 string titleScale = SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter;
+                if (string.IsNullOrEmpty(titleScale)) {
+                    return;
+                }
                 var tb = titleBlock.GetParameters(titleScale);
-                if (tb == null) {
+                if (tb == null || tb.Count < 1) {
                     return;
                 }
                 Parameter p = tb[0];
