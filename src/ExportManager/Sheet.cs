@@ -316,7 +316,9 @@ namespace SCaddins.ExportManager
         {
             var titleBlock = ExportManager.TitleBlockInstanceFromSheetNumber(
                 this.sheetNumber, this.doc);
-            this.SetScaleBarScale(titleBlock);       
+            if (titleBlock != null) {
+                this.SetScaleBarScale(titleBlock);
+            }
         }
         
         public void ToggleNorthPoint()
@@ -327,7 +329,7 @@ namespace SCaddins.ExportManager
                 string northPointVisibility = SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter;
             
                 var tb = titleBlock.GetParameters(northPointVisibility);
-                if (tb == null) {
+                if (tb == null || tb.Count < 1) {
                     return;
                 }
                 Parameter p = tb[0];
@@ -335,8 +337,7 @@ namespace SCaddins.ExportManager
                 if (b == 2) return;
                 b = b == 1 ? 0 : 1;
                 p.Set(b);
-                this.northPointVisible = b;         
-             
+                this.northPointVisible = b;                 
         }
 
         public void UpdateRevision(bool refreshExportName)

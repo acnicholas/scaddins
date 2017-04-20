@@ -237,24 +237,32 @@ namespace SCaddins.ExportManager
 
         public static void FixScaleBars(ICollection<ExportSheet> sheets)
         {
-            var t = new Autodesk.Revit.DB.Transaction(doc);
-            t.Start("SCexport - Fix Scale Bars");
-            foreach (ExportSheet sheet in sheets) {
-                if (!sheet.ValidScaleBar) {
-                    sheet.UpdateScaleBarScale();
+            using (Transaction t = new Autodesk.Revit.DB.Transaction(doc)) {
+                if (t.Start("SCexport - Fix Scale Bars") == TransactionStatus.Started) {
+                    foreach (ExportSheet sheet in sheets) {
+                        if (!sheet.ValidScaleBar) {
+                            sheet.UpdateScaleBarScale();
+                        }
+                    }
+                    if (t.Commit() != TransactionStatus.Committed) {
+                        TaskDialog.Show("Failure", "Could not fix scale bars");
+                    }
                 }
             }
-            t.Commit();
         }
         
         public static void ToggleNorthPoints(ICollection<ExportSheet> sheets)
         {
-            var t = new Autodesk.Revit.DB.Transaction(doc);
-            t.Start("SCexport - Toggle North Points");
-            foreach (ExportSheet sheet in sheets) {
-                sheet.ToggleNorthPoint();
+            using (Transaction t = new Autodesk.Revit.DB.Transaction(doc)) {
+                if (t.Start("SCexport - Toggle North Points") == TransactionStatus.Started) {
+                    foreach (ExportSheet sheet in sheets) {
+                        sheet.ToggleNorthPoint();
+                    }
+                    if (t.Commit() != TransactionStatus.Committed) {
+                        TaskDialog.Show("Failure", "Could not toggle north points");
+                    }
+                }
             }
-            t.Commit();
         }
 
         public static void AddRevisions(ICollection<ExportSheet> sheets)
