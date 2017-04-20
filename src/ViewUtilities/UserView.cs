@@ -54,9 +54,17 @@ namespace SCaddins.ViewUtilities
             ShowSummaryDialog(message);
     }
                     
-        public static string GetNewViewName(Element sourceView)
+        public static string GetNewViewName(Document doc, Element sourceView)
         { 
-            return Environment.UserName + "-" + sourceView.Name + "-" + MiscUtilities.GetDateString;           
+            string name = sourceView.Name;
+            // Revit wont allow { or } so replace them if they exist
+            name = name.Replace(@"{","").Replace(@"}","");
+            name = Environment.UserName + "-" + name + "-" + MiscUtilities.GetDateString;
+            if (SolarUtilities.Command.ViewNameIsAvailable(doc, name)) {
+                return name;
+            } else {
+                return SolarUtilities.Command.GetNiceViewName(doc, name);
+            }
         } 
         
         public static void ShowErrorDialog(Element sourceView)
@@ -84,7 +92,7 @@ namespace SCaddins.ViewUtilities
                 var v = (View)doc.GetElement(id);
                 if (ValidViewType(v.ViewType)) {
                     CreateView(v, doc);
-                    message += GetNewViewName(v) + Environment.NewLine;
+                    message += GetNewViewName(doc, v) + Environment.NewLine;
                 }
             }           
             return message;          
@@ -108,7 +116,7 @@ namespace SCaddins.ViewUtilities
         {
             ElementId destViewId = srcView.Duplicate(ViewDuplicateOption.Duplicate);
             var newView = doc.GetElement(destViewId) as View;
-            newView.Name = GetNewViewName(srcView); 
+            newView.Name = GetNewViewName(doc, srcView); 
             newView.ViewTemplateId = ElementId.InvalidElementId;
             var p = newView.GetParameters("SC-View_Category");
             if (p.Count < 1) {

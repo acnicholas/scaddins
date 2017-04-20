@@ -70,7 +70,8 @@ namespace SCaddins.SolarUtilities
             return Autodesk.Revit.UI.Result.Succeeded;
         }
 
-        private static bool ViewNameIsAvailable(Document doc, string name)
+        //FIXME put this somewhere else.
+        public static bool ViewNameIsAvailable(Document doc, string name)
         {
             var c = new FilteredElementCollector(doc);
             c.OfClass(typeof(Autodesk.Revit.DB.View));
@@ -143,6 +144,7 @@ namespace SCaddins.SolarUtilities
             return highestId;
         }
 
+        // FIXME this can go in a utiliy class.
         public static string GetNiceViewName(Document doc, string request)
         {
             if (ViewNameIsAvailable(doc, request)) {
