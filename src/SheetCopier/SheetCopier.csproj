@@ -77,6 +77,11 @@
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -125,12 +130,16 @@
     </Compile>
     <Compile Include="..\Common\UpgradeForm.cs">
       <Link>UpgradeForm.cs</Link>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="..\Common\UpgradeForm.Designer.cs">
       <Link>UpgradeForm.Designer.cs</Link>
     </Compile>
     <Compile Include="..\Constants.cs">
       <Link>Constants.cs</Link>
+    </Compile>
+    <Compile Include="..\LatestRelease.cs">
+      <Link>LatestRelease.cs</Link>
     </Compile>
     <Compile Include="..\SCaddins.cs">
       <Link>SCaddins.cs</Link>
@@ -141,6 +150,7 @@
     </Compile>
     <Compile Include="..\ExportManager\ConfirmDialog.cs">
       <Link>ConfirmDialog.cs</Link>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="..\ExportManager\ConfirmDialog.Designer.cs">
       <Link>ConfirmDialog.Designer.cs</Link>
@@ -162,6 +172,7 @@
     </Compile>
     <Compile Include="..\ExportManager\ExportLogDialog.cs">
       <Link>ExportLogDialog.cs</Link>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="..\ExportManager\ExportLogDialog.Designer.cs">
       <Link>ExportLogDialog.Designer.cs</Link>
@@ -183,12 +194,14 @@
     </Compile>
     <Compile Include="..\ExportManager\RenameSheetForm.cs">
       <Link>RenameSheetForm.cs</Link>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="..\ExportManager\RenameSheetForm.Designer.cs">
       <Link>RenameSheetForm.Designer.cs</Link>
     </Compile>
     <Compile Include="..\ExportManager\RevisionSelectionDialog.cs">
       <Link>RevisionSelectionDialog.cs</Link>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="..\ExportManager\RevisionSelectionDialog.Designer.cs">
       <Link>RevisionSelectionDialog.Designer.cs</Link>
@@ -214,14 +227,20 @@
     <Compile Include="SheetCopierCommand.cs" />
     <Compile Include="SheetCopierConstants.cs" />
     <Compile Include="SheetCopierEnums.cs" />
-    <Compile Include="SheetCopierMainForm.cs" />
+    <Compile Include="SheetCopierMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="SheetCopierMainForm.Designer.cs" />
     <Compile Include="SheetCopierMainForm.Designer1.cs" />
     <Compile Include="SheetCopierSheet.cs" />
-    <Compile Include="SheetCopierTextInputForm.cs" />
+    <Compile Include="SheetCopierTextInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="SheetCopierTextInputForm.Designer.cs" />
     <Compile Include="SheetCopierViewOnSheet.cs" />
-    <Compile Include="SheetCopierViewSelectionDialog.cs" />
+    <Compile Include="SheetCopierViewSelectionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="SheetCopierViewSelectionDialog.Designer.cs">
       <DependentUpon>SegmentedSheetName.cs</DependentUpon>
     </Compile>
@@ -233,6 +252,7 @@
     </None>
     <None Include="app.config" />
     <EmbeddedResource Include="Assets\scopy-rvt.png" />
+    <None Include="packages.config" />
     <None Include="SheetCopier.addin" />
   </ItemGroup>
   <ItemGroup>
@@ -266,8 +286,6 @@
       <DependentUpon>SheetCopierViewSelectionDialog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

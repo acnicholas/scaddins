@@ -93,6 +93,11 @@
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -128,12 +133,16 @@
   <ItemGroup>
     <Compile Include="..\Common\UpgradeForm.cs">
       <Link>UpgradeForm.cs</Link>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="..\Common\UpgradeForm.Designer.cs">
       <Link>UpgradeForm.Designer.cs</Link>
     </Compile>
     <Compile Include="..\Constants.cs">
       <Link>Constants.cs</Link>
+    </Compile>
+    <Compile Include="..\LatestRelease.cs">
+      <Link>LatestRelease.cs</Link>
     </Compile>
     <Compile Include="..\SCaddins.cs">
       <Link>SCaddins.cs</Link>
@@ -148,7 +157,9 @@
     <Compile Include="AngleOfSun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolarViews.cs" />
-    <Compile Include="SolarViewsForm.cs" />
+    <Compile Include="SolarViewsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="SolarViewsForm.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +169,7 @@
     <None Include="AngleOfSun.addin" />
     <None Include="app.config" />
     <EmbeddedResource Include="Assets\scaos-rvt.png" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Common\UpgradeForm.resx">
@@ -165,8 +177,6 @@
       <DependentUpon>UpgradeForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

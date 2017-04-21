@@ -24,12 +24,11 @@ namespace SCaddins
     using System.Linq;
     using System.Net;
     using System.Reflection;
-    using System.Text.RegularExpressions;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.UI;
-    using Autodesk.Revit.DB;
+    using Newtonsoft.Json;
 
     [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -40,67 +39,34 @@ namespace SCaddins
         {
             get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
         }
-
+        
         public static void CheckForUpdates(bool newOnly)
         {
-            const string DownloadURL = SCaddins.Constants.DownloadLink;
-            var request = (HttpWebRequest)WebRequest.Create(new Uri(DownloadURL));
-            HttpWebResponse response;
-            try {
-                response = (HttpWebResponse)request.GetResponse();
-            } catch (WebException e) {
-                System.Diagnostics.Debug.WriteLine("Error: Check For Updates WebException: " + e.Message);
-                return;
-            } catch (InvalidOperationException e) {
-                System.Diagnostics.Debug.WriteLine("Error: Check For Updates InvalidOperationException: " + e.Message);
-                return;
-            } catch (NotSupportedException e) {
-                System.Diagnostics.Debug.WriteLine("Error: Check For Updates NotSupportedException: " + e.Message);
-                return;
-            }
+            TaskDialog.Show("test","checking for updates");
+            var url = "https://api.github.com/repos/acnicholas/scaddins/releases/latest";
+            LatestVersion lv = _download_serialized_json_data<LatestVersion>(url); 
+            TaskDialog.Show("test",lv.name);
+            TaskDialog.Show("test",lv.url);
+            return;
+            
+        }
 
-            if (response.StatusCode == HttpStatusCode.NotFound) {
-                System.Diagnostics.Debug.WriteLine("Error: Check For Updates" + DownloadURL + " not found");
-                return;
-            }
-
-            string html = string.Empty;
-            using (var reader = new StreamReader(response.GetResponseStream()))
-            {
+        private static T _download_serialized_json_data<T>(string url) where T : new()
+        {
+            using (var w = new WebClient()) {
+                var json_data = string.Empty;
+                // attempt to download JSON data as a string
                 try {
-                    html = reader.ReadToEnd();
-                } catch (IOException e) {
-                    System.Diagnostics.Debug.WriteLine("Error: Check For Updates IOException: " + e.Message);
-                } catch (OutOfMemoryException e) {
-                    System.Diagnostics.Debug.WriteLine("Error: Check For Updates OutOfMemoryException: " + e.Message);
+                    json_data = w.DownloadString(url);
+                } catch (Exception) {
+                    TaskDialog.Show("Oops", "Can't access version info url: " + url);
                 }
-            }
-
-            var r = new Regex("href=\"(.*)\">.*SCaddins-win64-(.*).msi</a>");
-            Match m = r.Match(html);
-            var latestVersion = new Version(0, 0, 0, 0);
-            while (m.Success)
-            {
-                var v = new Version(m.Groups[2].Value);
-                if (v > latestVersion) {
-                    latestVersion = v;
-                }
-                m = m.NextMatch();
-            }
-
-            var installedVersion = SCaddinsApp.Version;
-
-            if (latestVersion > installedVersion) {
-                var upgradeForm = new SCaddins.Common.UpgradeForm(installedVersion, latestVersion);
-                upgradeForm.ShowDialog();
-            } else if (latestVersion < SCaddinsApp.Version) {
-                if (!newOnly) {
-                    var upgradeForm = new SCaddins.Common.UpgradeForm(installedVersion, latestVersion);
-                    upgradeForm.ShowDialog();  
-                }
+                // if string with JSON data is not empty, deserialize it to class and return its instance
+                //return !string.IsNullOrEmpty(json_data) ? JsonConvert.DeserializeObject<T>(json_data) : new T();
+                return JsonConvert.DeserializeObject<T>(json_data);
             }
         }
-            
+
         public Autodesk.Revit.UI.Result OnStartup(
             UIControlledApplication application)
         {
