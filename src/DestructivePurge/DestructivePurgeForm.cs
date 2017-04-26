@@ -41,22 +41,27 @@ namespace SCaddins.SCwash
             textBox1.Text = "Select an item to show additional information";
         }
 
-        public void CheckAllNodes(TreeNodeCollection nodes)
+        public void CheckAllNodes(TreeNodeCollection nodes, bool check)
         {
             foreach (TreeNode node in nodes) {
-                node.Checked = true;
-                this.CheckChildren(node, true);
+                node.Checked = check;
+                 GreyifyNode(node, false);
+                CheckAllChildNodes(node, check);
             }
         }
+        
 
-        public void UncheckAllNodes(TreeNodeCollection nodes)
+        private void CheckAllChildNodes(TreeNode treeNode, bool nodeChecked)
         {
-            foreach (TreeNode node in nodes) {
-                node.Checked = false;
-                this.CheckChildren(node, false);
+            foreach (TreeNode node in treeNode.Nodes) {
+                node.Checked = nodeChecked;
+                GreyifyNode(node, false);
+                if (node.Nodes.Count > 0) {
+                    this.CheckAllChildNodes(node, nodeChecked);
+                }
             }
         }
-
+        
         private void Init()
         {
             treeView1.Nodes.Clear();
@@ -77,6 +82,17 @@ namespace SCaddins.SCwash
             treeView1.Nodes[6].Nodes.AddRange(SCwashUtilities.UnboundRooms(this.doc).ToArray<TreeNode>());
             treeView1.Nodes[7].Nodes.AddRange(SCwashUtilities.Revisions(this.doc).ToArray<TreeNode>());
         }
+        
+        private void GreyifyNode(TreeNode node, bool grey)
+        {
+            if(grey) {
+                node.ForeColor = System.Drawing.Color.LightGray;
+                // node.BackColor  = System.Drawing.Color.LightGray;
+            } else {
+                node.ForeColor = System.Drawing.Color.Black;  
+                // node.BackColor = System.Drawing.Color.Black;                 
+            }
+        }
 
         private void TreeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -95,22 +111,14 @@ namespace SCaddins.SCwash
             }
         }
 
-        private void CheckChildren(TreeNode rootNode, bool selected)
-        {
-            foreach (TreeNode node in rootNode.Nodes) {
-                this.CheckChildren(node, selected);
-                node.Checked = selected;
-            }
-        }
-
         private void BtnSelectAll_Click(object sender, EventArgs e)
         {
-            this.CheckAllNodes(treeView1.Nodes);
+            this.CheckAllNodes(treeView1.Nodes, true);
         }
 
         private void BtnSelectNone_Click(object sender, EventArgs e)
         {
-            this.UncheckAllNodes(treeView1.Nodes);
+            this.CheckAllNodes(treeView1.Nodes, false);
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)
@@ -162,25 +170,48 @@ namespace SCaddins.SCwash
                 }
             }
         }
-
-        private void TreeView1_AfterCheck(object sender, TreeViewEventArgs e)
+        
+        private void TreeView1_AfterCheck(SCwashTreeNode tn)
         {
-            SCwashTreeNode tn = e.Node as SCwashTreeNode;
-            foreach (SCwashTreeNode child in tn.Nodes) {
+             foreach (SCwashTreeNode child in tn.Nodes) {
                 if (!tn.Checked) {
-                    child.ForeColor = System.Drawing.Color.LightGray;
+                    child.Checked = false;
                 }
+                
                 if (tn.Checked) {
-                    child.ForeColor = System.Drawing.Color.Black;
+                    child.Checked = true;
                 }
+                
                 foreach (SCwashTreeNode child2 in child.Nodes) {
                     if (!tn.Checked) {
-                        child2.ForeColor = System.Drawing.Color.LightGray;
+                        child2.Checked = false;
                     }
                     if (tn.Checked) {
-                        child2.ForeColor = System.Drawing.Color.Black;
+                        child2.Checked = true;
                     }
                 }
+            }   
+
+            int childCheckedTotal = 0;
+            if (tn.Parent != null) {
+                foreach (SCwashTreeNode child in tn.Parent.Nodes){
+                    if (child.Checked) childCheckedTotal++;
+                }
+            }
+            GreyifyNode(tn.Parent, false);
+            if (childCheckedTotal > 0 && !tn.Parent.Checked) {
+                GreyifyNode(tn.Parent, true);
+            } 
+            if (childCheckedTotal < tn.Parent.Nodes.Count && tn.Parent.Checked) {
+                GreyifyNode(tn.Parent, true);
+            }         
+        }
+        
+        private void TreeView1_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            if(e.Action != TreeViewAction.Unknown) {
+                SCwashTreeNode tn = e.Node as SCwashTreeNode;
+                TreeView1_AfterCheck(tn); 
             }
         }
 
