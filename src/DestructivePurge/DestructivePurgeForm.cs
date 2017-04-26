@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2013-2014 by Andrew Nicholas andrewnicholas@iinet.net.au
+﻿// (C) Copyright 2013-2017 by Andrew Nicholas andrewnicholas@iinet.net.au
 //
 // This file is part of SCaddins.
 //
@@ -45,11 +45,10 @@ namespace SCaddins.SCwash
         {
             foreach (TreeNode node in nodes) {
                 node.Checked = check;
-                 GreyifyNode(node, false);
+                GreyifyNode(node, false);
                 CheckAllChildNodes(node, check);
             }
         }
-        
 
         private void CheckAllChildNodes(TreeNode treeNode, bool nodeChecked)
         {
@@ -61,7 +60,7 @@ namespace SCaddins.SCwash
                 }
             }
         }
-        
+
         private void Init()
         {
             treeView1.Nodes.Clear();
@@ -82,15 +81,13 @@ namespace SCaddins.SCwash
             treeView1.Nodes[6].Nodes.AddRange(SCwashUtilities.UnboundRooms(this.doc).ToArray<TreeNode>());
             treeView1.Nodes[7].Nodes.AddRange(SCwashUtilities.Revisions(this.doc).ToArray<TreeNode>());
         }
-        
+
         private void GreyifyNode(TreeNode node, bool grey)
         {
             if(grey) {
                 node.ForeColor = System.Drawing.Color.LightGray;
-                // node.BackColor  = System.Drawing.Color.LightGray;
             } else {
                 node.ForeColor = System.Drawing.Color.Black;  
-                // node.BackColor = System.Drawing.Color.Black;                 
             }
         }
 
@@ -146,7 +143,7 @@ namespace SCaddins.SCwash
                 if (tr == TaskDialogResult.Cancel) {
                     return;
                 }
-                treeView1.Nodes[7].Nodes[0].Checked = false;    
+                treeView1.Nodes[7].Nodes[0].Checked = false;
             }
 
             ICollection<ElementId> elements = new List<ElementId>();
@@ -170,48 +167,29 @@ namespace SCaddins.SCwash
                 }
             }
         }
-        
-        private void TreeView1_AfterCheck(SCwashTreeNode tn)
-        {
-             foreach (SCwashTreeNode child in tn.Nodes) {
-                if (!tn.Checked) {
-                    child.Checked = false;
-                }
-                
-                if (tn.Checked) {
-                    child.Checked = true;
-                }
-                
-                foreach (SCwashTreeNode child2 in child.Nodes) {
-                    if (!tn.Checked) {
-                        child2.Checked = false;
-                    }
-                    if (tn.Checked) {
-                        child2.Checked = true;
-                    }
-                }
-            }   
 
-            int childCheckedTotal = 0;
-            if (tn.Parent != null) {
-                foreach (SCwashTreeNode child in tn.Parent.Nodes){
-                    if (child.Checked) childCheckedTotal++;
-                }
+        private void GreyMultiTypeParents(SCwashTileNode parent)
+        {
+            if (parent == null) return;
+            int childrenChecked = 0;
+            foreach (SCwashTreeNode child in parent.Nodes){
+                if (child.Checked) childrenChecked++;
             }
-            GreyifyNode(tn.Parent, false);
-            if (childCheckedTotal > 0 && !tn.Parent.Checked) {
-                GreyifyNode(tn.Parent, true);
-            } 
-            if (childCheckedTotal < tn.Parent.Nodes.Count && tn.Parent.Checked) {
-                GreyifyNode(tn.Parent, true);
-            }         
+            GreyifyNode( parent, (childrenChecked > 0 && !parent.Checked) || (childrenChecked < parent.Nodes.Count));
+            if (tn.Parent != null) {
+                GreyMultiTypeParents(tn.Parent);
+            }
         }
-        
+
         private void TreeView1_AfterCheck(object sender, TreeViewEventArgs e)
         {
             if(e.Action != TreeViewAction.Unknown) {
                 SCwashTreeNode tn = e.Node as SCwashTreeNode;
-                TreeView1_AfterCheck(tn); 
+                GreyifyNode(tn, false);
+                CheckAllChildNodes(tn, tn.Checked);
+                if (tn.Parent != null) {
+                    GreyMultiTypeParents(tn.Parent);
+                }
             }
         }
 
