@@ -5,6 +5,24 @@
 ####SUMMARY####
 
 **Revit 2014-2015 Support dropped. Further releases(18*) will support Revit 2016,2017 & 2018.**
+Updated host page to [github](https://github.com/acnicholas/scaddins) 
+
+####FIXES#####
+
+- Better tree selection in Destructive Purge.
+- Better room solid creation in Room Tools.
+- Check for existing view names when creating user views.
+- Don't set scale bar value in SCexport if parameter is not found.
+
+####NEW####
+
+- Updated host page to [gihhub](https://github.com/acnicholas/scaddins) 
+- Remove views option added to *Copy Sheets*.
+- Upgrade reminder form updated,
+
+####CHANGES####
+
+- Unjoin wall tool *removed*
 
 #17.0.1#
 
@@ -13,6 +31,7 @@
 - Wall unjoiner defualt setting set to OFF.
 - Fixed solar view diloag error.
 - Fixed room filters in Room Tools
+
 #17.0#
 
 ####NEW####
