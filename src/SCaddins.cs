@@ -42,31 +42,33 @@ namespace SCaddins
         
         public static void CheckForUpdates(bool newOnly)
         {
-            TaskDialog.Show("test","checking for updates");
-            var url = "https://api.github.com/repos/acnicholas/scaddins/releases/latest";
-            LatestVersion lv = _download_serialized_json_data<LatestVersion>(url); 
-            TaskDialog.Show("test",lv.name);
-            TaskDialog.Show("test",lv.url);
-            return;
-            
-        }
-
-        private static T _download_serialized_json_data<T>(string url) where T : new()
-        {
-            using (var w = new WebClient()) {
-                var json_data = string.Empty;
-                // attempt to download JSON data as a string
-                try {
-                    json_data = w.DownloadString(url);
-                } catch (Exception) {
-                    TaskDialog.Show("Oops", "Can't access version info url: " + url);
-                }
-                // if string with JSON data is not empty, deserialize it to class and return its instance
-                //return !string.IsNullOrEmpty(json_data) ? JsonConvert.DeserializeObject<T>(json_data) : new T();
-                return JsonConvert.DeserializeObject<T>(json_data);
+            var webRequest = WebRequest.Create("https://api.github.com/repos/acnicholas/scaddins/releases/latest") as HttpWebRequest;
+            if (webRequest == null) {
+                return;
             }
-        }
 
+            webRequest.ContentType = "application/json";
+            webRequest.UserAgent = "Nothing";
+            string latestAsJson = "nothing to see here";
+
+            using (var s = webRequest.GetResponse().GetResponseStream()) {
+                using (var sr = new StreamReader(s)) {
+                    latestAsJson = sr.ReadToEnd();
+                }
+            }
+
+            LatestVersion latestVersion = JsonConvert.DeserializeObject<LatestVersion>(latestAsJson);
+            
+            var installedVersion = SCaddinsApp.Version;
+            Version latestAvailableVersion = new Version(latestVersion.tag_name.Replace("v","").Trim());
+            string info = latestVersion.body;
+            
+            if (latestAvailableVersion > installedVersion || !newOnly) {
+                var upgradeForm = new SCaddins.Common.UpgradeForm(installedVersion, latestAvailableVersion, info);
+                upgradeForm.ShowDialog();
+            } 
+        }
+        
         public Autodesk.Revit.UI.Result OnStartup(
             UIControlledApplication application)
         {

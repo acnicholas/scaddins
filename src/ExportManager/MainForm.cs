@@ -363,6 +363,9 @@ namespace SCaddins.ExportManager
                 case "T":
                     TaskDialog.Show("Tip Of The Day", TipOfDay.Tip());
                     break;
+                case "U":
+                    SCaddins.SCaddinsApp.CheckForUpdates(false);
+                    break;
                 case "X":
                     this.BtnExport_Click(sender, e);
                     break;

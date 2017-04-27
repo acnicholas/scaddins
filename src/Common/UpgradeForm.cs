@@ -22,11 +22,12 @@ namespace SCaddins.Common
 
     public partial class UpgradeForm : Form
     {
-        public UpgradeForm(Version installed, Version remote)
+        public UpgradeForm(Version installed, Version remote, string body)
         {
             this.InitializeComponent();
             labelInstalledVersion.Text = "Installed Version: " + installed.ToString();
             labelLatestVersion.Text = "Latest Version: " + remote.ToString();
+            textBox1.Text = body;
             if (installed < remote) {
                 labelUpgradeNote.Text = "New Version Available!. Click Download (go on, you can do it)";
                 buttonDownload.Enabled = true;
