@@ -167,17 +167,26 @@ namespace SCaddins.SCwash
                 }
             }
         }
-
-        private void GreyMultiTypeParents(SCwashTileNode parent)
+       
+        private void GreyMultiTypeParents(SCwashTreeNode parent)
         {
             if (parent == null) return;
             int childrenChecked = 0;
+            bool childGrey = false;
             foreach (SCwashTreeNode child in parent.Nodes){
                 if (child.Checked) childrenChecked++;
+                if (child.ForeColor == System.Drawing.Color.LightGray) childGrey = true;
             }
-            GreyifyNode( parent, (childrenChecked > 0 && !parent.Checked) || (childrenChecked < parent.Nodes.Count));
-            if (tn.Parent != null) {
-                GreyMultiTypeParents(tn.Parent);
+            if (childrenChecked > 0) {
+                parent.Checked = true;
+            }
+            if (childrenChecked == 0) {
+                parent.Checked = false;
+            }
+            bool grey = (((childrenChecked > 0) && !parent.Checked) || ((childrenChecked < parent.Nodes.Count) && parent.Checked)) || childGrey;
+            GreyifyNode(parent, grey);
+            if (parent.Parent != null) {
+                GreyMultiTypeParents((SCwashTreeNode)parent.Parent);
             }
         }
 
@@ -188,7 +197,7 @@ namespace SCaddins.SCwash
                 GreyifyNode(tn, false);
                 CheckAllChildNodes(tn, tn.Checked);
                 if (tn.Parent != null) {
-                    GreyMultiTypeParents(tn.Parent);
+                    GreyMultiTypeParents((SCwashTreeNode)tn.Parent);
                 }
             }
         }
@@ -200,7 +209,6 @@ namespace SCaddins.SCwash
 
         private void BtnShowElement_Click(object sender, EventArgs e)
         {
-            // open view with selected id.
             UIApplication uiapp = new UIApplication(this.udoc.Application.Application);
             uiapp.DialogBoxShowing += new EventHandler<DialogBoxShowingEventArgs>(this.DismissOpenQuestion);
             SCwashTreeNode t = (SCwashTreeNode)treeView1.SelectedNode;
@@ -212,7 +220,6 @@ namespace SCaddins.SCwash
         private void DismissOpenQuestion(object o, DialogBoxShowingEventArgs e)
         {
             TaskDialogShowingEventArgs t = e as TaskDialogShowingEventArgs;
-            Debug.Print(t.Message);
             if (t != null && t.Message == "There is no open view that shows any of the highlighted elements.  Searching through the closed views to find a good view could take a long time.  Continue?") {
                 e.OverrideResult((int)TaskDialogResult.Ok);
             }

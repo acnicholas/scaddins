@@ -144,11 +144,16 @@ namespace SCaddins.SCwash
             if (elements.Count < 1) {
                 return;
             }
-            using (var t = new Transaction(doc, "Delete Elements")) {
-                t.Start();
-                ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
-                System.Diagnostics.Debug.WriteLine(deletedIdSet.Count.ToString(CultureInfo.CurrentCulture) + " Elements Deleted.");
-                t.Commit();
+            using (var t = new Transaction(doc)) {
+                if (t.Start("Delete Elements") == TransactionStatus.Started) {
+                    ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
+                    if( deletedIdSet.Count == 0) {
+                        Autodesk.Revit.UI.TaskDialog.Show("Failure", "No elements could be purged...");
+                    }
+                    if( t.Commit() != TransactionStatus.Committed) {
+                        Autodesk.Revit.UI.TaskDialog.Show("Failure", "Destructive Purge could not be run");
+                    }
+                }
             }
         }
 
