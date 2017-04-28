@@ -32,6 +32,9 @@ namespace SCaddins.WindowManager
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
+            if (commandData == null || elements == null || message == null) {
+                return Autodesk.Revit.UI.Result.Failed;
+            }
             UIApplication application = commandData.Application; 
             SCwm.TileWindows(application, 65);
             return Autodesk.Revit.UI.Result.Succeeded;

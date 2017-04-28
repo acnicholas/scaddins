@@ -26,6 +26,10 @@ namespace SCaddins.ViewUtilities
         public static void RemoveUnderlays(
             ICollection<SCaddins.ExportManager.ExportSheet> sheets, Document doc)
         {
+            if (sheets == null || doc == null) {
+                TaskDialog.Show("Failure", "Could not remove underlays");
+                return;
+            }
             using (Transaction t = new Transaction(doc)) {
                 if (t.Start("Remove Underlays") == TransactionStatus.Started) {
                     foreach (SCaddins.ExportManager.ExportSheet sheet in sheets) {
@@ -43,6 +47,10 @@ namespace SCaddins.ViewUtilities
         
         public static void RemoveUnderlays(UIDocument uidoc)
         {
+            if (uidoc == null) {
+                TaskDialog.Show("Failure", "Could not remove underlays");
+                return;
+            }
             var selection = uidoc.Selection;
             if (selection.GetElementIds().Count < 1) {
                 return;

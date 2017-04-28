@@ -34,7 +34,10 @@ namespace SCaddins.Common
         }
 
         public static string PadLeftZeros(string s, int desiredLength)
-        {
+        { 
+            if (string.IsNullOrEmpty(s)) {
+                return string.Empty;
+            }
             if (desiredLength > 1 && s.Length == desiredLength - 1) {
                 return "0" + s;
             }

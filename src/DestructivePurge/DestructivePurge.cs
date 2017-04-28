@@ -120,11 +120,17 @@ namespace SCaddins.SCwash
 
         public static void AddSheetNodes(Document doc, bool placedOnSheet, TreeNodeCollection nodes)
         {
+            if (nodes == null) {
+                return;
+            }
             nodes.AddRange(SCwashUtilities.Views(doc, placedOnSheet, ViewType.DrawingSheet).ToArray<TreeNode>());
         }
 
         public static void AddViewNodes(Document doc, bool placedOnSheet, TreeNodeCollection nodes)
         {
+            if (nodes == null) {
+                return;
+            }
             int i = 0;
             foreach (ViewType enumValue in Enum.GetValues(typeof(ViewType))) {
                 if (enumValue != ViewType.DrawingSheet) {
@@ -141,6 +147,9 @@ namespace SCaddins.SCwash
 
         public static void RemoveElements(Document doc, ICollection<ElementId> elements)
         {
+            if (elements == null || doc == null) {
+                return;
+            }
             if (elements.Count < 1) {
                 return;
             }

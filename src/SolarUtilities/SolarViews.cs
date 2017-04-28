@@ -36,6 +36,10 @@ namespace SCaddins.SolarUtilities
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
+            if (commandData == null) {
+                return Autodesk.Revit.UI.Result.Failed;
+            }
+
             UIDocument udoc = commandData.Application.ActiveUIDocument;
             Document doc = udoc.Document;
             this.projectLocation = doc.ActiveProjectLocation;
@@ -162,29 +166,29 @@ namespace SCaddins.SolarUtilities
         {
              ElementId id = GetViewFamilyId(doc, ViewFamily.FloorPlan);
              ElementId levelId = GetHighestLevel(doc);
-
-             // FIXME add error message here
              if (id == null || levelId == null) {
                  return;
              }
 
               while (startTime <= endTime) {
-                var t = new Transaction(doc);
-                t.Start("Create Shadow Plans");
-                View view = ViewPlan.Create(doc, id, levelId);
-                view.ViewTemplateId = ElementId.InvalidElementId;
-                var niceMinutes = "00";
-                if (startTime.Minute > 0) {
-                    niceMinutes = startTime.Minute.ToString(CultureInfo.CurrentCulture);
-                }    
-                var vname = "SHADOW PLAN - " + startTime.ToShortDateString() + "-" + startTime.Hour + "." + niceMinutes;  
-                view.Name = GetNiceViewName(doc, vname);
-                SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
-                sunSettings.StartDateAndTime = startTime;
-                sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
-                view.SunlightIntensity = 50;
-                t.Commit();
-                startTime = startTime.Add(interval);
+                using (var t = new Transaction(doc)) {
+                    if (t.Start("Create Shadow Plans") == TransactionStatus.Started) {
+                        View view = ViewPlan.Create(doc, id, levelId);
+                        view.ViewTemplateId = ElementId.InvalidElementId;
+                        var niceMinutes = "00";
+                        if (startTime.Minute > 0) {
+                            niceMinutes = startTime.Minute.ToString(CultureInfo.CurrentCulture);
+                        }
+                        var vname = "SHADOW PLAN - " + startTime.ToShortDateString() + "-" + startTime.Hour + "." + niceMinutes;
+                        view.Name = GetNiceViewName(doc, vname);
+                        SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
+                        sunSettings.StartDateAndTime = startTime;
+                        sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
+                        view.SunlightIntensity = 50;
+                        t.Commit();
+                        startTime = startTime.Add(interval);
+                    }
+                }
             }
         }
 

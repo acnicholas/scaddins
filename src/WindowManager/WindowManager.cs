@@ -38,6 +38,9 @@ namespace SCaddins.WindowManager
                          
         public static int ViewArea(UIView view)
         {
+            if (view == null) {
+                return -1;
+            }
             int x = view.GetWindowRectangle().Left;
             int y = view.GetWindowRectangle().Top;
             int w = view.GetWindowRectangle().Right - x;
@@ -90,16 +93,25 @@ namespace SCaddins.WindowManager
         }
            
         public static int GetDrawingAreaWidth(UIApplication app) {
+            if (app == null) {
+                return -1;
+            }
             var rect = app.DrawingAreaExtents;
             return rect.Right - rect.Left;
         }
         
         public static int GetDrawingAreaHeight(UIApplication app) {
+            if (app == null) {
+                return -1;
+            }
             var rect = app.DrawingAreaExtents;
             return rect.Bottom - rect.Top;
         }
         
         public static int GetDrawingAreaX(UIApplication app) {
+            if (app == null) {
+                return -1;
+            }
             var rect = app.DrawingAreaExtents;
             return rect.Left;
         }
@@ -107,6 +119,9 @@ namespace SCaddins.WindowManager
         public static int GetNumberOfOpenViews(UIApplication app)
         {
             int result = 0;
+            if (app == null) {
+                return result;
+            }
             var docs = app.Application.Documents;  
             foreach (Document doc in docs) {
                 UIDocument udoc = new UIDocument(doc);

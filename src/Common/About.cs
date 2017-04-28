@@ -31,8 +31,9 @@ namespace SCaddins.Common
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            AboutBox1 about = new AboutBox1();
-            about.ShowDialog();
+            using (AboutBox1 about = new AboutBox1()) {
+                about.ShowDialog();
+            }
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }

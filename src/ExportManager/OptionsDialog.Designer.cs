@@ -345,7 +345,7 @@ namespace SCaddins.ExportManager
             this.checkBoxHideTitleblock.Name = "checkBoxHideTitleblock";
             this.checkBoxHideTitleblock.Size = new System.Drawing.Size(231, 19);
             this.checkBoxHideTitleblock.TabIndex = 8;
-            this.checkBoxHideTitleblock.Text = "Hide titleblocks (DWG exports only)";
+            this.checkBoxHideTitleblock.Text = "Hide title blocks (DWG exports only)";
             this.checkBoxHideTitleblock.UseVisualStyleBackColor = true;
             this.checkBoxHideTitleblock.CheckedChanged += new System.EventHandler(this.ToggleCheckBoxValue);
             // 
@@ -381,7 +381,7 @@ namespace SCaddins.ExportManager
             this.radioGSPDF.Name = "radioGSPDF";
             this.radioGSPDF.Size = new System.Drawing.Size(231, 24);
             this.radioGSPDF.TabIndex = 5;
-            this.radioGSPDF.Text = "PDF (Ghostscipt Export)";
+            this.radioGSPDF.Text = "PDF (Ghostscript Export)";
             this.radioGSPDF.UseVisualStyleBackColor = true;
             this.radioGSPDF.CheckedChanged += new System.EventHandler(this.RadioCheckedChanged);
             // 
@@ -474,7 +474,7 @@ namespace SCaddins.ExportManager
             this.groupBox3.Size = new System.Drawing.Size(386, 82);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Project Configuratation";
+            this.groupBox3.Text = "Project Configuration";
             // 
             // btnSelectTextEditor
             // 

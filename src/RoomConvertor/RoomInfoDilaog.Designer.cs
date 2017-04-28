@@ -67,8 +67,8 @@ namespace SCaddins.RoomConvertor
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(482, 402);
             this.Controls.Add(this.listView1);
-            this.Name = "RoomInfoDilaog";
-            this.Text = "RoomInfoDilaog";
+            this.Name = "RoomInfoDialog";
+            this.Text = "Room Information Dialog";
             this.ResumeLayout(false);
 
         }

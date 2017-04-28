@@ -82,17 +82,20 @@ namespace SCaddins.RoomConvertor
             }
             //Initially add all canditates.
             this.Reset();
+            collector.Dispose();
         }
 
         public void CreateViewsAndSheets(
             System.ComponentModel.BindingList<RoomConversionCandidate> candidates)
         {
-            Transaction t = new Transaction(doc, "Rooms to Views");
-            t.Start(); 
-            foreach (RoomConversionCandidate c in candidates) {
-                this.CreateViewAndSheet(c);
+            using (Transaction t = new Transaction(doc, "Rooms to Views")) {
+                if (t.Start() == TransactionStatus.Started) {
+                    foreach (RoomConversionCandidate c in candidates) {
+                        this.CreateViewAndSheet(c);
+                    }
+                    t.Commit();
+                }
             }
-            t.Commit();
         }
 
         public static Dictionary<string, ElementId> GetAllTitleBlockTypes(Document doc)

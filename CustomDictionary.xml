@@ -2,10 +2,13 @@
 <Dictionary>
      <Words>
         <Recognized>
+            <Word>desc</Word>
             <Word>scx</Word>
+            <Word>xls</Word>
             <Word>uidoc</Word>
             <Word>s</Word>
             <Word>udoc</Word>
+            <Word>scexport</Word>
             <Word>cexport</Word>
             <Word>caos</Word>
             <Word>cam</Word>
@@ -15,15 +18,19 @@
             <Word>ched</Word>
             <Word>Sched</Word>
             <Word>cincrement</Word>
+            <Word>scincrement</Word>
             <Word>cuv</Word>
             <Word>culcase</Word>
+            <Word>sculcase</Word>
             <Word>cunderlay</Word>
+            <Word>scunderlay</Word>
             <Word>changelog</Word>
             <Word>cwash</Word>
             <Word>cwm</Word>
             <Word>acad</Word>
             <Word>revit</Word>
             <Word>ghostscript</Word>
+            <Word>infodialog</Word>
             <Word>underlay</Word>
             <Word>underlays</Word>
             <Word>unjoiner</Word>

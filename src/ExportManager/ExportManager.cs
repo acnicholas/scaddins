@@ -44,13 +44,13 @@ namespace SCaddins.ExportManager
         private SegmentedSheetName fileNameScheme;
         private SortableBindingListCollection<ExportSheet> allSheets;
         private bool forceDate;
-        private string exportDir;
+        private string exportDirectory;
 
         public ExportManager(Document doc)
         {
             ExportManager.doc = doc;
             this.fileNameScheme = null;
-            this.exportDir = Constants.DefaultExportDir;
+            this.exportDirectory = Constants.DefaultExportDir;
             ExportManager.ConfirmOverwrite = true;
             ExportManager.activeDoc = null;
             this.log = new ExportLog();
@@ -91,12 +91,12 @@ namespace SCaddins.ExportManager
             get; set;
         }
 
-        public string GhostscriptLibDir
+        public string GhostscriptLibDirectory
         {
             get; set;
         }
 
-        public string GhostscriptBinDir
+        public string GhostscriptBinDirectory
         {
             get; set;
         }
@@ -140,14 +140,14 @@ namespace SCaddins.ExportManager
             }
         }
 
-        public string ExportDir {
+        public string ExportDirectory {
             get {
-                return this.exportDir;
+                return this.exportDirectory;
             }
 
             set {
                 if (value != null) {
-                    this.exportDir = value;
+                    this.exportDirectory = value;
                     foreach (ExportSheet sheet in this.allSheets) {
                         sheet.ExportDir = value;
                     }
@@ -237,6 +237,10 @@ namespace SCaddins.ExportManager
 
         public static void FixScaleBars(ICollection<ExportSheet> sheets)
         {
+            if (sheets == null) {
+                TaskDialog.Show("Error", "Please select sheets before attempting to add revisions");
+                return;
+            }
             using (Transaction t = new Autodesk.Revit.DB.Transaction(doc)) {
                 if (t.Start("SCexport - Fix Scale Bars") == TransactionStatus.Started) {
                     foreach (ExportSheet sheet in sheets) {
@@ -253,6 +257,9 @@ namespace SCaddins.ExportManager
         
         public static void ToggleNorthPoints(ICollection<ExportSheet> sheets)
         {
+            if (sheets == null) {
+                return;
+            }
             using (Transaction t = new Autodesk.Revit.DB.Transaction(doc)) {
                 if (t.Start("SCexport - Toggle North Points") == TransactionStatus.Started) {
                     foreach (ExportSheet sheet in sheets) {
@@ -267,6 +274,10 @@ namespace SCaddins.ExportManager
 
         public static void AddRevisions(ICollection<ExportSheet> sheets)
         {
+            if (sheets == null) {
+                TaskDialog.Show("Error", "Please select sheets before attempting to add revisions");
+                return;
+            }
             var r = new RevisionSelectionDialog(doc);
             var result = r.ShowDialog();
             if ((r.Id != null) && (result == System.Windows.Forms.DialogResult.OK)) {
@@ -344,9 +355,12 @@ namespace SCaddins.ExportManager
             System.Windows.Forms.ToolStripItem info,
             System.Windows.Forms.Control strip)
         {
+            if (info == null || progressBar == null || strip == null) {
+                return;
+            }
+
             PrintManager pm = doc.PrintManager;
             TaskDialogResult tdr = ShowPrintWarning();
-            
             DateTime startTime = DateTime.Now;
             TimeSpan elapsedTime = DateTime.Now - startTime;
 
@@ -436,6 +450,10 @@ namespace SCaddins.ExportManager
 
         public int GetTotalNumberOfExports(ICollection<ExportSheet> sheets)
         {
+            if (sheets == null) {
+                TaskDialog.Show("Error", "Please select sheets before attempting to add revisions");
+                return 0;
+            }
             int i = 0;
             if (this.HasExportOption(ExportOptions.DGN)) {
                 i++;
@@ -462,6 +480,10 @@ namespace SCaddins.ExportManager
             System.Windows.Forms.ToolStripItem info,
             System.Windows.Forms.Control strip)
         {
+            if (progressBar == null || info == null || strip == null || sheets == null) {
+                return;
+            }
+
             DateTime startTime = DateTime.Now;
             TimeSpan elapsedTime = DateTime.Now - startTime;
             PrintManager pm = doc.PrintManager;
@@ -492,7 +514,7 @@ namespace SCaddins.ExportManager
 
         public bool GSSanityCheck()
         {
-            if (!Directory.Exists(this.GhostscriptBinDir) || !Directory.Exists(this.GhostscriptLibDir)) {
+            if (!Directory.Exists(this.GhostscriptBinDirectory) || !Directory.Exists(this.GhostscriptLibDirectory)) {
                 return false;
             }
             var ps = new System.Drawing.Printing.PrinterSettings();
@@ -509,13 +531,13 @@ namespace SCaddins.ExportManager
 
         public void LoadSettings()
         {
-            this.GhostscriptBinDir = SCaddins.ExportManager.Settings1.Default.GSBinDirectory;
+            this.GhostscriptBinDirectory = SCaddins.ExportManager.Settings1.Default.GSBinDirectory;
             this.PdfPrinterName = SCaddins.ExportManager.Settings1.Default.AdobePrinterDriver; 
             this.PrinterNameA3 = SCaddins.ExportManager.Settings1.Default.A3PrinterDriver; 
             this.PrinterNameLargeFormat = SCaddins.ExportManager.Settings1.Default.LargeFormatPrinterDriver;
             this.PostscriptPrinterName = SCaddins.ExportManager.Settings1.Default.PSPrinterDriver; 
-            this.GhostscriptLibDir = SCaddins.ExportManager.Settings1.Default.GSLibDirectory; 
-            this.exportDir = SCaddins.ExportManager.Settings1.Default.ExportDir;
+            this.GhostscriptLibDirectory = SCaddins.ExportManager.Settings1.Default.GSLibDirectory; 
+            this.exportDirectory = SCaddins.ExportManager.Settings1.Default.ExportDir;
             this.AcadVersion = AcadVersionFromString(SCaddins.ExportManager.Settings1.Default.AcadExportVersion);
             this.ShowExportLog = SCaddins.ExportManager.Settings1.Default.ShowExportLog;
         }
@@ -992,7 +1014,7 @@ namespace SCaddins.ExportManager
             
             this.log.AddMessage("...OK");
             
-            string prog = "\"" + this.GhostscriptLibDir  + @"\ps2pdf" + "\"";
+            string prog = "\"" + this.GhostscriptLibDirectory  + @"\ps2pdf" + "\"";
             string size = vs.PageSize.ToLower(CultureInfo.CurrentCulture);
             string sizeFix = size.ToLower(CultureInfo.CurrentCulture).Replace("p", string.Empty);   
             string args = 

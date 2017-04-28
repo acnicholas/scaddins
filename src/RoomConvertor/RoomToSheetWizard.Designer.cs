@@ -151,8 +151,8 @@ namespace SCaddins.RoomConvertor
             this.Controls.Add(this.button2);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.groupBox1);
-            this.Name = "RoomToSheetWizard";
-            this.Text = "RoomToSheetWizard";
+            this.Name = "Room To Sheet Wizard";
+            this.Text = "Room To Sheet Wizard";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

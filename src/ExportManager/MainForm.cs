@@ -212,7 +212,7 @@ namespace SCaddins.ExportManager
             this.AddColumn("SheetRevision", "Revision");
             this.AddColumn("SheetRevisionDescription", "Revision Description");
             this.AddDateColumn("SheetRevisionDateTime", "Revision Date");
-            this.AddColumn("ExportDir", "Export Dir");
+            this.AddColumn("ExportDir", "Export Directory");
             this.AddColumn("Scale", "Scale");
             this.AddColumn("NorthPointVisible", "North Point");
             this.AddColumn("PageSize", "Page Size");
@@ -282,7 +282,7 @@ namespace SCaddins.ExportManager
             DialogResult result = this.folderBrowserDialog1.ShowDialog();
             if (result == DialogResult.OK) {
                 this.folderBrowserDialog1.SelectedPath.ToString();
-                this.scx.ExportDir = this.folderBrowserDialog1.SelectedPath;
+                this.scx.ExportDirectory = this.folderBrowserDialog1.SelectedPath;
             }
             this.dataGridView1.Refresh();
         }

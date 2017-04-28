@@ -24,6 +24,14 @@ namespace SCaddins.Common
     {
         public UpgradeForm(Version installed, Version remote, string body)
         {
+            if (installed == null) {
+                installed = new Version(0, 0, 0);
+                body = "error checking installed version";
+            }
+            if (remote == null) {
+                remote = new Version(0, 0, 0);
+                body = "error checking installed version";
+            }
             this.InitializeComponent();
             labelInstalledVersion.Text = "Installed Version: " + installed.ToString();
             labelLatestVersion.Text = "Latest Version: " + remote.ToString();

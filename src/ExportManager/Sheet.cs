@@ -427,7 +427,7 @@ namespace SCaddins.ExportManager
             this.sheet = viewSheet;
             this.segmentedFileName = sheetName;
             this.verified = false;
-            this.ExportDir = scx.ExportDir;
+            this.ExportDir = scx.ExportDirectory;
             this.sheetNumber = viewSheet.get_Parameter(
                     BuiltInParameter.SHEET_NUMBER).AsString();
             this.sheetDescription = viewSheet.get_Parameter(

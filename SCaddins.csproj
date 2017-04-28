@@ -17,7 +17,7 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
-    <SourceAnalysisOverrideSettingsFile>Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <SourceAnalysisOverrideSettingsFile>etc\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <CodeAnalysisRules>-Microsoft.Design#CA1020;-Microsoft.Design#CA2210;-Microsoft.Naming#CA1702;-Microsoft.Security#CA2122</CodeAnalysisRules>
     <AssemblyOriginatorKeyMode>File</AssemblyOriginatorKeyMode>
     <GenerateFullPaths>True</GenerateFullPaths>
@@ -168,6 +168,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="src\Common\About.cs" />
     <Compile Include="src\Common\AboutBox.cs">
       <SubType>Form</SubType>

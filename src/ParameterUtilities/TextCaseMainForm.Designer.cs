@@ -86,7 +86,7 @@
             this.chkSheets.Name = "chkSheets";
             this.chkSheets.Size = new System.Drawing.Size(183, 17);
             this.chkSheets.TabIndex = 3;
-            this.chkSheets.Text = "Sheet Names (Title on Titleblock)";
+            this.chkSheets.Text = "Sheet Names (Title on Title block)";
             this.chkSheets.UseVisualStyleBackColor = true;
             this.chkSheets.CheckedChanged += new System.EventHandler(this.ToggleCheckBoxValue);
             // 
@@ -141,7 +141,7 @@
             this.chkRevisions.Name = "chkRevisions";
             this.chkRevisions.Size = new System.Drawing.Size(125, 17);
             this.chkRevisions.TabIndex = 8;
-            this.chkRevisions.Text = "Revision Desciptions";
+            this.chkRevisions.Text = "Revision Descriptions";
             this.chkRevisions.UseVisualStyleBackColor = true;
             this.chkRevisions.CheckedChanged += new System.EventHandler(this.ToggleCheckBoxValue);
             // 
