@@ -45,12 +45,16 @@ namespace SCaddins.ViewUtilities
         public static void Create(ICollection<SCaddins.ExportManager.ExportSheet> sheets, Document doc)
         {
             string message = string.Empty;
-            var t = new Transaction(doc, "SCuv Copies User Views");
-            t.Start();
-            foreach (SCaddins.ExportManager.ExportSheet sheet in sheets) {
-                message += Create(sheet.Sheet, doc);
+            using (var t = new Transaction(doc, "SCuv Copies User Views")) {
+                if (t.Start() == TransactionStatus.Started) {
+                    foreach (SCaddins.ExportManager.ExportSheet sheet in sheets) {
+                        message += Create(sheet.Sheet, doc);
+                    }
+                    t.Commit();
+                } else {
+                    TaskDialog.Show("Error", "Could not start user view transaction");
+                }
             }
-            t.Commit();
             ShowSummaryDialog(message);
     }
                     
@@ -69,20 +73,22 @@ namespace SCaddins.ViewUtilities
         
         public static void ShowErrorDialog(Element sourceView)
         {
-            var td = new TaskDialog("SCuv - SCuv copies users views");
-            td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-            td.MainInstruction = "Error creating user view for view:";
-            td.MainContent = sourceView.Name;
-            td.Show();   
+            using (var td = new TaskDialog("SCuv - SCuv copies users views")) {
+                td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+                td.MainInstruction = "Error creating user view for view:";
+                td.MainContent = sourceView.Name;
+                td.Show();
+            }
         }
 
         public static void ShowSummaryDialog(string message)
         {
-            var td = new TaskDialog("SCuv - SCuv copies users views");
-            td.MainIcon = TaskDialogIcon.TaskDialogIconNone;
-            td.MainInstruction = "Summary of users view created:";
-            td.MainContent = message;
-            td.Show();   
+            using (var td = new TaskDialog("SCuv - SCuv copies users views")) {
+                td.MainIcon = TaskDialogIcon.TaskDialogIconNone;
+                td.MainInstruction = "Summary of users view created:";
+                td.MainContent = message;
+                td.Show();
+            } 
         }
         
         private static string Create(ViewSheet vs, Document doc)

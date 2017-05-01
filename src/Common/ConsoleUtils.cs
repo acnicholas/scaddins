@@ -39,9 +39,9 @@ namespace SCaddins.Common
             if (!string.IsNullOrEmpty(args)) {
                 startInfo.Arguments = args;
             }
-            var p = new Process();
-            p = System.Diagnostics.Process.Start(startInfo);
+            Process p = System.Diagnostics.Process.Start(startInfo);
             p.WaitForExit(waitTime);
+            p.Dispose();
         }
     }
 }

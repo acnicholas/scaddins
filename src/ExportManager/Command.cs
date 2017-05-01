@@ -38,38 +38,18 @@ namespace SCaddins.ExportManager
                 System.IO.Directory.CreateDirectory(Constants.DefaultExportDir);
             }
 
-            if (string.IsNullOrEmpty(FileUtilities.GetCentralFileName(
-                    commandData.Application.ActiveUIDocument.Document))) {
-                var fail = new TaskDialog("FAIL");
-                fail.MainContent = "Please save the file before continuing";
-                fail.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-                fail.Show();
+            if (string.IsNullOrEmpty(FileUtilities.GetCentralFileName(commandData.Application.ActiveUIDocument.Document))) {
+                using (var fail = new TaskDialog("FAIL")) {
+                    fail.MainContent = "Please save the file before continuing";
+                    fail.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+                    fail.Show();
+                }
                 return Result.Failed;
             }
 
-            MainForm form = null;
-            var transaction = new TransactionGroup(
-                    commandData.Application.ActiveUIDocument.Document);
-            try {
-                transaction.Start("SCexport");
-                form = new MainForm(
-                        commandData.Application.ActiveUIDocument);
-
-                if (null != form && false == form.IsDisposed) {
-                    form.ShowDialog();
-                }
-
-                transaction.Commit();
-            } catch (InvalidOperationException ex) {
-                transaction.RollBack();
-                message = ex.Message;
-                return Result.Failed;
-            } finally {
-                if (null != form && false == form.IsDisposed) {
-                    form.Dispose();
-                }
+            using (var form = new MainForm(commandData.Application.ActiveUIDocument)) {
+                form.ShowDialog();
             }
-
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }

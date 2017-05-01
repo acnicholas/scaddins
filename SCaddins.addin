@@ -41,25 +41,4 @@
     <VendorId>BEER</VendorId>
     <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
   </AddIn>
-   
-<!-- SCwm -->
-
-<AddIn Type="Command">
-    <Assembly>C:\Program Files\SCaddins\SCaddins\_REVIT_VERSION_\SCaddins.dll</Assembly>
-    <AddInId>5F498B25-2E27-4191-A4A9-94FA362691EC</AddInId>
-    <FullClassName>SCaddins.SCwm.Command</FullClassName>
-    <Name>Tile Windows</Name>
-    <VendorId>BEER</VendorId>
-    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
-  </AddIn>
-    
-<AddIn Type="Command">
-    <Assembly>C:\Program Files\SCaddins\SCaddins\_REVIT_VERSION_\SCaddins.dll</Assembly>
-    <AddInId>5AFAC4A6-61E4-4772-B290-DFF0F6898472</AddInId>
-    <FullClassName>SCaddins.SCwm.MaximizeUI</FullClassName>
-    <Name>Maximize Revit Over Multiple Screens</Name>
-    <VendorId>BEER</VendorId>
-    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
-</AddIn>
-
 </RevitAddIns>

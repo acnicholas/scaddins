@@ -397,9 +397,6 @@
     <Compile Include="src\ViewUtilities\RemoveUnderlaysCommand.cs" />
     <Compile Include="src\ViewUtilities\UserView.cs" />
     <Compile Include="src\ViewUtilities\CreateUserViewCommand.cs" />
-    <Compile Include="src\WindowManager\WindowManager.cs" />
-    <Compile Include="src\WindowManager\WindowManagerCommands.cs" />
-    <Compile Include="src\WindowManager\WindowManagerMaximizeUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="src\Common\AboutBox.resx">
@@ -522,7 +519,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>SCincrementSettings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="src\WindowManager\WindowManager.ahk" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

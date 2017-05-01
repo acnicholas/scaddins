@@ -27,30 +27,30 @@ namespace SCaddins.SCwash
 
     public static class SCwashUtilities
     {
-        public static Collection<SCwashTreeNode> Imports(Document doc, bool linked)
-        {
+        public static Collection<SCwashTreeNode> Imports(Document doc, bool linked) {
             var result = new Collection<SCwashTreeNode>();
-            var f = new FilteredElementCollector(doc);
-            f.OfClass(typeof(ImportInstance));
-            string s = string.Empty;
-            string name = string.Empty;
-            foreach (ImportInstance ii in f) {
-                if (ii.IsLinked == linked) {
-                    s = string.Empty;
-                    s += "View Specific - " + ii.ViewSpecific.ToString() + System.Environment.NewLine;
-                    s += "Owner view id - " + ii.OwnerViewId + System.Environment.NewLine;
-                    ParameterSet p = ii.Parameters;
-                    foreach (Parameter param in p) {
-                        s += param.Definition.Name + " - " + param.AsString() + System.Environment.NewLine;
-                        if (param.Definition.Name == "Name") {
-                            name = param.AsString();
+            using (var f = new FilteredElementCollector(doc)) {
+                f.OfClass(typeof(ImportInstance));
+                string s = string.Empty;
+                string name = string.Empty;
+                foreach (ImportInstance ii in f) {
+                    if (ii.IsLinked == linked) {
+                        s = string.Empty;
+                        s += "View Specific - " + ii.ViewSpecific.ToString() + System.Environment.NewLine;
+                        s += "Owner view id - " + ii.OwnerViewId + System.Environment.NewLine;
+                        ParameterSet p = ii.Parameters;
+                        foreach (Parameter param in p) {
+                            s += param.Definition.Name + " - " + param.AsString() + System.Environment.NewLine;
+                            if (param.Definition.Name == "Name") {
+                                name = param.AsString();
+                            }
                         }
+                        s += "Element id - " + ii.Id;
+                        var tn = new SCwashTreeNode(name);
+                        tn.Id = ii.Id;
+                        tn.Info = s;
+                        result.Add(tn);
                     }
-                    s += "Element id - " + ii.Id;
-                    var tn = new SCwashTreeNode(name);
-                    tn.Id = ii.Id;
-                    tn.Info = s;
-                    result.Add(tn);
                 }
             }
             return result;
@@ -59,15 +59,17 @@ namespace SCaddins.SCwash
         public static Collection<SCwashTreeNode> Images(Document doc)
         {
             var result = new Collection<SCwashTreeNode>();
-            var f = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_RasterImages);
-            foreach (Element image in f) {
-                string s = GetParameterList(image.Parameters);
-                var tn = new SCwashTreeNode(image.Name.ToString());
-                tn.Info = "Name = " + image.Name.ToString() + System.Environment.NewLine +
-                "id - " + image.Id.ToString();
-                tn.Info += System.Environment.NewLine + s;
-                tn.Id = image.Id;
-                result.Add(tn);
+            using (var f = new FilteredElementCollector(doc)) {
+                f.OfCategory(BuiltInCategory.OST_RasterImages);
+                foreach (Element image in f) {
+                    string s = GetParameterList(image.Parameters);
+                    var tn = new SCwashTreeNode(image.Name.ToString());
+                    tn.Info = "Name = " + image.Name.ToString() + System.Environment.NewLine +
+                    "id - " + image.Id.ToString();
+                    tn.Info += System.Environment.NewLine + s;
+                    tn.Id = image.Id;
+                    result.Add(tn);
+                }
             }
             return result;
         }
@@ -75,17 +77,19 @@ namespace SCaddins.SCwash
         public static Collection<SCwashTreeNode> Revisions(Document doc)
         {
             var result = new Collection<SCwashTreeNode>();
-            var f = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Revisions);         
-            foreach (Element revision in f) {
-                string s = GetParameterList(revision.Parameters);
-                var nodeName = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString() + " - " +
-                    revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
-                var tn = new SCwashTreeNode(nodeName);
-                tn.Info = "Name = " + revision.Name.ToString() + System.Environment.NewLine +
-                "id - " + revision.Id.ToString();
-                tn.Info += System.Environment.NewLine + s;
-                tn.Id = revision.Id;
-                result.Add(tn);
+            using (var f = new FilteredElementCollector(doc)) {
+                f.OfCategory(BuiltInCategory.OST_Revisions);
+                foreach (Element revision in f) {
+                    string s = GetParameterList(revision.Parameters);
+                    var nodeName = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString() + " - " +
+                        revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
+                    var tn = new SCwashTreeNode(nodeName);
+                    tn.Info = "Name = " + revision.Name.ToString() + System.Environment.NewLine +
+                    "id - " + revision.Id.ToString();
+                    tn.Info += System.Environment.NewLine + s;
+                    tn.Id = revision.Id;
+                    result.Add(tn);
+                }
             }
             return result;
         }
@@ -93,26 +97,28 @@ namespace SCaddins.SCwash
         public static Collection<SCwashTreeNode> UnboundRooms(Document doc)
         {
             var result = new Collection<SCwashTreeNode>();
-            var f = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Rooms);         
-            foreach (Element room in f) {
-                string s = string.Empty;
-                bool bound = false;
-                ParameterSet p = room.Parameters;
-                foreach (Parameter param in p) {
-                    if (param.HasValue) {
-                        s += param.Definition.Name + " - " + param.AsString() + param.AsValueString() + System.Environment.NewLine;
+            using (var f = new FilteredElementCollector(doc)) {
+                f.OfCategory(BuiltInCategory.OST_Rooms);
+                foreach (Element room in f) {
+                    string s = string.Empty;
+                    bool bound = false;
+                    ParameterSet p = room.Parameters;
+                    foreach (Parameter param in p) {
+                        if (param.HasValue) {
+                            s += param.Definition.Name + " - " + param.AsString() + param.AsValueString() + System.Environment.NewLine;
+                        }
+                        if (param.Definition.Name == "Area" && param.AsDouble() > 0) {
+                            bound = true;
+                        }
                     }
-                    if (param.Definition.Name == "Area" && param.AsDouble() > 0) {
-                        bound = true;
+                    var tn = new SCwashTreeNode(room.Name.ToString());
+                    tn.Info = "Name = " + room.Name.ToString() + System.Environment.NewLine +
+                    "id - " + room.Id.ToString();
+                    tn.Info += System.Environment.NewLine + s;
+                    tn.Id = room.Id;
+                    if (!bound) {
+                        result.Add(tn);
                     }
-                }
-                var tn = new SCwashTreeNode(room.Name.ToString());
-                tn.Info = "Name = " + room.Name.ToString() + System.Environment.NewLine +
-                "id - " + room.Id.ToString();
-                tn.Info += System.Environment.NewLine + s;
-                tn.Id = room.Id;
-                if (!bound) {
-                    result.Add(tn);
                 }
             }
             return result;
@@ -181,59 +187,61 @@ namespace SCaddins.SCwash
         private static List<SCwashTreeNode> Views(Document doc, bool placedOnSheet, ViewType type)
         {
             var result = new List<SCwashTreeNode>();
-            var f = new FilteredElementCollector(doc).OfClass(typeof(Autodesk.Revit.DB.View));
-            foreach (Autodesk.Revit.DB.View view in f) {  
-                if (view.ViewType == type) {
-                    string s = string.Empty;
-                    string d = string.Empty;
-                    string num = string.Empty;
-                    bool os = false;
+            using (var f = new FilteredElementCollector(doc)) {
+                f.OfClass(typeof(Autodesk.Revit.DB.View));
+                foreach (Autodesk.Revit.DB.View view in f) {
+                    if (view.ViewType == type) {
+                        string s = string.Empty;
+                        string d = string.Empty;
+                        string num = string.Empty;
+                        bool os = false;
 
-                    Parameter p = GetParameterByName(view, "Dependency");
+                        Parameter p = GetParameterByName(view, "Dependency");
 
-                    s += "Name - " + view.Name + System.Environment.NewLine;
-                    if (p != null) {
-                        d = p.AsString();
-                        if (d == "Primary") {
-                            s += "Dependency - " + d + " [May be safe to delete]" + System.Environment.NewLine;
-                            os = true;
-                        } else {
-                            s += "Dependency - " + d + System.Environment.NewLine;
+                        s += "Name - " + view.Name + System.Environment.NewLine;
+                        if (p != null) {
+                            d = p.AsString();
+                            if (d == "Primary") {
+                                s += "Dependency - " + d + " [May be safe to delete]" + System.Environment.NewLine;
+                                os = true;
+                            } else {
+                                s += "Dependency - " + d + System.Environment.NewLine;
+                            }
                         }
-                    }
 
-                    Parameter p2 = GetParameterByName(view, "Sheet Number");
-                    if (p2 != null) {
-                        num = p2.AsString();
-                        s += "Sheet Number - " + num + System.Environment.NewLine;
-                        os |= num != "---" && !string.IsNullOrEmpty(num);
-                    } else {
-                        s += @"Sheet Number - N/A" + System.Environment.NewLine;
-                    }
-                    s += "Element id - " + view.Id.ToString() + System.Environment.NewLine;
-                    s += System.Environment.NewLine + "[EXTENDED INFO]" + System.Environment.NewLine;
-                    s += GetParameterList(view.Parameters);
+                        Parameter p2 = GetParameterByName(view, "Sheet Number");
+                        if (p2 != null) {
+                            num = p2.AsString();
+                            s += "Sheet Number - " + num + System.Environment.NewLine;
+                            os |= num != "---" && !string.IsNullOrEmpty(num);
+                        } else {
+                            s += @"Sheet Number - N/A" + System.Environment.NewLine;
+                        }
+                        s += "Element id - " + view.Id.ToString() + System.Environment.NewLine;
+                        s += System.Environment.NewLine + "[EXTENDED INFO]" + System.Environment.NewLine;
+                        s += GetParameterList(view.Parameters);
 
-                    string n = string.Empty;
-                    if (type == ViewType.DrawingSheet) {
-                        n = num + " - " + view.Name;
-                    } else {
-                        n = view.Name;
-                    }
+                        string n = string.Empty;
+                        if (type == ViewType.DrawingSheet) {
+                            n = num + " - " + view.Name;
+                        } else {
+                            n = view.Name;
+                        }
 
-                    var tn = new SCwashTreeNode(n);
-                    tn.Info = s;
-                    tn.Id = view.Id;
-                    if (view.ViewType == ViewType.ProjectBrowser || view.ViewType == ViewType.SystemBrowser) {
-                        continue;
-                    }
+                        var tn = new SCwashTreeNode(n);
+                        tn.Info = s;
+                        tn.Id = view.Id;
+                        if (view.ViewType == ViewType.ProjectBrowser || view.ViewType == ViewType.SystemBrowser) {
+                            continue;
+                        }
 
-                    if (view.ViewType != ViewType.Internal) {
-                        if (os && placedOnSheet) {
-                            result.Add(tn);
-                        } 
-                        if (!os && !placedOnSheet) {
-                            result.Add(tn);
+                        if (view.ViewType != ViewType.Internal) {
+                            if (os && placedOnSheet) {
+                                result.Add(tn);
+                            }
+                            if (!os && !placedOnSheet) {
+                                result.Add(tn);
+                            }
                         }
                     }
                 }

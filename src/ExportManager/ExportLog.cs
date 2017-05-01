@@ -114,8 +114,9 @@
 
         public void ShowSummaryDialog()
         {
-            var logDialog = new ExportLogDialog(this);
-            logDialog.ShowDialog();
+            using (var logDialog = new ExportLogDialog(this)) {
+                logDialog.ShowDialog();
+            }
         }
         
         public void Start(string message)

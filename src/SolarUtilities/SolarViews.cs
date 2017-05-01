@@ -77,12 +77,13 @@ namespace SCaddins.SolarUtilities
         //FIXME put this somewhere else.
         public static bool ViewNameIsAvailable(Document doc, string name)
         {
-            var c = new FilteredElementCollector(doc);
-            c.OfClass(typeof(Autodesk.Revit.DB.View));
-            foreach (View view in c) {
-                var v = view as View;
-                if (v.ViewName == name) {
-                    return false;
+            using (var c = new FilteredElementCollector(doc)) {
+                c.OfClass(typeof(Autodesk.Revit.DB.View));
+                foreach (View view in c) {
+                    var v = view as View;
+                    if (v.ViewName == name) {
+                        return false;
+                    }
                 }
             }
             return true;
@@ -121,28 +122,30 @@ namespace SCaddins.SolarUtilities
 
         private static ElementId GetViewFamilyId(Document doc, ViewFamily viewFamilyType)
         {
-            var collector = new FilteredElementCollector(doc);
-            collector.OfClass(typeof(ViewFamilyType));
-            foreach (Element e in collector) {
-                var vft = (ViewFamilyType)e;
-                if (vft.ViewFamily == viewFamilyType) {
-                    return vft.Id;
+            using (var collector = new FilteredElementCollector(doc)) {
+                collector.OfClass(typeof(ViewFamilyType));
+                foreach (Element e in collector) {
+                    var vft = (ViewFamilyType)e;
+                    if (vft.ViewFamily == viewFamilyType) {
+                        return vft.Id;
+                    }
                 }
-            }  
+            }
             return null;
         }
 
         private static ElementId GetHighestLevel(Document doc)
         {
-            var collector = new FilteredElementCollector(doc);
-            collector.OfClass(typeof(Level));
             double highestLevel = -1;
             ElementId highestId = null;
-            foreach (Element e in collector) {
-                var level = (Level)e;
-                if (highestLevel < 0 || level.Elevation > highestLevel) {
-                    highestLevel = level.Elevation;
-                    highestId = level.Id;
+            using (var collector = new FilteredElementCollector(doc)) {
+                collector.OfClass(typeof(Level));
+                foreach (Element e in collector) {
+                    var level = (Level)e;
+                    if (highestLevel < 0 || level.Elevation > highestLevel) {
+                        highestLevel = level.Elevation;
+                        highestId = level.Id;
+                    }
                 }
             }
             return highestId;
@@ -207,22 +210,24 @@ namespace SCaddins.SolarUtilities
             }
 
             while (startTime <= endTime) {
-                var t = new Transaction(doc);
-                t.Start("Create Solar View");
-                View view = View3D.CreateIsometric(doc, id);
-                view.ViewTemplateId = ElementId.InvalidElementId;
-                var niceMinutes = "00";
-                if (startTime.Minute > 0) {
-                    niceMinutes = startTime.Minute.ToString(CultureInfo.CurrentCulture);
-                }    
-                var vname = "SOLAR ACCESS - " + startTime.ToShortDateString() + "-" + startTime.Hour + "." + niceMinutes;  
-                view.Name = GetNiceViewName(doc, vname);
-                SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
-                sunSettings.StartDateAndTime = startTime;
-                sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
-                t.Commit();
-                this.RotateView(view, doc, udoc);
-                startTime = startTime.Add(interval);
+                using (var t = new Transaction(doc)) {
+                    t.Start("Create Solar View");
+                    View view = View3D.CreateIsometric(doc, id);
+                    view.ViewTemplateId = ElementId.InvalidElementId;
+                    var niceMinutes = "00";
+                    if (startTime.Minute > 0) {
+                        niceMinutes = startTime.Minute.ToString(CultureInfo.CurrentCulture);
+                    }
+                    var vname = "SOLAR ACCESS - " + startTime.ToShortDateString() + "-" + startTime.Hour + "." + niceMinutes;
+                    view.Name = GetNiceViewName(doc, vname);
+                    SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
+                    sunSettings.StartDateAndTime = startTime;
+                    sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
+                    t.Commit();
+                    //FIXME too many transactions here and above...
+                    this.RotateView(view, doc, udoc);
+                    startTime = startTime.Add(interval);
+                }
             }
         }
 
@@ -241,22 +246,23 @@ namespace SCaddins.SolarUtilities
                 var forward = new XYZ(-Math.Sin(azimuth), -Math.Cos(azimuth), -Math.Tan(altitude));
                 var up = forward.CrossProduct(new XYZ(Math.Cos(azimuth), -Math.Sin(azimuth), 0));  
                 var v3d = (View3D)view;
-                var t = new Transaction(doc);
                 if (v3d.IsLocked) {
-                    TaskDialog.Show("ERROR", "View is locked, please unlock before rotating"); 
+                    TaskDialog.Show("ERROR", "View is locked, please unlock before rotating");
                     return;
                 }
-                t.Start("Rotate View");
-                v3d.SetOrientation(new ViewOrientation3D(eye, up, forward));
-                if (v3d.CanBeLocked() && !v3d.Name.StartsWith("{", StringComparison.OrdinalIgnoreCase)) {
-                    try {
-                        v3d.SaveOrientationAndLock();
-                    } catch (InvalidOperationException e) {
-                        System.Diagnostics.Debug.WriteLine(e.Message);
+                using (var t = new Transaction(doc)) {
+                    t.Start("Rotate View");
+                    v3d.SetOrientation(new ViewOrientation3D(eye, up, forward));
+                    if (v3d.CanBeLocked() && !v3d.Name.StartsWith("{", StringComparison.OrdinalIgnoreCase)) {
+                        try {
+                            v3d.SaveOrientationAndLock();
+                        } catch (InvalidOperationException e) {
+                            System.Diagnostics.Debug.WriteLine(e.Message);
+                        }
                     }
-                } 
-                udoc.RefreshActiveView();
-                t.Commit();
+                    udoc.RefreshActiveView();
+                    t.Commit();
+                }
             } else {
                 TaskDialog.Show("ERROR", "Not a 3d view");
             }

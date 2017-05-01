@@ -39,38 +39,21 @@ namespace SCaddins.SCwash
                 "continue?";
 
             UIDocument udoc = commandData.Application.ActiveUIDocument;
-            var td = new TaskDialog("SCwash WARNING!");
-            td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-            td.MainInstruction = "WARNING!";
-            td.MainContent = warning;
-            td.CommonButtons = TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No;
-            TaskDialogResult tr = td.Show();
-            if (tr == TaskDialogResult.No) {
-                return Autodesk.Revit.UI.Result.Succeeded;
+            using (var td = new TaskDialog("SCwash WARNING!")) {
+                td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+                td.MainInstruction = "WARNING!";
+                td.MainContent = warning;
+                td.CommonButtons = TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No;
+                TaskDialogResult tr = td.Show();
+                if (tr == TaskDialogResult.No) {
+                    return Autodesk.Revit.UI.Result.Succeeded;
+                }
             }
 
-            SCwashForm form = null;
-            var transaction = new TransactionGroup(commandData.Application.ActiveUIDocument.Document);
-            try {
-                transaction.Start("SCwash");
-                form = new SCwashForm(udoc.Document, udoc);
-                if (null != form && false == form.IsDisposed) {
-                    form.ShowDialog();
-                }
-                transaction.Commit();
+            using (SCwashForm form = new SCwashForm(udoc.Document, udoc)) {
+                form.ShowDialog();
             }
-            catch (InvalidOperationException ex) {
-                transaction.RollBack();
-                message = ex.Message;
-                return Result.Failed;
-            }
-            finally {
-                if (null != form && false == form.IsDisposed)
-                {
-                    form.Dispose();
-                }
-            }
-            return Autodesk.Revit.UI.Result.Succeeded;
+            return Result.Succeeded;
         }
     }
 }

@@ -132,18 +132,19 @@ namespace SCaddins.SCwash
 
             // Un-mark the first revision because you can't delete them all.
             if (revisionsToStay == 0) {
-                TaskDialog td = new TaskDialog("One last revision");
-                td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-                td.MainInstruction = "The project must have at least one revision!";
-                td.MainContent = "Press OK for SCwash will keep the first revision for you." + System.Environment.NewLine +
-                    System.Environment.NewLine +
-                    "Press Cancel to select the revision you want to keep.";
-                td.CommonButtons = TaskDialogCommonButtons.Cancel | TaskDialogCommonButtons.Ok;
-                TaskDialogResult tr = td.Show();
-                if (tr == TaskDialogResult.Cancel) {
-                    return;
+                using (TaskDialog td = new TaskDialog("One last revision")) {
+                    td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+                    td.MainInstruction = "The project must have at least one revision!";
+                    td.MainContent = "Press OK for SCwash will keep the first revision for you." + System.Environment.NewLine +
+                        System.Environment.NewLine +
+                        "Press Cancel to select the revision you want to keep.";
+                    td.CommonButtons = TaskDialogCommonButtons.Cancel | TaskDialogCommonButtons.Ok;
+                    TaskDialogResult tr = td.Show();
+                    if (tr == TaskDialogResult.Cancel) {
+                        return;
+                    }
+                    treeView1.Nodes[7].Nodes[0].Checked = false;
                 }
-                treeView1.Nodes[7].Nodes[0].Checked = false;
             }
 
             ICollection<ElementId> elements = new List<ElementId>();
@@ -209,11 +210,12 @@ namespace SCaddins.SCwash
 
         private void BtnShowElement_Click(object sender, EventArgs e)
         {
-            UIApplication uiapp = new UIApplication(this.udoc.Application.Application);
-            uiapp.DialogBoxShowing += new EventHandler<DialogBoxShowingEventArgs>(this.DismissOpenQuestion);
-            SCwashTreeNode t = (SCwashTreeNode)treeView1.SelectedNode;
-            if (t.Id != null) {
-                this.udoc.ShowElements(t.Id);
+            using (UIApplication uiapp = new UIApplication(this.udoc.Application.Application)) {
+                uiapp.DialogBoxShowing += new EventHandler<DialogBoxShowingEventArgs>(this.DismissOpenQuestion);
+                SCwashTreeNode t = (SCwashTreeNode)treeView1.SelectedNode;
+                if (t.Id != null) {
+                    this.udoc.ShowElements(t.Id);
+                }
             }
         }
 
