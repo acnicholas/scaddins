@@ -69,7 +69,7 @@ namespace SCaddins.Common
             this.groupBox2.Size = new System.Drawing.Size(421, 302);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Version Information";
+            this.groupBox2.Text = SCaddins.Properties.Resources.VersionInformation;
             // 
             // textBox1
             // 
@@ -106,7 +106,7 @@ namespace SCaddins.Common
             this.buttonDownload.Name = "buttonDownload";
             this.buttonDownload.Size = new System.Drawing.Size(131, 23);
             this.buttonDownload.TabIndex = 2;
-            this.buttonDownload.Text = "Download";
+            this.buttonDownload.Text = SCaddins.Properties.Resources.Download;
             this.buttonDownload.UseVisualStyleBackColor = true;
             this.buttonDownload.Click += new System.EventHandler(this.Button3Click);
             // 
@@ -116,7 +116,7 @@ namespace SCaddins.Common
             this.labelLatestVersion.Name = "labelLatestVersion";
             this.labelLatestVersion.Size = new System.Drawing.Size(409, 23);
             this.labelLatestVersion.TabIndex = 1;
-            this.labelLatestVersion.Text = "Latest Version:";
+            this.labelLatestVersion.Text = Properties.Resources.LatestVersion;
             // 
             // labelInstalledVersion
             // 
@@ -124,7 +124,7 @@ namespace SCaddins.Common
             this.labelInstalledVersion.Name = "labelInstalledVersion";
             this.labelInstalledVersion.Size = new System.Drawing.Size(409, 23);
             this.labelInstalledVersion.TabIndex = 0;
-            this.labelInstalledVersion.Text = "Installed Version:";
+            this.labelInstalledVersion.Text = Properties.Resources.InstalledVersion;
             // 
             // buttonClose
             // 
@@ -133,7 +133,7 @@ namespace SCaddins.Common
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 3;
-            this.buttonClose.Text = "Close";
+            this.buttonClose.Text = Properties.Resources.Close;
             this.buttonClose.UseVisualStyleBackColor = true;
             // 
             // UpgradeForm

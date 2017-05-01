@@ -33,8 +33,8 @@ namespace SCaddins.Common
                 body = "error checking installed version";
             }
             this.InitializeComponent();
-            labelInstalledVersion.Text = "Installed Version: " + installed.ToString();
-            labelLatestVersion.Text = "Latest Version: " + remote.ToString();
+            labelInstalledVersion.Text = SCaddins.Properties.Resources.InstalledVersion + @": " + installed.ToString();
+            labelLatestVersion.Text = SCaddins.Properties.Resources.LatestVersion + @": "  + remote.ToString();
             textBox1.Text = body;
             if (installed < remote) {
                 labelUpgradeNote.Text = "New Version Available!. Click Download (go on, you can do it)";
