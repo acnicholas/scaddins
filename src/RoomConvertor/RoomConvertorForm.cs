@@ -20,6 +20,7 @@ namespace SCaddins.RoomConvertor
     using System;
     using System.Collections.ObjectModel;
     using System.Windows.Forms;
+    using SCaddins.Properties;
     
     public partial class MainForm : System.Windows.Forms.Form
     {
@@ -45,9 +46,9 @@ namespace SCaddins.RoomConvertor
 
             // assign tooltips
             var filterTip = new ToolTip();
-            filterTip.SetToolTip(this.buttonFilter, @"Filter the room list(above) by selected parameter values.");
+            filterTip.SetToolTip(this.buttonFilter, Resources.RoomToolsFilterRoomList);
             var renameTip = new ToolTip();
-            renameTip.SetToolTip(this.buttonRename, @"Bulk rename selected items in the list above.");
+            renameTip.SetToolTip(this.buttonRename, Resources.RoomToolsBulkRename);
 
             // load list into view
             LoadDataGridSource();
@@ -63,11 +64,11 @@ namespace SCaddins.RoomConvertor
         private void AddDataGridColumns()
         {
             dataGridView1.AutoGenerateColumns = false;           
-            SCaddins.SheetCopier.MainForm.AddColumn("Number", "Room Number", dataGridView1);
-            SCaddins.SheetCopier.MainForm.AddColumn("Name", "Room Name", dataGridView1);            
-            SCaddins.SheetCopier.MainForm.AddColumn("DestinationViewName", "New Plan Name", dataGridView1, false);
-            SCaddins.SheetCopier.MainForm.AddColumn("DestinationSheetNumber", "New Sheet Number", dataGridView1, false);
-            SCaddins.SheetCopier.MainForm.AddColumn("DestinationSheetName", "New Sheet Name", dataGridView1, false);
+            SCaddins.SheetCopier.MainForm.AddColumn("Number", Resources.RoomToolsRoomNumber, dataGridView1);
+            SCaddins.SheetCopier.MainForm.AddColumn("Name", Resources.RoomToolsRoomName, dataGridView1);            
+            SCaddins.SheetCopier.MainForm.AddColumn("DestinationViewName", Resources.RoomToolsNewPlanName, dataGridView1, false);
+            SCaddins.SheetCopier.MainForm.AddColumn("DestinationSheetNumber", Resources.RoomToolsNewSheetNumber, dataGridView1, false);
+            SCaddins.SheetCopier.MainForm.AddColumn("DestinationSheetName", Resources.RoomToolsNewSheetName, dataGridView1, false);
         }
 
         private void ButtonFilterClick(object sender, EventArgs e)
@@ -132,7 +133,7 @@ namespace SCaddins.RoomConvertor
         
         void ToggleMainButtonText()
         {
-            buttonMain.Text = radioButtonCreateMasses.Checked ? "Create Masses" : "Create Plans and Sheets";
+            buttonMain.Text = radioButtonCreateMasses.Checked ? Resources.RoomToolsCreateMasses : Resources.RoomToolsCreatePlansAndSheets;
             bool b = radioButtonCreateSheets.Checked;
             dataGridView1.Columns[2].Visible = b;
             dataGridView1.Columns[3].Visible = b;
@@ -152,7 +153,7 @@ namespace SCaddins.RoomConvertor
         void ButtonMainClick(object sender, EventArgs e)
         {
             Button button = sender as Button;
-            if (button.Text == "Create Masses") {
+            if (button.Text == Resources.RoomToolsCreateMasses) {
                 roomConversionManager.CreateRoomMasses(GetSelectedCandidates());      
             } else {
                 RoomToSheetWizard wizard = new RoomToSheetWizard(this.roomConversionManager);

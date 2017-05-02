@@ -79,7 +79,7 @@ namespace SCaddins.Common
             this.okayButton.Name = "okayButton";
             this.okayButton.Size = new System.Drawing.Size(75, 23);
             this.okayButton.TabIndex = 24;
-            this.okayButton.Text = "&OK";
+            this.okayButton.Text = SCaddins.Properties.Resources.OK;
             // 
             // textBoxDescription
             // 
@@ -93,7 +93,7 @@ namespace SCaddins.Common
             this.textBoxDescription.Size = new System.Drawing.Size(377, 194);
             this.textBoxDescription.TabIndex = 23;
             this.textBoxDescription.TabStop = false;
-            this.textBoxDescription.Text = "Description";
+            this.textBoxDescription.Text = SCaddins.Properties.Resources.Description;
             // 
             // labelCopyright
             // 
@@ -104,7 +104,7 @@ namespace SCaddins.Common
             this.labelCopyright.Name = "labelCopyright";
             this.labelCopyright.Size = new System.Drawing.Size(377, 17);
             this.labelCopyright.TabIndex = 21;
-            this.labelCopyright.Text = "Copyright";
+            this.labelCopyright.Text = SCaddins.Properties.Resources.Copyright;
             this.labelCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelVersion
@@ -116,7 +116,7 @@ namespace SCaddins.Common
             this.labelVersion.Name = "labelVersion";
             this.labelVersion.Size = new System.Drawing.Size(377, 17);
             this.labelVersion.TabIndex = 0;
-            this.labelVersion.Text = "Version";
+            this.labelVersion.Text = SCaddins.Properties.Resources.Version;
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelProductName
@@ -128,7 +128,7 @@ namespace SCaddins.Common
             this.labelProductName.Name = "labelProductName";
             this.labelProductName.Size = new System.Drawing.Size(377, 17);
             this.labelProductName.TabIndex = 19;
-            this.labelProductName.Text = "Product Name";
+            this.labelProductName.Text = SCaddins.Properties.Resources.ProductName;
             this.labelProductName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // logoPictureBox
@@ -180,7 +180,7 @@ namespace SCaddins.Common
             this.linkLabel2.Size = new System.Drawing.Size(68, 13);
             this.linkLabel2.TabIndex = 27;
             this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "Source code";
+            this.linkLabel2.Text = SCaddins.Properties.Resources.SourceCode;
             this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel2_LinkClicked);
             // 
             // linkLabel1
@@ -191,7 +191,7 @@ namespace SCaddins.Common
             this.linkLabel1.Size = new System.Drawing.Size(28, 13);
             this.linkLabel1.TabIndex = 26;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Wiki";
+            this.linkLabel1.Text = SCaddins.Properties.Resources.Wiki;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1_LinkClicked);
             // 
             // button1
@@ -201,7 +201,7 @@ namespace SCaddins.Common
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(129, 23);
             this.button1.TabIndex = 28;
-            this.button1.Text = "Check For Updates";
+            this.button1.Text = SCaddins.Properties.Resources.CheckForUpdates;
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1Click);
             // 
@@ -221,7 +221,7 @@ namespace SCaddins.Common
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "AboutBox1";
+            // this.Text = "AboutBox1";
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).EndInit();
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();

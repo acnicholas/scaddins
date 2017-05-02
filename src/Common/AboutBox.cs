@@ -25,6 +25,7 @@ namespace SCaddins.Common
 
     public partial class AboutBox1 : Form
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "System.Windows.Forms.Control.set_Text(System.String)")]
         public AboutBox1()
         {
             this.InitializeComponent();

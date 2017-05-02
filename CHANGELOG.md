@@ -4,7 +4,7 @@
 
 ####SUMMARY####
 
-**Revit 2014-2015 Support dropped. Further releases(18*) will support Revit 2016,2017 & 2018.**
+**Revit 2014-2015 Support dropped. Further releases(v18*) will support the three latest Revit versions (2016,2017 & 2018).**
 Updated host page to [github](https://github.com/acnicholas/scaddins) 
 
 ####FIXES#####
@@ -12,6 +12,7 @@ Updated host page to [github](https://github.com/acnicholas/scaddins)
 - Better tree selection in Destructive Purge.
 - Better room solid creation in Room Tools.
 - Check for existing view names when creating user views.
+- Check for invalid view names when creating user views.
 - Don't set scale bar value in SCexport if parameter is not found.
 
 ####NEW####
@@ -23,6 +24,7 @@ Updated host page to [github](https://github.com/acnicholas/scaddins)
 ####CHANGES####
 
 - Unjoin wall tool *removed*
+- Window Manger removed.
 
 #17.0.1#
 

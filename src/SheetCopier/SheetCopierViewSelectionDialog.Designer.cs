@@ -1,5 +1,7 @@
 ﻿namespace SCaddins.SheetCopier
 {
+    using SCaddins.Properties;
+
     partial class SCopyViewSelectionDialog
     {
         /// <summary>
@@ -55,7 +57,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
-            this.button1.Text = "OK";
+            this.button1.Text = Resources.OK;
             this.button1.UseVisualStyleBackColor = true;
             // 
             // button2
@@ -67,7 +69,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 2;
-            this.button2.Text = "Cancel";
+            this.button2.Text = Resources.Cancel;
             this.button2.UseVisualStyleBackColor = true;
             // 
             // label1

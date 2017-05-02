@@ -61,11 +61,155 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Multiple Shadow Plans.
+        /// </summary>
+        internal static string AngleOfSunCreatePlansRadioNote {
+            get {
+                return ResourceManager.GetString("AngleOfSunCreatePlansRadioNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AngleOfSunCreateViewsRadioNote {
+            get {
+                return ResourceManager.GetString("AngleOfSunCreateViewsRadioNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Angle Of Sun - Create view[s] from the sun.
+        /// </summary>
+        internal static string AngleOfSunTitle {
+            get {
+                return ResourceManager.GetString("AngleOfSunTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check For Updates.
+        /// </summary>
+        internal static string CheckForUpdates {
+            get {
+                return ResourceManager.GetString("CheckForUpdates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         internal static string Close {
             get {
                 return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        internal static string Copy {
+            get {
+                return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copyright.
+        /// </summary>
+        internal static string Copyright {
+            get {
+                return ResourceManager.GetString("Copyright", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Current Sheet.
+        /// </summary>
+        internal static string CopySheetsAddCurrentSheet {
+            get {
+                return ResourceManager.GetString("CopySheetsAddCurrentSheet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Views.
+        /// </summary>
+        internal static string CopySheetsAddRemoveViews {
+            get {
+                return ResourceManager.GetString("CopySheetsAddRemoveViews", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename Sheets.
+        /// </summary>
+        internal static string CopySheetsAddRenameSheets {
+            get {
+                return ResourceManager.GetString("CopySheetsAddRenameSheets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename Views.
+        /// </summary>
+        internal static string CopySheetsAddRenameViews {
+            get {
+                return ResourceManager.GetString("CopySheetsAddRenameViews", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy Sheets by Andrew Nicholas.
+        /// </summary>
+        internal static string CopySheetsTitle {
+            get {
+                return ResourceManager.GetString("CopySheetsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current View Information.
+        /// </summary>
+        internal static string CurrentViewInformation {
+            get {
+                return ResourceManager.GetString("CurrentViewInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        internal static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SCWash - Clean you model.
+        /// </summary>
+        internal static string DestructuvePurgeTitle {
+            get {
+                return ResourceManager.GetString("DestructuvePurgeTitle", resourceCulture);
             }
         }
         
@@ -79,11 +223,47 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EndTime.
+        /// </summary>
+        internal static string EndTime {
+            get {
+                return ResourceManager.GetString("EndTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go.
+        /// </summary>
+        internal static string Go {
+            get {
+                return ResourceManager.GetString("Go", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help.
+        /// </summary>
+        internal static string Help {
+            get {
+                return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Installed Version.
         /// </summary>
         internal static string InstalledVersion {
             get {
                 return ResourceManager.GetString("InstalledVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interval.
+        /// </summary>
+        internal static string Interval {
+            get {
+                return ResourceManager.GetString("Interval", resourceCulture);
             }
         }
         
@@ -97,11 +277,191 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mode.
+        /// </summary>
+        internal static string Mode {
+            get {
+                return ResourceManager.GetString("Mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         internal static string OK {
             get {
                 return ResourceManager.GetString("OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product Name.
+        /// </summary>
+        internal static string ProductName {
+            get {
+                return ResourceManager.GetString("ProductName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        internal static string Remove {
+            get {
+                return ResourceManager.GetString("Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bulk rename selected items in the list above..
+        /// </summary>
+        internal static string RoomToolsBulkRename {
+            get {
+                return ResourceManager.GetString("RoomToolsBulkRename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Masses from Rooms.
+        /// </summary>
+        internal static string RoomToolsCreateMasseRadio {
+            get {
+                return ResourceManager.GetString("RoomToolsCreateMasseRadio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Masses.
+        /// </summary>
+        internal static string RoomToolsCreateMasses {
+            get {
+                return ResourceManager.GetString("RoomToolsCreateMasses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Plans and Sheets.
+        /// </summary>
+        internal static string RoomToolsCreatePlansAndSheets {
+            get {
+                return ResourceManager.GetString("RoomToolsCreatePlansAndSheets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Plans and Sheets from Rooms.
+        /// </summary>
+        internal static string RoomToolsCreatePlansRadio {
+            get {
+                return ResourceManager.GetString("RoomToolsCreatePlansRadio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter the room list(above) by selected parameter values..
+        /// </summary>
+        internal static string RoomToolsFilterRoomList {
+            get {
+                return ResourceManager.GetString("RoomToolsFilterRoomList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Plan Name.
+        /// </summary>
+        internal static string RoomToolsNewPlanName {
+            get {
+                return ResourceManager.GetString("RoomToolsNewPlanName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NewSheetName.
+        /// </summary>
+        internal static string RoomToolsNewSheetName {
+            get {
+                return ResourceManager.GetString("RoomToolsNewSheetName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Sheet Number.
+        /// </summary>
+        internal static string RoomToolsNewSheetNumber {
+            get {
+                return ResourceManager.GetString("RoomToolsNewSheetNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room Name.
+        /// </summary>
+        internal static string RoomToolsRoomName {
+            get {
+                return ResourceManager.GetString("RoomToolsRoomName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room Number.
+        /// </summary>
+        internal static string RoomToolsRoomNumber {
+            get {
+                return ResourceManager.GetString("RoomToolsRoomNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sync Masses to Rooms.
+        /// </summary>
+        internal static string RoomToolsSync {
+            get {
+                return ResourceManager.GetString("RoomToolsSync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room Tools.
+        /// </summary>
+        internal static string RoomToolsTitle {
+            get {
+                return ResourceManager.GetString("RoomToolsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select All.
+        /// </summary>
+        internal static string SelectAll {
+            get {
+                return ResourceManager.GetString("SelectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select None.
+        /// </summary>
+        internal static string SelectNone {
+            get {
+                return ResourceManager.GetString("SelectNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source Code.
+        /// </summary>
+        internal static string SourceCode {
+            get {
+                return ResourceManager.GetString("SourceCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Time.
+        /// </summary>
+        internal static string StartTime {
+            get {
+                return ResourceManager.GetString("StartTime", resourceCulture);
             }
         }
         
@@ -115,11 +475,29 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Version.
+        /// </summary>
+        internal static string Version {
+            get {
+                return ResourceManager.GetString("Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Version Information.
         /// </summary>
         internal static string VersionInformation {
             get {
                 return ResourceManager.GetString("VersionInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wiki.
+        /// </summary>
+        internal static string Wiki {
+            get {
+                return ResourceManager.GetString("Wiki", resourceCulture);
             }
         }
     }
