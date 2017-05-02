@@ -19,29 +19,31 @@ namespace SCaddins.Common
 {
     using System;
     using System.Windows.Forms;
+    using SCaddins.Properties;
 
     public partial class UpgradeForm : Form
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "System.Windows.Forms.Control.set_Text(System.String)")]
         public UpgradeForm(Version installed, Version remote, string body)
         {
             if (installed == null) {
                 installed = new Version(0, 0, 0);
-                body = "error checking installed version";
+                body = Resources.UpgrateVersionCheckErrorMessage;
             }
             if (remote == null) {
                 remote = new Version(0, 0, 0);
-                body = "error checking installed version";
+                body = Resources.UpgrateVersionCheckErrorMessage;
             }
             this.InitializeComponent();
             labelInstalledVersion.Text = SCaddins.Properties.Resources.InstalledVersion + @": " + installed.ToString();
             labelLatestVersion.Text = SCaddins.Properties.Resources.LatestVersion + @": "  + remote.ToString();
             textBox1.Text = body;
             if (installed < remote) {
-                labelUpgradeNote.Text = "New Version Available!. Click Download (go on, you can do it)";
+                labelUpgradeNote.Text = Resources.UpgrateNewVersionAvailableMessage;
                 buttonDownload.Enabled = true;
                 buttonLog.Enabled = true;
             } else {
-                labelUpgradeNote.Text = "SCaddins is up to date. Nice one.";
+                labelUpgradeNote.Text = Resources.UpgradeUpToDateMessage;
                 buttonDownload.Enabled = false;
                 buttonLog.Enabled = true;
             }

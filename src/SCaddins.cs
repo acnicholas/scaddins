@@ -42,7 +42,8 @@ namespace SCaddins
         
         public static void CheckForUpdates(bool newOnly)
         {
-            var webRequest = WebRequest.Create("https://api.github.com/repos/acnicholas/scaddins/releases/latest") as HttpWebRequest;
+            var uri = new Uri("https://api.github.com/repos/acnicholas/scaddins/releases/latest");
+            var webRequest = WebRequest.Create(uri) as HttpWebRequest;
             if (webRequest == null) {
                 return;
             }
@@ -300,6 +301,7 @@ namespace SCaddins
         }
 
         //from https://github.com/WeConnect/issue-tracker/blob/master/Case.IssueTracker.Revit/Entry/AppMain.cs
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.Reflection.Assembly.LoadFrom")]
         public static ImageSource LoadPNGImageSource(string sourceName, string path)
         {
             try {

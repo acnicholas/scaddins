@@ -25,6 +25,7 @@ namespace SCaddins.SCwash
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Autodesk.Revit.UI.Events;
+    using SCaddins.Properties;
 
     public partial class SCwashForm : System.Windows.Forms.Form
     {
@@ -38,7 +39,7 @@ namespace SCaddins.SCwash
             this.InitializeComponent();
             treeView1.CheckBoxes = true;
             this.Init();
-            textBox1.Text = "Select an item to show additional information";
+            textBox1.Text = Resources.DestructivePurgeShowAdditionalInfo;
         }
 
         public void CheckAllNodes(TreeNodeCollection nodes, bool check)
@@ -82,7 +83,7 @@ namespace SCaddins.SCwash
             treeView1.Nodes[7].Nodes.AddRange(SCwashUtilities.Revisions(this.doc).ToArray<TreeNode>());
         }
 
-        private void GreyifyNode(TreeNode node, bool grey)
+        private static void GreyifyNode(TreeNode node, bool grey)
         {
             if(grey) {
                 node.ForeColor = System.Drawing.Color.LightGray;
@@ -97,14 +98,14 @@ namespace SCaddins.SCwash
                 var t = (SCwashTreeNode)treeView1.SelectedNode;
                 textBox1.Text = t.Info;
                 if (t.Id != null) {
-                    btnShowElement.Text = "Show" + System.Environment.NewLine + t.Id.ToString();
+                    btnShowElement.Text = Resources.Show + System.Environment.NewLine + t.Id.ToString();
                     btnShowElement.Enabled = true;
                 } else {
-                    btnShowElement.Text = "Show Element";
+                    btnShowElement.Text = Resources.DestructivePurgeShowElement;
                     btnShowElement.Enabled = false;
                 }
             } else {
-                textBox1.Text = "Select an item to show additional information";
+                textBox1.Text = Resources.DestructivePurgeShowAdditionalInfo;
             }
         }
 

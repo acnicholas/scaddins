@@ -121,7 +121,7 @@
     <value>Create Multiple Shadow Plans</value>
   </data>
   <data name="AngleOfSunCreateViewsRadioNote" xml:space="preserve">
-    <value />
+    <value>Create Multiple Angle of Sun Views (3d)</value>
   </data>
   <data name="AngleOfSunTitle" xml:space="preserve">
     <value>Angle Of Sun - Create view[s] from the sun</value>
@@ -252,9 +252,6 @@
   <data name="StartTime" xml:space="preserve">
     <value>Start Time</value>
   </data>
-  <data name="UpgradeNote" xml:space="preserve">
-    <value>New Version Available!. Click Download (go on, you can do it)</value>
-  </data>
   <data name="Version" xml:space="preserve">
     <value>Version</value>
   </data>
@@ -263,5 +260,86 @@
   </data>
   <data name="Wiki" xml:space="preserve">
     <value>Wiki</value>
+  </data>
+  <data name="DestructivePurgeDeleteSelected" xml:space="preserve">
+    <value>Delete Selected</value>
+  </data>
+  <data name="DestructivePurgeShowElement" xml:space="preserve">
+    <value>Show Element</value>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="AlwyasConfirmFileOverwrite" xml:space="preserve">
+    <value>Always ask for confirmation before overwriting?</value>
+  </data>
+  <data name="ConfirmFileOverwrite" xml:space="preserve">
+    <value>Confirm file overwrite?</value>
+  </data>
+  <data name="DestructivePurgeShowAdditionalInfo" xml:space="preserve">
+    <value>Select an item to show additional information</value>
+  </data>
+  <data name="DotDotDot" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="Errors" xml:space="preserve">
+    <value>Errors</value>
+  </data>
+  <data name="ExportComplete" xml:space="preserve">
+    <value>Export Complete</value>
+  </data>
+  <data name="ExportStarted" xml:space="preserve">
+    <value>Export Started</value>
+  </data>
+  <data name="ExportSummary" xml:space="preserve">
+    <value>Export Summary</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>File name</value>
+  </data>
+  <data name="FinishedPrint" xml:space="preserve">
+    <value>Finished Print</value>
+  </data>
+  <data name="LogDialogExportsAttempted" xml:space="preserve">
+    <value>Exports attempted with</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Output" xml:space="preserve">
+    <value>Output</value>
+  </data>
+  <data name="SelectSheetsBeforeAddingRevision" xml:space="preserve">
+    <value>Please select sheets before attempting to add revisions</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="StartingPrint" xml:space="preserve">
+    <value>Starting Print</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="UpdateFormTitle" xml:space="preserve">
+    <value>SCaddins Version Information</value>
+  </data>
+  <data name="UpdateViewChangeLog" xml:space="preserve">
+    <value>View Complete Change Log</value>
+  </data>
+  <data name="UpgradeUpToDateMessage" xml:space="preserve">
+    <value>SCaddins is up to date. Nice one.</value>
+  </data>
+  <data name="UpgrateNewVersionAvailableMessage" xml:space="preserve">
+    <value>New Version Available!. Click Download (go on, you can do it)</value>
+  </data>
+  <data name="UpgrateVersionCheckErrorMessage" xml:space="preserve">
+    <value>Error checking installed version</value>
+  </data>
+  <data name="Warnings" xml:space="preserve">
+    <value>Warnings</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>

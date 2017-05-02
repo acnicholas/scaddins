@@ -224,6 +224,17 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <EmbeddedResource Include="..\..\Properties\Resources.resx">
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <Link>Properties\Resources.resx</Link>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="..\..\Properties\Resources.Designer.cs">
+      <Link>Properties\Resources.Designer.cs</Link>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SheetCopierManager.cs" />
     <Compile Include="SheetCopierCommand.cs" />
@@ -240,12 +251,6 @@
     </Compile>
     <Compile Include="SheetCopierTextInputForm.Designer.cs" />
     <Compile Include="SheetCopierViewOnSheet.cs" />
-    <Compile Include="SheetCopierViewSelectionDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SheetCopierViewSelectionDialog.Designer.cs">
-      <DependentUpon>SegmentedSheetName.cs</DependentUpon>
-    </Compile>
     <Compile Include="SheetCopier.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -283,9 +288,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SheetCopierTextInputForm.resx">
       <DependentUpon>SheetCopierTextInputForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SheetCopierViewSelectionDialog.resx">
-      <DependentUpon>SheetCopierViewSelectionDialog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

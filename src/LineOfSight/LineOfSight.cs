@@ -84,23 +84,23 @@ namespace SCaddins.LineOfSight
         }
 
         public void Update(
-            double eyeHeight,
-            double treadSize,
-            double riserIncrement,
-            double minimumCValue,
-            double minimumRiserHeight,
-            double numberOfRows,
-            double distanceToFirstRowX,
-            double distanceToFirstRowY)
+            double newEyeHeight,
+            double newTreadSize,
+            double newRiserIncrement,
+            double newMinimumCValue,
+            double newMinimumRiserHeight,
+            double newNumberOfRows,
+            double newDistanceToFirstRowX,
+            double newDistanceToFirstRowY)
         {
-            this.eyeHeight = eyeHeight;
-            this.treadSize = treadSize;
-            this.riserIncrement = riserIncrement;
-            this.minimumCValue = minimumCValue;
-            this.minimumRiserHeight = minimumRiserHeight;
-            this.numberOfRows = Convert.ToInt32(numberOfRows);
-            this.distanceToFirstRowX = distanceToFirstRowX;
-            this.distanceToFirstRowY = distanceToFirstRowY;
+            this.eyeHeight = newEyeHeight;
+            this.treadSize = newTreadSize;
+            this.riserIncrement = newRiserIncrement;
+            this.minimumCValue = newMinimumCValue;
+            this.minimumRiserHeight = newMinimumRiserHeight;
+            this.numberOfRows = Convert.ToInt32(newNumberOfRows);
+            this.distanceToFirstRowX = newDistanceToFirstRowX;
+            this.distanceToFirstRowY = newDistanceToFirstRowY;
             this.UpdateRows();
             this.infoString = this.UpdateInfoString();
         }

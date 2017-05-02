@@ -60,7 +60,7 @@
             this.groupBox1.Size = new System.Drawing.Size(391, 181);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Info";
+            this.groupBox1.Text = SCaddins.Properties.Resources.Info;
             // 
             // textBox1
             // 
@@ -81,7 +81,7 @@
             this.btnSelectNone.Name = "btnSelectNone";
             this.btnSelectNone.Size = new System.Drawing.Size(75, 23);
             this.btnSelectNone.TabIndex = 2;
-            this.btnSelectNone.Text = "Select None";
+            this.btnSelectNone.Text = Properties.Resources.SelectNone;
             this.btnSelectNone.UseVisualStyleBackColor = true;
             this.btnSelectNone.Click += new System.EventHandler(this.BtnSelectNone_Click);
             // 
@@ -92,7 +92,7 @@
             this.btnSelectAll.Name = "btnSelectAll";
             this.btnSelectAll.Size = new System.Drawing.Size(75, 23);
             this.btnSelectAll.TabIndex = 3;
-            this.btnSelectAll.Text = "Select All";
+            this.btnSelectAll.Text = Properties.Resources.SelectAll;
             this.btnSelectAll.UseVisualStyleBackColor = true;
             this.btnSelectAll.Click += new System.EventHandler(this.BtnSelectAll_Click);
             // 
@@ -103,7 +103,7 @@
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 41);
             this.btnDelete.TabIndex = 4;
-            this.btnDelete.Text = "Delete Selected";
+            this.btnDelete.Text = Properties.Resources.DestructivePurgeDeleteSelected;
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
             // 
@@ -114,7 +114,7 @@
             this.btnShowElement.Name = "btnShowElement";
             this.btnShowElement.Size = new System.Drawing.Size(73, 41);
             this.btnShowElement.TabIndex = 5;
-            this.btnShowElement.Text = "Show Element";
+            this.btnShowElement.Text = Properties.Resources.DestructivePurgeShowElement;
             this.btnShowElement.UseVisualStyleBackColor = true;
             this.btnShowElement.Click += new System.EventHandler(this.BtnShowElement_Click);
             // 
@@ -132,7 +132,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SCwashForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SCwash - Clean your model";
+            this.Text = Properties.Resources.DestructuvePurgeTitle;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SCwashForm_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

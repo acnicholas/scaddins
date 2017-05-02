@@ -72,9 +72,9 @@ namespace SCaddins.RevisionUtilities
             get { return this.comments; }
         }        
 
-        public void SetCloudId(ElementId id)
+        public void SetCloudId(ElementId revisionId)
         {
-            cloud.RevisionId = id;;
+            cloud.RevisionId = revisionId;;
         }
 
         private string GetHostViewName(Document doc)

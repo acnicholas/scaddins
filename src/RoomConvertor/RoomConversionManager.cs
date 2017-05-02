@@ -86,11 +86,11 @@ namespace SCaddins.RoomConvertor
         }
 
         public void CreateViewsAndSheets(
-            System.ComponentModel.BindingList<RoomConversionCandidate> candidates)
+            System.ComponentModel.BindingList<RoomConversionCandidate> rooms)
         {
             using (Transaction t = new Transaction(doc, "Rooms to Views")) {
                 if (t.Start() == TransactionStatus.Started) {
-                    foreach (RoomConversionCandidate c in candidates) {
+                    foreach (RoomConversionCandidate c in rooms) {
                         this.CreateViewAndSheet(c);
                     }
                     t.Commit();
@@ -125,13 +125,13 @@ namespace SCaddins.RoomConvertor
             return titleFound ? id : ElementId.InvalidElementId;
         }
 
-        public void CreateRoomMasses(System.ComponentModel.BindingList<RoomConversionCandidate> candidates)
+        public void CreateRoomMasses(System.ComponentModel.BindingList<RoomConversionCandidate> rooms)
         {
             int errCount = 0;
             int roomCount = 0;
             var t = new Transaction(doc, "Rooms to Masses");
             t.Start(); 
-            foreach (RoomConversionCandidate c in candidates) {
+            foreach (RoomConversionCandidate c in rooms) {
                 roomCount++;
                 if (!this.CreateRoomMass(c.Room)) {
                     errCount++;

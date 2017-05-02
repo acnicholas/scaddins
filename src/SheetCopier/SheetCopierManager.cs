@@ -323,7 +323,7 @@ namespace SCaddins.SheetCopier
             string sheetTitle,
             string viewCategory)
         {
-            using (var result = ViewSheet.Create(this.doc, ElementId.InvalidElementId)) {
+            var result = ViewSheet.Create(this.doc, ElementId.InvalidElementId);
                 result.Name = sheetTitle;
                 result.SheetNumber = sheetNumber;
                 var viewCategoryParamList = result.GetParameters(SheetCopierConstants.SheetCategory);
@@ -331,15 +331,13 @@ namespace SCaddins.SheetCopier
                     Parameter viewCategoryParam = viewCategoryParamList.First();
                     viewCategoryParam.Set(viewCategory);
                 }
-                return result;
-            }
+            return result;
         }
         
         private void PlaceViewPortOnSheet(
             Element destSheet, ElementId destViewId, XYZ viewCentre)
         {
-            Viewport vp = Viewport.Create(this.doc, destSheet.Id, destViewId, viewCentre);
-            vp.Dispose();
+            Viewport.Create(this.doc, destSheet.Id, destViewId, viewCentre);
         }
 
         private string GetNewSheetNumber(string originalNumber)

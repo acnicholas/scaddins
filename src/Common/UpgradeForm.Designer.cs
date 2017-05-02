@@ -8,6 +8,8 @@
  */
 namespace SCaddins.Common
 {
+    using SCaddins.Properties;
+
     partial class UpgradeForm
     {
         /// <summary>
@@ -87,7 +89,7 @@ namespace SCaddins.Common
             this.buttonLog.Name = "buttonLog";
             this.buttonLog.Size = new System.Drawing.Size(180, 23);
             this.buttonLog.TabIndex = 4;
-            this.buttonLog.Text = "View Complete Change Log";
+            this.buttonLog.Text = Resources.UpdateViewChangeLog;
             this.buttonLog.UseVisualStyleBackColor = true;
             this.buttonLog.Click += new System.EventHandler(this.Button1Click);
             // 
@@ -98,7 +100,7 @@ namespace SCaddins.Common
             this.labelUpgradeNote.Name = "labelUpgradeNote";
             this.labelUpgradeNote.Size = new System.Drawing.Size(409, 23);
             this.labelUpgradeNote.TabIndex = 3;
-            this.labelUpgradeNote.Text = "...";
+            this.labelUpgradeNote.Text = Resources.DotDotDot;
             // 
             // buttonDownload
             // 
@@ -145,7 +147,7 @@ namespace SCaddins.Common
             this.Controls.Add(this.groupBox2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "UpgradeForm";
-            this.Text = "SCaddins Version Information";
+            this.Text = Properties.Resources.UpdateFormTitle;
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);

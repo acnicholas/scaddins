@@ -17,6 +17,8 @@
 
 namespace SCaddins.ExportManager
 {
+    using SCaddins.Properties;
+
     partial class ExportLogDialog
     {
         /// <summary>
@@ -98,7 +100,7 @@ namespace SCaddins.ExportManager
             this.WarningTab.Padding = new System.Windows.Forms.Padding(3);
             this.WarningTab.Size = new System.Drawing.Size(511, 357);
             this.WarningTab.TabIndex = 1;
-            this.WarningTab.Text = "Warnings";
+            this.WarningTab.Text = Resources.Warnings;
             this.WarningTab.UseVisualStyleBackColor = true;
             // 
             // warnings
@@ -116,12 +118,12 @@ namespace SCaddins.ExportManager
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Text = "Filename";
+            this.columnHeader1.Text = Resources.Filename;
             this.columnHeader1.Width = 120;
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Text = "Description";
+            this.columnHeader2.Text = Resources.Description;
             this.columnHeader2.Width = 600;
             // 
             // ErrorTab
@@ -132,7 +134,7 @@ namespace SCaddins.ExportManager
             this.ErrorTab.Padding = new System.Windows.Forms.Padding(3);
             this.ErrorTab.Size = new System.Drawing.Size(511, 357);
             this.ErrorTab.TabIndex = 2;
-            this.ErrorTab.Text = "Errors";
+            this.ErrorTab.Text = Resources.Errors;
             this.ErrorTab.UseVisualStyleBackColor = true;
             // 
             // errors
@@ -150,12 +152,12 @@ namespace SCaddins.ExportManager
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "Filename";
+            this.columnHeader3.Text = Resources.Filename;
             this.columnHeader3.Width = 120;
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "Description";
+            this.columnHeader4.Text = Resources.Description;
             this.columnHeader4.Width = 600;
             // 
             // OutputTab
@@ -166,7 +168,7 @@ namespace SCaddins.ExportManager
             this.OutputTab.Padding = new System.Windows.Forms.Padding(3);
             this.OutputTab.Size = new System.Drawing.Size(511, 357);
             this.OutputTab.TabIndex = 3;
-            this.OutputTab.Text = "Output";
+            this.OutputTab.Text = Resources.Output;
             this.OutputTab.UseVisualStyleBackColor = true;
             // 
             // textBox1
@@ -185,7 +187,7 @@ namespace SCaddins.ExportManager
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(384, 26);
             this.label1.TabIndex = 1;
-            this.label1.Text = "summary";
+            this.label1.Text = Resources.Summary;
             // 
             // ExportLogDialog
             // 
@@ -197,7 +199,7 @@ namespace SCaddins.ExportManager
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ExportLogDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Export Summary";
+            this.Text = Resources.ExportSummary;
             this.TopMost = true;
             this.Tabs.ResumeLayout(false);
             this.WarningTab.ResumeLayout(false);

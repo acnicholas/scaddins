@@ -35,8 +35,8 @@ namespace SCaddins.RevisionUtilities
         [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", Justification = "Because.")]        
         public static void ExportCloudInfo(Document doc, Dictionary<string, RevisionItem> dictionary, string exportFilename)
         {
-
-            string ExportFilename = exportFilename != string.Empty ? exportFilename : @"C:\Temp\SClouds";
+            string ExportFilename = string.IsNullOrEmpty(exportFilename) ? @"C:\Temp\SClouds" : exportFilename;
+            // string ExportFilename = exportFilename != string.Empty ? exportFilename : @"C:\Temp\SClouds";
             Application excelApp;
             Worksheet excelWorksheet;
             Workbook excelWorkbook;

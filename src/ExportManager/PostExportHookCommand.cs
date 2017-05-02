@@ -69,19 +69,19 @@ namespace SCaddins.ExportManager
             Common.ConsoleUtilities.StartHiddenConsoleProg(this.cmd, a);
         }
 
-        public void SetCommand(string cmd)
+        public void SetCommand(string command)
         {
-            this.cmd = cmd;
+            this.cmd = command;
         }
 
-        public void SetArguments(string args)
+        public void SetArguments(string arguments)
         {
-            this.args = args;
+            this.args = arguments;
         }
 
-        public void SetName(string name)
+        public void SetName(string newName)
         {
-            this.name = name;
+            this.name = newName;
         }
 
         public void AddSupportedFilenameExtension(string extension)

@@ -96,6 +96,6 @@ namespace SCaddins
         public string created_at { get; set; }
         public string published_at { get; set; }
         public Author author { get; set; }
-        public List<Asset> assets { get; set; }
+        public List<Asset> assets { get;}
     }
 }

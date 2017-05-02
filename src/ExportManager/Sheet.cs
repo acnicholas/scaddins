@@ -292,9 +292,9 @@ namespace SCaddins.ExportManager
                 return string.IsNullOrEmpty(result.Trim()) ? "0" : result.Substring(i + 2).Trim();
         }
         
-        public void SetSegmentedSheetName(SegmentedSheetName segmentedFileName)
+        public void SetSegmentedSheetName(SegmentedSheetName newSegmentedFileName)
         {
-            this.segmentedFileName = segmentedFileName;
+            this.segmentedFileName = newSegmentedFileName;
             this.SetExportName();
         }
 
