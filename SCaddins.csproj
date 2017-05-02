@@ -387,10 +387,6 @@
     </Compile>
     <Compile Include="src\SheetCopier\SheetCopierTextInputForm.Designer.cs" />
     <Compile Include="src\SheetCopier\SheetCopierViewOnSheet.cs" />
-    <Compile Include="src\SheetCopier\SheetCopierViewSelectionDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\SheetCopier\SheetCopierViewSelectionDialog.Designer.cs" />
     <Compile Include="src\DestructivePurge\DestructivePurge.cs" />
     <Compile Include="src\DestructivePurge\DestructivePurgeCommand.cs" />
     <Compile Include="src\DestructivePurge\DestructivePurgeForm.cs">
@@ -483,9 +479,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\SheetCopier\SheetCopierTextInputForm.resx">
       <DependentUpon>SheetCopierTextInputForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\SheetCopier\SheetCopierViewSelectionDialog.resx">
-      <DependentUpon>SheetCopierViewSelectionDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\DestructivePurge\DestructivePurgeForm.resx">
       <DependentUpon>DestructivePurgeForm.cs</DependentUpon>
