@@ -17,6 +17,8 @@
 
 namespace SCaddins.ExportManager
 {
+    using SCaddins.Properties;
+
     public partial class OptionsDialog
     {           
         private System.Windows.Forms.Button button2;
@@ -160,7 +162,7 @@ namespace SCaddins.ExportManager
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(113, 23);
             this.button2.TabIndex = 6;
-            this.button2.Text = "Reset to Default";
+            this.button2.Text = Resources.ResetToDefault;
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.Button2Click);
             // 
@@ -171,7 +173,7 @@ namespace SCaddins.ExportManager
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 5;
-            this.button1.Text = "Apply";
+            this.button1.Text = Resources.Apply;
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1Click);
             // 
@@ -196,7 +198,7 @@ namespace SCaddins.ExportManager
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(398, 418);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "General";
+            this.tabPage2.Text = Resources.General;
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // groupBox7
@@ -226,7 +228,7 @@ namespace SCaddins.ExportManager
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(148, 23);
             this.label11.TabIndex = 2;
-            this.label11.Text = "Scalebar Scale";
+            this.label11.Text = "Scale Bar Scale";
             // 
             // textBoxNorthPointVisibilty
             // 
@@ -317,7 +319,7 @@ namespace SCaddins.ExportManager
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(100, 18);
             this.label6.TabIndex = 12;
-            this.label6.Text = "AutoCAD Version";
+            this.label6.Text = Resources.AutoCADVersion;
             // 
             // comboBoxAutocadVersion
             // 
@@ -662,7 +664,7 @@ namespace SCaddins.ExportManager
             this.btnSelectPSPrinter.Name = "btnSelectPSPrinter";
             this.btnSelectPSPrinter.Size = new System.Drawing.Size(24, 20);
             this.btnSelectPSPrinter.TabIndex = 11;
-            this.btnSelectPSPrinter.Text = "...";
+            this.btnSelectPSPrinter.Text = Resources.DotDotDot;
             this.btnSelectPSPrinter.UseVisualStyleBackColor = true;
             this.btnSelectPSPrinter.Click += new System.EventHandler(this.ButtonPSPrinterClick);
             // 
@@ -723,7 +725,7 @@ namespace SCaddins.ExportManager
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 9;
-            this.button3.Text = "Cancel";
+            this.button3.Text = Resources.Cancel;
             this.button3.UseVisualStyleBackColor = true;
             // 
             // OptionsDialog

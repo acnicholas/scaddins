@@ -39,10 +39,11 @@ namespace SCaddins.ExportManager
 
         private static void SetPrinter(TextBox textBox)
         {
-            var dialog = new SelectPrinterDialog();
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK) {
-                textBox.Text = dialog.comboBoxPrinter.SelectedItem.ToString();
+            using (var dialog = new SelectPrinterDialog()) {
+                System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK) {
+                    textBox.Text = dialog.comboBoxPrinter.SelectedItem.ToString();
+                }
             }
         }
 

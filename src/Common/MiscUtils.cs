@@ -62,6 +62,10 @@ namespace SCaddins.Common
 
         public static DateTime ToDateTime(string dateValue)
         {
+            if (string.IsNullOrEmpty(dateValue)) {
+                return new DateTime();
+            }
+
             var date = dateValue.Trim();
             const string DateDelimiters = @"-.\/_ ";
             char[] c = DateDelimiters.ToCharArray();

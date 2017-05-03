@@ -34,8 +34,12 @@ namespace SCaddins.ExportManager
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            if (!System.IO.Directory.Exists(Constants.DefaultExportDir)) {
-                System.IO.Directory.CreateDirectory(Constants.DefaultExportDir);
+            if (commandData == null) {
+                return Result.Failed;
+            }
+
+            if (!System.IO.Directory.Exists(Constants.DefaultExportDirectory)) {
+                System.IO.Directory.CreateDirectory(Constants.DefaultExportDirectory);
             }
 
             if (string.IsNullOrEmpty(FileUtilities.GetCentralFileName(commandData.Application.ActiveUIDocument.Document))) {
@@ -47,6 +51,10 @@ namespace SCaddins.ExportManager
                 return Result.Failed;
             }
 
+            var uidoc = commandData.Application.ActiveUIDocument;
+            if ( uidoc == null) {
+                return Autodesk.Revit.UI.Result.Failed;
+            }
             using (var form = new MainForm(commandData.Application.ActiveUIDocument)) {
                 form.ShowDialog();
             }

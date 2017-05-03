@@ -28,6 +28,10 @@ namespace SCaddins.ViewUtilities
         public Result Execute(
             ExternalCommandData commandData, ref string message, ElementSet elements)
         {
+            if (commandData == null) {
+                return Result.Failed;
+            }
+
             Document doc = commandData.Application.ActiveUIDocument.Document;
             View view = doc.ActiveView;
 

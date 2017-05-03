@@ -17,6 +17,8 @@
 
 namespace SCaddins.ExportManager
 {
+    using SCaddins.Properties;
+
     /// <summary>
     /// The main user visible form.
     /// </summary>
@@ -209,7 +211,7 @@ namespace SCaddins.ExportManager
             this.filterToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("filterToolStripMenuItem.Image")));
             this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
             this.filterToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.filterToolStripMenuItem.Text = "Filter";
+            this.filterToolStripMenuItem.Text = Resources.Filter;
             this.filterToolStripMenuItem.Click += new System.EventHandler(this.FilterToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
@@ -222,7 +224,7 @@ namespace SCaddins.ExportManager
             this.mnuExportOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuExportOptions.Image")));
             this.mnuExportOptions.Name = "mnuExportOptions";
             this.mnuExportOptions.Size = new System.Drawing.Size(256, 22);
-            this.mnuExportOptions.Text = "Options";
+            this.mnuExportOptions.Text = Resources.Options;
             this.mnuExportOptions.Click += new System.EventHandler(this.MnuExportOptionsClick);
             // 
             // mnuSeparator0
@@ -248,7 +250,7 @@ namespace SCaddins.ExportManager
             this.addRevisionToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("addRevisionToolStripMenuItem.Image")));
             this.addRevisionToolStripMenuItem.Name = "addRevisionToolStripMenuItem";
             this.addRevisionToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.addRevisionToolStripMenuItem.Text = "Add Revision";
+            this.addRevisionToolStripMenuItem.Text = Resources.AddRevision;
             this.addRevisionToolStripMenuItem.Click += new System.EventHandler(this.AddRevisionToolStripMenuItemClick);
             // 
             // copySheetsToolStripMenuItem
@@ -256,7 +258,7 @@ namespace SCaddins.ExportManager
             this.copySheetsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copySheetsToolStripMenuItem.Image")));
             this.copySheetsToolStripMenuItem.Name = "copySheetsToolStripMenuItem";
             this.copySheetsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.copySheetsToolStripMenuItem.Text = "Copy Sheets";
+            this.copySheetsToolStripMenuItem.Text = Resources.CopySheets;
             this.copySheetsToolStripMenuItem.Click += new System.EventHandler(this.CopySheetsToolStripMenuItemClick);
             // 
             // removeUnderlaysFromViewsToolStripMenuItem
@@ -264,7 +266,7 @@ namespace SCaddins.ExportManager
             this.removeUnderlaysFromViewsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("removeUnderlaysFromViewsToolStripMenuItem.Image")));
             this.removeUnderlaysFromViewsToolStripMenuItem.Name = "removeUnderlaysFromViewsToolStripMenuItem";
             this.removeUnderlaysFromViewsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.removeUnderlaysFromViewsToolStripMenuItem.Text = "Remove Underlays from Views";
+            this.removeUnderlaysFromViewsToolStripMenuItem.Text = Resources.RemoveUnderlaysfromViews;
             this.removeUnderlaysFromViewsToolStripMenuItem.Click += new System.EventHandler(this.RemoveUnderlaysFromViewsToolStripMenuItemClick);
             // 
             // renameSelectedSheetsToolStripMenuItem
@@ -272,7 +274,7 @@ namespace SCaddins.ExportManager
             this.renameSelectedSheetsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("renameSelectedSheetsToolStripMenuItem.Image")));
             this.renameSelectedSheetsToolStripMenuItem.Name = "renameSelectedSheetsToolStripMenuItem";
             this.renameSelectedSheetsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.renameSelectedSheetsToolStripMenuItem.Text = "Rename Selected Sheets";
+            this.renameSelectedSheetsToolStripMenuItem.Text = Resources.RenameSelectedSheets;
             this.renameSelectedSheetsToolStripMenuItem.Click += new System.EventHandler(this.RenameSelectedSheetsToolStripMenuItemClick);
             // 
             // fixScalesBarsToolStripMenuItem
@@ -309,7 +311,7 @@ namespace SCaddins.ExportManager
             this.mnuSelectAll.Image = ((System.Drawing.Image)(resources.GetObject("mnuSelectAll.Image")));
             this.mnuSelectAll.Name = "mnuSelectAll";
             this.mnuSelectAll.Size = new System.Drawing.Size(256, 22);
-            this.mnuSelectAll.Text = "Select All";
+            this.mnuSelectAll.Text = Resources.SelectAll;
             this.mnuSelectAll.Click += new System.EventHandler(this.MnuSelectAll_Click);
             // 
             // mnuSelectNone
@@ -317,7 +319,7 @@ namespace SCaddins.ExportManager
             this.mnuSelectNone.Image = ((System.Drawing.Image)(resources.GetObject("mnuSelectNone.Image")));
             this.mnuSelectNone.Name = "mnuSelectNone";
             this.mnuSelectNone.Size = new System.Drawing.Size(256, 22);
-            this.mnuSelectNone.Text = "Select None";
+            this.mnuSelectNone.Text = Resources.SelectNone;
             this.mnuSelectNone.Click += new System.EventHandler(this.MnuSelectNone_Click);
             // 
             // mnuSeparator2
@@ -330,7 +332,7 @@ namespace SCaddins.ExportManager
             this.mnuVerify.Image = ((System.Drawing.Image)(resources.GetObject("mnuVerify.Image")));
             this.mnuVerify.Name = "mnuVerify";
             this.mnuVerify.Size = new System.Drawing.Size(256, 22);
-            this.mnuVerify.Text = "Verify Sheets";
+            this.mnuVerify.Text = Resources.VerifySheets;
             this.mnuVerify.Click += new System.EventHandler(this.MnuVerify_Click);
             // 
             // mnuSeparator3
@@ -348,14 +350,14 @@ namespace SCaddins.ExportManager
             this.mnuHelp.Image = ((System.Drawing.Image)(resources.GetObject("mnuHelp.Image")));
             this.mnuHelp.Name = "mnuHelp";
             this.mnuHelp.Size = new System.Drawing.Size(256, 22);
-            this.mnuHelp.Text = "Help";
+            this.mnuHelp.Text = Resources.Help;
             // 
             // changeLogToolStripMenuItem
             // 
             this.changeLogToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("changeLogToolStripMenuItem.Image")));
             this.changeLogToolStripMenuItem.Name = "changeLogToolStripMenuItem";
             this.changeLogToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.changeLogToolStripMenuItem.Text = "Source Code";
+            this.changeLogToolStripMenuItem.Text = Resources.SourceCode;
             this.changeLogToolStripMenuItem.Click += new System.EventHandler(this.ChangeLogToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
@@ -363,7 +365,7 @@ namespace SCaddins.ExportManager
             this.aboutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("aboutToolStripMenuItem.Image")));
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Text = Resources.About;
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
@@ -371,7 +373,7 @@ namespace SCaddins.ExportManager
             this.helpToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("helpToolStripMenuItem.Image")));
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.helpToolStripMenuItem.Text = "Keyboard Shortcuts";
+            this.helpToolStripMenuItem.Text = Resources.KeyboardShortcuts;
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.HelpToolStripMenuItem_Click);
             // 
             // forumToolStripMenuItem
@@ -379,7 +381,7 @@ namespace SCaddins.ExportManager
             this.forumToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("forumToolStripMenuItem.Image")));
             this.forumToolStripMenuItem.Name = "forumToolStripMenuItem";
             this.forumToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.forumToolStripMenuItem.Text = "Wiki";
+            this.forumToolStripMenuItem.Text = Resources.Wiki;
             this.forumToolStripMenuItem.Click += new System.EventHandler(this.ForumToolStripMenuItem_Click);
             // 
             // dataGridView1
@@ -496,7 +498,7 @@ namespace SCaddins.ExportManager
             // 
             this.printA3ToolStripMenuItem.Name = "printA3ToolStripMenuItem";
             this.printA3ToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.printA3ToolStripMenuItem.Text = "Print A3 (scale to fit)";
+            this.printA3ToolStripMenuItem.Text = Resources.ExportManagerPrintA3Fit;
             this.printA3ToolStripMenuItem.Click += new System.EventHandler(this.PrintA3ToolStripMenuItemClick);
             // 
             // toolStripMenuItem1
@@ -508,7 +510,7 @@ namespace SCaddins.ExportManager
             // 
             this.printA2ToolStripMenuItem.Name = "printA2ToolStripMenuItem";
             this.printA2ToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.printA2ToolStripMenuItem.Text = "Print A2 (scale to fit)";
+            this.printA2ToolStripMenuItem.Text = Resources.ExportManagerPrintA2Fit;
             this.printA2ToolStripMenuItem.Click += new System.EventHandler(this.PrintA2ToolStripMenuItemClick);
             // 
             // toolStripMenuItem2
@@ -520,7 +522,7 @@ namespace SCaddins.ExportManager
             // 
             this.printFullSizeToolStripMenuItem.Name = "printFullSizeToolStripMenuItem";
             this.printFullSizeToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.printFullSizeToolStripMenuItem.Text = "Print Full Size";
+            this.printFullSizeToolStripMenuItem.Text = Resources.ExportManagerPrintFullSize;
             this.printFullSizeToolStripMenuItem.Click += new System.EventHandler(this.PrintFullSizeToolStripMenuItemClick);
             // 
             // MainForm
@@ -541,7 +543,7 @@ namespace SCaddins.ExportManager
             this.MinimumSize = new System.Drawing.Size(751, 549);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SCexport - Scott Carver Export Utility - By Andrew Nicholas";
+            this.Text = Resources.ExportManagerTitle;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainFormKeyDown);

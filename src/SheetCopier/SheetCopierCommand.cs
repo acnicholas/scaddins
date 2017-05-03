@@ -32,6 +32,10 @@ namespace SCaddins.SheetCopier
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
+            if (commandData == null) {
+                return Result.Failed;
+            }
+
             Document doc = commandData.Application.ActiveUIDocument.Document;
             SCaddins.ExportManager.DialogHandler.AddRevitDialogHandler(commandData.Application);
         

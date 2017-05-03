@@ -25,16 +25,16 @@ namespace SCaddins
     public static class Constants
     {
         /// <summary> Example project configuration dir. </summary>
-        public const string EtcDir = "etc";
+        public const string EtcDirectory = "etc";
 
         /// <summary> Data directory. </summary>
-        public const string ShareDir = "share";
+        public const string ShareDirectory = "share";
 
         /// <summary> Data directory. </summary>
-        public const string OptDir = "opt";
+        public const string OptDirectory = "opt";
 
         /// <summary> The install dir.</summary>
-        public const string InstallDir = @"C:\Program Files\SCaddins\SCaddins\";
+        public const string InstallDirectory = @"C:\Program Files\SCaddins\SCaddins\";
 
         /// <summary> Web [http] link to source code. </summary>
         public const string SourceLink =
@@ -70,17 +70,17 @@ namespace SCaddins
             "Public License along with SCaddins.  " +
             "If not, see <http://www.gnu.org/licenses/>.";
 
-        public static string FamilyDir
+        public static string FamilyDirectory
         {
             get {
-                return InstallDir + @"\" + ShareDir + @"\rfa\";
+                return InstallDirectory + @"\" + ShareDirectory + @"\rfa\";
             }
         }
 
-        public static string IconDir
+        public static string IconDirectory
         {
             get {
-                return InstallDir + @"\" + ShareDir + @"\icons\";
+                return InstallDirectory + @"\" + ShareDirectory + @"\icons\";
             }
         }
     }

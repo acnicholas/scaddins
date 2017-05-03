@@ -44,10 +44,12 @@ namespace SCaddins.SCwash
 
         public void CheckAllNodes(TreeNodeCollection nodes, bool check)
         {
-            foreach (TreeNode node in nodes) {
-                node.Checked = check;
-                GreyifyNode(node, false);
-                CheckAllChildNodes(node, check);
+            if (nodes != null) {
+                foreach (TreeNode node in nodes) {
+                    node.Checked = check;
+                    GreyifyNode(node, false);
+                    CheckAllChildNodes(node, check);
+                }
             }
         }
 

@@ -39,6 +39,10 @@ namespace SCaddins.ParameterUtils
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
+            if (commandData == null) {
+                return Result.Failed;
+            }
+
             Document doc = commandData.Application.ActiveUIDocument.Document;
             UIApplication application = commandData.Application;
             UIDocument document = application.ActiveUIDocument;

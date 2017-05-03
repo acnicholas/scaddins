@@ -157,7 +157,7 @@ namespace SCaddins.ExportManager
             get { return this.RevitScaleWithoutFormatting() == this.scaleBarScale.Trim(); }
         }
         
-        public string ExportDir
+        public string ExportDirectory
         {
             get; set;
         }
@@ -221,7 +221,7 @@ namespace SCaddins.ExportManager
         }
         #endregion
         
-        public static int GetNorthPointVisiblity(Element titleBlock)
+        public static int GetNorthPointVisibility(Element titleBlock)
         {
           try {
                     var p = titleBlock.GetParameters(Settings1.Default.NorthPointVisibilityParameter);
@@ -252,7 +252,7 @@ namespace SCaddins.ExportManager
 
         public string FullExportPath(string extension)
         {
-            return this.ExportDir + "\\" + this.fullExportName + extension;
+            return this.ExportDirectory + "\\" + this.fullExportName + extension;
         }
 
         /// <summary>
@@ -268,7 +268,7 @@ namespace SCaddins.ExportManager
                 this.scale = titleBlock.get_Parameter(
                     BuiltInParameter.SHEET_SCALE).AsString();
                 this.scaleBarScale = ExportSheet.GetScaleBarScale(titleBlock);
-                this.northPointVisible = ExportSheet.GetNorthPointVisiblity(titleBlock);
+                this.northPointVisible = ExportSheet.GetNorthPointVisibility(titleBlock);
                 this.width = titleBlock.get_Parameter(
                         BuiltInParameter.SHEET_WIDTH).AsDouble();
                 this.height = titleBlock.get_Parameter(
@@ -357,13 +357,15 @@ namespace SCaddins.ExportManager
         public void SetScaleBarScale(Element titleBlock)
         {
                 string titleScale = SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter;
-                if (string.IsNullOrEmpty(titleScale)) {
+                if (string.IsNullOrEmpty(titleScale) || titleBlock == null) {
                     return;
                 }
+
                 var tb = titleBlock.GetParameters(titleScale);
                 if (tb == null || tb.Count < 1) {
                     return;
                 }
+
                 Parameter p = tb[0];
                 p.SetValueString(this.RevitScaleWithoutFormatting());
                 this.scaleBarScale = this.RevitScaleWithoutFormatting();          
@@ -414,7 +416,7 @@ namespace SCaddins.ExportManager
                 this.sheetRevision,
                 this.sheetRevisionDate,
                 this.sheetRevisionDescription,
-                this.ExportDir);
+                this.ExportDirectory);
         }
                
         private void Init(
@@ -427,7 +429,7 @@ namespace SCaddins.ExportManager
             this.sheet = viewSheet;
             this.segmentedFileName = sheetName;
             this.verified = false;
-            this.ExportDir = scx.ExportDirectory;
+            this.ExportDirectory = scx.ExportDirectory;
             this.sheetNumber = viewSheet.get_Parameter(
                     BuiltInParameter.SHEET_NUMBER).AsString();
             this.sheetDescription = viewSheet.get_Parameter(

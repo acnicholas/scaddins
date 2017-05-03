@@ -51,7 +51,8 @@ namespace SCaddins.SheetCopier
         private StringBuilder summaryText; 
         private List<Revision> hiddenRevisionClouds = new List<Revision>();
         private ElementId floorPlanViewFamilyTypeId = null;
-           
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0")]
         public SheetCopierManager(UIDocument uidoc)
         {
             this.summaryText = new StringBuilder();

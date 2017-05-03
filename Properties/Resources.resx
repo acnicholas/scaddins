@@ -342,4 +342,92 @@
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="SolarViewsCreateMultipleShadowPlans" xml:space="preserve">
+    <value>Create Multiple Shadow Plans</value>
+  </data>
+  <data name="SolarViewsCreateMultipleSunViews" xml:space="preserve">
+    <value>Create Multiple Angle of Sun Views (3d)</value>
+  </data>
+  <data name="SolarViewsMultiViewCreationOptions" xml:space="preserve">
+    <value>Multi View Creation Options</value>
+  </data>
+  <data name="SolarViewsRotateCurrentView" xml:space="preserve">
+    <value>Rotate Current View</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="AddRevision" xml:space="preserve">
+    <value>Add Revision</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="ApplyingPrintSetting" xml:space="preserve">
+    <value>Applying print setting</value>
+    <comment>not sure why this won't work!!!</comment>
+  </data>
+  <data name="AutoCADVersion" xml:space="preserve">
+    <value>AutoCAD Version</value>
+  </data>
+  <data name="CopySheets" xml:space="preserve">
+    <value>Copy Sheets</value>
+  </data>
+  <data name="CreateUserViews" xml:space="preserve">
+    <value>Create User Views</value>
+  </data>
+  <data name="ExportLogInitializationError" xml:space="preserve">
+    <value>Error initializing export log</value>
+  </data>
+  <data name="ExportManagerPrintA2Fit" xml:space="preserve">
+    <value>Print A2 (scale to fit)</value>
+  </data>
+  <data name="ExportManagerPrintA3Fit" xml:space="preserve">
+    <value>Print A3 (scale to fit)</value>
+  </data>
+  <data name="ExportManagerPrintFullSize" xml:space="preserve">
+    <value>Print Full Size</value>
+  </data>
+  <data name="ExportManagerTitle" xml:space="preserve">
+    <value>SCexport - Scott Carver Export Utility - By Andrew Nicholas</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="FixScaleBars" xml:space="preserve">
+    <value>Fix Scale Bars</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Keyboard Shortcuts</value>
+  </data>
+  <data name="NorthPointVisibility" xml:space="preserve">
+    <value>North Point Visibility</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="PostscriptPrinterName" xml:space="preserve">
+    <value>Postscript printer name</value>
+  </data>
+  <data name="RemoveUnderlaysfromViews" xml:space="preserve">
+    <value>Remove Underlays from Views</value>
+  </data>
+  <data name="RenameSelectedSheets" xml:space="preserve">
+    <value>Rename Selected Sheets</value>
+  </data>
+  <data name="ResetToDefault" xml:space="preserve">
+    <value>Reset to Default</value>
+  </data>
+  <data name="ScalebarScale" xml:space="preserve">
+    <value>Scalebar Scale</value>
+  </data>
+  <data name="ToggleNorthPoint" xml:space="preserve">
+    <value>Toggle North Point</value>
+  </data>
+  <data name="VerifySheets" xml:space="preserve">
+    <value>Verify Sheets</value>
+  </data>
 </root>

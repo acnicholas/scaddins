@@ -32,6 +32,10 @@ namespace SCaddins.SCwash
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
+            if(commandData == null) {
+                return Result.Failed;
+            }
+
             string warning = "SCwash can be a weapon of mass destruction!" + System.Environment.NewLine +
                 System.Environment.NewLine +
                 "make sure you dettach your model from central before running this Add-in." + System.Environment.NewLine +

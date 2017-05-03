@@ -33,6 +33,10 @@ namespace SCaddins.ExportManager
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
+            if (commandData == null) {
+                return Result.Failed;
+            }
+
             Document doc = commandData.Application.ActiveUIDocument.Document;
             View currentView = doc.ActiveView;
             if (currentView.ViewType != ViewType.DrawingSheet) {

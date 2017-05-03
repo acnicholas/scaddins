@@ -107,7 +107,7 @@ namespace SCaddins.RevisionUtilities
             a.OfCategory(BuiltInCategory.OST_Revisions);
             foreach (Revision e in a) {  
                 if (e.IsValidObject) {
-                    revisions.Add(new RevisionItem(doc, e));
+                    revisions.Add(new RevisionItem(e));
                 }
             }
             return revisions;
@@ -149,13 +149,13 @@ namespace SCaddins.RevisionUtilities
         }
         
 
-        public static string GetParamaterAsString(Element revCloud, BuiltInParameter b)
+        public static string GetParameterAsString(Element revCloud, BuiltInParameter builtInParameter)
         {
-            var p = revCloud.get_Parameter(b);
-            if (p == null) {
+            var parameter = revCloud.get_Parameter(builtInParameter);
+            if (parameter == null) {
                 return string.Empty;
             }
-            string result = p.AsString();
+            string result = parameter.AsString();
             return string.IsNullOrEmpty(result) ? string.Empty : result;
         }
 

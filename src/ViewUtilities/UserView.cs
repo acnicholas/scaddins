@@ -31,13 +31,19 @@ namespace SCaddins.ViewUtilities
     {     
         public static bool Create(View sourceView, Document doc)
         {
+            if (sourceView == null || doc == null) {
+                return false;
+            }
+
             if (sourceView.ViewType == ViewType.DrawingSheet) {
                 Create(sourceView as ViewSheet, doc);
                 return true;
             }
+
             if (ValidViewType(sourceView.ViewType)) {
-                    return CreateView(sourceView, doc);
+                return CreateView(sourceView, doc);
             }
+
             ShowErrorDialog(sourceView);
             return false;   
         }
@@ -45,14 +51,18 @@ namespace SCaddins.ViewUtilities
         public static void Create(ICollection<SCaddins.ExportManager.ExportSheet> sheets, Document doc)
         {
             string message = string.Empty;
-            using (var t = new Transaction(doc, "SCuv Copies User Views")) {
-                if (t.Start() == TransactionStatus.Started) {
-                    foreach (SCaddins.ExportManager.ExportSheet sheet in sheets) {
-                        message += Create(sheet.Sheet, doc);
+            if (sheets == null || doc == null) {
+                message += "Could not create user view";
+            } else {
+                using (var t = new Transaction(doc, "SCuv Copies User Views")) {
+                    if (t.Start() == TransactionStatus.Started) {
+                        foreach (SCaddins.ExportManager.ExportSheet sheet in sheets) {
+                            message += Create(sheet.Sheet, doc);
+                        }
+                        t.Commit();
+                    } else {
+                        TaskDialog.Show("Error", "Could not start user view transaction");
                     }
-                    t.Commit();
-                } else {
-                    TaskDialog.Show("Error", "Could not start user view transaction");
                 }
             }
             ShowSummaryDialog(message);
@@ -60,6 +70,10 @@ namespace SCaddins.ViewUtilities
                     
         public static string GetNewViewName(Document doc, Element sourceView)
         { 
+            if (doc == null || sourceView == null) {
+                // FIXME add error message here
+                return string.Empty;
+            }
             string name = sourceView.Name;
             // Revit wont allow { or } so replace them if they exist
             name = name.Replace(@"{","").Replace(@"}","");
@@ -73,6 +87,10 @@ namespace SCaddins.ViewUtilities
         
         public static void ShowErrorDialog(Element sourceView)
         {
+            if (sourceView == null) {
+                // FIXME add a error message here
+                return;
+            }
             using (var td = new TaskDialog("SCuv - SCuv copies users views")) {
                 td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
                 td.MainInstruction = "Error creating user view for view:";

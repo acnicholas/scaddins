@@ -53,16 +53,17 @@ namespace SCaddins.SCoord
 
         private static FamilySymbol GetSpotCoordFamily(Document doc)
         {
-            var collector1 = new FilteredElementCollector(doc);
-            collector1.OfCategory(BuiltInCategory.OST_GenericModel);
-            collector1.OfClass(typeof(FamilySymbol));
-            foreach (FamilySymbol f in collector1) {
-                if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture))) {
-                    return f;
+            using (var collector = new FilteredElementCollector(doc)) {
+                collector.OfCategory(BuiltInCategory.OST_GenericModel);
+                collector.OfClass(typeof(FamilySymbol));
+                foreach (FamilySymbol f in collector) {
+                    if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture))) {
+                        return f;
+                    }
                 }
             }
             string version = doc.Application.VersionNumber;
-            string family = SCaddins.Constants.FamilyDir +
+            string family = SCaddins.Constants.FamilyDirectory +
                             version + @"\SC-Survey_Point.rfa";
             if (System.IO.File.Exists(family)) {
                 var loadFamily = new Transaction(doc, "Load Family");
@@ -108,7 +109,11 @@ namespace SCaddins.SCoord
 
             ProjectLocation currentLocation = doc.ActiveProjectLocation;
             var origin = new XYZ(0, 0, 0);
+            #if REVIT2018
+            ProjectPosition projectPosition = currentLocation.GetProjectPosition(origin);
+            #else
             ProjectPosition projectPosition = currentLocation.get_ProjectPosition(origin);
+            #endif
 
             var form = new SCoordForm();
             System.Windows.Forms.DialogResult r = form.ShowDialog();

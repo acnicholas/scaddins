@@ -30,10 +30,15 @@ namespace SCaddins.LineOfSight
                 ref string message,
                 ElementSet elements)
         {
+            if (commandData == null) {
+                return Result.Failed;
+            }
+
             Document doc = commandData.Application.ActiveUIDocument.Document;
             var sightLines = new LineOfSight(doc, 1220, 900, 15, 60, 180, 20, 12000, 1000);
-            var opts = new SCightLinesMainForm(sightLines);
-            opts.ShowDialog();
+            using (var opts = new SCightLinesMainForm(sightLines)) {
+                opts.ShowDialog();
+            }
             return Result.Succeeded;
         }
     }

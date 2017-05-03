@@ -33,6 +33,10 @@ namespace SCaddins.ExportManager
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
+            if (commandData == null) {
+                return Autodesk.Revit.UI.Result.Failed;
+            }
+
             Document doc = commandData.Application.ActiveUIDocument.Document;
             DialogHandler.AddRevitDialogHandler(commandData.Application);
 

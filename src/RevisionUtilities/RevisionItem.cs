@@ -33,7 +33,7 @@ namespace SCaddins.RevisionUtilities
         }
         
 
-        public RevisionItem(Document doc, Revision revision)
+        public RevisionItem(Revision revision)
         {
             Init(revision);
         }

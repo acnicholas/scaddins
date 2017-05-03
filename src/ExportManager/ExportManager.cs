@@ -30,6 +30,7 @@ namespace SCaddins.ExportManager
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using SCaddins.Common;
+    using SCaddins.Properties;
 
     public class ExportManager
     {
@@ -50,7 +51,7 @@ namespace SCaddins.ExportManager
         {
             ExportManager.doc = doc;
             this.fileNameScheme = null;
-            this.exportDirectory = Constants.DefaultExportDir;
+            this.exportDirectory = Constants.DefaultExportDirectory;
             ExportManager.ConfirmOverwrite = true;
             ExportManager.activeDoc = null;
             this.log = new ExportLog();
@@ -149,7 +150,7 @@ namespace SCaddins.ExportManager
                 if (value != null) {
                     this.exportDirectory = value;
                     foreach (ExportSheet sheet in this.allSheets) {
-                        sheet.ExportDir = value;
+                        sheet.ExportDirectory = value;
                     }
                 }
             }
@@ -168,9 +169,12 @@ namespace SCaddins.ExportManager
         public static FamilyInstance TitleBlockInstanceFromSheetNumber(
             string sheetNumber, Document doc)
         {
+            if (doc == null) {
+                return null;
+            }
+
             FamilyInstance result;
-            if ((titleBlocks == null) ||
-                (activeDoc != FileUtilities.GetCentralFileName(doc))) {
+            if ((titleBlocks == null) || (activeDoc != FileUtilities.GetCentralFileName(doc))) {
                 activeDoc = FileUtilities.GetCentralFileName(doc);
                 titleBlocks = AllTitleBlocks(doc);
             }
@@ -374,7 +378,7 @@ namespace SCaddins.ExportManager
             if (tdr == TaskDialogResult.Ok) { 
                 bool printSetttingsValid;
                 this.log.Clear();
-                this.log.Start("Starting Print");
+                this.log.Start(Resources.StartingPrint);
                 foreach (ExportSheet sheet in sheets.OrderBy(x => x.SheetNumber).ToList()) {
                     
                     progressBar.PerformStep();
@@ -405,7 +409,7 @@ namespace SCaddins.ExportManager
                         pm.SubmitPrint(sheet.Sheet);
                     }
                 }
-                this.log.Stop("Finished Print");
+                this.log.Stop(Resources.FinishedPrint);
                 #if DEBUG
                 this.log.ShowSummaryDialog();
                 #else
@@ -497,7 +501,7 @@ namespace SCaddins.ExportManager
             PrintSettings.SetPrinterByName(doc, this.PdfPrinterName, pm);
             this.log.Clear();
             this.log.TotalExports = progressBar.Maximum;
-            this.log.Start("Export Started");
+            this.log.Start(Resources.ExportStarted);
 
             foreach (ExportSheet sheet in sheets) {
                 progressBar.PerformStep();
@@ -508,7 +512,7 @@ namespace SCaddins.ExportManager
                 this.ExportSheet(sheet);
             }
             
-            this.log.Stop("Export Complete");
+            this.log.Stop(Resources.ExportComplete);
 
             #if DEBUG
             this.log.ShowSummaryDialog();
@@ -700,7 +704,7 @@ namespace SCaddins.ExportManager
                 if (t.Start("Export DWF") == TransactionStatus.Started) {
                     try {
                         string tmp = vs.FullExportName + ".dwf";
-                        doc.Export(vs.ExportDir, tmp, views, opts);
+                        doc.Export(vs.ExportDirectory, tmp, views, opts);
                         t.Commit();
                     } catch (ArgumentException e) {
                         TaskDialog.Show("SCexport", "cannot export dwf: " + e.Message);
@@ -719,7 +723,7 @@ namespace SCaddins.ExportManager
             ICollection<ElementId> views;
             views = new List<ElementId>();
             views.Add(vs.Id);
-            doc.Export(vs.ExportDir, vs.FullExportName, views, opts);
+            doc.Export(vs.ExportDirectory, vs.FullExportName, views, opts);
             opts.Dispose();
         }
  
@@ -794,7 +798,7 @@ namespace SCaddins.ExportManager
                 var settings = new XmlReaderSettings();
                 #if !DEBUG
                 settings.Schemas.Add(
-                    null, SCaddins.Constants.InstallDir + @"\etc\SCexport.xsd");
+                    null, SCaddins.Constants.InstallDirectory + @"\etc\SCexport.xsd");
                 #else
                 settings.Schemas.Add(null, @"C:\Andrew\code\cs\scaddins\etc\SCexport.xsd");
                 #endif
@@ -979,9 +983,9 @@ namespace SCaddins.ExportManager
             this.ApplyDefaultDWGExportOptions(ref opts);
             pm.PrintRange = PrintRange.Select;
             var name = vs.FullExportName + ".dwg";
-            this.log.AddMessage("Exporting to directory: " + vs.ExportDir);
+            this.log.AddMessage("Exporting to directory: " + vs.ExportDirectory);
             this.log.AddMessage("Exporting to file name: " + name);
-            doc.Export(vs.ExportDir, name, views, opts);
+            doc.Export(vs.ExportDirectory, name, views, opts);
             opts.Dispose();
            
             FileUtilities.WaitForFileAccess(vs.FullExportPath(".dwg"));
@@ -993,6 +997,7 @@ namespace SCaddins.ExportManager
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "sPAPERSIZE")]
         [SecurityCritical]
         private bool ExportGSPDF(ExportSheet vs)
         {
@@ -1063,7 +1068,7 @@ namespace SCaddins.ExportManager
         {
             PrintManager pm = doc.PrintManager;
             
-            this.log.AddMessage("Applying print setting: " + vs.PrintSettingName);
+            this.log.AddMessage(Resources.ApplyingPrintSetting + @": " + vs.PrintSettingName);
 
             if (!PrintSettings.PrintToFile(doc, vs, pm, ".pdf", this.PdfPrinterName)) {
                 this.log.AddError(vs.FullExportName, "failed to assign print setting: " + vs.PrintSettingName);

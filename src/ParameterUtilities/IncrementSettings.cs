@@ -13,8 +13,10 @@
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            var settingsForm = new SCincrementSettingsForm();
-            settingsForm.ShowDialog();
+
+            using (var settingsForm = new SCincrementSettingsForm()) {
+                settingsForm.ShowDialog();
+            }
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }

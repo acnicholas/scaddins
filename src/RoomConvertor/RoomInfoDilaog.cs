@@ -37,6 +37,7 @@ namespace SCaddins.RoomConvertor
             listView1.Columns[2].Width = 100;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
         public void UpdateRoomInfo(Room room)
         {
             this.Text = room.Name;

@@ -268,41 +268,6 @@ namespace SCaddins.RoomConvertor
 
         }
 
-        // Create room mass by extruding the outling curve.
-        // seems to be a fair bit faster than using GetGeometry.
-        // ...900 rooms in 7 seconds vs 1m30 for GetGeometry
-        // FIXME. doesnt work for for rooms with 0 Limit Offset (i.e rooms bound by another level)
-        private bool CreateRoomMassByExtrusion(Room room)
-        {
-            try {
-                var height = room.LookupParameter("Limit Offset");
-                var curves = new List<CurveLoop>();
-                var spatialBoundaryOptions = new SpatialElementBoundaryOptions();
-                spatialBoundaryOptions.StoreFreeBoundaryFaces = true;
-                var loop = new CurveLoop();
-                var bdySegs = room.GetBoundarySegments(spatialBoundaryOptions);
-                foreach (var seg in bdySegs[0]) {
-                    loop.Append(seg.GetCurve());
-                }
-
-                curves.Add(loop);
-                SolidOptions options = new SolidOptions(ElementId.InvalidElementId, ElementId.InvalidElementId);
-                Solid roomSolid = GeometryCreationUtilities.CreateExtrusionGeometry(curves, new XYZ(0, 0, 1), height.AsDouble(), options);
-                #if REVIT2018
-                DirectShape roomShape = DirectShape.CreateElement(doc, new ElementId(BuiltInCategory.OST_Mass));
-                #else
-                DirectShape roomShape = DirectShape.CreateElement(doc, new ElementId(BuiltInCategory.OST_Mass), "A", "B");
-                #endif
-                roomShape.SetShape(new GeometryObject[] { roomSolid });
-                CopyAllRoomParametersToMasses(room, roomShape);
-
-            } catch (Exception ex) {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-                return false;
-            }
-            return true;
-        }
-
         private void CreateViewAndSheet(RoomConversionCandidate candidate)
         {
             // Create plans

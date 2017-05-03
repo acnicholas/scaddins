@@ -36,6 +36,7 @@ namespace SCaddins.ExportManager
         private FilterContextMenu filter;
         private MenuButton printButton;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0")]
         public MainForm(UIDocument udoc)
         {
             this.udoc = udoc;
@@ -307,6 +308,7 @@ namespace SCaddins.ExportManager
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
         private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!this.searchBox.Visible) {
@@ -691,7 +693,10 @@ namespace SCaddins.ExportManager
         }
 
         private void CopySheetsToolStripMenuItemClick(object sender, EventArgs e)
-        {          
+        {   
+            if (udoc == null) {
+                return;
+            }       
             var scopy = new SCaddins.SheetCopier.SheetCopierManager(udoc);            
             var form  = new SCaddins.SheetCopier.MainForm(doc, SelectedSheets(), scopy);
             form.Enabled = true;

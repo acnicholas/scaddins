@@ -147,9 +147,9 @@ namespace SCaddins.SheetCopier
             }
         }
                
-        public static bool PlanEnough(ViewType vt)
+        public static bool PlanEnough(ViewType viewType)
         {
-            switch (vt) {
+            switch (viewType) {
                 case ViewType.FloorPlan:
                 case ViewType.CeilingPlan:
                 case ViewType.AreaPlan:

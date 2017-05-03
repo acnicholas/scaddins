@@ -29,6 +29,9 @@ namespace SCaddins.ViewUtilities
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
+            if (commandData == null) {
+                return Result.Failed;
+            }
             var uidoc = commandData.Application.ActiveUIDocument;
             ViewUnderlays.RemoveUnderlays(uidoc);
             return Result.Succeeded;

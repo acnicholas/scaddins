@@ -28,7 +28,9 @@ namespace SCaddins.ExportManager
             
         public static void AddRevitDialogHandler(UIApplication application)
         {
-            application.DialogBoxShowing += new EventHandler<DialogBoxShowingEventArgs>(DismissOpenQuestion);
+            if (application != null) {
+                application.DialogBoxShowing += new EventHandler<DialogBoxShowingEventArgs>(DismissOpenQuestion);
+            }
         }
                
         private static void DismissOpenQuestion(object o, DialogBoxShowingEventArgs e)

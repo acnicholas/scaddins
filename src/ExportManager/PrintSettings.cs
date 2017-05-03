@@ -49,6 +49,9 @@ namespace SCaddins.ExportManager
 
         public static bool CreatePrintSetting(Document doc, string isoSheetSize)
         {
+            if (doc == null) {
+                return false;
+            }
             PrintManager pm = doc.PrintManager;
             bool success = false;
             foreach (PaperSize paperSize in pm.PaperSizes) {
@@ -107,6 +110,10 @@ namespace SCaddins.ExportManager
                 string printerName,
                 ExportLog log)
         {
+            if (pm == null) {
+                return false;
+            }
+
             PrintSetting ps = LoadRevitPrintSetting(doc, size, pm, printerName, log);
             
             if (ps == null) {
@@ -143,6 +150,9 @@ namespace SCaddins.ExportManager
                 string ext,
                 string printerName)
         {
+            if(pm == null || vs == null) {
+                return false;
+            }
             if (vs.SCPrintSetting == null) {
                 vs.UpdateSheetInfo();
                 return false;
@@ -171,6 +181,10 @@ namespace SCaddins.ExportManager
 
         public static PrintSetting GetPrintSettingByName(Document doc, string printSetting)
         {
+            if (doc == null || string.IsNullOrEmpty(printSetting)) {
+                return null;
+            }
+
             foreach (ElementId id in doc.GetPrintSettingIds()) {
                 var ps2 = doc.GetElement(id) as PrintSetting;
                 if (ps2.Name.ToString().Equals("SCX-" + printSetting)) {

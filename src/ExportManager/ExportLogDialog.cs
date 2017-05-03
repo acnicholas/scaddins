@@ -26,6 +26,11 @@ namespace SCaddins.ExportManager
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "System.Windows.Forms.Control.set_Text(System.String)")]
         public ExportLogDialog(ExportLog log)
         {
+            if (log == null) {
+                log = new ExportLog();
+                log.AddError(null, Resources.ExportLogInitializationError);
+            }
+
             this.InitializeComponent();
             foreach (ExportLogItem errorItem in log.ErrorLog) {
                 errors.Items.Add(

@@ -35,6 +35,10 @@ namespace SCaddins.ViewUtilities
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
+            if (commandData == null) {
+                return Result.Failed;
+            }
+
             Document doc = commandData.Application.ActiveUIDocument.Document;
             View currentView = doc.ActiveView;
 
@@ -152,24 +156,26 @@ namespace SCaddins.ViewUtilities
         
         private static IEnumerable<ViewFamilyType> Get3DViewFamilyTypes(Document doc)
         {
-            IEnumerable<ViewFamilyType> viewFamilyTypes
-                = from elem in new FilteredElementCollector(doc)
-                .OfClass(typeof(ViewFamilyType))
+            var collector = new FilteredElementCollector(doc).OfClass(typeof(ViewFamilyType));
+            IEnumerable<ViewFamilyType> viewFamilyTypes = from elem in collector
                 let type = elem as ViewFamilyType
                 where type.ViewFamily == ViewFamily.ThreeDimensional
-                select type;   
+                select type;
+            collector.Dispose();
             return viewFamilyTypes;
         }
     
         private static void CreatePerspectiveFrom3D(UIDocument udoc, View3D view)
         {
             ViewOrientation3D v = view.GetOrientation();
-            var t = new Transaction(udoc.Document);
-            t.Start("Create perspective view");
-            XYZ centreOfScreen = GetMiddleOfActiveViewWindow(ActiveUIView(udoc, (View)view));
-            View3D np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
-            np.SetOrientation(new ViewOrientation3D(new XYZ(centreOfScreen.X, centreOfScreen.Y, v.EyePosition.Z), v.UpDirection, v.ForwardDirection));
-            t.Commit();
+            using (var t = new Transaction(udoc.Document)) {
+                if (t.Start("Create perspective view") == TransactionStatus.Started) { }
+                XYZ centreOfScreen = GetMiddleOfActiveViewWindow(ActiveUIView(udoc, (View)view));
+                View3D np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
+                np.SetOrientation(new ViewOrientation3D(new XYZ(centreOfScreen.X, centreOfScreen.Y, v.EyePosition.Z), v.UpDirection, v.ForwardDirection));
+                t.Commit();
+            }
+            v.Dispose();
         }
     }
 }

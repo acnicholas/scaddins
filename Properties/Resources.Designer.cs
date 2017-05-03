@@ -61,6 +61,24 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        internal static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Revision.
+        /// </summary>
+        internal static string AddRevision {
+            get {
+                return ResourceManager.GetString("AddRevision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Always ask for confirmation before overwriting?.
         /// </summary>
         internal static string AlwyasConfirmFileOverwrite {
@@ -93,6 +111,33 @@ namespace SCaddins.Properties {
         internal static string AngleOfSunTitle {
             get {
                 return ResourceManager.GetString("AngleOfSunTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Apply.
+        /// </summary>
+        internal static string Apply {
+            get {
+                return ResourceManager.GetString("Apply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Applying print setting.
+        /// </summary>
+        internal static string ApplyingPrintSetting {
+            get {
+                return ResourceManager.GetString("ApplyingPrintSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AutoCAD Version.
+        /// </summary>
+        internal static string AutoCADVersion {
+            get {
+                return ResourceManager.GetString("AutoCADVersion", resourceCulture);
             }
         }
         
@@ -151,6 +196,15 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy Sheets.
+        /// </summary>
+        internal static string CopySheets {
+            get {
+                return ResourceManager.GetString("CopySheets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Current Sheet.
         /// </summary>
         internal static string CopySheetsAddCurrentSheet {
@@ -192,6 +246,15 @@ namespace SCaddins.Properties {
         internal static string CopySheetsTitle {
             get {
                 return ResourceManager.GetString("CopySheetsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create User Views.
+        /// </summary>
+        internal static string CreateUserViews {
+            get {
+                return ResourceManager.GetString("CreateUserViews", resourceCulture);
             }
         }
         
@@ -304,6 +367,51 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error initializing export log.
+        /// </summary>
+        internal static string ExportLogInitializationError {
+            get {
+                return ResourceManager.GetString("ExportLogInitializationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Print A2 (scale to fit).
+        /// </summary>
+        internal static string ExportManagerPrintA2Fit {
+            get {
+                return ResourceManager.GetString("ExportManagerPrintA2Fit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Print A3 (scale to fit).
+        /// </summary>
+        internal static string ExportManagerPrintA3Fit {
+            get {
+                return ResourceManager.GetString("ExportManagerPrintA3Fit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Print Full Size.
+        /// </summary>
+        internal static string ExportManagerPrintFullSize {
+            get {
+                return ResourceManager.GetString("ExportManagerPrintFullSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SCexport - Scott Carver Export Utility - By Andrew Nicholas.
+        /// </summary>
+        internal static string ExportManagerTitle {
+            get {
+                return ResourceManager.GetString("ExportManagerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export Started.
         /// </summary>
         internal static string ExportStarted {
@@ -331,11 +439,38 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filter.
+        /// </summary>
+        internal static string Filter {
+            get {
+                return ResourceManager.GetString("Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Finished Print.
         /// </summary>
         internal static string FinishedPrint {
             get {
                 return ResourceManager.GetString("FinishedPrint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fix Scale Bars.
+        /// </summary>
+        internal static string FixScaleBars {
+            get {
+                return ResourceManager.GetString("FixScaleBars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string General {
+            get {
+                return ResourceManager.GetString("General", resourceCulture);
             }
         }
         
@@ -385,6 +520,15 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Keyboard Shortcuts.
+        /// </summary>
+        internal static string KeyboardShortcuts {
+            get {
+                return ResourceManager.GetString("KeyboardShortcuts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Latest Version.
         /// </summary>
         internal static string LatestVersion {
@@ -421,6 +565,15 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to North Point Visibility.
+        /// </summary>
+        internal static string NorthPointVisibility {
+            get {
+                return ResourceManager.GetString("NorthPointVisibility", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         internal static string OK {
@@ -430,11 +583,29 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Options.
+        /// </summary>
+        internal static string Options {
+            get {
+                return ResourceManager.GetString("Options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Output.
         /// </summary>
         internal static string Output {
             get {
                 return ResourceManager.GetString("Output", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Postscript printer name.
+        /// </summary>
+        internal static string PostscriptPrinterName {
+            get {
+                return ResourceManager.GetString("PostscriptPrinterName", resourceCulture);
             }
         }
         
@@ -453,6 +624,33 @@ namespace SCaddins.Properties {
         internal static string Remove {
             get {
                 return ResourceManager.GetString("Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Underlays from Views.
+        /// </summary>
+        internal static string RemoveUnderlaysfromViews {
+            get {
+                return ResourceManager.GetString("RemoveUnderlaysfromViews", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename Selected Sheets.
+        /// </summary>
+        internal static string RenameSelectedSheets {
+            get {
+                return ResourceManager.GetString("RenameSelectedSheets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset to Default.
+        /// </summary>
+        internal static string ResetToDefault {
+            get {
+                return ResourceManager.GetString("ResetToDefault", resourceCulture);
             }
         }
         
@@ -574,6 +772,15 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scalebar Scale.
+        /// </summary>
+        internal static string ScalebarScale {
+            get {
+                return ResourceManager.GetString("ScalebarScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select All.
         /// </summary>
         internal static string SelectAll {
@@ -610,6 +817,42 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Multiple Shadow Plans.
+        /// </summary>
+        internal static string SolarViewsCreateMultipleShadowPlans {
+            get {
+                return ResourceManager.GetString("SolarViewsCreateMultipleShadowPlans", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Multiple Angle of Sun Views (3d).
+        /// </summary>
+        internal static string SolarViewsCreateMultipleSunViews {
+            get {
+                return ResourceManager.GetString("SolarViewsCreateMultipleSunViews", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multi View Creation Options.
+        /// </summary>
+        internal static string SolarViewsMultiViewCreationOptions {
+            get {
+                return ResourceManager.GetString("SolarViewsMultiViewCreationOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rotate Current View.
+        /// </summary>
+        internal static string SolarViewsRotateCurrentView {
+            get {
+                return ResourceManager.GetString("SolarViewsRotateCurrentView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Source Code.
         /// </summary>
         internal static string SourceCode {
@@ -642,6 +885,15 @@ namespace SCaddins.Properties {
         internal static string Summary {
             get {
                 return ResourceManager.GetString("Summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle North Point.
+        /// </summary>
+        internal static string ToggleNorthPoint {
+            get {
+                return ResourceManager.GetString("ToggleNorthPoint", resourceCulture);
             }
         }
         
@@ -687,6 +939,15 @@ namespace SCaddins.Properties {
         internal static string UpgrateVersionCheckErrorMessage {
             get {
                 return ResourceManager.GetString("UpgrateVersionCheckErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verify Sheets.
+        /// </summary>
+        internal static string VerifySheets {
+            get {
+                return ResourceManager.GetString("VerifySheets", resourceCulture);
             }
         }
         
