@@ -41,7 +41,6 @@ namespace SCaddins.RevisionUtilities
             this.cloud = revisionCloud;
             this.hostViewName = GetHostViewName(doc);
             UpdateSheetNameAndNumberStrings(doc);
-         
         }
                               
         public string SheetNumber {

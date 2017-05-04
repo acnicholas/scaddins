@@ -36,12 +36,10 @@ namespace SCaddins.RevisionUtilities
         public static void ExportCloudInfo(Document doc, Dictionary<string, RevisionItem> dictionary, string exportFilename)
         {
             string ExportFilename = string.IsNullOrEmpty(exportFilename) ? @"C:\Temp\SClouds" : exportFilename;
-            // string ExportFilename = exportFilename != string.Empty ? exportFilename : @"C:\Temp\SClouds";
             Application excelApp;
             Worksheet excelWorksheet;
             Workbook excelWorkbook;
 
-            // FIXME this seems broken.
             excelApp = new Application();
             excelApp.Visible = false;
             excelWorkbook = (Workbook)excelApp.Workbooks.Add(Missing.Value);

@@ -114,7 +114,6 @@ namespace SCaddins.RevisionUtilities
                     selection.Add(rev);
                 } 
             } 
-           TaskDialog.Show("test", selection.Count.ToString());
            return selection;
         }
         
