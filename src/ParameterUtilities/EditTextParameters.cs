@@ -76,13 +76,17 @@ namespace SCaddins.ParameterUtils
             commit = false; 
             dryRunLogText = string.Empty;
             Convert(mode, types, doc);
-            var info = new SCulcaseInfoDialog();
-            info.SetText(dryRunLogText);
-            info.Show();
+            using (var info = new SCulcaseInfoDialog()) {
+                info.SetText(dryRunLogText);
+                info.Show();
+            }
         }
 
         public static void ConvertSelection(ConversionMode mode, Document doc, IList<ElementId> elements)
         {
+            if (elements == null || doc == null) {
+                return;
+            }
             commit = true;
             EditTextParameters.mode = mode;
             var trans = new Transaction(doc);

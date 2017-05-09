@@ -44,6 +44,9 @@ namespace SCaddins.LineOfSight
 
         public static double GetDub(Control textBox, double fallback)
         {
+            if (textBox == null) {
+                return fallback;
+            }
             double d;
             if (textBox.Text == null) {
                 return fallback;

@@ -41,12 +41,13 @@ namespace SCaddins.SheetCopier
         
             Autodesk.Revit.DB.ViewSheet viewSheet = SheetCopierManager.ViewToViewSheet(doc.ActiveView);
             if (viewSheet == null) {
-                TaskDialog td = new TaskDialog("SCopy");
-                td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-                td.MainInstruction = "The Copy Sheets add-in needs to be started in a sheet view.";
-                // FIXME add sheet selection to SheetCopier
-                td.MainContent = "Please open the sheet you wish to copy before running...";
-                td.Show();
+                using (TaskDialog td = new TaskDialog("SCopy")) {
+                    td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+                    td.MainInstruction = "The Copy Sheets add-in needs to be started in a sheet view.";
+                    // FIXME add sheet selection to SheetCopier
+                    td.MainContent = "Please open the sheet you wish to copy before running...";
+                    td.Show();
+                }
                 return Autodesk.Revit.UI.Result.Failed;    
             }
             var scopy = new SheetCopierManager(commandData.Application.ActiveUIDocument);
@@ -56,6 +57,7 @@ namespace SCaddins.SheetCopier
             if (result == System.Windows.Forms.DialogResult.OK) {
                 scopy.CreateSheets();
             }
+            form.Dispose();
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }

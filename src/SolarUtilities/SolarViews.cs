@@ -43,7 +43,11 @@ namespace SCaddins.SolarUtilities
             UIDocument udoc = commandData.Application.ActiveUIDocument;
             Document doc = udoc.Document;
             this.projectLocation = doc.ActiveProjectLocation;
+            #if REVIT2018
+            this.position = this.projectLocation.GetProjectPosition(XYZ.Zero);
+            #else
             this.position = this.projectLocation.get_ProjectPosition(XYZ.Zero);
+            #endif
             this.currentViewIsIso = false;
 
             View view = doc.ActiveView;

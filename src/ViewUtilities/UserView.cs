@@ -22,6 +22,7 @@ namespace SCaddins.ViewUtilities
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using SCaddins.Common;
+    using SCaddins.Properties;
 
     /// <summary>
     /// Copy a view; give it a user name, remove any view templates and
@@ -91,7 +92,7 @@ namespace SCaddins.ViewUtilities
                 // FIXME add a error message here
                 return;
             }
-            using (var td = new TaskDialog("SCuv - SCuv copies users views")) {
+            using (var td = new TaskDialog(Resources.CreateUserView)) {
                 td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
                 td.MainInstruction = "Error creating user view for view:";
                 td.MainContent = sourceView.Name;
@@ -101,7 +102,7 @@ namespace SCaddins.ViewUtilities
 
         public static void ShowSummaryDialog(string message)
         {
-            using (var td = new TaskDialog("SCuv - SCuv copies users views")) {
+            using (var td = new TaskDialog(Resources.CreateUserViews)) {
                 td.MainIcon = TaskDialogIcon.TaskDialogIconNone;
                 td.MainInstruction = "Summary of users view created:";
                 td.MainContent = message;

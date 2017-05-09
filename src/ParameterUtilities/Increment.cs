@@ -42,6 +42,10 @@ namespace SCaddins.ParameterUtils
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Because this hack only works this way...")]  
         public static void RenumberByPicks(UIDocument uidoc, Document doc, UIApplication app)
         {
+            if (uidoc == null || app == null) {
+                return;
+            }
+
             IList<Reference> refList = new List<Reference>();
             try {
                 while (true) {
@@ -119,6 +123,10 @@ namespace SCaddins.ParameterUtils
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
+            if (commandData == null) {
+                return Result.Failed;
+            }
+
             UIDocument udoc = commandData.Application.ActiveUIDocument;
             Document doc = udoc.Document;
             UIApplication app = commandData.Application;

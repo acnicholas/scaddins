@@ -40,18 +40,18 @@ namespace SCaddins.ExportManager
 
         private void PopulateList()
         {
-            FilteredElementCollector a;
-            a = new FilteredElementCollector(this.doc);
-            a.OfCategory(BuiltInCategory.OST_Revisions);
-            foreach (Element e in a) {
-                var item = new ListViewItem();
-                item.Text = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsValueString();
-                item.SubItems.Add(e.get_Parameter(BuiltInParameter.PROJECT_REVISION_ENUMERATION).AsString());
-                item.SubItems.Add(e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString());
-                item.SubItems.Add(e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString());
-                item.SubItems.Add(e.Id.ToString());
-                item.Tag = e.Id;
-                this.listView1.Items.Add(item);
+            using (var collector = new FilteredElementCollector(this.doc)) {
+                collector.OfCategory(BuiltInCategory.OST_Revisions);
+                foreach (Element e in collector) {
+                    var item = new ListViewItem();
+                    item.Text = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsValueString();
+                    item.SubItems.Add(e.get_Parameter(BuiltInParameter.PROJECT_REVISION_ENUMERATION).AsString());
+                    item.SubItems.Add(e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString());
+                    item.SubItems.Add(e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString());
+                    item.SubItems.Add(e.Id.ToString());
+                    item.Tag = e.Id;
+                    this.listView1.Items.Add(item);
+                }
             }
         }
 

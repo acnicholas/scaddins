@@ -33,6 +33,9 @@ namespace SCaddins.SCoord
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
+            if (commandData == null) {
+                return Result.Failed;
+            }
             UIDocument udoc = commandData.Application.ActiveUIDocument;
             Document doc = udoc.Document;
             PlaceMGA(doc);

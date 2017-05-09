@@ -67,6 +67,7 @@ namespace SCaddins
             if (latestAvailableVersion > installedVersion || !newOnly) {
                 var upgradeForm = new SCaddins.Common.UpgradeForm(installedVersion, latestAvailableVersion, info);
                 upgradeForm.ShowDialog();
+                upgradeForm.Dispose();
             } 
         }
         
@@ -74,6 +75,10 @@ namespace SCaddins
             UIControlledApplication application)
         {
             var ribbonPanel = TryGetPanel(application, "Scott Carver");
+
+            if (ribbonPanel == null) {
+                return Result.Failed;
+            }
 
             string scdll =
                 new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
@@ -318,6 +323,9 @@ namespace SCaddins
 
         public static RibbonPanel TryGetPanel(UIControlledApplication application, string name)
         {
+            if (application == null || string.IsNullOrEmpty(name)) {
+                return null;
+            }
             List<RibbonPanel> loadedPanels = application.GetRibbonPanels();
             foreach (RibbonPanel p in loadedPanels) {
                 if (p.Name.Equals(name)) {

@@ -17,6 +17,8 @@
 
 namespace SCaddins.ExportManager
 {
+    using SCaddins.Properties;
+
     public partial class OpenSheetDialog
     {
         private System.Windows.Forms.TextBox textBox1;
@@ -62,14 +64,14 @@ namespace SCaddins.ExportManager
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(84, 23);
             this.button2.TabIndex = 1;
-            this.button2.Text = "OK";
+            this.button2.Text = Resources.OK;
             this.button2.UseVisualStyleBackColor = true;
             this.button3.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button3.Location = new System.Drawing.Point(12, 76);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(96, 23);
             this.button3.TabIndex = 2;
-            this.button3.Text = "Cancel";
+            this.button3.Text = Resources.Cancel;
             this.button3.UseVisualStyleBackColor = true;
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -77,7 +79,7 @@ namespace SCaddins.ExportManager
             this.groupBox1.Size = new System.Drawing.Size(186, 58);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Sheet Number";
+            this.groupBox1.Text = Resources.SheetNumber;
             this.textBox1.Location = new System.Drawing.Point(6, 19);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(174, 20);
@@ -92,7 +94,7 @@ namespace SCaddins.ExportManager
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "OpenSheetDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Open Sheet";
+            this.Text = Resources.OpenSheet;
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

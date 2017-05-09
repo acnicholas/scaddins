@@ -41,8 +41,11 @@ namespace SCaddins.ExportManager
             get { return this.name; }
         }
 
-        public static string FormatConfigurationString(SCaddins.ExportManager.ExportSheet sheet, string value, string extension)
+        public static string FormatConfigurationString(ExportSheet sheet, string value, string extension)
         {
+            if (sheet == null || string.IsNullOrEmpty(value) || string.IsNullOrEmpty(extension)) {
+                return string.Empty;
+            }
             string result = value;
             result = result.Replace(@"$height", sheet.Height.ToString(CultureInfo.InvariantCulture));
             result = result.Replace(@"$width", sheet.Width.ToString(CultureInfo.InvariantCulture));
@@ -60,13 +63,12 @@ namespace SCaddins.ExportManager
             return result;
         }
 
-        public void Run(SCaddins.ExportManager.ExportSheet sheet, string extension)
+        public void Run(ExportSheet sheet, string extension)
         {
             string a = FormatConfigurationString(sheet, this.args, extension);
-            #if DEBUG
-            Autodesk.Revit.UI.TaskDialog.Show("DEBUG", this.args + " " + a);
-            #endif
-            Common.ConsoleUtilities.StartHiddenConsoleProg(this.cmd, a);
+            if (!string.IsNullOrEmpty(a)) {
+                Common.ConsoleUtilities.StartHiddenConsoleProg(this.cmd, a);
+            }
         }
 
         public void SetCommand(string command)

@@ -129,6 +129,7 @@
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="RevitAPI">
       <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\RevitAPI.dll</HintPath>
     </Reference>
@@ -523,7 +524,6 @@
       <LastGenOutput>SCincrementSettings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets" Condition="Exists('packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets') And '$(Configuration)' == 'Debug'" />
 </Project>

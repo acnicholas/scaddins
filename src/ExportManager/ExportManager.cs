@@ -637,6 +637,7 @@ namespace SCaddins.ExportManager
                 Microsoft.Win32.RegistryValueKind.String);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PrinterJobControl")]
         [SecurityCritical]
         private static void SetAcrobatExportRegistryVal(string fileName, ExportLog log)
         {
@@ -1001,7 +1002,7 @@ namespace SCaddins.ExportManager
         [SecurityCritical]
         private bool ExportGSPDF(ExportSheet vs)
         {
-            this.log.AddMessage(Environment.NewLine + "### Starting Ghostscipt PDF Export ###");
+            this.log.AddMessage(Environment.NewLine + "### Starting Ghostscript PDF Export ###");
             this.log.AddMessage(vs.ToString());
             
             PrintManager pm = doc.PrintManager;

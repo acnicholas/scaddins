@@ -36,6 +36,10 @@ namespace SCaddins
         {
             var ribbonPanel = SCaddins.SCaddinsApp.TryGetPanel(application, "Angle Of Sun");
 
+            if (ribbonPanel == null) {
+                return Result.Failed;
+            }
+
             string scdll =
                 new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
 

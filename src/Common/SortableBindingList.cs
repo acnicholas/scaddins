@@ -75,6 +75,7 @@ namespace SCaddins.Common
             this.sorted = false;
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0")]
         protected override void ApplySortCore(System.ComponentModel.PropertyDescriptor prop, System.ComponentModel.ListSortDirection direction)
         {
             if (prop.PropertyType.GetInterface("IComparable") == null) {

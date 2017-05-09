@@ -15,6 +15,7 @@
         {
             var settingsForm = new SCaddinsOptionsForm();
             settingsForm.ShowDialog();
+            settingsForm.Dispose();
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }

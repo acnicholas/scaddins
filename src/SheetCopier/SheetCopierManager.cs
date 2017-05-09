@@ -283,6 +283,10 @@ namespace SCaddins.SheetCopier
         // this is where the action happens
         public bool CreateAndPopulateNewSheet(SheetCopierSheet sheet, StringBuilder summary)
         { 
+            if (sheet == null) {
+                return false;
+            }
+
             // turn on hidden revisions
             foreach (Revision rev in this.hiddenRevisionClouds) {
                 rev.Visibility = RevisionVisibility.CloudAndTagVisible;
@@ -312,7 +316,9 @@ namespace SCaddins.SheetCopier
 
             var oldNumber = sheet.SourceSheet.SheetNumber;
             var msg = " Sheet: " + oldNumber + " copied to: " + sheet.Number;
-            summary.Append(msg + System.Environment.NewLine);
+            if (summary != null) {
+                summary.Append(msg + System.Environment.NewLine);
+            }
 
             return true;
         }
@@ -334,7 +340,8 @@ namespace SCaddins.SheetCopier
                 }
             return result;
         }
-        
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private void PlaceViewPortOnSheet(
             Element destSheet, ElementId destViewId, XYZ viewCentre)
         {
@@ -396,6 +403,10 @@ namespace SCaddins.SheetCopier
         
         public static void DeleteRevisionClouds(ElementId viewId, Document doc)
         {
+            if (doc == null || viewId == null) {
+                // FIXME add error message;
+                return;
+            }
             using (var collector = new FilteredElementCollector(doc, viewId)) {
                 collector.OfCategory(BuiltInCategory.OST_RevisionClouds);
                 var clouds = new List<ElementId>();

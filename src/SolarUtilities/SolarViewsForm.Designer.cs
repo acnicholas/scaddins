@@ -63,7 +63,7 @@
             this.groupBox1.Size = new System.Drawing.Size(370, 165);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Current View Information";
+            this.groupBox1.Text = Resources.CurrentViewInformation;
             // 
             // listBox1
             // 
@@ -105,7 +105,7 @@
             this.groupBox2.Size = new System.Drawing.Size(370, 132);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Mode";
+            this.groupBox2.Text = Resources.Mode;
             // 
             // radioButton1
             // 
@@ -126,7 +126,7 @@
             this.radioButtonShadowPlans.Size = new System.Drawing.Size(358, 36);
             this.radioButtonShadowPlans.TabIndex = 2;
             this.radioButtonShadowPlans.TabStop = true;
-            this.radioButtonShadowPlans.Text = "Create Multiple Shadow Plans ";
+            this.radioButtonShadowPlans.Text = Resources.SolarViewsCreateMultipleShadowPlans;
             this.radioButtonShadowPlans.UseVisualStyleBackColor = true;
             this.radioButtonShadowPlans.CheckedChanged += new System.EventHandler(this.RadioButtonShadowPlansCheckedChanged);
             // 
@@ -137,7 +137,7 @@
             this.radioButtonWinterViews.Size = new System.Drawing.Size(290, 29);
             this.radioButtonWinterViews.TabIndex = 1;
             this.radioButtonWinterViews.TabStop = true;
-            this.radioButtonWinterViews.Text = "Create Multiple Angle of Sun Views (3d)";
+            this.radioButtonWinterViews.Text = Resources.SolarViewsCreateMultipleSunViews;
             this.radioButtonWinterViews.UseVisualStyleBackColor = true;
             this.radioButtonWinterViews.CheckedChanged += new System.EventHandler(this.RadioButtonWinterViewsCheckedChanged);
             // 
@@ -148,7 +148,7 @@
             this.radioButtonRotateCurrent.Size = new System.Drawing.Size(283, 32);
             this.radioButtonRotateCurrent.TabIndex = 0;
             this.radioButtonRotateCurrent.TabStop = true;
-            this.radioButtonRotateCurrent.Text = "Rotate Current View";
+            this.radioButtonRotateCurrent.Text = Resources.SolarViewsRotateCurrentView;
             this.radioButtonRotateCurrent.UseVisualStyleBackColor = true;
             this.radioButtonRotateCurrent.CheckedChanged += new System.EventHandler(this.RadioButtonRotateCurrentCheckedChanged);
             // 
@@ -158,7 +158,7 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 4;
-            this.button3.Text = "Help";
+            this.button3.Text = Resources.Help;
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.Button3Click);
             // 

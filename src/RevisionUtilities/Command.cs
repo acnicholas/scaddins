@@ -32,9 +32,13 @@ namespace SCaddins.RevisionUtilities
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
+            if (commandData == null) {
+                return Result.Failed;
+            }
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            RevisionUtilitiesForm form = new RevisionUtilitiesForm(doc);
-            form.ShowDialog();
+            using (RevisionUtilitiesForm form = new RevisionUtilitiesForm(doc)) {
+                form.ShowDialog();
+            }
             return Autodesk.Revit.UI.Result.Succeeded;
         }
         

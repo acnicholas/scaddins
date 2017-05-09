@@ -430,4 +430,67 @@
   <data name="VerifySheets" xml:space="preserve">
     <value>Verify Sheets</value>
   </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="ExportDirectory" xml:space="preserve">
+    <value>Export Directory</value>
+  </data>
+  <data name="ExportName" xml:space="preserve">
+    <value>Export Name</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NorthPoint" xml:space="preserve">
+    <value>North Point</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="PageSize" xml:space="preserve">
+    <value>Page Size</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="PrintSetting" xml:space="preserve">
+    <value>Print Setting</value>
+  </data>
+  <data name="Revision" xml:space="preserve">
+    <value>Revision</value>
+  </data>
+  <data name="RevisionDate" xml:space="preserve">
+    <value>Revision Date</value>
+  </data>
+  <data name="RevisionDescription" xml:space="preserve">
+    <value>Revision Description</value>
+  </data>
+  <data name="Scale" xml:space="preserve">
+    <value>Scale</value>
+  </data>
+  <data name="CreateUserView" xml:space="preserve">
+    <value>Create User View</value>
+  </data>
+  <data name="OpenSheet" xml:space="preserve">
+    <value>Open Sheet</value>
+  </data>
+  <data name="SheetNumber" xml:space="preserve">
+    <value>Sheet Number</value>
+  </data>
+  <data name="ApplyPrintSettings" xml:space="preserve">
+    <value>Apply Print Settings</value>
+  </data>
+  <data name="ErrorCannotSetPrinter" xml:space="preserve">
+    <value>Cannot set printer</value>
+  </data>
+  <data name="ErrorRetrievingRevitPrintSettingsFAILED" xml:space="preserve">
+    <value>Retrieving Revit Print Settings FAILED</value>
+  </data>
+  <data name="MessageAttemptingToLoadRevitPrintSettings" xml:space="preserve">
+    <value>Attempting to Load Revit Print Settings</value>
+  </data>
+  <data name="SetPrinter" xml:space="preserve">
+    <value>Set Printer</value>
+  </data>
 </root>

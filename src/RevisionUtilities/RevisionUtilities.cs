@@ -87,12 +87,14 @@ namespace SCaddins.RevisionUtilities
         public static SortableBindingListCollection<RevisionCloudItem> GetRevisionClouds(Document doc)
         {
             var revisionClouds = new SortableBindingListCollection<RevisionCloudItem>();
-            FilteredElementCollector a;
-            a = new FilteredElementCollector(doc);
-            a.OfCategory(BuiltInCategory.OST_RevisionClouds);
-            a.OfClass(typeof(RevisionCloud));
-            foreach (RevisionCloud e in a) {  
-                revisionClouds.Add(new RevisionCloudItem(doc, e));
+            if (doc != null) {
+                using (FilteredElementCollector a = new FilteredElementCollector(doc)) {
+                    a.OfCategory(BuiltInCategory.OST_RevisionClouds);
+                    a.OfClass(typeof(RevisionCloud));
+                    foreach (RevisionCloud e in a) {
+                        revisionClouds.Add(new RevisionCloudItem(doc, e));
+                    }
+                }
             }
             return revisionClouds;
         }

@@ -55,12 +55,13 @@ namespace SCaddins.ViewUtilities
                     CreatePerspectiveFromSection(commandData.Application.ActiveUIDocument, currentView);
                     break;
                 default:
-                    TaskDialog td = new TaskDialog("SCam - SC Camera Tool");
-                    td.MainInstruction = "Oops!";
-                    td.MainContent = "Currently cameras can only be created in 3d and Plan views" +
-                        System.Environment.NewLine +
-                        "Please create sections/elevations from an isometric view";
-                    td.Show();
+                    using (TaskDialog td = new TaskDialog("SCam - SC Camera Tool")) {
+                        td.MainInstruction = "Oops!";
+                        td.MainContent = "Currently cameras can only be created in 3d and Plan views" +
+                            System.Environment.NewLine +
+                            "Please create sections/elevations from an isometric view";
+                        td.Show();
+                    }
                     break;
             }
 
@@ -69,10 +70,12 @@ namespace SCaddins.ViewUtilities
                
         public static UIView ActiveUIView(UIDocument udoc, Element planView)
         {
+            if (udoc != null && planView != null) {
                 foreach (UIView view in udoc.GetOpenUIViews()) {
-                View v = (View)udoc.Document.GetElement(view.ViewId);
-                if (v.Name == planView.Name) {
-                    return view;
+                    View v = (View)udoc.Document.GetElement(view.ViewId);
+                    if (v.Name == planView.Name) {
+                        return view;
+                    }
                 }
             }
             return null;   
@@ -119,9 +122,12 @@ namespace SCaddins.ViewUtilities
             return result;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1")]
         public static void ApplySectionBoxToView(BoundingBoxXYZ bounds, View3D view)
         {
-            view.SetSectionBox(bounds);
+            if (bounds != null || view != null) {
+                view.SetSectionBox(bounds);
+            }
         }
 
         private static void CreatePerspectiveFromPlan(UIDocument udoc, View planView)
@@ -131,12 +137,14 @@ namespace SCaddins.ViewUtilities
             XYZ up = new XYZ(0, 1, 0);
             XYZ forward = new XYZ(0, 0, -1);
             ViewOrientation3D v = new ViewOrientation3D(eye, up, forward);
-            var t = new Transaction(udoc.Document);
-            t.Start("Create perspective view");
-            View3D np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
-            np.SetOrientation(new ViewOrientation3D(v.EyePosition, v.UpDirection, v.ForwardDirection));
-            ApplySectionBoxToView(ViewExtentsBoundingBox(view), np);
-            t.Commit();
+            using (var t = new Transaction(udoc.Document)) {
+                t.Start("Create perspective view");
+                View3D np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
+                np.SetOrientation(new ViewOrientation3D(v.EyePosition, v.UpDirection, v.ForwardDirection));
+                ApplySectionBoxToView(ViewExtentsBoundingBox(view), np);
+                t.Commit();
+            }
+            v.Dispose();
         }
         
         private static void CreatePerspectiveFromSection(UIDocument udoc, View sectionView)
@@ -146,22 +154,24 @@ namespace SCaddins.ViewUtilities
             XYZ up = new XYZ(0, 0, 1);
             XYZ forward = new XYZ(0, 0, -1);
             ViewOrientation3D v = new ViewOrientation3D(eye, up, forward);
-            var t = new Transaction(udoc.Document);
-            t.Start("Create perspective view");
-            View3D np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
-            np.SetOrientation(new ViewOrientation3D(v.EyePosition, v.UpDirection, v.ForwardDirection));
-            ApplySectionBoxToView(SectionViewExtentsBoundingBox(view), np);
-            t.Commit();
+            using (var t = new Transaction(udoc.Document)) {
+                t.Start("Create perspective view");
+                View3D np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
+                np.SetOrientation(new ViewOrientation3D(v.EyePosition, v.UpDirection, v.ForwardDirection));
+                ApplySectionBoxToView(SectionViewExtentsBoundingBox(view), np);
+                t.Commit();
+            }
         }
         
         private static IEnumerable<ViewFamilyType> Get3DViewFamilyTypes(Document doc)
         {
-            var collector = new FilteredElementCollector(doc).OfClass(typeof(ViewFamilyType));
-            IEnumerable<ViewFamilyType> viewFamilyTypes = from elem in collector
-                let type = elem as ViewFamilyType
-                where type.ViewFamily == ViewFamily.ThreeDimensional
-                select type;
-            collector.Dispose();
+            IEnumerable<ViewFamilyType> viewFamilyTypes;
+            using (var collector = new FilteredElementCollector(doc).OfClass(typeof(ViewFamilyType))) {
+                viewFamilyTypes = from elem in collector
+                                  let type = elem as ViewFamilyType
+                                  where type.ViewFamily == ViewFamily.ThreeDimensional
+                                  select type;
+            }
             return viewFamilyTypes;
         }
     

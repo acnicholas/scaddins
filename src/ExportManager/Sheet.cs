@@ -223,7 +223,10 @@ namespace SCaddins.ExportManager
         
         public static int GetNorthPointVisibility(Element titleBlock)
         {
-          try {
+            if (titleBlock == null) {
+                return 2;
+            }
+            try {
                     var p = titleBlock.GetParameters(Settings1.Default.NorthPointVisibilityParameter);
                     if (p == null || p.Count < 1) {
                         return 2;
@@ -238,7 +241,10 @@ namespace SCaddins.ExportManager
         
         public static string GetScaleBarScale(Element titleBlock)
         {
-          try {
+            if (titleBlock == null) {
+                return string.Empty;
+            }
+            try {
                     var p = titleBlock.GetParameters(Settings1.Default.ScalebarScaleParameter);
                     if (p == null || p.Count < 1) {
                         return string.Empty;
