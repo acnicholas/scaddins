@@ -131,7 +131,7 @@ namespace SCaddins.ExportManager
                 if (ps.IsValidObject) {
                     pm.PrintSetup.CurrentPrintSetting = ps;
                 } else {
-                    log.AddWarning(null, "Print Setup is readonly!");
+                    log.AddWarning(null, "Print Setup is read only!");
                 }
                 pm.PrintRange = PrintRange.Current;
                 pm.PrintSetup.CurrentPrintSetting.PrintParameters.MarginType = MarginType.NoMargin;

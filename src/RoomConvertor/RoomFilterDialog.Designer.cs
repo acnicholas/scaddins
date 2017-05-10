@@ -388,7 +388,7 @@ namespace SCaddins.RoomConvertor
             this.Controls.Add(this.comboBoxP1);
             this.Controls.Add(this.comboBoxCO1);
             this.Name = "RoomFilterDialog";
-            this.Text = "RoomFilterDialog";
+            this.Text = "Room Filter Dialog";
             this.ResumeLayout(false);
             this.PerformLayout();
 

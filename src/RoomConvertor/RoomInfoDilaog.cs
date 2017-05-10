@@ -19,6 +19,7 @@ using System;
 using System.Windows.Forms;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.DB;
+using System.Globalization;
 
 namespace SCaddins.RoomConvertor
 {
@@ -53,11 +54,11 @@ namespace SCaddins.RoomConvertor
         {
             switch (param.StorageType){
                 case StorageType.Double:
-                    return param.AsDouble().ToString() + @"(" + param.AsValueString() + @")";
+                    return param.AsDouble().ToString(CultureInfo.CurrentCulture) + @"(" + param.AsValueString() + @")";
                 case StorageType.String:
                     return param.AsString();
                 case StorageType.Integer:
-                     return param.AsInteger().ToString() + @"(" + param.AsValueString() + @")";
+                     return param.AsInteger().ToString(CultureInfo.CurrentCulture) + @"(" + param.AsValueString() + @")";
                 case StorageType.ElementId:
                     return string.Empty;
                 default:

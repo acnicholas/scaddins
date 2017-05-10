@@ -26,6 +26,7 @@ namespace SCaddins.RevisionUtilities
     using Autodesk.Revit.UI;
     using Microsoft.Office.Interop.Excel;
     using SCaddins.Common;
+    using System.Globalization;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -69,7 +70,7 @@ namespace SCaddins.RevisionUtilities
                     data[cloudNumber, 4] = revCloud.Comments;
                     data[cloudNumber, 5] = revCloud.Date;
                     data[cloudNumber, 6] = revCloud.Description;
-                    data[cloudNumber, 7] = revCloud.Id.IntegerValue.ToString();
+                    data[cloudNumber, 7] = revCloud.Id.IntegerValue.ToString(CultureInfo.InvariantCulture);
                 }
             }
 

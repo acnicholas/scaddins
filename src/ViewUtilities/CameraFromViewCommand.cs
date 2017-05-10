@@ -117,8 +117,13 @@ namespace SCaddins.ViewUtilities
             BoundingBoxXYZ result = new BoundingBoxXYZ();
             XYZ min = new XYZ(view.GetZoomCorners()[0].X, view.GetZoomCorners()[0].Y, view.GetZoomCorners()[0].Z - 4);
             XYZ max = new XYZ(view.GetZoomCorners()[1].X, view.GetZoomCorners()[1].Y, view.GetZoomCorners()[1].Z + 4);
-            result.set_Bounds(0, min);
-            result.set_Bounds(1, max);
+            try {
+                result.set_Bounds(0, min);
+                result.set_Bounds(1, max);
+            } catch {
+                result.Dispose();
+                return null;
+            }
             return result;
         }
 
@@ -161,6 +166,7 @@ namespace SCaddins.ViewUtilities
                 ApplySectionBoxToView(SectionViewExtentsBoundingBox(view), np);
                 t.Commit();
             }
+            
         }
         
         private static IEnumerable<ViewFamilyType> Get3DViewFamilyTypes(Document doc)
@@ -178,12 +184,14 @@ namespace SCaddins.ViewUtilities
         private static void CreatePerspectiveFrom3D(UIDocument udoc, View3D view)
         {
             ViewOrientation3D v = view.GetOrientation();
+            View3D np;
             using (var t = new Transaction(udoc.Document)) {
                 if (t.Start("Create perspective view") == TransactionStatus.Started) { }
                 XYZ centreOfScreen = GetMiddleOfActiveViewWindow(ActiveUIView(udoc, (View)view));
-                View3D np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
+                np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
                 np.SetOrientation(new ViewOrientation3D(new XYZ(centreOfScreen.X, centreOfScreen.Y, v.EyePosition.Z), v.UpDirection, v.ForwardDirection));
                 t.Commit();
+                np.Dispose();
             }
             v.Dispose();
         }

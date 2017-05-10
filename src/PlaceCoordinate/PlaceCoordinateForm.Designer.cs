@@ -28,12 +28,13 @@ namespace SCaddins.SCoord
             }
             base.Dispose(disposing);
         }
-        
+
         /// <summary>
         /// This method is required for Windows Forms designer support.
         /// Do not change the method contents inside the source code editor. The Forms designer might
         /// not be able to load this method if it was changed manually.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "SC-SurveyPoint")]
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SCoordForm));
@@ -139,7 +140,7 @@ namespace SCaddins.SCoord
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(254, 45);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Place a family at a specified Shared Coordinate. NOTE: Currently the family must " +
+            this.label1.Text = @"Place a family at a specified Shared Coordinate. NOTE: Currently the family must " +
     "be a Generic Model named SC-Survey_Point";
             // 
             // SCoordForm

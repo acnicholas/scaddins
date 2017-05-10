@@ -36,6 +36,7 @@ namespace SCaddins.ExportManager
         private UIDocument udoc;
         private FilterContextMenu filter;
         private MenuButton printButton;
+        private ToolTip findTip;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0")]
         public MainForm(UIDocument udoc)
@@ -48,7 +49,7 @@ namespace SCaddins.ExportManager
             this.printButton = new MenuButton(printButtonContextMenu);
             this.InitPrintButton();
             this.Controls.Add(this.printButton);
-            var findTip = new ToolTip();
+            findTip = new ToolTip();
             var findTipText = "Use regular expressions to filter the sheet list" +
                 Environment.NewLine +
                 "Searches both sheet name and number.";
@@ -68,7 +69,8 @@ namespace SCaddins.ExportManager
         public void OpenSelectedViewToolStripMenuItemClick(
                 object sender, EventArgs e)
         {
-            DialogHandler.AddRevitDialogHandler(new UIApplication(this.udoc.Application.Application));
+            var uiapp = new UIApplication(this.udoc.Application.Application);
+            DialogHandler.AddRevitDialogHandler(uiapp);
             foreach (DataGridViewRow row in this.dataGridView1.SelectedRows) {
                  var sc = row.DataBoundItem as ExportSheet;
                 if (sc == null) {
@@ -80,7 +82,7 @@ namespace SCaddins.ExportManager
                     this.udoc.ShowElements(result);
                 }
             }
-
+            uiapp.Dispose();
             this.Close();
         }
 
@@ -590,6 +592,7 @@ namespace SCaddins.ExportManager
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            findTip.Dispose();
             this.Dispose();
         }
 

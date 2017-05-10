@@ -654,10 +654,10 @@ namespace SCaddins.ExportManager
                     fileName,
                     Microsoft.Win32.RegistryValueKind.String);
             } catch (UnauthorizedAccessException ex) {
-                log.AddError(fileName, @"UnauthorizedAccessException, cannot write to windows registry");
+                log.AddError(fileName, @"Unauthorized Access Exception: cannot write to windows registry");
                 log.AddError(fileName, ex.Message);
             } catch (SecurityException ex) {
-                log.AddError(fileName, @"SecurityException cannot write to windows registry");
+                log.AddError(fileName, @"Security Exception: cannot write to windows registry");
                 log.AddError(fileName, ex.Message);
             }
         }
@@ -1084,7 +1084,7 @@ namespace SCaddins.ExportManager
                 }
                 this.log.AddMessage("Submitting print...");
                 if (pm.SubmitPrint(vs.Sheet)) {
-                    this.log.AddMessage("(apparently) completed succesfully");
+                    this.log.AddMessage("(apparently) completed successfully");
                 } else {
                     this.log.AddError(vs.FullExportName, "Failed to print");    
                 }

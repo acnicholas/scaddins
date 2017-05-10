@@ -105,6 +105,7 @@ namespace SCaddins.LineOfSight
             this.infoString = this.UpdateInfoString();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.DateTime.ToString")]
         public void Draw()
         {
             

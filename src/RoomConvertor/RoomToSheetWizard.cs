@@ -1,8 +1,7 @@
 ﻿
 using System;
-using System.Drawing;
-using System.Windows.Forms;
 using Autodesk.Revit.UI;
+using System.Globalization;
 
 namespace SCaddins.RoomConvertor
 {
@@ -21,7 +20,7 @@ namespace SCaddins.RoomConvertor
              
             // set titleblock combo to last index which should be none.
             this.comboBoxTitles.SelectedIndex = this.comboBoxTitles.Items.Count - 1;
-            this.textBox1.Text = roomConversionManager.Scale.ToString();
+            this.textBox1.Text = roomConversionManager.Scale.ToString(CultureInfo.CurrentCulture);
         }
         
         private void PopulateTitleblockCombo()

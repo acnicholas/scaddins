@@ -205,7 +205,7 @@ namespace SCaddins.RoomConvertor
             this.Controls.Add(this.buttonFilter);
             this.Controls.Add(this.dataGridView1);
             this.Name = "MainForm";
-            this.Text = "SCasfar - Creates a Sheet from a Room";
+            this.Text = "Creates Masses or Sheets from a Room";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainFormFormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

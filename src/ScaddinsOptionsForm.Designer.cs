@@ -109,7 +109,7 @@ namespace SCaddins
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SCaddinsOptionsForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "Scaddins Options";
+            this.Text = "Global Options";
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 

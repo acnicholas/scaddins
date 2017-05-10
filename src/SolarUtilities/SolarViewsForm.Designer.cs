@@ -115,7 +115,7 @@
             this.radioButton1.Size = new System.Drawing.Size(358, 36);
             this.radioButton1.TabIndex = 3;
             this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Culculate Solar Hours - Mass Mode (EXPERIMENTAL)";
+            this.radioButton1.Text = "Calculate Solar Hours - Mass Mode (EXPERIMENTAL)";
             this.radioButton1.UseVisualStyleBackColor = true;
             this.radioButton1.Visible = false;
             // 

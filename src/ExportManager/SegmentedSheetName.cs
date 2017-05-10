@@ -18,6 +18,7 @@
 namespace SCaddins.ExportManager
 {
     using System.Collections.ObjectModel;
+    using System.Globalization;
     
     public class SegmentedSheetName
     {
@@ -48,7 +49,7 @@ namespace SCaddins.ExportManager
         
         public override string ToString()
         {
-            return string.Format("[SegmentedSheetName Hooks={0}, Name={1}, NameFormat={2}]", this.hooks, this.Name, this.NameFormat);
+            return string.Format(CultureInfo.InvariantCulture, "[SegmentedSheetName Hooks={0}, Name={1}, NameFormat={2}]", this.hooks, this.Name, this.NameFormat);
         }
     }
 }

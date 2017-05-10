@@ -3,12 +3,17 @@
      <Words>
         <Recognized>
             <Word>desc</Word>
+            <Word>dialog</Word>
             <Word>scx</Word>
+            <Word>dwg</Word>
             <Word>xls</Word>
             <Word>uidoc</Word>
+            <Word>SC-Survey_Point</Word>
+            <Word>SC-SurveyPoint</Word>
             <Word>s</Word>
             <Word>udoc</Word>
             <Word>scexport</Word>
+            <Word>saddins</Word>
             <Word>cexport</Word>
             <Word>caos</Word>
             <Word>cam</Word>
