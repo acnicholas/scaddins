@@ -44,15 +44,13 @@ namespace SCaddins.ExportManager
             this.udoc = udoc;
             this.doc = udoc.Document;
             this.scx = new ExportManager(this.doc);
-            this.filter = new FilterContextMenu("Filter", -1, null);
+            this.filter = new FilterContextMenu(Resources.Filter, -1, null);
             this.InitializeComponent();
             this.printButton = new MenuButton(printButtonContextMenu);
             this.InitPrintButton();
             this.Controls.Add(this.printButton);
             findTip = new ToolTip();
-            var findTipText = "Use regular expressions to filter the sheet list" +
-                Environment.NewLine +
-                "Searches both sheet name and number.";
+            var findTipText = Resources.FindToolTipText;
             findTip.SetToolTip(this.btnFind, findTipText);
             this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
             this.PopulateViewSheetSetCombo();
@@ -458,6 +456,7 @@ namespace SCaddins.ExportManager
             this.UpdateExportButton(this.NumberOfSelectedViews());
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "System.Windows.Forms.Control.set_Text(System.String)")]
         private void UpdateExportButton(int count)
         {
             string s = Resources.ExportDirectory +@"[" + count + @"]:";
@@ -515,12 +514,12 @@ namespace SCaddins.ExportManager
             ShowHelp();
         }
 
-      private void DataGridView1_CellMouseDown(
+        private void DataGridView1_CellMouseDown(
             object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex != -1) {
-                string s = "Filter";
-                string f = "NA";
+                string s = Resources.Filter;
+                string f = Resources.NA;
                 this.filterToolStripMenuItem.Enabled = true;
                 var row = (DataGridViewRow)this.dataGridView1.Rows[e.RowIndex];
                 var sc = row.DataBoundItem as ExportSheet;
@@ -528,10 +527,10 @@ namespace SCaddins.ExportManager
                 case 1:
                     var c =
                         new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-                        f = "Filter: Rev *"; 
+                        f = Resources.FilterRevisionColumnPrefix; 
                     int index = sc.SheetNumber.IndexOfAny(c);
                     if (index > -1) {
-                        f = "Filter: Starts with *"; 
+                        f = Resources.FilterStartsWithPrefix; 
                         this.filter.Update(
                                 f + sc.SheetNumber.Substring(0, index + 1),
                                 1,
@@ -540,13 +539,13 @@ namespace SCaddins.ExportManager
                     }
                     break;
                 case 3:
-                        f = "Filter: Rev *"; 
+                        f = Resources.FilterRevisionColumnPrefix; 
                         this.filter.Update(
                             f + sc.SheetRevision, 3, sc.SheetRevision);
                         s = this.filter.Label;
                         break;
                 case 5:
-                        f = "Filter: Rev Date*"; 
+                        f = Resources.FilterRevisionDateColumnPrefix; 
                         this.filter.Update(
                             f + sc.SheetRevisionDate, 5, sc.SheetRevisionDate);
                         s = this.filter.Label;

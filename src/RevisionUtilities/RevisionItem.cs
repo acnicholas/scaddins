@@ -17,6 +17,7 @@
 
 namespace SCaddins.RevisionUtilities
 {
+    using System;
     using Autodesk.Revit.DB;
     
     public class RevisionItem
@@ -28,6 +29,12 @@ namespace SCaddins.RevisionUtilities
         
         public RevisionItem(Document doc, RevisionCloud revisionCloud)
         {
+            if (revisionCloud == null) {
+                throw new ArgumentNullException("revisionCloud");
+            }
+            if (doc == null) {
+                throw new ArgumentNullException("doc");
+            }
             var revision = doc.GetElement(revisionCloud.RevisionId);
             Init(revision);
         }

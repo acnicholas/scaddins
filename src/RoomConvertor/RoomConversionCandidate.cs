@@ -107,7 +107,7 @@ namespace SCaddins.RoomConvertor
 
         public bool PassesFilter(RoomFilter filter)
         {
-            return filter.PassesFilter(this.Room);
+            return filter == null ? false : filter.PassesFilter(this.Room);
         }
 
         private string GetDefaultViewName(Dictionary<string, View> existingViews)

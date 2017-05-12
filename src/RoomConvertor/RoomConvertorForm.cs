@@ -31,6 +31,9 @@ namespace SCaddins.RoomConvertor
 
         public MainForm(RoomConversionManager scasfar)
         {
+            if (scasfar == null) {
+                throw new ArgumentNullException("scasfar");
+            }
             InitializeComponent();          
 
             this.roomConversionManager = scasfar;

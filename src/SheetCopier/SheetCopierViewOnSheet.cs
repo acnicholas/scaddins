@@ -36,7 +36,13 @@ namespace SCaddins.SheetCopier
    
         public SheetCopierViewOnSheet(string title, View view, SheetCopierManager scopy)
         {
+            if (scopy == null) {
+                throw new ArgumentNullException("scopy");
+            }
             this.scopy = scopy;
+            if (view == null) {
+                throw new ArgumentNullException("view");
+            }
             this.oldView = view;
             this.oldId = view.Id;
             this.originalTitle = title;

@@ -41,6 +41,9 @@ namespace SCaddins.RoomConvertor
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
         public void UpdateRoomInfo(Room room)
         {
+            if (room == null) {
+                return;
+            }
             this.Text = room.Name;
             this.listView1.Items.Clear();
             foreach (Parameter p in room.Parameters) {  

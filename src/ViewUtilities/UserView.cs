@@ -53,7 +53,7 @@ namespace SCaddins.ViewUtilities
         {
             string message = string.Empty;
             if (sheets == null || doc == null) {
-                message += "Could not create user view";
+                message += SCaddins.Properties.Resources.CouldNotCreateUserView;
             } else {
                 using (var t = new Transaction(doc, "SCuv Copies User Views")) {
                     if (t.Start() == TransactionStatus.Started) {

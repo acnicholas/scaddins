@@ -106,11 +106,17 @@ namespace SCaddins.SheetCopier
 
         public static ViewSheet ViewToViewSheet(View view)
         {
+            if (view == null) {
+                return null;
+            }
             return (view.ViewType != ViewType.DrawingSheet) ? null : view as ViewSheet;
         }
                   
         public bool SheetNumberAvailable(string number)
         {
+            if (string.IsNullOrEmpty(number)) {
+                return false;
+            }
             foreach (SheetCopierSheet s in this.sheets) {
                 if (s.Number.ToUpper(CultureInfo.InvariantCulture).Equals(number.ToUpper(CultureInfo.InvariantCulture))) {
                     return false;
@@ -121,6 +127,9 @@ namespace SCaddins.SheetCopier
 
         public bool ViewNameAvailable(string title)
         {
+            if (string.IsNullOrEmpty(title)) {
+                return false;
+            }
             foreach (SheetCopierSheet s in this.sheets) {
                 foreach (SheetCopierViewOnSheet v in s.ViewsOnSheet) {
                     if (v.Title.ToUpper(CultureInfo.InvariantCulture).Equals(title.ToUpper(CultureInfo.InvariantCulture))) {
@@ -177,9 +186,12 @@ namespace SCaddins.SheetCopier
     
         public void AddSheet(ViewSheet sourceSheet)
         {
-            string n = this.GetNewSheetNumber(sourceSheet.SheetNumber);
-            string t = sourceSheet.Name + SheetCopierConstants.MenuItemCopy;
-            this.sheets.Add(new SheetCopierSheet(n, t, this, sourceSheet));
+            if (sourceSheet != null) {
+                string n = this.GetNewSheetNumber(sourceSheet.SheetNumber);
+                string t = sourceSheet.Name + SheetCopierConstants.MenuItemCopy;
+                this.sheets.Add(new SheetCopierSheet(n, t, this, sourceSheet));
+            }
+            // FIXME add error message,
         }
         
         #endregion
@@ -232,7 +244,14 @@ namespace SCaddins.SheetCopier
 
         public static void GetAllSheets(Dictionary<string, View> existingSheets, Document doc)
         {
+            if (existingSheets == null) {
+                return;
+            }
             existingSheets.Clear();
+
+            if (doc == null) {
+                return;
+            }
             using (var c1 = new FilteredElementCollector(doc)) {
                 c1.OfCategory(BuiltInCategory.OST_Sheets);
                 foreach (View view in c1) {
@@ -256,7 +275,14 @@ namespace SCaddins.SheetCopier
         
         public static void GetAllViewsInModel(Dictionary<string, View> existingViews, Document doc)
         {
+            if (existingViews == null) {
+                return;
+            }
             existingViews.Clear();
+
+            if (doc == null) {
+                return;
+            }
             using (var collector = new FilteredElementCollector(doc)) {
                 collector.OfClass(typeof(Autodesk.Revit.DB.View));
                 foreach (Element element in collector) {

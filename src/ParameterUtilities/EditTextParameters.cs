@@ -65,10 +65,12 @@ namespace SCaddins.ParameterUtils
         {
             commit = true;
             EditTextParameters.mode = mode;
-            var trans = new Transaction(doc);
-            trans.Start("Convert all selected types uppercase (SCulcase)");
-            Convert(mode, types, doc);
-            trans.Commit();
+            using (var trans = new Transaction(doc)) {
+                if (trans.Start("Convert all selected types to uppercase (SCulcase)") == TransactionStatus.Started) {
+                    Convert(mode, types, doc);
+                    trans.Commit();
+                }
+            }
         }
 
         public static void ConvertAllDryRun(ConversionMode mode, ConversionTypes types, Document doc)
@@ -145,11 +147,12 @@ namespace SCaddins.ParameterUtils
 
         private static void ConvertAllViewNames(Document doc)
         {
-            var f = new FilteredElementCollector(doc);
-            f.OfCategory(BuiltInCategory.OST_Views);
-            foreach (Element e in f) {
-                var v = (View)e;
-                ConvertViewName(v);
+            using (var f = new FilteredElementCollector(doc)) {
+                f.OfCategory(BuiltInCategory.OST_Views);
+                foreach (Element e in f) {
+                    var v = (View)e;
+                    ConvertViewName(v);
+                }
             }
         }
 
@@ -167,11 +170,12 @@ namespace SCaddins.ParameterUtils
 
         private static void ConvertAllViewNamesOnSheet(Document doc)
         {
-            var f = new FilteredElementCollector(doc);
-            f.OfCategory(BuiltInCategory.OST_Views);
-            foreach (Element e in f) {
-                var view = (View)e;
-                ConvertViewNameOnSheet(view);
+            using (var f = new FilteredElementCollector(doc)) {
+                f.OfCategory(BuiltInCategory.OST_Views);
+                foreach (Element e in f) {
+                    var view = (View)e;
+                    ConvertViewNameOnSheet(view);
+                }
             }
         }
 
@@ -205,11 +209,12 @@ namespace SCaddins.ParameterUtils
 
         private static void ConvertAllAnnotation(Document doc)
         {
-            var f = new FilteredElementCollector(doc);
-            f.OfCategory(BuiltInCategory.OST_TextNotes);
-            foreach (Element e in f) {
-                var text = (TextElement)e;
-                ConvertAnnotation(text);
+            using (var f = new FilteredElementCollector(doc)) {
+                f.OfCategory(BuiltInCategory.OST_TextNotes);
+                foreach (Element e in f) {
+                    var text = (TextElement)e;
+                    ConvertAnnotation(text);
+                }
             }
         }
 
@@ -225,11 +230,12 @@ namespace SCaddins.ParameterUtils
 
         private static void ConvertAllRooms(Document doc)
         {
-            var f = new FilteredElementCollector(doc);
-            f.OfCategory(BuiltInCategory.OST_Rooms);
-            foreach (Element e in f) {
-                var room = (Room)e;
-                ConvertRoom(room);
+            using (var f = new FilteredElementCollector(doc)) {
+                f.OfCategory(BuiltInCategory.OST_Rooms);
+                foreach (Element e in f) {
+                    var room = (Room)e;
+                    ConvertRoom(room);
+                }
             }
         }
 

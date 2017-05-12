@@ -259,6 +259,15 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not create user view.
+        /// </summary>
+        internal static string CouldNotCreateUserView {
+            get {
+                return ResourceManager.GetString("CouldNotCreateUserView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create User View.
         /// </summary>
         internal static string CreateUserView {
@@ -363,6 +372,15 @@ namespace SCaddins.Properties {
         internal static string EndTime {
             get {
                 return ResourceManager.GetString("EndTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
             }
         }
         
@@ -511,6 +529,42 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filter: Rev *.
+        /// </summary>
+        internal static string FilterRevisionColumnPrefix {
+            get {
+                return ResourceManager.GetString("FilterRevisionColumnPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter: Rev Date*.
+        /// </summary>
+        internal static string FilterRevisionDateColumnPrefix {
+            get {
+                return ResourceManager.GetString("FilterRevisionDateColumnPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter: Starts with *.
+        /// </summary>
+        internal static string FilterStartsWithPrefix {
+            get {
+                return ResourceManager.GetString("FilterStartsWithPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use regular expressions to filter the sheetlist. Searches both sheet name and number..
+        /// </summary>
+        internal static string FindToolTipText {
+            get {
+                return ResourceManager.GetString("FindToolTipText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Finished Print.
         /// </summary>
         internal static string FinishedPrint {
@@ -624,6 +678,15 @@ namespace SCaddins.Properties {
         internal static string Mode {
             get {
                 return ResourceManager.GetString("Mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NA.
+        /// </summary>
+        internal static string NA {
+            get {
+                return ResourceManager.GetString("NA", resourceCulture);
             }
         }
         
@@ -943,7 +1006,7 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Scalebar Scale.
+        ///   Looks up a localized string similar to Scale Bar Scale.
         /// </summary>
         internal static string ScalebarScale {
             get {
@@ -1024,7 +1087,7 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Multi View Creation Options.
+        ///   Looks up a localized string similar to Options for Multiple View Creation.
         /// </summary>
         internal static string SolarViewsMultiViewCreationOptions {
             get {
@@ -1155,6 +1218,15 @@ namespace SCaddins.Properties {
         internal static string VersionInformation {
             get {
                 return ResourceManager.GetString("VersionInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
         

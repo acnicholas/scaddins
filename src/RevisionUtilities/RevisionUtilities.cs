@@ -36,6 +36,11 @@ namespace SCaddins.RevisionUtilities
         [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", Justification = "Because.")]        
         public static void ExportCloudInfo(Document doc, Dictionary<string, RevisionItem> dictionary, string exportFilename)
         {
+            if (doc == null || dictionary == null) {
+                TaskDialog.Show("ERROR", "could not export cloud information");
+                return;
+            }
+
             string ExportFilename = string.IsNullOrEmpty(exportFilename) ? @"C:\Temp\SClouds" : exportFilename;
             Application excelApp;
             Worksheet excelWorksheet;
@@ -116,20 +121,27 @@ namespace SCaddins.RevisionUtilities
         
         public static void AssignRevisionToClouds(Document doc, Collection<RevisionCloudItem> revisionClouds)
         {
-            var r = new SCaddins.ExportManager.RevisionSelectionDialog(doc);
-            var result = r.ShowDialog();
-            if (result != System.Windows.Forms.DialogResult.OK) {      
+            if (doc == null || revisionClouds == null) {
+                TaskDialog.Show("ERROR", "Could not assign revisions to clouds");
                 return;
             }
-            if (r.Id == null) {
-                TaskDialog.Show("test", "id is null"); 
+            ElementId cloudId = null;
+            using (var r = new SCaddins.ExportManager.RevisionSelectionDialog(doc)) {
+                var result = r.ShowDialog();
+                if (result != System.Windows.Forms.DialogResult.OK) {
+                    return;
+                }
+                cloudId = r.Id;
+            }
+            if (cloudId == null) {
+                TaskDialog.Show("ERROR", "Selected cloud is not valid...for some reason"); 
                 return;
             }
             using (var t = new Transaction(doc, "Assign Revisions to Clouds")) {
                 t.Start();
                 foreach (RevisionCloudItem rc in revisionClouds) { 
                     if (rc != null) {
-                        rc.SetCloudId(r.Id);
+                        rc.SetCloudId(cloudId);
                     } 
                 }
                 t.Commit();
@@ -138,6 +150,10 @@ namespace SCaddins.RevisionUtilities
         
          public static void DeleteRevisionClouds(Document doc, Collection<RevisionCloudItem> revisionClouds)
         {
+            if (doc == null || revisionClouds == null) {
+                TaskDialog.Show("ERROR", "Could not delete revision clouds");
+                return;
+            }
             using (var t = new Transaction(doc, "Deleting Revision Clouds")) {
                 t.Start();
                 foreach (RevisionCloudItem rc in revisionClouds) { 
@@ -149,17 +165,6 @@ namespace SCaddins.RevisionUtilities
             }
         }
         
-
-        public static string GetParameterAsString(Element revCloud, BuiltInParameter builtInParameter)
-        {
-            var parameter = revCloud.get_Parameter(builtInParameter);
-            if (parameter == null) {
-                return string.Empty;
-            }
-            string result = parameter.AsString();
-            return string.IsNullOrEmpty(result) ? string.Empty : result;
-        }
-
         /// <summary>
         /// Write to an excel worksheet
         /// from here:

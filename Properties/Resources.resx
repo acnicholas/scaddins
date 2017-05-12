@@ -349,7 +349,7 @@
     <value>Create Multiple Angle of Sun Views (3d)</value>
   </data>
   <data name="SolarViewsMultiViewCreationOptions" xml:space="preserve">
-    <value>Multi View Creation Options</value>
+    <value>Options for Multiple View Creation</value>
   </data>
   <data name="SolarViewsRotateCurrentView" xml:space="preserve">
     <value>Rotate Current View</value>
@@ -422,7 +422,7 @@
     <value>Reset to Default</value>
   </data>
   <data name="ScalebarScale" xml:space="preserve">
-    <value>Scalebar Scale</value>
+    <value>Scale Bar Scale</value>
   </data>
   <data name="ToggleNorthPoint" xml:space="preserve">
     <value>Toggle North Point</value>
@@ -492,5 +492,29 @@
   </data>
   <data name="SetPrinter" xml:space="preserve">
     <value>Set Printer</value>
+  </data>
+  <data name="CouldNotCreateUserView" xml:space="preserve">
+    <value>Could not create user view</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="FilterRevisionColumnPrefix" xml:space="preserve">
+    <value>Filter: Rev *</value>
+  </data>
+  <data name="FilterRevisionDateColumnPrefix" xml:space="preserve">
+    <value>Filter: Rev Date*</value>
+  </data>
+  <data name="FilterStartsWithPrefix" xml:space="preserve">
+    <value>Filter: Starts with *</value>
+  </data>
+  <data name="FindToolTipText" xml:space="preserve">
+    <value>Use regular expressions to filter the sheetlist. Searches both sheet name and number.</value>
+  </data>
+  <data name="NA" xml:space="preserve">
+    <value>NA</value>
   </data>
 </root>

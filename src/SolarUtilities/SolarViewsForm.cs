@@ -24,13 +24,16 @@ namespace SCaddins.SolarUtilities
     {
         public SCaosForm(string[] informationText, bool currentViewIsIso)
         {
+
             this.InitializeComponent();
             if (!currentViewIsIso) {
                 radioButtonRotateCurrent.Enabled = false;
             }
 
-            for (int i = 0; i < informationText.Length; i++) {
-                listBox1.Items.Add(informationText[i]);
+            if (informationText != null) {
+                for (int i = 0; i < informationText.Length; i++) {
+                    listBox1.Items.Add(informationText[i]);
+                }
             }
 
             this.PopulateTimeSpansDropDowns(new DateTime(2015, 6, 21, 12, 0, 0, DateTimeKind.Local));

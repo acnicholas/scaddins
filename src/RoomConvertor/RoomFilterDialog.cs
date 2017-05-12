@@ -29,11 +29,21 @@ namespace SCaddins.RoomConvertor
         
         public RoomFilterDialog(RoomFilter filter, Document doc)
         {
+            if (filter == null) {
+                throw new ArgumentNullException("filter");
+            }
+            if (doc == null) {
+                throw new ArgumentNullException("doc");
+            }
+
             InitializeComponent();
-            
             this.filter = filter;
-            
-            Room room = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Rooms).FirstElement() as Room;
+
+            Room room;
+            using (var collector = new FilteredElementCollector(doc)) {
+                collector.OfCategory(BuiltInCategory.OST_Rooms);
+                room = collector.FirstElement() as Room;
+            }
             
             var s = new List<String>();
             foreach (Parameter p in room.Parameters) {  

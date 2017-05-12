@@ -13,9 +13,9 @@
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            var settingsForm = new SCaddinsOptionsForm();
-            settingsForm.ShowDialog();
-            settingsForm.Dispose();
+            using (var settingsForm = new SCaddinsOptionsForm()) {
+                settingsForm.ShowDialog();
+            }
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }

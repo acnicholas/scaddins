@@ -52,6 +52,15 @@ namespace SCaddins.SheetCopier
             Document doc,
             ICollection<SCaddins.ExportManager.ExportSheet> sheets, SheetCopierManager scopy)
         {
+            if (sheets == null) {
+                throw new ArgumentNullException("sheets");
+            }
+            
+            if (scopy == null) {
+                throw new ArgumentNullException("scopy");
+            }
+
+            this.scopy = scopy;
             this.doc = doc;
             this.InitializeComponent();
             this.SetTitle();
@@ -245,7 +254,7 @@ namespace SCaddins.SheetCopier
 
         private void ButtonGO(object sender, EventArgs e)
         {
-            this.Dispose();
+            // this.Dispose();
             this.Close();
         }
 

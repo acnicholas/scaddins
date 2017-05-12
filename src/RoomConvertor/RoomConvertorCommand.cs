@@ -19,6 +19,7 @@ namespace SCaddins.RoomConvertor
 {
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using System;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -28,18 +29,28 @@ namespace SCaddins.RoomConvertor
         public Result Execute(
             ExternalCommandData commandData, ref string message, ElementSet elements)
         {
+            if (commandData == null) {
+                throw new ArgumentNullException("commandData");
+            }
+
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            var roomConversionManager = new RoomConversionManager(doc);
-            if (roomConversionManager.Candidates.Count == 0) {
-                TaskDialog td = new TaskDialog("Room Tools - Slight Problem...");
-                td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-                td.MainInstruction = "No Rooms Found in Model";
-                td.MainContent = "Room Tools will now exit as there's not much use continuing.";
-                td.Show();
+            if (doc == null) {
                 return Result.Failed;
             }
-            var mainForm = new MainForm(roomConversionManager);
-            mainForm.ShowDialog();
+
+            var roomConversionManager = new RoomConversionManager(doc);
+            if (roomConversionManager.Candidates.Count == 0) {
+                using (TaskDialog td = new TaskDialog("Room Tools - Slight Problem...")) {
+                    td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+                    td.MainInstruction = "No Rooms Found in Model";
+                    td.MainContent = "Room Tools will now exit as there's not much use continuing.";
+                    td.Show();
+                }
+                return Result.Failed;
+            }
+            using (var mainForm = new MainForm(roomConversionManager)) {
+                mainForm.ShowDialog();
+            }
             return Result.Succeeded;
         }
     }

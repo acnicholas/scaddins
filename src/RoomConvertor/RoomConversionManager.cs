@@ -88,6 +88,10 @@ namespace SCaddins.RoomConvertor
         public void CreateViewsAndSheets(
             System.ComponentModel.BindingList<RoomConversionCandidate> rooms)
         {
+            if (rooms == null) {
+                Autodesk.Revit.UI.TaskDialog.Show("WARNING", "no rooms selected to covnert");
+                return;
+            }
             using (Transaction t = new Transaction(doc, "Rooms to Views")) {
                 if (t.Start() == TransactionStatus.Started) {
                     foreach (RoomConversionCandidate c in rooms) {
@@ -129,15 +133,18 @@ namespace SCaddins.RoomConvertor
         {
             int errCount = 0;
             int roomCount = 0;
-            var t = new Transaction(doc, "Rooms to Masses");
-            t.Start(); 
-            foreach (RoomConversionCandidate c in rooms) {
-                roomCount++;
-                if (!this.CreateRoomMass(c.Room)) {
-                    errCount++;
+            if (rooms != null) {
+                using (var t = new Transaction(doc, "Rooms to Masses")) {
+                    t.Start();
+                    foreach (RoomConversionCandidate c in rooms) {
+                        roomCount++;
+                        if (!this.CreateRoomMass(c.Room)) {
+                            errCount++;
+                        }
+                    }
+                    t.Commit();
                 }
             }
-            t.Commit();
             Autodesk.Revit.UI.TaskDialog.Show(
                         "Rooms To Masses",
                         (roomCount - errCount) + " Room masses created with " + errCount + " errors."
@@ -222,28 +229,30 @@ namespace SCaddins.RoomConvertor
 
         public void SynchronizeMassesToRooms()
         {
-          var t = new Transaction(doc, "Synchronize Masses to Rooms");
-          t.Start(); 
-
-          FilteredElementCollector collector = 
-              new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Mass).OfClass(typeof(DirectShape));
-
-          int i = 0;
-            foreach (Element e in collector) {
-                Parameter p = e.LookupParameter("RoomId");
-                i++;
-                int intId = p.AsInteger();
-                if (intId > 0) {
-                    ElementId id = new ElementId(intId);
-                    Element room = doc.GetElement(id);
-                    if (room != null) {
-                        CopyAllMassParametersToRooms(e, (Room)room);
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfCategory(BuiltInCategory.OST_Mass);
+            collector.OfClass(typeof(DirectShape));
+            
+            using (var t = new Transaction(doc, "Synchronize Masses to Rooms")) {
+                t.Start();
+                int i = 0;
+                foreach (Element e in collector) {
+                    Parameter p = e.LookupParameter("RoomId");
+                    i++;
+                    int intId = p.AsInteger();
+                    if (intId > 0) {
+                        ElementId id = new ElementId(intId);
+                        Element room = doc.GetElement(id);
+                        if (room != null) {
+                            CopyAllMassParametersToRooms(e, (Room)room);
+                        }
                     }
                 }
+
+                Autodesk.Revit.UI.TaskDialog.Show("Synchronize Masses to Rooms", i + " masses synchronized");
+                t.Commit();
             }
-          
-          Autodesk.Revit.UI.TaskDialog.Show("Synchronize Masses to Rooms", i + " masses synchronized");
-          t.Commit();         
+            collector.Dispose();      
         }
 
         private bool CreateRoomMass(Room room)
@@ -301,12 +310,14 @@ namespace SCaddins.RoomConvertor
 
         private static ElementId GetFloorPlanViewFamilyTypeId(Document doc)
         {
-            foreach (ViewFamilyType vft in new FilteredElementCollector(doc).OfClass(typeof(ViewFamilyType))) {
-                if (vft.ViewFamily == ViewFamily.FloorPlan) {
-                    return vft.Id;
+            using (var collector = new FilteredElementCollector(doc)) {
+                foreach (ViewFamilyType vft in collector.OfClass(typeof(ViewFamilyType))) {
+                    if (vft.ViewFamily == ViewFamily.FloorPlan) {
+                        return vft.Id;
+                    }
                 }
+                return null;
             }
-            return null;
         }
 
         private static XYZ CentreOfSheet(ViewSheet sheet, Document doc)

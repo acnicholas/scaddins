@@ -88,14 +88,15 @@ namespace SCaddins.SCoord
 
         private static Level GetLevelZero(Document doc)
         {
-            var collector1 = new FilteredElementCollector(doc);
-            collector1.OfClass(typeof(Level));
-            foreach (Level l in collector1) {
-                if (l.Name.ToUpper(CultureInfo.CurrentCulture).Contains("SEA")) {
-                    return l;
-                }
-                if (l.Name.ToUpper(CultureInfo.CurrentCulture).Contains("ZERO")) {
-                    return l;
+            using (var collector1 = new FilteredElementCollector(doc)) {
+                collector1.OfClass(typeof(Level));
+                foreach (Level l in collector1) {
+                    if (l.Name.ToUpper(CultureInfo.CurrentCulture).Contains("SEA")) {
+                        return l;
+                    }
+                    if (l.Name.ToUpper(CultureInfo.CurrentCulture).Contains("ZERO")) {
+                        return l;
+                    }
                 }
             }
             TaskDialog.Show("SCoord", "Sea level not found.");
@@ -130,16 +131,18 @@ namespace SCaddins.SCoord
             double z = Convert.ToDouble(form.textBoxElevation.Text, CultureInfo.CurrentCulture);
             XYZ newLocation = ToMGA(projectPosition, x, y, z);
 
-            var t = new Transaction(doc, "Place SCoord");
-            t.Start();
-            FamilyInstance fi = doc.Create.NewFamilyInstance(
-                                    newLocation,
-                                    family,
-                                    levelZero,
-                                    Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
-            Parameter p = fi.LookupParameter("Z");
-            p.Set(newLocation.Z);
-            t.Commit();
+            using (var t = new Transaction(doc, "Place SCoord")) {
+                if (t.Start() == TransactionStatus.Started) {
+                    FamilyInstance fi = doc.Create.NewFamilyInstance(
+                                            newLocation,
+                                            family,
+                                            levelZero,
+                                            Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
+                    Parameter p = fi.LookupParameter("Z");
+                    p.Set(newLocation.Z);
+                    t.Commit();
+                }
+            }
         }
     }
 }

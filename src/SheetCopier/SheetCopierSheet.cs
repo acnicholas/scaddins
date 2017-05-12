@@ -33,7 +33,13 @@ namespace SCaddins.SheetCopier
         
         public SheetCopierSheet(string number, string title,  SheetCopierManager scopy, ViewSheet sourceSheet)
         {
+            if (scopy == null) {
+                throw new ArgumentNullException("scopy");
+            }
             this.scopy = scopy;
+            if (sourceSheet == null) {
+                throw new ArgumentNullException("sourceSheet");
+            }
             this.number = number;
             this.title = title; 
             this.SourceSheet = sourceSheet;

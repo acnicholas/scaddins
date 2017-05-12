@@ -36,7 +36,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButtonShadowPlans = new System.Windows.Forms.RadioButton();
             this.radioButtonWinterViews = new System.Windows.Forms.RadioButton();
             this.radioButtonRotateCurrent = new System.Windows.Forms.RadioButton();
@@ -63,7 +62,7 @@
             this.groupBox1.Size = new System.Drawing.Size(370, 165);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = Resources.CurrentViewInformation;
+            this.groupBox1.Text = "Current View Information";
             // 
             // listBox1
             // 
@@ -81,7 +80,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
-            this.button1.Text = Resources.OK;
+            this.button1.Text = global::SCaddins.Properties.Resources.OK;
             this.button1.UseVisualStyleBackColor = true;
             // 
             // button2
@@ -91,12 +90,11 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 2;
-            this.button2.Text = Resources.Cancel; ;
+            this.button2.Text = global::SCaddins.Properties.Resources.Cancel;
             this.button2.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.radioButton1);
             this.groupBox2.Controls.Add(this.radioButtonShadowPlans);
             this.groupBox2.Controls.Add(this.radioButtonWinterViews);
             this.groupBox2.Controls.Add(this.radioButtonRotateCurrent);
@@ -105,19 +103,7 @@
             this.groupBox2.Size = new System.Drawing.Size(370, 132);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = Resources.Mode;
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.Enabled = false;
-            this.radioButton1.Location = new System.Drawing.Point(6, 95);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(358, 36);
-            this.radioButton1.TabIndex = 3;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Calculate Solar Hours - Mass Mode (EXPERIMENTAL)";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.Visible = false;
+            this.groupBox2.Text = "Mode";
             // 
             // radioButtonShadowPlans
             // 
@@ -126,7 +112,7 @@
             this.radioButtonShadowPlans.Size = new System.Drawing.Size(358, 36);
             this.radioButtonShadowPlans.TabIndex = 2;
             this.radioButtonShadowPlans.TabStop = true;
-            this.radioButtonShadowPlans.Text = Resources.SolarViewsCreateMultipleShadowPlans;
+            this.radioButtonShadowPlans.Text = global::SCaddins.Properties.Resources.SolarViewsCreateMultipleShadowPlans;
             this.radioButtonShadowPlans.UseVisualStyleBackColor = true;
             this.radioButtonShadowPlans.CheckedChanged += new System.EventHandler(this.RadioButtonShadowPlansCheckedChanged);
             // 
@@ -137,7 +123,7 @@
             this.radioButtonWinterViews.Size = new System.Drawing.Size(290, 29);
             this.radioButtonWinterViews.TabIndex = 1;
             this.radioButtonWinterViews.TabStop = true;
-            this.radioButtonWinterViews.Text = Resources.SolarViewsCreateMultipleSunViews;
+            this.radioButtonWinterViews.Text = global::SCaddins.Properties.Resources.SolarViewsCreateMultipleSunViews;
             this.radioButtonWinterViews.UseVisualStyleBackColor = true;
             this.radioButtonWinterViews.CheckedChanged += new System.EventHandler(this.RadioButtonWinterViewsCheckedChanged);
             // 
@@ -148,7 +134,7 @@
             this.radioButtonRotateCurrent.Size = new System.Drawing.Size(283, 32);
             this.radioButtonRotateCurrent.TabIndex = 0;
             this.radioButtonRotateCurrent.TabStop = true;
-            this.radioButtonRotateCurrent.Text = Resources.SolarViewsRotateCurrentView;
+            this.radioButtonRotateCurrent.Text = global::SCaddins.Properties.Resources.SolarViewsRotateCurrentView;
             this.radioButtonRotateCurrent.UseVisualStyleBackColor = true;
             this.radioButtonRotateCurrent.CheckedChanged += new System.EventHandler(this.RadioButtonRotateCurrentCheckedChanged);
             // 
@@ -158,7 +144,7 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 4;
-            this.button3.Text = Resources.Help;
+            this.button3.Text = global::SCaddins.Properties.Resources.Help;
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.Button3Click);
             // 
@@ -177,7 +163,7 @@
             this.groupBoxWinterViewOptions.Size = new System.Drawing.Size(370, 111);
             this.groupBoxWinterViewOptions.TabIndex = 5;
             this.groupBoxWinterViewOptions.TabStop = false;
-            this.groupBoxWinterViewOptions.Text = Resources.SolarViewsMultiViewCreationOptions;
+            this.groupBoxWinterViewOptions.Text = "Options for Multiple View Creation";
             // 
             // label4
             // 
@@ -185,7 +171,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(120, 15);
             this.label4.TabIndex = 7;
-            this.label4.Text = Resources.Date;
+            this.label4.Text = "Date";
             // 
             // dateTimePicker1
             // 
@@ -203,7 +189,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 15);
             this.label3.TabIndex = 5;
-            this.label3.Text = Resources.Interval;
+            this.label3.Text = "Interval";
             // 
             // label2
             // 
@@ -211,7 +197,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(120, 15);
             this.label2.TabIndex = 4;
-            this.label2.Text = Resources.EndTime;
+            this.label2.Text = "EndTime";
             // 
             // label1
             // 
@@ -219,7 +205,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(120, 15);
             this.label1.TabIndex = 3;
-            this.label1.Text = Resources.StartTime;
+            this.label1.Text = "Start Time";
             // 
             // interval
             // 
@@ -259,14 +245,13 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SCaosForm";
-            this.Text = Resources.AngleOfSunTitle;
+            this.Text = "Angle Of Sun - Create view[s] from the sun";
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBoxWinterViewOptions.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
-        private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.Button button3;
         internal System.Windows.Forms.RadioButton radioButtonRotateCurrent;
         internal System.Windows.Forms.RadioButton radioButtonWinterViews;

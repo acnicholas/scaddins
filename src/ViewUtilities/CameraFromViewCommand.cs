@@ -172,7 +172,8 @@ namespace SCaddins.ViewUtilities
         private static IEnumerable<ViewFamilyType> Get3DViewFamilyTypes(Document doc)
         {
             IEnumerable<ViewFamilyType> viewFamilyTypes;
-            using (var collector = new FilteredElementCollector(doc).OfClass(typeof(ViewFamilyType))) {
+            using (var collector = new FilteredElementCollector(doc))) {
+                collector.OfClass(typeof(ViewFamilyType);
                 viewFamilyTypes = from elem in collector
                                   let type = elem as ViewFamilyType
                                   where type.ViewFamily == ViewFamily.ThreeDimensional

@@ -14,6 +14,10 @@ namespace SCaddins.RoomConvertor
         
         public RoomToSheetWizard(RoomConversionManager roomConversionManager)
         {
+            if (roomConversionManager == null) {
+                throw new ArgumentNullException("roomConversionManager");
+            }
+
             this.roomConversionManager = roomConversionManager;
             InitializeComponent();
             this.PopulateTitleblockCombo();
