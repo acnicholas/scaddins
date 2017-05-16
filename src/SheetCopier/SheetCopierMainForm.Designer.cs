@@ -8,6 +8,8 @@
  */
 namespace SCaddins.SheetCopier
 {
+    using SCaddins.Properties;
+
     partial class MainForm
     {
         /// <summary>
@@ -37,16 +39,15 @@ namespace SCaddins.SheetCopier
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "System.Windows.Forms.Control.set_Text(System.String)")]
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Basic Information", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("ViewPorts", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Shedules", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup(global::SCaddins.Properties.Resources.BasicInformation, System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup(global::SCaddins.Properties.Resources.ViewPorts, System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup(global::SCaddins.Properties.Resources.Schedules, System.Windows.Forms.HorizontalAlignment.Left);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label1 = new System.Windows.Forms.Label();
             this.listView1 = new System.Windows.Forms.ListView();
-            this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.buttonRemove = new System.Windows.Forms.Button();
@@ -59,10 +60,6 @@ namespace SCaddins.SheetCopier
             this.buttonAdd = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.buttonGo = new System.Windows.Forms.Button();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.replaceTextregexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.replaceTextregexToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -73,8 +70,6 @@ namespace SCaddins.SheetCopier
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
-            this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -121,11 +116,11 @@ namespace SCaddins.SheetCopier
             this.columnHeader2});
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
-            listViewGroup1.Header = "Basic Information";
+            listViewGroup1.Header = global::SCaddins.Properties.Resources.BasicInformation;
             listViewGroup1.Name = "listViewGroup1";
-            listViewGroup2.Header = "ViewPorts";
+            listViewGroup2.Header = global::SCaddins.Properties.Resources.ViewPorts;
             listViewGroup2.Name = "listViewGroup2";
-            listViewGroup3.Header = "Shedules";
+            listViewGroup3.Header = global::SCaddins.Properties.Resources.Schedules;
             listViewGroup3.Name = "listViewGroup3";
             this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1,
@@ -153,7 +148,7 @@ namespace SCaddins.SheetCopier
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(108, 23);
             this.button2.TabIndex = 13;
-            this.button2.Text = "Rename Sheets";
+            this.button2.Text = global::SCaddins.Properties.Resources.RenameSheets;
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.Button2Click);
             // 
@@ -166,7 +161,7 @@ namespace SCaddins.SheetCopier
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(92, 23);
             this.button1.TabIndex = 12;
-            this.button1.Text = "Copy ";
+            this.button1.Text = global::SCaddins.Properties.Resources.Copy;
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1Click);
             // 
@@ -180,7 +175,7 @@ namespace SCaddins.SheetCopier
             this.buttonRemove.Name = "buttonRemove";
             this.buttonRemove.Size = new System.Drawing.Size(112, 23);
             this.buttonRemove.TabIndex = 11;
-            this.buttonRemove.Text = "Remove";
+            this.buttonRemove.Text = global::SCaddins.Properties.Resources.Remove;
             this.buttonRemove.UseVisualStyleBackColor = true;
             this.buttonRemove.Click += new System.EventHandler(this.ButtonRemoveClick);
             // 
@@ -240,7 +235,7 @@ namespace SCaddins.SheetCopier
             this.buttonRemoveView.Name = "buttonRemoveView";
             this.buttonRemoveView.Size = new System.Drawing.Size(108, 23);
             this.buttonRemoveView.TabIndex = 15;
-            this.buttonRemoveView.Text = "Remove View";
+            this.buttonRemoveView.Text = global::SCaddins.Properties.Resources.RemoveView;
             this.buttonRemoveView.UseVisualStyleBackColor = true;
             this.buttonRemoveView.Click += new System.EventHandler(this.ButtonRemoveViewClick);
             // 
@@ -253,7 +248,7 @@ namespace SCaddins.SheetCopier
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(108, 23);
             this.button3.TabIndex = 14;
-            this.button3.Text = "Rename Views";
+            this.button3.Text = global::SCaddins.Properties.Resources.RenameViews;
             this.button3.UseVisualStyleBackColor = true;
             // 
             // label3
@@ -262,7 +257,7 @@ namespace SCaddins.SheetCopier
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(284, 18);
             this.label3.TabIndex = 8;
-            this.label3.Text = "Views on New Sheet: ";
+            this.label3.Text = "Views on New Sheet";
             // 
             // dataGridView2
             // 
@@ -292,7 +287,7 @@ namespace SCaddins.SheetCopier
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(112, 23);
             this.buttonAdd.TabIndex = 9;
-            this.buttonAdd.Text = "Add Current Sheet";
+            this.buttonAdd.Text = global::SCaddins.Properties.Resources.AddCurrentSheet;
             this.buttonAdd.UseVisualStyleBackColor = true;
             this.buttonAdd.Click += new System.EventHandler(this.ButtonAdd);
             // 
@@ -302,7 +297,7 @@ namespace SCaddins.SheetCopier
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(121, 25);
             this.label2.TabIndex = 5;
-            this.label2.Text = "New Sheet[s]";
+            this.label2.Text = "New Sheets";
             // 
             // buttonGo
             // 
@@ -313,36 +308,9 @@ namespace SCaddins.SheetCopier
             this.buttonGo.Name = "buttonGo";
             this.buttonGo.Size = new System.Drawing.Size(75, 23);
             this.buttonGo.TabIndex = 5;
-            this.buttonGo.Text = "Go";
+            this.buttonGo.Text = global::SCaddins.Properties.Resources.Go;
             this.buttonGo.UseVisualStyleBackColor = true;
             this.buttonGo.Click += new System.EventHandler(this.ButtonGO);
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.replaceTextregexToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(177, 26);
-            // 
-            // replaceTextregexToolStripMenuItem
-            // 
-            this.replaceTextregexToolStripMenuItem.Name = "replaceTextregexToolStripMenuItem";
-            this.replaceTextregexToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.replaceTextregexToolStripMenuItem.Text = "Replace Text(regex)";
-            this.replaceTextregexToolStripMenuItem.Click += new System.EventHandler(this.ReplaceTextregexToolStripMenuItemClick);
-            // 
-            // contextMenuStrip2
-            // 
-            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.replaceTextregexToolStripMenuItem1});
-            this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(180, 26);
-            // 
-            // replaceTextregexToolStripMenuItem1
-            // 
-            this.replaceTextregexToolStripMenuItem1.Name = "replaceTextregexToolStripMenuItem1";
-            this.replaceTextregexToolStripMenuItem1.Size = new System.Drawing.Size(179, 22);
-            this.replaceTextregexToolStripMenuItem1.Text = "Replace Text (regex)";
             // 
             // MainForm
             // 
@@ -366,8 +334,6 @@ namespace SCaddins.SheetCopier
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
-            this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -385,10 +351,6 @@ namespace SCaddins.SheetCopier
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem replaceTextregexToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
-        private System.Windows.Forms.ToolStripMenuItem replaceTextregexToolStripMenuItem1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button buttonRemoveView;

@@ -62,7 +62,7 @@
             this.groupBox1.Size = new System.Drawing.Size(370, 165);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Current View Information";
+            this.groupBox1.Text = Resources.CurrentViewInformation;
             // 
             // listBox1
             // 
@@ -103,7 +103,7 @@
             this.groupBox2.Size = new System.Drawing.Size(370, 132);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Mode";
+            this.groupBox2.Text = Resources.Mode;
             // 
             // radioButtonShadowPlans
             // 
@@ -163,7 +163,7 @@
             this.groupBoxWinterViewOptions.Size = new System.Drawing.Size(370, 111);
             this.groupBoxWinterViewOptions.TabIndex = 5;
             this.groupBoxWinterViewOptions.TabStop = false;
-            this.groupBoxWinterViewOptions.Text = "Options for Multiple View Creation";
+            this.groupBoxWinterViewOptions.Text = Resources.OptionsForMultipleViewCreation;
             // 
             // label4
             // 
@@ -171,7 +171,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(120, 15);
             this.label4.TabIndex = 7;
-            this.label4.Text = "Date";
+            this.label4.Text = Resources.Date;
             // 
             // dateTimePicker1
             // 
@@ -189,7 +189,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 15);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Interval";
+            this.label3.Text = Resources.Interval;
             // 
             // label2
             // 
@@ -197,7 +197,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(120, 15);
             this.label2.TabIndex = 4;
-            this.label2.Text = "EndTime";
+            this.label2.Text = Resources.EndTime;
             // 
             // label1
             // 
@@ -205,7 +205,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(120, 15);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Start Time";
+            this.label1.Text = Resources.StartTime;
             // 
             // interval
             // 
@@ -245,7 +245,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SCaosForm";
-            this.Text = "Angle Of Sun - Create view[s] from the sun";
+            this.Text = Resources.AngleOfSunTitle;
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBoxWinterViewOptions.ResumeLayout(false);

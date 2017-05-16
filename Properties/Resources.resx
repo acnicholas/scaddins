@@ -517,4 +517,82 @@
   <data name="NA" xml:space="preserve">
     <value>NA</value>
   </data>
+  <data name="ExistingName" xml:space="preserve">
+    <value>Existing Name</value>
+  </data>
+  <data name="ExistingNumber" xml:space="preserve">
+    <value>Existing Number</value>
+  </data>
+  <data name="NewName" xml:space="preserve">
+    <value>New Name</value>
+  </data>
+  <data name="NewNumber" xml:space="preserve">
+    <value>New Number</value>
+  </data>
+  <data name="NewSheetCategoryName" xml:space="preserve">
+    <value>New Sheet Category Name</value>
+  </data>
+  <data name="OptionsForMultipleViewCreation" xml:space="preserve">
+    <value>Options for Multiple View Creation</value>
+  </data>
+  <data name="Pattern" xml:space="preserve">
+    <value>Pattern</value>
+  </data>
+  <data name="RegexOptions" xml:space="preserve">
+    <value>Regex Options</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="RenameSheetsUsingRegex" xml:space="preserve">
+    <value>Rename sheets (using regex)</value>
+  </data>
+  <data name="Replacement" xml:space="preserve">
+    <value>Replacement</value>
+  </data>
+  <data name="SelectPrinter" xml:space="preserve">
+    <value>Select Printer</value>
+  </data>
+  <data name="SelectPrinterFromComboBox" xml:space="preserve">
+    <value>Select printer from combo box</value>
+  </data>
+  <data name="SheetCategoryName" xml:space="preserve">
+    <value>Sheet Category Name</value>
+  </data>
+  <data name="SheetName" xml:space="preserve">
+    <value>Sheet Name</value>
+  </data>
+  <data name="TestRun" xml:space="preserve">
+    <value>Test Run</value>
+  </data>
+  <data name="AddCurrentSheet" xml:space="preserve">
+    <value>Add Current Sheet</value>
+  </data>
+  <data name="BasicInformation" xml:space="preserve">
+    <value>Basic Information</value>
+  </data>
+  <data name="NewSheets" xml:space="preserve">
+    <value>New Sheets</value>
+  </data>
+  <data name="ParentSourceViewOfSelection" xml:space="preserve">
+    <value>Parent[Source] View of Selection</value>
+  </data>
+  <data name="RemoveView" xml:space="preserve">
+    <value>Remove View</value>
+  </data>
+  <data name="RenameSheets" xml:space="preserve">
+    <value>Rename Sheets</value>
+  </data>
+  <data name="RenameViews" xml:space="preserve">
+    <value>Rename Views</value>
+  </data>
+  <data name="Schedules" xml:space="preserve">
+    <value>Schedules</value>
+  </data>
+  <data name="ViewPorts" xml:space="preserve">
+    <value>View Ports</value>
+  </data>
+  <data name="ViewsOnNewSheet" xml:space="preserve">
+    <value>Views on New Sheet</value>
+  </data>
 </root>

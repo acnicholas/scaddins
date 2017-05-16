@@ -894,8 +894,6 @@ namespace SCaddins.ExportManager
                         sheet.SetSegmentedSheetName(this.fileNameScheme);
                     }
                 }
-
-                reader.Close();
             }
             return true;
         }

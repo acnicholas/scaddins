@@ -8,6 +8,8 @@
  */
 namespace SCaddins.SheetCopier
 {
+    using SCaddins.Properties;
+
     partial class SCopyTextInputForm
     {
         /// <summary>
@@ -49,12 +51,12 @@ namespace SCaddins.SheetCopier
             // 
             // button1
             // 
-            this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.button1.DialogResult = System.Windows.Forms.DialogResult.Ignore;
             this.button1.Location = new System.Drawing.Point(209, 75);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(81, 23);
             this.button1.TabIndex = 0;
-            this.button1.Text = "OK";
+            this.button1.Text = global::SCaddins.Properties.Resources.OK;
             this.button1.UseVisualStyleBackColor = true;
             // 
             // button2
@@ -64,7 +66,7 @@ namespace SCaddins.SheetCopier
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 1;
-            this.button2.Text = "Cancel";
+            this.button2.Text = global::SCaddins.Properties.Resources.Cancel;
             this.button2.UseVisualStyleBackColor = true;
             // 
             // textBox1
@@ -80,7 +82,7 @@ namespace SCaddins.SheetCopier
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(203, 23);
             this.label1.TabIndex = 3;
-            this.label1.Text = "New Sheet Category Name:";
+            this.label1.Text = "New Sheet Category Name";
             // 
             // SCopyTextInputForm
             // 

@@ -39,7 +39,8 @@ namespace SCaddins
         {
             get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
         }
-        
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
         public static void CheckForUpdates(bool newOnly)
         {
             var uri = new Uri("https://api.github.com/repos/acnicholas/scaddins/releases/latest");
@@ -52,10 +53,9 @@ namespace SCaddins
             webRequest.UserAgent = "Nothing";
             string latestAsJson = "nothing to see here";
 
-            using (var s = webRequest.GetResponse().GetResponseStream()) {
-                using (var sr = new StreamReader(s)) {
+            using (var s = webRequest.GetResponse().GetResponseStream())
+            using (var sr = new StreamReader(s)) {
                     latestAsJson = sr.ReadToEnd();
-                }
             }
 
             LatestVersion latestVersion = JsonConvert.DeserializeObject<LatestVersion>(latestAsJson);
@@ -65,9 +65,9 @@ namespace SCaddins
             string info = latestVersion.body;
             
             if (latestAvailableVersion > installedVersion || !newOnly) {
-                var upgradeForm = new SCaddins.Common.UpgradeForm(installedVersion, latestAvailableVersion, info);
-                upgradeForm.ShowDialog();
-                upgradeForm.Dispose();
+                using (var upgradeForm = new SCaddins.Common.UpgradeForm(installedVersion, latestAvailableVersion, info)) {
+                    upgradeForm.ShowDialog();
+                }
             } 
         }
         

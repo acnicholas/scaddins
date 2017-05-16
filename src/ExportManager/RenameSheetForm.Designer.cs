@@ -17,6 +17,8 @@
 
 namespace SCaddins.ExportManager
 {
+    using SCaddins.Properties;
+
     public partial class RenameSheetForm
     {
         /// <summary>
@@ -85,22 +87,22 @@ namespace SCaddins.ExportManager
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Text = "Existing Number";
+            this.columnHeader1.Text = Resources.ExistingNumber;
             this.columnHeader1.Width = 120;
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Text = "Existing Name";
+            this.columnHeader2.Text = Resources.ExistingName;
             this.columnHeader2.Width = 168;
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "New Number";
+            this.columnHeader3.Text = Resources.NewNumber;
             this.columnHeader3.Width = 120;
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "New Name";
+            this.columnHeader4.Text = Resources.NewName;
             this.columnHeader4.Width = 125;
             // 
             // TestRunButton
@@ -110,7 +112,7 @@ namespace SCaddins.ExportManager
             this.TestRunButton.Name = "TestRunButton";
             this.TestRunButton.Size = new System.Drawing.Size(75, 23);
             this.TestRunButton.TabIndex = 3;
-            this.TestRunButton.Text = "Test Run";
+            this.TestRunButton.Text = Resources.TestRun;
             this.TestRunButton.UseVisualStyleBackColor = true;
             this.TestRunButton.Click += new System.EventHandler(this.TestRunButtonClick);
             // 
@@ -122,7 +124,7 @@ namespace SCaddins.ExportManager
             this.RenameButton.Name = "RenameButton";
             this.RenameButton.Size = new System.Drawing.Size(75, 23);
             this.RenameButton.TabIndex = 4;
-            this.RenameButton.Text = "Rename";
+            this.RenameButton.Text = Resources.Rename;
             this.RenameButton.UseVisualStyleBackColor = true;
             this.RenameButton.Click += new System.EventHandler(this.RenameButtonClick);
             // 
@@ -134,7 +136,7 @@ namespace SCaddins.ExportManager
             this.CancelRenameButton.Name = "CancelButton";
             this.CancelRenameButton.Size = new System.Drawing.Size(75, 23);
             this.CancelRenameButton.TabIndex = 5;
-            this.CancelRenameButton.Text = "Cancel";
+            this.CancelRenameButton.Text = Resources.Cancel;
             this.CancelRenameButton.UseVisualStyleBackColor = true;
             // 
             // groupBox1
@@ -154,7 +156,7 @@ namespace SCaddins.ExportManager
             this.groupBox1.Size = new System.Drawing.Size(608, 119);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Regex Options";
+            this.groupBox1.Text = Resources.RegexOptions;
             // 
             // label2
             // 
@@ -162,7 +164,7 @@ namespace SCaddins.ExportManager
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(100, 23);
             this.label2.TabIndex = 20;
-            this.label2.Text = "Replacement";
+            this.label2.Text = Resources.Replacement;
             // 
             // label1
             // 
@@ -170,7 +172,7 @@ namespace SCaddins.ExportManager
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(100, 23);
             this.label1.TabIndex = 19;
-            this.label1.Text = "Pattern";
+            this.label1.Text = Resources.Pattern;
             // 
             // label3
             // 
@@ -180,7 +182,7 @@ namespace SCaddins.ExportManager
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(75, 14);
             this.label3.TabIndex = 18;
-            this.label3.Text = "Sheet Name";
+            this.label3.Text = Resources.SheetName;
             // 
             // textBoxNameReplace
             // 
@@ -208,7 +210,7 @@ namespace SCaddins.ExportManager
             this.Match.Name = "Match";
             this.Match.Size = new System.Drawing.Size(87, 14);
             this.Match.TabIndex = 14;
-            this.Match.Text = "Sheet Number";
+            this.Match.Text = Resources.SheetNumber;
             // 
             // textBoxNumberReplace
             // 
@@ -240,7 +242,7 @@ namespace SCaddins.ExportManager
             this.Controls.Add(this.listView1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RenameSheetForm";
-            this.Text = "Rename sheets (using regex)";
+            this.Text = Resources.RenameSheetsUsingRegex;
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

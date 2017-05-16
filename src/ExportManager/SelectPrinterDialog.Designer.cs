@@ -8,6 +8,8 @@
  */
 namespace SCaddins.ExportManager
 {
+    using SCaddins.Properties;
+
     partial class SelectPrinterDialog
     {
         /// <summary>
@@ -50,7 +52,7 @@ namespace SCaddins.ExportManager
             this.grpSelectPrinter.Size = new System.Drawing.Size(293, 77);
             this.grpSelectPrinter.TabIndex = 0;
             this.grpSelectPrinter.TabStop = false;
-            this.grpSelectPrinter.Text = "Select printer from combo box";
+            this.grpSelectPrinter.Text = Resources.SelectPrinterFromComboBox;
             this.comboBoxPrinter.FormattingEnabled = true;
             this.comboBoxPrinter.Location = new System.Drawing.Point(16, 32);
             this.comboBoxPrinter.Name = "cbxPrinter";
@@ -61,14 +63,14 @@ namespace SCaddins.ExportManager
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(93, 26);
             this.btnOK.TabIndex = 1;
-            this.btnOK.Text = "OK";
+            this.btnOK.Text = Resources.OK;
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(12, 95);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(93, 26);
             this.btnCancel.TabIndex = 2;
-            this.btnCancel.Text = "Cancel";
+            this.btnCancel.Text = Resources.Cancel;
             this.btnCancel.UseVisualStyleBackColor = true;
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -87,7 +89,7 @@ namespace SCaddins.ExportManager
             this.Name = "SelectPrinterDialog";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Select Printer...";
+            this.Text = Resources.SelectPrinter;
             this.grpSelectPrinter.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

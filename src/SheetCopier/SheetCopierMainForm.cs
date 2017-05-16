@@ -42,8 +42,6 @@ namespace SCaddins.SheetCopier
             this.PopulateViewInfoList(viewSheet);
             this.AddDataGridColumns();
             dataGridView1.DataSource = this.scopy.Sheets; 
-            this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
-            this.dataGridView2.ContextMenuStrip = this.contextMenuStrip2;
             this.dataGridView1.CellValueChanged += this.DataGridView1_CellValueChanged;
             this.dataGridView1.CurrentCellDirtyStateChanged += this.DataGridView1_CurrentCellDirtyStateChanged;
         }
