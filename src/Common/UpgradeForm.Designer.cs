@@ -66,88 +66,62 @@ namespace SCaddins.Common
             this.groupBox2.Controls.Add(this.buttonDownload);
             this.groupBox2.Controls.Add(this.labelLatestVersion);
             this.groupBox2.Controls.Add(this.labelInstalledVersion);
-            this.groupBox2.Location = new System.Drawing.Point(12, 12);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(421, 302);
-            this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = SCaddins.Properties.Resources.VersionInformation;
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(6, 97);
-            this.textBox1.Multiline = true;
+            resources.ApplyResources(this.textBox1, "textBox1");
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(409, 170);
-            this.textBox1.TabIndex = 5;
             // 
             // buttonLog
             // 
-            this.buttonLog.Location = new System.Drawing.Point(235, 273);
+            resources.ApplyResources(this.buttonLog, "buttonLog");
             this.buttonLog.Name = "buttonLog";
-            this.buttonLog.Size = new System.Drawing.Size(180, 23);
-            this.buttonLog.TabIndex = 4;
-            this.buttonLog.Text = Resources.UpdateViewChangeLog;
+            this.buttonLog.Text = global::SCaddins.Properties.Resources.UpdateViewChangeLog;
             this.buttonLog.UseVisualStyleBackColor = true;
             this.buttonLog.Click += new System.EventHandler(this.Button1Click);
             // 
             // labelUpgradeNote
             // 
-            this.labelUpgradeNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUpgradeNote.Location = new System.Drawing.Point(6, 71);
+            resources.ApplyResources(this.labelUpgradeNote, "labelUpgradeNote");
             this.labelUpgradeNote.Name = "labelUpgradeNote";
-            this.labelUpgradeNote.Size = new System.Drawing.Size(409, 23);
-            this.labelUpgradeNote.TabIndex = 3;
-            this.labelUpgradeNote.Text = Resources.DotDotDot;
             // 
             // buttonDownload
             // 
-            this.buttonDownload.Location = new System.Drawing.Point(6, 273);
+            resources.ApplyResources(this.buttonDownload, "buttonDownload");
             this.buttonDownload.Name = "buttonDownload";
-            this.buttonDownload.Size = new System.Drawing.Size(131, 23);
-            this.buttonDownload.TabIndex = 2;
-            this.buttonDownload.Text = SCaddins.Properties.Resources.Download;
+            this.buttonDownload.Text = global::SCaddins.Properties.Resources.Download;
             this.buttonDownload.UseVisualStyleBackColor = true;
             this.buttonDownload.Click += new System.EventHandler(this.Button3Click);
             // 
             // labelLatestVersion
             // 
-            this.labelLatestVersion.Location = new System.Drawing.Point(6, 48);
+            resources.ApplyResources(this.labelLatestVersion, "labelLatestVersion");
             this.labelLatestVersion.Name = "labelLatestVersion";
-            this.labelLatestVersion.Size = new System.Drawing.Size(409, 23);
-            this.labelLatestVersion.TabIndex = 1;
-            this.labelLatestVersion.Text = Properties.Resources.LatestVersion;
             // 
             // labelInstalledVersion
             // 
-            this.labelInstalledVersion.Location = new System.Drawing.Point(6, 25);
+            resources.ApplyResources(this.labelInstalledVersion, "labelInstalledVersion");
             this.labelInstalledVersion.Name = "labelInstalledVersion";
-            this.labelInstalledVersion.Size = new System.Drawing.Size(409, 23);
-            this.labelInstalledVersion.TabIndex = 0;
-            this.labelInstalledVersion.Text = Properties.Resources.InstalledVersion;
             // 
             // buttonClose
             // 
             this.buttonClose.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonClose.Location = new System.Drawing.Point(359, 320);
+            resources.ApplyResources(this.buttonClose, "buttonClose");
             this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 3;
-            this.buttonClose.Text = Properties.Resources.Close;
+            this.buttonClose.Text = global::SCaddins.Properties.Resources.Close;
             this.buttonClose.UseVisualStyleBackColor = true;
             // 
             // UpgradeForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(446, 355);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.groupBox2);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "UpgradeForm";
-            this.Text = Properties.Resources.UpdateFormTitle;
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);

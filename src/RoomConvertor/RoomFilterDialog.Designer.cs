@@ -67,6 +67,7 @@ namespace SCaddins.RoomConvertor
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RoomFilterDialog));
             this.comboBoxCO1 = new System.Windows.Forms.ComboBox();
             this.comboBoxP1 = new System.Windows.Forms.ComboBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -103,259 +104,191 @@ namespace SCaddins.RoomConvertor
             // comboBoxCO1
             // 
             this.comboBoxCO1.FormattingEnabled = true;
-            this.comboBoxCO1.Location = new System.Drawing.Point(205, 12);
+            resources.ApplyResources(this.comboBoxCO1, "comboBoxCO1");
             this.comboBoxCO1.Name = "comboBoxCO1";
-            this.comboBoxCO1.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxCO1.TabIndex = 0;
             // 
             // comboBoxP1
             // 
             this.comboBoxP1.FormattingEnabled = true;
-            this.comboBoxP1.Location = new System.Drawing.Point(84, 12);
+            resources.ApplyResources(this.comboBoxP1, "comboBoxP1");
             this.comboBoxP1.Name = "comboBoxP1";
-            this.comboBoxP1.Size = new System.Drawing.Size(115, 21);
-            this.comboBoxP1.TabIndex = 1;
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(332, 12);
+            resources.ApplyResources(this.textBox1, "textBox1");
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(174, 20);
-            this.textBox1.TabIndex = 2;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(332, 39);
+            resources.ApplyResources(this.textBox2, "textBox2");
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(174, 20);
-            this.textBox2.TabIndex = 5;
             // 
             // comboBoxP2
             // 
             this.comboBoxP2.FormattingEnabled = true;
-            this.comboBoxP2.Location = new System.Drawing.Point(84, 39);
+            resources.ApplyResources(this.comboBoxP2, "comboBoxP2");
             this.comboBoxP2.Name = "comboBoxP2";
-            this.comboBoxP2.Size = new System.Drawing.Size(115, 21);
-            this.comboBoxP2.TabIndex = 4;
             // 
             // comboBoxCO2
             // 
             this.comboBoxCO2.FormattingEnabled = true;
-            this.comboBoxCO2.Location = new System.Drawing.Point(205, 39);
+            resources.ApplyResources(this.comboBoxCO2, "comboBoxCO2");
             this.comboBoxCO2.Name = "comboBoxCO2";
-            this.comboBoxCO2.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxCO2.TabIndex = 3;
             // 
             // comboBoxLO2
             // 
             this.comboBoxLO2.FormattingEnabled = true;
-            this.comboBoxLO2.Location = new System.Drawing.Point(27, 39);
+            resources.ApplyResources(this.comboBoxLO2, "comboBoxLO2");
             this.comboBoxLO2.Name = "comboBoxLO2";
-            this.comboBoxLO2.Size = new System.Drawing.Size(52, 21);
-            this.comboBoxLO2.TabIndex = 6;
             // 
             // comboBoxLO3
             // 
             this.comboBoxLO3.FormattingEnabled = true;
-            this.comboBoxLO3.Location = new System.Drawing.Point(26, 66);
+            resources.ApplyResources(this.comboBoxLO3, "comboBoxLO3");
             this.comboBoxLO3.Name = "comboBoxLO3";
-            this.comboBoxLO3.Size = new System.Drawing.Size(53, 21);
-            this.comboBoxLO3.TabIndex = 10;
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(332, 66);
+            resources.ApplyResources(this.textBox3, "textBox3");
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(174, 20);
-            this.textBox3.TabIndex = 9;
             // 
             // comboBoxP3
             // 
             this.comboBoxP3.FormattingEnabled = true;
-            this.comboBoxP3.Location = new System.Drawing.Point(84, 66);
+            resources.ApplyResources(this.comboBoxP3, "comboBoxP3");
             this.comboBoxP3.Name = "comboBoxP3";
-            this.comboBoxP3.Size = new System.Drawing.Size(115, 21);
-            this.comboBoxP3.TabIndex = 8;
             // 
             // comboBoxCO3
             // 
             this.comboBoxCO3.FormattingEnabled = true;
-            this.comboBoxCO3.Location = new System.Drawing.Point(205, 66);
+            resources.ApplyResources(this.comboBoxCO3, "comboBoxCO3");
             this.comboBoxCO3.Name = "comboBoxCO3";
-            this.comboBoxCO3.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxCO3.TabIndex = 7;
             // 
             // comboBoxLO4
             // 
             this.comboBoxLO4.FormattingEnabled = true;
-            this.comboBoxLO4.Location = new System.Drawing.Point(26, 93);
+            resources.ApplyResources(this.comboBoxLO4, "comboBoxLO4");
             this.comboBoxLO4.Name = "comboBoxLO4";
-            this.comboBoxLO4.Size = new System.Drawing.Size(53, 21);
-            this.comboBoxLO4.TabIndex = 14;
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(332, 93);
+            resources.ApplyResources(this.textBox4, "textBox4");
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(174, 20);
-            this.textBox4.TabIndex = 13;
             // 
             // comboBoxP4
             // 
             this.comboBoxP4.FormattingEnabled = true;
-            this.comboBoxP4.Location = new System.Drawing.Point(84, 93);
+            resources.ApplyResources(this.comboBoxP4, "comboBoxP4");
             this.comboBoxP4.Name = "comboBoxP4";
-            this.comboBoxP4.Size = new System.Drawing.Size(115, 21);
-            this.comboBoxP4.TabIndex = 12;
             // 
             // comboBoxCO4
             // 
             this.comboBoxCO4.FormattingEnabled = true;
-            this.comboBoxCO4.Location = new System.Drawing.Point(205, 93);
+            resources.ApplyResources(this.comboBoxCO4, "comboBoxCO4");
             this.comboBoxCO4.Name = "comboBoxCO4";
-            this.comboBoxCO4.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxCO4.TabIndex = 11;
             // 
             // comboBoxLO5
             // 
             this.comboBoxLO5.FormattingEnabled = true;
-            this.comboBoxLO5.Location = new System.Drawing.Point(26, 120);
+            resources.ApplyResources(this.comboBoxLO5, "comboBoxLO5");
             this.comboBoxLO5.Name = "comboBoxLO5";
-            this.comboBoxLO5.Size = new System.Drawing.Size(53, 21);
-            this.comboBoxLO5.TabIndex = 18;
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(332, 120);
+            resources.ApplyResources(this.textBox5, "textBox5");
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(174, 20);
-            this.textBox5.TabIndex = 17;
             // 
             // comboBoxP5
             // 
             this.comboBoxP5.FormattingEnabled = true;
-            this.comboBoxP5.Location = new System.Drawing.Point(84, 120);
+            resources.ApplyResources(this.comboBoxP5, "comboBoxP5");
             this.comboBoxP5.Name = "comboBoxP5";
-            this.comboBoxP5.Size = new System.Drawing.Size(115, 21);
-            this.comboBoxP5.TabIndex = 16;
             // 
             // comboBoxCO5
             // 
             this.comboBoxCO5.FormattingEnabled = true;
-            this.comboBoxCO5.Location = new System.Drawing.Point(205, 120);
+            resources.ApplyResources(this.comboBoxCO5, "comboBoxCO5");
             this.comboBoxCO5.Name = "comboBoxCO5";
-            this.comboBoxCO5.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxCO5.TabIndex = 15;
             // 
             // comboBoxLO6
             // 
             this.comboBoxLO6.FormattingEnabled = true;
-            this.comboBoxLO6.Location = new System.Drawing.Point(26, 146);
+            resources.ApplyResources(this.comboBoxLO6, "comboBoxLO6");
             this.comboBoxLO6.Name = "comboBoxLO6";
-            this.comboBoxLO6.Size = new System.Drawing.Size(52, 21);
-            this.comboBoxLO6.TabIndex = 22;
             // 
             // textBox6
             // 
-            this.textBox6.Location = new System.Drawing.Point(332, 147);
+            resources.ApplyResources(this.textBox6, "textBox6");
             this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(174, 20);
-            this.textBox6.TabIndex = 21;
             // 
             // comboBoxP6
             // 
             this.comboBoxP6.FormattingEnabled = true;
-            this.comboBoxP6.Location = new System.Drawing.Point(84, 147);
+            resources.ApplyResources(this.comboBoxP6, "comboBoxP6");
             this.comboBoxP6.Name = "comboBoxP6";
-            this.comboBoxP6.Size = new System.Drawing.Size(115, 21);
-            this.comboBoxP6.TabIndex = 20;
             // 
             // comboBoxCO6
             // 
             this.comboBoxCO6.FormattingEnabled = true;
-            this.comboBoxCO6.Location = new System.Drawing.Point(205, 147);
+            resources.ApplyResources(this.comboBoxCO6, "comboBoxCO6");
             this.comboBoxCO6.Name = "comboBoxCO6";
-            this.comboBoxCO6.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxCO6.TabIndex = 19;
             // 
             // comboBoxLO7
             // 
             this.comboBoxLO7.FormattingEnabled = true;
-            this.comboBoxLO7.Location = new System.Drawing.Point(26, 174);
+            resources.ApplyResources(this.comboBoxLO7, "comboBoxLO7");
             this.comboBoxLO7.Name = "comboBoxLO7";
-            this.comboBoxLO7.Size = new System.Drawing.Size(53, 21);
-            this.comboBoxLO7.TabIndex = 26;
             // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(332, 174);
+            resources.ApplyResources(this.textBox7, "textBox7");
             this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(174, 20);
-            this.textBox7.TabIndex = 25;
             // 
             // comboBoxP7
             // 
             this.comboBoxP7.FormattingEnabled = true;
-            this.comboBoxP7.Location = new System.Drawing.Point(84, 174);
+            resources.ApplyResources(this.comboBoxP7, "comboBoxP7");
             this.comboBoxP7.Name = "comboBoxP7";
-            this.comboBoxP7.Size = new System.Drawing.Size(115, 21);
-            this.comboBoxP7.TabIndex = 24;
             // 
             // comboBoxCO7
             // 
             this.comboBoxCO7.FormattingEnabled = true;
-            this.comboBoxCO7.Location = new System.Drawing.Point(205, 174);
+            resources.ApplyResources(this.comboBoxCO7, "comboBoxCO7");
             this.comboBoxCO7.Name = "comboBoxCO7";
-            this.comboBoxCO7.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxCO7.TabIndex = 23;
             // 
             // buttonOK
             // 
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(431, 219);
+            resources.ApplyResources(this.buttonOK, "buttonOK");
             this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(75, 23);
-            this.buttonOK.TabIndex = 27;
-            this.buttonOK.Text = "OK";
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.ButtonOKClick);
             // 
             // buttonReset
             // 
-            this.buttonReset.Location = new System.Drawing.Point(12, 220);
+            resources.ApplyResources(this.buttonReset, "buttonReset");
             this.buttonReset.Name = "buttonReset";
-            this.buttonReset.Size = new System.Drawing.Size(75, 23);
-            this.buttonReset.TabIndex = 28;
-            this.buttonReset.Text = "Reset";
             this.buttonReset.UseVisualStyleBackColor = true;
             this.buttonReset.Click += new System.EventHandler(this.ButtonResetClick);
             // 
             // buttonApply
             // 
-            this.buttonApply.Enabled = false;
-            this.buttonApply.Location = new System.Drawing.Point(350, 219);
+            resources.ApplyResources(this.buttonApply, "buttonApply");
             this.buttonApply.Name = "buttonApply";
-            this.buttonApply.Size = new System.Drawing.Size(75, 23);
-            this.buttonApply.TabIndex = 29;
-            this.buttonApply.Text = "Apply";
             this.buttonApply.UseVisualStyleBackColor = true;
             this.buttonApply.Click += new System.EventHandler(this.ButtonApplyClick);
             // 
             // button4
             // 
             this.button4.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button4.Location = new System.Drawing.Point(269, 219);
+            resources.ApplyResources(this.button4, "button4");
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 30;
-            this.button4.Text = "Cancel";
             this.button4.UseVisualStyleBackColor = true;
             // 
             // RoomFilterDialog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(518, 254);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.buttonApply);
             this.Controls.Add(this.buttonReset);
@@ -388,7 +321,6 @@ namespace SCaddins.RoomConvertor
             this.Controls.Add(this.comboBoxP1);
             this.Controls.Add(this.comboBoxCO1);
             this.Name = "RoomFilterDialog";
-            this.Text = "Room Filter Dialog";
             this.ResumeLayout(false);
             this.PerformLayout();
 

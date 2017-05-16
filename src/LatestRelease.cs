@@ -20,7 +20,29 @@ namespace SCaddins
     using System;
     using System.Collections.Generic;
     
-    public class Author
+    public abstract class Author
+    {
+        public string login { get; set; }
+        public int id { get; set; }
+        public string avatar_url { get; set; }
+        public string gravatar_id { get; set; }
+        public string url { get; set; }
+        public string html_url { get; set; }
+        public string followers_url { get; set; }
+        public string following_url { get; set; }
+        public string gists_url { get; set; }
+        public string starred_url { get; set; }
+        public string subscriptions_url { get; set; }
+        public string organizations_url { get; set; }
+        public string repos_url { get; set; }
+        public string events_url { get; set; }
+        public string received_events_url { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
+        public string type { get; set; }
+        public bool site_admin { get; set; }
+    }
+
+    public abstract class Uploader
     {
         public string login { get; set; }
         public int id { get; set; }
@@ -41,28 +63,7 @@ namespace SCaddins
         public bool site_admin { get; set; }
     }
 
-    public class Uploader
-    {
-        public string login { get; set; }
-        public int id { get; set; }
-        public string avatar_url { get; set; }
-        public string gravatar_id { get; set; }
-        public string url { get; set; }
-        public string html_url { get; set; }
-        public string followers_url { get; set; }
-        public string following_url { get; set; }
-        public string gists_url { get; set; }
-        public string starred_url { get; set; }
-        public string subscriptions_url { get; set; }
-        public string organizations_url { get; set; }
-        public string repos_url { get; set; }
-        public string events_url { get; set; }
-        public string received_events_url { get; set; }
-        public string type { get; set; }
-        public bool site_admin { get; set; }
-    }
-
-    public class Asset
+    public abstract class Asset
     {
         public string url { get; set; }
         public string browser_download_url { get; set; }
@@ -78,7 +79,7 @@ namespace SCaddins
         public Uploader uploader { get; set; }
     }
 
-    public class LatestVersion
+    public abstract class LatestVersion
     {
         public string url { get; set; }
         public string html_url { get; set; }
@@ -96,6 +97,6 @@ namespace SCaddins
         public string created_at { get; set; }
         public string published_at { get; set; }
         public Author author { get; set; }
-        public List<Asset> assets { get;}
+        public List<Asset> assets { get; set;}
     }
 }

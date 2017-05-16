@@ -45,54 +45,57 @@ namespace SCaddins.ExportManager
             this.btnCancel = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.grpSelectPrinter.SuspendLayout();
-            this.SuspendLayout(); 
+            this.SuspendLayout();
+            // 
+            // grpSelectPrinter
+            // 
             this.grpSelectPrinter.Controls.Add(this.comboBoxPrinter);
-            this.grpSelectPrinter.Location = new System.Drawing.Point(12, 12);
+            resources.ApplyResources(this.grpSelectPrinter, "grpSelectPrinter");
             this.grpSelectPrinter.Name = "grpSelectPrinter";
-            this.grpSelectPrinter.Size = new System.Drawing.Size(293, 77);
-            this.grpSelectPrinter.TabIndex = 0;
             this.grpSelectPrinter.TabStop = false;
-            this.grpSelectPrinter.Text = Resources.SelectPrinterFromComboBox;
+            // 
+            // comboBoxPrinter
+            // 
             this.comboBoxPrinter.FormattingEnabled = true;
-            this.comboBoxPrinter.Location = new System.Drawing.Point(16, 32);
-            this.comboBoxPrinter.Name = "cbxPrinter";
-            this.comboBoxPrinter.Size = new System.Drawing.Size(256, 21);
-            this.comboBoxPrinter.TabIndex = 0;
+            resources.ApplyResources(this.comboBoxPrinter, "comboBoxPrinter");
+            this.comboBoxPrinter.Name = "comboBoxPrinter";
+            // 
+            // btnOK
+            // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(212, 95);
+            resources.ApplyResources(this.btnOK, "btnOK");
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(93, 26);
-            this.btnOK.TabIndex = 1;
-            this.btnOK.Text = Resources.OK;
+            this.btnOK.Text = global::SCaddins.Properties.Resources.OK;
             this.btnOK.UseVisualStyleBackColor = true;
+            // 
+            // btnCancel
+            // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(12, 95);
+            resources.ApplyResources(this.btnCancel, "btnCancel");
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(93, 26);
-            this.btnCancel.TabIndex = 2;
-            this.btnCancel.Text = Resources.Cancel;
+            this.btnCancel.Text = global::SCaddins.Properties.Resources.Cancel;
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            // 
+            // menuStrip1
+            // 
+            resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(317, 24);
-            this.menuStrip1.TabIndex = 3;
-            this.menuStrip1.Text = "menuStrip1";
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            // 
+            // SelectPrinterDialog
+            // 
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(317, 129);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.grpSelectPrinter);
             this.Controls.Add(this.menuStrip1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "SelectPrinterDialog";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = Resources.SelectPrinter;
             this.grpSelectPrinter.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
         
         private System.Windows.Forms.GroupBox grpSelectPrinter;

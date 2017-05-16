@@ -61,6 +61,8 @@ namespace SCaddins.ExportManager
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExportLogDialog));
             this.Tabs = new System.Windows.Forms.TabControl();
+            this.OutputTab = new System.Windows.Forms.TabPage();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.WarningTab = new System.Windows.Forms.TabPage();
             this.warnings = new System.Windows.Forms.ListView();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
@@ -69,38 +71,41 @@ namespace SCaddins.ExportManager
             this.errors = new System.Windows.Forms.ListView();
             this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
-            this.OutputTab = new System.Windows.Forms.TabPage();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.Tabs.SuspendLayout();
+            this.OutputTab.SuspendLayout();
             this.WarningTab.SuspendLayout();
             this.ErrorTab.SuspendLayout();
-            this.OutputTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // Tabs
             // 
-            this.Tabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.Tabs, "Tabs");
             this.Tabs.Controls.Add(this.OutputTab);
             this.Tabs.Controls.Add(this.WarningTab);
             this.Tabs.Controls.Add(this.ErrorTab);
-            this.Tabs.Location = new System.Drawing.Point(12, 35);
             this.Tabs.Name = "Tabs";
             this.Tabs.SelectedIndex = 0;
-            this.Tabs.Size = new System.Drawing.Size(519, 383);
-            this.Tabs.TabIndex = 0;
+            // 
+            // OutputTab
+            // 
+            this.OutputTab.Controls.Add(this.textBox1);
+            resources.ApplyResources(this.OutputTab, "OutputTab");
+            this.OutputTab.Name = "OutputTab";
+            this.OutputTab.Text = global::SCaddins.Properties.Resources.Output;
+            this.OutputTab.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            resources.ApplyResources(this.textBox1, "textBox1");
+            this.textBox1.Name = "textBox1";
             // 
             // WarningTab
             // 
             this.WarningTab.Controls.Add(this.warnings);
-            this.WarningTab.Location = new System.Drawing.Point(4, 22);
+            resources.ApplyResources(this.WarningTab, "WarningTab");
             this.WarningTab.Name = "WarningTab";
-            this.WarningTab.Padding = new System.Windows.Forms.Padding(3);
-            this.WarningTab.Size = new System.Drawing.Size(511, 357);
-            this.WarningTab.TabIndex = 1;
-            this.WarningTab.Text = Resources.Warnings;
+            this.WarningTab.Text = global::SCaddins.Properties.Resources.Warnings;
             this.WarningTab.UseVisualStyleBackColor = true;
             // 
             // warnings
@@ -108,33 +113,27 @@ namespace SCaddins.ExportManager
             this.warnings.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
-            this.warnings.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.warnings.Location = new System.Drawing.Point(3, 3);
+            resources.ApplyResources(this.warnings, "warnings");
             this.warnings.Name = "warnings";
-            this.warnings.Size = new System.Drawing.Size(505, 351);
-            this.warnings.TabIndex = 0;
             this.warnings.UseCompatibleStateImageBehavior = false;
             this.warnings.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Text = Resources.Filename;
-            this.columnHeader1.Width = 120;
+            this.columnHeader1.Text = global::SCaddins.Properties.Resources.Filename;
+            resources.ApplyResources(this.columnHeader1, "columnHeader1");
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Text = Resources.Description;
-            this.columnHeader2.Width = 600;
+            this.columnHeader2.Text = global::SCaddins.Properties.Resources.Description;
+            resources.ApplyResources(this.columnHeader2, "columnHeader2");
             // 
             // ErrorTab
             // 
             this.ErrorTab.Controls.Add(this.errors);
-            this.ErrorTab.Location = new System.Drawing.Point(4, 22);
+            resources.ApplyResources(this.ErrorTab, "ErrorTab");
             this.ErrorTab.Name = "ErrorTab";
-            this.ErrorTab.Padding = new System.Windows.Forms.Padding(3);
-            this.ErrorTab.Size = new System.Drawing.Size(511, 357);
-            this.ErrorTab.TabIndex = 2;
-            this.ErrorTab.Text = Resources.Errors;
+            this.ErrorTab.Text = global::SCaddins.Properties.Resources.Errors;
             this.ErrorTab.UseVisualStyleBackColor = true;
             // 
             // errors
@@ -142,70 +141,39 @@ namespace SCaddins.ExportManager
             this.errors.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader3,
             this.columnHeader4});
-            this.errors.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.errors.Location = new System.Drawing.Point(3, 3);
+            resources.ApplyResources(this.errors, "errors");
             this.errors.Name = "errors";
-            this.errors.Size = new System.Drawing.Size(505, 351);
-            this.errors.TabIndex = 0;
             this.errors.UseCompatibleStateImageBehavior = false;
             this.errors.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = Resources.Filename;
-            this.columnHeader3.Width = 120;
+            this.columnHeader3.Text = global::SCaddins.Properties.Resources.Filename;
+            resources.ApplyResources(this.columnHeader3, "columnHeader3");
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = Resources.Description;
-            this.columnHeader4.Width = 600;
-            // 
-            // OutputTab
-            // 
-            this.OutputTab.Controls.Add(this.textBox1);
-            this.OutputTab.Location = new System.Drawing.Point(4, 22);
-            this.OutputTab.Name = "OutputTab";
-            this.OutputTab.Padding = new System.Windows.Forms.Padding(3);
-            this.OutputTab.Size = new System.Drawing.Size(511, 357);
-            this.OutputTab.TabIndex = 3;
-            this.OutputTab.Text = Resources.Output;
-            this.OutputTab.UseVisualStyleBackColor = true;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(3, 3);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(505, 351);
-            this.textBox1.TabIndex = 0;
+            this.columnHeader4.Text = global::SCaddins.Properties.Resources.Description;
+            resources.ApplyResources(this.columnHeader4, "columnHeader4");
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(384, 26);
-            this.label1.TabIndex = 1;
-            this.label1.Text = Resources.Summary;
             // 
             // ExportLogDialog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(543, 430);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Tabs);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ExportLogDialog";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = Resources.ExportSummary;
             this.TopMost = true;
             this.Tabs.ResumeLayout(false);
-            this.WarningTab.ResumeLayout(false);
-            this.ErrorTab.ResumeLayout(false);
             this.OutputTab.ResumeLayout(false);
             this.OutputTab.PerformLayout();
+            this.WarningTab.ResumeLayout(false);
+            this.ErrorTab.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

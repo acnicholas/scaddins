@@ -158,22 +158,18 @@ namespace SCaddins.ExportManager
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 462);
+            resources.ApplyResources(this.button2, "button2");
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(113, 23);
-            this.button2.TabIndex = 6;
-            this.button2.Text = Resources.ResetToDefault;
+            this.button2.Text = global::SCaddins.Properties.Resources.ResetToDefault;
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.Button2Click);
             // 
             // button1
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button1.Location = new System.Drawing.Point(343, 462);
+            resources.ApplyResources(this.button1, "button1");
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 5;
-            this.button1.Text = Resources.Apply;
+            this.button1.Text = global::SCaddins.Properties.Resources.Apply;
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1Click);
             // 
@@ -181,11 +177,9 @@ namespace SCaddins.ExportManager
             // 
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(406, 444);
-            this.tabControl1.TabIndex = 8;
             // 
             // tabPage2
             // 
@@ -193,12 +187,9 @@ namespace SCaddins.ExportManager
             this.tabPage2.Controls.Add(this.groupBox6);
             this.tabPage2.Controls.Add(this.groupBox4);
             this.tabPage2.Controls.Add(this.groupBox5);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            resources.ApplyResources(this.tabPage2, "tabPage2");
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(398, 418);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = Resources.General;
+            this.tabPage2.Text = global::SCaddins.Properties.Resources.General;
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // groupBox7
@@ -207,79 +198,55 @@ namespace SCaddins.ExportManager
             this.groupBox7.Controls.Add(this.label11);
             this.groupBox7.Controls.Add(this.textBoxNorthPointVisibilty);
             this.groupBox7.Controls.Add(this.textBoxScalebarScale);
-            this.groupBox7.Location = new System.Drawing.Point(3, 201);
+            resources.ApplyResources(this.groupBox7, "groupBox7");
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(389, 79);
-            this.groupBox7.TabIndex = 21;
             this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Title Block Parameters";
             // 
             // label12
             // 
-            this.label12.Location = new System.Drawing.Point(9, 45);
+            resources.ApplyResources(this.label12, "label12");
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(148, 23);
-            this.label12.TabIndex = 3;
-            this.label12.Text = "North Point Visibility";
             // 
             // label11
             // 
-            this.label11.Location = new System.Drawing.Point(9, 22);
+            resources.ApplyResources(this.label11, "label11");
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(148, 23);
-            this.label11.TabIndex = 2;
-            this.label11.Text = "Scale Bar Scale";
             // 
             // textBoxNorthPointVisibilty
             // 
-            this.textBoxNorthPointVisibilty.Location = new System.Drawing.Point(192, 45);
+            resources.ApplyResources(this.textBoxNorthPointVisibilty, "textBoxNorthPointVisibilty");
             this.textBoxNorthPointVisibilty.Name = "textBoxNorthPointVisibilty";
-            this.textBoxNorthPointVisibilty.Size = new System.Drawing.Size(179, 20);
-            this.textBoxNorthPointVisibilty.TabIndex = 1;
             // 
             // textBoxScalebarScale
             // 
-            this.textBoxScalebarScale.Location = new System.Drawing.Point(192, 19);
+            resources.ApplyResources(this.textBoxScalebarScale, "textBoxScalebarScale");
             this.textBoxScalebarScale.Name = "textBoxScalebarScale";
-            this.textBoxScalebarScale.Size = new System.Drawing.Size(179, 20);
-            this.textBoxScalebarScale.TabIndex = 0;
             // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.btnDefaultExportDir);
             this.groupBox6.Controls.Add(this.textBoxExportDir);
             this.groupBox6.Controls.Add(this.label9);
-            this.groupBox6.Location = new System.Drawing.Point(3, 134);
+            resources.ApplyResources(this.groupBox6, "groupBox6");
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(389, 61);
-            this.groupBox6.TabIndex = 20;
             this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Export Destination";
             // 
             // btnDefaultExportDir
             // 
-            this.btnDefaultExportDir.Location = new System.Drawing.Point(355, 26);
+            resources.ApplyResources(this.btnDefaultExportDir, "btnDefaultExportDir");
             this.btnDefaultExportDir.Name = "btnDefaultExportDir";
-            this.btnDefaultExportDir.Size = new System.Drawing.Size(23, 23);
-            this.btnDefaultExportDir.TabIndex = 25;
-            this.btnDefaultExportDir.Text = "...";
             this.btnDefaultExportDir.UseVisualStyleBackColor = true;
             this.btnDefaultExportDir.Click += new System.EventHandler(this.BtnDefaultExportDirClick);
             // 
             // textBoxExportDir
             // 
-            this.textBoxExportDir.Location = new System.Drawing.Point(137, 28);
+            resources.ApplyResources(this.textBoxExportDir, "textBoxExportDir");
             this.textBoxExportDir.Name = "textBoxExportDir";
-            this.textBoxExportDir.Size = new System.Drawing.Size(212, 20);
-            this.textBoxExportDir.TabIndex = 24;
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(7, 31);
+            resources.ApplyResources(this.label9, "label9");
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(150, 23);
-            this.label9.TabIndex = 23;
-            this.label9.Text = "Default export directory";
             // 
             // groupBox4
             // 
@@ -289,65 +256,45 @@ namespace SCaddins.ExportManager
             this.groupBox4.Controls.Add(this.comboBoxAutocadVersion);
             this.groupBox4.Controls.Add(this.checkBoxForceDate);
             this.groupBox4.Controls.Add(this.checkBoxHideTitleblock);
-            this.groupBox4.Location = new System.Drawing.Point(3, 286);
+            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(389, 126);
-            this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Export Options";
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(7, 53);
+            resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(124, 18);
-            this.label5.TabIndex = 14;
-            this.label5.Text = "File naming scheme";
             // 
             // comboBoxScheme
             // 
             this.comboBoxScheme.FormattingEnabled = true;
-            this.comboBoxScheme.Location = new System.Drawing.Point(192, 50);
+            resources.ApplyResources(this.comboBoxScheme, "comboBoxScheme");
             this.comboBoxScheme.Name = "comboBoxScheme";
-            this.comboBoxScheme.Size = new System.Drawing.Size(180, 21);
-            this.comboBoxScheme.TabIndex = 13;
             this.comboBoxScheme.SelectedIndexChanged += new System.EventHandler(this.ComboBox1SelectedIndexChanged);
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(6, 23);
+            resources.ApplyResources(this.label6, "label6");
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(100, 18);
-            this.label6.TabIndex = 12;
-            this.label6.Text = Resources.AutoCADVersion;
             // 
             // comboBoxAutocadVersion
             // 
             this.comboBoxAutocadVersion.FormattingEnabled = true;
-            this.comboBoxAutocadVersion.Location = new System.Drawing.Point(192, 20);
+            resources.ApplyResources(this.comboBoxAutocadVersion, "comboBoxAutocadVersion");
             this.comboBoxAutocadVersion.Name = "comboBoxAutocadVersion";
-            this.comboBoxAutocadVersion.Size = new System.Drawing.Size(180, 21);
-            this.comboBoxAutocadVersion.TabIndex = 11;
             this.comboBoxAutocadVersion.SelectedIndexChanged += new System.EventHandler(this.ComboBoxAutocadVersionSelectedIndexChanged);
             // 
             // checkBoxForceDate
             // 
-            this.checkBoxForceDate.Location = new System.Drawing.Point(6, 79);
+            resources.ApplyResources(this.checkBoxForceDate, "checkBoxForceDate");
             this.checkBoxForceDate.Name = "checkBoxForceDate";
-            this.checkBoxForceDate.Size = new System.Drawing.Size(311, 19);
-            this.checkBoxForceDate.TabIndex = 10;
-            this.checkBoxForceDate.Text = "Force the revision to be today\'s date [YYYYMMDD]";
             this.checkBoxForceDate.UseVisualStyleBackColor = true;
             this.checkBoxForceDate.CheckedChanged += new System.EventHandler(this.ForceDateCheckedChanged);
             // 
             // checkBoxHideTitleblock
             // 
-            this.checkBoxHideTitleblock.Enabled = false;
-            this.checkBoxHideTitleblock.Location = new System.Drawing.Point(6, 107);
+            resources.ApplyResources(this.checkBoxHideTitleblock, "checkBoxHideTitleblock");
             this.checkBoxHideTitleblock.Name = "checkBoxHideTitleblock";
-            this.checkBoxHideTitleblock.Size = new System.Drawing.Size(231, 19);
-            this.checkBoxHideTitleblock.TabIndex = 8;
-            this.checkBoxHideTitleblock.Text = "Hide title blocks (DWG exports only)";
             this.checkBoxHideTitleblock.UseVisualStyleBackColor = true;
             this.checkBoxHideTitleblock.CheckedChanged += new System.EventHandler(this.ToggleCheckBoxValue);
             // 
@@ -359,74 +306,50 @@ namespace SCaddins.ExportManager
             this.groupBox5.Controls.Add(this.checkBoxDWF);
             this.groupBox5.Controls.Add(this.checkBoxDGN);
             this.groupBox5.Controls.Add(this.checkBoxDWG);
-            this.groupBox5.Location = new System.Drawing.Point(6, 15);
+            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(386, 113);
-            this.groupBox5.TabIndex = 3;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Export Types";
             // 
             // checkBox1
             // 
-            this.checkBox1.Location = new System.Drawing.Point(6, 19);
+            resources.ApplyResources(this.checkBox1, "checkBox1");
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(220, 24);
-            this.checkBox1.TabIndex = 6;
-            this.checkBox1.Text = "PDF";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1CheckedChanged);
             // 
             // radioGSPDF
             // 
-            this.radioGSPDF.Enabled = false;
-            this.radioGSPDF.Location = new System.Drawing.Point(6, 78);
+            resources.ApplyResources(this.radioGSPDF, "radioGSPDF");
             this.radioGSPDF.Name = "radioGSPDF";
-            this.radioGSPDF.Size = new System.Drawing.Size(231, 24);
-            this.radioGSPDF.TabIndex = 5;
-            this.radioGSPDF.Text = "PDF (Ghostscript Export)";
             this.radioGSPDF.UseVisualStyleBackColor = true;
             this.radioGSPDF.CheckedChanged += new System.EventHandler(this.RadioCheckedChanged);
             // 
             // radioPDF
             // 
-            this.radioPDF.Enabled = false;
-            this.radioPDF.Location = new System.Drawing.Point(6, 48);
+            resources.ApplyResources(this.radioPDF, "radioPDF");
             this.radioPDF.Name = "radioPDF";
-            this.radioPDF.Size = new System.Drawing.Size(256, 24);
-            this.radioPDF.TabIndex = 4;
             this.radioPDF.TabStop = true;
-            this.radioPDF.Text = "PDF (Adobe Acrobat Export)";
             this.radioPDF.UseVisualStyleBackColor = true;
             this.radioPDF.CheckedChanged += new System.EventHandler(this.RadioCheckedChanged);
             // 
             // checkBoxDWF
             // 
-            this.checkBoxDWF.Location = new System.Drawing.Point(268, 79);
+            resources.ApplyResources(this.checkBoxDWF, "checkBoxDWF");
             this.checkBoxDWF.Name = "checkBoxDWF";
-            this.checkBoxDWF.Size = new System.Drawing.Size(104, 24);
-            this.checkBoxDWF.TabIndex = 3;
-            this.checkBoxDWF.Text = "DWF";
             this.checkBoxDWF.UseVisualStyleBackColor = true;
             this.checkBoxDWF.CheckedChanged += new System.EventHandler(this.ToggleCheckBoxValue);
             // 
             // checkBoxDGN
             // 
-            this.checkBoxDGN.Enabled = false;
-            this.checkBoxDGN.Location = new System.Drawing.Point(268, 49);
+            resources.ApplyResources(this.checkBoxDGN, "checkBoxDGN");
             this.checkBoxDGN.Name = "checkBoxDGN";
-            this.checkBoxDGN.Size = new System.Drawing.Size(104, 24);
-            this.checkBoxDGN.TabIndex = 2;
-            this.checkBoxDGN.Text = "DGN";
             this.checkBoxDGN.UseVisualStyleBackColor = true;
             this.checkBoxDGN.CheckedChanged += new System.EventHandler(this.ToggleCheckBoxValue);
             // 
             // checkBoxDWG
             // 
-            this.checkBoxDWG.Location = new System.Drawing.Point(268, 19);
+            resources.ApplyResources(this.checkBoxDWG, "checkBoxDWG");
             this.checkBoxDWG.Name = "checkBoxDWG";
-            this.checkBoxDWG.Size = new System.Drawing.Size(104, 24);
-            this.checkBoxDWG.TabIndex = 1;
-            this.checkBoxDWG.Text = "DWG";
             this.checkBoxDWG.UseVisualStyleBackColor = true;
             this.checkBoxDWG.CheckedChanged += new System.EventHandler(this.ToggleCheckBoxValue);
             // 
@@ -437,30 +360,20 @@ namespace SCaddins.ExportManager
             this.tabPage3.Controls.Add(this.groupBox3);
             this.tabPage3.Controls.Add(this.groupBox2);
             this.tabPage3.Controls.Add(this.groupBox1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            resources.ApplyResources(this.tabPage3, "tabPage3");
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(398, 418);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Advanced";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // checkBoxShowExportLog
             // 
-            this.checkBoxShowExportLog.Location = new System.Drawing.Point(12, 359);
+            resources.ApplyResources(this.checkBoxShowExportLog, "checkBoxShowExportLog");
             this.checkBoxShowExportLog.Name = "checkBoxShowExportLog";
-            this.checkBoxShowExportLog.Size = new System.Drawing.Size(380, 24);
-            this.checkBoxShowExportLog.TabIndex = 10;
-            this.checkBoxShowExportLog.Text = "Show export log after export completion (will always show on an error)";
             this.checkBoxShowExportLog.UseVisualStyleBackColor = true;
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(12, 389);
+            resources.ApplyResources(this.button5, "button5");
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(370, 23);
-            this.button5.TabIndex = 9;
-            this.button5.Text = "Check for Updates";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.Button5Click);
             // 
@@ -471,59 +384,38 @@ namespace SCaddins.ExportManager
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.buttonEditConfig);
             this.groupBox3.Controls.Add(this.buttonCreateConfig);
-            this.groupBox3.Location = new System.Drawing.Point(6, 20);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(386, 82);
-            this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Project Configuration";
             // 
             // btnSelectTextEditor
             // 
-            this.btnSelectTextEditor.Location = new System.Drawing.Point(352, 48);
+            resources.ApplyResources(this.btnSelectTextEditor, "btnSelectTextEditor");
             this.btnSelectTextEditor.Name = "btnSelectTextEditor";
-            this.btnSelectTextEditor.Size = new System.Drawing.Size(24, 20);
-            this.btnSelectTextEditor.TabIndex = 15;
-            this.btnSelectTextEditor.Text = "...";
             this.btnSelectTextEditor.UseVisualStyleBackColor = true;
             this.btnSelectTextEditor.Click += new System.EventHandler(this.BtnSelectTextEditorClick);
             // 
             // textBoxTextEditor
             // 
-            this.textBoxTextEditor.Location = new System.Drawing.Point(157, 49);
+            resources.ApplyResources(this.textBoxTextEditor, "textBoxTextEditor");
             this.textBoxTextEditor.Name = "textBoxTextEditor";
-            this.textBoxTextEditor.Size = new System.Drawing.Size(189, 20);
-            this.textBoxTextEditor.TabIndex = 14;
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(15, 52);
+            resources.ApplyResources(this.label8, "label8");
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(121, 17);
-            this.label8.TabIndex = 6;
-            this.label8.Text = "Text editor (for config)";
             // 
             // buttonEditConfig
             // 
-            this.buttonEditConfig.Image = ((System.Drawing.Image)(resources.GetObject("buttonEditConfig.Image")));
-            this.buttonEditConfig.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonEditConfig.Location = new System.Drawing.Point(208, 19);
+            resources.ApplyResources(this.buttonEditConfig, "buttonEditConfig");
             this.buttonEditConfig.Name = "buttonEditConfig";
-            this.buttonEditConfig.Size = new System.Drawing.Size(168, 23);
-            this.buttonEditConfig.TabIndex = 1;
-            this.buttonEditConfig.Text = "Edit Config File";
             this.buttonEditConfig.UseVisualStyleBackColor = true;
             this.buttonEditConfig.Click += new System.EventHandler(this.ButtonEditConfigClick);
             // 
             // buttonCreateConfig
             // 
-            this.buttonCreateConfig.Image = ((System.Drawing.Image)(resources.GetObject("buttonCreateConfig.Image")));
-            this.buttonCreateConfig.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonCreateConfig.Location = new System.Drawing.Point(17, 19);
+            resources.ApplyResources(this.buttonCreateConfig, "buttonCreateConfig");
             this.buttonCreateConfig.Name = "buttonCreateConfig";
-            this.buttonCreateConfig.Size = new System.Drawing.Size(185, 23);
-            this.buttonCreateConfig.TabIndex = 0;
-            this.buttonCreateConfig.Text = "Create Project Config File";
             this.buttonCreateConfig.UseVisualStyleBackColor = true;
             this.buttonCreateConfig.Click += new System.EventHandler(this.ButtonCreateConfigClick);
             // 
@@ -535,62 +427,43 @@ namespace SCaddins.ExportManager
             this.groupBox2.Controls.Add(this.textBoxGSLib);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.textBoxGSBin);
-            this.groupBox2.Location = new System.Drawing.Point(6, 257);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(386, 93);
-            this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Ghostscript Options";
             // 
             // GSLibDir
             // 
-            this.GSLibDir.Location = new System.Drawing.Point(347, 55);
+            resources.ApplyResources(this.GSLibDir, "GSLibDir");
             this.GSLibDir.Name = "GSLibDir";
-            this.GSLibDir.Size = new System.Drawing.Size(24, 20);
-            this.GSLibDir.TabIndex = 13;
-            this.GSLibDir.Text = "...";
             this.GSLibDir.UseVisualStyleBackColor = true;
             this.GSLibDir.Click += new System.EventHandler(this.GSLibDirClick);
             // 
             // btnGSBinDir
             // 
-            this.btnGSBinDir.Location = new System.Drawing.Point(347, 29);
+            resources.ApplyResources(this.btnGSBinDir, "btnGSBinDir");
             this.btnGSBinDir.Name = "btnGSBinDir";
-            this.btnGSBinDir.Size = new System.Drawing.Size(24, 20);
-            this.btnGSBinDir.TabIndex = 12;
-            this.btnGSBinDir.Text = "...";
             this.btnGSBinDir.UseVisualStyleBackColor = true;
             this.btnGSBinDir.Click += new System.EventHandler(this.GSBinDirClick);
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(7, 55);
+            resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(136, 20);
-            this.label3.TabIndex = 11;
-            this.label3.Text = "Ghostscript lib location";
             // 
             // textBoxGSLib
             // 
-            this.textBoxGSLib.Location = new System.Drawing.Point(149, 55);
+            resources.ApplyResources(this.textBoxGSLib, "textBoxGSLib");
             this.textBoxGSLib.Name = "textBoxGSLib";
-            this.textBoxGSLib.Size = new System.Drawing.Size(192, 20);
-            this.textBoxGSLib.TabIndex = 10;
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(7, 29);
+            resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(136, 20);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "Ghostscript bin location";
             // 
             // textBoxGSBin
             // 
-            this.textBoxGSBin.Location = new System.Drawing.Point(149, 29);
+            resources.ApplyResources(this.textBoxGSBin, "textBoxGSBin");
             this.textBoxGSBin.Name = "textBoxGSBin";
-            this.textBoxGSBin.Size = new System.Drawing.Size(192, 20);
-            this.textBoxGSBin.TabIndex = 8;
             // 
             // groupBox1
             // 
@@ -606,112 +479,78 @@ namespace SCaddins.ExportManager
             this.groupBox1.Controls.Add(this.textBoxPSPrinter);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.textBoxAdobeDriver);
-            this.groupBox1.Location = new System.Drawing.Point(6, 108);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(386, 143);
-            this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Printer Options";
             // 
             // btnSelectLargeFormatPrinter
             // 
-            this.btnSelectLargeFormatPrinter.Location = new System.Drawing.Point(347, 102);
+            resources.ApplyResources(this.btnSelectLargeFormatPrinter, "btnSelectLargeFormatPrinter");
             this.btnSelectLargeFormatPrinter.Name = "btnSelectLargeFormatPrinter";
-            this.btnSelectLargeFormatPrinter.Size = new System.Drawing.Size(24, 20);
-            this.btnSelectLargeFormatPrinter.TabIndex = 16;
-            this.btnSelectLargeFormatPrinter.Text = "...";
             this.btnSelectLargeFormatPrinter.UseVisualStyleBackColor = true;
             this.btnSelectLargeFormatPrinter.Click += new System.EventHandler(this.BtnSelectLargeFormatPrinterClick);
             // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(6, 106);
+            resources.ApplyResources(this.label10, "label10");
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(140, 20);
-            this.label10.TabIndex = 15;
-            this.label10.Text = "Large format printer name";
             // 
             // textBoxLargeFormatPrinter
             // 
-            this.textBoxLargeFormatPrinter.Location = new System.Drawing.Point(152, 103);
+            resources.ApplyResources(this.textBoxLargeFormatPrinter, "textBoxLargeFormatPrinter");
             this.textBoxLargeFormatPrinter.Name = "textBoxLargeFormatPrinter";
-            this.textBoxLargeFormatPrinter.Size = new System.Drawing.Size(189, 20);
-            this.textBoxLargeFormatPrinter.TabIndex = 14;
             // 
             // btnSelectAdobePrinter
             // 
-            this.btnSelectAdobePrinter.Location = new System.Drawing.Point(347, 23);
+            resources.ApplyResources(this.btnSelectAdobePrinter, "btnSelectAdobePrinter");
             this.btnSelectAdobePrinter.Name = "btnSelectAdobePrinter";
-            this.btnSelectAdobePrinter.Size = new System.Drawing.Size(24, 20);
-            this.btnSelectAdobePrinter.TabIndex = 13;
-            this.btnSelectAdobePrinter.Text = "...";
             this.btnSelectAdobePrinter.UseVisualStyleBackColor = true;
             this.btnSelectAdobePrinter.Click += new System.EventHandler(this.ButtonAdobePrinterClick);
             // 
             // btnSelectA3Printer
             // 
-            this.btnSelectA3Printer.Location = new System.Drawing.Point(347, 75);
+            resources.ApplyResources(this.btnSelectA3Printer, "btnSelectA3Printer");
             this.btnSelectA3Printer.Name = "btnSelectA3Printer";
-            this.btnSelectA3Printer.Size = new System.Drawing.Size(24, 20);
-            this.btnSelectA3Printer.TabIndex = 12;
-            this.btnSelectA3Printer.Text = "...";
             this.btnSelectA3Printer.UseVisualStyleBackColor = true;
             this.btnSelectA3Printer.Click += new System.EventHandler(this.ButtonA3PrinterClick);
             // 
             // btnSelectPSPrinter
             // 
-            this.btnSelectPSPrinter.Location = new System.Drawing.Point(347, 49);
+            resources.ApplyResources(this.btnSelectPSPrinter, "btnSelectPSPrinter");
             this.btnSelectPSPrinter.Name = "btnSelectPSPrinter";
-            this.btnSelectPSPrinter.Size = new System.Drawing.Size(24, 20);
-            this.btnSelectPSPrinter.TabIndex = 11;
-            this.btnSelectPSPrinter.Text = Resources.DotDotDot;
+            this.btnSelectPSPrinter.Text = global::SCaddins.Properties.Resources.DotDotDot;
             this.btnSelectPSPrinter.UseVisualStyleBackColor = true;
             this.btnSelectPSPrinter.Click += new System.EventHandler(this.ButtonPSPrinterClick);
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(6, 79);
+            resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(121, 20);
-            this.label7.TabIndex = 9;
-            this.label7.Text = "A3 printer name";
             // 
             // textBoxA3Printer
             // 
-            this.textBoxA3Printer.Location = new System.Drawing.Point(152, 76);
+            resources.ApplyResources(this.textBoxA3Printer, "textBoxA3Printer");
             this.textBoxA3Printer.Name = "textBoxA3Printer";
-            this.textBoxA3Printer.Size = new System.Drawing.Size(189, 20);
-            this.textBoxA3Printer.TabIndex = 8;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(6, 53);
+            resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(121, 17);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Postscript printer name";
             // 
             // textBoxPSPrinter
             // 
-            this.textBoxPSPrinter.Location = new System.Drawing.Point(152, 50);
+            resources.ApplyResources(this.textBoxPSPrinter, "textBoxPSPrinter");
             this.textBoxPSPrinter.Name = "textBoxPSPrinter";
-            this.textBoxPSPrinter.Size = new System.Drawing.Size(189, 20);
-            this.textBoxPSPrinter.TabIndex = 6;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(6, 27);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(121, 17);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Adobe pdf driver";
             // 
             // textBoxAdobeDriver
             // 
-            this.textBoxAdobeDriver.Location = new System.Drawing.Point(152, 24);
+            resources.ApplyResources(this.textBoxAdobeDriver, "textBoxAdobeDriver");
             this.textBoxAdobeDriver.Name = "textBoxAdobeDriver";
-            this.textBoxAdobeDriver.Size = new System.Drawing.Size(189, 20);
-            this.textBoxAdobeDriver.TabIndex = 4;
             // 
             // openFileDialog1
             // 
@@ -719,30 +558,23 @@ namespace SCaddins.ExportManager
             // 
             // button3
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.button3, "button3");
             this.button3.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button3.Location = new System.Drawing.Point(261, 462);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 9;
-            this.button3.Text = Resources.Cancel;
+            this.button3.Text = global::SCaddins.Properties.Resources.Cancel;
             this.button3.UseVisualStyleBackColor = true;
             // 
             // OptionsDialog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(426, 497);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "OptionsDialog";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "SCexport Options";
             this.tabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);

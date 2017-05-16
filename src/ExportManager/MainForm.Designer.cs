@@ -134,40 +134,24 @@ namespace SCaddins.ExportManager
             // 
             // btnExport
             // 
-            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExport.AutoSize = true;
-            this.btnExport.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnExport.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnExport.Location = new System.Drawing.Point(716, 504);
+            resources.ApplyResources(this.btnExport, "btnExport");
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(51, 22);
-            this.btnExport.TabIndex = 2;
-            this.btnExport.Text = "Export";
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.BtnExport_Click);
             this.btnExport.Resize += new System.EventHandler(this.BtnExportResize);
             // 
             // cmbPrintSet
             // 
-            this.cmbPrintSet.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.cmbPrintSet, "cmbPrintSet");
             this.cmbPrintSet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbPrintSet.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cmbPrintSet.FormattingEnabled = true;
-            this.cmbPrintSet.Location = new System.Drawing.Point(65, 12);
             this.cmbPrintSet.Name = "cmbPrintSet";
-            this.cmbPrintSet.Size = new System.Drawing.Size(670, 21);
-            this.cmbPrintSet.TabIndex = 3;
             this.cmbPrintSet.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 15);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(50, 13);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Print Set:";
             // 
             // contextMenuStrip1
             // 
@@ -195,150 +179,130 @@ namespace SCaddins.ExportManager
             this.mnuHelp});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.ShowCheckMargin = true;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(257, 392);
+            resources.ApplyResources(this.contextMenuStrip1, "contextMenuStrip1");
             // 
             // clearFilterToolStripMenuItem
             // 
-            this.clearFilterToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("clearFilterToolStripMenuItem.Image")));
+            resources.ApplyResources(this.clearFilterToolStripMenuItem, "clearFilterToolStripMenuItem");
             this.clearFilterToolStripMenuItem.Name = "clearFilterToolStripMenuItem";
-            this.clearFilterToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.clearFilterToolStripMenuItem.Text = "No View Filter";
             this.clearFilterToolStripMenuItem.Click += new System.EventHandler(this.NoFilterToolStripMenuItem_Click);
             // 
             // filterToolStripMenuItem
             // 
-            this.filterToolStripMenuItem.Enabled = false;
-            this.filterToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("filterToolStripMenuItem.Image")));
+            resources.ApplyResources(this.filterToolStripMenuItem, "filterToolStripMenuItem");
             this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
-            this.filterToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.filterToolStripMenuItem.Text = Resources.Filter;
+            this.filterToolStripMenuItem.Text = global::SCaddins.Properties.Resources.Filter;
             this.filterToolStripMenuItem.Click += new System.EventHandler(this.FilterToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(253, 6);
+            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
             // 
             // mnuExportOptions
             // 
-            this.mnuExportOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuExportOptions.Image")));
+            resources.ApplyResources(this.mnuExportOptions, "mnuExportOptions");
             this.mnuExportOptions.Name = "mnuExportOptions";
-            this.mnuExportOptions.Size = new System.Drawing.Size(256, 22);
-            this.mnuExportOptions.Text = Resources.Options;
+            this.mnuExportOptions.Text = global::SCaddins.Properties.Resources.Options;
             this.mnuExportOptions.Click += new System.EventHandler(this.MnuExportOptionsClick);
             // 
             // mnuSeparator0
             // 
             this.mnuSeparator0.Name = "mnuSeparator0";
-            this.mnuSeparator0.Size = new System.Drawing.Size(253, 6);
+            resources.ApplyResources(this.mnuSeparator0, "mnuSeparator0");
             // 
             // openSelectedViewToolStripMenuItem
             // 
-            this.openSelectedViewToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openSelectedViewToolStripMenuItem.Image")));
+            resources.ApplyResources(this.openSelectedViewToolStripMenuItem, "openSelectedViewToolStripMenuItem");
             this.openSelectedViewToolStripMenuItem.Name = "openSelectedViewToolStripMenuItem";
-            this.openSelectedViewToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.openSelectedViewToolStripMenuItem.Text = "Open Selected View";
             this.openSelectedViewToolStripMenuItem.Click += new System.EventHandler(this.OpenSelectedViewToolStripMenuItemClick);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(253, 6);
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             // 
             // addRevisionToolStripMenuItem
             // 
-            this.addRevisionToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("addRevisionToolStripMenuItem.Image")));
+            resources.ApplyResources(this.addRevisionToolStripMenuItem, "addRevisionToolStripMenuItem");
             this.addRevisionToolStripMenuItem.Name = "addRevisionToolStripMenuItem";
-            this.addRevisionToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.addRevisionToolStripMenuItem.Text = Resources.AddRevision;
+            this.addRevisionToolStripMenuItem.Text = global::SCaddins.Properties.Resources.AddRevision;
             this.addRevisionToolStripMenuItem.Click += new System.EventHandler(this.AddRevisionToolStripMenuItemClick);
             // 
             // copySheetsToolStripMenuItem
             // 
-            this.copySheetsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copySheetsToolStripMenuItem.Image")));
+            resources.ApplyResources(this.copySheetsToolStripMenuItem, "copySheetsToolStripMenuItem");
             this.copySheetsToolStripMenuItem.Name = "copySheetsToolStripMenuItem";
-            this.copySheetsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.copySheetsToolStripMenuItem.Text = Resources.CopySheets;
+            this.copySheetsToolStripMenuItem.Text = global::SCaddins.Properties.Resources.CopySheets;
             this.copySheetsToolStripMenuItem.Click += new System.EventHandler(this.CopySheetsToolStripMenuItemClick);
             // 
             // removeUnderlaysFromViewsToolStripMenuItem
             // 
-            this.removeUnderlaysFromViewsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("removeUnderlaysFromViewsToolStripMenuItem.Image")));
+            resources.ApplyResources(this.removeUnderlaysFromViewsToolStripMenuItem, "removeUnderlaysFromViewsToolStripMenuItem");
             this.removeUnderlaysFromViewsToolStripMenuItem.Name = "removeUnderlaysFromViewsToolStripMenuItem";
-            this.removeUnderlaysFromViewsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.removeUnderlaysFromViewsToolStripMenuItem.Text = Resources.RemoveUnderlaysfromViews;
+            this.removeUnderlaysFromViewsToolStripMenuItem.Text = global::SCaddins.Properties.Resources.RemoveUnderlaysfromViews;
             this.removeUnderlaysFromViewsToolStripMenuItem.Click += new System.EventHandler(this.RemoveUnderlaysFromViewsToolStripMenuItemClick);
             // 
             // renameSelectedSheetsToolStripMenuItem
             // 
-            this.renameSelectedSheetsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("renameSelectedSheetsToolStripMenuItem.Image")));
+            resources.ApplyResources(this.renameSelectedSheetsToolStripMenuItem, "renameSelectedSheetsToolStripMenuItem");
             this.renameSelectedSheetsToolStripMenuItem.Name = "renameSelectedSheetsToolStripMenuItem";
-            this.renameSelectedSheetsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.renameSelectedSheetsToolStripMenuItem.Text = Resources.RenameSelectedSheets;
+            this.renameSelectedSheetsToolStripMenuItem.Text = global::SCaddins.Properties.Resources.RenameSelectedSheets;
             this.renameSelectedSheetsToolStripMenuItem.Click += new System.EventHandler(this.RenameSelectedSheetsToolStripMenuItemClick);
             // 
             // fixScalesBarsToolStripMenuItem
             // 
-            this.fixScalesBarsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("fixScalesBarsToolStripMenuItem.Image")));
+            resources.ApplyResources(this.fixScalesBarsToolStripMenuItem, "fixScalesBarsToolStripMenuItem");
             this.fixScalesBarsToolStripMenuItem.Name = "fixScalesBarsToolStripMenuItem";
-            this.fixScalesBarsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.fixScalesBarsToolStripMenuItem.Text = "Fix Scale Bars";
             this.fixScalesBarsToolStripMenuItem.Click += new System.EventHandler(this.FixScalesBarsToolStripMenuItemClick);
             // 
             // toggleNorthPointToolStripMenuItem
             // 
-            this.toggleNorthPointToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("toggleNorthPointToolStripMenuItem.Image")));
+            resources.ApplyResources(this.toggleNorthPointToolStripMenuItem, "toggleNorthPointToolStripMenuItem");
             this.toggleNorthPointToolStripMenuItem.Name = "toggleNorthPointToolStripMenuItem";
-            this.toggleNorthPointToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.toggleNorthPointToolStripMenuItem.Text = "Toggle North Point";
             this.toggleNorthPointToolStripMenuItem.Click += new System.EventHandler(this.ToggleNorthPointToolStripMenuItemClick);
             // 
             // createUserViewsToolStripMenuItem
             // 
-            this.createUserViewsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createUserViewsToolStripMenuItem.Image")));
+            resources.ApplyResources(this.createUserViewsToolStripMenuItem, "createUserViewsToolStripMenuItem");
             this.createUserViewsToolStripMenuItem.Name = "createUserViewsToolStripMenuItem";
-            this.createUserViewsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.createUserViewsToolStripMenuItem.Text = "Create User Views";
             this.createUserViewsToolStripMenuItem.Click += new System.EventHandler(this.CreateUserViewsToolStripMenuItemClick);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(253, 6);
+            resources.ApplyResources(this.toolStripSeparator6, "toolStripSeparator6");
             // 
             // mnuSelectAll
             // 
-            this.mnuSelectAll.Image = ((System.Drawing.Image)(resources.GetObject("mnuSelectAll.Image")));
+            resources.ApplyResources(this.mnuSelectAll, "mnuSelectAll");
             this.mnuSelectAll.Name = "mnuSelectAll";
-            this.mnuSelectAll.Size = new System.Drawing.Size(256, 22);
-            this.mnuSelectAll.Text = Resources.SelectAll;
+            this.mnuSelectAll.Text = global::SCaddins.Properties.Resources.SelectAll;
             this.mnuSelectAll.Click += new System.EventHandler(this.MnuSelectAll_Click);
             // 
             // mnuSelectNone
             // 
-            this.mnuSelectNone.Image = ((System.Drawing.Image)(resources.GetObject("mnuSelectNone.Image")));
+            resources.ApplyResources(this.mnuSelectNone, "mnuSelectNone");
             this.mnuSelectNone.Name = "mnuSelectNone";
-            this.mnuSelectNone.Size = new System.Drawing.Size(256, 22);
-            this.mnuSelectNone.Text = Resources.SelectNone;
+            this.mnuSelectNone.Text = global::SCaddins.Properties.Resources.SelectNone;
             this.mnuSelectNone.Click += new System.EventHandler(this.MnuSelectNone_Click);
             // 
             // mnuSeparator2
             // 
             this.mnuSeparator2.Name = "mnuSeparator2";
-            this.mnuSeparator2.Size = new System.Drawing.Size(253, 6);
+            resources.ApplyResources(this.mnuSeparator2, "mnuSeparator2");
             // 
             // mnuVerify
             // 
-            this.mnuVerify.Image = ((System.Drawing.Image)(resources.GetObject("mnuVerify.Image")));
+            resources.ApplyResources(this.mnuVerify, "mnuVerify");
             this.mnuVerify.Name = "mnuVerify";
-            this.mnuVerify.Size = new System.Drawing.Size(256, 22);
-            this.mnuVerify.Text = Resources.VerifySheets;
+            this.mnuVerify.Text = global::SCaddins.Properties.Resources.VerifySheets;
             this.mnuVerify.Click += new System.EventHandler(this.MnuVerify_Click);
             // 
             // mnuSeparator3
             // 
             this.mnuSeparator3.Name = "mnuSeparator3";
-            this.mnuSeparator3.Size = new System.Drawing.Size(253, 6);
+            resources.ApplyResources(this.mnuSeparator3, "mnuSeparator3");
             // 
             // mnuHelp
             // 
@@ -347,41 +311,36 @@ namespace SCaddins.ExportManager
             this.aboutToolStripMenuItem,
             this.helpToolStripMenuItem,
             this.forumToolStripMenuItem});
-            this.mnuHelp.Image = ((System.Drawing.Image)(resources.GetObject("mnuHelp.Image")));
+            resources.ApplyResources(this.mnuHelp, "mnuHelp");
             this.mnuHelp.Name = "mnuHelp";
-            this.mnuHelp.Size = new System.Drawing.Size(256, 22);
-            this.mnuHelp.Text = Resources.Help;
+            this.mnuHelp.Text = global::SCaddins.Properties.Resources.Help;
             // 
             // changeLogToolStripMenuItem
             // 
-            this.changeLogToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("changeLogToolStripMenuItem.Image")));
+            resources.ApplyResources(this.changeLogToolStripMenuItem, "changeLogToolStripMenuItem");
             this.changeLogToolStripMenuItem.Name = "changeLogToolStripMenuItem";
-            this.changeLogToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.changeLogToolStripMenuItem.Text = Resources.SourceCode;
+            this.changeLogToolStripMenuItem.Text = global::SCaddins.Properties.Resources.SourceCode;
             this.changeLogToolStripMenuItem.Click += new System.EventHandler(this.ChangeLogToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
-            this.aboutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("aboutToolStripMenuItem.Image")));
+            resources.ApplyResources(this.aboutToolStripMenuItem, "aboutToolStripMenuItem");
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.aboutToolStripMenuItem.Text = Resources.About;
+            this.aboutToolStripMenuItem.Text = global::SCaddins.Properties.Resources.About;
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
-            this.helpToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("helpToolStripMenuItem.Image")));
+            resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.helpToolStripMenuItem.Text = Resources.KeyboardShortcuts;
+            this.helpToolStripMenuItem.Text = global::SCaddins.Properties.Resources.KeyboardShortcuts;
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.HelpToolStripMenuItem_Click);
             // 
             // forumToolStripMenuItem
             // 
-            this.forumToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("forumToolStripMenuItem.Image")));
+            resources.ApplyResources(this.forumToolStripMenuItem, "forumToolStripMenuItem");
             this.forumToolStripMenuItem.Name = "forumToolStripMenuItem";
-            this.forumToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.forumToolStripMenuItem.Text = Resources.Wiki;
+            this.forumToolStripMenuItem.Text = global::SCaddins.Properties.Resources.Wiki;
             this.forumToolStripMenuItem.Click += new System.EventHandler(this.ForumToolStripMenuItem_Click);
             // 
             // dataGridView1
@@ -390,25 +349,19 @@ namespace SCaddins.ExportManager
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToOrderColumns = true;
             this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.dataGridView1, "dataGridView1");
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllHeaders;
             this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.GridColor = System.Drawing.SystemColors.ControlLight;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 39);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.ShowCellErrors = false;
             this.dataGridView1.ShowCellToolTips = false;
-            this.dataGridView1.Size = new System.Drawing.Size(755, 454);
-            this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellContentClick);
             this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1CellEndEdit);
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView1_CellMouseDown);
@@ -417,13 +370,9 @@ namespace SCaddins.ExportManager
             // 
             // searchBox
             // 
-            this.searchBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            resources.ApplyResources(this.searchBox, "searchBox");
             this.searchBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.searchBox.Location = new System.Drawing.Point(44, 504);
             this.searchBox.Name = "searchBox";
-            this.searchBox.Size = new System.Drawing.Size(137, 20);
-            this.searchBox.TabIndex = 11;
-            this.searchBox.Visible = false;
             this.searchBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SearchBoxKeyDown);
             // 
             // statusStrip1
@@ -431,55 +380,34 @@ namespace SCaddins.ExportManager
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.progressInfo,
             this.progressBar});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 504);
+            resources.ApplyResources(this.statusStrip1, "statusStrip1");
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.statusStrip1.Size = new System.Drawing.Size(779, 30);
-            this.statusStrip1.TabIndex = 12;
-            this.statusStrip1.Text = "statusStrip1";
-            this.statusStrip1.Visible = false;
             // 
             // progressInfo
             // 
             this.progressInfo.Name = "progressInfo";
-            this.progressInfo.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.progressInfo.Size = new System.Drawing.Size(312, 25);
+            resources.ApplyResources(this.progressInfo, "progressInfo");
             this.progressInfo.Spring = true;
-            this.progressInfo.Text = "toolStripStatusLabel1";
-            this.progressInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // progressBar
             // 
             this.progressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.progressBar.Name = "progressBar";
-            this.progressBar.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.progressBar.Size = new System.Drawing.Size(450, 24);
+            resources.ApplyResources(this.progressBar, "progressBar");
             // 
             // btnOptions
             // 
-            this.btnOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOptions.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            resources.ApplyResources(this.btnOptions, "btnOptions");
             this.btnOptions.FlatAppearance.BorderSize = 0;
-            this.btnOptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnOptions.Image")));
-            this.btnOptions.Location = new System.Drawing.Point(741, 10);
             this.btnOptions.Name = "btnOptions";
-            this.btnOptions.Size = new System.Drawing.Size(26, 23);
-            this.btnOptions.TabIndex = 14;
             this.btnOptions.UseVisualStyleBackColor = true;
             this.btnOptions.Click += new System.EventHandler(this.Button2Click);
             // 
             // btnFind
             // 
-            this.btnFind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnFind.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            resources.ApplyResources(this.btnFind, "btnFind");
             this.btnFind.FlatAppearance.BorderSize = 0;
-            this.btnFind.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnFind.Image = ((System.Drawing.Image)(resources.GetObject("btnFind.Image")));
-            this.btnFind.Location = new System.Drawing.Point(12, 503);
             this.btnFind.Name = "btnFind";
-            this.btnFind.Size = new System.Drawing.Size(26, 22);
-            this.btnFind.TabIndex = 15;
             this.btnFind.UseVisualStyleBackColor = true;
             this.btnFind.Click += new System.EventHandler(this.BtnFindClick);
             // 
@@ -492,44 +420,43 @@ namespace SCaddins.ExportManager
             this.toolStripMenuItem2,
             this.printFullSizeToolStripMenuItem});
             this.printButtonContextMenu.Name = "pintButtonContextMenu";
-            this.printButtonContextMenu.Size = new System.Drawing.Size(182, 82);
+            resources.ApplyResources(this.printButtonContextMenu, "printButtonContextMenu");
             // 
             // printA3ToolStripMenuItem
             // 
             this.printA3ToolStripMenuItem.Name = "printA3ToolStripMenuItem";
-            this.printA3ToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.printA3ToolStripMenuItem.Text = Resources.ExportManagerPrintA3Fit;
+            resources.ApplyResources(this.printA3ToolStripMenuItem, "printA3ToolStripMenuItem");
+            this.printA3ToolStripMenuItem.Text = global::SCaddins.Properties.Resources.ExportManagerPrintA3Fit;
             this.printA3ToolStripMenuItem.Click += new System.EventHandler(this.PrintA3ToolStripMenuItemClick);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(178, 6);
+            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
             // 
             // printA2ToolStripMenuItem
             // 
             this.printA2ToolStripMenuItem.Name = "printA2ToolStripMenuItem";
-            this.printA2ToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.printA2ToolStripMenuItem.Text = Resources.ExportManagerPrintA2Fit;
+            resources.ApplyResources(this.printA2ToolStripMenuItem, "printA2ToolStripMenuItem");
+            this.printA2ToolStripMenuItem.Text = global::SCaddins.Properties.Resources.ExportManagerPrintA2Fit;
             this.printA2ToolStripMenuItem.Click += new System.EventHandler(this.PrintA2ToolStripMenuItemClick);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(178, 6);
+            resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
             // 
             // printFullSizeToolStripMenuItem
             // 
             this.printFullSizeToolStripMenuItem.Name = "printFullSizeToolStripMenuItem";
-            this.printFullSizeToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.printFullSizeToolStripMenuItem.Text = Resources.ExportManagerPrintFullSize;
+            resources.ApplyResources(this.printFullSizeToolStripMenuItem, "printFullSizeToolStripMenuItem");
+            this.printFullSizeToolStripMenuItem.Text = global::SCaddins.Properties.Resources.ExportManagerPrintFullSize;
             this.printFullSizeToolStripMenuItem.Click += new System.EventHandler(this.PrintFullSizeToolStripMenuItemClick);
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(779, 534);
             this.Controls.Add(this.btnFind);
             this.Controls.Add(this.btnOptions);
             this.Controls.Add(this.statusStrip1);
@@ -539,11 +466,7 @@ namespace SCaddins.ExportManager
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnExport);
             this.HelpButton = true;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(751, 549);
             this.Name = "MainForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = Resources.ExportManagerTitle;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainFormKeyDown);

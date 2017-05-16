@@ -40,103 +40,72 @@
             // 
             // treeView1
             // 
-            this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.treeView1.Location = new System.Drawing.Point(12, 12);
+            resources.ApplyResources(this.treeView1, "treeView1");
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(391, 236);
-            this.treeView1.TabIndex = 0;
             this.treeView1.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.TreeView1_AfterCheck);
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView1_AfterSelect);
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 254);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(391, 181);
-            this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = SCaddins.Properties.Resources.Info;
             // 
             // textBox1
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(6, 19);
-            this.textBox1.Multiline = true;
+            resources.ApplyResources(this.textBox1, "textBox1");
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(379, 156);
-            this.textBox1.TabIndex = 0;
             // 
             // btnSelectNone
             // 
-            this.btnSelectNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectNone.Location = new System.Drawing.Point(407, 12);
+            resources.ApplyResources(this.btnSelectNone, "btnSelectNone");
             this.btnSelectNone.Name = "btnSelectNone";
-            this.btnSelectNone.Size = new System.Drawing.Size(75, 23);
-            this.btnSelectNone.TabIndex = 2;
-            this.btnSelectNone.Text = Properties.Resources.SelectNone;
+            this.btnSelectNone.Text = global::SCaddins.Properties.Resources.SelectNone;
             this.btnSelectNone.UseVisualStyleBackColor = true;
             this.btnSelectNone.Click += new System.EventHandler(this.BtnSelectNone_Click);
             // 
             // btnSelectAll
             // 
-            this.btnSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectAll.Location = new System.Drawing.Point(407, 41);
+            resources.ApplyResources(this.btnSelectAll, "btnSelectAll");
             this.btnSelectAll.Name = "btnSelectAll";
-            this.btnSelectAll.Size = new System.Drawing.Size(75, 23);
-            this.btnSelectAll.TabIndex = 3;
-            this.btnSelectAll.Text = Properties.Resources.SelectAll;
+            this.btnSelectAll.Text = global::SCaddins.Properties.Resources.SelectAll;
             this.btnSelectAll.UseVisualStyleBackColor = true;
             this.btnSelectAll.Click += new System.EventHandler(this.BtnSelectAll_Click);
             // 
             // btnDelete
             // 
-            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDelete.Location = new System.Drawing.Point(407, 394);
+            resources.ApplyResources(this.btnDelete, "btnDelete");
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(75, 41);
-            this.btnDelete.TabIndex = 4;
-            this.btnDelete.Text = Properties.Resources.DestructivePurgeDeleteSelected;
+            this.btnDelete.Text = global::SCaddins.Properties.Resources.DestructivePurgeDeleteSelected;
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
             // 
             // btnShowElement
             // 
-            this.btnShowElement.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnShowElement.Location = new System.Drawing.Point(409, 347);
+            resources.ApplyResources(this.btnShowElement, "btnShowElement");
             this.btnShowElement.Name = "btnShowElement";
-            this.btnShowElement.Size = new System.Drawing.Size(73, 41);
-            this.btnShowElement.TabIndex = 5;
-            this.btnShowElement.Text = Properties.Resources.DestructivePurgeShowElement;
+            this.btnShowElement.Text = global::SCaddins.Properties.Resources.DestructivePurgeShowElement;
             this.btnShowElement.UseVisualStyleBackColor = true;
             this.btnShowElement.Click += new System.EventHandler(this.BtnShowElement_Click);
             // 
             // SCwashForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(486, 442);
             this.Controls.Add(this.btnShowElement);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnSelectAll);
             this.Controls.Add(this.btnSelectNone);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.treeView1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SCwashForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = Properties.Resources.DestructuvePurgeTitle;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SCwashForm_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+
         }
 
         #endregion

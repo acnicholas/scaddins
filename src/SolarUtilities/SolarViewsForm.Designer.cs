@@ -57,39 +57,29 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.listBox1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(370, 165);
-            this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = Resources.CurrentViewInformation;
             // 
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(7, 19);
+            resources.ApplyResources(this.listBox1, "listBox1");
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(357, 134);
-            this.listBox1.TabIndex = 0;
             // 
             // button1
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(307, 437);
+            resources.ApplyResources(this.button1, "button1");
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
             this.button1.Text = global::SCaddins.Properties.Resources.OK;
             this.button1.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button2.Location = new System.Drawing.Point(226, 437);
+            resources.ApplyResources(this.button2, "button2");
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 2;
             this.button2.Text = global::SCaddins.Properties.Resources.Cancel;
             this.button2.UseVisualStyleBackColor = true;
             // 
@@ -98,19 +88,14 @@
             this.groupBox2.Controls.Add(this.radioButtonShadowPlans);
             this.groupBox2.Controls.Add(this.radioButtonWinterViews);
             this.groupBox2.Controls.Add(this.radioButtonRotateCurrent);
-            this.groupBox2.Location = new System.Drawing.Point(12, 183);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(370, 132);
-            this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = Resources.Mode;
             // 
             // radioButtonShadowPlans
             // 
-            this.radioButtonShadowPlans.Location = new System.Drawing.Point(6, 68);
+            resources.ApplyResources(this.radioButtonShadowPlans, "radioButtonShadowPlans");
             this.radioButtonShadowPlans.Name = "radioButtonShadowPlans";
-            this.radioButtonShadowPlans.Size = new System.Drawing.Size(358, 36);
-            this.radioButtonShadowPlans.TabIndex = 2;
             this.radioButtonShadowPlans.TabStop = true;
             this.radioButtonShadowPlans.Text = global::SCaddins.Properties.Resources.SolarViewsCreateMultipleShadowPlans;
             this.radioButtonShadowPlans.UseVisualStyleBackColor = true;
@@ -118,10 +103,8 @@
             // 
             // radioButtonWinterViews
             // 
-            this.radioButtonWinterViews.Location = new System.Drawing.Point(6, 46);
+            resources.ApplyResources(this.radioButtonWinterViews, "radioButtonWinterViews");
             this.radioButtonWinterViews.Name = "radioButtonWinterViews";
-            this.radioButtonWinterViews.Size = new System.Drawing.Size(290, 29);
-            this.radioButtonWinterViews.TabIndex = 1;
             this.radioButtonWinterViews.TabStop = true;
             this.radioButtonWinterViews.Text = global::SCaddins.Properties.Resources.SolarViewsCreateMultipleSunViews;
             this.radioButtonWinterViews.UseVisualStyleBackColor = true;
@@ -129,10 +112,8 @@
             // 
             // radioButtonRotateCurrent
             // 
-            this.radioButtonRotateCurrent.Location = new System.Drawing.Point(6, 19);
+            resources.ApplyResources(this.radioButtonRotateCurrent, "radioButtonRotateCurrent");
             this.radioButtonRotateCurrent.Name = "radioButtonRotateCurrent";
-            this.radioButtonRotateCurrent.Size = new System.Drawing.Size(283, 32);
-            this.radioButtonRotateCurrent.TabIndex = 0;
             this.radioButtonRotateCurrent.TabStop = true;
             this.radioButtonRotateCurrent.Text = global::SCaddins.Properties.Resources.SolarViewsRotateCurrentView;
             this.radioButtonRotateCurrent.UseVisualStyleBackColor = true;
@@ -140,10 +121,8 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(11, 437);
+            resources.ApplyResources(this.button3, "button3");
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 4;
             this.button3.Text = global::SCaddins.Properties.Resources.Help;
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.Button3Click);
@@ -158,84 +137,60 @@
             this.groupBoxWinterViewOptions.Controls.Add(this.interval);
             this.groupBoxWinterViewOptions.Controls.Add(this.endTime);
             this.groupBoxWinterViewOptions.Controls.Add(this.startTime);
-            this.groupBoxWinterViewOptions.Location = new System.Drawing.Point(12, 320);
+            resources.ApplyResources(this.groupBoxWinterViewOptions, "groupBoxWinterViewOptions");
             this.groupBoxWinterViewOptions.Name = "groupBoxWinterViewOptions";
-            this.groupBoxWinterViewOptions.Size = new System.Drawing.Size(370, 111);
-            this.groupBoxWinterViewOptions.TabIndex = 5;
             this.groupBoxWinterViewOptions.TabStop = false;
-            this.groupBoxWinterViewOptions.Text = Resources.OptionsForMultipleViewCreation;
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(6, 20);
+            resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(120, 15);
-            this.label4.TabIndex = 7;
-            this.label4.Text = Resources.Date;
             // 
             // dateTimePicker1
             // 
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker1.Location = new System.Drawing.Point(6, 38);
+            resources.ApplyResources(this.dateTimePicker1, "dateTimePicker1");
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(133, 20);
-            this.dateTimePicker1.TabIndex = 6;
             this.dateTimePicker1.Value = new System.DateTime(2015, 6, 21, 0, 0, 0, 0);
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.DateTimePicker1ValueChanged);
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(295, 61);
+            resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(68, 15);
-            this.label3.TabIndex = 5;
-            this.label3.Text = Resources.Interval;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(144, 61);
+            resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(120, 15);
-            this.label2.TabIndex = 4;
-            this.label2.Text = Resources.EndTime;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(6, 61);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 15);
-            this.label1.TabIndex = 3;
-            this.label1.Text = Resources.StartTime;
             // 
             // interval
             // 
             this.interval.FormattingEnabled = true;
-            this.interval.Location = new System.Drawing.Point(295, 79);
+            resources.ApplyResources(this.interval, "interval");
             this.interval.Name = "interval";
-            this.interval.Size = new System.Drawing.Size(68, 21);
-            this.interval.TabIndex = 2;
             // 
             // endTime
             // 
             this.endTime.FormattingEnabled = true;
-            this.endTime.Location = new System.Drawing.Point(144, 79);
+            resources.ApplyResources(this.endTime, "endTime");
             this.endTime.Name = "endTime";
-            this.endTime.Size = new System.Drawing.Size(144, 21);
-            this.endTime.TabIndex = 1;
             // 
             // startTime
             // 
             this.startTime.FormattingEnabled = true;
-            this.startTime.Location = new System.Drawing.Point(6, 79);
+            resources.ApplyResources(this.startTime, "startTime");
             this.startTime.Name = "startTime";
-            this.startTime.Size = new System.Drawing.Size(132, 21);
-            this.startTime.TabIndex = 0;
             // 
             // SCaosForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(389, 469);
             this.Controls.Add(this.groupBoxWinterViewOptions);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.groupBox2);
@@ -243,9 +198,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SCaosForm";
-            this.Text = Resources.AngleOfSunTitle;
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBoxWinterViewOptions.ResumeLayout(false);

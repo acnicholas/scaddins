@@ -179,7 +179,9 @@
     <Compile Include="src\Common\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Common\AboutBox.Designer.cs" />
+    <Compile Include="src\Common\AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\Common\AboutBox.Designer1.cs">
       <DependentUpon>AboutBox.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -194,17 +196,30 @@
       <DependentUpon>UpgradeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Common\ConsoleUtils.cs" />
+    <Compile Include="src\ExportManager\ConfirmDialog.Designer1.cs">
+      <DependentUpon>ConfirmDialog.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="src\LatestRelease.cs" />
     <Compile Include="src\ParameterUtilities\EditTextParameters.cs" />
+    <Compile Include="src\ParameterUtilities\SCincrementSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>IncrementSettings.settings</DependentUpon>
+    </Compile>
     <Compile Include="src\ParameterUtilities\TextCaseEnums.cs" />
     <Compile Include="src\ParameterUtilities\ChangeCaseInfoDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ParameterUtilities\TextCaseInfoDialog.Designer.cs" />
+    <Compile Include="src\ParameterUtilities\TextCaseInfoDialog.Designer.cs">
+      <DependentUpon>ChangeCaseInfoDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\ParameterUtilities\TextCaseMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ParameterUtilities\TextCaseMainForm.Designer.cs" />
+    <Compile Include="src\ParameterUtilities\TextCaseMainForm.Designer.cs">
+      <DependentUpon>TextCaseMainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Constants.cs" />
     <Compile Include="src\RevisionUtilities\RevisionItem.cs" />
@@ -227,9 +242,10 @@
     <Compile Include="src\ScaddinsOptionsForm.Designer.cs">
       <DependentUpon>ScaddinsOptionsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\ScaddinsOptionsForm.Designer1.cs">
-      <DependentUpon>ScaddinsOptionsForm.resx</DependentUpon>
+    <Compile Include="src\ScaddinsOptionsForm1.Designer.cs">
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScaddinsOptionsForm.resx</DependentUpon>
     </Compile>
     <Compile Include="src\SharedAssemblyInfo.cs" />
     <Compile Include="src\SheetCopier\SheetCopierMainForm1.Designer.cs">
@@ -242,7 +258,9 @@
     <Compile Include="src\SolarUtilities\SolarViewsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SolarUtilities\SolarViewsForm.Designer.cs" />
+    <Compile Include="src\SolarUtilities\SolarViewsForm.Designer.cs">
+      <DependentUpon>SolarViewsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\ViewUtilities\CameraFromViewCommand.cs" />
     <Compile Include="src\RoomConvertor\RoomConvertorForm.cs">
       <SubType>Form</SubType>
@@ -271,9 +289,8 @@
     <Compile Include="src\ExportManager\ConfirmDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ExportManager\ConfirmDialog.Designer.cs" />
-    <Compile Include="src\ExportManager\ConfirmDialog.Designer1.cs">
-      <AutoGen>True</AutoGen>
+    <Compile Include="src\ExportManager\ConfirmDialog.Designer.cs">
+      <DependentUpon>ConfirmDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="src\ExportManager\Constants.cs" />
     <Compile Include="src\ExportManager\DialogHandler.cs" />
@@ -282,14 +299,18 @@
     <Compile Include="src\ExportManager\ExportLogDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ExportManager\ExportLogDialog.Designer.cs" />
+    <Compile Include="src\ExportManager\ExportLogDialog.Designer.cs">
+      <DependentUpon>ExportLogDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\ExportManager\ExportLogItem.cs" />
     <Compile Include="src\ExportManager\FileUtils.cs" />
     <Compile Include="src\ExportManager\FilterContextMenu.cs" />
     <Compile Include="src\ExportManager\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ExportManager\MainForm.Designer.cs" />
+    <Compile Include="src\ExportManager\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\ExportManager\MenuButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -298,7 +319,9 @@
     <Compile Include="src\ExportManager\OpenSheetDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ExportManager\OpenSheetDialog.Designer.cs" />
+    <Compile Include="src\ExportManager\OpenSheetDialog.Designer.cs">
+      <DependentUpon>OpenSheetDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\ExportManager\OptionsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -399,7 +422,9 @@
     <Compile Include="src\DestructivePurge\DestructivePurgeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\DestructivePurge\DestructivePurgeForm.Designer.cs" />
+    <Compile Include="src\DestructivePurge\DestructivePurgeForm.Designer.cs">
+      <DependentUpon>DestructivePurgeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\DestructivePurge\DestructivePurgeTreeNode.cs" />
     <Compile Include="src\ViewUtilities\ViewUnderlays.cs" />
     <Compile Include="src\ViewUtilities\RemoveUnderlaysCommand.cs" />
@@ -420,7 +445,9 @@
     <EmbeddedResource Include="src\Common\UpgradeForm.resx">
       <DependentUpon>UpgradeForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\ParameterUtilities\TectCaseInfoDialog.resx" />
+    <EmbeddedResource Include="src\ParameterUtilities\ChangeCaseInfoDialog.resx">
+      <DependentUpon>ChangeCaseInfoDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\ParameterUtilities\TextCaseMainForm.resx">
       <DependentUpon>TextCaseMainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -430,7 +457,7 @@
     <EmbeddedResource Include="src\ScaddinsOptionsForm.resx">
       <DependentUpon>ScaddinsOptionsForm.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ScaddinsOptionsForm.Designer1.cs</LastGenOutput>
+      <LastGenOutput>ScaddinsOptionsForm1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="src\RoomConvertor\RoomConvertorForm.resx">
       <DependentUpon>RoomConvertorForm.cs</DependentUpon>
