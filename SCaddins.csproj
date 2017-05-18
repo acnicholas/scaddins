@@ -202,11 +202,6 @@
     </Compile>
     <Compile Include="src\LatestRelease.cs" />
     <Compile Include="src\ParameterUtilities\EditTextParameters.cs" />
-    <Compile Include="src\ParameterUtilities\SCincrementSettings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>IncrementSettings.settings</DependentUpon>
-    </Compile>
     <Compile Include="src\ParameterUtilities\TextCaseEnums.cs" />
     <Compile Include="src\ParameterUtilities\ChangeCaseInfoDialog.cs">
       <SubType>Form</SubType>
