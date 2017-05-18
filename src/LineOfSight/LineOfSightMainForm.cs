@@ -24,19 +24,22 @@ namespace SCaddins.LineOfSight
     public partial class SCightLinesMainForm : Form
     {
         private SCightOutputForm info;
-        private LineOfSight sightLines;
+        private StadiumSection sightLines;
 
-        public SCightLinesMainForm(LineOfSight sightlines)
+        public SCightLinesMainForm(StadiumSection sightlines)
         {
+            if (sightlines == null) {
+                throw new ArgumentNullException("sightlines");
+            }
             this.InitializeComponent();
-            txtEyeHeight.Text = "1220";
-            txtGoing.Text = "900";
-            txtInc.Text = "15";
-            txtMinC.Text = "60";
-            txtRiser.Text = "180";
-            txtRows.Text = "20";
-            txtX.Text = "12000";
-            txtY.Text = "1000";
+            txtEyeHeight.Text = sightlines.EyeHeight.ToString(CultureInfo.InvariantCulture);
+            txtGoing.Text = sightlines.TreadSize.ToString(CultureInfo.InvariantCulture);
+            txtInc.Text = sightlines.RiserIncrement.ToString(CultureInfo.InvariantCulture);
+            txtMinC.Text = sightlines.MinimumCValue.ToString(CultureInfo.InvariantCulture);
+            txtRiser.Text = sightlines.MinimumRiserHeight.ToString(CultureInfo.InvariantCulture); ;
+            txtRows.Text = sightlines.NumberOfRows.ToString(CultureInfo.InvariantCulture);
+            txtX.Text = sightlines.DistanceToFirstRowX.ToString(CultureInfo.InvariantCulture);
+            txtY.Text = sightlines.DistanceToFirstRowY.ToString(CultureInfo.InvariantCulture);
             this.info = new SCightOutputForm("Update first");
             this.info.Hide();
             this.sightLines = sightlines;

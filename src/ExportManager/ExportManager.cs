@@ -197,8 +197,8 @@ namespace SCaddins.ExportManager
         public static string GetOldConfigFileName(Document doc)
         {
             string central = FileUtilities.GetCentralFileName(doc);
-            string s = Path.GetDirectoryName(central) + @"\" +
-                Path.GetFileNameWithoutExtension(central) + ".xml";
+            string s = Path.GetDirectoryName(central) + Path.DirectorySeparatorChar +
+                Path.GetFileNameWithoutExtension(central) + Resources.FileExtensionXML;
             return s;
         }
         
@@ -1005,25 +1005,25 @@ namespace SCaddins.ExportManager
             
             PrintManager pm = doc.PrintManager;
             
-            this.log.AddMessage("Applying print setting: " + vs.PrintSettingName);
+            this.log.AddMessage(Resources.MessageApplyingPrintSetting + vs.PrintSettingName);
 
-            if (!PrintSettings.PrintToFile(doc, vs, pm, ".ps", this.PostscriptPrinterName)) {
-                this.log.AddError(vs.FullExportName, "failed to assign print setting: " + vs.PrintSettingName);
+            if (!PrintSettings.PrintToFile(doc, vs, pm, Resources.FileExtensionPS, this.PostscriptPrinterName)) {
+                this.log.AddError(vs.FullExportName, Resources.ErrorFailedToAssignPrintSetting + vs.PrintSettingName);
                 return false;
             }
             
-            this.log.AddMessage("Submitting Postscript print.");
+            this.log.AddMessage(Resources.MessageSubmittingPrint);
 
             try {
                 pm.SubmitPrint(vs.Sheet);
             } catch (InvalidOperationException) {
-                File.Delete(vs.FullExportPath(".ps"));
+                File.Delete(vs.FullExportPath(Resources.FileExtensionPS));
                 pm.SubmitPrint(vs.Sheet);
             }
             
-            this.log.AddMessage("Printing: " + vs.FullExportPath(".ps"));
+            this.log.AddMessage("Printing: " + vs.FullExportPath(Resources.FileExtensionPS));
 
-            FileUtilities.WaitForFileAccess(vs.FullExportPath(".ps"));
+            FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPS));
             
             this.log.AddMessage("...OK");
             
@@ -1067,32 +1067,32 @@ namespace SCaddins.ExportManager
         {
             PrintManager pm = doc.PrintManager;
             
-            this.log.AddMessage(Resources.ApplyingPrintSetting + @": " + vs.PrintSettingName);
+            this.log.AddMessage(Resources.MessageApplyingPrintSetting + vs.PrintSettingName);
 
-            if (!PrintSettings.PrintToFile(doc, vs, pm, ".pdf", this.PdfPrinterName)) {
-                this.log.AddError(vs.FullExportName, "failed to assign print setting: " + vs.PrintSettingName);
+            if (!PrintSettings.PrintToFile(doc, vs, pm, Resources.FileExtensionPDF, this.PdfPrinterName)) {
+                this.log.AddError(vs.FullExportName, Resources.ErrorFailedToAssignPrintSetting + vs.PrintSettingName);
                 return false;
             }
 
-            SetAcrobatExportRegistryVal(vs.FullExportPath(".pdf"), this.log);
+            SetAcrobatExportRegistryVal(vs.FullExportPath(Resources.FileExtensionPDF), this.log);
 
-            if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
-                if (File.Exists(vs.FullExportPath(".pdf"))) {
-                    File.Delete(vs.FullExportPath(".pdf"));
+            if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF))) {
+                if (File.Exists(vs.FullExportPath(Resources.FileExtensionPDF))) {
+                    File.Delete(vs.FullExportPath(Resources.FileExtensionPDF));
                 }
-                this.log.AddMessage("Submitting print...");
+                this.log.AddMessage(Resources.MessageSubmittingPrint);
                 if (pm.SubmitPrint(vs.Sheet)) {
-                    this.log.AddMessage("(apparently) completed successfully");
+                    this.log.AddMessage(Resources.MessageApparentlyCompletedSuccessfully);
                 } else {
-                    this.log.AddError(vs.FullExportName, "Failed to print");    
+                    this.log.AddError(vs.FullExportName, Resources.ErrorFailedToPrint);    
                 }
-                FileUtilities.WaitForFileAccess(vs.FullExportPath(".pdf"));
+                FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPDF));
                 
-                this.RunExportHooks("pdf", vs);
+                this.RunExportHooks(Resources.FileExtensionPDF, vs);
                              
                 SCaddins.Common.SystemUtilities.KillAllProcesses("acrotray");
             } else {
-                this.log.AddError(vs.FullExportName, "Could not overwrite file, maybe check permissions?");
+                this.log.AddError(vs.FullExportName, Resources.ErrorCantOverwriteFile);
                 return false;
             }
             

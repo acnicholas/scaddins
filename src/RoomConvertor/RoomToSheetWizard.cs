@@ -42,12 +42,13 @@ namespace SCaddins.RoomConvertor
             if (int.TryParse(textBox1.Text, out i)) {
                 roomConversionManager.Scale = i;
             } else {
-                TaskDialog td = new TaskDialog("Scale Input Error");
-                td.MainInstruction = "Invalid Scale.";
-                td.MainContent = "Scale input: " + textBox1.Text + " cannot be used." + System.Environment.NewLine +
-                    "Last good value (" + roomConversionManager.Scale + ") will be used";
-                td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-                td.Show();   
+                using (var td = new TaskDialog("Scale Input Error")) {
+                    td.MainInstruction = "Invalid Scale.";
+                    td.MainContent = "Scale input: " + textBox1.Text + " cannot be used." + System.Environment.NewLine +
+                        "Last good value (" + roomConversionManager.Scale + ") will be used";
+                    td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+                    td.Show();
+                }
             }
             roomConversionManager.TitleBlockId = 
                 roomConversionManager.GetTitleBlockByName(this.comboBoxTitles.Text);

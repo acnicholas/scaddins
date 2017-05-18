@@ -131,7 +131,7 @@ namespace SCaddins.ExportManager
                 if (ps.IsValidObject) {
                     pm.PrintSetup.CurrentPrintSetting = ps;
                 } else {
-                    log.AddWarning(null, "Print Setup is read only!");
+                    log.AddWarning(null, Resources.WarningPrintSetupReadOnly);
                 }
                 pm.PrintRange = PrintRange.Current;
                 pm.PrintSetup.CurrentPrintSetting.PrintParameters.MarginType = MarginType.NoMargin;
@@ -242,7 +242,7 @@ namespace SCaddins.ExportManager
                 string printerName,
                 ExportLog log)
         {       
-            log.AddMessage("Attempting to Load Revit Print Settings:" + size);
+            log.AddMessage(Resources.MessageAttemptingToLoadRevitPrintSettings + size);
             PrintSetting ps = PrintSettings.GetPrintSettingByName(doc, size);
 
             if (ps == null) {
@@ -250,9 +250,9 @@ namespace SCaddins.ExportManager
                 return null;
             }
             
-            log.AddMessage("Using printer : " + printerName);
+            log.AddMessage(Resources.MessageUsingPrinter + printerName);
             if (!PrintSettings.SetPrinterByName(doc, printerName, pm)) {
-                log.AddError(null, "Cannot set printer: " + printerName);
+                log.AddError(null, Resources.MessageCannotSetPrinter + printerName);
                 return null;
             } 
             

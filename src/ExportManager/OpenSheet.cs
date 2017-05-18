@@ -28,6 +28,7 @@ namespace SCaddins.ExportManager
 
     public class OpenSheet : IExternalCommand
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
             ref string message,

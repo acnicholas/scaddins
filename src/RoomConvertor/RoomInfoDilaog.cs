@@ -20,6 +20,7 @@ using System.Windows.Forms;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.DB;
 using System.Globalization;
+using SCaddins.Properties;
 
 namespace SCaddins.RoomConvertor
 {
@@ -30,9 +31,9 @@ namespace SCaddins.RoomConvertor
         {
             InitializeComponent();
             listView1.View = System.Windows.Forms.View.Details;
-            listView1.Columns.Add("Parameter");
-            listView1.Columns.Add("Value");
-            listView1.Columns.Add("Type");
+            listView1.Columns.Add(Resources.Parameter);
+            listView1.Columns.Add(Resources.Value);
+            listView1.Columns.Add(Resources.Type);
             listView1.Columns[0].Width = 200;
             listView1.Columns[1].Width = 200;
             listView1.Columns[2].Width = 100;

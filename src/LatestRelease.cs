@@ -97,6 +97,7 @@ namespace SCaddins
         public string created_at { get; set; }
         public string published_at { get; set; }
         public Author author { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public List<Asset> assets { get; set;}
     }
 }

@@ -20,11 +20,9 @@ namespace SCaddins.RevisionUtilities
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
     using System.Windows.Forms;
     using Autodesk.Revit.DB;
-     using Autodesk.Revit.UI;
-    using SCaddins.Common;
+    using SCaddins.Properties;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -148,7 +146,7 @@ namespace SCaddins.RevisionUtilities
         private void RadioButtonRevisionsCheckedChanged(object sender, EventArgs e)
         {
             if (radioButtonRevisions.Checked) {
-                this.labelDataGridTitle.Text = "Select Revision To Schedule";
+                this.labelDataGridTitle.Text = Resources.SelectRevisionToSchedule;
             }
             RadioButton rb = sender as RadioButton;
             if (rb != null && rb.Checked) {
@@ -161,7 +159,7 @@ namespace SCaddins.RevisionUtilities
         private void RadioButtonCloudsCheckedChanged(object sender, EventArgs e)
         {
              if (radioButtonClouds.Checked) {
-                this.labelDataGridTitle.Text = "Select Revision Cloud To Schedule,Delete or Re-assign";
+                this.labelDataGridTitle.Text = Resources.SelectRevisionCloudToScheduleDeleteOrAssign;
             }
             RadioButton rb = sender as RadioButton;
             if (rb != null && rb.Checked) {

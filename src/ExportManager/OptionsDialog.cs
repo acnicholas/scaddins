@@ -127,7 +127,7 @@ namespace SCaddins.ExportManager
 
             if (!this.radioPDF.Enabled && !this.radioGSPDF.Enabled) {
                 this.checkBox1.Enabled = false;
-                this.checkBox1.Text = "PDF disabled, check settings!!!";
+                this.checkBox1.Text = SCaddins.Properties.Resources.WarningPDFExportDisabled;
             }
             if (!FileUtilities.ConfigFileExists(this.doc)) {
                 this.buttonEditConfig.Enabled = false;

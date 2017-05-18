@@ -67,20 +67,20 @@ namespace SCaddins.ExportManager
         public void OpenSelectedViewToolStripMenuItemClick(
                 object sender, EventArgs e)
         {
-            var uiapp = new UIApplication(this.udoc.Application.Application);
-            DialogHandler.AddRevitDialogHandler(uiapp);
-            foreach (DataGridViewRow row in this.dataGridView1.SelectedRows) {
-                 var sc = row.DataBoundItem as ExportSheet;
-                if (sc == null) {
-                    return;
-                }
-                 Autodesk.Revit.DB.FamilyInstance result =
-                     ExportManager.TitleBlockInstanceFromSheetNumber(sc.SheetNumber, this.doc);
-                if (result != null) {
-                    this.udoc.ShowElements(result);
+            using (var uiapp = new UIApplication(this.udoc.Application.Application)) {
+                DialogHandler.AddRevitDialogHandler(uiapp);
+                foreach (DataGridViewRow row in this.dataGridView1.SelectedRows) {
+                    var sc = row.DataBoundItem as ExportSheet;
+                    if (sc == null) {
+                        return;
+                    }
+                    Autodesk.Revit.DB.FamilyInstance result =
+                        ExportManager.TitleBlockInstanceFromSheetNumber(sc.SheetNumber, this.doc);
+                    if (result != null) {
+                        this.udoc.ShowElements(result);
+                    }
                 }
             }
-            uiapp.Dispose();
             this.Close();
         }
 
@@ -187,6 +187,7 @@ namespace SCaddins.ExportManager
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private void AddColumn(string name, string text)
         {
             var result = new DataGridViewTextBoxColumn();
@@ -195,6 +196,7 @@ namespace SCaddins.ExportManager
             this.dataGridView1.Columns.Add(result);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private void AddDateColumn(string name, string text)
         {
             var result = new DataGridViewTextBoxColumn();

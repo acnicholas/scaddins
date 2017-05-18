@@ -69,11 +69,12 @@ namespace SCaddins.SCoord
             string family = SCaddins.Constants.FamilyDirectory +
                             version + @"\SC-Survey_Point.rfa";
             if (System.IO.File.Exists(family)) {
-                var loadFamily = new Transaction(doc, "Load Family");
-                loadFamily.Start();
                 Family fam;
-                doc.LoadFamily(family, out fam);
-                loadFamily.Commit();
+                using (var loadFamily = new Transaction(doc, "Load Family")) {
+                    loadFamily.Start();
+                    doc.LoadFamily(family, out fam);
+                    loadFamily.Commit();
+                }
                 System.Collections.Generic.ISet<ElementId> sids = fam.GetFamilySymbolIds();
                 foreach (ElementId id in sids) {   
                     var f = doc.GetElement(id) as FamilySymbol;
@@ -103,6 +104,7 @@ namespace SCaddins.SCoord
             return null;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private static void PlaceMGA(Document doc)
         {
             Level levelZero = GetLevelZero(doc);

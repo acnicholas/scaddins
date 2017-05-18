@@ -117,15 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AngleOfSunCreatePlansRadioNote" xml:space="preserve">
-    <value>Create Multiple Shadow Plans</value>
-  </data>
-  <data name="AngleOfSunCreateViewsRadioNote" xml:space="preserve">
-    <value>Create Multiple Angle of Sun Views (3d)</value>
-  </data>
-  <data name="AngleOfSunTitle" xml:space="preserve">
-    <value>Angle Of Sun - Create view[s] from the sun</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -138,41 +129,11 @@
   <data name="Copy" xml:space="preserve">
     <value>Copy</value>
   </data>
-  <data name="Copyright" xml:space="preserve">
-    <value>Copyright</value>
-  </data>
-  <data name="CopySheetsAddCurrentSheet" xml:space="preserve">
-    <value>Add Current Sheet</value>
-  </data>
-  <data name="CopySheetsAddRemoveViews" xml:space="preserve">
-    <value>Remove Views</value>
-  </data>
-  <data name="CopySheetsAddRenameSheets" xml:space="preserve">
-    <value>Rename Sheets</value>
-  </data>
-  <data name="CopySheetsAddRenameViews" xml:space="preserve">
-    <value>Rename Views</value>
-  </data>
-  <data name="CopySheetsTitle" xml:space="preserve">
-    <value>Copy Sheets by Andrew Nicholas</value>
-  </data>
-  <data name="CurrentViewInformation" xml:space="preserve">
-    <value>Current View Information</value>
-  </data>
-  <data name="Date" xml:space="preserve">
-    <value>Date</value>
-  </data>
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
-  <data name="DestructuvePurgeTitle" xml:space="preserve">
-    <value>SCWash - Clean you model</value>
-  </data>
   <data name="Download" xml:space="preserve">
     <value>Download</value>
-  </data>
-  <data name="EndTime" xml:space="preserve">
-    <value>EndTime</value>
   </data>
   <data name="Go" xml:space="preserve">
     <value>Go</value>
@@ -249,15 +210,6 @@
   <data name="SourceCode" xml:space="preserve">
     <value>Source Code</value>
   </data>
-  <data name="StartTime" xml:space="preserve">
-    <value>Start Time</value>
-  </data>
-  <data name="Version" xml:space="preserve">
-    <value>Version</value>
-  </data>
-  <data name="VersionInformation" xml:space="preserve">
-    <value>Version Information</value>
-  </data>
   <data name="Wiki" xml:space="preserve">
     <value>Wiki</value>
   </data>
@@ -267,14 +219,8 @@
   <data name="DestructivePurgeShowElement" xml:space="preserve">
     <value>Show Element</value>
   </data>
-  <data name="Info" xml:space="preserve">
-    <value>Info</value>
-  </data>
   <data name="AlwyasConfirmFileOverwrite" xml:space="preserve">
     <value>Always ask for confirmation before overwriting?</value>
-  </data>
-  <data name="ConfirmFileOverwrite" xml:space="preserve">
-    <value>Confirm file overwrite?</value>
   </data>
   <data name="DestructivePurgeShowAdditionalInfo" xml:space="preserve">
     <value>Select an item to show additional information</value>
@@ -291,9 +237,6 @@
   <data name="ExportStarted" xml:space="preserve">
     <value>Export Started</value>
   </data>
-  <data name="ExportSummary" xml:space="preserve">
-    <value>Export Summary</value>
-  </data>
   <data name="Filename" xml:space="preserve">
     <value>File name</value>
   </data>
@@ -309,20 +252,11 @@
   <data name="Output" xml:space="preserve">
     <value>Output</value>
   </data>
-  <data name="SelectSheetsBeforeAddingRevision" xml:space="preserve">
-    <value>Please select sheets before attempting to add revisions</value>
-  </data>
   <data name="Show" xml:space="preserve">
     <value>Show</value>
   </data>
   <data name="StartingPrint" xml:space="preserve">
     <value>Starting Print</value>
-  </data>
-  <data name="Summary" xml:space="preserve">
-    <value>Summary</value>
-  </data>
-  <data name="UpdateFormTitle" xml:space="preserve">
-    <value>SCaddins Version Information</value>
   </data>
   <data name="UpdateViewChangeLog" xml:space="preserve">
     <value>View Complete Change Log</value>
@@ -348,9 +282,6 @@
   <data name="SolarViewsCreateMultipleSunViews" xml:space="preserve">
     <value>Create Multiple Angle of Sun Views (3d)</value>
   </data>
-  <data name="SolarViewsMultiViewCreationOptions" xml:space="preserve">
-    <value>Options for Multiple View Creation</value>
-  </data>
   <data name="SolarViewsRotateCurrentView" xml:space="preserve">
     <value>Rotate Current View</value>
   </data>
@@ -363,12 +294,8 @@
   <data name="Apply" xml:space="preserve">
     <value>Apply</value>
   </data>
-  <data name="ApplyingPrintSetting" xml:space="preserve">
-    <value>Applying print setting</value>
-    <comment>not sure why this won't work!!!</comment>
-  </data>
-  <data name="AutoCADVersion" xml:space="preserve">
-    <value>AutoCAD Version</value>
+  <data name="MessageApplyingPrintSetting" xml:space="preserve">
+    <value>Applying print setting: </value>
   </data>
   <data name="CopySheets" xml:space="preserve">
     <value>Copy Sheets</value>
@@ -388,14 +315,8 @@
   <data name="ExportManagerPrintFullSize" xml:space="preserve">
     <value>Print Full Size</value>
   </data>
-  <data name="ExportManagerTitle" xml:space="preserve">
-    <value>SCexport - Scott Carver Export Utility - By Andrew Nicholas</value>
-  </data>
   <data name="Filter" xml:space="preserve">
     <value>Filter</value>
-  </data>
-  <data name="FixScaleBars" xml:space="preserve">
-    <value>Fix Scale Bars</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>General</value>
@@ -421,17 +342,8 @@
   <data name="ResetToDefault" xml:space="preserve">
     <value>Reset to Default</value>
   </data>
-  <data name="ScalebarScale" xml:space="preserve">
-    <value>Scale Bar Scale</value>
-  </data>
-  <data name="ToggleNorthPoint" xml:space="preserve">
-    <value>Toggle North Point</value>
-  </data>
   <data name="VerifySheets" xml:space="preserve">
     <value>Verify Sheets</value>
-  </data>
-  <data name="Export" xml:space="preserve">
-    <value>Export</value>
   </data>
   <data name="ExportDirectory" xml:space="preserve">
     <value>Export Directory</value>
@@ -481,26 +393,17 @@
   <data name="ApplyPrintSettings" xml:space="preserve">
     <value>Apply Print Settings</value>
   </data>
-  <data name="ErrorCannotSetPrinter" xml:space="preserve">
-    <value>Cannot set printer</value>
-  </data>
   <data name="ErrorRetrievingRevitPrintSettingsFAILED" xml:space="preserve">
     <value>Retrieving Revit Print Settings FAILED</value>
   </data>
   <data name="MessageAttemptingToLoadRevitPrintSettings" xml:space="preserve">
-    <value>Attempting to Load Revit Print Settings</value>
+    <value>Attempting to Load Revit Print Settings: </value>
   </data>
   <data name="SetPrinter" xml:space="preserve">
     <value>Set Printer</value>
   </data>
   <data name="CouldNotCreateUserView" xml:space="preserve">
     <value>Could not create user view</value>
-  </data>
-  <data name="Error" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="Warning" xml:space="preserve">
-    <value>Warning</value>
   </data>
   <data name="FilterRevisionColumnPrefix" xml:space="preserve">
     <value>Filter: Rev *</value>
@@ -547,15 +450,6 @@
   <data name="RenameSheetsUsingRegex" xml:space="preserve">
     <value>Rename sheets (using regex)</value>
   </data>
-  <data name="Replacement" xml:space="preserve">
-    <value>Replacement</value>
-  </data>
-  <data name="SelectPrinter" xml:space="preserve">
-    <value>Select Printer</value>
-  </data>
-  <data name="SelectPrinterFromComboBox" xml:space="preserve">
-    <value>Select printer from combo box</value>
-  </data>
   <data name="SheetCategoryName" xml:space="preserve">
     <value>Sheet Category Name</value>
   </data>
@@ -567,9 +461,6 @@
   </data>
   <data name="AddCurrentSheet" xml:space="preserve">
     <value>Add Current Sheet</value>
-  </data>
-  <data name="BasicInformation" xml:space="preserve">
-    <value>Basic Information</value>
   </data>
   <data name="NewSheets" xml:space="preserve">
     <value>New Sheets</value>
@@ -586,13 +477,58 @@
   <data name="RenameViews" xml:space="preserve">
     <value>Rename Views</value>
   </data>
-  <data name="Schedules" xml:space="preserve">
-    <value>Schedules</value>
+  <data name="ErrorCantOverwriteFile" xml:space="preserve">
+    <value>Could not overwrite file, maybe check permissions?</value>
   </data>
-  <data name="ViewPorts" xml:space="preserve">
-    <value>View Ports</value>
+  <data name="ErrorFailedToAssignPrintSetting" xml:space="preserve">
+    <value>failed to assign print setting: </value>
   </data>
-  <data name="ViewsOnNewSheet" xml:space="preserve">
-    <value>Views on New Sheet</value>
+  <data name="ErrorFailedToPrint" xml:space="preserve">
+    <value>Failed to print</value>
+  </data>
+  <data name="FileExtensionPDF" xml:space="preserve">
+    <value>.pdf</value>
+  </data>
+  <data name="FileExtensionXML" xml:space="preserve">
+    <value>.xml</value>
+  </data>
+  <data name="MessageApparentlyCompletedSuccessfully" xml:space="preserve">
+    <value>(apparently) completed successfully</value>
+  </data>
+  <data name="MessageCannotSetPrinter" xml:space="preserve">
+    <value>Cannot set printer: </value>
+  </data>
+  <data name="MessageSubmittingPrint" xml:space="preserve">
+    <value>Submitting print...</value>
+  </data>
+  <data name="MessageUsingPrinter" xml:space="preserve">
+    <value>Using printer: </value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value>Attempting to Load Revit Print Settings:</value>
+  </data>
+  <data name="WarningPrintSetupReadOnly" xml:space="preserve">
+    <value>Print Setup is read only!</value>
+  </data>
+  <data name="WarningPDFExportDisabled" xml:space="preserve">
+    <value>PDF export disabled, check settings!!!</value>
+  </data>
+  <data name="FileExtensionPS" xml:space="preserve">
+    <value>.ps</value>
+  </data>
+  <data name="Parameter" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="SelectRevisionCloudToScheduleDeleteOrAssign" xml:space="preserve">
+    <value>Select Revision Cloud To Schedule,Delete or Re-assign</value>
+  </data>
+  <data name="SelectRevisionToSchedule" xml:space="preserve">
+    <value>Select Revision To Schedule</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
   </data>
 </root>

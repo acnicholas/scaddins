@@ -358,16 +358,20 @@
     <Compile Include="src\ExportManager\SegmentedSheetName.cs" />
     <Compile Include="src\ExportManager\TipOfDay.cs" />
     <Compile Include="src\ExportManager\ViewSheetSetCombo.cs" />
-    <Compile Include="src\LineOfSight\LineOfSight.cs" />
+    <Compile Include="src\LineOfSight\StadiumSection.cs" />
     <Compile Include="src\LineOfSight\LineOfSightCommand.cs" />
     <Compile Include="src\LineOfSight\LineOfSightMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\LineOfSight\LineOfSightMainForm.Designer.cs" />
+    <Compile Include="src\LineOfSight\LineOfSightMainForm.Designer.cs">
+      <DependentUpon>LineOfSightMainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\LineOfSight\LineOfSightOutputForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\LineOfSight\LineOfSightOutputForm.Designer.cs" />
+    <Compile Include="src\LineOfSight\LineOfSightOutputForm.Designer.cs">
+      <DependentUpon>LineOfSightOutputForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\LineOfSight\LineOfSightRow.cs" />
     <Compile Include="src\ParameterUtilities\Increment.cs" />
     <Compile Include="src\ParameterUtilities\IncrementSettings.cs" />
@@ -394,7 +398,9 @@
     <Compile Include="src\PlaceCoordinate\PlaceCoordinateForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\PlaceCoordinate\PlaceCoordinateForm.Designer.cs" />
+    <Compile Include="src\PlaceCoordinate\PlaceCoordinateForm.Designer.cs">
+      <DependentUpon>PlaceCoordinateForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\SheetCopier\SheetCopierEnums.cs" />
     <Compile Include="src\SheetCopier\SheetCopierMainForm.cs">
       <SubType>Form</SubType>
@@ -497,7 +503,9 @@
     <EmbeddedResource Include="src\LineOfSight\LineOfSightMainForm.resx">
       <DependentUpon>LineOfSightMainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\LineOfSight\LineOfSightOutputForm.resx" />
+    <EmbeddedResource Include="src\LineOfSight\LineOfSightOutputForm.resx">
+      <DependentUpon>LineOfSightOutputForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\ParameterUtilities\IncrementSettingsForm.resx">
       <DependentUpon>IncrementSettingsForm.cs</DependentUpon>
     </EmbeddedResource>

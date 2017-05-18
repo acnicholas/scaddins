@@ -54,21 +54,15 @@ namespace SCaddins.SCoord
             // button1
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button1.Location = new System.Drawing.Point(197, 198);
+            resources.ApplyResources(this.button1, "button1");
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "OK";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button2.Location = new System.Drawing.Point(116, 198);
+            resources.ApplyResources(this.button2, "button2");
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Cancel";
             this.button2.UseVisualStyleBackColor = true;
             // 
             // groupBox1
@@ -79,86 +73,60 @@ namespace SCaddins.SCoord
             this.groupBox1.Controls.Add(this.textBoxElevation);
             this.groupBox1.Controls.Add(this.textBoxNS);
             this.groupBox1.Controls.Add(this.textBoxEW);
-            this.groupBox1.Location = new System.Drawing.Point(12, 73);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(260, 109);
-            this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Coordinates";
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(36, 73);
+            resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(73, 23);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Elevation";
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(36, 47);
+            resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(73, 23);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "North / South";
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(36, 21);
+            resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(73, 23);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "East / West";
             // 
             // textBoxElevation
             // 
             this.textBoxElevation.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxElevation.Location = new System.Drawing.Point(115, 71);
+            resources.ApplyResources(this.textBoxElevation, "textBoxElevation");
             this.textBoxElevation.Name = "textBoxElevation";
-            this.textBoxElevation.Size = new System.Drawing.Size(139, 20);
-            this.textBoxElevation.TabIndex = 2;
             // 
             // textBoxNS
             // 
             this.textBoxNS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxNS.Location = new System.Drawing.Point(115, 45);
+            resources.ApplyResources(this.textBoxNS, "textBoxNS");
             this.textBoxNS.Name = "textBoxNS";
-            this.textBoxNS.Size = new System.Drawing.Size(139, 20);
-            this.textBoxNS.TabIndex = 1;
             // 
             // textBoxEW
             // 
             this.textBoxEW.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxEW.Location = new System.Drawing.Point(115, 19);
+            resources.ApplyResources(this.textBoxEW, "textBoxEW");
             this.textBoxEW.Name = "textBoxEW";
-            this.textBoxEW.Size = new System.Drawing.Size(139, 20);
-            this.textBoxEW.TabIndex = 0;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(254, 45);
-            this.label1.TabIndex = 3;
-            this.label1.Text = @"Place a family at a specified Shared Coordinate. NOTE: Currently the family must " +
-    "be a Generic Model named SC-Survey_Point";
             // 
             // SCoordForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 236);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SCoordForm";
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Place Family at Coordinate";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

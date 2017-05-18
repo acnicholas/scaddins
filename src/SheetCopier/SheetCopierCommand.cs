@@ -51,13 +51,13 @@ namespace SCaddins.SheetCopier
                 return Autodesk.Revit.UI.Result.Failed;    
             }
             var scopy = new SheetCopierManager(commandData.Application.ActiveUIDocument);
-            var form = new MainForm(doc, viewSheet, scopy);
-            form.Enabled = true;
-            System.Windows.Forms.DialogResult result = form.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK) {
-                scopy.CreateSheets();
+            using (var form = new MainForm(doc, viewSheet, scopy)) {
+                form.Enabled = true;
+                System.Windows.Forms.DialogResult result = form.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK) {
+                    scopy.CreateSheets();
+                }
             }
-            form.Dispose();
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }

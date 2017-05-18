@@ -108,12 +108,12 @@ namespace SCaddins.RevisionUtilities
         public static SortableBindingListCollection<RevisionItem> GetRevisions(Document doc)
         {
             var revisions = new SortableBindingListCollection<RevisionItem>();
-            FilteredElementCollector a;
-            a = new FilteredElementCollector(doc);
-            a.OfCategory(BuiltInCategory.OST_Revisions);
-            foreach (Revision e in a) {  
-                if (e.IsValidObject) {
-                    revisions.Add(new RevisionItem(e));
+            using (var a = new FilteredElementCollector(doc)) {
+                a.OfCategory(BuiltInCategory.OST_Revisions);
+                foreach (Revision e in a) {
+                    if (e.IsValidObject) {
+                        revisions.Add(new RevisionItem(e));
+                    }
                 }
             }
             return revisions;

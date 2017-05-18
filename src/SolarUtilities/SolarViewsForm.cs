@@ -22,11 +22,11 @@ namespace SCaddins.SolarUtilities
 
     public partial class SCaosForm : Form
     {
-        public SCaosForm(string[] informationText, bool currentViewIsIso)
+        public SCaosForm(string[] informationText, bool currentViewIsIsometric)
         {
 
             this.InitializeComponent();
-            if (!currentViewIsIso) {
+            if (!currentViewIsIsometric) {
                 radioButtonRotateCurrent.Enabled = false;
             }
 

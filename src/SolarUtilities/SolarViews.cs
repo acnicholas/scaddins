@@ -31,6 +31,7 @@ namespace SCaddins.SolarUtilities
         private ProjectPosition position;
         private bool currentViewIsIso;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
             ref string message,
@@ -165,6 +166,7 @@ namespace SCaddins.SolarUtilities
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private static void CreateShadowPlanViews(
             Document doc,
             DateTime startTime,
@@ -199,6 +201,7 @@ namespace SCaddins.SolarUtilities
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private void CreateWinterViews(
             Document doc,
             UIDocument udoc,
@@ -235,6 +238,7 @@ namespace SCaddins.SolarUtilities
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private void RotateView(View view, Document doc, UIDocument udoc)
         {
             if (view.ViewType == ViewType.ThreeD) {
