@@ -20,7 +20,7 @@ namespace SCaddins
     using System;
     using System.Collections.Generic;
     
-    public abstract class Author
+    public class Author
     {
         public string login { get; set; }
         public int id { get; set; }
@@ -42,7 +42,7 @@ namespace SCaddins
         public bool site_admin { get; set; }
     }
 
-    public abstract class Uploader
+    public class Uploader
     {
         public string login { get; set; }
         public int id { get; set; }
@@ -63,7 +63,7 @@ namespace SCaddins
         public bool site_admin { get; set; }
     }
 
-    public abstract class Asset
+    public class Asset
     {
         public string url { get; set; }
         public string browser_download_url { get; set; }
@@ -79,7 +79,7 @@ namespace SCaddins
         public Uploader uploader { get; set; }
     }
 
-    public abstract class LatestVersion
+    public class LatestVersion
     {
         public string url { get; set; }
         public string html_url { get; set; }
