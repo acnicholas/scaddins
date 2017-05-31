@@ -159,10 +159,11 @@ namespace SCaddins.RoomConvertor
             if (button.Text == Resources.RoomToolsCreateMasses) {
                 roomConversionManager.CreateRoomMasses(GetSelectedCandidates());      
             } else {
-                RoomToSheetWizard wizard = new RoomToSheetWizard(this.roomConversionManager);
-                DialogResult result = wizard.ShowDialog();
-                if (result == DialogResult.OK) {
-                    roomConversionManager.CreateViewsAndSheets(GetSelectedCandidates());
+                using (var wizard = new RoomToSheetWizard(this.roomConversionManager)) {
+                    DialogResult result = wizard.ShowDialog();
+                    if (result == DialogResult.OK) {
+                        roomConversionManager.CreateViewsAndSheets(GetSelectedCandidates());
+                    }
                 }
             } 
         }             

@@ -88,6 +88,7 @@
         
         public void AddMessage(string message)
         {
+            // Autodesk.Revit.UI.TaskDialog.Show("Debug", message);
             this.AddLogItem(message);
         }
 

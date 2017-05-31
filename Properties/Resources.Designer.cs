@@ -97,6 +97,33 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Angle Of Sun.
+        /// </summary>
+        internal static string AngleOfSun {
+            get {
+                return ResourceManager.GetString("AngleOfSun", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ...Or create multiple views for winter(June 21) in one go..
+        /// </summary>
+        internal static string AngleOfSunLongDescription {
+            get {
+                return ResourceManager.GetString("AngleOfSunLongDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rotate a 3d view to the location of the sun..
+        /// </summary>
+        internal static string AngleOfSunToolTip {
+            get {
+                return ResourceManager.GetString("AngleOfSunToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Apply.
         /// </summary>
         internal static string Apply {
@@ -115,11 +142,47 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Associated Level.
+        /// </summary>
+        internal static string AssociatedLevel {
+            get {
+                return ResourceManager.GetString("AssociatedLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Case.
+        /// </summary>
+        internal static string ChangeCase {
+            get {
+                return ResourceManager.GetString("ChangeCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pre-select text/tags to change a selection. Run with no selection to change the entire project..
+        /// </summary>
+        internal static string ChangeCaseLongDescription {
+            get {
+                return ResourceManager.GetString("ChangeCaseLongDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Convert text from upper to lower case, or vise-versa.
+        /// </summary>
+        internal static string ChangeCaseToolTip {
+            get {
+                return ResourceManager.GetString("ChangeCaseToolTip", resourceCulture);
             }
         }
         
@@ -151,6 +214,15 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy Detailing.
+        /// </summary>
+        internal static string CopyDetailing {
+            get {
+                return ResourceManager.GetString("CopyDetailing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy Sheets.
         /// </summary>
         internal static string CopySheets {
@@ -160,11 +232,38 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy a view sheet and all its content.
+        /// </summary>
+        internal static string CopySheetsToolTip {
+            get {
+                return ResourceManager.GetString("CopySheetsToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not create user view.
         /// </summary>
         internal static string CouldNotCreateUserView {
             get {
                 return ResourceManager.GetString("CouldNotCreateUserView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Perspective.
+        /// </summary>
+        internal static string CreatePerspective {
+            get {
+                return ResourceManager.GetString("CreatePerspective", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a perspective view from the current view (3d or plan)..
+        /// </summary>
+        internal static string CreatePerspectiveToolTip {
+            get {
+                return ResourceManager.GetString("CreatePerspectiveToolTip", resourceCulture);
             }
         }
         
@@ -196,6 +295,15 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Destructive Purge.
+        /// </summary>
+        internal static string DestructivePurge {
+            get {
+                return ResourceManager.GetString("DestructivePurge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete Selected.
         /// </summary>
         internal static string DestructivePurgeDeleteSelected {
@@ -219,6 +327,15 @@ namespace SCaddins.Properties {
         internal static string DestructivePurgeShowElement {
             get {
                 return ResourceManager.GetString("DestructivePurgeShowElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clean up your model, in a more destructive way than a purge..
+        /// </summary>
+        internal static string DestructivePurgeToolTip {
+            get {
+                return ResourceManager.GetString("DestructivePurgeToolTip", resourceCulture);
             }
         }
         
@@ -493,6 +610,33 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Increment Tool.
+        /// </summary>
+        internal static string IncrementTool {
+            get {
+                return ResourceManager.GetString("IncrementTool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Increment Tool Settings.
+        /// </summary>
+        internal static string IncrementToolSettings {
+            get {
+                return ResourceManager.GetString("IncrementToolSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Increment room numbers and family marks..
+        /// </summary>
+        internal static string IncrementToolToolTip {
+            get {
+                return ResourceManager.GetString("IncrementToolToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Installed Version.
         /// </summary>
         internal static string InstalledVersion {
@@ -525,6 +669,24 @@ namespace SCaddins.Properties {
         internal static string LatestVersion {
             get {
                 return ResourceManager.GetString("LatestVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Line of Sight.
+        /// </summary>
+        internal static string LineofSight {
+            get {
+                return ResourceManager.GetString("LineofSight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create line of sight details for stadium seating..
+        /// </summary>
+        internal static string LineofSightToolTip {
+            get {
+                return ResourceManager.GetString("LineofSightToolTip", resourceCulture);
             }
         }
         
@@ -727,6 +889,15 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Original Title.
+        /// </summary>
+        internal static string OriginalTitle {
+            get {
+                return ResourceManager.GetString("OriginalTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Output.
         /// </summary>
         internal static string Output {
@@ -772,6 +943,24 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Place Coordinate.
+        /// </summary>
+        internal static string PlaceCoordinate {
+            get {
+                return ResourceManager.GetString("PlaceCoordinate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Place a family at a specified shared coordinate..
+        /// </summary>
+        internal static string PlaceCoordinateToolTip {
+            get {
+                return ResourceManager.GetString("PlaceCoordinateToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Postscript printer name.
         /// </summary>
         internal static string PostscriptPrinterName {
@@ -804,6 +993,15 @@ namespace SCaddins.Properties {
         internal static string ProductName {
             get {
                 return ResourceManager.GetString("ProductName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proposed Title.
+        /// </summary>
+        internal static string ProposedTitle {
+            get {
+                return ResourceManager.GetString("ProposedTitle", resourceCulture);
             }
         }
         
@@ -925,6 +1123,15 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Room Tools.
+        /// </summary>
+        internal static string RoomTools {
+            get {
+                return ResourceManager.GetString("RoomTools", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bulk rename selected items in the list above..
         /// </summary>
         internal static string RoomToolsBulkRename {
@@ -1033,11 +1240,11 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Room Tools.
+        ///   Looks up a localized string similar to Creates sheets and/or solids(masses) from a selection of rooms..
         /// </summary>
-        internal static string RoomToolsTitle {
+        internal static string RoomToolsToolTip {
             get {
-                return ResourceManager.GetString("RoomToolsTitle", resourceCulture);
+                return ResourceManager.GetString("RoomToolsToolTip", resourceCulture);
             }
         }
         
@@ -1047,6 +1254,51 @@ namespace SCaddins.Properties {
         internal static string Scale {
             get {
                 return ResourceManager.GetString("Scale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SCexport.
+        /// </summary>
+        internal static string SCexport {
+            get {
+                return ResourceManager.GetString("SCexport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SCexport will export file[s] using the internal Revit revision for each sheet, and a predefined naming scheme..
+        /// </summary>
+        internal static string SCexportLongDescription {
+            get {
+                return ResourceManager.GetString("SCexportLongDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export PDF/DWG file[s] with pre defined naming standards.
+        /// </summary>
+        internal static string SCexportToolTip {
+            get {
+                return ResourceManager.GetString("SCexportToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schedule Clouds.
+        /// </summary>
+        internal static string ScheduleClouds {
+            get {
+                return ResourceManager.GetString("ScheduleClouds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schedule revision clouds and/or re-assign revisions to them..
+        /// </summary>
+        internal static string ScheduleCloudsToolTip {
+            get {
+                return ResourceManager.GetString("ScheduleCloudsToolTip", resourceCulture);
             }
         }
         
@@ -1092,6 +1344,15 @@ namespace SCaddins.Properties {
         internal static string SetPrinter {
             get {
                 return ResourceManager.GetString("SetPrinter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sheet Category.
+        /// </summary>
+        internal static string SheetCategory {
+            get {
+                return ResourceManager.GetString("SheetCategory", resourceCulture);
             }
         }
         
@@ -1195,6 +1456,15 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        internal static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type.
         /// </summary>
         internal static string Type {
@@ -1240,6 +1510,24 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User View.
+        /// </summary>
+        internal static string UserView {
+            get {
+                return ResourceManager.GetString("UserView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a user view..
+        /// </summary>
+        internal static string UserViewToolTip {
+            get {
+                return ResourceManager.GetString("UserViewToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Value.
         /// </summary>
         internal static string Value {
@@ -1254,6 +1542,24 @@ namespace SCaddins.Properties {
         internal static string VerifySheets {
             get {
                 return ResourceManager.GetString("VerifySheets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Template.
+        /// </summary>
+        internal static string ViewTemplate {
+            get {
+                return ResourceManager.GetString("ViewTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Type.
+        /// </summary>
+        internal static string ViewType {
+            get {
+                return ResourceManager.GetString("ViewType", resourceCulture);
             }
         }
         

@@ -60,8 +60,7 @@ namespace SCaddins.RoomConvertor
             get; set;
         }
 
-        public RoomConversionManager(Document doc)
-        {
+        public RoomConversionManager(Document doc) {
             candidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();
             this.allCandidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();
             this.doc = doc;
@@ -70,19 +69,19 @@ namespace SCaddins.RoomConvertor
             this.Scale = 50;
             SheetCopier.SheetCopierManager.GetAllSheets(existingSheets, this.doc);
             SheetCopier.SheetCopierManager.GetAllViewsInModel(existingViews, this.doc);
-            FilteredElementCollector collector = new FilteredElementCollector(this.doc);
-            collector.OfClass(typeof(SpatialElement));
-            foreach (Element e in collector) {
-                if (e.IsValidObject && (e is Room)) {
-                    Room room = e as Room;
-                    if (room.Area > 0 && room.Location != null) {
-                        allCandidates.Add(new RoomConversionCandidate(room, existingSheets, existingViews));
+            using (var collector = new FilteredElementCollector(this.doc)) { 
+                collector.OfClass(typeof(SpatialElement));
+                foreach (Element e in collector) {
+                    if (e.IsValidObject && (e is Room)) {
+                        Room room = e as Room;
+                        if (room.Area > 0 && room.Location != null) {
+                            allCandidates.Add(new RoomConversionCandidate(room, existingSheets, existingViews));
+                        }
                     }
                 }
             }
             //Initially add all canditates.
             this.Reset();
-            collector.Dispose();
         }
 
         public void CreateViewsAndSheets(
@@ -106,13 +105,13 @@ namespace SCaddins.RoomConvertor
         {
             var result = new Dictionary<string, ElementId>();
 
-            FilteredElementCollector a = new FilteredElementCollector(doc)
-                .OfCategory(BuiltInCategory.OST_TitleBlocks).OfClass(typeof(FamilySymbol));
-
-            foreach (FamilySymbol e in a) {
-                var s = e.Family.Name + "-" + e.Name;
-                if (!result.ContainsKey(s)) {
-                    result.Add(s, e.Id);
+            using (var collector = new FilteredElementCollector(doc)) {
+                collector.OfCategory(BuiltInCategory.OST_TitleBlocks).OfClass(typeof(FamilySymbol));
+                foreach (FamilySymbol e in collector) {
+                    var s = e.Family.Name + "-" + e.Name;
+                    if (!result.ContainsKey(s)) {
+                        result.Add(s, e.Id);
+                    }
                 }
             }
 
@@ -229,11 +228,10 @@ namespace SCaddins.RoomConvertor
 
         public void SynchronizeMassesToRooms()
         {
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
-            collector.OfCategory(BuiltInCategory.OST_Mass);
-            collector.OfClass(typeof(DirectShape));
-            
+            using (var collector = new FilteredElementCollector(doc))
             using (var t = new Transaction(doc, "Synchronize Masses to Rooms")) {
+                collector.OfCategory(BuiltInCategory.OST_Mass);
+                collector.OfClass(typeof(DirectShape));
                 t.Start();
                 int i = 0;
                 foreach (Element e in collector) {
@@ -251,23 +249,26 @@ namespace SCaddins.RoomConvertor
 
                 Autodesk.Revit.UI.TaskDialog.Show("Synchronize Masses to Rooms", i + " masses synchronized");
                 t.Commit();
-            }
-            collector.Dispose();      
+            }    
         }
 
         private bool CreateRoomMass(Room room)
         {    
             try {
-                SpatialElementGeometryCalculator calculator = new SpatialElementGeometryCalculator(doc);
-                SpatialElementGeometryResults results = calculator.CalculateSpatialElementGeometry(room);
-                Solid roomSolid = results.GetGeometry(); 
-                #if REVIT2018
-                DirectShape roomShape = DirectShape.CreateElement(doc, new ElementId(BuiltInCategory.OST_Mass));
-                #else
-                DirectShape roomShape = DirectShape.CreateElement(doc, new ElementId(BuiltInCategory.OST_Mass), "A", "B");
-                #endif
-                roomShape.SetShape(new GeometryObject[] { roomSolid });
-                CopyAllRoomParametersToMasses(room, roomShape);
+                SpatialElementGeometryResults results;
+                using (var calculator = new SpatialElementGeometryCalculator(doc)) {
+                    results = calculator.CalculateSpatialElementGeometry(room);
+                }
+                using (Solid roomSolid = results.GetGeometry()) {
+                    var eid = new ElementId(BuiltInCategory.OST_Mass);
+                    #if REVIT2018
+                    DirectShape roomShape = DirectShape.CreateElement(doc, eid);
+                    #else
+                    DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
+                    #endif
+                    roomShape.SetShape(new GeometryObject[] { roomSolid });
+                    CopyAllRoomParametersToMasses(room, roomShape);
+                }
 
             } catch (Exception ex) {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
@@ -277,6 +278,7 @@ namespace SCaddins.RoomConvertor
 
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private void CreateViewAndSheet(RoomConversionCandidate candidate)
         {
             // Create plans

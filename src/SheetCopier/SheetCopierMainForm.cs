@@ -22,7 +22,7 @@ namespace SCaddins.SheetCopier
     using System.Globalization;
     using System.Windows.Forms;
     using Autodesk.Revit.DB;
-    using Autodesk.Revit.UI;
+    using SCaddins.Properties;
     
     /// <summary>
     /// Description of MainForm.
@@ -91,11 +91,19 @@ namespace SCaddins.SheetCopier
         private static void AddCheckBoxColumn(string name, string text, DataGridView grid)
         {
             var result = new DataGridViewCheckBoxColumn();
-            AddColumnHeader(name, text, result);
-            grid.Columns.Add(result);
+            SetColumnHeader(name, text, result);
+            try {
+                grid.Columns.Add(result);
+            } catch (ArgumentNullException ane) {
+                System.Diagnostics.Debug.WriteLine(ane.Message);
+                result.Dispose();
+            } catch (InvalidOperationException ex) {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                result.Dispose();
+            }
         }
     
-        private static void AddColumnHeader(
+        private static void SetColumnHeader(
             string name, string text, DataGridViewColumn column)
         {
             column.HeaderText = text;
@@ -114,7 +122,7 @@ namespace SCaddins.SheetCopier
             if (grid != null) {
                 var result = new DataGridViewTextBoxColumn();
                 result.Visible = visible;
-                AddColumnHeader(name, text, result);
+                SetColumnHeader(name, text, result);
                 grid.Columns.Add(result);
             }
         }
@@ -180,26 +188,27 @@ namespace SCaddins.SheetCopier
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView2.AutoGenerateColumns = false;
                       
-            AddColumn("Number", "Number", this.dataGridView1);
-            AddColumn("Title", "Title", this.dataGridView1);     
-            AddColumn("OriginalTitle", "Original Title", this.dataGridView2);
-            AddColumn("Title", "Proposed Title", this.dataGridView2);
+            AddColumn("Number", Resources.Number, this.dataGridView1);
+            AddColumn("Title", Resources.Title, this.dataGridView1);     
+            AddColumn("OriginalTitle", Resources.OriginalTitle, this.dataGridView2);
+            AddColumn("Title", Resources.ProposedTitle, this.dataGridView2);
             this.AddComboBoxColumns();
-            AddColumn("RevitViewType", "View Type", this.dataGridView2);
+            AddColumn("RevitViewType", Resources.ViewType, this.dataGridView2);
             AddCheckBoxColumn(
-                "DuplicateWithDetailing", "Copy Detailing", this.dataGridView2); 
+                "DuplicateWithDetailing", Resources.CopyDetailing, this.dataGridView2); 
         }
 
         private void DataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             var cell = (DataGridViewComboBoxCell)dataGridView1.Rows[e.RowIndex].Cells[2];
             if (cell.Value != null && (string)cell.Value == SheetCopierConstants.SheetCategoryCreateCustom) {
-                var form = new SCopyTextInputForm();
+                using (var form = new SCopyTextInputForm()) {
                     System.Windows.Forms.DialogResult dr = form.ShowDialog();
                     if (dr == System.Windows.Forms.DialogResult.OK) {
                         this.cheetCategoryCombo.Items.Add(form.textBox1.Text);
                         dataGridView1.Rows[e.RowIndex].Cells[2].Value = form.textBox1.Text;
                     }
+                }
                 dataGridView1.Invalidate();
                 dataGridView1.EndEdit();
             }
@@ -218,7 +227,7 @@ namespace SCaddins.SheetCopier
         private void AddComboBoxColumns()
         {
             this.cheetCategoryCombo = CreateComboBoxColumn();
-            AddColumnHeader("SheetCategory", "Sheet Category", this.cheetCategoryCombo);
+            SetColumnHeader("SheetCategory", Resources.SheetCategory, this.cheetCategoryCombo);
             this.cheetCategoryCombo.Items.Add(SheetCopierConstants.SheetCategoryCreateCustom);
             foreach (string s in this.scopy.SheetCategories) {
                 this.cheetCategoryCombo.Items.Add(s);
@@ -226,7 +235,7 @@ namespace SCaddins.SheetCopier
             dataGridView1.Columns.Add(this.cheetCategoryCombo);
             
             DataGridViewComboBoxColumn result2 = CreateComboBoxColumn();
-            AddColumnHeader("ViewTemplateName", "View Template", result2);
+            SetColumnHeader("ViewTemplateName", Resources.ViewTemplate, result2);
             result2.Items.Add(SheetCopierConstants.MenuItemCopy);
             var sc = this.scopy;
             foreach (string s2 in sc.ViewTemplates.Keys) {
@@ -235,7 +244,7 @@ namespace SCaddins.SheetCopier
             dataGridView2.Columns.Add(result2);
         
             DataGridViewComboBoxColumn result = CreateComboBoxColumn();
-            AddColumnHeader("AssociatedLevelName", "Associated Level", result);
+            SetColumnHeader("AssociatedLevelName", Resources.AssociatedLevel, result);
             result.Items.Add(SheetCopierConstants.MenuItemCopy);
             foreach (string s in sc.Levels.Keys) {
                 result.Items.Add(s);
@@ -245,14 +254,13 @@ namespace SCaddins.SheetCopier
 
         private void SetTitle()
         {
-            this.Text = "Sheet Copier by Andrew Nicholas";
+            this.Text = Resources.CopySheets;
         }
     
         #endregion
 
         private void ButtonGO(object sender, EventArgs e)
         {
-            // this.Dispose();
             this.Close();
         }
 
@@ -345,16 +353,15 @@ namespace SCaddins.SheetCopier
 
         private void ReplaceTextregexToolStripMenuItemClick(object sender, EventArgs e)
         {
-            SCaddins.ExportManager.RenameSheetForm renameForm = new SCaddins.ExportManager.RenameSheetForm(this.scopy.Sheets, this.doc);
-            renameForm.ShowDialog();
+            using (var renameForm = new SCaddins.ExportManager.RenameSheetForm(this.scopy.Sheets, this.doc)) {
+                renameForm.ShowDialog();
+            }
             dataGridView1.Refresh();
         }
         
         private void Button2Click(object sender, EventArgs e)
         {
-            SCaddins.ExportManager.RenameSheetForm renameForm = new SCaddins.ExportManager.RenameSheetForm(this.scopy.Sheets, this.doc);
-            renameForm.ShowDialog();
-            dataGridView1.Refresh();  
+            ReplaceTextregexToolStripMenuItemClick(sender, e);
         }
         
         private void ButtonRemoveViewClick(object sender, EventArgs e)

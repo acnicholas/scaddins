@@ -115,12 +115,13 @@ namespace SCaddins.ViewUtilities
                 return new BoundingBoxXYZ();
             }
             BoundingBoxXYZ result = new BoundingBoxXYZ();
-            XYZ min = new XYZ(view.GetZoomCorners()[0].X, view.GetZoomCorners()[0].Y, view.GetZoomCorners()[0].Z - 4);
-            XYZ max = new XYZ(view.GetZoomCorners()[1].X, view.GetZoomCorners()[1].Y, view.GetZoomCorners()[1].Z + 4);
             try {
+                XYZ min = new XYZ(view.GetZoomCorners()[0].X, view.GetZoomCorners()[0].Y, view.GetZoomCorners()[0].Z - 4);
+                XYZ max = new XYZ(view.GetZoomCorners()[1].X, view.GetZoomCorners()[1].Y, view.GetZoomCorners()[1].Z + 4);
                 result.set_Bounds(0, min);
                 result.set_Bounds(1, max);
-            } catch {
+            } catch (ArgumentException ex) {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 result.Dispose();
                 return null;
             }

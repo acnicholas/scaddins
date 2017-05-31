@@ -198,7 +198,7 @@
   <data name="RoomToolsSync" xml:space="preserve">
     <value>Sync Masses to Rooms</value>
   </data>
-  <data name="RoomToolsTitle" xml:space="preserve">
+  <data name="RoomTools" xml:space="preserve">
     <value>Room Tools</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
@@ -530,5 +530,107 @@
   </data>
   <data name="Value" xml:space="preserve">
     <value>Value</value>
+  </data>
+  <data name="AngleOfSun" xml:space="preserve">
+    <value>Angle Of Sun</value>
+  </data>
+  <data name="AngleOfSunLongDescription" xml:space="preserve">
+    <value>...Or create multiple views for winter(June 21) in one go.</value>
+  </data>
+  <data name="AngleOfSunToolTip" xml:space="preserve">
+    <value>Rotate a 3d view to the location of the sun.</value>
+  </data>
+  <data name="AssociatedLevel" xml:space="preserve">
+    <value>Associated Level</value>
+  </data>
+  <data name="ChangeCase" xml:space="preserve">
+    <value>Change Case</value>
+  </data>
+  <data name="ChangeCaseLongDescription" xml:space="preserve">
+    <value>Pre-select text/tags to change a selection. Run with no selection to change the entire project.</value>
+  </data>
+  <data name="ChangeCaseToolTip" xml:space="preserve">
+    <value>Convert text from upper to lower case, or vise-versa</value>
+  </data>
+  <data name="CopyDetailing" xml:space="preserve">
+    <value>Copy Detailing</value>
+  </data>
+  <data name="CopySheetsToolTip" xml:space="preserve">
+    <value>Copy a view sheet and all its content</value>
+  </data>
+  <data name="CreatePerspective" xml:space="preserve">
+    <value>Create Perspective</value>
+  </data>
+  <data name="CreatePerspectiveToolTip" xml:space="preserve">
+    <value>Create a perspective view from the current view (3d or plan).</value>
+  </data>
+  <data name="DestructivePurge" xml:space="preserve">
+    <value>Destructive Purge</value>
+  </data>
+  <data name="DestructivePurgeToolTip" xml:space="preserve">
+    <value>Clean up your model, in a more destructive way than a purge.</value>
+  </data>
+  <data name="IncrementTool" xml:space="preserve">
+    <value>Increment Tool</value>
+  </data>
+  <data name="IncrementToolSettings" xml:space="preserve">
+    <value>Increment Tool Settings</value>
+  </data>
+  <data name="IncrementToolToolTip" xml:space="preserve">
+    <value>Increment room numbers and family marks.</value>
+  </data>
+  <data name="LineofSight" xml:space="preserve">
+    <value>Line of Sight</value>
+  </data>
+  <data name="LineofSightToolTip" xml:space="preserve">
+    <value>Create line of sight details for stadium seating.</value>
+  </data>
+  <data name="OriginalTitle" xml:space="preserve">
+    <value>Original Title</value>
+  </data>
+  <data name="PlaceCoordinate" xml:space="preserve">
+    <value>Place Coordinate</value>
+  </data>
+  <data name="PlaceCoordinateToolTip" xml:space="preserve">
+    <value>Place a family at a specified shared coordinate.</value>
+  </data>
+  <data name="ProposedTitle" xml:space="preserve">
+    <value>Proposed Title</value>
+  </data>
+  <data name="RoomToolsToolTip" xml:space="preserve">
+    <value>Creates sheets and/or solids(masses) from a selection of rooms.</value>
+  </data>
+  <data name="SCexport" xml:space="preserve">
+    <value>SCexport</value>
+  </data>
+  <data name="SCexportLongDescription" xml:space="preserve">
+    <value>SCexport will export file[s] using the internal Revit revision for each sheet, and a predefined naming scheme.</value>
+  </data>
+  <data name="SCexportToolTip" xml:space="preserve">
+    <value>Export PDF/DWG file[s] with pre defined naming standards</value>
+  </data>
+  <data name="ScheduleClouds" xml:space="preserve">
+    <value>Schedule Clouds</value>
+  </data>
+  <data name="ScheduleCloudsToolTip" xml:space="preserve">
+    <value>Schedule revision clouds and/or re-assign revisions to them.</value>
+  </data>
+  <data name="SheetCategory" xml:space="preserve">
+    <value>Sheet Category</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="UserView" xml:space="preserve">
+    <value>User View</value>
+  </data>
+  <data name="UserViewToolTip" xml:space="preserve">
+    <value>Create a user view.</value>
+  </data>
+  <data name="ViewTemplate" xml:space="preserve">
+    <value>View Template</value>
+  </data>
+  <data name="ViewType" xml:space="preserve">
+    <value>View Type</value>
   </data>
 </root>

@@ -43,9 +43,10 @@ namespace SCaddins.ExportManager
 
         public static string FormatConfigurationString(ExportSheet sheet, string value, string extension)
         {
-            if (sheet == null || string.IsNullOrEmpty(value) || string.IsNullOrEmpty(extension)) {
-                return string.Empty;
-            }
+            // FIXME this seems to return string.Empty when not expected.?
+            // if (sheet == null || string.IsNullOrEmpty(value) || string.IsNullOrEmpty(extension)) {
+            //     return string.Empty;
+            // }
             string result = value;
             result = result.Replace(@"$height", sheet.Height.ToString(CultureInfo.InvariantCulture));
             result = result.Replace(@"$width", sheet.Width.ToString(CultureInfo.InvariantCulture));
