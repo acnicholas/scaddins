@@ -60,13 +60,13 @@ namespace SCaddins.Common
             // 
             // groupBox2
             // 
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.textBox1);
             this.groupBox2.Controls.Add(this.buttonLog);
             this.groupBox2.Controls.Add(this.labelUpgradeNote);
             this.groupBox2.Controls.Add(this.buttonDownload);
             this.groupBox2.Controls.Add(this.labelLatestVersion);
             this.groupBox2.Controls.Add(this.labelInstalledVersion);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
@@ -109,8 +109,8 @@ namespace SCaddins.Common
             // 
             // buttonClose
             // 
-            this.buttonClose.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(this.buttonClose, "buttonClose");
+            this.buttonClose.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Text = global::SCaddins.Properties.Resources.Close;
             this.buttonClose.UseVisualStyleBackColor = true;
