@@ -461,7 +461,7 @@ namespace SCaddins.ExportManager
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "System.Windows.Forms.Control.set_Text(System.String)")]
         private void UpdateExportButton(int count)
         {
-            string s = Resources.ExportDirectory +@"[" + count + @"]:";
+            string s = Resources.Export +@"[" + count + @"]:";
             if (this.scx.HasExportOption(ExportOptions.PDF)) {
                 s += @" " + ExportOptions.PDF.ToString();
             }

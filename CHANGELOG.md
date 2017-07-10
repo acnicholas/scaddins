@@ -1,6 +1,6 @@
 #SCaddins Revision Log#
 
-#18.0 - PRE RELEASE#
+#18.0#
 
 ####SUMMARY####
 
@@ -17,7 +17,7 @@ Updated host page to [github](https://github.com/acnicholas/scaddins)
 
 ####NEW####
 
-- Updated host page to [gihhub](https://github.com/acnicholas/scaddins) 
+- Updated host page to [github](https://github.com/acnicholas/scaddins) 
 - Remove views option added to *Copy Sheets*.
 - Upgrade reminder form updated,
 

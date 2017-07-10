@@ -633,4 +633,7 @@
   <data name="ViewType" xml:space="preserve">
     <value>View Type</value>
   </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
 </root>
