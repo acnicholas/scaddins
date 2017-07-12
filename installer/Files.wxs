@@ -47,7 +47,7 @@
 					<Component Id="SCaddins2016" Guid="DFB2A497-BA0C-41DF-8443-29CB5FCD9CF8" DiskId="1" Win64="yes">
 						<CreateFolder />
 						<File Id="SCaddins2016.dll" Name="SCaddins.dll" Source="..\src\bin\Release\SCaddins16.dll" />
-						<File Id="net45.Newtonsoft.Json1.dll" Name="Newtonsoft.Json.dll" Source="..\src\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll" />
+						<File Id="net45.Newtonsoft.Json1.dll" Name="Newtonsoft.Json.dll" Source="..\src\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll" />
 					</Component>
 				</Directory>
 				<?endif?>
@@ -56,7 +56,7 @@
 					<Component Id="SCaddins2017" Guid="BC1E0969-FB15-446C-B35B-8AF899054B21" DiskId="1" Win64="yes">
 						<CreateFolder />
 						<File Id="SCaddins2017.dll" Name="SCaddins.dll" Source="..\src\bin\Release\SCaddins17.dll" />
-						<File Id="net45.Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\src\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll" />
+						<File Id="net45.Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\src\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll" />
 					</Component>
 				</Directory>
 				<?endif?>
@@ -65,7 +65,7 @@
 					<Component Id="SCaddins2018" Guid="0A8DD595-4441-4020-B028-261905422C49" Win64="yes" DiskId="1">
 						<CreateFolder />
 						<File Id="SCaddins2018.dll" Name="SCaddins.dll" Source="..\src\bin\Release\SCaddins18.dll" />
-						<File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\src\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll" />
+						<File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\src\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll" />
 					</Component>
 				</Directory>
 				<?endif?>
