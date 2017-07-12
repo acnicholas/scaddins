@@ -124,8 +124,8 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                           "SCexport", Resources.SCexport, dll, "SCaddins.ExportManager.Command");
-            AssignPushButtonImage(pbd, @"SCaddins.src.Assets.scexport-rvt.png", 32, dll);
-            AssignPushButtonImage(pbd, @"SCaddins.src.Assets.scexport-rvt-16.png", 16, dll);
+            AssignPushButtonImage(pbd, @"SCaddins.Assets.scexport-rvt.png", 32, dll);
+            AssignPushButtonImage(pbd, @"SCaddins.Assets.scexport-rvt-16.png", 16, dll);
             pbd.SetContextualHelp(
                 new ContextualHelp(ContextualHelpType.Url, Constants.HelpLink));
             pbd.ToolTip = Resources.SCexportToolTip;
@@ -137,7 +137,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                            "Scoord", Resources.PlaceCoordinate, dll, "SCaddins.SCoord.Command");
-            AssignPushButtonImage(pbd, @"SCaddins.src.Assets.scoord-rvt-16.png", 16, dll);
+            AssignPushButtonImage(pbd, @"SCaddins.Assets.scoord-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.PlaceCoordinateToolTip;
             return pbd;
         }
@@ -146,7 +146,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                            "SCulcase", Resources.ChangeCase, dll, "SCaddins.ParameterUtils.EditTextParameters");
-            AssignPushButtonImage(pbd, @"SCaddins.src.Assets.sculcase-rvt-16.png", 16, dll);
+            AssignPushButtonImage(pbd, @"SCaddins.Assets.sculcase-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.ChangeCaseToolTip;
             pbd.LongDescription = Resources.ChangeCaseLongDescription;
             return pbd;
@@ -156,7 +156,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCwash", Resources.DestructivePurge, dll, "SCaddins.SCwash.Command");
-            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scwash-rvt-16.png", 16, dll);
+            AssignPushButtonImage(pbd, "SCaddins.Assets.scwash-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.DestructivePurgeToolTip;
             return pbd;
         }
@@ -169,7 +169,7 @@ namespace SCaddins
                 new ContextualHelp(
                     ContextualHelpType.Url, Constants.HelpLink));
             if(iconSize == 16) {
-                AssignPushButtonImage(pbd, "SCaddins.src.Assets.scaos-rvt-16.png", 16, dll);
+                AssignPushButtonImage(pbd, "SCaddins.Assets.scaos-rvt-16.png", 16, dll);
             } else {
                 AssignPushButtonImage(pbd, "AngleOfSun.Assets.scaos-rvt.png", 32, dll);
             }
@@ -182,7 +182,7 @@ namespace SCaddins
         { 
             var pbd = new PushButtonData(
                               "SCightLines", Resources.LineofSight, dll, "SCaddins.LineOfSight.Command");
-            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scightlines-rvt-16.png", 16, dll);
+            AssignPushButtonImage(pbd, "SCaddins.Assets.scightlines-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.LineofSightToolTip;
             return pbd;
         }
@@ -191,7 +191,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCloudSChed", Resources.ScheduleClouds, dll, "SCaddins.RevisionUtilities.Command");
-            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scloudsched-rvt-16.png", 16, dll);
+            AssignPushButtonImage(pbd, "SCaddins.Assets.scloudsched-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.ScheduleCloudsToolTip;
             return pbd;
         }
@@ -200,7 +200,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCincrement", Resources.IncrementTool, dll, "SCaddins.ParameterUtils.Command");
-            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scincrement-rvt-16.png", 16, dll);
+            AssignPushButtonImage(pbd, "SCaddins.Assets.scincrement-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.IncrementToolToolTip;
             return pbd;
         }
@@ -209,7 +209,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCincrementSettings", Resources.IncrementToolSettings, dll, "SCaddins.ParameterUtils.SCincrementSettingsCommand");
-            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scincrement-rvt-16.png", 16, dll);
+            AssignPushButtonImage(pbd, "SCaddins.Assets.scincrement-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.IncrementToolSettings;
             return pbd;
         }
@@ -218,7 +218,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCaddinsOptions", Resources.Options, dll, "SCaddins.SCaddinsOptions");
-            AssignPushButtonImage(pbd, "SCaddins.src.Assets.gear.png", 16, dll);
+            AssignPushButtonImage(pbd, "SCaddins.Assets.gear.png", 16, dll);
             pbd.ToolTip = "SCaddins settings.";
             return pbd;
         }
@@ -227,7 +227,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCuv", Resources.UserView, dll, "SCaddins.ViewUtilities.CreateUserViewCommand");
-            AssignPushButtonImage(pbd, "SCaddins.src.Assets.user.png", 16, dll);
+            AssignPushButtonImage(pbd, "SCaddins.Assets.user.png", 16, dll);
             pbd.ToolTip = Resources.UserViewToolTip;
             return pbd;
         }
@@ -236,7 +236,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCam", Resources.CreatePerspective, dll, "SCaddins.ViewUtilities.CameraFromViewCommand");
-            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scam-rvt-16.png", 16, dll);
+            AssignPushButtonImage(pbd, "SCaddins.Assets.scam-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.CreatePerspectiveToolTip;
             return pbd;
         }
@@ -245,7 +245,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCasfar", Resources.RoomTools, dll, "SCaddins.RoomConvertor.RoomConvertorCommand");
-            AssignPushButtonImage(pbd, "SCaddins.src.Assets.scasfar-rvt-16.png", 16, dll);
+            AssignPushButtonImage(pbd, "SCaddins.Assets.scasfar-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.RoomToolsToolTip;
             return pbd;
         }
@@ -254,7 +254,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCaddinsAbout", Resources.About, dll, "SCaddins.Common.About");
-            AssignPushButtonImage(pbd, "SCaddins.src.Assets.help.png", 16, dll);
+            AssignPushButtonImage(pbd, "SCaddins.Assets.help.png", 16, dll);
             pbd.ToolTip = "About SCaddins.";
             return pbd;
         }
@@ -264,7 +264,7 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "SCopy", Resources.CopySheets, dll, "SCaddins.SheetCopier.Command");
             if(iconSize == 16) {
-                AssignPushButtonImage(pbd, "SCaddins.src.Assets.scopy-rvt-16.png", 16, dll);
+                AssignPushButtonImage(pbd, "SCaddins.Assets.scopy-rvt-16.png", 16, dll);
             } else {
                 AssignPushButtonImage(pbd, "SheetCopier.Assets.scopy-rvt.png", 32, dll);    
             }
