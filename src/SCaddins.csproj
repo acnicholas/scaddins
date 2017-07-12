@@ -175,262 +175,262 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="src\Common\About.cs" />
-    <Compile Include="src\Common\AboutBox.cs">
+    <Compile Include="Common\About.cs" />
+    <Compile Include="Common\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Common\AboutBox.Designer.cs">
+    <Compile Include="Common\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Common\AboutBox.Designer1.cs">
+    <Compile Include="Common\AboutBox.Designer1.cs">
       <DependentUpon>AboutBox.resx</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="src\Common\MiscUtils.cs" />
-    <Compile Include="src\Common\SortableBindingList.cs" />
-    <Compile Include="src\Common\SystemUtils.cs" />
-    <Compile Include="src\Common\UpgradeForm.cs">
+    <Compile Include="Common\MiscUtils.cs" />
+    <Compile Include="Common\SortableBindingList.cs" />
+    <Compile Include="Common\SystemUtils.cs" />
+    <Compile Include="Common\UpgradeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Common\UpgradeForm.Designer.cs">
+    <Compile Include="Common\UpgradeForm.Designer.cs">
       <DependentUpon>UpgradeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Common\ConsoleUtils.cs" />
-    <Compile Include="src\ExportManager\ConfirmDialog.Designer1.cs">
+    <Compile Include="Common\ConsoleUtils.cs" />
+    <Compile Include="ExportManager\ConfirmDialog.Designer1.cs">
       <DependentUpon>ConfirmDialog.resx</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="src\LatestRelease.cs" />
-    <Compile Include="src\ParameterUtilities\EditTextParameters.cs" />
-    <Compile Include="src\ParameterUtilities\TextCaseEnums.cs" />
-    <Compile Include="src\ParameterUtilities\ChangeCaseInfoDialog.cs">
+    <Compile Include="LatestRelease.cs" />
+    <Compile Include="ParameterUtilities\EditTextParameters.cs" />
+    <Compile Include="ParameterUtilities\TextCaseEnums.cs" />
+    <Compile Include="ParameterUtilities\ChangeCaseInfoDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ParameterUtilities\TextCaseInfoDialog.Designer.cs">
+    <Compile Include="ParameterUtilities\TextCaseInfoDialog.Designer.cs">
       <DependentUpon>ChangeCaseInfoDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\ParameterUtilities\TextCaseMainForm.cs">
+    <Compile Include="ParameterUtilities\TextCaseMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ParameterUtilities\TextCaseMainForm.Designer.cs">
+    <Compile Include="ParameterUtilities\TextCaseMainForm.Designer.cs">
       <DependentUpon>TextCaseMainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\Constants.cs" />
-    <Compile Include="src\RevisionUtilities\RevisionItem.cs" />
-    <Compile Include="src\RoomConvertor\RoomFilterEnums.cs" />
-    <Compile Include="src\RoomConvertor\RoomToSheetWizard.cs">
+    <Compile Include="Constants.cs" />
+    <Compile Include="RevisionUtilities\RevisionItem.cs" />
+    <Compile Include="RoomConvertor\RoomFilterEnums.cs" />
+    <Compile Include="RoomConvertor\RoomToSheetWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\RoomConvertor\RoomToSheetWizard.Designer.cs">
+    <Compile Include="RoomConvertor\RoomToSheetWizard.Designer.cs">
       <DependentUpon>RoomToSheetWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\SCaddins.cs" />
-    <Compile Include="src\Scaddins.Designer.cs">
+    <Compile Include="SCaddins.cs" />
+    <Compile Include="Scaddins.Designer.cs">
       <DependentUpon>Scaddins.settings</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="src\SCaddinsOptions.cs" />
-    <Compile Include="src\ScaddinsOptionsForm.cs">
+    <Compile Include="SCaddinsOptions.cs" />
+    <Compile Include="ScaddinsOptionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ScaddinsOptionsForm.Designer.cs">
+    <Compile Include="ScaddinsOptionsForm.Designer.cs">
       <DependentUpon>ScaddinsOptionsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\ScaddinsOptionsForm1.Designer.cs">
+    <Compile Include="ScaddinsOptionsForm1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ScaddinsOptionsForm.resx</DependentUpon>
     </Compile>
-    <Compile Include="src\SharedAssemblyInfo.cs" />
-    <Compile Include="src\SheetCopier\SheetCopierMainForm1.Designer.cs">
+    <Compile Include="SharedAssemblyInfo.cs" />
+    <Compile Include="SheetCopier\SheetCopierMainForm1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SheetCopierMainForm.resx</DependentUpon>
     </Compile>
-    <Compile Include="src\SolarUtilities\AngleOfSun.cs" />
-    <Compile Include="src\SolarUtilities\SolarViews.cs" />
-    <Compile Include="src\SolarUtilities\SolarViewsForm.cs">
+    <Compile Include="SolarUtilities\AngleOfSun.cs" />
+    <Compile Include="SolarUtilities\SolarViews.cs" />
+    <Compile Include="SolarUtilities\SolarViewsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SolarUtilities\SolarViewsForm.Designer.cs">
+    <Compile Include="SolarUtilities\SolarViewsForm.Designer.cs">
       <DependentUpon>SolarViewsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\ViewUtilities\CameraFromViewCommand.cs" />
-    <Compile Include="src\RoomConvertor\RoomConvertorForm.cs">
+    <Compile Include="ViewUtilities\CameraFromViewCommand.cs" />
+    <Compile Include="RoomConvertor\RoomConvertorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\RoomConvertor\RoomConvertorForm.Designer.cs">
+    <Compile Include="RoomConvertor\RoomConvertorForm.Designer.cs">
       <DependentUpon>RoomConvertorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\RoomConvertor\RoomFilter.cs" />
-    <Compile Include="src\RoomConvertor\RoomFilterDialog.cs">
+    <Compile Include="RoomConvertor\RoomFilter.cs" />
+    <Compile Include="RoomConvertor\RoomFilterDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\RoomConvertor\RoomFilterDialog.Designer.cs">
+    <Compile Include="RoomConvertor\RoomFilterDialog.Designer.cs">
       <DependentUpon>RoomFilterDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\RoomConvertor\RoomFilterItem.cs" />
-    <Compile Include="src\RoomConvertor\RoomInfoDilaog.cs">
+    <Compile Include="RoomConvertor\RoomFilterItem.cs" />
+    <Compile Include="RoomConvertor\RoomInfoDilaog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\RoomConvertor\RoomInfoDilaog.Designer.cs">
+    <Compile Include="RoomConvertor\RoomInfoDilaog.Designer.cs">
       <DependentUpon>RoomInfoDilaog.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\RoomConvertor\RoomConversionCandidate.cs" />
-    <Compile Include="src\RoomConvertor\RoomConvertorCommand.cs" />
-    <Compile Include="src\RoomConvertor\RoomConversionManager.cs" />
-    <Compile Include="src\ExportManager\Command.cs" />
-    <Compile Include="src\ExportManager\ConfirmDialog.cs">
+    <Compile Include="RoomConvertor\RoomConversionCandidate.cs" />
+    <Compile Include="RoomConvertor\RoomConvertorCommand.cs" />
+    <Compile Include="RoomConvertor\RoomConversionManager.cs" />
+    <Compile Include="ExportManager\Command.cs" />
+    <Compile Include="ExportManager\ConfirmDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ExportManager\ConfirmDialog.Designer.cs">
+    <Compile Include="ExportManager\ConfirmDialog.Designer.cs">
       <DependentUpon>ConfirmDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\ExportManager\Constants.cs" />
-    <Compile Include="src\ExportManager\DialogHandler.cs" />
-    <Compile Include="src\ExportManager\Enums.cs" />
-    <Compile Include="src\ExportManager\ExportLog.cs" />
-    <Compile Include="src\ExportManager\ExportLogDialog.cs">
+    <Compile Include="ExportManager\Constants.cs" />
+    <Compile Include="ExportManager\DialogHandler.cs" />
+    <Compile Include="ExportManager\Enums.cs" />
+    <Compile Include="ExportManager\ExportLog.cs" />
+    <Compile Include="ExportManager\ExportLogDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ExportManager\ExportLogDialog.Designer.cs">
+    <Compile Include="ExportManager\ExportLogDialog.Designer.cs">
       <DependentUpon>ExportLogDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\ExportManager\ExportLogItem.cs" />
-    <Compile Include="src\ExportManager\FileUtils.cs" />
-    <Compile Include="src\ExportManager\FilterContextMenu.cs" />
-    <Compile Include="src\ExportManager\MainForm.cs">
+    <Compile Include="ExportManager\ExportLogItem.cs" />
+    <Compile Include="ExportManager\FileUtils.cs" />
+    <Compile Include="ExportManager\FilterContextMenu.cs" />
+    <Compile Include="ExportManager\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ExportManager\MainForm.Designer.cs">
+    <Compile Include="ExportManager\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\ExportManager\MenuButton.cs">
+    <Compile Include="ExportManager\MenuButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="src\ExportManager\NextSheet.cs" />
-    <Compile Include="src\ExportManager\OpenSheet.cs" />
-    <Compile Include="src\ExportManager\OpenSheetDialog.cs">
+    <Compile Include="ExportManager\NextSheet.cs" />
+    <Compile Include="ExportManager\OpenSheet.cs" />
+    <Compile Include="ExportManager\OpenSheetDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ExportManager\OpenSheetDialog.Designer.cs">
+    <Compile Include="ExportManager\OpenSheetDialog.Designer.cs">
       <DependentUpon>OpenSheetDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\ExportManager\OptionsDialog.cs">
+    <Compile Include="ExportManager\OptionsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ExportManager\OptionsDialog.Designer.cs">
+    <Compile Include="ExportManager\OptionsDialog.Designer.cs">
       <DependentUpon>OptionsDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\ExportManager\PostExportHookCommand.cs" />
-    <Compile Include="src\ExportManager\PreviousSheet.cs" />
-    <Compile Include="src\ExportManager\PrintSettings.cs" />
-    <Compile Include="src\ExportManager\RenameSheetForm.cs">
+    <Compile Include="ExportManager\PostExportHookCommand.cs" />
+    <Compile Include="ExportManager\PreviousSheet.cs" />
+    <Compile Include="ExportManager\PrintSettings.cs" />
+    <Compile Include="ExportManager\RenameSheetForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ExportManager\RenameSheetForm.Designer.cs">
+    <Compile Include="ExportManager\RenameSheetForm.Designer.cs">
       <DependentUpon>RenameSheetForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\ExportManager\RevisionSelectionDialog.cs">
+    <Compile Include="ExportManager\RevisionSelectionDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ExportManager\RevisionSelectionDialog.Designer.cs">
+    <Compile Include="ExportManager\RevisionSelectionDialog.Designer.cs">
       <DependentUpon>RevisionSelectionDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\ExportManager\ExportManager.cs" />
-    <Compile Include="src\ExportManager\SelectPrinterDialog.cs">
+    <Compile Include="ExportManager\ExportManager.cs" />
+    <Compile Include="ExportManager\SelectPrinterDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ExportManager\SelectPrinterDialog.Designer.cs">
+    <Compile Include="ExportManager\SelectPrinterDialog.Designer.cs">
       <DependentUpon>SelectPrinterDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\ExportManager\Settings1.Designer.cs">
+    <Compile Include="ExportManager\Settings1.Designer.cs">
       <DependentUpon>Settings1.settings</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="src\ExportManager\Sheet.cs" />
-    <Compile Include="src\ExportManager\SegmentedSheetName.cs" />
-    <Compile Include="src\ExportManager\TipOfDay.cs" />
-    <Compile Include="src\ExportManager\ViewSheetSetCombo.cs" />
-    <Compile Include="src\LineOfSight\StadiumSection.cs" />
-    <Compile Include="src\LineOfSight\LineOfSightCommand.cs" />
-    <Compile Include="src\LineOfSight\LineOfSightMainForm.cs">
+    <Compile Include="ExportManager\Sheet.cs" />
+    <Compile Include="ExportManager\SegmentedSheetName.cs" />
+    <Compile Include="ExportManager\TipOfDay.cs" />
+    <Compile Include="ExportManager\ViewSheetSetCombo.cs" />
+    <Compile Include="LineOfSight\StadiumSection.cs" />
+    <Compile Include="LineOfSight\LineOfSightCommand.cs" />
+    <Compile Include="LineOfSight\LineOfSightMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\LineOfSight\LineOfSightMainForm.Designer.cs">
+    <Compile Include="LineOfSight\LineOfSightMainForm.Designer.cs">
       <DependentUpon>LineOfSightMainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\LineOfSight\LineOfSightOutputForm.cs">
+    <Compile Include="LineOfSight\LineOfSightOutputForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\LineOfSight\LineOfSightOutputForm.Designer.cs">
+    <Compile Include="LineOfSight\LineOfSightOutputForm.Designer.cs">
       <DependentUpon>LineOfSightOutputForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\LineOfSight\LineOfSightRow.cs" />
-    <Compile Include="src\ParameterUtilities\Increment.cs" />
-    <Compile Include="src\ParameterUtilities\IncrementSettings.cs" />
-    <Compile Include="src\ParameterUtilities\IncrementSettings.Designer.cs">
+    <Compile Include="LineOfSight\LineOfSightRow.cs" />
+    <Compile Include="ParameterUtilities\Increment.cs" />
+    <Compile Include="ParameterUtilities\IncrementSettings.cs" />
+    <Compile Include="ParameterUtilities\IncrementSettings.Designer.cs">
       <DependentUpon>IncrementSettings.settings</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="src\ParameterUtilities\IncrementSettingsForm.cs">
+    <Compile Include="ParameterUtilities\IncrementSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ParameterUtilities\IncrementSettingsForm.Designer.cs">
+    <Compile Include="ParameterUtilities\IncrementSettingsForm.Designer.cs">
       <DependentUpon>IncrementSettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\RevisionUtilities\RevisionCloudItem.cs" />
-    <Compile Include="src\RevisionUtilities\RevisionUtilitiesForm.cs">
+    <Compile Include="RevisionUtilities\RevisionCloudItem.cs" />
+    <Compile Include="RevisionUtilities\RevisionUtilitiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\RevisionUtilities\RevisionUtilitiesForm.Designer.cs">
+    <Compile Include="RevisionUtilities\RevisionUtilitiesForm.Designer.cs">
       <DependentUpon>RevisionUtilitiesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\RevisionUtilities\RevisionUtilities.cs" />
-    <Compile Include="src\RevisionUtilities\Command.cs" />
-    <Compile Include="src\PlaceCoordinate\PlaceCoordinate.cs" />
-    <Compile Include="src\PlaceCoordinate\PlaceCoordinateForm.cs">
+    <Compile Include="RevisionUtilities\RevisionUtilities.cs" />
+    <Compile Include="RevisionUtilities\Command.cs" />
+    <Compile Include="PlaceCoordinate\PlaceCoordinate.cs" />
+    <Compile Include="PlaceCoordinate\PlaceCoordinateForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\PlaceCoordinate\PlaceCoordinateForm.Designer.cs">
+    <Compile Include="PlaceCoordinate\PlaceCoordinateForm.Designer.cs">
       <DependentUpon>PlaceCoordinateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\SheetCopier\SheetCopierEnums.cs" />
-    <Compile Include="src\SheetCopier\SheetCopierMainForm.cs">
+    <Compile Include="SheetCopier\SheetCopierEnums.cs" />
+    <Compile Include="SheetCopier\SheetCopierMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SheetCopier\SheetCopierMainForm.Designer.cs">
+    <Compile Include="SheetCopier\SheetCopierMainForm.Designer.cs">
       <DependentUpon>SheetCopierMainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\SheetCopier\SheetCopierManager.cs" />
-    <Compile Include="src\SheetCopier\SheetCopierCommand.cs" />
-    <Compile Include="src\SheetCopier\SheetCopierConstants.cs" />
-    <Compile Include="src\SheetCopier\SheetCopierMainForm.Designer1.cs">
+    <Compile Include="SheetCopier\SheetCopierManager.cs" />
+    <Compile Include="SheetCopier\SheetCopierCommand.cs" />
+    <Compile Include="SheetCopier\SheetCopierConstants.cs" />
+    <Compile Include="SheetCopier\SheetCopierMainForm.Designer1.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>SheetCopierMainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\SheetCopier\SheetCopierSheet.cs" />
-    <Compile Include="src\SheetCopier\SheetCopierTextInputForm.cs">
+    <Compile Include="SheetCopier\SheetCopierSheet.cs" />
+    <Compile Include="SheetCopier\SheetCopierTextInputForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\SheetCopier\SheetCopierTextInputForm.Designer.cs">
+    <Compile Include="SheetCopier\SheetCopierTextInputForm.Designer.cs">
       <DependentUpon>SheetCopierTextInputForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\SheetCopier\SheetCopierViewOnSheet.cs" />
-    <Compile Include="src\DestructivePurge\DestructivePurge.cs" />
-    <Compile Include="src\DestructivePurge\DestructivePurgeCommand.cs" />
-    <Compile Include="src\DestructivePurge\DestructivePurgeForm.cs">
+    <Compile Include="SheetCopier\SheetCopierViewOnSheet.cs" />
+    <Compile Include="DestructivePurge\DestructivePurge.cs" />
+    <Compile Include="DestructivePurge\DestructivePurgeCommand.cs" />
+    <Compile Include="DestructivePurge\DestructivePurgeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\DestructivePurge\DestructivePurgeForm.Designer.cs">
+    <Compile Include="DestructivePurge\DestructivePurgeForm.Designer.cs">
       <DependentUpon>DestructivePurgeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\DestructivePurge\DestructivePurgeTreeNode.cs" />
-    <Compile Include="src\ViewUtilities\ViewUnderlays.cs" />
-    <Compile Include="src\ViewUtilities\RemoveUnderlaysCommand.cs" />
-    <Compile Include="src\ViewUtilities\UserView.cs" />
-    <Compile Include="src\ViewUtilities\CreateUserViewCommand.cs" />
+    <Compile Include="DestructivePurge\DestructivePurgeTreeNode.cs" />
+    <Compile Include="ViewUtilities\ViewUnderlays.cs" />
+    <Compile Include="ViewUtilities\RemoveUnderlaysCommand.cs" />
+    <Compile Include="ViewUtilities\UserView.cs" />
+    <Compile Include="ViewUtilities\CreateUserViewCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -438,91 +438,91 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Common\AboutBox.resx">
+    <EmbeddedResource Include="Common\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AboutBox.Designer1.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Common\UpgradeForm.resx">
+    <EmbeddedResource Include="Common\UpgradeForm.resx">
       <DependentUpon>UpgradeForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\ParameterUtilities\ChangeCaseInfoDialog.resx">
+    <EmbeddedResource Include="ParameterUtilities\ChangeCaseInfoDialog.resx">
       <DependentUpon>ChangeCaseInfoDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\ParameterUtilities\TextCaseMainForm.resx">
+    <EmbeddedResource Include="ParameterUtilities\TextCaseMainForm.resx">
       <DependentUpon>TextCaseMainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\RoomConvertor\RoomToSheetWizard.resx">
+    <EmbeddedResource Include="RoomConvertor\RoomToSheetWizard.resx">
       <DependentUpon>RoomToSheetWizard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\ScaddinsOptionsForm.resx">
+    <EmbeddedResource Include="ScaddinsOptionsForm.resx">
       <DependentUpon>ScaddinsOptionsForm.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ScaddinsOptionsForm1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\RoomConvertor\RoomConvertorForm.resx">
+    <EmbeddedResource Include="RoomConvertor\RoomConvertorForm.resx">
       <DependentUpon>RoomConvertorForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\RoomConvertor\RoomFilterDialog.resx">
+    <EmbeddedResource Include="RoomConvertor\RoomFilterDialog.resx">
       <DependentUpon>RoomFilterDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\RoomConvertor\RoomInfoDilaog.resx">
+    <EmbeddedResource Include="RoomConvertor\RoomInfoDilaog.resx">
       <DependentUpon>RoomInfoDilaog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\ExportManager\ConfirmDialog.resx">
+    <EmbeddedResource Include="ExportManager\ConfirmDialog.resx">
       <DependentUpon>ConfirmDialog.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ConfirmDialog.Designer1.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\ExportManager\ExportLogDialog.resx">
+    <EmbeddedResource Include="ExportManager\ExportLogDialog.resx">
       <DependentUpon>ExportLogDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\ExportManager\MainForm.resx">
+    <EmbeddedResource Include="ExportManager\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\ExportManager\OpenSheetDialog.resx">
+    <EmbeddedResource Include="ExportManager\OpenSheetDialog.resx">
       <DependentUpon>OpenSheetDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\ExportManager\OptionsDialog.resx">
+    <EmbeddedResource Include="ExportManager\OptionsDialog.resx">
       <DependentUpon>OptionsDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\ExportManager\RenameSheetForm.resx">
+    <EmbeddedResource Include="ExportManager\RenameSheetForm.resx">
       <DependentUpon>RenameSheetForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\ExportManager\RevisionSelectionDialog.resx">
+    <EmbeddedResource Include="ExportManager\RevisionSelectionDialog.resx">
       <DependentUpon>RevisionSelectionDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\ExportManager\SelectPrinterDialog.resx">
+    <EmbeddedResource Include="ExportManager\SelectPrinterDialog.resx">
       <DependentUpon>SelectPrinterDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\LineOfSight\LineOfSightMainForm.resx">
+    <EmbeddedResource Include="LineOfSight\LineOfSightMainForm.resx">
       <DependentUpon>LineOfSightMainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\LineOfSight\LineOfSightOutputForm.resx">
+    <EmbeddedResource Include="LineOfSight\LineOfSightOutputForm.resx">
       <DependentUpon>LineOfSightOutputForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\ParameterUtilities\IncrementSettingsForm.resx">
+    <EmbeddedResource Include="ParameterUtilities\IncrementSettingsForm.resx">
       <DependentUpon>IncrementSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\RevisionUtilities\RevisionUtilitiesForm.resx">
+    <EmbeddedResource Include="RevisionUtilities\RevisionUtilitiesForm.resx">
       <DependentUpon>RevisionUtilitiesForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\PlaceCoordinate\PlaceCoordinateForm.resx">
+    <EmbeddedResource Include="PlaceCoordinate\PlaceCoordinateForm.resx">
       <DependentUpon>PlaceCoordinateForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SheetCopier\SheetCopierMainForm.resx">
+    <EmbeddedResource Include="SheetCopier\SheetCopierMainForm.resx">
       <DependentUpon>SheetCopierMainForm.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SheetCopierMainForm1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SheetCopier\SheetCopierTextInputForm.resx">
+    <EmbeddedResource Include="SheetCopier\SheetCopierTextInputForm.resx">
       <DependentUpon>SheetCopierTextInputForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\DestructivePurge\DestructivePurgeForm.resx">
+    <EmbeddedResource Include="DestructivePurge\DestructivePurgeForm.resx">
       <DependentUpon>DestructivePurgeForm.cs</DependentUpon>
       <CustomToolNamespace>SCaddins.SCwash</CustomToolNamespace>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\SolarUtilities\SolarViewsForm.resx">
+    <EmbeddedResource Include="SolarUtilities\SolarViewsForm.resx">
       <DependentUpon>SolarViewsForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -533,35 +533,35 @@
     <None Include="packages.config" />
     <None Include="SCaddins.addin" />
     <None Include="share\SCexport-example-conf.xml" />
-    <EmbeddedResource Include="src\Assets\scopy-rvt-16.png" />
-    <EmbeddedResource Include="src\Assets\scam-rvt-16.png" />
-    <EmbeddedResource Include="src\Assets\scaos-rvt-16.png" />
-    <EmbeddedResource Include="src\Assets\scexport-rvt.png" />
-    <EmbeddedResource Include="src\Assets\scightlines-rvt-16.png" />
-    <EmbeddedResource Include="src\Assets\scincrement-rvt-16.png" />
-    <EmbeddedResource Include="src\Assets\scloudsched-rvt-16.png" />
-    <EmbeddedResource Include="src\Assets\scoord-rvt-16.png" />
-    <EmbeddedResource Include="src\Assets\sculcase-rvt-16.png" />
-    <EmbeddedResource Include="src\Assets\scwash-rvt-16.png" />
-    <EmbeddedResource Include="src\Assets\gear.png" />
-    <EmbeddedResource Include="src\Assets\help.png" />
-    <EmbeddedResource Include="src\Assets\user.png" />
-    <EmbeddedResource Include="src\Assets\scasfar-rvt-16.png" />
-    <None Include="src\Scaddins.settings">
+    <EmbeddedResource Include="Assets\scopy-rvt-16.png" />
+    <EmbeddedResource Include="Assets\scam-rvt-16.png" />
+    <EmbeddedResource Include="Assets\scaos-rvt-16.png" />
+    <EmbeddedResource Include="Assets\scexport-rvt.png" />
+    <EmbeddedResource Include="Assets\scightlines-rvt-16.png" />
+    <EmbeddedResource Include="Assets\scincrement-rvt-16.png" />
+    <EmbeddedResource Include="Assets\scloudsched-rvt-16.png" />
+    <EmbeddedResource Include="Assets\scoord-rvt-16.png" />
+    <EmbeddedResource Include="Assets\sculcase-rvt-16.png" />
+    <EmbeddedResource Include="Assets\scwash-rvt-16.png" />
+    <EmbeddedResource Include="Assets\gear.png" />
+    <EmbeddedResource Include="Assets\help.png" />
+    <EmbeddedResource Include="Assets\user.png" />
+    <EmbeddedResource Include="Assets\scasfar-rvt-16.png" />
+    <None Include="Scaddins.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Scaddins.Designer.cs</LastGenOutput>
     </None>
-    <None Include="src\ExportManager\Settings1.settings">
+    <None Include="ExportManager\Settings1.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
     </None>
-    <None Include="src\ParameterUtilities\IncrementSettings.settings">
+    <None Include="ParameterUtilities\IncrementSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>SCincrementSettings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="src\Assets\scexport-rvt-16.png" />
+    <EmbeddedResource Include="Assets\scexport-rvt-16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets" Condition="Exists('packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets') And '$(Configuration)' == 'Debug'" />

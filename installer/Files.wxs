@@ -46,7 +46,7 @@
 						<Directory Id="DLLDIR2016" Name="2016">
 							<Component Id="SCaddins2016" Guid="DFB2A497-BA0C-41DF-8443-29CB5FCD9CF8" DiskId="1" Win64="yes">
 								<CreateFolder />
-								<File Id="SCaddins2016.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins16.dll" />
+								<File Id="SCaddins2016.dll" Name="SCaddins.dll" Source="..\src\bin\Release\SCaddins16.dll" />
 							</Component>
 						</Directory>
 						<?endif?>
@@ -54,7 +54,7 @@
 						<Directory Id="DLLDIR2017" Name="2017">
 							<Component Id="SCaddins2017" Guid="BC1E0969-FB15-446C-B35B-8AF899054B21" DiskId="1" Win64="yes">
 								<CreateFolder />
-								<File Id="SCaddins2017.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins17.dll" />
+								<File Id="SCaddins2017.dll" Name="SCaddins.dll" Source="..\src\bin\Release\SCaddins17.dll" />
 							</Component>
 						</Directory>
 						<?endif?>
@@ -62,7 +62,7 @@
 						<Directory Id="DLLDIR2018" Name="2018">
 							<Component Id="SCaddins2018" Guid="0A8DD595-4441-4020-B028-261905422C49" Win64="yes" DiskId="1">
 								<CreateFolder />
-								<File Id="SCaddins2018.dll" Name="SCaddins.dll" Source="..\bin\Release\SCaddins18.dll" />
+								<File Id="SCaddins2018.dll" Name="SCaddins.dll" Source="..\src\bin\Release\SCaddins18.dll" />
 							</Component>
 						</Directory>
 						<?endif?>
@@ -77,7 +77,7 @@
 							<Directory Id="SCaddinsAddin2016Directory" Name="2016">
 								<Component Id="SCaddinsAddin2016" Guid="70474050-0034-4A79-BF47-AF18E41EDC0D" DiskId="1">
 									<CreateFolder />
-									<File Id="SCADDINS16.ADDIN" Name="SCaddins16.addin" Source="..\bin\Release\SCaddins2016.addin" />
+									<File Id="SCADDINS16.ADDIN" Name="SCaddins16.addin" Source="..\src\bin\Release\SCaddins2016.addin" />
 								</Component>
 							</Directory>
 							<?endif?>
@@ -85,7 +85,7 @@
 							<Directory Id="SCaddinsAddin2017Directory" Name="2017">
 								<Component Id="SCaddinsAddin2017" Guid="F2D456ED-8A1C-4B3C-9926-770369DA8E42" DiskId="1">
 									<CreateFolder />
-									<File Id="SCADDINS17.ADDIN" Name="SCaddins17.addin" Source="..\bin\Release\SCaddins2017.addin" />
+									<File Id="SCADDINS17.ADDIN" Name="SCaddins17.addin" Source="..\src\bin\Release\SCaddins2017.addin" />
 								</Component>
 							</Directory>
 							<?endif?>
@@ -93,7 +93,7 @@
 							<Directory Id="SCaddinsAddin2018Directory" Name="2018">
 								<Component Id="SCaddinsAddin2018" Guid="67944DB5-77B9-4CB6-82E8-5B8C2EAFD213" DiskId="1">
 									<CreateFolder />
-									<File Id="SCADDINS18.ADDIN" Name="SCaddins18.addin" Source="..\bin\Release\SCaddins2018.addin" />
+									<File Id="SCADDINS18.ADDIN" Name="SCaddins18.addin" Source="..\src\bin\Release\SCaddins2018.addin" />
 								</Component>
 							</Directory>
 							<?endif?>

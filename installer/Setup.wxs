@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0"?>
 <?define Version = "!(bind.fileVersion.SCaddins2017.dll)" ?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
     <Product Id="*"
         Name="SCaddins - SC Revit Addins (64 bit)"
         Language="1033"
@@ -16,6 +16,8 @@
                         Specifies a single cab file to be embedded in the installer's .msi. 
                 -->
                 <Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
+        
+                <util:CloseApplication Id="CloseRevit" RebootPrompt="no" EndSessionMessage="yes" Target="revit.exe" />
 
                 <!-- Installation directory and files are defined in Files.wxs -->
                 <Directory Id="TARGETDIR" Name="SourceDir"/>	
@@ -59,7 +61,12 @@
                 <Property Id="ARPURLUPDATEINFO" Value="https://bitbucket.org/anicholas/scaddins/downloads" />
 
                 <MajorUpgrade AllowDowngrades="yes"/>
-
+        
+                <InstallExecuteSequence>
+                <AppSearch Sequence='1' />
+                <Custom Action="WixCloseApplications" Before="InstallValidate">WIX_UPGRADE_DETECTED</Custom>
+                </InstallExecuteSequence>
+        
                 <UI Id='Mondo'>
                     <UIRef Id="WixUI_Mondo"/>
                     <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="SetupTypeDlg" Order="3">1</Publish>

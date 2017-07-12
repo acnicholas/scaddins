@@ -2,7 +2,7 @@ using Cake.Common.Diagnostics;
 using System.IO;
 
 var target = Argument("target", "Default");
-var solutionFile = GetFiles("./*.sln").First();
+var solutionFile = GetFiles("src/*.sln").First();
 var solutionFileWix = GetFiles("installer/SCaddins.Installer.wixproj").First();
 var buildDir = Directory(@"./bin/Release");
 
@@ -39,10 +39,10 @@ Task("Restore-Installer-NuGet-Packages").Does(() =>
 Task("CreateAddinManifests")
     .Does(() =>
 {
-    string text = System.IO.File.ReadAllText("SCaddins.addin");
-    System.IO.File.WriteAllText(@"bin\Release\SCaddins2016.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2016"));
-    System.IO.File.WriteAllText(@"bin\Release\SCaddins2017.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2017"));
-    System.IO.File.WriteAllText(@"bin\Release\SCaddins2018.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2018"));
+    string text = System.IO.File.ReadAllText(@"src\SCaddins.addin");
+    System.IO.File.WriteAllText(@"src\bin\Release\SCaddins2016.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2016"));
+    System.IO.File.WriteAllText(@"src\bin\Release\SCaddins2017.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2017"));
+    System.IO.File.WriteAllText(@"src\bin\Release\SCaddins2018.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2018"));
 });
 
 Task("Revit2016")

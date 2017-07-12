@@ -9,10 +9,8 @@
     <OutputType>Package</OutputType>
     <RootNamespace>SCaddins.Installer</RootNamespace>
     <OutputName>SCaddins</OutputName>
-    
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
-    
     <SupressIces>ICE45</SupressIces>
     <SuppressIces>ICE61</SuppressIces>
     <DefineSolutionProperties>false</DefineSolutionProperties>
@@ -37,6 +35,7 @@
     <Optimize>True</Optimize>
   </PropertyGroup>
   <ItemGroup>
+    <WixExtension Include="packages\WiX.3.10.3\tools\WixUtilExtension.dll" />
     <WixExtension Include="WixUIExtension.dll" />
   </ItemGroup>
   <ItemGroup>
@@ -91,7 +90,7 @@
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <Target Name="AfterBuild">
-    <GetAssemblyIdentity AssemblyFiles="..\bin\Release\SCaddins17.dll">
+    <GetAssemblyIdentity AssemblyFiles="..\src\bin\Release\SCaddins17.dll">
       <Output TaskParameter="Assemblies" ItemName="AssemblyVersion" />
     </GetAssemblyIdentity>
     <Copy SourceFiles=".\bin\$(Configuration)\$(OutputName).msi" DestinationFiles=".\bin\$(Configuration)\SCaddins-win64-%(AssemblyVersion.Version).msi" />
