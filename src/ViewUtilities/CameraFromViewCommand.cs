@@ -150,7 +150,7 @@ namespace SCaddins.ViewUtilities
                 ApplySectionBoxToView(ViewExtentsBoundingBox(view), np);
                 t.Commit();
             }
-            v.Dispose();
+            // v.Dispose();
         }
         
         private static void CreatePerspectiveFromSection(UIDocument udoc, View sectionView)
@@ -170,15 +170,16 @@ namespace SCaddins.ViewUtilities
             
         }
         
-        private static IEnumerable<ViewFamilyType> Get3DViewFamilyTypes(Document doc)
+        private static List<ViewFamilyType> Get3DViewFamilyTypes(Document doc)
         {
-            IEnumerable<ViewFamilyType> viewFamilyTypes;
+            List<ViewFamilyType> viewFamilyTypes = new List<ViewFamilyType> ();
             using (var collector = new FilteredElementCollector(doc)) {
                 collector.OfClass(typeof(ViewFamilyType));
-                viewFamilyTypes = from elem in collector
-                                  let type = elem as ViewFamilyType
-                                  where type.ViewFamily == ViewFamily.ThreeDimensional
-                                  select type;
+                foreach (ViewFamilyType viewFamilyType in collector) {
+                    if (viewFamilyType.ViewFamily == ViewFamily.ThreeDimensional) {
+                        viewFamilyTypes.Add(viewFamilyType);
+                    }  
+                }
             }
             return viewFamilyTypes;
         }
