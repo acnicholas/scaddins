@@ -9,7 +9,7 @@
     <FullClassName>SCaddins.SCaddinsApp</FullClassName>
     <Name>SCexport - Export Utility</Name>
     <VendorId>BEER</VendorId>
-    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
+    <VendorDescription>Andrew Nicholas, andrewn@scottcarver.com.au</VendorDescription>
   </AddIn>
 
   <AddIn Type="Command">
@@ -19,7 +19,7 @@
     <Name>SCexport - Next Sheet Shortcut</Name>
     <Text>SCexport - Next Sheet Shortcut</Text>
     <VendorId>BEER</VendorId>
-    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
+    <VendorDescription>Andrew Nicholas, andrewn@scottcarver.com.au</VendorDescription>
   </AddIn>
 
   <AddIn Type="Command">
@@ -29,7 +29,7 @@
     <Name>SCexport - Previous Sheet Shortcut</Name>
     <Text>SCexport - Previous Sheet Shortcut</Text>
     <VendorId>BEER</VendorId>
-    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
+    <VendorDescription>Andrew Nicholas, andrewn@scottcarver.com.au</VendorDescription>
   </AddIn>
 
   <AddIn Type="Command">
@@ -39,6 +39,6 @@
     <Name>SCexport - Open Sheet Shortcut</Name>
     <Text>SCexport - Open Sheet Shortcut</Text>
     <VendorId>BEER</VendorId>
-    <VendorDescription>Andrew Nicholas, andrewnicholas@iinet.net.au</VendorDescription>
+    <VendorDescription>Andrew Nicholas, andrewn@scottcarver.com.au</VendorDescription>
   </AddIn>
 </RevitAddIns>

@@ -56,9 +56,9 @@
                 <WixVariable Id="WixUIBannerBmp" Value="wixb.bmp" />
                 <Icon Id="sc.ico" SourceFile="..\share\icons\64x64\sc.ico" />
                 <Property Id="ARPPRODUCTICON" Value="sc.ico" />
-                <Property Id="ARPCONTACT" Value="andrewnicholas@iinet.net.au" />
-                <Property Id="ARPHELPLINK" Value="https://bitbucket.org/anicholas/scaddins/wiki/Home"/>
-                <Property Id="ARPURLUPDATEINFO" Value="https://bitbucket.org/anicholas/scaddins/downloads" />
+                <Property Id="ARPCONTACT" Value="andrewn@scottcarver.com.au" />
+                <Property Id="ARPHELPLINK" Value="https://github.com/acnicholas/scaddins/wiki"/>
+                <Property Id="ARPURLUPDATEINFO" Value="https://github.com/acnicholas/scaddins/releases" />
 
                 <MajorUpgrade AllowDowngrades="yes"/>
         
