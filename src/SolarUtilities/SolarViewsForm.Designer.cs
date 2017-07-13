@@ -151,7 +151,7 @@
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             resources.ApplyResources(this.dateTimePicker1, "dateTimePicker1");
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Value = new System.DateTime(2015, 6, 21, 0, 0, 0, 0);
+            this.dateTimePicker1.Value = new System.DateTime(2017, 6, 21, 0, 0, 0, 0);
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.DateTimePicker1ValueChanged);
             // 
             // label3

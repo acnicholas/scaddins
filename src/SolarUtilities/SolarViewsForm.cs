@@ -36,7 +36,7 @@ namespace SCaddins.SolarUtilities
                 }
             }
 
-            this.PopulateTimeSpansDropDowns(new DateTime(2015, 6, 21, 12, 0, 0, DateTimeKind.Local));
+            this.PopulateTimeSpansDropDowns(new DateTime(2017, 6, 21, 12, 0, 0, DateTimeKind.Local));
 
             interval.Items.Add(new TimeSpan(0, 15, 0));
             interval.Items.Add(new TimeSpan(0, 30, 0));
