@@ -94,8 +94,9 @@ namespace SCaddins.ViewUtilities
             double middleY = bottomRight.Y - (height / 2);
             double eyeHeight = height > width ? (height * 1.5) : width;
             return new XYZ(middleX, middleY, eyeHeight);
-        }  
-        
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public static BoundingBoxXYZ ViewExtentsBoundingBox(UIView view)
         {
             if (view == null) {
@@ -108,7 +109,8 @@ namespace SCaddins.ViewUtilities
             result.set_Bounds(1, max);
             return result;
         }
-        
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public static BoundingBoxXYZ SectionViewExtentsBoundingBox(UIView view)
         {
             if (view == null) {
@@ -136,6 +138,7 @@ namespace SCaddins.ViewUtilities
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private static void CreatePerspectiveFromPlan(UIDocument udoc, View planView)
         {
             UIView view = ActiveUIView(udoc, planView);
@@ -152,7 +155,8 @@ namespace SCaddins.ViewUtilities
             }
             // v.Dispose();
         }
-        
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private static void CreatePerspectiveFromSection(UIDocument udoc, View sectionView)
         {
             UIView view = ActiveUIView(udoc, sectionView);
@@ -183,7 +187,8 @@ namespace SCaddins.ViewUtilities
             }
             return viewFamilyTypes;
         }
-    
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private static void CreatePerspectiveFrom3D(UIDocument udoc, View3D view)
         {
             ViewOrientation3D v = view.GetOrientation();

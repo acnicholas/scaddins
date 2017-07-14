@@ -64,9 +64,14 @@ namespace SCaddins
             var installedVersion = SCaddinsApp.Version;
             Version latestAvailableVersion = new Version(latestVersion.tag_name.Replace("v","").Trim());
             string info = latestVersion.body;
-            
+
+            string downloadLink = latestVersion.assets.FirstOrDefault().browser_download_url;
+            if (string.IsNullOrEmpty(downloadLink)) {
+                downloadLink = SCaddins.Constants.DownloadLink;
+            }
+
             if (latestAvailableVersion > installedVersion || !newOnly) {
-                using (var upgradeForm = new SCaddins.Common.UpgradeForm(installedVersion, latestAvailableVersion, info)) {
+                using (var upgradeForm = new SCaddins.Common.UpgradeForm(installedVersion, latestAvailableVersion, info, downloadLink)) {
                     upgradeForm.ShowDialog();
                 }
             } 

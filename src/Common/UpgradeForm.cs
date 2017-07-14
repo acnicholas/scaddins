@@ -23,9 +23,13 @@ namespace SCaddins.Common
 
     public partial class UpgradeForm : Form
     {
+        private string downloadLink = string.Empty;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "System.Windows.Forms.Control.set_Text(System.String)")]
-        public UpgradeForm(Version installed, Version remote, string body)
+        public UpgradeForm(Version installed, Version remote, string body, string downloadLink)
         {
+            this.downloadLink = downloadLink;
+
             if (installed == null) {
                 installed = new Version(0, 0, 0);
                 body = Resources.UpgrateVersionCheckErrorMessage;
@@ -51,7 +55,7 @@ namespace SCaddins.Common
 
         private void Button3Click(object sender, EventArgs e)
         {
-          System.Diagnostics.Process.Start(SCaddins.Constants.DownloadLink);
+          System.Diagnostics.Process.Start(downloadLink);
         }
 
         private void Button1Click(object sender, EventArgs e)

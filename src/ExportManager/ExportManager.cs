@@ -553,6 +553,7 @@ namespace SCaddins.ExportManager
             this.ShowExportLog = SCaddins.ExportManager.Settings1.Default.ShowExportLog;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private static void OpenSheet(UIDocument udoc, ViewSheet view, int inc)
         {
             IList<ViewSheet> sheets = new List<ViewSheet>();
@@ -720,12 +721,12 @@ namespace SCaddins.ExportManager
 
         private static void ExportDGN(ExportSheet vs)
         {
-            var opts = new DGNExportOptions();
-            ICollection<ElementId> views;
-            views = new List<ElementId>();
-            views.Add(vs.Id);
-            doc.Export(vs.ExportDirectory, vs.FullExportName, views, opts);
-            opts.Dispose();
+            using (var opts = new DGNExportOptions()) {
+                ICollection<ElementId> views;
+                views = new List<ElementId>();
+                views.Add(vs.Id);
+                doc.Export(vs.ExportDirectory, vs.FullExportName, views, opts);
+            }
         }
  
         private void SetDefaultFlags()
@@ -822,11 +823,12 @@ namespace SCaddins.ExportManager
             } catch (UriFormatException ex) {
                 errorMessage += "Error reading xml file:" + filename + " - " + ex.Message;
             }
-            TaskDialog td = new TaskDialog("SCexport - XML Config error");
-            td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-            td.MainInstruction = "SCexport - XML Config error";
-            td.MainContent = errorMessage;
-            td.Show();
+            using (var td = new TaskDialog("SCexport - XML Config error")) {
+                td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+                td.MainInstruction = "SCexport - XML Config error";
+                td.MainContent = errorMessage;
+                td.Show();
+            }
             return false;   
         }
 
@@ -933,12 +935,14 @@ namespace SCaddins.ExportManager
             }
         }
 
-        private void ApplyDefaultDWGExportOptions(ref DWGExportOptions opts)
+        private DWGExportOptions GetDefaultDWGExportOptions()
         {
+            var opts = new DWGExportOptions();
             opts.MergedViews = true;
             opts.FileVersion = this.AcadVersion;
             opts.HideScopeBox = true;
             opts.HideUnreferenceViewTags = true;
+            return opts;
         }
 
         //FIXME this is nasty
@@ -947,7 +951,7 @@ namespace SCaddins.ExportManager
             this.log.AddMessage(Environment.NewLine + "### Starting DWG Export ###");
             this.log.AddMessage(vs.ToString());
             
-            ICollection<ElementId> titleBlockHidden;
+            List<ElementId> titleBlockHidden;
             titleBlockHidden = new List<ElementId>();
             var titleBlock = ExportManager.TitleBlockInstanceFromSheetNumber(vs.SheetNumber, doc);
             titleBlockHidden.Add(titleBlock.Id);
@@ -973,19 +977,18 @@ namespace SCaddins.ExportManager
                 } 
             }
 
-            ICollection<ElementId> views;
+            List<ElementId> views;
             views = new List<ElementId>();
             views.Add(vs.Id);
 
-            var opts = new DWGExportOptions();
-            this.log.AddMessage("Assigning export options: " + opts);
-            this.ApplyDefaultDWGExportOptions(ref opts);
-            pm.PrintRange = PrintRange.Select;
-            var name = vs.FullExportName + ".dwg";
-            this.log.AddMessage("Exporting to directory: " + vs.ExportDirectory);
-            this.log.AddMessage("Exporting to file name: " + name);
-            doc.Export(vs.ExportDirectory, name, views, opts);
-            opts.Dispose();
+            using (var opts = GetDefaultDWGExportOptions()) {
+                this.log.AddMessage("Assigning export options: " + opts);
+                pm.PrintRange = PrintRange.Select;
+                var name = vs.FullExportName + ".dwg";
+                this.log.AddMessage("Exporting to directory: " + vs.ExportDirectory);
+                this.log.AddMessage("Exporting to file name: " + name);
+                doc.Export(vs.ExportDirectory, name, views, opts);
+            }
            
             FileUtilities.WaitForFileAccess(vs.FullExportPath(".dwg"));
             this.RunExportHooks("dwg", vs);
