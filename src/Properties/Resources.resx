@@ -636,4 +636,37 @@
   <data name="Export" xml:space="preserve">
     <value>Export</value>
   </data>
+  <data name="FileExtensionDWG" xml:space="preserve">
+    <value>.dwg</value>
+  </data>
+  <data name="MessageAssigningExportOptions" xml:space="preserve">
+    <value>Assigning export options: </value>
+  </data>
+  <data name="MessageAttemptingToHideTitleBlock" xml:space="preserve">
+    <value>Attempting to hide Title Block (temporarily)</value>
+  </data>
+  <data name="MessageCouldNotApplyPrintSettings" xml:space="preserve">
+    <value>Could not apply print settings</value>
+  </data>
+  <data name="MessageExportingToDirectory" xml:space="preserve">
+    <value>Exporting to directory: </value>
+  </data>
+  <data name="MessageExportingToFileName" xml:space="preserve">
+    <value>Exporting to file name: </value>
+  </data>
+  <data name="MessageShowingTitleBlock" xml:space="preserve">
+    <value>Showing Title Block</value>
+  </data>
+  <data name="MessageStartingDWGExport" xml:space="preserve">
+    <value>### Starting DWG Export ###</value>
+  </data>
+  <data name="MessageStartingGhostscriptPDFExport" xml:space="preserve">
+    <value>### Starting Ghostscript PDF Export ###</value>
+  </data>
+  <data name="MessageUnableToOverwriteExistingFile" xml:space="preserve">
+    <value>Unable to overwrite existing file: </value>
+  </data>
+  <data name="SpacerHyphen" xml:space="preserve">
+    <value> - </value>
+  </data>
 </root>

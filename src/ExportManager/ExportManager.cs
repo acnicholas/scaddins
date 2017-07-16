@@ -384,7 +384,7 @@ namespace SCaddins.ExportManager
                     progressBar.PerformStep();
                     elapsedTime = DateTime.Now - startTime;
                     info.Text = ExportManager.PercentageSting(progressBar.Value, progressBar.Maximum) +
-                    " - " + ExportManager.TimeSpanAsString(elapsedTime);
+                    Resources.SpacerHyphen + ExportManager.TimeSpanAsString(elapsedTime);
                     strip.Update();
                     
                     if (!sheet.Verified) {
@@ -401,7 +401,7 @@ namespace SCaddins.ExportManager
                         break;
                     default:
                         int i = int.Parse(sheet.PageSize.Substring(1, 1), CultureInfo.InvariantCulture);
-                        string printerNameTmp = i > 2 ? "this.PrinterNameA3" : this.PrinterNameLargeFormat;
+                        string printerNameTmp = i > 2 ? this.PrinterNameA3 : this.PrinterNameLargeFormat;
                         printSetttingsValid |= PrintSettings.PrintToDevice(doc, sheet.PageSize, pm, printerNameTmp, this.log);
                         break;
                     }
@@ -507,7 +507,7 @@ namespace SCaddins.ExportManager
                 progressBar.PerformStep();
                 elapsedTime = DateTime.Now - startTime;
                 info.Text = ExportManager.PercentageSting(progressBar.Value, progressBar.Maximum) +
-                    " - " + ExportManager.TimeSpanAsString(elapsedTime);
+                    Resources.SpacerHyphen + ExportManager.TimeSpanAsString(elapsedTime);
                 strip.Update();
                 this.ExportSheet(sheet);
             }
@@ -948,7 +948,7 @@ namespace SCaddins.ExportManager
         //FIXME this is nasty
         private void ExportDWG(ExportSheet vs, bool removeTitle)
         {
-            this.log.AddMessage(Environment.NewLine + "### Starting DWG Export ###");
+            this.log.AddMessage(Environment.NewLine + Resources.MessageStartingDWGExport);
             this.log.AddMessage(vs.ToString());
             
             List<ElementId> titleBlockHidden;
@@ -957,13 +957,13 @@ namespace SCaddins.ExportManager
             titleBlockHidden.Add(titleBlock.Id);
 
             if (removeTitle) {
-                this.log.AddMessage("Attempting to hide Title Block (temporarily)");
+                this.log.AddMessage(Resources.MessageAttemptingToHideTitleBlock);
                 ExportManager.RemoveTitleBlock(vs, titleBlockHidden, true);
             }
 
             PrintManager pm = doc.PrintManager;
 
-            using (var t = new Transaction(doc, "Apply print settings")) {
+            using (var t = new Transaction(doc, Resources.ApplyPrintSettings)) {
                 if (t.Start() == TransactionStatus.Started) {
                     try {
                         pm.PrintToFile.Equals(true);
@@ -971,7 +971,7 @@ namespace SCaddins.ExportManager
                         pm.Apply();
                         t.Commit();
                     } catch (InvalidOperationException) {
-                        this.log.AddWarning(null, "Could not apply print settings");
+                        this.log.AddWarning(null, Resources.MessageCouldNotApplyPrintSettings);
                         t.RollBack();
                     }
                 } 
@@ -982,19 +982,19 @@ namespace SCaddins.ExportManager
             views.Add(vs.Id);
 
             using (var opts = GetDefaultDWGExportOptions()) {
-                this.log.AddMessage("Assigning export options: " + opts);
+                this.log.AddMessage(Resources.MessageAssigningExportOptions + opts);
                 pm.PrintRange = PrintRange.Select;
-                var name = vs.FullExportName + ".dwg";
-                this.log.AddMessage("Exporting to directory: " + vs.ExportDirectory);
-                this.log.AddMessage("Exporting to file name: " + name);
+                var name = vs.FullExportName + Resources.FileExtensionDWG;
+                this.log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
+                this.log.AddMessage(Resources.MessageExportingToFileName + name);
                 doc.Export(vs.ExportDirectory, name, views, opts);
             }
            
-            FileUtilities.WaitForFileAccess(vs.FullExportPath(".dwg"));
+            FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionDWG));
             this.RunExportHooks("dwg", vs);
 
             if (removeTitle) {
-                this.log.AddMessage("Showing Title Block");
+                this.log.AddMessage(Resources.MessageShowingTitleBlock);
                 ExportManager.RemoveTitleBlock(vs, titleBlockHidden, false);
             }
         }
@@ -1003,7 +1003,7 @@ namespace SCaddins.ExportManager
         [SecurityCritical]
         private bool ExportGSPDF(ExportSheet vs)
         {
-            this.log.AddMessage(Environment.NewLine + "### Starting Ghostscript PDF Export ###");
+            this.log.AddMessage(Environment.NewLine + Resources.MessageStartingGhostscriptPDFExport);
             this.log.AddMessage(vs.ToString());
             
             PrintManager pm = doc.PrintManager;
@@ -1024,27 +1024,27 @@ namespace SCaddins.ExportManager
                 pm.SubmitPrint(vs.Sheet);
             }
             
-            this.log.AddMessage("Printing: " + vs.FullExportPath(Resources.FileExtensionPS));
+            this.log.AddMessage(Resources.StartingPrint + vs.FullExportPath(Resources.FileExtensionPS));
 
             FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPS));
             
-            this.log.AddMessage("...OK");
+            this.log.AddMessage(Resources.OK);
             
             string prog = "\"" + this.GhostscriptLibDirectory  + @"\ps2pdf" + "\"";
             string size = vs.PageSize.ToLower(CultureInfo.CurrentCulture);
             string sizeFix = size.ToLower(CultureInfo.CurrentCulture).Replace("p", string.Empty);   
             string args = 
                 "-sPAPERSIZE#" +
-                sizeFix + " \"" + vs.FullExportPath(".ps") +
-                "\" \"" + vs.FullExportPath(".pdf") + "\"";
+                sizeFix + " \"" + vs.FullExportPath(Resources.FileExtensionPS) +
+                "\" \"" + vs.FullExportPath(Resources.FileExtensionPDF) + "\"";
 
-            if (FileUtilities.CanOverwriteFile(vs.FullExportPath(".pdf"))) {
+            if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF))) {
                 this.log.AddMessage("Converting to PDF with: " + prog + " " + args);
                 SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg(prog, args);
-                FileUtilities.WaitForFileAccess(vs.FullExportPath(".pdf"));
+                FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPDF));
                 this.RunExportHooks("pdf", vs);
             } else {
-                this.log.AddWarning(vs.FullExportName, "Unable to overwrite existing file: " + vs.FullExportPath(".pdf"));    
+                this.log.AddWarning(vs.FullExportName, Resources.MessageUnableToOverwriteExistingFile + vs.FullExportPath(Resources.FileExtensionPDF));    
             }
 
             return true;

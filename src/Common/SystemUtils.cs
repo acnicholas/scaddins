@@ -20,11 +20,13 @@ namespace SCaddins.Common
     using System;
     using System.Diagnostics;
     using System.Security;
+    using System.Security.Permissions;
 
     public static class SystemUtilities
     {
         [SecurityCritical]
-        public static void KillAllProcesses(string processName)
+        [PermissionSetAttribute(SecurityAction.LinkDemand, Name = "FullTrust")]
+        internal static void KillAllProcesses(string processName)
         {
             try {
                 foreach (Process proc in Process.GetProcessesByName(processName)) {

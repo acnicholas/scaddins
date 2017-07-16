@@ -64,7 +64,7 @@ namespace SCaddins.ExportManager
             return result;
         }
 
-        public void Run(ExportSheet sheet, string extension)
+        internal void Run(ExportSheet sheet, string extension)
         {
             string a = FormatConfigurationString(sheet, this.args, extension);
             if (!string.IsNullOrEmpty(a)) {

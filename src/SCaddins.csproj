@@ -18,7 +18,6 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
     <SourceAnalysisOverrideSettingsFile>etc\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
-    <CodeAnalysisRules>-Microsoft.Design#CA1020;-Microsoft.Design#CA2210;-Microsoft.Naming#CA1702;-Microsoft.Security#CA2122</CodeAnalysisRules>
     <AssemblyOriginatorKeyMode>File</AssemblyOriginatorKeyMode>
     <GenerateFullPaths>True</GenerateFullPaths>
   </PropertyGroup>
@@ -56,6 +55,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Any'">
     <ErrorReport>prompt</ErrorReport>
     <FileAlignment>512</FileAlignment>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2016' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -104,6 +104,27 @@
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
     <RunCodeAnalysis>True</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2017|x64'">
+    <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2016|x64'">
+    <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2018|x64'">
+    <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2018|Any'">
+    <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2017|Any'">
+    <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2016|Any'">
+    <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdWindows">

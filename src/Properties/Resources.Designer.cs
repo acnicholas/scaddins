@@ -502,6 +502,15 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .dwg.
+        /// </summary>
+        internal static string FileExtensionDWG {
+            get {
+                return ResourceManager.GetString("FileExtensionDWG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .pdf.
         /// </summary>
         internal static string FileExtensionPDF {
@@ -727,6 +736,24 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assigning export options: .
+        /// </summary>
+        internal static string MessageAssigningExportOptions {
+            get {
+                return ResourceManager.GetString("MessageAssigningExportOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attempting to hide Title Block (temporarily).
+        /// </summary>
+        internal static string MessageAttemptingToHideTitleBlock {
+            get {
+                return ResourceManager.GetString("MessageAttemptingToHideTitleBlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attempting to Load Revit Print Settings: .
         /// </summary>
         internal static string MessageAttemptingToLoadRevitPrintSettings {
@@ -745,11 +772,74 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not apply print settings.
+        /// </summary>
+        internal static string MessageCouldNotApplyPrintSettings {
+            get {
+                return ResourceManager.GetString("MessageCouldNotApplyPrintSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exporting to directory: .
+        /// </summary>
+        internal static string MessageExportingToDirectory {
+            get {
+                return ResourceManager.GetString("MessageExportingToDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exporting to file name: .
+        /// </summary>
+        internal static string MessageExportingToFileName {
+            get {
+                return ResourceManager.GetString("MessageExportingToFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Showing Title Block.
+        /// </summary>
+        internal static string MessageShowingTitleBlock {
+            get {
+                return ResourceManager.GetString("MessageShowingTitleBlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ### Starting DWG Export ###.
+        /// </summary>
+        internal static string MessageStartingDWGExport {
+            get {
+                return ResourceManager.GetString("MessageStartingDWGExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ### Starting Ghostscript PDF Export ###.
+        /// </summary>
+        internal static string MessageStartingGhostscriptPDFExport {
+            get {
+                return ResourceManager.GetString("MessageStartingGhostscriptPDFExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submitting print....
         /// </summary>
         internal static string MessageSubmittingPrint {
             get {
                 return ResourceManager.GetString("MessageSubmittingPrint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to overwrite existing file: .
+        /// </summary>
+        internal static string MessageUnableToOverwriteExistingFile {
+            get {
+                return ResourceManager.GetString("MessageUnableToOverwriteExistingFile", resourceCulture);
             }
         }
         
@@ -1434,6 +1524,15 @@ namespace SCaddins.Properties {
         internal static string SourceCode {
             get {
                 return ResourceManager.GetString("SourceCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  - .
+        /// </summary>
+        internal static string SpacerHyphen {
+            get {
+                return ResourceManager.GetString("SpacerHyphen", resourceCulture);
             }
         }
         
