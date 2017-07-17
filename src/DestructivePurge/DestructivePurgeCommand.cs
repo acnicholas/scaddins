@@ -32,7 +32,7 @@ namespace SCaddins.SCwash
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            if(commandData == null) {
+            if (commandData == null) {
                 return Result.Failed;
             }
 

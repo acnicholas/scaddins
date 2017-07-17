@@ -100,11 +100,9 @@ namespace SCaddins.ExportManager
             ICollection<Autodesk.Revit.DB.ElementId> revisions = sheet.Sheet.GetAdditionalRevisionIds();
             revisions.Clear();
             sheet.Sheet.SetAdditionalRevisionIds(revisions);
-              
-            Autodesk.Revit.DB.View view = sheet.Sheet as Autodesk.Revit.DB.View;
-            // Autodesk.Revit.DB.View view = sheet.Sheet;
-                               
+            Autodesk.Revit.DB.View view = sheet.Sheet as Autodesk.Revit.DB.View;                             
             List<Autodesk.Revit.DB.Revision> hiddenRevisionClouds = SheetCopierManager.GetAllHiddenRevisions(this.doc);
+
             // turn on hidden revisions
             foreach (Autodesk.Revit.DB.Revision rev in hiddenRevisionClouds) {
                 rev.Visibility = Autodesk.Revit.DB.RevisionVisibility.CloudAndTagVisible;

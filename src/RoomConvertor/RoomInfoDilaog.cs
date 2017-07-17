@@ -24,7 +24,6 @@ using SCaddins.Properties;
 
 namespace SCaddins.RoomConvertor
 {
-
     public partial class RoomInfoDialog : System.Windows.Forms.Form
     {
         public RoomInfoDialog()
@@ -49,14 +48,14 @@ namespace SCaddins.RoomConvertor
             this.listView1.Items.Clear();
             foreach (Parameter p in room.Parameters) {  
                 if (p.StorageType != StorageType.ElementId && p.StorageType != StorageType.None) {
-                    listView1.Items.Add(new ListViewItem(new string[]{p.Definition.Name, GetParamValueAsString(p), p.StorageType.ToString()}));
+                    listView1.Items.Add(new ListViewItem(new string[] {p.Definition.Name, GetParamValueAsString(p), p.StorageType.ToString()}));
                 }
             }
         }
 
         private static string GetParamValueAsString(Parameter param)
         {
-            switch (param.StorageType){
+            switch (param.StorageType) {
                 case StorageType.Double:
                     return param.AsDouble().ToString(CultureInfo.CurrentCulture) + @"(" + param.AsValueString() + @")";
                 case StorageType.String:

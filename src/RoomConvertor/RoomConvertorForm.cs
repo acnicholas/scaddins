@@ -100,7 +100,7 @@ namespace SCaddins.RoomConvertor
             return c;
         }
 
-        void DataGridView1SelectionChanged(object sender, EventArgs e)
+        private void DataGridView1SelectionChanged(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentCell != null && dataGridView1.CurrentCell.RowIndex != -1) {
                 var c = (RoomConversionCandidate)dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].DataBoundItem;
@@ -109,7 +109,7 @@ namespace SCaddins.RoomConvertor
             }
         }
 
-        void ButtonInfoClick(object sender, EventArgs e)
+        private void ButtonInfoClick(object sender, EventArgs e)
         {
             if (info.Visible) {
                 info.Hide();
@@ -118,7 +118,7 @@ namespace SCaddins.RoomConvertor
             }
         }
 
-        void ButtonResetFiltersClick(object sender, EventArgs e)
+        private void ButtonResetFiltersClick(object sender, EventArgs e)
         {
             dataGridView1.DataSource = null;
             roomConversionManager.Reset();
@@ -127,14 +127,14 @@ namespace SCaddins.RoomConvertor
             dataGridView1.Refresh();
         }
 
-        void MainFormFormClosing(object sender, FormClosingEventArgs e)
+        private void MainFormFormClosing(object sender, FormClosingEventArgs e)
         {
             info.Dispose();
             rfd.Dispose();
             Dispose();
         }
         
-        void ToggleMainButtonText()
+        private void ToggleMainButtonText()
         {
             buttonMain.Text = radioButtonCreateMasses.Checked ? Resources.RoomToolsCreateMasses : Resources.RoomToolsCreatePlansAndSheets;
             bool b = radioButtonCreateSheets.Checked;
@@ -143,17 +143,17 @@ namespace SCaddins.RoomConvertor
             dataGridView1.Columns[4].Visible = b; 
         }
 
-        void RadioButton1CheckedChanged(object sender, EventArgs e)
+        private void RadioButton1CheckedChanged(object sender, EventArgs e)
         {
             ToggleMainButtonText();
         }
                
-        void Button4Click(object sender, EventArgs e)
+        private void Button4Click(object sender, EventArgs e)
         {
             roomConversionManager.SynchronizeMassesToRooms();
         }
               
-        void ButtonMainClick(object sender, EventArgs e)
+        private void ButtonMainClick(object sender, EventArgs e)
         {
             Button button = sender as Button;
             if (button.Text == Resources.RoomToolsCreateMasses) {

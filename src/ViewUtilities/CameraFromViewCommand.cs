@@ -153,7 +153,6 @@ namespace SCaddins.ViewUtilities
                 ApplySectionBoxToView(ViewExtentsBoundingBox(view), np);
                 t.Commit();
             }
-            // v.Dispose();
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
@@ -170,13 +169,12 @@ namespace SCaddins.ViewUtilities
                 np.SetOrientation(new ViewOrientation3D(v.EyePosition, v.UpDirection, v.ForwardDirection));
                 ApplySectionBoxToView(SectionViewExtentsBoundingBox(view), np);
                 t.Commit();
-            }
-            
+            }          
         }
         
         private static List<ViewFamilyType> Get3DViewFamilyTypes(Document doc)
         {
-            List<ViewFamilyType> viewFamilyTypes = new List<ViewFamilyType> ();
+            List<ViewFamilyType> viewFamilyTypes = new List<ViewFamilyType>() ;
             using (var collector = new FilteredElementCollector(doc)) {
                 collector.OfClass(typeof(ViewFamilyType));
                 foreach (ViewFamilyType viewFamilyType in collector) {

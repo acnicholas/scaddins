@@ -24,7 +24,6 @@ namespace SCaddins.SolarUtilities
     {
         public SCaosForm(string[] informationText, bool currentViewIsIsometric)
         {
-
             this.InitializeComponent();
             if (!currentViewIsIsometric) {
                 radioButtonRotateCurrent.Enabled = false;

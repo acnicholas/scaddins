@@ -43,12 +43,12 @@ namespace SCaddins.RoomConvertor
         }
 
         public Document Doc {
-            get{ return doc; }
+            get { return doc; }
         }
 
         public Dictionary<string, ElementId> TitleBlocks
         {
-            get{ return titleBlocks; }
+            get { return titleBlocks; }
         }
 
         public ElementId TitleBlockId
@@ -56,7 +56,8 @@ namespace SCaddins.RoomConvertor
             get; set;
         }
 
-        public int Scale{
+        public int Scale
+        {
             get; set;
         }
 
@@ -80,7 +81,8 @@ namespace SCaddins.RoomConvertor
                     }
                 }
             }
-            //Initially add all canditates.
+
+            // Initially add all canditates.
             this.Reset();
         }
 
@@ -115,8 +117,8 @@ namespace SCaddins.RoomConvertor
                 }
             }
 
-            //Add an empty title in case there's none
-            result.Add("none",ElementId.InvalidElementId);
+            // Add an empty title in case there's none
+            result.Add("none", ElementId.InvalidElementId);
 
             return result;
         }
@@ -161,7 +163,7 @@ namespace SCaddins.RoomConvertor
         private static void CopyAllMassParametersToRooms(Element host, Room  dest)
         {
             Parameter name = host.LookupParameter("Name");
-            if (name != null &&  name.StorageType == StorageType.String){
+            if (name != null &&  name.StorageType == StorageType.String) {
                 dest.Name = name.AsString();
             }
 
@@ -176,26 +178,29 @@ namespace SCaddins.RoomConvertor
         private static void CopyAllRoomParametersToMasses(Element host, Element  dest)
         {
             Parameter paramRoomId = dest.LookupParameter("RoomId");
-            if (paramRoomId != null &&  paramRoomId.StorageType == StorageType.Integer){
+            if (paramRoomId != null &&  paramRoomId.StorageType == StorageType.Integer) {
                 paramRoomId.Set(host.Id.IntegerValue);
             }
 
             CopyAllParameters(host, dest);
         }
 
-        private static bool ValidElements(Element host, Element  dest)
+        private static bool ValidElements(Element host, Element dest)
         {
             if (host == null || dest == null) return false;
-            if (!host.IsValidObject || !dest.IsValidObject) return false;  
+            if (!host.IsValidObject || !dest.IsValidObject) {
+                return false;
+            }
             return true;
         }
 
-        private static void CopyAllParameters(Element host, Element  dest)
+        private static void CopyAllParameters(Element host, Element dest)
         {
-            if (!ValidElements(host, dest)) return;
+            if (!ValidElements(host, dest)) {
+                return;
+            }
                         
-            foreach (Parameter param in host.Parameters) {
-                
+            foreach (Parameter param in host.Parameters) {      
                 if (!param.HasValue || param == null) {
                     continue;
                 }
@@ -269,13 +274,11 @@ namespace SCaddins.RoomConvertor
                     roomShape.SetShape(new GeometryObject[] { roomSolid });
                     CopyAllRoomParametersToMasses(room, roomShape);
                 }
-
             } catch (Exception ex) {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 return false;
             }
             return true;
-
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
@@ -332,7 +335,7 @@ namespace SCaddins.RoomConvertor
                 double y = b.Min.Y + ((b.Max.Y - b.Min.Y) / 2);
                 return new XYZ(x, y, 0);
             }
-			return new XYZ(0, 0, 0);
+            return new XYZ(0, 0, 0);
         }
 
         private static BoundingBoxXYZ CreateOffsetBoundingBox(double offset, BoundingBoxXYZ origBox)

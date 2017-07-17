@@ -52,7 +52,7 @@ namespace SCaddins.ExportManager
             }
 
             var uidoc = commandData.Application.ActiveUIDocument;
-            if ( uidoc == null) {
+            if (uidoc == null) {
                 return Autodesk.Revit.UI.Result.Failed;
             }
             using (var form = new MainForm(commandData.Application.ActiveUIDocument)) {

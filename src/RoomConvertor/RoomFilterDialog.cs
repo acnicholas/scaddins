@@ -15,14 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Architecture;
-using SCaddins.RoomConvertor;
-
 namespace SCaddins.RoomConvertor
 {
+    using System;
+    using System.Collections.Generic;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Architecture;
+    using SCaddins.RoomConvertor;
+
     public partial class RoomFilterDialog : System.Windows.Forms.Form
     {
         private RoomFilter filter;
@@ -102,11 +102,11 @@ namespace SCaddins.RoomConvertor
                 var item = new RoomFilterItem(comboBoxLO5.Text, comboBoxCO5.Text, comboBoxP5.Text, textBox5.Text);
                 filter.AddFilterItem(item);
             }
-			if (!string.IsNullOrWhiteSpace(comboBoxP6.Text) && !string.IsNullOrWhiteSpace(textBox6.Text)) {
+            if (!string.IsNullOrWhiteSpace(comboBoxP6.Text) && !string.IsNullOrWhiteSpace(textBox6.Text)) {
                 var item = new RoomFilterItem(comboBoxLO6.Text, comboBoxCO6.Text, comboBoxP6.Text, textBox6.Text);
                 filter.AddFilterItem(item);
             }
-            if( !string.IsNullOrWhiteSpace(comboBoxP7.Text) && !string.IsNullOrWhiteSpace(textBox7.Text)) {
+            if (!string.IsNullOrWhiteSpace(comboBoxP7.Text) && !string.IsNullOrWhiteSpace(textBox7.Text)) {
                 var item = new RoomFilterItem(comboBoxLO7.Text, comboBoxCO7.Text, comboBoxP7.Text, textBox7.Text);
                 filter.AddFilterItem(item);
             }
@@ -116,10 +116,10 @@ namespace SCaddins.RoomConvertor
         {
             filter.Clear();
             foreach (System.Windows.Forms.Control c in this.Controls) {
-                if(c is System.Windows.Forms.TextBox) {
+                if (c is System.Windows.Forms.TextBox) {
                     ((System.Windows.Forms.TextBox)c).Text = string.Empty;
                 }
-                if(c is System.Windows.Forms.ComboBox) {
+                if (c is System.Windows.Forms.ComboBox) {
                    ((System.Windows.Forms.ComboBox)c).Text = string.Empty;
                 }
             }    

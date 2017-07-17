@@ -35,7 +35,7 @@ namespace SCaddins.ViewUtilities
             Document doc = commandData.Application.ActiveUIDocument.Document;
             View view = doc.ActiveView;
 
-            using (Transaction t =  new Transaction(doc)) {
+            using (Transaction t = new Transaction(doc)) {
                 if (t.Start("SCuv Copies User View") == TransactionStatus.Started) {
                     if (UserView.Create(view, doc)) {
                         UserView.ShowSummaryDialog(UserView.GetNewViewName(doc, view));

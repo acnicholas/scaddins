@@ -62,7 +62,7 @@ namespace SCaddins
             LatestVersion latestVersion = JsonConvert.DeserializeObject<LatestVersion>(latestAsJson);
             
             var installedVersion = SCaddinsApp.Version;
-            Version latestAvailableVersion = new Version(latestVersion.tag_name.Replace("v","").Trim());
+            Version latestAvailableVersion = new Version(latestVersion.tag_name.Replace("v", string.Empty).Trim());
             string info = latestVersion.body;
 
             string downloadLink = latestVersion.assets.FirstOrDefault().browser_download_url;
@@ -173,7 +173,7 @@ namespace SCaddins
             pbd.SetContextualHelp(
                 new ContextualHelp(
                     ContextualHelpType.Url, Constants.HelpLink));
-            if(iconSize == 16) {
+            if (iconSize == 16) {
                 AssignPushButtonImage(pbd, "SCaddins.Assets.scaos-rvt-16.png", 16, dll);
             } else {
                 AssignPushButtonImage(pbd, "AngleOfSun.Assets.scaos-rvt.png", 32, dll);
@@ -268,7 +268,7 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCopy", Resources.CopySheets, dll, "SCaddins.SheetCopier.Command");
-            if(iconSize == 16) {
+            if (iconSize == 16) {
                 AssignPushButtonImage(pbd, "SCaddins.Assets.scopy-rvt-16.png", 16, dll);
             } else {
                 AssignPushButtonImage(pbd, "SheetCopier.Assets.scopy-rvt.png", 32, dll);    
@@ -304,7 +304,7 @@ namespace SCaddins
                 PngBitmapDecoder m_decoder = new PngBitmapDecoder(m_icon, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
                 ImageSource m_source = m_decoder.Frames[0];
                 return (m_source);
-            } catch (Exception ex){
+            } catch (Exception ex) {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 return null;
             }

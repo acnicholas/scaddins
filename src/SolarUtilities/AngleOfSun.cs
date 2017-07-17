@@ -29,8 +29,7 @@ namespace SCaddins
     [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class AngleOfSun : Autodesk.Revit.UI.IExternalApplication
-    {
-        
+    {      
         public Autodesk.Revit.UI.Result OnStartup(
             UIControlledApplication application)
         {

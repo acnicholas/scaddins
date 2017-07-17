@@ -39,7 +39,6 @@ namespace SCaddins.RevisionUtilities
             Init(revision);
         }
         
-
         public RevisionItem(Revision revision)
         {
             Init(revision);

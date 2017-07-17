@@ -36,7 +36,7 @@ namespace SCaddins.LineOfSight
             txtGoing.Text = sightlines.TreadSize.ToString(CultureInfo.InvariantCulture);
             txtInc.Text = sightlines.RiserIncrement.ToString(CultureInfo.InvariantCulture);
             txtMinC.Text = sightlines.MinimumCValue.ToString(CultureInfo.InvariantCulture);
-            txtRiser.Text = sightlines.MinimumRiserHeight.ToString(CultureInfo.InvariantCulture); ;
+            txtRiser.Text = sightlines.MinimumRiserHeight.ToString(CultureInfo.InvariantCulture);
             txtRows.Text = sightlines.NumberOfRows.ToString(CultureInfo.InvariantCulture);
             txtX.Text = sightlines.DistanceToFirstRowX.ToString(CultureInfo.InvariantCulture);
             txtY.Text = sightlines.DistanceToFirstRowY.ToString(CultureInfo.InvariantCulture);

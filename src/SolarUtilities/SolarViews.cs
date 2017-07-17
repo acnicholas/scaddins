@@ -231,6 +231,7 @@ namespace SCaddins.SolarUtilities
                     sunSettings.StartDateAndTime = startTime;
                     sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
                     t.Commit();
+
                     //FIXME too many transactions here and above...
                     this.RotateView(view, doc, udoc);
                     startTime = startTime.Add(interval);

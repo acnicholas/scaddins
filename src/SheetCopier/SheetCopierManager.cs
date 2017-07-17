@@ -1,4 +1,3 @@
-
 // (C) Copyright 2014-2016 by Andrew Nicholas
 //
 // This file is part of SCaddins.
@@ -151,18 +150,18 @@ namespace SCaddins.SheetCopier
             summaryText.Clear();
             
             using (var t = new Transaction(this.doc, "Copy Sheets")) {
-            	if (t.Start() == TransactionStatus.Started) {
-            		foreach (SheetCopierSheet sheet in sheets) {
-            			n++;
-            			if (CreateAndPopulateNewSheet(sheet, summaryText) && n == 1) {
-            				firstSheetNumber = sheet.DestinationSheet.SheetNumber;
-            			}
-            		}
-            		if (TransactionStatus.Committed != t.Commit()) {
-            			TaskDialog.Show("Copy Sheets Failure", "Transaction could not be committed");
-            		} else {
-						// try to open the first sheet created
-						if (!string.IsNullOrEmpty(firstSheetNumber)) {
+                if (t.Start() == TransactionStatus.Started) {
+                    foreach (SheetCopierSheet sheet in sheets) {
+                        n++;
+                        if (CreateAndPopulateNewSheet(sheet, summaryText) && n == 1) {
+                            firstSheetNumber = sheet.DestinationSheet.SheetNumber;
+                        }
+                    }
+                    if (TransactionStatus.Committed != t.Commit()) {
+                        TaskDialog.Show("Copy Sheets Failure", "Transaction could not be committed");
+                    } else {
+                        // try to open the first sheet created
+                        if (!string.IsNullOrEmpty(firstSheetNumber)) {
                             using (var uiapp = new UIApplication(this.doc.Application)) {
                                 var titleBlockFamilyInstance = SCaddins.ExportManager.ExportManager.TitleBlockInstanceFromSheetNumber(firstSheetNumber, doc);
                                 if (titleBlockFamilyInstance != null && uiapp != null) {
@@ -170,10 +169,9 @@ namespace SCaddins.SheetCopier
                                     uidoc.ShowElements(titleBlockFamilyInstance);
                                 }
                             }
-						}
-	
-            		}
-            	}
+                        }
+                    }
+                }
             }
 
             using (var td = new TaskDialog("Copy Sheets - Summary")) {
@@ -191,6 +189,7 @@ namespace SCaddins.SheetCopier
                 string t = sourceSheet.Name + SheetCopierConstants.MenuItemCopy;
                 this.sheets.Add(new SheetCopierSheet(n, t, this, sourceSheet));
             }
+
             // FIXME add error message,
         }
         
@@ -492,7 +491,6 @@ namespace SCaddins.SheetCopier
             if (list.Count > 0) {
                 Transform transform;
                 CopyPasteOptions options;
-                // Debug.WriteLine("Beggining element copy");
                 ElementTransformUtils.CopyElements(
                     sheet.SourceSheet,
                     list,

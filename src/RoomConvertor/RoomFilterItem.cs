@@ -43,7 +43,7 @@ namespace SCaddins.RoomConvertor
 
         private static Parameter ParamFromString(Room room, string name)
         {
-            if(room.GetParameters(name).Count > 0) {
+            if (room.GetParameters(name).Count > 0) {
                 return room.GetParameters(name)[0];
             }
             return null;
@@ -51,10 +51,10 @@ namespace SCaddins.RoomConvertor
         
         private static bool ParameterValueContainsString(Parameter param, string value)
         {
-            if (!param.HasValue || string.IsNullOrWhiteSpace(value)){
+            if (!param.HasValue || string.IsNullOrWhiteSpace(value)) {
                 return false;
             }
-            switch (param.StorageType){
+            switch (param.StorageType) {
                 case StorageType.Double:
                         return false;
                 case StorageType.String:
@@ -71,26 +71,21 @@ namespace SCaddins.RoomConvertor
         private static int ParameterComparedToString(Parameter param, string value)
         {
             const int result = 441976;
-            if (!param.HasValue || string.IsNullOrWhiteSpace(value)){
+            if (!param.HasValue || string.IsNullOrWhiteSpace(value)) {
                 return result;
             }
-            switch (param.StorageType){
+            switch (param.StorageType) {
                 case StorageType.Double:
                     double parse;
-                    if (Double.TryParse(value, out parse)){
+                    if (Double.TryParse(value, out parse)) {
                         return param.AsDouble().CompareTo(parse);
                     } 
                     break;
                 case StorageType.String:
-                    //int sparse, sparse2;
-                    //if (Int32.TryParse(value, out sparse) && Int32.TryParse(param.AsValueString(), out sparse2)){
-                    //       return sparse2.CompareTo(sparse);
-                    //} else {
                     return param.AsString().Equals(value) ? 0 : result;
-                    //}
                 case StorageType.Integer:
                     int iparse;
-                    if (Int32.TryParse(value, out iparse)){
+                    if (Int32.TryParse(value, out iparse)) {
                            return param.AsInteger().CompareTo(iparse);
                     }
                     break;
@@ -105,7 +100,7 @@ namespace SCaddins.RoomConvertor
         public bool PassesFilter(Room room)
         {
             // FIXME add OR oprion one day.
-            if (lo != LogicalOperator.And){
+            if (lo != LogicalOperator.And) {
                 return false;
             }
             
@@ -144,4 +139,3 @@ namespace SCaddins.RoomConvertor
     }
 }
 /* vim: set ts=4 sw=4 nu expandtab: */
-

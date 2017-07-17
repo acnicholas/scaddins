@@ -156,7 +156,7 @@ namespace SCaddins.ExportManager
                 string ext,
                 string printerName)
         {
-            if(pm == null || vs == null) {
+            if (pm == null || vs == null) {
                 return false;
             }
             if (vs.SCPrintSetting == null) {

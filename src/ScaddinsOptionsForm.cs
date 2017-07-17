@@ -34,6 +34,5 @@ namespace SCaddins
             SCaddins.Scaddins.Default.UpgradeCheckOnStartUp = checkBox1.Checked;
             SCaddins.Scaddins.Default.Save();
         }
-
     }
 }

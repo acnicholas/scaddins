@@ -25,7 +25,7 @@ namespace SCaddins.Common
     public static class SystemUtilities
     {
         [SecurityCritical]
-        [PermissionSetAttribute(SecurityAction.LinkDemand, Name = "FullTrust")]
+        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         internal static void KillAllProcesses(string processName)
         {
             try {

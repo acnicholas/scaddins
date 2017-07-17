@@ -25,14 +25,14 @@ namespace SCaddins.Common
     internal static class ConsoleUtilities
     {
         [SecurityCritical]
-        [PermissionSetAttribute(SecurityAction.LinkDemand, Name = "FullTrust")]
+        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         internal static void StartHiddenConsoleProg(string exePath, string args)
         {
             StartHiddenConsoleProg(exePath, args, 20000);
         }
         
         [SecurityCritical]
-        [PermissionSetAttribute(SecurityAction.LinkDemand, Name = "FullTrust")]
+        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         internal static void StartHiddenConsoleProg(string exePath, string args, int waitTime)
         {
             var startInfo = new System.Diagnostics.ProcessStartInfo();

@@ -72,12 +72,14 @@ namespace SCaddins.ViewUtilities
         public static string GetNewViewName(Document doc, Element sourceView)
         { 
             if (doc == null || sourceView == null) {
+
                 // FIXME add error message here
                 return string.Empty;
             }
             string name = sourceView.Name;
+
             // Revit wont allow { or } so replace them if they exist
-            name = name.Replace(@"{","").Replace(@"}","");
+            name = name.Replace(@"{", string.Empty).Replace(@"}", string.Empty);
             name = Environment.UserName + "-" + name + "-" + MiscUtilities.GetDateString;
             if (SolarUtilities.Command.ViewNameIsAvailable(doc, name)) {
                 return name;

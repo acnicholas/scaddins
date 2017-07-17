@@ -31,6 +31,7 @@ namespace SCaddins.ExportManager
     using Autodesk.Revit.UI;
     using SCaddins.Common;
     using SCaddins.Properties;
+    using System.Security.Permissions;
 
     public class ExportManager
     {
@@ -379,8 +380,7 @@ namespace SCaddins.ExportManager
                 bool printSetttingsValid;
                 this.log.Clear();
                 this.log.Start(Resources.StartingPrint);
-                foreach (ExportSheet sheet in sheets.OrderBy(x => x.SheetNumber).ToList()) {
-                    
+                foreach (ExportSheet sheet in sheets.OrderBy(x => x.SheetNumber).ToList()) {      
                     progressBar.PerformStep();
                     elapsedTime = DateTime.Now - startTime;
                     info.Text = ExportManager.PercentageSting(progressBar.Value, progressBar.Maximum) +
@@ -485,7 +485,7 @@ namespace SCaddins.ExportManager
         }
 
         [SecurityCritical]
-        public void ExportSheets(
+        internal void ExportSheets(
             ICollection<ExportSheet> sheets,
             System.Windows.Forms.ToolStripProgressBar progressBar,
             System.Windows.Forms.ToolStripItem info,
@@ -640,6 +640,7 @@ namespace SCaddins.ExportManager
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PrinterJobControl")]
         [SecurityCritical]
+        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private static void SetAcrobatExportRegistryVal(string fileName, ExportLog log)
         {
             string exe =
@@ -655,10 +656,8 @@ namespace SCaddins.ExportManager
                     fileName,
                     Microsoft.Win32.RegistryValueKind.String);
             } catch (UnauthorizedAccessException ex) {
-                log.AddError(fileName, @"Unauthorized Access Exception: cannot write to windows registry");
                 log.AddError(fileName, ex.Message);
             } catch (SecurityException ex) {
-                log.AddError(fileName, @"Security Exception: cannot write to windows registry");
                 log.AddError(fileName, ex.Message);
             }
         }
@@ -901,6 +900,7 @@ namespace SCaddins.ExportManager
         }
 
         [SecurityCritical]
+        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private void ExportSheet(ExportSheet sheet)
         {
             if (!sheet.Verified) {
@@ -945,7 +945,7 @@ namespace SCaddins.ExportManager
             return opts;
         }
 
-        //FIXME this is nasty
+        // FIXME this is nasty
         private void ExportDWG(ExportSheet vs, bool removeTitle)
         {
             this.log.AddMessage(Environment.NewLine + Resources.MessageStartingDWGExport);
@@ -1001,6 +1001,7 @@ namespace SCaddins.ExportManager
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "sPAPERSIZE")]
         [SecurityCritical]
+        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private bool ExportGSPDF(ExportSheet vs)
         {
             this.log.AddMessage(Environment.NewLine + Resources.MessageStartingGhostscriptPDFExport);
@@ -1066,6 +1067,7 @@ namespace SCaddins.ExportManager
         }
 
         [SecurityCritical]
+        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private bool ExportAdobePDF(ExportSheet vs)
         {
             PrintManager pm = doc.PrintManager;

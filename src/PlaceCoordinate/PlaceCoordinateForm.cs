@@ -26,6 +26,5 @@ namespace SCaddins.SCoord
         {
             this.InitializeComponent();
         }
-
     }
 }

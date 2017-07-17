@@ -32,7 +32,7 @@ namespace SCaddins.ExportManager
         }
 
         [SecurityCritical]
-        public static void EditConfigFile(Document doc)
+        internal static void EditConfigFile(Document doc)
         {
             string config = ExportManager.GetConfigFileName(doc);
             if (System.IO.File.Exists(config)) {

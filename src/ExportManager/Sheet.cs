@@ -237,7 +237,6 @@ namespace SCaddins.ExportManager
                     return 2;
             }    
         }
-
         
         public static string GetScaleBarScale(Element titleBlock)
         {
@@ -443,7 +442,6 @@ namespace SCaddins.ExportManager
             this.projectNumber = document.ProjectInformation.Number;
             this.width = 841;
             this.height = 594;
-            // this.scaleValue = 
             this.scale = string.Empty;
             this.scaleBarScale = string.Empty;
             this.northPointVisible = 2;

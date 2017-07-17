@@ -88,8 +88,7 @@ namespace SCaddins.RevisionUtilities
                 excelWorkbook.Close();
             }
         }
-        
-        
+                
         public static SortableBindingListCollection<RevisionCloudItem> GetRevisionClouds(Document doc)
         {
             var revisionClouds = new SortableBindingListCollection<RevisionCloudItem>();

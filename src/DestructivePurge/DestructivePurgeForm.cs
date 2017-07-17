@@ -87,7 +87,7 @@ namespace SCaddins.SCwash
 
         private static void GreyifyNode(TreeNode node, bool grey)
         {
-            if(grey) {
+            if (grey) {
                 node.ForeColor = System.Drawing.Color.LightGray;
             } else {
                 node.ForeColor = System.Drawing.Color.Black;  
@@ -174,12 +174,18 @@ namespace SCaddins.SCwash
        
         private void GreyMultiTypeParents(SCwashTreeNode parent)
         {
-            if (parent == null) return;
+            if (parent == null) {
+                return;
+            }
             int childrenChecked = 0;
             bool childGrey = false;
-            foreach (SCwashTreeNode child in parent.Nodes){
-                if (child.Checked) childrenChecked++;
-                if (child.ForeColor == System.Drawing.Color.LightGray) childGrey = true;
+            foreach (SCwashTreeNode child in parent.Nodes) {
+                if (child.Checked) {
+                    childrenChecked++;
+                }
+                if (child.ForeColor == System.Drawing.Color.LightGray) {
+                    childGrey = true;
+                }
             }
             if (childrenChecked > 0) {
                 parent.Checked = true;
@@ -196,7 +202,7 @@ namespace SCaddins.SCwash
 
         private void TreeView1_AfterCheck(object sender, TreeViewEventArgs e)
         {
-            if(e.Action != TreeViewAction.Unknown) {
+            if (e.Action != TreeViewAction.Unknown) {
                 SCwashTreeNode tn = e.Node as SCwashTreeNode;
                 GreyifyNode(tn, false);
                 CheckAllChildNodes(tn, tn.Checked);
