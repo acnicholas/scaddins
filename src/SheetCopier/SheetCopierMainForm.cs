@@ -48,7 +48,8 @@ namespace SCaddins.SheetCopier
         
         public MainForm(
             Document doc,
-            ICollection<SCaddins.ExportManager.ExportSheet> sheets, SheetCopierManager scopy)
+            ICollection<SCaddins.ExportManager.ExportSheet> sheets,
+            SheetCopierManager scopy)
         {
             if (sheets == null) {
                 throw new ArgumentNullException("sheets");

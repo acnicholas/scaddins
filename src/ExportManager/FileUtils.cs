@@ -31,17 +31,6 @@ namespace SCaddins.ExportManager
              return System.IO.File.Exists(config);
         }
 
-        [SecurityCritical]
-        internal static void EditConfigFile(Document doc)
-        {
-            string config = ExportManager.GetConfigFileName(doc);
-            if (System.IO.File.Exists(config)) {
-                System.Diagnostics.Process.Start(SCaddins.ExportManager.Settings1.Default.TextEditor, config);
-            } else {
-                TaskDialog.Show("SCexport", "config file does not exist");
-            }
-        }
-
         public static void CreateConfigFile(Document doc)
         {
             string config = ExportManager.GetConfigFileName(doc);
@@ -172,6 +161,16 @@ namespace SCaddins.ExportManager
             }
 
             return null;
+        }
+
+        [SecurityCritical]
+        internal static void EditConfigFile(Document doc) {
+            string config = ExportManager.GetConfigFileName(doc);
+            if (System.IO.File.Exists(config)) {
+                System.Diagnostics.Process.Start(SCaddins.ExportManager.Settings1.Default.TextEditor, config);
+            } else {
+                TaskDialog.Show("SCexport", "config file does not exist");
+            }
         }
     }
 }

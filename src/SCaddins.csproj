@@ -221,7 +221,9 @@
       <DependentUpon>ConfirmDialog.resx</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="LatestRelease.cs" />
+    <Compile Include="LatestRelease.cs">
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="ParameterUtilities\EditTextParameters.cs" />
     <Compile Include="ParameterUtilities\TextCaseEnums.cs" />
     <Compile Include="ParameterUtilities\ChangeCaseInfoDialog.cs">

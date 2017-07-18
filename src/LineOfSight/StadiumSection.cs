@@ -27,23 +27,6 @@ namespace SCaddins.LineOfSight
     public class StadiumSection
     {
         private Document doc;
-
-        public double TreadSize { get; set; }
-
-        public double EyeHeight { get; set; }
-
-        public double DistanceToFirstRowX { get; set; }
-
-        public double DistanceToFirstRowY { get; set; }
-
-        public int NumberOfRows { get; set; }
-
-        public double MinimumRiserHeight { get; set; }
-
-        public double MinimumCValue { get; set; }
-
-        public double RiserIncrement { get; set; }
-
         private View view;
         private SCightLinesRow[] rows;
         private string infoString;
@@ -87,6 +70,22 @@ namespace SCaddins.LineOfSight
                 distanceToFirstRowX,
                 distanceToFirstRowY);
         }
+
+        public double TreadSize { get; set; }
+
+        public double EyeHeight { get; set; }
+
+        public double DistanceToFirstRowX { get; set; }
+
+        public double DistanceToFirstRowY { get; set; }
+
+        public int NumberOfRows { get; set; }
+
+        public double MinimumRiserHeight { get; set; }
+
+        public double MinimumCValue { get; set; }
+
+        public double RiserIncrement { get; set; }
 
         public string InfoString {
             get { return this.infoString; }

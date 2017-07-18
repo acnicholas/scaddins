@@ -174,7 +174,7 @@ namespace SCaddins.ViewUtilities
         
         private static List<ViewFamilyType> Get3DViewFamilyTypes(Document doc)
         {
-            List<ViewFamilyType> viewFamilyTypes = new List<ViewFamilyType>() ;
+            List<ViewFamilyType> viewFamilyTypes = new List<ViewFamilyType>();
             using (var collector = new FilteredElementCollector(doc)) {
                 collector.OfClass(typeof(ViewFamilyType));
                 foreach (ViewFamilyType viewFamilyType in collector) {

@@ -76,7 +76,20 @@ namespace SCaddins
                 }
             } 
         }
-        
+
+        public static PushButtonData LoadSCopy(string dll, int iconSize) {
+            var pbd = new PushButtonData(
+                              "SCopy", Resources.CopySheets, dll, "SCaddins.SheetCopier.Command");
+            if (iconSize == 16) {
+                AssignPushButtonImage(pbd, "SCaddins.Assets.scopy-rvt-16.png", 16, dll);
+            } else {
+                AssignPushButtonImage(pbd, "SheetCopier.Assets.scopy-rvt.png", 32, dll);
+            }
+            pbd.SetContextualHelp(new ContextualHelp(ContextualHelpType.Url, Constants.HelpLink));
+            pbd.ToolTip = Resources.CopySheetsToolTip;
+            return pbd;
+        }
+
         public Autodesk.Revit.UI.Result OnStartup(
             UIControlledApplication application)
         {
@@ -125,47 +138,6 @@ namespace SCaddins
             return Result.Succeeded;
         }
 
-        private static PushButtonData LoadScexport(string dll)
-        {
-            var pbd = new PushButtonData(
-                          "SCexport", Resources.SCexport, dll, "SCaddins.ExportManager.Command");
-            AssignPushButtonImage(pbd, @"SCaddins.Assets.scexport-rvt.png", 32, dll);
-            AssignPushButtonImage(pbd, @"SCaddins.Assets.scexport-rvt-16.png", 16, dll);
-            pbd.SetContextualHelp(
-                new ContextualHelp(ContextualHelpType.Url, Constants.HelpLink));
-            pbd.ToolTip = Resources.SCexportToolTip;
-            pbd.LongDescription = Resources.SCexportLongDescription;
-            return pbd;
-        }
-
-        private static PushButtonData LoadSCoord(string dll)
-        {
-            var pbd = new PushButtonData(
-                           "Scoord", Resources.PlaceCoordinate, dll, "SCaddins.SCoord.Command");
-            AssignPushButtonImage(pbd, @"SCaddins.Assets.scoord-rvt-16.png", 16, dll);
-            pbd.ToolTip = Resources.PlaceCoordinateToolTip;
-            return pbd;
-        }
-
-        private static PushButtonData LoadSCulcase(string dll)
-        {
-            var pbd = new PushButtonData(
-                           "SCulcase", Resources.ChangeCase, dll, "SCaddins.ParameterUtils.EditTextParameters");
-            AssignPushButtonImage(pbd, @"SCaddins.Assets.sculcase-rvt-16.png", 16, dll);
-            pbd.ToolTip = Resources.ChangeCaseToolTip;
-            pbd.LongDescription = Resources.ChangeCaseLongDescription;
-            return pbd;
-        }
-
-        private static PushButtonData LoadSCwash(string dll)
-        {
-            var pbd = new PushButtonData(
-                              "SCwash", Resources.DestructivePurge, dll, "SCaddins.SCwash.Command");
-            AssignPushButtonImage(pbd, "SCaddins.Assets.scwash-rvt-16.png", 16, dll);
-            pbd.ToolTip = Resources.DestructivePurgeToolTip;
-            return pbd;
-        }
-
         public static PushButtonData LoadSCaos(string dll, int iconSize)
         {
             var pbd = new PushButtonData(
@@ -180,6 +152,56 @@ namespace SCaddins
             }
             pbd.ToolTip = Resources.AngleOfSunToolTip;
             pbd.LongDescription = Resources.AngleOfSunLongDescription;
+            return pbd;
+        }
+
+        internal static RibbonPanel TryGetPanel(UIControlledApplication application, string name) {
+            if (application == null || string.IsNullOrEmpty(name)) {
+                return null;
+            }
+            List<RibbonPanel> loadedPanels = application.GetRibbonPanels();
+            foreach (RibbonPanel p in loadedPanels) {
+                if (p.Name.Equals(name)) {
+                    return p;
+                }
+            }
+            return application.CreateRibbonPanel(name);
+        }
+
+        private static PushButtonData LoadScexport(string dll) {
+            var pbd = new PushButtonData(
+                          "SCexport", Resources.SCexport, dll, "SCaddins.ExportManager.Command");
+            AssignPushButtonImage(pbd, @"SCaddins.Assets.scexport-rvt.png", 32, dll);
+            AssignPushButtonImage(pbd, @"SCaddins.Assets.scexport-rvt-16.png", 16, dll);
+            pbd.SetContextualHelp(
+                new ContextualHelp(ContextualHelpType.Url, Constants.HelpLink));
+            pbd.ToolTip = Resources.SCexportToolTip;
+            pbd.LongDescription = Resources.SCexportLongDescription;
+            return pbd;
+        }
+
+        private static PushButtonData LoadSCoord(string dll) {
+            var pbd = new PushButtonData(
+                           "Scoord", Resources.PlaceCoordinate, dll, "SCaddins.SCoord.Command");
+            AssignPushButtonImage(pbd, @"SCaddins.Assets.scoord-rvt-16.png", 16, dll);
+            pbd.ToolTip = Resources.PlaceCoordinateToolTip;
+            return pbd;
+        }
+
+        private static PushButtonData LoadSCulcase(string dll) {
+            var pbd = new PushButtonData(
+                           "SCulcase", Resources.ChangeCase, dll, "SCaddins.ParameterUtils.EditTextParameters");
+            AssignPushButtonImage(pbd, @"SCaddins.Assets.sculcase-rvt-16.png", 16, dll);
+            pbd.ToolTip = Resources.ChangeCaseToolTip;
+            pbd.LongDescription = Resources.ChangeCaseLongDescription;
+            return pbd;
+        }
+
+        private static PushButtonData LoadSCwash(string dll) {
+            var pbd = new PushButtonData(
+                              "SCwash", Resources.DestructivePurge, dll, "SCaddins.SCwash.Command");
+            AssignPushButtonImage(pbd, "SCaddins.Assets.scwash-rvt-16.png", 16, dll);
+            pbd.ToolTip = Resources.DestructivePurgeToolTip;
             return pbd;
         }
 
@@ -264,21 +286,7 @@ namespace SCaddins
             return pbd;
         }
 
-        public static PushButtonData LoadSCopy(string dll, int iconSize)
-        {
-            var pbd = new PushButtonData(
-                              "SCopy", Resources.CopySheets, dll, "SCaddins.SheetCopier.Command");
-            if (iconSize == 16) {
-                AssignPushButtonImage(pbd, "SCaddins.Assets.scopy-rvt-16.png", 16, dll);
-            } else {
-                AssignPushButtonImage(pbd, "SheetCopier.Assets.scopy-rvt.png", 32, dll);    
-            }
-            pbd.SetContextualHelp(new ContextualHelp(ContextualHelpType.Url, Constants.HelpLink));
-            pbd.ToolTip = Resources.CopySheetsToolTip;
-            return pbd;
-        }
-
-        public static void AssignPushButtonImage(ButtonData pushButtonData, string iconName, int size, string dll)
+        private static void AssignPushButtonImage(ButtonData pushButtonData, string iconName, int size, string dll)
         {
             if (size == -1) {
                 size = 32;
@@ -293,35 +301,21 @@ namespace SCaddins
             }
         }
 
-        //from https://github.com/WeConnect/issue-tracker/blob/master/Case.IssueTracker.Revit/Entry/AppMain.cs
+        // from https://github.com/WeConnect/issue-tracker/blob/master/Case.IssueTracker.Revit/Entry/AppMain.cs
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.Reflection.Assembly.LoadFrom")]
-        public static ImageSource LoadPNGImageSource(string sourceName, string path)
+        private static ImageSource LoadPNGImageSource(string sourceName, string path)
         {
             try {
                 Assembly m_assembly = Assembly.LoadFrom(Path.Combine(path));
                 Stream m_icon = m_assembly.GetManifestResourceStream(sourceName);
                 PngBitmapDecoder m_decoder = new PngBitmapDecoder(m_icon, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
                 ImageSource m_source = m_decoder.Frames[0];
-                return (m_source);
+                return m_source;
             } catch (Exception ex) {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 return null;
             }
-        }
-
-        public static RibbonPanel TryGetPanel(UIControlledApplication application, string name)
-        {
-            if (application == null || string.IsNullOrEmpty(name)) {
-                return null;
-            }
-            List<RibbonPanel> loadedPanels = application.GetRibbonPanels();
-            foreach (RibbonPanel p in loadedPanels) {
-                if (p.Name.Equals(name)) {
-                    return p;
-                }
-            }
-            return application.CreateRibbonPanel(name);
         }
     }
 }

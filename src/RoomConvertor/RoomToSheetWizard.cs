@@ -1,15 +1,15 @@
-﻿using System;
-using Autodesk.Revit.UI;
-using System.Globalization;
-
-namespace SCaddins.RoomConvertor
+﻿namespace SCaddins.RoomConvertor
 {
+    using System;
+    using Autodesk.Revit.UI;
+    using System.Globalization;
+
     /// <summary>
     /// Description of RoomToSheetWizard.
     /// </summary>
     public partial class RoomToSheetWizard : System.Windows.Forms.Form
     {
-        RoomConversionManager roomConversionManager;
+        private RoomConversionManager roomConversionManager;
         
         public RoomToSheetWizard(RoomConversionManager roomConversionManager)
         {

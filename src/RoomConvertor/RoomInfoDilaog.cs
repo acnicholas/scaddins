@@ -15,15 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Windows.Forms;
-using Autodesk.Revit.DB.Architecture;
-using Autodesk.Revit.DB;
-using System.Globalization;
-using SCaddins.Properties;
-
 namespace SCaddins.RoomConvertor
 {
+    using System.Globalization;
+    using System.Windows.Forms;
+    using Autodesk.Revit.DB.Architecture;
+    using Autodesk.Revit.DB;
+    using SCaddins.Properties;
+
     public partial class RoomInfoDialog : System.Windows.Forms.Form
     {
         public RoomInfoDialog()
@@ -48,7 +47,7 @@ namespace SCaddins.RoomConvertor
             this.listView1.Items.Clear();
             foreach (Parameter p in room.Parameters) {  
                 if (p.StorageType != StorageType.ElementId && p.StorageType != StorageType.None) {
-                    listView1.Items.Add(new ListViewItem(new string[] {p.Definition.Name, GetParamValueAsString(p), p.StorageType.ToString()}));
+                    listView1.Items.Add(new ListViewItem(new string[] { p.Definition.Name, GetParamValueAsString(p), p.StorageType.ToString() }));
                 }
             }
         }

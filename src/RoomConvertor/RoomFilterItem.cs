@@ -23,10 +23,10 @@ namespace SCaddins.RoomConvertor
 
     public class RoomFilterItem
     {
-       LogicalOperator lo;
-       ComparisonOperator co;
-       string parameterName;
-       string test;
+       private LogicalOperator lo;
+       private ComparisonOperator co;
+       private string parameterName;
+       private string test;
 
         public RoomFilterItem(string lo, string co, string parameter, string test)
         {
@@ -77,7 +77,7 @@ namespace SCaddins.RoomConvertor
             switch (param.StorageType) {
                 case StorageType.Double:
                     double parse;
-                    if (Double.TryParse(value, out parse)) {
+                    if (double.TryParse(value, out parse)) {
                         return param.AsDouble().CompareTo(parse);
                     } 
                     break;
@@ -85,7 +85,7 @@ namespace SCaddins.RoomConvertor
                     return param.AsString().Equals(value) ? 0 : result;
                 case StorageType.Integer:
                     int iparse;
-                    if (Int32.TryParse(value, out iparse)) {
+                    if (int.TryParse(value, out iparse)) {
                            return param.AsInteger().CompareTo(iparse);
                     }
                     break;
@@ -109,14 +109,6 @@ namespace SCaddins.RoomConvertor
                 return false;
             }
             
-            //if (this.parameterName == "Level") {
-            //    Document doc = room.Document;
-            //    var test = param.AsValueString();
-            //    Autodesk.Revit.UI.TaskDialog.Show("Level Check", this.parameterName + " - " + test);
-            //    return true;
-            //    //return ParameterEqualsLevel(test, room);
-            //}
-
             if (co == ComparisonOperator.Contains) {
                 return ParameterValueContainsString(param, test);
             }

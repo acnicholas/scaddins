@@ -45,7 +45,7 @@ namespace SCaddins.RoomConvertor
                 room = collector.FirstElement() as Room;
             }
             
-            var s = new List<String>();
+            var s = new List<string>();
             foreach (Parameter p in room.Parameters) {  
                 // don't add ElementID values yet (too much effort)
                 if (p.StorageType != StorageType.ElementId && p.StorageType != StorageType.None) {
@@ -79,8 +79,20 @@ namespace SCaddins.RoomConvertor
             comboBoxLO6.DataSource = Enum.GetValues(typeof(LogicalOperator));
             comboBoxLO7.DataSource = Enum.GetValues(typeof(LogicalOperator));
         }
-        
-        void ButtonOKClick(object sender, EventArgs e)
+
+        public void Clear() {
+            filter.Clear();
+            foreach (System.Windows.Forms.Control c in this.Controls) {
+                if (c is System.Windows.Forms.TextBox) {
+                    ((System.Windows.Forms.TextBox)c).Text = string.Empty;
+                }
+                if (c is System.Windows.Forms.ComboBox) {
+                    ((System.Windows.Forms.ComboBox)c).Text = string.Empty;
+                }
+            }
+        }
+
+        private void ButtonOKClick(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(comboBoxP1.Text) && !string.IsNullOrWhiteSpace(textBox1.Text)) {
                 var item = new RoomFilterItem("And", comboBoxCO1.Text, comboBoxP1.Text, textBox1.Text);
@@ -111,26 +123,13 @@ namespace SCaddins.RoomConvertor
                 filter.AddFilterItem(item);
             }
         }
-        
-        public void Clear()
-        {
-            filter.Clear();
-            foreach (System.Windows.Forms.Control c in this.Controls) {
-                if (c is System.Windows.Forms.TextBox) {
-                    ((System.Windows.Forms.TextBox)c).Text = string.Empty;
-                }
-                if (c is System.Windows.Forms.ComboBox) {
-                   ((System.Windows.Forms.ComboBox)c).Text = string.Empty;
-                }
-            }    
-        }
-                
-        void ButtonResetClick(object sender, EventArgs e)
+            
+        private void ButtonResetClick(object sender, EventArgs e)
         {
             Clear();
         }
         
-        void ButtonApplyClick(object sender, EventArgs e)
+        private void ButtonApplyClick(object sender, EventArgs e)
         {
             ButtonOKClick(sender, e);
         }

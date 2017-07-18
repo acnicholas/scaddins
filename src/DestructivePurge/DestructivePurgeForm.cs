@@ -53,6 +53,14 @@ namespace SCaddins.SCwash
             }
         }
 
+        private static void GreyifyNode(TreeNode node, bool grey) {
+            if (grey) {
+                node.ForeColor = System.Drawing.Color.LightGray;
+            } else {
+                node.ForeColor = System.Drawing.Color.Black;
+            }
+        }
+
         private void CheckAllChildNodes(TreeNode treeNode, bool nodeChecked)
         {
             foreach (TreeNode node in treeNode.Nodes) {
@@ -83,15 +91,6 @@ namespace SCaddins.SCwash
             treeView1.Nodes[5].Nodes.AddRange(SCwashUtilities.Images(this.doc).ToArray<TreeNode>());
             treeView1.Nodes[6].Nodes.AddRange(SCwashUtilities.UnboundRooms(this.doc).ToArray<TreeNode>());
             treeView1.Nodes[7].Nodes.AddRange(SCwashUtilities.Revisions(this.doc).ToArray<TreeNode>());
-        }
-
-        private static void GreyifyNode(TreeNode node, bool grey)
-        {
-            if (grey) {
-                node.ForeColor = System.Drawing.Color.LightGray;
-            } else {
-                node.ForeColor = System.Drawing.Color.Black;  
-            }
         }
 
         private void TreeView1_AfterSelect(object sender, TreeViewEventArgs e)

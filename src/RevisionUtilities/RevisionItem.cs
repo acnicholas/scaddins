@@ -26,9 +26,8 @@ namespace SCaddins.RevisionUtilities
         private string date;
         private bool issued;
         private int sequence;
-        
-        public RevisionItem(Document doc, RevisionCloud revisionCloud)
-        {
+
+        public RevisionItem(Document doc, RevisionCloud revisionCloud) {
             if (revisionCloud == null) {
                 throw new ArgumentNullException("revisionCloud");
             }
@@ -38,39 +37,43 @@ namespace SCaddins.RevisionUtilities
             var revision = doc.GetElement(revisionCloud.RevisionId);
             Init(revision);
         }
-        
-        public RevisionItem(Revision revision)
-        {
+
+        public RevisionItem(Revision revision) {
             Init(revision);
         }
-     
+
+        public bool Export
+        {
+            get;
+            set;
+        }
+
+        public string Description
+        {
+            get { return this.description; }
+        }
+
+        public string Date
+        {
+            get { return this.date; }
+        }
+
+        public int Sequence
+        {
+            get { return this.sequence; }
+        }
+
+        public bool Issued
+        {
+            get { return this.issued; }
+        }
+          
         private void Init(Element revision)
         {
             this.description = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
             this.date = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString();
             this.issued = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_ISSUED).AsInteger() == 1;
             this.sequence = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger();    
-        }
-
-        public bool Export {
-            get;
-            set;
-        }
-
-        public string Description {
-            get { return this.description; }
-        }
-
-        public string Date {
-            get { return this.date; }
-        }
-       
-        public int Sequence {
-            get { return this.sequence; }
-        }
-        
-        public bool Issued {
-            get { return this.issued; }
         }
     }
 }

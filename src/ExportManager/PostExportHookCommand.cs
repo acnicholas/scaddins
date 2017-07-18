@@ -64,14 +64,6 @@ namespace SCaddins.ExportManager
             return result;
         }
 
-        internal void Run(ExportSheet sheet, string extension)
-        {
-            string a = FormatConfigurationString(sheet, this.args, extension);
-            if (!string.IsNullOrEmpty(a)) {
-                Common.ConsoleUtilities.StartHiddenConsoleProg(this.cmd, a);
-            }
-        }
-
         public void SetCommand(string command)
         {
             this.cmd = command;
@@ -110,6 +102,13 @@ namespace SCaddins.ExportManager
                 s += fne + System.Environment.NewLine;
             }
             return s;
+        }
+
+        internal void Run(ExportSheet sheet, string extension) {
+            string a = FormatConfigurationString(sheet, this.args, extension);
+            if (!string.IsNullOrEmpty(a)) {
+                Common.ConsoleUtilities.StartHiddenConsoleProg(this.cmd, a);
+            }
         }
     }
 }

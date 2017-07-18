@@ -22,8 +22,8 @@ namespace SCaddins.SheetCopier
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Globalization;
-    using System.Text;
     using System.Linq;
+    using System.Text;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     
@@ -260,18 +260,6 @@ namespace SCaddins.SheetCopier
             }
         }
 
-        private void GetFloorPlanViewFamilyTypeId()
-        {
-            using (var collector = new FilteredElementCollector(this.doc)) {
-                collector.OfClass(typeof(ViewFamilyType));
-                foreach (ViewFamilyType vft in collector) {
-                    if (vft.ViewFamily == ViewFamily.FloorPlan) {
-                        this.floorPlanViewFamilyTypeId = vft.Id;
-                    }
-                }
-            }
-        }
-        
         public static void GetAllViewsInModel(Dictionary<string, View> existingViews, Document doc)
         {
             if (existingViews == null) {
@@ -290,17 +278,6 @@ namespace SCaddins.SheetCopier
                     if (!existingViews.TryGetValue(view.Name, out tmpView)) {
                         existingViews.Add(view.Name, view);
                     }
-                }
-            }
-        }
-
-        private void GetAllLevelsInModel()
-        {
-            this.levels.Clear();
-            using (var collector = new FilteredElementCollector(this.doc)) {
-                collector.OfClass(typeof(Level));
-                foreach (Element element in collector) {
-                    this.levels.Add(element.Name.ToString(), element as Level);
                 }
             }
         }
@@ -347,7 +324,28 @@ namespace SCaddins.SheetCopier
 
             return true;
         }
-    
+
+        private void GetFloorPlanViewFamilyTypeId() {
+            using (var collector = new FilteredElementCollector(this.doc)) {
+                collector.OfClass(typeof(ViewFamilyType));
+                foreach (ViewFamilyType vft in collector) {
+                    if (vft.ViewFamily == ViewFamily.FloorPlan) {
+                        this.floorPlanViewFamilyTypeId = vft.Id;
+                    }
+                }
+            }
+        }
+
+        private void GetAllLevelsInModel() {
+            this.levels.Clear();
+            using (var collector = new FilteredElementCollector(this.doc)) {
+                collector.OfClass(typeof(Level));
+                foreach (Element element in collector) {
+                    this.levels.Add(element.Name.ToString(), element as Level);
+                }
+            }
+        }
+
         // add an empty sheet to the doc.
         // this comes first before copying titleblock, views etc.
         private ViewSheet AddEmptySheetToDocument(

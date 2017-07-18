@@ -723,11 +723,11 @@ namespace SCaddins.ExportManager
             Refresh();   
             SetUpPBar(NumberOfSelectedViews());
             scx.Print(SelectedSheets(),
-                           printerName,
-                           scale,
-                           progressBar,
-                           progressInfo,
-                           statusStrip1);   
+                printerName,
+                scale,
+                progressBar,
+                progressInfo,
+                statusStrip1);   
             Close();  // end SCexport     
         }
 

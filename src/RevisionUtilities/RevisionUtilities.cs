@@ -21,12 +21,12 @@ namespace SCaddins.RevisionUtilities
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.Reflection;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Microsoft.Office.Interop.Excel;
     using SCaddins.Common;
-    using System.Globalization;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]

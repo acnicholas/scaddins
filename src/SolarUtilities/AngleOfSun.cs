@@ -19,9 +19,7 @@
 namespace SCaddins
 {
     using System;
-    using System.Linq;
     using System.Reflection;
-    using SCaddins;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.UI;
 

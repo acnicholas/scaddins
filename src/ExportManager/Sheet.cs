@@ -169,11 +169,13 @@ namespace SCaddins.ExportManager
         
         public string NorthPointVisible
         {
-            get { 
-                if (northPointVisible == 1)
+            get {
+                if (northPointVisible == 1) {
                     return "Yes";
-                if (northPointVisible == 0)
+                }
+                if (northPointVisible == 0) {
                     return "No";
+                }
                 return "-";
             }
         }
@@ -339,7 +341,9 @@ namespace SCaddins.ExportManager
                 }
                 Parameter p = tb[0];
                 int b = p.AsInteger();
-                if (b == 2) return;
+                if (b == 2) {
+                    return;
+                }
                 b = b == 1 ? 0 : 1;
                 p.Set(b);
                 this.northPointVisible = b;                 

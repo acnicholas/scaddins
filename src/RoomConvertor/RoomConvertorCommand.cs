@@ -17,9 +17,9 @@
 
 namespace SCaddins.RoomConvertor
 {
+    using System;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using System;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]

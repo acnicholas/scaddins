@@ -79,7 +79,7 @@ namespace SCaddins.SolarUtilities
             return Autodesk.Revit.UI.Result.Succeeded;
         }
 
-        //FIXME put this somewhere else.
+        // FIXME put this somewhere else.
         public static bool ViewNameIsAvailable(Document doc, string name)
         {
             using (var c = new FilteredElementCollector(doc)) {
@@ -94,34 +94,12 @@ namespace SCaddins.SolarUtilities
             return true;
         }
 
-        private string[] GetViewInfo(View view)
-        {
-            if (view.ViewType != ViewType.ThreeD) {
-                var info = new string[4];
-                info[0] = "Not a 3d view...";
-                info[1] = string.Empty;
-                info[2] = "Please select a 3d view to rotate";
-                info[3] = "or use the create winter views feature";
-                this.currentViewIsIso = false;
-                return info;
+        // FIXME this can go in a utiliy class.
+        public static string GetNiceViewName(Document doc, string request) {
+            if (ViewNameIsAvailable(doc, request)) {
+                return request;
             } else {
-                this.currentViewIsIso = true;
-                SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
-                double frame = sunSettings.ActiveFrame;
-                double azimuth = sunSettings.GetFrameAzimuth(frame);
-                double altitude = sunSettings.GetFrameAltitude(frame);
-                azimuth += this.position.Angle;
-                double azdeg = azimuth * 180 / System.Math.PI;
-                double altdeg = altitude * 180 / System.Math.PI;
-                var info = new string[7];
-                info[0] = view.Name;
-                info[1] = "Date - " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongDateString();
-                info[2] = "Time - " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongTimeString();
-                info[3] = "Sunrise - " + sunSettings.GetSunrise(sunSettings.ActiveFrameTime).ToLocalTime().ToLongTimeString();
-                info[4] = "Sunset - " + sunSettings.GetSunset(sunSettings.ActiveFrameTime).ToLocalTime().ToLongTimeString();
-                info[5] = "Sun Altitude - " + altdeg.ToString(CultureInfo.InvariantCulture);
-                info[6] = "Sun Azimuth - " + azdeg.ToString(CultureInfo.InvariantCulture);
-                return info;
+                return request + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";
             }
         }
 
@@ -154,16 +132,6 @@ namespace SCaddins.SolarUtilities
                 }
             }
             return highestId;
-        }
-
-        // FIXME this can go in a utiliy class.
-        public static string GetNiceViewName(Document doc, string request)
-        {
-            if (ViewNameIsAvailable(doc, request)) {
-                return request;
-            } else {
-               return request + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";
-            }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
@@ -201,6 +169,36 @@ namespace SCaddins.SolarUtilities
             }
         }
 
+        private string[] GetViewInfo(View view) {
+            if (view.ViewType != ViewType.ThreeD) {
+                var info = new string[4];
+                info[0] = "Not a 3d view...";
+                info[1] = string.Empty;
+                info[2] = "Please select a 3d view to rotate";
+                info[3] = "or use the create winter views feature";
+                this.currentViewIsIso = false;
+                return info;
+            } else {
+                this.currentViewIsIso = true;
+                SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
+                double frame = sunSettings.ActiveFrame;
+                double azimuth = sunSettings.GetFrameAzimuth(frame);
+                double altitude = sunSettings.GetFrameAltitude(frame);
+                azimuth += this.position.Angle;
+                double azdeg = azimuth * 180 / System.Math.PI;
+                double altdeg = altitude * 180 / System.Math.PI;
+                var info = new string[7];
+                info[0] = view.Name;
+                info[1] = "Date - " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongDateString();
+                info[2] = "Time - " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongTimeString();
+                info[3] = "Sunrise - " + sunSettings.GetSunrise(sunSettings.ActiveFrameTime).ToLocalTime().ToLongTimeString();
+                info[4] = "Sunset - " + sunSettings.GetSunset(sunSettings.ActiveFrameTime).ToLocalTime().ToLongTimeString();
+                info[5] = "Sun Altitude - " + altdeg.ToString(CultureInfo.InvariantCulture);
+                info[6] = "Sun Azimuth - " + azdeg.ToString(CultureInfo.InvariantCulture);
+                return info;
+            }
+        }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private void CreateWinterViews(
             Document doc,
@@ -232,7 +230,7 @@ namespace SCaddins.SolarUtilities
                     sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
                     t.Commit();
 
-                    //FIXME too many transactions here and above...
+                    // FIXME too many transactions here and above...
                     this.RotateView(view, doc, udoc);
                     startTime = startTime.Add(interval);
                 }

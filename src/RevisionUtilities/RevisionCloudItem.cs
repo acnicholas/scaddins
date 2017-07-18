@@ -17,8 +17,8 @@
 
 namespace SCaddins.RevisionUtilities
 {
-    using Autodesk.Revit.DB;
     using System.Linq;
+    using Autodesk.Revit.DB;
     
     public class RevisionCloudItem : RevisionItem
     {
@@ -73,7 +73,7 @@ namespace SCaddins.RevisionUtilities
 
         public void SetCloudId(ElementId revisionId)
         {
-            cloud.RevisionId = revisionId;;
+            cloud.RevisionId = revisionId;
         }
 
         private string GetHostViewName(Document doc)

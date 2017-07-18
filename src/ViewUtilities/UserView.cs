@@ -72,8 +72,6 @@ namespace SCaddins.ViewUtilities
         public static string GetNewViewName(Document doc, Element sourceView)
         { 
             if (doc == null || sourceView == null) {
-
-                // FIXME add error message here
                 return string.Empty;
             }
             string name = sourceView.Name;

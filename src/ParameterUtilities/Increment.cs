@@ -17,8 +17,8 @@ namespace SCaddins.ParameterUtils
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
     using System.Globalization;
+    using System.Linq;
     using System.Text.RegularExpressions;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;

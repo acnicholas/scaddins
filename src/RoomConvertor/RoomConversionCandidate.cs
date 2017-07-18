@@ -20,10 +20,9 @@ namespace SCaddins.RoomConvertor
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq;
+    using System.Globalization;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
-    using System.Globalization;
 
     public class RoomConversionCandidate : INotifyPropertyChanged
     {

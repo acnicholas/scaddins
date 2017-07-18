@@ -38,8 +38,33 @@ namespace SCaddins.RoomConvertor
         private Document doc;
         private SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> candidates;
 
+        public RoomConversionManager(Document doc) {
+            candidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();
+            this.allCandidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();
+            this.doc = doc;
+            this.titleBlocks = GetAllTitleBlockTypes(this.doc);
+            this.TitleBlockId = ElementId.InvalidElementId;
+            this.Scale = 50;
+            SheetCopier.SheetCopierManager.GetAllSheets(existingSheets, this.doc);
+            SheetCopier.SheetCopierManager.GetAllViewsInModel(existingViews, this.doc);
+            using (var collector = new FilteredElementCollector(this.doc)) {
+                collector.OfClass(typeof(SpatialElement));
+                foreach (Element e in collector) {
+                    if (e.IsValidObject && (e is Room)) {
+                        Room room = e as Room;
+                        if (room.Area > 0 && room.Location != null) {
+                            allCandidates.Add(new RoomConversionCandidate(room, existingSheets, existingViews));
+                        }
+                    }
+                }
+            }
+
+            // Initially add all canditates.
+            this.Reset();
+        }
+
         public SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> Candidates {
-            get{ return candidates; }
+            get { return candidates; }
         }
 
         public Document Doc {
@@ -59,31 +84,6 @@ namespace SCaddins.RoomConvertor
         public int Scale
         {
             get; set;
-        }
-
-        public RoomConversionManager(Document doc) {
-            candidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();
-            this.allCandidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();
-            this.doc = doc;
-            this.titleBlocks = GetAllTitleBlockTypes(this.doc);
-            this.TitleBlockId = ElementId.InvalidElementId;
-            this.Scale = 50;
-            SheetCopier.SheetCopierManager.GetAllSheets(existingSheets, this.doc);
-            SheetCopier.SheetCopierManager.GetAllViewsInModel(existingViews, this.doc);
-            using (var collector = new FilteredElementCollector(this.doc)) { 
-                collector.OfClass(typeof(SpatialElement));
-                foreach (Element e in collector) {
-                    if (e.IsValidObject && (e is Room)) {
-                        Room room = e as Room;
-                        if (room.Area > 0 && room.Location != null) {
-                            allCandidates.Add(new RoomConversionCandidate(room, existingSheets, existingViews));
-                        }
-                    }
-                }
-            }
-
-            // Initially add all canditates.
-            this.Reset();
         }
 
         public void CreateViewsAndSheets(
@@ -146,10 +146,7 @@ namespace SCaddins.RoomConvertor
                     t.Commit();
                 }
             }
-            Autodesk.Revit.UI.TaskDialog.Show(
-                        "Rooms To Masses",
-                        (roomCount - errCount) + " Room masses created with " + errCount + " errors."
-                        );
+            Autodesk.Revit.UI.TaskDialog.Show("Rooms To Masses", (roomCount - errCount) + " Room masses created with " + errCount + " errors.");
         }
 
         public void Reset()
@@ -160,25 +157,61 @@ namespace SCaddins.RoomConvertor
             }
         }
 
-        private static void CopyAllMassParametersToRooms(Element host, Room  dest)
+        public void SynchronizeMassesToRooms() {
+            using (var collector = new FilteredElementCollector(doc))
+            using (var t = new Transaction(doc, "Synchronize Masses to Rooms")) {
+                collector.OfCategory(BuiltInCategory.OST_Mass);
+                collector.OfClass(typeof(DirectShape));
+                t.Start();
+                int i = 0;
+                foreach (Element e in collector) {
+                    Parameter p = e.LookupParameter("RoomId");
+                    i++;
+                    int intId = p.AsInteger();
+                    if (intId > 0) {
+                        ElementId id = new ElementId(intId);
+                        Element room = doc.GetElement(id);
+                        if (room != null) {
+                            CopyAllMassParametersToRooms(e, (Room)room);
+                        }
+                    }
+                }
+
+                Autodesk.Revit.UI.TaskDialog.Show("Synchronize Masses to Rooms", i + " masses synchronized");
+                t.Commit();
+            }
+        }
+
+        private static ElementId GetFloorPlanViewFamilyTypeId(Document doc) {
+            using (var collector = new FilteredElementCollector(doc)) {
+                foreach (ViewFamilyType vft in collector.OfClass(typeof(ViewFamilyType))) {
+                    if (vft.ViewFamily == ViewFamily.FloorPlan) {
+                        return vft.Id;
+                    }
+                }
+                return null;
+            }
+        }
+
+        private static void CopyAllMassParametersToRooms(Element host, Room dest)
         {
             Parameter name = host.LookupParameter("Name");
-            if (name != null &&  name.StorageType == StorageType.String) {
+            if (name != null && name.StorageType == StorageType.String) {
                 dest.Name = name.AsString();
             }
 
             Parameter number = host.LookupParameter("Number");
-            if (number != null &&  number.StorageType == StorageType.String){
+            if (number != null && number.StorageType == StorageType.String) {
                 dest.Number = number.AsString();
             }
 
             CopyAllParameters(host, dest);
         }
 
-        private static void CopyAllRoomParametersToMasses(Element host, Element  dest)
+        private static void CopyAllRoomParametersToMasses(Element host, Element dest)
         {
             Parameter paramRoomId = dest.LookupParameter("RoomId");
-            if (paramRoomId != null &&  paramRoomId.StorageType == StorageType.Integer) {
+            if (paramRoomId != null && paramRoomId.StorageType == StorageType.Integer) {
                 paramRoomId.Set(host.Id.IntegerValue);
             }
 
@@ -187,7 +220,9 @@ namespace SCaddins.RoomConvertor
 
         private static bool ValidElements(Element host, Element dest)
         {
-            if (host == null || dest == null) return false;
+            if (host == null || dest == null) {
+                return false;
+            }
             if (!host.IsValidObject || !dest.IsValidObject) {
                 return false;
             }
@@ -231,30 +266,25 @@ namespace SCaddins.RoomConvertor
             }
         }
 
-        public void SynchronizeMassesToRooms()
-        {
-            using (var collector = new FilteredElementCollector(doc))
-            using (var t = new Transaction(doc, "Synchronize Masses to Rooms")) {
-                collector.OfCategory(BuiltInCategory.OST_Mass);
-                collector.OfClass(typeof(DirectShape));
-                t.Start();
-                int i = 0;
-                foreach (Element e in collector) {
-                    Parameter p = e.LookupParameter("RoomId");
-                    i++;
-                    int intId = p.AsInteger();
-                    if (intId > 0) {
-                        ElementId id = new ElementId(intId);
-                        Element room = doc.GetElement(id);
-                        if (room != null) {
-                            CopyAllMassParametersToRooms(e, (Room)room);
-                        }
-                    }
-                }
+        private static XYZ CentreOfSheet(ViewSheet sheet, Document doc) {
+            FilteredElementCollector c = new FilteredElementCollector(doc, sheet.Id);
+            c.OfCategory(BuiltInCategory.OST_TitleBlocks);
+            foreach (Element e in c) {
+                BoundingBoxXYZ b = e.get_BoundingBox(sheet);
+                double x = b.Min.X + ((b.Max.X - b.Min.X) / 2);
+                double y = b.Min.Y + ((b.Max.Y - b.Min.Y) / 2);
+                return new XYZ(x, y, 0);
+            }
+            return new XYZ(0, 0, 0);
+        }
 
-                Autodesk.Revit.UI.TaskDialog.Show("Synchronize Masses to Rooms", i + " masses synchronized");
-                t.Commit();
-            }    
+        private static BoundingBoxXYZ CreateOffsetBoundingBox(double offset, BoundingBoxXYZ origBox) {
+            XYZ min = new XYZ(origBox.Min.X - offset, origBox.Min.Y - offset, origBox.Min.Z);
+            XYZ max = new XYZ(origBox.Max.X + offset, origBox.Max.Y + offset, origBox.Max.Z);
+            BoundingBoxXYZ result = new BoundingBoxXYZ();
+            result.Min = min;
+            result.Max = max;
+            return result;
         }
 
         private bool CreateRoomMass(Room room)
@@ -311,41 +341,6 @@ namespace SCaddins.RoomConvertor
 
             // FIXME - To set an empty view title - so far this seems to work with the standard revit template...
             vp.ChangeTypeId(vp.GetValidTypes().Last());
-        }
-
-        private static ElementId GetFloorPlanViewFamilyTypeId(Document doc)
-        {
-            using (var collector = new FilteredElementCollector(doc)) {
-                foreach (ViewFamilyType vft in collector.OfClass(typeof(ViewFamilyType))) {
-                    if (vft.ViewFamily == ViewFamily.FloorPlan) {
-                        return vft.Id;
-                    }
-                }
-                return null;
-            }
-        }
-
-        private static XYZ CentreOfSheet(ViewSheet sheet, Document doc)
-        {
-            FilteredElementCollector c = new FilteredElementCollector(doc, sheet.Id);
-            c.OfCategory(BuiltInCategory.OST_TitleBlocks);
-            foreach (Element e in c) {
-                BoundingBoxXYZ b = e.get_BoundingBox(sheet);
-                double x = b.Min.X + ((b.Max.X - b.Min.X) / 2);
-                double y = b.Min.Y + ((b.Max.Y - b.Min.Y) / 2);
-                return new XYZ(x, y, 0);
-            }
-            return new XYZ(0, 0, 0);
-        }
-
-        private static BoundingBoxXYZ CreateOffsetBoundingBox(double offset, BoundingBoxXYZ origBox)
-        {
-            XYZ min = new XYZ(origBox.Min.X - offset, origBox.Min.Y - offset, origBox.Min.Z);
-            XYZ max = new XYZ(origBox.Max.X + offset, origBox.Max.Y + offset, origBox.Max.Z);
-            BoundingBoxXYZ result = new BoundingBoxXYZ();
-            result.Min = min;
-            result.Max = max;
-            return result;
         }
     }
 }

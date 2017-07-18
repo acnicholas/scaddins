@@ -25,13 +25,13 @@ namespace SCaddins.ExportManager
     using System.IO;
     using System.Linq;
     using System.Security;
+    using System.Security.Permissions;
     using System.Xml;
     using System.Xml.Schema;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using SCaddins.Common;
     using SCaddins.Properties;
-    using System.Security.Permissions;
 
     public class ExportManager
     {
@@ -484,45 +484,6 @@ namespace SCaddins.ExportManager
             return i * sheets.Count;
         }
 
-        [SecurityCritical]
-        internal void ExportSheets(
-            ICollection<ExportSheet> sheets,
-            System.Windows.Forms.ToolStripProgressBar progressBar,
-            System.Windows.Forms.ToolStripItem info,
-            System.Windows.Forms.Control strip)
-        {
-            if (progressBar == null || info == null || strip == null || sheets == null) {
-                return;
-            }
-
-            DateTime startTime = DateTime.Now;
-            TimeSpan elapsedTime = DateTime.Now - startTime;
-            PrintManager pm = doc.PrintManager;
-            PrintSettings.SetPrinterByName(doc, this.PdfPrinterName, pm);
-            this.log.Clear();
-            this.log.TotalExports = progressBar.Maximum;
-            this.log.Start(Resources.ExportStarted);
-
-            foreach (ExportSheet sheet in sheets) {
-                progressBar.PerformStep();
-                elapsedTime = DateTime.Now - startTime;
-                info.Text = ExportManager.PercentageSting(progressBar.Value, progressBar.Maximum) +
-                    Resources.SpacerHyphen + ExportManager.TimeSpanAsString(elapsedTime);
-                strip.Update();
-                this.ExportSheet(sheet);
-            }
-            
-            this.log.Stop(Resources.ExportComplete);
-
-            #if DEBUG
-            this.log.ShowSummaryDialog();
-            #else
-            if (this.log.Errors > 0 || this.ShowExportLog) {
-                this.log.ShowSummaryDialog();
-            }
-            #endif
-        }
-
         public bool GSSanityCheck()
         {
             if (!Directory.Exists(this.GhostscriptBinDirectory) || !Directory.Exists(this.GhostscriptLibDirectory)) {
@@ -551,6 +512,44 @@ namespace SCaddins.ExportManager
             this.exportDirectory = SCaddins.ExportManager.Settings1.Default.ExportDir;
             this.AcadVersion = AcadVersionFromString(SCaddins.ExportManager.Settings1.Default.AcadExportVersion);
             this.ShowExportLog = SCaddins.ExportManager.Settings1.Default.ShowExportLog;
+        }
+
+        [SecurityCritical]
+        internal void ExportSheets(
+         ICollection<ExportSheet> sheets,
+         System.Windows.Forms.ToolStripProgressBar progressBar,
+         System.Windows.Forms.ToolStripItem info,
+         System.Windows.Forms.Control strip) {
+            if (progressBar == null || info == null || strip == null || sheets == null) {
+                return;
+            }
+
+            DateTime startTime = DateTime.Now;
+            TimeSpan elapsedTime = DateTime.Now - startTime;
+            PrintManager pm = doc.PrintManager;
+            PrintSettings.SetPrinterByName(doc, this.PdfPrinterName, pm);
+            this.log.Clear();
+            this.log.TotalExports = progressBar.Maximum;
+            this.log.Start(Resources.ExportStarted);
+
+            foreach (ExportSheet sheet in sheets) {
+                progressBar.PerformStep();
+                elapsedTime = DateTime.Now - startTime;
+                info.Text = ExportManager.PercentageSting(progressBar.Value, progressBar.Maximum) +
+                    Resources.SpacerHyphen + ExportManager.TimeSpanAsString(elapsedTime);
+                strip.Update();
+                this.ExportSheet(sheet);
+            }
+
+            this.log.Stop(Resources.ExportComplete);
+
+            #if DEBUG
+            this.log.ShowSummaryDialog();
+            #else
+            if (this.log.Errors > 0 || this.ShowExportLog) {
+                this.log.ShowSummaryDialog();
+            }
+            #endif
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
