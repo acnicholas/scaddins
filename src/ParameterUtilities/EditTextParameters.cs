@@ -34,33 +34,6 @@ namespace SCaddins.ParameterUtils
         private static ConversionMode mode = ConversionMode.UpperCase;
         private static string dryRunLogText = string.Empty;
         
-        public Autodesk.Revit.UI.Result Execute(
-            ExternalCommandData commandData,
-            ref string message,
-            Autodesk.Revit.DB.ElementSet elements)
-        {
-            if (commandData == null) {
-                return Result.Failed;
-            }
-
-            Document doc = commandData.Application.ActiveUIDocument.Document;
-            UIApplication application = commandData.Application;
-            UIDocument document = application.ActiveUIDocument;
-            IList<ElementId> elems = document.Selection.GetElementIds().ToList<ElementId>();
-            using (var t = new TransactionGroup(doc, "SCulcase")) {
-                      t.Start();
-                      if (elems.Count == 0) {
-                          using (var form = new SCulcaseMainForm(doc)) {
-                            System.Diagnostics.Debug.Print(form.DialogResult.ToString());
-                          }
-                      } else {
-                         EditTextParameters.ConvertSelection(ConversionMode.UpperCase, doc, elems);
-                      }
-                      t.Commit();
-            }
-            return Autodesk.Revit.UI.Result.Succeeded;
-        }
-
         public static void ConvertAll(ConversionMode mode, ConversionTypes types, Document doc)
         {
             commit = true;
@@ -114,6 +87,32 @@ namespace SCaddins.ParameterUtils
                 }
                 trans.Commit();
             }
+        }
+
+        public Autodesk.Revit.UI.Result Execute(
+           ExternalCommandData commandData,
+           ref string message,
+           Autodesk.Revit.DB.ElementSet elements) {
+            if (commandData == null) {
+                return Result.Failed;
+            }
+
+            Document doc = commandData.Application.ActiveUIDocument.Document;
+            UIApplication application = commandData.Application;
+            UIDocument document = application.ActiveUIDocument;
+            IList<ElementId> elems = document.Selection.GetElementIds().ToList<ElementId>();
+            using (var t = new TransactionGroup(doc, "SCulcase")) {
+                t.Start();
+                if (elems.Count == 0) {
+                    using (var form = new SCulcaseMainForm(doc)) {
+                        System.Diagnostics.Debug.Print(form.DialogResult.ToString());
+                    }
+                } else {
+                    EditTextParameters.ConvertSelection(ConversionMode.UpperCase, doc, elems);
+                }
+                t.Commit();
+            }
+            return Autodesk.Revit.UI.Result.Succeeded;
         }
 
         private static void Convert(ConversionMode mode, ConversionTypes types, Document doc)

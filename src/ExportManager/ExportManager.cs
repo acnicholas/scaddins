@@ -646,9 +646,9 @@ namespace SCaddins.ExportManager
                 Process.GetCurrentProcess().MainModule.FileName;
             try {
                 log.AddMessage("Attempting to set Acrobat Registry Value with value");
-                log.AddMessage(@"   Reg: " + Constants.AcrobatPrinterJobControl);
-                log.AddMessage(@"   Exe: " + exe);
-                log.AddMessage(@"   Filename: " + fileName);
+                log.AddMessage("\t" + Constants.AcrobatPrinterJobControl);
+                log.AddMessage("\t" + exe);
+                log.AddMessage("\t" + fileName);
                 Microsoft.Win32.Registry.SetValue(
                     Constants.AcrobatPrinterJobControl,
                     exe,
@@ -928,9 +928,9 @@ namespace SCaddins.ExportManager
                     ExportManager.ExportDWF(sheet);
                 }
                 var elapsedTime = DateTime.Now - startTime;
-                this.log.AddMessage("Elapsed Time for last export: " + elapsedTime.ToString());
+                this.log.AddMessage(Resources.MessageElapsedTimeForLastExport + elapsedTime.ToString());
             } else {
-                this.log.AddError(sheet.FullExportName, "No print setting assigned.");
+                this.log.AddError(sheet.FullExportName, Resources.MessageNoPrintSettingAssigned);
             }
         }
 

@@ -45,6 +45,7 @@ namespace SCaddins.RoomConvertor
             this.titleBlocks = GetAllTitleBlockTypes(this.doc);
             this.TitleBlockId = ElementId.InvalidElementId;
             this.Scale = 50;
+            this.CropRegionEdgeOffset = 300;
             SheetCopier.SheetCopierManager.GetAllSheets(existingSheets, this.doc);
             SheetCopier.SheetCopierManager.GetAllViewsInModel(existingViews, this.doc);
             using (var collector = new FilteredElementCollector(this.doc)) {
@@ -82,6 +83,11 @@ namespace SCaddins.RoomConvertor
         }
 
         public int Scale
+        {
+            get; set;
+        }
+
+        public int CropRegionEdgeOffset
         {
             get; set;
         }
@@ -279,8 +285,9 @@ namespace SCaddins.RoomConvertor
         }
 
         private static BoundingBoxXYZ CreateOffsetBoundingBox(double offset, BoundingBoxXYZ origBox) {
-            XYZ min = new XYZ(origBox.Min.X - offset, origBox.Min.Y - offset, origBox.Min.Z);
-            XYZ max = new XYZ(origBox.Max.X + offset, origBox.Max.Y + offset, origBox.Max.Z);
+            double offsetInFeet = SCaddins.Common.MiscUtilities.MillimetersToFeet(offset);
+            XYZ min = new XYZ(origBox.Min.X - offsetInFeet, origBox.Min.Y - offsetInFeet, origBox.Min.Z);
+            XYZ max = new XYZ(origBox.Max.X + offsetInFeet, origBox.Max.Y + offsetInFeet, origBox.Max.Z);
             BoundingBoxXYZ result = new BoundingBoxXYZ();
             result.Min = min;
             result.Max = max;
@@ -296,7 +303,7 @@ namespace SCaddins.RoomConvertor
                 }
                 using (Solid roomSolid = results.GetGeometry()) {
                     var eid = new ElementId(BuiltInCategory.OST_Mass);
-                    #if REVIT2018
+                    #if REVIT2018 || REVIT2017
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid);
                     #else
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
@@ -328,19 +335,23 @@ namespace SCaddins.RoomConvertor
             plan.ViewTemplateId = ElementId.InvalidElementId;
             plan.Scale = this.Scale;
             BoundingBoxXYZ originalBoundingBox = candidate.Room.get_BoundingBox(plan);
-
+            
             // Put them on sheets
-            plan.CropBox = CreateOffsetBoundingBox(200, originalBoundingBox);
+            plan.CropBox = CreateOffsetBoundingBox(50000, originalBoundingBox);
             plan.Name = candidate.DestinationViewName;
 
             // Shrink the bounding box now that it is placed
             Viewport vp = Viewport.Create(this.doc, sheet.Id, plan.Id, sheetCentre);
 
             // Shrink the bounding box now that it is placed
-            plan.CropBox = originalBoundingBox;
+            plan.CropBox = CreateOffsetBoundingBox(this.CropRegionEdgeOffset, originalBoundingBox);
 
             // FIXME - To set an empty view title - so far this seems to work with the standard revit template...
             vp.ChangeTypeId(vp.GetValidTypes().Last());
+
+            // FIXME Apply a view template
+            // NOTE This could cause trouble with view scales
+            // plan.ViewTemplateId = 
         }
     }
 }

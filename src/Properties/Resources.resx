@@ -669,4 +669,10 @@
   <data name="SpacerHyphen" xml:space="preserve">
     <value> - </value>
   </data>
+  <data name="MessageElapsedTimeForLastExport" xml:space="preserve">
+    <value>Elapsed Time for last export: </value>
+  </data>
+  <data name="MessageNoPrintSettingAssigned" xml:space="preserve">
+    <value>No print setting assigned.</value>
+  </data>
 </root>

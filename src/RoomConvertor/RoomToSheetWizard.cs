@@ -49,6 +49,18 @@
                     td.Show();
                 }
             }
+            int j = 0;
+            if (int.TryParse(textBox2.Text, out i)) {
+                roomConversionManager.CropRegionEdgeOffset = i;
+            } else {
+                using (var td = new TaskDialog("CropRegionEdgeOffset Input Error")) {
+                    td.MainInstruction = "Invalid Dimension.";
+                    td.MainContent = "CropRegionEdgeOffset: " + textBox2.Text + " cannot be used." + System.Environment.NewLine +
+                        "Last good value (" + roomConversionManager.CropRegionEdgeOffset + ") will be used";
+                    td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+                    td.Show();
+                }
+            }
             roomConversionManager.TitleBlockId = 
                 roomConversionManager.GetTitleBlockByName(this.comboBoxTitles.Text);
         }

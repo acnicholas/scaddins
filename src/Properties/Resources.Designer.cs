@@ -781,6 +781,15 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Elapsed Time for last export: .
+        /// </summary>
+        internal static string MessageElapsedTimeForLastExport {
+            get {
+                return ResourceManager.GetString("MessageElapsedTimeForLastExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exporting to directory: .
         /// </summary>
         internal static string MessageExportingToDirectory {
@@ -795,6 +804,15 @@ namespace SCaddins.Properties {
         internal static string MessageExportingToFileName {
             get {
                 return ResourceManager.GetString("MessageExportingToFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No print setting assigned..
+        /// </summary>
+        internal static string MessageNoPrintSettingAssigned {
+            get {
+                return ResourceManager.GetString("MessageNoPrintSettingAssigned", resourceCulture);
             }
         }
         
