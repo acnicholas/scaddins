@@ -250,7 +250,11 @@ namespace SCaddins.SolarUtilities
                 XYZ max = viewBounds.Max;
                 XYZ min = viewBounds.Min;
                 var eye = new XYZ(min.X + ((max.X - min.X) / 2), min.Y + ((max.Y - min.Y) / 2), min.Z + ((max.Z - min.Z) / 2));
-                var forward = new XYZ(-Math.Sin(azimuth), -Math.Cos(azimuth), -Math.Tan(altitude));
+                var forward = new XYZ(
+                    -Math.Sin(azimuth),
+                    -Math.Cos(azimuth),
+                    -Math.Tan(altitude - GetAtmosphericRefraction(altitude))
+                );
                 var up = forward.CrossProduct(new XYZ(Math.Cos(azimuth), -Math.Sin(azimuth), 0));  
                 var v3d = (View3D)view;
                 if (v3d.IsLocked) {
@@ -273,6 +277,30 @@ namespace SCaddins.SolarUtilities
             } else {
                 TaskDialog.Show("ERROR", "Not a 3d view");
             }
+        }
+
+        /// <summary>
+        /// Gets the Atmospheric Refraction using Bennett's formula
+        /// </summary>
+        /// <param name="altitudeRadians">Altitude in radians</param>
+        /// <returns>The Atmospheric Refraction in radians</returns>
+        private double GetAtmosphericRefraction(double altitudeRadians) {
+            double altitudeDegrees = altitudeRadians * 180 / Math.PI;
+            double formula = altitudeDegrees + (7.31 / (altitudeDegrees + 4.4));
+            double radians = Math.PI * altitudeDegrees / 180.0;
+            return 1 / (Math.Tan(radians)) * 0.00029088820866572;
+        }
+
+        /// <summary>
+        /// Gets the Atmospheric Refraction using Sæmundsson's formula
+        /// </summary>
+        /// <param name="altitudeRadians">Altitude in radians</param>
+        /// <returns>The Atmospheric Refraction in radians</returns>
+        private double GetSæmundssonAtmosphericRefraction(double altitudeRadians) {
+            double altitudeDegrees = altitudeRadians * 180 / Math.PI;
+            double formula = 1.02 * altitudeDegrees + (10.3 / (altitudeDegrees + 5.11));
+            double radians = Math.PI * altitudeDegrees / 180.0;
+            return 1 / (Math.Tan(radians)) * 0.00029088820866572;
         }
     }
 }
