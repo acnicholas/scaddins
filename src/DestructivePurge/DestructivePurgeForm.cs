@@ -83,6 +83,7 @@ namespace SCaddins.SCwash
             treeView1.Nodes.Add(new SCwashTreeNode("Images"));
             treeView1.Nodes.Add(new SCwashTreeNode("Unbound Rooms"));
             treeView1.Nodes.Add(new SCwashTreeNode("Revisions"));
+            treeView1.Nodes.Add(new SCwashTreeNode("Unused View Filters"));
             SCwashUtilities.AddViewNodes(this.doc, false, treeView1.Nodes[0].Nodes);
             SCwashUtilities.AddViewNodes(this.doc, true, treeView1.Nodes[1].Nodes);
             SCwashUtilities.AddSheetNodes(this.doc, true, treeView1.Nodes[2].Nodes);
@@ -91,6 +92,7 @@ namespace SCaddins.SCwash
             treeView1.Nodes[5].Nodes.AddRange(SCwashUtilities.Images(this.doc).ToArray<TreeNode>());
             treeView1.Nodes[6].Nodes.AddRange(SCwashUtilities.UnboundRooms(this.doc).ToArray<TreeNode>());
             treeView1.Nodes[7].Nodes.AddRange(SCwashUtilities.Revisions(this.doc).ToArray<TreeNode>());
+            treeView1.Nodes[8].Nodes.AddRange(SCwashUtilities.UnusedViewFilters(this.doc).ToArray<TreeNode>());
         }
 
         private void TreeView1_AfterSelect(object sender, TreeViewEventArgs e)

@@ -74,6 +74,41 @@ namespace SCaddins.SCwash
             return result;
         }
 
+        public static Collection<SCwashTreeNode> UnusedViewFilters(Document doc)
+        {
+            Dictionary<ElementId, ElementId> usedFilters = new Dictionary<ElementId, ElementId>();
+            using (var viewCollecter = new FilteredElementCollector(doc)) {
+                viewCollecter.OfClass(typeof(Autodesk.Revit.DB.View));
+                foreach (Autodesk.Revit.DB.View view in viewCollecter) {
+                    if (view.AreGraphicsOverridesAllowed()) {
+                        foreach (ElementId id in view.GetFilters()) {
+                            if (!usedFilters.ContainsKey(id)) {
+                                usedFilters.Add(id, id);
+                            }
+                        }
+                    }
+                }
+            }
+
+            var result = new Collection<SCwashTreeNode>();
+            using (var f = new FilteredElementCollector(doc)) {
+                f.OfClass(typeof(Autodesk.Revit.DB.FilterElement));
+                foreach (Element filter in f) {
+                    if (!usedFilters.ContainsKey(filter.Id)) {
+                        string s = GetParameterList(filter.Parameters);
+                        var nodeName = filter.Name;
+                        var tn = new SCwashTreeNode(nodeName);
+                        tn.Info = "Name = " + filter.Name + System.Environment.NewLine +
+                        "id - " + filter.Id.ToString();
+                        tn.Info += System.Environment.NewLine + s;
+                        tn.Id = filter.Id;
+                        result.Add(tn);
+                    }
+                }
+            }
+            return result;
+        }
+
         public static Collection<SCwashTreeNode> Revisions(Document doc)
         {
             var result = new Collection<SCwashTreeNode>();
