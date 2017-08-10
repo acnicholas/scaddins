@@ -70,11 +70,10 @@ namespace SCaddins.ParameterUtils
 
                     if (ctr == 1) {
                         if (p.StorageType == StorageType.Integer) {
-                            string s = p.AsString();
-                            startValue = Convert.ToInt16(s, CultureInfo.InvariantCulture);
+                            startValue = p.AsInteger();
                         } else if (p.StorageType == StorageType.String) {
                             string s = p.AsString();
-                            startValue = Convert.ToInt16(GetSourceNumberAsString(s), CultureInfo.InvariantCulture);
+                            startValue = Convert.ToInt32(GetSourceNumberAsString(s), CultureInfo.InvariantCulture);
                         }
                     }
 
