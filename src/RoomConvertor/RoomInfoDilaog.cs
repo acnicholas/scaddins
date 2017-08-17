@@ -67,5 +67,10 @@ namespace SCaddins.RoomConvertor
                     return string.Empty;
             }
         }
+
+        private void RoomInfoDialog_FormClosing(object sender, FormClosingEventArgs e) {
+            this.Hide();
+            e.Cancel = true; // this cancels the close event.
+        }
     }
 }

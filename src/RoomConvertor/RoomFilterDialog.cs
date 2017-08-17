@@ -26,6 +26,7 @@ namespace SCaddins.RoomConvertor
     public partial class RoomFilterDialog : System.Windows.Forms.Form
     {
         private RoomFilter filter;
+        private Document doc;
         
         public RoomFilterDialog(RoomFilter filter, Document doc)
         {
@@ -38,6 +39,7 @@ namespace SCaddins.RoomConvertor
 
             InitializeComponent();
             this.filter = filter;
+            this.doc = doc;
 
             Room room;
             using (var collector = new FilteredElementCollector(doc)) {
@@ -132,6 +134,21 @@ namespace SCaddins.RoomConvertor
         private void ButtonApplyClick(object sender, EventArgs e)
         {
             ButtonOKClick(sender, e);
+        }
+
+        private void comboBoxP1_SelectedValueChanged(object sender, EventArgs e) {
+            if(comboBoxP1.Text == "Design Option") {
+                var dialog = new DesignOptionSelector();
+                foreach (string s in RoomConversionManager.GetAllDesignOptionNames(doc)) {
+                    dialog.listBox1.Items.Add(s);
+                }
+                var result = dialog.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK) {
+                    textBox1.Text = dialog.listBox1.Text;
+                }
+
+                //Autodesk.Revit.UI.TaskDialog.Show("test", sb.ToString());
+            }
         }
     }
 }

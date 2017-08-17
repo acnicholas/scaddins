@@ -23,25 +23,25 @@ namespace SCaddins.ExportManager
     {
         private static readonly string[] Tips =
         {
-            "Press '?' to get a list of keyboard shorcuts",
-            "Press '/' to filter the main view via a search queery",
-            "You can press 'i' for more tips",
+            "Press '?' to get a list of keyboard shortcuts",
+            "Press '/' to filter the main view via a search query",
+            "You can press 't' for more tips",
             "Pressing 'L' will filter the main view to display only the latest revision",
-            "You can export AutoCAD files without the titleblock (it's under options)",
-            "SCexport adds meta tags to pdf exports...",
-            "You can add project specfic naming, goto Options-->Exported filenames config",
-            "You can click on the export dir column to change the export dirictory",
+            "You can export AutoCAD files without the title block (it's under options)",
+            "SCexport can add meta tags to pdf exports...see the wiki page for help",
+            "You can add project specific naming, goto Options-->Exported filenames configuration",
+            "You can click on the export directory column to change the export directory",
             "You can click on the scale verify the scale and print settings",
-            "Press 'P' to set the revision to todays date.",
+            "Press 'P' to set the revision to today's date.",
             "If you press 'O' SCexport will open the current selection.",
             "Press 'A' to select all.",
             "Press 'N' to select none.",
             "If you press 'S' the main view will scroll to the currently " +
                 "active view.",
             "Press 'T' for another Tip of The Day.",
-            "The quickes way to export your latest revision is to type:" +
+            "The quickest way to export your latest revision is to type:" +
                 System.Environment.NewLine +
-                "    LDX - to export to Deleverables" +
+                "    LDX - to export to Deliverables" +
                 System.Environment.NewLine +
                 @"    LX - to export to c:\Temp",
             @"Some advanced use of the search feature '/':" +

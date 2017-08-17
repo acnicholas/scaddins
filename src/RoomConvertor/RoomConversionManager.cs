@@ -188,6 +188,27 @@ namespace SCaddins.RoomConvertor
             }
         }
 
+        internal static List<string> GetAllDesignOptionNames(Document doc) {
+            var result = new List<string>();
+            var optIds = new List<ElementId>();
+            foreach (DesignOption dopt in new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_DesignOptions)) {
+                ElementId optId = dopt.Id;
+                if (!optIds.Contains(optId)) {
+                    optIds.Add(optId);
+                }
+            }
+
+            result.Add("Main Model");
+
+            foreach (ElementId id in optIds) {
+                Element e = doc.GetElement(id);
+                var s = doc.GetElement(e.get_Parameter(BuiltInParameter.OPTION_SET_ID).AsElementId()).Name;
+                result.Add(s + @" : " + e.Name.Replace(@"(primary)", string.Empty).Trim());
+            }
+
+            return result;
+        }
+
         private static ElementId GetFloorPlanViewFamilyTypeId(Document doc) {
             using (var collector = new FilteredElementCollector(doc)) {
                 foreach (ViewFamilyType vft in collector.OfClass(typeof(ViewFamilyType))) {

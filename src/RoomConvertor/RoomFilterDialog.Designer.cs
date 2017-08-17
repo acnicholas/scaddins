@@ -112,6 +112,7 @@ namespace SCaddins.RoomConvertor
             this.comboBoxP1.FormattingEnabled = true;
             resources.ApplyResources(this.comboBoxP1, "comboBoxP1");
             this.comboBoxP1.Name = "comboBoxP1";
+            this.comboBoxP1.SelectedValueChanged += new System.EventHandler(this.comboBoxP1_SelectedValueChanged);
             // 
             // textBox1
             // 
