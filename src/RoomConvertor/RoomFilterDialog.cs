@@ -25,10 +25,11 @@ namespace SCaddins.RoomConvertor
 
     public partial class RoomFilterDialog : System.Windows.Forms.Form
     {
+        private RoomConversionManager manager;
         private RoomFilter filter;
         private Document doc;
         
-        public RoomFilterDialog(RoomFilter filter, Document doc)
+        public RoomFilterDialog(RoomFilter filter, Document doc, RoomConversionManager manager)
         {
             if (filter == null) {
                 throw new ArgumentNullException("filter");
@@ -36,10 +37,14 @@ namespace SCaddins.RoomConvertor
             if (doc == null) {
                 throw new ArgumentNullException("doc");
             }
+            if (manager == null) {
+                throw new ArgumentNullException("manager");
+            }
 
             InitializeComponent();
             this.filter = filter;
             this.doc = doc;
+            this.manager = manager;
 
             Room room;
             using (var collector = new FilteredElementCollector(doc)) {
@@ -136,19 +141,59 @@ namespace SCaddins.RoomConvertor
             ButtonOKClick(sender, e);
         }
 
-        private void comboBoxP1_SelectedValueChanged(object sender, EventArgs e) {
-            if(comboBoxP1.Text == "Design Option") {
-                var dialog = new DesignOptionSelector();
-                foreach (string s in RoomConversionManager.GetAllDesignOptionNames(doc)) {
-                    dialog.listBox1.Items.Add(s);
-                }
-                var result = dialog.ShowDialog();
-                if (result == System.Windows.Forms.DialogResult.OK) {
-                    textBox1.Text = dialog.listBox1.Text;
-                }
-
-                //Autodesk.Revit.UI.TaskDialog.Show("test", sb.ToString());
+        private void SetTextBoxText(System.Windows.Forms.ComboBox sourceBox, System.Windows.Forms.TextBox dest)
+        {
+            if(sourceBox.Text == "Design Option") {
+                dest.Text = SelectDesignOption();
             }
+            if(sourceBox.Text == "Department") {
+                dest.Text = SelectDepartment();
+            }
+        }
+
+        private string SelectDesignOption()
+        {   
+            var dialog = new DesignOptionSelector();
+            dialog.SetTitle("Select design option");
+
+            foreach (string s in RoomConversionManager.GetAllDesignOptionNames(doc)) {
+                dialog.listBox1.Items.Add(s);
+            }
+            var result = dialog.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK) {
+                return dialog.listBox1.Text;
+            }
+            return string.Empty;
+        }
+
+        private string SelectDepartment()
+        {   
+            var dialog = new DesignOptionSelector();
+            dialog.SetTitle("Select deparment");
+
+            foreach (string s in manager.GetAllDepartments()) {
+                dialog.listBox1.Items.Add(s);
+            }
+            var result = dialog.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK) {
+                return dialog.listBox1.Text;
+            }
+            return string.Empty;
+        }
+
+        private void ComboBoxP1_SelectedValueChanged(object sender, EventArgs e)
+        {
+            SetTextBoxText(comboBoxP1, textBox1);
+        }
+        
+        private void ComboBoxP2SelectedValueChanged(object sender, EventArgs e)
+        {
+            SetTextBoxText(comboBoxP2, textBox2); 
+        }
+        
+        private void ComboBoxP3SelectedValueChanged(object sender, EventArgs e)
+        {
+            SetTextBoxText(comboBoxP3, textBox3);   
         }
     }
 }

@@ -112,7 +112,7 @@ namespace SCaddins.RoomConvertor
             this.comboBoxP1.FormattingEnabled = true;
             resources.ApplyResources(this.comboBoxP1, "comboBoxP1");
             this.comboBoxP1.Name = "comboBoxP1";
-            this.comboBoxP1.SelectedValueChanged += new System.EventHandler(this.comboBoxP1_SelectedValueChanged);
+            this.comboBoxP1.SelectedValueChanged += new System.EventHandler(this.ComboBoxP1_SelectedValueChanged);
             // 
             // textBox1
             // 
@@ -129,6 +129,7 @@ namespace SCaddins.RoomConvertor
             this.comboBoxP2.FormattingEnabled = true;
             resources.ApplyResources(this.comboBoxP2, "comboBoxP2");
             this.comboBoxP2.Name = "comboBoxP2";
+            this.comboBoxP2.SelectedValueChanged += new System.EventHandler(this.ComboBoxP2SelectedValueChanged);
             // 
             // comboBoxCO2
             // 
@@ -158,6 +159,7 @@ namespace SCaddins.RoomConvertor
             this.comboBoxP3.FormattingEnabled = true;
             resources.ApplyResources(this.comboBoxP3, "comboBoxP3");
             this.comboBoxP3.Name = "comboBoxP3";
+            this.comboBoxP3.SelectedValueChanged += new System.EventHandler(this.ComboBoxP3SelectedValueChanged);
             // 
             // comboBoxCO3
             // 

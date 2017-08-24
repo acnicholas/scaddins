@@ -39,7 +39,7 @@ namespace SCaddins.RoomConvertor
             this.roomConversionManager = scasfar;
             this.AddDataGridColumns(); 
             this.rf = new RoomFilter();
-            this.rfd = new RoomFilterDialog(rf, scasfar.Doc);
+            this.rfd = new RoomFilterDialog(rf, scasfar.Doc, scasfar);
             this.info = new RoomInfoDialog();
             info.TopMost = true;
 
@@ -89,6 +89,13 @@ namespace SCaddins.RoomConvertor
                 }
             }
             dataGridView1.Refresh();
+            UpdateSummaryLabel();
+        }
+
+        private void UpdateSummaryLabel() {
+            int displayedRooms = dataGridView1.Rows.Count;
+            int selectedRooms = dataGridView1.SelectedRows.Count;
+            label1.Text = displayedRooms + @" Rooms, " + selectedRooms + @" Selected";
         }
 
         private System.ComponentModel.BindingList<RoomConversionCandidate> GetSelectedCandidates()
@@ -107,6 +114,7 @@ namespace SCaddins.RoomConvertor
                 info.UpdateRoomInfo(c.Room);
                 info.Refresh();
             }
+            UpdateSummaryLabel();
         }
 
         private void ButtonInfoClick(object sender, EventArgs e)
@@ -125,6 +133,7 @@ namespace SCaddins.RoomConvertor
             rfd.Clear();
             LoadDataGridSource();
             dataGridView1.Refresh();
+            UpdateSummaryLabel();
         }
 
         private void MainFormFormClosing(object sender, FormClosingEventArgs e)
@@ -166,6 +175,10 @@ namespace SCaddins.RoomConvertor
                     }
                 }
             } 
-        }             
+        }
+
+        private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
+            UpdateSummaryLabel();
+        }
     } 
 }

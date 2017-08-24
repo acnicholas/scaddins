@@ -34,6 +34,9 @@ namespace SCaddins.RoomConvertor
         private Dictionary<string, ElementId> titleBlocks = 
             new Dictionary<string, ElementId>();
 
+        private Dictionary<string, string> departmentsInModel =
+            new Dictionary<string, string>();
+
         private SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> allCandidates;
         private Document doc;
         private SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> candidates;
@@ -55,6 +58,11 @@ namespace SCaddins.RoomConvertor
                         Room room = e as Room;
                         if (room.Area > 0 && room.Location != null) {
                             allCandidates.Add(new RoomConversionCandidate(room, existingSheets, existingViews));
+                            Parameter p = room.LookupParameter("Department");
+                            string depo = p.AsString().Trim();
+                            if (!string.IsNullOrEmpty(depo) && !departmentsInModel.ContainsKey(depo)) {
+                                departmentsInModel.Add(depo, depo);
+                            }
                         }
                     }
                 }
@@ -186,6 +194,15 @@ namespace SCaddins.RoomConvertor
                 Autodesk.Revit.UI.TaskDialog.Show("Synchronize Masses to Rooms", i + " masses synchronized");
                 t.Commit();
             }
+        }
+
+        internal List<string> GetAllDepartments()
+        {
+            var result = new List<string>();
+            foreach (string s in this.departmentsInModel.Values) {
+                result.Add(s);
+            }
+            return result;
         }
 
         internal static List<string> GetAllDesignOptionNames(Document doc) {

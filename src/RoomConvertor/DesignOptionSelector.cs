@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace SCaddins.RoomConvertor
 {
     public partial class DesignOptionSelector : Form
     {
-        public DesignOptionSelector() {
+        public DesignOptionSelector()
+        {
             InitializeComponent();
+        }
+
+        public void SetTitle(string title)
+        {
+            this.Text = title;
         }
     }
 }

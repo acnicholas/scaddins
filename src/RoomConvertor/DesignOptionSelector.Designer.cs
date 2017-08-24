@@ -61,7 +61,6 @@
             this.Name = "DesignOptionSelector";
             this.Text = "Select Design Option";
             this.ResumeLayout(false);
-
         }
 
         #endregion
