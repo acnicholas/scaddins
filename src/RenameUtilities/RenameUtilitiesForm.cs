@@ -1,13 +1,7 @@
-﻿/*
- * Created by SharpDevelop.
- * User: andrewn
- * Date: 25/08/17
- * Time: 2:43 PM
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
+﻿
 using System;
 using System.Drawing;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
@@ -18,7 +12,7 @@ namespace SCaddins.RenameUtilities
     /// </summary>
     public partial class Form1 : Form
     {
-        public Form1()
+        public Form1(List<RenameCandidate> candidates)
         {
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
@@ -26,7 +20,8 @@ namespace SCaddins.RenameUtilities
             InitializeComponent();
             PopulateCategoryComboBox();
             PopulatePresetsComboBox();
-            dataGridView1.Rows[0].Cells[0].Value = "test";
+            dataGridView1.DataSource = candidates;
+            //dataGridView1.Refresh;
             
             //
             // TODO: Add constructor code after the InitializeComponent() call.
@@ -59,7 +54,12 @@ namespace SCaddins.RenameUtilities
                
         void ComboBox1SelectedIndexChanged(object sender, EventArgs e)
         {
-          
+            if (comboBox1.Text == "Rooms") {
+                
+            }
+            if (comboBox1.Text == "Views") {
+                
+            }
         }
         
         void Panel2Paint(object sender, PaintEventArgs e)
@@ -79,19 +79,37 @@ namespace SCaddins.RenameUtilities
         
         private static string GetReplacementResult(string s, string pattern, string replacement)
         {
+            if (string.IsNullOrWhiteSpace(replacement) || string.IsNullOrEmpty(replacement)){
+                   return s;
+            }
             return Regex.Replace(s, pattern, replacement);
         }
         
         void DataGridToUpper()
         {
-            dataGridView1.Rows[0].Cells[1].Value = "sdgsdfg";
-            //dataGridView1.Rows[0].Cells[1].Value = dataGridView1.Rows[0].Cells[0].Value.ToString().ToUpper();
+            foreach (DataGridViewRow row in this.dataGridView1.Rows) {
+                RenameCandidate candidate = (RenameCandidate)row.DataBoundItem;
+                candidate.NewValue = candidate.OldValue.ToUpper();
+            }
+            dataGridView1.Refresh();
+        }
+        
+        void DataGridToLower()
+        {
+            foreach (DataGridViewRow row in this.dataGridView1.Rows) {
+                RenameCandidate candidate = (RenameCandidate)row.DataBoundItem;
+                candidate.NewValue = candidate.OldValue.ToLower();
+            }
+            dataGridView1.Refresh();
         }
         
         void UpdateDataGrid()
         {
-            dataGridView1.Rows[0].Cells[1].Value = 
-                GetReplacementResult(dataGridView1.Rows[0].Cells[0].Value.ToString(), textBoxFind.Text, textBoxReplace.Text);
+            foreach (DataGridViewRow row in this.dataGridView1.Rows) {
+                RenameCandidate candidate = (RenameCandidate)row.DataBoundItem;
+                candidate.NewValue = GetReplacementResult(candidate.OldValue, textBoxFind.Text, textBoxReplace.Text);
+            }
+            dataGridView1.Refresh();
         }
         
         void ClearFindAndReplace()
@@ -111,18 +129,29 @@ namespace SCaddins.RenameUtilities
         {
             if(comboBoxPresets.Text == "Custom") {
                 EnableFindAndReplace(true);
-                UpdateDataGrid();
             }
             if(comboBoxPresets.Text == "Uppercase") {
                 EnableFindAndReplace(false);
                 DataGridToUpper();
             }
             if(comboBoxPresets.Text == "Lowercase") {
-                textBoxFind.Text = @"^.*$";
-                textBoxReplace.Text = @"\L($1)\E";
-                UpdateDataGrid();
+                DataGridToLower();
             }
-            //UpdateDataGrid();
+        }
+                       
+        void DataGridView1RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            RenameCandidate candidate = (RenameCandidate)(dataGridView1.Rows[e.RowIndex].DataBoundItem);
+            if (candidate.ValueChanged()) {
+                dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Red;
+            } else {
+                 dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;    
+            }  
+        }
+        
+        void TextBoxReplaceTextChanged(object sender, EventArgs e)
+        {
+            UpdateDataGrid();    
         }
     }
 }

@@ -18,6 +18,7 @@
 namespace SCaddins.RenameUtilities
 {
     using System;
+    using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
@@ -37,8 +38,20 @@ namespace SCaddins.RenameUtilities
             if (doc == null) {
                 return Result.Failed;
             }
-
-            using (var mainForm = new RenameUtilities.Form1()) {
+            
+            //create test list for datagrid
+            List<RenameCandidate> candidates = new List<RenameCandidate>();
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfCategory(BuiltInCategory.OST_Rooms);
+            foreach (SpatialElement view in collector) {
+                var p = view.GetParameters("Name");
+                if (p.Count > 0) {
+                    candidates.Add(new RenameCandidate(p[0]));
+                }
+            }
+                          
+            
+            using (var mainForm = new RenameUtilities.Form1(candidates)) {
                 mainForm.ShowDialog();
             }
             return Result.Succeeded;

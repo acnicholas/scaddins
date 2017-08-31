@@ -240,6 +240,8 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="RenameUtilities\RenameManager.cs" />
+    <Compile Include="RenameUtilities\RenameCandidate.cs" />
     <Compile Include="RenameUtilities\RenameUtilitiesCommand.cs" />
     <Compile Include="RenameUtilities\RenameUtilitiesForm.cs" />
     <Compile Include="RenameUtilities\RenameUtilitiesForm.Designer.cs">
