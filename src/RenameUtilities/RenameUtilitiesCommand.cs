@@ -39,19 +39,9 @@ namespace SCaddins.RenameUtilities
                 return Result.Failed;
             }
             
-            //create test list for datagrid
-            List<RenameCandidate> candidates = new List<RenameCandidate>();
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
-            collector.OfCategory(BuiltInCategory.OST_Rooms);
-            foreach (SpatialElement view in collector) {
-                var p = view.GetParameters("Name");
-                if (p.Count > 0) {
-                    candidates.Add(new RenameCandidate(p[0]));
-                }
-            }
+            RenameManager manager = new RenameManager(doc);
                           
-            
-            using (var mainForm = new RenameUtilities.Form1(candidates)) {
+            using (var mainForm = new RenameUtilities.Form1(manager)) {
                 mainForm.ShowDialog();
             }
             return Result.Succeeded;

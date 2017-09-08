@@ -242,6 +242,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="RenameUtilities\RenameManager.cs" />
     <Compile Include="RenameUtilities\RenameCandidate.cs" />
+    <Compile Include="RenameUtilities\RenameParameter.cs" />
     <Compile Include="RenameUtilities\RenameUtilitiesCommand.cs" />
     <Compile Include="RenameUtilities\RenameUtilitiesForm.cs" />
     <Compile Include="RenameUtilities\RenameUtilitiesForm.Designer.cs">

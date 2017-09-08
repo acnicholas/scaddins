@@ -12,15 +12,18 @@ namespace SCaddins.RenameUtilities
     /// </summary>
     public partial class Form1 : Form
     {
-        public Form1(List<RenameCandidate> candidates)
+        RenameManager manager;
+        
+        public Form1(RenameManager manager)
         {
+            this.manager = manager;
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();
             PopulateCategoryComboBox();
             PopulatePresetsComboBox();
-            dataGridView1.DataSource = candidates;
+            //dataGridView1.DataSource = manager.GetRoomParameters();
             //dataGridView1.Refresh;
             
             //
@@ -55,10 +58,13 @@ namespace SCaddins.RenameUtilities
         void ComboBox1SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBox1.Text == "Rooms") {
-                
+                Autodesk.Revit.UI.TaskDialog.Show("test","Rooms");
+                //dataGridView1.DataSource = manager.GetRoomParameters();
+                listBox1.DataSource = manager.GetRoomParameters2();
+                listBox1.DisplayMember = "Name";
             }
             if (comboBox1.Text == "Views") {
-                
+                Autodesk.Revit.UI.TaskDialog.Show("test","Views");    
             }
         }
         
@@ -138,6 +144,11 @@ namespace SCaddins.RenameUtilities
                 DataGridToLower();
             }
         }
+        
+        public void SetRenameCandidates(List<RenameCandidate> candidates)
+        {
+            dataGridView1.DataSource = candidates;    
+        }
                        
         void DataGridView1RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
@@ -152,6 +163,12 @@ namespace SCaddins.RenameUtilities
         void TextBoxReplaceTextChanged(object sender, EventArgs e)
         {
             UpdateDataGrid();    
+        }
+        
+        void ListBox1SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RenameParameter rp = (RenameParameter)(listBox1.SelectedItem);
+            SetRenameCandidates(manager.GetRoomParameterValues(rp.Parameter));
         }
     }
 }
