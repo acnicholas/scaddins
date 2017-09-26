@@ -18,11 +18,7 @@
 namespace SCaddins.RenameUtilities
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Globalization;
     using Autodesk.Revit.DB;
-    using Autodesk.Revit.DB.Architecture;
 
     public class RenameParameter
     {

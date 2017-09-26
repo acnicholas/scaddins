@@ -18,11 +18,8 @@
 namespace SCaddins.RenameUtilities
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Globalization;
     using Autodesk.Revit.DB;
-    using Autodesk.Revit.DB.Architecture;
 
     public class RenameCandidate : INotifyPropertyChanged
     {
@@ -39,7 +36,7 @@ namespace SCaddins.RenameUtilities
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Parameter Parameter {
+        private Parameter Parameter {
             get {
                 return parameter;
             }
@@ -47,6 +44,9 @@ namespace SCaddins.RenameUtilities
 
         public string OldValue {
             get {
+                if (string.IsNullOrEmpty(oldValue)) {
+                        return string.Empty;
+                }
                 return this.oldValue;
             }
         }

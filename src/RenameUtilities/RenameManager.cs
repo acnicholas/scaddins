@@ -36,7 +36,7 @@ namespace SCaddins.RenameUtilities
             collector.OfCategory(BuiltInCategory.OST_Rooms);
             SpatialElement view = collector.FirstElement() as SpatialElement;
                 foreach (Parameter param in view.Parameters) {
-                    if (param.StorageType == StorageType.String) {
+                    if (param.StorageType == StorageType.String && !param.IsReadOnly) {
                         parametersList.Add(new RenameParameter(param));
                     }
                 }
