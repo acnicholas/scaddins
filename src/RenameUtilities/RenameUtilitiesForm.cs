@@ -4,13 +4,14 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using Autodesk.Revit.DB;
 
 namespace SCaddins.RenameUtilities
 {
     /// <summary>
     /// Description of Form1.
     /// </summary>
-    public partial class Form1 : Form
+    public partial class Form1 : System.Windows.Forms.Form
     {
         RenameManager manager;
         
@@ -34,7 +35,7 @@ namespace SCaddins.RenameUtilities
         private void PopulateCategoryComboBox()
         {
             comboBox1.Items.Add("Rooms");
-            comboBox1.Items.Add("Generic Annotations");
+            comboBox1.Items.Add("Text");
             comboBox1.Items.Add("Views");
             comboBox1.Items.Add("Sheets");
             comboBox1.Items.Add("Revisions");
@@ -58,14 +59,24 @@ namespace SCaddins.RenameUtilities
         void ComboBox1SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBox1.Text == "Rooms") {
-                Autodesk.Revit.UI.TaskDialog.Show("test","Rooms");
-                //dataGridView1.DataSource = manager.GetRoomParameters();
-                listBox1.DataSource = manager.GetRoomParameters2();
-                listBox1.DisplayMember = "Name";
+                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_Rooms);
             }
             if (comboBox1.Text == "Views") {
-                Autodesk.Revit.UI.TaskDialog.Show("test","Views");    
+                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_Views);    
             }
+            if (comboBox1.Text == "Sheets") {
+                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_Sheets);    
+            }
+            if (comboBox1.Text == "Walls") {
+                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_Walls);    
+            }
+            if (comboBox1.Text == "Floors") {
+                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_Floors);    
+            }
+            if (comboBox1.Text == @"Text") {
+                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_TextNotes);    
+            }
+            listBox1.DisplayMember = "Name";    
         }
         
         void Panel2Paint(object sender, PaintEventArgs e)
@@ -154,9 +165,9 @@ namespace SCaddins.RenameUtilities
         {
             RenameCandidate candidate = (RenameCandidate)(dataGridView1.Rows[e.RowIndex].DataBoundItem);
             if (candidate.ValueChanged()) {
-                dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Red;
+                dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.Red;
             } else {
-                 dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;    
+                 dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.Black;    
             }  
         }
         
@@ -168,7 +179,32 @@ namespace SCaddins.RenameUtilities
         void ListBox1SelectedIndexChanged(object sender, EventArgs e)
         {
             RenameParameter rp = (RenameParameter)(listBox1.SelectedItem);
-            SetRenameCandidates(manager.GetRoomParameterValues(rp.Parameter));
+            SetRenameCandidates(manager.GetParameterValues(rp.Parameter, rp.Category));
+        }
+        
+        void TextBoxFindTextChanged(object sender, EventArgs e)
+        {
+             UpdateDataGrid();  
+        }
+        
+        void Button1Click(object sender, EventArgs e)
+        {
+            List<RenameCandidate> renameCandidates = new List<RenameCandidate>();
+             foreach (DataGridViewRow row in this.dataGridView1.Rows) {
+                RenameCandidate candidate = (RenameCandidate)row.DataBoundItem;
+                renameCandidates.Add(candidate);
+            }
+            manager.Rename(renameCandidates);
+        }
+        
+        void ButtonRenameSelectedClick(object sender, EventArgs e)
+        {
+             List<RenameCandidate> renameCandidates = new List<RenameCandidate>();
+             foreach (DataGridViewRow row in this.dataGridView1.SelectedRows) {
+                RenameCandidate candidate = (RenameCandidate)row.DataBoundItem;
+                renameCandidates.Add(candidate);
+            }
+            manager.Rename(renameCandidates);  
         }
     }
 }

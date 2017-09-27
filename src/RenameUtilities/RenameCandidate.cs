@@ -24,19 +24,29 @@ namespace SCaddins.RenameUtilities
     public class RenameCandidate : INotifyPropertyChanged
     {
         private Parameter parameter;
+        private TextElement note;
         private string oldValue;
         private string newValue; 
 
         public RenameCandidate(Parameter parameter)
         {
             this.parameter = parameter;
+            this.note = null;
             this.oldValue = parameter.AsString();
             this.newValue = parameter.AsString();
+        }
+        
+        public RenameCandidate(TextElement note)
+        {
+            this.parameter = null;
+            this.note = note;
+            this.oldValue = note.Text;
+            this.newValue = note.Text;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private Parameter Parameter {
+        private Parameter RevitParameter {
             get {
                 return parameter;
             }
@@ -62,6 +72,18 @@ namespace SCaddins.RenameUtilities
                     this.PropertyChanged(this, new PropertyChangedEventArgs("NewValue"));
                 }
             }
+        }
+        
+        public bool Rename()
+        {
+            if( ValueChanged()) {
+                if(note == null) {
+                    return parameter.Set(NewValue);    
+                } else {
+                    note.Text = NewValue;   
+                }
+            }
+            return false;
         }
         
         public bool ValueChanged()
