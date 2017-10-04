@@ -38,7 +38,7 @@ namespace SCaddins.RenameUtilities
             if (doc == null) {
                 return Result.Failed;
             }
-            
+                       
             RenameManager manager = new RenameManager(doc);
                           
             using (var mainForm = new RenameUtilities.Form1(manager)) {

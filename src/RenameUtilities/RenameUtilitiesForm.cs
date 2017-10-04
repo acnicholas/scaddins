@@ -142,12 +142,32 @@ namespace SCaddins.RenameUtilities
             return Regex.Replace(s, pattern, replacement);
         }
         
+        private string mirrorString(string src)
+        {
+            if (src.Length < 1) {
+                return src;
+            }
+            string result = string.Empty;
+            for (int i = (src.Length - 1); i >= 0; i--) {
+                result += src[i];
+            }
+            return result;
+        }
+        
+        void DataGridMirror()
+        {
+            foreach (DataGridViewRow row in this.dataGridView1.Rows) {
+                RenameCandidate candidate = (RenameCandidate)row.DataBoundItem;
+                candidate.NewValue = mirrorString(candidate.OldValue);
+            }
+            dataGridView1.Refresh();
+        }
+        
         void DataGridToUpper()
         {
             foreach (DataGridViewRow row in this.dataGridView1.Rows) {
                 RenameCandidate candidate = (RenameCandidate)row.DataBoundItem;
                 candidate.NewValue = candidate.OldValue.ToUpper();
-                //row.Visible = candidate.ValueChanged();
             }
             dataGridView1.Refresh();
         }
@@ -210,6 +230,10 @@ namespace SCaddins.RenameUtilities
             }
             if(comboBoxPresets.Text == "Smart Increment") {
                 EnableFindAndReplace(true);
+            }
+            if(comboBoxPresets.Text == "Mirror") {
+                EnableFindAndReplace(false);
+                DataGridMirror();
             }
         }
         
