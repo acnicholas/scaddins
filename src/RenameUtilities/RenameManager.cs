@@ -53,7 +53,7 @@ namespace SCaddins.RenameUtilities
         }
              
         public List<RenameCandidate> GetParameterValues(Parameter parameter, BuiltInCategory category){
-            if (category == BuiltInCategory.OST_TextNotes) {
+            if (category == BuiltInCategory.OST_TextNotes || category == BuiltInCategory.OST_IOSModelGroups) {
                 return GetTextNoteValues(category);
             }
             List<RenameCandidate> candidates = new List<RenameCandidate>();
@@ -71,8 +71,8 @@ namespace SCaddins.RenameUtilities
         public List<RenameParameter> GetParametersByCategory(BuiltInCategory category)
         {
             List<RenameParameter> parametersList = new List<RenameParameter>();
-            if(category == BuiltInCategory.OST_TextNotes) {
-                parametersList.Add(new RenameParameter(true));
+            if(category == BuiltInCategory.OST_TextNotes || category == BuiltInCategory.OST_IOSModelGroups) {
+                parametersList.Add(new RenameParameter(category));
             }
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             collector.OfCategory(category);

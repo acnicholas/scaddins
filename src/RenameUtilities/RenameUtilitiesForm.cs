@@ -43,6 +43,7 @@ namespace SCaddins.RenameUtilities
             comboBox1.Items.Add("Doors");
             comboBox1.Items.Add("Floors");
             comboBox1.Items.Add("Roofs");
+            comboBox1.Items.Add(@"Model Groups");
         }
         
         private void PopulatePresetsComboBox()
@@ -76,6 +77,9 @@ namespace SCaddins.RenameUtilities
             if (comboBox1.Text == @"Text") {
                 listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_TextNotes);    
             }
+            if (comboBox1.Text == @"Model Groups") {
+                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_IOSModelGroups);    
+            }
             listBox1.DisplayMember = "Name";    
         }
         
@@ -93,7 +97,43 @@ namespace SCaddins.RenameUtilities
         {
           
         }
+              
+        //FIXME put the in RenameManager
+        private static string GetIncrementedReplacementResult(string s, string pattern, int increment, int group)
+        {
+            string result = string.Empty;
+            Match match;
+            try {
+                match = Regex.Match(s, pattern);
+            } catch (ArgumentException ex) {
+                return s;
+            }    
+            if (match.Success && match.Groups.Count >= group) {
+                int i; 
+                bool b = Int32.TryParse(match.Groups[group].Value, out i);
+                if (b) {
+                    i = i + increment;   
+                } else {
+                    return s;
+                }
+                for (int j = 1; j <= match.Groups.Count; j++) {
+                    if(j == group) {
+                        string temp = i.ToString();
+                        while(match.Groups[group].Value.Length > temp.Length) {
+                            temp = "0" + temp;
+                        }
+                        result = result + temp;
+                    } else {
+                        result = result + match.Groups[j].Value;
+                    }
+                }
+            } else {
+                return s;
+            }
+            return result;
+        }
         
+        //FIXME put the in RenameManager
         private static string GetReplacementResult(string s, string pattern, string replacement)
         {
             if (string.IsNullOrWhiteSpace(replacement) || string.IsNullOrEmpty(replacement)){
@@ -107,6 +147,7 @@ namespace SCaddins.RenameUtilities
             foreach (DataGridViewRow row in this.dataGridView1.Rows) {
                 RenameCandidate candidate = (RenameCandidate)row.DataBoundItem;
                 candidate.NewValue = candidate.OldValue.ToUpper();
+                //row.Visible = candidate.ValueChanged();
             }
             dataGridView1.Refresh();
         }
@@ -124,22 +165,34 @@ namespace SCaddins.RenameUtilities
         {
             foreach (DataGridViewRow row in this.dataGridView1.Rows) {
                 RenameCandidate candidate = (RenameCandidate)row.DataBoundItem;
-                candidate.NewValue = GetReplacementResult(candidate.OldValue, textBoxFind.Text, textBoxReplace.Text);
+                if (comboBoxPresets.Text == "Smart Increment") {
+                    int i; 
+                    if (Int32.TryParse(textBoxReplace.Text, out i)) {
+                        candidate.NewValue = GetIncrementedReplacementResult(candidate.OldValue, textBoxFind.Text, 1, i); 
+                    }
+                } else {
+                    candidate.NewValue = GetReplacementResult(candidate.OldValue, textBoxFind.Text, textBoxReplace.Text);
+                }
             }
             dataGridView1.Refresh();
         }
         
-        void ClearFindAndReplace()
-        {
-            textBoxFind.Text = string.Empty;
-            textBoxReplace.Text = string.Empty;    
-        }
-        
         void EnableFindAndReplace(bool enable)
         {
+            EnableFind(enable);
+            EnableReplace(enable);
+        }
+        
+        void EnableFind(bool enable)
+        {
             textBoxFind.Enabled = enable;
-            textBoxReplace.Enabled = enable;  
-            ClearFindAndReplace();
+            textBoxFind.Text = string.Empty; 
+        }
+        
+        void EnableReplace(bool enable)
+        {
+            textBoxReplace.Enabled = enable;
+            textBoxReplace.Text = string.Empty; 
         }
         
         void ComboBoxPresetsSelectedValueChanged(object sender, EventArgs e)
@@ -152,7 +205,11 @@ namespace SCaddins.RenameUtilities
                 DataGridToUpper();
             }
             if(comboBoxPresets.Text == "Lowercase") {
+                EnableFindAndReplace(false);
                 DataGridToLower();
+            }
+            if(comboBoxPresets.Text == "Smart Increment") {
+                EnableFindAndReplace(true);
             }
         }
         
@@ -167,7 +224,7 @@ namespace SCaddins.RenameUtilities
             if (candidate.ValueChanged()) {
                 dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.Red;
             } else {
-                 dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.Black;    
+                dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.Black;    
             }  
         }
         

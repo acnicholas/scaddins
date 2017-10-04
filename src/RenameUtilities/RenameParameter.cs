@@ -35,10 +35,10 @@ namespace SCaddins.RenameUtilities
             this.Name = parameter.Definition.Name;
         }
         
-        public RenameParameter(bool textNote)
+        public RenameParameter(BuiltInCategory category)
         {
             this.Parameter = null;
-            this.Category = BuiltInCategory.OST_TextNotes;
+            this.Category = category;
             this.Name = "Text";
         }
 
