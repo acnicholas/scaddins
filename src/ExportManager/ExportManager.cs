@@ -166,6 +166,31 @@ namespace SCaddins.ExportManager
         public bool ShowExportLog {
             get; set;
         }
+        
+        public static View ViewFromSheetNumber(string sheetNumber, Document doc)
+        {
+            if (doc == null) {
+                return null;
+            }    
+            
+            View result;
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfCategory(BuiltInCategory.OST_Sheets);
+            foreach (ViewSheet view in collector){
+                if (view.Name == sheetNumber || view.SheetNumber == sheetNumber) {
+                    TaskDialog.Show("Debug", "ok");
+                    return (View)view;
+                }
+            }
+            FilteredElementCollector collector2 = new FilteredElementCollector(doc);
+            collector2.OfCategory(BuiltInCategory.OST_Views);
+            foreach (View view in collector2){
+                if (view.Name == sheetNumber) {
+                    return view;
+                }
+            }
+            return null;
+        }
 
         public static FamilyInstance TitleBlockInstanceFromSheetNumber(
             string sheetNumber, Document doc)

@@ -51,12 +51,14 @@ namespace SCaddins.ExportManager
             FamilyInstance titleBlockInstance = null;
             string[] possiblePrefixes = { string.Empty, "CD", "DA", "SK", "AD-CD", "AD-DA", "AD-SK" };
             foreach (string s in possiblePrefixes) {
-                titleBlockInstance = 
-                    ExportManager.TitleBlockInstanceFromSheetNumber(s + openSheetDialog.Value, doc);
-                if (titleBlockInstance != null) {
-                    commandData.Application.ActiveUIDocument.ShowElements(titleBlockInstance);
-                    return Autodesk.Revit.UI.Result.Succeeded;
+                View view =  ExportManager.ViewFromSheetNumber(s + openSheetDialog.Value, doc);
+                UIApplication uiapp = new UIApplication(doc.Application);
+                if(view != null) {
+                    uiapp.ActiveUIDocument.ActiveView = view;
+                } else {
+                    TaskDialog.Show("Debug", "view: " + s + openSheetDialog.Value + " not found");
                 }
+                return Autodesk.Revit.UI.Result.Succeeded;
             }
 
             TaskDialog.Show("SCexport", "Sheet: " + openSheetDialog.Value + " cannot be found.");
