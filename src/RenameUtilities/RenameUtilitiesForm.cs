@@ -1,6 +1,21 @@
-﻿
+﻿// (C) Copyright 2017 by Andrew Nicholas
+//
+// This file is part of SCaddins.
+//
+// SCaddins is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// SCaddins is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
-using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
@@ -8,9 +23,6 @@ using Autodesk.Revit.DB;
 
 namespace SCaddins.RenameUtilities
 {
-    /// <summary>
-    /// Description of Form1.
-    /// </summary>
     public partial class Form1 : System.Windows.Forms.Form
     {
         RenameManager manager;
@@ -18,18 +30,9 @@ namespace SCaddins.RenameUtilities
         public Form1(RenameManager manager)
         {
             this.manager = manager;
-            //
-            // The InitializeComponent() call is required for Windows Forms designer support.
-            //
             InitializeComponent();
             PopulateCategoryComboBox();
             PopulatePresetsComboBox();
-            //dataGridView1.DataSource = manager.GetRoomParameters();
-            //dataGridView1.Refresh;
-            
-            //
-            // TODO: Add constructor code after the InitializeComponent() call.
-            //
         }
         
         private void PopulateCategoryComboBox()
@@ -51,8 +54,8 @@ namespace SCaddins.RenameUtilities
             comboBoxPresets.Items.Add("Custom");
             comboBoxPresets.Items.Add("Uppercase");
             comboBoxPresets.Items.Add("Lowercase");
-            comboBoxPresets.Items.Add("TitleCase");
-            comboBoxPresets.Items.Add("Lazy Increment");
+            // comboBoxPresets.Items.Add("TitleCase");
+            // comboBoxPresets.Items.Add("Lazy Increment");
             comboBoxPresets.Items.Add("Smart Increment");
             comboBoxPresets.Items.Add("Mirror");
         }
@@ -82,22 +85,7 @@ namespace SCaddins.RenameUtilities
             }
             listBox1.DisplayMember = "Name";    
         }
-        
-        void Panel2Paint(object sender, PaintEventArgs e)
-        {
-          
-        }
-        
-        void Panel1Paint(object sender, PaintEventArgs e)
-        {
-          
-        }
-        
-        void Button3Click(object sender, EventArgs e)
-        {
-          
-        }
-              
+                      
         //FIXME put the in RenameManager
         private static string GetIncrementedReplacementResult(string s, string pattern, int increment, int group)
         {
@@ -206,18 +194,22 @@ namespace SCaddins.RenameUtilities
         void EnableFind(bool enable)
         {
             textBoxFind.Enabled = enable;
+            labelPattern.Visible = enable;
             textBoxFind.Text = string.Empty; 
         }
         
         void EnableReplace(bool enable)
         {
             textBoxReplace.Enabled = enable;
+            labelReplacement.Visible = enable;
             textBoxReplace.Text = string.Empty; 
         }
         
         void ComboBoxPresetsSelectedValueChanged(object sender, EventArgs e)
         {
             if(comboBoxPresets.Text == "Custom") {
+                labelReplacement.Text = "Replacement";
+                labelPattern.Text = "Pattern";
                 EnableFindAndReplace(true);
             }
             if(comboBoxPresets.Text == "Uppercase") {
@@ -229,6 +221,8 @@ namespace SCaddins.RenameUtilities
                 DataGridToLower();
             }
             if(comboBoxPresets.Text == "Smart Increment") {
+                labelReplacement.Text = "Group:Inc";
+                labelPattern.Text = "Pattern";
                 EnableFindAndReplace(true);
             }
             if(comboBoxPresets.Text == "Mirror") {

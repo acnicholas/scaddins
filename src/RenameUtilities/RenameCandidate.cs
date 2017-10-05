@@ -25,7 +25,6 @@ namespace SCaddins.RenameUtilities
     {
         private Parameter parameter;
         private TextElement note;
-        //private Model note;
         private string oldValue;
         private string newValue; 
 
