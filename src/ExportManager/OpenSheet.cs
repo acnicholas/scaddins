@@ -39,30 +39,13 @@ namespace SCaddins.ExportManager
             }
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            DialogHandler.AddRevitDialogHandler(commandData.Application);
 
-            var openSheetDialog = new OpenSheetDialog();
-            System.Windows.Forms.DialogResult openSheetDialogResult = openSheetDialog.ShowDialog();
-
-            if (openSheetDialogResult != System.Windows.Forms.DialogResult.OK) {
-                return Autodesk.Revit.UI.Result.Failed;
+            using (var openSheetDialog = new OpenSheetDialog(doc)) {
+                System.Windows.Forms.DialogResult openSheetDialogResult = openSheetDialog.ShowDialog();
             }
 
-            FamilyInstance titleBlockInstance = null;
-            string[] possiblePrefixes = { string.Empty, "CD", "DA", "SK", "AD-CD", "AD-DA", "AD-SK" };
-            foreach (string s in possiblePrefixes) {
-                View view =  ExportManager.ViewFromSheetNumber(s + openSheetDialog.Value, doc);
-                UIApplication uiapp = new UIApplication(doc.Application);
-                if(view != null) {
-                    uiapp.ActiveUIDocument.ActiveView = view;
-                } else {
-                    TaskDialog.Show("Debug", "view: " + s + openSheetDialog.Value + " not found");
-                }
-                return Autodesk.Revit.UI.Result.Succeeded;
-            }
+            return Autodesk.Revit.UI.Result.Succeeded;
 
-            TaskDialog.Show("SCexport", "Sheet: " + openSheetDialog.Value + " cannot be found.");
-            return Autodesk.Revit.UI.Result.Failed;
         }
     }
 }

@@ -32,6 +32,7 @@ namespace SCaddins.ExportManager
     using Autodesk.Revit.UI;
     using SCaddins.Common;
     using SCaddins.Properties;
+    using SCaddins.ExportManager;
 
     public class ExportManager
     {
@@ -166,8 +167,8 @@ namespace SCaddins.ExportManager
         public bool ShowExportLog {
             get; set;
         }
-        
-        public static View ViewFromSheetNumber(string sheetNumber, Document doc)
+                
+        public static View FindView(string sheetNumber, Document doc)
         {
             if (doc == null) {
                 return null;
@@ -178,7 +179,6 @@ namespace SCaddins.ExportManager
             collector.OfCategory(BuiltInCategory.OST_Sheets);
             foreach (ViewSheet view in collector){
                 if (view.Name == sheetNumber || view.SheetNumber == sheetNumber) {
-                    TaskDialog.Show("Debug", "ok");
                     return (View)view;
                 }
             }
@@ -190,6 +190,23 @@ namespace SCaddins.ExportManager
                 }
             }
             return null;
+        }
+                
+        public static List<OpenableView> ViewsInModel(Document doc)
+        {
+            var result = new List<OpenableView>();
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfCategory(BuiltInCategory.OST_Sheets);
+            foreach (ViewSheet view in collector) {
+                View v = (View)view;
+                result.Add(new OpenableView(view.ViewName, view));
+            }
+            FilteredElementCollector collector2 = new FilteredElementCollector(doc);
+            collector2.OfCategory(BuiltInCategory.OST_Views);
+            foreach (View view in collector2) {
+                result.Add(new OpenableView(view.Name, view));
+            }
+            return result;
         }
 
         public static FamilyInstance TitleBlockInstanceFromSheetNumber(

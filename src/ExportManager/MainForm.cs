@@ -74,8 +74,7 @@ namespace SCaddins.ExportManager
                         return;
                     }
                     Autodesk.Revit.DB.View view = sc.Sheet;
-                    // Autodesk.Revit.DB.View view = ExportManager.ViewFromSheetNumber(sc.SheetNumber, this.doc);
-                    if(view != null) {
+                    if (view != null) {
                         uiapp.ActiveUIDocument.ActiveView = view;
                     }
                 }
