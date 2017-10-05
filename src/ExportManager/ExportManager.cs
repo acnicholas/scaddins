@@ -192,23 +192,6 @@ namespace SCaddins.ExportManager
             return null;
         }
                 
-        public static List<OpenableView> ViewsInModel(Document doc)
-        {
-            var result = new List<OpenableView>();
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
-            collector.OfCategory(BuiltInCategory.OST_Sheets);
-            foreach (ViewSheet view in collector) {
-                View v = (View)view;
-                result.Add(new OpenableView(view.ViewName, view));
-            }
-            FilteredElementCollector collector2 = new FilteredElementCollector(doc);
-            collector2.OfCategory(BuiltInCategory.OST_Views);
-            foreach (View view in collector2) {
-                result.Add(new OpenableView(view.Name, view));
-            }
-            return result;
-        }
-
         public static FamilyInstance TitleBlockInstanceFromSheetNumber(
             string sheetNumber, Document doc)
         {
@@ -607,15 +590,14 @@ namespace SCaddins.ExportManager
             }
             IEnumerable<ViewSheet> sortedEnum = sheets.OrderBy(f => f.SheetNumber);
             IList<ViewSheet> sortedSheets = sortedEnum.ToList();
+            
 
-            // FIXME don't allow overflow.
             for (int i = 0; i < sortedSheets.Count; i++) {
+                if(inc == -1 && i == 0) continue;
+                if(inc == 1 && i == (sortedSheets.Count - 1)) continue;
                 if (sortedSheets[i].SheetNumber == view.SheetNumber) {
-                    DialogHandler.AddRevitDialogHandler(new UIApplication(udoc.Application.Application));
-                    FamilyInstance result = ExportManager.TitleBlockInstanceFromSheetNumber(sortedSheets[i + inc].SheetNumber, udoc.Document);
-                    if (result != null) {
-                        udoc.ShowElements(result);
-                    }
+                    UIApplication uiapp = new UIApplication(udoc.Document.Application);
+                    uiapp.ActiveUIDocument.ActiveView = sortedSheets[i + inc];
                     return;
                 }
             }

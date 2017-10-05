@@ -33,57 +33,104 @@ namespace SCaddins.ExportManager
             this.InitializeComponent();
             this.textBox1.Focus();
             this.ActiveControl = this.textBox1;
-            this.dataGridView1.DataSource = SCaddins.ExportManager.ExportManager.ViewsInModel(doc);
+            this.dataGridView1.DataSource = SCaddins.ExportManager.OpenSheet.ViewsInModel(doc);
         }
         
-        public string Value
-        {
+        public string Value {
             get { return this.textBox1.Text.ToUpper(CultureInfo.CurrentCulture); }
         }
         
         private void TextBox1TextChanged(object sender, EventArgs e)
         {
-            List<OpenableView> list = SCaddins.ExportManager.ExportManager.ViewsInModel(doc).Where(x => x.Name.Contains(textBox1.Text)).ToList();
-            if(list.Count > 0) {
+            List<OpenableView> list = SCaddins.ExportManager.OpenSheet.ViewsInModel(doc)
+                .Where(x => (x.Name.ToUpper().Contains(textBox1.Text.ToUpper()) || x.SheetNumber.ToUpper().Contains(textBox1.Text.ToUpper())))
+        		.ToList();
+            if (list.Count > 0) {
                 this.dataGridView1.DataSource = list;
             }
+        }
+        
+        private void ScrollDown()
+        {
+            int selectedRow = dataGridView1.CurrentCell.RowIndex;
+            if (selectedRow < dataGridView1.Rows.Count - 1) {
+                dataGridView1.Rows[selectedRow].Selected = false;
+                dataGridView1.Rows[selectedRow + 1].Selected = true;
+                dataGridView1.CurrentCell = dataGridView1.Rows[selectedRow + 1].Cells[0];
+            } else {
+                dataGridView1.Rows[selectedRow].Selected = false;
+                dataGridView1.Rows[0].Selected = true;
+                dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[0];   
+            }	
+        }
+        
+        private void ScrollUp()
+        {
+            int selectedRow = dataGridView1.CurrentCell.RowIndex;
+            if (selectedRow > 0) {
+                dataGridView1.Rows[selectedRow].Selected = false;
+                dataGridView1.Rows[selectedRow - 1].Selected = true;
+                dataGridView1.CurrentCell = dataGridView1.Rows[selectedRow - 1].Cells[0];
+            } else {
+                dataGridView1.Rows[selectedRow].Selected = false;
+                dataGridView1.Rows[dataGridView1.Rows.Count - 1].Selected = true;
+                dataGridView1.CurrentCell = dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[0];   
+            }	
         }
 
         void TextBox1PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-            if(dataGridView1.Rows.Count < 1) return;
-            int selectedRow = dataGridView1.CurrentCell.RowIndex;
+            if (dataGridView1.Rows.Count < 1)
+                return;
+            if (e.Modifiers == Keys.Control) {
+                switch (e.KeyCode) { 
+                    case Keys.J:
+                        ScrollDown();
+                        break;
+                    case Keys.K:
+                        ScrollUp();
+                        break;
+                }
+                return;
+            }
             switch (e.KeyCode) {   
                 case Keys.Down:
-                    if (selectedRow < dataGridView1.Rows.Count - 1){
-                        dataGridView1.Rows[selectedRow].Selected = false;
-                        dataGridView1.Rows[selectedRow + 1].Selected = true;
-                        dataGridView1.CurrentCell = dataGridView1.Rows[selectedRow + 1].Cells[0];
-                    } else {
-                        dataGridView1.Rows[selectedRow].Selected = false;
-                        dataGridView1.Rows[0].Selected = true;
-                        dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[0];   
-                    }
+                    ScrollDown();
                     break;
                 case Keys.Up:
-                    if (selectedRow > 0) {
-                        dataGridView1.Rows[selectedRow].Selected = false;
-                        dataGridView1.Rows[selectedRow -1].Selected = true;
-                        dataGridView1.CurrentCell = dataGridView1.Rows[selectedRow -1].Cells[0];
-                    } else {
-                        dataGridView1.Rows[selectedRow].Selected = false;
-                        dataGridView1.Rows[dataGridView1.Rows.Count - 1].Selected = true;
-                        dataGridView1.CurrentCell = dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[0];   
-                    }
+                    ScrollUp();
                     break;
                 case Keys.Enter:
-                    DataGridViewRow row = dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex];
-                    var ov = row.DataBoundItem as OpenableView;
-                    ov.Open();
+                    OpenSelection();
+                    break;
+                case Keys.Escape:
                     this.Close();
-                    this.Dispose();
+                    this.Dispose();	 
                     break;
             }
+        }
+        
+        private void OpenSelection()
+        {
+            DataGridViewRow row = dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex];
+            var ov = row.DataBoundItem as OpenableView;
+            ov.Open();
+            this.Close();
+            this.Dispose();	
+        }
+        
+        void DataGridView1DoubleClick(object sender, EventArgs e)
+        {
+            OpenSelection();
+        }
+		
+        void DataGridView1PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            textBox1.Focus();
+        }
+        void OpenSheetDialogPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            textBox1.Focus();
         }
     }
 }

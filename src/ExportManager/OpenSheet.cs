@@ -18,6 +18,7 @@
 namespace SCaddins.ExportManager
 {
     using System;
+    using System.Collections.Generic;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -46,6 +47,22 @@ namespace SCaddins.ExportManager
 
             return Autodesk.Revit.UI.Result.Succeeded;
 
+        }
+        
+        public static List<OpenableView> ViewsInModel(Document doc)
+        {
+            var result = new List<OpenableView>();
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfCategory(BuiltInCategory.OST_Sheets);
+            foreach (ViewSheet view in collector) {
+                result.Add(new OpenableView(view.ViewName, view.SheetNumber, view));
+            }
+            FilteredElementCollector collector2 = new FilteredElementCollector(doc);
+            collector2.OfCategory(BuiltInCategory.OST_Views);
+            foreach (View view in collector2) {
+                result.Add(new OpenableView(view.Name, string.Empty, view));
+            }
+            return result;
         }
     }
 }

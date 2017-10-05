@@ -5,10 +5,13 @@
         
     public class OpenableView
     {
-        public OpenableView(string name, Autodesk.Revit.DB.View view)
+    	private Autodesk.Revit.DB.View view;
+    	
+        public OpenableView(string name, string number, Autodesk.Revit.DB.View view)
         {
-            View = view;
+            this.view = view;
             Name = name;
+            SheetNumber = number;
         }
         
         public string Name
@@ -16,16 +19,23 @@
             get; set;
         }
         
-        public Autodesk.Revit.DB.View View
+        public string SheetNumber
         {
             get; set;
         }
         
+        public string ViewType
+        {
+        	get{
+        		return view.ViewType.ToString();
+        	}
+        }
+               
         public void Open()
         {
-             UIApplication uiapp = new UIApplication(View.Document.Application);
-             if(View != null) {
-                    uiapp.ActiveUIDocument.ActiveView = View;
+             if(view != null) {
+        			UIApplication uiapp = new UIApplication(view.Document.Application);
+                    uiapp.ActiveUIDocument.ActiveView = view;
              }
         }
     }
