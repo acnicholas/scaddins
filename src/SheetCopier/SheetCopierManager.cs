@@ -146,7 +146,7 @@ namespace SCaddins.SheetCopier
             }
             
             int n = 0;
-            string firstSheetNumber = string.Empty;
+            View firstSheet = null;
             summaryText.Clear();
             
             using (var t = new Transaction(this.doc, "Copy Sheets")) {
@@ -154,21 +154,17 @@ namespace SCaddins.SheetCopier
                     foreach (SheetCopierSheet sheet in sheets) {
                         n++;
                         if (CreateAndPopulateNewSheet(sheet, summaryText) && n == 1) {
-                            firstSheetNumber = sheet.DestinationSheet.SheetNumber;
+                            firstSheet = sheet.DestinationSheet;
                         }
                     }
                     if (TransactionStatus.Committed != t.Commit()) {
                         TaskDialog.Show("Copy Sheets Failure", "Transaction could not be committed");
                     } else {
                         // try to open the first sheet created
-                        if (!string.IsNullOrEmpty(firstSheetNumber)) {
-                            using (var uiapp = new UIApplication(this.doc.Application)) {
-                                var titleBlockFamilyInstance = SCaddins.ExportManager.ExportManager.TitleBlockInstanceFromSheetNumber(firstSheetNumber, doc);
-                                if (titleBlockFamilyInstance != null && uiapp != null) {
-                                    SCaddins.ExportManager.DialogHandler.AddRevitDialogHandler(uiapp);
-                                    uidoc.ShowElements(titleBlockFamilyInstance);
-                                }
-                            }
+                        if (firstSheet != null) {
+                            var uiapp = new UIApplication(doc.Application);
+                            uiapp.ActiveUIDocument.ActiveView = firstSheet;
+                            
                         }
                     }
                 }
