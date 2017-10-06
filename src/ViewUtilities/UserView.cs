@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2014 by Andrew Nicholas
+﻿// (C) Copyright 2014-2017 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -30,15 +30,16 @@ namespace SCaddins.ViewUtilities
     /// </summary>
     public static class UserView
     {     
-        public static bool Create(View sourceView, Document doc)
+        public static View Create(View sourceView, Document doc)
         {
             if (sourceView == null || doc == null) {
-                return false;
+                return null;
             }
 
             if (sourceView.ViewType == ViewType.DrawingSheet) {
                 Create(sourceView as ViewSheet, doc);
-                return true;
+                // could return multiple users views so just return null
+                return null;
             }
 
             if (ValidViewType(sourceView.ViewType)) {
@@ -46,7 +47,7 @@ namespace SCaddins.ViewUtilities
             }
 
             ShowErrorDialog(sourceView);
-            return false;   
+            return null;   
         }
                
         public static void Create(ICollection<SCaddins.ExportManager.ExportSheet> sheets, Document doc)
@@ -137,7 +138,7 @@ namespace SCaddins.ViewUtilities
             return false;
         }
    
-        private static bool CreateView(View srcView, Document doc)
+        private static View CreateView(View srcView, Document doc)
         {
             ElementId destViewId = srcView.Duplicate(ViewDuplicateOption.Duplicate);
             var newView = doc.GetElement(destViewId) as View;
@@ -145,23 +146,23 @@ namespace SCaddins.ViewUtilities
             newView.ViewTemplateId = ElementId.InvalidElementId;
             var p = newView.GetParameters("SC-View_Category");
             if (p.Count < 1) {
-                return true;
+                return newView;
             }
             Parameter param = p[0];
             if (param == null) {
-                return true;
+                return newView;
             }
             
             if (param.IsReadOnly) {
                 TaskDialog.Show("SCuv Error", "SC-View_Category is read only!");
-                return false;
+                return null;
             } else {
                 if (!param.Set("User")) {
                     TaskDialog.Show("SCuv Error", "Error setting SC-View_Category parameter!"); 
-                    return false;    
+                    return null;    
                 }
             } 
-            return true;  
+            return newView;  
         }
     }
 }

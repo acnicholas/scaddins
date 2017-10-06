@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2014-2016 by Andrew Nicholas
+﻿// (C) Copyright 2014-2017 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -34,12 +34,12 @@ namespace SCaddins.ViewUtilities
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
             View view = doc.ActiveView;
+            View newView = null;
 
             using (Transaction t = new Transaction(doc)) {
                 if (t.Start("SCuv Copies User View") == TransactionStatus.Started) {
-                    if (UserView.Create(view, doc)) {
-                        UserView.ShowSummaryDialog(UserView.GetNewViewName(doc, view));
-                    } else {
+                    newView = UserView.Create(view, doc);
+                    if (newView == null) {
                         UserView.ShowErrorDialog(view);    
                     }
                     if (t.Commit() != TransactionStatus.Committed) {
@@ -47,6 +47,8 @@ namespace SCaddins.ViewUtilities
                     }
                 }
             }
+            UIApplication uiapp = new UIApplication(doc.Application);
+            uiapp.ActiveUIDocument.ActiveView = newView;
             return Result.Succeeded;
         }
     }
