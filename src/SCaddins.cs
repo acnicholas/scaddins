@@ -190,10 +190,10 @@ namespace SCaddins
 
         private static PushButtonData LoadSCulcase(string dll) {
             var pbd = new PushButtonData(
-                           "Rename", Resources.ChangeCase, dll, "SCaddins.RenameUtilties.RenameUtiltiesCommand");
+                           "Rename", Resources.Rename, dll, "SCaddins.RenameUtilties.RenameUtilitiesCommand");
             AssignPushButtonImage(pbd, @"SCaddins.Assets.sculcase-rvt-16.png", 16, dll);
-            pbd.ToolTip = Resources.ChangeCaseToolTip;
-            pbd.LongDescription = Resources.ChangeCaseLongDescription;
+            pbd.ToolTip = Resources.RenameToolTip;
+            pbd.LongDescription = Resources.RenameLongDescription;
             return pbd;
         }
 

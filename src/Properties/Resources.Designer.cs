@@ -160,33 +160,6 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change Case.
-        /// </summary>
-        internal static string ChangeCase {
-            get {
-                return ResourceManager.GetString("ChangeCase", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pre-select text/tags to change a selection. Run with no selection to change the entire project..
-        /// </summary>
-        internal static string ChangeCaseLongDescription {
-            get {
-                return ResourceManager.GetString("ChangeCaseLongDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Convert text from upper to lower case, or vise-versa.
-        /// </summary>
-        internal static string ChangeCaseToolTip {
-            get {
-                return ResourceManager.GetString("ChangeCaseToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Check For Updates.
         /// </summary>
         internal static string CheckForUpdates {
@@ -1168,6 +1141,15 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pre-select text/tags to change a selection to uppercase. Run with no selection to rename selected parameter categories with advanced options..
+        /// </summary>
+        internal static string RenameLongDescription {
+            get {
+                return ResourceManager.GetString("RenameLongDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rename Selected Sheets.
         /// </summary>
         internal static string RenameSelectedSheets {
@@ -1191,6 +1173,15 @@ namespace SCaddins.Properties {
         internal static string RenameSheetsUsingRegex {
             get {
                 return ResourceManager.GetString("RenameSheetsUsingRegex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename paramters..
+        /// </summary>
+        internal static string RenameToolTip {
+            get {
+                return ResourceManager.GetString("RenameToolTip", resourceCulture);
             }
         }
         
