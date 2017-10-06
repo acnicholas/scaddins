@@ -18,6 +18,7 @@
 namespace SCaddins.ExportManager
 {
     using System;
+    using System.Collections.Generic;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -39,28 +40,29 @@ namespace SCaddins.ExportManager
             }
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            DialogHandler.AddRevitDialogHandler(commandData.Application);
 
-            var openSheetDialog = new OpenSheetDialog();
-            System.Windows.Forms.DialogResult openSheetDialogResult = openSheetDialog.ShowDialog();
-
-            if (openSheetDialogResult != System.Windows.Forms.DialogResult.OK) {
-                return Autodesk.Revit.UI.Result.Failed;
+            using (var openSheetDialog = new OpenSheetDialog(doc)) {
+                System.Windows.Forms.DialogResult openSheetDialogResult = openSheetDialog.ShowDialog();
             }
 
-            FamilyInstance titleBlockInstance = null;
-            string[] possiblePrefixes = { string.Empty, "CD", "DA", "SK", "AD-CD", "AD-DA", "AD-SK" };
-            foreach (string s in possiblePrefixes) {
-                titleBlockInstance = 
-                    ExportManager.TitleBlockInstanceFromSheetNumber(s + openSheetDialog.Value, doc);
-                if (titleBlockInstance != null) {
-                    commandData.Application.ActiveUIDocument.ShowElements(titleBlockInstance);
-                    return Autodesk.Revit.UI.Result.Succeeded;
-                }
-            }
+            return Autodesk.Revit.UI.Result.Succeeded;
 
-            TaskDialog.Show("SCexport", "Sheet: " + openSheetDialog.Value + " cannot be found.");
-            return Autodesk.Revit.UI.Result.Failed;
+        }
+        
+        public static List<OpenableView> ViewsInModel(Document doc)
+        {
+            var result = new List<OpenableView>();
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfCategory(BuiltInCategory.OST_Sheets);
+            foreach (ViewSheet view in collector) {
+                result.Add(new OpenableView(view.ViewName, view.SheetNumber, view));
+            }
+            FilteredElementCollector collector2 = new FilteredElementCollector(doc);
+            collector2.OfCategory(BuiltInCategory.OST_Views);
+            foreach (View view in collector2) {
+                result.Add(new OpenableView(view.Name, string.Empty, view));
+            }
+            return result;
         }
     }
 }

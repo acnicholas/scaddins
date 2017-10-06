@@ -32,6 +32,7 @@ namespace SCaddins.ExportManager
     using Autodesk.Revit.UI;
     using SCaddins.Common;
     using SCaddins.Properties;
+    using SCaddins.ExportManager;
 
     public class ExportManager
     {
@@ -166,7 +167,30 @@ namespace SCaddins.ExportManager
         public bool ShowExportLog {
             get; set;
         }
-
+                
+        public static View FindView(string sheetNumber, Document doc)
+        {
+            if (doc == null) {
+                return null;
+            }    
+            
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfCategory(BuiltInCategory.OST_Sheets);
+            foreach (ViewSheet view in collector){
+                if (view.Name == sheetNumber || view.SheetNumber == sheetNumber) {
+                    return (View)view;
+                }
+            }
+            FilteredElementCollector collector2 = new FilteredElementCollector(doc);
+            collector2.OfCategory(BuiltInCategory.OST_Views);
+            foreach (View view in collector2){
+                if (view.Name == sheetNumber) {
+                    return view;
+                }
+            }
+            return null;
+        }
+                
         public static FamilyInstance TitleBlockInstanceFromSheetNumber(
             string sheetNumber, Document doc)
         {
@@ -565,15 +589,14 @@ namespace SCaddins.ExportManager
             }
             IEnumerable<ViewSheet> sortedEnum = sheets.OrderBy(f => f.SheetNumber);
             IList<ViewSheet> sortedSheets = sortedEnum.ToList();
+            
 
-            // FIXME don't allow overflow.
             for (int i = 0; i < sortedSheets.Count; i++) {
+                if(inc == -1 && i == 0) continue;
+                if(inc == 1 && i == (sortedSheets.Count - 1)) continue;
                 if (sortedSheets[i].SheetNumber == view.SheetNumber) {
-                    DialogHandler.AddRevitDialogHandler(new UIApplication(udoc.Application.Application));
-                    FamilyInstance result = ExportManager.TitleBlockInstanceFromSheetNumber(sortedSheets[i + inc].SheetNumber, udoc.Document);
-                    if (result != null) {
-                        udoc.ShowElements(result);
-                    }
+                    UIApplication uiapp = new UIApplication(udoc.Document.Application);
+                    uiapp.ActiveUIDocument.ActiveView = sortedSheets[i + inc];
                     return;
                 }
             }

@@ -140,6 +140,9 @@
     <Compile Include="..\Constants.cs">
       <Link>Constants.cs</Link>
     </Compile>
+    <Compile Include="..\ExportManager\OpenableView.cs">
+      <Link>OpenableView.cs</Link>
+    </Compile>
     <Compile Include="..\LatestRelease.cs">
       <Link>LatestRelease.cs</Link>
     </Compile>
