@@ -174,7 +174,6 @@ namespace SCaddins.ExportManager
                 return null;
             }    
             
-            View result;
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             collector.OfCategory(BuiltInCategory.OST_Sheets);
             foreach (ViewSheet view in collector){

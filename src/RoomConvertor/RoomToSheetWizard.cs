@@ -49,7 +49,7 @@
                     td.Show();
                 }
             }
-            int j = 0;
+
             if (int.TryParse(textBox2.Text, out i)) {
                 roomConversionManager.CropRegionEdgeOffset = i;
             } else {
