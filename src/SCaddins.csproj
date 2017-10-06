@@ -224,20 +224,6 @@
     <Compile Include="LatestRelease.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="ParameterUtilities\EditTextParameters.cs" />
-    <Compile Include="ParameterUtilities\TextCaseEnums.cs" />
-    <Compile Include="ParameterUtilities\ChangeCaseInfoDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ParameterUtilities\TextCaseInfoDialog.Designer.cs">
-      <DependentUpon>ChangeCaseInfoDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ParameterUtilities\TextCaseMainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ParameterUtilities\TextCaseMainForm.Designer.cs">
-      <DependentUpon>TextCaseMainForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="RenameUtilities\RenameManager.cs" />
@@ -482,12 +468,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Common\UpgradeForm.resx">
       <DependentUpon>UpgradeForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ParameterUtilities\ChangeCaseInfoDialog.resx">
-      <DependentUpon>ChangeCaseInfoDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ParameterUtilities\TextCaseMainForm.resx">
-      <DependentUpon>TextCaseMainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RenameUtilities\RenameUtilitiesForm.resx">
       <DependentUpon>RenameUtilitiesForm.cs</DependentUpon>

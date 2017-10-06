@@ -17,7 +17,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
 
 namespace SCaddins.RenameUtilities
 {
@@ -48,6 +50,65 @@ namespace SCaddins.RenameUtilities
                 } else {
                     Autodesk.Revit.UI.TaskDialog.Show("Error", "Failed to start Bulk Rename Revit Transaction...");
                 }
+            }
+        }
+        
+        private static void ConvertViewName(View view)
+        {
+            string newName = NewString(view.Name);
+            if (ValidRevitName(newName)) {
+                view.Name = newName;
+            }
+        }
+        
+        private static string NewString(string oldString)
+        {
+            return oldString.ToUpper(CultureInfo.CurrentCulture);
+        }
+
+        private static bool ValidRevitName(string s)
+        {
+            return !(s.Contains("{") || s.Contains("}"));
+        }
+
+        private static void ConvertAnnotation(TextElement text)
+        {
+            text.Text = NewString(text.Text);
+        }
+
+        private static void ConvertRoom(Room room)
+        {
+            Parameter param = room.LookupParameter("Name");
+            param.Set(NewString(param.AsString()));
+        }
+        
+        public static void ConvertSelectionToUppercase(Document doc, IList<ElementId> elements)
+        {
+            if (elements == null || doc == null) {
+                return;
+            }
+            using (var trans = new Transaction(doc)) {
+                trans.Start("Convert selected elements to uppercase (SCulcase)");
+                foreach (Autodesk.Revit.DB.ElementId eid in elements) {
+                    Element e = doc.GetElement(eid);
+                    Category category = e.Category;
+                    var enumCategory = (BuiltInCategory)category.Id.IntegerValue;
+                    switch (enumCategory) {
+                        case BuiltInCategory.OST_Views:
+                            var v = (View)e;
+                            ConvertViewName(v);
+                            break;
+                        case BuiltInCategory.OST_TextNotes:
+                            var text = (TextElement)e;
+                            ConvertAnnotation(text);
+                            break;
+                        case BuiltInCategory.OST_Rooms:
+                            var room = (Room)e;
+                            ConvertRoom(room);
+                            break;
+                    }
+                }
+                trans.Commit();
             }
         }
         
