@@ -17,6 +17,7 @@
 
 namespace SCaddins.ViewUtilities
 {
+    using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
@@ -34,21 +35,22 @@ namespace SCaddins.ViewUtilities
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
             View view = doc.ActiveView;
-            View newView = null;
+            List<View> newUserViews = new List<View>();
 
             using (Transaction t = new Transaction(doc)) {
                 if (t.Start("SCuv Copies User View") == TransactionStatus.Started) {
-                    newView = UserView.Create(view, doc);
-                    if (newView == null) {
-                        UserView.ShowErrorDialog(view);    
-                    }
+                    newUserViews = UserView.Create(view, doc);
                     if (t.Commit() != TransactionStatus.Committed) {
                         TaskDialog.Show("Failed", "Could not create user view[s]");
                     }
                 }
             }
-            UIApplication uiapp = new UIApplication(doc.Application);
-            uiapp.ActiveUIDocument.ActiveView = newView;
+            if(newUserViews == null || newUserViews.Count > 0) {
+                //FIXME show summary dialog
+                UserView.ShowSummaryDialog(newUserViews);
+                UIApplication uiapp = new UIApplication(doc.Application);
+                uiapp.ActiveUIDocument.ActiveView = newUserViews[0];
+            }
             return Result.Succeeded;
         }
     }

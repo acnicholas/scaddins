@@ -30,47 +30,50 @@ namespace SCaddins.ViewUtilities
     /// </summary>
     public static class UserView
     {     
-        public static View Create(View sourceView, Document doc)
-        {
+        public static List<View> Create(View sourceView, Document doc)
+        {      
             if (sourceView == null || doc == null) {
                 return null;
             }
 
             if (sourceView.ViewType == ViewType.DrawingSheet) {
-                Create(sourceView as ViewSheet, doc);
-                // could return multiple users views so just return null
-                return null;
+                return Create(sourceView as ViewSheet, doc);
             }
 
             if (ValidViewType(sourceView.ViewType)) {
-                return CreateView(sourceView, doc);
+                List<View> result = new List<View>();
+                result.Add(CreateView(sourceView, doc));
+                return result;
             }
 
-            ShowErrorDialog(sourceView);
             return null;   
         }
                
-        public static void Create(ICollection<SCaddins.ExportManager.ExportSheet> sheets, Document doc)
+        public static List<View> Create(ICollection<SCaddins.ExportManager.ExportSheet> sheets, Document doc)
         {
-            string message = string.Empty;
+            List<View> result = new List<View>();
             if (sheets == null || doc == null) {
-                message += SCaddins.Properties.Resources.CouldNotCreateUserView;
+                return null;
             } else {
                 using (var t = new Transaction(doc, "SCuv Copies User Views")) {
                     if (t.Start() == TransactionStatus.Started) {
                         foreach (SCaddins.ExportManager.ExportSheet sheet in sheets) {
-                            message += Create(sheet.Sheet, doc);
+                            var list = Create(sheet.Sheet, doc);
+                            foreach (View v in list) {
+                                result.Add(v);
+                            }
                         }
                         t.Commit();
                     } else {
                         TaskDialog.Show("Error", "Could not start user view transaction");
+                        return null;
                     }
                 }
             }
-            ShowSummaryDialog(message);
-    }
+            return result;
+        }
                     
-        public static string GetNewViewName(Document doc, Element sourceView)
+        private static string GetNewViewName(Document doc, Element sourceView)
         { 
             if (doc == null || sourceView == null) {
                 return string.Empty;
@@ -87,23 +90,13 @@ namespace SCaddins.ViewUtilities
             }
         } 
         
-        public static void ShowErrorDialog(Element sourceView)
-        {
-            if (sourceView == null) {
-                // FIXME add a error message here
-                return;
-            }
-            using (var td = new TaskDialog(Resources.CreateUserView)) {
-                td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-                td.MainInstruction = "Error creating user view for view:";
-                td.MainContent = sourceView.Name;
-                td.Show();
-            }
-        }
-
-        public static void ShowSummaryDialog(string message)
+        public static void ShowSummaryDialog(List<View> newUserViews)
         {
             using (var td = new TaskDialog(Resources.CreateUserViews)) {
+                string message = string.Empty;
+                foreach (View view in newUserViews) {
+                    message += view.Name + System.Environment.NewLine;
+                }
                 td.MainIcon = TaskDialogIcon.TaskDialogIconNone;
                 td.MainInstruction = "Summary of users view created:";
                 td.MainContent = message;
@@ -111,17 +104,16 @@ namespace SCaddins.ViewUtilities
             } 
         }
         
-        private static string Create(ViewSheet vs, Document doc)
+        private static List<View> Create(ViewSheet vs, Document doc)
         {
-            string message = string.Empty;
+            List<View> result = new List<View>();
             foreach (ElementId id in vs.GetAllPlacedViews()) {
                 var v = (View)doc.GetElement(id);
                 if (ValidViewType(v.ViewType)) {
-                    CreateView(v, doc);
-                    message += GetNewViewName(doc, v) + Environment.NewLine;
+                    result.Add(CreateView(v, doc));
                 }
             }           
-            return message;          
+            return result;          
         }
         
         private static bool ValidViewType(ViewType viewType)

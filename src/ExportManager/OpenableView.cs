@@ -6,7 +6,7 @@
     public class OpenableView
     {
         private Autodesk.Revit.DB.View view;
-    	
+
         public OpenableView(string name, string number, Autodesk.Revit.DB.View view)
         {
             this.view = view;
