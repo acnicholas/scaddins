@@ -32,13 +32,15 @@ namespace SCaddins.RoomConvertor
             if (commandData == null) {
                 throw new ArgumentNullException("commandData");
             }
-
+            
             Document doc = commandData.Application.ActiveUIDocument.Document;
+            
             if (doc == null) {
                 return Result.Failed;
             }
 
             var roomConversionManager = new RoomConversionManager(doc);
+            
             if (roomConversionManager.Candidates.Count == 0) {
                 using (TaskDialog td = new TaskDialog("Room Tools - Slight Problem...")) {
                     td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
@@ -49,7 +51,7 @@ namespace SCaddins.RoomConvertor
                 return Result.Failed;
             }
             using (var mainForm = new MainForm(roomConversionManager)) {
-                mainForm.ShowDialog();
+                 mainForm.ShowDialog();
             }
             return Result.Succeeded;
         }

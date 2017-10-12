@@ -34,14 +34,16 @@ namespace SCaddins.RoomConvertor
         private Dictionary<string, ElementId> titleBlocks = 
             new Dictionary<string, ElementId>();
 
-        private Dictionary<string, string> departmentsInModel =
-            new Dictionary<string, string>();
+        private Dictionary<string, string> departmentsInModel;
+
 
         private SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> allCandidates;
         private Document doc;
         private SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> candidates;
 
-        public RoomConversionManager(Document doc) {
+        public RoomConversionManager(Document doc)
+        {
+            departmentsInModel = new Dictionary<string, string>();
             candidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();
             this.allCandidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();
             this.doc = doc;
@@ -57,25 +59,32 @@ namespace SCaddins.RoomConvertor
                     if (e.IsValidObject && (e is Room)) {
                         Room room = e as Room;
                         if (room.Area > 0 && room.Location != null) {
-                            allCandidates.Add(new RoomConversionCandidate(room, existingSheets, existingViews));
-                            Parameter p = room.LookupParameter("Department");
-                            string depo = p.AsString().Trim();
-                            if (!string.IsNullOrEmpty(depo) && !departmentsInModel.ContainsKey(depo)) {
-                                departmentsInModel.Add(depo, depo);
-                            }
+                              allCandidates.Add(new RoomConversionCandidate(room, existingSheets, existingViews));
+                              Parameter p = room.LookupParameter("Department");
+                              if (p != null && p.HasValue) {
+                                  string depo = p.AsString().Trim();
+                                  if (departmentsInModel.Count > 0) {
+                                    if (!string.IsNullOrEmpty(depo) && !departmentsInModel.ContainsKey(depo)) {
+                                        departmentsInModel.Add(depo, depo);
+                                    }
+                                  } else {
+                                      if (!string.IsNullOrEmpty(depo)) {
+                                          departmentsInModel.Add(depo, depo);
+                                      }
+                                  }
+                              }
                         }
                     }
                 }
             }
-
-            // Initially add all canditates.
+            
             this.Reset();
         }
 
         public SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> Candidates {
             get { return candidates; }
         }
-
+        
         public Document Doc {
             get { return doc; }
         }
@@ -334,10 +343,13 @@ namespace SCaddins.RoomConvertor
 
         private bool CreateRoomMass(Room room)
         {    
+            if (!SpatialElementGeometryCalculator.CanCalculateGeometry(room)) {
+                return false;
+            }
             try {
                 SpatialElementGeometryResults results;
                 using (var calculator = new SpatialElementGeometryCalculator(doc)) {
-                    results = calculator.CalculateSpatialElementGeometry(room);
+                           results = calculator.CalculateSpatialElementGeometry(room);
                 }
                 using (Solid roomSolid = results.GetGeometry()) {
                     var eid = new ElementId(BuiltInCategory.OST_Mass);
@@ -346,14 +358,24 @@ namespace SCaddins.RoomConvertor
                     #else
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
                     #endif
-                    roomShape.SetShape(new GeometryObject[] { roomSolid });
-                    CopyAllRoomParametersToMasses(room, roomShape);
+                    if (roomShape != null && roomSolid.Volume > 0 && roomSolid.Faces.Size > 0) {
+                        var geomObj = new GeometryObject[] { roomSolid };
+                        if (geomObj != null && geomObj.Length > 0) {
+                            roomShape.SetShape(geomObj);
+                            CopyAllRoomParametersToMasses(room, roomShape);
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
                 }
             } catch (Exception ex) {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 return false;
             }
-            return true;
+            return false;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]

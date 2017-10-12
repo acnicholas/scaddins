@@ -72,24 +72,7 @@ namespace SCaddins.ViewUtilities
             }
             return result;
         }
-                    
-        private static string GetNewViewName(Document doc, Element sourceView)
-        { 
-            if (doc == null || sourceView == null) {
-                return string.Empty;
-            }
-            string name = sourceView.Name;
-
-            // Revit wont allow { or } so replace them if they exist
-            name = name.Replace(@"{", string.Empty).Replace(@"}", string.Empty);
-            name = Environment.UserName + "-" + name + "-" + MiscUtilities.GetDateString;
-            if (SolarUtilities.Command.ViewNameIsAvailable(doc, name)) {
-                return name;
-            } else {
-                return SolarUtilities.Command.GetNiceViewName(doc, name);
-            }
-        } 
-        
+                           
         public static void ShowSummaryDialog(List<View> newUserViews)
         {
             using (var td = new TaskDialog(Resources.CreateUserViews)) {
@@ -115,6 +98,23 @@ namespace SCaddins.ViewUtilities
             }           
             return result;          
         }
+        
+        private static string GetNewViewName(Document doc, Element sourceView)
+        { 
+            if (doc == null || sourceView == null) {
+                return string.Empty;
+            }
+            string name = sourceView.Name;
+
+            // Revit wont allow { or } so replace them if they exist
+            name = name.Replace(@"{", string.Empty).Replace(@"}", string.Empty);
+            name = Environment.UserName + "-" + name + "-" + MiscUtilities.GetDateString;
+            if (SolarUtilities.Command.ViewNameIsAvailable(doc, name)) {
+                return name;
+            } else {
+                return SolarUtilities.Command.GetNiceViewName(doc, name);
+            }
+        } 
         
         private static bool ValidViewType(ViewType viewType)
         {

@@ -168,6 +168,10 @@ namespace SCaddins.RoomConvertor
 
         private string SelectDepartment()
         {   
+            if (manager.GetAllDepartments().Count == 0 ) {
+                return string.Empty;
+            }
+            
             var dialog = new DesignOptionSelector();
             dialog.SetTitle("Select deparment");
 
