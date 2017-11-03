@@ -1,5 +1,18 @@
 #SCaddins Revision Log#
 
+#18.1#
+
+####NEW####
+
+- **New rename tool**
+- New Open sheet dialog (command only)
+- Upgrade reminder form updated.
+- Option to select Room Department of Design Option added to Room Tools.
+- Unused view filter added to destructive purge.
+- Offset crop region option added to room tools when creating sheets.
+- Open newly created user views.
+
+
 #18.0#
 
 ####SUMMARY####
