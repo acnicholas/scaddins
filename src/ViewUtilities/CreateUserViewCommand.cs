@@ -46,10 +46,11 @@ namespace SCaddins.ViewUtilities
                 }
             }
             if(newUserViews == null || newUserViews.Count > 0) {
-                //FIXME show summary dialog
                 UserView.ShowSummaryDialog(newUserViews);
-                UIApplication uiapp = new UIApplication(doc.Application);
-                uiapp.ActiveUIDocument.ActiveView = newUserViews[0];
+                if (newUserViews != null) {
+                    UIApplication uiapp = new UIApplication(doc.Application);
+                    uiapp.ActiveUIDocument.ActiveView = newUserViews[0];
+                }
             }
             return Result.Succeeded;
         }

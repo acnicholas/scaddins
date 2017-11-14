@@ -44,7 +44,7 @@ namespace SCaddins.ViewUtilities
                 List<View> result = new List<View>();
                 result.Add(CreateView(sourceView, doc));
                 return result;
-            }
+            } 
 
             return null;   
         }
@@ -77,8 +77,20 @@ namespace SCaddins.ViewUtilities
         {
             using (var td = new TaskDialog(Resources.CreateUserViews)) {
                 string message = string.Empty;
-                foreach (View view in newUserViews) {
-                    message += view.Name + System.Environment.NewLine;
+                if (newUserViews == null) {
+                    message = "No valid views found, User view not created." + System.Environment.NewLine
+                    + "\tValid views types are: " + System.Environment.NewLine
+                    + System.Environment.NewLine
+                    + "\t\tViewType.FloorPlan" + System.Environment.NewLine
+                    + "\t\tViewType.Elevation" + System.Environment.NewLine
+                    + "\t\tViewType.CeilingPlan" + System.Environment.NewLine
+                    + "\t\tViewType.Section" + System.Environment.NewLine
+                    + "\t\tViewType.AreaPlan" + System.Environment.NewLine
+                    + "\t\tViewType.ThreeD";
+                } else {
+                    foreach (View view in newUserViews) {
+                        message += view.Name + System.Environment.NewLine;
+                    }
                 }
                 td.MainIcon = TaskDialogIcon.TaskDialogIconNone;
                 td.MainInstruction = "Summary of users view created:";
