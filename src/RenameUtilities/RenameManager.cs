@@ -39,10 +39,12 @@ namespace SCaddins.RenameUtilities
             using (var t = new Transaction(doc)) {
                 if (t.Start("Bulk Rename") == TransactionStatus.Started) { 
                     foreach (RenameCandidate candidate in renameCandidates) {
-                        if(candidate.ValueChanged() && candidate.Rename()){
-                            successes++;
-                        } else {
-                            fails++;
+                        if (candidate.ValueChanged()) {
+                            if (candidate.Rename()) {
+                                successes++;
+                            } else {
+                                fails++;
+                            }
                         }
                     }
                     t.Commit();
