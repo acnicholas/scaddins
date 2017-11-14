@@ -128,6 +128,11 @@ namespace SCaddins.ExportManager
         {
             get; set;
         }
+        
+        public bool UseDateForEmptyRevisions
+        {
+        	get; set;
+        }
 
         public bool ForceRevisionToDateString
         {
@@ -536,6 +541,8 @@ namespace SCaddins.ExportManager
             this.exportDirectory = SCaddins.ExportManager.Settings1.Default.ExportDir;
             this.AcadVersion = AcadVersionFromString(SCaddins.ExportManager.Settings1.Default.AcadExportVersion);
             this.ShowExportLog = SCaddins.ExportManager.Settings1.Default.ShowExportLog;
+            this.ForceRevisionToDateString = SCaddins.ExportManager.Settings1.Default.ForceDateRevision;
+            this.UseDateForEmptyRevisions = SCaddins.ExportManager.Settings1.Default.UseDateForEmptyRevisions;
         }
 
         [SecurityCritical]

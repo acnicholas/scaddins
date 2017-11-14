@@ -57,6 +57,7 @@ namespace SCaddins.ExportManager
             this.checkBoxHideTitleblock.Checked =
                 this.scx.HasExportOption(ExportOptions.NoTitle);
             this.checkBoxForceDate.Checked = this.scx.ForceRevisionToDateString;
+            this.checkBoxUseDateForEmptyRevisions.Checked = this.scx.UseDateForEmptyRevisions;
             if (this.scx.FileNameScheme != null) {
                 this.comboBoxScheme.Text = this.scx.FileNameScheme.Name;
             }
@@ -96,6 +97,7 @@ namespace SCaddins.ExportManager
             SCaddins.ExportManager.Settings1.Default.ExportDir = this.textBoxExportDir.Text;
             SCaddins.ExportManager.Settings1.Default.AdobePDFMode = radioPDF.Checked;
             SCaddins.ExportManager.Settings1.Default.ForceDateRevision = checkBoxForceDate.Checked;
+            SCaddins.ExportManager.Settings1.Default.UseDateForEmptyRevisions = checkBoxUseDateForEmptyRevisions.Checked;
             SCaddins.ExportManager.Settings1.Default.HideTitleBlocks = checkBoxHideTitleblock.Checked;
             SCaddins.ExportManager.Settings1.Default.AcadExportVersion = this.comboBoxAutocadVersion.SelectedItem.ToString();
             SCaddins.ExportManager.Settings1.Default.ShowExportLog = this.checkBoxShowExportLog.Checked;

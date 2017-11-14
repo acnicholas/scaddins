@@ -32,6 +32,7 @@ namespace SCaddins.ExportManager
         private SegmentedSheetName segmentedFileName;
         private ViewSheet sheet;
         private bool forceDate;
+        private bool useDateForEmptyRevisions;
         private bool verified;
         private int northPointVisible;
         private double height;
@@ -218,6 +219,18 @@ namespace SCaddins.ExportManager
             
             set {
                 this.forceDate = value;
+                this.SetExportName();
+            }
+        }
+        
+        public bool UseDateForEmptyRevisions
+        {
+            get {
+                return this.useDateForEmptyRevisions;
+            }
+            
+            set {
+                this.useDateForEmptyRevisions = value;
                 this.SetExportName();
             }
         }
@@ -451,6 +464,8 @@ namespace SCaddins.ExportManager
             this.northPointVisible = 2;
             this.pageSize = string.Empty;
             this.id = viewSheet.Id;
+            this.ForceDate = scx.ForceRevisionToDateString;
+            this.useDateForEmptyRevisions = scx.UseDateForEmptyRevisions;
             this.UpdateRevision(false);
             this.SetExportName();
         }
@@ -469,7 +484,7 @@ namespace SCaddins.ExportManager
                     BuiltInParameter.SHEET_CURRENT_REVISION).AsString();
             }
 
-            if (this.sheetRevision.Length < 1) {
+            if (this.sheetRevision.Length < 1 && this.useDateForEmptyRevisions) {
                 this.sheetRevision = MiscUtilities.GetDateString;
             }
 

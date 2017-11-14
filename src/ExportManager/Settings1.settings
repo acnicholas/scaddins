@@ -52,5 +52,8 @@
     <Setting Name="TextEditor" Type="System.String" Scope="User" Roaming="true">
       <Value Profile="(Default)">notepad.exe</Value>
     </Setting>
+    <Setting Name="UseDateForEmptyRevisions" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

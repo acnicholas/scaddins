@@ -20,7 +20,7 @@ namespace SCaddins.ExportManager
     using SCaddins.Properties;
 
     public partial class OptionsDialog
-    {           
+    {
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBoxA3Printer;
@@ -99,6 +99,7 @@ namespace SCaddins.ExportManager
             this.textBoxExportDir = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.checkBoxUseDateForEmptyRevisions = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.comboBoxScheme = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -166,8 +167,8 @@ namespace SCaddins.ExportManager
             // 
             // button1
             // 
-            this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(this.button1, "button1");
+            this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.button1.Name = "button1";
             this.button1.Text = global::SCaddins.Properties.Resources.Apply;
             this.button1.UseVisualStyleBackColor = true;
@@ -250,6 +251,7 @@ namespace SCaddins.ExportManager
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.checkBoxUseDateForEmptyRevisions);
             this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.comboBoxScheme);
             this.groupBox4.Controls.Add(this.label6);
@@ -259,6 +261,12 @@ namespace SCaddins.ExportManager
             resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
+            // 
+            // checkBoxUseDateForEmptyRevisions
+            // 
+            resources.ApplyResources(this.checkBoxUseDateForEmptyRevisions, "checkBoxUseDateForEmptyRevisions");
+            this.checkBoxUseDateForEmptyRevisions.Name = "checkBoxUseDateForEmptyRevisions";
+            this.checkBoxUseDateForEmptyRevisions.UseVisualStyleBackColor = true;
             // 
             // label5
             // 
@@ -592,7 +600,7 @@ namespace SCaddins.ExportManager
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
-        } 
+        }
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.TextBox textBoxExportDir;
@@ -616,5 +624,6 @@ namespace SCaddins.ExportManager
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox textBoxNorthPointVisibilty;
         private System.Windows.Forms.TextBox textBoxScalebarScale;
+        private System.Windows.Forms.CheckBox checkBoxUseDateForEmptyRevisions;
     }
 }

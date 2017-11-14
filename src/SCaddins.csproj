@@ -71,7 +71,7 @@
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
-    <RunCodeAnalysis>True</RunCodeAnalysis>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2017' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -87,7 +87,7 @@
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
-    <RunCodeAnalysis>True</RunCodeAnalysis>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2018' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -103,7 +103,7 @@
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
-    <RunCodeAnalysis>True</RunCodeAnalysis>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2017|x64'">
     <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
@@ -231,7 +231,9 @@
     <Compile Include="RenameUtilities\RenameCandidate.cs" />
     <Compile Include="RenameUtilities\RenameParameter.cs" />
     <Compile Include="RenameUtilities\RenameUtilitiesCommand.cs" />
-    <Compile Include="RenameUtilities\RenameUtilitiesForm.cs" />
+    <Compile Include="RenameUtilities\RenameUtilitiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="RenameUtilities\RenameUtilitiesForm.Designer.cs">
       <DependentUpon>RenameUtilitiesForm.cs</DependentUpon>
     </Compile>
@@ -587,9 +589,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Assets\scexport-rvt-16.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="RenameUtilities" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets" Condition="Exists('packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets') And '$(Configuration)' == 'Debug'" />
 </Project>
