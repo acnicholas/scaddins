@@ -124,7 +124,6 @@ namespace SCaddins.RenameUtilities
                     candidates.Add(new RenameCandidate(textNote));
                 }
             }
-            Autodesk.Revit.UI.TaskDialog.Show("test", candidates.Count.ToString());
             return candidates;
         }
              

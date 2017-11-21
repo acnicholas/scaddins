@@ -74,6 +74,15 @@ namespace SCaddins.RenameUtilities
             if (comboBox1.Text == "Walls") {
                 listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_Walls);    
             }
+            if (comboBox1.Text == "Doors") {
+                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_Doors);    
+            }
+            if (comboBox1.Text == "Windows") {
+                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_Windows);    
+            }
+            if (comboBox1.Text == "Windows") {
+                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_Revisions);    
+            }
             if (comboBox1.Text == "Floors") {
                 listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_Floors);    
             }
