@@ -36,6 +36,8 @@ namespace SCaddins
     [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class SCaddinsApp : Autodesk.Revit.UI.IExternalApplication
     {
+        private RibbonPanel ribbonPanel;
+        
         public static Version Version
         {
             get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
@@ -93,7 +95,7 @@ namespace SCaddins
         public Autodesk.Revit.UI.Result OnStartup(
             UIControlledApplication application)
         {
-            var ribbonPanel = TryGetPanel(application, "Scott Carver");
+            ribbonPanel = TryGetPanel(application, "Scott Carver");
 
             if (ribbonPanel == null) {
                 return Result.Failed;
