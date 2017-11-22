@@ -274,7 +274,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SheetCopierMainForm.resx</DependentUpon>
     </Compile>
-    <Compile Include="SolarUtilities\AngleOfSun.cs" />
     <Compile Include="SolarUtilities\SolarViews.cs" />
     <Compile Include="SolarUtilities\SolarViewsForm.cs">
       <SubType>Form</SubType>
