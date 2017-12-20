@@ -35,9 +35,8 @@ namespace SCaddins.RevisionUtilities
                 return Result.Failed;
             }
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            using (RevisionUtilitiesForm form = new RevisionUtilitiesForm(doc)) {
-                form.ShowDialog();
-            }
+            RevisionUtilitiesWindow form = new RevisionUtilitiesWindow(doc);
+            form.ShowDialog();
             return Autodesk.Revit.UI.Result.Succeeded;
         }     
     }  
