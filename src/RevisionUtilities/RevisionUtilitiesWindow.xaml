@@ -28,7 +28,8 @@
             HorizontalAlignment="Stretch"
             Margin="5,5,5,65"
             x:Name="DeleteCloudsButton"
-            Content="Delete Revision Cloud(s)" />
+            Content="Delete Revision Cloud(s)"
+            Click="DeleteCloudsButton_Click" />
         <Button
             Width="Auto"
             Height="23"
@@ -38,7 +39,8 @@
             HorizontalAlignment="Stretch"
             Margin="5,5,5,35"
             x:Name="AssignRevisionsButton"
-            Content="Assign Revision to Cloud(s)" />
+            Content="Assign Revision to Cloud(s)"
+            Click="AssignRevisionsButton_Click" />
         <Button
             Width="Auto"
             Height="23"
@@ -48,7 +50,8 @@
             HorizontalAlignment="Stretch"
             Margin="5,5,5,5"
             x:Name="ScheduleCloudsButton"
-            Content="Schedule Revision Cloud(s)" />
+            Content="Schedule Revision Cloud(s)"
+            Click="ScheduleCloudsButton_Click" />
         <Button
             VerticalAlignment="Center"
             HorizontalAlignment="Stretch"
@@ -80,7 +83,25 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Margin="5,8,0,0">
-            <Canvas />
+            <Canvas>
+                <RadioButton
+                    Canvas.Top="7"
+                    Canvas.Left="7.5"
+                    Width="162.5"
+                    Height="19"
+                    x:Name="RadioRevisions"
+                    Content="Display Revisions"
+                    IsChecked="True"
+                    Checked="RadioRevisions_Checked" />
+                <RadioButton
+                    Canvas.Top="34"
+                    Height="19"
+                    Canvas.Left="7.5"
+                    Width="162.5"
+                    x:Name="RadioClouds"
+                    Content="Display Clouds"
+                    Checked="RadioClouds_Checked" />
+            </Canvas>
         </GroupBox>
         <Label
             Content="Select Revision(s)"
@@ -99,7 +120,6 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Margin="5,50,5,5"
-            x:Name="RevisionsList"
-            SelectionChanged="RevisionsList_SelectionChanged" />
+            x:Name="RevisionsList"></DataGrid>
     </Grid>
 </Window>

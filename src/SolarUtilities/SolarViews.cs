@@ -1,4 +1,4 @@
-// (C) Copyright 2013-2015 by Andrew Nicholas
+ï»¿// (C) Copyright 2013-2015 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -19,66 +19,73 @@ namespace SCaddins.SolarUtilities
 {
     using System;
     using System.Globalization;
+    using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
-    public class Command : IExternalCommand
+    public class SolarViews
     {
         private ProjectLocation projectLocation;
         private ProjectPosition position;
-        private bool currentViewIsIso;
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        public Autodesk.Revit.UI.Result Execute(
-            ExternalCommandData commandData,
-            ref string message,
-            Autodesk.Revit.DB.ElementSet elements)
+        private View activeView;
+        private Document doc;
+        private UIDocument udoc;
+        
+        public bool RotateCurrentView
         {
-            if (commandData == null) {
-                return Autodesk.Revit.UI.Result.Failed;
-            }
-
-            UIDocument udoc = commandData.Application.ActiveUIDocument;
-            Document doc = udoc.Document;
-            this.projectLocation = doc.ActiveProjectLocation;
+            get; set;
+        }
+        
+        public bool Create3dViews
+        {
+            get; set;
+        }
+        
+        public bool CreateShadowPlans
+        {
+            get; set;
+        }
+        
+        public string[] ActiveIewInformation
+        {
+            get {return GetViewInfo(activeView);}
+        }
+        
+        public DateTime StartTime
+        {
+            get; set;
+        }
+        
+        public DateTime EndTime
+        {
+            get; set;
+        }
+                
+       public TimeSpan ExportTimeInterval{
+            get; set;
+        }
+        
+        public SolarViews(UIDocument udoc)
+        {
+            this.doc = udoc.Document;
+            this.udoc = udoc;
+            projectLocation = doc.ActiveProjectLocation;
             #if REVIT2018
-            this.position = this.projectLocation.GetProjectPosition(XYZ.Zero);
+                position = projectLocation.GetProjectPosition(XYZ.Zero);
             #else
-            this.position = this.projectLocation.get_ProjectPosition(XYZ.Zero);
+                position = this.projectLocation.get_ProjectPosition(XYZ.Zero);
             #endif
-            this.currentViewIsIso = false;
+            
+            StartTime = new DateTime(2018,6,21,9,0,0);
+            EndTime = new DateTime(2018,6,21,15,0,0);
+            ExportTimeInterval = new TimeSpan(1,0,0);
 
             View view = doc.ActiveView;
-            string[] s = this.GetViewInfo(view);
-            var form = new SCaosForm(s, this.currentViewIsIso);
-            System.Windows.Forms.DialogResult result = form.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK) {
-                if (form.radioButtonRotateCurrent.Checked) {
-                    this.RotateView(doc.ActiveView, doc, udoc);
-                }
-                if (form.radioButtonWinterViews.Checked) {
-                    this.CreateWinterViews(
-                        doc,
-                        udoc,
-                        (DateTime)form.startTime.SelectedItem,
-                        (DateTime)form.endTime.SelectedItem,
-                        (TimeSpan)form.interval.SelectedItem);
-                }
-                if (form.radioButtonShadowPlans.Checked) {
-                    CreateShadowPlanViews(
-                        doc,
-                        (DateTime)form.startTime.SelectedItem,
-                        (DateTime)form.endTime.SelectedItem,
-                        (TimeSpan)form.interval.SelectedItem);
-                }
-            }
-
-            return Autodesk.Revit.UI.Result.Succeeded;
         }
-
+        
         // FIXME put this somewhere else.
         public static bool ViewNameIsAvailable(Document doc, string name)
         {
@@ -135,11 +142,7 @@ namespace SCaddins.SolarUtilities
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        private static void CreateShadowPlanViews(
-            Document doc,
-            DateTime startTime,
-            DateTime endTime,
-            TimeSpan interval)
+        private void CreateShadowPlanViews()
         {
              ElementId id = GetViewFamilyId(doc, ViewFamily.FloorPlan);
              ElementId levelId = GetHighestLevel(doc);
@@ -147,44 +150,47 @@ namespace SCaddins.SolarUtilities
                  return;
              }
 
-              while (startTime <= endTime) {
+              while (StartTime <= EndTime) {
                 using (var t = new Transaction(doc)) {
                     if (t.Start("Create Shadow Plans") == TransactionStatus.Started) {
                         View view = ViewPlan.Create(doc, id, levelId);
                         view.ViewTemplateId = ElementId.InvalidElementId;
                         var niceMinutes = "00";
-                        if (startTime.Minute > 0) {
-                            niceMinutes = startTime.Minute.ToString(CultureInfo.CurrentCulture);
+                        if (StartTime.Minute > 0) {
+                            niceMinutes = StartTime.Minute.ToString(CultureInfo.CurrentCulture);
                         }
-                        var vname = "SHADOW PLAN - " + startTime.ToShortDateString() + "-" + startTime.Hour + "." + niceMinutes;
+                        var vname = "SHADOW PLAN - " + StartTime.ToShortDateString() + "-" + StartTime.Hour + "." + niceMinutes;
                         view.Name = GetNiceViewName(doc, vname);
                         SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
-                        sunSettings.StartDateAndTime = startTime;
+                        sunSettings.StartDateAndTime = StartTime;
                         sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
                         view.SunlightIntensity = 50;
                         t.Commit();
-                        startTime = startTime.Add(interval);
+                        StartTime = StartTime.Add(ExportTimeInterval);
                     }
                 }
             }
         }
+        
+        public static bool ViewIsIso(View view)
+        {
+            return view.ViewType == ViewType.ThreeD;
+        }
 
         private string[] GetViewInfo(View view) {
-            if (view.ViewType != ViewType.ThreeD) {
+            if (ViewIsIso(view)) {
                 var info = new string[4];
                 info[0] = "Not a 3d view...";
                 info[1] = string.Empty;
                 info[2] = "Please select a 3d view to rotate";
                 info[3] = "or use the create winter views feature";
-                this.currentViewIsIso = false;
                 return info;
             } else {
-                this.currentViewIsIso = true;
                 SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
                 double frame = sunSettings.ActiveFrame;
                 double azimuth = sunSettings.GetFrameAzimuth(frame);
                 double altitude = sunSettings.GetFrameAltitude(frame);
-                azimuth += this.position.Angle;
+                azimuth += position.Angle;
                 double azdeg = azimuth * 180 / System.Math.PI;
                 double altdeg = altitude * 180 / System.Math.PI;
                 var info = new string[7];
@@ -200,12 +206,7 @@ namespace SCaddins.SolarUtilities
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        private void CreateWinterViews(
-            Document doc,
-            UIDocument udoc,
-            DateTime startTime,
-            DateTime endTime,
-            TimeSpan interval)
+        private void CreateWinterViews()
         {
             ElementId id = GetViewFamilyId(doc, ViewFamily.ThreeDimensional);
 
@@ -214,38 +215,38 @@ namespace SCaddins.SolarUtilities
                 return;
             }
 
-            while (startTime <= endTime) {
+            while (StartTime <= EndTime) {
                 using (var t = new Transaction(doc)) {
                     t.Start("Create Solar View");
                     View view = View3D.CreateIsometric(doc, id);
                     view.ViewTemplateId = ElementId.InvalidElementId;
                     var niceMinutes = "00";
-                    if (startTime.Minute > 0) {
-                        niceMinutes = startTime.Minute.ToString(CultureInfo.CurrentCulture);
+                    if (StartTime.Minute > 0) {
+                        niceMinutes = StartTime.Minute.ToString(CultureInfo.CurrentCulture);
                     }
-                    var vname = "SOLAR ACCESS - " + startTime.ToShortDateString() + "-" + startTime.Hour + "." + niceMinutes;
+                    var vname = "SOLAR ACCESS - " + StartTime.ToShortDateString() + "-" + StartTime.Hour + "." + niceMinutes;
                     view.Name = GetNiceViewName(doc, vname);
                     SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
-                    sunSettings.StartDateAndTime = startTime;
+                    sunSettings.StartDateAndTime = StartTime;
                     sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
                     t.Commit();
 
                     // FIXME too many transactions here and above...
-                    this.RotateView(view, doc, udoc);
-                    startTime = startTime.Add(interval);
+                    this.RotateView(view);
+                    StartTime = StartTime.Add(ExportTimeInterval);
                 }
             }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        private void RotateView(View view, Document doc, UIDocument udoc)
+        private void RotateView(View view)
         {
             if (view.ViewType == ViewType.ThreeD) {
                 SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
                 double frame = sunSettings.ActiveFrame;
                 double azimuth = sunSettings.GetFrameAzimuth(frame);
                 double altitude = sunSettings.GetFrameAltitude(frame);
-                azimuth += this.position.Angle;
+                azimuth += position.Angle;
                 BoundingBoxXYZ viewBounds = view.get_BoundingBox(view);
                 XYZ max = viewBounds.Max;
                 XYZ min = viewBounds.Min;
@@ -278,13 +279,26 @@ namespace SCaddins.SolarUtilities
                 TaskDialog.Show("ERROR", "Not a 3d view");
             }
         }
+        
+        public void Go()
+        {
+                if (this.RotateCurrentView) {
+                    this.RotateView(activeView);
+                }
+                if (this.Create3dViews) {
+                    this.CreateWinterViews();
+                }
+                if (this.CreateShadowPlans) {
+                    CreateShadowPlanViews();
+                }
+        }
 
         /// <summary>
         /// Gets the Atmospheric Refraction using Bennett's formula
         /// </summary>
         /// <param name="altitudeRadians">Altitude in radians</param>
         /// <returns>The Atmospheric Refraction in radians</returns>
-        private double GetAtmosphericRefraction(double altitudeRadians) {
+        public static double GetAtmosphericRefraction(double altitudeRadians) {
             double altitudeDegrees = altitudeRadians * 180 / Math.PI;
             double formula = altitudeDegrees + (7.31 / (altitudeDegrees + 4.4));
             double radians = Math.PI * altitudeDegrees / 180.0;
@@ -292,11 +306,11 @@ namespace SCaddins.SolarUtilities
         }
 
         /// <summary>
-        /// Gets the Atmospheric Refraction using Sæmundsson's formula
+        /// Gets the Atmospheric Refraction using SÃ¦mundsson's formula
         /// </summary>
         /// <param name="altitudeRadians">Altitude in radians</param>
         /// <returns>The Atmospheric Refraction in radians</returns>
-        private double GetSæmundssonAtmosphericRefraction(double altitudeRadians) {
+        public static double GetSÃ¦mundssonAtmosphericRefraction(double altitudeRadians) {
             double altitudeDegrees = altitudeRadians * 180 / Math.PI;
             double formula = 1.02 * altitudeDegrees + (10.3 / (altitudeDegrees + 5.11));
             double radians = Math.PI * altitudeDegrees / 180.0;

@@ -47,6 +47,11 @@ namespace SCaddins.ExportManager
                  this.ViewsetCombo.Items.Add(s);
             }
         }
+        
+        private void NoViewFilter_Clicked(object sender, RoutedEventArgs e)
+        {
+            scx.ForceRevisionToDateString = true;
+        }
 
     }
 }

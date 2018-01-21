@@ -36,7 +36,7 @@
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE;REVIT2017</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
-    <AssemblyName>SCaddinsDebug</AssemblyName>
+    <AssemblyName>SCaddins</AssemblyName>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2017\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
@@ -58,7 +58,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2016' ">
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\Release2016\</OutputPath>
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
@@ -66,7 +66,7 @@
     <DefineConstants>TRACE;REVIT2016</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
-    <AssemblyName>SCaddins16</AssemblyName>
+    <AssemblyName>SCaddins</AssemblyName>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2016\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
@@ -74,7 +74,7 @@
     <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2017' ">
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\Release2017\</OutputPath>
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
@@ -82,7 +82,7 @@
     <DefineConstants>TRACE;REVIT2017</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
-    <AssemblyName>SCaddins17</AssemblyName>
+    <AssemblyName>SCaddins</AssemblyName>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2017\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
@@ -90,7 +90,7 @@
     <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2018' ">
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\Release2018\</OutputPath>
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
@@ -98,7 +98,7 @@
     <DefineConstants>TRACE;REVIT2018</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
-    <AssemblyName>SCaddins18</AssemblyName>
+    <AssemblyName>SCaddins</AssemblyName>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2018\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
@@ -283,12 +283,12 @@
       <DependentUpon>SheetCopierMainForm.resx</DependentUpon>
     </Compile>
     <Compile Include="SolarUtilities\SolarViews.cs" />
-    <Compile Include="SolarUtilities\SolarViewsForm.cs">
-      <SubType>Form</SubType>
+    <Compile Include="SolarUtilities\SolarViewsCommand.cs" />
+    <Compile Include="SolarUtilities\SolarViewsForm.xaml.cs">
+      <DependentUpon>SolarViewsForm.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SolarUtilities\SolarViewsForm.Designer.cs">
-      <DependentUpon>SolarViewsForm.cs</DependentUpon>
-    </Compile>
+    <Compile Include="SolarUtilities\SolarViewsFormModel.cs" />
     <Compile Include="ViewUtilities\CameraFromViewCommand.cs" />
     <Compile Include="RoomConvertor\RoomConvertorForm.cs">
       <SubType>Form</SubType>
@@ -555,9 +555,6 @@
       <DependentUpon>DestructivePurgeForm.cs</DependentUpon>
       <CustomToolNamespace>SCaddins.SCwash</CustomToolNamespace>
     </EmbeddedResource>
-    <EmbeddedResource Include="SolarUtilities\SolarViewsForm.resx">
-      <DependentUpon>SolarViewsForm.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -576,8 +573,12 @@
     <EmbeddedResource Include="Assets\scoord-rvt-16.png" />
     <EmbeddedResource Include="Assets\sculcase-rvt-16.png" />
     <EmbeddedResource Include="Assets\scwash-rvt-16.png" />
-    <EmbeddedResource Include="Assets\gear.png" />
-    <EmbeddedResource Include="Assets\help.png" />
+    <Resource Include="Assets\gear.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\help.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <EmbeddedResource Include="Assets\user.png" />
     <EmbeddedResource Include="Assets\scasfar-rvt-16.png" />
     <None Include="Scaddins.settings">
@@ -599,6 +600,7 @@
   <ItemGroup>
     <Page Include="ExportManager\Window1.xaml" />
     <Page Include="RevisionUtilities\RevisionUtilitiesWindow.xaml" />
+    <Page Include="SolarUtilities\SolarViewsForm.xaml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets" Condition="Exists('packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets') And '$(Configuration)' == 'Debug'" />
