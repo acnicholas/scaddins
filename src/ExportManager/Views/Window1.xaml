@@ -1,17 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<Window
-    x:Class="SCaddins.ExportManager.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="SCaddins.ExportManager"
-    Width="760"
-    Height="559">
-
-    <Grid
-        VerticalAlignment="Stretch"
-        HorizontalAlignment="Stretch"
-        Height="Auto"
-        Width="Auto">
+﻿<Window x:Class="SCaddins.ExportManager.Views.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls0="clr-namespace:Autodesk.Private.InfoCenter;assembly=AdWindows"
+    Title="SCaddins.ExportManager.Views" Height="300" Width="300">
+      
+        <Grid>
         <ComboBox
+            ItemsSource="{Binding ViewSheetSets}"
+            SelectedItem="{Binding SelectedViewSheetSet}"
             Width="Auto"
             Height="Auto"
             Grid.Column="0"
@@ -22,6 +18,7 @@
             x:Name="ViewsetCombo"
             Grid.ColumnSpan="2" />
         <DataGrid
+            ItemsSource="{Binding Sheets}"
             AutoGenerateColumns="False"
             Grid.Column="0"
             Grid.Row="1"
@@ -39,12 +36,9 @@
                 <DataGridTextColumn Header="Revision" Binding="{Binding SheetRevision}" />
             </DataGrid.Columns>
 
-
-
-
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="No View Filter" Click="NoViewFilter_Clicked">
+                    <MenuItem Header="No View Filter">
                         <MenuItem.Icon>
                             <Image Source="/SCaddins;component/Assets/help.png"/> 
                         </MenuItem.Icon>               
@@ -62,7 +56,8 @@
             </DataGrid.ContextMenu>
         </DataGrid>
         <Button
-            Content="Button"
+            Content="Test"
+            Command="{Binding OKCommand}"
             Width="Auto"
             Height="Auto"
             Grid.Row="2"
@@ -108,5 +103,8 @@
             <RowDefinition
                 Height="30" />
         </Grid.RowDefinitions>
+        
     </Grid>
+
+
 </Window>

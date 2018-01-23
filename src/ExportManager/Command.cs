@@ -55,11 +55,10 @@ namespace SCaddins.ExportManager
             if (uidoc == null) {
                 return Autodesk.Revit.UI.Result.Failed;
             }
-            //using (var form = new MainForm(commandData.Application.ActiveUIDocument)) {
-            //    form.ShowDialog();
-            //}
             
-            var window = new Window1(new ExportManager(uidoc.Document));
+            var window = new Views.Window1();
+            window.DataContext = new ViewModels.ViewModel(new ExportManager(uidoc.Document));
+            window.Topmost = true;
             window.ShowDialog();
 
             return Autodesk.Revit.UI.Result.Succeeded;
