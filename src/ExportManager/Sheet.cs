@@ -18,11 +18,13 @@
 namespace SCaddins.ExportManager
 {
     using System;
+    using System.ComponentModel;
     using System.Globalization;
     using Autodesk.Revit.DB;
     using SCaddins.Common;
+    using System.Runtime.CompilerServices;
 
-    public class ExportSheet
+    public class ExportSheet : INotifyPropertyChanged
     {
         #region Variables
         private DateTime sheetRevisionDateTime;
@@ -34,7 +36,7 @@ namespace SCaddins.ExportManager
         private bool forceDate;
         private bool useDateForEmptyRevisions;
         private bool verified;
-        private int northPointVisible;
+        private bool? northPointVisible;
         private double height;
         private double width;
         private string fullExportName;
@@ -90,6 +92,7 @@ namespace SCaddins.ExportManager
             set { 
                 this.sheetDescription = value;
                 this.SetExportName();
+                NotifyPropertyChanged();
             }
         }
 
@@ -102,6 +105,7 @@ namespace SCaddins.ExportManager
             set { 
                 this.sheetNumber = value;
                 this.SetExportName();
+                NotifyPropertyChanged();
             }
         }
 
@@ -151,6 +155,10 @@ namespace SCaddins.ExportManager
                 }
                 return result;
             }
+            set {
+                this.scale = value;
+                NotifyPropertyChanged();
+            }
         }
         
         public bool ValidScaleBar
@@ -168,16 +176,15 @@ namespace SCaddins.ExportManager
             get { return this.sheet; }
         }
         
-        public string NorthPointVisible
+        public bool? NorthPointVisible
         {
             get {
-                if (northPointVisible == 1) {
-                    return "Yes";
-                }
-                if (northPointVisible == 0) {
-                    return "No";
-                }
-                return "-";
+
+                return northPointVisible;
+            }
+            set {
+                northPointVisible = value;
+                NotifyPropertyChanged("NorthPointVisible");
             }
         }
 
@@ -220,6 +227,7 @@ namespace SCaddins.ExportManager
             set {
                 this.forceDate = value;
                 this.SetExportName();
+                NotifyPropertyChanged();
             }
         }
         
@@ -232,24 +240,27 @@ namespace SCaddins.ExportManager
             set {
                 this.useDateForEmptyRevisions = value;
                 this.SetExportName();
+                NotifyPropertyChanged();
             }
         }
         #endregion
         
-        public static int GetNorthPointVisibility(Element titleBlock)
+        public static bool? GetNorthPointVisibility(Element titleBlock)
         {
             if (titleBlock == null) {
-                return 2;
+                return null;
             }
             try {
                     var p = titleBlock.GetParameters(Settings1.Default.NorthPointVisibilityParameter);
                     if (p == null || p.Count < 1) {
-                        return 2;
+                        return null;
                     }
                     int d = p[0].AsInteger();
-                    return d;
+                    if (d == 0) return false;
+                    if (d == 1) return true;
+                    return null;
             } catch (FormatException) {
-                    return 2;
+                    return null;
             }    
         }
         
@@ -285,10 +296,10 @@ namespace SCaddins.ExportManager
             var titleBlock = ExportManager.TitleBlockInstanceFromSheetNumber(
                 this.sheetNumber, this.doc);
             if (titleBlock != null) {
-                this.scale = titleBlock.get_Parameter(
+                Scale = titleBlock.get_Parameter(
                     BuiltInParameter.SHEET_SCALE).AsString();
                 this.scaleBarScale = ExportSheet.GetScaleBarScale(titleBlock);
-                this.northPointVisible = ExportSheet.GetNorthPointVisibility(titleBlock);
+                NorthPointVisible = ExportSheet.GetNorthPointVisibility(titleBlock);
                 this.width = titleBlock.get_Parameter(
                         BuiltInParameter.SHEET_WIDTH).AsDouble();
                 this.height = titleBlock.get_Parameter(
@@ -359,7 +370,7 @@ namespace SCaddins.ExportManager
                 }
                 b = b == 1 ? 0 : 1;
                 p.Set(b);
-                this.northPointVisible = b;                 
+                NorthPointVisible = b == 1 ? true : false;
         }
 
         public void UpdateRevision(bool refreshExportName)
@@ -431,7 +442,7 @@ namespace SCaddins.ExportManager
                 this.fullExportName,
                 this.pageSize,
                 this.projectNumber,
-                this.scale,
+                Scale,
                 this.scaleBarScale,
                 this.sheetDescription,
                 this.sheetNumber,
@@ -459,9 +470,9 @@ namespace SCaddins.ExportManager
             this.projectNumber = document.ProjectInformation.Number;
             this.width = 841;
             this.height = 594;
-            this.scale = string.Empty;
+            Scale = string.Empty;
             this.scaleBarScale = string.Empty;
-            this.northPointVisible = 2;
+            NorthPointVisible = null;
             this.pageSize = string.Empty;
             this.id = viewSheet.Id;
             this.ForceDate = scx.ForceRevisionToDateString;
@@ -490,6 +501,17 @@ namespace SCaddins.ExportManager
 
             this.fullExportName = this.PopulateSegmentedFileName();
         }
+        
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+        
     }
 }
 

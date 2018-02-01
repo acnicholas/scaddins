@@ -45,7 +45,7 @@ namespace SCaddins.ExportManager
         private Collection<ViewSheetSetCombo> allViewSheetSets;
         private Dictionary<string, PostExportHookCommand> postExportHooks;
         private SegmentedSheetName fileNameScheme;
-        private SortableBindingListCollection<ExportSheet> allSheets;
+        private ObservableCollection<ExportSheet> allSheets;
         private bool forceDate;
         private string exportDirectory;
 
@@ -58,7 +58,7 @@ namespace SCaddins.ExportManager
             ExportManager.activeDoc = null;
             this.log = new ExportLog();
             this.allViewSheetSets = new Collection<ViewSheetSetCombo>();
-            this.allSheets = new SortableBindingListCollection<ExportSheet>();
+            this.allSheets = new ObservableCollection<ExportSheet>();
             this.fileNameTypes = new Collection<SegmentedSheetName>();
             this.postExportHooks = new Dictionary<string, PostExportHookCommand>();
             this.exportFlags = ExportOptions.None;
@@ -109,7 +109,7 @@ namespace SCaddins.ExportManager
             get { return this.fileNameTypes; }
         }
 
-        public SortableBindingListCollection<ExportSheet> AllSheets
+        public ObservableCollection<ExportSheet> AllSheets
         {
             get { return this.allSheets; }
         }
@@ -775,7 +775,7 @@ namespace SCaddins.ExportManager
             this.forceDate |= SCaddins.ExportManager.Settings1.Default.ForceDateRevision;
         }
 
-        private void PopulateSheets(SortableBindingListCollection<ExportSheet> s)
+        private void PopulateSheets(ObservableCollection<ExportSheet> s)
         {
             string config = GetConfigFileName(doc);
             bool b = this.ImportXMLinfo(config);

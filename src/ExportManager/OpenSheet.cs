@@ -48,7 +48,18 @@ namespace SCaddins.ExportManager
             return Autodesk.Revit.UI.Result.Succeeded;
 
         }
-        
+
+        public static void OpenViews(System.Collections.IList views)
+        {
+            foreach (var item in views) {
+                var sheet = item as ExportSheet;
+                if (sheet.Sheet != null) {
+                    UIApplication uiapp = new UIApplication(sheet.Sheet.Document.Application);
+                    uiapp.ActiveUIDocument.ActiveView = sheet.Sheet;
+                }
+            }
+        }
+
         public static List<OpenableView> ViewsInModel(Document doc)
         {
             var result = new List<OpenableView>();
