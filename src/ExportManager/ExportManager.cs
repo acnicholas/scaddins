@@ -49,9 +49,10 @@ namespace SCaddins.ExportManager
         private bool forceDate;
         private string exportDirectory;
 
-        public ExportManager(Document doc)
+        public ExportManager(UIDocument uidoc)
         {
-            ExportManager.doc = doc;
+            ExportManager.doc = uidoc.Document;
+            UIDoc = uidoc;
             this.fileNameScheme = null;
             this.exportDirectory = Constants.DefaultExportDirectory;
             ExportManager.ConfirmOverwrite = true;
@@ -132,6 +133,16 @@ namespace SCaddins.ExportManager
         public bool UseDateForEmptyRevisions
         {
         	get; set;
+        }
+
+        public UIDocument UIDoc
+        {
+            get; set;
+        }
+
+        public Document Doc
+        {
+            get; set;
         }
 
         public bool ForceRevisionToDateString

@@ -7,19 +7,22 @@ using System.Windows.Data;
 using SCaddins.ExportManager;
 using Autodesk.Revit.DB;
 using SCaddins.Common;
+using System.Web.Mvc;
 
 namespace SCaddins.ExportManager.ViewModels
 {
     public class ViewModel : ObservableObject
     {
         private readonly ExportManager exportManager;
+        private Controller windowController;
         private ObservableCollection<ExportSheet> sheets;
         private ViewSheetSetCombo selectedViewSheetSet;
         private readonly ObservableCollection<string> _history = new ObservableCollection<string>();
 
-        public ViewModel(ExportManager exportManager)
+        public ViewModel(ExportManager exportManager, Controller windowController)
         {
             this.exportManager = exportManager;
+            this.windowController = windowController;
             Sheets = exportManager.AllSheets;
             this.selectedViewSheetSet = null;
         }
@@ -87,6 +90,11 @@ namespace SCaddins.ExportManager.ViewModels
             get { return new DelegateCommand2(OpenViewsPressed); }
         }
 
+        public ICommand CopySheetsCommand
+        {
+            get { return new DelegateCommand2(CopySheetsPressed); }
+        }
+
         private void OKPressed()
         {
             string list = string.Empty;
@@ -104,7 +112,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         private void CopySheetsPressed()
         {
-            SCaddins.SheetCopier.MainForm form = new SheetCopier.MainForm()
+            windowController.ShowCopySheets(exportManager.UIDoc, TestSelected);
         }
 
 
@@ -113,8 +121,6 @@ namespace SCaddins.ExportManager.ViewModels
             exportManager.Update();
             Sheets = exportManager.AllSheets;
         }
-
-
     }
 }
 

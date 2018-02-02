@@ -57,9 +57,10 @@ namespace SCaddins.ExportManager
             }
             
             var window = new Views.Window1();
-            window.DataContext = new ViewModels.ViewModel(new ExportManager(uidoc.Document));
-            window.Topmost = true;
-            window.ShowDialog();
+            var windowController = new ViewModels.Controller();
+            window.DataContext = new ViewModels.ViewModel(new ExportManager(uidoc), windowController);
+            //window.Topmost = true;
+            window.Show();
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }

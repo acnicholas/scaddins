@@ -19,6 +19,7 @@ namespace SCaddins.SheetCopier
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections;
     using System.Globalization;
     using System.Windows.Forms;
     using Autodesk.Revit.DB;
@@ -48,7 +49,7 @@ namespace SCaddins.SheetCopier
         
         public MainForm(
             Document doc,
-            ICollection<SCaddins.ExportManager.ExportSheet> sheets,
+            IList sheets,
             SheetCopierManager scopy)
         {
             if (sheets == null) {

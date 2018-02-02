@@ -105,7 +105,7 @@
                     <MenuItem Header="Open Selected View[s]" Command="{Binding OpenViewsCommand}" />
                     <Separator />
                     <MenuItem Header="Add Revision" />
-                    <MenuItem Header="Copy Sheets" />
+                    <MenuItem Header="Copy Sheets" Command="{Binding CopySheetsCommand}"/>
                     <MenuItem Header="Remove Underlays From View" />
                     <MenuItem Header="Rename Selected Views" />
                     <MenuItem Header="Fix Scale Bars" />
