@@ -1,22 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Window
-    x:Class="SCaddins.ExportManager.Views.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls0="clr-namespace:Autodesk.Private.InfoCenter;assembly=AdWindows"
-    xmlns:dgx="urn:tom-englert.de/DataGridExtensions"
-    xmlns:src="clr-namespace:SCaddins.ExportManager.Views"
-    Title="SCaddins.ExportManager.Views"
-    Width="820"
-    Height="486">
+<UserControl x:Class="SCaddins.ExportManager.Views.SCexportView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Window.Resources>
-        <ControlTemplate x:Key="FilterWithPopup">
-            <src:FilterWithPopupControl Filter="{Binding Path=Filter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dgx:DataGridFilterColumnControl}}"/>
-        </ControlTemplate>
-        <ControlTemplate x:Key="MultipleChoiceFilter">
-            <src:MultipleChoiceFilter Filter="{Binding Path=Filter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dgx:DataGridFilterColumnControl}}"/>
-        </ControlTemplate>
-    </Window.Resources>
-
-    <Grid>
+ <Grid>
         <ComboBox
             ItemsSource="{Binding ViewSheetSets}"
             SelectedItem="{Binding SelectedViewSheetSet}"
@@ -29,10 +16,10 @@
             Margin="5,0,5,5"
             x:Name="ViewsetCombo"
             Grid.ColumnSpan="2" />
-        <src:CustomDataGrid
-            ItemsSource="{Binding SheetCollection,UpdateSourceTrigger=PropertyChanged}"
-            SelectedItemsList="{Binding TestSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            dgx:DataGridFilter.IsAutoFilterEnabled="True"
+        <DataGrid
+            x:Name="Sheets"
+            SelectionMode="Extended"
+            cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($eventArgs)]"
             AutoGenerateColumns="False"
             Grid.Column="0"
             Grid.Row="1"
@@ -41,17 +28,16 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Margin="5,0,5,5"
-            x:Name="SheetList"
             Grid.ColumnSpan="3" GridLinesVisibility="Vertical">
-            <src:CustomDataGrid.VerticalGridLinesBrush>
+            <DataGrid.VerticalGridLinesBrush>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
-            </src:CustomDataGrid.VerticalGridLinesBrush>
-            <src:CustomDataGrid.HorizontalGridLinesBrush>
+            </DataGrid.VerticalGridLinesBrush>
+            <DataGrid.HorizontalGridLinesBrush>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
-            </src:CustomDataGrid.HorizontalGridLinesBrush>
-            <src:CustomDataGrid.AlternatingRowBackground>
+            </DataGrid.HorizontalGridLinesBrush>
+            <DataGrid.AlternatingRowBackground>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
-            </src:CustomDataGrid.AlternatingRowBackground>
+            </DataGrid.AlternatingRowBackground>
             <DataGrid.Columns>
                 <DataGridTextColumn
                     Header="Export Name"
@@ -61,26 +47,21 @@
                     Binding="{Binding SheetNumber}" />
                 <DataGridTextColumn
                     Header="Name"
-                    dgx:DataGridFilterColumn.Template="{StaticResource MultipleChoiceFilter}"
                     Binding="{Binding SheetDescription}" />
                 <DataGridTextColumn
                     Header="Revision"
-                    dgx:DataGridFilterColumn.Template="{StaticResource MultipleChoiceFilter}"
                     Binding="{Binding SheetRevision}"/>
                 <DataGridTextColumn
                     Header="Revision Description"
-                    dgx:DataGridFilterColumn.Template="{StaticResource FilterWithPopup}"
                     Binding="{Binding SheetRevisionDescription}" />
                 <DataGridTextColumn
                     Header="Export Directory"
                     Binding="{Binding ExportDirectory}" />
                 <DataGridTextColumn
                     Header="Scale"
-                    dgx:DataGridFilterColumn.Template="{StaticResource MultipleChoiceFilter}"
                     Binding="{Binding Scale,UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn
                     Header="North Point"
-                    dgx:DataGridFilterColumn.Template="{StaticResource FilterWithPopup}"
                     Binding="{Binding NorthPointVisible}" />
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
@@ -105,7 +86,7 @@
                     <MenuItem Header="Open Selected View[s]" Command="{Binding OpenViewsCommand}" />
                     <Separator />
                     <MenuItem Header="Add Revision" />
-                    <MenuItem Header="Copy Sheets" Command="{Binding CopySheetsCommand}"/>
+                    <MenuItem Header="Copy Sheets" cal:Message.Attach="CopySheets"/>
                     <MenuItem Header="Remove Underlays From View" />
                     <MenuItem Header="Rename Selected Views" />
                     <MenuItem Header="Fix Scale Bars" />
@@ -116,23 +97,23 @@
                     <MenuItem Header="Select All" />
                     <MenuItem Header="Select None" />
                     <Separator />
-                    <MenuItem Header="VerifySheets" Command="{Binding VerifyCommand}" />
+                    <MenuItem Header="VerifySheets" cal:Message.Attach="VerifySheets" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
-        </src:CustomDataGrid>
+        </DataGrid>
         <Button
+            cal:Message.Attach="Export"
             Content="Test"
-            Command="{Binding OKCommand}"
             Width="Auto"
             Height="Auto"
             Grid.Row="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Margin="5,0,5,5"
-            x:Name="ExportButton"
             Grid.Column="2" />
         <Button
-            Content="Button"
+            cal:Message.Attach="Info"
+            Content="Info"
             Height="Auto"
             Width="Auto"
             Grid.Row="2"
@@ -169,4 +150,16 @@
                 Height="30" />
         </Grid.RowDefinitions>
     </Grid>
-</Window>
+
+
+
+
+
+
+
+
+
+
+
+
+</UserControl>

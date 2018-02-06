@@ -22,6 +22,8 @@ namespace SCaddins.ExportManager
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using Caliburn.Micro;
+    using System.Dynamic;
 
     [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -56,11 +58,15 @@ namespace SCaddins.ExportManager
                 return Autodesk.Revit.UI.Result.Failed;
             }
             
-            var window = new Views.Window1();
-            var windowController = new ViewModels.Controller();
-            window.DataContext = new ViewModels.ViewModel(new ExportManager(uidoc), windowController);
-            //window.Topmost = true;
-            window.Show();
+            dynamic settings = new ExpandoObject();
+            settings.Height = 480;
+            settings.Width = 768;
+            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+            
+            var bs = new Bootstrapper();
+            var windowManager = new WindowManager();
+            var vm = new ViewModels.SCexportViewModel(windowManager, new ExportManager(uidoc));
+            windowManager.ShowDialog(vm, null, settings);
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }
