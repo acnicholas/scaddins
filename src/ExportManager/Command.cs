@@ -66,6 +66,7 @@ namespace SCaddins.ExportManager
             var bs = new Bootstrapper();
             var windowManager = new WindowManager();
             var vm = new ViewModels.SCexportViewModel(windowManager, new ExportManager(uidoc));
+            var view = ViewLocator.LocateForModel(vm, null, null);
             windowManager.ShowDialog(vm, null, settings);
 
             return Autodesk.Revit.UI.Result.Succeeded;

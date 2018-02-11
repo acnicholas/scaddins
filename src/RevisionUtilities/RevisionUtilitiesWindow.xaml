@@ -2,8 +2,8 @@
 <Window
     x:Class="SCaddins.RevisionUtilities.RevisionUtilitiesWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="SCaddins.RevisionUtilities"
-    Width="548"
-    Height="328"
+    Width="664.878"
+    Height="417.398"
     MinHeight="340"
     MinWidth="640">
     <Grid

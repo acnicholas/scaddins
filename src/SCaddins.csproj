@@ -238,7 +238,26 @@
   <ItemGroup>
     <Compile Include="ExportManager\Bootstrapper.cs" />
     <Compile Include="ExportManager\OpenableView.cs" />
+    <Compile Include="ExportManager\ViewModels\OpenSheetViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\SCexportViewModel.cs" />
+    <Compile Include="ExportManager\Views\ConfirmationDialogView.xaml.cs">
+      <DependentUpon>ConfirmationDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExportManager\Views\ExportLogView.xaml.cs">
+      <DependentUpon>ExportLogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExportManager\Views\OpenSheetView.xaml.cs">
+      <DependentUpon>OpenSheetView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExportManager\Views\OptionsView.xaml.cs">
+      <DependentUpon>OptionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExportManager\Views\PrinterSelectionView.xaml.cs">
+      <DependentUpon>PrinterSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExportManager\Views\RevisionSelectionView.xaml.cs">
+      <DependentUpon>RevisionSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExportManager\Views\SCexportView.xaml.cs">
       <DependentUpon>SCexportView.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -270,10 +289,6 @@
       <DependentUpon>UpgradeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\ConsoleUtils.cs" />
-    <Compile Include="ExportManager\ConfirmDialog.Designer1.cs">
-      <DependentUpon>ConfirmDialog.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Include="LatestRelease.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
@@ -362,22 +377,10 @@
     <Compile Include="RoomConvertor\RoomConvertorCommand.cs" />
     <Compile Include="RoomConvertor\RoomConversionManager.cs" />
     <Compile Include="ExportManager\Command.cs" />
-    <Compile Include="ExportManager\ConfirmDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ExportManager\ConfirmDialog.Designer.cs">
-      <DependentUpon>ConfirmDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="ExportManager\Constants.cs" />
     <Compile Include="ExportManager\DialogHandler.cs" />
     <Compile Include="ExportManager\Enums.cs" />
     <Compile Include="ExportManager\ExportLog.cs" />
-    <Compile Include="ExportManager\ExportLogDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ExportManager\ExportLogDialog.Designer.cs">
-      <DependentUpon>ExportLogDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="ExportManager\ExportLogItem.cs" />
     <Compile Include="ExportManager\FileUtils.cs" />
     <Compile Include="ExportManager\FilterContextMenu.cs" />
@@ -386,12 +389,6 @@
     </Compile>
     <Compile Include="ExportManager\NextSheet.cs" />
     <Compile Include="ExportManager\OpenSheet.cs" />
-    <Compile Include="ExportManager\OpenSheetDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ExportManager\OpenSheetDialog.Designer.cs">
-      <DependentUpon>OpenSheetDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="ExportManager\OptionsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -407,19 +404,7 @@
     <Compile Include="ExportManager\RenameSheetForm.Designer.cs">
       <DependentUpon>RenameSheetForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ExportManager\RevisionSelectionDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ExportManager\RevisionSelectionDialog.Designer.cs">
-      <DependentUpon>RevisionSelectionDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="ExportManager\ExportManager.cs" />
-    <Compile Include="ExportManager\SelectPrinterDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ExportManager\SelectPrinterDialog.Designer.cs">
-      <DependentUpon>SelectPrinterDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="ExportManager\Settings1.Designer.cs">
       <DependentUpon>Settings1.settings</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -544,28 +529,11 @@
     <EmbeddedResource Include="RoomConvertor\RoomInfoDilaog.resx">
       <DependentUpon>RoomInfoDilaog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ExportManager\ConfirmDialog.resx">
-      <DependentUpon>ConfirmDialog.cs</DependentUpon>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ConfirmDialog.Designer1.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ExportManager\ExportLogDialog.resx">
-      <DependentUpon>ExportLogDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ExportManager\OpenSheetDialog.resx">
-      <DependentUpon>OpenSheetDialog.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ExportManager\OptionsDialog.resx">
       <DependentUpon>OptionsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ExportManager\RenameSheetForm.resx">
       <DependentUpon>RenameSheetForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ExportManager\RevisionSelectionDialog.resx">
-      <DependentUpon>RevisionSelectionDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ExportManager\SelectPrinterDialog.resx">
-      <DependentUpon>SelectPrinterDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LineOfSight\LineOfSightMainForm.resx">
       <DependentUpon>LineOfSightMainForm.cs</DependentUpon>
@@ -637,6 +605,30 @@
     <EmbeddedResource Include="Assets\scexport-rvt-16.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ExportManager\Views\ConfirmationDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportManager\Views\ExportLogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportManager\Views\OpenSheetView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportManager\Views\OptionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportManager\Views\PrinterSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportManager\Views\RevisionSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ExportManager\Views\SCexportView.xaml" />
     <Page Include="RevisionUtilities\RevisionUtilitiesWindow.xaml" />
     <Page Include="SolarUtilities\SolarViewsForm.xaml" />
