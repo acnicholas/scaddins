@@ -41,9 +41,9 @@ namespace SCaddins.ExportManager
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
-            using (var openSheetDialog = new OpenSheetDialog(doc)) {
-                System.Windows.Forms.DialogResult openSheetDialogResult = openSheetDialog.ShowDialog();
-            }
+            //using (var openSheetDialog = new OpenSheetDialog(doc)) {
+            //    System.Windows.Forms.DialogResult openSheetDialogResult = openSheetDialog.ShowDialog();
+            //}
 
             return Autodesk.Revit.UI.Result.Succeeded;
 

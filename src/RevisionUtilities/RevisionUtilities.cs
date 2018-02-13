@@ -125,13 +125,13 @@ namespace SCaddins.RevisionUtilities
                 return;
             }
             ElementId cloudId = null;
-            using (var r = new SCaddins.ExportManager.RevisionSelectionDialog(doc)) {
-                var result = r.ShowDialog();
-                if (result != System.Windows.Forms.DialogResult.OK) {
-                    return;
-                }
-                cloudId = r.Id;
-            }
+            //using (var r = new SCaddins.ExportManager.RevisionSelectionDialog(doc)) {
+            //    var result = r.ShowDialog();
+            //    if (result != System.Windows.Forms.DialogResult.OK) {
+            //        return;
+            //    }
+            //    cloudId = r.Id;
+            //}
             if (cloudId == null) {
                 TaskDialog.Show("ERROR", "Selected cloud is not valid...for some reason"); 
                 return;

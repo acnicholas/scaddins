@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="SCaddins.LineOfSight.Views.LineOfSightView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SCaddins.LineOfSight.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Test" Grid.Row="0" Name="Test" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Content="Test"/>
+                <TextBox Grid.Column="1">User Input</TextBox>
+                <Label Grid.Row="1" Grid.Column="0" Content="Test2"/>
+                <TextBox Grid.Row="1" Grid.Column="1">User Input2</TextBox>
+                <Label Grid.Row="2" Grid.Column="0" Content="Test2"/>
+                <TextBox Grid.Row="2" Grid.Column="1">User Input2</TextBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Test 2" Grid.Row="1" Name="Test2" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Content="Test"/>
+                <TextBox Grid.Column="1">User Input</TextBox>
+                <Label Grid.Row="1" Grid.Column="0" Content="Test2"/>
+                <TextBox Grid.Row="1" Grid.Column="1">User Input2</TextBox>
+                <Label Grid.Row="2" Grid.Column="0" Content="Test2"/>
+                <TextBox Grid.Row="2" Grid.Column="1">User Input2</TextBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Test 3" Grid.Row="2" Name="Test3" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Content="Test"/>
+                <TextBox Grid.Column="1">User Input</TextBox>
+                <Label Grid.Row="1" Grid.Column="0" Content="Test2"/>
+                <TextBox Grid.Row="1" Grid.Column="1">User Input2</TextBox>
+                <Label Grid.Row="2" Grid.Column="0" Content="Test2"/>
+                <TextBox Grid.Row="2" Grid.Column="1">User Input2</TextBox>
+            </Grid>
+        </GroupBox>
+        <Grid Height="Auto" Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Name="Button1" Height="25" Grid.Row ="1" Grid.Column="0">1</Button>
+            <Button Name="Button2" Height="25" Grid.Row ="1" Grid.Column="1">2</Button>
+            <Button Name="Button3" Height="25" Grid.Row ="1" Grid.Column="2">3</Button>
+        </Grid>
+    </Grid>
+</UserControl>

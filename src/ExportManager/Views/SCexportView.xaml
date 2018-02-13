@@ -1,9 +1,26 @@
-<UserControl x:Class="SCaddins.ExportManager.Views.SCexportView"
+<UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:cal="http://www.caliburnproject.org"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:dgx="urn:tom-englert.de/DataGridExtensions" mc:Ignorable="d" x:Class="SCaddins.ExportManager.Views.SCexportView"
+    d:DesignWidth="628" d:DesignHeight="272" Loaded="UserControl_Loaded" LayoutUpdated="UserControl_LayoutUpdated" GotFocus="UserControl_GotFocus">
 
- <Grid>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition
+                Width="0.80*" />
+            <ColumnDefinition
+                Width="0.10*" />
+            <ColumnDefinition
+                Width="0.10*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="30" />
+            <RowDefinition
+                Height="*" />
+            <RowDefinition
+                Height="30" />
+        </Grid.RowDefinitions>
         <ComboBox
             ItemsSource="{Binding ViewSheetSets}"
             SelectedItem="{Binding SelectedViewSheetSet}"
@@ -28,7 +45,7 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Margin="5,0,5,5"
-            Grid.ColumnSpan="3" GridLinesVisibility="Vertical">
+            Grid.ColumnSpan="3" GridLinesVisibility="Vertical" dgx:DataGridFilter.IsAutoFilterEnabled="True">
             <DataGrid.VerticalGridLinesBrush>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
             </DataGrid.VerticalGridLinesBrush>
@@ -59,7 +76,7 @@
                     Binding="{Binding ExportDirectory}" />
                 <DataGridTextColumn
                     Header="Scale"
-                    Binding="{Binding Scale,UpdateSourceTrigger=PropertyChanged}" />
+                    Binding="{Binding Scale, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn
                     Header="North Point"
                     Binding="{Binding NorthPointVisible}" />
@@ -87,11 +104,11 @@
                     <Separator />
                     <MenuItem Header="Add Revision" />
                     <MenuItem Header="Copy Sheets" cal:Message.Attach="CopySheets"/>
-                    <MenuItem Header="Remove Underlays From View" />
+                    <MenuItem Header="Remove Underlays From View" cal:Message.Attach="RemoveUnderlays"/>
                     <MenuItem Header="Rename Selected Views" />
                     <MenuItem Header="Fix Scale Bars" />
-                    <MenuItem Header="North Points On" />
-                    <MenuItem Header="North Points Off" />
+                    <MenuItem Header="North Points On" cal:Message.Attach="TurnNorthPointsOn"/>
+                    <MenuItem Header="North Points Off" cal:Message.Attach="TurnNorthPointsOff"/>
                     <MenuItem Header="Create User Views" />
                     <Separator />
                     <MenuItem Header="Select All" />
@@ -133,22 +150,6 @@
             Margin="0,0,5,5"
             x:Name="OptionsButton"
             Grid.Column="2" />
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition
-                Width="0.80*" />
-            <ColumnDefinition
-                Width="0.10*" />
-            <ColumnDefinition
-                Width="0.10*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition
-                Height="30" />
-            <RowDefinition
-                Height="*" />
-            <RowDefinition
-                Height="30" />
-        </Grid.RowDefinitions>
     </Grid>
 
 

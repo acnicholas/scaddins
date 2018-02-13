@@ -352,7 +352,7 @@ namespace SCaddins.ExportManager
             }
         }
         
-        public void ToggleNorthPoint()
+        public void ToggleNorthPoint(bool turnOn)
         {
             var titleBlock = ExportManager.TitleBlockInstanceFromSheetNumber(
                 this.sheetNumber, this.doc);
@@ -368,9 +368,9 @@ namespace SCaddins.ExportManager
                 if (b == 2) {
                     return;
                 }
-                b = b == 1 ? 0 : 1;
+                b = turnOn == true ? 1 : 0;
                 p.Set(b);
-                NorthPointVisible = b == 1 ? true : false;
+                NorthPointVisible = turnOn;
         }
 
         public void UpdateRevision(bool refreshExportName)

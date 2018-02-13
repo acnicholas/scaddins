@@ -37,7 +37,6 @@ namespace SCaddins.ExportManager
     public class ExportManager
     {
         private static Dictionary<string, FamilyInstance> titleBlocks;
-        private static Document doc;
         private static string activeDoc;
         private ExportOptions exportFlags;
         private ExportLog log;
@@ -51,7 +50,7 @@ namespace SCaddins.ExportManager
 
         public ExportManager(UIDocument uidoc)
         {
-            ExportManager.doc = uidoc.Document;
+            Doc = uidoc.Document;
             UIDoc = uidoc;
             this.fileNameScheme = null;
             this.exportDirectory = Constants.DefaultExportDirectory;
@@ -65,7 +64,7 @@ namespace SCaddins.ExportManager
             this.exportFlags = ExportOptions.None;
             this.LoadSettings();
             this.SetDefaultFlags();
-            ExportManager.PopulateViewSheetSets(this.allViewSheetSets);
+            ExportManager.PopulateViewSheetSets(this.allViewSheetSets, Doc);
             this.PopulateSheets(this.allSheets);
             ExportManager.FixAcrotrayHang();
         }
@@ -244,10 +243,7 @@ namespace SCaddins.ExportManager
         }
         
         public static string GetConfigFileName(Document doc)
-        {
-            // if (File.Exists(GetOldConfigFileName(doc))) {
-            //     TaskDialog.Show("Old config found");
-            // }            
+        {          
             #if DEBUG
             Debug.WriteLine("getting config file for " + doc.Title);
             string s = @"C:\Andrew\code\cs\scaddins\share\SCexport-example-conf.xml";
@@ -268,7 +264,7 @@ namespace SCaddins.ExportManager
             OpenSheet(udoc, view, 1);
         }
 
-        public static void RenameSheets(ICollection<ExportSheet> sheets)
+        public static void RenameSheets(ICollection<ExportSheet> sheets, Document doc)
         {
             using (var renameSheetDialog = new RenameSheetForm(sheets, doc)) {
                 var result = renameSheetDialog.ShowDialog();
@@ -281,7 +277,7 @@ namespace SCaddins.ExportManager
             }
         }
 
-        public static void FixScaleBars(ICollection<ExportSheet> sheets)
+        public static void FixScaleBars(ICollection<ExportSheet> sheets, Document doc)
         {
             if (sheets == null) {
                 TaskDialog.Show("Error", "Please select sheets before attempting to add revisions");
@@ -301,7 +297,7 @@ namespace SCaddins.ExportManager
             }
         }
         
-        public static void ToggleNorthPoints(ICollection<ExportSheet> sheets)
+        public static void ToggleNorthPoints(ICollection<ExportSheet> sheets, Document doc, bool turnOn)
         {
             if (sheets == null) {
                 return;
@@ -309,7 +305,7 @@ namespace SCaddins.ExportManager
             using (Transaction t = new Autodesk.Revit.DB.Transaction(doc)) {
                 if (t.Start("SCexport - Toggle North Points") == TransactionStatus.Started) {
                     foreach (ExportSheet sheet in sheets) {
-                        sheet.ToggleNorthPoint();
+                        sheet.ToggleNorthPoint(turnOn);
                     }
                     if (t.Commit() != TransactionStatus.Committed) {
                         TaskDialog.Show("Failure", "Could not toggle north points");
@@ -324,29 +320,29 @@ namespace SCaddins.ExportManager
                 TaskDialog.Show("Error", "Please select sheets before attempting to add revisions");
                 return;
             }
-            using (var r = new RevisionSelectionDialog(doc)) {
-                var result = r.ShowDialog();
-                if ((r.Id != null) && (result == System.Windows.Forms.DialogResult.OK)) {
-                    using (var t = new Transaction(doc, "SCexport: Add new revisions")) {
-                        if (t.Start() == TransactionStatus.Started) {
-                            foreach (ExportSheet sheet in sheets) {
-                                ICollection<ElementId> il = sheet.Sheet.GetAdditionalRevisionIds();
-                                il.Add(r.Id);
-                                sheet.Sheet.SetAdditionalRevisionIds(il);
-                            }
-                            t.Commit();
-                        } else {
-                            TaskDialog.Show("Error", "SCexport: error adding revisions, could not start transaction.");
-                        }
-                    }
-                }
-            }
-            foreach (ExportSheet sheet in sheets) {
-                sheet.UpdateRevision(true);
-            }
+            //using (var r = new RevisionSelectionDialog(doc)) {
+            //    var result = r.ShowDialog();
+            //    if ((r.Id != null) && (result == System.Windows.Forms.DialogResult.OK)) {
+            //        using (var t = new Transaction(doc, "SCexport: Add new revisions")) {
+            //            if (t.Start() == TransactionStatus.Started) {
+            //                foreach (ExportSheet sheet in sheets) {
+            //                    ICollection<ElementId> il = sheet.Sheet.GetAdditionalRevisionIds();
+            //                    il.Add(r.Id);
+            //                    sheet.Sheet.SetAdditionalRevisionIds(il);
+            //                }
+            //                t.Commit();
+            //            } else {
+            //                TaskDialog.Show("Error", "SCexport: error adding revisions, could not start transaction.");
+            //            }
+            //        }
+            //    }
+            //}
+            //foreach (ExportSheet sheet in sheets) {
+            //    sheet.UpdateRevision(true);
+            //}
         }
 
-        public static string CurrentViewName()
+        public static string CurrentViewName(Document doc)
         {
             View v = doc.ActiveView;
             if (v.ViewType == ViewType.DrawingSheet) {
@@ -382,7 +378,7 @@ namespace SCaddins.ExportManager
             }
         }
 
-        public static string LatestRevisionDate()
+        public static string LatestRevisionDate(Document doc)
         {
             string s = string.Empty;
             int i = -1;
@@ -411,7 +407,7 @@ namespace SCaddins.ExportManager
                 return;
             }
 
-            PrintManager pm = doc.PrintManager;
+            PrintManager pm = Doc.PrintManager;
             TaskDialogResult tdr = ShowPrintWarning();
             DateTime startTime = DateTime.Now;
             TimeSpan elapsedTime = DateTime.Now - startTime;
@@ -434,15 +430,15 @@ namespace SCaddins.ExportManager
 
                     switch (scale) {
                     case 3:
-                        printSetttingsValid |= PrintSettings.PrintToDevice(doc, "A3-FIT", pm, printerName, this.log);
+                        printSetttingsValid |= PrintSettings.PrintToDevice(Doc, "A3-FIT", pm, printerName, this.log);
                         break;
                     case 2:
-                        printSetttingsValid |= PrintSettings.PrintToDevice(doc, "A2-FIT", pm, printerName, this.log);
+                        printSetttingsValid |= PrintSettings.PrintToDevice(Doc, "A2-FIT", pm, printerName, this.log);
                         break;
                     default:
                         int i = int.Parse(sheet.PageSize.Substring(1, 1), CultureInfo.InvariantCulture);
                         string printerNameTmp = i > 2 ? this.PrinterNameA3 : this.PrinterNameLargeFormat;
-                        printSetttingsValid |= PrintSettings.PrintToDevice(doc, sheet.PageSize, pm, printerNameTmp, this.log);
+                        printSetttingsValid |= PrintSettings.PrintToDevice(Doc, sheet.PageSize, pm, printerNameTmp, this.log);
                         break;
                     }
                     if (printSetttingsValid) {
@@ -462,8 +458,8 @@ namespace SCaddins.ExportManager
 
         public void Update()
         {
-            PrintManager pm = doc.PrintManager;
-            PrintSettings.SetPrinterByName(doc, this.PdfPrinterName, pm);
+            PrintManager pm = Doc.PrintManager;
+            PrintSettings.SetPrinterByName(Doc, this.PdfPrinterName, pm);
 
             foreach (ExportSheet sc in this.allSheets) {
                 if (!sc.Verified) {
@@ -568,8 +564,8 @@ namespace SCaddins.ExportManager
 
             DateTime startTime = DateTime.Now;
             TimeSpan elapsedTime = DateTime.Now - startTime;
-            PrintManager pm = doc.PrintManager;
-            PrintSettings.SetPrinterByName(doc, this.PdfPrinterName, pm);
+            PrintManager pm = Doc.PrintManager;
+            PrintSettings.SetPrinterByName(Doc, this.PdfPrinterName, pm);
             this.log.Clear();
             this.log.TotalExports = progressBar.Maximum;
             this.log.Start(Resources.ExportStarted);
@@ -705,7 +701,8 @@ namespace SCaddins.ExportManager
         private static void RemoveTitleBlock(
             ExportSheet vs,
             ICollection<ElementId> title,
-            bool hide)
+            bool hide,
+            Document doc)
         {
             var view = doc.GetElement(vs.Id) as View;
             var t = new Transaction(doc, "Hide Title");
@@ -723,7 +720,7 @@ namespace SCaddins.ExportManager
             }
         }
 
-        private static void PopulateViewSheetSets(Collection<ViewSheetSetCombo> vss)
+        private static void PopulateViewSheetSets(Collection<ViewSheetSetCombo> vss, Document doc)
         {
             vss.Clear();
             using (FilteredElementCollector collector = new FilteredElementCollector(doc)) {
@@ -734,7 +731,7 @@ namespace SCaddins.ExportManager
             }
         }
 
-        private static void ExportDWF(ExportSheet vs)
+        private static void ExportDWF(ExportSheet vs, Document doc)
         {
             var views = new ViewSet();
             views.Insert(vs.Sheet);
@@ -758,7 +755,7 @@ namespace SCaddins.ExportManager
             }
         }
 
-        private static void ExportDGN(ExportSheet vs)
+        private static void ExportDGN(ExportSheet vs, Document doc)
         {
             using (var opts = new DGNExportOptions()) {
                 ICollection<ElementId> views;
@@ -788,7 +785,7 @@ namespace SCaddins.ExportManager
 
         private void PopulateSheets(ObservableCollection<ExportSheet> s)
         {
-            string config = GetConfigFileName(doc);
+            string config = GetConfigFileName(Doc);
             bool b = this.ImportXMLinfo(config);
             if (!b) {
                 var name = new SegmentedSheetName();
@@ -806,11 +803,11 @@ namespace SCaddins.ExportManager
             }
 
             s.Clear();
-            using (FilteredElementCollector collector = new FilteredElementCollector(doc)) {
+            using (FilteredElementCollector collector = new FilteredElementCollector(Doc)) {
                 collector.OfCategory(BuiltInCategory.OST_Sheets);
                 collector.OfClass(typeof(ViewSheet));
                 foreach (ViewSheet v in collector) {
-                    var scxSheet = new ExportSheet(v, doc, this.fileNameTypes[0], this);
+                    var scxSheet = new ExportSheet(v, Doc, this.fileNameTypes[0], this);
                     s.Add(scxSheet);
                 }
             }
@@ -962,11 +959,11 @@ namespace SCaddins.ExportManager
                 }
 
                 if (this.exportFlags.HasFlag(ExportOptions.DGN)) {
-                    ExportManager.ExportDGN(sheet);
+                    ExportManager.ExportDGN(sheet, Doc);
                 }
 
                 if (this.exportFlags.HasFlag(ExportOptions.DWF)) {
-                    ExportManager.ExportDWF(sheet);
+                    ExportManager.ExportDWF(sheet, Doc);
                 }
                 var elapsedTime = DateTime.Now - startTime;
                 this.log.AddMessage(Resources.MessageElapsedTimeForLastExport + elapsedTime.ToString());
@@ -993,17 +990,17 @@ namespace SCaddins.ExportManager
             
             List<ElementId> titleBlockHidden;
             titleBlockHidden = new List<ElementId>();
-            var titleBlock = ExportManager.TitleBlockInstanceFromSheetNumber(vs.SheetNumber, doc);
+            var titleBlock = ExportManager.TitleBlockInstanceFromSheetNumber(vs.SheetNumber, Doc);
             titleBlockHidden.Add(titleBlock.Id);
 
             if (removeTitle) {
                 this.log.AddMessage(Resources.MessageAttemptingToHideTitleBlock);
-                ExportManager.RemoveTitleBlock(vs, titleBlockHidden, true);
+                ExportManager.RemoveTitleBlock(vs, titleBlockHidden, true, Doc);
             }
 
-            PrintManager pm = doc.PrintManager;
+            PrintManager pm = Doc.PrintManager;
 
-            using (var t = new Transaction(doc, Resources.ApplyPrintSettings)) {
+            using (var t = new Transaction(Doc, Resources.ApplyPrintSettings)) {
                 if (t.Start() == TransactionStatus.Started) {
                     try {
                         pm.PrintToFile.Equals(true);
@@ -1027,7 +1024,7 @@ namespace SCaddins.ExportManager
                 var name = vs.FullExportName + Resources.FileExtensionDWG;
                 this.log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
                 this.log.AddMessage(Resources.MessageExportingToFileName + name);
-                doc.Export(vs.ExportDirectory, name, views, opts);
+                Doc.Export(vs.ExportDirectory, name, views, opts);
             }
            
             FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionDWG));
@@ -1035,7 +1032,7 @@ namespace SCaddins.ExportManager
 
             if (removeTitle) {
                 this.log.AddMessage(Resources.MessageShowingTitleBlock);
-                ExportManager.RemoveTitleBlock(vs, titleBlockHidden, false);
+                ExportManager.RemoveTitleBlock(vs, titleBlockHidden, false, Doc);
             }
         }
 
@@ -1047,11 +1044,11 @@ namespace SCaddins.ExportManager
             this.log.AddMessage(Environment.NewLine + Resources.MessageStartingGhostscriptPDFExport);
             this.log.AddMessage(vs.ToString());
             
-            PrintManager pm = doc.PrintManager;
+            PrintManager pm = Doc.PrintManager;
             
             this.log.AddMessage(Resources.MessageApplyingPrintSetting + vs.PrintSettingName);
 
-            if (!PrintSettings.PrintToFile(doc, vs, pm, Resources.FileExtensionPS, this.PostscriptPrinterName)) {
+            if (!PrintSettings.PrintToFile(Doc, vs, pm, Resources.FileExtensionPS, this.PostscriptPrinterName)) {
                 this.log.AddError(vs.FullExportName, Resources.ErrorFailedToAssignPrintSetting + vs.PrintSettingName);
                 return false;
             }
@@ -1110,11 +1107,11 @@ namespace SCaddins.ExportManager
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private bool ExportAdobePDF(ExportSheet vs)
         {
-            PrintManager pm = doc.PrintManager;
+            PrintManager pm = Doc.PrintManager;
             
             this.log.AddMessage(Resources.MessageApplyingPrintSetting + vs.PrintSettingName);
 
-            if (!PrintSettings.PrintToFile(doc, vs, pm, Resources.FileExtensionPDF, this.PdfPrinterName)) {
+            if (!PrintSettings.PrintToFile(Doc, vs, pm, Resources.FileExtensionPDF, this.PdfPrinterName)) {
                 this.log.AddError(vs.FullExportName, Resources.ErrorFailedToAssignPrintSetting + vs.PrintSettingName);
                 return false;
             }

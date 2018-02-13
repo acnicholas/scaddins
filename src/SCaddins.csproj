@@ -262,6 +262,7 @@
       <DependentUpon>SCexportView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ExportManager\WindowManager.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -415,18 +416,6 @@
     <Compile Include="ExportManager\ViewSheetSetCombo.cs" />
     <Compile Include="LineOfSight\StadiumSection.cs" />
     <Compile Include="LineOfSight\LineOfSightCommand.cs" />
-    <Compile Include="LineOfSight\LineOfSightMainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LineOfSight\LineOfSightMainForm.Designer.cs">
-      <DependentUpon>LineOfSightMainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LineOfSight\LineOfSightOutputForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LineOfSight\LineOfSightOutputForm.Designer.cs">
-      <DependentUpon>LineOfSightOutputForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="LineOfSight\LineOfSightRow.cs" />
     <Compile Include="ParameterUtilities\Increment.cs" />
     <Compile Include="ParameterUtilities\IncrementSettings.cs" />
@@ -534,12 +523,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExportManager\RenameSheetForm.resx">
       <DependentUpon>RenameSheetForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LineOfSight\LineOfSightMainForm.resx">
-      <DependentUpon>LineOfSightMainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LineOfSight\LineOfSightOutputForm.resx">
-      <DependentUpon>LineOfSightOutputForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ParameterUtilities\IncrementSettingsForm.resx">
       <DependentUpon>IncrementSettingsForm.cs</DependentUpon>

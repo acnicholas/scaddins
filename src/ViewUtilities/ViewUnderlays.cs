@@ -26,8 +26,12 @@ namespace SCaddins.ViewUtilities
         public static void RemoveUnderlays(
             ICollection<SCaddins.ExportManager.ExportSheet> sheets, Document doc)
         {
-            if (sheets == null || doc == null) {
-                TaskDialog.Show("Failure", "Could not remove underlays");
+            if (doc == null) {
+                TaskDialog.Show("Failure", "Could not remove underlays(doc)");
+                return;
+            }
+            if (sheets == null) {
+                TaskDialog.Show("Failure", "Could not remove underlays(sheets)");
                 return;
             }
             using (Transaction t = new Transaction(doc)) {

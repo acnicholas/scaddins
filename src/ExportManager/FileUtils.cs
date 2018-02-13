@@ -133,14 +133,15 @@ namespace SCaddins.ExportManager
             if (System.IO.File.Exists(fileName)) {
                 string s = fileName + " exists," + System.Environment.NewLine +
                     "do you want do overwrite the existing file?";
-                using (var dialog = new ConfirmationDialog(s))
-                {
-                    dialog.StartPosition =
-                        System.Windows.Forms.FormStartPosition.CenterParent;
-                    dialog.TopMost = true;
-                    System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-                    return result == System.Windows.Forms.DialogResult.Yes ? true : false;
-                }
+                //using (var dialog = new ConfirmationDialog(s))
+                //{
+                //    dialog.StartPosition =
+                //        System.Windows.Forms.FormStartPosition.CenterParent;
+                //    dialog.TopMost = true;
+                //    System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+                //    return result == System.Windows.Forms.DialogResult.Yes ? true : false;
+                //}
+                return false;
             } else {
                 return true;
             }
