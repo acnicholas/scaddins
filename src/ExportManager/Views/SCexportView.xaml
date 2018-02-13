@@ -100,13 +100,13 @@
                     <Separator />
                     <MenuItem Header="Options" />
                     <Separator />
-                    <MenuItem Header="Open Selected View[s]" Command="{Binding OpenViewsCommand}" />
+                    <MenuItem Header="Open Selected View[s]" cal:Message.Attach="OpenViewsCommand" />
                     <Separator />
                     <MenuItem Header="Add Revision" />
                     <MenuItem Header="Copy Sheets" cal:Message.Attach="CopySheets"/>
                     <MenuItem Header="Remove Underlays From View" cal:Message.Attach="RemoveUnderlays"/>
                     <MenuItem Header="Rename Selected Views" />
-                    <MenuItem Header="Fix Scale Bars" />
+                    <MenuItem Header="Fix Scale Bars" cal:Message.Attach="FixScaleBars"/>
                     <MenuItem Header="North Points On" cal:Message.Attach="TurnNorthPointsOn"/>
                     <MenuItem Header="North Points Off" cal:Message.Attach="TurnNorthPointsOff"/>
                     <MenuItem Header="Create User Views" />
@@ -141,7 +141,7 @@
             x:Name="PrintButton"
             Grid.Column="1" />
         <Button
-            Content="Button"
+            Content="Options"
             Height="Auto"
             Width="Auto"
             Grid.Row="0"

@@ -46,10 +46,21 @@ namespace SCaddins.ExportManager.ViewModels
             selectedSheets.AddRange(obj.AddedItems.Cast<ExportSheet>());
             obj.RemovedItems.Cast<ExportSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
         }
+
+        public void OptionsButton()
+        {
+            var optionsModel = new OptionsViewModel();
+            windowManager.ShowDialog(optionsModel, null, null);
+        }
         
         public void Export()
         {
             System.Windows.MessageBox.Show(selectedSheets.Count.ToString());
+        }
+
+        public void OpenViewsCommand()
+        {
+            OpenSheet.OpenViews(selectedSheets);  
         }
         
         public void FixScaleBars()
