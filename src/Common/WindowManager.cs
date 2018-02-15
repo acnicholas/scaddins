@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace SCaddins.ExportManager
+namespace SCaddins.Common
 {
-    public class WindowManager : Caliburn.Micro.WindowManager
+    internal class WindowManager : Caliburn.Micro.WindowManager
     {
+        public WindowManager() : base()
+        { }
+
         public override bool? ShowDialog(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
             System.Windows.Window window = CreateWindow(rootModel, true, context, settings);

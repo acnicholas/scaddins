@@ -5,84 +5,96 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SCaddins.LineOfSight.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="300">
-    <Grid>
+             d:DesignHeight="480" d:DesignWidth="720">
+    <Grid Height="Auto" Width="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition/>
         </Grid.RowDefinitions>
-        <GroupBox Header="Test" Grid.Row="0" Name="Test" >
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <Label Grid.Column="0" Content="Test"/>
-                <TextBox Grid.Column="1">User Input</TextBox>
-                <Label Grid.Row="1" Grid.Column="0" Content="Test2"/>
-                <TextBox Grid.Row="1" Grid.Column="1">User Input2</TextBox>
-                <Label Grid.Row="2" Grid.Column="0" Content="Test2"/>
-                <TextBox Grid.Row="2" Grid.Column="1">User Input2</TextBox>
-            </Grid>
-        </GroupBox>
-        <GroupBox Header="Test 2" Grid.Row="1" Name="Test2" >
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <Label Grid.Column="0" Content="Test"/>
-                <TextBox Grid.Column="1">User Input</TextBox>
-                <Label Grid.Row="1" Grid.Column="0" Content="Test2"/>
-                <TextBox Grid.Row="1" Grid.Column="1">User Input2</TextBox>
-                <Label Grid.Row="2" Grid.Column="0" Content="Test2"/>
-                <TextBox Grid.Row="2" Grid.Column="1">User Input2</TextBox>
-            </Grid>
-        </GroupBox>
-        <GroupBox Header="Test 3" Grid.Row="2" Name="Test3" >
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <Label Grid.Column="0" Content="Test"/>
-                <TextBox Grid.Column="1">User Input</TextBox>
-                <Label Grid.Row="1" Grid.Column="0" Content="Test2"/>
-                <TextBox Grid.Row="1" Grid.Column="1">User Input2</TextBox>
-                <Label Grid.Row="2" Grid.Column="0" Content="Test2"/>
-                <TextBox Grid.Row="2" Grid.Column="1">User Input2</TextBox>
-            </Grid>
-        </GroupBox>
-        <Grid Height="Auto" Grid.Row="3">
+        <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Button Name="Button1" Height="25" Grid.Row ="1" Grid.Column="0">1</Button>
-            <Button Name="Button2" Height="25" Grid.Row ="1" Grid.Column="1">2</Button>
-            <Button Name="Button3" Height="25" Grid.Row ="1" Grid.Column="2">3</Button>
+            <GroupBox Header="Bouding Dimension" Grid.Row="0" Name="Test" Margin="5" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Margin="5" Content="Horizontal Distance from Focus"/>
+                    <TextBox x:Name="DistanceToFirstRowX" Grid.Column="1" Margin="5"></TextBox>
+                    <Label Grid.Row="1" Grid.Column="0" Margin="5" Content="Vertical Rise from Focus"/>
+                    <TextBox x:Name="DistanceToFirstRowY" Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
+                    <Label Grid.Row="2" Grid.Column="0" Margin="5" Content="Number of Rows Required"/>
+                    <TextBox x:Name="NumberOfRows" Grid.Row="2" Grid.Column="1" Margin="5"></TextBox>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Seat (Tread Details)" Grid.Row="1" Name="Test2" Margin="5" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Margin="5" Content="Seat (Tread) Width"/>
+                    <TextBox x:Name="TreadSize" Margin="5" Grid.Column="1"></TextBox>
+                    <Label Grid.Row="1" Grid.Column="0" Margin="5" Content="Minimum Step Height"/>
+                    <TextBox x:Name="MinimumRiserHeight" Margin="5" Grid.Row="1" Grid.Column="1"></TextBox>
+                    <Label Grid.Row="2" Grid.Column="0" Margin="5" Content="Minimum Step Increment"/>
+                    <TextBox x:Name="RiserIncrement" Margin="5" Grid.Row="2" Grid.Column="1"></TextBox>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Heights" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="2" Name="Test3" Margin="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Margin="5" Content="Persons Eye Height"/>
+                    <TextBox x:Name="EyeHeight" Margin="5" Grid.Column="1"></TextBox>
+                    <Label Grid.Row="1" Grid.Column="0" Margin="5" Content="Minimum Clearance 'C' Value"/>
+                    <TextBox x:Name="MinimumCValue" Margin="5" Grid.Row="1" Grid.Column="1"></TextBox>
+                </Grid>
+            </GroupBox>
+            <Grid Height="Auto" Grid.Row="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+            </Grid>
         </Grid>
+        <GridSplitter Grid.Column="1" Grid.RowSpan="1"  HorizontalAlignment="Stretch" Width="5"></GridSplitter>
+        <Grid Grid.Column="2">
+            <GroupBox Header="Information" Margin="5">
+                <TextBox x:Name="InfoString" Margin="5"></TextBox>
+            </GroupBox>
+        </Grid>
+        <Button x:Name="Draw" Height="25" HorizontalAlignment="Right"  MinWidth="50" Grid.Row ="1" Grid.Column="2" Margin="5">Create Drafting View</Button>
     </Grid>
 </UserControl>

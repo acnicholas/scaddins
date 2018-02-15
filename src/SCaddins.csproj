@@ -236,9 +236,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExportManager\Bootstrapper.cs" />
+    <Compile Include="Common\Bootstrapper.cs" />
     <Compile Include="ExportManager\OpenableView.cs" />
     <Compile Include="ExportManager\ViewModels\OpenSheetViewModel.cs" />
+    <Compile Include="ExportManager\ViewModels\OptionsViewModel.cs" />
+    <Compile Include="ExportManager\ViewModels\RevisionSelectionViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\SCexportViewModel.cs" />
     <Compile Include="ExportManager\Views\ConfirmationDialogView.xaml.cs">
       <DependentUpon>ConfirmationDialogView.xaml</DependentUpon>
@@ -262,8 +264,12 @@
       <DependentUpon>SCexportView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ExportManager\WindowManager.cs" />
+    <Compile Include="Common\WindowManager.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="LineOfSight\ViewModels\LineOfSightViewModel.cs" />
+    <Compile Include="LineOfSight\Views\LineOfSightView.xaml.cs">
+      <DependentUpon>LineOfSightView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -346,6 +352,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SheetCopierMainForm.resx</DependentUpon>
     </Compile>
+    <Compile Include="SheetCopier\ViewModels\SheetCopierViewModel.cs" />
+    <Compile Include="SheetCopier\Views\SheetCopierView.xaml.cs">
+      <DependentUpon>SheetCopierView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SolarUtilities\SolarViews.cs" />
     <Compile Include="SolarUtilities\SolarViewsCommand.cs" />
     <Compile Include="SolarUtilities\SolarViewsForm.xaml.cs">
@@ -385,9 +395,6 @@
     <Compile Include="ExportManager\ExportLogItem.cs" />
     <Compile Include="ExportManager\FileUtils.cs" />
     <Compile Include="ExportManager\FilterContextMenu.cs" />
-    <Compile Include="ExportManager\MenuButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="ExportManager\NextSheet.cs" />
     <Compile Include="ExportManager\OpenSheet.cs" />
     <Compile Include="ExportManager\OptionsDialog.cs">
@@ -414,7 +421,7 @@
     <Compile Include="ExportManager\SegmentedSheetName.cs" />
     <Compile Include="ExportManager\TipOfDay.cs" />
     <Compile Include="ExportManager\ViewSheetSetCombo.cs" />
-    <Compile Include="LineOfSight\StadiumSection.cs" />
+    <Compile Include="LineOfSight\LineOfSight.cs" />
     <Compile Include="LineOfSight\LineOfSightCommand.cs" />
     <Compile Include="LineOfSight\LineOfSightRow.cs" />
     <Compile Include="ParameterUtilities\Increment.cs" />
@@ -613,7 +620,15 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ExportManager\Views\SCexportView.xaml" />
+    <Page Include="LineOfSight\Views\LineOfSightView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="RevisionUtilities\RevisionUtilitiesWindow.xaml" />
+    <Page Include="SheetCopier\Views\SheetCopierView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SolarUtilities\SolarViewsForm.xaml" />
   </ItemGroup>
   <ItemGroup />

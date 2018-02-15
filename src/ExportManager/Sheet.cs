@@ -157,7 +157,7 @@ namespace SCaddins.ExportManager
             }
             set {
                 this.scale = value;
-                NotifyPropertyChanged();
+                NotifyPropertyChanged("Scale");
             }
         }
         
@@ -296,7 +296,7 @@ namespace SCaddins.ExportManager
             var titleBlock = ExportManager.TitleBlockInstanceFromSheetNumber(
                 this.sheetNumber, this.doc);
             if (titleBlock != null) {
-                Scale = titleBlock.get_Parameter(
+                this.scale = titleBlock.get_Parameter(
                     BuiltInParameter.SHEET_SCALE).AsString();
                 this.scaleBarScale = ExportSheet.GetScaleBarScale(titleBlock);
                 NorthPointVisible = ExportSheet.GetNorthPointVisibility(titleBlock);
@@ -401,7 +401,8 @@ namespace SCaddins.ExportManager
 
                 Parameter p = tb[0];
                 p.SetValueString(this.RevitScaleWithoutFormatting());
-                this.scaleBarScale = this.RevitScaleWithoutFormatting();          
+                this.scaleBarScale = this.RevitScaleWithoutFormatting();
+                NotifyPropertyChanged("Scale");
         }
         
         public override string ToString()
@@ -470,7 +471,7 @@ namespace SCaddins.ExportManager
             this.projectNumber = document.ProjectInformation.Number;
             this.width = 841;
             this.height = 594;
-            Scale = string.Empty;
+            this.scale = string.Empty;
             this.scaleBarScale = string.Empty;
             NorthPointVisible = null;
             this.pageSize = string.Empty;

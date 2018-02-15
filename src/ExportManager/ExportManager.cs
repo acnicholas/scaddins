@@ -458,14 +458,17 @@ namespace SCaddins.ExportManager
 
         public void Update()
         {
-            PrintManager pm = Doc.PrintManager;
-            PrintSettings.SetPrinterByName(Doc, this.PdfPrinterName, pm);
-
-            foreach (ExportSheet sc in this.allSheets) {
-                if (!sc.Verified) {
-                    sc.UpdateSheetInfo();
+            try {
+                PrintManager pm = Doc.PrintManager;
+                if (pm == null) return;
+                if (PrintSettings.SetPrinterByName(Doc, this.PdfPrinterName, pm)) {
+                    foreach (ExportSheet sc in this.allSheets) {
+                        if (!sc.Verified) {
+                            sc.UpdateSheetInfo();
+                        }
+                    }
                 }
-            }
+            } catch { }
         }
 
         public void AddExportOption(ExportOptions exportOptions)

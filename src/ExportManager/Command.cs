@@ -66,9 +66,9 @@ namespace SCaddins.ExportManager
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
             
-            var bs = new SCaddins.ExportManager.Bootstrapper();
+            var bs = new SCaddins.Common.Bootstrapper();
             bs.Initialize();
-            var windowManager = new SCaddins.ExportManager.WindowManager();
+            var windowManager = new SCaddins.Common.WindowManager();
             var vm = new ViewModels.SCexportViewModel(windowManager, new ExportManager(uidoc));
             windowManager.ShowDialog(vm, null, settings);
 

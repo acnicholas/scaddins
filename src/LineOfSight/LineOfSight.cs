@@ -18,18 +18,29 @@
 namespace SCaddins.LineOfSight
 {
     using System;
+    using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
     using Autodesk.Revit.ApplicationServices;
     using Autodesk.Revit.DB;
     using SCaddins.Common;
+    using System.Runtime.CompilerServices;
 
-    public class StadiumSection
+    public class LineOfSight : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         private Document doc;
         private View view;
         private SCightLinesRow[] rows;
         private string infoString;
+        private double eyeHeight;
+        private double treadSize;
+        private double riserIncrement;
+        private double minimumCValue;
+        private double minimumRiserHeight;
+        private int numberOfRows;
+        private double distanceToFirstRowX;
+        private double distanceToFirstRowY;
 
         /// <summary>
         /// A class to create line of sight drafting views in Revit
@@ -43,75 +54,158 @@ namespace SCaddins.LineOfSight
         /// <param name="numberOfRows">The number of row in the stand</param>
         /// <param name="xDistanceToFirstRow"></param>
         /// <param name="yDistanceToFirstRow"></param>
-        public StadiumSection(
+        public LineOfSight(
             Document doc,
-            double eyeHeight,
-            double treadSize,
-            double riserIncrement,
-            double minimumCValue,
-            double minimumRiserHeight,
-            double numberOfRows,
-            double distanceToFirstRowX,
-            double distanceToFirstRowY)
+            double eyeHeight = 1200,
+            double treadSize = 900,
+            double riserIncrement = 15,
+            double minimumCValue = 60,
+            double minimumRiserHeight = 180,
+            int numberOfRows = 20,
+            double distanceToFirstRowX = 12000,
+            double distanceToFirstRowY = 1000)
         {
             this.doc = doc;
-            numberOfRows = 10;
+            this.eyeHeight = eyeHeight;
+            this.treadSize = treadSize;
+            this.riserIncrement = riserIncrement;
+            this.minimumCValue = minimumCValue;
+            this.minimumRiserHeight = minimumRiserHeight;
+            this.numberOfRows = numberOfRows;
+            this.distanceToFirstRowX = distanceToFirstRowX;
+            this.distanceToFirstRowY = distanceToFirstRowY;
             this.rows = new SCightLinesRow[100];
             for (int i = 0; i < 100; i++) {
                 this.rows[i] = new SCightLinesRow();
             }
-            this.Update(
-                eyeHeight,
-                treadSize,
-                riserIncrement,
-                minimumCValue,
-                minimumRiserHeight,
-                numberOfRows,
-                distanceToFirstRowX,
-                distanceToFirstRowY);
+            this.UpdateRows();
         }
 
-        public double TreadSize { get; set; }
+        //Properties
+        #region 
 
-        public double EyeHeight { get; set; }
+        public double TreadSize
+        {
+            get
+            {
+                return treadSize;
+            }
+            set
+            {
+                treadSize = value;
+                this.UpdateRows();
+                //NotifyPropertyChanged("TreadSize");
+            }
+        }
 
-        public double DistanceToFirstRowX { get; set; }
+        public double EyeHeight
+        {
+            get
+            {
+                return eyeHeight;
+            }
+            set
+            {
+                eyeHeight = value;
+                this.UpdateRows();
+                //NotifyPropertyChanged("EyeHeight");
+            }
+        }
 
-        public double DistanceToFirstRowY { get; set; }
+        public double DistanceToFirstRowX
+        {
+            get
+            {
+                return distanceToFirstRowX;
+            }
+            set
+            {
+                distanceToFirstRowX = value;
+                this.UpdateRows();
+                //NotifyPropertyChanged("DistanceToFirstRowX");
+            }
+        }
 
-        public int NumberOfRows { get; set; }
+        public double DistanceToFirstRowY
+        {
+            get
+            {
+                return distanceToFirstRowY;
+            }
+            set
+            {
+                distanceToFirstRowY = value;
+                this.UpdateRows();
+                //NotifyPropertyChanged("DistanceToFirstRowY");
+            }
+        }
 
-        public double MinimumRiserHeight { get; set; }
 
-        public double MinimumCValue { get; set; }
+        public int NumberOfRows
+        {
+            get
+            {
+                return numberOfRows;
+            }
+            set
+            {
+                numberOfRows = value;
+                this.UpdateRows();
+                NotifyPropertyChanged("NumberOfRows");
+            }
+        }
 
-        public double RiserIncrement { get; set; }
+        public double MinimumRiserHeight
+        {
+            get
+            {
+                return minimumRiserHeight;
+            }
+            set
+            {
+                minimumRiserHeight = value;
+                this.UpdateRows();
+                //NotifyPropertyChanged("MinimumRiserHeight");
+            }
+        }
+
+        public double MinimumCValue
+        {
+            get
+            {
+                return minimumCValue;
+            }
+            set
+            {
+                minimumCValue = value;
+                this.UpdateRows();
+                //NotifyPropertyChanged("MinimumCValue");
+            }
+        }
+
+        public double RiserIncrement {
+            get
+            {
+                return riserIncrement;
+            }
+            set
+            {
+                riserIncrement = value;
+                this.UpdateRows();
+                //NotifyPropertyChanged("RiserIncrement");
+            }
+        }
 
         public string InfoString {
-            get { return this.infoString; }
+            get {
+                return this.infoString; }
+            private set {
+                this.infoString = value;
+                NotifyPropertyChanged("InfoString");
+            }
         }
 
-        public void Update(
-            double newEyeHeight,
-            double newTreadSize,
-            double newRiserIncrement,
-            double newMinimumCValue,
-            double newMinimumRiserHeight,
-            double newNumberOfRows,
-            double newDistanceToFirstRowX,
-            double newDistanceToFirstRowY)
-        {
-            EyeHeight = newEyeHeight;
-            TreadSize = newTreadSize;
-            RiserIncrement = newRiserIncrement;
-            MinimumCValue = newMinimumCValue;
-            MinimumRiserHeight = newMinimumRiserHeight;
-            NumberOfRows = Convert.ToInt32(newNumberOfRows);
-            DistanceToFirstRowX = newDistanceToFirstRowX;
-            DistanceToFirstRowY = newDistanceToFirstRowY;
-            this.UpdateRows();
-            this.infoString = this.UpdateInfoString();
-        }
+        #endregion
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.DateTime.ToString")]
         public void Draw()
@@ -234,6 +328,7 @@ namespace SCaddins.LineOfSight
                     this.rows[i - 1].CValue = this.GetCValue(i - 1, this.rows[i].RiserHeight);
                 }
             }
+            this.UpdateInfoString();
         }
 
         private void DrawRiser(int i)
@@ -287,20 +382,12 @@ namespace SCaddins.LineOfSight
             }
         }
 
-        private string UpdateInfoString()
+        private void UpdateInfoString()
         {
             string s;
             int i;
 
             s = string.Empty;
-            s += "Number of Rows in Section            =\t" + this.NumberOfRows + "\r\n";
-            s += "Distance to first spectator          =\t" + this.DistanceToFirstRowX + "\r\n";
-            s += "Minimum sight line clearance         =\t" + this.MinimumCValue + "\r\n";
-            s += "Eye level above tread                =\t" + this.EyeHeight + "\r\n";
-            s += "Elevation of first tread above datum =\t" + this.DistanceToFirstRowY + "\r\n";
-            s += "Tread size                           =\t" + this.TreadSize + "\r\n";
-            s += "Minimum riser height                 =\t" + this.MinimumRiserHeight + "\r\n";
-            s += "Minimum riser increment              =\t" + this.RiserIncrement + "\r\n\r\n";
             s += "row:\triser:\tdist:\telev:\tc-value:\r\n";
 
             for (i = 0; i < this.NumberOfRows; i++) {
@@ -312,7 +399,7 @@ namespace SCaddins.LineOfSight
                 + c + "\r\n";
             }
 
-            return s;
+            InfoString = s;
         }
 
         private void DrawLine(double x1, double y1, double x2, double y2, string s)
@@ -366,5 +453,13 @@ namespace SCaddins.LineOfSight
         {
             return ((this.rows[i].EyeToFocusX * (this.rows[i].HeightToFocus + nextn)) / (this.rows[i].EyeToFocusX + this.TreadSize)) - this.rows[i].HeightToFocus;
         }
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null) {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
     }
 }

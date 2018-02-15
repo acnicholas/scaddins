@@ -19,6 +19,7 @@ namespace SCaddins.LineOfSight
 {
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using System.Dynamic;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -35,7 +36,20 @@ namespace SCaddins.LineOfSight
             }
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            var sightLines = new StadiumSection(doc, 1220, 900, 15, 60, 180, 20, 12000, 1000);
+
+            dynamic settings = new ExpandoObject();
+            settings.Height = 480;
+            settings.Width = 360;
+            settings.Title = "Stadium Line Of Sight - By A.Nicholas";
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+
+            var bs = new SCaddins.Common.Bootstrapper();
+            bs.Initialize();
+            var windowManager = new SCaddins.Common.WindowManager();
+            var vm = new ViewModels.LineOfSightViewModel(doc);
+            windowManager.ShowDialog(vm, null, settings);
+
             return Result.Succeeded;
         }
     }

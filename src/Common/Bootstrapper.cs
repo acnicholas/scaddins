@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 
-namespace SCaddins.ExportManager
+namespace SCaddins.Common
 {
     public class Bootstrapper : BootstrapperBase
     {

@@ -67,10 +67,19 @@ namespace SCaddins.ExportManager.ViewModels
         {
             ExportManager.FixScaleBars(selectedSheets, exportManager.Doc);
         }
+
+        public void AddRevision()
+        {
+            var revisionSelectionViewModel = new RevisionSelectionViewModel();
+            var result = windowManager.ShowDialog(revisionSelectionViewModel, null, null);
+
+        }
         
         public void Info()
         {
-            System.Windows.MessageBox.Show(SelectedSheet.FullExportName);
+            if (SelectedSheet != null) {
+                System.Windows.MessageBox.Show(SelectedSheet.FullExportName);
+            }
         }
         
         public void VerifySheets()
@@ -85,7 +94,9 @@ namespace SCaddins.ExportManager.ViewModels
         
         public void CopySheets()
         {
-            
+            var sheetCopierModel = new SCaddins.SheetCopier.ViewModels.SheetCopierViewModel(exportManager.UIDoc);
+            //sheetCopierModel.Sheets = selectedSheets;
+            windowManager.ShowDialog(sheetCopierModel, null, null);
         } 
         
         public void TurnNorthPointsOn()
