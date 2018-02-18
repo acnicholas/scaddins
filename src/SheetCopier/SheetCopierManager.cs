@@ -26,12 +26,13 @@ namespace SCaddins.SheetCopier
     using System.Text;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    
-    public class SheetCopierManager
+    using System.ComponentModel;
+
+    public class SheetCopierManager : INotifyPropertyChanged
     {
         private Document doc;
         private UIDocument uidoc;
-        private System.ComponentModel.BindingList<SheetCopierSheet> sheets;
+        private ObservableCollection<SheetCopierSheet> sheets;
         private Dictionary<string, View> existingSheets =
             new Dictionary<string, View>();
         
@@ -51,13 +52,15 @@ namespace SCaddins.SheetCopier
         private List<Revision> hiddenRevisionClouds = new List<Revision>();
         private ElementId floorPlanViewFamilyTypeId = null;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0")]
         public SheetCopierManager(UIDocument uidoc)
         {
             this.summaryText = new StringBuilder();
             this.doc = uidoc.Document;
             this.uidoc = uidoc;
-            this.sheets = new System.ComponentModel.BindingList<SheetCopierSheet>();
+            this.sheets = new ObservableCollection<SheetCopierSheet>();
             this.hiddenRevisionClouds = GetAllHiddenRevisions(this.doc);
             this.GetViewTemplates();
             GetAllSheets(existingSheets, doc);
@@ -69,7 +72,7 @@ namespace SCaddins.SheetCopier
                
         #region properties
 
-        public System.ComponentModel.BindingList<SheetCopierSheet> Sheets {
+        public ObservableCollection<SheetCopierSheet> Sheets {
             get {
                 return this.sheets;
             }
@@ -177,14 +180,24 @@ namespace SCaddins.SheetCopier
                 td.Show();
             }
         }
+
+        public bool AddCurrentSheet()
+        {
+            if(doc.ActiveView.ViewType == ViewType.DrawingSheet) {
+                return AddSheet((ViewSheet)doc.ActiveView);
+            }
+            return false;     
+        }
     
-        public void AddSheet(ViewSheet sourceSheet)
+        public bool AddSheet(ViewSheet sourceSheet)
         {
             if (sourceSheet != null) {
                 string n = this.GetNewSheetNumber(sourceSheet.SheetNumber);
                 string t = sourceSheet.Name + SheetCopierConstants.MenuItemCopy;
                 this.sheets.Add(new SheetCopierSheet(n, t, this, sourceSheet));
+                return true;
             }
+            return false;
 
             // FIXME add error message,
         }

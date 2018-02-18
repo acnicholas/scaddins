@@ -21,6 +21,7 @@ namespace SCaddins.SheetCopier
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using System.Dynamic;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -51,14 +52,21 @@ namespace SCaddins.SheetCopier
                 }
                 return Autodesk.Revit.UI.Result.Failed;    
             }
-            var scopy = new SheetCopierManager(commandData.Application.ActiveUIDocument);
-            using (var form = new MainForm(doc, viewSheet, scopy)) {
-                form.Enabled = true;
-                System.Windows.Forms.DialogResult result = form.ShowDialog();
-                if (result == System.Windows.Forms.DialogResult.OK) {
-                    scopy.CreateSheets();
-                }
-            }
+
+            dynamic settings = new ExpandoObject();
+            settings.Height = 480;
+            settings.Width = 768;
+            //settings.WindowStyle = System.Windows.WindowStyle.ToolWindow;
+            settings.Title = "Sheet Copier - By Andrew Nicholas";
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+
+            var bs = new SCaddins.Common.Bootstrapper();
+            bs.Initialize();
+            var windowManager = new SCaddins.Common.WindowManager();
+            var vm = new ViewModels.SheetCopierViewModel(commandData.Application.ActiveUIDocument);
+            windowManager.ShowDialog(vm, null, settings);
+
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }

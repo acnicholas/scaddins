@@ -7,11 +7,8 @@ using Caliburn.Micro;
 
 namespace SCaddins.LineOfSight.ViewModels
 {
-    class LineOfSightViewModel : PropertyChangedBase,  INotifyDataErrorInfo
-
+    class LineOfSightViewModel : PropertyChangedBase
     {
-        private Dictionary<string, string> validationErrors;
-
         public double TreadSize
         {
             get
@@ -127,18 +124,7 @@ namespace SCaddins.LineOfSight.ViewModels
 
         public void Draw()
         {
-            validationErrors = new Dictionary<string, string>();
             lineOfSight.Draw();
-        }
-
-        public IEnumerable GetErrors(string propertyName)
-        {
-            string value;
-            if (validationErrors.TryGetValue(propertyName, out value))
-                return new List<string>(1) { value };
-
-            return null;
-
         }
 
         public bool CanDraw
@@ -149,11 +135,7 @@ namespace SCaddins.LineOfSight.ViewModels
             }
         }
 
-        public bool HasErrors => throw new NotImplementedException();
-
         private LineOfSight lineOfSight;
-
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         public LineOfSightViewModel(Document doc)
         {

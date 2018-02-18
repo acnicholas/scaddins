@@ -347,11 +347,6 @@
       <DependentUpon>ScaddinsOptionsForm.resx</DependentUpon>
     </Compile>
     <Compile Include="SharedAssemblyInfo.cs" />
-    <Compile Include="SheetCopier\SheetCopierMainForm1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SheetCopierMainForm.resx</DependentUpon>
-    </Compile>
     <Compile Include="SheetCopier\ViewModels\SheetCopierViewModel.cs" />
     <Compile Include="SheetCopier\Views\SheetCopierView.xaml.cs">
       <DependentUpon>SheetCopierView.xaml</DependentUpon>
@@ -453,26 +448,10 @@
       <DependentUpon>PlaceCoordinateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SheetCopier\SheetCopierEnums.cs" />
-    <Compile Include="SheetCopier\SheetCopierMainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SheetCopier\SheetCopierMainForm.Designer.cs">
-      <DependentUpon>SheetCopierMainForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="SheetCopier\SheetCopierManager.cs" />
     <Compile Include="SheetCopier\SheetCopierCommand.cs" />
     <Compile Include="SheetCopier\SheetCopierConstants.cs" />
-    <Compile Include="SheetCopier\SheetCopierMainForm.Designer1.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>SheetCopierMainForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="SheetCopier\SheetCopierSheet.cs" />
-    <Compile Include="SheetCopier\SheetCopierTextInputForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SheetCopier\SheetCopierTextInputForm.Designer.cs">
-      <DependentUpon>SheetCopierTextInputForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="SheetCopier\SheetCopierViewOnSheet.cs" />
     <Compile Include="DestructivePurge\DestructivePurge.cs" />
     <Compile Include="DestructivePurge\DestructivePurgeCommand.cs" />
@@ -539,14 +518,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PlaceCoordinate\PlaceCoordinateForm.resx">
       <DependentUpon>PlaceCoordinateForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SheetCopier\SheetCopierMainForm.resx">
-      <DependentUpon>SheetCopierMainForm.cs</DependentUpon>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SheetCopierMainForm1.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SheetCopier\SheetCopierTextInputForm.resx">
-      <DependentUpon>SheetCopierTextInputForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DestructivePurge\DestructivePurgeForm.resx">
       <DependentUpon>DestructivePurgeForm.cs</DependentUpon>

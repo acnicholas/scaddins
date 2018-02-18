@@ -67,11 +67,11 @@ namespace SCaddins.RoomConvertor
         private void AddDataGridColumns()
         {
             dataGridView1.AutoGenerateColumns = false;           
-            SCaddins.SheetCopier.MainForm.AddColumn("Number", Resources.RoomToolsRoomNumber, dataGridView1);
-            SCaddins.SheetCopier.MainForm.AddColumn("Name", Resources.RoomToolsRoomName, dataGridView1);            
-            SCaddins.SheetCopier.MainForm.AddColumn("DestinationViewName", Resources.RoomToolsNewPlanName, dataGridView1, false);
-            SCaddins.SheetCopier.MainForm.AddColumn("DestinationSheetNumber", Resources.RoomToolsNewSheetNumber, dataGridView1, false);
-            SCaddins.SheetCopier.MainForm.AddColumn("DestinationSheetName", Resources.RoomToolsNewSheetName, dataGridView1, false);
+            //SCaddins.SheetCopier.MainForm.AddColumn("Number", Resources.RoomToolsRoomNumber, dataGridView1);
+            //SCaddins.SheetCopier.MainForm.AddColumn("Name", Resources.RoomToolsRoomName, dataGridView1);            
+            //SCaddins.SheetCopier.MainForm.AddColumn("DestinationViewName", Resources.RoomToolsNewPlanName, dataGridView1, false);
+            //SCaddins.SheetCopier.MainForm.AddColumn("DestinationSheetNumber", Resources.RoomToolsNewSheetNumber, dataGridView1, false);
+            //SCaddins.SheetCopier.MainForm.AddColumn("DestinationSheetName", Resources.RoomToolsNewSheetName, dataGridView1, false);
         }
 
         private void ButtonFilterClick(object sender, EventArgs e)

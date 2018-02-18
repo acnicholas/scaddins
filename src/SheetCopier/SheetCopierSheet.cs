@@ -22,14 +22,16 @@ namespace SCaddins.SheetCopier
     using System.ComponentModel;
     using System.Linq;
     using Autodesk.Revit.DB;
-    
+    using System.Runtime.CompilerServices;
+    using System.Collections.ObjectModel;
+
     public class SheetCopierSheet : INotifyPropertyChanged
     {  
         private SheetCopierManager scopy;
         private string title;
         private string number;
         private string sheetCategory;            
-        private BindingList<SheetCopierViewOnSheet> viewsOnSheet;
+        private ObservableCollection<SheetCopierViewOnSheet> viewsOnSheet;
         
         public SheetCopierSheet(string number, string title,  SheetCopierManager scopy, ViewSheet sourceSheet)
         {
@@ -45,7 +47,7 @@ namespace SCaddins.SheetCopier
             this.SourceSheet = sourceSheet;
             this.sheetCategory = this.GetSheetCategory(SheetCopierConstants.SheetCategory);
             this.DestinationSheet = null;
-            this.viewsOnSheet = new BindingList<SheetCopierViewOnSheet>();
+            this.viewsOnSheet = new ObservableCollection<SheetCopierViewOnSheet>();
             foreach (ElementId id in sourceSheet.GetAllPlacedViews()) {              
                 Element element = sourceSheet.Document.GetElement(id);
                 if (element != null) {
@@ -91,9 +93,7 @@ namespace SCaddins.SheetCopier
             
             set {
                 this.title = value;
-                if (this.PropertyChanged != null) {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("Title"));
-                }
+                NotifyPropertyChanged("Title");
             }
         }
         
@@ -110,7 +110,7 @@ namespace SCaddins.SheetCopier
             }
         }
 
-        public BindingList<SheetCopierViewOnSheet> ViewsOnSheet {
+        public ObservableCollection<SheetCopierViewOnSheet> ViewsOnSheet {
             get {
                 return this.viewsOnSheet;
             }
@@ -135,7 +135,15 @@ namespace SCaddins.SheetCopier
                 return s;
             } 
             return @"n/a";
-        }               
+        }
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 }
 /* vim: set ts=4 sw=4 nu expandtab: */
