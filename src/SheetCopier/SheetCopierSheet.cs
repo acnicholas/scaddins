@@ -66,7 +66,20 @@ namespace SCaddins.SheetCopier
         public ViewSheet SourceSheet {
             get; set;    
         }
-        
+
+        public Collection<string> SheetCategories
+        {
+            get
+            {
+                return scopy.SheetCategories;
+            }
+        }
+
+        public String SelectedSheetCategories
+        {
+            get; set;
+        }
+
         public string Number {
             get {
                 return this.number;

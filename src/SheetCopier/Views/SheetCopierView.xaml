@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SCaddins.SheetCopier.Views"
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="800">
@@ -22,8 +21,8 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Label>Current View Details</Label>
-            <ListView x:Name="SelectedSheetInformation" Grid.Row="1">
+            <Label Margin="5">Current View Details</Label>
+            <ListView x:Name="SelectedSheetInformation" Grid.Row="1" Margin="5">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn></GridViewColumn>
@@ -45,24 +44,51 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Label  Grid.Column="0">Current View Details</Label>
+                    <Label  Grid.Column="0" Margin="5">New Sheets</Label>
                     <Button x:Name="RemoveSheetSelection" Grid.Column="1" Margin="5">Remove Selection</Button>
-                    <Button x:Name="AddCurrentSheet" Grid.Column="2" Margin="5">Add Current Sheet</Button>
+                    <Button x:Name="CopySheetSelection" Grid.Column="2" Margin="5">Copy</Button>
+                    <Button x:Name="AddCurrentSheet" Grid.Column="3" Margin="5">Add Current Sheet</Button>
                 </Grid>
                 <DataGrid
                     x:Name="Sheets"
                     AutoGenerateColumns="False"
                     Grid.Row="1"
+                    Margin="5"
                     SelectionMode="Extended"
                     cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($eventArgs)]" GridLinesVisibility="None">
+                    <DataGrid.AlternatingRowBackground>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                    </DataGrid.AlternatingRowBackground>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SuccessfullyCopied}" Value="True">
+                                    <Setter Property="Foreground" Value="Red"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Sheet Number" Binding="{Binding Number}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Sheet Name" Binding="{Binding Title}"></DataGridTextColumn>
-                        <DataGridComboBoxColumn Header="Sheet Category"></DataGridComboBoxColumn>
+                        <DataGridTextColumn Header="Sheet Number" Binding="{Binding Number}" MinWidth="75"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Sheet Name" Binding="{Binding Title}" MinWidth="75"></DataGridTextColumn>
+                        <DataGridComboBoxColumn Header="Sheet Category" Width="*">
+                            <DataGridComboBoxColumn.ElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="ItemsSource" Value="{Binding SheetCategories}"/>
+                                    <Setter Property="IsReadOnly" Value="True"/>
+                                </Style>
+                            </DataGridComboBoxColumn.ElementStyle>
+                            <DataGridComboBoxColumn.EditingElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="ItemsSource" Value="{Binding SheetCategories}"/>
+                                </Style>
+                            </DataGridComboBoxColumn.EditingElementStyle>
+                        </DataGridComboBoxColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
@@ -72,19 +98,59 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Label>Current View Details</Label>
-                <DataGrid x:Name="ViewsOnSheet" AutoGenerateColumns="False" Grid.Row="1" GridLinesVisibility="None">
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label  Grid.Column="0">Views on New Sheets</Label>
+                    <Button x:Name="RemoveSelectedViews" Grid.Column="1" Margin="5">Remove View[s]</Button>
+                </Grid>
+                <DataGrid x:Name="ViewsOnSheet" AutoGenerateColumns="False" Grid.Row="1" GridLinesVisibility="None" Margin="5">
+                    <DataGrid.AlternatingRowBackground>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                    </DataGrid.AlternatingRowBackground>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Original Title" Binding="{Binding OriginalTitle, Mode=OneWay}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Proposed Title" Binding="{Binding Title}"></DataGridTextColumn>
-                        <DataGridComboBoxColumn Header="View Template" Binding={Binding }"></DataGridComboBoxColumn>
-                        <DataGridComboBoxColumn Header="Associated Level"></DataGridComboBoxColumn>
-                        <DataGridTextColumn Header="View Type"></DataGridTextColumn>
-                        <DataGridCheckBoxColumn Header="Copy Detailing" x:Name="DuplicateWithDetailing"></DataGridCheckBoxColumn>
+                        <DataGridTextColumn Header="Original Title" Binding="{Binding OriginalTitle, Mode=OneWay}"  MinWidth="75"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Proposed Title" Binding="{Binding Title}"  MinWidth="75"></DataGridTextColumn>
+                        <DataGridComboBoxColumn
+                            SelectedItemBinding="{Binding ViewTemplateName}"
+                            Header="View Template"
+                            MinWidth="75">
+                            <DataGridComboBoxColumn.ElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="ItemsSource" Value="{Binding AvailableViewTemplates}"/>
+                                    <Setter Property="IsReadOnly" Value="True"/>
+                                </Style>
+                            </DataGridComboBoxColumn.ElementStyle>
+                            <DataGridComboBoxColumn.EditingElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="ItemsSource" Value="{Binding AvailableViewTemplates}"/>
+                                </Style>
+                            </DataGridComboBoxColumn.EditingElementStyle>
+                        </DataGridComboBoxColumn>
+                        <DataGridComboBoxColumn
+                            SelectedItemBinding="{Binding AssociatedLevelName}"
+                            Header="Associated Level"
+                            MinWidth="75">
+                            <DataGridComboBoxColumn.ElementStyle>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="ItemsSource" Value="{Binding LevelsInModel}"/>
+                                <Setter Property="IsReadOnly" Value="True"/>
+                            </Style>
+                            </DataGridComboBoxColumn.ElementStyle>
+                            <DataGridComboBoxColumn.EditingElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="ItemsSource" Value="{Binding LevelsInModel}"/>
+                                </Style>
+                            </DataGridComboBoxColumn.EditingElementStyle>
+                        </DataGridComboBoxColumn>
+                        <DataGridTextColumn Header="View Type" MinWidth="75" Binding="{Binding RevitViewType, Mode=OneWay}"></DataGridTextColumn>
+                        <DataGridCheckBoxColumn Header="Copy Detailing" Binding="{Binding DuplicateWithDetailing}" Width="*"></DataGridCheckBoxColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
         </Grid>
-        <Button Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" MinWidth="50" Margin="5">Go</Button>
+        <Button x:Name="Go" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" MinWidth="50" Margin="5">Go</Button>
     </Grid>
 </UserControl>

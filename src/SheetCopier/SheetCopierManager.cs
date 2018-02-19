@@ -485,7 +485,6 @@ namespace SCaddins.SheetCopier
                 collector.OwnedByView(sheet.SourceSheet.Id);
                 foreach (Element e in collector) {
                     if (!(e is Viewport)) {
-                        // Debug.WriteLine("adding " + e.GetType().ToString() + " to copy list(CopyElementsBetweenSheets).");
                         if (e is CurveElement) {
                             continue;
                         }

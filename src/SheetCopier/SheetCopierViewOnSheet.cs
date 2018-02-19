@@ -19,7 +19,9 @@ namespace SCaddins.SheetCopier
 {
     using System;
     using System.ComponentModel;
+    using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using Autodesk.Revit.DB;
 
     public class SheetCopierViewOnSheet : INotifyPropertyChanged
@@ -33,7 +35,7 @@ namespace SCaddins.SheetCopier
         private string viewTemplateName;
         private bool duplicateWithDetailing;
         private ViewPortPlacementMode creationMode;
-   
+        
         public SheetCopierViewOnSheet(string title, View view, SheetCopierManager scopy)
         {
             if (scopy == null) {
@@ -55,7 +57,29 @@ namespace SCaddins.SheetCopier
         }
         
         public event PropertyChangedEventHandler PropertyChanged;
-    
+
+        public System.Collections.Generic.List<string> LevelsInModel
+        {
+            get
+            {
+                List<string> list = new List<string>();
+                list.Add(SheetCopierConstants.MenuItemCopy);
+                list.AddRange(this.scopy.Levels.Select(k => k.Key).ToList<string>());
+                return list;
+            }
+        }
+
+        public System.Collections.Generic.List<string> AvailableViewTemplates
+        {
+            get
+            {
+                List<string> list = new List<string>();
+                list.Add(SheetCopierConstants.MenuItemCopy);
+                list.AddRange(this.scopy.ViewTemplates.Select(k => k.Key).ToList<string>());
+                return list;
+            }
+        }
+
         public ViewPortPlacementMode CreationMode {
             get {
                 return this.creationMode;

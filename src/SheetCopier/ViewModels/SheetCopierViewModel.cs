@@ -17,6 +17,7 @@ namespace SCaddins.SheetCopier.ViewModels
         private SheetCopierSheet selectedSheet;
         List<SheetCopierSheet> selectedSheets = new List<SheetCopierSheet>();
         List<string> selectedSheetInformation = new List<string>();
+        List<string> levelsInModel = new List<string>();
 
         public ObservableCollection<SheetCopierSheet> Sheets
         {
@@ -53,10 +54,6 @@ namespace SCaddins.SheetCopier.ViewModels
                     selectedSheetInformation.Clear();
                     selectedSheetInformation.Add("Title: " + selectedSheet.SourceSheet.Title);
                     selectedSheetInformation.Add("Sheet Number: " + selectedSheet.SourceSheet.SheetNumber);
-                    //foreach (View view in selectedSheet.SourceSheet.GetAllPlacedViews()
-                    //{
-                    //    selectedSheetInformation.Add(view.ToString);
-                    //}
                     return selectedSheetInformation;
                 } else {
                     return null;
@@ -68,11 +65,13 @@ namespace SCaddins.SheetCopier.ViewModels
         {
             selectedSheets.AddRange(obj.AddedItems.Cast<SheetCopierSheet>());
             obj.RemovedItems.Cast<SheetCopierSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
+            NotifyOfPropertyChange(() => CanRemoveSheetSelection);
         }
 
         public SheetCopierViewModel(UIDocument uidoc)
         {
             copyManager = new SheetCopierManager(uidoc);
+            levelsInModel = copyManager.Levels.Select(k => k.Key).ToList();
         }
 
         public void AddCurrentSheet()
@@ -86,9 +85,17 @@ namespace SCaddins.SheetCopier.ViewModels
                 Sheets.Remove(s);
         }
 
-        public bool CanRemoveSheetSelection()
+        public void Go()
         {
-            return true;
+            copyManager.CreateSheets();
+        }
+
+        public bool CanRemoveSheetSelection
+        {
+            get
+            {
+                return selectedSheets.Count >= 1;
+            }
         }
     }
 }
