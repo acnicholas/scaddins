@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SCaddins.SheetCopier;
 using Autodesk.Revit.UI;
 using Caliburn.Micro;
 
@@ -16,7 +12,8 @@ namespace SCaddins.SheetCopier.ViewModels
         private SheetCopierManager copyManager;
         private SheetCopierSheet selectedSheet;
         List<SheetCopierSheet> selectedSheets = new List<SheetCopierSheet>();
-        List<string> selectedSheetInformation = new List<string>();
+        List<SheetCopierViewOnSheet> selectedViews = new List<SheetCopierViewOnSheet>();
+        List<SheetInformation> selectedSheetInformation = new List<SheetInformation>();
         List<string> levelsInModel = new List<string>();
 
         public ObservableCollection<SheetCopierSheet> Sheets
@@ -46,26 +43,40 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
-        public List<string> SelectedSheetInformation
+        public List<SheetInformation> SelectedSheetInformation
         {
             get
             {
+                selectedSheetInformation.Clear();
                 if (selectedSheet != null) {
-                    selectedSheetInformation.Clear();
-                    selectedSheetInformation.Add("Title: " + selectedSheet.SourceSheet.Title);
-                    selectedSheetInformation.Add("Sheet Number: " + selectedSheet.SourceSheet.SheetNumber);
-                    return selectedSheetInformation;
+                    foreach (Autodesk.Revit.DB.Parameter param in selectedSheet.SourceSheet.Parameters) {
+                        selectedSheetInformation.Add(new SheetInformation(param));
+                    }
+                    return selectedSheetInformation.Where(s => !string.IsNullOrEmpty(s.ParameterValue)).ToList<SheetInformation>();
                 } else {
                     return null;
                 }
             }
         }
 
-        public void Row_SelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
+        public void RowSheetSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
         {
-            selectedSheets.AddRange(obj.AddedItems.Cast<SheetCopierSheet>());
-            obj.RemovedItems.Cast<SheetCopierSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
-            NotifyOfPropertyChange(() => CanRemoveSheetSelection);
+            try {
+                selectedSheets.AddRange(obj.AddedItems.Cast<SheetCopierSheet>());
+                obj.RemovedItems.Cast<SheetCopierSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
+            } catch {
+
+            }
+        }
+
+        public void RowViewsOnSheetSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
+        {
+            try {
+                selectedViews.AddRange(obj.AddedItems.Cast<SheetCopierViewOnSheet>());
+                obj.RemovedItems.Cast<SheetCopierViewOnSheet>().ToList().ForEach(w => selectedViews.Remove(w));
+            } catch {
+
+            }
         }
 
         public SheetCopierViewModel(UIDocument uidoc)
@@ -85,17 +96,19 @@ namespace SCaddins.SheetCopier.ViewModels
                 Sheets.Remove(s);
         }
 
+        public void RemoveSelectedViews()
+        {
+            foreach (var s in selectedViews.ToList())
+                ViewsOnSheet.Remove(s);
+        }
+
+        public void CopySheetSelection()
+        {
+        }
+
         public void Go()
         {
             copyManager.CreateSheets();
-        }
-
-        public bool CanRemoveSheetSelection
-        {
-            get
-            {
-                return selectedSheets.Count >= 1;
-            }
         }
     }
 }

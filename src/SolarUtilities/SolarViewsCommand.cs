@@ -17,10 +17,9 @@
 
 namespace SCaddins.SolarUtilities
 {
-    using System;
-    using System.Globalization;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using System.Dynamic;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -42,9 +41,20 @@ namespace SCaddins.SolarUtilities
 
             UIDocument udoc = commandData.Application.ActiveUIDocument;
             Document doc = udoc.Document;
-          
-            var viewModel = new ViewModel(udoc);
-                        
+
+            dynamic settings = new ExpandoObject();
+            settings.Height = 480;
+            settings.Width = 300;
+            settings.Title = "Angle of Sun - By Andrew Nicholas";
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+
+            var bs = new SCaddins.Common.Bootstrapper();
+            bs.Initialize();
+            var windowManager = new SCaddins.Common.WindowManager();
+            var vm = new ViewModels.SolarViewsViewModel(commandData.Application.ActiveUIDocument);
+            windowManager.ShowDialog(vm, null, settings);
+
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }

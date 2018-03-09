@@ -34,15 +34,15 @@
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    <DefineConstants>DEBUG;TRACE;REVIT2017</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;REVIT2018</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <AssemblyName>SCaddins</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2017\</ReferencePath>
+    <ReferencePath>C:\Program Files\Autodesk\Revit 2018\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
     <StartAction>Program</StartAction>
-    <StartProgram>C:\Program Files\Autodesk\Revit 2017\Revit.exe</StartProgram>
+    <StartProgram>C:\Program Files\Autodesk\Revit 2018\Revit.exe</StartProgram>
     <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'Any' ">
@@ -116,6 +116,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DefineConstants>TRACE;DEBUG;REVIT2018</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2018|Any'">
     <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
@@ -329,6 +330,9 @@
     <Compile Include="RoomConvertor\RoomToSheetWizard.Designer.cs">
       <DependentUpon>RoomToSheetWizard.cs</DependentUpon>
     </Compile>
+    <Compile Include="RoomConvertor\Views\RoomConvertorView.xaml.cs">
+      <DependentUpon>RoomConvertorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SCaddins.cs" />
     <Compile Include="Scaddins.Designer.cs">
       <DependentUpon>Scaddins.settings</DependentUpon>
@@ -347,17 +351,18 @@
       <DependentUpon>ScaddinsOptionsForm.resx</DependentUpon>
     </Compile>
     <Compile Include="SharedAssemblyInfo.cs" />
+    <Compile Include="SheetCopier\SheetInformation.cs" />
     <Compile Include="SheetCopier\ViewModels\SheetCopierViewModel.cs" />
     <Compile Include="SheetCopier\Views\SheetCopierView.xaml.cs">
       <DependentUpon>SheetCopierView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SolarUtilities\SolarViews.cs" />
     <Compile Include="SolarUtilities\SolarViewsCommand.cs" />
-    <Compile Include="SolarUtilities\SolarViewsForm.xaml.cs">
-      <DependentUpon>SolarViewsForm.xaml</DependentUpon>
+    <Compile Include="SolarUtilities\Views\SolarViewsView.xaml.cs">
+      <DependentUpon>SolarViewsView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SolarUtilities\SolarViewsFormModel.cs" />
+    <Compile Include="SolarUtilities\ViewModels\SolarViewsViewModel.cs" />
     <Compile Include="ViewUtilities\CameraFromViewCommand.cs" />
     <Compile Include="RoomConvertor\RoomConvertorForm.cs">
       <SubType>Form</SubType>
@@ -596,13 +601,21 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="RevisionUtilities\RevisionUtilitiesWindow.xaml" />
+    <Page Include="RoomConvertor\Views\RoomConvertorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SheetCopier\Views\SheetCopierView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SolarUtilities\SolarViewsForm.xaml" />
+    <Page Include="SolarUtilities\Views\SolarViewsView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="RoomConvertor\ViewModels\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets" Condition="Exists('packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets') And '$(Configuration)' == 'Debug'" />
 </Project>

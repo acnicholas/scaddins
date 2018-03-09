@@ -48,8 +48,16 @@ namespace SCaddins.SolarUtilities
         {
             get; set;
         }
+
+        public bool CanRotateActiveView
+        {
+            get
+            {
+                return ViewIsIso(activeView);
+            }
+        }
         
-        public string[] ActiveIewInformation
+        public string ActiveIewInformation
         {
             get {return GetViewInfo(activeView);}
         }
@@ -82,8 +90,7 @@ namespace SCaddins.SolarUtilities
             StartTime = new DateTime(2018,6,21,9,0,0);
             EndTime = new DateTime(2018,6,21,15,0,0);
             ExportTimeInterval = new TimeSpan(1,0,0);
-
-            View view = doc.ActiveView;
+            activeView = doc.ActiveView;
         }
         
         // FIXME put this somewhere else.
@@ -177,14 +184,14 @@ namespace SCaddins.SolarUtilities
             return view.ViewType == ViewType.ThreeD;
         }
 
-        private string[] GetViewInfo(View view) {
-            if (ViewIsIso(view)) {
-                var info = new string[4];
-                info[0] = "Not a 3d view...";
-                info[1] = string.Empty;
-                info[2] = "Please select a 3d view to rotate";
-                info[3] = "or use the create winter views feature";
-                return info;
+        private string GetViewInfo(View view) {
+            System.Text.StringBuilder info = new System.Text.StringBuilder();
+            if (!ViewIsIso(view)) {
+                info.AppendLine("Not a 3d view...");
+                info.AppendLine(string.Empty);
+                info.AppendLine("Please select a 3d view to rotate");
+                info.AppendLine("or use the create winter views feature");
+                return info.ToString();
             } else {
                 SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
                 double frame = sunSettings.ActiveFrame;
@@ -193,15 +200,13 @@ namespace SCaddins.SolarUtilities
                 azimuth += position.Angle;
                 double azdeg = azimuth * 180 / System.Math.PI;
                 double altdeg = altitude * 180 / System.Math.PI;
-                var info = new string[7];
-                info[0] = view.Name;
-                info[1] = "Date - " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongDateString();
-                info[2] = "Time - " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongTimeString();
-                info[3] = "Sunrise - " + sunSettings.GetSunrise(sunSettings.ActiveFrameTime).ToLocalTime().ToLongTimeString();
-                info[4] = "Sunset - " + sunSettings.GetSunset(sunSettings.ActiveFrameTime).ToLocalTime().ToLongTimeString();
-                info[5] = "Sun Altitude - " + altdeg.ToString(CultureInfo.InvariantCulture);
-                info[6] = "Sun Azimuth - " + azdeg.ToString(CultureInfo.InvariantCulture);
-                return info;
+                info.AppendLine("Date - " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongDateString());
+                info.AppendLine("Time - " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongTimeString());
+                info.AppendLine("Sunrise - " + sunSettings.GetSunrise(sunSettings.ActiveFrameTime).ToLocalTime().ToLongTimeString());
+                info.AppendLine("Sunset - " + sunSettings.GetSunset(sunSettings.ActiveFrameTime).ToLocalTime().ToLongTimeString());
+                info.AppendLine("Sun Altitude - " + altdeg.ToString(CultureInfo.InvariantCulture));
+                info.AppendLine("Sun Azimuth - " + azdeg.ToString(CultureInfo.InvariantCulture));
+                return info.ToString();
             }
         }
 

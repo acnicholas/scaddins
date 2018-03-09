@@ -25,7 +25,7 @@ namespace SCaddins.SheetCopier
     using System.Runtime.CompilerServices;
     using System.Collections.ObjectModel;
 
-    public class SheetCopierSheet : INotifyPropertyChanged
+    public class SheetCopierSheet : Caliburn.Micro.PropertyChangedBase
     {  
         private SheetCopierManager scopy;
         private string title;
@@ -57,8 +57,6 @@ namespace SCaddins.SheetCopier
             }
         }
                
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public ViewSheet DestinationSheet {
             get; set;    
         }
@@ -67,17 +65,31 @@ namespace SCaddins.SheetCopier
             get; set;    
         }
 
-        public Collection<string> SheetCategories
+        public List<string> SheetCategories
         {
             get
             {
-                return scopy.SheetCategories;
+                try {
+                    return scopy.SheetCategories;
+                } catch {
+                    return null;
+                }
             }
         }
 
-        public String SelectedSheetCategories
+        public string SheetCategory
         {
-            get; set;
+            get
+            {
+                return sheetCategory;
+            }
+            set
+            {
+                if (sheetCategory != value) {
+                    sheetCategory = value;
+                    NotifyOfPropertyChange(() => SheetCategory);
+                }
+            }
         }
 
         public string Number {
@@ -88,10 +100,7 @@ namespace SCaddins.SheetCopier
             set {
                 if (value != this.number && this.scopy.SheetNumberAvailable(value)) {
                     this.number = value;
-                    if (this.PropertyChanged != null) {
-                        this.PropertyChanged(
-                            this, new PropertyChangedEventArgs("Number"));
-                    }
+                    NotifyOfPropertyChange(() => Number);
                 } else {
                     Autodesk.Revit.UI.TaskDialog.Show(
                         "SCopy - WARNING", value + " exists, you can't use it!.");
@@ -106,23 +115,10 @@ namespace SCaddins.SheetCopier
             
             set {
                 this.title = value;
-                NotifyPropertyChanged("Title");
+                NotifyOfPropertyChange(() => Title);
             }
         }
         
-        public string SheetCategory {
-            get {
-                return this.sheetCategory;
-            }
-            
-            set {
-                this.sheetCategory = value;
-                if (this.PropertyChanged != null) {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("SheetCategory"));
-                }
-            }
-        }
-
         public ObservableCollection<SheetCopierViewOnSheet> ViewsOnSheet {
             get {
                 return this.viewsOnSheet;
@@ -145,17 +141,12 @@ namespace SCaddins.SheetCopier
             if (viewCategoryParamList != null && viewCategoryParamList.Count > 0) {
                 Parameter viewCategoryParam = viewCategoryParamList.First();
                 string s = viewCategoryParam.AsString();
+                if (string.IsNullOrEmpty(s) || string.IsNullOrWhiteSpace(s)) {
+                    return @"<None>";
+                }
                 return s;
             } 
-            return @"n/a";
-        }
-
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            return @"<None>";
         }
     }
 }

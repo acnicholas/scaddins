@@ -8,7 +8,7 @@
              d:DesignHeight="400" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="5"></ColumnDefinition>
             <ColumnDefinition Width="300*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
@@ -18,17 +18,20 @@
         </Grid.RowDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Label Margin="5">Current View Details</Label>
-            <ListView x:Name="SelectedSheetInformation" Grid.Row="1" Margin="5">
+            <Expander ExpandDirection="Right">
+                <ListView x:Name="SelectedSheetInformation" Grid.Row="1" Margin="5" MinWidth="300">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn></GridViewColumn>
-                    </GridView>
+                            <GridView.Columns>
+                                <GridViewColumn Header="Paramter" DisplayMemberBinding="{Binding ParameterName}"></GridViewColumn>
+                                <GridViewColumn Header="Info" DisplayMemberBinding="{Binding ParameterValue}"></GridViewColumn>
+                            </GridView.Columns>
+                        </GridView>
                 </ListView.View>
             </ListView>
+            </Expander>
         </Grid>
         <GridSplitter Grid.Column="1" Height="Auto" Width="Auto"></GridSplitter>
         <Grid Grid.Column="2">
@@ -59,24 +62,19 @@
                     AutoGenerateColumns="False"
                     Grid.Row="1"
                     Margin="5"
-                    SelectionMode="Extended"
-                    cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($eventArgs)]" GridLinesVisibility="None">
+                    SelectionMode="Single"
+                    cal:Message.Attach="[Event SelectionChanged] = [RowSheetSelectionChanged($eventArgs)]"
+                    GridLinesVisibility="None">
                     <DataGrid.AlternatingRowBackground>
                         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                     </DataGrid.AlternatingRowBackground>
-                    <DataGrid.RowStyle>
-                        <Style TargetType="DataGridRow">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding SuccessfullyCopied}" Value="True">
-                                    <Setter Property="Foreground" Value="Red"></Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGrid.RowStyle>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Sheet Number" Binding="{Binding Number}" MinWidth="75"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Sheet Name" Binding="{Binding Title}" MinWidth="75"></DataGridTextColumn>
-                        <DataGridComboBoxColumn Header="Sheet Category" Width="*">
+                        <DataGridTextColumn Header="Sheet Number" Binding="{Binding Number}" MinWidth="100"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Sheet Name" Binding="{Binding Title}" Width="*"></DataGridTextColumn>
+                        <DataGridComboBoxColumn
+                            SelectedItemBinding="{Binding SheetCategory}"
+                            Header="View Template"
+                            MinWidth="100">
                             <DataGridComboBoxColumn.ElementStyle>
                                 <Style TargetType="ComboBox">
                                     <Setter Property="ItemsSource" Value="{Binding SheetCategories}"/>
@@ -106,7 +104,13 @@
                     <Label  Grid.Column="0">Views on New Sheets</Label>
                     <Button x:Name="RemoveSelectedViews" Grid.Column="1" Margin="5">Remove View[s]</Button>
                 </Grid>
-                <DataGrid x:Name="ViewsOnSheet" AutoGenerateColumns="False" Grid.Row="1" GridLinesVisibility="None" Margin="5">
+                <DataGrid
+                    x:Name="ViewsOnSheet"
+                    AutoGenerateColumns="False"
+                    Grid.Row="1"
+                    GridLinesVisibility="None"
+                    cal:Message.Attach="[Event SelectionChanged] = [RowViewsOnSheetSelectionChanged($eventArgs)]"
+                    Margin="5">
                     <DataGrid.AlternatingRowBackground>
                         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                     </DataGrid.AlternatingRowBackground>

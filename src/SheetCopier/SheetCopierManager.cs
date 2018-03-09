@@ -45,8 +45,8 @@ namespace SCaddins.SheetCopier
         private Dictionary<string, Level> levels =
             new Dictionary<string, Level>();
         
-        private Collection<string> sheetCategories = 
-            new Collection<string>();
+        private List<string> sheetCategories = 
+            new List<string>();
         
         private StringBuilder summaryText; 
         private List<Revision> hiddenRevisionClouds = new List<Revision>();
@@ -96,7 +96,7 @@ namespace SCaddins.SheetCopier
             }
         }
         
-        public Collection<string> SheetCategories {
+        public List<string> SheetCategories {
             get {
                 return this.sheetCategories;
             }    
@@ -235,6 +235,7 @@ namespace SCaddins.SheetCopier
         private void GetAllSheetCategories()
         {
             this.sheetCategories.Clear();
+            this.sheetCategories.Add(@"<None>");
             using (var c1 = new FilteredElementCollector(this.doc)) {
                 c1.OfCategory(BuiltInCategory.OST_Sheets);
                 foreach (View view in c1) {

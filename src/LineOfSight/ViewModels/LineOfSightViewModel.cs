@@ -17,8 +17,10 @@ namespace SCaddins.LineOfSight.ViewModels
             }
             set
             {
-                lineOfSight.TreadSize = value;
-                NotifyOfPropertyChange(() => InfoString);
+                if (value != lineOfSight.TreadSize) {
+                    lineOfSight.TreadSize = value;
+                    NotifyOfPropertyChange(() => InfoString);
+                }
             }
         }
 
@@ -30,8 +32,10 @@ namespace SCaddins.LineOfSight.ViewModels
             }
             set
             {
-                lineOfSight.EyeHeight = value;
-                NotifyOfPropertyChange(() => InfoString);
+                if (value != lineOfSight.EyeHeight) {
+                    lineOfSight.EyeHeight = value;
+                    NotifyOfPropertyChange(() => InfoString);
+                }
             }
         }
 
@@ -43,8 +47,10 @@ namespace SCaddins.LineOfSight.ViewModels
             }
             set
             {
-                lineOfSight.DistanceToFirstRowX = value;
-                NotifyOfPropertyChange(() => InfoString);
+                if (value != lineOfSight.DistanceToFirstRowX) {
+                    lineOfSight.DistanceToFirstRowX = value;
+                    NotifyOfPropertyChange(() => InfoString);
+                }
             }
         }
 
