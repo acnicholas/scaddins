@@ -22,8 +22,10 @@ namespace SCaddins.ExportManager
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    //using Caliburn.Micro;
+    using System.Dynamic;
 
-   [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
+    [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
    [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
    [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
 
@@ -41,9 +43,18 @@ namespace SCaddins.ExportManager
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
-            //using (var openSheetDialog = new OpenSheetDialog(doc)) {
-            //    System.Windows.Forms.DialogResult openSheetDialogResult = openSheetDialog.ShowDialog();
-            //}
+            dynamic settings = new ExpandoObject();
+            settings.Height = 200;
+            settings.Width = 640;
+            settings.WindowStyle = System.Windows.WindowStyle.None;
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.Height;
+
+            var bs = new SCaddins.Common.Bootstrapper();
+            bs.Initialize();
+            var windowManager = new SCaddins.Common.WindowManager();
+            var vm = new ViewModels.OpenSheetViewModel(doc);
+            windowManager.ShowDialog(vm, null, settings);
 
             return Autodesk.Revit.UI.Result.Succeeded;
 
