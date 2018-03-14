@@ -312,6 +312,10 @@
     <Compile Include="RenameUtilities\RenameUtilitiesForm.Designer.cs">
       <DependentUpon>RenameUtilitiesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RenameUtilities\ViewModels\RenameUtilitiesViewModel.cs" />
+    <Compile Include="RenameUtilities\Views\RenameUtilitiesView.xaml.cs">
+      <DependentUpon>RenameUtilitiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RevisionUtilities\RevisionItem.cs" />
     <Compile Include="RevisionUtilities\RevisionUtilitiesWindow.xaml.cs">
       <DependentUpon>RevisionUtilitiesWindow.xaml</DependentUpon>
@@ -599,6 +603,10 @@
     <Page Include="LineOfSight\Views\LineOfSightView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RenameUtilities\Views\RenameUtilitiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RevisionUtilities\RevisionUtilitiesWindow.xaml" />
     <Page Include="RoomConvertor\Views\RoomConvertorView.xaml">

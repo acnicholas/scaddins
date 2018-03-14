@@ -54,8 +54,6 @@ namespace SCaddins.RenameUtilities
             comboBoxPresets.Items.Add("Custom");
             comboBoxPresets.Items.Add("Uppercase");
             comboBoxPresets.Items.Add("Lowercase");
-            // comboBoxPresets.Items.Add("TitleCase");
-            // comboBoxPresets.Items.Add("Lazy Increment");
             comboBoxPresets.Items.Add("Smart Increment");
             comboBoxPresets.Items.Add("Mirror");
         }

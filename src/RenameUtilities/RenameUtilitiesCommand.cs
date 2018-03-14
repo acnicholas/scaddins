@@ -22,6 +22,7 @@ namespace SCaddins.RenameUtilities
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using System.Dynamic;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -51,10 +52,26 @@ namespace SCaddins.RenameUtilities
             }
                        
             RenameManager manager = new RenameManager(doc);
-                          
-            using (var mainForm = new RenameUtilities.Form1(manager)) {
-                mainForm.ShowDialog();
+
+            dynamic settings = new ExpandoObject();
+            settings.Height = 480;
+            settings.Width = 768;
+            settings.Title = "Rename - By Andrew Nicholas";
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+            try {
+                var bs = new SCaddins.Common.Bootstrapper();
+                bs.Initialize();
+                var windowManager = new SCaddins.Common.WindowManager();
+                var vm = new ViewModels.RenameUtilitiesViewModel(manager);
+                windowManager.ShowDialog(vm, null, settings);
+            } catch {
+                return Autodesk.Revit.UI.Result.Failed;
             }
+
+            //using (var mainForm = new RenameUtilities.Form1(manager)) {
+            //    mainForm.ShowDialog();
+            //}
             return Result.Succeeded;
         }
     }

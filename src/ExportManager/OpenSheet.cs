@@ -49,13 +49,12 @@ namespace SCaddins.ExportManager
             settings.WindowStyle = System.Windows.WindowStyle.None;
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Height;
-
+            settings.Background = System.Windows.Media.Brushes.Transparent;
             var bs = new SCaddins.Common.Bootstrapper();
             bs.Initialize();
             var windowManager = new SCaddins.Common.WindowManager();
             var vm = new ViewModels.OpenSheetViewModel(doc);
             windowManager.ShowDialog(vm, null, settings);
-
             return Autodesk.Revit.UI.Result.Succeeded;
 
         }
