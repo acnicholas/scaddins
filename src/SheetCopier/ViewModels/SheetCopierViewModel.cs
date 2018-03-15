@@ -110,5 +110,12 @@ namespace SCaddins.SheetCopier.ViewModels
         {
             copyManager.CreateSheets();
         }
+
+        public void AddSheets(List<SCaddins.ExportManager.ExportSheet> selectedSheets)
+        {
+            foreach (var sheet in selectedSheets) {
+                copyManager.AddSheet(sheet.Sheet);
+            }
+        }
     }
 }

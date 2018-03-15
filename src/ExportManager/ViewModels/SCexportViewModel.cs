@@ -7,6 +7,7 @@ using System.Windows.Data;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using System.Linq;
+using System.Dynamic;
 
 namespace SCaddins.ExportManager.ViewModels
 {
@@ -16,7 +17,7 @@ namespace SCaddins.ExportManager.ViewModels
         private ObservableCollection<ExportSheet> sheets;
         private WindowManager windowManager;
         private ViewSheetSetCombo selectedViewSheetSet;
-         List<ExportSheet> selectedSheets = new List<ExportSheet>();
+        List<ExportSheet> selectedSheets = new List<ExportSheet>();
 
         public SCexportViewModel(WindowManager windowManager, ExportManager exportManager)
         {
@@ -49,8 +50,16 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void OptionsButton()
         {
+            dynamic settings = new ExpandoObject();
+            settings.Height = 640;
+            settings.Width = 480;
+            //settings.WindowStyle = System.Windows.WindowStyle.ToolWindow;
+            settings.Title = "SCexport - Options";
+            settings.ShowInTaskbar = false;
+            settings.ResizeMode = System.Windows.ResizeMode.NoResize;
+            settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
             var optionsModel = new OptionsViewModel();
-            windowManager.ShowDialog(optionsModel, null, null);
+            windowManager.ShowDialog(optionsModel, null, settings);
         }
         
         public void Export()
@@ -95,7 +104,7 @@ namespace SCaddins.ExportManager.ViewModels
         public void CopySheets()
         {
             var sheetCopierModel = new SCaddins.SheetCopier.ViewModels.SheetCopierViewModel(exportManager.UIDoc);
-            //sheetCopierModel.Sheets = selectedSheets;
+            sheetCopierModel.AddSheets(selectedSheets);
             windowManager.ShowDialog(sheetCopierModel, null, null);
         } 
         

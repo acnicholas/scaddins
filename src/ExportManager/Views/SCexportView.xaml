@@ -118,6 +118,9 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
+        <ProgressBar Grid.Column="0" Grid.Row="2" Margin="5,0,5,5">
+            
+        </ProgressBar>
         <Button
             cal:Message.Attach="Export"
             Content="Export"
