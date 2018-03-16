@@ -113,6 +113,25 @@ namespace SCaddins.RenameUtilities
                 trans.Commit();
             }
         }
+
+        public Caliburn.Micro.BindableCollection<String> AvailableParameterTypes
+        {
+            get
+            {
+                Caliburn.Micro.BindableCollection<String> result = new Caliburn.Micro.BindableCollection<String>();
+                result.Add("Rooms");
+                result.Add("Text");
+                result.Add("Views");
+                result.Add("Sheets");
+                result.Add("Revisions");
+                result.Add("Walls");
+                result.Add("Doors");
+                result.Add("Floors");
+                result.Add("Roofs");
+                result.Add(@"Model Groups");
+                return result;
+            }
+        }
         
          public List<RenameCandidate> GetTextNoteValues(BuiltInCategory category){
             List<RenameCandidate> candidates = new List<RenameCandidate>();
@@ -142,10 +161,45 @@ namespace SCaddins.RenameUtilities
             }
             return candidates;
         }
-        
-        public List<RenameParameter> GetParametersByCategory(BuiltInCategory category)
+
+        public Caliburn.Micro.BindableCollection<RenameParameter> RenameParametersByCategory(string parameterCategory)
         {
-            List<RenameParameter> parametersList = new List<RenameParameter>();
+                if (parameterCategory == "Rooms") {
+                    return GetParametersByCategory(BuiltInCategory.OST_Rooms);
+                }
+                if (parameterCategory == "Views") {
+                    return GetParametersByCategory(BuiltInCategory.OST_Views);
+                }
+                if (parameterCategory == "Sheets") {
+                    return GetParametersByCategory(BuiltInCategory.OST_Sheets);
+                }
+                if (parameterCategory == "Walls") {
+                    return GetParametersByCategory(BuiltInCategory.OST_Walls);
+                }
+                if (parameterCategory == "Doors") {
+                    return GetParametersByCategory(BuiltInCategory.OST_Doors);
+                }
+                if (parameterCategory == "Windows") {
+                    return GetParametersByCategory(BuiltInCategory.OST_Windows);
+                }
+                if (parameterCategory == "Windows") {
+                    return GetParametersByCategory(BuiltInCategory.OST_Revisions);
+                }
+                if (parameterCategory == "Floors") {
+                    return GetParametersByCategory(BuiltInCategory.OST_Floors);
+                }
+                if (parameterCategory == @"Text") {
+                    return GetParametersByCategory(BuiltInCategory.OST_TextNotes);
+                }
+                if (parameterCategory == @"Model Groups") {
+                    return GetParametersByCategory(BuiltInCategory.OST_IOSModelGroups);
+                }
+                return new Caliburn.Micro.BindableCollection<RenameParameter>();
+        }
+        
+        public Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByCategory(BuiltInCategory category)
+        {
+            Caliburn.Micro.BindableCollection<RenameParameter> parametersList = new Caliburn.Micro.BindableCollection<RenameParameter>();
             if(category == BuiltInCategory.OST_TextNotes || category == BuiltInCategory.OST_IOSModelGroups) {
                 parametersList.Add(new RenameParameter(category));
             }

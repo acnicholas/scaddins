@@ -92,9 +92,10 @@ namespace SCaddins.LineOfSight
             }
             set
             {
-                treadSize = value;
-                this.UpdateRows();
-                //NotifyPropertyChanged("TreadSize");
+                if (treadSize != value) {
+                    treadSize = value;
+                    UpdateRows();
+                }
             }
         }
 
@@ -106,9 +107,10 @@ namespace SCaddins.LineOfSight
             }
             set
             {
-                eyeHeight = value;
-                this.UpdateRows();
-                //NotifyPropertyChanged("EyeHeight");
+                if (eyeHeight != value) {
+                    eyeHeight = value;
+                    UpdateRows();
+                }
             }
         }
 
@@ -120,9 +122,10 @@ namespace SCaddins.LineOfSight
             }
             set
             {
-                distanceToFirstRowX = value;
-                this.UpdateRows();
-                //NotifyPropertyChanged("DistanceToFirstRowX");
+                if (distanceToFirstRowX != value) {
+                    distanceToFirstRowX = value;
+                    UpdateRows();
+                }
             }
         }
 
@@ -134,9 +137,10 @@ namespace SCaddins.LineOfSight
             }
             set
             {
-                distanceToFirstRowY = value;
-                this.UpdateRows();
-                //NotifyPropertyChanged("DistanceToFirstRowY");
+                if (distanceToFirstRowY != value) {
+                    distanceToFirstRowY = value;
+                    UpdateRows();
+                }
             }
         }
 
@@ -150,8 +154,7 @@ namespace SCaddins.LineOfSight
             set
             {
                 numberOfRows = value;
-                this.UpdateRows();
-                NotifyPropertyChanged("NumberOfRows");
+                UpdateRows();
             }
         }
 
@@ -164,8 +167,7 @@ namespace SCaddins.LineOfSight
             set
             {
                 minimumRiserHeight = value;
-                this.UpdateRows();
-                //NotifyPropertyChanged("MinimumRiserHeight");
+                UpdateRows();
             }
         }
 
@@ -178,8 +180,7 @@ namespace SCaddins.LineOfSight
             set
             {
                 minimumCValue = value;
-                this.UpdateRows();
-                //NotifyPropertyChanged("MinimumCValue");
+                UpdateRows();
             }
         }
 
@@ -191,8 +192,7 @@ namespace SCaddins.LineOfSight
             set
             {
                 riserIncrement = value;
-                this.UpdateRows();
-                //NotifyPropertyChanged("RiserIncrement");
+                UpdateRows();
             }
         }
 
@@ -216,7 +216,7 @@ namespace SCaddins.LineOfSight
                 string times = System.DateTime.Now.ToString();
 
                 this.view = this.CreateLineOfSightDraftingView(
-                    "LOS-X" + this.DistanceToFirstRowX + "-Y" + this.DistanceToFirstRowY + "-T" +
+                    "LOS-X" + this.distanceToFirstRowX + "-Y" + this.distanceToFirstRowY + "-T" +
                     this.TreadSize + "-MinN" + this.MinimumRiserHeight + "-Inc" + this.RiserIncrement +
                     "-Eye" + this.EyeHeight + "-MinC" + this.MinimumCValue + "_" + times);
 
@@ -225,20 +225,20 @@ namespace SCaddins.LineOfSight
 
                 for (i = 0; i < this.NumberOfRows; i++) {
                     if (i == 0) {
-                        this.DrawLine(0, 0, this.DistanceToFirstRowX, 0, "Thin Lines");
+                        this.DrawLine(0, 0, this.distanceToFirstRowX, 0, "Thin Lines");
                         this.DrawText(
-                            this.DistanceToFirstRowX / 2,
+                            this.distanceToFirstRowX / 2,
                             0,
                             1,
                             0,
-                            this.DistanceToFirstRowX.ToString(CultureInfo.InvariantCulture),
+                            this.distanceToFirstRowX.ToString(CultureInfo.InvariantCulture),
                             TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_TOP);
                         this.DrawText(
-                            this.DistanceToFirstRowX,
-                            this.DistanceToFirstRowY / 2,
+                            this.distanceToFirstRowX,
+                            this.distanceToFirstRowY / 2,
                             0,
                             1,
-                            this.DistanceToFirstRowY.ToString(CultureInfo.InvariantCulture),
+                            this.distanceToFirstRowY.ToString(CultureInfo.InvariantCulture),
                             TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_BOTTOM);
                     }
 
@@ -313,17 +313,17 @@ namespace SCaddins.LineOfSight
         {
             for (int i = 0; i < this.NumberOfRows; i++) {
                 this.rows[i].Initialize(
-                    this.DistanceToFirstRowX + (i * this.TreadSize),
-                    this.DistanceToFirstRowY, 
-                    this.DistanceToFirstRowY + this.EyeHeight,
-                    this.TreadSize,
-                    this.EyeHeight);
+                    this.distanceToFirstRowX + (i * this.TreadSize),
+                    this.distanceToFirstRowY, 
+                    this.distanceToFirstRowY + this.EyeHeight,
+                    this.treadSize,
+                    this.eyeHeight);
                 if (i > 0) {
                     this.rows[i].RiserHeight = this.MinimumRiserHeight;
                     this.rows[i].HeightToFocus = this.rows[i - 1].HeightToFocus + this.MinimumRiserHeight;
-                    while (this.GetCValue(i - 1, this.rows[i].RiserHeight) < this.MinimumCValue) {
-                        this.rows[i].RiserHeight += this.RiserIncrement;
-                        this.rows[i].HeightToFocus += this.RiserIncrement;
+                    while (this.GetCValue(i - 1, this.rows[i].RiserHeight) < this.minimumCValue) {
+                        this.rows[i].RiserHeight += this.riserIncrement;
+                        this.rows[i].HeightToFocus += this.riserIncrement;
                     }
                     this.rows[i - 1].CValue = this.GetCValue(i - 1, this.rows[i].RiserHeight);
                 }

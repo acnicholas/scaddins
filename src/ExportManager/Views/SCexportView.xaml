@@ -98,14 +98,44 @@
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
-                    <MenuItem Header="Options"  cal:Message.Attach="OptionsButton"/>
+                    <MenuItem Header="Options"  cal:Message.Attach="OptionsButton">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/gear.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <Separator />
-                    <MenuItem Header="Open Selected View[s]" cal:Message.Attach="OpenViewsCommand" />
+                    <MenuItem Header="Open Selected View[s]" cal:Message.Attach="OpenViewsCommand">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/open.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <Separator />
-                    <MenuItem Header="Add Revision" cal:Message.Attach="AddRevision"/>
-                    <MenuItem Header="Copy Sheets" cal:Message.Attach="CopySheets"/>
-                    <MenuItem Header="Remove Underlays From View" cal:Message.Attach="RemoveUnderlays"/>
-                    <MenuItem Header="Rename Selected Views" />
+                    <MenuItem Header="Add Revision" cal:Message.Attach="AddRevision">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/revision.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Copy Sheets" cal:Message.Attach="CopySheets">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/copy.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Remove Underlays From View" cal:Message.Attach="RemoveUnderlays">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/underlay.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Rename Selected Views">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/rename.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem Header="Fix Scale Bars" cal:Message.Attach="FixScaleBars"/>
                     <MenuItem Header="North Points On" cal:Message.Attach="TurnNorthPointsOn"/>
                     <MenuItem Header="North Points Off" cal:Message.Attach="TurnNorthPointsOff"/>
@@ -144,7 +174,6 @@
             x:Name="PrintButton"
             Grid.Column="1" />
         <Button
-            Content="Options"
             Height="Auto"
             Width="Auto"
             Grid.Row="0"
@@ -152,7 +181,11 @@
             VerticalAlignment="Stretch"
             Margin="0,0,5,5"
             x:Name="OptionsButton"
-            Grid.Column="2" />
+            Background="Transparent"
+            BorderBrush="Transparent"
+            Grid.Column="2">
+            <Image Source="/SCaddins;component/Assets/gear.png" Stretch="None" />
+            </Button>
     </Grid>
 
 

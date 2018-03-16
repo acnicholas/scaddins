@@ -51,6 +51,11 @@ namespace SCaddins.RenameUtilities
             get;
             private set;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
 /* vim: set ts=4 sw=4 nu expandtab: */

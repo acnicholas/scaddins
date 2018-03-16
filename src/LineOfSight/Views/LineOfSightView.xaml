@@ -34,7 +34,7 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <Label Grid.Column="0" Margin="5" Content="Horizontal Distance from Focus"/>
-                    <TextBox Text="{Binding Path=DistanceToFirstRowX, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Grid.Column="1" Margin="5"></TextBox>
+                    <TextBox x:Name="DistanceToFirstRowX" Grid.Column="1" Margin="5"></TextBox>
                     <Label Grid.Row="1" Grid.Column="0" Margin="5" Content="Vertical Rise from Focus"/>
                     <TextBox x:Name="DistanceToFirstRowY" Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
                     <Label Grid.Row="2" Grid.Column="0" Margin="5" Content="Number of Rows Required"/>

@@ -551,12 +551,14 @@
     <EmbeddedResource Include="Assets\sculcase-rvt-16.png" />
     <EmbeddedResource Include="Assets\scwash-rvt-16.png" />
     <Resource Include="Assets\gear.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\help.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <EmbeddedResource Include="Assets\user.png" />
+    <EmbeddedResource Include="Assets\user.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Assets\scasfar-rvt-16.png" />
     <None Include="Scaddins.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -623,6 +625,23 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="RoomConvertor\ViewModels\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\copy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\open.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\rename.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\revision.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\underlay.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets" Condition="Exists('packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets') And '$(Configuration)' == 'Debug'" />
