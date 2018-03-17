@@ -51,12 +51,12 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0"  Grid.Row="0" Margin="5">Mode</Label>
-                        <ComboBox Grid.Column="1"  Grid.Row="0" Grid.ColumnSpan="3" Margin="5"></ComboBox>
+                        <ComboBox x:Name="RenameModes" Grid.Column="1"  Grid.Row="0" Grid.ColumnSpan="3" Margin="5"></ComboBox>
                         <Label Grid.Column="0" Grid.Row="1" Margin="5">Pattern</Label>
-                        <ComboBox Grid.Column="1"  Grid.Row="1" Margin="5"></ComboBox>
+                        <TextBox x:Name="Pattern" Grid.Column="1"  Grid.Row="1" Margin="5"></TextBox>
                         <Label Grid.Column="2"  Grid.Row="1" Margin="5">Replacement</Label>
-                        <ComboBox Grid.Column="3"  Grid.Row="1" Margin="5"></ComboBox>
-                        <DataGrid x:Name="RenameCandidates" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Height="Auto" Margin="5">
+                        <TextBox x:Name="Replacement" Grid.Column="3"  Grid.Row="1" Margin="5"></TextBox>
+                        <DataGrid x:Name="RenameCandidates" AutoGenerateColumns="False" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Height="Auto" Margin="5">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Old Name" Binding="{Binding OldValue}" ></DataGridTextColumn>
                                 <DataGridTextColumn Header="New Name" Binding="{Binding NewValue}"></DataGridTextColumn>

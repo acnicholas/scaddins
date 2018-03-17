@@ -26,10 +26,13 @@ namespace SCaddins.RenameUtilities
     public class RenameManager
     {
         private Document doc;
-        
+        public Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate> renameCandidates;
+
+
         public RenameManager(Document doc)
         {
             this.doc = doc;
+            renameCandidates = new Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate>();
         }
         
         public void Rename(List<RenameCandidate> renameCandidates)
@@ -114,6 +117,14 @@ namespace SCaddins.RenameUtilities
             }
         }
 
+        public Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate> RenameCandidates
+        {
+            get
+            {
+                return renameCandidates;
+            }
+        }
+
         public Caliburn.Micro.BindableCollection<String> AvailableParameterTypes
         {
             get
@@ -132,9 +143,23 @@ namespace SCaddins.RenameUtilities
                 return result;
             }
         }
-        
-         public List<RenameCandidate> GetTextNoteValues(BuiltInCategory category){
-            List<RenameCandidate> candidates = new List<RenameCandidate>();
+
+        public Caliburn.Micro.BindableCollection<String> RenameModes
+        {
+            get
+            {
+                Caliburn.Micro.BindableCollection<String> result = new Caliburn.Micro.BindableCollection<String>();
+                result.Add("Custom");
+                result.Add("Uppercase");
+                result.Add("Lowercase");
+                result.Add("Smart Increment");
+                result.Add("Mirror");
+                return result;
+            }
+        }
+
+        public Caliburn.Micro.BindableCollection<RenameCandidate> GetTextNoteValues(BuiltInCategory category){
+            Caliburn.Micro.BindableCollection<RenameCandidate> candidates = new Caliburn.Micro.BindableCollection<RenameCandidate>();
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             collector.OfCategory(category);
             foreach (Element element in collector) {
@@ -146,20 +171,20 @@ namespace SCaddins.RenameUtilities
             return candidates;
         }
              
-        public List<RenameCandidate> GetParameterValues(Parameter parameter, BuiltInCategory category){
+        public void SetCandidatesByParameter(Parameter parameter, BuiltInCategory category){
             if (category == BuiltInCategory.OST_TextNotes || category == BuiltInCategory.OST_IOSModelGroups) {
-                return GetTextNoteValues(category);
+                renameCandidates = GetTextNoteValues(category);
+                return;
             }
-            List<RenameCandidate> candidates = new List<RenameCandidate>();
+            renameCandidates.Clear();
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             collector.OfCategory(category);
             foreach (Element element in collector) {
                 var p = element.GetParameters(parameter.Definition.Name);
                 if (p.Count > 0) {
-                    candidates.Add(new RenameCandidate(p[0]));
+                    renameCandidates.Add(new RenameCandidate(p[0]));
                 }
             }
-            return candidates;
         }
 
         public Caliburn.Micro.BindableCollection<RenameParameter> RenameParametersByCategory(string parameterCategory)

@@ -31,68 +31,8 @@ namespace SCaddins.RenameUtilities
         {
             this.manager = manager;
             InitializeComponent();
-            PopulateCategoryComboBox();
-            PopulatePresetsComboBox();
         }
-        
-        private void PopulateCategoryComboBox()
-        {
-            comboBox1.Items.Add("Rooms");
-            comboBox1.Items.Add("Text");
-            comboBox1.Items.Add("Views");
-            comboBox1.Items.Add("Sheets");
-            comboBox1.Items.Add("Revisions");
-            comboBox1.Items.Add("Walls");
-            comboBox1.Items.Add("Doors");
-            comboBox1.Items.Add("Floors");
-            comboBox1.Items.Add("Roofs");
-            comboBox1.Items.Add(@"Model Groups");
-        }
-        
-        private void PopulatePresetsComboBox()
-        {
-            comboBoxPresets.Items.Add("Custom");
-            comboBoxPresets.Items.Add("Uppercase");
-            comboBoxPresets.Items.Add("Lowercase");
-            comboBoxPresets.Items.Add("Smart Increment");
-            comboBoxPresets.Items.Add("Mirror");
-        }
-               
-        void ComboBox1SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBox1.Text == "Rooms") {
-                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_Rooms);
-            }
-            if (comboBox1.Text == "Views") {
-                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_Views);    
-            }
-            if (comboBox1.Text == "Sheets") {
-                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_Sheets);    
-            }
-            if (comboBox1.Text == "Walls") {
-                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_Walls);    
-            }
-            if (comboBox1.Text == "Doors") {
-                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_Doors);    
-            }
-            if (comboBox1.Text == "Windows") {
-                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_Windows);    
-            }
-            if (comboBox1.Text == "Windows") {
-                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_Revisions);    
-            }
-            if (comboBox1.Text == "Floors") {
-                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_Floors);    
-            }
-            if (comboBox1.Text == @"Text") {
-                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_TextNotes);    
-            }
-            if (comboBox1.Text == @"Model Groups") {
-                listBox1.DataSource = manager.GetParametersByCategory(BuiltInCategory.OST_IOSModelGroups);    
-            }
-            listBox1.DisplayMember = "Name";    
-        }
-                      
+                                                 
         //FIXME put the in RenameManager
         private static string GetIncrementedReplacementResult(string s, string pattern, int increment, int group)
         {
@@ -261,7 +201,7 @@ namespace SCaddins.RenameUtilities
         void ListBox1SelectedIndexChanged(object sender, EventArgs e)
         {
             RenameParameter rp = (RenameParameter)(listBox1.SelectedItem);
-            SetRenameCandidates(manager.GetParameterValues(rp.Parameter, rp.Category));
+            //SetRenameCandidates(manager.GetParameterValues(rp.Parameter, rp.Category));
         }
         
         void TextBoxFindTextChanged(object sender, EventArgs e)
