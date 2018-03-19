@@ -59,7 +59,7 @@ namespace SCaddins.RenameUtilities.ViewModels
             }
         }
 
-        public BindableCollection<string> RenameModes
+        public BindableCollection<RenameCommand> RenameModes
         {
             get
             {

@@ -27,12 +27,16 @@ namespace SCaddins.RenameUtilities
     {
         private Document doc;
         public Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate> renameCandidates;
+        public Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCommand> renameCommands;
 
 
         public RenameManager(Document doc)
         {
             this.doc = doc;
             renameCandidates = new Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate>();
+            //renameCommands.Add(new RenameUtilities.RenameCommand(RenameTest, "Custom"));
+            //renameCommands.Add(new RenameUtilities.RenameCommand(RenameTest, "Custom2"));
+            renameCommands.Add(new RenameUtilities.RenameCommand(RenameTest, "Custom3"));
         }
         
         public void Rename(List<RenameCandidate> renameCandidates)
@@ -144,18 +148,17 @@ namespace SCaddins.RenameUtilities
             }
         }
 
-        public Caliburn.Micro.BindableCollection<String> RenameModes
+        public Caliburn.Micro.BindableCollection<RenameCommand> RenameModes
         {
             get
             {
-                Caliburn.Micro.BindableCollection<String> result = new Caliburn.Micro.BindableCollection<String>();
-                result.Add("Custom");
-                result.Add("Uppercase");
-                result.Add("Lowercase");
-                result.Add("Smart Increment");
-                result.Add("Mirror");
-                return result;
+                return renameCommands;
             }
+        }
+
+        public static string RenameTest(string s, string t, string u)
+        {
+            return "hello";
         }
 
         public Caliburn.Micro.BindableCollection<RenameCandidate> GetTextNoteValues(BuiltInCategory category){
