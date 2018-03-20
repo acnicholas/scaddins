@@ -1,7 +1,12 @@
 <UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:cal="http://www.caliburnproject.org"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:dgx="urn:tom-englert.de/DataGridExtensions" mc:Ignorable="d" x:Class="SCaddins.ExportManager.Views.SCexportView"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:dgx="urn:tom-englert.de/DataGridExtensions"
+    mc:Ignorable="d"
+    x:Class="SCaddins.ExportManager.Views.SCexportView"
     d:DesignWidth="628" d:DesignHeight="272">
 
     <Grid>
@@ -45,7 +50,10 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Margin="5,0,5,5"
-            Grid.ColumnSpan="3" GridLinesVisibility="Vertical" dgx:DataGridFilter.IsAutoFilterEnabled="True" IsReadOnly="True">
+            Grid.ColumnSpan="3"
+            GridLinesVisibility="Vertical"
+            dgx:DataGridFilter.IsAutoFilterEnabled="True"
+            IsReadOnly="True">
             <DataGrid.VerticalGridLinesBrush>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
             </DataGrid.VerticalGridLinesBrush>

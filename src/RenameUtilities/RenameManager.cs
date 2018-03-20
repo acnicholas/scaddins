@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2017 by Andrew Nicholas
+﻿// (C) Copyright 2017-2018 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -17,9 +17,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Architecture;
 
 namespace SCaddins.RenameUtilities
 {
@@ -54,21 +52,6 @@ namespace SCaddins.RenameUtilities
             renameCommands.Add(new RenameCommand(IncrementOne, "Increment Match 1", string.Empty, string.Empty));
             renameCommands.Add(new RenameCommand(IncrementTwo, "Increment Match 2", string.Empty, string.Empty));
             renameCommand = renameCommands[0];
-        }
-
-        public static string RegexReplace(string val, string search, string replace)
-        {
-            return System.Text.RegularExpressions.Regex.Replace(val, search, replace);
-        }
-
-        public static string IncrementOne(string val, string search, string replace)
-        {
-            return "todo";
-        }
-
-        public static string IncrementTwo(string val, string search, string replace)
-        {
-            return "todo";
         }
 
         #endregion
@@ -162,10 +145,7 @@ namespace SCaddins.RenameUtilities
 
         public RenameCommand SelectedRenameMode
         {
-            get
-            {
-                return renameCommand;
-            }
+            get { return renameCommand; }
             set
             {
                 renameCommand = value;
@@ -181,30 +161,10 @@ namespace SCaddins.RenameUtilities
                 rc.NewValue = renameCommand.Rename(rc.OldValue);
             }
         }
-
-        private static bool IsValidRevitName(string s)
-        {
-            return !(s.Contains("{") || s.Contains("}"));
-        }
-       
-        public Caliburn.Micro.BindableCollection<RenameCandidate> GetTextNoteValues(BuiltInCategory category){
-            Caliburn.Micro.BindableCollection<RenameCandidate> candidates = new Caliburn.Micro.BindableCollection<RenameCandidate>();
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
-            collector.OfCategory(category);
-            foreach (Element element in collector) {
-                var textNote = (TextElement)element;
-                if(textNote != null) {
-                    var rc = new RenameCandidate(textNote);
-                    rc.NewValue = renameCommand.Rename(rc.OldValue);
-                    candidates.Add(rc);
-                }
-            }
-            return candidates;
-        }
              
         public void SetCandidatesByParameter(Parameter parameter, BuiltInCategory category){
             if (category == BuiltInCategory.OST_TextNotes || category == BuiltInCategory.OST_IOSModelGroups) {
-                renameCandidates = GetTextNoteValues(category);
+                GetTextNoteValues(category);
                 return;
             }
             renameCandidates.Clear();
@@ -212,7 +172,6 @@ namespace SCaddins.RenameUtilities
             if (elements == null) {
                 collector = new FilteredElementCollector(doc);
             } else {
-                Autodesk.Revit.UI.TaskDialog.Show("xxx","xxx");
                 collector = new FilteredElementCollector(doc, elements);
             }
             collector.OfCategory(category);
@@ -228,6 +187,42 @@ namespace SCaddins.RenameUtilities
             }
         }
 
+        public static string RegexReplace(string val, string search, string replace)
+        {
+            return System.Text.RegularExpressions.Regex.Replace(val, search, replace);
+        }
+
+        public static string IncrementOne(string val, string search, string replace)
+        {
+            return "todo";
+        }
+
+        public static string IncrementTwo(string val, string search, string replace)
+        {
+            return "todo";
+        }
+
+        private void GetTextNoteValues(BuiltInCategory category)
+        {
+            renameCandidates.Clear();
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfCategory(category);
+            foreach (Element element in collector)
+            {
+                var textNote = (TextElement)element;
+                if (textNote != null)
+                {
+                    var rc = new RenameCandidate(textNote);
+                    rc.NewValue = renameCommand.Rename(rc.OldValue);
+                    renameCandidates.Add(rc);
+                }
+            }
+        }
+
+        private static bool IsValidRevitName(string s)
+        {
+            return !(s.Contains("{") || s.Contains("}"));
+        }
 
     }
 }

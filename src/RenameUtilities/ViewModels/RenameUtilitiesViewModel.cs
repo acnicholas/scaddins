@@ -1,4 +1,6 @@
 ﻿using Caliburn.Micro;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SCaddins.RenameUtilities.ViewModels
 {
@@ -7,6 +9,7 @@ namespace SCaddins.RenameUtilities.ViewModels
         private RenameManager manager;
         private string selectedParameterCategory;
         private RenameParameter selectedRenameParameter;
+        private List<RenameCandidate> selectedCandiates = new List<RenameCandidate>();
 
         //Constructors
         #region
@@ -121,9 +124,15 @@ namespace SCaddins.RenameUtilities.ViewModels
             }
         }
 
-        public BindableCollection<SCaddins.RenameUtilities.RenameCandidate> RenameCandidates
+        public BindableCollection<RenameCandidate> RenameCandidates
         {
             get { return manager.RenameCandidates; }
+        }
+
+        public void RenameCandidatesSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
+        {
+            selectedCandiates.AddRange(obj.AddedItems.Cast<RenameCandidate>());
+            obj.RemovedItems.Cast<RenameCandidate>().ToList().ForEach(w => selectedCandiates.Remove(w));
         }
 
     }
