@@ -3,42 +3,63 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace SCaddins.RenameUtilities
 {
-    public class RenameCommand
+    public class RenameCommand : INotifyPropertyChanged
     {
         private Func<string, string, string, string> renameFunction;
+        public event PropertyChangedEventHandler PropertyChanged;
+        private string replacementPattern;
+        private string searchPattern;
 
         public string Name
         {
             get;
         }
 
-        public string SearchPattern
+        public string SearchPatternHint
         {
             get; set;
+        }
+
+        public string ReplacementPatternHint
+        {
+            get; set;
+        }
+
+        public string SearchPattern
+        {
+            get { return searchPattern; }
+            set
+            {
+                if (value != searchPattern) {
+                    searchPattern = value;
+                }
+                if (this.PropertyChanged != null) {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs("SearchPattern"));
+                }
+            }
         }
 
         public string ReplacementPattern
         {
-            get; set;
-        }
-
-        public bool EnableSearchPattern
-        {
-            get
+            get { return replacementPattern; }
+            set
             {
-                return !string.IsNullOrEmpty(SearchPattern);
+                if (value != replacementPattern) {
+                    replacementPattern = value;
+                }
+                if (this.PropertyChanged != null) {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs("ReplacementPattern"));
+                }
             }
         }
 
-        public bool EnableReplacementPattern
+        public bool HasInputParameters
         {
-            get
-            {
-                return !string.IsNullOrEmpty(ReplacementPattern);
-            }
+            get; private set;
         }
 
         public string Rename(string inputString)
@@ -49,14 +70,23 @@ namespace SCaddins.RenameUtilities
         public RenameCommand(Func<string, string, string, string> renameFunction, string name)
         {
             this.renameFunction = renameFunction;
-            ReplacementPattern = string.Empty;
-            SearchPattern = string.Empty;
+            replacementPattern = string.Empty;
+            searchPattern = string.Empty;
+            HasInputParameters = false;
             Name = name;
+            ReplacementPatternHint = string.Empty;
+            SearchPatternHint = string.Empty;
         }
 
-        public override string ToString()
+        public RenameCommand(Func<string, string, string, string> renameFunction, string name, string replacement, string search)
         {
-            return Name;
+            this.renameFunction = renameFunction;
+            replacementPattern = replacement;
+            searchPattern = search;
+            HasInputParameters = true; ;
+            Name = name;
+            ReplacementPatternHint = "Replacemnt Pattern";
+            SearchPatternHint = "Search Pattern";
         }
     }
 }

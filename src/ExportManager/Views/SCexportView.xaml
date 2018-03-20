@@ -130,7 +130,7 @@
                                 Source="/SCaddins;component/Assets/underlay.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="Rename Selected Views">
+                    <MenuItem Header="Rename Selected Views" cal:Message.Attach="RenameSheets">
                         <MenuItem.Icon>
                             <Image
                                 Source="/SCaddins;component/Assets/rename.png" />

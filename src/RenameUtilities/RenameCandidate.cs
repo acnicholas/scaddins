@@ -47,9 +47,7 @@ namespace SCaddins.RenameUtilities
         public event PropertyChangedEventHandler PropertyChanged;
 
         private Parameter RevitParameter {
-            get {
-                return parameter;
-            }
+            get { return parameter; }
         }
 
         public string OldValue {
@@ -62,33 +60,19 @@ namespace SCaddins.RenameUtilities
         }
 
         public string NewValue {
-            get {
-                return this.newValue;
-            }
-
+            get { return this.newValue;}
             set {
                 this.newValue = value;
                 if (this.PropertyChanged != null) {
                     this.PropertyChanged(this, new PropertyChangedEventArgs("NewValue"));
+                    this.PropertyChanged(this, new PropertyChangedEventArgs("ValueChanged"));
                 }
             }
         }
-        
-        public bool Rename()
+
+        public bool ValueChanged
         {
-            if( ValueChanged()) {
-                if(note == null) {
-                    return parameter.Set(NewValue);    
-                } else {
-                    note.Text = NewValue;   
-                }
-            }
-            return false;
-        }
-        
-        public bool ValueChanged()
-        {
-            return !string.Equals(this.oldValue, this.newValue);
+            get { return !string.Equals(this.oldValue, this.newValue); }
         }
     }
 }

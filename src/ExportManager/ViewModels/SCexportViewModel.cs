@@ -106,8 +106,23 @@ namespace SCaddins.ExportManager.ViewModels
             var sheetCopierModel = new SCaddins.SheetCopier.ViewModels.SheetCopierViewModel(exportManager.UIDoc);
             sheetCopierModel.AddSheets(selectedSheets);
             windowManager.ShowDialog(sheetCopierModel, null, null);
-        } 
-        
+        }
+
+        public void RenameSheets()
+        {
+            var renameManager = new SCaddins.RenameUtilities.RenameManager(
+                exportManager.Doc,
+                selectedSheets.Select(s => s.Id).ToList()
+                );
+            var renameSheetModel = new SCaddins.RenameUtilities.ViewModels.RenameUtilitiesViewModel(renameManager);
+            renameSheetModel.SelectedParameterCategory = "Sheets";
+            //RenameUtilities.RenameParameter v = renameSheetModel.RenameParameters.Select(p => p.Name.Equals("Sheet Number"));
+            //renameSheetModel.SelectedRenameParameter = v;
+            //nameSheetModel.SelectedRenameMode = 
+            //  renameSheetModel.RenameModes.Select(m => m.Name == "Custom Replace") as RenameUtilities.RenameCommand;
+            windowManager.ShowDialog(renameSheetModel, null, null);
+        }
+
         public void TurnNorthPointsOn()
         {
             ExportManager.ToggleNorthPoints(selectedSheets, exportManager.Doc, true);

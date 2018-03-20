@@ -51,12 +51,25 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0"  Grid.Row="0" Margin="5">Mode</Label>
-                        <ComboBox x:Name="RenameModes" Grid.Column="1"  Grid.Row="0" Grid.ColumnSpan="3" Margin="5"></ComboBox>
-                        <Label Grid.Column="0" Grid.Row="1" Margin="5">Pattern</Label>
-                        <TextBox x:Name="Pattern" Grid.Column="1"  Grid.Row="1" Margin="5"></TextBox>
-                        <Label Grid.Column="2"  Grid.Row="1" Margin="5">Replacement</Label>
-                        <TextBox x:Name="Replacement" Grid.Column="3"  Grid.Row="1" Margin="5"></TextBox>
-                        <DataGrid x:Name="RenameCandidates" AutoGenerateColumns="False" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Height="Auto" Margin="5">
+                        <ComboBox x:Name="RenameModes" DisplayMemberPath="Name" Grid.Column="1"  Grid.Row="0" Grid.ColumnSpan="3" Margin="5"></ComboBox>
+                        <Label x:Name="PatternLabel" Visibility="{Binding Path=ShowRenameParameters}" Grid.Column="0" Grid.Row="1" Margin="5"></Label>
+                        <TextBox x:Name="Pattern" Visibility="{Binding Path=ShowRenameParameters}" Grid.Column="1"  Grid.Row="1" Margin="5"></TextBox>
+                        <Label x:Name="ReplacementLabel" Visibility="{Binding Path=ShowRenameParameters}" Grid.Column="2"  Grid.Row="1" Margin="5"></Label>
+                        <TextBox x:Name="Replacement" Visibility="{Binding Path=ShowRenameParameters}" Grid.Column="3"  Grid.Row="1" Margin="5"></TextBox>
+                        <DataGrid x:Name="RenameCandidates" AutoGenerateColumns="False" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Height="Auto" Margin="5" GridLinesVisibility="None">
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ValueChanged}" Value="False">
+                                            <Setter Property="Foreground" Value="Black"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ValueChanged}" Value="True">
+                                            <Setter Property="Foreground" Value="Red"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Old Name" Binding="{Binding OldValue}" ></DataGridTextColumn>
                                 <DataGridTextColumn Header="New Name" Binding="{Binding NewValue}"></DataGridTextColumn>

@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Caliburn.Micro;
-
+﻿using Caliburn.Micro;
 
 namespace SCaddins.RenameUtilities.ViewModels
 {
@@ -10,15 +7,16 @@ namespace SCaddins.RenameUtilities.ViewModels
         private RenameManager manager;
         private string selectedParameterCategory;
         private RenameParameter selectedRenameParameter;
-        private string selectedRenameMode;
 
+        //Constructors
+        #region
         public RenameUtilitiesViewModel(RenameManager manager)
         {
             this.manager = manager;
             selectedParameterCategory = string.Empty;
             selectedParameterCategory = null;
-            selectedRenameMode = string.Empty;
         }
+        #endregion
 
         public BindableCollection<string> ParameterCategories
         {
@@ -43,7 +41,7 @@ namespace SCaddins.RenameUtilities.ViewModels
         {
             get
             {
-                return manager.RenameParametersByCategory(selectedParameterCategory);
+                return manager.GetParametersByCategoryName(selectedParameterCategory);
             }
         }
 
@@ -67,38 +65,65 @@ namespace SCaddins.RenameUtilities.ViewModels
             }
         }
 
-        public string SelectedRenameMode
+        public RenameCommand SelectedRenameMode
         {
-            get { return selectedRenameMode; }
+            get { return manager.SelectedRenameMode; }
             set
             {
-                selectedRenameMode = value;
+                manager.SelectedRenameMode = value;
                 NotifyOfPropertyChange(() => SelectedRenameMode);
+                NotifyOfPropertyChange(() => Pattern);
+                NotifyOfPropertyChange(() => Replacement);
+                NotifyOfPropertyChange(() => ShowRenameParameters);
+                NotifyOfPropertyChange(() => ReplacementLabel);
+                NotifyOfPropertyChange(() => PatternLabel);
             }
+        }
+
+        public System.Windows.Visibility ShowRenameParameters
+        {
+            get
+            {
+                return manager.SelectedRenameMode.HasInputParameters == true
+                    ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
+            }
+        }
+
+        public string PatternLabel
+        {
+            get { return manager.SelectedRenameMode.SearchPatternHint; }
         }
 
         public string Pattern
         {
-            get
+            get { return manager.renameCommand.SearchPattern; }
+            set
             {
-                return "Pattern";
+                manager.renameCommand.SearchPattern = value;
+                manager.DryRename();
+                NotifyOfPropertyChange(() => Pattern);
             }
+        }
+
+        public string ReplacementLabel
+        {
+            get { return manager.SelectedRenameMode.ReplacementPatternHint; }
         }
 
         public string Replacement
         {
-            get
+            get { return manager.renameCommand.ReplacementPattern; }
+            set
             {
-                return "Replacement";
+                manager.renameCommand.ReplacementPattern = value;
+                manager.DryRename();
+                NotifyOfPropertyChange(() => Replacement);
             }
         }
 
         public BindableCollection<SCaddins.RenameUtilities.RenameCandidate> RenameCandidates
         {
-            get
-            {
-                return manager.RenameCandidates;
-            }
+            get { return manager.RenameCandidates; }
         }
 
     }
