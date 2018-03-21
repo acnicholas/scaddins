@@ -256,12 +256,12 @@ namespace SCaddins.ExportManager
 
         public static void OpenPreviousSheet(UIDocument udoc, ViewSheet view)
         {
-            OpenSheet(udoc, view, -1);
+            //OpenSheet(udoc, view, -1);
         }
 
         public static void OpenNextSheet(UIDocument udoc, ViewSheet view)
         {
-            OpenSheet(udoc, view, 1);
+             //OpenSheet(udoc, view, 1);
         }
 
         public static void FixScaleBars(ICollection<ExportSheet> sheets, Document doc)
@@ -298,45 +298,6 @@ namespace SCaddins.ExportManager
                         TaskDialog.Show("Failure", "Could not toggle north points");
                     }
                 }
-            }
-        }
-
-        public static void AddRevisions(ICollection<ExportSheet> sheets)
-        {
-            if (sheets == null) {
-                TaskDialog.Show("Error", "Please select sheets before attempting to add revisions");
-                return;
-            }
-            //using (var r = new RevisionSelectionDialog(doc)) {
-            //    var result = r.ShowDialog();
-            //    if ((r.Id != null) && (result == System.Windows.Forms.DialogResult.OK)) {
-            //        using (var t = new Transaction(doc, "SCexport: Add new revisions")) {
-            //            if (t.Start() == TransactionStatus.Started) {
-            //                foreach (ExportSheet sheet in sheets) {
-            //                    ICollection<ElementId> il = sheet.Sheet.GetAdditionalRevisionIds();
-            //                    il.Add(r.Id);
-            //                    sheet.Sheet.SetAdditionalRevisionIds(il);
-            //                }
-            //                t.Commit();
-            //            } else {
-            //                TaskDialog.Show("Error", "SCexport: error adding revisions, could not start transaction.");
-            //            }
-            //        }
-            //    }
-            //}
-            //foreach (ExportSheet sheet in sheets) {
-            //    sheet.UpdateRevision(true);
-            //}
-        }
-
-        public static string CurrentViewName(Document doc)
-        {
-            View v = doc.ActiveView;
-            if (v.ViewType == ViewType.DrawingSheet) {
-                return v.get_Parameter(
-                    BuiltInParameter.SHEET_NUMBER).AsString();
-            } else {
-                return null;
             }
         }
 
@@ -395,11 +356,10 @@ namespace SCaddins.ExportManager
             }
 
             PrintManager pm = Doc.PrintManager;
-            TaskDialogResult tdr = ShowPrintWarning();
             DateTime startTime = DateTime.Now;
             TimeSpan elapsedTime = DateTime.Now - startTime;
 
-            if (tdr == TaskDialogResult.Ok) { 
+            if (1 == 1) { 
                 bool printSetttingsValid;
                 this.log.Clear();
                 this.log.Start(Resources.StartingPrint);
@@ -580,31 +540,31 @@ namespace SCaddins.ExportManager
             #endif
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        private static void OpenSheet(UIDocument udoc, ViewSheet view, int inc)
-        {
-            IList<ViewSheet> sheets = new List<ViewSheet>();
-            using (var collector = new FilteredElementCollector(udoc.Document)) {
-                collector.OfCategory(BuiltInCategory.OST_Sheets);
-                collector.OfClass(typeof(ViewSheet)); 
-                foreach (ViewSheet v in collector) {
-                    sheets.Add(v);
-                }
-            }
-            IEnumerable<ViewSheet> sortedEnum = sheets.OrderBy(f => f.SheetNumber);
-            IList<ViewSheet> sortedSheets = sortedEnum.ToList();
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        //private static void OpenSheet(UIDocument udoc, ViewSheet view, int inc)
+        //{
+        //    IList<ViewSheet> sheets = new List<ViewSheet>();
+        //    using (var collector = new FilteredElementCollector(udoc.Document)) {
+        //        collector.OfCategory(BuiltInCategory.OST_Sheets);
+        //        collector.OfClass(typeof(ViewSheet)); 
+        //        foreach (ViewSheet v in collector) {
+        //            sheets.Add(v);
+        //        }
+        //    }
+        //    IEnumerable<ViewSheet> sortedEnum = sheets.OrderBy(f => f.SheetNumber);
+        //    IList<ViewSheet> sortedSheets = sortedEnum.ToList();
             
 
-            for (int i = 0; i < sortedSheets.Count; i++) {
-                if(inc == -1 && i == 0) continue;
-                if(inc == 1 && i == (sortedSheets.Count - 1)) continue;
-                if (sortedSheets[i].SheetNumber == view.SheetNumber) {
-                    UIApplication uiapp = new UIApplication(udoc.Document.Application);
-                    uiapp.ActiveUIDocument.ActiveView = sortedSheets[i + inc];
-                    return;
-                }
-            }
-        }
+        //    for (int i = 0; i < sortedSheets.Count; i++) {
+        //        if(inc == -1 && i == 0) continue;
+        //        if(inc == 1 && i == (sortedSheets.Count - 1)) continue;
+        //        if (sortedSheets[i].SheetNumber == view.SheetNumber) {
+        //            UIApplication uiapp = new UIApplication(udoc.Document.Application);
+        //            uiapp.ActiveUIDocument.ActiveView = sortedSheets[i + inc];
+        //            return;
+        //        }
+        //    }
+        //}
 
         private static Dictionary<string, FamilyInstance> AllTitleBlocks(Document document)
         {
@@ -622,21 +582,6 @@ namespace SCaddins.ExportManager
             }
 
             return result;
-        }
-
-        private static TaskDialogResult ShowPrintWarning()
-        {
-            using (var td = new TaskDialog("SCexport - Print Warning")) {
-                td.MainInstruction = "Warning";
-                td.MainContent = "The print feature is experimental, please only export a " +
-                    "small selection of sheets until you are sure it is working correctly." +
-                    System.Environment.NewLine + System.Environment.NewLine +
-                    "Press ok to continue.";
-                td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-                td.CommonButtons = TaskDialogCommonButtons.Ok | TaskDialogCommonButtons.No;
-                TaskDialogResult tdr = td.Show();
-                return tdr;
-            }
         }
 
         private static string PercentageSting(int n, int total)
@@ -721,40 +666,6 @@ namespace SCaddins.ExportManager
             }
         }
 
-        private static void ExportDWF(ExportSheet vs, Document doc)
-        {
-            var views = new ViewSet();
-            views.Insert(vs.Sheet);
-            var opts = new DWFExportOptions();
-            opts.CropBoxVisible = false;
-            opts.ExportingAreas = true;
-            using (var t = new Transaction(doc)) {
-                if (t.Start("Export DWF") == TransactionStatus.Started) {
-                    try {
-                        string tmp = vs.FullExportName + ".dwf";
-                        doc.Export(vs.ExportDirectory, tmp, views, opts);
-                        t.Commit();
-                    } catch (ArgumentException e) {
-                        TaskDialog.Show("SCexport", "cannot export dwf: " + e.Message);
-                        t.RollBack();
-                    } catch (InvalidOperationException e) {
-                        TaskDialog.Show("SCexport", "cannot export dwf: " + e.Message);
-                        t.RollBack();
-                    }
-                }
-            }
-        }
-
-        private static void ExportDGN(ExportSheet vs, Document doc)
-        {
-            using (var opts = new DGNExportOptions()) {
-                ICollection<ElementId> views;
-                views = new List<ElementId>();
-                views.Add(vs.Id);
-                doc.Export(vs.ExportDirectory, vs.FullExportName, views, opts);
-            }
-        }
- 
         private void SetDefaultFlags()
         {
             if (SCaddins.ExportManager.Settings1.Default.AdobePDFMode && this.PDFSanityCheck()) {
@@ -948,13 +859,13 @@ namespace SCaddins.ExportManager
                     this.ExportGSPDF(sheet);
                 }
 
-                if (this.exportFlags.HasFlag(ExportOptions.DGN)) {
-                    ExportManager.ExportDGN(sheet, Doc);
-                }
+                //if (this.exportFlags.HasFlag(ExportOptions.DGN)) {
+                //    //ExportManager.ExportDGN(sheet, Doc);
+                //}
 
-                if (this.exportFlags.HasFlag(ExportOptions.DWF)) {
-                    ExportManager.ExportDWF(sheet, Doc);
-                }
+                //if (this.exportFlags.HasFlag(ExportOptions.DWF)) {
+                //    //ExportManager.ExportDWF(sheet, Doc);
+                //}
                 var elapsedTime = DateTime.Now - startTime;
                 this.log.AddMessage(Resources.MessageElapsedTimeForLastExport + elapsedTime.ToString());
             } else {

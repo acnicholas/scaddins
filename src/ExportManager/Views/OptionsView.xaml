@@ -27,17 +27,17 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <CheckBox Grid.Column="0" Grid.Row="0" Content="PDF" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox Grid.Column="0" Grid.Row="1" Content="PDF (Adobe Acrobat)" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox Grid.Column="0" Grid.Row="2" Content="PDF (Ghostscript)" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox Grid.Column="1" Grid.Row="0" Content="DWG" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox Grid.Column="1" Grid.Row="1" Content="DGN" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox Grid.Column="1" Grid.Row="2" Content="DWF" VerticalAlignment="Center"></CheckBox>
+                            <CheckBox Grid.Column="0" Grid.Row="0" Content="PDF" VerticalAlignment="Center" Margin="5"></CheckBox>
+                            <CheckBox Grid.Column="0" Grid.Row="1" Content="PDF (Adobe Acrobat)" VerticalAlignment="Center" Margin="5"></CheckBox>
+                            <CheckBox Grid.Column="0" Grid.Row="2" Content="PDF (Ghostscript)" VerticalAlignment="Center" Margin="5"></CheckBox>
+                            <CheckBox Grid.Column="1" Grid.Row="0" Content="DWG" VerticalAlignment="Center" Margin="5"></CheckBox>
+                            <CheckBox Grid.Column="1" Grid.Row="1" Content="DGN" VerticalAlignment="Center" Margin="5"></CheckBox>
+                            <CheckBox Grid.Column="1" Grid.Row="2" Content="DWF" VerticalAlignment="Center" Margin="5"></CheckBox>
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Export Destination" Grid.Row="1">
+                    <GroupBox Header="Export Destination" Grid.Row="1" Margin="5">
                     </GroupBox>
-                    <GroupBox Header="Title Block Parameters" Grid.Row="2">
+                    <GroupBox Header="Title Block Parameters" Grid.Row="2" Margin="5">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
@@ -47,22 +47,22 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <Label Grid.Column="0" Grid.Row="0" Content="Scale Bar Scale" VerticalAlignment="Center"></Label>
-                            <Label Grid.Column="0" Grid.Row="1" Content="North Point Visibility" VerticalAlignment="Center"></Label>
-                            <TextBox x:Name="ScaleBarScale" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center"></TextBox>
-                            <TextBox x:Name="NorthPointVisibility" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"></TextBox>
+                            <Label Grid.Column="0" Grid.Row="0" Content="Scale Bar Scale" VerticalAlignment="Center" Margin="5"></Label>
+                            <Label Grid.Column="0" Grid.Row="1" Content="North Point Visibility" VerticalAlignment="Center" Margin="5"></Label>
+                            <TextBox x:Name="ScaleBarScale" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5"></TextBox>
+                            <TextBox x:Name="NorthPointVisibility" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></TextBox>
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Export Options" Grid.Row="3">
+                    <GroupBox Header="Export Options" Grid.Row="3" Margin="5">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <CheckBox Grid.Row="0" Content="Use today's date for empty revisions" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox Grid.Row="1" Content="Force all revisions to be today's date [YYYYMMDD]" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox Grid.Row="2" Content="Hide title blocks (DWG exportsonly" VerticalAlignment="Center"></CheckBox>
+                            <CheckBox Grid.Row="0" Margin="5" Content="Use today's date for empty revisions" VerticalAlignment="Center"></CheckBox>
+                            <CheckBox Grid.Row="1" Margin="5" Content="Force all revisions to be today's date [YYYYMMDD]" VerticalAlignment="Center"></CheckBox>
+                            <CheckBox Grid.Row="2" Margin="5" Content="Hide title blocks (DWG exportsonly" VerticalAlignment="Center"></CheckBox>
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -75,7 +75,7 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <GroupBox Header="Export Types">
+                    <GroupBox Header="Export Types" Margin="5">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
@@ -86,17 +86,17 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <CheckBox Grid.Column="0" Grid.Row="0" Content="Test" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox Grid.Column="0" Grid.Row="1" Content="Test" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox Grid.Column="0" Grid.Row="2" Content="Test" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox Grid.Column="1" Grid.Row="0" Content="Test" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox Grid.Column="1" Grid.Row="1" Content="Test" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox Grid.Column="1" Grid.Row="2" Content="Test" VerticalAlignment="Center"></CheckBox>
+                            <CheckBox Grid.Column="0" Grid.Row="0" Content="Test" VerticalAlignment="Center" Margin="5"></CheckBox>
+                            <CheckBox Grid.Column="0" Grid.Row="1" Content="Test" VerticalAlignment="Center" Margin="5"></CheckBox>
+                            <CheckBox Grid.Column="0" Grid.Row="2" Content="Test" VerticalAlignment="Center" Margin="5"></CheckBox>
+                            <CheckBox Grid.Column="1" Grid.Row="0" Content="Test" VerticalAlignment="Center" Margin="5"></CheckBox>
+                            <CheckBox Grid.Column="1" Grid.Row="1" Content="Test" VerticalAlignment="Center" Margin="5"></CheckBox>
+                            <CheckBox Grid.Column="1" Grid.Row="2" Content="Test" VerticalAlignment="Center" Margin="5"></CheckBox>
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Export Destination" Grid.Row="1">
+                    <GroupBox Header="Export Destination" Grid.Row="1" Margin="5">
                     </GroupBox>
-                    <GroupBox Header="Title Block Parameters" Grid.Row="2">
+                    <GroupBox Header="Title Block Parameters" Grid.Row="2" Margin="5">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
@@ -106,22 +106,22 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <Label Grid.Column="0" Grid.Row="0" Content="Test" VerticalAlignment="Center"></Label>
-                            <Label Grid.Column="0" Grid.Row="1" Content="Test" VerticalAlignment="Center"></Label>
-                            <TextBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center"></TextBox>
-                            <TextBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"></TextBox>
+                            <Label Grid.Column="0" Grid.Row="0" Content="Test" VerticalAlignment="Center" Margin="5"></Label>
+                            <Label Grid.Column="0" Grid.Row="1" Content="Test" VerticalAlignment="Center" Margin="5"></Label>
+                            <TextBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5"></TextBox>
+                            <TextBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></TextBox>
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Export Options" Grid.Row="3">
+                    <GroupBox Header="Export Options" Grid.Row="3" Margin="5">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <CheckBox Grid.Row="0" Content="Test" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox Grid.Row="1" Content="Test" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox Grid.Row="2" Content="Test" VerticalAlignment="Center"></CheckBox>
+                            <CheckBox Grid.Row="0" Content="Test" VerticalAlignment="Center" Margin="5"></CheckBox>
+                            <CheckBox Grid.Row="1" Content="Test" VerticalAlignment="Center" Margin="5"></CheckBox>
+                            <CheckBox Grid.Row="2" Content="Test" VerticalAlignment="Center" Margin="5"></CheckBox>
                         </Grid>
                     </GroupBox>
                 </Grid>

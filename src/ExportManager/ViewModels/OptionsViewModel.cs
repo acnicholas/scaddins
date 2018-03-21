@@ -8,5 +8,9 @@ namespace SCaddins.ExportManager.ViewModels
 {
     class OptionsViewModel
     {
+        public OptionsViewModel()
+        {
+
+        }
     }
 }
