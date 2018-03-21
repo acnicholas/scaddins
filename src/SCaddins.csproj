@@ -393,24 +393,11 @@
     <Compile Include="ExportManager\ExportLog.cs" />
     <Compile Include="ExportManager\ExportLogItem.cs" />
     <Compile Include="ExportManager\FileUtils.cs" />
-    <Compile Include="ExportManager\FilterContextMenu.cs" />
     <Compile Include="ExportManager\NextSheet.cs" />
     <Compile Include="ExportManager\OpenSheet.cs" />
-    <Compile Include="ExportManager\OptionsDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ExportManager\OptionsDialog.Designer.cs">
-      <DependentUpon>OptionsDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="ExportManager\PostExportHookCommand.cs" />
     <Compile Include="ExportManager\PreviousSheet.cs" />
     <Compile Include="ExportManager\PrintSettings.cs" />
-    <Compile Include="ExportManager\RenameSheetForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ExportManager\RenameSheetForm.Designer.cs">
-      <DependentUpon>RenameSheetForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="ExportManager\ExportManager.cs" />
     <Compile Include="ExportManager\Settings1.Designer.cs">
       <DependentUpon>Settings1.settings</DependentUpon>
@@ -418,7 +405,6 @@
     </Compile>
     <Compile Include="ExportManager\Sheet.cs" />
     <Compile Include="ExportManager\SegmentedSheetName.cs" />
-    <Compile Include="ExportManager\TipOfDay.cs" />
     <Compile Include="ExportManager\ViewSheetSetCombo.cs" />
     <Compile Include="LineOfSight\LineOfSight.cs" />
     <Compile Include="LineOfSight\LineOfSightCommand.cs" />
@@ -504,12 +490,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RoomConvertor\RoomInfoDilaog.resx">
       <DependentUpon>RoomInfoDilaog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ExportManager\OptionsDialog.resx">
-      <DependentUpon>OptionsDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ExportManager\RenameSheetForm.resx">
-      <DependentUpon>RenameSheetForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ParameterUtilities\IncrementSettingsForm.resx">
       <DependentUpon>IncrementSettingsForm.cs</DependentUpon>

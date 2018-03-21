@@ -264,19 +264,6 @@ namespace SCaddins.ExportManager
             OpenSheet(udoc, view, 1);
         }
 
-        public static void RenameSheets(ICollection<ExportSheet> sheets, Document doc)
-        {
-            using (var renameSheetDialog = new RenameSheetForm(sheets, doc)) {
-                var result = renameSheetDialog.ShowDialog();
-                if (result == System.Windows.Forms.DialogResult.OK) {
-                    foreach (ExportSheet sheet in sheets) {
-                        sheet.UpdateNumber();
-                        sheet.UpdateName();
-                    }
-                }
-            }
-        }
-
         public static void FixScaleBars(ICollection<ExportSheet> sheets, Document doc)
         {
             if (sheets == null) {
