@@ -130,6 +130,7 @@
                         Margin="5,0,5,0"
                         Content="Interval" />
                     <DatePicker
+                        x:Name="CreationDate"
                         Width="Auto"
                         Grid.Column="0"
                         Grid.Row="1"
@@ -143,29 +144,29 @@
                         HorizontalAlignment="Stretch"
                         Margin="5"
                         Grid.Row="3"
-                        x:Name="StartTime" />
+                        x:Name="StartTimes" />
                     <ComboBox
                         Grid.Column="1"
                         Grid.Row="3"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Margin="5"
-                        x:Name="EndTime" />
+                        x:Name="EndTimes" />
                     <ComboBox
                         Grid.Column="2"
                         Grid.Row="3"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Margin="5"
-                        x:Name="Interval" />
+                        x:Name="Intervals" />
                 </Grid>
             </GroupBox>
             <Button
+                x:Name="OK"
                 Width="75"
                 Height="23"
                 Grid.Column="0"
                 Grid.Row="3"
-                x:Name="OKButton"
                 Content="OK"
                 Margin="5"
                 HorizontalAlignment="Right"

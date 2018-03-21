@@ -6,13 +6,21 @@
     using System.ComponentModel;
     using Caliburn.Micro;
 
-    class SolarViewsViewModel : PropertyChangedBase
+    class SolarViewsViewModel : Screen
     {
         private SolarViews model;
+        private DateTime creationDate;
+        private DateTime startTime;
+        private DateTime endTime;
+        private TimeSpan interval;
 
         public SolarViewsViewModel(UIDocument uidoc)
         {
             model = new SolarViews(uidoc);
+            creationDate = new DateTime(2018, 06, 21);
+            startTime = new DateTime(2018, 06, 21, 9,0,0,DateTimeKind.Local);
+            endTime = new DateTime(2018, 06, 21,15,0,0);
+            interval = new TimeSpan(1,00,00);
         }
        
         public bool RotateCurrentView
@@ -44,11 +52,93 @@
             }
         }
 
-        //public DateTime Time
-        //{
-        //    get
-        //}
-        
+        public DateTime CreationDate
+        {
+            get
+            {
+                return creationDate;
+            }
+            set
+            {
+                if (value != creationDate) {
+                    creationDate = value;
+                    NotifyOfPropertyChange(() => StartTimes);
+                    NotifyOfPropertyChange(() => EndTimes);
+                }
+            }
+        }
+
+        public BindableCollection<DateTime> StartTimes
+        {
+            get
+            {
+                var times = new BindableCollection<DateTime>();
+                for (int hour = 8; hour < 17; hour++) {
+                    times.Add(new DateTime(creationDate.Year, creationDate.Month, creationDate.Day, hour, 0, 0));
+                }
+                return times;
+            }
+        }
+
+        public DateTime SelectedStartTime
+        {
+            get { return startTime; }
+            set
+            {
+                if (value != startTime) {
+                    startTime = value;
+                    NotifyOfPropertyChange(() => SelectedStartTime);
+                }
+            }
+        }
+
+        public BindableCollection<DateTime> EndTimes
+        {
+            get
+            {
+                var times = new BindableCollection<DateTime>();
+                for (int hour = 9; hour < 18; hour++) {
+                    times.Add(new DateTime(creationDate.Year, creationDate.Month, creationDate.Day, hour, 0, 0));
+                }
+                return times;
+            }
+        }
+
+        public DateTime SelectedEndTime
+        {
+            get { return endTime; }
+            set
+            {
+                if (value != endTime) {
+                    endTime = value;
+                    NotifyOfPropertyChange(() => SelectedEndTime);
+                }
+            }
+        }
+
+        public BindableCollection<TimeSpan> Intervals
+        {
+            get
+            {
+                var times = new BindableCollection<TimeSpan>();
+                times.Add(new TimeSpan(00, 15, 00));
+                times.Add(new TimeSpan(00, 30, 00));
+                times.Add(new TimeSpan(1, 00, 00));
+                return times;
+            }
+        }
+
+        public TimeSpan SelectedInterval
+        {
+            get { return interval; }
+            set
+            {
+                if (value != interval) {
+                    interval = value;
+                }
+            }
+        }
+
         public bool CreateShadowPlans
         {
             get { return model.CreateShadowPlans; }
@@ -64,15 +154,17 @@
         {
             get
             {
-                //return "test";
                 return model.ActiveIewInformation;
             }
         }
-                              
-        public TimeSpan ExportTimeInterval {
-            get;
-            set;
-        }
 
+        public void OK()
+        {
+            model.StartTime = startTime;
+            model.EndTime = endTime;
+            model.ExportTimeInterval = interval;
+            model.Go();
+        }
+                             
     }
 }

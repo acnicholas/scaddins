@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2013-2015 by Andrew Nicholas
+﻿// (C) Copyright 2013-2017 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -169,7 +169,7 @@ namespace SCaddins.SolarUtilities
                         var vname = "SHADOW PLAN - " + StartTime.ToShortDateString() + "-" + StartTime.Hour + "." + niceMinutes;
                         view.Name = GetNiceViewName(doc, vname);
                         SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
-                        sunSettings.StartDateAndTime = StartTime;
+                        sunSettings.StartDateAndTime = StartTime.ToLocalTime();
                         sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
                         view.SunlightIntensity = 50;
                         t.Commit();
@@ -232,7 +232,7 @@ namespace SCaddins.SolarUtilities
                     var vname = "SOLAR ACCESS - " + StartTime.ToShortDateString() + "-" + StartTime.Hour + "." + niceMinutes;
                     view.Name = GetNiceViewName(doc, vname);
                     SunAndShadowSettings sunSettings = view.SunAndShadowSettings;
-                    sunSettings.StartDateAndTime = StartTime;
+                    sunSettings.StartDateAndTime = StartTime.ToLocalTime();
                     sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
                     t.Commit();
 

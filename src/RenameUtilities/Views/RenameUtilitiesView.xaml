@@ -62,7 +62,7 @@
                                   AutoGenerateColumns="False"
                                   Grid.Column="0"
                                   SelectionMode="Extended"
-                                  cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($eventArgs)]"
+                                  cal:Message.Attach="[Event SelectionChanged] = [RenameCandidatesSelectionChanged($eventArgs)]"
                                   Grid.Row="2"
                                   Grid.ColumnSpan="4"
                                   Height="Auto" Margin="5"
@@ -96,8 +96,12 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button x:Name="RenameSelectedMatches" MinHeight="25" Grid.Column="1" Margin="5">RenameSelectedMatches</Button>
-            <Button x:Name="RenameAllMatches" MinHeight="25" Grid.Column="2" Margin="5">RenameAllMatches</Button>
+            <Button x:Name="RenameSelectedMatches" MinHeight="25" Grid.Column="1" Margin="5">
+                <Label x:Name="RenameSelectedMatchesLabel"></Label>
+            </Button>
+            <Button x:Name="RenameAllMatches" MinHeight="25" Grid.Column="2" Margin="5">
+                <Label x:Name="RenameAllMatchesLabel"></Label>
+            </Button>
         </Grid>
     </Grid>
 </UserControl>

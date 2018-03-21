@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using Autodesk.Revit.DB;
+using System.Linq;
 
 namespace SCaddins.RenameUtilities
 {
@@ -69,6 +70,7 @@ namespace SCaddins.RenameUtilities
             {
                 Caliburn.Micro.BindableCollection<String> result = new Caliburn.Micro.BindableCollection<String>();
                 result.Add("Rooms");
+                result.Add("Grids");
                 result.Add("Text");
                 result.Add("Views");
                 result.Add("Sheets");
@@ -102,6 +104,9 @@ namespace SCaddins.RenameUtilities
             if (parameterCategory == "Windows") {
                 return GetParametersByCategory(BuiltInCategory.OST_Revisions);
             }
+            if (parameterCategory == "Grids") {
+                return GetParametersByCategory(BuiltInCategory.OST_Grids);
+            }
             if (parameterCategory == "Floors") {
                 return GetParametersByCategory(BuiltInCategory.OST_Floors);
             }
@@ -117,9 +122,11 @@ namespace SCaddins.RenameUtilities
         private Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByCategory(BuiltInCategory category)
         {
             Caliburn.Micro.BindableCollection<RenameParameter> parametersList = new Caliburn.Micro.BindableCollection<RenameParameter>();
-            if (category == BuiltInCategory.OST_TextNotes || category == BuiltInCategory.OST_IOSModelGroups) {
+            if (category == BuiltInCategory.OST_TextNotes) {
                 parametersList.Add(new RenameParameter(category));
+                return parametersList;
             }
+
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             collector.OfCategory(category);
             var elem = collector.FirstElement();
@@ -127,6 +134,7 @@ namespace SCaddins.RenameUtilities
             if (elem2.Parameters.Size > elem.Parameters.Size) {
                 elem = elem2;
             }
+
             foreach (Parameter param in elem.Parameters) {
                 if (param.StorageType == StorageType.String && !param.IsReadOnly) {
                     parametersList.Add(new RenameParameter(param, category));
@@ -149,19 +157,53 @@ namespace SCaddins.RenameUtilities
             set
             {
                 renameCommand = value;
-                DryRename();
+                Rename();
             }
         }
 
         #endregion
 
-        public void DryRename()
+        /// <summary>
+        /// Renames candidates without committing the change to Revit
+        /// </summary>
+        public void Rename()
         {
             foreach (RenameCandidate rc in renameCandidates) {
                 rc.NewValue = renameCommand.Rename(rc.OldValue);
             }
         }
-             
+          
+        public void CommitRenameSelection(List<RenameCandidate> selectedCandiates)
+        {
+            int fails = 0;
+            int successes = 0;
+
+            using (var t = new Transaction(doc)) {
+                if (t.Start("Bulk Rename") == TransactionStatus.Started) {
+                    foreach (RenameCandidate candidate in selectedCandiates) {
+                        if (candidate.ValueChanged) {
+                            if (candidate.Rename()) {
+                                successes++;
+                            } else {
+                                fails++;
+                            }
+                        }
+                    }
+                    t.Commit();
+                    Autodesk.Revit.UI.TaskDialog.Show
+                        (@"Bulk Rename", successes + @" parameters succesfully renames, " + fails + @" errors.");
+                } else {
+                    Autodesk.Revit.UI.TaskDialog.Show
+                        ("Error", "Failed to start Bulk Rename Revit Transaction...");
+                }
+            }
+        }
+
+        public void CommitRename()
+        {
+            CommitRenameSelection(renameCandidates.ToList<RenameCandidate>());
+        }
+
         public void SetCandidatesByParameter(Parameter parameter, BuiltInCategory category){
             if (category == BuiltInCategory.OST_TextNotes || category == BuiltInCategory.OST_IOSModelGroups) {
                 GetTextNoteValues(category);

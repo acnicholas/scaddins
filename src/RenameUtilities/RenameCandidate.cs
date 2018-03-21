@@ -74,6 +74,25 @@ namespace SCaddins.RenameUtilities
         {
             get { return !string.Equals(this.oldValue, this.newValue); }
         }
+
+        public bool Rename()
+        {
+            if (ValueChanged) {
+                if (note == null) {
+                    if (!parameter.IsReadOnly) {
+                        return parameter.Set(NewValue);
+                    }
+                } else {
+                    try {
+                        note.Text = NewValue;
+                    } catch {
+                        return false;
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
 /* vim: set ts=4 sw=4 nu expandtab: */

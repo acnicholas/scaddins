@@ -1,6 +1,10 @@
 ﻿using Caliburn.Micro;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel;
+using System.Windows.Input;
+using System.Windows.Data;
+using System.Windows.Controls;
 
 namespace SCaddins.RenameUtilities.ViewModels
 {
@@ -9,7 +13,7 @@ namespace SCaddins.RenameUtilities.ViewModels
         private RenameManager manager;
         private string selectedParameterCategory;
         private RenameParameter selectedRenameParameter;
-        private List<RenameCandidate> selectedCandiates = new List<RenameCandidate>();
+        List<RenameCandidate> selectedCandiates = new List<RenameCandidate>();
 
         //Constructors
         #region
@@ -103,7 +107,7 @@ namespace SCaddins.RenameUtilities.ViewModels
             set
             {
                 manager.renameCommand.SearchPattern = value;
-                manager.DryRename();
+                manager.Rename();
                 NotifyOfPropertyChange(() => Pattern);
             }
         }
@@ -119,7 +123,7 @@ namespace SCaddins.RenameUtilities.ViewModels
             set
             {
                 manager.renameCommand.ReplacementPattern = value;
-                manager.DryRename();
+                manager.Rename();
                 NotifyOfPropertyChange(() => Replacement);
             }
         }
@@ -129,11 +133,49 @@ namespace SCaddins.RenameUtilities.ViewModels
             get { return manager.RenameCandidates; }
         }
 
+        public RenameCandidate SelectedRenameCandidate
+        {
+            get; set;
+        }
+
         public void RenameCandidatesSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
         {
             selectedCandiates.AddRange(obj.AddedItems.Cast<RenameCandidate>());
             obj.RemovedItems.Cast<RenameCandidate>().ToList().ForEach(w => selectedCandiates.Remove(w));
+            NotifyOfPropertyChange(() => RenameSelectedMatchesLabel);
+            NotifyOfPropertyChange(() => RenameAllMatchesLabel);
         }
 
+        public void RenameSelectedMatches()
+        {
+            manager.CommitRenameSelection(selectedCandiates);
+            manager.SetCandidatesByParameter(selectedRenameParameter.Parameter, selectedRenameParameter.Category);
+            NotifyOfPropertyChange(() => RenameCandidates);
+        }
+
+        public string RenameSelectedMatchesLabel
+        {
+            get
+            {
+                var selectionCount = selectedCandiates.Where(m => m.ValueChanged).Count();
+                return "Rename " + selectionCount + " matches";
+            }
+        }
+
+        public void RenameAllMatches()
+        {
+            manager.CommitRename();
+            manager.SetCandidatesByParameter(selectedRenameParameter.Parameter, selectedRenameParameter.Category);
+            NotifyOfPropertyChange(() => RenameCandidates);
+        }
+
+        public string RenameAllMatchesLabel
+        {
+            get
+            {
+                var count = RenameCandidates.Where(m => m.ValueChanged).Count();
+                return "Rename all " + count + " parameters";
+            }
+        }
     }
 }
