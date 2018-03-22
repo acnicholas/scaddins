@@ -346,15 +346,8 @@ namespace SCaddins.ExportManager
         public void Print(
             ICollection<ExportSheet> sheets,
             string printerName,
-            int scale,
-            System.Windows.Forms.ToolStripProgressBar progressBar,
-            System.Windows.Forms.ToolStripItem info,
-            System.Windows.Forms.Control strip)
+            int scale)
         {
-            if (info == null || progressBar == null || strip == null) {
-                return;
-            }
-
             PrintManager pm = Doc.PrintManager;
             DateTime startTime = DateTime.Now;
             TimeSpan elapsedTime = DateTime.Now - startTime;
@@ -364,12 +357,8 @@ namespace SCaddins.ExportManager
                 this.log.Clear();
                 this.log.Start(Resources.StartingPrint);
                 foreach (ExportSheet sheet in sheets.OrderBy(x => x.SheetNumber).ToList()) {      
-                    progressBar.PerformStep();
                     elapsedTime = DateTime.Now - startTime;
-                    info.Text = ExportManager.PercentageSting(progressBar.Value, progressBar.Maximum) +
-                    Resources.SpacerHyphen + ExportManager.TimeSpanAsString(elapsedTime);
-                    strip.Update();
-                    
+                  
                     if (!sheet.Verified) {
                         sheet.UpdateSheetInfo();
                     }
