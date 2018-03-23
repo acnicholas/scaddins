@@ -27,15 +27,22 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <CheckBox Grid.Column="0" Grid.Row="0" Content="PDF" VerticalAlignment="Center" Margin="5"></CheckBox>
-                            <CheckBox Grid.Column="0" Grid.Row="1" Content="PDF (Adobe Acrobat)" VerticalAlignment="Center" Margin="5"></CheckBox>
-                            <CheckBox Grid.Column="0" Grid.Row="2" Content="PDF (Ghostscript)" VerticalAlignment="Center" Margin="5"></CheckBox>
-                            <CheckBox Grid.Column="1" Grid.Row="0" Content="DWG" VerticalAlignment="Center" Margin="5"></CheckBox>
+                            <CheckBox x:Name="ExportAdobePDF" Grid.Column="0" Grid.Row="0" Content="PDF (Adobe Acrobat)" VerticalAlignment="Center" Margin="5"></CheckBox>
+                            <CheckBox x:Name="ExportPostscriptPDF" Grid.Column="0" Grid.Row="1" Content="PDF (Ghostscript)" VerticalAlignment="Center" Margin="5"></CheckBox>
+                            <CheckBox x:Name="ExportDWG" Grid.Column="1" Grid.Row="0" Content="DWG" VerticalAlignment="Center" Margin="5"></CheckBox>
                             <CheckBox Grid.Column="1" Grid.Row="1" Content="DGN" VerticalAlignment="Center" Margin="5"></CheckBox>
                             <CheckBox Grid.Column="1" Grid.Row="2" Content="DWF" VerticalAlignment="Center" Margin="5"></CheckBox>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Export Destination" Grid.Row="1" Margin="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="Default Export Directory" VerticalAlignment="Center" Margin="5"></Label>
+                            <TextBox x:Name="ExportDirectory" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></TextBox>
+                        </Grid>
                     </GroupBox>
                     <GroupBox Header="Title Block Parameters" Grid.Row="2" Margin="5">
                         <Grid>
@@ -49,8 +56,8 @@
                             </Grid.RowDefinitions>
                             <Label Grid.Column="0" Grid.Row="0" Content="Scale Bar Scale" VerticalAlignment="Center" Margin="5"></Label>
                             <Label Grid.Column="0" Grid.Row="1" Content="North Point Visibility" VerticalAlignment="Center" Margin="5"></Label>
-                            <TextBox x:Name="ScaleBarScale" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5"></TextBox>
-                            <TextBox x:Name="NorthPointVisibility" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></TextBox>
+                            <TextBox x:Name="ScaleBarScaleParameterName" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5"></TextBox>
+                            <TextBox x:Name="NorthPointVisibilityParameterName" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></TextBox>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Export Options" Grid.Row="3" Margin="5">
@@ -59,10 +66,20 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <CheckBox x:Name="DateForEmptyRevisions" Grid.Row="0" Margin="5" Content="Use today's date for empty revisions" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox x:Name="ForceDateForAllRevisions" Grid.Row="1" Margin="5" Content="Force all revisions to be today's date [YYYYMMDD]" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox Grid.Row="2" Margin="5" Content="Hide title blocks (DWG exportsonly" VerticalAlignment="Center"></CheckBox>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Grid.Row="0" Content="AutoCAD Version" VerticalAlignment="Center" Margin="5"></Label>
+                            <Label Grid.Column="0" Grid.Row="1" Content="File Naming Scheme" VerticalAlignment="Center" Margin="5"></Label>
+                            <ComboBox x:Name="AutoCADExportVersions" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5"></ComboBox>
+                            <ComboBox x:Name="FileNamingSchemes" DisplayMemberPath="Name" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></ComboBox>
+                            <CheckBox x:Name="DateForEmptyRevisions" Grid.Row="2" Grid.ColumnSpan="2" Margin="5" Content="Use today's date for empty revisions" VerticalAlignment="Center"></CheckBox>
+                            <CheckBox x:Name="ForceDateForAllRevisions" Grid.Row="3" Grid.ColumnSpan="2" Margin="5" Content="Force all revisions to be today's date [YYYYMMDD]" VerticalAlignment="Center"></CheckBox>
+                            <CheckBox Grid.Row="4" Grid.ColumnSpan="2"   Margin="5" Content="Hide title blocks (DWG exportsonly" VerticalAlignment="Center"></CheckBox>
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -107,10 +124,10 @@
                             <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="5">Postscript Printer Name</Label>
                             <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Margin="5">A3 Printer Name</Label>
                             <Label Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Margin="5">Large Format Printer Name</Label>
-                            <TextBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5"></TextBox>
-                            <TextBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></TextBox>
-                            <TextBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="5"></TextBox>
-                            <TextBox Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="5"></TextBox>
+                            <TextBox x:Name="AdobePDFPrintDriverName" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5"></TextBox>
+                            <TextBox x:Name="PostscriptPrintDriverName" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></TextBox>
+                            <TextBox x:Name="A3PrinterName" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="5"></TextBox>
+                            <TextBox x:Name="LargeFormatPrinterName" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="5"></TextBox>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Ghostscript Options" Grid.Row="2" Margin="5">
@@ -125,8 +142,8 @@
                             </Grid.RowDefinitions>
                             <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Margin="5">Ghostscript Bin Location</Label>
                             <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="5">Ghostscript Lib Location</Label>
-                            <TextBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5"></TextBox>
-                            <TextBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></TextBox>
+                            <TextBox x:Name="GhostscriptBinLocation" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5"></TextBox>
+                            <TextBox x:Name="GhostscriptLibLocation" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></TextBox>
                         </Grid>
                     </GroupBox>
                     <CheckBox Grid.Row="3" Grid.Column="0" Margin="5">Show Export Log after completion(will always show on an error</CheckBox>

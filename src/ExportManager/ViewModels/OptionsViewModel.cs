@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Caliburn.Micro;
 
 namespace SCaddins.ExportManager.ViewModels
 {
-    class OptionsViewModel
+    class OptionsViewModel : PropertyChangedBase
     {
         private ExportManager exportManager;
 
@@ -15,19 +16,43 @@ namespace SCaddins.ExportManager.ViewModels
             this.exportManager = exportManager;    
         }
 
-        public bool ExportPDF
+        public bool ExportAdobePDF
         {
-            get; set;
+            get { return exportManager.HasExportOption(ExportOptions.PDF); }
+            set
+            {
+                if (value) {
+                    exportManager.AddExportOption(ExportOptions.PDF);
+                } else {
+                    exportManager.RemoveExportOption(ExportOptions.PDF);
+                }
+            }
         }
 
-        public bool ExportGhostscriptPDF
+        public bool ExportPostscriptPDF
         {
-            get; set;
+            get { return exportManager.HasExportOption(ExportOptions.GhostscriptPDF); }
+            set
+            {
+                if (value) {
+                    exportManager.AddExportOption(ExportOptions.GhostscriptPDF);
+                } else {
+                    exportManager.RemoveExportOption(ExportOptions.GhostscriptPDF);
+                }
+            }
         }
 
         public bool ExportDWG
         {
-            get; set;
+            get { return exportManager.HasExportOption(ExportOptions.DWG); }
+            set
+            {
+                if (value) {
+                    exportManager.AddExportOption(ExportOptions.DWG);
+                } else {
+                    exportManager.RemoveExportOption(ExportOptions.DWG);
+                }
+            }
         }
 
         public bool ExportDGN
@@ -42,27 +67,69 @@ namespace SCaddins.ExportManager.ViewModels
 
         public string ExportDirectory
         {
-            get; set;
+            get { return exportManager.ExportDirectory; }
+            set
+            {
+                if (value == exportManager.ExportDirectory) return;
+                exportManager.ExportDirectory = value;
+                NotifyOfPropertyChange(() => ExportDirectory);
+            }
         }
 
         public string ScaleBarScaleParameterName
         {
-            get; set;
+            get { return SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter; }
+            set
+            {
+                if (value == SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter) return;
+                SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter = value;
+                SCaddins.ExportManager.Settings1.Default.Save();
+            }
         }
 
         public string NorthPointVisibilityParameterName
         {
-            get; set;
+            get { return SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter; }
+            set
+            {
+                if (value == SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter) return;
+                SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter = value;
+                SCaddins.ExportManager.Settings1.Default.Save();
+            }
         }
 
-        public string SelectedAutoCADExportVersion
+        public List<Autodesk.Revit.DB.ACADVersion> AutoCADExportVersions
         {
-            get; set;
+            get
+            {
+                var versions = Enum.GetValues(typeof(Autodesk.Revit.DB.ACADVersion)).Cast<Autodesk.Revit.DB.ACADVersion>().ToList();
+                return versions;
+            }
         }
 
-        public string SelectedFileNamingScheme
+        public Autodesk.Revit.DB.ACADVersion SelectedAutoCADExportVersion
         {
-            get; set;
+            get { return exportManager.AcadVersion; }
+            set
+            {
+                if (value == exportManager.AcadVersion) return;
+                value = exportManager.AcadVersion;
+            }
+        }
+
+        public List<SegmentedSheetName> FileNamingSchemes
+        {
+            get { return exportManager.FileNameTypes; }
+        }
+
+        public SegmentedSheetName SelectedFileNamingScheme
+        {
+            get { return exportManager.FileNameScheme; }
+            set
+            {
+                if (value == exportManager.FileNameScheme) return;
+                exportManager.FileNameScheme = value;
+            }
         }
 
         public bool DateForEmptyRevisions
@@ -111,7 +178,12 @@ namespace SCaddins.ExportManager.ViewModels
         //Print Options
         public string AdobePDFPrintDriverName
         {
-            get; set;
+            get { return exportManager.PdfPrinterName; }
+            set
+            {
+                if (value == exportManager.PdfPrinterName) return;
+                exportManager.PdfPrinterName = value;
+            }
         }
 
         public void SelectAdobePDFPrintDriver()
@@ -121,7 +193,12 @@ namespace SCaddins.ExportManager.ViewModels
 
         public string PostscriptPrintDriverName
         {
-            get; set;
+            get { return exportManager.PostscriptPrinterName; }
+            set
+            {
+                if (value == exportManager.PostscriptPrinterName) return;
+                exportManager.PostscriptPrinterName = value;
+            }
         }
 
         public void SelectPostscriptPrintDriver()
@@ -131,7 +208,12 @@ namespace SCaddins.ExportManager.ViewModels
 
         public string A3PrinterName
         {
-            get; set;
+            get { return exportManager.PrinterNameA3; }
+            set
+            {
+                if (value == exportManager.PrinterNameA3) return;
+                exportManager.PrinterNameA3 = value;
+            }
         }
 
         public void SelectA3Printer()
@@ -141,7 +223,12 @@ namespace SCaddins.ExportManager.ViewModels
 
         public string LargeFormatPrinterName
         {
-            get; set;
+            get { return exportManager.PrinterNameLargeFormat; }
+            set
+            {
+                if (value == exportManager.PrinterNameLargeFormat) return;
+                exportManager.PrinterNameLargeFormat = value;
+            }
         }
 
         public void SelectLargeFormatPrinter()
@@ -152,12 +239,22 @@ namespace SCaddins.ExportManager.ViewModels
         //Ghostscript
         public string GhostscriptBinLocation
         {
-            get; set;
+            get { return exportManager.GhostscriptBinDirectory; }
+            set
+            {
+                if (value == exportManager.GhostscriptBinDirectory) return;
+                exportManager.GhostscriptBinDirectory = value;
+            }
         }
 
         public string GhostscriptLibLocation
         {
-            get; set;
+            get { return exportManager.GhostscriptLibDirectory; }
+            set
+            {
+                if (value == exportManager.GhostscriptLibDirectory) return;
+                exportManager.GhostscriptLibDirectory = value;
+            }
         }
 
         public bool AlwaysShowExportLog

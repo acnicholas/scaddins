@@ -26,9 +26,8 @@ namespace SCaddins.SheetCopier
     using System.Text;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using System.ComponentModel;
 
-    public class SheetCopierManager : INotifyPropertyChanged
+    public class SheetCopierManager
     {
         private Document doc;
         private UIDocument uidoc;
@@ -51,8 +50,6 @@ namespace SCaddins.SheetCopier
         private StringBuilder summaryText; 
         private List<Revision> hiddenRevisionClouds = new List<Revision>();
         private ElementId floorPlanViewFamilyTypeId = null;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0")]
         public SheetCopierManager(UIDocument uidoc)

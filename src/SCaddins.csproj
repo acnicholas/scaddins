@@ -402,6 +402,7 @@
     <Compile Include="ExportManager\Settings1.Designer.cs">
       <DependentUpon>Settings1.settings</DependentUpon>
       <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ExportManager\Sheet.cs" />
     <Compile Include="ExportManager\SegmentedSheetName.cs" />

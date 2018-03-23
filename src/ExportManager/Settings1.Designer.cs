@@ -8,23 +8,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SCaddins.ExportManager
-{
-	
-	
+namespace SCaddins.ExportManager {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ICSharpCode.SettingsEditor.SettingsCodeGeneratorTool", "5.1.0.5216")]
-    public sealed partial class Settings1 : global::System.Configuration.ApplicationSettingsBase
-    {
-		
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.5.0.0")]
+    public sealed partial class Settings1 : global::System.Configuration.ApplicationSettingsBase {
+        
         private static Settings1 defaultInstance = ((Settings1)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings1())));
-		
+        
         public static Settings1 Default {
             get {
                 return defaultInstance;
             }
         }
-		
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("\\\\SCAPP01\\FollowYouColour")]
@@ -37,20 +35,19 @@ namespace SCaddins.ExportManager
                 this["A3PrinterDriver"] = value;
             }
         }
-		
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("R2010")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public string AcadExportVersion {
+        public global::Autodesk.Revit.DB.ACADVersion AcadExportVersion {
             get {
-                return ((string)(this["AcadExportVersion"]));
+                return ((global::Autodesk.Revit.DB.ACADVersion)(this["AcadExportVersion"]));
             }
             set {
                 this["AcadExportVersion"] = value;
             }
         }
-		
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
@@ -63,7 +60,7 @@ namespace SCaddins.ExportManager
                 this["AdobePDFMode"] = value;
             }
         }
-		
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Adobe PDF")]
@@ -76,7 +73,7 @@ namespace SCaddins.ExportManager
                 this["AdobePrinterDriver"] = value;
             }
         }
-		
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\Temp")]
@@ -89,7 +86,7 @@ namespace SCaddins.ExportManager
                 this["ExportDir"] = value;
             }
         }
-		
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
@@ -102,7 +99,7 @@ namespace SCaddins.ExportManager
                 this["ForceDateRevision"] = value;
             }
         }
-		
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files\\gs\\gs9.15\\bin")]
@@ -115,7 +112,7 @@ namespace SCaddins.ExportManager
                 this["GSBinDirectory"] = value;
             }
         }
-		
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files\\gs\\gs9.15\\lib")]
@@ -128,7 +125,7 @@ namespace SCaddins.ExportManager
                 this["GSLibDirectory"] = value;
             }
         }
-		
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
@@ -141,7 +138,7 @@ namespace SCaddins.ExportManager
                 this["HideTitleBlocks"] = value;
             }
         }
-		
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("\\\\SCAPP01\\DocuWide3035 (PS)")]
@@ -153,7 +150,7 @@ namespace SCaddins.ExportManager
                 this["LargeFormatPrinterDriver"] = value;
             }
         }
-		
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("North Point")]
@@ -165,7 +162,7 @@ namespace SCaddins.ExportManager
                 this["NorthPointVisibilityParameter"] = value;
             }
         }
-		
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("\\\\SCAPP01\\DocuWide3035 (PS)")]
@@ -178,7 +175,7 @@ namespace SCaddins.ExportManager
                 this["PSPrinterDriver"] = value;
             }
         }
-		
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Scalebar Scale")]
@@ -190,7 +187,7 @@ namespace SCaddins.ExportManager
                 this["ScalebarScaleParameter"] = value;
             }
         }
-		
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
@@ -202,7 +199,7 @@ namespace SCaddins.ExportManager
                 this["ShowExportLog"] = value;
             }
         }
-		
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
@@ -215,7 +212,7 @@ namespace SCaddins.ExportManager
                 this["TagPDFExports"] = value;
             }
         }
-		
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("notepad.exe")]
@@ -228,7 +225,7 @@ namespace SCaddins.ExportManager
                 this["TextEditor"] = value;
             }
         }
-		
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]

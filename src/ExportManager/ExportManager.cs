@@ -32,7 +32,6 @@ namespace SCaddins.ExportManager
     using Autodesk.Revit.UI;
     using SCaddins.Common;
     using SCaddins.Properties;
-    using SCaddins.ExportManager;
 
     public class ExportManager
     {
@@ -40,8 +39,8 @@ namespace SCaddins.ExportManager
         private static string activeDoc;
         private ExportOptions exportFlags;
         private ExportLog log;
-        private Collection<SegmentedSheetName> fileNameTypes;
-        private Collection<ViewSheetSetCombo> allViewSheetSets;
+        private List<SegmentedSheetName> fileNameTypes;
+        private List<ViewSheetSetCombo> allViewSheetSets;
         private Dictionary<string, PostExportHookCommand> postExportHooks;
         private SegmentedSheetName fileNameScheme;
         private ObservableCollection<ExportSheet> allSheets;
@@ -57,9 +56,9 @@ namespace SCaddins.ExportManager
             ExportManager.ConfirmOverwrite = true;
             ExportManager.activeDoc = null;
             this.log = new ExportLog();
-            this.allViewSheetSets = new Collection<ViewSheetSetCombo>();
+            this.allViewSheetSets = new List<ViewSheetSetCombo>();
             this.allSheets = new ObservableCollection<ExportSheet>();
-            this.fileNameTypes = new Collection<SegmentedSheetName>();
+            this.fileNameTypes = new List<SegmentedSheetName>();
             this.postExportHooks = new Dictionary<string, PostExportHookCommand>();
             this.exportFlags = ExportOptions.None;
             this.LoadSettings();
@@ -104,7 +103,7 @@ namespace SCaddins.ExportManager
             get; set;
         }
 
-        public Collection<SegmentedSheetName> FileNameTypes
+        public List<SegmentedSheetName> FileNameTypes
         {
             get { return this.fileNameTypes; }
         }
@@ -114,19 +113,22 @@ namespace SCaddins.ExportManager
             get { return this.allSheets; }
         }
 
-        public Collection<ViewSheetSetCombo> AllViewSheetSets
+        public List<ViewSheetSetCombo> AllViewSheetSets
         {
             get { return this.allViewSheetSets; }
         }
 
-        public ExportOptions ExportOptions
-        {
-            get; set;
-        }
-
         public ACADVersion AcadVersion
         {
-            get; set;
+            get
+            {
+                return SCaddins.ExportManager.Settings1.Default.AcadExportVersion;
+            }
+            set
+            {
+                if (value == SCaddins.ExportManager.Settings1.Default.AcadExportVersion) return;
+                value = SCaddins.ExportManager.Settings1.Default.AcadExportVersion;
+            }
         }
         
         public bool UseDateForEmptyRevisions
@@ -173,39 +175,22 @@ namespace SCaddins.ExportManager
             }
         }
 
-        public SegmentedSheetName FileNameScheme {
-            get {
+        public SegmentedSheetName FileNameScheme
+        {
+            get
+            {
                 return this.fileNameScheme;
+            }
+            set
+            {
+                this.fileNameScheme = value;
             }
         }
         
         public bool ShowExportLog {
             get; set;
         }
-                
-        public static View FindView(string sheetNumber, Document doc)
-        {
-            if (doc == null) {
-                return null;
-            }    
-            
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
-            collector.OfCategory(BuiltInCategory.OST_Sheets);
-            foreach (ViewSheet view in collector){
-                if (view.Name == sheetNumber || view.SheetNumber == sheetNumber) {
-                    return (View)view;
-                }
-            }
-            FilteredElementCollector collector2 = new FilteredElementCollector(doc);
-            collector2.OfCategory(BuiltInCategory.OST_Views);
-            foreach (View view in collector2){
-                if (view.Name == sheetNumber) {
-                    return view;
-                }
-            }
-            return null;
-        }
-                
+                             
         public static FamilyInstance TitleBlockInstanceFromSheetNumber(
             string sheetNumber, Document doc)
         {
@@ -298,31 +283,6 @@ namespace SCaddins.ExportManager
                         TaskDialog.Show("Failure", "Could not toggle north points");
                     }
                 }
-            }
-        }
-
-        public static ACADVersion AcadVersionFromString(string version)
-        {
-            if (version == "R2007") {
-                return ACADVersion.R2007;
-            }
-            if (version == "R2010") {
-                return ACADVersion.R2010;
-            }
-            return (version == "R2013") ? ACADVersion.R2013 : ACADVersion.Default;
-        }
-
-        public static string AcadVersionToString(ACADVersion version)
-        {
-            switch (version) {
-                case ACADVersion.R2007:
-                    return "R2007";
-                case ACADVersion.R2010:
-                    return "R2010";
-                case ACADVersion.R2013:
-                    return "R2013";
-                default:
-                    return "Default";
             }
         }
 
@@ -434,31 +394,6 @@ namespace SCaddins.ExportManager
             }
         }
 
-        public int GetTotalNumberOfExports(ICollection<ExportSheet> sheets)
-        {
-            if (sheets == null) {
-                TaskDialog.Show("Error", "Please select sheets before attempting to add revisions");
-                return 0;
-            }
-            int i = 0;
-            if (this.HasExportOption(ExportOptions.DGN)) {
-                i++;
-            }
-            if (this.HasExportOption(ExportOptions.DWF)) {
-                i++;
-            }
-            if (this.HasExportOption(ExportOptions.DWG)) {
-                i++;
-            }
-            if (this.HasExportOption(ExportOptions.GhostscriptPDF)) {
-                i++;
-            }
-            if (this.HasExportOption(ExportOptions.PDF)) {
-                i++;
-            }
-            return i * sheets.Count;
-        }
-
         public bool GSSanityCheck()
         {
             if (!Directory.Exists(this.GhostscriptBinDirectory) || !Directory.Exists(this.GhostscriptLibDirectory)) {
@@ -485,7 +420,7 @@ namespace SCaddins.ExportManager
             this.PostscriptPrinterName = SCaddins.ExportManager.Settings1.Default.PSPrinterDriver; 
             this.GhostscriptLibDirectory = SCaddins.ExportManager.Settings1.Default.GSLibDirectory; 
             this.exportDirectory = SCaddins.ExportManager.Settings1.Default.ExportDir;
-            this.AcadVersion = AcadVersionFromString(SCaddins.ExportManager.Settings1.Default.AcadExportVersion);
+            this.AcadVersion = SCaddins.ExportManager.Settings1.Default.AcadExportVersion;
             this.ShowExportLog = SCaddins.ExportManager.Settings1.Default.ShowExportLog;
             this.ForceRevisionToDateString = SCaddins.ExportManager.Settings1.Default.ForceDateRevision;
             this.UseDateForEmptyRevisions = SCaddins.ExportManager.Settings1.Default.UseDateForEmptyRevisions;
@@ -493,11 +428,8 @@ namespace SCaddins.ExportManager
 
         [SecurityCritical]
         internal void ExportSheets(
-         ICollection<ExportSheet> sheets,
-         System.Windows.Forms.ToolStripProgressBar progressBar,
-         System.Windows.Forms.ToolStripItem info,
-         System.Windows.Forms.Control strip) {
-            if (progressBar == null || info == null || strip == null || sheets == null) {
+         ICollection<ExportSheet> sheets) {
+            if (sheets == null) {
                 return;
             }
 
@@ -506,15 +438,10 @@ namespace SCaddins.ExportManager
             PrintManager pm = Doc.PrintManager;
             PrintSettings.SetPrinterByName(Doc, this.PdfPrinterName, pm);
             this.log.Clear();
-            this.log.TotalExports = progressBar.Maximum;
             this.log.Start(Resources.ExportStarted);
 
             foreach (ExportSheet sheet in sheets) {
-                progressBar.PerformStep();
                 elapsedTime = DateTime.Now - startTime;
-                info.Text = ExportManager.PercentageSting(progressBar.Value, progressBar.Maximum) +
-                    Resources.SpacerHyphen + ExportManager.TimeSpanAsString(elapsedTime);
-                strip.Update();
                 this.ExportSheet(sheet);
             }
 
@@ -644,7 +571,7 @@ namespace SCaddins.ExportManager
             }
         }
 
-        private static void PopulateViewSheetSets(Collection<ViewSheetSetCombo> vss, Document doc)
+        private static void PopulateViewSheetSets(List<ViewSheetSetCombo> vss, Document doc)
         {
             vss.Clear();
             using (FilteredElementCollector collector = new FilteredElementCollector(doc)) {

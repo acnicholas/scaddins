@@ -48,12 +48,31 @@ namespace SCaddins.ExportManager.ViewModels
             obj.RemovedItems.Cast<ExportSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
         }
 
+        public List<ViewSheetSetCombo> ViewSheetSets
+        {
+            get { return exportManager.AllViewSheetSets; }
+        }
+
+        public ViewSheetSetCombo SelectedViewSheetSet
+        {
+            set
+            {
+                this.sheets.Clear();
+                foreach (ExportSheet sheet in exportManager.AllSheets) {
+                    if (value.ViewSheetSet.Views.Contains((View)sheet.Sheet)) {
+                        this.sheets.Add(sheet);
+                    }
+                }
+                NotifyOfPropertyChange(() => Sheets);
+                //this.sheets.Add(new ObservableCollection<ExportSheet>(exportManager.AllSheets.Select<ExportSheet>(v => value.ViewSheetSet.Views.Contains(v.Sheet))));
+            }
+        }
+
         public void OptionsButton()
         {
             dynamic settings = new ExpandoObject();
             settings.Height = 640;
             settings.Width = 480;
-            //settings.WindowStyle = System.Windows.WindowStyle.ToolWindow;
             settings.Title = "SCexport - Options";
             settings.ShowInTaskbar = false;
             settings.ResizeMode = System.Windows.ResizeMode.NoResize;
@@ -64,7 +83,8 @@ namespace SCaddins.ExportManager.ViewModels
         
         public void Export()
         {
-            System.Windows.MessageBox.Show(selectedSheets.Count.ToString());
+            //System.Windows.MessageBox.Show(selectedSheets.Count.ToString());
+            exportManager.ExportSheets(selectedSheets);
         }
 
         public void OpenViewsCommand()
