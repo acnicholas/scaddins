@@ -23,7 +23,7 @@ namespace SCaddins.ExportManager.ViewModels
         {
             this.windowManager = windowManager;
             this.exportManager = exportManager;
-            Sheets = exportManager.AllSheets;
+            this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
             this.selectedViewSheetSet = null;
         }
 
@@ -33,6 +33,7 @@ namespace SCaddins.ExportManager.ViewModels
             set {
                 if (sheets != value) {
                     this.sheets = value;
+                    NotifyOfPropertyChange(() => Sheets);
                 }
             }
         }
@@ -48,23 +49,29 @@ namespace SCaddins.ExportManager.ViewModels
             obj.RemovedItems.Cast<ExportSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
         }
 
-        public List<ViewSheetSetCombo> ViewSheetSets
+        public ObservableCollection<ViewSheetSetCombo> ViewSheetSets
         {
             get { return exportManager.AllViewSheetSets; }
         }
 
         public ViewSheetSetCombo SelectedViewSheetSet
         {
+            get
+            {
+                return selectedViewSheetSet;
+            }
             set
             {
-                this.sheets.Clear();
-                foreach (ExportSheet sheet in exportManager.AllSheets) {
-                    if (value.ViewSheetSet.Views.Contains((View)sheet.Sheet)) {
-                        this.sheets.Add(sheet);
+                if (value != selectedViewSheetSet) {
+                    selectedViewSheetSet = value;
+                    if (selectedViewSheetSet.ViewSheetSet != null) {
+                        this.sheets = new ObservableCollection<ExportSheet>(
+                            exportManager.AllSheets.Where(s => selectedViewSheetSet.ViewSheetSet.Views.Contains(s.Sheet)).ToList());
+                    } else {
+                        this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
                     }
                 }
                 NotifyOfPropertyChange(() => Sheets);
-                //this.sheets.Add(new ObservableCollection<ExportSheet>(exportManager.AllSheets.Select<ExportSheet>(v => value.ViewSheetSet.Views.Contains(v.Sheet))));
             }
         }
 
@@ -136,10 +143,6 @@ namespace SCaddins.ExportManager.ViewModels
                 );
             var renameSheetModel = new SCaddins.RenameUtilities.ViewModels.RenameUtilitiesViewModel(renameManager);
             renameSheetModel.SelectedParameterCategory = "Sheets";
-            //RenameUtilities.RenameParameter v = renameSheetModel.RenameParameters.Select(p => p.Name.Equals("Sheet Number"));
-            //renameSheetModel.SelectedRenameParameter = v;
-            //nameSheetModel.SelectedRenameMode = 
-            //  renameSheetModel.RenameModes.Select(m => m.Name == "Custom Replace") as RenameUtilities.RenameCommand;
             windowManager.ShowDialog(renameSheetModel, null, null);
         }
 

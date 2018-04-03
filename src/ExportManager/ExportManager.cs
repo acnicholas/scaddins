@@ -40,7 +40,7 @@ namespace SCaddins.ExportManager
         private ExportOptions exportFlags;
         private ExportLog log;
         private List<SegmentedSheetName> fileNameTypes;
-        private List<ViewSheetSetCombo> allViewSheetSets;
+        private ObservableCollection<ViewSheetSetCombo> allViewSheetSets;
         private Dictionary<string, PostExportHookCommand> postExportHooks;
         private SegmentedSheetName fileNameScheme;
         private ObservableCollection<ExportSheet> allSheets;
@@ -56,7 +56,7 @@ namespace SCaddins.ExportManager
             ExportManager.ConfirmOverwrite = true;
             ExportManager.activeDoc = null;
             this.log = new ExportLog();
-            this.allViewSheetSets = new List<ViewSheetSetCombo>();
+            this.allViewSheetSets = new ObservableCollection<ViewSheetSetCombo>();
             this.allSheets = new ObservableCollection<ExportSheet>();
             this.fileNameTypes = new List<SegmentedSheetName>();
             this.postExportHooks = new Dictionary<string, PostExportHookCommand>();
@@ -113,7 +113,7 @@ namespace SCaddins.ExportManager
             get { return this.allSheets; }
         }
 
-        public List<ViewSheetSetCombo> AllViewSheetSets
+        public ObservableCollection<ViewSheetSetCombo> AllViewSheetSets
         {
             get { return this.allViewSheetSets; }
         }
@@ -571,9 +571,10 @@ namespace SCaddins.ExportManager
             }
         }
 
-        private static void PopulateViewSheetSets(List<ViewSheetSetCombo> vss, Document doc)
+        private static void PopulateViewSheetSets(ObservableCollection<ViewSheetSetCombo> vss, Document doc)
         {
             vss.Clear();
+            vss.Add(new ViewSheetSetCombo("<All Sheets in Model>"));
             using (FilteredElementCollector collector = new FilteredElementCollector(doc)) {
                 collector.OfClass(typeof(ViewSheetSet));
                 foreach (ViewSheetSet v in collector) {
