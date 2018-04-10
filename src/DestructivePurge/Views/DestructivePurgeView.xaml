@@ -8,6 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <TreeView ItemsSource="{Binding CheckableItems}">
+            <TreeView.Resources>
             <HierarchicalDataTemplate
                 DataType="{x:Type local:CheckableItem}" 
                 ItemsSource="{Binding Children}">
@@ -16,6 +17,7 @@
                     <TextBlock Text="{Binding Name}"/>
                 </StackPanel>
             </HierarchicalDataTemplate>
+            </TreeView.Resources>
         </TreeView>    
     </Grid>
 </UserControl>

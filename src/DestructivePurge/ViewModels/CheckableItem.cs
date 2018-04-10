@@ -25,10 +25,13 @@ namespace SCaddins.DestructivePurge.ViewModels
     public class CheckableItem : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        private ObservableCollection<CheckableItem> children;
 
         public CheckableItem(DeletableItem deletable)
         {
             this.Deletable = deletable;
+            Children = new ObservableCollection<CheckableItem>();
+            IsChecked = Visibility.Invisible;
         }
 
         public DeletableItem Deletable
@@ -48,11 +51,13 @@ namespace SCaddins.DestructivePurge.ViewModels
 
         public ObservableCollection<CheckableItem> Children
         {
-            get; set;
+            get { return children; }
+            set { children = value; }
         }
 
         public void AddChildren(Collection<DeletableItem> deletables)
         {
+            if (deletables == null || deletables.Count < 1) return;
             foreach (var deletable in deletables)
             {
                 Children.Add(new CheckableItem(deletable));   

@@ -159,13 +159,12 @@ namespace SCaddins.DestructivePurge
             return result;
         }
 
-        //public static void AddSheetNodes(Document doc, bool placedOnSheet, TreeNodeCollection nodes)
-        //{
-        //    if (nodes == null) {
-        //        return;
-        //    }
-        //    nodes.AddRange(SCwashUtilities.Views(doc, placedOnSheet, ViewType.DrawingSheet).ToArray<TreeNode>());
-        //}
+        public static List<DeletableItem> Sheets(Document doc, bool placedOnSheet)
+        {
+            var result = new List<DeletableItem>();
+            result.AddRange(SCwashUtilities.Views(doc, placedOnSheet, ViewType.DrawingSheet));
+            return result;
+        }
 
         //public static void AddViewNodes(Document doc, bool placedOnSheet, TreeNodeCollection nodes)
         //{
