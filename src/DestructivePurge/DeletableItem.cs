@@ -15,39 +15,32 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCwash
+namespace SCaddins.DestructivePurge
 {
-    using System;
-    using System.Linq;
-    using System.Runtime.Serialization;
-    using System.Windows.Forms;
     using Autodesk.Revit.DB;
 
-    [Serializable]
-    public class SCwashTreeNode : TreeNode
+    public class DeletableItem
     {
-        public SCwashTreeNode(string name)
-            : base(name)
+        public DeletableItem(string name)
         {
             this.Info = "-";
             this.Id = null;
-            this.Checked = true;
-        }
-
-        protected SCwashTreeNode(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
+            this.Name = name;
         }
 
         public string Info {
-            get;
-            set;
+            get; set;
         }
 
         public ElementId Id {
-            get;
-            set;
+            get; set;
         }
+
+        public string Name
+        {
+            get; set;
+        }
+
     }
 }
 /* vim: set ts=4 sw=4 nu expandtab: */

@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCwash
+namespace SCaddins.DestructivePurge
 {
     using System;
     using System.Collections.Generic;
@@ -27,8 +27,8 @@ namespace SCaddins.SCwash
 
     public static class SCwashUtilities
     {
-        public static Collection<SCwashTreeNode> Imports(Document doc, bool linked) {
-            var result = new Collection<SCwashTreeNode>();
+        public static Collection<DeletableItem> Imports(Document doc, bool linked) {
+            var result = new Collection<DeletableItem>();
             using (var f = new FilteredElementCollector(doc)) {
                 f.OfClass(typeof(ImportInstance));
                 string s = string.Empty;
@@ -46,7 +46,7 @@ namespace SCaddins.SCwash
                             }
                         }
                         s += "Element id - " + ii.Id;
-                        var tn = new SCwashTreeNode(name);
+                        var tn = new DeletableItem(name);
                         tn.Id = ii.Id;
                         tn.Info = s;
                         result.Add(tn);
@@ -56,14 +56,14 @@ namespace SCaddins.SCwash
             return result;
         }
 
-        public static Collection<SCwashTreeNode> Images(Document doc)
+        public static Collection<DeletableItem> Images(Document doc)
         {
-            var result = new Collection<SCwashTreeNode>();
+            var result = new Collection<DeletableItem>();
             using (var f = new FilteredElementCollector(doc)) {
                 f.OfCategory(BuiltInCategory.OST_RasterImages);
                 foreach (Element image in f) {
                     string s = GetParameterList(image.Parameters);
-                    var tn = new SCwashTreeNode(image.Name.ToString());
+                    var tn = new DeletableItem(image.Name.ToString());
                     tn.Info = "Name = " + image.Name.ToString() + System.Environment.NewLine +
                     "id - " + image.Id.ToString();
                     tn.Info += System.Environment.NewLine + s;
@@ -74,7 +74,7 @@ namespace SCaddins.SCwash
             return result;
         }
 
-        public static Collection<SCwashTreeNode> UnusedViewFilters(Document doc)
+        public static Collection<DeletableItem> UnusedViewFilters(Document doc)
         {
             Dictionary<ElementId, ElementId> usedFilters = new Dictionary<ElementId, ElementId>();
             using (var viewCollecter = new FilteredElementCollector(doc)) {
@@ -90,14 +90,14 @@ namespace SCaddins.SCwash
                 }
             }
 
-            var result = new Collection<SCwashTreeNode>();
+            var result = new Collection<DeletableItem>();
             using (var f = new FilteredElementCollector(doc)) {
                 f.OfClass(typeof(Autodesk.Revit.DB.FilterElement));
                 foreach (Element filter in f) {
                     if (!usedFilters.ContainsKey(filter.Id)) {
                         string s = GetParameterList(filter.Parameters);
                         var nodeName = filter.Name;
-                        var tn = new SCwashTreeNode(nodeName);
+                        var tn = new DeletableItem(nodeName);
                         tn.Info = "Name = " + filter.Name + System.Environment.NewLine +
                         "id - " + filter.Id.ToString();
                         tn.Info += System.Environment.NewLine + s;
@@ -109,16 +109,16 @@ namespace SCaddins.SCwash
             return result;
         }
 
-        public static Collection<SCwashTreeNode> Revisions(Document doc)
+        public static Collection<DeletableItem> Revisions(Document doc)
         {
-            var result = new Collection<SCwashTreeNode>();
+            var result = new Collection<DeletableItem>();
             using (var f = new FilteredElementCollector(doc)) {
                 f.OfCategory(BuiltInCategory.OST_Revisions);
                 foreach (Element revision in f) {
                     string s = GetParameterList(revision.Parameters);
                     var nodeName = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString() + " - " +
                         revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
-                    var tn = new SCwashTreeNode(nodeName);
+                    var tn = new DeletableItem(nodeName);
                     tn.Info = "Name = " + revision.Name.ToString() + System.Environment.NewLine +
                     "id - " + revision.Id.ToString();
                     tn.Info += System.Environment.NewLine + s;
@@ -129,9 +129,9 @@ namespace SCaddins.SCwash
             return result;
         }
 
-        public static Collection<SCwashTreeNode> UnboundRooms(Document doc)
+        public static Collection<DeletableItem> UnboundRooms(Document doc)
         {
-            var result = new Collection<SCwashTreeNode>();
+            var result = new Collection<DeletableItem>();
             using (var f = new FilteredElementCollector(doc)) {
                 f.OfCategory(BuiltInCategory.OST_Rooms);
                 foreach (Element room in f) {
@@ -146,7 +146,7 @@ namespace SCaddins.SCwash
                             bound = true;
                         }
                     }
-                    var tn = new SCwashTreeNode(room.Name.ToString());
+                    var tn = new DeletableItem(room.Name.ToString());
                     tn.Info = "Name = " + room.Name.ToString() + System.Environment.NewLine +
                     "id - " + room.Id.ToString();
                     tn.Info += System.Environment.NewLine + s;
@@ -159,32 +159,32 @@ namespace SCaddins.SCwash
             return result;
         }
 
-        public static void AddSheetNodes(Document doc, bool placedOnSheet, TreeNodeCollection nodes)
-        {
-            if (nodes == null) {
-                return;
-            }
-            nodes.AddRange(SCwashUtilities.Views(doc, placedOnSheet, ViewType.DrawingSheet).ToArray<TreeNode>());
-        }
+        //public static void AddSheetNodes(Document doc, bool placedOnSheet, TreeNodeCollection nodes)
+        //{
+        //    if (nodes == null) {
+        //        return;
+        //    }
+        //    nodes.AddRange(SCwashUtilities.Views(doc, placedOnSheet, ViewType.DrawingSheet).ToArray<TreeNode>());
+        //}
 
-        public static void AddViewNodes(Document doc, bool placedOnSheet, TreeNodeCollection nodes)
-        {
-            if (nodes == null) {
-                return;
-            }
-            int i = 0;
-            foreach (ViewType enumValue in Enum.GetValues(typeof(ViewType))) {
-                if (enumValue != ViewType.DrawingSheet) {
-                    nodes.Add(new SCwashTreeNode(enumValue.ToString()));
-                    nodes[i].Nodes.AddRange(SCwashUtilities.Views(doc, placedOnSheet, enumValue).ToArray<TreeNode>());
-                    if (nodes[i].Nodes.Count < 1) {
-                        nodes.Remove(nodes[i]);
-                    } else {
-                        i++;
-                    }
-                }
-            }
-        }
+        //public static void AddViewNodes(Document doc, bool placedOnSheet, TreeNodeCollection nodes)
+        //{
+        //    if (nodes == null) {
+        //        return;
+        //    }
+        //    int i = 0;
+        //    foreach (ViewType enumValue in Enum.GetValues(typeof(ViewType))) {
+        //        if (enumValue != ViewType.DrawingSheet) {
+        //            nodes.Add(new SCwashTreeNode(enumValue.ToString()));
+        //            nodes[i].Nodes.AddRange(SCwashUtilities.Views(doc, placedOnSheet, enumValue).ToArray<TreeNode>());
+        //            if (nodes[i].Nodes.Count < 1) {
+        //                nodes.Remove(nodes[i]);
+        //            } else {
+        //                i++;
+        //            }
+        //        }
+        //    }
+        //}
 
         public static void RemoveElements(Document doc, ICollection<ElementId> elements)
         {
@@ -219,9 +219,9 @@ namespace SCaddins.SCwash
         }
 
         // FIXME don't add view templates or project browser views
-        private static List<SCwashTreeNode> Views(Document doc, bool placedOnSheet, ViewType type)
+        private static List<DeletableItem> Views(Document doc, bool placedOnSheet, ViewType type)
         {
-            var result = new List<SCwashTreeNode>();
+            var result = new List<DeletableItem>();
             using (var f = new FilteredElementCollector(doc)) {
                 f.OfClass(typeof(Autodesk.Revit.DB.View));
                 foreach (Autodesk.Revit.DB.View view in f) {
@@ -263,7 +263,7 @@ namespace SCaddins.SCwash
                             n = view.Name;
                         }
 
-                        var tn = new SCwashTreeNode(n);
+                        var tn = new DeletableItem(n);
                         tn.Info = s;
                         tn.Id = view.Id;
                         if (view.ViewType == ViewType.ProjectBrowser || view.ViewType == ViewType.SystemBrowser) {

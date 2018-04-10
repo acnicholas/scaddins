@@ -238,6 +238,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Bootstrapper.cs" />
+    <Compile Include="DestructivePurge\ViewModels\CheckableItem.cs" />
+    <Compile Include="DestructivePurge\ViewModels\DestructivePurgeViewModel.cs" />
+    <Compile Include="DestructivePurge\Views\DestructivePurgeView.xaml.cs">
+      <DependentUpon>DestructivePurgeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExportManager\OpenableView.cs" />
     <Compile Include="ExportManager\ViewModels\OpenSheetViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\OptionsViewModel.cs" />
@@ -446,13 +451,7 @@
     <Compile Include="SheetCopier\SheetCopierViewOnSheet.cs" />
     <Compile Include="DestructivePurge\DestructivePurge.cs" />
     <Compile Include="DestructivePurge\DestructivePurgeCommand.cs" />
-    <Compile Include="DestructivePurge\DestructivePurgeForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DestructivePurge\DestructivePurgeForm.Designer.cs">
-      <DependentUpon>DestructivePurgeForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DestructivePurge\DestructivePurgeTreeNode.cs" />
+    <Compile Include="DestructivePurge\DeletableItem.cs" />
     <Compile Include="ViewUtilities\ViewUnderlays.cs" />
     <Compile Include="ViewUtilities\RemoveUnderlaysCommand.cs" />
     <Compile Include="ViewUtilities\UserView.cs" />
@@ -501,10 +500,6 @@
     <EmbeddedResource Include="PlaceCoordinate\PlaceCoordinateForm.resx">
       <DependentUpon>PlaceCoordinateForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DestructivePurge\DestructivePurgeForm.resx">
-      <DependentUpon>DestructivePurgeForm.cs</DependentUpon>
-      <CustomToolNamespace>SCaddins.SCwash</CustomToolNamespace>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -550,6 +545,10 @@
     <EmbeddedResource Include="Assets\scexport-rvt-16.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="DestructivePurge\Views\DestructivePurgeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ExportManager\Views\ConfirmationDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
