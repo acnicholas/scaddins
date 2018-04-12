@@ -86,16 +86,18 @@ namespace SCaddins.DestructivePurge
                     tn.Info += System.Environment.NewLine + s;
                     tn.Id = image.Id;
 
-                    //ElementId typeId = image.GetTypeId();
-                    //ElementType type = doc.GetElement(typeId) as ElementType;
-                    //try
-                    //{
-                    //    tn.PreviewImage = type.GetPreviewImage(new System.Drawing.Size(128, 128));
-                    //} catch
-                    //{
-                    //    Autodesk.Revit.UI.TaskDialog.Show("test", "No image");
-                    //    tn.PreviewImage = null;
-                    //}
+                    ElementId typeId = image.GetTypeId();
+                    ElementType type = doc.GetElement(typeId) as ElementType;
+                    try
+                    {
+                        tn.PreviewImage = ((ImageType)type).GetPreviewImage(new System.Drawing.Size(128, 128));
+                        Autodesk.Revit.UI.TaskDialog.Show("test", "image set");
+                    }
+                    catch
+                    {
+                        Autodesk.Revit.UI.TaskDialog.Show("test", "No image");
+                        tn.PreviewImage = null;
+                    }
                     result.Add(tn);
                 }
             }

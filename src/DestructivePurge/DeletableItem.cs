@@ -27,7 +27,7 @@ namespace SCaddins.DestructivePurge
             this.Info = "-";
             this.Id = null;
             this.Name = name;
-            //this.PreviewImage = null;
+            this.PreviewImage = null;
         }
 
         public string Info {
@@ -43,10 +43,10 @@ namespace SCaddins.DestructivePurge
             get; set;
         }
 
-        //public Bitmap PreviewImage
-        //{
-        //    get; set;
-        //}
+        public Bitmap PreviewImage
+        {
+            get; set;
+        }
 
     }
 }
