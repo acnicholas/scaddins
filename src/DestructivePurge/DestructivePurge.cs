@@ -87,15 +87,15 @@ namespace SCaddins.DestructivePurge
                     tn.Id = image.Id;
 
                     ElementId typeId = image.GetTypeId();
-                    ElementType type = doc.GetElement(typeId) as ElementType;
+                    ImageType type = doc.GetElement(typeId) as ImageType;
                     try
                     {
-                        tn.PreviewImage = ((ImageType)type).GetPreviewImage(new System.Drawing.Size(128, 128));
-                        Autodesk.Revit.UI.TaskDialog.Show("test", "image set");
+                        tn.PreviewImage = type.GetImage();
+                        //Autodesk.Revit.UI.TaskDialog.Show("test", "image set");
                     }
                     catch
                     {
-                        Autodesk.Revit.UI.TaskDialog.Show("test", "No image");
+                        //Autodesk.Revit.UI.TaskDialog.Show("test", "No image");
                         tn.PreviewImage = null;
                     }
                     result.Add(tn);
@@ -196,7 +196,7 @@ namespace SCaddins.DestructivePurge
             return result;
         }
 
-        public static void RemoveElements(Document doc, ICollection<ElementId> elements)
+        public static void RemoveElements(Document doc, List<ElementId> elements)
         {
             if (elements == null || doc == null) {
                 return;
@@ -204,8 +204,10 @@ namespace SCaddins.DestructivePurge
             if (elements.Count < 1) {
                 return;
             }
+            Autodesk.Revit.UI.TaskDialog.Show("Failure", "Starting Transaction");
             using (var t = new Transaction(doc)) {
                 if (t.Start("Delete Elements") == TransactionStatus.Started) {
+                    Autodesk.Revit.UI.TaskDialog.Show("Failure", elements.Count.ToString());
                     ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
                     if (deletedIdSet.Count == 0) {
                         Autodesk.Revit.UI.TaskDialog.Show("Failure", "No elements could be purged...");

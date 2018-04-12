@@ -4,6 +4,7 @@
     using System.Collections.ObjectModel;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
@@ -11,13 +12,15 @@
     {
         private ObservableCollection<CheckableItem> checkableItems;
         private CheckableItem selectedItem;
+        private Document doc;
         System.Windows.Media.Imaging.BitmapImage previewImage;
 
         public DestructivePurgeViewModel(Autodesk.Revit.DB.Document doc)
         {
             checkableItems = new ObservableCollection<CheckableItem>();
             selectedItem = null;
-            //previewImage = null;
+            this.doc = doc;
+            previewImage = null;
 
             var viewNotOnSheets = new CheckableItem(new DeletableItem("Views NOT On Sheets"));
             foreach (ViewType enumValue in Enum.GetValues(typeof(ViewType)))
@@ -91,14 +94,43 @@
         {
             set
             {
-                if (previewImage != null) {
+                if (previewImage != value) {
                     previewImage = value;
-                    Autodesk.Revit.UI.TaskDialog.Show("test", previewImage.ToString());
-                //    NotifyOfPropertyChange(() => PreviewImage);
+                    NotifyOfPropertyChange(() => PreviewImage);
+                    NotifyOfPropertyChange(() => ImageHeight);
+                    NotifyOfPropertyChange(() => ImageWidth);
+                    NotifyOfPropertyChange(() => ImageMargin);
                 }
             }
             get { return previewImage; }
         }
+
+        public int ImageWidth
+        {
+            get
+            {
+                return PreviewImage != null ? 196 : 0;
+            }
+        }
+
+
+        public int ImageHeight
+        {
+            get
+            {
+                return PreviewImage != null ? 196 : 0;
+            }
+        }
+
+
+        public int ImageMargin
+        {
+            get
+            {
+                return PreviewImage != null ? 5 : 0;
+            }
+        }
+
 
         public string Details
         {
@@ -117,10 +149,35 @@
 
         }
 
+        public void RecurseItems(List<ElementId> list, CheckableItem item)
+        {
+            foreach (var child in item.Children)
+            {
+                if (child.IsChecked)
+                {
+                    if (child.Deletable.Id != null)
+                        list.Add(child.Deletable.Id);
+                    RecurseItems(list, child);
+                }
+            }
+        }
+
         public void DeleteElements()
         {
-
+            List<ElementId> toDelete = new List<ElementId>();
+            foreach (var item in CheckableItems)
+            {
+                if (item.IsChecked)
+                {
+                    if (item.Deletable.Id != null)
+                        toDelete.Add(item.Deletable.Id);
+                    RecurseItems(toDelete, item);
+                }
+            }
+            SCwashUtilities.RemoveElements(doc,toDelete);
         }
+
+
 
 
     }

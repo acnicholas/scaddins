@@ -11,7 +11,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="200" Width="200*"></ColumnDefinition>
             <ColumnDefinition Width="5"></ColumnDefinition>
-            <ColumnDefinition MaxWidth="300"  Width="Auto"></ColumnDefinition>
+            <ColumnDefinition MaxWidth="300"  Width="200*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="300*"></RowDefinition>
@@ -34,13 +34,19 @@
                 </TreeView.Resources>
             </TreeView>
         </GroupBox>
-        <GridSplitter Grid.Column="1"></GridSplitter>
-        <GroupBox Grid.Column="2" Margin="5" Header="Element Details">
-            <!--<ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5" >
-                <TextBlock x:Name="Details"></TextBlock>
-            </ScrollViewer>-->
-            <Image Source="{Binding Path=PreviewImage}" Width="128" Height="128"></Image>
-        </GroupBox>
+        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Height="Auto"></GridSplitter>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Source="{Binding Path=PreviewImage}" Width="{Binding ImageWidth}" Height="{Binding ImageHeight}" Margin="{Binding ImageMargin}"></Image>
+            <GroupBox Grid.Row="1" Margin="5" Header="Element Details" Height="Auto" VerticalAlignment="Stretch">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5" >
+                    <TextBlock x:Name="Details"></TextBlock>
+                </ScrollViewer>
+            </GroupBox>
+        </Grid>
         <Grid Grid.Row="1" Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
