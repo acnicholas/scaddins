@@ -27,8 +27,8 @@ namespace SCaddins.DestructivePurge
 
     public static class SCwashUtilities
     {
-        public static Collection<DeletableItem> Imports(Document doc, bool linked) {
-            var result = new Collection<DeletableItem>();
+        public static List<DeletableItem> Imports(Document doc, bool linked) {
+            var result = new List<DeletableItem>();
             using (var f = new FilteredElementCollector(doc)) {
                 f.OfClass(typeof(ImportInstance));
                 string s = string.Empty;
@@ -56,9 +56,26 @@ namespace SCaddins.DestructivePurge
             return result;
         }
 
-        public static Collection<DeletableItem> Images(Document doc)
+        public static System.Windows.Media.Imaging.BitmapImage ToBitmapImage(this System.Drawing.Bitmap bitmap)
         {
-            var result = new Collection<DeletableItem>();
+            if (bitmap == null) return null;
+            var bitmapImage = new System.Windows.Media.Imaging.BitmapImage();
+            using (var memory = new System.IO.MemoryStream())
+            {
+                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
+                memory.Position = 0;  
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = memory;
+                bitmapImage.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+                bitmapImage.Freeze();    
+            }
+            return bitmapImage;
+        }
+
+        public static List<DeletableItem> Images(Document doc)
+        {
+            var result = new List<DeletableItem>();
             using (var f = new FilteredElementCollector(doc)) {
                 f.OfCategory(BuiltInCategory.OST_RasterImages);
                 foreach (Element image in f) {
@@ -68,13 +85,24 @@ namespace SCaddins.DestructivePurge
                     "id - " + image.Id.ToString();
                     tn.Info += System.Environment.NewLine + s;
                     tn.Id = image.Id;
+
+                    //ElementId typeId = image.GetTypeId();
+                    //ElementType type = doc.GetElement(typeId) as ElementType;
+                    //try
+                    //{
+                    //    tn.PreviewImage = type.GetPreviewImage(new System.Drawing.Size(128, 128));
+                    //} catch
+                    //{
+                    //    Autodesk.Revit.UI.TaskDialog.Show("test", "No image");
+                    //    tn.PreviewImage = null;
+                    //}
                     result.Add(tn);
                 }
             }
             return result;
         }
 
-        public static Collection<DeletableItem> UnusedViewFilters(Document doc)
+        public static List<DeletableItem> UnusedViewFilters(Document doc)
         {
             Dictionary<ElementId, ElementId> usedFilters = new Dictionary<ElementId, ElementId>();
             using (var viewCollecter = new FilteredElementCollector(doc)) {
@@ -90,7 +118,7 @@ namespace SCaddins.DestructivePurge
                 }
             }
 
-            var result = new Collection<DeletableItem>();
+            var result = new List<DeletableItem>();
             using (var f = new FilteredElementCollector(doc)) {
                 f.OfClass(typeof(Autodesk.Revit.DB.FilterElement));
                 foreach (Element filter in f) {
@@ -109,9 +137,9 @@ namespace SCaddins.DestructivePurge
             return result;
         }
 
-        public static Collection<DeletableItem> Revisions(Document doc)
+        public static List<DeletableItem> Revisions(Document doc)
         {
-            var result = new Collection<DeletableItem>();
+            var result = new List<DeletableItem>();
             using (var f = new FilteredElementCollector(doc)) {
                 f.OfCategory(BuiltInCategory.OST_Revisions);
                 foreach (Element revision in f) {
@@ -129,9 +157,9 @@ namespace SCaddins.DestructivePurge
             return result;
         }
 
-        public static Collection<DeletableItem> UnboundRooms(Document doc)
+        public static List<DeletableItem> UnboundRooms(Document doc)
         {
-            var result = new Collection<DeletableItem>();
+            var result = new List<DeletableItem>();
             using (var f = new FilteredElementCollector(doc)) {
                 f.OfCategory(BuiltInCategory.OST_Rooms);
                 foreach (Element room in f) {
@@ -166,25 +194,6 @@ namespace SCaddins.DestructivePurge
             return result;
         }
 
-        //public static void AddViewNodes(Document doc, bool placedOnSheet, TreeNodeCollection nodes)
-        //{
-        //    if (nodes == null) {
-        //        return;
-        //    }
-        //    int i = 0;
-        //    foreach (ViewType enumValue in Enum.GetValues(typeof(ViewType))) {
-        //        if (enumValue != ViewType.DrawingSheet) {
-        //            nodes.Add(new SCwashTreeNode(enumValue.ToString()));
-        //            nodes[i].Nodes.AddRange(SCwashUtilities.Views(doc, placedOnSheet, enumValue).ToArray<TreeNode>());
-        //            if (nodes[i].Nodes.Count < 1) {
-        //                nodes.Remove(nodes[i]);
-        //            } else {
-        //                i++;
-        //            }
-        //        }
-        //    }
-        //}
-
         public static void RemoveElements(Document doc, ICollection<ElementId> elements)
         {
             if (elements == null || doc == null) {
@@ -218,7 +227,7 @@ namespace SCaddins.DestructivePurge
         }
 
         // FIXME don't add view templates or project browser views
-        private static List<DeletableItem> Views(Document doc, bool placedOnSheet, ViewType type)
+        public static List<DeletableItem> Views(Document doc, bool placedOnSheet, ViewType type)
         {
             var result = new List<DeletableItem>();
             using (var f = new FilteredElementCollector(doc)) {

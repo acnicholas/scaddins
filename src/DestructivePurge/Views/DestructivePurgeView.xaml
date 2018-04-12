@@ -4,20 +4,49 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SCaddins.DestructivePurge.ViewModels"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TreeView ItemsSource="{Binding CheckableItems}">
-            <TreeView.Resources>
-            <HierarchicalDataTemplate
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="200" Width="200*"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition MaxWidth="300"  Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="300*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Column="0" Margin="5" Header="Elements To Delete">
+            <TreeView 
+            Margin="5"
+            cal:Message.Attach="[Event SelectedItemChanged] = [Action SelectedItemChanged($this.SelectedItem)]" 
+            ItemsSource="{Binding CheckableItems}">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate
                 DataType="{x:Type local:CheckableItem}" 
                 ItemsSource="{Binding Children}">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox IsChecked="{Binding IsChecked}"/>
-                    <TextBlock Text="{Binding Name}"/>
-                </StackPanel>
-            </HierarchicalDataTemplate>
-            </TreeView.Resources>
-        </TreeView>    
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding IsChecked}"/>
+                            <TextBlock Text="{Binding Name}"/>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.Resources>
+            </TreeView>
+        </GroupBox>
+        <GridSplitter Grid.Column="1"></GridSplitter>
+        <GroupBox Grid.Column="2" Margin="5" Header="Element Details">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5" >
+                <TextBlock x:Name="Details"></TextBlock>
+            </ScrollViewer>
+        </GroupBox>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="ShowElement" Margin="5" HorizontalAlignment="Left" MinWidth="75">Show</Button>
+            <Button x:Name="DeleteElements" Margin="5" Grid.Column="1" HorizontalAlignment="Right" Width="75">Delete</Button>
+        </Grid>
     </Grid>
 </UserControl>

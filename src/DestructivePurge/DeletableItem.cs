@@ -18,6 +18,7 @@
 namespace SCaddins.DestructivePurge
 {
     using Autodesk.Revit.DB;
+    using System.Drawing;
 
     public class DeletableItem
     {
@@ -26,6 +27,7 @@ namespace SCaddins.DestructivePurge
             this.Info = "-";
             this.Id = null;
             this.Name = name;
+            //this.PreviewImage = null;
         }
 
         public string Info {
@@ -40,6 +42,11 @@ namespace SCaddins.DestructivePurge
         {
             get; set;
         }
+
+        //public Bitmap PreviewImage
+        //{
+        //    get; set;
+        //}
 
     }
 }

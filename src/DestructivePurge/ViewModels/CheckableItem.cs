@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2013-2014 by Andrew Nicholas andrewnicholas@iinet.net.au
+﻿// (C) Copyright 2018 by Andrew Nicholas andrewnicholas@iinet.net.au
 //
 // This file is part of SCaddins.
 //
@@ -17,21 +17,19 @@
 
 namespace SCaddins.DestructivePurge.ViewModels
 {
-    using System;
     using System.Collections.ObjectModel;
-    using System.ComponentModel;
-    using Autodesk.Revit.DB;
+    using System.Collections.Generic;
 
-    public class CheckableItem : INotifyPropertyChanged
+    public class CheckableItem : Caliburn.Micro.PropertyChangedBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
         private ObservableCollection<CheckableItem> children;
+        private bool isChecked;
 
         public CheckableItem(DeletableItem deletable)
         {
-            this.Deletable = deletable;
+            Deletable = deletable;
             Children = new ObservableCollection<CheckableItem>();
-            IsChecked = Visibility.Invisible;
+            IsChecked = false;
         }
 
         public DeletableItem Deletable
@@ -39,9 +37,21 @@ namespace SCaddins.DestructivePurge.ViewModels
             get; set;
         }
 
-        public Visibility IsChecked
+        public bool IsChecked
         {
-            get; set;
+            get { return isChecked; }
+            set
+            {
+                if(value != isChecked)
+                {
+                    isChecked = value;
+                    foreach (var i in Children)
+                    {
+                        i.IsChecked = value;
+                    }
+                    NotifyOfPropertyChange(() => IsChecked);
+                }
+            }
         }
 
         public string Name
@@ -55,7 +65,7 @@ namespace SCaddins.DestructivePurge.ViewModels
             set { children = value; }
         }
 
-        public void AddChildren(Collection<DeletableItem> deletables)
+        public void AddChildren(List<DeletableItem> deletables)
         {
             if (deletables == null || deletables.Count < 1) return;
             foreach (var deletable in deletables)
@@ -63,6 +73,13 @@ namespace SCaddins.DestructivePurge.ViewModels
                 Children.Add(new CheckableItem(deletable));   
             }
         }
+
+        public void AddChild(CheckableItem deletable)
+        {
+            if (deletable == null) return;
+            Children.Add(deletable);
+        }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */
