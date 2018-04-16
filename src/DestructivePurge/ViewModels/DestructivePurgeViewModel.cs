@@ -68,6 +68,7 @@
             ubr.AddChildren(SCwashUtilities.UnboundRooms(doc));
             checkableItems.Add(ubr);
             selectedItem = checkableItems[0];
+            NotifyOfPropertyChange(() => ShowButtonLabel);
         }
 
         public ObservableCollection<CheckableItem> CheckableItems
@@ -87,6 +88,7 @@
         {
             selectedItem = item;
             NotifyOfPropertyChange(() => Details);
+            NotifyOfPropertyChange(() => ShowButtonLabel);
             PreviewImage = SCwashUtilities.ToBitmapImage(item.Deletable.PreviewImage);
         }
 
@@ -146,7 +148,14 @@
 
         public void ShowElement()
         {
+        }
 
+        public string ShowButtonLabel
+        {
+            get
+            {
+                return selectedItem == null ? "Show Element" : "Show Element " + selectedItem.Deletable.Id.ToString();
+            }
         }
 
         public void RecurseItems(List<ElementId> list, CheckableItem item)
