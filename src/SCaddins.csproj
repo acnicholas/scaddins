@@ -7,7 +7,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <OutputType>Library</OutputType>
     <RootNamespace>SCaddins</RootNamespace>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <TargetFrameworkProfile />
     <NoWin32Manifest>True</NoWin32Manifest>
@@ -34,15 +34,15 @@
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    <DefineConstants>DEBUG;TRACE;REVIT2018</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;REVIT2019</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <AssemblyName>SCaddins</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2018\</ReferencePath>
+    <ReferencePath>C:\Program Files\Autodesk\Revit 2019\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
     <StartAction>Program</StartAction>
-    <StartProgram>C:\Program Files\Autodesk\Revit 2018\Revit.exe</StartProgram>
+    <StartProgram>C:\Program Files\Autodesk\Revit 2019\Revit.exe</StartProgram>
     <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'Any' ">
@@ -105,6 +105,22 @@
     <DelaySign>False</DelaySign>
     <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release2019' ">
+    <OutputPath>bin\Release2019\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE;REVIT2019</DefineConstants>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <StartAction>Project</StartAction>
+    <AssemblyName>SCaddins</AssemblyName>
+    <ReferencePath>C:\Program Files\Autodesk\Revit 2019\</ReferencePath>
+    <SignAssembly>False</SignAssembly>
+    <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2017|x64'">
     <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -116,7 +132,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <DefineConstants>TRACE;DEBUG;REVIT2018</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;REVIT2019</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2018|Any'">
     <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
@@ -276,6 +292,11 @@
     <Compile Include="LineOfSight\Views\LineOfSightView.xaml.cs">
       <DependentUpon>LineOfSightView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ParameterUtilities\SCincrementSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>IncrementSettings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -341,6 +362,7 @@
     <Compile Include="Scaddins.Designer.cs">
       <DependentUpon>Scaddins.settings</DependentUpon>
       <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SCaddinsOptions.cs" />
     <Compile Include="ScaddinsOptionsForm.cs">

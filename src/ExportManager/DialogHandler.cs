@@ -18,6 +18,7 @@
 namespace SCaddins.ExportManager
 {
     using System;
+    using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Autodesk.Revit.UI.Events;
     

@@ -12,7 +12,7 @@ namespace SCaddins {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ICSharpCode.SettingsEditor.SettingsCodeGeneratorTool", "5.1.0.5216")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.3.0.0")]
     internal sealed partial class Scaddins : global::System.Configuration.ApplicationSettingsBase {
         
         private static Scaddins defaultInstance = ((Scaddins)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Scaddins())));

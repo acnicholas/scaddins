@@ -122,12 +122,12 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return SCaddins.ExportManager.Settings1.Default.AcadExportVersion;
+                return Settings1.Default.AcadExportVersion;
             }
             set
             {
-                if (value == SCaddins.ExportManager.Settings1.Default.AcadExportVersion) return;
-                value = SCaddins.ExportManager.Settings1.Default.AcadExportVersion;
+                if (value == Settings1.Default.AcadExportVersion) return;
+                value = Settings1.Default.AcadExportVersion;
             }
         }
         

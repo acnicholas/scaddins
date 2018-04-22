@@ -353,7 +353,7 @@ namespace SCaddins.RoomConvertor
                 }
                 using (Solid roomSolid = results.GetGeometry()) {
                     var eid = new ElementId(BuiltInCategory.OST_Mass);
-                    #if REVIT2018 || REVIT2017
+                    #if REVIT2019 || REVIT2018 || REVIT2017
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid);
                     #else
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");

@@ -81,7 +81,7 @@ namespace SCaddins.SolarUtilities
             this.doc = udoc.Document;
             this.udoc = udoc;
             projectLocation = doc.ActiveProjectLocation;
-            #if REVIT2018
+            #if REVIT2018 || REVIT2019
                 position = projectLocation.GetProjectPosition(XYZ.Zero);
             #else
                 position = this.projectLocation.get_ProjectPosition(XYZ.Zero);
