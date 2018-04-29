@@ -123,8 +123,13 @@ namespace SCaddins.LineOfSight
             set
             {
                 if (distanceToFirstRowX != value) {
-                    distanceToFirstRowX = value;
-                    UpdateRows();
+                    try
+                    {
+                        distanceToFirstRowX = value;
+                        if (distanceToFirstRowX > 1) UpdateRows();
+                    } catch {
+                        //FIXME
+                    }
                 }
             }
         }

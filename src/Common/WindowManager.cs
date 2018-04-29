@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace SCaddins.Common
 {
-    internal class WindowManager : Caliburn.Micro.WindowManager
+    public class WindowManager : Caliburn.Micro.WindowManager
     {
         public WindowManager() : base()
         { }

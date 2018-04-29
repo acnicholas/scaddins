@@ -51,6 +51,16 @@
                     <ComponentRef Id="SCaddinsRFA2018" />
                 </Feature>
                 <?endif?>
+				
+			<?if $(env.R2019) = Enabled ?> 
+                <Feature Id="Revit2019" Level="1" Title="SCaddins for Revit 2019">
+                    <ComponentRef Id="SCaddins2019" />
+                    <ComponentRef Id="SCaddinsAddin2019" />
+                    <ComponentRef Id="SCaddinsEtc" />
+                    <ComponentRef Id="SCexportConfigProto" />
+                    <ComponentRef Id="SCaddinsRFA2019" />
+                </Feature>
+                <?endif?>
 
                 <WixVariable Id="WixUIDialogBmp" Value="wixd.bmp" />
                 <WixVariable Id="WixUIBannerBmp" Value="wixb.bmp" />

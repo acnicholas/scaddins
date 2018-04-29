@@ -49,12 +49,10 @@ namespace SCaddins.SolarUtilities
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
 
-            var bs = new SCaddins.Common.Bootstrapper();
-            bs.Initialize();
-            var windowManager = new SCaddins.Common.WindowManager();
+            var bs = SCaddins.SCaddinsApp.Bootstrapper;
+            var windowManager = SCaddins.SCaddinsApp.WindowManager;
             var vm = new ViewModels.SolarViewsViewModel(commandData.Application.ActiveUIDocument);
             windowManager.ShowDialog(vm, null, settings);
-
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }

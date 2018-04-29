@@ -35,6 +35,7 @@ namespace SCaddins.LineOfSight.ViewModels
                 if (value != lineOfSight.EyeHeight) {
                     lineOfSight.EyeHeight = value;
                     NotifyOfPropertyChange(() => EyeHeight);
+                    NotifyOfPropertyChange(() => InfoString);
                 }
             }
         }
@@ -47,10 +48,19 @@ namespace SCaddins.LineOfSight.ViewModels
             }
             set
             {
-                    if (value != lineOfSight.DistanceToFirstRowX) {
+                if (value != lineOfSight.DistanceToFirstRowX)
+                {
+                    try
+                    {
                         lineOfSight.DistanceToFirstRowX = value;
                         NotifyOfPropertyChange(() => DistanceToFirstRowX);
+                        NotifyOfPropertyChange(() => InfoString);
                     }
+                    catch
+                    {
+                        ///FIXME somehow....
+                    }
+                }
             }
         }
 
@@ -64,6 +74,7 @@ namespace SCaddins.LineOfSight.ViewModels
             {
                 lineOfSight.DistanceToFirstRowY = value;
                 NotifyOfPropertyChange(() => DistanceToFirstRowY);
+                NotifyOfPropertyChange(() => InfoString);
             }
         }
 
@@ -78,6 +89,7 @@ namespace SCaddins.LineOfSight.ViewModels
             {
                 lineOfSight.NumberOfRows = value;
                 NotifyOfPropertyChange(() => NumberOfRows);
+                NotifyOfPropertyChange(() => InfoString);
             }
         }
 
@@ -91,6 +103,7 @@ namespace SCaddins.LineOfSight.ViewModels
             {
                 lineOfSight.MinimumRiserHeight = value;
                 NotifyOfPropertyChange(() => MinimumRiserHeight);
+                NotifyOfPropertyChange(() => InfoString);
             }
         }
 
@@ -104,6 +117,7 @@ namespace SCaddins.LineOfSight.ViewModels
             {
                 lineOfSight.MinimumCValue = value;
                 NotifyOfPropertyChange(() => MinimumCValue);
+                NotifyOfPropertyChange(() => InfoString);
             }
         }
 
@@ -116,6 +130,8 @@ namespace SCaddins.LineOfSight.ViewModels
             set
             {
                 lineOfSight.RiserIncrement = value;
+                NotifyOfPropertyChange(() => RiserIncrement);
+                NotifyOfPropertyChange(() => InfoString);
             }
         }
 
@@ -123,10 +139,11 @@ namespace SCaddins.LineOfSight.ViewModels
         {
             get
             {
-                try {
-                    NotifyOfPropertyChange(() => InfoString);
+                try
+                {
                     return lineOfSight.InfoString;
-                } catch { return string.Empty; }
+                }
+                catch { return string.Empty; }
             }
         }
 

@@ -60,15 +60,13 @@ namespace SCaddins.SheetCopier
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
             try {
-                var bs = new SCaddins.Common.Bootstrapper();
-                bs.Initialize();
-                var windowManager = new SCaddins.Common.WindowManager();
+                var bs = SCaddinsApp.Bootstrapper;
+                var windowManager = SCaddinsApp.WindowManager;
                 var vm = new ViewModels.SheetCopierViewModel(commandData.Application.ActiveUIDocument);
                 windowManager.ShowDialog(vm, null, settings);
             } catch {
                 return Autodesk.Revit.UI.Result.Failed;
             }
-
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }

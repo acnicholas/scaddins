@@ -43,6 +43,7 @@ Task("CreateAddinManifests")
     System.IO.File.WriteAllText(@"src\bin\Release\SCaddins2016.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2016"));
     System.IO.File.WriteAllText(@"src\bin\Release\SCaddins2017.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2017"));
     System.IO.File.WriteAllText(@"src\bin\Release\SCaddins2018.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2018"));
+	System.IO.File.WriteAllText(@"src\bin\Release\SCaddins2019.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2019"));
 });
 
 Task("Revit2016")
@@ -59,15 +60,20 @@ Task("Revit2018")
     .IsDependentOn("Restore-NuGet-Packages")
     .WithCriteria(APIAvailable("2018"))
     .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2018")));
+	
+Task("Revit2019")
+    .IsDependentOn("Restore-NuGet-Packages")
+    .WithCriteria(APIAvailable("2019"))
+    .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2019")));
 
-Task("Dist")
-    .IsDependentOn("Default")
+Task("Installer")
     .IsDependentOn("Restore-Installer-NuGet-Packages")
     .Does(() =>
 {
 	  Environment.SetEnvironmentVariable("R2016", APIAvailable("2016") ? "Enabled" : "Disabled");
 	  Environment.SetEnvironmentVariable("R2017", APIAvailable("2017") ? "Enabled" : "Disabled");
       Environment.SetEnvironmentVariable("R2018", APIAvailable("2018") ? "Enabled" : "Disabled");
+	  Environment.SetEnvironmentVariable("R2019", APIAvailable("2019") ? "Enabled" : "Disabled");
       var settings = new MSBuildSettings();
       settings.SetConfiguration("Release");
 	  settings.WithTarget("Clean,Build");
@@ -75,11 +81,16 @@ Task("Dist")
       MSBuild(solutionFileWix, settings);  
 });
 
+Task("Dist")
+    .IsDependentOn("Default")
+    .IsDependentOn("Installer");
+
 Task("Default")
     .IsDependentOn("Clean")
     .IsDependentOn("Revit2016")
     .IsDependentOn("Revit2017")
     .IsDependentOn("Revit2018")
-	.IsDependentOn("CreateAddinManifests");
+    .IsDependentOn("Revit2019")
+    .IsDependentOn("CreateAddinManifests");
 
 RunTarget(target);

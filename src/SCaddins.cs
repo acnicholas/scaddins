@@ -37,7 +37,41 @@ namespace SCaddins
     public class SCaddinsApp : Autodesk.Revit.UI.IExternalApplication
     {
         private RibbonPanel ribbonPanel;
-        
+        private static SCaddins.Common.Bootstrapper bootstrapper = new SCaddins.Common.Bootstrapper();
+        private static SCaddins.Common.WindowManager windowManager = new SCaddins.Common.WindowManager();
+
+        public static SCaddins.Common.Bootstrapper Bootstrapper
+        {
+            get
+            {
+                if (bootstrapper != null)
+                {
+                    return bootstrapper;
+                } else
+                {
+                    bootstrapper = new SCaddins.Common.Bootstrapper();
+                    bootstrapper.Initialize();
+                    return bootstrapper;
+                }
+            }
+        }
+
+        public static SCaddins.Common.WindowManager WindowManager
+        {
+            get
+            {
+                if (windowManager != null)
+                {
+                    return windowManager;
+                }
+                else
+                {
+                    windowManager = new SCaddins.Common.WindowManager();
+                    return windowManager;
+                }
+            }
+        }
+
         public static Version Version
         {
             get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
@@ -101,8 +135,15 @@ namespace SCaddins
                 return Result.Failed;
             }
 
-            string scdll =
-                new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
+            if (bootstrapper != null)
+            {
+                bootstrapper.Initialize();
+            } else
+            {
+                return Result.Failed;
+            }
+
+            string scdll = new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
 
             ribbonPanel.AddItem(LoadScexport(scdll));
             ribbonPanel.AddStackedItems(
@@ -117,9 +158,7 @@ namespace SCaddins
                 LoadSCightlines(scdll),
                 LoadSCincrement(scdll),
                 LoadSCuv(scdll));
-            ribbonPanel.AddStackedItems(
-                LoadSCasfar(scdll),
-                LoadSCam(scdll));
+            ribbonPanel.AddItem(LoadSCasfar(scdll));
 
             ribbonPanel.AddSlideOut();
 
@@ -201,7 +240,7 @@ namespace SCaddins
 
         private static PushButtonData LoadSCwash(string dll) {
             var pbd = new PushButtonData(
-                              "SCwash", Resources.DestructivePurge, dll, "SCaddins.SCwash.Command");
+                              "SCwash", Resources.DestructivePurge, dll, "SCaddins.DestructivePurge.Command");
             AssignPushButtonImage(pbd, "SCaddins.Assets.scwash-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.DestructivePurgeToolTip;
             return pbd;
@@ -261,15 +300,6 @@ namespace SCaddins
             return pbd;
         }
         
-        private static PushButtonData LoadSCam(string dll)
-        {
-            var pbd = new PushButtonData(
-                              "SCam", Resources.CreatePerspective, dll, "SCaddins.ViewUtilities.CameraFromViewCommand");
-            AssignPushButtonImage(pbd, "SCaddins.Assets.scam-rvt-16.png", 16, dll);
-            pbd.ToolTip = Resources.CreatePerspectiveToolTip;
-            return pbd;
-        }
-
         private static PushButtonData LoadSCasfar(string dll)
         {
             var pbd = new PushButtonData(

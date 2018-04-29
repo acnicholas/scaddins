@@ -52,7 +52,6 @@
             Margin="5,0,5,5"
             Grid.ColumnSpan="3"
             GridLinesVisibility="Vertical"
-            dgx:DataGridFilter.IsAutoFilterEnabled="True"
             IsReadOnly="True">
             <DataGrid.VerticalGridLinesBrush>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>

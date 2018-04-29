@@ -61,14 +61,12 @@ namespace SCaddins.ExportManager
             dynamic settings = new ExpandoObject();
             settings.Height = 480;
             settings.Width = 768;
-            //settings.WindowStyle = System.Windows.WindowStyle.ToolWindow;
             settings.Title = "SCexport - By Andrew Nicholas";
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
-            
-            var bs = new SCaddins.Common.Bootstrapper();
-            bs.Initialize();
-            var windowManager = new SCaddins.Common.WindowManager();
+
+            var bs = SCaddinsApp.Bootstrapper;
+            var windowManager = SCaddinsApp.WindowManager;
             var vm = new ViewModels.SCexportViewModel(windowManager, new ExportManager(uidoc));
             windowManager.ShowDialog(vm, null, settings);
 

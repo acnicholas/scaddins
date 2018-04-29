@@ -38,10 +38,11 @@ namespace SCaddins.ExportManager {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("R2010")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public global::Autodesk.Revit.DB.ACADVersion AcadExportVersion {
+        public Autodesk.Revit.DB.ACADVersion AcadExportVersion {
             get {
-                return ((global::Autodesk.Revit.DB.ACADVersion)(this["AcadExportVersion"]));
+                return ((Autodesk.Revit.DB.ACADVersion)(this["AcadExportVersion"]));
             }
             set {
                 this["AcadExportVersion"] = value;
