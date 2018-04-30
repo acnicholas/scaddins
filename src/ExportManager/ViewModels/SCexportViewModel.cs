@@ -49,6 +49,19 @@ namespace SCaddins.ExportManager.ViewModels
             obj.RemovedItems.Cast<ExportSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
         }
 
+        public void ExecuteFilterView(KeyEventArgs keyArgs)
+        {
+            if (keyArgs.Key == Key.C)
+            {
+                this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
+                NotifyOfPropertyChange(() => Sheets);
+            }
+            if (keyArgs.Key == Key.O)
+            {
+                OpenViewsCommand();
+            }
+        }
+
         public ObservableCollection<ViewSheetSetCombo> ViewSheetSets
         {
             get { return exportManager.AllViewSheetSets; }

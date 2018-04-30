@@ -9,7 +9,7 @@
     x:Class="SCaddins.ExportManager.Views.SCexportView"
     d:DesignWidth="628" d:DesignHeight="272">
 
-    <Grid>
+    <Grid cal:Message.Attach="[Event KeyDown] = [ExecuteFilterView($eventArgs)]">
         <Grid.ColumnDefinitions>
             <ColumnDefinition
                 Width="0.80*" />
@@ -41,7 +41,7 @@
         <DataGrid
             x:Name="Sheets"
             SelectionMode="Extended"
-            cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($eventArgs)]"
+            cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($eventArgs)]; [Event KeyDown] = [ExecuteFilterView($eventArgs)]"
             AutoGenerateColumns="False"
             Grid.Column="0"
             Grid.Row="1"
