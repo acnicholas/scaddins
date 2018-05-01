@@ -15,6 +15,7 @@ namespace SCaddins.ExportManager.ViewModels
     {
         private readonly ExportManager exportManager;
         private ObservableCollection<ExportSheet> sheets;
+        private CollectionViewSource sheetsCollection;
         private WindowManager windowManager;
         private ViewSheetSetCombo selectedViewSheetSet;
         List<ExportSheet> selectedSheets = new List<ExportSheet>();
@@ -24,26 +25,17 @@ namespace SCaddins.ExportManager.ViewModels
             this.windowManager = windowManager;
             this.exportManager = exportManager;
             this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
+            this.sheetsCollection = new CollectionViewSource();
+            this.sheetsCollection.Source = this.sheets;
             this.selectedViewSheetSet = null;
         }
 
-        public ObservableCollection<ExportSheet> Sheets
+        public ICollectionView Sheets
         {
-            get { return this.sheets; }
-            set {
-                if (sheets != value) {
-                    this.sheets = value;
-                    NotifyOfPropertyChange(() => Sheets);
-                }
-            }
+            get { return this.sheetsCollection.View; }
         }
         
         public ExportSheet SelectedSheet
-        {
-            get; set;
-        }
-
-        public ObservableCollection<ExportSheet> SelectedSheets
         {
             get; set;
         }
@@ -56,46 +48,39 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void ExecuteFilterView(KeyEventArgs keyArgs)
         {
-            if (keyArgs.Key == Key.A)
-            {
-                SelectedSheets = sheets;
-                NotifyOfPropertyChange(() => SelectedSheets);
-            }
+
             if (keyArgs.Key == Key.C)
             {
-                this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
-                NotifyOfPropertyChange(() => Sheets);
+                Sheets.Filter = null;
             }
 
             if (keyArgs.Key == Key.J)
             {
-                if (SelectedSheet == null) return;
-                int i = sheets.IndexOf(SelectedSheet);
-                SelectedSheet = i < (sheets.Count - 1) ? sheets[i + 1] : sheets[0];
-                NotifyOfPropertyChange(() => SelectedSheet);
+                Sheets.MoveCurrentToNext();
+                if (Sheets.IsCurrentAfterLast) Sheets.MoveCurrentToFirst();
             }
 
             if (keyArgs.Key == Key.K)
             {
-                if (SelectedSheet == null) return;
-                int i = sheets.IndexOf(SelectedSheet);
-                SelectedSheet = i > 0 ? sheets[i - 1] : sheets[sheets.Count - 1];
-                NotifyOfPropertyChange(() => SelectedSheet);
+                Sheets.MoveCurrentToPrevious();
+                if (Sheets.IsCurrentBeforeFirst) Sheets.MoveCurrentToLast();
+            }
+
+            if (keyArgs.Key == Key.L)
+            {
+                var latest = ExportManager.LatestRevisionDate(exportManager.Doc);
             }
 
             if (keyArgs.Key == Key.O)
             {
                 OpenViewsCommand();
             }
+
             if (keyArgs.Key == Key.S)
             {
                 var activeSheetName = ExportManager.CurrentViewNumber(exportManager.Doc);
                 var toSelect = sheets.Where<ExportSheet>(sheet => (sheet.SheetNumber == activeSheetName)).ToList<ExportSheet>().First();
-                if (toSelect != null)
-                {
-                    SelectedSheet = toSelect;
-                    NotifyOfPropertyChange(() => SelectedSheet);
-                }
+                Sheets.MoveCurrentTo(toSelect);
             }
         }
 
@@ -115,10 +100,8 @@ namespace SCaddins.ExportManager.ViewModels
                 if (value != selectedViewSheetSet) {
                     selectedViewSheetSet = value;
                     if (selectedViewSheetSet.ViewSheetSet != null) {
-                        this.sheets = new ObservableCollection<ExportSheet>(
-                            exportManager.AllSheets.Where(s => selectedViewSheetSet.ViewSheetSet.Views.Contains(s.Sheet)).ToList());
-                    } else {
-                        this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
+                        var filter = new System.Predicate<object>(item => selectedViewSheetSet.ViewSheetSet.Views.Contains(((ExportSheet)item).Sheet));
+                        Sheets.Filter = filter;
                     }
                 }
                 NotifyOfPropertyChange(() => Sheets);
@@ -171,6 +154,7 @@ namespace SCaddins.ExportManager.ViewModels
         public void VerifySheets()
         {
             exportManager.Update();
+            NotifyOfPropertyChange(() => Sheets);
         }
         
         public void RemoveUnderlays()
