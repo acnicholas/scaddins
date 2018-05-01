@@ -42,7 +42,12 @@ namespace SCaddins.ExportManager.ViewModels
         {
             get; set;
         }
-        
+
+        public ObservableCollection<ExportSheet> SelectedSheets
+        {
+            get; set;
+        }
+
         public void Row_SelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
         {
             selectedSheets.AddRange(obj.AddedItems.Cast<ExportSheet>());
@@ -51,14 +56,46 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void ExecuteFilterView(KeyEventArgs keyArgs)
         {
+            if (keyArgs.Key == Key.A)
+            {
+                SelectedSheets = sheets;
+                NotifyOfPropertyChange(() => SelectedSheets);
+            }
             if (keyArgs.Key == Key.C)
             {
                 this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
                 NotifyOfPropertyChange(() => Sheets);
             }
+
+            if (keyArgs.Key == Key.J)
+            {
+                if (SelectedSheet == null) return;
+                int i = sheets.IndexOf(SelectedSheet);
+                SelectedSheet = i < (sheets.Count - 1) ? sheets[i + 1] : sheets[0];
+                NotifyOfPropertyChange(() => SelectedSheet);
+            }
+
+            if (keyArgs.Key == Key.K)
+            {
+                if (SelectedSheet == null) return;
+                int i = sheets.IndexOf(SelectedSheet);
+                SelectedSheet = i > 0 ? sheets[i - 1] : sheets[sheets.Count - 1];
+                NotifyOfPropertyChange(() => SelectedSheet);
+            }
+
             if (keyArgs.Key == Key.O)
             {
                 OpenViewsCommand();
+            }
+            if (keyArgs.Key == Key.S)
+            {
+                var activeSheetName = ExportManager.CurrentViewNumber(exportManager.Doc);
+                var toSelect = sheets.Where<ExportSheet>(sheet => (sheet.SheetNumber == activeSheetName)).ToList<ExportSheet>().First();
+                if (toSelect != null)
+                {
+                    SelectedSheet = toSelect;
+                    NotifyOfPropertyChange(() => SelectedSheet);
+                }
             }
         }
 

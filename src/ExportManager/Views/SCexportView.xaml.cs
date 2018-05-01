@@ -19,5 +19,11 @@ namespace SCaddins.ExportManager.Views
         {
             Sheets.UnselectAll();
         }
+
+        private void Grid_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.A) Sheets.SelectAll();
+            if (e.Key == System.Windows.Input.Key.N) Sheets.UnselectAll();
+        }
     }
 }

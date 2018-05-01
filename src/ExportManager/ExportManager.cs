@@ -303,6 +303,20 @@ namespace SCaddins.ExportManager
             return (s.Length > 1) ? s : string.Empty;
         }
 
+        public static string CurrentViewNumber(Document doc)
+        {
+            View v = doc.ActiveView;
+            if (v.ViewType == ViewType.DrawingSheet)
+            {
+                return v.get_Parameter(
+                    BuiltInParameter.SHEET_NUMBER).AsString();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public void Print(
             ICollection<ExportSheet> sheets,
             string printerName,

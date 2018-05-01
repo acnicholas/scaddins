@@ -9,7 +9,7 @@
     x:Class="SCaddins.ExportManager.Views.SCexportView"
     d:DesignWidth="628" d:DesignHeight="272">
 
-    <Grid cal:Message.Attach="[Event KeyDown] = [ExecuteFilterView($eventArgs)]">
+    <Grid cal:Message.Attach="[Event KeyDown] = [ExecuteFilterView($eventArgs)]" KeyDown="Grid_KeyDown">
         <Grid.ColumnDefinitions>
             <ColumnDefinition
                 Width="0.80*" />
@@ -41,7 +41,7 @@
         <DataGrid
             x:Name="Sheets"
             SelectionMode="Extended"
-            cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($eventArgs)]; [Event KeyDown] = [ExecuteFilterView($eventArgs)]"
+            cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($eventArgs)]"
             AutoGenerateColumns="False"
             Grid.Column="0"
             Grid.Row="1"
@@ -53,6 +53,12 @@
             Grid.ColumnSpan="3"
             GridLinesVisibility="Vertical"
             IsReadOnly="True">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="IsSelected"
+                    Value="{Binding IsSelected}" />
+                </Style>
+            </DataGrid.Resources>
             <DataGrid.VerticalGridLinesBrush>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
             </DataGrid.VerticalGridLinesBrush>
