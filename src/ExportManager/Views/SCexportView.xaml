@@ -9,7 +9,7 @@
     x:Class="SCaddins.ExportManager.Views.SCexportView"
     d:DesignWidth="628" d:DesignHeight="272">
 
-    <Grid cal:Message.Attach="[Event KeyDown] = [ExecuteFilterView($eventArgs)]" KeyDown="Grid_KeyDown">
+    <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition
                 Width="0.80*" />
@@ -41,7 +41,8 @@
         <DataGrid
             x:Name="Sheets"
             SelectionMode="Extended"
-            cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($eventArgs)]"
+            cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($eventArgs)]; [Event KeyDown] = [ExecuteFilterView($eventArgs)]"
+            KeyDown="Grid_KeyDown"
             AutoGenerateColumns="False"
             Grid.Column="0"
             Grid.Row="1"
@@ -149,21 +150,57 @@
                                 Source="/SCaddins;component/Assets/rename.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="Fix Scale Bars" cal:Message.Attach="FixScaleBars"/>
-                    <MenuItem Header="North Points On" cal:Message.Attach="TurnNorthPointsOn"/>
-                    <MenuItem Header="North Points Off" cal:Message.Attach="TurnNorthPointsOff"/>
-                    <MenuItem Header="Create User Views" cal:Message.Attach="CreateUserViews"/>
+                    <MenuItem Header="Fix Scale Bars" cal:Message.Attach="FixScaleBars">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/rename.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="North Points On" cal:Message.Attach="TurnNorthPointsOn">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/rename.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="North Points Off" cal:Message.Attach="TurnNorthPointsOff">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/rename.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Create User Views" cal:Message.Attach="CreateUserViews">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/rename.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <Separator />
-                    <MenuItem x:Name="SelectAll" Header="Select All" Click="SelectAll_Click"/>
-                    <MenuItem x:Name="SelectNone" Header="Select None" Click="SelectNone_Click"  />
+                    <MenuItem x:Name="SelectAll" Header="Select All" Click="SelectAll_Click">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/rename.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="SelectNone" Header="Select None" Click="SelectNone_Click">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/rename.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <Separator />
-                    <MenuItem Header="VerifySheets" cal:Message.Attach="VerifySheets" />
+                    <MenuItem Header="VerifySheets" cal:Message.Attach="VerifySheets">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/rename.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
-        <ProgressBar Grid.Column="0" Grid.Row="2" Margin="5,0,5,5">
-            
+        <ProgressBar x:Name="ProgessBar" Visibility="{Binding ProgessBarIsVisible}" Grid.Column="0" Grid.Row="2" Margin="5,0,5,5">
         </ProgressBar>
+        <TextBox x:Name="SearchField" Visibility="{Binding SearchFieldIsVisible}" Grid.Column="0" Grid.Row="2" Margin="5,0,5,5">
+        </TextBox>
         <Button
             cal:Message.Attach="Export"
             Content="Export"

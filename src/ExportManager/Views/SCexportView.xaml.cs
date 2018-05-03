@@ -8,6 +8,7 @@ namespace SCaddins.ExportManager.Views
         public SCexportView()
         {
             InitializeComponent();
+            Sheets.Focus();
         }
 
         private void SelectAll_Click(object sender, System.Windows.RoutedEventArgs e)

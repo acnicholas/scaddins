@@ -15,37 +15,59 @@ namespace SCaddins.ExportManager.ViewModels
     {
         private readonly ExportManager exportManager;
         private ObservableCollection<ExportSheet> sheets;
+        private CollectionViewSource sheetsCollection;
         private WindowManager windowManager;
         private ViewSheetSetCombo selectedViewSheetSet;
         List<ExportSheet> selectedSheets = new List<ExportSheet>();
+        private System.Windows.Visibility searchFieldIsVisible;
+        private System.Windows.Visibility progessBarIsVisible;
 
         public SCexportViewModel(WindowManager windowManager, ExportManager exportManager)
         {
             this.windowManager = windowManager;
             this.exportManager = exportManager;
             this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
+            this.sheetsCollection = new CollectionViewSource();
+            this.sheetsCollection.Source = this.sheets;
             this.selectedViewSheetSet = null;
+            SearchFieldIsVisible = System.Windows.Visibility.Hidden;
+            ProgessBarIsVisible = System.Windows.Visibility.Hidden;
         }
 
-        public ObservableCollection<ExportSheet> Sheets
+        public ICollectionView Sheets
         {
-            get { return this.sheets; }
-            set {
-                if (sheets != value) {
-                    this.sheets = value;
-                    NotifyOfPropertyChange(() => Sheets);
-                }
-            }
+            get { return this.sheetsCollection.View; }
         }
-        
+
         public ExportSheet SelectedSheet
         {
             get; set;
         }
 
-        public ObservableCollection<ExportSheet> SelectedSheets
+        public System.Windows.Visibility SearchFieldIsVisible
         {
-            get; set;
+            get { return searchFieldIsVisible; }
+            set
+            {
+                if (value != searchFieldIsVisible)
+                {
+                    searchFieldIsVisible = value;
+                    NotifyOfPropertyChange(() => SearchFieldIsVisible);
+                }
+            }
+        }
+
+        public System.Windows.Visibility ProgessBarIsVisible
+        {
+            get { return progessBarIsVisible; }
+            set
+            {
+                if (value != progessBarIsVisible)
+                {
+                    progessBarIsVisible = value;
+                    NotifyOfPropertyChange(() => ProgessBarIsVisible);
+                }
+            }
         }
 
         public void Row_SelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
@@ -56,46 +78,45 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void ExecuteFilterView(KeyEventArgs keyArgs)
         {
-            if (keyArgs.Key == Key.A)
-            {
-                SelectedSheets = sheets;
-                NotifyOfPropertyChange(() => SelectedSheets);
-            }
+
             if (keyArgs.Key == Key.C)
             {
-                this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
-                NotifyOfPropertyChange(() => Sheets);
+                Sheets.Filter = null;
             }
 
             if (keyArgs.Key == Key.J)
             {
-                if (SelectedSheet == null) return;
-                int i = sheets.IndexOf(SelectedSheet);
-                SelectedSheet = i < (sheets.Count - 1) ? sheets[i + 1] : sheets[0];
-                NotifyOfPropertyChange(() => SelectedSheet);
+                Sheets.MoveCurrentToNext();
+                if (Sheets.IsCurrentAfterLast) Sheets.MoveCurrentToFirst();
             }
 
             if (keyArgs.Key == Key.K)
             {
-                if (SelectedSheet == null) return;
-                int i = sheets.IndexOf(SelectedSheet);
-                SelectedSheet = i > 0 ? sheets[i - 1] : sheets[sheets.Count - 1];
-                NotifyOfPropertyChange(() => SelectedSheet);
+                Sheets.MoveCurrentToPrevious();
+                if (Sheets.IsCurrentBeforeFirst) Sheets.MoveCurrentToLast();
+            }
+
+            if (keyArgs.Key == Key.L)
+            {
+                var latest = ExportManager.LatestRevisionDate(exportManager.Doc);
             }
 
             if (keyArgs.Key == Key.O)
             {
                 OpenViewsCommand();
             }
+
             if (keyArgs.Key == Key.S)
             {
                 var activeSheetName = ExportManager.CurrentViewNumber(exportManager.Doc);
                 var toSelect = sheets.Where<ExportSheet>(sheet => (sheet.SheetNumber == activeSheetName)).ToList<ExportSheet>().First();
-                if (toSelect != null)
-                {
-                    SelectedSheet = toSelect;
-                    NotifyOfPropertyChange(() => SelectedSheet);
-                }
+                Sheets.MoveCurrentTo(toSelect);
+            }
+
+            if (keyArgs.Key == Key.Y)
+            {
+                SearchFieldIsVisible = System.Windows.Visibility.Visible;
+                ProgessBarIsVisible = System.Windows.Visibility.Hidden;
             }
         }
 
@@ -112,13 +133,13 @@ namespace SCaddins.ExportManager.ViewModels
             }
             set
             {
-                if (value != selectedViewSheetSet) {
+                if (value != selectedViewSheetSet)
+                {
                     selectedViewSheetSet = value;
-                    if (selectedViewSheetSet.ViewSheetSet != null) {
-                        this.sheets = new ObservableCollection<ExportSheet>(
-                            exportManager.AllSheets.Where(s => selectedViewSheetSet.ViewSheetSet.Views.Contains(s.Sheet)).ToList());
-                    } else {
-                        this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
+                    if (selectedViewSheetSet.ViewSheetSet != null)
+                    {
+                        var filter = new System.Predicate<object>(item => selectedViewSheetSet.ViewSheetSet.Views.Contains(((ExportSheet)item).Sheet));
+                        Sheets.Filter = filter;
                     }
                 }
                 NotifyOfPropertyChange(() => Sheets);
@@ -137,7 +158,7 @@ namespace SCaddins.ExportManager.ViewModels
             var optionsModel = new OptionsViewModel(exportManager);
             windowManager.ShowDialog(optionsModel, null, settings);
         }
-        
+
         public void Export()
         {
             //System.Windows.MessageBox.Show(selectedSheets.Count.ToString());
@@ -146,9 +167,9 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void OpenViewsCommand()
         {
-            OpenSheet.OpenViews(selectedSheets);  
+            OpenSheet.OpenViews(selectedSheets);
         }
-        
+
         public void FixScaleBars()
         {
             ExportManager.FixScaleBars(selectedSheets, exportManager.Doc);
@@ -160,24 +181,26 @@ namespace SCaddins.ExportManager.ViewModels
             var result = windowManager.ShowDialog(revisionSelectionViewModel, null, null);
 
         }
-        
+
         public void Info()
         {
-            if (SelectedSheet != null) {
+            if (SelectedSheet != null)
+            {
                 System.Windows.MessageBox.Show(SelectedSheet.FullExportName);
             }
         }
-        
+
         public void VerifySheets()
         {
             exportManager.Update();
+            NotifyOfPropertyChange(() => Sheets);
         }
-        
+
         public void RemoveUnderlays()
         {
             ViewUtilities.ViewUnderlays.RemoveUnderlays(selectedSheets, exportManager.Doc);
         }
-        
+
         public void CopySheets()
         {
             var sheetCopierModel = new SCaddins.SheetCopier.ViewModels.SheetCopierViewModel(exportManager.UIDoc);
