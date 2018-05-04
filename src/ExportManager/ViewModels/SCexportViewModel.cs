@@ -44,6 +44,7 @@ namespace SCaddins.ExportManager.ViewModels
             get; set;
         }
 
+<<<<<<< HEAD
         public System.Windows.Visibility SearchFieldIsVisible
         {
             get { return searchFieldIsVisible; }
@@ -70,6 +71,8 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+=======
+>>>>>>> 0fd68e7ff8b5e930bf6d8943db2728590038bd3e
         public void Row_SelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
         {
             selectedSheets.AddRange(obj.AddedItems.Cast<ExportSheet>());
@@ -111,12 +114,15 @@ namespace SCaddins.ExportManager.ViewModels
                 var activeSheetName = ExportManager.CurrentViewNumber(exportManager.Doc);
                 var toSelect = sheets.Where<ExportSheet>(sheet => (sheet.SheetNumber == activeSheetName)).ToList<ExportSheet>().First();
                 Sheets.MoveCurrentTo(toSelect);
+<<<<<<< HEAD
             }
 
             if (keyArgs.Key == Key.Y)
             {
                 SearchFieldIsVisible = System.Windows.Visibility.Visible;
                 ProgessBarIsVisible = System.Windows.Visibility.Hidden;
+=======
+>>>>>>> 0fd68e7ff8b5e930bf6d8943db2728590038bd3e
             }
         }
 
@@ -136,8 +142,12 @@ namespace SCaddins.ExportManager.ViewModels
                 if (value != selectedViewSheetSet)
                 {
                     selectedViewSheetSet = value;
+<<<<<<< HEAD
                     if (selectedViewSheetSet.ViewSheetSet != null)
                     {
+=======
+                    if (selectedViewSheetSet.ViewSheetSet != null) {
+>>>>>>> 0fd68e7ff8b5e930bf6d8943db2728590038bd3e
                         var filter = new System.Predicate<object>(item => selectedViewSheetSet.ViewSheetSet.Views.Contains(((ExportSheet)item).Sheet));
                         Sheets.Filter = filter;
                     }
