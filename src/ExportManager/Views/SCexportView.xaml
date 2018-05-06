@@ -98,17 +98,17 @@
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem
-                        Header="No View Filter">
+                        Header="No View Filter" cal:Message.Attach="RemoveViewFilter">
                         <MenuItem.Icon>
                             <Image
-                                Source="/SCaddins;component/Assets/help.png" />
+                                Source="/SCaddins;component/Assets/remove_filter.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem
                         Header="Filter">
                         <MenuItem.Icon>
                             <Image
-                                Source="/SCaddins;component/Assets/help.png" />
+                                Source="/SCaddins;component/Assets/filter.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
@@ -153,47 +153,48 @@
                     <MenuItem Header="Fix Scale Bars" cal:Message.Attach="FixScaleBars">
                         <MenuItem.Icon>
                             <Image
-                                Source="/SCaddins;component/Assets/rename.png" />
+                                Source="/SCaddins;component/Assets/ruler.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="North Points On" cal:Message.Attach="TurnNorthPointsOn">
                         <MenuItem.Icon>
                             <Image
-                                Source="/SCaddins;component/Assets/rename.png" />
+                                Source="/SCaddins;component/Assets/north.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="North Points Off" cal:Message.Attach="TurnNorthPointsOff">
                         <MenuItem.Icon>
                             <Image
-                                Source="/SCaddins;component/Assets/rename.png" />
+                                Source="/SCaddins;component/Assets/north.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Create User Views" cal:Message.Attach="CreateUserViews">
                         <MenuItem.Icon>
                             <Image
-                                Source="/SCaddins;component/Assets/rename.png" />
+                                Source="/SCaddins;component/Assets/user.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
                     <MenuItem x:Name="SelectAll" Header="Select All" Click="SelectAll_Click">
                         <MenuItem.Icon>
                             <Image
-                                Source="/SCaddins;component/Assets/rename.png" />
+                                Source="/SCaddins;component/Assets/add.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="SelectNone" Header="Select None" Click="SelectNone_Click">
                         <MenuItem.Icon>
                             <Image
-                                Source="/SCaddins;component/Assets/rename.png" />
+                                Source="/SCaddins;component/Assets/none.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
                     <MenuItem Header="VerifySheets" cal:Message.Attach="VerifySheets">
                         <MenuItem.Icon>
                             <Image
-                                Source="/SCaddins;component/Assets/rename.png" />
+                                Source="/SCaddins;component/Assets/check.png" />
                         </MenuItem.Icon>
                     </MenuItem>
+                    <Separator />
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="SCaddins.Common.Views.UpgradeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SCaddins.Common.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Margin="5" Header="Version Information">
+            <StackPanel Height="Auto">
+                <Label Margin="5">Installed Version</Label>
+                <Label Margin="5">Latest Version</Label>
+                <TextBlock Height="*" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Margin="5" Background="White"></TextBlock>
+            </StackPanel>
+
+        </GroupBox>
+        <Button Grid.Row="1" MinWidth="50" HorizontalAlignment="Right" Margin="5">Close</Button>
+    </Grid>
+</UserControl>
