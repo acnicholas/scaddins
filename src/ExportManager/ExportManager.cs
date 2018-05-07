@@ -440,60 +440,34 @@ namespace SCaddins.ExportManager
             this.UseDateForEmptyRevisions = SCaddins.ExportManager.Settings1.Default.UseDateForEmptyRevisions;
         }
 
-        [SecurityCritical]
-        internal void ExportSheets(
-         ICollection<ExportSheet> sheets) {
-            if (sheets == null) {
-                return;
-            }
-
-            DateTime startTime = DateTime.Now;
-            TimeSpan elapsedTime = DateTime.Now - startTime;
-            PrintManager pm = Doc.PrintManager;
-            PrintSettings.SetPrinterByName(Doc, this.PdfPrinterName, pm);
-            this.log.Clear();
-            this.log.Start(Resources.ExportStarted);
-
-            foreach (ExportSheet sheet in sheets) {
-                elapsedTime = DateTime.Now - startTime;
-                this.ExportSheet(sheet);
-            }
-
-            this.log.Stop(Resources.ExportComplete);
-
-            #if DEBUG
-            this.log.ShowSummaryDialog();
-            #else
-            if (this.log.Errors > 0 || this.ShowExportLog) {
-                this.log.ShowSummaryDialog();
-            }
-            #endif
-        }
-
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        //private static void OpenSheet(UIDocument udoc, ViewSheet view, int inc)
-        //{
-        //    IList<ViewSheet> sheets = new List<ViewSheet>();
-        //    using (var collector = new FilteredElementCollector(udoc.Document)) {
-        //        collector.OfCategory(BuiltInCategory.OST_Sheets);
-        //        collector.OfClass(typeof(ViewSheet)); 
-        //        foreach (ViewSheet v in collector) {
-        //            sheets.Add(v);
-        //        }
+        //[SecurityCritical]
+        //internal void ExportSheets(
+        // ICollection<ExportSheet> sheets) {
+        //    if (sheets == null) {
+        //        return;
         //    }
-        //    IEnumerable<ViewSheet> sortedEnum = sheets.OrderBy(f => f.SheetNumber);
-        //    IList<ViewSheet> sortedSheets = sortedEnum.ToList();
-            
 
-        //    for (int i = 0; i < sortedSheets.Count; i++) {
-        //        if(inc == -1 && i == 0) continue;
-        //        if(inc == 1 && i == (sortedSheets.Count - 1)) continue;
-        //        if (sortedSheets[i].SheetNumber == view.SheetNumber) {
-        //            UIApplication uiapp = new UIApplication(udoc.Document.Application);
-        //            uiapp.ActiveUIDocument.ActiveView = sortedSheets[i + inc];
-        //            return;
-        //        }
+        //    DateTime startTime = DateTime.Now;
+        //    TimeSpan elapsedTime = DateTime.Now - startTime;
+        //    PrintManager pm = Doc.PrintManager;
+        //    PrintSettings.SetPrinterByName(Doc, this.PdfPrinterName, pm);
+        //    this.log.Clear();
+        //    this.log.Start(Resources.ExportStarted);
+
+        //    foreach (ExportSheet sheet in sheets) {
+        //        elapsedTime = DateTime.Now - startTime;
+        //        this.ExportSheet(sheet);
         //    }
+
+        //    this.log.Stop(Resources.ExportComplete);
+
+        //    #if DEBUG
+        //    this.log.ShowSummaryDialog();
+        //    #else
+        //    if (this.log.Errors > 0 || this.ShowExportLog) {
+        //        this.log.ShowSummaryDialog();
+        //    }
+        //    #endif
         //}
 
         private static Dictionary<string, FamilyInstance> AllTitleBlocks(Document document)
@@ -770,7 +744,7 @@ namespace SCaddins.ExportManager
 
         [SecurityCritical]
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
-        private void ExportSheet(ExportSheet sheet)
+        public void ExportSheet(ExportSheet sheet)
         {
             if (!sheet.Verified) {
                 sheet.UpdateSheetInfo();

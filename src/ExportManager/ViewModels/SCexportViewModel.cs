@@ -169,8 +169,11 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void Export()
         {
-            //System.Windows.MessageBox.Show(selectedSheets.Count.ToString());
-            exportManager.ExportSheets(selectedSheets);
+            //exportManager.ExportSheets(selectedSheets);
+            foreach (ExportSheet sheet in selectedSheets)
+            {
+                exportManager.ExportSheet(sheet);
+            }
         }
 
         public void OpenViewsCommand()
