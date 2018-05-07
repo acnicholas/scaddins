@@ -18,6 +18,8 @@ namespace SCaddins.ExportManager.ViewModels
         private CollectionViewSource sheetsCollection;
         private WindowManager windowManager;
         private ViewSheetSetCombo selectedViewSheetSet;
+        private double currentProgress;
+        public string searchField;
         List<ExportSheet> selectedSheets = new List<ExportSheet>();
         private System.Windows.Visibility searchFieldIsVisible;
         private System.Windows.Visibility progessBarIsVisible;
@@ -32,6 +34,7 @@ namespace SCaddins.ExportManager.ViewModels
             this.selectedViewSheetSet = null;
             SearchFieldIsVisible = System.Windows.Visibility.Hidden;
             ProgessBarIsVisible = System.Windows.Visibility.Hidden;
+            searchField = string.Empty;
         }
 
         public ICollectionView Sheets
@@ -68,6 +71,22 @@ namespace SCaddins.ExportManager.ViewModels
                     NotifyOfPropertyChange(() => ProgessBarIsVisible);
                 }
             }
+        }
+
+        public double CurrentProgress
+        {
+            get { return currentProgress; }
+            set
+            {
+                currentProgress = value;
+                NotifyOfPropertyChange(() => CurrentProgress);
+            }
+        }
+
+        public double ProgressBarMaximum
+        {
+            get;
+            set;
         }
 
         public void Row_SelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
@@ -119,11 +138,33 @@ namespace SCaddins.ExportManager.ViewModels
                 Sheets.MoveCurrentTo(toSelect);
             }
 
-            if (keyArgs.Key == Key.Y)
+            if (keyArgs.Key == Key.OemQuestion)
             {
+                SearchField = string.Empty;
                 SearchFieldIsVisible = System.Windows.Visibility.Visible;
                 ProgessBarIsVisible = System.Windows.Visibility.Hidden;
+                //UserShouldEditValueNow = true;
+                //NotifyOfPropertyChange(() => UserShouldEditValueNow);
+                
             }
+        }
+
+        public string SearchField
+        {
+            get { return searchField; }
+            set
+            {
+                if (value != searchField)
+                {
+                    SearchField = value;
+                    NotifyOfPropertyChange(() => SearchField);
+                }
+            }
+        }
+
+        public bool UserShouldEditValueNow
+        {
+            get; set;
         }
 
         public ObservableCollection<ViewSheetSetCombo> ViewSheetSets
@@ -170,9 +211,17 @@ namespace SCaddins.ExportManager.ViewModels
         public void Export()
         {
             //exportManager.ExportSheets(selectedSheets);
+            ProgressBarMaximum = selectedSheets.Count;
+            NotifyOfPropertyChange(() => ProgressBarMaximum);
+            CurrentProgress = 0;
+
+            ProgessBarIsVisible = System.Windows.Visibility.Visible;
+            SearchFieldIsVisible = System.Windows.Visibility.Hidden;
+            
             foreach (ExportSheet sheet in selectedSheets)
             {
                 exportManager.ExportSheet(sheet);
+                CurrentProgress++;
             }
         }
 

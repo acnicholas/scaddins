@@ -26,6 +26,15 @@
             <RowDefinition
                 Height="30" />
         </Grid.RowDefinitions>
+        <Grid.Style>
+            <Style>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding UserShouldEditValueNow}" Value="True">
+                        <Setter Property="FocusManager.FocusedElement" Value="{Binding ElementName=SearchField}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
         <ComboBox
             ItemsSource="{Binding ViewSheetSets}"
             SelectedItem="{Binding SelectedViewSheetSet}"
