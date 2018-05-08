@@ -8,10 +8,11 @@ using System.Windows.Controls;
 using Caliburn.Micro;
 using System.Linq;
 using System.Dynamic;
+using System;
 
 namespace SCaddins.ExportManager.ViewModels
 {
-    public class SCexportViewModel : PropertyChangedBase
+    public class SCexportViewModel : Screen
     {
         private readonly ExportManager exportManager;
         private ObservableCollection<ExportSheet> sheets;
@@ -19,7 +20,7 @@ namespace SCaddins.ExportManager.ViewModels
         private WindowManager windowManager;
         private ViewSheetSetCombo selectedViewSheetSet;
         private double currentProgress;
-        public string searchField;
+        private string searchField;
         List<ExportSheet> selectedSheets = new List<ExportSheet>();
         private System.Windows.Visibility searchFieldIsVisible;
         private System.Windows.Visibility progessBarIsVisible;
@@ -34,7 +35,7 @@ namespace SCaddins.ExportManager.ViewModels
             this.selectedViewSheetSet = null;
             SearchFieldIsVisible = System.Windows.Visibility.Hidden;
             ProgessBarIsVisible = System.Windows.Visibility.Hidden;
-            searchField = string.Empty;
+            searchField = " ";
         }
 
         public ICollectionView Sheets
@@ -140,12 +141,22 @@ namespace SCaddins.ExportManager.ViewModels
 
             if (keyArgs.Key == Key.OemQuestion)
             {
-                SearchField = string.Empty;
                 SearchFieldIsVisible = System.Windows.Visibility.Visible;
                 ProgessBarIsVisible = System.Windows.Visibility.Hidden;
-                //UserShouldEditValueNow = true;
-                //NotifyOfPropertyChange(() => UserShouldEditValueNow);
-                
+                UserShouldEditValueNow = true;
+                NotifyOfPropertyChange(() => UserShouldEditValueNow);
+                SearchField = string.Empty;
+            }
+
+            if (keyArgs.Key == Key.Escape)
+            {
+                if (SearchFieldIsVisible == System.Windows.Visibility.Visible)
+                {
+                    SearchFieldIsVisible = System.Windows.Visibility.Hidden;
+                } else
+                {
+                    TryClose();
+                }
             }
         }
 
@@ -156,7 +167,7 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (value != searchField)
                 {
-                    SearchField = value;
+                    searchField = value;
                     NotifyOfPropertyChange(() => SearchField);
                 }
             }
@@ -210,18 +221,19 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void Export()
         {
-            //exportManager.ExportSheets(selectedSheets);
             ProgressBarMaximum = selectedSheets.Count;
             NotifyOfPropertyChange(() => ProgressBarMaximum);
             CurrentProgress = 0;
 
-            ProgessBarIsVisible = System.Windows.Visibility.Visible;
             SearchFieldIsVisible = System.Windows.Visibility.Hidden;
-            
+            ProgessBarIsVisible = System.Windows.Visibility.Visible;
+            System.Windows.Forms.Application.DoEvents();
+
             foreach (ExportSheet sheet in selectedSheets)
             {
+                CurrentProgress +=1;
                 exportManager.ExportSheet(sheet);
-                CurrentProgress++;
+                System.Windows.Forms.Application.DoEvents();
             }
         }
 
@@ -240,7 +252,6 @@ namespace SCaddins.ExportManager.ViewModels
             ViewUtilities.UserView.ShowSummaryDialog(
                 ViewUtilities.UserView.Create(selectedSheets, exportManager.Doc)
             );
-            //ExportManager.CreateUserViews(selectedSheets, exportManager.Doc);
         }
 
         public void AddRevision()

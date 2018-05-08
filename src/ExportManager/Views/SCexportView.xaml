@@ -99,7 +99,7 @@
                     Binding="{Binding ExportDirectory}" />
                 <DataGridTextColumn
                     Header="Scale"
-                    Binding="{Binding Scale, UpdateSourceTrigger=PropertyChanged}" />
+                    Binding="{Binding Scale}" />
                 <DataGridTextColumn
                     Header="North Point"
                     Binding="{Binding NorthPointVisible}" />
@@ -115,6 +115,10 @@
                     </MenuItem>
                     <MenuItem
                         Header="Filter">
+                        <TextBox>Hello</TextBox>
+                        <MenuItem Header="TEST"/>
+                        <MenuItem Header="TEST2"/>
+                        <MenuItem Header="TEST3"/>
                         <MenuItem.Icon>
                             <Image
                                 Source="/SCaddins;component/Assets/filter.png" />
@@ -207,7 +211,7 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
-        <ProgressBar x:Name="CurrentProgress" Visibility="{Binding ProgessBarIsVisible}"  Maximum="{Binding ProgessBarMaximum}"  Grid.Column="0" Grid.Row="2" Margin="5,0,5,5">
+        <ProgressBar x:Name="CurrentProgress" Visibility="{Binding ProgessBarIsVisible}" Minimum="0" Maximum="{Binding ProgressBarMaximum}"  Grid.Column="0" Grid.Row="2" Margin="5,0,5,5">
         </ProgressBar>
         <TextBox x:Name="SearchField" Visibility="{Binding SearchFieldIsVisible}" Grid.Column="0" Grid.Row="2" Margin="5,0,5,5">
         </TextBox>
