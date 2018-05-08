@@ -282,9 +282,16 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void CopySheets()
         {
+            dynamic settings = new ExpandoObject();
+            settings.Height = 480;
+            settings.Width = 768;
+            settings.Title = "Sheet Copier - By Andrew Nicholas";
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+            settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
             var sheetCopierModel = new SCaddins.SheetCopier.ViewModels.SheetCopierViewModel(exportManager.UIDoc);
             sheetCopierModel.AddSheets(selectedSheets);
-            windowManager.ShowDialog(sheetCopierModel, null, null);
+            windowManager.ShowDialog(sheetCopierModel, null, settings);
         }
 
         public void RenameSheets()
