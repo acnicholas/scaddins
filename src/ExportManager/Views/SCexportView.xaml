@@ -6,7 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:dgx="urn:tom-englert.de/DataGridExtensions"
     mc:Ignorable="d"
-    x:Class="SCaddins.ExportManager.Views.SCexportView"
+    xmlns:local="SCaddins.ExportManager.ViewModels"
+    x:Class="SCaddins.ExportManager.Views.SCexportViewModel"
     d:DesignWidth="628" d:DesignHeight="272">
 
     <Grid >
@@ -51,7 +52,6 @@
             x:Name="Sheets"
             SelectionMode="Extended"
             cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($eventArgs)]; [Event KeyDown] = [ExecuteFilterView($eventArgs)]"
-            KeyDown="Grid_KeyDown"
             AutoGenerateColumns="False"
             Grid.Column="0"
             Grid.Row="1"
@@ -67,6 +67,9 @@
                 <Style TargetType="DataGridRow">
                     <Setter Property="IsSelected"
                     Value="{Binding IsSelected}" />
+                </Style>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 </Style>
             </DataGrid.Resources>
             <DataGrid.VerticalGridLinesBrush>
@@ -87,7 +90,20 @@
                     Binding="{Binding SheetNumber}" />
                 <DataGridTextColumn
                     Header="Name"
-                    Binding="{Binding SheetDescription}" />
+                    Binding="{Binding SheetDescription}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Width="Auto" HorizontalAlignment="Stretch" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.75*" ></ColumnDefinition>
+                                    <ColumnDefinition Width="0.20*" ></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" HorizontalAlignment="Stretch" Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="2"/>
+                                <TextBox Grid.Column="1" Text="{Binding DataContext.SheetNameFilter, RelativeSource={RelativeSource AncestorType={x:Type local:SheetNameFilter}}}" Width="Auto" HorizontalContentAlignment="Right"  HorizontalAlignment="Right"  MinWidth="10" Margin="2"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
                 <DataGridTextColumn
                     Header="Revision"
                     Binding="{Binding SheetRevision}"/>

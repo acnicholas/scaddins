@@ -90,6 +90,12 @@ namespace SCaddins.ExportManager.ViewModels
             set;
         }
 
+        public string SheetNameFilter
+        {
+            get
+            { return "TestThisS...";  }
+        }
+
         public void Row_SelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
         {
             selectedSheets.AddRange(obj.AddedItems.Cast<ExportSheet>());
@@ -104,6 +110,9 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void ExecuteFilterView(KeyEventArgs keyArgs)
         {
+
+            if (keyArgs.OriginalSource.GetType() == typeof(System.Windows.Controls.TextBox)) return;
+            //System.Windows.MessageBox.Show(keyArgs.OriginalSource.GetType().ToString());
 
             if (keyArgs.Key == Key.C)
             {
