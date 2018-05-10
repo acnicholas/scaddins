@@ -67,9 +67,15 @@ namespace SCaddins.RevisionUtilities
         {
             get { return this.issued; }
         }
+
+        public ElementId Id
+        {
+            get; private set;
+        }
           
         private void Init(Element revision)
         {
+            this.Id = revision.Id;
             this.description = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
             this.date = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString();
             this.issued = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_ISSUED).AsInteger() == 1;

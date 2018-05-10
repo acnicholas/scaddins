@@ -104,9 +104,9 @@ namespace SCaddins.RevisionUtilities
             return revisionClouds;
         }
         
-        public static SortableBindingListCollection<RevisionItem> GetRevisions(Document doc)
+        public static List<RevisionItem> GetRevisions(Document doc)
         {
-            var revisions = new SortableBindingListCollection<RevisionItem>();
+            var revisions = new List<RevisionItem>();
             using (var a = new FilteredElementCollector(doc)) {
                 a.OfCategory(BuiltInCategory.OST_Revisions);
                 foreach (Revision e in a) {

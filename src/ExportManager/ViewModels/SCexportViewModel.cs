@@ -219,7 +219,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void AddRevision()
         {
-            var revisionSelectionViewModel = new RevisionSelectionViewModel();
+            var revisionSelectionViewModel = new RevisionSelectionViewModel(exportManager.Doc);
             var result = windowManager.ShowDialog(revisionSelectionViewModel, null, null);
 
         }

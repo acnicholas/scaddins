@@ -15,13 +15,13 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+        <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" AutoGenerateColumns="False" Margin="5">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Seq"></DataGridTextColumn>
-                <DataGridTextColumn Header="Rev"></DataGridTextColumn>
-                <DataGridTextColumn Header="Description"></DataGridTextColumn>
-                <DataGridTextColumn Header="Date"></DataGridTextColumn>
-                <DataGridTextColumn Header="Id"></DataGridTextColumn>
+                <DataGridTextColumn Header="Seq" Binding="{Binding Sequence}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Date" Binding="{Binding Date}"></DataGridTextColumn>
+                <DataGridCheckBoxColumn Header="Issued" Binding="{Binding Issued}"></DataGridCheckBoxColumn>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Button Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" MinWidth="50" IsCancel="True">Cancel</Button>

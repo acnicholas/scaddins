@@ -130,10 +130,10 @@ namespace SCaddins.ExportManager
                 value = Settings1.Default.AcadExportVersion;
             }
         }
-        
+
         public bool UseDateForEmptyRevisions
         {
-        	get; set;
+            get; set;
         }
 
         public UIDocument UIDoc
@@ -186,11 +186,11 @@ namespace SCaddins.ExportManager
                 this.fileNameScheme = value;
             }
         }
-        
+
         public bool ShowExportLog {
             get; set;
         }
-                             
+
         public static FamilyInstance TitleBlockInstanceFromSheetNumber(
             string sheetNumber, Document doc)
         {
@@ -218,7 +218,7 @@ namespace SCaddins.ExportManager
             string s = GetConfigFileName(doc);
             return File.Exists(s) ? s : null;
         }
-        
+
         public static string GetOldConfigFileName(Document doc)
         {
             string central = FileUtilities.GetCentralFileName(doc);
@@ -226,16 +226,16 @@ namespace SCaddins.ExportManager
                 Path.GetFileNameWithoutExtension(central) + Resources.FileExtensionXML;
             return s;
         }
-        
+
         public static string GetConfigFileName(Document doc)
-        {          
-            #if DEBUG
+        {
+#if DEBUG
             Debug.WriteLine("getting config file for " + doc.Title);
             string s = @"C:\Andrew\code\cs\scaddins\share\SCexport-example-conf.xml";
-            #else
+#else
             string central = FileUtilities.GetCentralFileName(doc);
             string s = Path.GetDirectoryName(central) + @"\SCexport.xml";
-            #endif
+#endif
             return s;
         }
 
@@ -246,7 +246,7 @@ namespace SCaddins.ExportManager
 
         public static void OpenNextSheet(UIDocument udoc, ViewSheet view)
         {
-             //OpenSheet(udoc, view, 1);
+            //OpenSheet(udoc, view, 1);
         }
 
         public static void FixScaleBars(ICollection<ExportSheet> sheets, Document doc)
@@ -268,7 +268,7 @@ namespace SCaddins.ExportManager
                 }
             }
         }
-        
+
         public static void ToggleNorthPoints(ICollection<ExportSheet> sheets, Document doc, bool turnOn)
         {
             if (sheets == null) {
@@ -326,43 +326,43 @@ namespace SCaddins.ExportManager
             DateTime startTime = DateTime.Now;
             TimeSpan elapsedTime = DateTime.Now - startTime;
 
-            if (1 == 1) { 
+            if (1 == 1) {
                 bool printSetttingsValid;
                 this.log.Clear();
                 this.log.Start(Resources.StartingPrint);
-                foreach (ExportSheet sheet in sheets.OrderBy(x => x.SheetNumber).ToList()) {      
+                foreach (ExportSheet sheet in sheets.OrderBy(x => x.SheetNumber).ToList()) {
                     elapsedTime = DateTime.Now - startTime;
-                  
+
                     if (!sheet.Verified) {
                         sheet.UpdateSheetInfo();
                     }
                     printSetttingsValid = false;
 
                     switch (scale) {
-                    case 3:
-                        printSetttingsValid |= PrintSettings.PrintToDevice(Doc, "A3-FIT", pm, printerName, this.log);
-                        break;
-                    case 2:
-                        printSetttingsValid |= PrintSettings.PrintToDevice(Doc, "A2-FIT", pm, printerName, this.log);
-                        break;
-                    default:
-                        int i = int.Parse(sheet.PageSize.Substring(1, 1), CultureInfo.InvariantCulture);
-                        string printerNameTmp = i > 2 ? this.PrinterNameA3 : this.PrinterNameLargeFormat;
-                        printSetttingsValid |= PrintSettings.PrintToDevice(Doc, sheet.PageSize, pm, printerNameTmp, this.log);
-                        break;
+                        case 3:
+                            printSetttingsValid |= PrintSettings.PrintToDevice(Doc, "A3-FIT", pm, printerName, this.log);
+                            break;
+                        case 2:
+                            printSetttingsValid |= PrintSettings.PrintToDevice(Doc, "A2-FIT", pm, printerName, this.log);
+                            break;
+                        default:
+                            int i = int.Parse(sheet.PageSize.Substring(1, 1), CultureInfo.InvariantCulture);
+                            string printerNameTmp = i > 2 ? this.PrinterNameA3 : this.PrinterNameLargeFormat;
+                            printSetttingsValid |= PrintSettings.PrintToDevice(Doc, sheet.PageSize, pm, printerNameTmp, this.log);
+                            break;
                     }
                     if (printSetttingsValid) {
                         pm.SubmitPrint(sheet.Sheet);
                     }
                 }
                 this.log.Stop(Resources.FinishedPrint);
-                #if DEBUG
+#if DEBUG
                 this.log.ShowSummaryDialog();
-                #else
+#else
                 if (this.log.Errors > 0) {
                     this.log.ShowSummaryDialog();
                 }
-                #endif
+#endif
             }
         }
 
@@ -403,7 +403,7 @@ namespace SCaddins.ExportManager
                     this.fileNameScheme = scheme;
                     foreach (ExportSheet sheet in this.allSheets) {
                         sheet.SetSegmentedSheetName(this.fileNameScheme);
-                    } 
+                    }
                 }
             }
         }
@@ -428,11 +428,11 @@ namespace SCaddins.ExportManager
         public void LoadSettings()
         {
             this.GhostscriptBinDirectory = SCaddins.ExportManager.Settings1.Default.GSBinDirectory;
-            this.PdfPrinterName = SCaddins.ExportManager.Settings1.Default.AdobePrinterDriver; 
-            this.PrinterNameA3 = SCaddins.ExportManager.Settings1.Default.A3PrinterDriver; 
+            this.PdfPrinterName = SCaddins.ExportManager.Settings1.Default.AdobePrinterDriver;
+            this.PrinterNameA3 = SCaddins.ExportManager.Settings1.Default.A3PrinterDriver;
             this.PrinterNameLargeFormat = SCaddins.ExportManager.Settings1.Default.LargeFormatPrinterDriver;
-            this.PostscriptPrinterName = SCaddins.ExportManager.Settings1.Default.PSPrinterDriver; 
-            this.GhostscriptLibDirectory = SCaddins.ExportManager.Settings1.Default.GSLibDirectory; 
+            this.PostscriptPrinterName = SCaddins.ExportManager.Settings1.Default.PSPrinterDriver;
+            this.GhostscriptLibDirectory = SCaddins.ExportManager.Settings1.Default.GSLibDirectory;
             this.exportDirectory = SCaddins.ExportManager.Settings1.Default.ExportDir;
             this.AcadVersion = SCaddins.ExportManager.Settings1.Default.AcadExportVersion;
             this.ShowExportLog = SCaddins.ExportManager.Settings1.Default.ShowExportLog;
@@ -579,7 +579,7 @@ namespace SCaddins.ExportManager
                 this.AddExportOption(ExportOptions.GhostscriptPDF);
             } else {
                 if (this.PDFSanityCheck()) {
-                     this.AddExportOption(ExportOptions.PDF);   
+                    this.AddExportOption(ExportOptions.PDF);
                 }
                 this.AddExportOption(ExportOptions.DWG);
             }
@@ -589,18 +589,36 @@ namespace SCaddins.ExportManager
             this.forceDate |= SCaddins.ExportManager.Settings1.Default.ForceDateRevision;
         }
 
+
+        public static void AddRevisions(ICollection<ExportSheet> sheets, ElementId revisionId, Document doc)
+        {
+            if (sheets == null || revisionId == null || revisionId == null) {
+                return;
+            }
+
+            using (var t = new Transaction(doc, "SCexport: Add new revisions"))
+            {
+                if (t.Start() == TransactionStatus.Started) {
+                    foreach (ExportSheet sheet in sheets) {
+                        ICollection<ElementId> il = sheet.Sheet.GetAdditionalRevisionIds();
+                        il.Add(revisionId);
+                        sheet.Sheet.SetAdditionalRevisionIds(il);
+                    }
+                    t.Commit();
+                } else {
+                    TaskDialog.Show("Error", "SCexport: error adding revisions, could not start transaction.");
+                }
+            }
+            foreach (ExportSheet sheet in sheets) {
+                sheet.UpdateRevision(true);
+            }
+        }
+
         private void PopulateSheets(ObservableCollection<ExportSheet> s)
         {
             string config = GetConfigFileName(Doc);
             bool b = this.ImportXMLinfo(config);
-            if (!b) {
-                var name = new SegmentedSheetName();
-                name.Name = "YYYYMMDD-AD-NNN";
-                name.NameFormat = "$projectNumber-$sheetNumber[$sheetRevision]";
-                this.fileNameTypes.Add(name);
-                this.fileNameScheme = name;
-            }
-            if (this.fileNameTypes.Count <= 0) {
+            if (!b || this.fileNameTypes.Count <= 0) {
                 var name = new SegmentedSheetName();
                 name.Name = "YYYYMMDD-AD-NNN";
                 name.NameFormat = "$projectNumber-$sheetNumber[$sheetRevision]";
