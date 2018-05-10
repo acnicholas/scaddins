@@ -6,8 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:dgx="urn:tom-englert.de/DataGridExtensions"
     mc:Ignorable="d"
-    xmlns:local="SCaddins.ExportManager.ViewModels"
-    x:Class="SCaddins.ExportManager.Views.SCexportViewModel"
+    xmlns:local="clr-namespace:SCaddins.ExportManager.ViewModels"
+    x:Class="SCaddins.ExportManager.Views.SCexportView"
     d:DesignWidth="628" d:DesignHeight="272">
 
     <Grid >
@@ -27,15 +27,6 @@
             <RowDefinition
                 Height="30" />
         </Grid.RowDefinitions>
-        <Grid.Style>
-            <Style>
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding UserShouldEditValueNow}" Value="True">
-                        <Setter Property="FocusManager.FocusedElement" Value="{Binding ElementName=SearchField}"/>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </Grid.Style>
         <ComboBox
             ItemsSource="{Binding ViewSheetSets}"
             SelectedItem="{Binding SelectedViewSheetSet}"
@@ -65,8 +56,11 @@
             IsReadOnly="True">
             <DataGrid.Resources>
                 <Style TargetType="DataGridRow">
-                    <Setter Property="IsSelected"
-                    Value="{Binding IsSelected}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{x:Static SystemColors.HighlightColor}" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}"/>
+                        </Style.Resources>
                 </Style>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -81,6 +75,7 @@
             <DataGrid.AlternatingRowBackground>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
             </DataGrid.AlternatingRowBackground>
+            
             <DataGrid.Columns>
                 <DataGridTextColumn
                     Header="Export Name"
@@ -89,17 +84,36 @@
                     Header="Number"
                     Binding="{Binding SheetNumber}" />
                 <DataGridTextColumn
+                    Width="*"
                     Header="Name"
                     Binding="{Binding SheetDescription}">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
-                            <Grid Width="Auto" HorizontalAlignment="Stretch" >
+                            <Grid Width="Auto" HorizontalAlignment="Stretch" Name="HoverOnMe" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="0.75*" ></ColumnDefinition>
-                                    <ColumnDefinition Width="0.20*" ></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" HorizontalAlignment="Stretch" Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="2"/>
-                                <TextBox Grid.Column="1" Text="{Binding DataContext.SheetNameFilter, RelativeSource={RelativeSource AncestorType={x:Type local:SheetNameFilter}}}" Width="Auto" HorizontalContentAlignment="Right"  HorizontalAlignment="Right"  MinWidth="10" Margin="2"/>
+                                <TextBox
+                                    Grid.Column="1"
+                                    Text="{Binding DataContext.SheetNameFilter, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                    Width="Auto"
+                                    HorizontalContentAlignment="Right"
+                                    HorizontalAlignment="Right"
+                                    MinWidth="10"
+                                    Margin="2">
+                                    <TextBox.Style>
+                                        <Style TargetType="{x:Type TextBox}">
+                                            <Setter Property="Visibility" Value="Hidden" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=HoverOnMe}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
                             </Grid>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
@@ -227,10 +241,8 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
-        <ProgressBar x:Name="CurrentProgress" Visibility="{Binding ProgessBarIsVisible}" Minimum="0" Maximum="{Binding ProgressBarMaximum}"  Grid.Column="0" Grid.Row="2" Margin="5,0,5,5">
-        </ProgressBar>
-        <TextBox x:Name="SearchField" Visibility="{Binding SearchFieldIsVisible}" Grid.Column="0" Grid.Row="2" Margin="5,0,5,5">
-        </TextBox>
+        <ProgressBar x:Name="CurrentProgress" Minimum="0" Maximum="{Binding ProgressBarMaximum}"  Grid.Column="0" Grid.Row="2" Margin="5,0,5,5"/>
+        <TextBlock x:Name="ProgressBarText" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Margin="5,0,5,5">Test This Shxx</TextBlock>
         <Button
             cal:Message.Attach="Export"
             Content="Export"

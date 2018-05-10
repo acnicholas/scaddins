@@ -12,7 +12,7 @@ using System;
 
 namespace SCaddins.ExportManager.ViewModels
 {
-    public class SCexportViewModel : Screen
+    class SCexportViewModel : Screen
     {
         private readonly ExportManager exportManager;
         private ObservableCollection<ExportSheet> sheets;
@@ -20,7 +20,7 @@ namespace SCaddins.ExportManager.ViewModels
         private WindowManager windowManager;
         private ViewSheetSetCombo selectedViewSheetSet;
         private double currentProgress;
-        private string searchField;
+        private string sheetNameFilter;
         List<ExportSheet> selectedSheets = new List<ExportSheet>();
         private System.Windows.Visibility searchFieldIsVisible;
         private System.Windows.Visibility progessBarIsVisible;
@@ -33,9 +33,9 @@ namespace SCaddins.ExportManager.ViewModels
             this.sheetsCollection = new CollectionViewSource();
             this.sheetsCollection.Source = this.sheets;
             this.selectedViewSheetSet = null;
-            SearchFieldIsVisible = System.Windows.Visibility.Hidden;
-            ProgessBarIsVisible = System.Windows.Visibility.Hidden;
-            searchField = " ";
+            SheetNameFilter = string.Empty;
+            CurrentProgress = 0;
+            ProgressBarMaximum = 1;
         }
 
         public ICollectionView Sheets
@@ -46,32 +46,6 @@ namespace SCaddins.ExportManager.ViewModels
         public ExportSheet SelectedSheet
         {
             get; set;
-        }
-
-        public System.Windows.Visibility SearchFieldIsVisible
-        {
-            get { return searchFieldIsVisible; }
-            set
-            {
-                if (value != searchFieldIsVisible)
-                {
-                    searchFieldIsVisible = value;
-                    NotifyOfPropertyChange(() => SearchFieldIsVisible);
-                }
-            }
-        }
-
-        public System.Windows.Visibility ProgessBarIsVisible
-        {
-            get { return progessBarIsVisible; }
-            set
-            {
-                if (value != progessBarIsVisible)
-                {
-                    progessBarIsVisible = value;
-                    NotifyOfPropertyChange(() => ProgessBarIsVisible);
-                }
-            }
         }
 
         public double CurrentProgress
@@ -93,7 +67,19 @@ namespace SCaddins.ExportManager.ViewModels
         public string SheetNameFilter
         {
             get
-            { return "TestThisS...";  }
+            {
+                return sheetNameFilter;
+            }
+            set
+            {
+                if (value != sheetNameFilter)
+                {
+                    sheetNameFilter = value;
+                    var filter = new System.Predicate<object>(item => ((ExportSheet)item).SheetDescription.Contains(sheetNameFilter));
+                    Sheets.Filter = filter;
+                    NotifyOfPropertyChange(() => Sheets);
+                }
+            }
         }
 
         public void Row_SelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
@@ -112,7 +98,6 @@ namespace SCaddins.ExportManager.ViewModels
         {
 
             if (keyArgs.OriginalSource.GetType() == typeof(System.Windows.Controls.TextBox)) return;
-            //System.Windows.MessageBox.Show(keyArgs.OriginalSource.GetType().ToString());
 
             if (keyArgs.Key == Key.C)
             {
@@ -148,37 +133,9 @@ namespace SCaddins.ExportManager.ViewModels
                 Sheets.MoveCurrentTo(toSelect);
             }
 
-            if (keyArgs.Key == Key.OemQuestion)
-            {
-                SearchFieldIsVisible = System.Windows.Visibility.Visible;
-                ProgessBarIsVisible = System.Windows.Visibility.Hidden;
-                UserShouldEditValueNow = true;
-                NotifyOfPropertyChange(() => UserShouldEditValueNow);
-                SearchField = string.Empty;
-            }
-
             if (keyArgs.Key == Key.Escape)
             {
-                if (SearchFieldIsVisible == System.Windows.Visibility.Visible)
-                {
-                    SearchFieldIsVisible = System.Windows.Visibility.Hidden;
-                } else
-                {
                     TryClose();
-                }
-            }
-        }
-
-        public string SearchField
-        {
-            get { return searchField; }
-            set
-            {
-                if (value != searchField)
-                {
-                    searchField = value;
-                    NotifyOfPropertyChange(() => SearchField);
-                }
             }
         }
 
@@ -232,10 +189,6 @@ namespace SCaddins.ExportManager.ViewModels
         {
             ProgressBarMaximum = selectedSheets.Count;
             NotifyOfPropertyChange(() => ProgressBarMaximum);
-            CurrentProgress = 0;
-
-            SearchFieldIsVisible = System.Windows.Visibility.Hidden;
-            ProgessBarIsVisible = System.Windows.Visibility.Visible;
             System.Windows.Forms.Application.DoEvents();
 
             foreach (ExportSheet sheet in selectedSheets)
@@ -244,6 +197,7 @@ namespace SCaddins.ExportManager.ViewModels
                 exportManager.ExportSheet(sheet);
                 System.Windows.Forms.Application.DoEvents();
             }
+            CurrentProgress = 0;
         }
 
         public void OpenViewsCommand()
