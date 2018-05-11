@@ -10,23 +10,31 @@ using Caliburn.Micro;
 
 namespace SCaddins.ExportManager.ViewModels
 {
-    class RevisionSelectionViewModel : PropertyChangedBase
+    class RevisionSelectionViewModel : Screen
     {
-
         public ObservableCollection<SCaddins.RevisionUtilities.RevisionItem> Revisions
         {
-            set;
-            get;
+            get; set;
         }
 
-        //public RevisionUtilities.RevisionItem SelectedRevision
-        //{
-        //    get; set;
-        //}
+        public RevisionUtilities.RevisionItem SelectedRevision
+        {
+            get; set;
+        }
 
         public RevisionSelectionViewModel(Autodesk.Revit.DB.Document doc)
         {
             Revisions = new ObservableCollection<SCaddins.RevisionUtilities.RevisionItem>(RevisionUtilities.RevisionUtilities.GetRevisions(doc));
+        }
+
+        public void OK()
+        {
+            TryClose(true);
+        }
+
+        public void Cancel()
+        {
+            TryClose(false);
         }
     }
 }

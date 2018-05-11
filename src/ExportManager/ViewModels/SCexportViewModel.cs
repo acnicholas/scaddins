@@ -64,6 +64,14 @@ namespace SCaddins.ExportManager.ViewModels
             set;
         }
 
+        public string ProgressBarText
+        {
+            get {
+                var numberOfSheets = selectedSheets.Count;
+                return numberOfSheets + @" Sheet[s] Selected To Export/Print";
+            }
+        }
+
         public string SheetNameFilter
         {
             get
@@ -86,6 +94,7 @@ namespace SCaddins.ExportManager.ViewModels
         {
             selectedSheets.AddRange(obj.AddedItems.Cast<ExportSheet>());
             obj.RemovedItems.Cast<ExportSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
+            NotifyOfPropertyChange(() => ProgressBarText);
         }
 
         public void RemoveViewFilter()
@@ -219,9 +228,24 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void AddRevision()
         {
+            dynamic settings = new ExpandoObject();
+            settings.Height = 640;
+            settings.Width = 480;
+            settings.Title = "Select Revision to Assign";
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+            settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
             var revisionSelectionViewModel = new RevisionSelectionViewModel(exportManager.Doc);
-            var result = windowManager.ShowDialog(revisionSelectionViewModel, null, null);
-
+            bool? result = windowManager.ShowDialog(revisionSelectionViewModel, null, settings);
+            bool newBool = result.HasValue ? result.Value : false;
+            if (newBool)
+            {
+                if (revisionSelectionViewModel.SelectedRevision != null)
+                {
+                    ExportManager.AddRevisions(selectedSheets, revisionSelectionViewModel.SelectedRevision.Id, exportManager.Doc);
+                    NotifyOfPropertyChange(() => Sheets);
+                }
+            }
         }
 
         public void Info()
@@ -266,6 +290,12 @@ namespace SCaddins.ExportManager.ViewModels
             var renameSheetModel = new SCaddins.RenameUtilities.ViewModels.RenameUtilitiesViewModel(renameManager);
             renameSheetModel.SelectedParameterCategory = "Sheets";
             windowManager.ShowDialog(renameSheetModel, null, null);
+            foreach (ExportSheet exportSheet in selectedSheets)
+            {
+                exportSheet.UpdateName();
+                exportSheet.UpdateNumber();
+            }
+            NotifyOfPropertyChange(() => Sheets);
         }
 
         public void TurnNorthPointsOn()

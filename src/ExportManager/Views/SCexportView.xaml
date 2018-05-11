@@ -36,7 +36,7 @@
             Grid.Row="0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Margin="5,0,5,5"
+            Margin="5"
             x:Name="ViewsetCombo"
             Grid.ColumnSpan="2" />
         <DataGrid
@@ -89,7 +89,7 @@
                     Binding="{Binding SheetDescription}">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
-                            <Grid Width="Auto" HorizontalAlignment="Stretch" Name="HoverOnMe" >
+                            <Grid Width="Auto" HorizontalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="0.75*" ></ColumnDefinition>
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -103,16 +103,6 @@
                                     HorizontalAlignment="Right"
                                     MinWidth="10"
                                     Margin="2">
-                                    <TextBox.Style>
-                                        <Style TargetType="{x:Type TextBox}">
-                                            <Setter Property="Visibility" Value="Hidden" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=HoverOnMe}" Value="True">
-                                                    <Setter Property="Visibility" Value="Visible" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBox.Style>
                                 </TextBox>
                             </Grid>
                         </DataTemplate>
@@ -224,12 +214,6 @@
                                 Source="/SCaddins;component/Assets/add.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="SelectNone" Header="Select None" Click="SelectNone_Click">
-                        <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/none.png" />
-                        </MenuItem.Icon>
-                    </MenuItem>
                     <Separator />
                     <MenuItem Header="VerifySheets" cal:Message.Attach="VerifySheets">
                         <MenuItem.Icon>
@@ -271,7 +255,7 @@
             Grid.Row="0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Margin="0,0,5,5"
+            Margin="5"
             x:Name="OptionsButton"
             Background="Transparent"
             BorderBrush="Transparent"

@@ -309,6 +309,7 @@ namespace SCaddins.ExportManager
             this.printSetting = PrintSettings.GetPrintSettingByName(
                     this.doc, this.pageSize);
             this.verified = true;
+            NotifyPropertyChanged("Scale");
         }
         
         public string RevitScaleWithoutFormatting()
@@ -333,14 +334,18 @@ namespace SCaddins.ExportManager
         {
             this.sheetNumber = this.sheet.get_Parameter(
                     BuiltInParameter.SHEET_NUMBER).AsString(); 
-            this.SetExportName();  
+            this.SetExportName();
+            NotifyPropertyChanged("SheetNumber");
+            NotifyPropertyChanged("FullExportName");
         }
         
         public void UpdateName()
         {
             this.sheetDescription = this.sheet.get_Parameter(
                     BuiltInParameter.SHEET_NAME).AsString();
-            this.SetExportName();  
+            this.SetExportName();
+            NotifyPropertyChanged("SheetDescription");
+            NotifyPropertyChanged("FullExportName");
         }
         
         public void UpdateScaleBarScale()
@@ -385,6 +390,10 @@ namespace SCaddins.ExportManager
             if (refreshExportName) {
                 this.SetExportName();
             }
+            NotifyPropertyChanged("SheetRevision");
+            NotifyPropertyChanged("SheetRevisionDescription");
+            NotifyPropertyChanged("SheetRevisionDate");
+            NotifyPropertyChanged("FullExportName");
         }
         
         public void SetScaleBarScale(Element titleBlock)

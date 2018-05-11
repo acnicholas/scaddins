@@ -603,12 +603,15 @@ namespace SCaddins.ExportManager
                         ICollection<ElementId> il = sheet.Sheet.GetAdditionalRevisionIds();
                         il.Add(revisionId);
                         sheet.Sheet.SetAdditionalRevisionIds(il);
+                        sheet.UpdateRevision(true);
                     }
+                    doc.Regenerate();
                     t.Commit();
                 } else {
                     TaskDialog.Show("Error", "SCexport: error adding revisions, could not start transaction.");
                 }
             }
+            
             foreach (ExportSheet sheet in sheets) {
                 sheet.UpdateRevision(true);
             }
