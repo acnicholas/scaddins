@@ -102,15 +102,16 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <Button Margin="5">Create Project Config File</Button>
-                            <Button Grid.Row="0" Grid.Column="1" Margin="5">Edit Config File</Button>
+                            <Button x:Name="CreateProjectConfigFile" Margin="5">Create Project Config File</Button>
+                            <Button x:Name="EditProjectConfigFile" Grid.Row="0" Grid.Column="1" Margin="5">Edit Config File</Button>
                             <Label Grid.Row="1" Margin="5">Text Editor (for config)</Label>
-                            <TextBox Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
+                            <TextBox x:Name="TextEditorBinPath" Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Printer Options" Grid.Row="1" Margin="5">
                         <Grid>
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
@@ -128,6 +129,10 @@
                             <TextBox x:Name="PostscriptPrintDriverName" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></TextBox>
                             <TextBox x:Name="A3PrinterName" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="5"></TextBox>
                             <TextBox x:Name="LargeFormatPrinterName" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="5"></TextBox>
+                            <Button x:Name="SelectAdobePrinter" Grid.Column="2" Grid.Row="0" Margin="5">...</Button>
+                            <Button x:Name="SelectPostscriptPrinter" Grid.Column="2" Grid.Row="1" Margin="5">...</Button>
+                            <Button x:Name="SelectA3Printer" Grid.Column="2" Grid.Row="2" Margin="5">...</Button>
+                            <Button x:Name="SelectLargeFormatPrinter" Grid.Column="2" Grid.Row="3" Margin="5">...</Button>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Ghostscript Options" Grid.Row="2" Margin="5">

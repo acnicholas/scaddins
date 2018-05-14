@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Data;
-using System.Windows.Controls;
 using Caliburn.Micro;
 using System.Linq;
 using System.Dynamic;
-using System;
 
 namespace SCaddins.ExportManager.ViewModels
 {
@@ -22,8 +19,6 @@ namespace SCaddins.ExportManager.ViewModels
         private double currentProgress;
         private string sheetNameFilter;
         List<ExportSheet> selectedSheets = new List<ExportSheet>();
-        private System.Windows.Visibility searchFieldIsVisible;
-        private System.Windows.Visibility progessBarIsVisible;
 
         public SCexportViewModel(WindowManager windowManager, ExportManager exportManager)
         {
@@ -190,7 +185,7 @@ namespace SCaddins.ExportManager.ViewModels
             settings.ShowInTaskbar = false;
             settings.ResizeMode = System.Windows.ResizeMode.NoResize;
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
-            var optionsModel = new OptionsViewModel(exportManager);
+            var optionsModel = new OptionsViewModel(exportManager, windowManager);
             windowManager.ShowDialog(optionsModel, null, settings);
         }
 
@@ -283,13 +278,21 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void RenameSheets()
         {
+            dynamic settings = new ExpandoObject();
+            settings.Height = 480;
+            settings.Width = 768;
+            settings.Title = "Rename Selected Sheet Parameters";
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+            settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
+
             var renameManager = new SCaddins.RenameUtilities.RenameManager(
                 exportManager.Doc,
                 selectedSheets.Select(s => s.Id).ToList()
                 );
             var renameSheetModel = new SCaddins.RenameUtilities.ViewModels.RenameUtilitiesViewModel(renameManager);
             renameSheetModel.SelectedParameterCategory = "Sheets";
-            windowManager.ShowDialog(renameSheetModel, null, null);
+            windowManager.ShowDialog(renameSheetModel, null, settings);
             foreach (ExportSheet exportSheet in selectedSheets)
             {
                 exportSheet.UpdateName();

@@ -4,16 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using System.Dynamic;
 
 namespace SCaddins.ExportManager.ViewModels
 {
     class OptionsViewModel : PropertyChangedBase
     {
         private ExportManager exportManager;
+        private WindowManager windowManager;
 
-        public OptionsViewModel(ExportManager exportManager)
+        public OptionsViewModel(ExportManager exportManager, WindowManager windowManager)
         {
-            this.exportManager = exportManager;    
+            this.exportManager = exportManager;
+            this.windowManager = windowManager;
         }
 
         public bool ExportAdobePDF
@@ -148,29 +151,19 @@ namespace SCaddins.ExportManager.ViewModels
             get; set;
         }
 
-        public void Save()
-        {
-
-        }
-
-        public void Cancel()
-        {
-
-        }
-
         //Advanced Options
 
         public void CreateProjectConfigFile()
         {
-
+            FileUtilities.CreateConfigFile(exportManager.Doc);
         }
 
         public void EditProjectConfigFile()
         {
-
+            FileUtilities.EditConfigFile(exportManager.Doc);
         }
 
-        public string TExtEditorBinPath
+        public string TextEditorBinPath
         {
             get; set;
         }
@@ -186,9 +179,38 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public void SelectAdobePDFPrintDriver()
-        {
 
+        public void SelectPrinter(string printerToSelect)
+        {
+            dynamic settings = new ExpandoObject();
+            settings.Height = 200;
+            settings.Width = 400;
+            settings.Title = printerToSelect;
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+            settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
+            var printerViewModel = new PrinterSelectionViewModel("Adobe PDF");
+            windowManager.ShowDialog(printerViewModel, null, settings);
+        }
+
+        public void SelectAdobePrinter()
+        {
+            SelectPrinter("Select Adobe Printer");
+        }
+
+        public void SelectPostscriptPrinter()
+        {
+            SelectPrinter("Select Postscript Printer");
+        }
+
+        public void SelectA3Printer()
+        {
+            SelectPrinter("Select A3 Printer");
+        }
+
+        public void SelectLargeFormatPrinter()
+        {
+            SelectPrinter("Select Large Format Printer");
         }
 
         public string PostscriptPrintDriverName
@@ -201,11 +223,6 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public void SelectPostscriptPrintDriver()
-        {
-
-        }
-
         public string A3PrinterName
         {
             get { return exportManager.PrinterNameA3; }
@@ -216,11 +233,6 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public void SelectA3Printer()
-        {
-
-        }
-
         public string LargeFormatPrinterName
         {
             get { return exportManager.PrinterNameLargeFormat; }
@@ -229,11 +241,6 @@ namespace SCaddins.ExportManager.ViewModels
                 if (value == exportManager.PrinterNameLargeFormat) return;
                 exportManager.PrinterNameLargeFormat = value;
             }
-        }
-
-        public void SelectLargeFormatPrinter()
-        {
-
         }
 
         //Ghostscript

@@ -259,6 +259,7 @@
     <Compile Include="ExportManager\OpenableView.cs" />
     <Compile Include="ExportManager\ViewModels\OpenSheetViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\OptionsViewModel.cs" />
+    <Compile Include="ExportManager\ViewModels\PrinterSelectionViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\RevisionSelectionViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\SCexportViewModel.cs" />
     <Compile Include="ExportManager\Views\ConfirmationDialogView.xaml.cs">
