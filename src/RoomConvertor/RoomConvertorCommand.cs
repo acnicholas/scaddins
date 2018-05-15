@@ -60,7 +60,7 @@ namespace SCaddins.RoomConvertor
 
             var bs = SCaddinsApp.Bootstrapper;
             var windowManager = SCaddinsApp.WindowManager;
-            var vm = new ViewModels.RoomConvertorViewModel();
+            var vm = new ViewModels.RoomConvertorViewModel(roomConversionManager);
             windowManager.ShowDialog(vm, null, settings);
 
             return Result.Succeeded;

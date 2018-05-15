@@ -342,11 +342,15 @@
     </Compile>
     <Compile Include="RoomConvertor\RoomFilterEnums.cs" />
     <Compile Include="RoomConvertor\ViewModels\RoomConvertorViewModel.cs" />
+    <Compile Include="RoomConvertor\ViewModels\RoomFilterViewModel.cs" />
     <Compile Include="RoomConvertor\Views\ListSelectionView.xaml.cs">
       <DependentUpon>ListSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="RoomConvertor\Views\RoomConvertorView.xaml.cs">
       <DependentUpon>RoomConvertorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RoomConvertor\Views\RoomFilterView.xaml.cs">
+      <DependentUpon>RoomFilterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="RoomConvertor\Views\RoomToSheetWizardView.xaml.cs">
       <DependentUpon>RoomToSheetWizardView.xaml</DependentUpon>
@@ -561,6 +565,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RoomConvertor\Views\RoomConvertorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RoomConvertor\Views\RoomFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

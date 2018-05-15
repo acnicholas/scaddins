@@ -37,15 +37,15 @@ namespace SCaddins.RoomConvertor
         private Dictionary<string, string> departmentsInModel;
 
 
-        private SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> allCandidates;
+        private List<RoomConversionCandidate> allCandidates;
         private Document doc;
-        private SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> candidates;
+        private List<RoomConversionCandidate> candidates;
 
         public RoomConversionManager(Document doc)
         {
             departmentsInModel = new Dictionary<string, string>();
-            candidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();
-            this.allCandidates = new SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate>();
+            candidates = new List<RoomConversionCandidate>();
+            this.allCandidates = new List<RoomConversionCandidate>();
             this.doc = doc;
             this.titleBlocks = GetAllTitleBlockTypes(this.doc);
             this.TitleBlockId = ElementId.InvalidElementId;
@@ -81,7 +81,7 @@ namespace SCaddins.RoomConvertor
             this.Reset();
         }
 
-        public SCaddins.Common.SortableBindingListCollection<RoomConversionCandidate> Candidates {
+        public List<RoomConversionCandidate> Candidates {
             get { return candidates; }
         }
         
