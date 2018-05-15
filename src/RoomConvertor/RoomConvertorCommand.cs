@@ -1,4 +1,4 @@
-// (C) Copyright 2016 by Andrew Nicholas
+// (C) Copyright 2016-2018 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -50,9 +50,19 @@ namespace SCaddins.RoomConvertor
                 }
                 return Result.Failed;
             }
-            using (var mainForm = new MainForm(roomConversionManager)) {
-                 mainForm.ShowDialog();
-            }
+
+            dynamic settings = new System.Dynamic.ExpandoObject();
+            settings.Height = 480;
+            settings.Width = 768;
+            settings.Title = "Room Convertor - By Andrew Nicholas";
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+
+            var bs = SCaddinsApp.Bootstrapper;
+            var windowManager = SCaddinsApp.WindowManager;
+            var vm = new ViewModels.RoomConvertorViewModel();
+            windowManager.ShowDialog(vm, null, settings);
+
             return Result.Succeeded;
         }
     }

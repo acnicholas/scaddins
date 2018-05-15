@@ -151,8 +151,6 @@ namespace SCaddins.ExportManager.ViewModels
             get; set;
         }
 
-        //Advanced Options
-
         public void CreateProjectConfigFile()
         {
             FileUtilities.CreateConfigFile(exportManager.Doc);
@@ -165,10 +163,15 @@ namespace SCaddins.ExportManager.ViewModels
 
         public string TextEditorBinPath
         {
-            get; set;
+            get { return SCaddins.ExportManager.Settings1.Default.TextEditor; }
+            set
+            {
+                if (value == SCaddins.ExportManager.Settings1.Default.TextEditor) return;
+                SCaddins.ExportManager.Settings1.Default.TextEditor = value;
+                SCaddins.ExportManager.Settings1.Default.Save();
+            }
         }
 
-        //Print Options
         public string AdobePDFPrintDriverName
         {
             get { return exportManager.PdfPrinterName; }
@@ -179,8 +182,7 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-
-        public void SelectPrinter(string printerToSelect)
+        public void SelectPrinter(string printerToSelect, string currentPrinter)
         {
             dynamic settings = new ExpandoObject();
             settings.Height = 200;
@@ -189,28 +191,28 @@ namespace SCaddins.ExportManager.ViewModels
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
             settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
-            var printerViewModel = new PrinterSelectionViewModel("Adobe PDF");
+            var printerViewModel = new PrinterSelectionViewModel(currentPrinter);
             windowManager.ShowDialog(printerViewModel, null, settings);
         }
 
         public void SelectAdobePrinter()
         {
-            SelectPrinter("Select Adobe Printer");
+            SelectPrinter("Select Adobe Printer", AdobePDFPrintDriverName);
         }
 
         public void SelectPostscriptPrinter()
         {
-            SelectPrinter("Select Postscript Printer");
+            SelectPrinter("Select Postscript Printer", PostscriptPrintDriverName);
         }
 
         public void SelectA3Printer()
         {
-            SelectPrinter("Select A3 Printer");
+            SelectPrinter("Select A3 Printer", A3PrinterName);
         }
 
         public void SelectLargeFormatPrinter()
         {
-            SelectPrinter("Select Large Format Printer");
+            SelectPrinter("Select Large Format Printer", LargeFormatPrinterName);
         }
 
         public string PostscriptPrintDriverName
@@ -243,7 +245,6 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        //Ghostscript
         public string GhostscriptBinLocation
         {
             get { return exportManager.GhostscriptBinDirectory; }

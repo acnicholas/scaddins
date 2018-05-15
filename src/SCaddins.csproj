@@ -340,21 +340,16 @@
       <DependentUpon>RevisionUtilitiesWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="RoomConvertor\DesignOptionSelector.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RoomConvertor\DesignOptionSelector.Designer.cs">
-      <DependentUpon>DesignOptionSelector.cs</DependentUpon>
-    </Compile>
     <Compile Include="RoomConvertor\RoomFilterEnums.cs" />
-    <Compile Include="RoomConvertor\RoomToSheetWizard.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RoomConvertor\RoomToSheetWizard.Designer.cs">
-      <DependentUpon>RoomToSheetWizard.cs</DependentUpon>
+    <Compile Include="RoomConvertor\ViewModels\RoomConvertorViewModel.cs" />
+    <Compile Include="RoomConvertor\Views\ListSelectionView.xaml.cs">
+      <DependentUpon>ListSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="RoomConvertor\Views\RoomConvertorView.xaml.cs">
       <DependentUpon>RoomConvertorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RoomConvertor\Views\RoomToSheetWizardView.xaml.cs">
+      <DependentUpon>RoomToSheetWizardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SCaddins.cs" />
     <Compile Include="Scaddins.Designer.cs">
@@ -388,26 +383,8 @@
     </Compile>
     <Compile Include="SolarUtilities\ViewModels\SolarViewsViewModel.cs" />
     <Compile Include="ViewUtilities\CameraFromViewCommand.cs" />
-    <Compile Include="RoomConvertor\RoomConvertorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RoomConvertor\RoomConvertorForm.Designer.cs">
-      <DependentUpon>RoomConvertorForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="RoomConvertor\RoomFilter.cs" />
-    <Compile Include="RoomConvertor\RoomFilterDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RoomConvertor\RoomFilterDialog.Designer.cs">
-      <DependentUpon>RoomFilterDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="RoomConvertor\RoomFilterItem.cs" />
-    <Compile Include="RoomConvertor\RoomInfoDilaog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RoomConvertor\RoomInfoDilaog.Designer.cs">
-      <DependentUpon>RoomInfoDilaog.cs</DependentUpon>
-    </Compile>
     <Compile Include="RoomConvertor\RoomConversionCandidate.cs" />
     <Compile Include="RoomConvertor\RoomConvertorCommand.cs" />
     <Compile Include="RoomConvertor\RoomConversionManager.cs" />
@@ -448,12 +425,6 @@
       <DependentUpon>IncrementSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="RevisionUtilities\RevisionCloudItem.cs" />
-    <Compile Include="RevisionUtilities\RevisionUtilitiesForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RevisionUtilities\RevisionUtilitiesForm.Designer.cs">
-      <DependentUpon>RevisionUtilitiesForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="RevisionUtilities\RevisionUtilities.cs" />
     <Compile Include="RevisionUtilities\Command.cs" />
     <Compile Include="PlaceCoordinate\PlaceCoordinate.cs" />
@@ -491,31 +462,13 @@
     <EmbeddedResource Include="Common\UpgradeForm.resx">
       <DependentUpon>UpgradeForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RoomConvertor\DesignOptionSelector.resx">
-      <DependentUpon>DesignOptionSelector.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RoomConvertor\RoomToSheetWizard.resx">
-      <DependentUpon>RoomToSheetWizard.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ScaddinsOptionsForm.resx">
       <DependentUpon>ScaddinsOptionsForm.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ScaddinsOptionsForm1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="RoomConvertor\RoomConvertorForm.resx">
-      <DependentUpon>RoomConvertorForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RoomConvertor\RoomFilterDialog.resx">
-      <DependentUpon>RoomFilterDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RoomConvertor\RoomInfoDilaog.resx">
-      <DependentUpon>RoomInfoDilaog.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ParameterUtilities\IncrementSettingsForm.resx">
       <DependentUpon>IncrementSettingsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RevisionUtilities\RevisionUtilitiesForm.resx">
-      <DependentUpon>RevisionUtilitiesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PlaceCoordinate\PlaceCoordinateForm.resx">
       <DependentUpon>PlaceCoordinateForm.cs</DependentUpon>
@@ -603,7 +556,15 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RevisionUtilities\RevisionUtilitiesWindow.xaml" />
+    <Page Include="RoomConvertor\Views\ListSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RoomConvertor\Views\RoomConvertorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RoomConvertor\Views\RoomToSheetWizardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -615,9 +576,7 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="RoomConvertor\ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Assets\copy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

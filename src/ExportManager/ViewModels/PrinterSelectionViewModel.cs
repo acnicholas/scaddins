@@ -14,13 +14,13 @@ namespace SCaddins.ExportManager.ViewModels
         private string selectedPrinter;
 
         public PrinterSelectionViewModel(string desiredPrinterName)
-        {
-            SelectedPrinter = desiredPrinterName;
+        {   
             printers = new List<string>();
             foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
             {
                 printers.Add(printer);
             }
+            SelectedPrinter = desiredPrinterName;
         }
 
         public List<string> Printers
@@ -33,11 +33,11 @@ namespace SCaddins.ExportManager.ViewModels
             get { return selectedPrinter; }
             set
             {
-                if (printers.Contains(value))
-                {
+                //if (printers.Contains(value))
+                //{
                     selectedPrinter = value;
                     NotifyOfPropertyChange(() => SelectedPrinter);
-                }
+                //}
             }
         }
     }

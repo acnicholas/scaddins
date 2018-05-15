@@ -4,8 +4,56 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
+             d:DesignHeight="300" d:DesignWidth="600">
+    <Grid Height="300" VerticalAlignment="Bottom">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="300*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.Background>
+                <ImageBrush/>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition  Width="Auto" MinWidth="200"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <RadioButton Margin="5">Place Rooms on Sheets</RadioButton>
+                <RadioButton Margin="5">Create Masses from Rooms</RadioButton>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Grid.Column="1" Orientation="Horizontal">
+                <Button Margin="5" BorderThickness="0" Background="{x:Null}">
+                    <Image Source="/SCaddins;component/Assets/filter.png"></Image>
+                </Button>
+                <Button Margin="5" BorderThickness="0" Background="{x:Null}">
+                    <Image Source="/SCaddins;component/Assets/remove_filter.png"></Image>    
+                </Button>
+                <Button Margin="5" BorderThickness="0" Background="{x:Null}">
+                    <Image Source="/SCaddins;component/Assets/rename.png"></Image>    
+                </Button>
+                <Button Margin="5" BorderThickness="0" Background="{x:Null}">
+                    <Image Source="/SCaddins;component/Assets/help.png"></Image>    
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <DataGrid Width="Auto" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5">
+            </DataGrid>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Margin="5">Push Mass Data To Rooms</Button>
+                <Button Margin="5">Create Masses</Button>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>
