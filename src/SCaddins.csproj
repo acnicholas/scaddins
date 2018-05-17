@@ -67,7 +67,6 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2016\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
@@ -83,7 +82,6 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2017\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
@@ -99,7 +97,6 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2018\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
@@ -115,7 +112,6 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2019\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
@@ -146,14 +142,52 @@
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="PresentationFramework" />
-    <Reference Include="RevitAPI, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>RevitAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPIUI, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>RevitAPIUI.dll</HintPath>
-    </Reference>
+	
+	
+	
+	<Reference Include="RevitAPI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2016'">
+	<SpecificVersion>False</SpecificVersion>
+	 <HintPath>C:\Program Files\Autodesk\Revit 2016\RevitAPI.dll</HintPath>
+	</Reference>
+	<Reference Include="RevitAPIUI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2016'">
+	<SpecificVersion>False</SpecificVersion>
+	 <HintPath>C:\Program Files\Autodesk\Revit 2016\RevitAPIUI.dll</HintPath>
+	</Reference>
+	
+		<Reference Include="RevitAPI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2017'">
+	<SpecificVersion>False</SpecificVersion>
+	 <HintPath>C:\Program Files\Autodesk\Revit 2017\RevitAPI.dll</HintPath>
+	</Reference>
+	<Reference Include="RevitAPIUI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2017'">
+	<SpecificVersion>False</SpecificVersion>
+	 <HintPath>C:\Program Files\Autodesk\Revit 2017\RevitAPIUI.dll</HintPath>
+	</Reference>
+	
+		<Reference Include="RevitAPI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2018'">
+	<SpecificVersion>False</SpecificVersion>
+	 <HintPath>C:\Program Files\Autodesk\Revit 2018\RevitAPI.dll</HintPath>
+	</Reference>
+	<Reference Include="RevitAPIUI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2018'">
+	<SpecificVersion>False</SpecificVersion>
+	 <HintPath>C:\Program Files\Autodesk\Revit 2018\RevitAPIUI.dll</HintPath>
+	</Reference>
+	
+		<Reference Include="RevitAPI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2019'">
+	<SpecificVersion>False</SpecificVersion>
+	 <HintPath>C:\Program Files\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
+	</Reference>
+	<Reference Include="RevitAPIUI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2019'">
+	<SpecificVersion>False</SpecificVersion>
+	 <HintPath>C:\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
+	</Reference>
+
+	
+	
+	
+
+
+	
+	
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>

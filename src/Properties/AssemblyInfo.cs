@@ -1,4 +1,4 @@
-// (C) Copyright 2014-2015 by Andrew Nicholas
+// (C) Copyright 2014-2018 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -30,7 +30,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SCaddins")]
-[assembly: AssemblyCopyright("Copyright 2012-2016 Andrew Nicholas")]
+[assembly: AssemblyCopyright("Copyright 2012-2018 Andrew Nicholas")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]

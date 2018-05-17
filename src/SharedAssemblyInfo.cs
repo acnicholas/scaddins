@@ -20,4 +20,4 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyVersion("18.1.0.1")]
+[assembly: AssemblyVersion("19.0.0.0")]

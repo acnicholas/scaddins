@@ -46,37 +46,37 @@ namespace SCaddins
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
         public static void CheckForUpdates(bool newOnly)
         {
-            var uri = new Uri("https://api.github.com/repos/acnicholas/scaddins/releases/latest");
-            var webRequest = WebRequest.Create(uri) as HttpWebRequest;
-            if (webRequest == null) {
-                return;
-            }
+            //var uri = new Uri("https://api.github.com/repos/acnicholas/scaddins/releases/latest");
+            //var webRequest = WebRequest.Create(uri) as HttpWebRequest;
+            //if (webRequest == null) {
+            //    return;
+            //}
 
-            webRequest.ContentType = "application/json";
-            webRequest.UserAgent = "Nothing";
-            string latestAsJson = "nothing to see here";
+            //webRequest.ContentType = "application/json";
+            //webRequest.UserAgent = "Nothing";
+            //string latestAsJson = "nothing to see here";
 
-            using (var s = webRequest.GetResponse().GetResponseStream())
-            using (var sr = new StreamReader(s)) {
-                    latestAsJson = sr.ReadToEnd();
-            }
+            //using (var s = webRequest.GetResponse().GetResponseStream())
+            //using (var sr = new StreamReader(s)) {
+            //        latestAsJson = sr.ReadToEnd();
+            //}
 
-            LatestVersion latestVersion = JsonConvert.DeserializeObject<LatestVersion>(latestAsJson);
+            //LatestVersion latestVersion = JsonConvert.DeserializeObject<LatestVersion>(latestAsJson);
             
-            var installedVersion = SCaddinsApp.Version;
-            Version latestAvailableVersion = new Version(latestVersion.tag_name.Replace("v", string.Empty).Trim());
-            string info = latestVersion.body;
+            //var installedVersion = SCaddinsApp.Version;
+            //Version latestAvailableVersion = new Version(latestVersion.tag_name.Replace("v", string.Empty).Trim());
+            //string info = latestVersion.body;
 
-            string downloadLink = latestVersion.assets.FirstOrDefault().browser_download_url;
-            if (string.IsNullOrEmpty(downloadLink)) {
-                downloadLink = SCaddins.Constants.DownloadLink;
-            }
+            //string downloadLink = latestVersion.assets.FirstOrDefault().browser_download_url;
+            //if (string.IsNullOrEmpty(downloadLink)) {
+            //    downloadLink = SCaddins.Constants.DownloadLink;
+            //}
 
-            if (latestAvailableVersion > installedVersion || !newOnly) {
-                using (var upgradeForm = new SCaddins.Common.UpgradeForm(installedVersion, latestAvailableVersion, info, downloadLink)) {
-                    upgradeForm.ShowDialog();
-                }
-            } 
+            //if (latestAvailableVersion > installedVersion || !newOnly) {
+            //    using (var upgradeForm = new SCaddins.Common.UpgradeForm(installedVersion, latestAvailableVersion, info, downloadLink)) {
+            //        upgradeForm.ShowDialog();
+            //    }
+            //} 
         }
 
         public static PushButtonData LoadSCopy(string dll, int iconSize) {
