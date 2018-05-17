@@ -153,7 +153,7 @@ namespace SCaddins.RoomConvertor
             return titleFound ? id : ElementId.InvalidElementId;
         }
 
-        public void CreateRoomMasses(System.ComponentModel.BindingList<RoomConversionCandidate> rooms)
+        public void CreateRoomMasses(List<RoomConversionCandidate> rooms)
         {
             int errCount = 0;
             int roomCount = 0;

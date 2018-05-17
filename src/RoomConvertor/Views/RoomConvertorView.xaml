@@ -6,6 +6,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
+    
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -44,10 +48,49 @@
             </StackPanel>
         </Grid>
 
-        <DataGrid x:Name="Rooms" Grid.Row="1" Width="Auto" Height="Auto" AutoGenerateColumns="False"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5">
+        <FrameworkElement x:Name="dummy" Visibility="Collapsed"/>
+
+        <DataGrid
+            x:Name="Rooms"
+            cal:Message.Attach="[Event SelectionChanged] = [RowSelectionChanged($eventArgs)]"
+            Grid.Row="1"
+            Width="Auto"
+            Height="Auto"
+            AutoGenerateColumns="False" 
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch" Margin="5">
+
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{x:Static SystemColors.HighlightColor}" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}"/>
+                    </Style.Resources>
+                </Style>
+            </DataGrid.Resources>
+
+            <DataGrid.VerticalGridLinesBrush>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
+            </DataGrid.VerticalGridLinesBrush>
+            <DataGrid.HorizontalGridLinesBrush>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
+            </DataGrid.HorizontalGridLinesBrush>
+            <DataGrid.AlternatingRowBackground>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+            </DataGrid.AlternatingRowBackground>
+
+
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Room Number" Binding="{Binding Number}" Visibility="{Binding SheetCreationMode}"/>
-                <DataGridTextColumn Header="Room Name" Binding="{Binding Name}"/>
+                <DataGridTextColumn 
+                    Header="Room Number"
+                    Binding="{Binding Number}"
+                    Visibility="{Binding DataContext.MassCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference dummy}}" />
+
+                <DataGridTextColumn
+                    Header="Room Name"
+                    Binding="{Binding Name}"
+                    Visibility="{Binding DataContext.SheetCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference dummy}}" />
             </DataGrid.Columns>
         </DataGrid>
  
@@ -58,7 +101,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Margin="5">Push Mass Data To Rooms</Button>
-                <Button Margin="5">Create Masses</Button>
+                <Button x:Name="Run" Margin="5">Create Masses</Button>
             </StackPanel>
         </Grid>
     </Grid>
