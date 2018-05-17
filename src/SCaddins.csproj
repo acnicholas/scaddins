@@ -7,7 +7,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <OutputType>Library</OutputType>
     <RootNamespace>SCaddins</RootNamespace>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <TargetFrameworkProfile />
     <NoWin32Manifest>True</NoWin32Manifest>
@@ -58,7 +58,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2016' ">
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\Release2016\</OutputPath>
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
@@ -66,7 +66,7 @@
     <DefineConstants>TRACE;REVIT2016</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
-    <AssemblyName>SCaddins16</AssemblyName>
+    <AssemblyName>SCaddins</AssemblyName>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2016\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
@@ -74,7 +74,7 @@
     <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2017' ">
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\Release2017\</OutputPath>
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
@@ -82,7 +82,7 @@
     <DefineConstants>TRACE;REVIT2017</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
-    <AssemblyName>SCaddins17</AssemblyName>
+    <AssemblyName>SCaddins</AssemblyName>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2017\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
@@ -90,7 +90,7 @@
     <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2018' ">
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\Release2018\</OutputPath>
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
@@ -98,38 +98,33 @@
     <DefineConstants>TRACE;REVIT2018</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
-    <AssemblyName>SCaddins18</AssemblyName>
+    <AssemblyName>SCaddins</AssemblyName>
     <ReferencePath>C:\Program Files\Autodesk\Revit 2018\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
     <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2017|x64'">
-    <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release2019' ">
+    <OutputPath>bin\Release2019\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE;REVIT2019</DefineConstants>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <StartAction>Project</StartAction>
+    <AssemblyName>SCaddins</AssemblyName>
+    <ReferencePath>C:\Program Files\Autodesk\Revit 2019\</ReferencePath>
+    <SignAssembly>False</SignAssembly>
+    <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2016|x64'">
-    <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2018|x64'">
-    <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2018|Any'">
-    <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2017|Any'">
-    <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2016|Any'">
-    <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
+  <PropertyGroup>
+    <AssemblyName>SCaddins</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AdWindows">
-      <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\AdWindows.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -151,20 +146,13 @@
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="PresentationFramework" />
-    <Reference Include="RevitAPI">
-      <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\RevitAPI.dll</HintPath>
+    <Reference Include="RevitAPI, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>RevitAPI.dll</HintPath>
     </Reference>
-    <Reference Include="RevitAPIIFC">
-      <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\RevitAPIIFC.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPIMacros">
-      <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\RevitAPIMacros.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPIUI">
-      <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\RevitAPIUI.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPIUIMacros">
-      <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\RevitAPIUIMacros.dll</HintPath>
+    <Reference Include="RevitAPIUI, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>RevitAPIUI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -192,6 +180,11 @@
   <ItemGroup>
     <Compile Include="ExportManager\OpenableView.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="ParameterUtilities\SCincrementSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>IncrementSettings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -255,6 +248,7 @@
     <Compile Include="Scaddins.Designer.cs">
       <DependentUpon>Scaddins.settings</DependentUpon>
       <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SCaddinsOptions.cs" />
     <Compile Include="ScaddinsOptionsForm.cs">
@@ -373,6 +367,7 @@
     <Compile Include="ExportManager\Settings1.Designer.cs">
       <DependentUpon>Settings1.settings</DependentUpon>
       <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ExportManager\Sheet.cs" />
     <Compile Include="ExportManager\SegmentedSheetName.cs" />

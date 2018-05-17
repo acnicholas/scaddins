@@ -1,4 +1,5 @@
-﻿<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+﻿<?xml version="1.0"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
 		<DirectoryRef Id="TARGETDIR">
 	<Directory Id="ProgramFiles64Folder" Name="ProgramFiles64Folder">
@@ -34,6 +35,14 @@
 							</Component>
 							<?endif?>
 						</Directory>
+						<Directory Id="RFAFILES2019" Name="2019">
+							<?if $(env.R2019) = Enabled ?>
+							<Component Id="SCaddinsRFA2019" Guid="2C29F31E-597B-4F61-958A-DFCD59CDEF6D" Win64="yes" DiskId="1">
+								<CreateFolder />
+								<File Id="_019.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2015\SC-Survey_Point.rfa" />
+							</Component>
+							<?endif?>
+						</Directory>
 					</Directory>
 				</Directory>
 				<Directory Name="etc" Id="ETCDIR">
@@ -46,8 +55,11 @@
 				<Directory Id="DLLDIR2016" Name="2016">
 					<Component Id="SCaddins2016" Guid="DFB2A497-BA0C-41DF-8443-29CB5FCD9CF8" DiskId="1" Win64="yes">
 						<CreateFolder />
-						<File Id="SCaddins2016.dll" Name="SCaddins.dll" Source="..\src\bin\Release\SCaddins16.dll" />
-						<File Id="net45.Newtonsoft.Json1.dll" Name="Newtonsoft.Json.dll" Source="..\src\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll" />
+						<File Id="SCaddins2016.dll" Name="SCaddins.dll" Source="..\src\bin\Release2016\SCaddins.dll" />
+						<File Id="net45.Newtonsoft.Json1.dll" Name="Newtonsoft.Json.dll" Source="..\src\bin\Release2016\Newtonsoft.Json.dll" />
+						<File Id="CM16" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2016\Caliburn.Micro.dll" />
+						<File Id="CMP16" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2016\Caliburn.Micro.Platform.dll" />
+						<File Id="CMPC16" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2016\Caliburn.Micro.Platform.Core.dll" />
 					</Component>
 				</Directory>
 				<?endif?>
@@ -55,8 +67,11 @@
 				<Directory Id="DLLDIR2017" Name="2017">
 					<Component Id="SCaddins2017" Guid="BC1E0969-FB15-446C-B35B-8AF899054B21" DiskId="1" Win64="yes">
 						<CreateFolder />
-						<File Id="SCaddins2017.dll" Name="SCaddins.dll" Source="..\src\bin\Release\SCaddins17.dll" />
-						<File Id="net45.Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\src\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll" />
+						<File Id="SCaddins2017.dll" Name="SCaddins.dll" Source="..\src\bin\Release2017\SCaddins.dll" />
+						<File Id="net45.Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\src\bin\Release2017\Newtonsoft.Json.dll" />
+						<File Id="CM17" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2017\Caliburn.Micro.dll" />
+						<File Id="CMP17" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2017\Caliburn.Micro.Platform.Core.dll" />
+						<File Id="CMPC17" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2017\Caliburn.Micro.Platform.Core.dll" />
 					</Component>
 				</Directory>
 				<?endif?>
@@ -64,8 +79,23 @@
 				<Directory Id="DLLDIR2018" Name="2018">
 					<Component Id="SCaddins2018" Guid="0A8DD595-4441-4020-B028-261905422C49" Win64="yes" DiskId="1">
 						<CreateFolder />
-						<File Id="SCaddins2018.dll" Name="SCaddins.dll" Source="..\src\bin\Release\SCaddins18.dll" />
-						<File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\src\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll" />
+						<File Id="SCaddins2018.dll" Name="SCaddins.dll" Source="..\src\bin\Release2018\SCaddins.dll" />
+						<File Id="Newtonsoft.Json.dll.18" Name="Newtonsoft.Json.dll" Source="..\src\bin\Release2018\Newtonsoft.Json.dll" />
+						<File Id="CM18" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2018\Caliburn.Micro.dll" />
+						<File Id="CMP18" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2018\Caliburn.Micro.Platform.dll" />
+						<File Id="CMPC18" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2018\Caliburn.Micro.Platform.Core.dll" />
+					</Component>
+				</Directory>
+				<?endif?>
+				<?if $(env.R2019) = Enabled ?>
+				<Directory Id="DLLDIR2019" Name="2019">
+					<Component Id="SCaddins2019" Guid="36E20380-561B-47FD-AE2E-54857537BE90" Win64="yes" DiskId="1">
+						<CreateFolder />
+						<File Id="SCaddins2019.dll" Name="SCaddins.dll" Source="..\src\bin\Release2019\SCaddins.dll" />
+						<File Id="Newtonsoft.Json.dll.19" Name="Newtonsoft.Json.dll" Source="..\src\bin\Release2019\Newtonsoft.Json.dll" />
+						<File Id="CM19" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2019\Caliburn.Micro.dll" />
+						<File Id="CMP19" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2019\Caliburn.Micro.Platform.dll" />
+						<File Id="CMPC19" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2019\Caliburn.Micro.Platform.Core.dll" />
 					</Component>
 				</Directory>
 				<?endif?>
@@ -97,6 +127,14 @@
 						<Component Id="SCaddinsAddin2018" Guid="67944DB5-77B9-4CB6-82E8-5B8C2EAFD213" DiskId="1">
 							<CreateFolder />
 							<File Id="SCADDINS18.ADDIN" Name="SCaddins18.addin" Source="..\src\bin\Release\SCaddins2018.addin" />
+						</Component>
+					</Directory>
+					<?endif?>
+					<?if $(env.R2019) = Enabled ?>
+					<Directory Id="SCaddinsAddin2019Directory" Name="2019">
+						<Component Id="SCaddinsAddin2019" Guid="3A73B94B-4C64-4302-954F-07249C27E5E1" DiskId="1">
+							<CreateFolder />
+							<File Id="SCADDINS19.ADDIN" Name="SCaddins19.addin" Source="..\src\bin\Release\SCaddins2019.addin" />
 						</Component>
 					</Directory>
 					<?endif?>

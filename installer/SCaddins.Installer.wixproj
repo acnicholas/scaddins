@@ -3,7 +3,7 @@
   <Import Project="packages\WiX.3.10.3\build\wix.props" Condition="Exists('packages\WiX.3.10.3\build\wix.props')" />
   <PropertyGroup>
     <ProjectGuid>{FC00A9A2-1FAF-4809-9223-2D361F60B767}</ProjectGuid>
-    <ProjectTypeGuids>{CFEE4113-1246-4D54-95CB-156813CB8593}</ProjectTypeGuids>
+    <!--<ProjectTypeGuids>{CFEE4113-1246-4D54-95CB-156813CB8593}</ProjectTypeGuids>-->
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <OutputType>Package</OutputType>
@@ -90,7 +90,7 @@
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <Target Name="AfterBuild">
-    <GetAssemblyIdentity AssemblyFiles="..\src\bin\Release\SCaddins17.dll">
+    <GetAssemblyIdentity AssemblyFiles="..\src\bin\Release2019\SCaddins.dll">
       <Output TaskParameter="Assemblies" ItemName="AssemblyVersion" />
     </GetAssemblyIdentity>
     <Copy SourceFiles=".\bin\$(Configuration)\$(OutputName).msi" DestinationFiles=".\bin\$(Configuration)\SCaddins-win64-%(AssemblyVersion.Version).msi" />
