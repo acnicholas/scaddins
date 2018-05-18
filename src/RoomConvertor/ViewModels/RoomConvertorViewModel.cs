@@ -38,6 +38,7 @@ namespace SCaddins.RoomConvertor.ViewModels
                 {
                     sheetCreationMode = value;
                     NotifyOfPropertyChange(() => SheetCreationMode);
+                    NotifyOfPropertyChange(() => RunButtonText);
                 }
             }
         }
@@ -54,6 +55,7 @@ namespace SCaddins.RoomConvertor.ViewModels
                 {
                     massCreationMode = value;
                     NotifyOfPropertyChange(() => MassCreationMode);
+                    NotifyOfPropertyChange(() => RunButtonText);
                 }
             }
         }
@@ -85,7 +87,37 @@ namespace SCaddins.RoomConvertor.ViewModels
 
         public void run()
         {
-            manager.CreateRoomMasses(selectedRooms);
+            if (MassCreationMode) {
+                manager.CreateRoomMasses(selectedRooms);
+            } else {
+                //Sheet creation mode.
+                //Get some parameters first
+                dynamic settings = new System.Dynamic.ExpandoObject();
+                settings.Height = 480;
+                settings.Width = 480;
+                settings.Title = "Sheet Creation Options";
+                settings.ShowInTaskbar = false;
+                settings.SizeToContent = System.Windows.SizeToContent.Manual;
+                var bs = SCaddinsApp.Bootstrapper;
+                var windowManager = SCaddinsApp.WindowManager;
+                var vm = new ViewModels.RoomToSheetWizardViewModel();
+                windowManager.ShowDialog(vm, null, settings);
+
+
+                manager.CreateViewsAndSheets(selectedRooms);
+            }
+        }
+
+        public string RunButtonText
+        {
+            get
+            {
+                if (MassCreationMode) {
+                    return "Create Masses";
+                } else {
+                    return "Create Sheets";
+                }
+            }
         }
 
     }

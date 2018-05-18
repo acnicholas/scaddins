@@ -73,7 +73,6 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2016\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
@@ -89,7 +88,6 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2017\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
@@ -105,7 +103,6 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2018\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
@@ -121,7 +118,6 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
     <AssemblyName>SCaddins</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2019\</ReferencePath>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
@@ -150,9 +146,49 @@
     <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AdWindows">
-      <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\AdWindows.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="AdWindows" Condition="'$(Configuration)'=='Release2016'">
+      <HintPath>C:\Program Files\Autodesk\Revit 2016\AdWindows.dll</HintPath>
+    </Reference>
+    <Reference Include="AdWindows" Condition="'$(Configuration)'=='Release2017'">
+      <HintPath>C:\Program Files\Autodesk\Revit 2017\AdWindows.dll</HintPath>
+    </Reference>
+    <Reference Include="AdWindows" Condition="'$(Configuration)'=='Release2018'">
+      <HintPath>C:\Program Files\Autodesk\Revit 2018\AdWindows.dll</HintPath>
+    </Reference>
+    <Reference Include="AdWindows" Condition="'$(Configuration)'=='Release2019'">
+      <HintPath>C:\Program Files\Autodesk\Revit 2019\AdWindows.dll</HintPath>
+    </Reference>
+    <Reference Include="RevitAPI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2016'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2016\RevitAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="RevitAPIUI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2016'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2016\RevitAPIUI.dll</HintPath>
+    </Reference>
+    <Reference Include="RevitAPI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2017'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2017\RevitAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="RevitAPIUI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2017'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2017\RevitAPIUI.dll</HintPath>
+    </Reference>
+    <Reference Include="RevitAPI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2018'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2018\RevitAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="RevitAPIUI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2018'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2018\RevitAPIUI.dll</HintPath>
+    </Reference>
+    <Reference Include="RevitAPI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2019'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="RevitAPIUI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2019'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
     </Reference>
     <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
@@ -190,26 +226,6 @@
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="PresentationFramework" />
-    <Reference Include="RevitAPI">
-      <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\RevitAPI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIIFC">
-      <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\RevitAPIIFC.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIMacros">
-      <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\RevitAPIMacros.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIUI">
-      <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\RevitAPIUI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIUIMacros">
-      <HintPath>packages\Revit-2017x64.Base.3.0.0\lib\net452\RevitAPIUIMacros.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -343,6 +359,7 @@
     <Compile Include="RoomConvertor\RoomFilterEnums.cs" />
     <Compile Include="RoomConvertor\ViewModels\RoomConvertorViewModel.cs" />
     <Compile Include="RoomConvertor\ViewModels\RoomFilterViewModel.cs" />
+    <Compile Include="RoomConvertor\ViewModels\RoomToSheetWizardViewModel.cs" />
     <Compile Include="RoomConvertor\Views\ListSelectionView.xaml.cs">
       <DependentUpon>ListSelectionView.xaml</DependentUpon>
     </Compile>

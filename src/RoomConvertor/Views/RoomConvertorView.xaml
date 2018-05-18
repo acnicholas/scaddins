@@ -79,21 +79,32 @@
             <DataGrid.AlternatingRowBackground>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
             </DataGrid.AlternatingRowBackground>
-
-
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     Header="Room Number"
-                    Binding="{Binding Number}"
-                    Visibility="{Binding DataContext.MassCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference dummy}}" />
-
+                    Binding="{Binding Number}">
+                </DataGridTextColumn>
                 <DataGridTextColumn
                     Header="Room Name"
-                    Binding="{Binding Name}"
-                    Visibility="{Binding DataContext.SheetCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference dummy}}" />
+                    Binding="{Binding Name}">
+                </DataGridTextColumn>
+                <DataGridTextColumn
+                    Header="New Sheet Number"
+                    Binding="{Binding DestinationSheetNumber}"
+                    Visibility="{Binding DataContext.SheetCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference dummy}}">
+                </DataGridTextColumn>
+                <DataGridTextColumn
+                    Header="New View Name"
+                    Binding="{Binding DestinationViewName}"
+                    Visibility="{Binding DataContext.SheetCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference dummy}}">
+                </DataGridTextColumn>
+                <DataGridTextColumn
+                    Header="New Sheet Name"
+                    Binding="{Binding DestinationSheetName}"
+                    Visibility="{Binding DataContext.SheetCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference dummy}}">
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
- 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
@@ -101,7 +112,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Margin="5">Push Mass Data To Rooms</Button>
-                <Button x:Name="Run" Margin="5">Create Masses</Button>
+                <Button x:Name="Run" Content="{Binding RunButtonText}" Margin="5"></Button>
             </StackPanel>
         </Grid>
     </Grid>

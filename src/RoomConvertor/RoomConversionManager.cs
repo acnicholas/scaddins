@@ -109,8 +109,7 @@ namespace SCaddins.RoomConvertor
             get; set;
         }
 
-        public void CreateViewsAndSheets(
-            System.ComponentModel.BindingList<RoomConversionCandidate> rooms)
+        public void CreateViewsAndSheets(List<RoomConversionCandidate> rooms)
         {
             if (rooms == null) {
                 Autodesk.Revit.UI.TaskDialog.Show("WARNING", "no rooms selected to covnert");
