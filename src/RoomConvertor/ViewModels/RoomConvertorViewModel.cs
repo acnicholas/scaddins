@@ -97,12 +97,11 @@ namespace SCaddins.RoomConvertor.ViewModels
                 settings.Width = 480;
                 settings.Title = "Sheet Creation Options";
                 settings.ShowInTaskbar = false;
-                settings.SizeToContent = System.Windows.SizeToContent.Manual;
+                settings.SizeToContent = System.Windows.SizeToContent.Height;
                 var bs = SCaddinsApp.Bootstrapper;
                 var windowManager = SCaddinsApp.WindowManager;
-                var vm = new ViewModels.RoomToSheetWizardViewModel();
+                var vm = new ViewModels.RoomToSheetWizardViewModel(manager);
                 windowManager.ShowDialog(vm, null, settings);
-
 
                 manager.CreateViewsAndSheets(selectedRooms);
             }
