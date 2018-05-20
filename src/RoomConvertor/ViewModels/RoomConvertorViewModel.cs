@@ -78,7 +78,7 @@ namespace SCaddins.RoomConvertor.ViewModels
             settings.Width = 768;
             settings.Title = "Filter Rooms";
             settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+            settings.SizeToContent = System.Windows.SizeToContent.Height;
             var bs = SCaddinsApp.Bootstrapper;
             var windowManager = SCaddinsApp.WindowManager;
             var vm = new ViewModels.RoomFilterViewModel();
