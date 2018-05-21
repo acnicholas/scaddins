@@ -37,8 +37,8 @@ namespace SCaddins
     public class SCaddinsApp : Autodesk.Revit.UI.IExternalApplication
     {
         private RibbonPanel ribbonPanel;
-        private static SCaddins.Common.Bootstrapper bootstrapper = new SCaddins.Common.Bootstrapper();
-        private static SCaddins.Common.WindowManager windowManager = new SCaddins.Common.WindowManager();
+        private static SCaddins.Common.Bootstrapper bootstrapper;
+        private static SCaddins.Common.WindowManager windowManager;
 
         public static SCaddins.Common.Bootstrapper Bootstrapper
         {
@@ -50,7 +50,6 @@ namespace SCaddins
                 } else
                 {
                     bootstrapper = new SCaddins.Common.Bootstrapper();
-                    bootstrapper.Initialize();
                     return bootstrapper;
                 }
             }
@@ -135,13 +134,13 @@ namespace SCaddins
                 return Result.Failed;
             }
 
-            if (bootstrapper != null)
-            {
-                bootstrapper.Initialize();
-            } else
-            {
-                return Result.Failed;
-            }
+            //if (bootstrapper != null)
+            //{
+            //    bootstrapper.Initialize();
+            //} else
+            //{
+            //    return Result.Failed;
+            //}
 
             string scdll = new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
 
@@ -167,9 +166,9 @@ namespace SCaddins
                 LoadSCincrementSettings(scdll),
                 LoadSCaddinSettings(scdll));
 
-            if (SCaddins.Scaddins.Default.UpgradeCheckOnStartUp) {    
-                CheckForUpdates(true);
-            }
+            //if (SCaddins.Scaddins.Default.UpgradeCheckOnStartUp) {    
+            //    CheckForUpdates(true);
+            //}
 
             return Result.Succeeded;
         }

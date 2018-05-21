@@ -38,13 +38,15 @@ namespace SCaddins.RoomConvertor
 
 
         private List<RoomConversionCandidate> allCandidates;
+
+
         private Document doc;
-        private List<RoomConversionCandidate> candidates;
+        //private List<RoomConversionCandidate> candidates;
 
         public RoomConversionManager(Document doc)
         {
             departmentsInModel = new Dictionary<string, string>();
-            candidates = new List<RoomConversionCandidate>();
+            //candidates = new List<RoomConversionCandidate>();
             this.allCandidates = new List<RoomConversionCandidate>();
             this.doc = doc;
             this.titleBlocks = GetAllTitleBlockTypes(this.doc);
@@ -77,14 +79,13 @@ namespace SCaddins.RoomConvertor
                     }
                 }
             }
-            
-            this.Reset();
         }
 
-        public List<RoomConversionCandidate> Candidates {
-            get { return candidates; }
+        public List<RoomConversionCandidate> Candidates
+        {
+            get { return allCandidates; }
         }
-        
+
         public Document Doc {
             get { return doc; }
         }
@@ -123,6 +124,20 @@ namespace SCaddins.RoomConvertor
                     t.Commit();
                 }
             }
+        }
+
+        public List<Autodesk.Revit.DB.Parameter> GetRoomParameters()
+        {
+            var s = new List<Autodesk.Revit.DB.Parameter>();
+            foreach (Parameter p in Candidates[0].Room.Parameters)
+            {
+                // don't add ElementID values yet (too much effort)
+                if (p.StorageType != StorageType.ElementId && p.StorageType != StorageType.None)
+                {
+                    s.Add(p);
+                }
+            }
+            return s;
         }
 
         public static Dictionary<string, ElementId> GetAllTitleBlockTypes(Document doc)
@@ -169,14 +184,6 @@ namespace SCaddins.RoomConvertor
                 }
             }
             Autodesk.Revit.UI.TaskDialog.Show("Rooms To Masses", (roomCount - errCount) + " Room masses created with " + errCount + " errors.");
-        }
-
-        public void Reset()
-        {
-            Candidates.Clear();
-            foreach (RoomConversionCandidate c in allCandidates) {
-                Candidates.Add(c);
-            }
         }
 
         public void SynchronizeMassesToRooms() {

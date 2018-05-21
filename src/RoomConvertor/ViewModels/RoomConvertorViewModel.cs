@@ -81,7 +81,7 @@ namespace SCaddins.RoomConvertor.ViewModels
             settings.SizeToContent = System.Windows.SizeToContent.Height;
             var bs = SCaddinsApp.Bootstrapper;
             var windowManager = SCaddinsApp.WindowManager;
-            var vm = new ViewModels.RoomFilterViewModel();
+            var vm = new ViewModels.RoomFilterViewModel(manager);
             windowManager.ShowDialog(vm, null, settings);
         }
 
