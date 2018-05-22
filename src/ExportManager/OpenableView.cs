@@ -25,8 +25,21 @@
         }
         
         public string ViewType {
-            get {
+            get
+            {
                 return view.ViewType.ToString();
+            }
+        }
+
+        public bool IsMatch(string searchString)
+        {
+            if (string.IsNullOrEmpty(searchString))
+            {
+                return false;
+            }
+            else
+            {
+                return Name.Contains(searchString.ToUpper()) || SheetNumber.Contains(searchString);
             }
         }
                

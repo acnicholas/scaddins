@@ -24,41 +24,6 @@ namespace SCaddins.ExportManager.Views
         {
             InitializeComponent();
             this.SearchInput.Focus();
-            if (this.SearchResults.Items.Count > 0) {
-                this.SearchResults.SelectedIndex = 0;
-            }
-        }
-
-        private void ScrollDown()
-        {
-            int selectedRow = SearchResults.SelectedIndex;
-            if (selectedRow < SearchResults.Items.Count - 1) {
-                SearchResults.SelectedIndex++;
-            } else {
-                SearchResults.SelectedIndex = 0;
-            }
-        }
-
-        private void ScrollUp()
-        {
-            int selectedRow = SearchResults.SelectedIndex;
-            if (selectedRow > 0) {
-                SearchResults.SelectedIndex--;
-            } else {
-                SearchResults.SelectedIndex = SearchResults.Items.Count - 1;
-            }
-        }
-
-        private void SearchInput_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            var resultCount = this.SearchResults.Items.Count;
-            if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.J)) {
-                 ScrollDown();
-            }
-            if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.K)) {
-                ScrollUp();
-            }
-            return;
         }
     }
 }

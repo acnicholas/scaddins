@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Caliburn.Micro;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace SCaddins.ExportManager.ViewModels 
 {
     class OpenSheetViewModel : Screen
     {
         private OpenableView selectedSearchResult;
-        private List<OpenableView> viewsInDoc;
+        private ObservableCollection<OpenableView> viewsInDoc;
+        private CollectionViewSource searchResults;
         private string searchInput;
 
         public string SearchInput
@@ -20,6 +23,7 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (value != searchInput) {
                     searchInput = value;
+                    this.searchResults.Source = this.viewsInDoc.Where(v => v.IsMatch(searchInput)).Take(searchInput.Length > 3 ? 20 : 10);
                     NotifyOfPropertyChange(() => SearchInput);
                     NotifyOfPropertyChange(() => SearchResults);
                 }
@@ -40,18 +44,21 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public List<OpenableView> SearchResults
+        public ICollectionView SearchResults
         {
-            get
-            {  
-                if (searchInput.Length > 1) {
-                    return viewsInDoc
-                        .Where(ov => ov.Name.Contains(searchInput.ToUpper()) || ov.SheetNumber.Contains(searchInput.ToUpper()))
-                        .Take(searchInput.Length > 3 ? 20 : 10)
-                        .ToList();
-                }
-                return null;
-            }
+            get { return this.searchResults.View; }
+        }
+
+        public void SelectNext()
+        {
+            SearchResults.MoveCurrentToNext();
+            if (SearchResults.IsCurrentAfterLast) SearchResults.MoveCurrentToFirst();
+        }
+
+        public void SelectPrevious()
+        {
+            SearchResults.MoveCurrentToPrevious();
+            if (SearchResults.IsCurrentBeforeFirst) SearchResults.MoveCurrentToLast();
         }
 
         public void KeyDown(System.Windows.Input.KeyEventArgs args)
@@ -64,10 +71,18 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public void Exit()
+        {
+            TryClose();
+        }
+
         public OpenSheetViewModel(Autodesk.Revit.DB.Document doc)
         {
-            viewsInDoc = OpenSheet.ViewsInModel(doc);
+            viewsInDoc = new ObservableCollection<OpenableView>(OpenSheet.ViewsInModel(doc));
+            this.searchResults = new CollectionViewSource();
+            this.searchResults.Source = this.viewsInDoc;
             selectedSearchResult = null;
+            SearchInput = string.Empty;
         }
     }
 }

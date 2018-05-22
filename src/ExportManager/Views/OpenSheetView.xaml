@@ -16,9 +16,13 @@
                  Background="Black"
                  BorderBrush="Transparent"
                  Foreground="White"
-                 AutomationProperties.HelpText="Start Typing"
-                 cal:Message.Attach="[Event KeyDown] = [Action KeyDown($eventArgs)]"
-                 Keyboard.PreviewKeyDown="SearchInput_PreviewKeyDown"></TextBox>
+                 AutomationProperties.HelpText="Start Typing">
+            <TextBox.InputBindings>
+                    <KeyBinding Key="J" Command="{Binding SelectNext}" Modifiers="Ctrl"/>
+                    <KeyBinding Key="K" Command="{Binding SelectPrevious}" Modifiers="Ctrl"/>
+                    <KeyBinding Key="Esc" Command="{Binding Exit}"/>
+            </TextBox.InputBindings>
+        </TextBox>
         <ListView
             x:Name="SearchResults"
             Height="Auto"

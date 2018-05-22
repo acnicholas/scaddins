@@ -40,10 +40,10 @@ Task("CreateAddinManifests")
     .Does(() =>
 {
     string text = System.IO.File.ReadAllText(@"src\SCaddins.addin");
-    System.IO.File.WriteAllText(@"src\bin\Release\SCaddins2016.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2016"));
-    System.IO.File.WriteAllText(@"src\bin\Release\SCaddins2017.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2017"));
-    System.IO.File.WriteAllText(@"src\bin\Release\SCaddins2018.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2018"));
-	System.IO.File.WriteAllText(@"src\bin\Release\SCaddins2019.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2019"));
+    System.IO.File.WriteAllText(@"src\bin\Release2016\SCaddins2016.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2016"));
+    System.IO.File.WriteAllText(@"src\bin\Release2017\SCaddins2017.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2017"));
+    System.IO.File.WriteAllText(@"src\bin\Release2018\SCaddins2018.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2018"));
+	System.IO.File.WriteAllText(@"src\bin\Release2019\SCaddins2019.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2019"));
 });
 
 Task("Revit2016")
