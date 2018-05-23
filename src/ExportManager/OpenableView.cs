@@ -31,7 +31,7 @@
             }
         }
 
-        public bool IsMatch(string searchString)
+        internal bool IsMatch(string searchString)
         {
             if (string.IsNullOrEmpty(searchString))
             {
@@ -39,7 +39,7 @@
             }
             else
             {
-                return Name.Contains(searchString.ToUpper()) || SheetNumber.Contains(searchString);
+                return Name.ToUpper().Contains(searchString.ToUpper()) || SheetNumber.Contains(searchString);
             }
         }
                

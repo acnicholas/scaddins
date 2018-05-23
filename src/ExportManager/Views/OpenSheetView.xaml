@@ -5,44 +5,41 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:local="clr-namespace:SCaddins.ExportManager.Views"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="100" d:DesignWidth="300" Background="#FF515151">
-
     <StackPanel MinHeight="100">
-        <TextBox x:Name="SearchInput"
+        <Border BorderThickness="2" Background="Black">
+            <TextBox x:Name="SearchInput"
                  Grid.Row="1"
                  Height="Auto"
                  Margin="5"
                  Background="Black"
                  BorderBrush="Transparent"
+                 BorderThickness="0"
                  Foreground="White"
-                 AutomationProperties.HelpText="Start Typing">
-            <TextBox.InputBindings>
-                    <KeyBinding Key="J" Command="{Binding SelectNext}" Modifiers="Ctrl"/>
-                    <KeyBinding Key="K" Command="{Binding SelectPrevious}" Modifiers="Ctrl"/>
-                    <KeyBinding Key="Esc" Command="{Binding Exit}"/>
-            </TextBox.InputBindings>
-        </TextBox>
-        <ListView
+                 cal:Message.Attach="[Event KeyDown] = [Action KeyDown($eventArgs)]; [Event KeyUp] = [Action KeyUp($eventArgs)]"
+                 AutomationProperties.HelpText="Start Typing" SelectionBrush="Black">
+            </TextBox>
+        </Border>
+        <DataGrid
             x:Name="SearchResults"
+            cal:Message.Attach="[Event KeyDown] = [Action KeyDown($eventArgs)]; [Event KeyUp] = [Action KeyUp($eventArgs)]; [Event MouseDoubleClick] = [Action MouseDoubleClick()]"
             Height="Auto"
-            Grid.Row="2"
             Margin="5"
+            IsReadOnly="True"
+            SelectionMode="Single"
             Foreground="White"
             BorderBrush="Transparent"
-            Background="Transparent">
-            <ListView.Resources>
-                <Style x:Key="myHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
-                    <Setter Property="Visibility" Value="Collapsed" />
+            Background="Transparent" GridLinesVisibility="None" HeadersVisibility="None" RowBackground="#FF515151" AlternatingRowBackground="#FF515151">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{x:Static SystemColors.HighlightColor}" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}"/>
+                    </Style.Resources>
                 </Style>
-            </ListView.Resources>
-            <ListView.View>
-                <GridView ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
-                    <GridViewColumn  DisplayMemberBinding="{Binding Path=SheetNumber}"/>
-                    <GridViewColumn  DisplayMemberBinding="{Binding Path=Name}"/>
-                    <GridViewColumn  DisplayMemberBinding="{Binding Path=ViewType}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+            </DataGrid.Resources>
+        </DataGrid>
     </StackPanel>
 </UserControl>

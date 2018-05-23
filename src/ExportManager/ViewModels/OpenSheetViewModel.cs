@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Windows.Input;
 using Caliburn.Micro;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -12,6 +13,7 @@ namespace SCaddins.ExportManager.ViewModels
         private ObservableCollection<OpenableView> viewsInDoc;
         private CollectionViewSource searchResults;
         private string searchInput;
+        private bool ctrlDown;
 
         public string SearchInput
         {
@@ -61,6 +63,11 @@ namespace SCaddins.ExportManager.ViewModels
             if (SearchResults.IsCurrentBeforeFirst) SearchResults.MoveCurrentToLast();
         }
 
+        public void MouseDoubleClick(System.Windows.Input.MouseEventArgs args)
+        {
+            selectedSearchResult.Open();
+        }
+
         public void KeyDown(System.Windows.Input.KeyEventArgs args)
         {
             if (args.Key == System.Windows.Input.Key.Escape) {
@@ -68,6 +75,26 @@ namespace SCaddins.ExportManager.ViewModels
             }
             if (args.Key == System.Windows.Input.Key.Enter) {
                 selectedSearchResult.Open();
+            }
+            if (ctrlDown && args.Key == System.Windows.Input.Key.J)
+            {
+                SelectNext();
+            }
+            if (ctrlDown && args.Key == System.Windows.Input.Key.K)
+            {
+                SelectPrevious();
+            }
+            if (args.Key == System.Windows.Input.Key.LeftCtrl)
+            {
+                ctrlDown = true;
+            }
+        }
+
+        public void KeyUp(System.Windows.Input.KeyEventArgs args)
+        {
+            if (args.Key == System.Windows.Input.Key.LeftCtrl)
+            {
+                ctrlDown = false;
             }
         }
 
@@ -82,6 +109,7 @@ namespace SCaddins.ExportManager.ViewModels
             this.searchResults = new CollectionViewSource();
             this.searchResults.Source = this.viewsInDoc;
             selectedSearchResult = null;
+            ctrlDown = false;
             SearchInput = string.Empty;
         }
     }
