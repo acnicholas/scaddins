@@ -1,4 +1,21 @@
-﻿using System.Linq;
+﻿// (C) Copyright 2018 by Andrew Nicholas
+//
+// This file is part of SCaddins.
+//
+// SCaddins is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// SCaddins is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
+
+using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
 using System.Collections.ObjectModel;
@@ -25,10 +42,38 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (value != searchInput) {
                     searchInput = value;
-                    this.searchResults.Source = this.viewsInDoc.Where(v => v.IsMatch(searchInput)).Take(searchInput.Length > 3 ? 20 : 10);
+                    //this.searchResults.Source = this.viewsInDoc.Where(v => v.IsMatch(searchInput)).Take(searchInput.Length > 3 ? 20 : 10);
+                    this.searchResults.Source = this.viewsInDoc.Where(v => v.IsMatch(searchInput));
                     NotifyOfPropertyChange(() => SearchInput);
                     NotifyOfPropertyChange(() => SearchResults);
+                    NotifyOfPropertyChange(() => ShowHelpText);
+                    NotifyOfPropertyChange(() => ShowExtendedHelpText);
+                    NotifyOfPropertyChange(() => ShowSearchresults);
                 }
+            }
+        }
+
+        public bool ShowHelpText
+        {
+            get
+            {
+                return searchInput.Length < 1;
+            }
+        }
+
+        public bool ShowExtendedHelpText
+        {
+            get
+            {
+                return searchInput == "?";
+            }
+        }
+
+        public bool ShowSearchresults
+        {
+            get
+            {
+                return !ShowExtendedHelpText;
             }
         }
 
@@ -63,7 +108,7 @@ namespace SCaddins.ExportManager.ViewModels
             if (SearchResults.IsCurrentBeforeFirst) SearchResults.MoveCurrentToLast();
         }
 
-        public void MouseDoubleClick(System.Windows.Input.MouseEventArgs args)
+        public void MouseDoubleClick()
         {
             selectedSearchResult.Open();
         }

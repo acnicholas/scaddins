@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2013-2015 by Andrew Nicholas
+﻿// (C) Copyright 2013-2018 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -44,7 +44,6 @@ namespace SCaddins.ExportManager
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
             dynamic settings = new ExpandoObject();
-            settings.Height = 200;
             settings.Width = 640;
             settings.WindowStyle = System.Windows.WindowStyle.None;
             settings.ShowInTaskbar = false;
