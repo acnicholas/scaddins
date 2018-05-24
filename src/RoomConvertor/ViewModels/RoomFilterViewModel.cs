@@ -13,15 +13,35 @@ namespace SCaddins.RoomConvertor.ViewModels
     public class RoomFilterViewModel : Screen
     {
         private RoomConversionManager manager;
+        private RoomFilter filter;
+        string comparisonFieldOne = string.Empty;
+        string comparisonFieldTwo = string.Empty;
+        string comparisonFieldThree = string.Empty;
 
-        public RoomFilterViewModel(RoomConversionManager manager)
+        public RoomFilterViewModel(RoomConversionManager manager, RoomFilter filter)
         {
             this.manager = manager;
+            this.filter = filter;
         }
 
         public ObservableCollection<Autodesk.Revit.DB.Parameter> RoomParameters
         {
             get { return new ObservableCollection<Autodesk.Revit.DB.Parameter>(manager.GetRoomParameters()); }
+        }
+
+        public Autodesk.Revit.DB.Parameter RoomParameterOne
+        {
+            get; set;
+        }
+
+        public Autodesk.Revit.DB.Parameter RoomParameterTwo
+        {
+            get; set;
+        }
+
+        public Autodesk.Revit.DB.Parameter RoomParameterThree
+        {
+            get; set;
         }
 
         public ObservableCollection<ComparisonOperator> ComparisonOperators
@@ -33,7 +53,7 @@ namespace SCaddins.RoomConvertor.ViewModels
         }
 
 
-        public ComparisonOperator SelectedComparisonOperator
+        public ComparisonOperator FirstSelectedComparisonOperator
         {
             get; set;
         }
@@ -46,19 +66,53 @@ namespace SCaddins.RoomConvertor.ViewModels
             }
         }
 
-        public ComparisonOperator SelectedLogicalOperator
+        public LogicalOperator FirstSelectedLogicalOperator
         {
             get; set;
         }
 
         public string ComparisonFieldOne
         {
-            get; set;
+            get
+            {
+                return comparisonFieldOne;
+            }
+            set
+            {
+                if (value != comparisonFieldOne)
+                {
+                    comparisonFieldOne = value;
+                    var f = new RoomFilterItem(
+                            LogicalOperator.And,
+                            FirstSelectedComparisonOperator,
+                            RoomParameterOne,
+                            value
+                            );
+                    if (filter.Size < 1)
+                    {
+                        filter.AddFilterItem(f);
+                    } else {
+                        filter.Filters[0] = f;
+                    }
+                    NotifyOfPropertyChange(() => ComparisonFieldOne);
+                }
+            }
         }
 
         public string ComparisonFieldTwo
         {
-            get; set;
+            get
+            {
+                return comparisonFieldTwo;
+            }
+            set
+            {
+                if (value != comparisonFieldTwo)
+                {
+                    comparisonFieldOne = value;
+                    NotifyOfPropertyChange(() => ComparisonFieldTwo);
+                }
+            }
         }
 
         public string ComparisonFieldThree

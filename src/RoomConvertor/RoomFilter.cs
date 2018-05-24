@@ -35,9 +35,19 @@ namespace SCaddins.RoomConvertor
             filters.Add(item);
         }
 
+        public Collection<RoomFilterItem> Filters
+        {
+            get; set;
+        }
+
         public void Clear()
         {
             filters.Clear();
+        }
+
+        public int Size
+        {
+            get { return filters.Count; }
         }
         
         public bool PassesFilter(Room room)

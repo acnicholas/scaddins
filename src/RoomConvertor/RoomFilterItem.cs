@@ -25,15 +25,24 @@ namespace SCaddins.RoomConvertor
     {
        private LogicalOperator lo;
        private ComparisonOperator co;
-       private string parameterName;
+       private Parameter parameter;
+       // private string parameterName;
        private string test;
 
-        public RoomFilterItem(string lo, string co, string parameter, string test)
+        //public RoomFilterItem(string lo, string co, string parameter, string test)
+        //{
+        //   this.lo = (LogicalOperator)Enum.Parse(typeof(LogicalOperator), lo);
+        //   this.co = (ComparisonOperator)Enum.Parse(typeof(ComparisonOperator), co);
+        //   this.parameterName = parameter;
+        //   this.test = test;
+        //}
+
+        public RoomFilterItem(LogicalOperator lo, ComparisonOperator co, Parameter parameter, string test)
         {
-           this.lo = (LogicalOperator)Enum.Parse(typeof(LogicalOperator), lo);
-           this.co = (ComparisonOperator)Enum.Parse(typeof(ComparisonOperator), co);
-           this.parameterName = parameter;
-           this.test = test;
+            this.lo = lo;
+            this.co = co;
+            this.parameter = parameter;
+            this.test = test;
         }
 
         public static bool IsValid()
@@ -41,13 +50,13 @@ namespace SCaddins.RoomConvertor
             return true;
         }
 
-        private static Parameter ParamFromString(Room room, string name)
-        {
-            if (room.GetParameters(name).Count > 0) {
-                return room.GetParameters(name)[0];
-            }
-            return null;
-        }
+        //private static Parameter ParamFromString(Room room, string name)
+        //{
+        //    if (room.GetParameters(name).Count > 0) {
+        //        return room.GetParameters(name)[0];
+        //    }
+        //    return null;
+        //}
         
         private static bool ParameterValueContainsString(Parameter param, string value)
         {
@@ -104,16 +113,16 @@ namespace SCaddins.RoomConvertor
                 return false;
             }
             
-            Parameter param = ParamFromString(room, parameterName);
-            if (param == null) {
+            //Parameter param = ParamFromString(room, parameterName);
+            if (parameter == null) {
                 return false;
             }
             
             if (co == ComparisonOperator.Contains) {
-                return ParameterValueContainsString(param, test);
+                return ParameterValueContainsString(parameter, test);
             }
 
-            int p = ParameterComparedToString(param, test);
+            int p = ParameterComparedToString(parameter, test);
 
             switch (co) {
                 case ComparisonOperator.Equals:

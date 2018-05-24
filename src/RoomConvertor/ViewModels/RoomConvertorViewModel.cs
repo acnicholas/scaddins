@@ -13,17 +13,19 @@ namespace SCaddins.RoomConvertor.ViewModels
     public class RoomConvertorViewModel : Screen
     {
         private RoomConversionManager manager;
-        private ObservableCollection<RoomConversionCandidate> rooms;
+        private List<RoomConversionCandidate> rooms;
         private bool massCreationMode;
         private bool sheetCreationMode;
+        private RoomFilter filter;
         List<RoomConversionCandidate> selectedRooms = new List<RoomConversionCandidate>();
 
         public RoomConvertorViewModel(RoomConversionManager manager)
         {
             this.manager = manager;
-            this.rooms = new ObservableCollection<RoomConversionCandidate>(manager.Candidates);
+            this.rooms = new List<RoomConversionCandidate>(manager.Candidates);
             MassCreationMode = true;
             SheetCreationMode = false;
+            filter = new RoomFilter();
         }
 
         public bool SheetCreationMode
@@ -62,7 +64,7 @@ namespace SCaddins.RoomConvertor.ViewModels
 
         public ObservableCollection<RoomConversionCandidate> Rooms
         {
-            get { return rooms; }
+            get { return new ObservableCollection<RoomConversionCandidate>(rooms.Where(r => filter.PassesFilter(r.Room))); }
         }
 
         public void RowSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
@@ -81,8 +83,9 @@ namespace SCaddins.RoomConvertor.ViewModels
             settings.SizeToContent = System.Windows.SizeToContent.Height;
             var bs = SCaddinsApp.Bootstrapper;
             var windowManager = SCaddinsApp.WindowManager;
-            var vm = new ViewModels.RoomFilterViewModel(manager);
+            var vm = new ViewModels.RoomFilterViewModel(manager, filter);
             windowManager.ShowDialog(vm, null, settings);
+            NotifyOfPropertyChange(() => Rooms);
         }
 
         public void run()
