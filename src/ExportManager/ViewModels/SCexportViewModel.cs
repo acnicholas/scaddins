@@ -185,7 +185,7 @@ namespace SCaddins.ExportManager.ViewModels
             settings.ShowInTaskbar = false;
             settings.ResizeMode = System.Windows.ResizeMode.NoResize;
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
-            var optionsModel = new OptionsViewModel(exportManager, windowManager);
+            var optionsModel = new OptionsViewModel(exportManager, windowManager, this);
             windowManager.ShowDialog(optionsModel, null, settings);
         }
 

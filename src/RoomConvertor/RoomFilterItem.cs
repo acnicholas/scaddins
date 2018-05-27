@@ -26,38 +26,33 @@ namespace SCaddins.RoomConvertor
        private LogicalOperator lo;
        private ComparisonOperator co;
        private Parameter parameter;
-       // private string parameterName;
+       private string parameterName;
+       private bool paramIsString;
        private string test;
 
-        //public RoomFilterItem(string lo, string co, string parameter, string test)
-        //{
-        //   this.lo = (LogicalOperator)Enum.Parse(typeof(LogicalOperator), lo);
-        //   this.co = (ComparisonOperator)Enum.Parse(typeof(ComparisonOperator), co);
-        //   this.parameterName = parameter;
-        //   this.test = test;
-        //}
-
-        public RoomFilterItem(LogicalOperator lo, ComparisonOperator co, Parameter parameter, string test)
+        public RoomFilterItem(LogicalOperator lo, ComparisonOperator co, string parameter, string test)
         {
             this.lo = lo;
             this.co = co;
-            this.parameter = parameter;
+            this.parameterName = parameter;
+            this.parameter = null;
             this.test = test;
         }
 
-        public static bool IsValid()
+        public bool IsValid()
         {
-            return true;
+            return !string.IsNullOrEmpty(test) ;
         }
 
-        //private static Parameter ParamFromString(Room room, string name)
-        //{
-        //    if (room.GetParameters(name).Count > 0) {
-        //        return room.GetParameters(name)[0];
-        //    }
-        //    return null;
-        //}
-        
+        private static Parameter ParamFromString(Room room, string name)
+        {
+            if (room.GetParameters(name).Count > 0)
+            {
+                return room.GetParameters(name)[0];
+            }
+            return null;
+        }
+
         private static bool ParameterValueContainsString(Parameter param, string value)
         {
             if (!param.HasValue || string.IsNullOrWhiteSpace(value)) {
@@ -91,7 +86,7 @@ namespace SCaddins.RoomConvertor
                     } 
                     break;
                 case StorageType.String:
-                    return param.AsString().Equals(value) ? 0 : result;
+                    return param.AsString().CompareTo(value);
                 case StorageType.Integer:
                     int iparse;
                     if (int.TryParse(value, out iparse)) {
@@ -108,12 +103,13 @@ namespace SCaddins.RoomConvertor
 
         public bool PassesFilter(Room room)
         {
+            parameter = ParamFromString(room, parameterName);
+
             // FIXME add OR oprion one day.
             if (lo != LogicalOperator.And) {
                 return false;
             }
             
-            //Parameter param = ParamFromString(room, parameterName);
             if (parameter == null) {
                 return false;
             }

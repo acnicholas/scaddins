@@ -66,11 +66,6 @@ namespace SCaddins.RoomConvertor.ViewModels
             }
         }
 
-        public LogicalOperator FirstSelectedLogicalOperator
-        {
-            get; set;
-        }
-
         public string ComparisonFieldOne
         {
             get
@@ -85,15 +80,10 @@ namespace SCaddins.RoomConvertor.ViewModels
                     var f = new RoomFilterItem(
                             LogicalOperator.And,
                             FirstSelectedComparisonOperator,
-                            RoomParameterOne,
-                            value
+                            RoomParameterOne.Definition.Name,
+                            comparisonFieldOne
                             );
-                    if (filter.Size < 1)
-                    {
-                        filter.AddFilterItem(f);
-                    } else {
-                        filter.Filters[0] = f;
-                    }
+                    filter.AddFilterItem(f, 0);
                     NotifyOfPropertyChange(() => ComparisonFieldOne);
                 }
             }

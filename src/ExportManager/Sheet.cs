@@ -227,7 +227,8 @@ namespace SCaddins.ExportManager
             set {
                 this.forceDate = value;
                 this.SetExportName();
-                NotifyPropertyChanged();
+                NotifyPropertyChanged("ForceDate");
+                NotifyPropertyChanged("FullExportName");
             }
         }
         
@@ -240,7 +241,9 @@ namespace SCaddins.ExportManager
             set {
                 this.useDateForEmptyRevisions = value;
                 this.SetExportName();
-                NotifyPropertyChanged();
+                NotifyPropertyChanged("UseDateForEmptyRevisions");
+                NotifyPropertyChanged("FullExportName");
+
             }
         }
         #endregion
@@ -328,6 +331,8 @@ namespace SCaddins.ExportManager
         {
             this.segmentedFileName = newSegmentedFileName;
             this.SetExportName();
+            NotifyPropertyChanged("SheetNumber");
+            NotifyPropertyChanged("FullExportName");
         }
 
         public void UpdateNumber()

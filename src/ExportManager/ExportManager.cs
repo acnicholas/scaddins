@@ -184,6 +184,10 @@ namespace SCaddins.ExportManager
             set
             {
                 this.fileNameScheme = value;
+                foreach (ExportSheet sheet in allSheets)
+                {
+                    sheet.SetSegmentedSheetName(fileNameScheme);
+                }
             }
         }
 

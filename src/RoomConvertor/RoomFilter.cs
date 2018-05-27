@@ -22,42 +22,43 @@ namespace SCaddins.RoomConvertor
 
     public class RoomFilter
     {
-        private Collection<RoomFilterItem> filters;
+        private RoomFilterItem[] filters;
 
         public RoomFilter()
         {
-            this.filters = new Collection<RoomFilterItem>();
-            this.filters.Clear();
+            this.filters = new RoomFilterItem[3];
         }
 
-        public void AddFilterItem(RoomFilterItem item)
+        public void AddFilterItem(RoomFilterItem item, int index)
         {
-            filters.Add(item);
+            filters[index] = item;
         }
 
-        public Collection<RoomFilterItem> Filters
+        public RoomFilterItem GetFiterItem(int index)
         {
-            get; set;
+            return filters[index];
         }
 
         public void Clear()
         {
-            filters.Clear();
+            filters[0]= null;
+            filters[1]= null;
+            filters[2] = null;
         }
 
         public int Size
         {
-            get { return filters.Count; }
+            get { return 3; }
         }
         
         public bool PassesFilter(Room room)
         {
             foreach (RoomFilterItem item in filters) {
-                if (RoomFilterItem.IsValid()) {
-                    if (!item.PassesFilter(room)) {
+                //if (item.IsValid()) {
+                    if (item != null && !item.PassesFilter(room)) {
                         return false;
                     }
-                }
+                //}
             }
             return true;
         }

@@ -12,11 +12,13 @@ namespace SCaddins.ExportManager.ViewModels
     {
         private ExportManager exportManager;
         private WindowManager windowManager;
+        private SCexportViewModel exportManagerViewModel;
 
-        public OptionsViewModel(ExportManager exportManager, WindowManager windowManager)
+        public OptionsViewModel(ExportManager exportManager, WindowManager windowManager, SCexportViewModel exportManagerViewModel)
         {
             this.exportManager = exportManager;
             this.windowManager = windowManager;
+            this.exportManagerViewModel = exportManagerViewModel;
         }
 
         public bool ExportAdobePDF
@@ -116,7 +118,7 @@ namespace SCaddins.ExportManager.ViewModels
             set
             {
                 if (value == exportManager.AcadVersion) return;
-                value = exportManager.AcadVersion;
+                exportManager.AcadVersion = value;
             }
         }
 
@@ -137,13 +139,14 @@ namespace SCaddins.ExportManager.ViewModels
 
         public bool DateForEmptyRevisions
         {
-            get { return exportManager.ForceRevisionToDateString;  }
-            set { exportManager.ForceRevisionToDateString = value; }
+            get { return exportManager.UseDateForEmptyRevisions;  }
+            set { exportManager.UseDateForEmptyRevisions = value; }
         }
 
         public bool ForceDateForAllRevisions
         {
-            get; set;
+            get { return exportManager.ForceRevisionToDateString; }
+            set { exportManager.ForceRevisionToDateString = value; }
         }
 
         public bool HideTitleBlocksForCadExports
