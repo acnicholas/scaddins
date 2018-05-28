@@ -16,6 +16,7 @@ namespace SCaddins.RoomConvertor.ViewModels
         private List<RoomConversionCandidate> rooms;
         private bool massCreationMode;
         private bool sheetCreationMode;
+        public RoomConversionCandidate selectedRoom;
         private RoomFilter filter;
         List<RoomConversionCandidate> selectedRooms = new List<RoomConversionCandidate>();
 
@@ -73,6 +74,30 @@ namespace SCaddins.RoomConvertor.ViewModels
             obj.RemovedItems.Cast<RoomConversionCandidate>().ToList().ForEach(w => selectedRooms.Remove(w));
         }
 
+        public RoomConversionCandidate SelectedRoom
+        {
+            get
+            {
+                return selectedRoom;
+            }
+            set
+            {
+                if (value != selectedRoom)
+                {
+                    selectedRoom = value;
+                    NotifyOfPropertyChange(() => RoomParameters);
+                }
+            }
+        }
+
+        public List<RoomParameter> RoomParameters
+        {
+            get
+            {
+                return SelectedRoom.RoomParameters; 
+            }
+        }
+
         public void AddFilter()
         {
             dynamic settings = new System.Dynamic.ExpandoObject();
@@ -86,6 +111,12 @@ namespace SCaddins.RoomConvertor.ViewModels
             var vm = new ViewModels.RoomFilterViewModel(manager, filter);
             windowManager.ShowDialog(vm, null, settings);
             //filter.AddFilterItem(new RoomFilterItem(LogicalOperator.And, ComparisonOperator.Equals, "Name", "Hall"));
+            NotifyOfPropertyChange(() => Rooms);
+        }
+
+        public void RemoveFilter()
+        {
+            filter.Clear();
             NotifyOfPropertyChange(() => Rooms);
         }
 

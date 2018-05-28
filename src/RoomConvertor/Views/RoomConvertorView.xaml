@@ -14,6 +14,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="300*"></RowDefinition>
+            <RowDefinition Height="Auto" MaxHeight="300"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -105,7 +106,10 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Grid Grid.Row="2">
+        <Expander Grid.Row="2" ExpandDirection="Up" MaxHeight="300">
+            <DataGrid x:Name="RoomParameters" Margin="5"/>
+        </Expander>
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>

@@ -24,6 +24,20 @@ namespace SCaddins.RoomConvertor
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
 
+    public class RoomParameter
+    {
+        public RoomParameter(string def, string value, string convertedValue)
+        {
+            Def = def;
+            Value = value;
+            ConvertedValue = convertedValue;
+        }
+        public string Def { get; set; }
+        public string Value { get; set; }
+        public string ConvertedValue { get; set; }
+
+    }
+
     public class RoomConversionCandidate : INotifyPropertyChanged
     {
         private Room room;
@@ -40,6 +54,32 @@ namespace SCaddins.RoomConvertor
             this.destSheetName = GetDefaultSheetName();
             this.destSheetNumber = GetDefaultSheetNumber(existingSheets);
             this.destViewName = GetDefaultViewName(existingViews);
+            RoomParameters = new List<RoomParameter>();
+            foreach (Parameter p in room.Parameters)
+            {
+                if (p.StorageType != StorageType.ElementId && p.StorageType != StorageType.None)
+                {
+                    RoomParameters.Add(new RoomParameter(p.Definition.Name, GetParamValueAsString(p), p.StorageType.ToString()));
+                }
+            }
+
+        }
+
+        private static string GetParamValueAsString(Parameter param)
+        {
+            switch (param.StorageType)
+            {
+                case StorageType.Double:
+                    return param.AsDouble().ToString(CultureInfo.CurrentCulture) + @"(" + param.AsValueString() + @")";
+                case StorageType.String:
+                    return param.AsString();
+                case StorageType.Integer:
+                    return param.AsInteger().ToString(CultureInfo.CurrentCulture) + @"(" + param.AsValueString() + @")";
+                case StorageType.ElementId:
+                    return string.Empty;
+                default:
+                    return string.Empty;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -48,6 +88,11 @@ namespace SCaddins.RoomConvertor
             get {
                 return room;
             }
+        }
+
+        public List<RoomParameter> RoomParameters
+        {
+            get; set;
         }
 
         public string Number {
