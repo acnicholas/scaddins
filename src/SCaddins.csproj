@@ -357,6 +357,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="RoomConvertor\RoomFilterEnums.cs" />
+    <Compile Include="RoomConvertor\ViewModels\ListSelectionViewModel.cs" />
     <Compile Include="RoomConvertor\ViewModels\RoomConvertorViewModel.cs" />
     <Compile Include="RoomConvertor\ViewModels\RoomFilterViewModel.cs" />
     <Compile Include="RoomConvertor\ViewModels\RoomToSheetWizardViewModel.cs" />

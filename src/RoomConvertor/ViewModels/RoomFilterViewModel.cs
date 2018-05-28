@@ -14,6 +14,7 @@ namespace SCaddins.RoomConvertor.ViewModels
     {
         private RoomConversionManager manager;
         private RoomFilter filter;
+        public Autodesk.Revit.DB.Parameter[] roomParameters;
         string comparisonFieldOne = string.Empty;
         string comparisonFieldTwo = string.Empty;
         string comparisonFieldThree = string.Empty;
@@ -22,6 +23,7 @@ namespace SCaddins.RoomConvertor.ViewModels
         {
             this.manager = manager;
             this.filter = filter;
+            roomParameters = new Autodesk.Revit.DB.Parameter[3];
         }
 
         public ObservableCollection<Autodesk.Revit.DB.Parameter> RoomParameters
@@ -31,7 +33,31 @@ namespace SCaddins.RoomConvertor.ViewModels
 
         public Autodesk.Revit.DB.Parameter RoomParameterOne
         {
-            get; set;
+            get
+            {
+                return roomParameters[0];
+            } set
+            {
+                if (value.Definition.Name == "Department")
+                {
+                    roomParameters[0] = value;
+                    NotifyOfPropertyChange(() => RoomParameterOne);
+
+                    dynamic settings = new System.Dynamic.ExpandoObject();
+                    settings.Height = 320;
+                    settings.Width = 640;
+                    settings.Title = "Select Department";
+                    settings.ShowInTaskbar = false;
+                    settings.SizeToContent = System.Windows.SizeToContent.Height;
+                    var windowManager = SCaddinsApp.WindowManager;
+                    var vm = new ViewModels.ListSelectionViewModel(manager.GetAllDepartments());
+                    bool? r = windowManager.ShowDialog(vm, null, settings);
+                    //if (r.HasValue && r.Value)
+                    //{
+                        ComparisonFieldOne = vm.SelectedItem;
+                    //} 
+                }
+            }
         }
 
         public Autodesk.Revit.DB.Parameter RoomParameterTwo

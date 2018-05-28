@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cal="http://www.caliburnproject.org"
              xmlns:local="clr-namespace:SCaddins.RoomConvertor.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -14,8 +15,8 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <ListView x:Name="List" Margin="5"></ListView>
-        <Button x:Name="OkButton" Grid.Row="1" MinWidth="75" HorizontalAlignment="Right" Margin="5">OK</Button>
-        <Button x:Name="CancelButton" Grid.Row="1" MinWidth="75" HorizontalAlignment="Left" Margin="5">Cancel</Button>
+        <ListView x:Name="Items" Margin="5"></ListView>
+        <Button x:Name="Ok" Grid.Row="1" MinWidth="75" HorizontalAlignment="Right" Margin="5">OK</Button>
+        <Button x:Name="Cancel" Grid.Row="1" MinWidth="75" HorizontalAlignment="Left" Margin="5">Cancel</Button>
     </Grid>
 </UserControl>
