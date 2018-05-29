@@ -63,6 +63,14 @@ namespace SCaddins.RoomConvertor.ViewModels
             }
         }
 
+        public bool RoomInformationIsAvailable
+        {
+            get
+            {
+                return SelectedRoom != null;
+            }
+        }
+
         public ObservableCollection<RoomConversionCandidate> Rooms
         {
             get { return new ObservableCollection<RoomConversionCandidate>(rooms.Where(r => filter.PassesFilter(r.Room))); }
@@ -86,6 +94,7 @@ namespace SCaddins.RoomConvertor.ViewModels
                 {
                     selectedRoom = value;
                     NotifyOfPropertyChange(() => RoomParameters);
+                    NotifyOfPropertyChange(() => RoomInformationIsAvailable);
                 }
             }
         }

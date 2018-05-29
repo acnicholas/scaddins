@@ -104,13 +104,20 @@ namespace SCaddins.RoomConvertor
 
         private bool LevelPassesFilter(Room room)
         {
-            Document doc = room.Document;
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
-            collector.OfClass(typeof(Level));
-            var levels = collector.Cast<Level>();
-            var level = levels.Where<Level>(l => l.Name == test).ToList<Level>();
-            return level[0] == room.Level;
-            //return false;
+            //Document doc = room.Document;
+            switch (co)
+            {
+                case ComparisonOperator.Equals:
+                    return room.Level.Name == test;
+                //case ComparisonOperator.LessThan:
+                //    return p < 0 && p != 441976;
+                //case ComparisonOperator.GreaterThan:
+                //    return p > 0 && p != 441976;
+                //case ComparisonOperator.NotEqual:
+                //    return p != 0 && p != 441976;
+                default:
+                    return false;
+            }
         }
 
         public bool PassesFilter(Room room)
