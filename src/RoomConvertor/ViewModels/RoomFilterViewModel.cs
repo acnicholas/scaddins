@@ -56,6 +56,22 @@ namespace SCaddins.RoomConvertor.ViewModels
                         ComparisonFieldOne = vm.SelectedItem;
                     //} 
                 }
+                if (value.Definition.Name == "Design Option")
+                {
+                    dynamic settings = new System.Dynamic.ExpandoObject();
+                    settings.Height = 320;
+                    settings.Width = 640;
+                    settings.Title = "Select Deisgn Option";
+                    settings.ShowInTaskbar = false;
+                    settings.SizeToContent = System.Windows.SizeToContent.Height;
+                    var windowManager = SCaddinsApp.WindowManager;
+                    var vm = new ViewModels.ListSelectionViewModel(RoomConversionManager.GetAllDesignOptionNames(manager.Doc));
+                    bool? r = windowManager.ShowDialog(vm, null, settings);
+                    //if (r.HasValue && r.Value)
+                    //{
+                    ComparisonFieldOne = vm.SelectedItem;
+                    //} 
+                }
             }
         }
 
