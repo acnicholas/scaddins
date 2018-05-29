@@ -43,9 +43,6 @@
                 <Button Margin="5" BorderThickness="0" Background="{x:Null}">
                     <Image Source="/SCaddins;component/Assets/rename.png"></Image>    
                 </Button>
-                <Button x:Name="ShowRoomInformation" Margin="5" BorderThickness="0" Background="{x:Null}">
-                    <Image Source="/SCaddins;component/Assets/help.png"></Image>    
-                </Button>
             </StackPanel>
         </Grid>
 

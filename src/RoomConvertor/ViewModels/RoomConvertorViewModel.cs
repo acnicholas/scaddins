@@ -110,7 +110,6 @@ namespace SCaddins.RoomConvertor.ViewModels
             var windowManager = SCaddinsApp.WindowManager;
             var vm = new ViewModels.RoomFilterViewModel(manager, filter);
             windowManager.ShowDialog(vm, null, settings);
-            //filter.AddFilterItem(new RoomFilterItem(LogicalOperator.And, ComparisonOperator.Equals, "Name", "Hall"));
             NotifyOfPropertyChange(() => Rooms);
         }
 

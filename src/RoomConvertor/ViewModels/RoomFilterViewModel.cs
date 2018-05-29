@@ -38,11 +38,10 @@ namespace SCaddins.RoomConvertor.ViewModels
                 return roomParameters[0];
             } set
             {
+                roomParameters[0] = value;
+                NotifyOfPropertyChange(() => RoomParameterOne);
                 if (value.Definition.Name == "Department")
                 {
-                    roomParameters[0] = value;
-                    NotifyOfPropertyChange(() => RoomParameterOne);
-
                     dynamic settings = new System.Dynamic.ExpandoObject();
                     settings.Height = 320;
                     settings.Width = 640;

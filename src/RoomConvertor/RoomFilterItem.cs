@@ -20,6 +20,7 @@ namespace SCaddins.RoomConvertor
     using System;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
+    using System.Linq;
 
     public class RoomFilterItem
     {
@@ -101,9 +102,21 @@ namespace SCaddins.RoomConvertor
             return result;
         }
 
+        private bool LevelPassesFilter(Room room)
+        {
+            Document doc = room.Document;
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfClass(typeof(Level));
+            var levels = collector.Cast<Level>();
+            var level = levels.Where<Level>(l => l.Name == test).ToList<Level>();
+            return level[0] == room.Level;
+            //return false;
+        }
+
         public bool PassesFilter(Room room)
         {
             parameter = ParamFromString(room, parameterName);
+
 
             // FIXME add OR oprion one day.
             if (lo != LogicalOperator.And) {
@@ -113,7 +126,13 @@ namespace SCaddins.RoomConvertor
             if (parameter == null) {
                 return false;
             }
-            
+
+            //FIXME not sure how else to do this...
+            if (parameterName == "Level")
+            {
+                return LevelPassesFilter(room);
+            }
+
             if (co == ComparisonOperator.Contains) {
                 return ParameterValueContainsString(parameter, test);
             }
