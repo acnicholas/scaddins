@@ -80,6 +80,7 @@ namespace SCaddins.RoomConvertor.ViewModels
         {
             selectedRooms.AddRange(obj.AddedItems.Cast<RoomConversionCandidate>());
             obj.RemovedItems.Cast<RoomConversionCandidate>().ToList().ForEach(w => selectedRooms.Remove(w));
+            NotifyOfPropertyChange(() => SelectionInformation);
         }
 
         public RoomConversionCandidate SelectedRoom
@@ -95,6 +96,7 @@ namespace SCaddins.RoomConvertor.ViewModels
                     selectedRoom = value;
                     NotifyOfPropertyChange(() => RoomParameters);
                     NotifyOfPropertyChange(() => RoomInformationIsAvailable);
+                    NotifyOfPropertyChange(() => SelectionInformation);
                 }
             }
         }
@@ -107,6 +109,14 @@ namespace SCaddins.RoomConvertor.ViewModels
             }
         }
 
+        public string SelectionInformation
+        {
+            get
+            {
+                return Rooms.Count + " Rooms, " + selectedRooms.Count + " Selected";
+            }
+        }
+
         public void AddFilter()
         {
             dynamic settings = new System.Dynamic.ExpandoObject();
@@ -114,18 +124,20 @@ namespace SCaddins.RoomConvertor.ViewModels
             settings.Width = 768;
             settings.Title = "Filter Rooms";
             settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.Height;
+            settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
             var bs = SCaddinsApp.Bootstrapper;
             var windowManager = SCaddinsApp.WindowManager;
             var vm = new ViewModels.RoomFilterViewModel(manager, filter);
             windowManager.ShowDialog(vm, null, settings);
             NotifyOfPropertyChange(() => Rooms);
+            NotifyOfPropertyChange(() => SelectionInformation);
         }
 
         public void RemoveFilter()
         {
             filter.Clear();
             NotifyOfPropertyChange(() => Rooms);
+            NotifyOfPropertyChange(() => SelectionInformation);
         }
 
         public void run()

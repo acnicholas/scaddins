@@ -9,7 +9,7 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
-    
+
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -38,10 +38,10 @@
                     <Image Source="/SCaddins;component/Assets/filter.png"></Image>
                 </Button>
                 <Button x:Name="RemoveFilter" Margin="5" BorderThickness="0" Background="{x:Null}">
-                    <Image Source="/SCaddins;component/Assets/remove_filter.png"></Image>    
+                    <Image Source="/SCaddins;component/Assets/remove_filter.png"></Image>
                 </Button>
                 <Button Margin="5" BorderThickness="0" Background="{x:Null}">
-                    <Image Source="/SCaddins;component/Assets/rename.png"></Image>    
+                    <Image Source="/SCaddins;component/Assets/rename.png"></Image>
                 </Button>
             </StackPanel>
         </Grid>
@@ -111,6 +111,7 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
+            <Label x:Name="SelectionInformation"></Label>
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Margin="5">Push Mass Data To Rooms</Button>
                 <Button x:Name="Run" Content="{Binding RunButtonText}" Margin="5"></Button>

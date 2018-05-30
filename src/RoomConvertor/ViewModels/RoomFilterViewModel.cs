@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
 using Caliburn.Micro;
 
 namespace SCaddins.RoomConvertor.ViewModels
@@ -14,7 +9,7 @@ namespace SCaddins.RoomConvertor.ViewModels
     {
         private RoomConversionManager manager;
         private RoomFilter filter;
-        public Autodesk.Revit.DB.Parameter[] roomParameters;
+        private Autodesk.Revit.DB.Parameter[] roomParameters;
         string comparisonFieldOne = string.Empty;
         string comparisonFieldTwo = string.Empty;
         string comparisonFieldThree = string.Empty;
@@ -36,7 +31,8 @@ namespace SCaddins.RoomConvertor.ViewModels
             get
             {
                 return roomParameters[0];
-            } set
+            }
+            set
             {
                 roomParameters[0] = value;
                 NotifyOfPropertyChange(() => RoomParameterOne);
@@ -51,10 +47,10 @@ namespace SCaddins.RoomConvertor.ViewModels
                     var windowManager = SCaddinsApp.WindowManager;
                     var vm = new ViewModels.ListSelectionViewModel(manager.GetAllDepartments());
                     bool? r = windowManager.ShowDialog(vm, null, settings);
-                    //if (r.HasValue && r.Value)
-                    //{
+                    if (r.HasValue && r.Value)
+                    {
                         ComparisonFieldOne = vm.SelectedItem;
-                    //} 
+                    }
                 }
                 if (value.Definition.Name == "Design Option")
                 {
@@ -67,10 +63,10 @@ namespace SCaddins.RoomConvertor.ViewModels
                     var windowManager = SCaddinsApp.WindowManager;
                     var vm = new ViewModels.ListSelectionViewModel(RoomConversionManager.GetAllDesignOptionNames(manager.Doc));
                     bool? r = windowManager.ShowDialog(vm, null, settings);
-                    //if (r.HasValue && r.Value)
-                    //{
-                    ComparisonFieldOne = vm.SelectedItem;
-                    //} 
+                    if (r.HasValue && r.Value)
+                    {
+                        ComparisonFieldOne = vm.SelectedItem;
+                    }
                 }
             }
         }
@@ -92,7 +88,6 @@ namespace SCaddins.RoomConvertor.ViewModels
                 return new ObservableCollection<ComparisonOperator>(Enum.GetValues(typeof(ComparisonOperator)).Cast<ComparisonOperator>().ToList());
             }
         }
-
 
         public ComparisonOperator FirstSelectedComparisonOperator
         {
@@ -165,6 +160,16 @@ namespace SCaddins.RoomConvertor.ViewModels
             {
                 return string.IsNullOrEmpty(ComparisonFieldTwo);
             }
+        }
+
+        public void Cancel()
+        {
+            TryClose(false);
+        }
+
+        public void OK()
+        {
+            TryClose(true);
         }
     }
 }

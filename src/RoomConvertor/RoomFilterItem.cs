@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2016 by Andrew Nicholas
+﻿// (C) Copyright 2016-2018 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -17,7 +17,6 @@
 
 namespace SCaddins.RoomConvertor
 {
-    using System;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
     using System.Linq;
@@ -56,16 +55,18 @@ namespace SCaddins.RoomConvertor
 
         private static bool ParameterValueContainsString(Parameter param, string value)
         {
-            if (!param.HasValue || string.IsNullOrWhiteSpace(value)) {
+            if (!param.HasValue || string.IsNullOrWhiteSpace(value))
+            {
                 return false;
             }
-            switch (param.StorageType) {
+            switch (param.StorageType)
+            {
                 case StorageType.Double:
-                        return false;
+                    return false;
                 case StorageType.String:
-                        return param.AsString().Contains(value);
+                    return param.AsString().Contains(value);
                 case StorageType.Integer:
-                        return false;
+                    return false;
                 case StorageType.ElementId:
                     return false;
                 default:
@@ -104,26 +105,43 @@ namespace SCaddins.RoomConvertor
 
         private bool LevelPassesFilter(Room room)
         {
-            //Document doc = room.Document;
-            switch (co)
+            if ( co == ComparisonOperator.Equals)
             {
-                case ComparisonOperator.Equals:
-                    return room.Level.Name == test;
-                //case ComparisonOperator.LessThan:
-                //    return p < 0 && p != 441976;
-                //case ComparisonOperator.GreaterThan:
-                //    return p > 0 && p != 441976;
-                //case ComparisonOperator.NotEqual:
-                //    return p != 0 && p != 441976;
-                default:
-                    return false;
+                return room.Level.Name == test;
             }
+
+            if (co == ComparisonOperator.Contains)
+            {
+                return room.Level.Name.Contains(test);
+            }
+
+            var collector = new FilteredElementCollector(room.Document)
+                .OfClass(typeof(Level))
+                .Cast<Level>()
+                .Where<Level>(lvl => lvl.Name == test);
+
+            if (collector.Count() > 0)
+            {
+                double elev = collector.First().Elevation;
+                {
+                    int p = room.Level.Elevation.CompareTo(elev);
+                    switch (co)
+                    {
+                        case ComparisonOperator.LessThan:
+                            return p < 0;
+                        case ComparisonOperator.GreaterThan:
+                            return p > 0;
+                        case ComparisonOperator.NotEqual:
+                            return p != 0;
+                    }
+                }
+            }
+            return false;
         }
 
         public bool PassesFilter(Room room)
         {
             parameter = ParamFromString(room, parameterName);
-
 
             // FIXME add OR oprion one day.
             if (lo != LogicalOperator.And) {
