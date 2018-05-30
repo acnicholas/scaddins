@@ -110,7 +110,7 @@
 					<Directory Id="SCaddinsAddin2016Directory" Name="2016">
 						<Component Id="SCaddinsAddin2016" Guid="70474050-0034-4A79-BF47-AF18E41EDC0D" DiskId="1">
 							<CreateFolder />
-							<File Id="SCADDINS16.ADDIN" Name="SCaddins16.addin" Source="..\src\bin\Release\SCaddins2016.addin" />
+							<File Id="SCADDINS16.ADDIN" Name="SCaddins16.addin" Source="..\src\bin\Release2016\SCaddins2016.addin" />
 						</Component>
 					</Directory>
 					<?endif?>
@@ -118,7 +118,7 @@
 					<Directory Id="SCaddinsAddin2017Directory" Name="2017">
 						<Component Id="SCaddinsAddin2017" Guid="F2D456ED-8A1C-4B3C-9926-770369DA8E42" DiskId="1">
 							<CreateFolder />
-							<File Id="SCADDINS17.ADDIN" Name="SCaddins17.addin" Source="..\src\bin\Release\SCaddins2017.addin" />
+							<File Id="SCADDINS17.ADDIN" Name="SCaddins17.addin" Source="..\src\bin\Release2017\SCaddins2017.addin" />
 						</Component>
 					</Directory>
 					<?endif?>
@@ -126,7 +126,7 @@
 					<Directory Id="SCaddinsAddin2018Directory" Name="2018">
 						<Component Id="SCaddinsAddin2018" Guid="67944DB5-77B9-4CB6-82E8-5B8C2EAFD213" DiskId="1">
 							<CreateFolder />
-							<File Id="SCADDINS18.ADDIN" Name="SCaddins18.addin" Source="..\src\bin\Release\SCaddins2018.addin" />
+							<File Id="SCADDINS18.ADDIN" Name="SCaddins18.addin" Source="..\src\bin\Release2018\SCaddins2018.addin" />
 						</Component>
 					</Directory>
 					<?endif?>
@@ -134,7 +134,7 @@
 					<Directory Id="SCaddinsAddin2019Directory" Name="2019">
 						<Component Id="SCaddinsAddin2019" Guid="3A73B94B-4C64-4302-954F-07249C27E5E1" DiskId="1">
 							<CreateFolder />
-							<File Id="SCADDINS19.ADDIN" Name="SCaddins19.addin" Source="..\src\bin\Release\SCaddins2019.addin" />
+							<File Id="SCADDINS19.ADDIN" Name="SCaddins19.addin" Source="..\src\bin\Release2019\SCaddins2019.addin" />
 						</Component>
 					</Directory>
 					<?endif?>
