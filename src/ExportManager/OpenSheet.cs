@@ -19,6 +19,7 @@ namespace SCaddins.ExportManager
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -78,8 +79,8 @@ namespace SCaddins.ExportManager
                 result.Add(new OpenableView(view.ViewName, view.SheetNumber, view));
             }
             FilteredElementCollector collector2 = new FilteredElementCollector(doc);
-            collector2.OfCategory(BuiltInCategory.OST_Views);
-            foreach (View view in collector2) {
+            var views = collector2.OfCategory(BuiltInCategory.OST_Views).Cast<View>().Where<View>(v => !v.IsTemplate);
+            foreach (View view in views) {
                 result.Add(new OpenableView(view.Name, string.Empty, view));
             }
             return result;

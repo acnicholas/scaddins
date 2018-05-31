@@ -50,12 +50,9 @@ namespace SCaddins.ExportManager
 
         internal bool IsMatch(string searchString)
         {
-            if (string.IsNullOrEmpty(searchString))
-            {
+            if (string.IsNullOrEmpty(searchString)) {
                 return false;
-            }
-            else
-            {
+            } else {
                 return Name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1 || SheetNumber.IndexOf(searchString) > -1;
             }
         }

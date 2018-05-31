@@ -42,19 +42,17 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (value != searchInput) {
                     searchInput = value;
-                    //this.searchResults.Source = this.viewsInDoc.Where
-                    //    (v => v.IsMatch(searchInput)).Take(searchInput.Length > 3 ? 40 : 10);
-                    //using (SearchResults.DeferRefresh()) {
+                    int successCount = 0;
+                    int maxCount = 10 + (searchInput.Length - 1) * 5;
                     SearchResults.Filter = v =>
                     {
                         OpenableView ov = v as OpenableView;
-                        return ov.IsMatch(searchInput);
+                        if (successCount < maxCount && ov.IsMatch(searchInput)) {
+                            successCount++;
+                            return ov.IsMatch(searchInput);
+                        }
+                        return false;
                     };
-                    //SearchResults.Refresh();
-                    //}
-                    //searchResults.Source = this.viewsInDoc.Where(v => v.IsMatch(searchInput));
-                    //NotifyOfPropertyChange(() => SearchInput);
-                    //NotifyOfPropertyChange(() => SearchResults);
                     NotifyOfPropertyChange(() => ShowHelpText);
                     NotifyOfPropertyChange(() => ShowExtendedHelpText);
                     NotifyOfPropertyChange(() => ShowSearchresults);
@@ -121,6 +119,7 @@ namespace SCaddins.ExportManager.ViewModels
         public void MouseDoubleClick()
         {
             selectedSearchResult.Open();
+            TryClose();
         }
 
         public void KeyDown(System.Windows.Input.KeyEventArgs args)
@@ -130,6 +129,7 @@ namespace SCaddins.ExportManager.ViewModels
             }
             if (args.Key == System.Windows.Input.Key.Enter) {
                 selectedSearchResult.Open();
+                TryClose();
             }
             if (ctrlDown && args.Key == System.Windows.Input.Key.J)
             {
