@@ -135,8 +135,8 @@
                     </MenuItem>
                     <MenuItem
                         Header="Filter">
-                        <TextBox>Hello</TextBox>
-                        <MenuItem Header="TEST"/>
+                        <TextBox></TextBox>
+                        <MenuItem cal:Message.Attach="ShowLatestRevision" Header="Show Latest Revision Only"/>
                         <MenuItem Header="TEST2"/>
                         <MenuItem Header="TEST3"/>
                         <MenuItem.Icon>

@@ -85,6 +85,14 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public void ShowLatestRevision()
+        {
+            var revDate = ExportManager.LatestRevisionDate(exportManager.Doc);
+            var filter = new System.Predicate<object>(item => ((ExportSheet)item).SheetRevisionDate.Equals(revDate));
+            Sheets.Filter = filter;
+            NotifyOfPropertyChange(() => Sheets);
+        }
+
         public void Row_SelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
         {
             selectedSheets.AddRange(obj.AddedItems.Cast<ExportSheet>());
@@ -122,7 +130,7 @@ namespace SCaddins.ExportManager.ViewModels
 
             if (keyArgs.Key == Key.L)
             {
-                var latest = ExportManager.LatestRevisionDate(exportManager.Doc);
+                ShowLatestRevision();
             }
 
             if (keyArgs.Key == Key.O)
