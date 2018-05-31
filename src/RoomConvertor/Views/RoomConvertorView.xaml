@@ -113,7 +113,7 @@
             </Grid.ColumnDefinitions>
             <Label x:Name="SelectionInformation"></Label>
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Margin="5">Push Mass Data To Rooms</Button>
+                <Button x:Name="PushDataToRooms" Margin="5">Push Mass Data To Rooms</Button>
                 <Button x:Name="Run" Content="{Binding RunButtonText}" Margin="5"></Button>
             </StackPanel>
         </Grid>

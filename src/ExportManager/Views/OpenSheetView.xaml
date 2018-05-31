@@ -47,7 +47,8 @@
         <DataGrid
             x:Name="SearchResults"
             cal:Message.Attach="[Event KeyDown] = [Action KeyDown($eventArgs)]; [Event KeyUp] = [Action KeyUp($eventArgs)]; [Event MouseDoubleClick] = [Action MouseDoubleClick()]"
-            Height="Auto"
+            MaxHeight="400"
+            VerticalScrollBarVisibility="Auto"
             Margin="5"
             Grid.Row="1"
             IsReadOnly="True"

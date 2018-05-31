@@ -42,12 +42,22 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (value != searchInput) {
                     searchInput = value;
-                    //this.searchResults.Source = this.viewsInDoc.Where(v => v.IsMatch(searchInput)).Take(searchInput.Length > 3 ? 20 : 10);
-                    this.searchResults.Source = this.viewsInDoc.Where(v => v.IsMatch(searchInput));
-                    NotifyOfPropertyChange(() => SearchInput);
-                    NotifyOfPropertyChange(() => SearchResults);
+                    //this.searchResults.Source = this.viewsInDoc.Where
+                    //    (v => v.IsMatch(searchInput)).Take(searchInput.Length > 3 ? 40 : 10);
+                    //using (SearchResults.DeferRefresh()) {
+                    SearchResults.Filter = v =>
+                    {
+                        OpenableView ov = v as OpenableView;
+                        return ov.IsMatch(searchInput);
+                    };
+                    //SearchResults.Refresh();
+                    //}
+                    //searchResults.Source = this.viewsInDoc.Where(v => v.IsMatch(searchInput));
+                    //NotifyOfPropertyChange(() => SearchInput);
+                    //NotifyOfPropertyChange(() => SearchResults);
                     NotifyOfPropertyChange(() => ShowHelpText);
                     NotifyOfPropertyChange(() => ShowExtendedHelpText);
+                    NotifyOfPropertyChange(() => ShowSearchresults);
                     NotifyOfPropertyChange(() => ShowSearchresults);
                 }
             }
@@ -150,9 +160,8 @@ namespace SCaddins.ExportManager.ViewModels
 
         public OpenSheetViewModel(Autodesk.Revit.DB.Document doc)
         {
-            viewsInDoc = new ObservableCollection<OpenableView>(OpenSheet.ViewsInModel(doc));
             this.searchResults = new CollectionViewSource();
-            this.searchResults.Source = this.viewsInDoc;
+            this.searchResults.Source = OpenSheet.ViewsInModel(doc);
             selectedSearchResult = null;
             ctrlDown = false;
             SearchInput = string.Empty;

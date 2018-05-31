@@ -140,13 +140,17 @@ namespace SCaddins.RoomConvertor.ViewModels
             NotifyOfPropertyChange(() => SelectionInformation);
         }
 
+        public void PushDataToRooms()
+        {
+            manager.SynchronizeMassesToRooms();
+            NotifyOfPropertyChange(() => Rooms);
+        }
+
         public void run()
         {
             if (MassCreationMode) {
                 manager.CreateRoomMasses(selectedRooms);
             } else {
-                //Sheet creation mode.
-                //Get some parameters first
                 dynamic settings = new System.Dynamic.ExpandoObject();
                 settings.Height = 480;
                 settings.Width = 480;
@@ -157,7 +161,6 @@ namespace SCaddins.RoomConvertor.ViewModels
                 var windowManager = SCaddinsApp.WindowManager;
                 var vm = new ViewModels.RoomToSheetWizardViewModel(manager);
                 windowManager.ShowDialog(vm, null, settings);
-
                 manager.CreateViewsAndSheets(selectedRooms);
             }
         }

@@ -56,7 +56,7 @@ namespace SCaddins.ExportManager
             }
             else
             {
-                return Name.ToUpper().Contains(searchString.ToUpper()) || SheetNumber.Contains(searchString);
+                return Name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1 || SheetNumber.IndexOf(searchString) > -1;
             }
         }
                

@@ -238,7 +238,7 @@
             Margin="5,0,5,5"
             Grid.Column="2" />
         <Button
-            cal:Message.Attach="Info"
+            cal:Message.Attach="Print"
             Content="Print"
             Height="Auto"
             Width="Auto"

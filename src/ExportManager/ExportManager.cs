@@ -322,20 +322,14 @@ namespace SCaddins.ExportManager
         }
 
         public void Print(
-            ICollection<ExportSheet> sheets,
+            ExportSheet sheet,
             string printerName,
             int scale)
         {
             PrintManager pm = Doc.PrintManager;
-            DateTime startTime = DateTime.Now;
-            TimeSpan elapsedTime = DateTime.Now - startTime;
-
-            if (1 == 1) {
                 bool printSetttingsValid;
-                this.log.Clear();
-                this.log.Start(Resources.StartingPrint);
-                foreach (ExportSheet sheet in sheets.OrderBy(x => x.SheetNumber).ToList()) {
-                    elapsedTime = DateTime.Now - startTime;
+                //this.log.Clear();
+                //this.log.Start(Resources.StartingPrint);
 
                     if (!sheet.Verified) {
                         sheet.UpdateSheetInfo();
@@ -358,16 +352,14 @@ namespace SCaddins.ExportManager
                     if (printSetttingsValid) {
                         pm.SubmitPrint(sheet.Sheet);
                     }
-                }
-                this.log.Stop(Resources.FinishedPrint);
-#if DEBUG
-                this.log.ShowSummaryDialog();
-#else
-                if (this.log.Errors > 0) {
-                    this.log.ShowSummaryDialog();
-                }
-#endif
-            }
+                //this.log.Stop(Resources.FinishedPrint);
+//#if DEBUG
+//                this.log.ShowSummaryDialog();
+//#else
+//                if (this.log.Errors > 0) {
+//                    this.log.ShowSummaryDialog();
+//                }
+//#endif
         }
 
         public void Update()

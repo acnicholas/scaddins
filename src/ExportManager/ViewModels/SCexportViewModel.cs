@@ -243,12 +243,18 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public void Info()
+        public void Print()
         {
-            if (SelectedSheet != null)
-            {
-                System.Windows.MessageBox.Show(SelectedSheet.FullExportName);
+            ProgressBarMaximum = selectedSheets.Count;
+            NotifyOfPropertyChange(() => ProgressBarMaximum);
+            System.Windows.Forms.Application.DoEvents();
+
+            foreach (ExportSheet sheet in selectedSheets.OrderBy(x => x.SheetNumber).ToList()) {
+                CurrentProgress += 1;
+                exportManager.Print(sheet, exportManager.PrinterNameA3, 3);
+                System.Windows.Forms.Application.DoEvents();
             }
+            CurrentProgress = 0;
         }
 
         public void VerifySheets()
