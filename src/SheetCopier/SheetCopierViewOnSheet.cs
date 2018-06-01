@@ -51,6 +51,8 @@ namespace SCaddins.SheetCopier
             this.SetDefualtCreationMode();
             this.newTitle =
                 title + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";
+            //remove invalid chars before continuing
+            this.newTitle = string.Join("_", this.newTitle.Split(System.IO.Path.GetInvalidFileNameChars()));
             this.associatedLevelName = SheetCopierConstants.MenuItemCopy;
             this.viewTemplateName = SheetCopierConstants.MenuItemCopy;
             this.duplicateWithDetailing = true;
