@@ -519,9 +519,7 @@
     <Resource Include="Assets\help.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Assets\user.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    <EmbeddedResource Include="Assets\user.png" />
     <EmbeddedResource Include="Assets\scasfar-rvt-16.png" />
     <None Include="Scaddins.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

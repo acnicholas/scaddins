@@ -146,7 +146,7 @@ namespace SCaddins
 
             ribbonPanel.AddItem(LoadScexport(scdll));
             ribbonPanel.AddStackedItems(
-                LoadSCoord(scdll),
+                LoadSCasfar(scdll),
                 LoadSCulcase(scdll),
                 LoadSCwash(scdll));
             ribbonPanel.AddStackedItems(
@@ -157,7 +157,6 @@ namespace SCaddins
                 LoadSCightlines(scdll),
                 LoadSCincrement(scdll),
                 LoadSCuv(scdll));
-            ribbonPanel.AddItem(LoadSCasfar(scdll));
 
             ribbonPanel.AddSlideOut();
 
