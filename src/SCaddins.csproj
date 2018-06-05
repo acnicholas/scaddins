@@ -482,10 +482,8 @@
   <ItemGroup>
     <None Include="app.config" />
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
-    <None Include="etc\SCexport.xsd" />
     <None Include="packages.config" />
     <None Include="SCaddins.addin" />
-    <None Include="share\SCexport-example-conf.xml" />
     <EmbeddedResource Include="Assets\scopy-rvt-16.png" />
     <EmbeddedResource Include="Assets\scam-rvt-16.png" />
     <EmbeddedResource Include="Assets\scaos-rvt-16.png" />
@@ -496,9 +494,9 @@
     <EmbeddedResource Include="Assets\scoord-rvt-16.png" />
     <EmbeddedResource Include="Assets\sculcase-rvt-16.png" />
     <EmbeddedResource Include="Assets\scwash-rvt-16.png" />
-    <EmbeddedResource Include="Assets\gear.png" />
-    <EmbeddedResource Include="Assets\help.png" />
-    <EmbeddedResource Include="Assets\user.png" />
+    <Resource Include="Assets\gear.png" />
+    <Resource Include="Assets\help.png" />
+    <Resource Include="Assets\user.png" />
     <EmbeddedResource Include="Assets\scasfar-rvt-16.png" />
     <None Include="Scaddins.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -581,11 +579,11 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Assets\copy.png" />
-    <EmbeddedResource Include="Assets\open.png" />
-    <EmbeddedResource Include="Assets\rename.png" />
-    <EmbeddedResource Include="Assets\revision.png" />
-    <EmbeddedResource Include="Assets\underlay.png" />
+    <Resource Include="Assets\copy.png" />
+    <Resource Include="Assets\open.png" />
+    <Resource Include="Assets\rename.png" />
+    <Resource Include="Assets\revision.png" />
+    <Resource Include="Assets\underlay.png" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="packages\Microsoft.AnalyzerPowerPack.1.1.0\analyzers\dotnet\cs\Microsoft.AnalyzerPowerPack.Common.dll" />
@@ -602,21 +600,21 @@
     <Analyzer Include="packages\Text.Analyzers.2.6.0\analyzers\dotnet\cs\Text.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Assets\north.png" />
-    <EmbeddedResource Include="Assets\add.png" />
-    <EmbeddedResource Include="Assets\check.png" />
-    <EmbeddedResource Include="Assets\comment.png" />
-    <EmbeddedResource Include="Assets\config.png" />
-    <EmbeddedResource Include="Assets\doc.png" />
-    <EmbeddedResource Include="Assets\edit.png" />
-    <EmbeddedResource Include="Assets\filter.png" />
-    <EmbeddedResource Include="Assets\find.png" />
-    <EmbeddedResource Include="Assets\keyboard.png" />
-    <EmbeddedResource Include="Assets\remove_filter.png" />
-    <EmbeddedResource Include="Assets\ruler.png" />
-    <EmbeddedResource Include="Assets\source.png" />
-    <EmbeddedResource Include="Assets\xmlElement.png" />
-    <EmbeddedResource Include="Assets\xmlFile.png" />
+    <Resource Include="Assets\north.png" />
+    <Resource Include="Assets\add.png" />
+    <Resource Include="Assets\check.png" />
+    <Resource Include="Assets\comment.png" />
+    <Resource Include="Assets\config.png" />
+    <Resource Include="Assets\doc.png" />
+    <Resource Include="Assets\edit.png" />
+    <Resource Include="Assets\filter.png" />
+    <Resource Include="Assets\find.png" />
+    <Resource Include="Assets\keyboard.png" />
+    <Resource Include="Assets\remove_filter.png" />
+    <Resource Include="Assets\ruler.png" />
+    <Resource Include="Assets\source.png" />
+    <Resource Include="Assets\xmlElement.png" />
+    <Resource Include="Assets\xmlFile.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

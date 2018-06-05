@@ -8,7 +8,7 @@
 -->
 
 <!-- 
-     For help see: https://bitbucket.org/anicholas/scaddins/wiki/SCexport#markdown-header-xml-project-configuration-file
+     For help see: https://github.com/acnicholas/scaddins/wiki/SCexport#markdown-header-xml-project-configuration-file
 -->
 
 <!-- 
@@ -26,6 +26,8 @@
     $sheetRevision
     $sheetRevisionDate 
     $sheetRevisionDescription
+    
+    __customParameter__				-	get the string value of any sheet parameter:
 -->
 
 <SCexport>
@@ -71,6 +73,10 @@
     <FilenameScheme name="Simple">
         <Format>$sheetNumber_$sheetRevision</Format>
     </FilenameScheme>
+
+  <FilenameScheme name="Custom Parameter Test">
+    <Format>__SC-Sheet_Category__--$projectNumber-$sheetNumber[$sheetRevision]-</Format>
+  </FilenameScheme>
     
     <!--
         Tag pdf's after export   

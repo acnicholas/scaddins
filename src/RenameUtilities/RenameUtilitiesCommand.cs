@@ -59,19 +59,10 @@ namespace SCaddins.RenameUtilities
             settings.Title = "Rename - By Andrew Nicholas";
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
-            try {
-                var bs = new SCaddins.Common.Bootstrapper();
-                bs.Initialize();
-                var windowManager = new SCaddins.Common.WindowManager();
-                var vm = new ViewModels.RenameUtilitiesViewModel(manager);
-                windowManager.ShowDialog(vm, null, settings);
-            } catch {
-                return Autodesk.Revit.UI.Result.Failed;
-            }
-
-            //using (var mainForm = new RenameUtilities.Form1(manager)) {
-            //    mainForm.ShowDialog();
-            //}
+            var bs = SCaddins.SCaddinsApp.Bootstrapper;
+            var windowManager = SCaddins.SCaddinsApp.WindowManager;
+            var vm = new ViewModels.RenameUtilitiesViewModel(manager);
+            windowManager.ShowDialog(vm, null, settings);
             return Result.Succeeded;
         }
     }

@@ -135,14 +135,6 @@ namespace SCaddins
                 return Result.Failed;
             }
 
-            //if (bootstrapper != null)
-            //{
-            //    bootstrapper.Initialize();
-            //} else
-            //{
-            //    return Result.Failed;
-            //}
-
             string scdll = new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
 
             ribbonPanel.AddItem(LoadScexport(scdll));

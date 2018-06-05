@@ -4,7 +4,7 @@ using System.IO;
 var target = Argument("target", "Default");
 var solutionFile = GetFiles("src/*.sln").First();
 var solutionFileWix = GetFiles("installer/SCaddins.Installer.wixproj").First();
-var buildDir = Directory(@"./bin/Release");
+var buildDir = Directory(@"./src/bin");
 
 // METHODS
 
