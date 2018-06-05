@@ -266,7 +266,15 @@ namespace SCaddins.ExportManager
                     return null;
             }    
         }
-        
+
+        public Parameter ParamFromString(string name)
+        {
+            if (this.Sheet.GetParameters(name).Count > 0) {
+                return this.Sheet.GetParameters(name)[0];
+            }
+            return null;
+        }
+
         public static string GetScaleBarScale(Element titleBlock)
         {
             if (titleBlock == null) {

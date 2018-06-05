@@ -79,6 +79,7 @@ namespace SCaddins
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
         public static void CheckForUpdates(bool newOnly)
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             var uri = new Uri("https://api.github.com/repos/acnicholas/scaddins/releases/latest");
             var webRequest = WebRequest.Create(uri) as HttpWebRequest;
             if (webRequest == null) {
@@ -162,8 +163,7 @@ namespace SCaddins
 
             ribbonPanel.AddStackedItems(
                 LoadAbout(scdll),
-                LoadSCincrementSettings(scdll),
-                LoadSCaddinSettings(scdll));
+                LoadSCincrementSettings(scdll));
 
             //if (SCaddins.Scaddins.Default.UpgradeCheckOnStartUp) {    
             //    CheckForUpdates(true);
@@ -277,15 +277,6 @@ namespace SCaddins
                               "SCincrementSettings", Resources.IncrementToolSettings, dll, "SCaddins.ParameterUtils.SCincrementSettingsCommand");
             AssignPushButtonImage(pbd, "SCaddins.Assets.scincrement-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.IncrementToolSettings;
-            return pbd;
-        }
-
-        private static PushButtonData LoadSCaddinSettings(string dll)
-        {
-            var pbd = new PushButtonData(
-                              "SCaddinsOptions", Resources.Options, dll, "SCaddins.SCaddinsOptions");
-            AssignPushButtonImage(pbd, "SCaddins.Assets.gear.png", 16, dll);
-            pbd.ToolTip = "SCaddins settings.";
             return pbd;
         }
 

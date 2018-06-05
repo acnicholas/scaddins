@@ -53,7 +53,7 @@ namespace SCaddins.RevisionUtilities
 
             int cloudNumber = 0;
             
-            SortableBindingListCollection<RevisionCloudItem> allRevisionClouds = GetRevisionClouds(doc);
+            List<RevisionCloudItem> allRevisionClouds = GetRevisionClouds(doc);
 
             string[,] data = new string[allRevisionClouds.Count + 1, 8]; 
             data[0, 0] = "Sheet Number";
@@ -89,9 +89,9 @@ namespace SCaddins.RevisionUtilities
             }
         }
                 
-        public static SortableBindingListCollection<RevisionCloudItem> GetRevisionClouds(Document doc)
+        public static List<RevisionCloudItem> GetRevisionClouds(Document doc)
         {
-            var revisionClouds = new SortableBindingListCollection<RevisionCloudItem>();
+            var revisionClouds = new List<RevisionCloudItem>();
             if (doc != null) {
                 using (FilteredElementCollector a = new FilteredElementCollector(doc)) {
                     a.OfCategory(BuiltInCategory.OST_RevisionClouds);

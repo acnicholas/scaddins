@@ -44,11 +44,11 @@ namespace SCaddins.RoomConvertor
             return !string.IsNullOrEmpty(test) ;
         }
 
-        private static Parameter ParamFromString(Room room, string name)
+        private static Parameter ParamFromString(Element element, string name)
         {
-            if (room.GetParameters(name).Count > 0)
+            if (element.GetParameters(name).Count > 0)
             {
-                return room.GetParameters(name)[0];
+                return element.GetParameters(name)[0];
             }
             return null;
         }

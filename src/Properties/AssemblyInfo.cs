@@ -30,7 +30,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SCaddins")]
-[assembly: AssemblyCopyright("Copyright 2012-2016 Andrew Nicholas")]
+[assembly: AssemblyCopyright("Copyright 2012-2018 Andrew Nicholas")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]

@@ -266,6 +266,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\AboutBox1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AboutBox.resx</DependentUpon>
+    </Compile>
     <Compile Include="Common\Bootstrapper.cs" />
     <Compile Include="DestructivePurge\ViewModels\CheckableItem.cs" />
     <Compile Include="DestructivePurge\ViewModels\DestructivePurgeViewModel.cs" />
@@ -323,12 +328,7 @@
     <Compile Include="Common\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common\AboutBox.Designer1.cs">
-      <DependentUpon>AboutBox.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Include="Common\MiscUtils.cs" />
-    <Compile Include="Common\SortableBindingList.cs" />
     <Compile Include="Common\SystemUtils.cs" />
     <Compile Include="Common\UpgradeForm.cs">
       <SubType>Form</SubType>
@@ -378,18 +378,6 @@
       <DependentUpon>Scaddins.settings</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SCaddinsOptions.cs" />
-    <Compile Include="ScaddinsOptionsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ScaddinsOptionsForm.Designer.cs">
-      <DependentUpon>ScaddinsOptionsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ScaddinsOptionsForm1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ScaddinsOptionsForm.resx</DependentUpon>
     </Compile>
     <Compile Include="SharedAssemblyInfo.cs" />
     <Compile Include="SheetCopier\SheetInformation.cs" />
@@ -479,15 +467,10 @@
     <EmbeddedResource Include="Common\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>AboutBox.Designer1.cs</LastGenOutput>
+      <LastGenOutput>AboutBox1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Common\UpgradeForm.resx">
       <DependentUpon>UpgradeForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ScaddinsOptionsForm.resx">
-      <DependentUpon>ScaddinsOptionsForm.cs</DependentUpon>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ScaddinsOptionsForm1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ParameterUtilities\IncrementSettingsForm.resx">
       <DependentUpon>IncrementSettingsForm.cs</DependentUpon>
@@ -513,12 +496,8 @@
     <EmbeddedResource Include="Assets\scoord-rvt-16.png" />
     <EmbeddedResource Include="Assets\sculcase-rvt-16.png" />
     <EmbeddedResource Include="Assets\scwash-rvt-16.png" />
-    <Resource Include="Assets\gear.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\help.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    <EmbeddedResource Include="Assets\gear.png" />
+    <EmbeddedResource Include="Assets\help.png" />
     <EmbeddedResource Include="Assets\user.png" />
     <EmbeddedResource Include="Assets\scasfar-rvt-16.png" />
     <None Include="Scaddins.settings">
@@ -602,21 +581,11 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Resource Include="Assets\copy.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\open.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\rename.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\revision.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\underlay.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    <EmbeddedResource Include="Assets\copy.png" />
+    <EmbeddedResource Include="Assets\open.png" />
+    <EmbeddedResource Include="Assets\rename.png" />
+    <EmbeddedResource Include="Assets\revision.png" />
+    <EmbeddedResource Include="Assets\underlay.png" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="packages\Microsoft.AnalyzerPowerPack.1.1.0\analyzers\dotnet\cs\Microsoft.AnalyzerPowerPack.Common.dll" />
@@ -633,29 +602,21 @@
     <Analyzer Include="packages\Text.Analyzers.2.6.0\analyzers\dotnet\cs\Text.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\north.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\add.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\check.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\comment.png" />
-    <Content Include="Assets\config.png" />
-    <Content Include="Assets\doc.png" />
-    <Content Include="Assets\edit.png" />
-    <Resource Include="Assets\filter.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Content Include="Assets\find.png" />
-    <Resource Include="Assets\keyboard.png" />
-    <Resource Include="Assets\remove_filter.png" />
-    <Resource Include="Assets\ruler.png" />
-    <Content Include="Assets\source.png" />
-    <Content Include="Assets\xmlElement.png" />
-    <Content Include="Assets\xmlFile.png" />
+    <EmbeddedResource Include="Assets\north.png" />
+    <EmbeddedResource Include="Assets\add.png" />
+    <EmbeddedResource Include="Assets\check.png" />
+    <EmbeddedResource Include="Assets\comment.png" />
+    <EmbeddedResource Include="Assets\config.png" />
+    <EmbeddedResource Include="Assets\doc.png" />
+    <EmbeddedResource Include="Assets\edit.png" />
+    <EmbeddedResource Include="Assets\filter.png" />
+    <EmbeddedResource Include="Assets\find.png" />
+    <EmbeddedResource Include="Assets\keyboard.png" />
+    <EmbeddedResource Include="Assets\remove_filter.png" />
+    <EmbeddedResource Include="Assets\ruler.png" />
+    <EmbeddedResource Include="Assets\source.png" />
+    <EmbeddedResource Include="Assets\xmlElement.png" />
+    <EmbeddedResource Include="Assets\xmlFile.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

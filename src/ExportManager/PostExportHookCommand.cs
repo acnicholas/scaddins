@@ -20,6 +20,7 @@ namespace SCaddins.ExportManager
     using System;
     using System.Collections.ObjectModel;
     using System.Globalization;
+    using System.Text.RegularExpressions;
 
     public class PostExportHookCommand
     {
@@ -61,6 +62,13 @@ namespace SCaddins.ExportManager
             result = result.Replace(@"$sheetRevisionDate", sheet.SheetRevisionDate);
             result = result.Replace(@"$sheetRevisionDescription", sheet.SheetRevisionDescription);
             result = result.Replace(@"$fileExtension", extension);
+
+            //search for, and replace Custom Paramters
+            string pattern = @"(__)(.*?)(__)";
+            result = Regex.Replace(
+                result,
+                pattern,
+                m => RoomConvertor.RoomConversionCandidate.GetParamValueAsString(sheet.ParamFromString(m.Groups[2].Value)));
             return result;
         }
 

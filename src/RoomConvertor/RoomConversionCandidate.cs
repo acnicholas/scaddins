@@ -65,7 +65,8 @@ namespace SCaddins.RoomConvertor
 
         }
 
-        private static string GetParamValueAsString(Parameter param)
+        //FIXME put ths somewhere more useful.
+        public static string GetParamValueAsString(Parameter param)
         {
             switch (param.StorageType)
             {
