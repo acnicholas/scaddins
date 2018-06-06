@@ -266,12 +266,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\AboutBox1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AboutBox.resx</DependentUpon>
-    </Compile>
     <Compile Include="Common\Bootstrapper.cs" />
+    <Compile Include="Common\ViewModels\AboutViewModel.cs" />
+    <Compile Include="Common\ViewModels\UpgradeViewModel.cs" />
+    <Compile Include="Common\Views\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Views\UpgradeView.xaml.cs">
+      <DependentUpon>UpgradeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DestructivePurge\ViewModels\CheckableItem.cs" />
     <Compile Include="DestructivePurge\ViewModels\DestructivePurgeViewModel.cs" />
     <Compile Include="DestructivePurge\Views\DestructivePurgeView.xaml.cs">
@@ -322,20 +325,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Common\About.cs" />
-    <Compile Include="Common\AboutBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Common\AboutBox.Designer.cs">
-      <DependentUpon>AboutBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="Common\MiscUtils.cs" />
     <Compile Include="Common\SystemUtils.cs" />
-    <Compile Include="Common\UpgradeForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Common\UpgradeForm.Designer.cs">
-      <DependentUpon>UpgradeForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Common\ConsoleUtils.cs" />
     <Compile Include="LatestRelease.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
@@ -464,14 +455,6 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Common\AboutBox.resx">
-      <DependentUpon>AboutBox.cs</DependentUpon>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>AboutBox1.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Common\UpgradeForm.resx">
-      <DependentUpon>UpgradeForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ParameterUtilities\IncrementSettingsForm.resx">
       <DependentUpon>IncrementSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -515,6 +498,14 @@
     <EmbeddedResource Include="Assets\scexport-rvt-16.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Common\Views\AboutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\Views\UpgradeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DestructivePurge\Views\DestructivePurgeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -577,7 +568,9 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Assets\about.bmp" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\copy.png" />
     <Resource Include="Assets\open.png" />

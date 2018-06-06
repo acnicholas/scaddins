@@ -30,6 +30,7 @@ namespace SCaddins
     using Autodesk.Revit.UI;
     using Newtonsoft.Json;
     using SCaddins.Properties;
+    using System.Dynamic;
 
     [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -107,9 +108,20 @@ namespace SCaddins
             }
 
             if (latestAvailableVersion > installedVersion || !newOnly) {
-                using (var upgradeForm = new SCaddins.Common.UpgradeForm(installedVersion, latestAvailableVersion, info, downloadLink)) {
-                    upgradeForm.ShowDialog();
-                }
+
+                var bootstrapper = SCaddinsApp.Bootstrapper;
+                var windowManager = SCaddinsApp.WindowManager;
+
+                dynamic settings = new ExpandoObject();
+                settings.Height = 640;
+                settings.Width = 480;
+                settings.Title = "SCaddins Versino Information";
+                settings.ShowInTaskbar = false;
+                settings.ResizeMode = System.Windows.ResizeMode.NoResize;
+                settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+                var upgradeViewModel = new SCaddins.Common.ViewModels.UpgradeViewModel(installedVersion, latestAvailableVersion, info, downloadLink);
+                windowManager.ShowDialog(upgradeViewModel, null, settings);
+
             } 
         }
 
