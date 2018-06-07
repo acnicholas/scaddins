@@ -20,6 +20,5 @@ namespace SCaddins.ExportManager.Views
         {
             Sheets.UnselectAll();
         }
-
     }
 }

@@ -6,6 +6,7 @@ using System.Windows.Data;
 using Caliburn.Micro;
 using System.Linq;
 using System.Dynamic;
+using System.Text.RegularExpressions;
 
 namespace SCaddins.ExportManager.ViewModels
 {
@@ -111,26 +112,24 @@ namespace SCaddins.ExportManager.ViewModels
 
             if (keyArgs.OriginalSource.GetType() == typeof(System.Windows.Controls.TextBox)) return;
 
-            if (keyArgs.Key == Key.C)
-            {
-                RemoveViewFilter();
-            }
+            switch (keyArgs.Key) {
+                case Key.C:
+                    RemoveViewFilter();
+                    break;
+                case Key.J:
+                    Sheets.MoveCurrentToNext();
+                    if (Sheets.IsCurrentAfterLast) Sheets.MoveCurrentToFirst();
+                    break;
+                case Key.K:
+                    Sheets.MoveCurrentToPrevious();
+                    if (Sheets.IsCurrentBeforeFirst) Sheets.MoveCurrentToLast();
+                    break;
+                case Key.L:
+                    ShowLatestRevision();
+                    break;
+                default:
+                    break;
 
-            if (keyArgs.Key == Key.J)
-            {
-                Sheets.MoveCurrentToNext();
-                if (Sheets.IsCurrentAfterLast) Sheets.MoveCurrentToFirst();
-            }
-
-            if (keyArgs.Key == Key.K)
-            {
-                Sheets.MoveCurrentToPrevious();
-                if (Sheets.IsCurrentBeforeFirst) Sheets.MoveCurrentToLast();
-            }
-
-            if (keyArgs.Key == Key.L)
-            {
-                ShowLatestRevision();
             }
 
             if (keyArgs.Key == Key.O)
@@ -141,14 +140,30 @@ namespace SCaddins.ExportManager.ViewModels
             if (keyArgs.Key == Key.S)
             {
                 var activeSheetName = ExportManager.CurrentViewNumber(exportManager.Doc);
-                var toSelect = sheets.Where<ExportSheet>(sheet => (sheet.SheetNumber == activeSheetName)).ToList<ExportSheet>().First();
-                Sheets.MoveCurrentTo(toSelect);
+                var filter = new System.Predicate<object>(item => ((ExportSheet)item).SheetNumber.Equals(activeSheetName));
+                Sheets.Filter = filter;
             }
 
             if (keyArgs.Key == Key.Escape)
             {
                     TryClose();
             }
+
+            if (keyArgs.Key == Key.D1) {
+                FilterByNumber("1");
+            }
+
+            if (keyArgs.Key == Key.D2) {
+                FilterByNumber("2");
+            }
+
+        }
+
+        private void FilterByNumber(string number)
+        {
+            var activeSheetName = ExportManager.CurrentViewNumber(exportManager.Doc);
+            var filter = new System.Predicate<object>(item => Regex.IsMatch(((ExportSheet)item).SheetNumber, @"^\D*" + number));
+            Sheets.Filter = filter;
         }
 
         public bool UserShouldEditValueNow
