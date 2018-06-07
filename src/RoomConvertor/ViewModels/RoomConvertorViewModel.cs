@@ -160,8 +160,11 @@ namespace SCaddins.RoomConvertor.ViewModels
                 var bs = SCaddinsApp.Bootstrapper;
                 var windowManager = SCaddinsApp.WindowManager;
                 var vm = new ViewModels.RoomToSheetWizardViewModel(manager);
-                windowManager.ShowDialog(vm, null, settings);
-                manager.CreateViewsAndSheets(selectedRooms);
+                bool? result = windowManager.ShowDialog(vm, null, settings);
+                if (result.Value == true)
+                {
+                    manager.CreateViewsAndSheets(selectedRooms);
+                }
             }
         }
 

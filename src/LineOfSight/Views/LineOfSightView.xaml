@@ -22,11 +22,11 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <GroupBox Header="Bouding Dimension" Grid.Row="0" Name="Test" Margin="5" >
+            <GroupBox Header="Bounding Dimensions" Grid.Row="0" Name="Test" Margin="5" >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -45,7 +45,7 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -64,7 +64,7 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -92,7 +92,7 @@
         <GridSplitter Grid.Column="1" Grid.RowSpan="1"  HorizontalAlignment="Stretch" Width="5"></GridSplitter>
         <Grid Grid.Column="2">
             <GroupBox Header="Information" Margin="5">
-                <TextBox x:Name="InfoString" Margin="5"></TextBox>
+                <TextBox x:Name="InfoString" Margin="5" MinWidth="250"></TextBox>
             </GroupBox>
         </Grid>
         <Button x:Name="Draw" Height="25" HorizontalAlignment="Right"  MinWidth="50" Grid.Row ="1" Grid.Column="2" Margin="5">Create Drafting View</Button>

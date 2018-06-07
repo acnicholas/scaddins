@@ -11,8 +11,11 @@ namespace SCaddins.Common.ViewModels
 {
     class UpgradeViewModel : Screen
     {
+        private string downloadLink;
+
         public UpgradeViewModel(Version installed, Version remote, string body, string downloadLink)
         {
+            this.downloadLink = downloadLink;
 
             if (installed == null) {
                 installed = new Version(0, 0, 0);
@@ -51,6 +54,16 @@ namespace SCaddins.Common.ViewModels
         public string LatestVersion
         {
             get; set;
+        }
+
+        public void Download()
+        {
+            System.Diagnostics.Process.Start(downloadLink);
+        }
+
+        public void OpenChangeLog()
+        {
+            System.Diagnostics.Process.Start(SCaddins.Constants.ChangelogLink);
         }
 
     }

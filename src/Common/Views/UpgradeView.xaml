@@ -16,12 +16,14 @@
             <StackPanel>
                 <Label x:Name="InstalledVersion" Margin="5"/>
                 <Label x:Name="LatestVersion" Margin="5"/>
-                <Label x:Name="InformationText" Margin="5"/>
-                <Border BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" >
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="300" Width="Auto" Height="Auto">
-                    <TextBlock x:Name="VerboseInformationText" Margin="5"/>
-                    </ScrollViewer>
-                </Border>
+                <Label x:Name="InformationText" Margin="5" FontWeight="Bold"/>
+                <GroupBox Header=" Latest Release Summary">
+                    <Border BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" >
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="300" Width="Auto" Height="Auto">
+                            <TextBlock x:Name="VerboseInformationText" Margin="5"/>
+                        </ScrollViewer>
+                    </Border>
+                </GroupBox>
             </StackPanel>
         </GroupBox>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

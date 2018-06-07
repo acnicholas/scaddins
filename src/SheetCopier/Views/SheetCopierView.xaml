@@ -21,7 +21,16 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Expander ExpandDirection="Right">
-                <ListView x:Name="SelectedSheetInformation" Grid.Row="1" Margin="5" MinWidth="300">
+                <Expander.Header>
+                    <TextBlock Text="Source Sheet Information">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform Angle="-90"/>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                </Expander.Header>
+                <StackPanel MinWidth="200" VerticalAlignment="Stretch" Height="Auto">
+                <Label Margin="5" x:Name="SelectedSheetName"></Label>
+                    <ListView x:Name="SelectedSheetInformation" Grid.Row="1" Margin="5" MaxWidth="300" VerticalAlignment="Stretch" Height="Auto">
                 <ListView.View>
                     <GridView>
                             <GridView.Columns>
@@ -31,6 +40,7 @@
                         </GridView>
                 </ListView.View>
             </ListView>
+            </StackPanel>
             </Expander>
         </Grid>
         <GridSplitter Grid.Column="1" Height="Auto" Width="Auto"></GridSplitter>
@@ -73,7 +83,7 @@
                         <DataGridTextColumn Header="Sheet Name" Binding="{Binding Title}" Width="*"></DataGridTextColumn>
                         <DataGridComboBoxColumn
                             SelectedItemBinding="{Binding SheetCategory}"
-                            Header="View Template"
+                            Header="View Category"
                             MinWidth="100">
                             <DataGridComboBoxColumn.ElementStyle>
                                 <Style TargetType="ComboBox">

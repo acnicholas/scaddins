@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2012-2014 by Andrew Nicholas
+﻿// (C) Copyright 2012-2018 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -42,7 +42,7 @@ namespace SCaddins.LineOfSight
             settings.Width = 360;
             settings.Title = "Stadium Line Of Sight - By A.Nicholas";
             settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+            settings.SizeToContent = System.Windows.SizeToContent.Width;
 
             var bs = SCaddinsApp.Bootstrapper;
             var windowManager = SCaddinsApp.WindowManager;

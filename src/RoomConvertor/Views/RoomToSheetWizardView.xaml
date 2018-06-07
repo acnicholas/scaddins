@@ -47,8 +47,8 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Margin="5">Cancel</Button>
-                <Button Grid.Column="1" Margin="5">OK</Button>
+                <Button x:Name="Cancel" Grid.Column="0" Margin="5">Cancel</Button>
+                <Button x:Name="OK" Grid.Column="1" Margin="5">OK</Button>
             </Grid>
         </GroupBox>
     </Grid>

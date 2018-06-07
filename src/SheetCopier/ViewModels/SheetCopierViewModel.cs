@@ -26,6 +26,14 @@ namespace SCaddins.SheetCopier.ViewModels
             get { return SelectedSheet.ViewsOnSheet; }
         }
 
+        public string SelectedSheetName
+        {
+            get
+            {
+                return SelectedSheet.Number + " - " + SelectedSheet.Title;
+            }
+        }
+
         public SheetCopierSheet SelectedSheet
         {
             get
@@ -39,6 +47,7 @@ namespace SCaddins.SheetCopier.ViewModels
                     selectedSheet = value;
                     NotifyOfPropertyChange(() => SelectedSheetInformation);
                     NotifyOfPropertyChange(() => ViewsOnSheet);
+                    NotifyOfPropertyChange(() => SelectedSheetName);
                 }
             }
         }
@@ -104,6 +113,7 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public void CopySheetSelection()
         {
+            copyManager.AddSheet(SelectedSheet.SourceSheet);
         }
 
         public void Go()

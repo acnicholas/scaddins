@@ -172,17 +172,6 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
                 IsDefault="True" />
-            <Button
-                Width="75"
-                Height="23"
-                x:Name="HelpButton"
-                Content="Help"
-                Grid.Column="0"
-                Grid.Row="3"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
-                Margin="5"
-                IsDefault="False" />
         </Grid>
     </Grid>
 </UserControl>

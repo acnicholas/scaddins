@@ -20,6 +20,7 @@ namespace SCaddins.LineOfSight.ViewModels
                 if (value != lineOfSight.TreadSize) {
                     lineOfSight.TreadSize = value;
                     NotifyOfPropertyChange(() => TreadSize);
+                    NotifyOfPropertyChange(() => InfoString);
                 }
             }
         }
@@ -156,7 +157,7 @@ namespace SCaddins.LineOfSight.ViewModels
         {
             get
             {
-                return false;
+                return true;
             }
         }
 

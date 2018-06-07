@@ -115,7 +115,7 @@ namespace SCaddins
                 dynamic settings = new ExpandoObject();
                 settings.Height = 640;
                 settings.Width = 480;
-                settings.Title = "SCaddins Versino Information";
+                settings.Title = "SCaddins Version Information";
                 settings.ShowInTaskbar = false;
                 settings.ResizeMode = System.Windows.ResizeMode.NoResize;
                 settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
