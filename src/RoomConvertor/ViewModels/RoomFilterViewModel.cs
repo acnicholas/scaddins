@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace SCaddins.RoomConvertor.ViewModels
 {
@@ -21,9 +23,16 @@ namespace SCaddins.RoomConvertor.ViewModels
             roomParameters = new Autodesk.Revit.DB.Parameter[3];
         }
 
-        public ObservableCollection<Autodesk.Revit.DB.Parameter> RoomParameters
+        public ICollectionView RoomParameters
         {
-            get { return new ObservableCollection<Autodesk.Revit.DB.Parameter>(manager.GetRoomParameters()); }
+            get
+            {
+                var result = new CollectionViewSource();
+                var collection = new ObservableCollection<Autodesk.Revit.DB.Parameter>(manager.GetRoomParameters());
+                result.Source = collection;
+                result.SortDescriptions.Add(new SortDescription("Definition.Name", ListSortDirection.Ascending));
+                return result.View;
+            }
         }
 
         public Autodesk.Revit.DB.Parameter RoomParameterOne
