@@ -19,7 +19,7 @@ namespace SCaddins.RevisionUtilities
 {
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using SCaddins.Common;
+    using System.Dynamic;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -35,8 +35,19 @@ namespace SCaddins.RevisionUtilities
                 return Result.Failed;
             }
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            RevisionUtilitiesWindow form = new RevisionUtilitiesWindow(doc);
-            form.ShowDialog();
+
+            dynamic settings = new ExpandoObject();
+            settings.Height = 480;
+            settings.Width = 768;
+            settings.Title = "Revivion Tools - By Andrew Nicholas";
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+            var bs = SCaddinsApp.Bootstrapper;
+            var windowManager = SCaddinsApp.WindowManager;
+            var vm = new ViewModels.RevisionUtilitiesViewModel(doc);
+            windowManager.ShowDialog(vm, null, settings);
+            return Result.Succeeded;
+
             return Autodesk.Revit.UI.Result.Succeeded;
         }     
     }  

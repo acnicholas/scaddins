@@ -118,7 +118,7 @@ namespace SCaddins.RevisionUtilities
             return revisions;
         }
         
-        public static void AssignRevisionToClouds(Document doc, Collection<RevisionCloudItem> revisionClouds)
+        public static void AssignRevisionToClouds(Document doc, List<RevisionCloudItem> revisionClouds)
         {
             if (doc == null || revisionClouds == null) {
                 TaskDialog.Show("ERROR", "Could not assign revisions to clouds");
@@ -147,7 +147,7 @@ namespace SCaddins.RevisionUtilities
             }
         }
         
-         public static void DeleteRevisionClouds(Document doc, Collection<RevisionCloudItem> revisionClouds)
+         public static void DeleteRevisionClouds(Document doc, List<RevisionCloudItem> revisionClouds)
         {
             if (doc == null || revisionClouds == null) {
                 TaskDialog.Show("ERROR", "Could not delete revision clouds");

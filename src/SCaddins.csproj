@@ -343,9 +343,9 @@
       <DependentUpon>RenameUtilitiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="RevisionUtilities\RevisionItem.cs" />
-    <Compile Include="RevisionUtilities\RevisionUtilitiesWindow.xaml.cs">
-      <DependentUpon>RevisionUtilitiesWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="RevisionUtilities\ViewModels\RevisionUtilitiesViewModel.cs" />
+    <Compile Include="RevisionUtilities\Views\RevisionUtilitiesView.xaml.cs">
+      <DependentUpon>RevisionUtilitiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="RoomConvertor\RoomFilterEnums.cs" />
     <Compile Include="RoomConvertor\ViewModels\ListSelectionViewModel.cs" />
@@ -529,7 +529,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RevisionUtilities\RevisionUtilitiesWindow.xaml" />
+    <Page Include="RevisionUtilities\Views\RevisionUtilitiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RoomConvertor\Views\ListSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
