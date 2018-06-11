@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,6 +42,34 @@ namespace SCaddins.RevisionUtilities.ViewModels
         {
             selectedRevisionClouds.AddRange(obj.AddedItems.Cast<RevisionCloudItem>());
             obj.RemovedItems.Cast<RevisionCloudItem>().ToList().ForEach(w => selectedRevisionClouds.Remove(w));
+        }
+
+        public void ExportExcelSchedule()
+        {
+            //RevisionUtilities.ExportCloudInfo(doc, )
+        }
+
+        public void AssignRevision()
+        {
+            dynamic settings = new ExpandoObject();
+            settings.Height = 640;
+            settings.Width = 480;
+            settings.Title = "Select Revision to Assign";
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+            settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
+            var revisionSelectionViewModel = new ExportManager.ViewModels.RevisionSelectionViewModel(doc);
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(revisionSelectionViewModel, null, settings);
+            bool newBool = result.HasValue ? result.Value : false;
+            if (newBool)
+            {
+                if (revisionSelectionViewModel.SelectedRevision != null)
+                {
+                    RevisionUtilities.AssignRevisionToClouds(doc, 
+                        selectedRevisionClouds, 
+                        revisionSelectionViewModel.SelectedRevision.Id);
+                }
+            }
         }
 
         public void DeleteClouds()

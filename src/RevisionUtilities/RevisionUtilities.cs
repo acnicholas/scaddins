@@ -118,20 +118,12 @@ namespace SCaddins.RevisionUtilities
             return revisions;
         }
         
-        public static void AssignRevisionToClouds(Document doc, List<RevisionCloudItem> revisionClouds)
+        public static void AssignRevisionToClouds(Document doc, List<RevisionCloudItem> revisionClouds, ElementId cloudId)
         {
             if (doc == null || revisionClouds == null) {
                 TaskDialog.Show("ERROR", "Could not assign revisions to clouds");
                 return;
             }
-            ElementId cloudId = null;
-            //using (var r = new SCaddins.ExportManager.RevisionSelectionDialog(doc)) {
-            //    var result = r.ShowDialog();
-            //    if (result != System.Windows.Forms.DialogResult.OK) {
-            //        return;
-            //    }
-            //    cloudId = r.Id;
-            //}
             if (cloudId == null) {
                 TaskDialog.Show("ERROR", "Selected cloud is not valid...for some reason"); 
                 return;
