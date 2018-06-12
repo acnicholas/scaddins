@@ -52,17 +52,12 @@ namespace SCaddins.RenameUtilities
             //}
                        
             RenameManager manager = new RenameManager(doc);
-
-            dynamic settings = new ExpandoObject();
-            settings.Height = 480;
-            settings.Width = 768;
-            settings.Title = "Rename - By Andrew Nicholas";
-            settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.Manual;
             var bs = SCaddins.SCaddinsApp.Bootstrapper;
             var windowManager = SCaddins.SCaddinsApp.WindowManager;
             var vm = new ViewModels.RenameUtilitiesViewModel(manager);
-            windowManager.ShowDialog(vm, null, settings);
+            windowManager.ShowDialog(vm, null, ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings);
+
+
             return Result.Succeeded;
         }
     }

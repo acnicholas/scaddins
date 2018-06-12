@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿
+using System.Dynamic;
+using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,21 @@ namespace SCaddins.ExportManager.ViewModels
     {
         private List<string> printers;
         private string selectedPrinter;
+
+        //public dynamic DefaultWindowsSettings
+        //{
+        //    get
+        //    {
+        //        dynamic settings = new ExpandoObject();
+        //        settings.Height = 640;
+        //        settings.Width = 480;
+        //        settings.Title = "Select Revision to Assign";
+        //        settings.ShowInTaskbar = false;
+        //        settings.SizeToContent = System.Windows.SizeToContent.Manual;
+        //        settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
+        //        return settings;
+        //    }
+        //}
 
         public PrinterSelectionViewModel(string desiredPrinterName)
         {   

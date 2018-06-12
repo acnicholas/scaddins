@@ -46,6 +46,8 @@ namespace SCaddins.RevisionUtilities.ViewModels
 
         public void ExportExcelSchedule()
         {
+            string filePath = string.Empty;
+            SCaddinsApp.WindowManager.ShowSaveFileDialog(ref filePath);
             //RevisionUtilities.ExportCloudInfo(doc, )
         }
 

@@ -14,7 +14,7 @@ namespace SCaddins.ExportManager.ViewModels
     {
         private readonly ExportManager exportManager;
         private ObservableCollection<ExportSheet> sheets;
-        private CollectionViewSource sheetsCollection;
+        private ICollectionView sheetsCollection;
         private WindowManager windowManager;
         private ViewSheetSetCombo selectedViewSheetSet;
         private double currentProgress;
@@ -26,8 +26,7 @@ namespace SCaddins.ExportManager.ViewModels
             this.windowManager = windowManager;
             this.exportManager = exportManager;
             this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
-            this.sheetsCollection = new CollectionViewSource();
-            this.sheetsCollection.Source = this.sheets;
+            Sheets = CollectionViewSource.GetDefaultView(this.sheets);
             this.selectedViewSheetSet = null;
             SheetNameFilter = string.Empty;
             CurrentProgress = 0;
@@ -36,7 +35,16 @@ namespace SCaddins.ExportManager.ViewModels
 
         public ICollectionView Sheets
         {
-            get { return this.sheetsCollection.View; }
+            get
+            {
+                return this.sheetsCollection;
+            }
+
+            set
+            {
+                this.sheetsCollection = value;
+                NotifyOfPropertyChange(() => Sheets);
+            }
         }
 
         public ExportSheet SelectedSheet
@@ -94,11 +102,19 @@ namespace SCaddins.ExportManager.ViewModels
             NotifyOfPropertyChange(() => Sheets);
         }
 
-        public void Row_SelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
+        //public void Row_SelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
+        //{
+        //    selectedSheets.AddRange(obj.AddedItems.Cast<ExportSheet>());
+        //    obj.RemovedItems.Cast<ExportSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
+        //    NotifyOfPropertyChange(() => ProgressBarText);
+        //}
+
+        public void Row_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs obj)
         {
-            selectedSheets.AddRange(obj.AddedItems.Cast<ExportSheet>());
-            obj.RemovedItems.Cast<ExportSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
+            var grid = sender as System.Windows.Controls.DataGrid;
+            selectedSheets = grid.SelectedItems.Cast<ExportSheet>().ToList();
             NotifyOfPropertyChange(() => ProgressBarText);
+            NotifyOfPropertyChange(() => Sheets);
         }
 
         public void RemoveViewFilter()
@@ -246,15 +262,8 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void AddRevision()
         {
-            dynamic settings = new ExpandoObject();
-            settings.Height = 640;
-            settings.Width = 480;
-            settings.Title = "Select Revision to Assign";
-            settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.Manual;
-            settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
             var revisionSelectionViewModel = new RevisionSelectionViewModel(exportManager.Doc);
-            bool? result = windowManager.ShowDialog(revisionSelectionViewModel, null, settings);
+            bool? result = windowManager.ShowDialog(revisionSelectionViewModel, null, RevisionSelectionViewModel.DefaultWindowSettings);
             bool newBool = result.HasValue ? result.Value : false;
             if (newBool)
             {
@@ -293,35 +302,23 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void CopySheets()
         {
-            dynamic settings = new ExpandoObject();
-            settings.Height = 480;
-            settings.Width = 768;
-            settings.Title = "Sheet Copier - By Andrew Nicholas";
-            settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.Manual;
-            settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
             var sheetCopierModel = new SCaddins.SheetCopier.ViewModels.SheetCopierViewModel(exportManager.UIDoc);
             sheetCopierModel.AddSheets(selectedSheets);
-            windowManager.ShowDialog(sheetCopierModel, null, settings);
+            windowManager.ShowDialog(
+                sheetCopierModel,
+                null,
+                SheetCopier.ViewModels.SheetCopierViewModel.DefaultWindowSettings);
         }
 
         public void RenameSheets()
-        {
-            dynamic settings = new ExpandoObject();
-            settings.Height = 480;
-            settings.Width = 768;
-            settings.Title = "Rename Selected Sheet Parameters";
-            settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.Manual;
-            settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
-
+        { 
             var renameManager = new SCaddins.RenameUtilities.RenameManager(
                 exportManager.Doc,
                 selectedSheets.Select(s => s.Id).ToList()
                 );
             var renameSheetModel = new SCaddins.RenameUtilities.ViewModels.RenameUtilitiesViewModel(renameManager);
             renameSheetModel.SelectedParameterCategory = "Sheets";
-            windowManager.ShowDialog(renameSheetModel, null, settings);
+            windowManager.ShowDialog(renameSheetModel, null, RenameUtilities.ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings);
             foreach (ExportSheet exportSheet in selectedSheets)
             {
                 exportSheet.UpdateName();

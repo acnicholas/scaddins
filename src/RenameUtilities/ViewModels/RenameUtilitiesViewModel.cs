@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -14,6 +15,21 @@ namespace SCaddins.RenameUtilities.ViewModels
         private string selectedParameterCategory;
         private RenameParameter selectedRenameParameter;
         List<RenameCandidate> selectedCandiates = new List<RenameCandidate>();
+
+        public static dynamic DefaultWindowSettings
+        {
+            get
+            {
+                dynamic settings = new ExpandoObject();
+                settings.Height = 480;
+                settings.Width = 768;
+                settings.Title = "Rename Selected Sheet Parameters";
+                settings.ShowInTaskbar = false;
+                settings.SizeToContent = System.Windows.SizeToContent.Manual;
+                settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
+                return settings;
+            }
+        }
 
         //Constructors
         #region

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Dynamic;
 using System.Linq;
 using Autodesk.Revit.UI;
 using Caliburn.Micro;
@@ -15,6 +16,21 @@ namespace SCaddins.SheetCopier.ViewModels
         List<SheetCopierViewOnSheet> selectedViews = new List<SheetCopierViewOnSheet>();
         List<SheetInformation> selectedSheetInformation = new List<SheetInformation>();
         List<string> levelsInModel = new List<string>();
+
+        public static dynamic DefaultWindowSettings
+        {
+            get
+            {
+                dynamic settings = new ExpandoObject();
+                settings.Height = 480;
+                settings.Width = 768;
+                settings.Title = "Sheet Copier - By Andrew Nicholas";
+                settings.ShowInTaskbar = false;
+                settings.SizeToContent = System.Windows.SizeToContent.Manual;
+                settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
+                return settings;
+            }
+        }
 
         public ObservableCollection<SheetCopierSheet> Sheets
         {

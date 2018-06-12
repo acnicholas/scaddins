@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Dynamic;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,21 @@ namespace SCaddins.ExportManager.ViewModels
 {
     class RevisionSelectionViewModel : Screen
     {
+        public static dynamic DefaultWindowSettings
+        {
+            get
+            {
+                dynamic settings = new ExpandoObject();
+                settings.Height = 640;
+                settings.Width = 480;
+                settings.Title = "Select Revision to Assign";
+                settings.ShowInTaskbar = false;
+                settings.SizeToContent = System.Windows.SizeToContent.Manual;
+                settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
+                return settings;
+            }
+        }
+
         public ObservableCollection<SCaddins.RevisionUtilities.RevisionItem> Revisions
         {
             get; set;

@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:dgx="urn:tom-englert.de/DataGridExtensions"
     mc:Ignorable="d"
     xmlns:local="clr-namespace:SCaddins.ExportManager.ViewModels"
     x:Class="SCaddins.ExportManager.Views.SCexportView"
@@ -40,10 +39,12 @@
             Margin="5"
             x:Name="ViewsetCombo"
             Grid.ColumnSpan="2" />
+        <!--cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($source,$eventArgs)]"-->
         <DataGrid
+            cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($source,$eventArgs)]"
             x:Name="Sheets"
             SelectionMode="Extended"
-            cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($eventArgs)]"
+            VirtualizingStackPanel.VirtualizationMode="Standard"
             AutoGenerateColumns="False"
             Grid.Column="0"
             Grid.Row="1"
