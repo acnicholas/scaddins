@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using Autodesk.Revit.UI;
 using System.Collections.Generic;
@@ -27,6 +28,20 @@ namespace SCaddins.RoomConvertor.ViewModels
             MassCreationMode = true;
             SheetCreationMode = false;
             filter = new RoomFilter();
+        }
+
+        public static dynamic DefaultWindowSettings
+        {
+            get
+            {
+                dynamic settings = new System.Dynamic.ExpandoObject();
+                settings.Height = 480;
+                settings.Width = 768;
+                settings.Title = "Room Convertor - By Andrew Nicholas";
+                settings.ShowInTaskbar = false;
+                settings.SizeToContent = System.Windows.SizeToContent.Manual;
+                return settings;
+            }
         }
 
         public bool SheetCreationMode
@@ -119,16 +134,8 @@ namespace SCaddins.RoomConvertor.ViewModels
 
         public void AddFilter()
         {
-            dynamic settings = new System.Dynamic.ExpandoObject();
-            settings.Height = 480;
-            settings.Width = 768;
-            settings.Title = "Filter Rooms";
-            settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
-            var bs = SCaddinsApp.Bootstrapper;
-            var windowManager = SCaddinsApp.WindowManager;
             var vm = new ViewModels.RoomFilterViewModel(manager, filter);
-            windowManager.ShowDialog(vm, null, settings);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.RoomFilterViewModel.DefaultWindowSettings);
             NotifyOfPropertyChange(() => Rooms);
             NotifyOfPropertyChange(() => SelectionInformation);
         }
@@ -157,10 +164,8 @@ namespace SCaddins.RoomConvertor.ViewModels
                 settings.Title = "Sheet Creation Options";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Height;
-                var bs = SCaddinsApp.Bootstrapper;
-                var windowManager = SCaddinsApp.WindowManager;
                 var vm = new ViewModels.RoomToSheetWizardViewModel(manager);
-                bool? result = windowManager.ShowDialog(vm, null, settings);
+                bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
                 if (result.Value == true)
                 {
                     manager.CreateViewsAndSheets(selectedRooms);

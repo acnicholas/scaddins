@@ -73,6 +73,7 @@
                     Grid.Row="1"
                     Margin="5"
                     SelectionMode="Single"
+                    VirtualizingStackPanel.VirtualizationMode="Standard"
                     cal:Message.Attach="[Event SelectionChanged] = [RowSheetSelectionChanged($eventArgs)]"
                     GridLinesVisibility="None">
                     <DataGrid.AlternatingRowBackground>
@@ -118,6 +119,7 @@
                     x:Name="ViewsOnSheet"
                     AutoGenerateColumns="False"
                     Grid.Row="1"
+                    VirtualizingStackPanel.VirtualizationMode="Standard"
                     GridLinesVisibility="None"
                     cal:Message.Attach="[Event SelectionChanged] = [RowViewsOnSheetSelectionChanged($eventArgs)]"
                     Margin="5">

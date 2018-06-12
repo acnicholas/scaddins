@@ -47,10 +47,8 @@ namespace SCaddins.DestructivePurge
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
 
-            var bs = SCaddinsApp.Bootstrapper;
-            var windowManager = SCaddinsApp.WindowManager;
             var vm = new ViewModels.DestructivePurgeViewModel(udoc.Document);
-            windowManager.ShowDialog(vm, null, settings);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
 
             return Result.Succeeded;
         }

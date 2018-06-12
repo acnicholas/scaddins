@@ -21,6 +21,7 @@
                   Grid.Column="0"
                   Grid.ColumnSpan="2"
                   AutoGenerateColumns="False"
+                  VirtualizingStackPanel.VirtualizationMode="Standard"
                   Margin="5">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Seq" Binding="{Binding Sequence}"></DataGridTextColumn>

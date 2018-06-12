@@ -44,10 +44,8 @@ namespace SCaddins.LineOfSight
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Width;
 
-            var bs = SCaddinsApp.Bootstrapper;
-            var windowManager = SCaddinsApp.WindowManager;
             var vm = new ViewModels.LineOfSightViewModel(doc);
-            windowManager.ShowDialog(vm, null, settings);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
 
             return Result.Succeeded;
         }

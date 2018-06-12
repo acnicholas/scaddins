@@ -54,6 +54,7 @@
             Grid.Row="1"
             Width="Auto"
             Height="Auto"
+            VirtualizingStackPanel.VirtualizationMode="Standard"
             AutoGenerateColumns="False" 
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch" Margin="5">

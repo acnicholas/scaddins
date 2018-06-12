@@ -21,9 +21,8 @@ namespace SCaddins.ExportManager.ViewModels
         private string sheetNameFilter;
         List<ExportSheet> selectedSheets = new List<ExportSheet>();
 
-        public SCexportViewModel(WindowManager windowManager, ExportManager exportManager)
+        public SCexportViewModel(ExportManager exportManager)
         {
-            this.windowManager = windowManager;
             this.exportManager = exportManager;
             this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
             Sheets = CollectionViewSource.GetDefaultView(this.sheets);
@@ -31,6 +30,20 @@ namespace SCaddins.ExportManager.ViewModels
             SheetNameFilter = string.Empty;
             CurrentProgress = 0;
             ProgressBarMaximum = 1;
+        }
+
+        public static dynamic DefaultWindowSettings
+        {
+            get
+            {
+                dynamic settings = new ExpandoObject();
+                settings.Height = 480;
+                settings.Width = 768;
+                settings.Title = "SCexport - By Andrew Nicholas";
+                settings.ShowInTaskbar = false;
+                settings.SizeToContent = System.Windows.SizeToContent.Manual;
+                return settings;
+            }
         }
 
         public ICollectionView Sheets
@@ -225,7 +238,7 @@ namespace SCaddins.ExportManager.ViewModels
             settings.ResizeMode = System.Windows.ResizeMode.NoResize;
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
             var optionsModel = new OptionsViewModel(exportManager, windowManager, this);
-            windowManager.ShowDialog(optionsModel, null, settings);
+            SCaddinsApp.WindowManager.ShowDialog(optionsModel, null, settings);
         }
 
         public void Export()
@@ -304,7 +317,7 @@ namespace SCaddins.ExportManager.ViewModels
         {
             var sheetCopierModel = new SCaddins.SheetCopier.ViewModels.SheetCopierViewModel(exportManager.UIDoc);
             sheetCopierModel.AddSheets(selectedSheets);
-            windowManager.ShowDialog(
+            SCaddinsApp.WindowManager.ShowDialog(
                 sheetCopierModel,
                 null,
                 SheetCopier.ViewModels.SheetCopierViewModel.DefaultWindowSettings);
@@ -318,7 +331,7 @@ namespace SCaddins.ExportManager.ViewModels
                 );
             var renameSheetModel = new SCaddins.RenameUtilities.ViewModels.RenameUtilitiesViewModel(renameManager);
             renameSheetModel.SelectedParameterCategory = "Sheets";
-            windowManager.ShowDialog(renameSheetModel, null, RenameUtilities.ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings);
+            SCaddinsApp.WindowManager.ShowDialog(renameSheetModel, null, RenameUtilities.ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings);
             foreach (ExportSheet exportSheet in selectedSheets)
             {
                 exportSheet.UpdateName();

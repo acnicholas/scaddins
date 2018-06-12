@@ -51,6 +51,7 @@
             VerticalScrollBarVisibility="Auto"
             Margin="5"
             Grid.Row="1"
+            VirtualizingStackPanel.VirtualizationMode="Standard"
             IsReadOnly="True"
             Visibility="{Binding ShowSearchResults, Converter={StaticResource BoolToVis}}"
             SelectionMode="Single"

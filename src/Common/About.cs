@@ -32,13 +32,6 @@ namespace SCaddins.Common
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            //using (AboutBox1 about = new AboutBox1()) {
-            //    about.ShowDialog();
-            //}
-
-            var bootstrapper = SCaddinsApp.Bootstrapper;
-            var windowManager = SCaddinsApp.WindowManager;
-
             dynamic settings = new ExpandoObject();
             settings.Height = 640;
             settings.Width = 480;
@@ -47,7 +40,7 @@ namespace SCaddins.Common
             settings.ResizeMode = System.Windows.ResizeMode.NoResize;
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
             var aboutViewModel = new SCaddins.Common.ViewModels.AboutViewModel();
-            windowManager.ShowDialog(aboutViewModel, null, settings);
+            SCaddinsApp.WindowManager.ShowDialog(aboutViewModel, null, settings);
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }

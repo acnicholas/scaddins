@@ -60,6 +60,7 @@
                         <TextBox x:Name="Replacement" Visibility="{Binding Path=ShowRenameParameters}" Grid.Column="3"  Grid.Row="1" Margin="5"></TextBox>
                         <DataGrid x:Name="RenameCandidates"
                                   AutoGenerateColumns="False"
+                                  VirtualizingStackPanel.VirtualizationMode="Standard"
                                   Grid.Column="0"
                                   SelectionMode="Extended"
                                   cal:Message.Attach="[Event SelectionChanged] = [RenameCandidatesSelectionChanged($eventArgs)]"

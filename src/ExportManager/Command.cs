@@ -58,17 +58,8 @@ namespace SCaddins.ExportManager
                 return Autodesk.Revit.UI.Result.Failed;
             }
             
-            dynamic settings = new ExpandoObject();
-            settings.Height = 480;
-            settings.Width = 768;
-            settings.Title = "SCexport - By Andrew Nicholas";
-            settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.Manual;
-
-            var bs = SCaddinsApp.Bootstrapper;
-            var windowManager = SCaddinsApp.WindowManager;
-            var vm = new ViewModels.SCexportViewModel(windowManager, new ExportManager(uidoc));
-            windowManager.ShowDialog(vm, null, settings);
+            var vm = new ViewModels.SCexportViewModel(new ExportManager(uidoc));
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SCexportViewModel.DefaultWindowSettings);
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }

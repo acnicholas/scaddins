@@ -17,6 +17,7 @@
 
 using System.Linq;
 using System.Windows.Input;
+using System.Dynamic;
 using Caliburn.Micro;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -31,6 +32,21 @@ namespace SCaddins.ExportManager.ViewModels
         private CollectionViewSource searchResults;
         private string searchInput;
         private bool ctrlDown;
+
+        public static dynamic DefaultWindowSettings
+        {
+            get
+            {
+                dynamic settings = new ExpandoObject();
+                settings.Width = 640;
+                settings.MaxHeight = 480;
+                settings.WindowStyle = System.Windows.WindowStyle.None;
+                settings.ShowInTaskbar = false;
+                settings.SizeToContent = System.Windows.SizeToContent.Height;
+                settings.Background = System.Windows.Media.Brushes.Transparent;
+                return settings;
+            }
+        }
 
         public string SearchInput
         {

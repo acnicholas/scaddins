@@ -43,18 +43,8 @@ namespace SCaddins.ExportManager
             }
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
-
-            dynamic settings = new ExpandoObject();
-            settings.Width = 640;
-            settings.MaxHeight = 480;
-            settings.WindowStyle = System.Windows.WindowStyle.None;
-            settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.Height;
-            settings.Background = System.Windows.Media.Brushes.Transparent;
-            var bs = SCaddinsApp.Bootstrapper;
-            var windowManager = SCaddinsApp.WindowManager;
             var vm = new ViewModels.OpenSheetViewModel(doc);
-            windowManager.ShowDialog(vm, null, settings);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.OpenSheetViewModel.DefaultWindowSettings);
             return Autodesk.Revit.UI.Result.Succeeded;
 
         }

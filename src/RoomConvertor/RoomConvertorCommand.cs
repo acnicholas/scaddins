@@ -51,17 +51,8 @@ namespace SCaddins.RoomConvertor
                 return Result.Failed;
             }
 
-            dynamic settings = new System.Dynamic.ExpandoObject();
-            settings.Height = 480;
-            settings.Width = 768;
-            settings.Title = "Room Convertor - By Andrew Nicholas";
-            settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.Manual;
-
-            var bs = SCaddinsApp.Bootstrapper;
-            var windowManager = SCaddinsApp.WindowManager;
             var vm = new ViewModels.RoomConvertorViewModel(roomConversionManager);
-            windowManager.ShowDialog(vm, null, settings);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.RoomConvertorViewModel.DefaultWindowSettings);
 
             return Result.Succeeded;
         }

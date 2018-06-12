@@ -41,25 +41,14 @@ namespace SCaddins
         private static SCaddins.Common.Bootstrapper bootstrapper;
         private static SCaddins.Common.WindowManager windowManager;
 
-        public static SCaddins.Common.Bootstrapper Bootstrapper
-        {
-            get
-            {
-                if (bootstrapper != null)
-                {
-                    return bootstrapper;
-                } else
-                {
-                    bootstrapper = new SCaddins.Common.Bootstrapper();
-                    return bootstrapper;
-                }
-            }
-        }
-
         public static SCaddins.Common.WindowManager WindowManager
         {
             get
             {
+                if (bootstrapper == null)
+                {
+                    bootstrapper = new SCaddins.Common.Bootstrapper();
+                }
                 if (windowManager != null)
                 {
                     return windowManager;
@@ -108,10 +97,6 @@ namespace SCaddins
             }
 
             if (latestAvailableVersion > installedVersion || !newOnly) {
-
-                var bootstrapper = SCaddinsApp.Bootstrapper;
-                var windowManager = SCaddinsApp.WindowManager;
-
                 dynamic settings = new ExpandoObject();
                 settings.Height = 640;
                 settings.Width = 480;
@@ -120,8 +105,7 @@ namespace SCaddins
                 settings.ResizeMode = System.Windows.ResizeMode.NoResize;
                 settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
                 var upgradeViewModel = new SCaddins.Common.ViewModels.UpgradeViewModel(installedVersion, latestAvailableVersion, info, downloadLink);
-                windowManager.ShowDialog(upgradeViewModel, null, settings);
-
+                SCaddinsApp.WindowManager.ShowDialog(upgradeViewModel, null, settings);
             } 
         }
 
@@ -142,6 +126,9 @@ namespace SCaddins
             UIControlledApplication application)
         {
             ribbonPanel = TryGetPanel(application, "Scott Carver");
+
+            bootstrapper = null;
+            windowManager = null;
 
             if (ribbonPanel == null) {
                 return Result.Failed;

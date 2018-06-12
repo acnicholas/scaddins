@@ -52,10 +52,8 @@ namespace SCaddins.RenameUtilities
             //}
                        
             RenameManager manager = new RenameManager(doc);
-            var bs = SCaddins.SCaddinsApp.Bootstrapper;
-            var windowManager = SCaddins.SCaddinsApp.WindowManager;
             var vm = new ViewModels.RenameUtilitiesViewModel(manager);
-            windowManager.ShowDialog(vm, null, ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings);
 
 
             return Result.Succeeded;

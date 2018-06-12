@@ -53,17 +53,9 @@ namespace SCaddins.SheetCopier
                 return Autodesk.Revit.UI.Result.Failed;    
             }
 
-            dynamic settings = new ExpandoObject();
-            settings.Height = 480;
-            settings.Width = 768;
-            settings.Title = "Sheet Copier - By Andrew Nicholas";
-            settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.Manual;
             try {
-                var bs = SCaddinsApp.Bootstrapper;
-                var windowManager = SCaddinsApp.WindowManager;
                 var vm = new ViewModels.SheetCopierViewModel(commandData.Application.ActiveUIDocument);
-                windowManager.ShowDialog(vm, null, settings);
+                SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SheetCopierViewModel.DefaultWindowSettings);
             } catch {
                 return Autodesk.Revit.UI.Result.Failed;
             }

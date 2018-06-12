@@ -15,7 +15,11 @@
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <DataGrid x:Name="Revisions" cal:Message.Attach="[Event SelectionChanged] = [RevisionSelectionChanged($eventArgs)]"></DataGrid>
+                    <DataGrid
+                        x:Name="Revisions"
+                        cal:Message.Attach="[Event SelectionChanged] = [RevisionSelectionChanged($eventArgs)]"
+                        VirtualizingStackPanel.VirtualizationMode="Standard">
+                    </DataGrid>
                     <Button Grid.Row="1" x:Name="ExportExcelSchedule">Export Excel Schedule of Clouds</Button>
                 </Grid>
             </TabItem>
@@ -25,7 +29,11 @@
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <DataGrid x:Name="RevisionClouds" cal:Message.Attach="[Event SelectionChanged] = [RevisionCloudSelectionChanged($eventArgs)]"></DataGrid>
+                    <DataGrid
+                        x:Name="RevisionClouds"
+                        cal:Message.Attach="[Event SelectionChanged] = [RevisionCloudSelectionChanged($eventArgs)]"
+                        VirtualizingStackPanel.VirtualizationMode="Standard">
+                    </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
                         <Button x:Name="AssignRevision">Assign Revision to Selected Clouds</Button>
                         <Button x:Name="DeleteClouds">Delete Clouds</Button>

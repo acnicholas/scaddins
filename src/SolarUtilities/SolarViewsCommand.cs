@@ -26,8 +26,6 @@ namespace SCaddins.SolarUtilities
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
     {
-        private static ProjectLocation projectLocation;
-        private static ProjectPosition position;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public Autodesk.Revit.UI.Result Execute(
@@ -49,10 +47,8 @@ namespace SCaddins.SolarUtilities
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
 
-            var bs = SCaddins.SCaddinsApp.Bootstrapper;
-            var windowManager = SCaddins.SCaddinsApp.WindowManager;
             var vm = new ViewModels.SolarViewsViewModel(commandData.Application.ActiveUIDocument);
-            windowManager.ShowDialog(vm, null, settings);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }

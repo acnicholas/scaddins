@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2013-2016 by Andrew Nicholas
+﻿// (C) Copyright 2013-2018 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -39,15 +39,11 @@ namespace SCaddins.RevisionUtilities
             dynamic settings = new ExpandoObject();
             settings.Height = 480;
             settings.Width = 768;
-            settings.Title = "Revivion Tools - By Andrew Nicholas";
+            settings.Title = "Revision Tools - By Andrew Nicholas";
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
-            var bs = SCaddinsApp.Bootstrapper;
-            var windowManager = SCaddinsApp.WindowManager;
             var vm = new ViewModels.RevisionUtilitiesViewModel(doc);
-            windowManager.ShowDialog(vm, null, settings);
-            return Result.Succeeded;
-
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
             return Autodesk.Revit.UI.Result.Succeeded;
         }     
     }  

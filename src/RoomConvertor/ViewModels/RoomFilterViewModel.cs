@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Dynamic;
 using System.Linq;
 using Caliburn.Micro;
 using System.ComponentModel;
@@ -21,6 +22,20 @@ namespace SCaddins.RoomConvertor.ViewModels
             this.manager = manager;
             this.filter = filter;
             roomParameters = new Autodesk.Revit.DB.Parameter[3];
+        }
+
+        public static dynamic DefaultWindowSettings
+        {
+            get
+            {
+                dynamic settings = new System.Dynamic.ExpandoObject();
+                settings.Height = 480;
+                settings.Width = 768;
+                settings.Title = "Filter Rooms";
+                settings.ShowInTaskbar = false;
+                settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+                return settings;
+            }
         }
 
         public ICollectionView RoomParameters

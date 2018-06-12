@@ -129,7 +129,10 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public void CopySheetSelection()
         {
-            copyManager.AddSheet(SelectedSheet.SourceSheet);
+            if (SelectedSheet.SourceSheet != null)
+            {
+                copyManager.AddSheet(SelectedSheet.SourceSheet);
+            }
         }
 
         public void Go()
