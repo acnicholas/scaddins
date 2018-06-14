@@ -301,7 +301,7 @@ namespace SCaddins.LineOfSight
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        private ViewDrafting CreateLineOfSightDraftingView(string newViewName)
+        public ViewDrafting CreateLineOfSightDraftingView(string newViewName)
         {
             ViewDrafting view = null;
             ViewFamilyType viewFamilyType =
@@ -454,7 +454,7 @@ namespace SCaddins.LineOfSight
             }
         }
 
-        private double GetCValue(int i, double nextn)
+        public double GetCValue(int i, double nextn)
         {
             return ((this.rows[i].EyeToFocusX * (this.rows[i].HeightToFocus + nextn)) / (this.rows[i].EyeToFocusX + this.TreadSize)) - this.rows[i].HeightToFocus;
         }

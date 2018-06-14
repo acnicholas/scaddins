@@ -131,7 +131,7 @@ namespace SCaddins.SolarUtilities
             return null;
         }
 
-        private static ElementId GetHighestLevel(Document doc)
+        public static ElementId GetHighestLevel(Document doc)
         {
             double highestLevel = -1;
             ElementId highestId = null;

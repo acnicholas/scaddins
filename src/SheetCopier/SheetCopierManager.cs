@@ -355,7 +355,7 @@ namespace SCaddins.SheetCopier
 
         // add an empty sheet to the doc.
         // this comes first before copying titleblock, views etc.
-        private ViewSheet AddEmptySheetToDocument(
+        public ViewSheet AddEmptySheetToDocument(
             string sheetNumber,
             string sheetTitle,
             string viewCategory)
@@ -372,13 +372,13 @@ namespace SCaddins.SheetCopier
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        private void PlaceViewPortOnSheet(
+        public void PlaceViewPortOnSheet(
             Element destSheet, ElementId destViewId, XYZ viewCentre)
         {
             Viewport.Create(this.doc, destSheet.Id, destViewId, viewCentre);
         }
 
-        private string GetNewSheetNumber(string originalNumber)
+        public string GetNewSheetNumber(string originalNumber)
         {
             int inc = 0;
             do {
@@ -387,7 +387,7 @@ namespace SCaddins.SheetCopier
             return originalNumber + "-" + inc.ToString(CultureInfo.InvariantCulture);
         }
         
-        private void TryAssignViewTemplate(View view, string templateName)
+        public void TryAssignViewTemplate(View view, string templateName)
         {
             if (templateName != SheetCopierConstants.MenuItemCopy) {
                 View vt = null;
@@ -397,7 +397,7 @@ namespace SCaddins.SheetCopier
             }   
         }
                
-        private void PlaceNewViewOnSheet(
+        public void PlaceNewViewOnSheet(
             SheetCopierViewOnSheet view,
             SheetCopierSheet sheet,
             XYZ sourceViewCentre)
@@ -458,7 +458,7 @@ namespace SCaddins.SheetCopier
             }
         }
         
-        private void DuplicateViewOntoSheet(
+        public void DuplicateViewOntoSheet(
             SheetCopierViewOnSheet view,
             SheetCopierSheet sheet,
             XYZ sourceViewCentre)
@@ -476,7 +476,7 @@ namespace SCaddins.SheetCopier
             this.PlaceViewPortOnSheet(sheet.DestinationSheet, destViewId, sourceViewCentre);
         }
 
-        private void CopyElementsBetweenSheets(SheetCopierSheet sheet)
+        public void CopyElementsBetweenSheets(SheetCopierSheet sheet)
         {
             IList<ElementId> list = new List<ElementId>();
             using (var collector = new FilteredElementCollector(this.doc)) {
@@ -507,7 +507,7 @@ namespace SCaddins.SheetCopier
             }
         }
              
-        private void CreateViewports(SheetCopierSheet sheet)
+        public void CreateViewports(SheetCopierSheet sheet)
         {
             Dictionary<ElementId, XYZ> viewPorts =
                 SheetCopierManager.GetVPDictionary(sheet.SourceSheet, this.doc);

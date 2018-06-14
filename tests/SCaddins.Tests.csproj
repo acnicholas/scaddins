@@ -43,10 +43,10 @@
       <HintPath>..\src\packages\nunit.framework.2.63.0\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="RevitAPI">
-      <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
     </Reference>
     <Reference Include="RevitTestFrameworkTypes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\src\packages\RevitTestFramework.1.19.6\lib\net47\RevitTestFrameworkTypes.dll</HintPath>
@@ -58,11 +58,21 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LineOfSight\LineOfSightTests.cs" />
+    <Compile Include="RevisionUtilities\RevisionUtilitiesTests.cs" />
+    <Compile Include="SheetCopier\SheetCopierManagerTests.cs" />
+    <Compile Include="SolarUtilities\SolarViewsTests.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\src\SCaddins.csproj">
+      <Project>{AD62F888-78A1-4E0B-9820-5989630FC8C6}</Project>
+      <Name>SCaddins</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
