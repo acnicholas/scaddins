@@ -32,13 +32,6 @@ namespace SCaddins.Common
         public bool? ShowSaveFileDialog(ref string resultPath)
         {
             return dialogService.ShowSaveAsDialog();
-
-            //Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-            //dlg.FileName = "Document"; // Default file name
-            //dlg.DefaultExt = ".text"; // Default file extension
-            //dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
-            //// Show save file dialog box
-            //return dlg.ShowDialog();
         }
 
         public void ShowPopup(object rootModel, object context = null, IDictionary<string, object> settings = null)

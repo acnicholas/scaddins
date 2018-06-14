@@ -8,6 +8,11 @@ namespace SCaddins.Common
 {
     class BasicDialogService : IDialogService
     {
+        public BasicDialogService()
+        {
+
+        }
+
         public bool? ShowMessageBox(string message)
         {
             System.Windows.Forms.MessageBox.Show(message);
@@ -16,7 +21,12 @@ namespace SCaddins.Common
 
         public bool? ShowSaveAsDialog()
         {
-            return true;
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "Document"; // Default file name
+            dlg.DefaultExt = ".text"; // Default file extension
+            dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+            //// Show save file dialog box
+            return dlg.ShowDialog();
         }
     }
 }

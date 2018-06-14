@@ -45,7 +45,7 @@ namespace SCaddins
         {
             set
             {
-
+                windowManager = value;
             }
             get
             {
@@ -59,7 +59,7 @@ namespace SCaddins
                 }
                 else
                 {
-                    windowManager = new SCaddins.Common.WindowManager();
+                    windowManager = new Common.WindowManager(new Common.BasicDialogService());
                     return windowManager;
                 }
             }

@@ -16,6 +16,12 @@
 
         public SolarViewsViewModel(UIDocument uidoc)
         {
+
+            //TEST MSG BOX
+            SCaddinsApp.WindowManager.ShowMessageBox("TEST MESSAGE");
+            string outString = string.Empty;
+            SCaddinsApp.WindowManager.ShowSaveFileDialog(ref outString);
+
             model = new SolarViews(uidoc);
             creationDate = new DateTime(2018, 06, 21);
             startTime = new DateTime(2018, 06, 21, 9,0,0,DateTimeKind.Local);
