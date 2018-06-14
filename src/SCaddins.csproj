@@ -266,7 +266,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\BasicDialogService.cs" />
     <Compile Include="Common\Bootstrapper.cs" />
+    <Compile Include="Common\IDialogService.cs" />
+    <Compile Include="Common\MockDialogService.cs" />
     <Compile Include="Common\ViewModels\AboutViewModel.cs" />
     <Compile Include="Common\ViewModels\UpgradeViewModel.cs" />
     <Compile Include="Common\Views\AboutView.xaml.cs">

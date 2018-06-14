@@ -33,9 +33,9 @@ namespace SCaddins.Common
                     proc.Kill();
                 }
             } catch (InvalidOperationException ex) {
-                Autodesk.Revit.UI.TaskDialog.Show("InvalidOperationException", ex.Message);
+                SCaddinsApp.WindowManager.ShowMessageBox("InvalidOperationException: " + ex.Message);
             } catch (NotSupportedException ex) {
-                Autodesk.Revit.UI.TaskDialog.Show("NotSupportedException", ex.Message);
+                SCaddinsApp.WindowManager.ShowMessageBox("NotSupportedException: " + ex.Message);
             } catch (System.ComponentModel.Win32Exception ex) {
                 Debug.WriteLine(ex.Message);
             }
