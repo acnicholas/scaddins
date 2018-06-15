@@ -1,10 +1,21 @@
 ﻿using NUnit.Framework;
 using SCaddins.SolarUtilities;
 using System;
+using RTF.Applications;
+using Autodesk.Revit.DB;
+using RTF.Framework;
+using System;
+using NUnit.Framework;
+using RTF.Framework;
+using RTF.Applications;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Autodesk.Revit.DB;
+using NUnit.Framework;
+using RTF.Applications;
+using RTF.Framework;
 
 namespace SCaddins.SolarUtilities.Tests
 {
@@ -12,21 +23,31 @@ namespace SCaddins.SolarUtilities.Tests
     public class SolarViewsTests
     {
         [Test()]
+        [TestModel(@"./rac_basic_sample_project.rvt")]
         public void ViewNameIsAvailableTest()
         {
-            throw new NotImplementedException();
+            var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
+            Assert.IsTrue(SolarViews.ViewNameIsAvailable(doc, "This_view_name_is_not_used"));
+            Assert.IsFalse(SolarViews.ViewNameIsAvailable(doc, "Level 1"));
         }
 
         [Test()]
+        [TestModel(@"./rac_basic_sample_project.rvt")]
         public void GetNiceViewNameTest()
         {
-            throw new NotImplementedException();
+            var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
+            Assert.IsTrue(SolarViews.GetNiceViewName(doc, "This_view_name_is_not_used") == "This_view_name_is_not_used");
+            Assert.IsTrue(SolarViews.GetNiceViewName(doc, "Level 1") != "Level 1");
         }
 
         [Test()]
+        [TestModel(@"./rac_basic_sample_project.rvt")]
         public void GetHighestLevelTest()
         {
-            throw new NotImplementedException();
+            var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
+            ElementId highestLevelId = SolarViews.GetHighestLevel(doc);
+            Element highestLevel = doc.GetElement(highestLevelId);
+            Assert.IsTrue(highestLevel.Name == "Roof Line");
         }
 
         [Test()]

@@ -117,6 +117,22 @@ namespace SCaddins.SolarUtilities
             }
         }
 
+        public static ElementId GetHighestLevel(Document doc)
+        {
+            double highestLevel = -1;
+            ElementId highestId = null;
+            using (var collector = new FilteredElementCollector(doc)) {
+                collector.OfClass(typeof(Level));
+                foreach (Level level in collector) {
+                    if (highestLevel < 0 || level.Elevation > highestLevel) {
+                        highestLevel = level.Elevation;
+                        highestId = level.Id;
+                    }
+                }
+            }
+            return highestId;
+        }
+
         private static ElementId GetViewFamilyId(Document doc, ViewFamily viewFamilyType)
         {
             using (var collector = new FilteredElementCollector(doc)) {
@@ -129,23 +145,6 @@ namespace SCaddins.SolarUtilities
                 }
             }
             return null;
-        }
-
-        public static ElementId GetHighestLevel(Document doc)
-        {
-            double highestLevel = -1;
-            ElementId highestId = null;
-            using (var collector = new FilteredElementCollector(doc)) {
-                collector.OfClass(typeof(Level));
-                foreach (Element e in collector) {
-                    var level = (Level)e;
-                    if (highestLevel < 0 || level.Elevation > highestLevel) {
-                        highestLevel = level.Elevation;
-                        highestId = level.Id;
-                    }
-                }
-            }
-            return highestId;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]

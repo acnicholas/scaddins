@@ -65,6 +65,7 @@ namespace SCaddins.LineOfSight
             double distanceToFirstRowX = 12000,
             double distanceToFirstRowY = 1000)
         {
+            this.view = null;
             this.doc = doc;
             this.eyeHeight = eyeHeight;
             this.treadSize = treadSize;
@@ -83,6 +84,11 @@ namespace SCaddins.LineOfSight
 
         //Properties
         #region 
+
+        public View View
+        {
+            get { return view; }
+        }
 
         public double TreadSize
         {
