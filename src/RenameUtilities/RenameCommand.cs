@@ -78,14 +78,14 @@ namespace SCaddins.RenameUtilities
             SearchPatternHint = string.Empty;
         }
 
-        public RenameCommand(Func<string, string, string, string> renameFunction, string name, string replacement, string search)
+        public RenameCommand(Func<string, string, string, string> renameFunction, string name, string search, string replacement)
         {
             this.renameFunction = renameFunction;
-            replacementPattern = replacement;
-            searchPattern = search;
+            ReplacementPattern = replacement;
+            SearchPattern = search;
             HasInputParameters = true; ;
             Name = name;
-            ReplacementPatternHint = "Replacemnt Pattern";
+            ReplacementPatternHint = "Replacement Pattern";
             SearchPatternHint = "Search Pattern";
         }
     }

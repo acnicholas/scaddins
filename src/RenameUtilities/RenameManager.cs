@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using Autodesk.Revit.DB;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace SCaddins.RenameUtilities
 {
@@ -52,7 +53,12 @@ namespace SCaddins.RenameUtilities
             renameCommands.Add(new RenameCommand(RegexReplace, "Custom Replace", string.Empty, string.Empty));
             renameCommands.Add(new RenameCommand(IncrementOne, "Increment Match 1", string.Empty, string.Empty));
             renameCommands.Add(new RenameCommand(IncrementTwo, "Increment Match 2", string.Empty, string.Empty));
-            renameCommands.Add(new RenameCommand(IncrementLast, "Increment Last", @"^.*\d.", string.Empty)
+
+            //inc last
+            var rcLast = new RenameCommand(IncrementLast, "Increment Last", @"(^.*)(0*)(\d+$)", string.Empty);
+            rcLast.ReplacementPatternHint = "Increment Amount";
+            renameCommands.Add(rcLast);
+
             renameCommand = renameCommands[0];
         }
 
@@ -247,7 +253,13 @@ namespace SCaddins.RenameUtilities
 
         public static string IncrementLast(string val, string search, string replace)
         {
-            return "todo";
+            int n = 0;
+            int incVal = 0;
+            if (int.TryParse(Regex.Match(val, search).Groups[3].Value, out n) && int.TryParse(replace, out incVal)) {
+                n += incVal;
+                return Regex.Replace(val, search, m => m.Groups[1].Value + m.Groups[2].Value + n.ToString());
+            }
+            return val;
         }
 
         private void GetTextNoteValues(BuiltInCategory category)
