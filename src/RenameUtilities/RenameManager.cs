@@ -44,14 +44,15 @@ namespace SCaddins.RenameUtilities
             this.doc = doc;
             renameCandidates = new Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate>();
             renameCommands = new Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCommand>();
-            renameCommands.Add(new RenameUtilities.RenameCommand((a, c, b) => a, "None"));
-            renameCommands.Add(new RenameUtilities.RenameCommand((a, c, b) => a.ToUpper(), "UpperCase"));
-            renameCommands.Add(new RenameUtilities.RenameCommand((a, c, b) => a.ToLower(), "Lowercase"));
+            renameCommands.Add(new RenameCommand((a, c, b) => a, "None"));
+            renameCommands.Add(new RenameCommand((a, c, b) => a.ToUpper(), "UpperCase"));
+            renameCommands.Add(new RenameCommand((a, c, b) => a.ToLower(), "Lowercase"));
             renameCommands.Add(new RenameCommand((a, c, b) => a.Replace(' ', '_'), "Spaces to Underscore"));
             renameCommands.Add(new RenameCommand((a, c, b) => a.Replace(' ', '-'), "Spaces to Hyphen"));
             renameCommands.Add(new RenameCommand(RegexReplace, "Custom Replace", string.Empty, string.Empty));
             renameCommands.Add(new RenameCommand(IncrementOne, "Increment Match 1", string.Empty, string.Empty));
             renameCommands.Add(new RenameCommand(IncrementTwo, "Increment Match 2", string.Empty, string.Empty));
+            renameCommands.Add(new RenameCommand(IncrementLast, "Increment Last", @"^.*\d.", string.Empty)
             renameCommand = renameCommands[0];
         }
 
@@ -240,6 +241,11 @@ namespace SCaddins.RenameUtilities
         }
 
         public static string IncrementTwo(string val, string search, string replace)
+        {
+            return "todo";
+        }
+
+        public static string IncrementLast(string val, string search, string replace)
         {
             return "todo";
         }

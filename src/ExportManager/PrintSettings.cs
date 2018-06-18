@@ -260,7 +260,7 @@ namespace SCaddins.ExportManager
             return ps;
         }
         
-        private static bool CheckSheetSize(
+        public static bool CheckSheetSize(
             double width, double height, double tw, double th)
         {
             double w = Math.Round(width);

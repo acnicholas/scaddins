@@ -15,9 +15,14 @@ namespace SCaddins.Common
 
         public bool? ShowMessageBox(string message)
         {
-            System.Windows.Forms.MessageBox.Show(message);
+            System.Windows.MessageBox.Show(message);
             return true;
         }
+
+        //public bool? ShowConfirmationDialog()
+        //{
+
+        //}
 
         public bool? ShowSaveAsDialog()
         {

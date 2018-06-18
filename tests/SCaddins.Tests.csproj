@@ -58,11 +58,16 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DestructivePurge\SCwashUtilitiesTests.cs" />
+    <Compile Include="ExportManager\FileUtilitiesTests.cs" />
+    <Compile Include="ExportManager\OpenableViewTests.cs" />
+    <Compile Include="ExportManager\OpenSheetTests.cs" />
+    <Compile Include="ExportManager\PostExportHookCommandTests.cs" />
+    <Compile Include="ExportManager\PrintSettingsTests.cs" />
     <Compile Include="LineOfSight\LineOfSightTests.cs" />
     <Compile Include="RevisionUtilities\RevisionUtilitiesTests.cs" />
     <Compile Include="SheetCopier\SheetCopierManagerTests.cs" />
     <Compile Include="SolarUtilities\SolarViewsTests.cs" />
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
