@@ -55,7 +55,7 @@ namespace SCaddins.RenameUtilities
             renameCommands.Add(new RenameCommand(IncrementTwo, "Increment Match 2", string.Empty, string.Empty));
 
             //inc last
-            var rcLast = new RenameCommand(IncrementLast, "Increment Last", @"(^.*)(0*)(\d+$)", string.Empty);
+            var rcLast = new RenameCommand(IncrementLast, "Increment Last", @"(^.*)(\d+$)", string.Empty);
             rcLast.ReplacementPatternHint = "Increment Amount";
             renameCommands.Add(rcLast);
 
@@ -238,7 +238,7 @@ namespace SCaddins.RenameUtilities
 
         public static string RegexReplace(string val, string search, string replace)
         {
-            return System.Text.RegularExpressions.Regex.Replace(val, search, replace);
+            return Regex.Replace(val, search, replace);
         }
 
         public static string IncrementOne(string val, string search, string replace)
@@ -253,11 +253,17 @@ namespace SCaddins.RenameUtilities
 
         public static string IncrementLast(string val, string search, string replace)
         {
-            int n = 0;
-            int incVal = 0;
-            if (int.TryParse(Regex.Match(val, search).Groups[3].Value, out n) && int.TryParse(replace, out incVal)) {
-                n += incVal;
-                return Regex.Replace(val, search, m => m.Groups[1].Value + m.Groups[2].Value + n.ToString());
+            var match = Regex.Match(val, search);
+            if (match.Success) {
+                var matchLength = match.Groups[2].Value.Length;
+                if (int.TryParse(match.Groups[2].Value, out int n) && int.TryParse(replace, out int incVal)) {
+                    var i = n + incVal;
+                    string pad = string.Empty;
+                    for (int j = (int)Math.Floor(Math.Log10(i)); j <= (matchLength - 1); j++) {
+                        pad += "0";
+                    }
+                    return Regex.Replace(val, search, m => m.Groups[1].Value + pad + i);
+                }
             }
             return val;
         }
@@ -267,11 +273,9 @@ namespace SCaddins.RenameUtilities
             renameCandidates.Clear();
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             collector.OfCategory(category);
-            foreach (Element element in collector)
-            {
+            foreach (Element element in collector) {
                 var textNote = (TextElement)element;
-                if (textNote != null)
-                {
+                if (textNote != null) {
                     var rc = new RenameCandidate(textNote);
                     rc.NewValue = renameCommand.Rename(rc.OldValue);
                     renameCandidates.Add(rc);
