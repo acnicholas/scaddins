@@ -72,11 +72,13 @@ namespace SCaddins.RevisionUtilities.ViewModels
                         revisionSelectionViewModel.SelectedRevision.Id);
                 }
             }
+            NotifyOfPropertyChange(() => RevisionClouds);
         }
 
         public void DeleteClouds()
         {
             RevisionUtilities.DeleteRevisionClouds(doc, selectedRevisionClouds);
+            NotifyOfPropertyChange(() => RevisionClouds);
         }
 
     }

@@ -100,6 +100,7 @@ namespace SCaddins.RenameUtilities.ViewModels
                 NotifyOfPropertyChange(() => ShowRenameParameters);
                 NotifyOfPropertyChange(() => ReplacementLabel);
                 NotifyOfPropertyChange(() => PatternLabel);
+                NotifyOfPropertyChange(() => RenameAllMatchesLabel);
             }
         }
 
@@ -125,6 +126,7 @@ namespace SCaddins.RenameUtilities.ViewModels
                 manager.renameCommand.SearchPattern = value;
                 manager.Rename();
                 NotifyOfPropertyChange(() => Pattern);
+                NotifyOfPropertyChange(() => RenameAllMatchesLabel);
             }
         }
 
@@ -141,6 +143,7 @@ namespace SCaddins.RenameUtilities.ViewModels
                 manager.renameCommand.ReplacementPattern = value;
                 manager.Rename();
                 NotifyOfPropertyChange(() => Replacement);
+                NotifyOfPropertyChange(() => RenameAllMatchesLabel);
             }
         }
 
@@ -174,7 +177,7 @@ namespace SCaddins.RenameUtilities.ViewModels
             get
             {
                 var selectionCount = selectedCandiates.Where(m => m.ValueChanged).Count();
-                return "Rename " + selectionCount + " matches";
+                return "Rename " + selectionCount + " selected matches";
             }
         }
 

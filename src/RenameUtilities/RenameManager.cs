@@ -51,11 +51,9 @@ namespace SCaddins.RenameUtilities
             renameCommands.Add(new RenameCommand((a, c, b) => a.Replace(' ', '_'), "Spaces to Underscore"));
             renameCommands.Add(new RenameCommand((a, c, b) => a.Replace(' ', '-'), "Spaces to Hyphen"));
             renameCommands.Add(new RenameCommand(RegexReplace, "Custom Replace", string.Empty, string.Empty));
-            renameCommands.Add(new RenameCommand(IncrementOne, "Increment Match 1", string.Empty, string.Empty));
-            renameCommands.Add(new RenameCommand(IncrementTwo, "Increment Match 2", string.Empty, string.Empty));
-
+            renameCommands.Add(new RenameCommand(Increment, "Increment Match", string.Empty, string.Empty));
             //inc last
-            var rcLast = new RenameCommand(IncrementLast, "Increment Last", @"(^.*)(\d+$)", string.Empty);
+            var rcLast = new RenameCommand(IncrementLast, "Increment Last", @"(^\D+)(\d+$)", string.Empty);
             rcLast.ReplacementPatternHint = "Increment Amount";
             renameCommands.Add(rcLast);
 
@@ -241,12 +239,7 @@ namespace SCaddins.RenameUtilities
             return Regex.Replace(val, search, replace);
         }
 
-        public static string IncrementOne(string val, string search, string replace)
-        {
-            return "todo";
-        }
-
-        public static string IncrementTwo(string val, string search, string replace)
+        public static string Increment(string val, string search, string replace)
         {
             return "todo";
         }
@@ -259,13 +252,18 @@ namespace SCaddins.RenameUtilities
                 if (int.TryParse(match.Groups[2].Value, out int n) && int.TryParse(replace, out int incVal)) {
                     var i = n + incVal;
                     string pad = string.Empty;
-                    for (int j = (int)Math.Floor(Math.Log10(i)); j <= (matchLength - 1); j++) {
+                    for (int j = (int)Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++) {
                         pad += "0";
                     }
                     return Regex.Replace(val, search, m => m.Groups[1].Value + pad + i);
                 }
             }
             return val;
+        }
+
+        private static string getIncrementedValue(string val, string search, string replace)
+        {
+            return string.Empty;
         }
 
         private void GetTextNoteValues(BuiltInCategory category)

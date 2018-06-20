@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TabControl x:Name="TabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <TabControl x:Name="TabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5">
             <TabItem Header="Revisions" Height="Auto">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -17,10 +17,11 @@
                     </Grid.RowDefinitions>
                     <DataGrid
                         x:Name="Revisions"
+                        Margin="5"
                         cal:Message.Attach="[Event SelectionChanged] = [RevisionSelectionChanged($eventArgs)]"
                         VirtualizingStackPanel.VirtualizationMode="Standard">
                     </DataGrid>
-                    <Button Grid.Row="1" x:Name="ExportExcelSchedule">Export Excel Schedule of Clouds</Button>
+                    <Button Grid.Row="1" x:Name="ExportExcelSchedule" Margin="5" HorizontalAlignment="Right">Export Excel Schedule of Clouds</Button>
                 </Grid>
             </TabItem>
             <TabItem Header="Revision Clouds" Height="Auto">
@@ -31,12 +32,13 @@
                     </Grid.RowDefinitions>
                     <DataGrid
                         x:Name="RevisionClouds"
+                        Margin="5"
                         cal:Message.Attach="[Event SelectionChanged] = [RevisionCloudSelectionChanged($eventArgs)]"
                         VirtualizingStackPanel.VirtualizationMode="Standard">
                     </DataGrid>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Button x:Name="AssignRevision">Assign Revision to Selected Clouds</Button>
-                        <Button x:Name="DeleteClouds">Delete Clouds</Button>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="AssignRevision" Margin="5">Assign Revision to Selected Clouds</Button>
+                        <Button x:Name="DeleteClouds" Margin="5">Delete Clouds</Button>
                     </StackPanel>
                 </Grid>
             </TabItem>

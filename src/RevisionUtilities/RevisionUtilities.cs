@@ -41,6 +41,16 @@ namespace SCaddins.RevisionUtilities
                 return;
             }
 
+            //var dictionary = new Dictionary<string, RevisionItem>();
+            //foreach (RevisionItem rev in this.SelectedRevisionItems()) {
+            //    if (rev != null) {
+            //        string s = rev.Date + rev.Description;
+            //        if (!dictionary.ContainsKey(s)) {
+            //            dictionary.Add(s, rev);
+            //        }
+            //    }
+            //}
+
             string ExportFilename = string.IsNullOrEmpty(exportFilename) ? @"C:\Temp\SClouds" : exportFilename;
             Application excelApp;
             Worksheet excelWorksheet;
