@@ -19,17 +19,20 @@ namespace SCaddins.DestructivePurge.ViewModels
 {
     using System.Collections.ObjectModel;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class CheckableItem : Caliburn.Micro.PropertyChangedBase
     {
         private ObservableCollection<CheckableItem> children;
-        private bool isChecked;
+        private bool? isChecked;
+        private CheckableItem parent;
 
-        public CheckableItem(DeletableItem deletable)
+        public CheckableItem(DeletableItem deletable, CheckableItem parent)
         {
             Deletable = deletable;
             Children = new ObservableCollection<CheckableItem>();
             IsChecked = false;
+            this.parent = parent;
         }
 
         public DeletableItem Deletable
@@ -37,19 +40,33 @@ namespace SCaddins.DestructivePurge.ViewModels
             get; set;
         }
 
-        public bool IsChecked
+        public bool? IsChecked
         {
-            get { return isChecked; }
+            get {
+                    return isChecked;
+            }
             set
             {
-                if(value != isChecked)
-                {
+                //cascade through children
+                if (value != isChecked) {
                     isChecked = value;
-                    foreach (var i in Children)
-                    {
-                        i.IsChecked = value;
+                    if (isChecked != null) {
+                        foreach (var i in Children) {
+                            i.IsChecked = value;
+                        }
                     }
                     NotifyOfPropertyChange(() => IsChecked);
+                    //cascade though siblings
+                    if (parent != null) {
+                        int n = 0;
+                        foreach (var i in parent.Children) {
+                            if (i.IsChecked.HasValue) {
+                                n += i.IsChecked.Value == true ? 1 : -1;
+                            }
+                        }
+                        bool? nb = null;
+                        parent.IsChecked = (n * -1) == parent.Children.Count ? n > 0 : nb;
+                    }
                 }
             }
         }
@@ -70,7 +87,7 @@ namespace SCaddins.DestructivePurge.ViewModels
             if (deletables == null || deletables.Count < 1) return;
             foreach (var deletable in deletables)
             {
-                Children.Add(new CheckableItem(deletable));   
+                Children.Add(new CheckableItem(deletable, this));   
             }
         }
 
