@@ -230,14 +230,14 @@ namespace SCaddins.DestructivePurge
             return s;
         }
 
-        // FIXME don't add view templates or project browser views
+        // FIXME add view templates and project browser views to new category
         public static List<DeletableItem> Views(Document doc, bool placedOnSheet, ViewType type)
         {
             var result = new List<DeletableItem>();
             using (var f = new FilteredElementCollector(doc)) {
                 f.OfClass(typeof(Autodesk.Revit.DB.View));
                 foreach (Autodesk.Revit.DB.View view in f) {
-                    if (view.ViewType == type) {
+                    if (view.ViewType == type && !view.IsTemplate) {
                         string s = string.Empty;
                         string d = string.Empty;
                         string num = string.Empty;

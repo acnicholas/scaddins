@@ -89,6 +89,7 @@
             selectedItem = item;
             NotifyOfPropertyChange(() => Details);
             NotifyOfPropertyChange(() => ShowButtonLabel);
+            NotifyOfPropertyChange(() => EnableShowElemant);
             PreviewImage = SCwashUtilities.ToBitmapImage(item.Deletable.PreviewImage);
         }
 
@@ -148,14 +149,30 @@
 
         public void ShowElement()
         {
+            if (selectedItem.Deletable.Id != null)
+            {
+                var uiapp = new Autodesk.Revit.UI.UIApplication(doc.Application);
+                Element e = doc.GetElement(selectedItem.Deletable.Id);
+                Type t = e.GetType();
+                if (e is Autodesk.Revit.DB.View) {
+                    uiapp.ActiveUIDocument.ActiveView = (Autodesk.Revit.DB.View)e;            
+                } else {
+                    uiapp.ActiveUIDocument.ShowElements(selectedItem.Deletable.Id);
+                }              
+            }
         }
 
         public string ShowButtonLabel
         {
             get
             {
-                return selectedItem == null ? "Show Element" : "Show Element " + selectedItem.Deletable.Id.ToString();
+                return selectedItem.Deletable.Id == null ? "Select Element" : "Show Element " + selectedItem.Deletable.Id.ToString();
             }
+        }
+
+        public bool EnableShowElemant
+        {
+            get { return selectedItem.Deletable.Id != null; }
         }
 
         public void RecurseItems(List<ElementId> list, CheckableItem item)

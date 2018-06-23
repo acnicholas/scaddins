@@ -50,7 +50,7 @@ namespace SCaddins.DestructivePurge.ViewModels
                 //cascade through children
                 if (value != isChecked) {
                     isChecked = value;
-                    if (isChecked != null) {
+                    if (isChecked.HasValue) {
                         foreach (var i in Children) {
                             i.IsChecked = value;
                         }
@@ -60,12 +60,16 @@ namespace SCaddins.DestructivePurge.ViewModels
                     if (parent != null) {
                         int n = 0;
                         foreach (var i in parent.Children) {
-                            if (i.IsChecked.HasValue) {
-                                n += i.IsChecked.Value == true ? 1 : -1;
+                            if (i.IsChecked.HasValue && i.IsChecked.Value) {
+                                n++;
+                            }
+                            if (i.IsChecked.HasValue && i.IsChecked.Value == false)
+                            {
+                                n--;
                             }
                         }
                         bool? nb = null;
-                        parent.IsChecked = (n * -1) == parent.Children.Count ? n > 0 : nb;
+                        parent.IsChecked = System.Math.Abs(n) == parent.Children.Count ? n > 0 : nb;
                     }
                 }
             }
