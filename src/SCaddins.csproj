@@ -158,6 +158,9 @@
     <Reference Include="AdWindows" Condition="'$(Configuration)'=='Release2019'">
       <HintPath>C:\Program Files\Autodesk\Revit 2019\AdWindows.dll</HintPath>
     </Reference>
+    <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net451\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
+    </Reference>
     <Reference Include="RevitAPI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2016'">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Autodesk\Revit 2016\RevitAPI.dll</HintPath>

@@ -7,6 +7,7 @@ using Caliburn.Micro;
 using System.Linq;
 using System.Dynamic;
 using System.Text.RegularExpressions;
+using Hardcodet.Wpf.TaskbarNotification;
 
 namespace SCaddins.ExportManager.ViewModels
 {
@@ -247,6 +248,12 @@ namespace SCaddins.ExportManager.ViewModels
             NotifyOfPropertyChange(() => ProgressBarMaximum);
             System.Windows.Forms.Application.DoEvents();
 
+            //load notification icon so user can cancel
+            //TaskbarIcon tbi = new TaskbarIcon();
+            //tbi.Icon = Resources.Error;
+            //tbi.ToolTipText = "hello world";
+
+
             foreach (ExportSheet sheet in selectedSheets)
             {
                 CurrentProgress +=1;
@@ -288,7 +295,22 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public void Print()
+        public void PrintFullsize()
+        {
+            Print(exportManager.PrinterNameLargeFormat, 1);
+        }
+
+        public void PrintA3()
+        {
+            Print(exportManager.PrinterNameA3, 3);
+        }
+
+        public void PrintA2()
+        {
+            Print(exportManager.PrinterNameLargeFormat, 2);
+        }
+
+        public void Print(string PrinterName, int printMode)
         {
             ProgressBarMaximum = selectedSheets.Count;
             NotifyOfPropertyChange(() => ProgressBarMaximum);
@@ -296,7 +318,7 @@ namespace SCaddins.ExportManager.ViewModels
 
             foreach (ExportSheet sheet in selectedSheets.OrderBy(x => x.SheetNumber).ToList()) {
                 CurrentProgress += 1;
-                exportManager.Print(sheet, exportManager.PrinterNameA3, 3);
+                exportManager.Print(sheet, PrinterName, printMode);
                 System.Windows.Forms.Application.DoEvents();
             }
             CurrentProgress = 0;

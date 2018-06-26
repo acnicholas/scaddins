@@ -11,13 +11,11 @@ namespace SCaddins.ExportManager.ViewModels
     class OptionsViewModel : PropertyChangedBase
     {
         private ExportManager exportManager;
-        private WindowManager windowManager;
         private SCexportViewModel exportManagerViewModel;
 
         public OptionsViewModel(ExportManager exportManager, WindowManager windowManager, SCexportViewModel exportManagerViewModel)
         {
             this.exportManager = exportManager;
-            this.windowManager = windowManager;
             this.exportManagerViewModel = exportManagerViewModel;
         }
 
@@ -182,10 +180,13 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (value == exportManager.PdfPrinterName) return;
                 exportManager.PdfPrinterName = value;
+                SCaddins.ExportManager.Settings1.Default.AdobePrinterDriver = value;
+                SCaddins.ExportManager.Settings1.Default.Save();
+                NotifyOfPropertyChange(() => AdobePDFPrintDriverName);
             }
         }
 
-        public void SelectPrinter(string printerToSelect, string currentPrinter)
+        public string SelectPrinter(string printerToSelect, string currentPrinter)
         {
             dynamic settings = new ExpandoObject();
             settings.Height = 200;
@@ -195,27 +196,28 @@ namespace SCaddins.ExportManager.ViewModels
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
             settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
             var printerViewModel = new PrinterSelectionViewModel(currentPrinter);
-            windowManager.ShowDialog(printerViewModel, null, settings);
+            SCaddinsApp.WindowManager.ShowDialog(printerViewModel, null, settings);
+            return printerViewModel.SelectedPrinter;
         }
 
         public void SelectAdobePrinter()
         {
-            SelectPrinter("Select Adobe Printer", AdobePDFPrintDriverName);
+            AdobePDFPrintDriverName = SelectPrinter("Select Adobe Printer", AdobePDFPrintDriverName);
         }
 
         public void SelectPostscriptPrinter()
         {
-            SelectPrinter("Select Postscript Printer", PostscriptPrintDriverName);
+            PostscriptPrintDriverName = SelectPrinter("Select Postscript Printer", PostscriptPrintDriverName);
         }
 
         public void SelectA3Printer()
         {
-            SelectPrinter("Select A3 Printer", A3PrinterName);
+            A3PrinterName = SelectPrinter("Select A3 Printer", A3PrinterName);
         }
 
         public void SelectLargeFormatPrinter()
         {
-            SelectPrinter("Select Large Format Printer", LargeFormatPrinterName);
+            LargeFormatPrinterName = SelectPrinter("Select Large Format Printer", LargeFormatPrinterName);
         }
 
         public string PostscriptPrintDriverName
@@ -225,6 +227,9 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (value == exportManager.PostscriptPrinterName) return;
                 exportManager.PostscriptPrinterName = value;
+                SCaddins.ExportManager.Settings1.Default.PSPrinterDriver = value;
+                SCaddins.ExportManager.Settings1.Default.Save();
+                NotifyOfPropertyChange(() => PostscriptPrintDriverName);
             }
         }
 
@@ -235,6 +240,9 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (value == exportManager.PrinterNameA3) return;
                 exportManager.PrinterNameA3 = value;
+                SCaddins.ExportManager.Settings1.Default.A3PrinterDriver = value;
+                SCaddins.ExportManager.Settings1.Default.Save();
+                NotifyOfPropertyChange(() => A3PrinterName);
             }
         }
 
@@ -245,6 +253,9 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (value == exportManager.PrinterNameLargeFormat) return;
                 exportManager.PrinterNameLargeFormat = value;
+                SCaddins.ExportManager.Settings1.Default.LargeFormatPrinterDriver = value;
+                SCaddins.ExportManager.Settings1.Default.Save();
+                NotifyOfPropertyChange(() => LargeFormatPrinterName);
             }
         }
 
@@ -255,6 +266,7 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (value == exportManager.GhostscriptBinDirectory) return;
                 exportManager.GhostscriptBinDirectory = value;
+                NotifyOfPropertyChange(() => GhostscriptBinLocation);
             }
         }
 
