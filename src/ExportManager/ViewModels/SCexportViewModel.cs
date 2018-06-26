@@ -16,7 +16,6 @@ namespace SCaddins.ExportManager.ViewModels
         private readonly ExportManager exportManager;
         private ObservableCollection<ExportSheet> sheets;
         private ICollectionView sheetsCollection;
-        private WindowManager windowManager;
         private ViewSheetSetCombo selectedViewSheetSet;
         private double currentProgress;
         private string sheetNameFilter;
@@ -238,7 +237,7 @@ namespace SCaddins.ExportManager.ViewModels
             settings.ShowInTaskbar = false;
             settings.ResizeMode = System.Windows.ResizeMode.NoResize;
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
-            var optionsModel = new OptionsViewModel(exportManager, windowManager, this);
+            var optionsModel = new OptionsViewModel(exportManager, this);
             SCaddinsApp.WindowManager.ShowDialog(optionsModel, null, settings);
         }
 
@@ -283,7 +282,7 @@ namespace SCaddins.ExportManager.ViewModels
         public void AddRevision()
         {
             var revisionSelectionViewModel = new RevisionSelectionViewModel(exportManager.Doc);
-            bool? result = windowManager.ShowDialog(revisionSelectionViewModel, null, RevisionSelectionViewModel.DefaultWindowSettings);
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(revisionSelectionViewModel, null, RevisionSelectionViewModel.DefaultWindowSettings);
             bool newBool = result.HasValue ? result.Value : false;
             if (newBool)
             {

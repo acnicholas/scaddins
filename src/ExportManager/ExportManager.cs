@@ -45,6 +45,7 @@ namespace SCaddins.ExportManager
         private SegmentedSheetName fileNameScheme;
         private ObservableCollection<ExportSheet> allSheets;
         private bool forceDate;
+        private bool dateForEmptyRevisions;
         private string exportDirectory;
 
         public ExportManager(UIDocument uidoc)
@@ -133,7 +134,14 @@ namespace SCaddins.ExportManager
 
         public bool UseDateForEmptyRevisions
         {
-            get; set;
+            get { return dateForEmptyRevisions; }
+            set
+            {
+                this.dateForEmptyRevisions = value;
+                foreach (ExportSheet sheet in this.allSheets) {
+                    sheet.UseDateForEmptyRevisions = value;
+                }
+            }
         }
 
         public UIDocument UIDoc

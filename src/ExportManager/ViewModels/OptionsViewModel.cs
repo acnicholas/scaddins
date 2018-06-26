@@ -13,7 +13,7 @@ namespace SCaddins.ExportManager.ViewModels
         private ExportManager exportManager;
         private SCexportViewModel exportManagerViewModel;
 
-        public OptionsViewModel(ExportManager exportManager, WindowManager windowManager, SCexportViewModel exportManagerViewModel)
+        public OptionsViewModel(ExportManager exportManager, SCexportViewModel exportManagerViewModel)
         {
             this.exportManager = exportManager;
             this.exportManagerViewModel = exportManagerViewModel;
