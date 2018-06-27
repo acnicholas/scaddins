@@ -36,6 +36,9 @@ namespace SCaddins.RoomConvertor.ViewModels
             {
                 dynamic settings = new System.Dynamic.ExpandoObject();
                 settings.Height = 480;
+                settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
+                  new System.Uri("pack://application:,,,/SCaddins;component/Assets/scasfar.png")
+                  );
                 settings.Width = 768;
                 settings.Title = "Room Convertor - By Andrew Nicholas";
                 settings.ShowInTaskbar = false;

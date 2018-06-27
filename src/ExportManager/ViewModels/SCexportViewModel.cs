@@ -38,6 +38,9 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 dynamic settings = new ExpandoObject();
                 settings.Height = 480;
+                settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
+                    new System.Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png")
+                    );
                 settings.Width = 768;
                 settings.Title = "SCexport - By Andrew Nicholas";
                 settings.ShowInTaskbar = false;

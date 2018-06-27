@@ -23,6 +23,9 @@ namespace SCaddins.RenameUtilities.ViewModels
                 dynamic settings = new ExpandoObject();
                 settings.Height = 480;
                 settings.Width = 768;
+                settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
+                    new System.Uri("pack://application:,,,/SCaddins;component/Assets/rename.png")
+                    );
                 settings.Title = "Rename Selected Sheet Parameters";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;

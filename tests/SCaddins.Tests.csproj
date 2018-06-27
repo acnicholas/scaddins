@@ -66,6 +66,7 @@
     <Compile Include="ExportManager\PrintSettingsTests.cs" />
     <Compile Include="LineOfSight\LineOfSightTests.cs" />
     <Compile Include="RevisionUtilities\RevisionUtilitiesTests.cs" />
+    <Compile Include="RoomConvertor\RoomConversionManagerTests.cs" />
     <Compile Include="SheetCopier\SheetCopierManagerTests.cs" />
     <Compile Include="SolarUtilities\SolarViewsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
