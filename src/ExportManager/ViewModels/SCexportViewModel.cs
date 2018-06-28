@@ -118,13 +118,6 @@ namespace SCaddins.ExportManager.ViewModels
             NotifyOfPropertyChange(() => Sheets);
         }
 
-        //public void Row_SelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
-        //{
-        //    selectedSheets.AddRange(obj.AddedItems.Cast<ExportSheet>());
-        //    obj.RemovedItems.Cast<ExportSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
-        //    NotifyOfPropertyChange(() => ProgressBarText);
-        //}
-
         public void Row_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs obj)
         {
             var grid = sender as System.Windows.Controls.DataGrid;
@@ -178,7 +171,7 @@ namespace SCaddins.ExportManager.ViewModels
 
             if (keyArgs.Key == Key.Escape)
             {
-                    TryClose();
+                TryClose();
             }
 
             if (keyArgs.Key == Key.D1) {
@@ -208,26 +201,34 @@ namespace SCaddins.ExportManager.ViewModels
             get { return exportManager.AllViewSheetSets; }
         }
 
-        public ViewSheetSetCombo SelectedViewSheetSet
+        public void SelectViewSheetSet()
         {
-            get
-            {
-                return selectedViewSheetSet;
-            }
-            set
-            {
-                if (value != selectedViewSheetSet)
-                {
-                    selectedViewSheetSet = value;
-                    if (selectedViewSheetSet.ViewSheetSet != null) {
+                    if (selectedViewSheetSet.ViewSheetSet != null)
+                    {
                         var filter = new System.Predicate<object>(item => selectedViewSheetSet.ViewSheetSet.Views.Contains(((ExportSheet)item).Sheet));
                         Sheets.Filter = filter;
-                    } else
+                    }
+                    else
                     {
                         Sheets.Filter = null;
                     }
-                }
                 NotifyOfPropertyChange(() => Sheets);
+        }
+
+        public string SearchText
+        {
+            set
+            {      
+                if (ViewSheetSets.ToList().Where(v => v.ToString() == value).Count() < 1)
+                {
+                    var filter = new System.Predicate<object>(item => ((ExportSheet)item).SheetDescription.Contains(value));
+                    Sheets.Filter = filter;
+                    NotifyOfPropertyChange(() => Sheets);
+                } else
+                {
+                    selectedViewSheetSet = ViewSheetSets.ToList().Where(v => v.ToString() == value).First();
+                    SelectViewSheetSet();
+                }
             }
         }
 

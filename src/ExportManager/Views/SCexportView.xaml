@@ -29,10 +29,11 @@
         </Grid.RowDefinitions>
         <ComboBox
             ItemsSource="{Binding ViewSheetSets}"
-            SelectedItem="{Binding SelectedViewSheetSet}"
+            Text="{Binding SearchText}"    
             Width="Auto"
             Height="Auto"
             Grid.Column="0"
+            IsEditable="True"
             Grid.Row="0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
