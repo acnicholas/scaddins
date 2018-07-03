@@ -20,7 +20,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Expander ExpandDirection="Right">
+            <Expander ExpandDirection="Right" Height="Auto" HorizontalAlignment="Stretch">
                 <Expander.Header>
                     <TextBlock Text="Source Sheet Information">
                         <TextBlock.LayoutTransform>
@@ -28,19 +28,33 @@
                         </TextBlock.LayoutTransform>
                     </TextBlock>
                 </Expander.Header>
-                <StackPanel MinWidth="200" VerticalAlignment="Stretch" Height="Auto">
-                <Label Margin="5" x:Name="SelectedSheetName"></Label>
-                    <ListView x:Name="SelectedSheetInformation" Grid.Row="1" Margin="5" MaxWidth="300" VerticalAlignment="Stretch" Height="Auto">
-                <ListView.View>
-                    <GridView>
-                            <GridView.Columns>
-                                <GridViewColumn Header="Paramter" DisplayMemberBinding="{Binding ParameterName}"></GridViewColumn>
-                                <GridViewColumn Header="Info" DisplayMemberBinding="{Binding ParameterValue}"></GridViewColumn>
-                            </GridView.Columns>
-                        </GridView>
-                </ListView.View>
-            </ListView>
-            </StackPanel>
+                <Grid MinWidth="200" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                <Label Grid.Row="0" Margin="5" x:Name="SelectedSheetName"></Label>
+                <ListView x:Name="SelectedSheetInformationView" Grid.Row="1" Margin="5" MaxWidth="300" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Height="Auto">
+                        <ListView.View>
+                            <GridView>
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Parameter" DisplayMemberBinding="{Binding ParameterName}"></GridViewColumn>
+                                    <GridViewColumn Header="Info" DisplayMemberBinding="{Binding ParameterValue}"></GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                        <ListView.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock FontWeight="Bold" FontSize="14" Text="HwDER"/>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </ListView.GroupStyle>
+
+                </ListView>
+            </Grid>
             </Expander>
         </Grid>
         <GridSplitter Grid.Column="1" Height="Auto" Width="Auto"></GridSplitter>

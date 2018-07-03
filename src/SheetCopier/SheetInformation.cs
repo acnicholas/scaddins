@@ -19,9 +19,20 @@ namespace SCaddins.SheetCopier
             get; private set;
         }
 
+        public int IndexType
+        {
+            get; private set;
+        }
+
+        public string IndexTypeString
+        {
+            get { return "Test"; }
+        }
+
         public SheetInformation(Parameter param)
         {
             ParameterName = param.Definition.Name;
+            IndexType = (int)param.StorageType;
             switch (param.StorageType) {
                 case StorageType.Double:
                     ParameterValue = param.AsString();

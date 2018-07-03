@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Dynamic;
+using System.Windows.Data;
 using System.Linq;
 using Autodesk.Revit.UI;
 using Caliburn.Micro;
@@ -14,7 +15,7 @@ namespace SCaddins.SheetCopier.ViewModels
         private SheetCopierSheet selectedSheet;
         List<SheetCopierSheet> selectedSheets = new List<SheetCopierSheet>();
         List<SheetCopierViewOnSheet> selectedViews = new List<SheetCopierViewOnSheet>();
-        List<SheetInformation> selectedSheetInformation = new List<SheetInformation>();
+        BindableCollection<SheetInformation> selectedSheetInformation = new BindableCollection<SheetInformation>();
         List<string> levelsInModel = new List<string>();
 
         public static dynamic DefaultWindowSettings
@@ -61,14 +62,36 @@ namespace SCaddins.SheetCopier.ViewModels
                 if (value != selectedSheet)
                 {
                     selectedSheet = value;
-                    NotifyOfPropertyChange(() => SelectedSheetInformation);
+                    NotifyOfPropertyChange(() => SelectedSheetInformationView);
                     NotifyOfPropertyChange(() => ViewsOnSheet);
                     NotifyOfPropertyChange(() => SelectedSheetName);
                 }
             }
         }
 
-        public List<SheetInformation> SelectedSheetInformation
+        //public CollectionView SelectedSheetInformationCollection
+        //{
+        //    get
+        //    {
+        //        var result = new CollectionView(SelectedSheetInformation);
+        //        PropertyGroupDescription pgd = new PropertyGroupDescription("IndexType");
+        //        result.GroupDescriptions.Add(pgd);
+        //        return result;
+        //    } 
+        //}
+
+        public CollectionView SelectedSheetInformationView
+        {
+            get
+            {
+                CollectionView result = (CollectionView)CollectionViewSource.GetDefaultView(SelectedSheetInformation);
+                PropertyGroupDescription gd = new PropertyGroupDescription("IndexType");
+                result.GroupDescriptions.Add(gd);
+                return result;
+            }
+        }
+
+        public BindableCollection<SheetInformation> SelectedSheetInformation
         {
             get
             {
@@ -77,7 +100,7 @@ namespace SCaddins.SheetCopier.ViewModels
                     foreach (Autodesk.Revit.DB.Parameter param in selectedSheet.SourceSheet.Parameters) {
                         selectedSheetInformation.Add(new SheetInformation(param));
                     }
-                    return selectedSheetInformation.Where(s => !string.IsNullOrEmpty(s.ParameterValue)).ToList<SheetInformation>();
+                    return selectedSheetInformation;
                 } else {
                     return null;
                 }
