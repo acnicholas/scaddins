@@ -47,7 +47,7 @@
                             <GroupStyle>
                                 <GroupStyle.HeaderTemplate>
                                     <DataTemplate>
-                                        <TextBlock FontWeight="Bold" FontSize="14" Text="HwDER"/>
+                                        <TextBlock FontWeight="Bold" Text="{Binding Items[0].IndexTypeDescription}"/>
                                     </DataTemplate>
                                 </GroupStyle.HeaderTemplate>
                             </GroupStyle>

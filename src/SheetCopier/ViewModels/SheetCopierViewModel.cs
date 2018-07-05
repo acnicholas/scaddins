@@ -69,23 +69,13 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
-        //public CollectionView SelectedSheetInformationCollection
-        //{
-        //    get
-        //    {
-        //        var result = new CollectionView(SelectedSheetInformation);
-        //        PropertyGroupDescription pgd = new PropertyGroupDescription("IndexType");
-        //        result.GroupDescriptions.Add(pgd);
-        //        return result;
-        //    } 
-        //}
-
         public CollectionView SelectedSheetInformationView
         {
             get
             {
                 CollectionView result = (CollectionView)CollectionViewSource.GetDefaultView(SelectedSheetInformation);
                 PropertyGroupDescription gd = new PropertyGroupDescription("IndexType");
+                result.GroupDescriptions.Clear();
                 result.GroupDescriptions.Add(gd);
                 return result;
             }
@@ -97,6 +87,11 @@ namespace SCaddins.SheetCopier.ViewModels
             {
                 selectedSheetInformation.Clear();
                 if (selectedSheet != null) {
+                    selectedSheetInformation.Add(new SheetInformation(selectedSheet.SourceSheet));
+                    foreach (Autodesk.Revit.DB.ElementId id in selectedSheet.SourceSheet.GetAllPlacedViews()) {
+                        Autodesk.Revit.DB.Element element = copyManager.Doc.GetElement(id);
+                        selectedSheetInformation.Add(new SheetInformation(element));
+                    }
                     foreach (Autodesk.Revit.DB.Parameter param in selectedSheet.SourceSheet.Parameters) {
                         selectedSheetInformation.Add(new SheetInformation(param));
                     }

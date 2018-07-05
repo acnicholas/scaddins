@@ -98,6 +98,11 @@ namespace SCaddins.SheetCopier
                 return this.sheetCategories;
             }    
         }
+
+        public Document Doc
+        {
+            get { return doc; }
+        }
     
         #endregion
 

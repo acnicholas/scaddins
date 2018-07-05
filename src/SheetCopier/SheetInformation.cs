@@ -24,15 +24,32 @@ namespace SCaddins.SheetCopier
             get; private set;
         }
 
-        public string IndexTypeString
+        public string IndexTypeDescription
         {
-            get { return "Test"; }
+            get; set;
+        }
+
+        public SheetInformation(ViewSheet sheet)
+        {
+            IndexType = 0;
+            IndexTypeDescription = "Selected Sheet";
+            ParameterName = "Sheet Name";
+            ParameterValue = sheet.SheetNumber + " - "  + sheet.Name;
+        }
+
+        public SheetInformation(Element element)
+        {
+            IndexType = 1;
+            IndexTypeDescription = "Views on Selected Sheet";
+            ParameterName = element.GetType().Name;
+            ParameterValue = element.Name;
         }
 
         public SheetInformation(Parameter param)
         {
             ParameterName = param.Definition.Name;
-            IndexType = (int)param.StorageType;
+            IndexTypeDescription = "Parameters of Selected Sheet";
+            IndexType = 2;
             switch (param.StorageType) {
                 case StorageType.Double:
                     ParameterValue = param.AsString();
