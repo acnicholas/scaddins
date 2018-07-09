@@ -18,11 +18,15 @@ namespace SCaddins.ExportManager.ViewModels
         private ICollectionView sheetsCollection;
         private ViewSheetSetCombo selectedViewSheetSet;
         private double currentProgress;
+        private List<string> printTypes;
+        private string selectedPrintType;
         private string sheetNameFilter;
         List<ExportSheet> selectedSheets = new List<ExportSheet>();
 
         public SCexportViewModel(ExportManager exportManager)
         {
+            printTypes = (new string[] { "Print A3", "Print A2", "Print Full Size" }).ToList();
+            selectedPrintType = "Print A3";
             this.exportManager = exportManager;
             this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
             Sheets = CollectionViewSource.GetDefaultView(this.sheets);
@@ -63,9 +67,46 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+
         public ExportSheet SelectedSheet
         {
             get; set;
+        }
+
+        public BindableCollection<string> PrintTypes
+        {
+            get
+            {
+                return new BindableCollection<string>(printTypes);
+            }
+        }
+
+        public string SelectedPrintType
+        {
+            get
+            {
+                return selectedPrintType;
+            }
+            set
+            {
+                if (value != selectedPrintType) {
+                    selectedPrintType = value;
+                    NotifyOfPropertyChange(() => SelectedPrintType);
+                }
+            }
+        }
+
+        public void PrintButton()
+        {
+            if (selectedPrintType == "Print A3") {
+                PrintA3();
+            }
+            if (selectedPrintType == "Print A2") {
+                PrintA2();
+            }
+            if (selectedPrintType == "Print Full Size") {
+                PrintFullsize();
+            }
         }
 
         public double CurrentProgress
@@ -250,13 +291,6 @@ namespace SCaddins.ExportManager.ViewModels
             ProgressBarMaximum = selectedSheets.Count;
             NotifyOfPropertyChange(() => ProgressBarMaximum);
             System.Windows.Forms.Application.DoEvents();
-
-            //load notification icon so user can cancel
-            //TaskbarIcon tbi = new TaskbarIcon();
-            //tbi.Icon = Resources.Error;
-            //tbi.ToolTipText = "hello world";
-
-
             foreach (ExportSheet sheet in selectedSheets)
             {
                 CurrentProgress +=1;
@@ -318,8 +352,8 @@ namespace SCaddins.ExportManager.ViewModels
             ProgressBarMaximum = selectedSheets.Count;
             NotifyOfPropertyChange(() => ProgressBarMaximum);
             System.Windows.Forms.Application.DoEvents();
-
             foreach (ExportSheet sheet in selectedSheets.OrderBy(x => x.SheetNumber).ToList()) {
+            //foreach (ExportSheet sheet in selectedSheets) {
                 CurrentProgress += 1;
                 exportManager.Print(sheet, PrinterName, printMode);
                 System.Windows.Forms.Application.DoEvents();

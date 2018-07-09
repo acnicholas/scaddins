@@ -81,16 +81,12 @@ namespace SCaddins.ExportManager
                         if (isoSheetSize.Contains("FIT")) {
                             ips.PrintParameters.ZoomType = ZoomType.FitToPage;
                             ips.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
-                            ips.PrintParameters.MarginType = MarginType.UserDefined;
-                            ips.PrintParameters.UserDefinedMarginX = 0;
-                            ips.PrintParameters.UserDefinedMarginY = 0;
+                            ips.PrintParameters.MarginType = MarginType.NoMargin;
                         } else {
                             ips.PrintParameters.ZoomType = ZoomType.Zoom;
                             ips.PrintParameters.Zoom = 100;
                             ips.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
-                            ips.PrintParameters.MarginType = MarginType.UserDefined;
-                            ips.PrintParameters.UserDefinedMarginX = 0;
-                            ips.PrintParameters.UserDefinedMarginY = 0;
+                            ips.PrintParameters.MarginType = MarginType.NoMargin;
                         }
 
                         pm.PrintSetup.SaveAs("SCX-" + isoSheetSize);
@@ -132,7 +128,7 @@ namespace SCaddins.ExportManager
                 if (ps.IsValidObject) {
                     pm.PrintSetup.CurrentPrintSetting = ps;
                 } else {
-                    log.AddWarning(null, Resources.WarningPrintSetupReadOnly);
+                    //log.AddWarning(null, Resources.WarningPrintSetupReadOnly);
                 }
                 pm.PrintRange = PrintRange.Current;
                 pm.PrintSetup.CurrentPrintSetting.PrintParameters.MarginType = MarginType.NoMargin;
@@ -143,7 +139,7 @@ namespace SCaddins.ExportManager
                 return true;
             } catch (Exception ex) {
                 System.Diagnostics.Debug.Print(ex.Message);
-                log.AddError(null, ex.ToString());
+                //log.AddError(null, ex.ToString());
                 t.RollBack();
                 return false;
             }
@@ -243,7 +239,7 @@ namespace SCaddins.ExportManager
                 string printerName,
                 ExportLog log)
         {       
-            log.AddMessage(Resources.MessageAttemptingToLoadRevitPrintSettings + size);
+            //log.AddMessage(Resources.MessageAttemptingToLoadRevitPrintSettings + size);
             PrintSetting ps = PrintSettings.GetPrintSettingByName(doc, size);
 
             if (ps == null) {
@@ -251,9 +247,9 @@ namespace SCaddins.ExportManager
                 return null;
             }
             
-            log.AddMessage(Resources.MessageUsingPrinter + printerName);
+            //log.AddMessage(Resources.MessageUsingPrinter + printerName);
             if (!PrintSettings.SetPrinterByName(doc, printerName, pm)) {
-                log.AddError(null, Resources.MessageCannotSetPrinter + printerName);
+                //log.AddError(null, Resources.MessageCannotSetPrinter + printerName);
                 return null;
             } 
             

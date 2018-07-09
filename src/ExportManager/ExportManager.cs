@@ -335,39 +335,30 @@ namespace SCaddins.ExportManager
             int scale)
         {
             PrintManager pm = Doc.PrintManager;
-                bool printSetttingsValid;
-                //this.log.Clear();
-                //this.log.Start(Resources.StartingPrint);
+            bool printSetttingsValid;
+            if (!sheet.Verified) {
+                sheet.UpdateSheetInfo();
+            }
+            printSetttingsValid = false;
 
-                    if (!sheet.Verified) {
-                        sheet.UpdateSheetInfo();
-                    }
-                    printSetttingsValid = false;
-
-                    switch (scale) {
-                        case 3:
-                            printSetttingsValid |= PrintSettings.PrintToDevice(Doc, "A3-FIT", pm, printerName, this.log);
-                            break;
-                        case 2:
-                            printSetttingsValid |= PrintSettings.PrintToDevice(Doc, "A2-FIT", pm, printerName, this.log);
-                            break;
-                        default:
-                            int i = int.Parse(sheet.PageSize.Substring(1, 1), CultureInfo.InvariantCulture);
-                            string printerNameTmp = i > 2 ? this.PrinterNameA3 : this.PrinterNameLargeFormat;
-                            printSetttingsValid |= PrintSettings.PrintToDevice(Doc, sheet.PageSize, pm, printerNameTmp, this.log);
-                            break;
-                    }
-                    if (printSetttingsValid) {
-                        pm.SubmitPrint(sheet.Sheet);
-                    }
-                //this.log.Stop(Resources.FinishedPrint);
-//#if DEBUG
-//                this.log.ShowSummaryDialog();
-//#else
-//                if (this.log.Errors > 0) {
-//                    this.log.ShowSummaryDialog();
-//                }
-//#endif
+            switch (scale) {
+                case 3:
+                printSetttingsValid |= PrintSettings.PrintToDevice(Doc, "A3-FIT", pm, printerName, this.log);
+                break;
+                case 2:
+                printSetttingsValid |= PrintSettings.PrintToDevice(Doc, "A2-FIT", pm, printerName, this.log);
+                break;
+                default:
+                int i = int.Parse(sheet.PageSize.Substring(1, 1), CultureInfo.InvariantCulture);
+                string printerNameTmp = i > 2 ? this.PrinterNameA3 : this.PrinterNameLargeFormat;
+                printSetttingsValid |= PrintSettings.PrintToDevice(Doc, sheet.PageSize, pm, printerNameTmp, this.log);
+                break;
+            }
+            if (printSetttingsValid) {
+                pm.SubmitPrint(sheet.Sheet);
+            } else {
+                TaskDialog.Show("test", "print error");
+            }
         }
 
         public void Update()

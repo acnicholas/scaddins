@@ -62,8 +62,8 @@
                     <Setter Property="IsSelected" Value="{Binding IsSelected}" />
                     <Style.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{x:Static SystemColors.HighlightColor}" />
-                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}"/>
-                        </Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}"/>
+                    </Style.Resources>
                 </Style>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -78,7 +78,7 @@
             <DataGrid.AlternatingRowBackground>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
             </DataGrid.AlternatingRowBackground>
-            
+
             <DataGrid.Columns>
                 <DataGridTextColumn
                     Header="Export Name"
@@ -240,45 +240,40 @@
             VerticalAlignment="Stretch"
             Margin="5,0,5,5"
             Grid.Column="2" />
-
-        <Button
-            Content="Print"
-            Height="Auto"
-            Width="Auto"
-            Grid.Row="2"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Margin="0,0,5,5"
-            RenderTransformOrigin="0.3571,0.5476"
-            x:Name="PrintButton"
-            Grid.Column="1">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Style.Triggers>
-                        <EventTrigger RoutedEvent="Click">
-                            <EventTrigger.Actions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="ContextMenu.IsOpen">
-                                            <DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="True"/>
-                                        </BooleanAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger.Actions>
-                        </EventTrigger>
-                    </Style.Triggers>
-                    <Setter Property="ContextMenu">
-                        <Setter.Value>
-                            <ContextMenu>
-                                <MenuItem Header="Print Fullsize" cal:Message.Attach="PrintFullsize"/>
-                                <MenuItem Header="Print A3 (scale to fit)" cal:Message.Attach="PrintA3"/>
-                                <MenuItem Header="Print A2 (scale to fit)" cal:Message.Attach="PrintA2"/>
-                            </ContextMenu>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
-        </Button>
+        <Border Grid.Column="1" Grid.Row="2" Margin="0,0,0,5" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="1" BorderBrush="#FF707070">
+        <Grid Margin="0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button 
+                Height="Auto"
+                Width="Auto"
+                Margin="0"
+                BorderBrush="Transparent"
+                BorderThickness="0"
+                Grid.Column="0"
+                x:Name ="PrintButton"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Content="{Binding SelectedPrintType}">
+                </Button>
+            <ComboBox
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                BorderBrush="Transparent"
+                BorderThickness="0"
+                Margin="0"
+                Height="Auto"
+                Width="Auto"
+                ItemsSource="{Binding PrintTypes}"
+                SelectedItem="{Binding SelectedPrintType}"
+                Text=""
+                MaxWidth="20"
+                Grid.Column="1" Background="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}">
+            </ComboBox>
+        </Grid>
+        </Border>
         <Button
             Height="Auto"
             Width="Auto"
@@ -291,18 +286,6 @@
             BorderBrush="Transparent"
             Grid.Column="2">
             <Image Source="/SCaddins;component/Assets/gear.png" Stretch="None" />
-            </Button>
+        </Button>
     </Grid>
-
-
-
-
-
-
-
-
-
-
-
-
 </UserControl>
