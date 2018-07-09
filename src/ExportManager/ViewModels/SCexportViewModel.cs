@@ -32,6 +32,7 @@ namespace SCaddins.ExportManager.ViewModels
             Sheets = CollectionViewSource.GetDefaultView(this.sheets);
             this.selectedViewSheetSet = null;
             SheetNameFilter = string.Empty;
+            ShowSearchHelpText = true;
             CurrentProgress = 0;
             ProgressBarMaximum = 1;
         }
@@ -256,10 +257,17 @@ namespace SCaddins.ExportManager.ViewModels
                 NotifyOfPropertyChange(() => Sheets);
         }
 
+        public bool ShowSearchHelpText
+        {
+            get; set;   
+        }
+
         public string SearchText
         {
             set
-            {      
+            {
+                ShowSearchHelpText = value.Length < 1;
+                NotifyOfPropertyChange(() => ShowSearchHelpText);
                 if (ViewSheetSets.ToList().Where(v => v.ToString() == value).Count() < 1)
                 {
                     var filter = new System.Predicate<object>(item => ((ExportSheet)item).SheetDescription.Contains(value));

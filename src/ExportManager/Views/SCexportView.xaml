@@ -10,6 +10,10 @@
     cal:Message.Attach="[Event KeyDown] = [ExecuteFilterView($eventArgs)]"
     d:DesignWidth="628" d:DesignHeight="272">
 
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
+
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition
@@ -21,7 +25,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition
-                Height="30" />
+                Height="35" />
             <RowDefinition
                 Height="*" />
             <RowDefinition
@@ -40,6 +44,16 @@
             Margin="5"
             x:Name="ViewsetCombo"
             Grid.ColumnSpan="2" />
+        <Label
+            Grid.Row="0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Foreground="DarkGray"
+            IsEnabled="False"
+            Visibility="{Binding ShowSearchHelpText , Converter={StaticResource BoolToVis}}"
+            >
+             ? Type to search, or use the drop-down arrow to load a view set.
+        </Label>
         <!--cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($source,$eventArgs)]"-->
         <DataGrid
             cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($source,$eventArgs)]"
@@ -90,26 +104,6 @@
                     Width="*"
                     Header="Name"
                     Binding="{Binding SheetDescription}">
-                    <DataGridTextColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <Grid Width="Auto" HorizontalAlignment="Stretch">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.75*" ></ColumnDefinition>
-                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" HorizontalAlignment="Stretch" Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="2"/>
-                                <TextBox
-                                    Grid.Column="1"
-                                    Text="{Binding DataContext.SheetNameFilter, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                                    Width="Auto"
-                                    HorizontalContentAlignment="Right"
-                                    HorizontalAlignment="Right"
-                                    MinWidth="10"
-                                    Margin="2">
-                                </TextBox>
-                            </Grid>
-                        </DataTemplate>
-                    </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
                 <DataGridTextColumn
                     Header="Revision"
@@ -138,10 +132,7 @@
                     </MenuItem>
                     <MenuItem
                         Header="Filter">
-                        <TextBox></TextBox>
                         <MenuItem cal:Message.Attach="ShowLatestRevision" Header="Show Latest Revision Only"/>
-                        <MenuItem Header="TEST2"/>
-                        <MenuItem Header="TEST3"/>
                         <MenuItem.Icon>
                             <Image
                                 Source="/SCaddins;component/Assets/filter.png" />
