@@ -19,6 +19,7 @@ namespace SCaddins.ExportManager.ViewModels
         private ViewSheetSetCombo selectedViewSheetSet;
         private double currentProgress;
         private List<string> printTypes;
+        private int searchStringLength;
         private string selectedPrintType;
         private string sheetNameFilter;
         List<ExportSheet> selectedSheets = new List<ExportSheet>();
@@ -28,10 +29,11 @@ namespace SCaddins.ExportManager.ViewModels
             printTypes = (new string[] { "Print A3", "Print A2", "Print Full Size" }).ToList();
             selectedPrintType = "Print A3";
             this.exportManager = exportManager;
+            this.searchStringLength = 0;
             this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
             Sheets = CollectionViewSource.GetDefaultView(this.sheets);
             this.selectedViewSheetSet = null;
-            SheetNameFilter = string.Empty;
+            //SheetNameFilter = string.Empty;
             ShowSearchHelpText = true;
             CurrentProgress = 0;
             ProgressBarMaximum = 1;
@@ -134,24 +136,6 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public string SheetNameFilter
-        {
-            get
-            {
-                return sheetNameFilter;
-            }
-            set
-            {
-                if (value != sheetNameFilter)
-                {
-                    sheetNameFilter = value;
-                    var filter = new System.Predicate<object>(item => ((ExportSheet)item).SheetDescription.Contains(sheetNameFilter));
-                    Sheets.Filter = filter;
-                    NotifyOfPropertyChange(() => Sheets);
-                }
-            }
-        }
-
         public void ShowLatestRevision()
         {
             var revDate = ExportManager.LatestRevisionDate(exportManager.Doc);
@@ -233,10 +217,10 @@ namespace SCaddins.ExportManager.ViewModels
             Sheets.Filter = filter;
         }
 
-        public bool UserShouldEditValueNow
-        {
-            get; set;
-        }
+        //public bool UserShouldEditValueNow
+        //{
+        //    get; set;
+        //}
 
         public ObservableCollection<ViewSheetSetCombo> ViewSheetSets
         {
@@ -245,16 +229,28 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void SelectViewSheetSet()
         {
-                    if (selectedViewSheetSet.ViewSheetSet != null)
-                    {
-                        var filter = new System.Predicate<object>(item => selectedViewSheetSet.ViewSheetSet.Views.Contains(((ExportSheet)item).Sheet));
-                        Sheets.Filter = filter;
-                    }
-                    else
-                    {
-                        Sheets.Filter = null;
-                    }
-                NotifyOfPropertyChange(() => Sheets);
+            if (selectedViewSheetSet.ViewSheetSet != null)
+            {
+                var filter = new System.Predicate<object>(item => selectedViewSheetSet.ViewSheetSet.Views.Contains(((ExportSheet)item).Sheet));
+                Sheets.Filter = filter;
+            }
+            else
+            {
+                Sheets.Filter = null;
+            }
+            NotifyOfPropertyChange(() => Sheets);
+        }
+
+        public void HideHelpLabel()
+        {
+            ShowSearchHelpText = false;
+            NotifyOfPropertyChange(() => ShowSearchHelpText);
+        }
+
+        public void TryShowHelpLabel()
+        {
+            ShowSearchHelpText = searchStringLength < 1;
+            NotifyOfPropertyChange(() => ShowSearchHelpText);
         }
 
         public bool ShowSearchHelpText
@@ -266,7 +262,8 @@ namespace SCaddins.ExportManager.ViewModels
         {
             set
             {
-                ShowSearchHelpText = value.Length < 1;
+                searchStringLength = value.Length;
+                ShowSearchHelpText = searchStringLength < 1; 
                 NotifyOfPropertyChange(() => ShowSearchHelpText);
                 if (ViewSheetSets.ToList().Where(v => v.ToString() == value).Count() < 1)
                 {

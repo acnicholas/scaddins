@@ -43,14 +43,15 @@
             VerticalAlignment="Stretch"
             Margin="5"
             x:Name="ViewsetCombo"
+            cal:Message.Attach="[Event MouseEnter] = [HideHelpLabel()]; [Event MouseLeave] = [Action TryShowHelpLabel()"
             Grid.ColumnSpan="2" />
         <Label
             Grid.Row="0"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Foreground="DarkGray"
-            IsEnabled="False"
             Visibility="{Binding ShowSearchHelpText , Converter={StaticResource BoolToVis}}"
+            cal:Message.Attach="[Event MouseEnter] = [HideHelpLabel()]; [Event MouseLeave] = [Action TryShowHelpLabel()"
             >
              ? Type to search, or use the drop-down arrow to load a view set.
         </Label>
