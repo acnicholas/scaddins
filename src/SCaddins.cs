@@ -43,10 +43,6 @@ namespace SCaddins
 
         public static SCaddins.Common.WindowManager WindowManager
         {
-            set
-            {
-                windowManager = value;
-            }
             get
             {
                 if (bootstrapper == null)

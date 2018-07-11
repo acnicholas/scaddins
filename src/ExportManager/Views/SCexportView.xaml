@@ -43,7 +43,7 @@
             VerticalAlignment="Stretch"
             Margin="5"
             x:Name="ViewsetCombo"
-            cal:Message.Attach="[Event MouseEnter] = [HideHelpLabel()]; [Event MouseLeave] = [Action TryShowHelpLabel()"
+            cal:Message.Attach="[Event MouseEnter] = [HideHelpLabel()]"
             Grid.ColumnSpan="2" />
         <Label
             Grid.Row="0"
@@ -51,11 +51,9 @@
             VerticalAlignment="Center"
             Foreground="DarkGray"
             Visibility="{Binding ShowSearchHelpText , Converter={StaticResource BoolToVis}}"
-            cal:Message.Attach="[Event MouseEnter] = [HideHelpLabel()]; [Event MouseLeave] = [Action TryShowHelpLabel()"
-            >
-             ? Type to search, or use the drop-down arrow to load a view set.
+            cal:Message.Attach="[Event MouseEnter] = [HideHelpLabel()]">
+            ? Type to search, or use the drop-down arrow to load a view set.
         </Label>
-        <!--cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($source,$eventArgs)]"-->
         <DataGrid
             cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($source,$eventArgs)]"
             x:Name="Sheets"
