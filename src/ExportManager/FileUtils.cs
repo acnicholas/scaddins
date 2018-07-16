@@ -132,20 +132,17 @@ namespace SCaddins.ExportManager
 
             if (!ExportManager.ConfirmOverwrite) return true;
             if (File.Exists(fileName))
-            {
-                var confirmOverwriteDialog = new ViewModels.ConfirmationDialogViewModel();
-                confirmOverwriteDialog.Message = fileName + " exists," + Environment.NewLine +
-                        "do you want do overwrite the existing file?";
-                confirmOverwriteDialog.Value = true;
-                bool? result = SCaddinsApp.WindowManager.ShowDialog(confirmOverwriteDialog, null, ViewModels.ConfirmationDialogViewModel.DefaultWindowSettings);
+            {  
+                var message = fileName + " exists," + Environment.NewLine + "do you want do overwrite the existing file?";
+                bool confirmOverwriteDialog = true;
+                bool? result = SCaddinsApp.WindowManager.ShowConfirmationDialog(message, true, out confirmOverwriteDialog);
                 bool newBool = result.HasValue ? result.Value : false;
                 if (newBool) {
-                    ExportManager.ConfirmOverwrite = confirmOverwriteDialog.ValueAsBool;
-                    return confirmOverwriteDialog.ValueAsBool;
+                    ExportManager.ConfirmOverwrite = confirmOverwriteDialog;
+                    return newBool;
                 }
                 return false;
             }
-
             return true;
         }
 

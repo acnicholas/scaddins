@@ -19,22 +19,22 @@ namespace SCaddins.Common
             return true;
         }
 
-        public bool? ShowConfirmationDialog()
+        public bool? ShowConfirmationDialog(string message, bool? defaultCheckboxValue, out bool checkboxResult)
         {
-            var confirmOverwriteDialog = new ViewModels.ConfirmationDialogViewModel();
-            confirmOverwriteDialog.Message = fileName + " exists," + Environment.NewLine +
-                    "do you want do overwrite the existing file?";
-            confirmOverwriteDialog.Value = true;
-            bool? result = SCaddinsApp.WindowManager.ShowDialog(confirmOverwriteDialog, null, ViewModels.ConfirmationDialogViewModel.DefaultWindowSettings);
+            var confirmOverwriteDialog = new ExportManager.ViewModels.ConfirmationDialogViewModel();
+            confirmOverwriteDialog.Message = message;
+            confirmOverwriteDialog.Value = defaultCheckboxValue;
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(confirmOverwriteDialog, null, ExportManager.ViewModels.ConfirmationDialogViewModel.DefaultWindowSettings);
             bool newBool = result.HasValue ? result.Value : false;
             if (newBool) {
-                ExportManager.ConfirmOverwrite = confirmOverwriteDialog.ValueAsBool;
+                checkboxResult = confirmOverwriteDialog.ValueAsBool;
                 return confirmOverwriteDialog.ValueAsBool;
             }
+            checkboxResult = confirmOverwriteDialog.ValueAsBool;
             return false;
         }
 
-        public bool? ShowSaveAsDialog(string defaultFileName, string defaultExtension, string filter)
+        public bool? ShowSaveAsDialog(string defaultFileName, string defaultExtension, string filter, out string savePath)
         {
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
             dlg.FileName = defaultFileName; // Default file name
@@ -42,7 +42,9 @@ namespace SCaddins.Common
             //dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
             dlg.Filter = filter; // Filter files by extension
             //// Show save file dialog box
-            return dlg.ShowDialog();
+            bool? result = dlg.ShowDialog();
+            savePath = dlg.FileName;
+            return result;
         }
     }
 }

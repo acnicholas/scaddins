@@ -14,13 +14,15 @@ namespace SCaddins.Common
             return true;
         }
 
-        public bool? ShowConfirmationDialog()
+        public bool? ShowConfirmationDialog(string message, bool? defaultCheckboxValue, out bool checkboxResult)
         {
+            checkboxResult = true;
             return true;
         }
 
-        public bool? ShowSaveAsDialog()
+        public bool? ShowSaveAsDialog(string defaultFileName, string defaultExtension, string filter, out string savePath)
         {
+            savePath = defaultFileName;
             return true;
         }
     }

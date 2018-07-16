@@ -33,7 +33,6 @@ namespace SCaddins.ExportManager.ViewModels
             this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
             Sheets = CollectionViewSource.GetDefaultView(this.sheets);
             this.selectedViewSheetSet = null;
-            //SheetNameFilter = string.Empty;
             ShowSearchHelpText = true;
             CurrentProgress = 0;
             ProgressBarMaximum = 1;
@@ -353,7 +352,6 @@ namespace SCaddins.ExportManager.ViewModels
             NotifyOfPropertyChange(() => ProgressBarMaximum);
             System.Windows.Forms.Application.DoEvents();
             foreach (ExportSheet sheet in selectedSheets.OrderBy(x => x.SheetNumber).ToList()) {
-            //foreach (ExportSheet sheet in selectedSheets) {
                 CurrentProgress += 1;
                 exportManager.Print(sheet, PrinterName, printMode);
                 System.Windows.Forms.Application.DoEvents();

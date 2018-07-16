@@ -29,9 +29,15 @@ namespace SCaddins.Common
             return dialogService.ShowMessageBox(message);
         }
 
-        public bool? ShowSaveFileDialog(ref string resultPath)
+        public bool? ShowConfirmationDialog(string message, bool? defaultCheckboxValue, out bool checkboxResult)
         {
-            return dialogService.ShowSaveAsDialog();
+            checkboxResult = true;
+            return true;
+        }
+
+        public bool? ShowSaveFileDialog(string defaultFileName, string defaultExtension, string filter, out string savePath)
+        {
+            return dialogService.ShowSaveAsDialog(defaultFileName, defaultExtension, filter, out savePath);
         }
 
         public void ShowPopup(object rootModel, object context = null, IDictionary<string, object> settings = null)
