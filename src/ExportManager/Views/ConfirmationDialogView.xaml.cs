@@ -18,9 +18,9 @@ namespace SCaddins.ExportManager.Views
     /// <summary>
     /// Interaction logic for ConfirmationDialog.xaml
     /// </summary>
-    public partial class ConfirmationDialog : UserControl
+    public partial class ConfirmationDialogView : UserControl
     {
-        public ConfirmationDialog()
+        public ConfirmationDialogView()
         {
             InitializeComponent();
         }

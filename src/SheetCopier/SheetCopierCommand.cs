@@ -38,7 +38,6 @@ namespace SCaddins.SheetCopier
             }
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            SCaddins.ExportManager.DialogHandler.AddRevitDialogHandler(commandData.Application);
         
             Autodesk.Revit.DB.ViewSheet viewSheet = SheetCopierManager.ViewToViewSheet(doc.ActiveView);
             if (viewSheet == null) {

@@ -14,6 +14,11 @@ namespace SCaddins.Common
             return true;
         }
 
+        public bool? ShowConfirmationDialog()
+        {
+            return true;
+        }
+
         public bool? ShowSaveAsDialog()
         {
             return true;

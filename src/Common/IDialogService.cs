@@ -9,6 +9,7 @@ namespace SCaddins.Common
     public interface IDialogService
     {
         bool? ShowMessageBox(string message);
+        bool? ShowConfirmationDialog();
         bool? ShowSaveAsDialog();
     }
 }

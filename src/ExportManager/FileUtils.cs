@@ -133,16 +133,16 @@ namespace SCaddins.ExportManager
             if (!ExportManager.ConfirmOverwrite) return true;
             if (File.Exists(fileName))
             {
-                var s = fileName + " exists," + Environment.NewLine +
+                var confirmOverwriteDialog = new ViewModels.ConfirmationDialogViewModel();
+                confirmOverwriteDialog.Message = fileName + " exists," + Environment.NewLine +
                         "do you want do overwrite the existing file?";
-                //using (var dialog = new ConfirmationDialog(s))
-                //{
-                //    dialog.StartPosition =
-                //        System.Windows.Forms.FormStartPosition.CenterParent;
-                //    dialog.TopMost = true;
-                //    System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-                //    return result == System.Windows.Forms.DialogResult.Yes ? true : false;
-                //}
+                confirmOverwriteDialog.Value = true;
+                bool? result = SCaddinsApp.WindowManager.ShowDialog(confirmOverwriteDialog, null, ViewModels.ConfirmationDialogViewModel.DefaultWindowSettings);
+                bool newBool = result.HasValue ? result.Value : false;
+                if (newBool) {
+                    ExportManager.ConfirmOverwrite = confirmOverwriteDialog.ValueAsBool;
+                    return confirmOverwriteDialog.ValueAsBool;
+                }
                 return false;
             }
 

@@ -217,11 +217,6 @@ namespace SCaddins.ExportManager.ViewModels
             Sheets.Filter = filter;
         }
 
-        //public bool UserShouldEditValueNow
-        //{
-        //    get; set;
-        //}
-
         public ObservableCollection<ViewSheetSetCombo> ViewSheetSets
         {
             get { return exportManager.AllViewSheetSets; }
