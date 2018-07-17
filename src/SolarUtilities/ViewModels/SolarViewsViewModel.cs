@@ -16,11 +16,16 @@
 
         public SolarViewsViewModel(UIDocument uidoc)
         {
+            var uiapp = uidoc.Application;
+            var addInId = uiapp.ActiveAddInId;
+            var addIn = addInId.GetAddInName();
+            SCaddinsApp.WindowManager.ShowMessageBox(addIn);
 
             //TEST MSG BOX
             SCaddinsApp.WindowManager.ShowMessageBox("TEST MESSAGE");
             string outString = string.Empty;
-            SCaddinsApp.WindowManager.ShowSaveFileDialog("c:/temp/testit.txt", "*.txt", null, out outString);
+            SCaddinsApp.WindowManager.ShowSaveFileDialog("c:/temp/testit.txt", "*.txt", "Text documents (.txt)|*.txt", out outString);
+            SCaddinsApp.WindowManager.ShowMessageBox(outString);
 
             model = new SolarViews(uidoc);
             creationDate = new DateTime(2018, 06, 21);
