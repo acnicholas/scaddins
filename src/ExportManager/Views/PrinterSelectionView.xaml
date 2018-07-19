@@ -12,15 +12,15 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <GroupBox Header="Select Printer">
-            <ComboBox x:Name="Printers" VerticalAlignment="Center"></ComboBox>  
+            <ComboBox x:Name="Printers" Margin="5" VerticalAlignment="Center"></ComboBox>  
         </GroupBox>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" MinWidth="50">Cancel</Button>
-            <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" MinWidth="50">OK</Button>
+            <Button x:Name="Cancel" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="5" MinWidth="50">Cancel</Button>
+            <Button x:Name="OK" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="5" MinWidth="50">OK</Button>
         </Grid>
     </Grid>
 </UserControl>

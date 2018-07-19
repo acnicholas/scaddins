@@ -117,6 +117,8 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (value == exportManager.AcadVersion) return;
                 exportManager.AcadVersion = value;
+                Settings1.Default.AcadExportVersion = value;
+                Settings1.Default.Save();
             }
         }
 
@@ -149,7 +151,18 @@ namespace SCaddins.ExportManager.ViewModels
 
         public bool HideTitleBlocksForCadExports
         {
-            get; set;
+            get { return exportManager.HasExportOption(ExportOptions.NoTitle); }
+            set
+            {
+                if (value == exportManager.HasExportOption(ExportOptions.NoTitle)) return;
+                if (value) {
+                    exportManager.AddExportOption(ExportOptions.NoTitle);
+                } else {
+                    exportManager.RemoveExportOption(ExportOptions.NoTitle);
+                }
+                Settings1.Default.HideTitleBlocks = value;
+                Settings1.Default.Save();
+            }
         }
 
         public void CreateProjectConfigFile()
@@ -180,8 +193,8 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (value == exportManager.PdfPrinterName) return;
                 exportManager.PdfPrinterName = value;
-                SCaddins.ExportManager.Settings1.Default.AdobePrinterDriver = value;
-                SCaddins.ExportManager.Settings1.Default.Save();
+                Settings1.Default.AdobePrinterDriver = value;
+                Settings1.Default.Save();
                 NotifyOfPropertyChange(() => AdobePDFPrintDriverName);
             }
         }
@@ -189,15 +202,19 @@ namespace SCaddins.ExportManager.ViewModels
         public string SelectPrinter(string printerToSelect, string currentPrinter)
         {
             dynamic settings = new ExpandoObject();
-            settings.Height = 200;
-            settings.Width = 400;
+            settings.MinHeight = 150;
+            settings.MinWidth = 300;
             settings.Title = printerToSelect;
             settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+            settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
             settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
             var printerViewModel = new PrinterSelectionViewModel(currentPrinter);
-            SCaddinsApp.WindowManager.ShowDialog(printerViewModel, null, settings);
-            return printerViewModel.SelectedPrinter;
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(printerViewModel, null, settings);
+            if (result.HasValue)
+            {
+                return result.Value == true ? printerViewModel.SelectedPrinter : currentPrinter;
+            }
+            return currentPrinter;
         }
 
         public void SelectAdobePrinter()
@@ -266,7 +283,19 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (value == exportManager.GhostscriptBinDirectory) return;
                 exportManager.GhostscriptBinDirectory = value;
+                Settings1.Default.GSBinDirectory = value;
+                Settings1.Default.Save();
                 NotifyOfPropertyChange(() => GhostscriptBinLocation);
+            }
+        }
+
+        public void SelectGhostscriptBinLocation()
+        {
+            string path;
+            var result = SCaddinsApp.WindowManager.ShowDirectorySelectionDialog(GhostscriptBinLocation, out path);
+            if(result.HasValue && result.Value == true)
+            {
+                GhostscriptBinLocation = path;
             }
         }
 
@@ -277,6 +306,19 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (value == exportManager.GhostscriptLibDirectory) return;
                 exportManager.GhostscriptLibDirectory = value;
+                Settings1.Default.GSLibDirectory = value;
+                Settings1.Default.Save();
+                NotifyOfPropertyChange(() => GhostscriptLibLocation);
+            }
+        }
+
+        public void SelectGhostscriptLibLocation()
+        {
+            string path;
+            var result = SCaddinsApp.WindowManager.ShowDirectorySelectionDialog(GhostscriptLibLocation, out path);
+            if (result.HasValue && result.Value == true)
+            {
+                GhostscriptLibLocation = path;
             }
         }
 

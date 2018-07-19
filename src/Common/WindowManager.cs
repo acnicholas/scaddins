@@ -40,6 +40,11 @@ namespace SCaddins.Common
             return dialogService.ShowSaveAsDialog(defaultFileName, defaultExtension, filter, out savePath);
         }
 
+        public bool? ShowDirectorySelectionDialog(string defaultDir, out string dirPath)
+        {
+            return dialogService.ShowDirectorySelectionDialog(defaultDir, out dirPath);
+        }
+
         public void ShowPopup(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
             throw new NotImplementedException();

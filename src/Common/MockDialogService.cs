@@ -25,5 +25,11 @@ namespace SCaddins.Common
             savePath = defaultFileName;
             return true;
         }
+
+        public bool? ShowDirectorySelectionDialog(string defaultDir, out string dirPath)
+        {
+            dirPath = defaultDir;
+            return true;
+        }
     }
 }

@@ -39,12 +39,26 @@ namespace SCaddins.Common
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
             dlg.FileName = defaultFileName; // Default file name
             dlg.DefaultExt = defaultExtension; // Default file extension
-            //dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
             dlg.Filter = filter; // Filter files by extension
-            //// Show save file dialog box
             bool? result = dlg.ShowDialog();
             savePath = dlg.FileName;
             return result;
+        }
+
+        public bool? ShowDirectorySelectionDialog(string defaultDir, out string dirPath)
+        {
+            using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK) {
+                    dirPath = dialog.SelectedPath;
+                    return true;
+                } else
+                {
+                    dirPath = defaultDir;
+                    return false;
+                }
+            } 
         }
     }
 }

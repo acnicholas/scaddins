@@ -128,7 +128,7 @@ namespace SCaddins.ExportManager
             set
             {
                 if (value == Settings1.Default.AcadExportVersion) return;
-                value = Settings1.Default.AcadExportVersion;
+                Settings1.Default.AcadExportVersion = value;
             }
         }
 
