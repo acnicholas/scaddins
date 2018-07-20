@@ -177,7 +177,7 @@ namespace SCaddins.ExportManager.ViewModels
         public OpenSheetViewModel(Autodesk.Revit.DB.Document doc)
         {
             this.searchResults = new CollectionViewSource();
-            this.searchResults.Source = OpenSheet.ViewsInModel(doc);
+            this.searchResults.Source = OpenSheet.ViewsInModel(doc, true);
             selectedSearchResult = null;
             ctrlDown = false;
             SearchInput = string.Empty;

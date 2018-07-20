@@ -253,12 +253,12 @@ namespace SCaddins.ExportManager
 
         public static void OpenPreviousSheet(UIDocument udoc, ViewSheet view)
         {
-            //OpenSheet(udoc, view, -1);
+            OpenSheet.OpenNextSheet(udoc, view);
         }
 
         public static void OpenNextSheet(UIDocument udoc, ViewSheet view)
         {
-            //OpenSheet(udoc, view, 1);
+            OpenSheet.OpenPreviousSheet(udoc, view);
         }
 
         public static void FixScaleBars(ICollection<ExportSheet> sheets, Document doc)

@@ -23,7 +23,6 @@ namespace SCaddins.ExportManager
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    //using Caliburn.Micro;
     using System.Dynamic;
 
     [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
@@ -60,7 +59,28 @@ namespace SCaddins.ExportManager
             }
         }
 
-        public static List<OpenableView> ViewsInModel(Document doc)
+        public static void OpenNextSheet(UIDocument udoc, ViewSheet view)
+        {
+            OpenSheetByOrder(udoc, view, -1);
+        }
+
+        public static void OpenPreviousSheet(UIDocument udoc, ViewSheet view)
+        {
+            OpenSheetByOrder(udoc, view, 1);
+        }
+
+        private static void OpenSheetByOrder(UIDocument udoc, ViewSheet view, int offset)
+        {
+            List<OpenableView> list = ViewsInModel(udoc.Document, false).OrderBy(o => o.SheetNumber).ToList();
+            int index = list.IndexOf(list.Find(ov => ov.SheetNumber == view.SheetNumber));
+            if (index > -1) {
+                if (offset < 0 && index + offset < 0) return;
+                if (offset > 0 && index + offset >= list.Count) return;
+                list[index + offset].Open();
+            }
+        }
+
+        public static List<OpenableView> ViewsInModel(Document doc, bool includeViews)
         {
             var result = new List<OpenableView>();
             FilteredElementCollector collector = new FilteredElementCollector(doc);
@@ -68,10 +88,12 @@ namespace SCaddins.ExportManager
             foreach (ViewSheet view in collector) {
                 result.Add(new OpenableView(view.ViewName, view.SheetNumber, view));
             }
-            FilteredElementCollector collector2 = new FilteredElementCollector(doc);
-            var views = collector2.OfCategory(BuiltInCategory.OST_Views).Cast<View>().Where<View>(v => !v.IsTemplate);
-            foreach (View view in views) {
-                result.Add(new OpenableView(view.Name, string.Empty, view));
+            if (includeViews) {
+                FilteredElementCollector collector2 = new FilteredElementCollector(doc);
+                var views = collector2.OfCategory(BuiltInCategory.OST_Views).Cast<View>().Where<View>(v => !v.IsTemplate);
+                foreach (View view in views) {
+                    result.Add(new OpenableView(view.Name, string.Empty, view));
+                }
             }
             return result;
         }

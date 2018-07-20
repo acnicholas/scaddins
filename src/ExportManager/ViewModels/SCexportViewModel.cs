@@ -7,7 +7,6 @@ using Caliburn.Micro;
 using System.Linq;
 using System.Dynamic;
 using System.Text.RegularExpressions;
-using Hardcodet.Wpf.TaskbarNotification;
 
 namespace SCaddins.ExportManager.ViewModels
 {
@@ -68,7 +67,6 @@ namespace SCaddins.ExportManager.ViewModels
                 NotifyOfPropertyChange(() => Sheets);
             }
         }
-
 
         public ExportSheet SelectedSheet
         {
