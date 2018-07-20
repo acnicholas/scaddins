@@ -261,7 +261,13 @@ namespace SCaddins.ExportManager.ViewModels
                 NotifyOfPropertyChange(() => ShowSearchHelpText);
                 if (ViewSheetSets.ToList().Where(v => v.ToString() == value).Count() < 1)
                 {
-                    var filter = new System.Predicate<object>(item => ((ExportSheet)item).SheetDescription.Contains(value));
+                    var filter = new System.Predicate<object>
+                        (
+                        item =>
+                            -1 < ((ExportSheet)item).SheetDescription.IndexOf(value, System.StringComparison.OrdinalIgnoreCase)
+                                ||
+                            -1 < ((ExportSheet)item).SheetNumber.IndexOf(value, System.StringComparison.OrdinalIgnoreCase)
+                        );
                     Sheets.Filter = filter;
                     NotifyOfPropertyChange(() => Sheets);
                 } else
