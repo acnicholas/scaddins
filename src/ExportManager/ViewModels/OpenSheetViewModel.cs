@@ -144,8 +144,15 @@ namespace SCaddins.ExportManager.ViewModels
                 TryClose();
             }
             if (args.Key == System.Windows.Input.Key.Enter) {
-                selectedSearchResult.Open();
-                TryClose();
+                if (selectedSearchResult != null) {
+                    selectedSearchResult.Open();
+                    TryClose();
+                }
+                if (!SearchResults.IsEmpty) {
+                    SelectNext();
+                    selectedSearchResult.Open();
+                    TryClose();
+                }        
             }
             if (ctrlDown && args.Key == System.Windows.Input.Key.J)
             {
