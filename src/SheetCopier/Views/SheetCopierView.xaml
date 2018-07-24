@@ -115,7 +115,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
-            <GridSplitter Grid.Row="1" Height="Auto" Width="Auto"></GridSplitter>
+            <GridSplitter Grid.Row="1" Height="5" Width="Auto"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"></GridSplitter>
             <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
@@ -181,6 +181,6 @@
                 </DataGrid>
             </Grid>
         </Grid>
-        <Button x:Name="Go" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" MinWidth="50" Margin="5">Go</Button>
+        <Button x:Name="Go" Content="{Binding GoLabel}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" MinWidth="50" Margin="5"></Button>
     </Grid>
 </UserControl>

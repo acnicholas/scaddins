@@ -131,12 +131,14 @@ namespace SCaddins.SheetCopier.ViewModels
         public void AddCurrentSheet()
         {
             copyManager.AddCurrentSheet();
+            NotifyOfPropertyChange(() => GoLabel);
         }
 
         public void RemoveSheetSelection()
         {
             foreach (var s in selectedSheets.ToList())
                 Sheets.Remove(s);
+            NotifyOfPropertyChange(() => GoLabel);
         }
 
         public void RemoveSelectedViews()
@@ -150,12 +152,18 @@ namespace SCaddins.SheetCopier.ViewModels
             if (SelectedSheet.SourceSheet != null)
             {
                 copyManager.AddSheet(SelectedSheet.SourceSheet);
+                NotifyOfPropertyChange(() => GoLabel);
             }
         }
 
         public void Go()
         {
             copyManager.CreateSheets();
+        }
+
+        public string GoLabel
+        {
+            get { return "Copy " + Sheets.Count + " Sheets"; }
         }
 
         public void AddSheets(List<SCaddins.ExportManager.ExportSheet> selectedSheets)
