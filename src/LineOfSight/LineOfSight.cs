@@ -303,6 +303,9 @@ namespace SCaddins.LineOfSight
                     }
                 }
                 t.Commit();
+
+                Autodesk.Revit.UI.UIDocument uidoc = new Autodesk.Revit.UI.UIDocument(doc);
+                uidoc.ActiveView = view;
             }
         }
 
