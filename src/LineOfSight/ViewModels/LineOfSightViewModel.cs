@@ -130,6 +130,7 @@ namespace SCaddins.LineOfSight.ViewModels
             }
             set
             {
+                if (value < 1) return;
                 lineOfSight.RiserIncrement = value;
                 NotifyOfPropertyChange(() => RiserIncrement);
                 NotifyOfPropertyChange(() => InfoString);
