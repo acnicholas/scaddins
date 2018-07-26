@@ -22,10 +22,10 @@
             SCaddinsApp.WindowManager.ShowMessageBox(addIn);
 
             //TEST MSG BOX
-            SCaddinsApp.WindowManager.ShowMessageBox("TEST MESSAGE");
-            string outString = string.Empty;
-            SCaddinsApp.WindowManager.ShowSaveFileDialog("c:/temp/testit.txt", "*.txt", "Text documents (.txt)|*.txt", out outString);
-            SCaddinsApp.WindowManager.ShowMessageBox(outString);
+            //SCaddinsApp.WindowManager.ShowMessageBox("TEST MESSAGE");
+            //string outString = string.Empty;
+            //SCaddinsApp.WindowManager.ShowSaveFileDialog("c:/temp/testit.txt", "*.txt", "Text documents (.txt)|*.txt", out outString);
+            //SCaddinsApp.WindowManager.ShowMessageBox(outString);
 
             model = new SolarViews(uidoc);
             creationDate = new DateTime(2018, 06, 21);

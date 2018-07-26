@@ -34,22 +34,25 @@ namespace SCaddins.RevisionUtilities
     public static class RevisionUtilities
     {
         [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", Justification = "Because.")]        
-        public static void ExportCloudInfo(Document doc, Dictionary<string, RevisionItem> dictionary, string exportFilename)
+        public static void ExportCloudInfo(Document doc, List<RevisionItem> revisions, string exportFilename)
         {
-            if (doc == null || dictionary == null) {
+            if (doc == null) {
                 TaskDialog.Show("ERROR", "could not export cloud information");
                 return;
             }
 
-            //var dictionary = new Dictionary<string, RevisionItem>();
-            //foreach (RevisionItem rev in this.SelectedRevisionItems()) {
-            //    if (rev != null) {
-            //        string s = rev.Date + rev.Description;
-            //        if (!dictionary.ContainsKey(s)) {
-            //            dictionary.Add(s, rev);
-            //        }
-            //    }
-            //}
+            var dictionary = new Dictionary<string, RevisionItem>();
+            foreach (RevisionItem rev in revisions)
+            {
+                if (rev != null)
+                {
+                    string s = rev.Date + rev.Description;
+                    if (!dictionary.ContainsKey(s))
+                    {
+                        dictionary.Add(s, rev);
+                    }
+                }
+            }
 
             string ExportFilename = string.IsNullOrEmpty(exportFilename) ? @"C:\Temp\SClouds" : exportFilename;
             Application excelApp;
