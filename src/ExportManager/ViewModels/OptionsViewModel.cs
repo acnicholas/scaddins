@@ -79,6 +79,16 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public void SelectExportDirectory()
+        {
+            string dir;
+            var result = SCaddinsApp.WindowManager.ShowDirectorySelectionDialog(GhostscriptLibLocation, out dir);
+            if (result.HasValue && result.Value == true)
+            {
+                ExportDirectory = dir;
+            }
+        }
+
         public string ScaleBarScaleParameterName
         {
             get { return SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter; }
@@ -322,9 +332,15 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public bool AlwaysShowExportLog
+        public bool ShowSummaryLog
         {
-            get; set;
+            get { return SCaddins.ExportManager.Settings1.Default.ShowExportLog; }
+            set
+            {
+                if (value == SCaddins.ExportManager.Settings1.Default.ShowExportLog) return;
+                SCaddins.ExportManager.Settings1.Default.ShowExportLog = value;
+                SCaddins.ExportManager.Settings1.Default.Save();
+            }
         }
     }
 }

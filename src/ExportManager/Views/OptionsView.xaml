@@ -37,11 +37,13 @@
                     <GroupBox Header="Export Destination" Grid.Row="1" Margin="5">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="Default Export Directory" VerticalAlignment="Center" Margin="5"></Label>
+                            <Label Grid.Column="0" Content="Default Export Directory" VerticalAlignment="Center" Margin="5" HorizontalAlignment="Left"></Label>
                             <TextBox x:Name="ExportDirectory" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></TextBox>
+                            <Button x:Name="SelectExportDirectory" Grid.Column="2" Grid.Row="1" Margin="5" HorizontalAlignment="Right" MaxWidth="20">...</Button>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Title Block Parameters" Grid.Row="2" Margin="5">
@@ -111,9 +113,9 @@
                     <GroupBox Header="Printer Options" Grid.Row="1" Margin="5">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
@@ -121,18 +123,18 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Margin="5">Adobe PDF Driver</Label>
-                            <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="5">Postscript Printer Name</Label>
-                            <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Margin="5">A3 Printer Name</Label>
-                            <Label Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Margin="5">Large Format Printer Name</Label>
+                            <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left"  Margin="5">Adobe PDF Driver</Label>
+                            <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">Postscript Printer Name</Label>
+                            <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">A3 Printer Name</Label>
+                            <Label Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">Large Format Printer Name</Label>
                             <TextBox x:Name="AdobePDFPrintDriverName" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5"></TextBox>
                             <TextBox x:Name="PostscriptPrintDriverName" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></TextBox>
                             <TextBox x:Name="A3PrinterName" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="5"></TextBox>
                             <TextBox x:Name="LargeFormatPrinterName" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="5"></TextBox>
-                            <Button x:Name="SelectAdobePrinter" Grid.Column="2" Grid.Row="0" Margin="5" MaxWidth="20">...</Button>
-                            <Button x:Name="SelectPostscriptPrinter" Grid.Column="2" Grid.Row="1" Margin="5" MaxWidth="20">...</Button>
-                            <Button x:Name="SelectA3Printer" Grid.Column="2" Grid.Row="2" Margin="5" MaxWidth="20">...</Button>
-                            <Button x:Name="SelectLargeFormatPrinter" Grid.Column="2" Grid.Row="3" Margin="5" MaxWidth="20">...</Button>
+                            <Button x:Name="SelectAdobePrinter" Grid.Column="2" Grid.Row="0" Margin="5" HorizontalAlignment="Right" MaxWidth="20">...</Button>
+                            <Button x:Name="SelectPostscriptPrinter" Grid.Column="2" Grid.Row="1" Margin="5" HorizontalAlignment="Right" MaxWidth="20">...</Button>
+                            <Button x:Name="SelectA3Printer" Grid.Column="2" Grid.Row="2" Margin="5" HorizontalAlignment="Right" MaxWidth="20">...</Button>
+                            <Button x:Name="SelectLargeFormatPrinter" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Right" Margin="5" MaxWidth="20">...</Button>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Ghostscript Options" Grid.Row="2" Margin="5">
@@ -154,7 +156,7 @@
                             <Button x:Name="SelectGhostscriptLibLocation" Grid.Column="2" Grid.Row="1" Margin="5" MaxWidth="20">...</Button>
                         </Grid>
                     </GroupBox>
-                    <CheckBox Grid.Row="3" Grid.Column="0" Margin="5">Show Export Log after completion(will always show on an error</CheckBox>
+                    <CheckBox x:Name="ShowSummaryLog" Grid.Row="3" Grid.Column="0" Margin="5">Show Export Log after completion(will always show on an error</CheckBox>
                 </Grid>
             </TabItem>
         </TabControl>
