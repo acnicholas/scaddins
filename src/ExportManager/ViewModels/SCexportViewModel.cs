@@ -337,27 +337,27 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void PrintFullsize()
         {
-            Print(exportManager.PrinterNameLargeFormat, 1);
+            Print(exportManager.PrinterNameLargeFormat, 1, null);
         }
 
         public void PrintA3()
         {
-            Print(exportManager.PrinterNameA3, 3);
+            Print(exportManager.PrinterNameA3, 3, null);
         }
 
         public void PrintA2()
         {
-            Print(exportManager.PrinterNameLargeFormat, 2);
+            Print(exportManager.PrinterNameLargeFormat, 2, null);
         }
 
-        public void Print(string PrinterName, int printMode)
+        public void Print(string PrinterName, int printMode, ExportLog log)
         {
             ProgressBarMaximum = selectedSheets.Count;
             NotifyOfPropertyChange(() => ProgressBarMaximum);
             System.Windows.Forms.Application.DoEvents();
             foreach (ExportSheet sheet in selectedSheets.OrderBy(x => x.SheetNumber).ToList()) {
                 CurrentProgress += 1;
-                exportManager.Print(sheet, PrinterName, printMode);
+                exportManager.Print(sheet, PrinterName, printMode, log);
                 System.Windows.Forms.Application.DoEvents();
             }
             CurrentProgress = 0;

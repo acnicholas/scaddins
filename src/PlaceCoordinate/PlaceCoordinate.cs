@@ -14,9 +14,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCoord
+namespace SCaddins.PlaceCoordinate
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Globalization;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -38,8 +40,12 @@ namespace SCaddins.SCoord
             }
             UIDocument udoc = commandData.Application.ActiveUIDocument;
             Document doc = udoc.Document;
-            PlaceMGA(doc);
-            return Autodesk.Revit.UI.Result.Succeeded;
+            //PlaceMGA(doc,);
+
+            var vm = new ViewModels.PlaceCoordinateViewModel(doc);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, PlaceCoordinate.ViewModels.PlaceCoordinateViewModel.DefaultWindowSettings);
+
+            return Result.Succeeded;
         }
 
         private static XYZ ToMGA(ProjectPosition projectPosition, double x, double y, double z)
@@ -51,10 +57,23 @@ namespace SCaddins.SCoord
             yp = (y / FeetToInches) - projectPosition.NorthSouth;
             nx = (xp * Math.Cos(-ang)) - (yp * Math.Sin(-ang));
             ny = (xp * Math.Sin(-ang)) + (yp * Math.Cos(-ang));
-            return new XYZ(nx, ny, z / FeetToInches);
+            return new XYZ(nx, ny, projectPosition.Elevation / FeetToInches);
         }
 
-        private static FamilySymbol GetSpotCoordFamily(Document doc)
+        public static List<FamilySymbol> GetAllFamilySymbols(Document doc)
+        {
+            List<FamilySymbol> result = new List<FamilySymbol>();
+            using (var collector = new FilteredElementCollector(doc)) {
+                collector.OfCategory(BuiltInCategory.OST_GenericModel);
+                collector.OfClass(typeof(FamilySymbol));
+                foreach(FamilySymbol fs in collector) {
+                    result.Add(fs);
+                }
+            }
+            return result;
+        }
+
+        public static FamilySymbol GetSpotCoordFamily(Document doc)
         {
             using (var collector = new FilteredElementCollector(doc)) {
                 collector.OfCategory(BuiltInCategory.OST_GenericModel);
@@ -87,29 +106,10 @@ namespace SCaddins.SCoord
             return null;
         }
 
-        private static Level GetLevelZero(Document doc)
-        {
-            using (var collector1 = new FilteredElementCollector(doc)) {
-                collector1.OfClass(typeof(Level));
-                foreach (Level l in collector1) {
-                    if (l.Name.ToUpper(CultureInfo.CurrentCulture).Contains("SEA")) {
-                        return l;
-                    }
-                    if (l.Name.ToUpper(CultureInfo.CurrentCulture).Contains("ZERO")) {
-                        return l;
-                    }
-                }
-            }
-            TaskDialog.Show("SCoord", "Sea level not found.");
-            return null;
-        }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        private static void PlaceMGA(Document doc)
+        public static void PlaceMGA(Document doc, FamilySymbol family, XYZ location)
         {
-            Level levelZero = GetLevelZero(doc);
-            FamilySymbol family = GetSpotCoordFamily(doc);
-            if (levelZero == null || family == null) {
+            if (doc == null || family == null) {
                 return;
             }
 
@@ -121,27 +121,14 @@ namespace SCaddins.SCoord
             ProjectPosition projectPosition = currentLocation.get_ProjectPosition(origin);
             #endif
 
-            var form = new SCoordForm();
-            System.Windows.Forms.DialogResult r = form.ShowDialog();
+            XYZ newLocation = ToMGA(projectPosition, location.X, location.Y, location.Z);
 
-            if (r == System.Windows.Forms.DialogResult.Cancel) {
-                return;
-            }
-
-            double x = Convert.ToDouble(form.textBoxEW.Text, CultureInfo.CurrentCulture);
-            double y = Convert.ToDouble(form.textBoxNS.Text, CultureInfo.CurrentCulture);
-            double z = Convert.ToDouble(form.textBoxElevation.Text, CultureInfo.CurrentCulture);
-            XYZ newLocation = ToMGA(projectPosition, x, y, z);
-
-            using (var t = new Transaction(doc, "Place SCoord")) {
+            using (var t = new Transaction(doc, "Place Family at Coordinate.")) {
                 if (t.Start() == TransactionStatus.Started) {
                     FamilyInstance fi = doc.Create.NewFamilyInstance(
                                             newLocation,
                                             family,
-                                            levelZero,
                                             Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
-                    Parameter p = fi.LookupParameter("Z");
-                    p.Set(newLocation.Z);
                     t.Commit();
                 }
             }

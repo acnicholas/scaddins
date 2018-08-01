@@ -326,6 +326,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>IncrementSettings.settings</DependentUpon>
     </Compile>
+    <Compile Include="PlaceCoordinate\ViewModels\PlaceCoordinateViewModel.cs" />
+    <Compile Include="PlaceCoordinate\Views\PlaceCoordinateView.xaml.cs">
+      <DependentUpon>PlaceCoordinateView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -530,6 +534,10 @@
     <Page Include="LineOfSight\Views\LineOfSightView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PlaceCoordinate\Views\PlaceCoordinateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RenameUtilities\Views\RenameUtilitiesView.xaml">
       <SubType>Designer</SubType>
