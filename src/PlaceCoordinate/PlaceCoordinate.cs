@@ -48,16 +48,20 @@ namespace SCaddins.PlaceCoordinate
             return Result.Succeeded;
         }
 
-        private static XYZ ToMGA(ProjectPosition projectPosition, double x, double y, double z)
+        private static XYZ ToMGA(ProjectPosition projectPosition, double x, double y, double z, bool useSurveyCoords)
         {
+            if (!useSurveyCoords) {
+                return new XYZ(x / FeetToInches, y / FeetToInches, z / FeetToInches);
+            }
+
             double xp, yp;
             double ang = projectPosition.Angle;
             double nx, ny;
-            xp = (x / FeetToInches) - projectPosition.EastWest;
-            yp = (y / FeetToInches) - projectPosition.NorthSouth;
-            nx = (xp * Math.Cos(-ang)) - (yp * Math.Sin(-ang));
-            ny = (xp * Math.Sin(-ang)) + (yp * Math.Cos(-ang));
-            return new XYZ(nx, ny, projectPosition.Elevation / FeetToInches);
+            xp = useSurveyCoords ? (x / FeetToInches) - projectPosition.EastWest : x / FeetToInches - projectPosition.EastWest;
+            yp = useSurveyCoords ? (y / FeetToInches) - projectPosition.NorthSouth: y / FeetToInches - projectPosition.NorthSouth;
+            nx = useSurveyCoords ? (xp * Math.Cos(-ang)) - (yp * Math.Sin(-ang)) : xp;
+            ny = useSurveyCoords ? (xp * Math.Sin(-ang)) + (yp * Math.Cos(-ang)) : yp;
+            return new XYZ(nx, ny, -projectPosition.Elevation + z / FeetToInches);
         }
 
         public static List<FamilySymbol> GetAllFamilySymbols(Document doc)
@@ -73,20 +77,16 @@ namespace SCaddins.PlaceCoordinate
             return result;
         }
 
-        public static FamilySymbol GetSpotCoordFamily(Document doc)
+        public static FamilySymbol GetSpotCoordFamily(List<FamilySymbol> familes, Document doc)
         {
-            using (var collector = new FilteredElementCollector(doc)) {
-                collector.OfCategory(BuiltInCategory.OST_GenericModel);
-                collector.OfClass(typeof(FamilySymbol));
-                foreach (FamilySymbol f in collector) {
+                foreach (FamilySymbol f in familes) {
                     if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture))) {
                         return f;
                     }
                 }
-            }
-            string version = doc.Application.VersionNumber;
-            string family = SCaddins.Constants.FamilyDirectory +
-                            version + @"\SC-Survey_Point.rfa";
+            string version =  doc.Application.VersionNumber;
+            //string version = "2015";
+            string family = SCaddins.Constants.FamilyDirectory + version + @"\SC-Survey_Point.rfa";
             if (System.IO.File.Exists(family)) {
                 Family fam;
                 using (var loadFamily = new Transaction(doc, "Load Family")) {
@@ -95,7 +95,7 @@ namespace SCaddins.PlaceCoordinate
                     loadFamily.Commit();
                 }
                 System.Collections.Generic.ISet<ElementId> sids = fam.GetFamilySymbolIds();
-                foreach (ElementId id in sids) {   
+                foreach (ElementId id in sids) {
                     var f = doc.GetElement(id) as FamilySymbol;
                     if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture))) {
                         return f;
@@ -107,7 +107,7 @@ namespace SCaddins.PlaceCoordinate
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        public static void PlaceMGA(Document doc, FamilySymbol family, XYZ location)
+        public static void PlaceFamilyAtCoordinate(Document doc, FamilySymbol family, XYZ location, bool useSharedCoordinates)
         {
             if (doc == null || family == null) {
                 return;
@@ -121,14 +121,18 @@ namespace SCaddins.PlaceCoordinate
             ProjectPosition projectPosition = currentLocation.get_ProjectPosition(origin);
             #endif
 
-            XYZ newLocation = ToMGA(projectPosition, location.X, location.Y, location.Z);
+            XYZ newLocation = ToMGA(projectPosition, location.X, location.Y, location.Z, useSharedCoordinates);
 
             using (var t = new Transaction(doc, "Place Family at Coordinate.")) {
                 if (t.Start() == TransactionStatus.Started) {
+                    if (!family.IsActive) {
+                        family.Activate();
+                        doc.Regenerate();
+                    }
                     FamilyInstance fi = doc.Create.NewFamilyInstance(
-                                            newLocation,
-                                            family,
-                                            Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
+                        newLocation,
+                        family,
+                        Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
                     t.Commit();
                 }
             }

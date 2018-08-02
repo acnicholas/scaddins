@@ -15,6 +15,7 @@ namespace SCaddins.PlaceCoordinate.ViewModels
         public PlaceCoordinateViewModel(Document doc)
         {
             this.doc = doc;
+            UseSharedCoordinates = true;
             familiesInModel = SCaddins.PlaceCoordinate.Command.GetAllFamilySymbols(doc);
         }
 
@@ -33,12 +34,17 @@ namespace SCaddins.PlaceCoordinate.ViewModels
             get; set;
         }
 
-        public FamilySymbol SelectedFamily
+        public bool UseSharedCoordinates
         {
             get; set;
         }
 
-        public List<Autodesk.Revit.DB.FamilySymbol> Families
+        public FamilySymbol SelectedFamilySymbol
+        {
+            get; set;
+        }
+
+        public List<Autodesk.Revit.DB.FamilySymbol> FamilySymbols
         {
             get { return familiesInModel; }
         }
@@ -60,6 +66,11 @@ namespace SCaddins.PlaceCoordinate.ViewModels
             }
         }
 
+        public void LoadSpotCoordinateFamily()
+        {
+            Command.GetSpotCoordFamily(FamilySymbols, doc);
+        }
+
         public void Cancel()
         {
             TryClose(false);
@@ -67,6 +78,7 @@ namespace SCaddins.PlaceCoordinate.ViewModels
 
         public void PlaceFamilyAtCoordinate()
         {
+            Command.PlaceFamilyAtCoordinate(doc, SelectedFamilySymbol, new XYZ(XCoordinate, YCoordinate, ZCoordinate), UseSharedCoordinates);
             TryClose(true);
         }
     }

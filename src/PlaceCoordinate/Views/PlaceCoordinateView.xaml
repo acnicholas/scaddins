@@ -32,12 +32,14 @@
                 <Label Grid.Column="0" Grid.Row="1" Margin="5">North / South</Label>
                 <TextBox x:Name="YCoordinate" Grid.Column="1" Grid.Row="1" Margin="5"></TextBox>
                 <Label Grid.Column="0" Grid.Row="2" Margin="5">Elevation</Label>
-                <TextBox x:Name="Elevation" Grid.Column="1" Grid.Row="2" Margin="5"></TextBox>
+                <TextBox x:Name="ZCoordinate" Grid.Column="1" Grid.Row="2" Margin="5"></TextBox>
             </Grid>   
         </GroupBox>
         <GroupBox Grid.Row="2" Header="Advanced Settings">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -45,7 +47,10 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" Margin="5">Family (Generic Models Only)</Label>
-                <ComboBox x:Name="Families" DisplayMemberPath="Name" Grid.Column="1" Grid.Row="0" Margin="5"></ComboBox>
+                <ComboBox x:Name="FamilySymbols" DisplayMemberPath="Name" Grid.Column="1" Grid.Row="0" Margin="5"></ComboBox>
+                <Label Grid.Column="0" Grid.Row="1" Margin="5">Spot Coordinate Family</Label>
+                <Button x:Name="LoadSpotCoordinateFamily" Grid.Column="1" Grid.Row="1" Margin="5">Load</Button>
+                <CheckBox Margin="5" Grid.Row="2" Grid.ColumnSpan="2" x:Name="UseSharedCoordinates">Use Survey Point (Uncheck model origin)</CheckBox>
             </Grid>
         </GroupBox>
         <Grid Grid.Row="3" VerticalAlignment="Bottom">
@@ -54,7 +59,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Button x:Name="Cancel" Grid.Column="0" Width="Auto" HorizontalAlignment="Left" MinWidth="75" Margin="5">Cancel</Button>
-            <Button x:Name="PlaceFamily" Grid.Column="1" Width="Auto"  HorizontalAlignment="Right" MinWidth="75" Margin="5">Place Family</Button>
+            <Button x:Name="PlaceFamilyAtCoordinate" Grid.Column="1" Width="Auto"  HorizontalAlignment="Right" MinWidth="75" Margin="5">Place Family</Button>
         </Grid>
     </Grid>
 </UserControl>
