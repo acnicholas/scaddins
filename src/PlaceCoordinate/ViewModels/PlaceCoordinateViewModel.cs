@@ -1,6 +1,5 @@
 ﻿
 using System.Collections.Generic;
-using System.Linq;
 using Autodesk.Revit.DB;
 using Caliburn.Micro;
 
@@ -8,15 +7,23 @@ namespace SCaddins.PlaceCoordinate.ViewModels
 {
     class PlaceCoordinateViewModel : Screen
     {
-        private List<Autodesk.Revit.DB.Level> levelsInModel;
         private List<Autodesk.Revit.DB.FamilySymbol> familiesInModel;
+        private FamilySymbol selectedFamilySymbol;
         private Document doc;
+        private bool useSharedCoordinates;
 
         public PlaceCoordinateViewModel(Document doc)
         {
             this.doc = doc;
-            UseSharedCoordinates = true;
-            familiesInModel = SCaddins.PlaceCoordinate.Command.GetAllFamilySymbols(doc);
+            useSharedCoordinates = true;
+            familiesInModel = Command.GetAllFamilySymbols(doc);
+            selectedFamilySymbol = Command.TryGetDefaultSpotCoordFamily(familiesInModel, doc);
+            if (selectedFamilySymbol == null) {
+                selectedFamilySymbol = Command.TryLoadDefaultSpotCoordFamily(familiesInModel, doc); 
+                if (selectedFamilySymbol != null) {
+                    familiesInModel.Add(selectedFamilySymbol);
+                }
+            }
         }
 
         public double XCoordinate
@@ -34,19 +41,75 @@ namespace SCaddins.PlaceCoordinate.ViewModels
             get; set;
         }
 
+        public string XCoordinateLabel
+        {
+            get
+            {
+                return UseSharedCoordinates ? "East / West" : "X Value";
+            }
+        }
+
+        public string YCoordinateLabel
+        {
+            get
+            {
+                return UseSharedCoordinates ? "North / South" : "Y Value";
+            }
+        }
+
+        public string ZCoordinateLabel
+        {
+            get
+            {
+                return UseSharedCoordinates ? "Elevation" : "Z Value";
+            }
+        }
+
+
         public bool UseSharedCoordinates
         {
-            get; set;
+            get { return useSharedCoordinates; }
+            set
+            {
+                if (value != useSharedCoordinates)
+                {
+                    useSharedCoordinates = value;
+                    NotifyOfPropertyChange(() => XCoordinateLabel);
+                    NotifyOfPropertyChange(() => YCoordinateLabel);
+                    NotifyOfPropertyChange(() => ZCoordinateLabel);
+                }
+            }
         }
 
         public FamilySymbol SelectedFamilySymbol
         {
-            get; set;
+            get
+            {
+                return selectedFamilySymbol;
+            }
+            set
+            {
+                if (value != selectedFamilySymbol)
+                {
+                    selectedFamilySymbol = value;
+                    NotifyOfPropertyChange(() => SelectedFamilySymbol);
+                    NotifyOfPropertyChange(() => PlaceFamilyAtCoordinateIsEnabled);
+                }
+            }
         }
 
         public List<Autodesk.Revit.DB.FamilySymbol> FamilySymbols
         {
-            get { return familiesInModel; }
+            get {
+                return familiesInModel;
+            } set
+            {
+                if (value != familiesInModel)
+                {
+                    familiesInModel = value;
+                    NotifyOfPropertyChange(() => FamilySymbols);
+                }
+            }
         }
 
         public static dynamic DefaultWindowSettings
@@ -66,11 +129,6 @@ namespace SCaddins.PlaceCoordinate.ViewModels
             }
         }
 
-        public void LoadSpotCoordinateFamily()
-        {
-            Command.GetSpotCoordFamily(FamilySymbols, doc);
-        }
-
         public void Cancel()
         {
             TryClose(false);
@@ -80,6 +138,12 @@ namespace SCaddins.PlaceCoordinate.ViewModels
         {
             Command.PlaceFamilyAtCoordinate(doc, SelectedFamilySymbol, new XYZ(XCoordinate, YCoordinate, ZCoordinate), UseSharedCoordinates);
             TryClose(true);
+        }
+
+        public bool PlaceFamilyAtCoordinateIsEnabled
+        {
+            //get { return false; }
+            get { return SelectedFamilySymbol != null; }
         }
     }
 }

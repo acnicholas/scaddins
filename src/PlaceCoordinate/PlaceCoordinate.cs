@@ -48,6 +48,17 @@ namespace SCaddins.PlaceCoordinate
             return Result.Succeeded;
         }
 
+        public static string DefaultSpotCoordinateFamilyName(Document doc)
+        {
+            string version = doc.Application.VersionNumber;
+            return SCaddins.Constants.FamilyDirectory + version + @"\SC-Survey_Point.rfa";
+        }
+
+        public static bool DefaultSpotCoordinateFamilyExists(Document doc)
+        {
+            return System.IO.File.Exists(DefaultSpotCoordinateFamilyName(doc));
+        }
+
         private static XYZ ToMGA(ProjectPosition projectPosition, double x, double y, double z, bool useSurveyCoords)
         {
             if (!useSurveyCoords) {
@@ -77,21 +88,26 @@ namespace SCaddins.PlaceCoordinate
             return result;
         }
 
-        public static FamilySymbol GetSpotCoordFamily(List<FamilySymbol> familes, Document doc)
+        public static FamilySymbol TryGetDefaultSpotCoordFamily(List<FamilySymbol> familes, Document doc)
         {
-                foreach (FamilySymbol f in familes) {
-                    if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture))) {
-                        return f;
-                    }
+            foreach (FamilySymbol f in familes)
+            {
+                if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture)))
+                {
+                    return f;
                 }
-            string version =  doc.Application.VersionNumber;
-            //string version = "2015";
-            string family = SCaddins.Constants.FamilyDirectory + version + @"\SC-Survey_Point.rfa";
-            if (System.IO.File.Exists(family)) {
+            }
+            return null;
+        }
+
+        public static FamilySymbol TryLoadDefaultSpotCoordFamily(List<FamilySymbol> familes, Document doc)
+        {           
+            if (DefaultSpotCoordinateFamilyExists(doc)) {
                 Family fam;
                 using (var loadFamily = new Transaction(doc, "Load Family")) {
                     loadFamily.Start();
-                    doc.LoadFamily(family, out fam);
+                    doc.LoadFamily(DefaultSpotCoordinateFamilyName(doc), out fam);
+                    doc.Regenerate();
                     loadFamily.Commit();
                 }
                 System.Collections.Generic.ISet<ElementId> sids = fam.GetFamilySymbolIds();
