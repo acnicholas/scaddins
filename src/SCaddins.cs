@@ -153,6 +153,7 @@ namespace SCaddins
             ribbonPanel.AddSlideOut();
 
             ribbonPanel.AddStackedItems(
+                LoadSCoord(scdll),
                 LoadAbout(scdll),
                 LoadSCincrementSettings(scdll));
 
@@ -208,7 +209,7 @@ namespace SCaddins
 
         private static PushButtonData LoadSCoord(string dll) {
             var pbd = new PushButtonData(
-                           "Scoord", Resources.PlaceCoordinate, dll, "SCaddins.SCoord.Command");
+                           "Scoord", Resources.PlaceCoordinate, dll, "SCaddins.PlaceCoordinate.Command");
             AssignPushButtonImage(pbd, @"SCaddins.Assets.Ribbon.scoord-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.PlaceCoordinateToolTip;
             return pbd;
