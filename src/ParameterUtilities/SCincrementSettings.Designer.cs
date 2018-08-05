@@ -8,7 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SCaddins.ParameterUtilities {
+namespace SCaddins.ParameterUtilities
+{
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

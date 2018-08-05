@@ -1,4 +1,4 @@
-﻿namespace SCaddins.ParameterUtils
+﻿namespace SCaddins.ParameterUtilities
 {
     using System;
     using Autodesk.Revit.UI;
@@ -13,9 +13,15 @@
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            using (var settingsForm = new SCincrementSettingsForm()) {
-                settingsForm.ShowDialog();
+            if (commandData == null)
+            {
+                return Result.Failed;
             }
+            UIDocument udoc = commandData.Application.ActiveUIDocument;
+            //Document doc = udoc.Document;
+
+            var vm = new ViewModels.SCincrementViewModel();
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SCincrementViewModel.DefaultWindowSettings);
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }

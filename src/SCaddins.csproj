@@ -326,6 +326,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>IncrementSettings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ParameterUtilities\ViewModels\SCincrementViewModel.cs" />
+    <Compile Include="ParameterUtilities\Views\SCincrementView.xaml.cs">
+      <DependentUpon>SCincrementView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PlaceCoordinate\ViewModels\PlaceCoordinateViewModel.cs" />
     <Compile Include="PlaceCoordinate\Views\PlaceCoordinateView.xaml.cs">
       <DependentUpon>PlaceCoordinateView.xaml</DependentUpon>
@@ -429,12 +433,6 @@
       <DependentUpon>IncrementSettings.settings</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="ParameterUtilities\IncrementSettingsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ParameterUtilities\IncrementSettingsForm.Designer.cs">
-      <DependentUpon>IncrementSettingsForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="RevisionUtilities\RevisionCloudItem.cs" />
     <Compile Include="RevisionUtilities\RevisionUtilities.cs" />
     <Compile Include="RevisionUtilities\Command.cs" />
@@ -464,9 +462,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ParameterUtilities\IncrementSettingsForm.resx">
-      <DependentUpon>IncrementSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PlaceCoordinate\PlaceCoordinateForm.resx">
       <DependentUpon>PlaceCoordinateForm.cs</DependentUpon>
@@ -534,6 +529,10 @@
     <Page Include="LineOfSight\Views\LineOfSightView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ParameterUtilities\Views\SCincrementView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlaceCoordinate\Views\PlaceCoordinateView.xaml">
       <SubType>Designer</SubType>
@@ -612,10 +611,7 @@
     <Resource Include="Assets\xmlElement.png" />
     <Resource Include="Assets\xmlFile.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ParameterUtilities\ViewModels\" />
-    <Folder Include="ParameterUtilities\Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Assets\clock.png" />
     <Resource Include="Assets\config2.png" />
