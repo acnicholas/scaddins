@@ -13,13 +13,6 @@
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            if (commandData == null)
-            {
-                return Result.Failed;
-            }
-            UIDocument udoc = commandData.Application.ActiveUIDocument;
-            //Document doc = udoc.Document;
-
             var vm = new ViewModels.SCincrementViewModel();
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SCincrementViewModel.DefaultWindowSettings);
             return Autodesk.Revit.UI.Result.Succeeded;

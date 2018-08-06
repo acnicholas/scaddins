@@ -15,7 +15,7 @@ namespace SCaddins.ParameterUtilities.ViewModels
 
         public SCincrementViewModel()
         {
-
+            LoadSettings();
         }
 
         public static dynamic DefaultWindowSettings
@@ -37,49 +37,54 @@ namespace SCaddins.ParameterUtilities.ViewModels
             TryClose(false);
         }
 
+        public void ResetSettingsToDefault()
+        {
+            SCincrementSettings.Default.Reset();
+            this.LoadSettings();
+        }
 
+        public void SaveSettings()
+        {
+            SCincrementSettings.Default.OffsetValue = OffsetValue;
+            SCincrementSettings.Default.IncrementValue = IncrementValue;
+            SCincrementSettings.Default.SourceSearchPattern = SourceSearchPattern;
+            SCincrementSettings.Default.SourceReplacePattern = SourceReplacementPattern;
+            SCincrementSettings.Default.DestinationReplacePattern = DestinationReplacementPattern;
+            SCincrementSettings.Default.DestinationSearchPattern = DestinationSearchPattern;
+            SCincrementSettings.Default.CustomParameterName = CustomParameterName;
+            SCincrementSettings.Default.UseCustomParameterName = UseCustomParameter;
+            SCincrementSettings.Default.Save();
+            TryClose(true);
+        }
+
+        public string SourceSearchPattern { get; set; }
+        public string SourceReplacementPattern { get; set; }
+        public string DestinationSearchPattern { get; set; }
+        public string DestinationReplacementPattern { get; set; }
+        public int IncrementValue { get; set; }
+        public int OffsetValue { get; set; }
+        public bool UseCustomParameter { get; set; }
+        public string CustomParameterName { get; set; }
+
+        private void LoadSettings()
+        {
+            OffsetValue = SCincrementSettings.Default.OffsetValue;
+            IncrementValue = SCincrementSettings.Default.IncrementValue;
+            SourceReplacementPattern = SCincrementSettings.Default.SourceReplacePattern;
+            SourceSearchPattern = SCincrementSettings.Default.SourceSearchPattern;
+            DestinationReplacementPattern = SCincrementSettings.Default.DestinationReplacePattern;
+            DestinationSearchPattern= SCincrementSettings.Default.DestinationSearchPattern;
+            CustomParameterName = SCincrementSettings.Default.CustomParameterName;
+            UseCustomParameter = SCincrementSettings.Default.UseCustomParameterName;
+            NotifyOfPropertyChange(() => OffsetValue);
+            NotifyOfPropertyChange(() => IncrementValue);
+            NotifyOfPropertyChange(() => SourceReplacementPattern);
+            NotifyOfPropertyChange(() => SourceSearchPattern);
+            NotifyOfPropertyChange(() => DestinationReplacementPattern);
+            NotifyOfPropertyChange(() => DestinationSearchPattern);
+            NotifyOfPropertyChange(() => CustomParameterName);
+            NotifyOfPropertyChange(() => UseCustomParameter);
+        }
     }
 }
 
-
-//public SCincrementSettingsForm()
-//{
-//    this.InitializeComponent();
-//    this.LoadSettings();
-//}
-
-//private void LoadSettings()
-//{
-//    this.offsetTextBox.Text = SCincrementSettings.Default.OffsetValue.ToString(CultureInfo.CurrentCulture);
-//    this.incrementTextBox.Text = SCincrementSettings.Default.IncrementValue.ToString(CultureInfo.CurrentCulture);
-//    this.replacementTextBox.Text = SCincrementSettings.Default.SourceReplacePattern;
-//    this.searchTextBox.Text = SCincrementSettings.Default.SourceSearchPattern;
-//    this.destReplacementTextBox.Text = SCincrementSettings.Default.DestinationReplacePattern;
-//    this.destSearchTextBox.Text = SCincrementSettings.Default.DestinationSearchPattern;
-//    this.customParamTextBox.Text = SCincrementSettings.Default.CustomParameterName;
-//    this.CustomParamCheckBox.Checked = SCincrementSettings.Default.UseCustomParameterName;
-//}
-
-//private void Button1Click(object sender, EventArgs e)
-//{
-//    SCincrementSettings.Default.Reset();
-//    this.LoadSettings();
-//}
-
-//private void Button2Click(object sender, EventArgs e)
-//{
-//    SCincrementSettings.Default.OffsetValue = int.Parse(this.offsetTextBox.Text, CultureInfo.InvariantCulture);
-//    SCincrementSettings.Default.IncrementValue = int.Parse(this.incrementTextBox.Text, CultureInfo.InvariantCulture);
-//    SCincrementSettings.Default.SourceSearchPattern = this.searchTextBox.Text;
-//    SCincrementSettings.Default.SourceReplacePattern = this.replacementTextBox.Text;
-//    SCincrementSettings.Default.DestinationReplacePattern = this.destReplacementTextBox.Text;
-//    SCincrementSettings.Default.DestinationSearchPattern = this.destSearchTextBox.Text;
-//    SCincrementSettings.Default.CustomParameterName = this.customParamTextBox.Text;
-//    SCincrementSettings.Default.UseCustomParameterName = this.CustomParamCheckBox.Checked;
-//    SCincrementSettings.Default.Save();
-//}
-
-//private void Button3Click(object sender, EventArgs e)
-//{
-//    // do nothing...
-//}

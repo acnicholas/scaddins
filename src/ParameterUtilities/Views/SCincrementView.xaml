@@ -5,12 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SCaddins.ParameterUtilities.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="350" d:DesignWidth="350">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <GroupBox Grid.Row="0" Header="General Settings">
             <Grid>
@@ -26,18 +27,18 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Grid.Row="0">Source Search Pattern</Label>
-                <Label Grid.Column="0" Grid.Row="1">Source Replacement Pattern</Label>
-                <Label Grid.Column="0" Grid.Row="2">Destination Search Pattern</Label>
-                <Label Grid.Column="0" Grid.Row="3">Destination Replacement Pattern</Label>
-                <Label Grid.Column="0" Grid.Row="4">Increment Value</Label>
-                <Label Grid.Column="0" Grid.Row="5">Offset Value</Label>
-                <TextBox x:Name="SourceSearchPattern" Grid.Column="1" Grid.Row="0"></TextBox>
-                <TextBox x:Name="SourceReplacementPattern" Grid.Column="1" Grid.Row="1"></TextBox>
-                <TextBox x:Name="DestinationSearchPattern" Grid.Column="1" Grid.Row="2"></TextBox>
-                <TextBox x:Name="DestinationReplacementPattern" Grid.Column="1" Grid.Row="3"></TextBox>
-                <TextBox x:Name="IncrementValue" Grid.Column="1" Grid.Row="4"></TextBox>
-                <TextBox x:Name="OffsetValue" Grid.Column="1" Grid.Row="5"></TextBox>
+                <Label Grid.Column="0" Grid.Row="0" Margin="5">Source Search Pattern</Label>
+                <Label Grid.Column="0" Grid.Row="1" Margin="5">Source Replacement Pattern</Label>
+                <Label Grid.Column="0" Grid.Row="2" Margin="5">Destination Search Pattern</Label>
+                <Label Grid.Column="0" Grid.Row="3" Margin="5">Destination Replacement Pattern</Label>
+                <Label Grid.Column="0" Grid.Row="4" Margin="5">Increment Value</Label>
+                <Label Grid.Column="0" Grid.Row="5" Margin="5">Offset Value</Label>
+                <TextBox x:Name="SourceSearchPattern" Grid.Column="1" Grid.Row="0" Margin="5"></TextBox>
+                <TextBox x:Name="SourceReplacementPattern" Grid.Column="1" Grid.Row="1" Margin="5"></TextBox>
+                <TextBox x:Name="DestinationSearchPattern" Grid.Column="1" Grid.Row="2" Margin="5"></TextBox>
+                <TextBox x:Name="DestinationReplacementPattern" Grid.Column="1" Grid.Row="3" Margin="5"></TextBox>
+                <TextBox x:Name="IncrementValue" Grid.Column="1" Grid.Row="4" Margin="5"></TextBox>
+                <TextBox x:Name="OffsetValue" Grid.Column="1" Grid.Row="5" Margin="5"></TextBox>
             </Grid>  
         </GroupBox>
         <GroupBox Grid.Row="1" Header="Advanced Settings">
@@ -50,19 +51,20 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <CheckBox x:Name="UseCustomParameter" Content="Use Custom Parameter"></CheckBox>
-                <Label x:Name="CustomParameterName" Grid.Column="0" Grid.Row="1">Custom Parameter Name</Label>
+                <CheckBox x:Name="UseCustomParameter" Content="Use Custom Parameter Name" Grid.ColumnSpan="2" Margin="5"></CheckBox>
+                <Label Grid.Column="0" Grid.Row="1" Margin="5">Custom Parameter Name</Label>
+                <TextBox x:Name="CustomParameterName" Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
             </Grid>
         </GroupBox>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button x:Name="ResetSettingsToDefault" Grid.Column="0" HorizontalAlignment="Left" Margin="5">Reset</Button>
-            <Button x:Name="Quit" Grid.Column="1" HorizontalAlignment="Right" Margin="5">Cancel</Button>
-            <Button x:Name="SaveSettings" Grid.Column="2" HorizontalAlignment="Right" Margin="5">OK</Button>
+            <Button x:Name="ResetSettingsToDefault" Grid.Column="0" HorizontalAlignment="Left" Margin="5" MinHeight="25">Reset</Button>
+            <Button x:Name="Quit" Grid.Column="1" HorizontalAlignment="Right" Margin="5" MinHeight="25">Cancel</Button>
+            <Button x:Name="SaveSettings" Grid.Column="2" HorizontalAlignment="Right" Margin="5" MinHeight="25">OK</Button>
         </Grid>
     </Grid>
 </UserControl>
