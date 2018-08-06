@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="SCaddins.ParameterUtilities.Views.SCincrementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SCaddins.ParameterUtilities.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0" Header="General Settings">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Grid.Row="0">Source Search Pattern</Label>
+                <Label Grid.Column="0" Grid.Row="1">Source Replacement Pattern</Label>
+                <Label Grid.Column="0" Grid.Row="2">Destination Search Pattern</Label>
+                <Label Grid.Column="0" Grid.Row="3">Destination Replacement Pattern</Label>
+                <Label Grid.Column="0" Grid.Row="4">Increment Value</Label>
+                <Label Grid.Column="0" Grid.Row="5">Offset Value</Label>
+                <TextBox x:Name="SourceSearchPattern" Grid.Column="1" Grid.Row="0"></TextBox>
+                <TextBox x:Name="SourceReplacementPattern" Grid.Column="1" Grid.Row="1"></TextBox>
+                <TextBox x:Name="DestinationSearchPattern" Grid.Column="1" Grid.Row="2"></TextBox>
+                <TextBox x:Name="DestinationReplacementPattern" Grid.Column="1" Grid.Row="3"></TextBox>
+                <TextBox x:Name="IncrementValue" Grid.Column="1" Grid.Row="4"></TextBox>
+                <TextBox x:Name="OffsetValue" Grid.Column="1" Grid.Row="5"></TextBox>
+            </Grid>  
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="Advanced Settings">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <CheckBox x:Name="UseCustomParameter" Content="Use Custom Parameter"></CheckBox>
+                <Label x:Name="CustomParameterName" Grid.Column="0" Grid.Row="1">Custom Parameter Name</Label>
+            </Grid>
+        </GroupBox>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="ResetSettingsToDefault" Grid.Column="0" HorizontalAlignment="Left" Margin="5">Reset</Button>
+            <Button x:Name="Quit" Grid.Column="1" HorizontalAlignment="Right" Margin="5">Cancel</Button>
+            <Button x:Name="SaveSettings" Grid.Column="2" HorizontalAlignment="Right" Margin="5">OK</Button>
+        </Grid>
+    </Grid>
+</UserControl>
