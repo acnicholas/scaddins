@@ -40,7 +40,7 @@
                 <Button x:Name="RemoveFilter" Margin="5" BorderThickness="0" Background="{x:Null}">
                     <Image Source="/SCaddins;component/Assets/remove_filter.png"></Image>
                 </Button>
-                <Button Margin="5" BorderThickness="0" Background="{x:Null}">
+                <Button x:Name="RenameSelectedRooms" Margin="5" BorderThickness="0" Background="{x:Null}">
                     <Image Source="/SCaddins;component/Assets/rename.png"></Image>
                 </Button>
             </StackPanel>

@@ -150,6 +150,23 @@ namespace SCaddins.RoomConvertor.ViewModels
             NotifyOfPropertyChange(() => SelectionInformation);
         }
 
+        public void RenameSelectedRooms()
+        {
+            var renameManager = new SCaddins.RenameUtilities.RenameManager(
+              manager.Doc,
+              selectedRooms.Select(s => s.Room.Id).ToList()
+              );
+            var renameSheetModel = new SCaddins.RenameUtilities.ViewModels.RenameUtilitiesViewModel(renameManager);
+            renameSheetModel.SelectedParameterCategory = "Sheets";
+            SCaddinsApp.WindowManager.ShowDialog(renameSheetModel, null, RenameUtilities.ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings);
+            //foreach (ExportSheet exportSheet in selectedSheets)
+            //{
+            //    exportSheet.UpdateName();
+            //    exportSheet.UpdateNumber();
+            //}
+            NotifyOfPropertyChange(() => Rooms);
+        }
+
         public void PushDataToRooms()
         {
             manager.SynchronizeMassesToRooms();
