@@ -437,12 +437,6 @@
     <Compile Include="RevisionUtilities\RevisionUtilities.cs" />
     <Compile Include="RevisionUtilities\Command.cs" />
     <Compile Include="PlaceCoordinate\PlaceCoordinate.cs" />
-    <Compile Include="PlaceCoordinate\PlaceCoordinateForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PlaceCoordinate\PlaceCoordinateForm.Designer.cs">
-      <DependentUpon>PlaceCoordinateForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="SheetCopier\SheetCopierEnums.cs" />
     <Compile Include="SheetCopier\SheetCopierManager.cs" />
     <Compile Include="SheetCopier\SheetCopierCommand.cs" />
@@ -462,9 +456,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PlaceCoordinate\PlaceCoordinateForm.resx">
-      <DependentUpon>PlaceCoordinateForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
