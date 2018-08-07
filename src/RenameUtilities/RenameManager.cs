@@ -76,6 +76,7 @@ namespace SCaddins.RenameUtilities
                 Caliburn.Micro.BindableCollection<String> result = new Caliburn.Micro.BindableCollection<String>();
                 result.Add("Rooms");
                 result.Add("Grids");
+                result.Add("Levels");
                 result.Add("Text");
                 result.Add("Views");
                 result.Add("Sheets");
@@ -110,7 +111,10 @@ namespace SCaddins.RenameUtilities
                 return GetParametersByCategory(BuiltInCategory.OST_Revisions);
             }
             if (parameterCategory == "Grids") {
-                return GetParametersByCategory(BuiltInCategory.OST_Grids);
+                return GetParametersByType(typeof(Grid));
+            }
+            if (parameterCategory == "Levels") {
+                return GetParametersByCategory(BuiltInCategory.OST_Levels);
             }
             if (parameterCategory == "Floors") {
                 return GetParametersByCategory(BuiltInCategory.OST_Floors);
@@ -119,12 +123,29 @@ namespace SCaddins.RenameUtilities
                 return GetParametersByCategory(BuiltInCategory.OST_TextNotes);
             }
             if (parameterCategory == @"Model Groups") {
-                return GetParametersByCategory(BuiltInCategory.OST_IOSModelGroups);
+                return GetParametersByType(typeof(Autodesk.Revit.DB.Group));
             }
             return new Caliburn.Micro.BindableCollection<RenameParameter>();
         }
 
-        private Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByCategory(BuiltInCategory category)
+        private Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByType(Type t)
+        {
+            Caliburn.Micro.BindableCollection<RenameParameter> parametersList = new Caliburn.Micro.BindableCollection<RenameParameter>();
+
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfClass(t);
+            var elem = collector.FirstElement();
+            var elem2 = collector.ToElements()[collector.GetElementCount() - 1];
+            if (elem2.Parameters.Size > elem.Parameters.Size)
+            {
+                elem = elem2;
+            }
+            Parameter param = elem.LookupParameter("Name");
+            parametersList.Add(new RenameParameter(param, t));
+            return parametersList;
+        }
+
+            private Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByCategory(BuiltInCategory category)
         {
             Caliburn.Micro.BindableCollection<RenameParameter> parametersList = new Caliburn.Micro.BindableCollection<RenameParameter>();
             if (category == BuiltInCategory.OST_TextNotes) {
@@ -138,6 +159,14 @@ namespace SCaddins.RenameUtilities
             var elem2 = collector.ToElements()[collector.GetElementCount() -1];
             if (elem2.Parameters.Size > elem.Parameters.Size) {
                 elem = elem2;
+            }
+
+            if (category == BuiltInCategory.OST_Levels || category == BuiltInCategory.OST_Grids)
+            {
+                //Parameter param = elem.GetParameters("Name").FirstOrDefault();
+                Parameter param = elem.LookupParameter("Name");
+                parametersList.Add(new RenameParameter(param, category));
+                return parametersList;
             }
 
             foreach (Parameter param in elem.Parameters) {
@@ -209,7 +238,7 @@ namespace SCaddins.RenameUtilities
             CommitRenameSelection(renameCandidates.ToList<RenameCandidate>());
         }
 
-        public void SetCandidatesByParameter(Parameter parameter, BuiltInCategory category){
+        public void SetCandidatesByParameter(Parameter parameter, BuiltInCategory category, Type t) {
             if (category == BuiltInCategory.OST_TextNotes || category == BuiltInCategory.OST_IOSModelGroups) {
                 GetTextNoteValues(category);
                 return;
@@ -221,7 +250,12 @@ namespace SCaddins.RenameUtilities
             } else {
                 collector = new FilteredElementCollector(doc, elements);
             }
-            collector.OfCategory(category);
+            if (t != null)
+            {
+                collector.OfClass(t);
+            } else {
+                collector.OfCategory(category);
+            }
             foreach (Element element in collector) {
                 var p = element.GetParameters(parameter.Definition.Name);
                 if (p.Count > 0) {
