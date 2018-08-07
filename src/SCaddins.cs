@@ -253,7 +253,7 @@ namespace SCaddins
         private static PushButtonData LoadSCincrement(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCincrement", Resources.IncrementTool, dll, "SCaddins.ParameterUtils.Command");
+                              "SCincrement", Resources.IncrementTool, dll, "SCaddins.ParameterUtilities.Command");
             AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.scincrement-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.IncrementToolToolTip;
             return pbd;
@@ -262,7 +262,7 @@ namespace SCaddins
         private static PushButtonData LoadSCincrementSettings(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCincrementSettings", Resources.IncrementToolSettings, dll, "SCaddins.ParameterUtils.SCincrementSettingsCommand");
+                              "SCincrementSettings", Resources.IncrementToolSettings, dll, "SCaddins.ParameterUtilities.SCincrementSettingsCommand");
             AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.scincrement-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.IncrementToolSettings;
             return pbd;
