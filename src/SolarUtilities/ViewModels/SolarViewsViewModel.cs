@@ -16,10 +16,10 @@
 
         public SolarViewsViewModel(UIDocument uidoc)
         {
-            var uiapp = uidoc.Application;
-            var addInId = uiapp.ActiveAddInId;
-            var addIn = addInId.GetAddInName();
-            SCaddinsApp.WindowManager.ShowMessageBox(addIn);
+            //var uiapp = uidoc.Application;
+            //var addInId = uiapp.ActiveAddInId;
+            //var addIn = addInId.GetAddInName();
+            //SCaddinsApp.WindowManager.ShowMessageBox(addIn);
 
             //TEST MSG BOX
             //SCaddinsApp.WindowManager.ShowMessageBox("TEST MESSAGE");
@@ -32,6 +32,10 @@
             startTime = new DateTime(2018, 06, 21, 9,0,0,DateTimeKind.Local);
             endTime = new DateTime(2018, 06, 21,15,0,0);
             interval = new TimeSpan(1,00,00);
+            RotateCurrentView = CanRotateCurrentView;
+            if (!CanRotateCurrentView) {
+                Create3dViews = true;
+            }
         }
        
         public bool RotateCurrentView
@@ -41,8 +45,14 @@
             {
                 if (model.RotateCurrentView != value) {
                     model.RotateCurrentView = value;
+                    NotifyOfPropertyChange(() => CurrentModeSummary);
                 }
             }
+        }
+
+        public bool EnableRotateCurrentView
+        {
+            get { return CanRotateCurrentView; }
         }
 
         public bool CanRotateCurrentView
@@ -59,7 +69,19 @@
             {
                 if (model.Create3dViews != value) {
                     model.Create3dViews = value;
+                    NotifyOfPropertyChange(() => CurrentModeSummary);
                 }
+            }
+        }
+
+        public string CurrentModeSummary
+        {
+            get
+            {
+                if (RotateCurrentView) return "Rotate Current View";
+                if (Create3dViews) return "Create View[s]";
+                if (CreateShadowPlans) return "Create Plans";
+                return "OK";
             }
         }
 
@@ -72,9 +94,13 @@
             set
             {
                 if (value != creationDate) {
+                    var oldStartIndex = StartTimes.IndexOf(SelectedStartTime);
+                    var oldEndIndex = EndTimes.IndexOf(SelectedEndTime);
                     creationDate = value;
                     NotifyOfPropertyChange(() => StartTimes);
                     NotifyOfPropertyChange(() => EndTimes);
+                    SelectedStartTime = StartTimes[oldStartIndex];
+                    SelectedEndTime = EndTimes[oldEndIndex];
                 }
             }
         }
@@ -85,7 +111,7 @@
             {
                 var times = new BindableCollection<DateTime>();
                 for (int hour = 8; hour < 17; hour++) {
-                    times.Add(new DateTime(creationDate.Year, creationDate.Month, creationDate.Day, hour, 0, 0));
+                    times.Add(new DateTime(creationDate.Year, creationDate.Month, creationDate.Day, hour, 0, 0, DateTimeKind.Local));
                 }
                 return times;
             }
@@ -109,7 +135,7 @@
             {
                 var times = new BindableCollection<DateTime>();
                 for (int hour = 9; hour < 18; hour++) {
-                    times.Add(new DateTime(creationDate.Year, creationDate.Month, creationDate.Day, hour, 0, 0));
+                    times.Add(new DateTime(creationDate.Year, creationDate.Month, creationDate.Day, hour, 0, 0, DateTimeKind.Local));
                 }
                 return times;
             }
@@ -157,6 +183,7 @@
             {
                 if (model.CreateShadowPlans != value) {
                     model.CreateShadowPlans = value;
+                    NotifyOfPropertyChange(() => CurrentModeSummary);
                 }
             }
         }

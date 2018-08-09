@@ -148,7 +148,7 @@ namespace SCaddins.SolarUtilities
                                     niceMinutes;
                         view.Name = GetNiceViewName(doc, vname);
                         var sunSettings = view.SunAndShadowSettings;
-                        sunSettings.StartDateAndTime = StartTime.ToLocalTime();
+                        sunSettings.StartDateAndTime = StartTime;
                         sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
                         view.SunlightIntensity = 50;
                         t.Commit();
@@ -212,7 +212,7 @@ namespace SCaddins.SolarUtilities
                                 niceMinutes;
                     view.Name = GetNiceViewName(doc, vname);
                     var sunSettings = view.SunAndShadowSettings;
-                    sunSettings.StartDateAndTime = StartTime.ToLocalTime();
+                    sunSettings.StartDateAndTime = StartTime;
                     sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
                     t.Commit();
 

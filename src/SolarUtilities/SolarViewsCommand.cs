@@ -45,7 +45,7 @@ namespace SCaddins.SolarUtilities
             settings.Width = 300;
             settings.Title = "Angle of Sun - By Andrew Nicholas";
             settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+            settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
 
             var vm = new ViewModels.SolarViewsViewModel(commandData.Application.ActiveUIDocument);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);

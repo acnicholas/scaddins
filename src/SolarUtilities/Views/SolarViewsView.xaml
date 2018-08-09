@@ -163,11 +163,11 @@
             </GroupBox>
             <Button
                 x:Name="OK"
-                Width="75"
+                Width="Auto"
                 Height="23"
                 Grid.Column="0"
                 Grid.Row="3"
-                Content="OK"
+                Content="{Binding CurrentModeSummary}"
                 Margin="5"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
