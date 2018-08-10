@@ -291,13 +291,15 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void Export()
         {
+            ExportLog log = new ExportLog();
             ProgressBarMaximum = selectedSheets.Count;
             NotifyOfPropertyChange(() => ProgressBarMaximum);
             System.Windows.Forms.Application.DoEvents();
             foreach (ExportSheet sheet in selectedSheets)
             {
                 CurrentProgress +=1;
-                exportManager.ExportSheet(sheet);
+                
+                exportManager.ExportSheet(sheet, log);
                 System.Windows.Forms.Application.DoEvents();
             }
             CurrentProgress = 0;

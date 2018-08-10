@@ -768,13 +768,6 @@ namespace SCaddins.ExportManager
 
         [SecurityCritical]
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
-        public void ExportSheet(ExportSheet sheet)
-        {
-            ExportSheet(sheet, null);
-        }
-
-        [SecurityCritical]
-        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         public void ExportSheet(ExportSheet sheet, ExportLog log)
         {
             if (!sheet.Verified) {
@@ -941,6 +934,8 @@ namespace SCaddins.ExportManager
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private bool ExportAdobePDF(ExportSheet vs, ExportLog log)
         {
+            
+
             PrintManager pm = Doc.PrintManager;
             
             log.AddMessage(Resources.MessageApplyingPrintSetting + vs.PrintSettingName);
