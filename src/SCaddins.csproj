@@ -278,6 +278,9 @@
     <Compile Include="Common\Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\Views\LayoutManagerView.xaml.cs">
+      <DependentUpon>LayoutManagerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\Views\UpgradeView.xaml.cs">
       <DependentUpon>UpgradeView.xaml</DependentUpon>
     </Compile>
@@ -481,6 +484,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Common\Views\AboutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\Views\LayoutManagerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

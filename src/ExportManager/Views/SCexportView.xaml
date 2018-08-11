@@ -100,7 +100,6 @@
                     Header="Number"
                     Binding="{Binding SheetNumber}" />
                 <DataGridTextColumn
-                    Width="*"
                     Header="Name"
                     Binding="{Binding SheetDescription}">
                 </DataGridTextColumn>
@@ -111,6 +110,9 @@
                     Header="Revision Description"
                     Binding="{Binding SheetRevisionDescription}" />
                 <DataGridTextColumn
+                    Header="Revision Date"
+                    Binding="{Binding SheetRevisionDate}" />
+                <DataGridTextColumn
                     Header="Export Directory"
                     Binding="{Binding ExportDirectory}" />
                 <DataGridTextColumn
@@ -119,6 +121,9 @@
                 <DataGridTextColumn
                     Header="North Point"
                     Binding="{Binding NorthPointVisible}" />
+                <DataGridTextColumn
+                    Header="Print Setting"
+                    Binding="{Binding PrintSettingName}" />
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
