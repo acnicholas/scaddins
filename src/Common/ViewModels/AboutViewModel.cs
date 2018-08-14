@@ -8,6 +8,9 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+//using System.Reflection.Assembly
+//using System.Diagnostics.FileVersionInfo
+using System.Diagnostics;
 //using System.Windows.Forms;
 
 
@@ -45,6 +48,28 @@ namespace SCaddins.Common.ViewModels
             {
                 return Assembly.GetExecutingAssembly().GetName()
                     .Version.ToString().Trim();
+            }
+        }
+
+        public string AssemblyVersionExtended
+        {
+            get
+            {
+                return AssemblyVersion + @"(" + AssemblyInformationalVersion + @")";
+            }
+        }
+
+        public string GetInformationalVersion(Assembly assembly)
+        {
+            return FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
+        }
+
+        public string AssemblyInformationalVersion
+        {
+            get
+            {
+                return GetInformationalVersion(Assembly.GetExecutingAssembly());
+                
             }
         }
 

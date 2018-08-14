@@ -609,7 +609,9 @@
     <Resource Include="Assets\xmlElement.png" />
     <Resource Include="Assets\xmlFile.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Ribbon\scaos-rvt.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\clock.png" />
     <Resource Include="Assets\config2.png" />
@@ -642,6 +644,9 @@
     <Resource Include="Assets\scasfar.png" />
     <Resource Include="Assets\scexport.png" />
     <Resource Include="Assets\scexport32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Ribbon\scopy-rvt.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
