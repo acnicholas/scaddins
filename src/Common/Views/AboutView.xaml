@@ -40,7 +40,7 @@
                 </Style>
             </Grid.Resources>
             <TextBlock Grid.Row="0" x:Name="AssemblyTitle" Margin="5"></TextBlock>
-            <TextBlock Grid.Row="1" x:Name="AssemblyVersion" Margin="5"></TextBlock>
+            <TextBlock Grid.Row="1" x:Name="AssemblyVersionExtended" Margin="5"></TextBlock>
             <TextBlock Grid.Row="2" x:Name="AssemblyCopyright" Margin="5"></TextBlock>
             <TextBlock  Grid.Row="3" x:Name="License" TextWrapping="Wrap" Margin="5,15">
             </TextBlock>
