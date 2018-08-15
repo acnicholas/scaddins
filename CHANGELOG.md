@@ -1,5 +1,16 @@
 #SCaddins Revision Log#
 
+#19.0#
+
+####NEW####
+
+- **Revit 2019 support**
+
+####SUMMARY####
+
+First release for Revit 2019
+**Revit 2016-2019 Supported.
+
 #18.1#
 
 ####NEW####
