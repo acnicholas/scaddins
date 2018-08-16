@@ -13,22 +13,32 @@
                     <TextBox x:Name="Output"></TextBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="Warnings">
+            <TabItem Header="{Binding WarningsHeader}">
                 <Grid Background="#FFE5E5E5">
-                    <ListBox>
-                        <ColumnDefinition Name="FileName">
-                        </ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </ListBox>
+                    <DataGrid x:Name="Warnings">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Header="Export Name"
+                                Binding="{Binding Description}" />
+                            <DataGridTextColumn
+                                Header="Number"
+                                Binding="{Binding Filename}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Errors" Margin="0,0,0,0">
+            <TabItem Header="{Binding ErrorsHeader}" Margin="0,0,0,0">
                 <Grid Background="#FFE5E5E5">
-                    <ListBox>
-                        <ColumnDefinition Name="FileName2">
-                        </ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </ListBox>
+                    <DataGrid x:Name="Errors">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Header="Export Name"
+                                Binding="{Binding Description}" />
+                            <DataGridTextColumn
+                                Header="Number"
+                                Binding="{Binding Filename}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
         </TabControl>

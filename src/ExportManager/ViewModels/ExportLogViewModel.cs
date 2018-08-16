@@ -48,6 +48,11 @@ namespace SCaddins.ExportManager.ViewModels
             get { return log.Warnings; }
         }
 
+        public string WarningsHeader
+        {
+            get { return @"Warnings(" + WarningCount + @")"; }
+        }
+
         public List<ExportLogItem> Errors
         {
             get { return log.ErrorLog; }
@@ -56,6 +61,11 @@ namespace SCaddins.ExportManager.ViewModels
         public int ErrorCount
         {
             get { return log.Errors; }
+        }
+
+        public string ErrorsHeader
+        {
+            get { return @"Errors(" + ErrorCount + @")"; }
         }
     }
 }
