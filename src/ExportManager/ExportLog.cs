@@ -18,7 +18,7 @@
  namespace SCaddins.ExportManager
  {
     using System;
-    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
     using System.Text;
     using SCaddins.ExportManager;
 
@@ -26,8 +26,8 @@
     {
         private const string ErrPrefix = "[EE]";
         private const string WarningPrefix = "[WW]";
-        private Collection<ExportLogItem> errorLog;
-        private Collection<ExportLogItem> warningLog;
+        private List<ExportLogItem> errorLog;
+        private List<ExportLogItem> warningLog;
         private StringBuilder fullLog;
         private int warnings;
         private int errors;
@@ -42,8 +42,8 @@
             this.startTime = DateTime.Now;
             this.endTime = DateTime.Now;
             this.TotalExports = 0;
-            this.errorLog = new Collection<ExportLogItem>();
-            this.warningLog = new Collection<ExportLogItem>();
+            this.errorLog = new List<ExportLogItem>();
+            this.warningLog = new List<ExportLogItem>();
         }
                 
         public int Warnings
@@ -61,12 +61,12 @@
             get; set;
         }
 
-        public Collection<ExportLogItem> ErrorLog
+        public List<ExportLogItem> ErrorLog
         {
             get { return this.errorLog; }
         }
 
-        public Collection<ExportLogItem> WarningLog
+        public List<ExportLogItem> WarningLog
         {
             get { return this.warningLog; }
         }
@@ -111,14 +111,7 @@
             this.warningLog.Clear();
             this.fullLog.Clear();
         }
-
-        public void ShowSummaryDialog()
-        {
-            //using (var logDialog = new ExportLogDialog(this)) {
-            //    logDialog.ShowDialog();
-            //}
-        }
-        
+       
         public void Start(string message)
         {
             this.AddLogItem(message);

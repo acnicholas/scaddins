@@ -1,5 +1,18 @@
 #SCaddins Revision Log#
 
+#19.1#
+
+####NEW####
+
+- **New Interface using WPF**
+
+####SUMMARY####
+
+Completely revised interface using Windows Presentation Framework.
+Most add-ins include minor improvements/changes.
+
+####FIXES#####
+
 #19.0#
 
 ####NEW####

@@ -7,10 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TabControl x:Name="ErrorTabs" HorizontalAlignment="Stretch" Height="Auto" Margin="0,0,0,0" VerticalAlignment="Stretch" Width="Aoto">
+        <TabControl x:Name="ErrorTabs" HorizontalAlignment="Stretch" Height="Auto" Margin="0,0,0,0" VerticalAlignment="Stretch" Width="Auto">
             <TabItem Header="Output" Margin="0,0,0,0">
                 <Grid Background="#FFE5E5E5">
-                    <TextBox Text="this is some text"></TextBox>
+                    <TextBox x:Name="Output"></TextBox>
                 </Grid>
             </TabItem>
             <TabItem Header="Warnings">

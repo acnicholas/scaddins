@@ -21,6 +21,7 @@ namespace SCaddins.ExportManager.ViewModels
         private int searchStringLength;
         private string selectedPrintType;
         private string sheetNameFilter;
+        private ExportLog log;
         List<ExportSheet> selectedSheets = new List<ExportSheet>();
 
         public SCexportViewModel(ExportManager exportManager)
@@ -35,6 +36,7 @@ namespace SCaddins.ExportManager.ViewModels
             ShowSearchHelpText = true;
             CurrentProgress = 0;
             ProgressBarMaximum = 1;
+            log = new ExportLog();
         }
 
         public static dynamic DefaultWindowSettings
@@ -339,21 +341,23 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void PrintFullsize()
         {
-            Print(exportManager.PrinterNameLargeFormat, 1, null);
+            Print(exportManager.PrinterNameLargeFormat, 1);
         }
 
         public void PrintA3()
         {
-            Print(exportManager.PrinterNameA3, 3, null);
+            Print(exportManager.PrinterNameA3, 3);
         }
 
         public void PrintA2()
         {
-            Print(exportManager.PrinterNameLargeFormat, 2, null);
+            Print(exportManager.PrinterNameLargeFormat, 2);
         }
 
-        public void Print(string PrinterName, int printMode, ExportLog log)
+        public void Print(string PrinterName, int printMode)
         {
+            log.Clear();
+            log.Start("Starting print...");
             ProgressBarMaximum = selectedSheets.Count;
             NotifyOfPropertyChange(() => ProgressBarMaximum);
             System.Windows.Forms.Application.DoEvents();
@@ -363,6 +367,13 @@ namespace SCaddins.ExportManager.ViewModels
                 System.Windows.Forms.Application.DoEvents();
             }
             CurrentProgress = 0;
+            log.Stop("Finished Print.");
+
+            //if(exportManager.ShowExportLog) {
+                var vm = new ViewModels.ExportLogViewModel(log);
+                SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
+            //}
+
         }
 
         public void VerifySheets()
