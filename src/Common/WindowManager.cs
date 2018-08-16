@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-
-namespace SCaddins.Common
+﻿namespace SCaddins.Common
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Runtime.InteropServices;
+
     public class WindowManager : Caliburn.Micro.WindowManager
     {
         private IDialogService dialogService;

@@ -17,9 +17,8 @@
 
 namespace SCaddins.DestructivePurge.ViewModels
 {
-    using System.Collections.ObjectModel;
     using System.Collections.Generic;
-    using System.Linq;
+    using System.Collections.ObjectModel;
 
     public class CheckableItem : Caliburn.Micro.PropertyChangedBase
     {

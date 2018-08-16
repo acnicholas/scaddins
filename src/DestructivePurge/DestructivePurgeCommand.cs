@@ -17,12 +17,8 @@
 
 namespace SCaddins.DestructivePurge
 {
-    using System;
-    using System.Linq;
-    using Autodesk.Revit.DB;
-    using Autodesk.Revit.UI;
-    using Caliburn.Micro;
     using System.Dynamic;
+    using Autodesk.Revit.UI;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]

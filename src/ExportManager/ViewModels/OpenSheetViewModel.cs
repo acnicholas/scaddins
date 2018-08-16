@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Linq;
-using System.Windows.Input;
 using System.Dynamic;
 using Caliburn.Micro;
 using System.Collections.ObjectModel;

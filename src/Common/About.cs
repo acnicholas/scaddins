@@ -17,8 +17,6 @@
 
 namespace SCaddins.Common
 {
-    using System;
-    using System.Linq;
     using Autodesk.Revit.UI;
     using System.Dynamic;
 

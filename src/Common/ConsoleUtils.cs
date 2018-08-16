@@ -17,7 +17,6 @@
 
 namespace SCaddins.Common
 {
-    using System;
     using System.Diagnostics;
     using System.Security;
     using System.Security.Permissions;
