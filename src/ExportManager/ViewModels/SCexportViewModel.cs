@@ -15,18 +15,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows.Input;
-using System.Windows.Data;
-using Caliburn.Micro;
-using System.Linq;
-using System.Dynamic;
-using System.Text.RegularExpressions;
-
 namespace SCaddins.ExportManager.ViewModels
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.Windows.Input;
+    using System.Windows.Data;
+    using Caliburn.Micro;
+    using System.Linq;
+    using System.Dynamic;
+    using System.Text.RegularExpressions;
+
     class SCexportViewModel : Screen
     {
         private readonly ExportManager exportManager;
@@ -37,7 +37,6 @@ namespace SCaddins.ExportManager.ViewModels
         private List<string> printTypes;
         private int searchStringLength;
         private string selectedPrintType;
-        private string sheetNameFilter;
         private ExportLog log;
         List<ExportSheet> selectedSheets = new List<ExportSheet>();
 
@@ -223,7 +222,6 @@ namespace SCaddins.ExportManager.ViewModels
             if (keyArgs.Key == Key.D2) {
                 FilterByNumber("2");
             }
-
         }
 
         private void FilterByNumber(string number)
@@ -442,4 +440,3 @@ namespace SCaddins.ExportManager.ViewModels
         }
     }
 }
-

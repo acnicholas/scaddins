@@ -15,21 +15,28 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Dynamic;
-using Caliburn.Micro;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows.Data;
-
 namespace SCaddins.ExportManager.ViewModels 
 {
-    class OpenSheetViewModel : Screen
+    using System.ComponentModel;
+    using System.Dynamic;
+    using System.Windows.Data;
+    using Caliburn.Micro;
+
+    public class OpenSheetViewModel : Screen
     {
         private OpenableView selectedSearchResult;
-        private ObservableCollection<OpenableView> viewsInDoc;
         private CollectionViewSource searchResults;
         private string searchInput;
         private bool ctrlDown;
+
+        public OpenSheetViewModel(Autodesk.Revit.DB.Document doc)
+        {
+            this.searchResults = new CollectionViewSource();
+            this.searchResults.Source = OpenSheet.ViewsInModel(doc, true);
+            selectedSearchResult = null;
+            ctrlDown = false;
+            SearchInput = string.Empty;
+        }
 
         public static dynamic DefaultWindowSettings
         {
@@ -52,12 +59,13 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 return searchInput;
             }
+
             set
             {
                 if (value != searchInput) {
                     searchInput = value;
                     int successCount = 0;
-                    int maxCount = 10 + (searchInput.Length - 1) * 5;
+                    int maxCount = (10 + (searchInput.Length - 1)) * 5;
                     SearchResults.Filter = v =>
                     {
                         OpenableView ov = v as OpenableView;
@@ -105,6 +113,7 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 return selectedSearchResult;
             }
+
             set
             {
                 if (value != selectedSearchResult) {
@@ -121,13 +130,17 @@ namespace SCaddins.ExportManager.ViewModels
         public void SelectNext()
         {
             SearchResults.MoveCurrentToNext();
-            if (SearchResults.IsCurrentAfterLast) SearchResults.MoveCurrentToFirst();
+            if (SearchResults.IsCurrentAfterLast) {
+                SearchResults.MoveCurrentToFirst();
+            }
         }
 
         public void SelectPrevious()
         {
             SearchResults.MoveCurrentToPrevious();
-            if (SearchResults.IsCurrentBeforeFirst) SearchResults.MoveCurrentToLast();
+            if (SearchResults.IsCurrentBeforeFirst) {
+                SearchResults.MoveCurrentToLast();
+            }
         }
 
         public void MouseDoubleClick()
@@ -177,15 +190,6 @@ namespace SCaddins.ExportManager.ViewModels
         public void Exit()
         {
             TryClose();
-        }
-
-        public OpenSheetViewModel(Autodesk.Revit.DB.Document doc)
-        {
-            this.searchResults = new CollectionViewSource();
-            this.searchResults.Source = OpenSheet.ViewsInModel(doc, true);
-            selectedSearchResult = null;
-            ctrlDown = false;
-            SearchInput = string.Empty;
         }
     }
 }

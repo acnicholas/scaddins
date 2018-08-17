@@ -15,14 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Caliburn.Micro;
-using System.Dynamic;
-
 namespace SCaddins.ExportManager.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Caliburn.Micro;
+    using System.Dynamic;
+
     class OptionsViewModel : PropertyChangedBase
     {
         private ExportManager exportManager;
