@@ -15,19 +15,26 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using Caliburn.Micro;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using Caliburn.Micro;
 
 namespace SCaddins.RenameUtilities.ViewModels
 {
-    class RenameUtilitiesViewModel : Screen
+    internal class RenameUtilitiesViewModel : Screen
     {
         private RenameManager manager;
+        private List<RenameCandidate> selectedCandiates = new List<RenameCandidate>();
         private string selectedParameterCategory;
         private RenameParameter selectedRenameParameter;
-        List<RenameCandidate> selectedCandiates = new List<RenameCandidate>();
+
+        public RenameUtilitiesViewModel(RenameManager manager)
+        {
+            this.manager = manager;
+            selectedParameterCategory = string.Empty;
+            selectedParameterCategory = null;
+        }
 
         public static dynamic DefaultWindowSettings
         {
@@ -49,12 +56,6 @@ namespace SCaddins.RenameUtilities.ViewModels
 
         //Constructors
         #region
-        public RenameUtilitiesViewModel(RenameManager manager)
-        {
-            this.manager = manager;
-            selectedParameterCategory = string.Empty;
-            selectedParameterCategory = null;
-        }
         #endregion
 
         public BindableCollection<string> ParameterCategories
@@ -65,14 +66,46 @@ namespace SCaddins.RenameUtilities.ViewModels
             }
         }
 
-        public string SelectedParameterCategory
+        public string Pattern
         {
-            get { return selectedParameterCategory; }
+            get
+            {
+                return manager.renameCommand.SearchPattern;
+            }
+
             set
             {
-                selectedParameterCategory = value;
-                NotifyOfPropertyChange(() => SelectedParameterCategory);
-                NotifyOfPropertyChange(() => RenameParameters);
+                manager.renameCommand.SearchPattern = value;
+                manager.Rename();
+                NotifyOfPropertyChange(() => Pattern);
+                NotifyOfPropertyChange(() => RenameAllMatchesLabel);
+            }
+        }
+
+        public string PatternLabel
+        {
+            get { return manager.SelectedRenameMode.SearchPatternHint; }
+        }
+
+        public string RenameAllMatchesLabel
+        {
+            get
+            {
+                var count = RenameCandidates.Where(m => m.ValueChanged).Count();
+                return "Rename all " + count + " parameters";
+            }
+        }
+
+        public BindableCollection<RenameCandidate> RenameCandidates
+        {
+            get { return manager.RenameCandidates; }
+        }
+
+        public BindableCollection<RenameCommand> RenameModes
+        {
+            get
+            {
+                return manager.RenameModes;
             }
         }
 
@@ -81,6 +114,78 @@ namespace SCaddins.RenameUtilities.ViewModels
             get
             {
                 return manager.GetParametersByCategoryName(selectedParameterCategory);
+            }
+        }
+
+        public string RenameSelectedMatchesLabel
+        {
+            get
+            {
+                var selectionCount = selectedCandiates.Where(m => m.ValueChanged).Count();
+                return "Rename " + selectionCount + " selected matches";
+            }
+        }
+
+        public string Replacement
+        {
+            get
+            {
+                return manager.renameCommand.ReplacementPattern;
+            }
+            set
+            {
+                manager.renameCommand.ReplacementPattern = value;
+                manager.Rename();
+                NotifyOfPropertyChange(() => Replacement);
+                NotifyOfPropertyChange(() => RenameAllMatchesLabel);
+            }
+        }
+
+        public string ReplacementLabel
+        {
+            get
+            {
+                return manager.SelectedRenameMode.ReplacementPatternHint;
+            }
+        }
+
+        public string SelectedParameterCategory
+        {
+            get
+            {
+                return selectedParameterCategory;
+            }
+
+            set
+            {
+                selectedParameterCategory = value;
+                NotifyOfPropertyChange(() => SelectedParameterCategory);
+                NotifyOfPropertyChange(() => RenameParameters);
+            }
+        }
+
+        public RenameCandidate SelectedRenameCandidate
+        {
+            get; set;
+        }
+
+        public RenameCommand SelectedRenameMode
+        {
+            get
+            {
+                return manager.SelectedRenameMode;
+            }
+
+            set
+            {
+                manager.SelectedRenameMode = value;
+                NotifyOfPropertyChange(() => SelectedRenameMode);
+                NotifyOfPropertyChange(() => Pattern);
+                NotifyOfPropertyChange(() => Replacement);
+                NotifyOfPropertyChange(() => ShowRenameParameters);
+                NotifyOfPropertyChange(() => ReplacementLabel);
+                NotifyOfPropertyChange(() => PatternLabel);
+                NotifyOfPropertyChange(() => RenameAllMatchesLabel);
             }
         }
 
@@ -96,30 +201,6 @@ namespace SCaddins.RenameUtilities.ViewModels
             }
         }
 
-        public BindableCollection<RenameCommand> RenameModes
-        {
-            get
-            {
-                return manager.RenameModes;
-            }
-        }
-
-        public RenameCommand SelectedRenameMode
-        {
-            get { return manager.SelectedRenameMode; }
-            set
-            {
-                manager.SelectedRenameMode = value;
-                NotifyOfPropertyChange(() => SelectedRenameMode);
-                NotifyOfPropertyChange(() => Pattern);
-                NotifyOfPropertyChange(() => Replacement);
-                NotifyOfPropertyChange(() => ShowRenameParameters);
-                NotifyOfPropertyChange(() => ReplacementLabel);
-                NotifyOfPropertyChange(() => PatternLabel);
-                NotifyOfPropertyChange(() => RenameAllMatchesLabel);
-            }
-        }
-
         public System.Windows.Visibility ShowRenameParameters
         {
             get
@@ -129,48 +210,11 @@ namespace SCaddins.RenameUtilities.ViewModels
             }
         }
 
-        public string PatternLabel
+        public void RenameAllMatches()
         {
-            get { return manager.SelectedRenameMode.SearchPatternHint; }
-        }
-
-        public string Pattern
-        {
-            get { return manager.renameCommand.SearchPattern; }
-            set
-            {
-                manager.renameCommand.SearchPattern = value;
-                manager.Rename();
-                NotifyOfPropertyChange(() => Pattern);
-                NotifyOfPropertyChange(() => RenameAllMatchesLabel);
-            }
-        }
-
-        public string ReplacementLabel
-        {
-            get { return manager.SelectedRenameMode.ReplacementPatternHint; }
-        }
-
-        public string Replacement
-        {
-            get { return manager.renameCommand.ReplacementPattern; }
-            set
-            {
-                manager.renameCommand.ReplacementPattern = value;
-                manager.Rename();
-                NotifyOfPropertyChange(() => Replacement);
-                NotifyOfPropertyChange(() => RenameAllMatchesLabel);
-            }
-        }
-
-        public BindableCollection<RenameCandidate> RenameCandidates
-        {
-            get { return manager.RenameCandidates; }
-        }
-
-        public RenameCandidate SelectedRenameCandidate
-        {
-            get; set;
+            manager.CommitRename();
+            manager.SetCandidatesByParameter(selectedRenameParameter.Parameter, selectedRenameParameter.Category, selectedRenameParameter.Type);
+            NotifyOfPropertyChange(() => RenameCandidates);
         }
 
         public void RenameCandidatesSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
@@ -184,33 +228,8 @@ namespace SCaddins.RenameUtilities.ViewModels
         public void RenameSelectedMatches()
         {
             manager.CommitRenameSelection(selectedCandiates);
-            manager.SetCandidatesByParameter(selectedRenameParameter.Parameter, selectedRenameParameter.Category,selectedRenameParameter.Type);
+            manager.SetCandidatesByParameter(selectedRenameParameter.Parameter, selectedRenameParameter.Category, selectedRenameParameter.Type);
             NotifyOfPropertyChange(() => RenameCandidates);
-        }
-
-        public string RenameSelectedMatchesLabel
-        {
-            get
-            {
-                var selectionCount = selectedCandiates.Where(m => m.ValueChanged).Count();
-                return "Rename " + selectionCount + " selected matches";
-            }
-        }
-
-        public void RenameAllMatches()
-        {
-            manager.CommitRename();
-            manager.SetCandidatesByParameter(selectedRenameParameter.Parameter, selectedRenameParameter.Category,selectedRenameParameter.Type);
-            NotifyOfPropertyChange(() => RenameCandidates);
-        }
-
-        public string RenameAllMatchesLabel
-        {
-            get
-            {
-                var count = RenameCandidates.Where(m => m.ValueChanged).Count();
-                return "Rename all " + count + " parameters";
-            }
         }
     }
 }

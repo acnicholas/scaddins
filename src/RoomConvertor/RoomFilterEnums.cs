@@ -17,12 +17,6 @@
 
 namespace SCaddins.RoomConvertor
 {
-    public enum LogicalOperator
-    {
-        And,
-        Or
-    }
-
     public enum ComparisonOperator
     {
         Equals,
@@ -35,5 +29,11 @@ namespace SCaddins.RoomConvertor
         Contains,
 
         // Matches
+    }
+
+    public enum LogicalOperator
+    {
+        And,
+        Or
     }
 }

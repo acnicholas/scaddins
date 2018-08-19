@@ -23,8 +23,10 @@ namespace SCaddins.Common
 
     public static class MiscUtilities
     {
-        public static string GetDateString {
-            get {
+        public static string GetDateString
+        {
+            get
+            {
                 DateTime moment = DateTime.Now;
                 string syear = moment.Year.ToString(CultureInfo.CurrentCulture);
                 string smonth = PadLeftZeros(moment.Month.ToString(CultureInfo.CurrentCulture), 2);
@@ -33,23 +35,14 @@ namespace SCaddins.Common
             }
         }
 
-        public static string PadLeftZeros(string s, int desiredLength)
-        { 
-            if (string.IsNullOrEmpty(s)) {
-                return string.Empty;
-            }
-            if (desiredLength > 1 && s.Length == desiredLength - 1) {
-                return "0" + s;
-            }
-            return s;
-        }
-
         public static string GetSafeFileName(string fileName)
         {
-            if (fileName == null) {
+            if (fileName == null)
+            {
                 return null;
             }
-            foreach (char c in System.IO.Path.GetInvalidFileNameChars()) {
+            foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+            {
                 fileName = fileName.Replace(c, '_');
             }
             return fileName;
@@ -60,9 +53,23 @@ namespace SCaddins.Common
             return lengthInMM / 304.8;
         }
 
+        public static string PadLeftZeros(string s, int desiredLength)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+            if (desiredLength > 1 && s.Length == desiredLength - 1)
+            {
+                return "0" + s;
+            }
+            return s;
+        }
+
         public static DateTime ToDateTime(string dateValue)
         {
-            if (string.IsNullOrEmpty(dateValue)) {
+            if (string.IsNullOrEmpty(dateValue))
+            {
                 return new DateTime();
             }
 
@@ -72,32 +79,42 @@ namespace SCaddins.Common
             int d2 = date.LastIndexOfAny(c);
             int d1 = date.IndexOfAny(c);
 
-            try {
+            try
+            {
                 string year = string.Empty;
                 string month = string.Empty;
                 string day = string.Empty;
-                if (date.Length > d2 + 1) {
+                if (date.Length > d2 + 1)
+                {
                     year = date.Substring(d2 + 1);
                 }
-                if (date.Length > (d1 + 1) && (d2 - d1 - 1) < date.Length - (d1 + 1)) {
+                if (date.Length > (d1 + 1) && (d2 - d1 - 1) < date.Length - (d1 + 1))
+                {
                     month = date.Substring(d1 + 1, d2 - d1 - 1);
                 }
-                if (date.Length > 0 && d1 <= date.Length) {
+                if (date.Length > 0 && d1 <= date.Length)
+                {
                     day = date.Substring(0, d1);
                 }
                 return new DateTime(
                     Convert.ToInt32(year, CultureInfo.InvariantCulture),
                     Convert.ToInt32(month, CultureInfo.InvariantCulture),
                     Convert.ToInt32(day, CultureInfo.InvariantCulture));
-            } catch (ArgumentOutOfRangeException e) { 
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
                 Debug.WriteLine("Error in ToDateTime:" + e.Message);
                 return new DateTime();
-            } catch (FormatException e) {
+            }
+            catch (FormatException e)
+            {
                 Debug.WriteLine("Error in ToDateTime:" + e.Message);
-                return new DateTime(); 
-            } catch (OverflowException e) {
+                return new DateTime();
+            }
+            catch (OverflowException e)
+            {
                 Debug.WriteLine("Error in ToDateTime:" + e.Message);
-                return new DateTime(); 
+                return new DateTime();
             }
         }
     }

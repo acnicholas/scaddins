@@ -24,26 +24,12 @@ namespace SCaddins.RoomConvertor
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
 
-    public class RoomParameter
-    {
-        public RoomParameter(string def, string value, string convertedValue)
-        {
-            Def = def;
-            Value = value;
-            ConvertedValue = convertedValue;
-        }
-        public string Def { get; set; }
-        public string Value { get; set; }
-        public string ConvertedValue { get; set; }
-
-    }
-
     public class RoomConversionCandidate : INotifyPropertyChanged
     {
-        private Room room;
+        private string destSheetName;
+        private string destSheetNumber;
         private string destViewName;
-        private string destSheetName; 
-        private string destSheetNumber; 
+        private Room room;
 
         public RoomConversionCandidate(
                 Room room,
@@ -62,31 +48,90 @@ namespace SCaddins.RoomConvertor
                     RoomParameters.Add(new RoomParameter(p.Definition.Name, GetParamValueAsString(p), p.StorageType.ToString()));
                 }
             }
-
-        }
-
-        //FIXME put ths somewhere more useful.
-        public static string GetParamValueAsString(Parameter param)
-        {
-            switch (param.StorageType)
-            {
-                case StorageType.Double:
-                    return param.AsDouble().ToString(CultureInfo.CurrentCulture) + @"(" + param.AsValueString() + @")";
-                case StorageType.String:
-                    return param.AsString();
-                case StorageType.Integer:
-                    return param.AsInteger().ToString(CultureInfo.CurrentCulture) + @"(" + param.AsValueString() + @")";
-                case StorageType.ElementId:
-                    return string.Empty;
-                default:
-                    return string.Empty;
-            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Room Room {
-            get {
+        public string DestinationSheetName
+        {
+            get
+            {
+                return this.destSheetName;
+            }
+
+            set
+            {
+                this.destSheetName = value;
+                if (this.PropertyChanged != null)
+                {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs("DestinationSheetName"));
+                }
+            }
+        }
+
+        public string DestinationSheetNumber
+        {
+            get
+            {
+                return this.destSheetNumber;
+            }
+
+            set
+            {
+                this.destSheetNumber = value;
+                if (this.PropertyChanged != null)
+                {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs("DestinationSheetNumber"));
+                }
+            }
+        }
+
+        public string DestinationViewName
+        {
+            get
+            {
+                return this.destViewName;
+            }
+
+            set
+            {
+                this.destViewName = value;
+                if (this.PropertyChanged != null)
+                {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs("DestinationViewName"));
+                }
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(room.Number))
+                {
+                    return room.Name;
+                }
+                else
+                {
+                    string r = room.Name.Replace(room.Number, string.Empty).Trim();
+                    return string.IsNullOrWhiteSpace(r) ? "-" : r;
+                }
+            }
+        }
+
+        public string Number
+        {
+            get
+            {
+                string n = room.Number;
+                return string.IsNullOrWhiteSpace(n) ? "-" : n;
+            }
+        }
+
+        public Room Room
+        {
+            get
+            {
                 return room;
             }
         }
@@ -96,76 +141,31 @@ namespace SCaddins.RoomConvertor
             get; set;
         }
 
-        public string Number {
-            get {
-                string n = room.Number;
-                return string.IsNullOrWhiteSpace(n) ? "-" : n;
-            }
-        }
+        //FIXME put ths somewhere more useful.
+        public static string GetParamValueAsString(Parameter param)
+        {
+            switch (param.StorageType)
+            {
+                case StorageType.Double:
+                    return param.AsDouble().ToString(CultureInfo.CurrentCulture) + @"(" + param.AsValueString() + @")";
 
-        public string Name {
-            get {
-                if (string.IsNullOrWhiteSpace(room.Number)) {
-                    return room.Name;
-                } else {
-                    string r = room.Name.Replace(room.Number, string.Empty).Trim();
-                    return string.IsNullOrWhiteSpace(r) ? "-" : r;
-                }
-            }
-        }
+                case StorageType.String:
+                    return param.AsString();
 
-        public string DestinationViewName {
-            get {
-                return this.destViewName;
-            }
+                case StorageType.Integer:
+                    return param.AsInteger().ToString(CultureInfo.CurrentCulture) + @"(" + param.AsValueString() + @")";
 
-            set {
-                this.destViewName = value;
-                if (this.PropertyChanged != null) {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("DestinationViewName"));
-                }
-            }
-        }
+                case StorageType.ElementId:
+                    return string.Empty;
 
-        public string DestinationSheetNumber {
-            get {
-                return this.destSheetNumber;
-            }
-
-            set {
-                this.destSheetNumber = value;
-                if (this.PropertyChanged != null) {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("DestinationSheetNumber"));
-                }
-            }
-        }
-
-        public string DestinationSheetName {
-            get {
-                return this.destSheetName;
-            }
-
-            set {
-                this.destSheetName = value;
-                if (this.PropertyChanged != null) {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("DestinationSheetName"));
-                }
+                default:
+                    return string.Empty;
             }
         }
 
         public bool PassesFilter(RoomFilter filter)
         {
             return filter == null ? false : filter.PassesFilter(this.Room);
-        }
-
-        private string GetDefaultViewName(Dictionary<string, View> existingViews)
-        {
-            string request = this.Number + " - " + this.Name;
-            if (existingViews.ContainsKey(request)) {
-                return request + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";       
-            } else {
-                return request;
-            }
         }
 
         private string GetDefaultSheetName()
@@ -177,12 +177,45 @@ namespace SCaddins.RoomConvertor
         private string GetDefaultSheetNumber(Dictionary<string, View> existingSheets)
         {
             string request = this.Number;
-            if (existingSheets.ContainsKey(request)) {
-                return request + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";       
-            } else {
+            if (existingSheets.ContainsKey(request))
+            {
+                return request + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";
+            }
+            else
+            {
+                return request;
+            }
+        }
+
+        private string GetDefaultViewName(Dictionary<string, View> existingViews)
+        {
+            string request = this.Number + " - " + this.Name;
+            if (existingViews.ContainsKey(request))
+            {
+                return request + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";
+            }
+            else
+            {
                 return request;
             }
         }
     }
+
+    public class RoomParameter
+    {
+        public RoomParameter(string def, string value, string convertedValue)
+        {
+            Def = def;
+            Value = value;
+            ConvertedValue = convertedValue;
+        }
+
+        public string ConvertedValue { get; set; }
+
+        public string Def { get; set; }
+
+        public string Value { get; set; }
+    }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

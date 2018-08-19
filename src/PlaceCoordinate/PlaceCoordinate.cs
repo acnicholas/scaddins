@@ -18,7 +18,6 @@ namespace SCaddins.PlaceCoordinate
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Globalization;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -35,11 +34,13 @@ namespace SCaddins.PlaceCoordinate
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            if (commandData == null) {
+            if (commandData == null)
+            {
                 return Result.Failed;
             }
             UIDocument udoc = commandData.Application.ActiveUIDocument;
             Document doc = udoc.Document;
+
             //PlaceMGA(doc,);
 
             var vm = new ViewModels.PlaceCoordinateViewModel(doc);
@@ -61,27 +62,30 @@ namespace SCaddins.PlaceCoordinate
 
         private static XYZ ToMGA(ProjectPosition projectPosition, double x, double y, double z, bool useSurveyCoords)
         {
-            if (!useSurveyCoords) {
+            if (!useSurveyCoords)
+            {
                 return new XYZ(x / FeetToInches, y / FeetToInches, z / FeetToInches);
             }
 
             double xp, yp;
             double ang = projectPosition.Angle;
             double nx, ny;
-            xp = useSurveyCoords ? (x / FeetToInches) - projectPosition.EastWest : x / FeetToInches - projectPosition.EastWest;
-            yp = useSurveyCoords ? (y / FeetToInches) - projectPosition.NorthSouth: y / FeetToInches - projectPosition.NorthSouth;
-            nx = useSurveyCoords ? (xp * Math.Cos(-ang)) - (yp * Math.Sin(-ang)) : xp;
-            ny = useSurveyCoords ? (xp * Math.Sin(-ang)) + (yp * Math.Cos(-ang)) : yp;
+            xp = useSurveyCoords ? ((x / FeetToInches) - projectPosition.EastWest) : (x / FeetToInches) - projectPosition.EastWest;
+            yp = useSurveyCoords ? ((y / FeetToInches) - projectPosition.NorthSouth) : (y / FeetToInches) - projectPosition.NorthSouth;
+            nx = useSurveyCoords ? ((xp * Math.Cos(-ang)) - (yp * Math.Sin(-ang))) : xp;
+            ny = useSurveyCoords ? ((xp * Math.Sin(-ang)) + (yp * Math.Cos(-ang))) : yp;
             return new XYZ(nx, ny, -projectPosition.Elevation + z / FeetToInches);
         }
 
         public static List<FamilySymbol> GetAllFamilySymbols(Document doc)
         {
             List<FamilySymbol> result = new List<FamilySymbol>();
-            using (var collector = new FilteredElementCollector(doc)) {
+            using (var collector = new FilteredElementCollector(doc))
+            {
                 collector.OfCategory(BuiltInCategory.OST_GenericModel);
                 collector.OfClass(typeof(FamilySymbol));
-                foreach(FamilySymbol fs in collector) {
+                foreach (FamilySymbol fs in collector)
+                {
                     result.Add(fs);
                 }
             }
@@ -101,19 +105,23 @@ namespace SCaddins.PlaceCoordinate
         }
 
         public static FamilySymbol TryLoadDefaultSpotCoordFamily(List<FamilySymbol> familes, Document doc)
-        {           
-            if (DefaultSpotCoordinateFamilyExists(doc)) {
+        {
+            if (DefaultSpotCoordinateFamilyExists(doc))
+            {
                 Family fam;
-                using (var loadFamily = new Transaction(doc, "Load Family")) {
+                using (var loadFamily = new Transaction(doc, "Load Family"))
+                {
                     loadFamily.Start();
                     doc.LoadFamily(DefaultSpotCoordinateFamilyName(doc), out fam);
                     doc.Regenerate();
                     loadFamily.Commit();
                 }
                 System.Collections.Generic.ISet<ElementId> sids = fam.GetFamilySymbolIds();
-                foreach (ElementId id in sids) {
+                foreach (ElementId id in sids)
+                {
                     var f = doc.GetElement(id) as FamilySymbol;
-                    if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture))) {
+                    if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture)))
+                    {
                         return f;
                     }
                 }
@@ -125,23 +133,27 @@ namespace SCaddins.PlaceCoordinate
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public static void PlaceFamilyAtCoordinate(Document doc, FamilySymbol family, XYZ location, bool useSharedCoordinates)
         {
-            if (doc == null || family == null) {
+            if (doc == null || family == null)
+            {
                 return;
             }
 
             ProjectLocation currentLocation = doc.ActiveProjectLocation;
             var origin = new XYZ(0, 0, 0);
-            #if REVIT2018 || REVIT2019
+#if REVIT2018 || REVIT2019
             ProjectPosition projectPosition = currentLocation.GetProjectPosition(origin);
-            #else
+#else
             ProjectPosition projectPosition = currentLocation.get_ProjectPosition(origin);
-            #endif
+#endif
 
             XYZ newLocation = ToMGA(projectPosition, location.X, location.Y, location.Z, useSharedCoordinates);
 
-            using (var t = new Transaction(doc, "Place Family at Coordinate.")) {
-                if (t.Start() == TransactionStatus.Started) {
-                    if (!family.IsActive) {
+            using (var t = new Transaction(doc, "Place Family at Coordinate."))
+            {
+                if (t.Start() == TransactionStatus.Started)
+                {
+                    if (!family.IsActive)
+                    {
                         family.Activate();
                         doc.Regenerate();
                     }
@@ -155,4 +167,5 @@ namespace SCaddins.PlaceCoordinate
         }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

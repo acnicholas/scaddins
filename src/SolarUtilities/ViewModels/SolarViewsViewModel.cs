@@ -17,57 +17,30 @@
 
 namespace SCaddins.SolarUtilities.ViewModels
 {
-    using Autodesk.Revit.UI;
     using System;
+    using Autodesk.Revit.UI;
     using Caliburn.Micro;
 
-    class SolarViewsViewModel : Screen
+    internal class SolarViewsViewModel : Screen
     {
-        private SolarViews model;
         private DateTime creationDate;
-        private DateTime startTime;
         private DateTime endTime;
         private TimeSpan interval;
+        private SolarViews model;
+        private DateTime startTime;
 
         public SolarViewsViewModel(UIDocument uidoc)
         {
-            //var uiapp = uidoc.Application;
-            //var addInId = uiapp.ActiveAddInId;
-            //var addIn = addInId.GetAddInName();
-            //SCaddinsApp.WindowManager.ShowMessageBox(addIn);
-
-            //TEST MSG BOX
-            //SCaddinsApp.WindowManager.ShowMessageBox("TEST MESSAGE");
-            //string outString = string.Empty;
-            //SCaddinsApp.WindowManager.ShowSaveFileDialog("c:/temp/testit.txt", "*.txt", "Text documents (.txt)|*.txt", out outString);
-            //SCaddinsApp.WindowManager.ShowMessageBox(outString);
-
             model = new SolarViews(uidoc);
             creationDate = new DateTime(2018, 06, 21);
-            startTime = new DateTime(2018, 06, 21, 9,0,0,DateTimeKind.Local);
-            endTime = new DateTime(2018, 06, 21,15,0,0);
-            interval = new TimeSpan(1,00,00);
+            startTime = new DateTime(2018, 06, 21, 9, 0, 0, DateTimeKind.Local);
+            endTime = new DateTime(2018, 06, 21, 15, 0, 0);
+            interval = new TimeSpan(1, 00, 00);
             RotateCurrentView = CanRotateCurrentView;
-            if (!CanRotateCurrentView) {
+            if (!CanRotateCurrentView)
+            {
                 Create3dViews = true;
             }
-        }
-       
-        public bool RotateCurrentView
-        {
-            get { return model.RotateCurrentView; }
-            set
-            {
-                if (model.RotateCurrentView != value) {
-                    model.RotateCurrentView = value;
-                    NotifyOfPropertyChange(() => CurrentModeSummary);
-                }
-            }
-        }
-
-        public bool EnableRotateCurrentView
-        {
-            get { return CanRotateCurrentView; }
         }
 
         public bool CanRotateCurrentView
@@ -77,26 +50,38 @@ namespace SCaddins.SolarUtilities.ViewModels
                 return model.CanRotateActiveView;
             }
         }
-        
-        public bool Create3dViews {
-            get { return model.Create3dViews; }
+
+        public bool Create3dViews
+        {
+            get
+            {
+                return model.Create3dViews;
+            }
+
             set
             {
-                if (model.Create3dViews != value) {
+                if (model.Create3dViews != value)
+                {
                     model.Create3dViews = value;
                     NotifyOfPropertyChange(() => CurrentModeSummary);
                 }
             }
         }
 
-        public string CurrentModeSummary
+        public bool CreateShadowPlans
         {
             get
             {
-                if (RotateCurrentView) return "Rotate Current View";
-                if (Create3dViews) return "Create View[s]";
-                if (CreateShadowPlans) return "Create Plans";
-                return "OK";
+                return model.CreateShadowPlans;
+            }
+
+            set
+            {
+                if (model.CreateShadowPlans != value)
+                {
+                    model.CreateShadowPlans = value;
+                    NotifyOfPropertyChange(() => CurrentModeSummary);
+                }
             }
         }
 
@@ -106,9 +91,11 @@ namespace SCaddins.SolarUtilities.ViewModels
             {
                 return creationDate;
             }
+
             set
             {
-                if (value != creationDate) {
+                if (value != creationDate)
+                {
                     var oldStartIndex = StartTimes.IndexOf(SelectedStartTime);
                     var oldEndIndex = EndTimes.IndexOf(SelectedEndTime);
                     creationDate = value;
@@ -120,27 +107,28 @@ namespace SCaddins.SolarUtilities.ViewModels
             }
         }
 
-        public BindableCollection<DateTime> StartTimes
+        public string CurrentModeSummary
         {
             get
             {
-                var times = new BindableCollection<DateTime>();
-                for (int hour = 8; hour < 17; hour++) {
-                    times.Add(new DateTime(creationDate.Year, creationDate.Month, creationDate.Day, hour, 0, 0, DateTimeKind.Local));
+                if (RotateCurrentView) {
+                    return "Rotate Current View";
                 }
-                return times;
+                if (Create3dViews) {
+                    return "Create View[s]";
+                }
+                if (CreateShadowPlans) {
+                    return "Create Plans";
+                }
+                return "OK";
             }
         }
 
-        public DateTime SelectedStartTime
+        public bool EnableRotateCurrentView
         {
-            get { return startTime; }
-            set
+            get
             {
-                if (value != startTime) {
-                    startTime = value;
-                    NotifyOfPropertyChange(() => SelectedStartTime);
-                }
+                return CanRotateCurrentView;
             }
         }
 
@@ -149,22 +137,11 @@ namespace SCaddins.SolarUtilities.ViewModels
             get
             {
                 var times = new BindableCollection<DateTime>();
-                for (int hour = 9; hour < 18; hour++) {
+                for (int hour = 9; hour < 18; hour++)
+                {
                     times.Add(new DateTime(creationDate.Year, creationDate.Month, creationDate.Day, hour, 0, 0, DateTimeKind.Local));
                 }
                 return times;
-            }
-        }
-
-        public DateTime SelectedEndTime
-        {
-            get { return endTime; }
-            set
-            {
-                if (value != endTime) {
-                    endTime = value;
-                    NotifyOfPropertyChange(() => SelectedEndTime);
-                }
             }
         }
 
@@ -180,26 +157,82 @@ namespace SCaddins.SolarUtilities.ViewModels
             }
         }
 
-        public TimeSpan SelectedInterval
+        public bool RotateCurrentView
         {
-            get { return interval; }
+            get {
+                return model.RotateCurrentView;
+            }
+
             set
             {
-                if (value != interval) {
+                if (model.RotateCurrentView != value)
+                {
+                    model.RotateCurrentView = value;
+                    NotifyOfPropertyChange(() => CurrentModeSummary);
+                }
+            }
+        }
+
+        public DateTime SelectedEndTime
+        {
+            get
+            {
+                return endTime;
+            }
+
+            set
+            {
+                if (value != endTime)
+                {
+                    endTime = value;
+                    NotifyOfPropertyChange(() => SelectedEndTime);
+                }
+            }
+        }
+
+        public TimeSpan SelectedInterval
+        {
+            get
+            {
+                return interval;
+            }
+
+            set
+            {
+                if (value != interval)
+                {
                     interval = value;
                 }
             }
         }
 
-        public bool CreateShadowPlans
+        public DateTime SelectedStartTime
         {
-            get { return model.CreateShadowPlans; }
+            get
+            {
+                return startTime;
+            }
+
             set
             {
-                if (model.CreateShadowPlans != value) {
-                    model.CreateShadowPlans = value;
-                    NotifyOfPropertyChange(() => CurrentModeSummary);
+                if (value != startTime)
+                {
+                    startTime = value;
+                    NotifyOfPropertyChange(() => SelectedStartTime);
                 }
+            }
+        }
+
+        public BindableCollection<DateTime> StartTimes
+        {
+            get
+            {
+                var times = new BindableCollection<DateTime>();
+                for (int hour = 8; hour < 17; hour++)
+                {
+                    times.Add(new DateTime(creationDate.Year, creationDate.Month, creationDate.Day, hour, 0, 0, DateTimeKind.Local));
+                }
+                return times;
             }
         }
 
@@ -218,6 +251,5 @@ namespace SCaddins.SolarUtilities.ViewModels
             model.ExportTimeInterval = interval;
             model.Go();
         }
-                             
     }
 }

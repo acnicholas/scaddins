@@ -17,21 +17,22 @@
 
 namespace SCaddins.RevisionUtilities
 {
+    using System.Dynamic;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using System.Dynamic;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
-    {    
+    {
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            if (commandData == null) {
+            if (commandData == null)
+            {
                 return Result.Failed;
             }
             Document doc = commandData.Application.ActiveUIDocument.Document;
@@ -45,6 +46,6 @@ namespace SCaddins.RevisionUtilities
             var vm = new ViewModels.RevisionUtilitiesViewModel(doc);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
             return Autodesk.Revit.UI.Result.Succeeded;
-        }     
-    }  
+        }
+    }
 }

@@ -27,6 +27,41 @@ namespace SCaddins.ExportManager
 
     public static class FileUtilities
     {
+        public static bool CanOverwriteFile(string fileName)
+        {
+            if (IsFileLocked(new FileInfo(fileName)))
+            {
+                using (var td = new TaskDialog("File in use"))
+                {
+                    td.MainContent = "The file: " + fileName + " appears to be in use." +
+                                     Environment.NewLine +
+                                     "please close it before continuing...";
+                    td.MainInstruction = "File in use";
+                    td.CommonButtons = TaskDialogCommonButtons.Ok;
+                    td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+                    td.Show();
+                }
+
+                if (IsFileLocked(new FileInfo(fileName))) return false;
+            }
+
+            if (!ExportManager.ConfirmOverwrite) return true;
+            if (File.Exists(fileName))
+            {
+                var message = fileName + " exists," + Environment.NewLine + "do you want do overwrite the existing file?";
+                bool confirmOverwriteDialog = true;
+                bool? result = SCaddinsApp.WindowManager.ShowConfirmationDialog(message, true, out confirmOverwriteDialog);
+                bool newBool = result.HasValue ? result.Value : false;
+                if (newBool)
+                {
+                    ExportManager.ConfirmOverwrite = confirmOverwriteDialog;
+                    return newBool;
+                }
+                return false;
+            }
+            return true;
+        }
+
         public static bool ConfigFileExists(Document doc)
         {
             var config = ExportManager.GetConfigFileName(doc);
@@ -54,25 +89,6 @@ namespace SCaddins.ExportManager
                               Path.DirectorySeparatorChar +
                               Constants.ExampleConfigFileName;
                 if (File.Exists(example)) File.Copy(example, config, true);
-            }
-        }
-
-        public static bool IsValidFileName(string fileName)
-        {
-            var valid = !string.IsNullOrEmpty(fileName) &&
-                        fileName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
-            return valid;
-        }
-
-        ////FIXME - add delay param
-        public static void WaitForFileAccess(string file)
-        {
-            var i = 0;
-            while (IsFileLocked(new FileInfo(file)))
-            {
-                Thread.Sleep(2000);
-                i++;
-                if (i > 30) return;
             }
         }
 
@@ -112,40 +128,24 @@ namespace SCaddins.ExportManager
             return false;
         }
 
-        public static bool CanOverwriteFile(string fileName)
+        public static bool IsValidFileName(string fileName)
         {
-            if (IsFileLocked(new FileInfo(fileName)))
-            {
-                using (var td = new TaskDialog("File in use"))
-                {
-                    td.MainContent = "The file: " + fileName + " appears to be in use." +
-                                     Environment.NewLine +
-                                     "please close it before continuing...";
-                    td.MainInstruction = "File in use";
-                    td.CommonButtons = TaskDialogCommonButtons.Ok;
-                    td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-                    td.Show();
-                }
-
-                if (IsFileLocked(new FileInfo(fileName))) return false;
-            }
-
-            if (!ExportManager.ConfirmOverwrite) return true;
-            if (File.Exists(fileName))
-            {  
-                var message = fileName + " exists," + Environment.NewLine + "do you want do overwrite the existing file?";
-                bool confirmOverwriteDialog = true;
-                bool? result = SCaddinsApp.WindowManager.ShowConfirmationDialog(message, true, out confirmOverwriteDialog);
-                bool newBool = result.HasValue ? result.Value : false;
-                if (newBool) {
-                    ExportManager.ConfirmOverwrite = confirmOverwriteDialog;
-                    return newBool;
-                }
-                return false;
-            }
-            return true;
+            var valid = !string.IsNullOrEmpty(fileName) &&
+                        fileName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
+            return valid;
         }
 
+        ////FIXME - add delay param
+        public static void WaitForFileAccess(string file)
+        {
+            var i = 0;
+            while (IsFileLocked(new FileInfo(file)))
+            {
+                Thread.Sleep(2000);
+                i++;
+                if (i > 30) return;
+            }
+        }
         [SecurityCritical]
         internal static void EditConfigFile(Document doc)
         {

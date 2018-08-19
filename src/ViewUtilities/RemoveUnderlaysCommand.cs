@@ -18,23 +18,24 @@
 namespace SCaddins.ViewUtilities
 {
     using Autodesk.Revit.UI;
-    
+
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class RemoveUnderlaysCommand : IExternalCommand
-    {    
+    {
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            if (commandData == null) {
+            if (commandData == null)
+            {
                 return Result.Failed;
             }
             var uidoc = commandData.Application.ActiveUIDocument;
             ViewUnderlays.RemoveUnderlays(uidoc);
             return Result.Succeeded;
-        }     
+        }
     }
 }

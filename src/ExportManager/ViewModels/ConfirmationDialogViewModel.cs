@@ -17,12 +17,11 @@
 
 namespace SCaddins.ExportManager.ViewModels
 {
-    using System.Dynamic;
     using Caliburn.Micro;
+    using System.Dynamic;
 
     public class ConfirmationDialogViewModel : Screen
     {
-        
         public ConfirmationDialogViewModel()
         {
             Value = null;
@@ -45,6 +44,11 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public string Message
+        {
+            get; set;
+        }
+
         public bool? Value
         {
             get; set;
@@ -56,11 +60,6 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 return Value.HasValue ? Value.Value : false;
             }
-        }
-
-        public string Message
-        {
-            get; set;
         }
 
         public void Accept()

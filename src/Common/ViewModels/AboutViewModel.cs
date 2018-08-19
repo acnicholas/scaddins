@@ -17,9 +17,9 @@
 
 namespace SCaddins.Common.ViewModels
 {
-    using Caliburn.Micro;
     using System.Diagnostics;
     using System.Reflection;
+    using Caliburn.Micro;
 
     public class AboutViewModel : Screen
     {

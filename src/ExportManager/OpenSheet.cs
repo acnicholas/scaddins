@@ -17,18 +17,15 @@
 
 namespace SCaddins.ExportManager
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using System.Dynamic;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-   [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
-   [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
-
+    [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
+    [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class OpenSheet : IExternalCommand
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
@@ -37,7 +34,8 @@ namespace SCaddins.ExportManager
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            if (commandData == null) {
+            if (commandData == null)
+            {
                 return Autodesk.Revit.UI.Result.Failed;
             }
 
@@ -45,14 +43,15 @@ namespace SCaddins.ExportManager
             var vm = new ViewModels.OpenSheetViewModel(doc);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.OpenSheetViewModel.DefaultWindowSettings);
             return Autodesk.Revit.UI.Result.Succeeded;
-
         }
 
         public static void OpenViews(System.Collections.IList views)
         {
-            foreach (var item in views) {
+            foreach (var item in views)
+            {
                 var sheet = item as ExportSheet;
-                if (sheet.Sheet != null) {
+                if (sheet.Sheet != null)
+                {
                     UIApplication uiapp = new UIApplication(sheet.Sheet.Document.Application);
                     uiapp.ActiveUIDocument.ActiveView = sheet.Sheet;
                 }
@@ -73,7 +72,8 @@ namespace SCaddins.ExportManager
         {
             List<OpenableView> list = ViewsInModel(udoc.Document, false).OrderBy(o => o.SheetNumber).ToList();
             int index = list.IndexOf(list.Find(ov => ov.SheetNumber == view.SheetNumber));
-            if (index > -1) {
+            if (index > -1)
+            {
                 if (offset < 0 && index + offset < 0) return;
                 if (offset > 0 && index + offset >= list.Count) return;
                 list[index + offset].Open();
@@ -85,13 +85,16 @@ namespace SCaddins.ExportManager
             var result = new List<OpenableView>();
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             collector.OfCategory(BuiltInCategory.OST_Sheets);
-            foreach (ViewSheet view in collector) {
+            foreach (ViewSheet view in collector)
+            {
                 result.Add(new OpenableView(view.ViewName, view.SheetNumber, view));
             }
-            if (includeViews) {
+            if (includeViews)
+            {
                 FilteredElementCollector collector2 = new FilteredElementCollector(doc);
                 var views = collector2.OfCategory(BuiltInCategory.OST_Views).Cast<View>().Where<View>(v => !v.IsTemplate);
-                foreach (View view in views) {
+                foreach (View view in views)
+                {
                     result.Add(new OpenableView(view.Name, string.Empty, view));
                 }
             }

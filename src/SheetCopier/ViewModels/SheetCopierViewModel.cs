@@ -27,7 +27,6 @@ namespace SCaddins.SheetCopier.ViewModels
 
     class SheetCopierViewModel : PropertyChangedBase
     {
-
         private SheetCopierManager copyManager;
         private SheetCopierSheet selectedSheet;
         List<SheetCopierSheet> selectedSheets = new List<SheetCopierSheet>();
@@ -74,6 +73,7 @@ namespace SCaddins.SheetCopier.ViewModels
             {
                 return selectedSheet;
             }
+
             set
             {
                 if (value != selectedSheet)
@@ -125,7 +125,6 @@ namespace SCaddins.SheetCopier.ViewModels
                 selectedSheets.AddRange(obj.AddedItems.Cast<SheetCopierSheet>());
                 obj.RemovedItems.Cast<SheetCopierSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
             } catch {
-
             }
         }
 
@@ -135,7 +134,6 @@ namespace SCaddins.SheetCopier.ViewModels
                 selectedViews.AddRange(obj.AddedItems.Cast<SheetCopierViewOnSheet>());
                 obj.RemovedItems.Cast<SheetCopierViewOnSheet>().ToList().ForEach(w => selectedViews.Remove(w));
             } catch {
-
             }
         }
 

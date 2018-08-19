@@ -17,8 +17,8 @@
 
 namespace SCaddins.DestructivePurge
 {
-    using System.Dynamic;
     using Autodesk.Revit.UI;
+    using System.Dynamic;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -30,7 +30,8 @@ namespace SCaddins.DestructivePurge
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            if (commandData == null) {
+            if (commandData == null)
+            {
                 return Result.Failed;
             }
 
@@ -50,4 +51,5 @@ namespace SCaddins.DestructivePurge
         }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

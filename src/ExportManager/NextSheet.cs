@@ -17,15 +17,13 @@
 
 namespace SCaddins.ExportManager
 {
-    using System;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
-   [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-   [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
-   [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
-
+    [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
+    [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
+    [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class NextSheet : IExternalCommand
     {
         public Autodesk.Revit.UI.Result Execute(
@@ -33,16 +31,20 @@ namespace SCaddins.ExportManager
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            if (commandData == null) {
+            if (commandData == null)
+            {
                 return Result.Failed;
             }
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
             View currentView = doc.ActiveView;
-            if (currentView.ViewType != ViewType.DrawingSheet) {
+            if (currentView.ViewType != ViewType.DrawingSheet)
+            {
                 TaskDialog.Show("SCexport", "NextSheet can only be run if the active view is a sheet");
                 return Autodesk.Revit.UI.Result.Failed;
-            } else {
+            }
+            else
+            {
                 var vs = currentView as ViewSheet;
                 ExportManager.OpenNextSheet(commandData.Application.ActiveUIDocument, vs);
                 return Autodesk.Revit.UI.Result.Succeeded;

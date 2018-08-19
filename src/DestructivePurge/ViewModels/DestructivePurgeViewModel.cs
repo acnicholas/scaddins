@@ -17,18 +17,18 @@
 
 namespace SCaddins.DestructivePurge.ViewModels
 {
-    using System;
-    using System.Collections.ObjectModel;
-    using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
 
-    class DestructivePurgeViewModel : PropertyChangedBase
+    internal class DestructivePurgeViewModel : PropertyChangedBase
     {
         private ObservableCollection<CheckableItem> checkableItems;
-        private CheckableItem selectedItem;
         private Document doc;
-        System.Windows.Media.Imaging.BitmapImage previewImage;
+        private System.Windows.Media.Imaging.BitmapImage previewImage;
+        private CheckableItem selectedItem;
 
         public DestructivePurgeViewModel(Autodesk.Revit.DB.Document doc)
         {
@@ -40,23 +40,26 @@ namespace SCaddins.DestructivePurge.ViewModels
             var viewNotOnSheets = new CheckableItem(new DeletableItem("Views NOT On Sheets"), null);
             foreach (ViewType enumValue in Enum.GetValues(typeof(ViewType)))
             {
-                if (enumValue == ViewType.DrawingSheet)
+                if (enumValue == ViewType.DrawingSheet) {
                     continue;
+                }
                 var i = new CheckableItem(new DeletableItem(enumValue.ToString()), viewNotOnSheets);
                 i.AddChildren(SCwashUtilities.Views(doc, false, enumValue));
-                if (i.Children.Count > 0)
+                if (i.Children.Count > 0) {
                     viewNotOnSheets.AddChild(i);
+                }
             }
             checkableItems.Add(viewNotOnSheets);
 
             var viewOnSheets = new CheckableItem(new DeletableItem("Views On Sheets"), null);
             foreach (ViewType enumValue in Enum.GetValues(typeof(ViewType)))
             {
-                if (enumValue == ViewType.DrawingSheet)
+                if (enumValue == ViewType.DrawingSheet) {
                     continue;
+                }
                 var i = new CheckableItem(new DeletableItem(enumValue.ToString()), viewOnSheets);
                 i.AddChildren(SCwashUtilities.Views(doc, true, enumValue));
-                if(i.Children.Count > 0)
+                if (i.Children.Count > 0)
                     viewOnSheets.AddChild(i);
             }
             checkableItems.Add(viewOnSheets);
@@ -92,6 +95,7 @@ namespace SCaddins.DestructivePurge.ViewModels
             {
                 return checkableItems;
             }
+
             set
             {
                 checkableItems = value;
@@ -99,28 +103,40 @@ namespace SCaddins.DestructivePurge.ViewModels
             }
         }
 
-        public void SelectedItemChanged(CheckableItem item)
+        public string Details
         {
-            selectedItem = item;
-            NotifyOfPropertyChange(() => Details);
-            NotifyOfPropertyChange(() => ShowButtonLabel);
-            NotifyOfPropertyChange(() => EnableShowElemant);
-            PreviewImage = SCwashUtilities.ToBitmapImage(item.Deletable.PreviewImage);
-        }
-
-        public System.Windows.Media.Imaging.BitmapImage PreviewImage
-        {
-            set
+            get
             {
-                if (previewImage != value) {
-                    previewImage = value;
-                    NotifyOfPropertyChange(() => PreviewImage);
-                    NotifyOfPropertyChange(() => ImageHeight);
-                    NotifyOfPropertyChange(() => ImageWidth);
-                    NotifyOfPropertyChange(() => ImageMargin);
+                if (selectedItem.Deletable.Info == "-")
+                {
+                    return "Select an element to view additional properties";
+                }
+                else
+                {
+                    return selectedItem.Deletable.Info;
                 }
             }
-            get { return previewImage; }
+        }
+
+        public bool EnableShowElemant
+        {
+            get { return selectedItem.Deletable.Id != null; }
+        }
+
+        public int ImageHeight
+        {
+            get
+            {
+                return PreviewImage != null ? 196 : 0;
+            }
+        }
+
+        public int ImageMargin
+        {
+            get
+            {
+                return PreviewImage != null ? 5 : 0;
+            }
         }
 
         public int ImageWidth
@@ -131,49 +147,23 @@ namespace SCaddins.DestructivePurge.ViewModels
             }
         }
 
-
-        public int ImageHeight
+        public System.Windows.Media.Imaging.BitmapImage PreviewImage
         {
-            get
+            set
             {
-                return PreviewImage != null ? 196 : 0;
-            }
-        }
-
-
-        public int ImageMargin
-        {
-            get
-            {
-                return PreviewImage != null ? 5 : 0;
-            }
-        }
-
-
-        public string Details
-        {
-            get
-            {
-                if (selectedItem.Deletable.Info == "-") {
-                    return "Select an element to view additional properties";
-                } else {
-                    return selectedItem.Deletable.Info;
+                if (previewImage != value)
+                {
+                    previewImage = value;
+                    NotifyOfPropertyChange(() => PreviewImage);
+                    NotifyOfPropertyChange(() => ImageHeight);
+                    NotifyOfPropertyChange(() => ImageWidth);
+                    NotifyOfPropertyChange(() => ImageMargin);
                 }
             }
-        }
 
-        public void ShowElement()
-        {
-            if (selectedItem.Deletable.Id != null)
+            get
             {
-                var uiapp = new Autodesk.Revit.UI.UIApplication(doc.Application);
-                Element e = doc.GetElement(selectedItem.Deletable.Id);
-                Type t = e.GetType();
-                if (e is Autodesk.Revit.DB.View) {
-                    uiapp.ActiveUIDocument.ActiveView = (Autodesk.Revit.DB.View)e;            
-                } else {
-                    uiapp.ActiveUIDocument.ShowElements(selectedItem.Deletable.Id);
-                }              
+                return previewImage;
             }
         }
 
@@ -182,24 +172,6 @@ namespace SCaddins.DestructivePurge.ViewModels
             get
             {
                 return selectedItem.Deletable.Id == null ? "Select Element" : "Show Element " + selectedItem.Deletable.Id.ToString();
-            }
-        }
-
-        public bool EnableShowElemant
-        {
-            get { return selectedItem.Deletable.Id != null; }
-        }
-
-        public void RecurseItems(List<ElementId> list, CheckableItem item)
-        {
-            foreach (var child in item.Children)
-            {
-                if (child.IsChecked.Value == true)
-                {
-                    if (child.Deletable.Id != null)
-                        list.Add(child.Deletable.Id);
-                    RecurseItems(list, child);
-                }
             }
         }
 
@@ -215,11 +187,47 @@ namespace SCaddins.DestructivePurge.ViewModels
                     RecurseItems(toDelete, item);
                 }
             }
-            SCwashUtilities.RemoveElements(doc,toDelete);
+            SCwashUtilities.RemoveElements(doc, toDelete);
         }
 
+        public void RecurseItems(List<ElementId> list, CheckableItem item)
+        {
+            foreach (var child in item.Children)
+            {
+                if (child.IsChecked.Value == true) {
+                    if (child.Deletable.Id != null) {
+                        list.Add(child.Deletable.Id);
+                    }
+                    RecurseItems(list, child);
+                }
+            }
+        }
 
+        public void SelectedItemChanged(CheckableItem item)
+        {
+            selectedItem = item;
+            NotifyOfPropertyChange(() => Details);
+            NotifyOfPropertyChange(() => ShowButtonLabel);
+            NotifyOfPropertyChange(() => EnableShowElemant);
+            PreviewImage = SCwashUtilities.ToBitmapImage(item.Deletable.PreviewImage);
+        }
 
-
+        public void ShowElement()
+        {
+            if (selectedItem.Deletable.Id != null)
+            {
+                var uiapp = new Autodesk.Revit.UI.UIApplication(doc.Application);
+                Element e = doc.GetElement(selectedItem.Deletable.Id);
+                Type t = e.GetType();
+                if (e is Autodesk.Revit.DB.View)
+                {
+                    uiapp.ActiveUIDocument.ActiveView = (Autodesk.Revit.DB.View)e;
+                }
+                else
+                {
+                    uiapp.ActiveUIDocument.ShowElements(selectedItem.Deletable.Id);
+                }
+            }
+        }
     }
 }

@@ -26,7 +26,6 @@ namespace SCaddins.SolarUtilities
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
     {
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,

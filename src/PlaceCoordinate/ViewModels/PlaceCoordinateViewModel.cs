@@ -15,17 +15,17 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using Autodesk.Revit.DB;
-using Caliburn.Micro;
-
 namespace SCaddins.PlaceCoordinate.ViewModels
 {
-    class PlaceCoordinateViewModel : Screen
+    using System.Collections.Generic;
+    using Autodesk.Revit.DB;
+    using Caliburn.Micro;
+
+    internal class PlaceCoordinateViewModel : Screen
     {
+        private Document doc;
         private List<Autodesk.Revit.DB.FamilySymbol> familiesInModel;
         private FamilySymbol selectedFamilySymbol;
-        private Document doc;
         private bool useSharedCoordinates;
 
         public PlaceCoordinateViewModel(Document doc)
@@ -34,57 +34,79 @@ namespace SCaddins.PlaceCoordinate.ViewModels
             useSharedCoordinates = true;
             familiesInModel = Command.GetAllFamilySymbols(doc);
             selectedFamilySymbol = Command.TryGetDefaultSpotCoordFamily(familiesInModel, doc);
-            if (selectedFamilySymbol == null) {
-                selectedFamilySymbol = Command.TryLoadDefaultSpotCoordFamily(familiesInModel, doc); 
-                if (selectedFamilySymbol != null) {
+            if (selectedFamilySymbol == null)
+            {
+                selectedFamilySymbol = Command.TryLoadDefaultSpotCoordFamily(familiesInModel, doc);
+                if (selectedFamilySymbol != null)
+                {
                     familiesInModel.Add(selectedFamilySymbol);
                 }
             }
         }
 
-        public double XCoordinate
-        {
-            get; set;
-        }
-
-        public double YCoordinate
-        {
-            get; set;
-        }
-
-        public double ZCoordinate
-        {
-            get; set;
-        }
-
-        public string XCoordinateLabel
+        public static dynamic DefaultWindowSettings
         {
             get
             {
-                return UseSharedCoordinates ? "East / West" : "X Value";
+                dynamic settings = new System.Dynamic.ExpandoObject();
+                settings.Height = 400;
+
+                //settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
+                //  new System.Uri("pack://application:,,,/SCaddins;component/Assets/scasfar.png")
+                //  );
+                settings.Title = "Place Coordinate - By Andrew Nicholas";
+                settings.ShowInTaskbar = false;
+                settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+                settings.ResizeMode = System.Windows.ResizeMode.CanResize;
+                return settings;
             }
         }
 
-        public string YCoordinateLabel
+        public List<Autodesk.Revit.DB.FamilySymbol> FamilySymbols
         {
             get
             {
-                return UseSharedCoordinates ? "North / South" : "Y Value";
+                return familiesInModel;
+            }
+
+            set
+            {
+                if (value != familiesInModel) {
+                    familiesInModel = value;
+                    NotifyOfPropertyChange(() => FamilySymbols);
+                }
             }
         }
 
-        public string ZCoordinateLabel
+        public bool PlaceFamilyAtCoordinateIsEnabled
+        {
+            //get { return false; }
+            get { return SelectedFamilySymbol != null; }
+        }
+
+        public FamilySymbol SelectedFamilySymbol
         {
             get
             {
-                return UseSharedCoordinates ? "Elevation" : "Z Value";
+                return selectedFamilySymbol;
+            }
+
+            set
+            {
+                if (value != selectedFamilySymbol) {
+                    selectedFamilySymbol = value;
+                    NotifyOfPropertyChange(() => SelectedFamilySymbol);
+                    NotifyOfPropertyChange(() => PlaceFamilyAtCoordinateIsEnabled);
+                }
             }
         }
-
 
         public bool UseSharedCoordinates
         {
-            get { return useSharedCoordinates; }
+            get
+            {
+                return useSharedCoordinates;
+            }
             set
             {
                 if (value != useSharedCoordinates)
@@ -97,51 +119,42 @@ namespace SCaddins.PlaceCoordinate.ViewModels
             }
         }
 
-        public FamilySymbol SelectedFamilySymbol
+        public double XCoordinate
+        {
+            get; set;
+        }
+
+        public string XCoordinateLabel
         {
             get
             {
-                return selectedFamilySymbol;
-            }
-            set
-            {
-                if (value != selectedFamilySymbol)
-                {
-                    selectedFamilySymbol = value;
-                    NotifyOfPropertyChange(() => SelectedFamilySymbol);
-                    NotifyOfPropertyChange(() => PlaceFamilyAtCoordinateIsEnabled);
-                }
+                return UseSharedCoordinates ? "East / West" : "X Value";
             }
         }
 
-        public List<Autodesk.Revit.DB.FamilySymbol> FamilySymbols
+        public double YCoordinate
         {
-            get {
-                return familiesInModel;
-            } set
-            {
-                if (value != familiesInModel)
-                {
-                    familiesInModel = value;
-                    NotifyOfPropertyChange(() => FamilySymbols);
-                }
-            }
+            get; set;
         }
 
-        public static dynamic DefaultWindowSettings
+        public string YCoordinateLabel
         {
             get
             {
-                dynamic settings = new System.Dynamic.ExpandoObject();
-                settings.Height = 400;
-                //settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
-                //  new System.Uri("pack://application:,,,/SCaddins;component/Assets/scasfar.png")
-                //  );
-                settings.Title = "Place Coordinate - By Andrew Nicholas";
-                settings.ShowInTaskbar = false;
-                settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
-                settings.ResizeMode = System.Windows.ResizeMode.CanResize;
-                return settings;
+                return UseSharedCoordinates ? "North / South" : "Y Value";
+            }
+        }
+
+        public double ZCoordinate
+        {
+            get; set;
+        }
+
+        public string ZCoordinateLabel
+        {
+            get
+            {
+                return UseSharedCoordinates ? "Elevation" : "Z Value";
             }
         }
 
@@ -154,12 +167,6 @@ namespace SCaddins.PlaceCoordinate.ViewModels
         {
             Command.PlaceFamilyAtCoordinate(doc, SelectedFamilySymbol, new XYZ(XCoordinate, YCoordinate, ZCoordinate), UseSharedCoordinates);
             TryClose(true);
-        }
-
-        public bool PlaceFamilyAtCoordinateIsEnabled
-        {
-            //get { return false; }
-            get { return SelectedFamilySymbol != null; }
         }
     }
 }

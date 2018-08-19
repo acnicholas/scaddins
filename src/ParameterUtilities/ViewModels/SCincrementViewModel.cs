@@ -17,11 +17,10 @@
 
 using Caliburn.Micro;
 
-namespace SCaddins.ParameterUtilities.ViewModels 
+namespace SCaddins.ParameterUtilities.ViewModels
 {
-    class SCincrementViewModel : Screen
+    internal class SCincrementViewModel : Screen
     {
-
         public SCincrementViewModel()
         {
             LoadSettings();
@@ -40,6 +39,22 @@ namespace SCaddins.ParameterUtilities.ViewModels
                 return settings;
             }
         }
+
+        public string CustomParameterName { get; set; }
+
+        public string DestinationReplacementPattern { get; set; }
+
+        public string DestinationSearchPattern { get; set; }
+
+        public int IncrementValue { get; set; }
+
+        public int OffsetValue { get; set; }
+
+        public string SourceReplacementPattern { get; set; }
+
+        public string SourceSearchPattern { get; set; }
+
+        public bool UseCustomParameter { get; set; }
 
         public void Quit()
         {
@@ -66,15 +81,6 @@ namespace SCaddins.ParameterUtilities.ViewModels
             TryClose(true);
         }
 
-        public string SourceSearchPattern { get; set; }
-        public string SourceReplacementPattern { get; set; }
-        public string DestinationSearchPattern { get; set; }
-        public string DestinationReplacementPattern { get; set; }
-        public int IncrementValue { get; set; }
-        public int OffsetValue { get; set; }
-        public bool UseCustomParameter { get; set; }
-        public string CustomParameterName { get; set; }
-
         private void LoadSettings()
         {
             OffsetValue = SCincrementSettings.Default.OffsetValue;
@@ -82,7 +88,7 @@ namespace SCaddins.ParameterUtilities.ViewModels
             SourceReplacementPattern = SCincrementSettings.Default.SourceReplacePattern;
             SourceSearchPattern = SCincrementSettings.Default.SourceSearchPattern;
             DestinationReplacementPattern = SCincrementSettings.Default.DestinationReplacePattern;
-            DestinationSearchPattern= SCincrementSettings.Default.DestinationSearchPattern;
+            DestinationSearchPattern = SCincrementSettings.Default.DestinationSearchPattern;
             CustomParameterName = SCincrementSettings.Default.CustomParameterName;
             UseCustomParameter = SCincrementSettings.Default.UseCustomParameterName;
             NotifyOfPropertyChange(() => OffsetValue);
@@ -96,4 +102,3 @@ namespace SCaddins.ParameterUtilities.ViewModels
         }
     }
 }
-

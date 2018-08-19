@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using Caliburn.Micro;
-using System;
-
 namespace SCaddins.Common.ViewModels
 {
+    using System;
+    using Caliburn.Micro;
+
     class UpgradeViewModel : Screen
     {
         private string downloadLink;
@@ -76,6 +76,5 @@ namespace SCaddins.Common.ViewModels
         {
             System.Diagnostics.Process.Start(SCaddins.Constants.ChangelogLink);
         }
-
     }
 }

@@ -15,14 +15,13 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-
 namespace SCaddins.ExportManager.ViewModels
 {
+    using Caliburn.Micro;
     using System.Collections.Generic;
     using System.Dynamic;
-    using Caliburn.Micro;
 
-    class ExportLogViewModel : Screen
+    internal class ExportLogViewModel : Screen
     {
         private ExportLog log;
 
@@ -44,24 +43,9 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public string Output
+        public int ErrorCount
         {
-            get { return log.FullOutputLog; }
-        }
-
-        public List<ExportLogItem> Warnings
-        {
-            get { return log.WarningLog; }
-        }
-
-        public int WarningCount
-        {
-            get { return log.Warnings; }
-        }
-
-        public string WarningsHeader
-        {
-            get { return @"Warnings(" + WarningCount + @")"; }
+            get { return log.Errors; }
         }
 
         public List<ExportLogItem> Errors
@@ -69,14 +53,29 @@ namespace SCaddins.ExportManager.ViewModels
             get { return log.ErrorLog; }
         }
 
-        public int ErrorCount
-        {
-            get { return log.Errors; }
-        }
-
         public string ErrorsHeader
         {
             get { return @"Errors(" + ErrorCount + @")"; }
+        }
+
+        public string Output
+        {
+            get { return log.FullOutputLog; }
+        }
+
+        public int WarningCount
+        {
+            get { return log.Warnings; }
+        }
+
+        public List<ExportLogItem> Warnings
+        {
+            get { return log.WarningLog; }
+        }
+
+        public string WarningsHeader
+        {
+            get { return @"Warnings(" + WarningCount + @")"; }
         }
     }
 }

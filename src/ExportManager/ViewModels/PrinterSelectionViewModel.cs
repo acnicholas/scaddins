@@ -15,19 +15,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
 using Caliburn.Micro;
+using System.Collections.Generic;
 
 namespace SCaddins.ExportManager.ViewModels
 {
-
     public class PrinterSelectionViewModel : Screen
     {
         private List<string> printers;
         private string selectedPrinter;
 
         public PrinterSelectionViewModel(string desiredPrinterName)
-        {   
+        {
             printers = new List<string>();
             foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
             {
@@ -43,22 +42,25 @@ namespace SCaddins.ExportManager.ViewModels
 
         public string SelectedPrinter
         {
-            get { return selectedPrinter; }
+            get
+            {
+                return selectedPrinter;
+            }
             set
             {
-                    selectedPrinter = value;
-                    NotifyOfPropertyChange(() => SelectedPrinter);
+                selectedPrinter = value;
+                NotifyOfPropertyChange(() => SelectedPrinter);
             }
-        }
-
-        public void OK()
-        {
-            TryClose(true);
         }
 
         public void Cancel()
         {
             TryClose(false);
+        }
+
+        public void OK()
+        {
+            TryClose(true);
         }
     }
 }

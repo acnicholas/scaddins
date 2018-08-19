@@ -15,19 +15,19 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.ExportManager.ViewModels 
+namespace SCaddins.ExportManager.ViewModels
 {
+    using Caliburn.Micro;
     using System.ComponentModel;
     using System.Dynamic;
     using System.Windows.Data;
-    using Caliburn.Micro;
 
     public class OpenSheetViewModel : Screen
     {
-        private OpenableView selectedSearchResult;
-        private CollectionViewSource searchResults;
-        private string searchInput;
         private bool ctrlDown;
+        private string searchInput;
+        private CollectionViewSource searchResults;
+        private OpenableView selectedSearchResult;
 
         public OpenSheetViewModel(Autodesk.Revit.DB.Document doc)
         {
@@ -62,14 +62,16 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value != searchInput) {
+                if (value != searchInput)
+                {
                     searchInput = value;
                     int successCount = 0;
                     int maxCount = (10 + (searchInput.Length - 1)) * 5;
                     SearchResults.Filter = v =>
                     {
                         OpenableView ov = v as OpenableView;
-                        if (successCount < maxCount && ov.IsMatch(searchInput)) {
+                        if (successCount < maxCount && ov.IsMatch(searchInput))
+                        {
                             successCount++;
                             return ov.IsMatch(searchInput);
                         }
@@ -83,28 +85,9 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public bool ShowHelpText
+        public ICollectionView SearchResults
         {
-            get
-            {
-                return searchInput.Length < 1;
-            }
-        }
-
-        public bool ShowExtendedHelpText
-        {
-            get
-            {
-                return searchInput == "?";
-            }
-        }
-
-        public bool ShowSearchresults
-        {
-            get
-            {
-                return !ShowExtendedHelpText;
-            }
+            get { return this.searchResults.View; }
         }
 
         public OpenableView SelectedSearchResult
@@ -116,54 +99,61 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value != selectedSearchResult) {
+                if (value != selectedSearchResult)
+                {
                     selectedSearchResult = value;
                 }
             }
         }
 
-        public ICollectionView SearchResults
+        public bool ShowExtendedHelpText
         {
-            get { return this.searchResults.View; }
-        }
-
-        public void SelectNext()
-        {
-            SearchResults.MoveCurrentToNext();
-            if (SearchResults.IsCurrentAfterLast) {
-                SearchResults.MoveCurrentToFirst();
+            get
+            {
+                return searchInput == "?";
             }
         }
 
-        public void SelectPrevious()
+        public bool ShowHelpText
         {
-            SearchResults.MoveCurrentToPrevious();
-            if (SearchResults.IsCurrentBeforeFirst) {
-                SearchResults.MoveCurrentToLast();
+            get
+            {
+                return searchInput.Length < 1;
             }
         }
 
-        public void MouseDoubleClick()
+        public bool ShowSearchresults
         {
-            selectedSearchResult.Open();
+            get
+            {
+                return !ShowExtendedHelpText;
+            }
+        }
+
+        public void Exit()
+        {
             TryClose();
         }
 
         public void KeyDown(System.Windows.Input.KeyEventArgs args)
         {
-            if (args.Key == System.Windows.Input.Key.Escape) {
+            if (args.Key == System.Windows.Input.Key.Escape)
+            {
                 TryClose();
             }
-            if (args.Key == System.Windows.Input.Key.Enter) {
-                if (selectedSearchResult != null) {
+            if (args.Key == System.Windows.Input.Key.Enter)
+            {
+                if (selectedSearchResult != null)
+                {
                     selectedSearchResult.Open();
                     TryClose();
                 }
-                if (!SearchResults.IsEmpty) {
+                if (!SearchResults.IsEmpty)
+                {
                     SelectNext();
                     selectedSearchResult.Open();
                     TryClose();
-                }        
+                }
             }
             if (ctrlDown && args.Key == System.Windows.Input.Key.J)
             {
@@ -187,9 +177,28 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public void Exit()
+        public void MouseDoubleClick()
         {
+            selectedSearchResult.Open();
             TryClose();
+        }
+
+        public void SelectNext()
+        {
+            SearchResults.MoveCurrentToNext();
+            if (SearchResults.IsCurrentAfterLast)
+            {
+                SearchResults.MoveCurrentToFirst();
+            }
+        }
+
+        public void SelectPrevious()
+        {
+            SearchResults.MoveCurrentToPrevious();
+            if (SearchResults.IsCurrentBeforeFirst)
+            {
+                SearchResults.MoveCurrentToLast();
+            }
         }
     }
 }

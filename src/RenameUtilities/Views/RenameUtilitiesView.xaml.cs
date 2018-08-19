@@ -24,10 +24,5 @@ namespace SCaddins.RenameUtilities.Views
         {
             InitializeComponent();
         }
-
-        private void Replacement_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
 }

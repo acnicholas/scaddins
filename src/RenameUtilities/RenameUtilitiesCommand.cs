@@ -22,7 +22,6 @@ namespace SCaddins.RenameUtilities
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using System.Dynamic;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -32,16 +31,19 @@ namespace SCaddins.RenameUtilities
         public Result Execute(
             ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            if (commandData == null) {
+            if (commandData == null)
+            {
                 throw new ArgumentNullException("commandData");
             }
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            if (doc == null) {
+            if (doc == null)
+            {
                 return Result.Failed;
             }
-            
+
             IList<ElementId> elems = commandData.Application.ActiveUIDocument.Selection.GetElementIds().ToList<ElementId>();
+
             //if (elems.Count > 0) {
             //    using (var t = new TransactionGroup(doc, "Convert selected text to uppercase")) {
             //        t.Start();
@@ -50,11 +52,10 @@ namespace SCaddins.RenameUtilities
             //    }
             //     return Result.Succeeded;
             //}
-                       
+
             RenameManager manager = new RenameManager(doc);
             var vm = new ViewModels.RenameUtilitiesViewModel(manager);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings);
-
 
             return Result.Succeeded;
         }

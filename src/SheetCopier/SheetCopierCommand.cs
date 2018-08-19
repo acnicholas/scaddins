@@ -17,11 +17,8 @@
 
 namespace SCaddins.SheetCopier
 {
-    using System;
-    using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using System.Dynamic;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -33,15 +30,18 @@ namespace SCaddins.SheetCopier
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            if (commandData == null) {
+            if (commandData == null)
+            {
                 return Result.Failed;
             }
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
-        
+
             Autodesk.Revit.DB.ViewSheet viewSheet = SheetCopierManager.ViewToViewSheet(doc.ActiveView);
-            if (viewSheet == null) {
-                using (TaskDialog td = new TaskDialog("SCopy")) {
+            if (viewSheet == null)
+            {
+                using (TaskDialog td = new TaskDialog("SCopy"))
+                {
                     td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
                     td.MainInstruction = "The Copy Sheets add-in needs to be started in a sheet view.";
 
@@ -49,17 +49,21 @@ namespace SCaddins.SheetCopier
                     td.MainContent = "Please open the sheet you wish to copy before running...";
                     td.Show();
                 }
-                return Autodesk.Revit.UI.Result.Failed;    
+                return Autodesk.Revit.UI.Result.Failed;
             }
 
-            try {
+            try
+            {
                 var vm = new ViewModels.SheetCopierViewModel(commandData.Application.ActiveUIDocument);
                 SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SheetCopierViewModel.DefaultWindowSettings);
-            } catch {
+            }
+            catch
+            {
                 return Autodesk.Revit.UI.Result.Failed;
             }
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

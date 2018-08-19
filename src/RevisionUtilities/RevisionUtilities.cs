@@ -17,26 +17,71 @@
 
 namespace SCaddins.RevisionUtilities
 {
-    // using System.Collections.Generic;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Reflection;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Microsoft.Office.Interop.Excel;
-    using SCaddins.Common;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public static class RevisionUtilities
     {
-        [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", Justification = "Because.")]        
+        public static void AssignRevisionToClouds(Document doc, List<RevisionCloudItem> revisionClouds, ElementId cloudId)
+        {
+            if (doc == null || revisionClouds == null)
+            {
+                TaskDialog.Show("ERROR", "Could not assign revisions to clouds");
+                return;
+            }
+            if (cloudId == null)
+            {
+                TaskDialog.Show("ERROR", "Selected cloud is not valid...for some reason");
+                return;
+            }
+            using (var t = new Transaction(doc, "Assign Revisions to Clouds"))
+            {
+                t.Start();
+                foreach (RevisionCloudItem rc in revisionClouds)
+                {
+                    if (rc != null)
+                    {
+                        rc.SetCloudId(cloudId);
+                    }
+                }
+                t.Commit();
+            }
+        }
+
+        public static void DeleteRevisionClouds(Document doc, List<RevisionCloudItem> revisionClouds)
+        {
+            if (doc == null || revisionClouds == null)
+            {
+                TaskDialog.Show("ERROR", "Could not delete revision clouds");
+                return;
+            }
+            using (var t = new Transaction(doc, "Deleting Revision Clouds"))
+            {
+                t.Start();
+                foreach (RevisionCloudItem rc in revisionClouds)
+                {
+                    if (rc != null)
+                    {
+                        doc.Delete(rc.Id);
+                    }
+                }
+                t.Commit();
+            }
+        }
+
+        [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", Justification = "Because.")]
         public static void ExportCloudInfo(Document doc, List<RevisionItem> revisions, string exportFilename)
         {
-            if (doc == null) {
+            if (doc == null)
+            {
                 TaskDialog.Show("ERROR", "could not export cloud information");
                 return;
             }
@@ -65,10 +110,10 @@ namespace SCaddins.RevisionUtilities
             excelWorksheet = (Worksheet)excelWorkbook.ActiveSheet;
 
             int cloudNumber = 0;
-            
+
             List<RevisionCloudItem> allRevisionClouds = GetRevisionClouds(doc);
 
-            string[,] data = new string[allRevisionClouds.Count + 1, 8]; 
+            string[,] data = new string[allRevisionClouds.Count + 1, 8];
             data[0, 0] = "Sheet Number";
             data[0, 1] = "Revision Number";
             data[0, 2] = "Sheet Name";
@@ -78,9 +123,11 @@ namespace SCaddins.RevisionUtilities
             data[0, 6] = "Revision Description";
             data[0, 7] = "GUID";
 
-            foreach (RevisionCloudItem revCloud in allRevisionClouds) {
-                if (dictionary.ContainsKey(revCloud.Date + revCloud.Description)) {     
-                    cloudNumber++; 
+            foreach (RevisionCloudItem revCloud in allRevisionClouds)
+            {
+                if (dictionary.ContainsKey(revCloud.Date + revCloud.Description))
+                {
+                    cloudNumber++;
                     data[cloudNumber, 0] = revCloud.SheetNumber;
                     data[cloudNumber, 1] = revCloud.Revision;
                     data[cloudNumber, 2] = revCloud.SheetName;
@@ -92,83 +139,54 @@ namespace SCaddins.RevisionUtilities
                 }
             }
 
-            if (cloudNumber < 1) {
+            if (cloudNumber < 1)
+            {
                 TaskDialog.Show("WARNING", "no clouds found to export");
-            } else {
+            }
+            else
+            {
                 WriteArray(data, cloudNumber, 8, excelWorksheet);
                 TaskDialog.Show("Finished", cloudNumber + @" revision clouds sheduled in the file " + ExportFilename);
                 excelWorkbook.SaveAs(ExportFilename, XlFileFormat.xlWorkbookNormal);
                 excelWorkbook.Close();
             }
         }
-                
+
         public static List<RevisionCloudItem> GetRevisionClouds(Document doc)
         {
             var revisionClouds = new List<RevisionCloudItem>();
-            if (doc != null) {
-                using (FilteredElementCollector a = new FilteredElementCollector(doc)) {
+            if (doc != null)
+            {
+                using (FilteredElementCollector a = new FilteredElementCollector(doc))
+                {
                     a.OfCategory(BuiltInCategory.OST_RevisionClouds);
                     a.OfClass(typeof(RevisionCloud));
-                    foreach (RevisionCloud e in a) {
+                    foreach (RevisionCloud e in a)
+                    {
                         revisionClouds.Add(new RevisionCloudItem(doc, e));
                     }
                 }
             }
             return revisionClouds;
         }
-        
+
         public static List<RevisionItem> GetRevisions(Document doc)
         {
             var revisions = new List<RevisionItem>();
-            using (var a = new FilteredElementCollector(doc)) {
+            using (var a = new FilteredElementCollector(doc))
+            {
                 a.OfCategory(BuiltInCategory.OST_Revisions);
-                foreach (Revision e in a) {
-                    if (e.IsValidObject) {
+                foreach (Revision e in a)
+                {
+                    if (e.IsValidObject)
+                    {
                         revisions.Add(new RevisionItem(e));
                     }
                 }
             }
             return revisions;
         }
-        
-        public static void AssignRevisionToClouds(Document doc, List<RevisionCloudItem> revisionClouds, ElementId cloudId)
-        {
-            if (doc == null || revisionClouds == null) {
-                TaskDialog.Show("ERROR", "Could not assign revisions to clouds");
-                return;
-            }
-            if (cloudId == null) {
-                TaskDialog.Show("ERROR", "Selected cloud is not valid...for some reason"); 
-                return;
-            }
-            using (var t = new Transaction(doc, "Assign Revisions to Clouds")) {
-                t.Start();
-                foreach (RevisionCloudItem rc in revisionClouds) { 
-                    if (rc != null) {
-                        rc.SetCloudId(cloudId);
-                    } 
-                }
-                t.Commit();
-            }
-        }
-        
-         public static void DeleteRevisionClouds(Document doc, List<RevisionCloudItem> revisionClouds)
-        {
-            if (doc == null || revisionClouds == null) {
-                TaskDialog.Show("ERROR", "Could not delete revision clouds");
-                return;
-            }
-            using (var t = new Transaction(doc, "Deleting Revision Clouds")) {
-                t.Start();
-                foreach (RevisionCloudItem rc in revisionClouds) { 
-                    if (rc != null) {
-                        doc.Delete(rc.Id);
-                    }
-                }
-                t.Commit();
-            }
-        }
-        
+
         /// <summary>
         /// Write to an excel worksheet
         /// from here:
@@ -180,7 +198,8 @@ namespace SCaddins.RevisionUtilities
         [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", Justification = "Because.")]
         private static void WriteArray(string[,] data, int rows, int columns, Worksheet worksheet)
         {
-            if (worksheet != null) {
+            if (worksheet != null)
+            {
                 var startCell = worksheet.Cells[1, 1] as Range;
                 var endCell = worksheet.Cells[rows + 1, columns] as Range;
                 var writeRange = worksheet.Range[startCell, endCell];

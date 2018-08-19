@@ -17,61 +17,85 @@
 
 namespace SCaddins.SheetCopier
 {
+    using Autodesk.Revit.DB;
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Linq;
-    using Autodesk.Revit.DB;
-    using System.Runtime.CompilerServices;
     using System.Collections.ObjectModel;
+    using System.Linq;
 
     public class SheetCopierSheet : Caliburn.Micro.PropertyChangedBase
-    {  
-        private SheetCopierManager scopy;
-        private string title;
+    {
         private string number;
-        private string sheetCategory;            
+        private SheetCopierManager scopy;
+        private string sheetCategory;
+        private string title;
         private ObservableCollection<SheetCopierViewOnSheet> viewsOnSheet;
-        
-        public SheetCopierSheet(string number, string title,  SheetCopierManager scopy, ViewSheet sourceSheet)
+
+        public SheetCopierSheet(string number, string title, SheetCopierManager scopy, ViewSheet sourceSheet)
         {
-            if (scopy == null) {
+            if (scopy == null)
+            {
                 throw new ArgumentNullException("scopy");
             }
             this.scopy = scopy;
-            if (sourceSheet == null) {
+            if (sourceSheet == null)
+            {
                 throw new ArgumentNullException("sourceSheet");
             }
             this.number = number;
-            this.title = title; 
+            this.title = title;
             this.SourceSheet = sourceSheet;
             this.sheetCategory = this.GetSheetCategory(SheetCopierConstants.SheetCategory);
             this.DestinationSheet = null;
             this.viewsOnSheet = new ObservableCollection<SheetCopierViewOnSheet>();
-            foreach (ElementId id in sourceSheet.GetAllPlacedViews()) {              
+            foreach (ElementId id in sourceSheet.GetAllPlacedViews())
+            {
                 Element element = sourceSheet.Document.GetElement(id);
-                if (element != null) {
+                if (element != null)
+                {
                     var v = element as View;
                     this.viewsOnSheet.Add(new SheetCopierViewOnSheet(v.Name, v, scopy));
                 }
             }
         }
-               
-        public ViewSheet DestinationSheet {
-            get; set;    
+
+        public ViewSheet DestinationSheet
+        {
+            get; set;
         }
-                
-        public ViewSheet SourceSheet {
-            get; set;    
+
+        public string Number
+        {
+            get
+            {
+                return this.number;
+            }
+
+            set
+            {
+                if (value != this.number && this.scopy.SheetNumberAvailable(value))
+                {
+                    this.number = value;
+                    NotifyOfPropertyChange(() => Number);
+                }
+                else
+                {
+                    Autodesk.Revit.UI.TaskDialog.Show(
+                        "SCopy - WARNING", value + " exists, you can't use it!.");
+                }
+            }
         }
 
         public List<string> SheetCategories
         {
             get
             {
-                try {
+                try
+                {
                     return scopy.SheetCategories;
-                } catch {
+                }
+                catch
+                {
                     return null;
                 }
             }
@@ -83,71 +107,72 @@ namespace SCaddins.SheetCopier
             {
                 return sheetCategory;
             }
+
             set
             {
-                if (sheetCategory != value) {
+                if (sheetCategory != value)
+                {
                     sheetCategory = value;
                     NotifyOfPropertyChange(() => SheetCategory);
                 }
             }
         }
 
-        public string Number {
-            get {
-                return this.number;
-            }
-            
-            set {
-                if (value != this.number && this.scopy.SheetNumberAvailable(value)) {
-                    this.number = value;
-                    NotifyOfPropertyChange(() => Number);
-                } else {
-                    Autodesk.Revit.UI.TaskDialog.Show(
-                        "SCopy - WARNING", value + " exists, you can't use it!.");
-                }
-            }
+        public ViewSheet SourceSheet
+        {
+            get; set;
         }
 
-        public string Title {
-            get {
+        public string Title
+        {
+            get
+            {
                 return this.title;
             }
-            
-            set {
+
+            set
+            {
                 this.title = value;
                 NotifyOfPropertyChange(() => Title);
             }
         }
-        
-        public ObservableCollection<SheetCopierViewOnSheet> ViewsOnSheet {
-            get {
+
+        public ObservableCollection<SheetCopierViewOnSheet> ViewsOnSheet
+        {
+            get
+            {
                 return this.viewsOnSheet;
             }
         }
-        
+
         public string GetNewViewName(ElementId id)
         {
-            foreach (SheetCopierViewOnSheet v in this.viewsOnSheet) {
-                if (id == v.OldId) {
+            foreach (SheetCopierViewOnSheet v in this.viewsOnSheet)
+            {
+                if (id == v.OldId)
+                {
                     return v.Title;
                 }
             }
             return null;
         }
-        
+
         private string GetSheetCategory(string parameterName)
         {
             var viewCategoryParamList = this.SourceSheet.GetParameters(parameterName);
-            if (viewCategoryParamList != null && viewCategoryParamList.Count > 0) {
+            if (viewCategoryParamList != null && viewCategoryParamList.Count > 0)
+            {
                 Parameter viewCategoryParam = viewCategoryParamList.First();
                 string s = viewCategoryParam.AsString();
-                if (string.IsNullOrEmpty(s) || string.IsNullOrWhiteSpace(s)) {
+                if (string.IsNullOrEmpty(s) || string.IsNullOrWhiteSpace(s))
+                {
                     return @"<None>";
                 }
                 return s;
-            } 
+            }
             return @"<None>";
         }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

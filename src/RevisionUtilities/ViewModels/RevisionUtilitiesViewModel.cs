@@ -94,6 +94,5 @@ namespace SCaddins.RevisionUtilities.ViewModels
             RevisionUtilities.DeleteRevisionClouds(doc, selectedRevisionClouds);
             NotifyOfPropertyChange(() => RevisionClouds);
         }
-
     }
 }

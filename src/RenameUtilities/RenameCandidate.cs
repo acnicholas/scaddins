@@ -17,16 +17,15 @@
 
 namespace SCaddins.RenameUtilities
 {
-    using System;
     using System.ComponentModel;
     using Autodesk.Revit.DB;
 
     public class RenameCandidate : INotifyPropertyChanged
     {
-        private Parameter parameter;
+        private string newValue;
         private TextElement note;
         private string oldValue;
-        private string newValue; 
+        private Parameter parameter;
 
         public RenameCandidate(Parameter parameter)
         {
@@ -35,7 +34,7 @@ namespace SCaddins.RenameUtilities
             this.oldValue = parameter.AsString();
             this.newValue = parameter.AsString();
         }
-        
+
         public RenameCandidate(TextElement note)
         {
             this.parameter = null;
@@ -46,27 +45,33 @@ namespace SCaddins.RenameUtilities
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private Parameter RevitParameter {
-            get { return parameter; }
-        }
-
-        public string OldValue {
-            get {
-                if (string.IsNullOrEmpty(oldValue)) {
-                        return string.Empty;
-                }
-                return this.oldValue;
+        public string NewValue
+        {
+            get
+            {
+                return this.newValue;
             }
-        }
 
-        public string NewValue {
-            get { return this.newValue;}
-            set {
+            set
+            {
                 this.newValue = value;
-                if (this.PropertyChanged != null) {
+                if (this.PropertyChanged != null)
+                {
                     this.PropertyChanged(this, new PropertyChangedEventArgs("NewValue"));
                     this.PropertyChanged(this, new PropertyChangedEventArgs("ValueChanged"));
                 }
+            }
+        }
+
+        public string OldValue
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(oldValue))
+                {
+                    return string.Empty;
+                }
+                return this.oldValue;
             }
         }
 
@@ -75,17 +80,30 @@ namespace SCaddins.RenameUtilities
             get { return !string.Equals(this.oldValue, this.newValue); }
         }
 
+        private Parameter RevitParameter
+        {
+            get { return parameter; }
+        }
+
         public bool Rename()
         {
-            if (ValueChanged) {
-                if (note == null) {
-                    if (!parameter.IsReadOnly) {
+            if (ValueChanged)
+            {
+                if (note == null)
+                {
+                    if (!parameter.IsReadOnly)
+                    {
                         return parameter.Set(NewValue);
                     }
-                } else {
-                    try {
+                }
+                else
+                {
+                    try
+                    {
                         note.Text = NewValue;
-                    } catch {
+                    }
+                    catch
+                    {
                         return false;
                     }
                     return true;
@@ -95,4 +113,5 @@ namespace SCaddins.RenameUtilities
         }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

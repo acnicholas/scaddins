@@ -17,30 +17,40 @@
 
 namespace SCaddins.LineOfSight
 {
+    using Autodesk.Revit.ApplicationServices;
+    using Autodesk.Revit.DB;
+    using SCaddins.Common;
     using System;
     using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
-    using Autodesk.Revit.ApplicationServices;
-    using Autodesk.Revit.DB;
-    using SCaddins.Common;
     using System.Runtime.CompilerServices;
 
     public class LineOfSight : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        private Document doc;
-        private View view;
-        private SCightLinesRow[] rows;
-        private string infoString;
-        private double eyeHeight;
-        private double treadSize;
-        private double riserIncrement;
-        private double minimumCValue;
-        private double minimumRiserHeight;
-        private int numberOfRows;
         private double distanceToFirstRowX;
+
         private double distanceToFirstRowY;
+
+        private Document doc;
+
+        private double eyeHeight;
+
+        private string infoString;
+
+        private double minimumCValue;
+
+        private double minimumRiserHeight;
+
+        private int numberOfRows;
+
+        private double riserIncrement;
+
+        private SCightLinesRow[] rows;
+
+        private double treadSize;
+
+        private View view;
 
         /// <summary>
         /// A class to create line of sight drafting views in Revit
@@ -76,49 +86,18 @@ namespace SCaddins.LineOfSight
             this.distanceToFirstRowX = distanceToFirstRowX;
             this.distanceToFirstRowY = distanceToFirstRowY;
             this.rows = new SCightLinesRow[100];
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 100; i++)
+            {
                 this.rows[i] = new SCightLinesRow();
             }
             this.UpdateRows();
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         //Properties
-        #region 
 
-        public View View
-        {
-            get { return view; }
-        }
-
-        public double TreadSize
-        {
-            get
-            {
-                return treadSize;
-            }
-            set
-            {
-                if (treadSize != value) {
-                    treadSize = value;
-                    UpdateRows();
-                }
-            }
-        }
-
-        public double EyeHeight
-        {
-            get
-            {
-                return eyeHeight;
-            }
-            set
-            {
-                if (eyeHeight != value) {
-                    eyeHeight = value;
-                    UpdateRows();
-                }
-            }
-        }
+        #region
 
         public double DistanceToFirstRowX
         {
@@ -126,11 +105,11 @@ namespace SCaddins.LineOfSight
             {
                 return distanceToFirstRowX;
             }
+
             set
             {
                 if (distanceToFirstRowX != value) {
-                    try
-                    {
+                    try {
                         distanceToFirstRowX = value;
                         if (distanceToFirstRowX > 1) UpdateRows();
                     } catch {
@@ -146,6 +125,7 @@ namespace SCaddins.LineOfSight
             {
                 return distanceToFirstRowY;
             }
+
             set
             {
                 if (distanceToFirstRowY != value) {
@@ -155,16 +135,46 @@ namespace SCaddins.LineOfSight
             }
         }
 
-
-        public int NumberOfRows
+        public double EyeHeight
         {
             get
             {
-                return numberOfRows;
+                return eyeHeight;
             }
+
             set
             {
-                numberOfRows = value;
+                if (eyeHeight != value) {
+                    eyeHeight = value;
+                    UpdateRows();
+                }
+            }
+        }
+
+        public string InfoString
+        {
+            get
+            {
+                return this.infoString;
+            }
+
+            private set
+            {
+                this.infoString = value;
+                NotifyPropertyChanged("InfoString");
+            }
+        }
+
+        public double MinimumCValue
+        {
+            get
+            {
+                return minimumCValue;
+            }
+
+            set
+            {
+                minimumCValue = value;
                 UpdateRows();
             }
         }
@@ -175,6 +185,7 @@ namespace SCaddins.LineOfSight
             {
                 return minimumRiserHeight;
             }
+
             set
             {
                 minimumRiserHeight = value;
@@ -182,24 +193,27 @@ namespace SCaddins.LineOfSight
             }
         }
 
-        public double MinimumCValue
+        public int NumberOfRows
         {
             get
             {
-                return minimumCValue;
+                return numberOfRows;
             }
+
             set
             {
-                minimumCValue = value;
+                numberOfRows = value;
                 UpdateRows();
             }
         }
 
-        public double RiserIncrement {
+        public double RiserIncrement
+        {
             get
             {
                 return riserIncrement;
             }
+
             set
             {
                 riserIncrement = value;
@@ -207,21 +221,48 @@ namespace SCaddins.LineOfSight
             }
         }
 
-        public string InfoString {
-            get {
-                return this.infoString; }
-            private set {
-                this.infoString = value;
-                NotifyPropertyChanged("InfoString");
+        public double TreadSize
+        {
+            get
+            {
+                return treadSize;
+            }
+
+            set
+            {
+                if (treadSize != value)
+                {
+                    treadSize = value;
+                    UpdateRows();
+                }
             }
         }
 
+        public View View
+        {
+            get { return view; }
+        }
         #endregion
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        public ViewDrafting CreateLineOfSightDraftingView(string newViewName)
+        {
+            ViewDrafting view = null;
+            ViewFamilyType viewFamilyType =
+                new FilteredElementCollector(this.doc)
+                    .OfClass(typeof(ViewFamilyType))
+                    .Cast<ViewFamilyType>()
+                    .FirstOrDefault<ViewFamilyType>(x => ViewFamily.Drafting == x.ViewFamily);
+            view = ViewDrafting.Create(this.doc, viewFamilyType.Id);
+            view.ViewName = newViewName;
+            return view;
+        }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.DateTime.ToString")]
         public void Draw()
         {
-            using (var t = new Transaction(doc, "Create sight line view")) {
+            using (var t = new Transaction(doc, "Create sight line view"))
+            {
                 t.Start();
 
                 string times = System.DateTime.Now.ToString();
@@ -234,8 +275,10 @@ namespace SCaddins.LineOfSight
                 this.view.Scale = 50;
                 int i;
 
-                for (i = 0; i < this.NumberOfRows; i++) {
-                    if (i == 0) {
+                for (i = 0; i < this.NumberOfRows; i++)
+                {
+                    if (i == 0)
+                    {
                         this.DrawLine(0, 0, this.distanceToFirstRowX, 0, "Thin Lines");
                         this.DrawText(
                             this.distanceToFirstRowX / 2,
@@ -292,7 +335,8 @@ namespace SCaddins.LineOfSight
                         TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_TOP);
 
                     // Draw the riser text)
-                    if (i > 0) {
+                    if (i > 0)
+                    {
                         this.DrawText(
                             this.rows[i].EyeToFocusX - this.TreadSize,
                             this.rows[i].HeightToFocus - this.rows[i].EyeHeight - (this.rows[i].RiserHeight / 2),
@@ -309,134 +353,13 @@ namespace SCaddins.LineOfSight
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        public ViewDrafting CreateLineOfSightDraftingView(string newViewName)
+        public double GetCValue(int i, double nextn)
         {
-            ViewDrafting view = null;
-            ViewFamilyType viewFamilyType =
-                new FilteredElementCollector(this.doc)
-                    .OfClass(typeof(ViewFamilyType))
-                    .Cast<ViewFamilyType>()
-                    .FirstOrDefault<ViewFamilyType>(x => ViewFamily.Drafting == x.ViewFamily);
-            view = ViewDrafting.Create(this.doc, viewFamilyType.Id);
-            view.ViewName = newViewName;
-            return view;
+            return ((this.rows[i].EyeToFocusX * (this.rows[i].HeightToFocus + nextn)) / (this.rows[i].EyeToFocusX + this.TreadSize)) - this.rows[i].HeightToFocus;
         }
 
-        private void UpdateRows()
+        private void DrawCircle(double x1, double y1, string s)
         {
-            for (int i = 0; i < this.NumberOfRows; i++) {
-                this.rows[i].Initialize(
-                    this.distanceToFirstRowX + (i * this.TreadSize),
-                    this.distanceToFirstRowY, 
-                    this.distanceToFirstRowY + this.EyeHeight,
-                    this.treadSize,
-                    this.eyeHeight);
-                if (i > 0) {
-                    this.rows[i].RiserHeight = this.MinimumRiserHeight;
-                    this.rows[i].HeightToFocus = this.rows[i - 1].HeightToFocus + this.MinimumRiserHeight;
-                    while (this.GetCValue(i - 1, this.rows[i].RiserHeight) < this.minimumCValue) {
-                        this.rows[i].RiserHeight += this.riserIncrement;
-                        this.rows[i].HeightToFocus += this.riserIncrement;
-                    }
-                    this.rows[i - 1].CValue = this.GetCValue(i - 1, this.rows[i].RiserHeight);
-                }
-            }
-            this.UpdateInfoString();
-        }
-
-        private void DrawRiser(int i)
-        {
-            if (i == 0) {
-                this.DrawLine(
-                    this.rows[i].EyeToFocusX,
-                    this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
-                    this.rows[i].EyeToFocusX,
-                    this.rows[i].HeightToFocus - (this.rows[i].EyeHeight + this.rows[i].RiserHeight),
-                    "Thin Lines");
-            } else {
-                this.DrawLine(
-                    this.rows[i].EyeToFocusX - this.rows[i].Going,
-                    this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
-                    this.rows[i].EyeToFocusX - this.rows[i].Going,
-                    this.rows[i].HeightToFocus - (this.rows[i].EyeHeight + this.rows[i].RiserHeight),
-                    "Wide Lines");
-            }
-        }
-
-        private void DrawGoing(int i)
-        {
-            string igo = "Wide Lines";
-            if (i == 0) {
-                igo = "Thin Lines";
-            }
-            this.DrawLine(
-                this.rows[i].EyeToFocusX,
-                this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
-                this.rows[i].EyeToFocusX - this.rows[i].Going,
-                this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
-                igo);
-        }
-
-        private void DrawText(double x, double y, double vx, double vy, string s, TextAlignFlags f)
-        {
-            Application app = this.doc.Application;
-            XYZ origin = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x), MiscUtilities.MillimetersToFeet(y), 0);
-            XYZ normal_base = app.Create.NewXYZ(vx, vy, 0);
-            XYZ normal_up = app.Create.NewXYZ(0, 1, 0);
-            using (TextNoteOptions tno = new TextNoteOptions()) {
-                tno.TypeId = doc.GetDefaultElementTypeId(ElementTypeGroup.TextNoteType);
-                if (f.HasFlag(TextAlignFlags.TEF_ALIGN_CENTER)) {
-                    tno.HorizontalAlignment = HorizontalTextAlignment.Center;
-                }
-                if (f.HasFlag(TextAlignFlags.TEF_ALIGN_LEFT)) {
-                    tno.HorizontalAlignment = HorizontalTextAlignment.Left;
-                }
-                TextNote.Create(this.doc, this.view.Id, origin, s, tno).Dispose();
-            }
-        }
-
-        private void UpdateInfoString()
-        {
-            string s;
-            int i;
-
-            s = string.Empty;
-            s += "row:\triser:\tdist:\telev:\tc-value:\r\n";
-
-            for (i = 0; i < this.NumberOfRows; i++) {
-                string c = i > 0 ? Math.Round(this.rows[i - 1].CValue, 2).ToString(CultureInfo.InvariantCulture) : "NA";
-                string r = i > 0 ? Math.Round(this.rows[i].RiserHeight, 2).ToString(CultureInfo.InvariantCulture) : "NA";
-                s += i + 1 + "\t" + r + "\t"
-                + Math.Round(this.rows[i].EyeToFocusX, 2) + "\t"
-                + Math.Round(this.rows[i].HeightToFocus - this.EyeHeight, 2) + "\t"
-                + c + "\r\n";
-            }
-
-            InfoString = s;
-        }
-
-        private void DrawLine(double x1, double y1, double x2, double y2, string s)
-        {
-            Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
-            const double Z = 0.0;
-            XYZ point1 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x1), MiscUtilities.MillimetersToFeet(y1), MiscUtilities.MillimetersToFeet(Z));
-            XYZ point2 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x2), MiscUtilities.MillimetersToFeet(y2), MiscUtilities.MillimetersToFeet(Z));
-            try {
-                using (Line line = Line.CreateBound(point1, point2)) {
-                    var detailCurve = this.doc.Create.NewDetailCurve(this.view, line) as DetailLine;
-                    this.SetLineTypeByName(detailCurve, s);
-                }
-            } catch (ArgumentNullException e) {
-                Console.WriteLine(e.Message);
-            } catch (Autodesk.Revit.Exceptions.ArgumentsInconsistentException e) {
-                Console.WriteLine(e.Message);
-            } catch (ArgumentException e) {
-                Console.WriteLine(e.Message);
-            }
-        }
-
-        private void DrawCircle(double x1, double y1, string s) {
             Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
             const double Z = 0.0;
             XYZ point1 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x1), MiscUtilities.MillimetersToFeet(y1), MiscUtilities.MillimetersToFeet(Z));
@@ -453,27 +376,156 @@ namespace SCaddins.LineOfSight
             }
         }
 
+        private void DrawGoing(int i)
+        {
+            string igo = "Wide Lines";
+            if (i == 0)
+            {
+                igo = "Thin Lines";
+            }
+            this.DrawLine(
+                this.rows[i].EyeToFocusX,
+                this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
+                this.rows[i].EyeToFocusX - this.rows[i].Going,
+                this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
+                igo);
+        }
+
+        private void DrawLine(double x1, double y1, double x2, double y2, string s)
+        {
+            Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
+            const double Z = 0.0;
+            XYZ point1 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x1), MiscUtilities.MillimetersToFeet(y1), MiscUtilities.MillimetersToFeet(Z));
+            XYZ point2 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x2), MiscUtilities.MillimetersToFeet(y2), MiscUtilities.MillimetersToFeet(Z));
+            try
+            {
+                using (Line line = Line.CreateBound(point1, point2))
+                {
+                    var detailCurve = this.doc.Create.NewDetailCurve(this.view, line) as DetailLine;
+                    this.SetLineTypeByName(detailCurve, s);
+                }
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (Autodesk.Revit.Exceptions.ArgumentsInconsistentException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        private void DrawRiser(int i)
+        {
+            if (i == 0)
+            {
+                this.DrawLine(
+                    this.rows[i].EyeToFocusX,
+                    this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
+                    this.rows[i].EyeToFocusX,
+                    this.rows[i].HeightToFocus - (this.rows[i].EyeHeight + this.rows[i].RiserHeight),
+                    "Thin Lines");
+            }
+            else
+            {
+                this.DrawLine(
+                    this.rows[i].EyeToFocusX - this.rows[i].Going,
+                    this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
+                    this.rows[i].EyeToFocusX - this.rows[i].Going,
+                    this.rows[i].HeightToFocus - (this.rows[i].EyeHeight + this.rows[i].RiserHeight),
+                    "Wide Lines");
+            }
+        }
+
+        private void DrawText(double x, double y, double vx, double vy, string s, TextAlignFlags f)
+        {
+            Application app = this.doc.Application;
+            XYZ origin = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x), MiscUtilities.MillimetersToFeet(y), 0);
+            XYZ normal_base = app.Create.NewXYZ(vx, vy, 0);
+            XYZ normal_up = app.Create.NewXYZ(0, 1, 0);
+            using (TextNoteOptions tno = new TextNoteOptions())
+            {
+                tno.TypeId = doc.GetDefaultElementTypeId(ElementTypeGroup.TextNoteType);
+                if (f.HasFlag(TextAlignFlags.TEF_ALIGN_CENTER))
+                {
+                    tno.HorizontalAlignment = HorizontalTextAlignment.Center;
+                }
+                if (f.HasFlag(TextAlignFlags.TEF_ALIGN_LEFT))
+                {
+                    tno.HorizontalAlignment = HorizontalTextAlignment.Left;
+                }
+                TextNote.Create(this.doc, this.view.Id, origin, s, tno).Dispose();
+            }
+        }
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
         private void SetLineTypeByName(DetailCurve detailLine, string styleName)
         {
-            foreach (ElementId styleId in detailLine.GetLineStyleIds()) {
+            foreach (ElementId styleId in detailLine.GetLineStyleIds())
+            {
                 Element style = this.doc.GetElement(styleId);
-                if (style.Name.Equals(styleName)) {
+                if (style.Name.Equals(styleName))
+                {
                     detailLine.LineStyle = style;
                 }
             }
         }
 
-        public double GetCValue(int i, double nextn)
+        private void UpdateInfoString()
         {
-            return ((this.rows[i].EyeToFocusX * (this.rows[i].HeightToFocus + nextn)) / (this.rows[i].EyeToFocusX + this.TreadSize)) - this.rows[i].HeightToFocus;
-        }
+            string s;
+            int i;
 
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            if (PropertyChanged != null) {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            s = string.Empty;
+            s += "row:\triser:\tdist:\telev:\tc-value:\r\n";
+
+            for (i = 0; i < this.NumberOfRows; i++)
+            {
+                string c = i > 0 ? Math.Round(this.rows[i - 1].CValue, 2).ToString(CultureInfo.InvariantCulture) : "NA";
+                string r = i > 0 ? Math.Round(this.rows[i].RiserHeight, 2).ToString(CultureInfo.InvariantCulture) : "NA";
+                s += i + 1 + "\t" + r + "\t"
+                + Math.Round(this.rows[i].EyeToFocusX, 2) + "\t"
+                + Math.Round(this.rows[i].HeightToFocus - this.EyeHeight, 2) + "\t"
+                + c + "\r\n";
             }
+
+            InfoString = s;
         }
 
+        private void UpdateRows()
+        {
+            for (int i = 0; i < this.NumberOfRows; i++)
+            {
+                this.rows[i].Initialize(
+                    this.distanceToFirstRowX + (i * this.TreadSize),
+                    this.distanceToFirstRowY,
+                    this.distanceToFirstRowY + this.EyeHeight,
+                    this.treadSize,
+                    this.eyeHeight);
+                if (i > 0)
+                {
+                    this.rows[i].RiserHeight = this.MinimumRiserHeight;
+                    this.rows[i].HeightToFocus = this.rows[i - 1].HeightToFocus + this.MinimumRiserHeight;
+                    while (this.GetCValue(i - 1, this.rows[i].RiserHeight) < this.minimumCValue)
+                    {
+                        this.rows[i].RiserHeight += this.riserIncrement;
+                        this.rows[i].HeightToFocus += this.riserIncrement;
+                    }
+                    this.rows[i - 1].CValue = this.GetCValue(i - 1, this.rows[i].RiserHeight);
+                }
+            }
+            this.UpdateInfoString();
+        }
     }
 }

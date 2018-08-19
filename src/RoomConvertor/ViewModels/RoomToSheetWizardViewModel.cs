@@ -37,7 +37,11 @@ namespace SCaddins.RoomConvertor.ViewModels
 
         public ElementId SelectedTitleBlock
         {
-            get { return manager.TitleBlockId;  }
+            get
+            {
+                return manager.TitleBlockId;
+            }
+
             set
             {
                 if (value != manager.TitleBlockId)
@@ -50,11 +54,14 @@ namespace SCaddins.RoomConvertor.ViewModels
 
         public int Scale
         {
-            get { return manager.Scale; }
+            get
+            {
+                return manager.Scale;
+            }
+
             set
             {
-                if (value != manager.Scale)
-                {
+                if (value != manager.Scale) {
                     manager.Scale = value;
                     NotifyOfPropertyChange(() => Scale);
                 }
@@ -83,7 +90,5 @@ namespace SCaddins.RoomConvertor.ViewModels
         {
             TryClose(false);
         }
-
     }
-
 }

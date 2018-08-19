@@ -15,14 +15,19 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Dynamic;
-using System.Collections.ObjectModel;
 using Caliburn.Micro;
+using System.Collections.ObjectModel;
+using System.Dynamic;
 
 namespace SCaddins.ExportManager.ViewModels
 {
-    class RevisionSelectionViewModel : Screen
+    internal class RevisionSelectionViewModel : Screen
     {
+        public RevisionSelectionViewModel(Autodesk.Revit.DB.Document doc)
+        {
+            Revisions = new ObservableCollection<SCaddins.RevisionUtilities.RevisionItem>(RevisionUtilities.RevisionUtilities.GetRevisions(doc));
+        }
+
         public static dynamic DefaultWindowSettings
         {
             get
@@ -48,19 +53,14 @@ namespace SCaddins.ExportManager.ViewModels
             get; set;
         }
 
-        public RevisionSelectionViewModel(Autodesk.Revit.DB.Document doc)
+        public void Cancel()
         {
-            Revisions = new ObservableCollection<SCaddins.RevisionUtilities.RevisionItem>(RevisionUtilities.RevisionUtilities.GetRevisions(doc));
+            TryClose(false);
         }
 
         public void OK()
         {
             TryClose(true);
-        }
-
-        public void Cancel()
-        {
-            TryClose(false);
         }
     }
 }

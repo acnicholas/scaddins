@@ -17,72 +17,87 @@
 
 namespace SCaddins.ViewUtilities
 {
-    using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    
+    using System.Collections.Generic;
+
     public static class ViewUnderlays
     {
         public static void RemoveUnderlays(
             ICollection<SCaddins.ExportManager.ExportSheet> sheets, Document doc)
         {
-            if (doc == null) {
+            if (doc == null)
+            {
                 TaskDialog.Show("Failure", "Could not remove underlays(doc)");
                 return;
             }
-            if (sheets == null) {
+            if (sheets == null)
+            {
                 TaskDialog.Show("Failure", "Could not remove underlays(sheets)");
                 return;
             }
-            using (Transaction t = new Transaction(doc)) {
-                if (t.Start("Remove Underlays") == TransactionStatus.Started) {
-                    foreach (SCaddins.ExportManager.ExportSheet sheet in sheets) {
-                        foreach (ElementId id in sheet.Sheet.GetAllPlacedViews()) {
+            using (Transaction t = new Transaction(doc))
+            {
+                if (t.Start("Remove Underlays") == TransactionStatus.Started)
+                {
+                    foreach (SCaddins.ExportManager.ExportSheet sheet in sheets)
+                    {
+                        foreach (ElementId id in sheet.Sheet.GetAllPlacedViews())
+                        {
                             var v = (View)doc.GetElement(id);
                             RemoveUnderlay(v);
                         }
                     }
-                    if (t.Commit() != TransactionStatus.Committed) {
+                    if (t.Commit() != TransactionStatus.Committed)
+                    {
                         TaskDialog.Show("Failure", "Could not remove underlays");
                     }
                 }
             }
         }
-        
+
         public static void RemoveUnderlays(UIDocument uidoc)
         {
-            if (uidoc == null) {
+            if (uidoc == null)
+            {
                 TaskDialog.Show("Failure", "Could not remove underlays");
                 return;
             }
             var selection = uidoc.Selection;
-            if (selection.GetElementIds().Count < 1) {
+            if (selection.GetElementIds().Count < 1)
+            {
                 return;
             }
-            using (Transaction t = new Transaction(uidoc.Document)) {
-                if (t.Start("Remove Underlays") == TransactionStatus.Started) {
-                    foreach (ElementId id in selection.GetElementIds()) {
+            using (Transaction t = new Transaction(uidoc.Document))
+            {
+                if (t.Start("Remove Underlays") == TransactionStatus.Started)
+                {
+                    foreach (ElementId id in selection.GetElementIds())
+                    {
                         RemoveUnderlay(uidoc.Document.GetElement(id));
                     }
-                    if (t.Commit() != TransactionStatus.Committed) {
+                    if (t.Commit() != TransactionStatus.Committed)
+                    {
                         TaskDialog.Show("Failure", "Could not remove underlays");
                     }
                 }
             }
         }
-        
+
         private static void RemoveUnderlay(Element element)
         {
-            if (element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_Views) {
-        		#if REVIT2016
+            if (element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_Views)
+            {
+#if REVIT2016
         		var param = element.get_Parameter(BuiltInParameter.VIEW_UNDERLAY_ID);
-        		#else
+#else
                 var param = element.get_Parameter(BuiltInParameter.VIEW_UNDERLAY_BOTTOM_ID);
-                #endif
-                if (param != null) {
+#endif
+                if (param != null)
+                {
                     param.Set(ElementId.InvalidElementId);
                 }
-            }   
-        }     
+            }
+        }
     }
 }

@@ -20,37 +20,20 @@ using Caliburn.Micro;
 
 namespace SCaddins.LineOfSight.ViewModels
 {
-    class LineOfSightViewModel : PropertyChangedBase
+    internal class LineOfSightViewModel : PropertyChangedBase
     {
-        public double TreadSize
+        private LineOfSight lineOfSight;
+
+        public LineOfSightViewModel(Document doc)
         {
-            get
-            {
-                return lineOfSight.TreadSize;
-            }
-            set
-            {
-                if (value != lineOfSight.TreadSize) {
-                    lineOfSight.TreadSize = value;
-                    NotifyOfPropertyChange(() => TreadSize);
-                    NotifyOfPropertyChange(() => InfoString);
-                }
-            }
+            lineOfSight = new LineOfSight(doc);
         }
 
-        public double EyeHeight
+        public bool CanDraw
         {
             get
             {
-                return lineOfSight.EyeHeight;
-            }
-            set
-            {
-                if (value != lineOfSight.EyeHeight) {
-                    lineOfSight.EyeHeight = value;
-                    NotifyOfPropertyChange(() => EyeHeight);
-                    NotifyOfPropertyChange(() => InfoString);
-                }
+                return true;
             }
         }
 
@@ -60,18 +43,15 @@ namespace SCaddins.LineOfSight.ViewModels
             {
                 return lineOfSight.DistanceToFirstRowX;
             }
+
             set
             {
-                if (value != lineOfSight.DistanceToFirstRowX)
-                {
-                    try
-                    {
+                if (value != lineOfSight.DistanceToFirstRowX) {
+                    try {
                         lineOfSight.DistanceToFirstRowX = value;
                         NotifyOfPropertyChange(() => DistanceToFirstRowX);
                         NotifyOfPropertyChange(() => InfoString);
-                    }
-                    catch
-                    {
+                    } catch {
                         ///FIXME somehow....
                     }
                 }
@@ -84,6 +64,7 @@ namespace SCaddins.LineOfSight.ViewModels
             {
                 return lineOfSight.DistanceToFirstRowY;
             }
+
             set
             {
                 lineOfSight.DistanceToFirstRowY = value;
@@ -92,17 +73,46 @@ namespace SCaddins.LineOfSight.ViewModels
             }
         }
 
-
-        public int NumberOfRows
+        public double EyeHeight
         {
             get
             {
-                return lineOfSight.NumberOfRows;
+                return lineOfSight.EyeHeight;
             }
+
             set
             {
-                lineOfSight.NumberOfRows = value;
-                NotifyOfPropertyChange(() => NumberOfRows);
+                if (value != lineOfSight.EyeHeight) {
+                    lineOfSight.EyeHeight = value;
+                    NotifyOfPropertyChange(() => EyeHeight);
+                    NotifyOfPropertyChange(() => InfoString);
+                }
+            }
+        }
+
+        public string InfoString
+        {
+            get
+            {
+                try {
+                    return lineOfSight.InfoString;
+                } catch {
+                    return string.Empty;
+                }
+            }
+        }
+
+        public double MinimumCValue
+        {
+            get
+            {
+                return lineOfSight.MinimumCValue;
+            }
+
+            set
+            {
+                lineOfSight.MinimumCValue = value;
+                NotifyOfPropertyChange(() => MinimumCValue);
                 NotifyOfPropertyChange(() => InfoString);
             }
         }
@@ -113,6 +123,7 @@ namespace SCaddins.LineOfSight.ViewModels
             {
                 return lineOfSight.MinimumRiserHeight;
             }
+
             set
             {
                 lineOfSight.MinimumRiserHeight = value;
@@ -121,16 +132,17 @@ namespace SCaddins.LineOfSight.ViewModels
             }
         }
 
-        public double MinimumCValue
+        public int NumberOfRows
         {
             get
             {
-                return lineOfSight.MinimumCValue;
+                return lineOfSight.NumberOfRows;
             }
+
             set
             {
-                lineOfSight.MinimumCValue = value;
-                NotifyOfPropertyChange(() => MinimumCValue);
+                lineOfSight.NumberOfRows = value;
+                NotifyOfPropertyChange(() => NumberOfRows);
                 NotifyOfPropertyChange(() => InfoString);
             }
         }
@@ -141,6 +153,7 @@ namespace SCaddins.LineOfSight.ViewModels
             {
                 return lineOfSight.RiserIncrement;
             }
+
             set
             {
                 if (value < 1) return;
@@ -150,36 +163,26 @@ namespace SCaddins.LineOfSight.ViewModels
             }
         }
 
-        public string InfoString
+        public double TreadSize
         {
             get
             {
-                try
-                {
-                    return lineOfSight.InfoString;
+                return lineOfSight.TreadSize;
+            }
+
+            set
+            {
+                if (value != lineOfSight.TreadSize) {
+                    lineOfSight.TreadSize = value;
+                    NotifyOfPropertyChange(() => TreadSize);
+                    NotifyOfPropertyChange(() => InfoString);
                 }
-                catch { return string.Empty; }
             }
         }
 
         public void Draw()
         {
             lineOfSight.Draw();
-        }
-
-        public bool CanDraw
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        private LineOfSight lineOfSight;
-
-        public LineOfSightViewModel(Document doc)
-        {
-            lineOfSight = new LineOfSight(doc);
         }
     }
 }

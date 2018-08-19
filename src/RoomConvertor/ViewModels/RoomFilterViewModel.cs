@@ -19,19 +19,19 @@ namespace SCaddins.RoomConvertor.ViewModels
 {
     using System;
     using System.Collections.ObjectModel;
-    using System.Linq;
-    using Caliburn.Micro;
     using System.ComponentModel;
+    using System.Linq;
     using System.Windows.Data;
+    using Caliburn.Micro;
 
     public class RoomFilterViewModel : Screen
     {
         private RoomConversionManager manager;
         private RoomFilter filter;
         private Autodesk.Revit.DB.Parameter[] roomParameters;
-        string comparisonFieldOne = string.Empty;
-        string comparisonFieldTwo = string.Empty;
-        string comparisonFieldThree = string.Empty;
+        private string comparisonFieldOne = string.Empty;
+        private string comparisonFieldTwo = string.Empty;
+        private string comparisonFieldThree = string.Empty;
 
         public RoomFilterViewModel(RoomConversionManager manager, RoomFilter filter)
         {
@@ -72,6 +72,7 @@ namespace SCaddins.RoomConvertor.ViewModels
             {
                 return roomParameters[0];
             }
+
             set
             {
                 roomParameters[0] = value;
@@ -148,6 +149,7 @@ namespace SCaddins.RoomConvertor.ViewModels
             {
                 return comparisonFieldOne;
             }
+
             set
             {
                 if (value != comparisonFieldOne)
@@ -157,8 +159,7 @@ namespace SCaddins.RoomConvertor.ViewModels
                             LogicalOperator.And,
                             FirstSelectedComparisonOperator,
                             RoomParameterOne.Definition.Name,
-                            comparisonFieldOne
-                            );
+                            comparisonFieldOne);
                     filter.AddFilterItem(f, 0);
                     NotifyOfPropertyChange(() => ComparisonFieldOne);
                 }
@@ -171,6 +172,7 @@ namespace SCaddins.RoomConvertor.ViewModels
             {
                 return comparisonFieldTwo;
             }
+
             set
             {
                 if (value != comparisonFieldTwo)

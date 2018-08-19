@@ -17,7 +17,6 @@
 
 namespace SCaddins.ExportManager
 {
-    using System;
     using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Text.RegularExpressions;
@@ -94,10 +93,12 @@ namespace SCaddins.ExportManager
 
         public bool HasExtension(string extension)
         {
-            if (string.IsNullOrEmpty(extension)) {
+            if (string.IsNullOrEmpty(extension))
+            {
                 return false;
             }
-            if (this.supportedFilenameExtensions == null || this.supportedFilenameExtensions.Count < 1) {
+            if (this.supportedFilenameExtensions == null || this.supportedFilenameExtensions.Count < 1)
+            {
                 return false;
             }
             return this.supportedFilenameExtensions.Contains(extension);
@@ -106,18 +107,22 @@ namespace SCaddins.ExportManager
         public string ListExtensions()
         {
             string s = string.Empty;
-            foreach (string fne in this.supportedFilenameExtensions) {
+            foreach (string fne in this.supportedFilenameExtensions)
+            {
                 s += fne + System.Environment.NewLine;
             }
             return s;
         }
 
-        internal void Run(ExportSheet sheet, string extension) {
+        internal void Run(ExportSheet sheet, string extension)
+        {
             string a = FormatConfigurationString(sheet, this.args, extension);
-            if (!string.IsNullOrEmpty(a)) {
+            if (!string.IsNullOrEmpty(a))
+            {
                 Common.ConsoleUtilities.StartHiddenConsoleProg(this.cmd, a);
             }
         }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

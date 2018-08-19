@@ -31,22 +31,18 @@ namespace SCaddins.RoomConvertor
         private Dictionary<string, View> existingViews =
             new Dictionary<string, View>();
 
-        private Dictionary<string, ElementId> titleBlocks = 
+        private Dictionary<string, ElementId> titleBlocks =
             new Dictionary<string, ElementId>();
 
         private Dictionary<string, string> departmentsInModel;
 
-
         private List<RoomConversionCandidate> allCandidates;
 
-
         private Document doc;
-        //private List<RoomConversionCandidate> candidates;
 
         public RoomConversionManager(Document doc)
         {
             departmentsInModel = new Dictionary<string, string>();
-            //candidates = new List<RoomConversionCandidate>();
             this.allCandidates = new List<RoomConversionCandidate>();
             this.doc = doc;
             this.titleBlocks = GetAllTitleBlockTypes(this.doc);
@@ -55,26 +51,36 @@ namespace SCaddins.RoomConvertor
             this.CropRegionEdgeOffset = 300;
             SheetCopier.SheetCopierManager.GetAllSheets(existingSheets, this.doc);
             SheetCopier.SheetCopierManager.GetAllViewsInModel(existingViews, this.doc);
-            using (var collector = new FilteredElementCollector(this.doc)) {
+            using (var collector = new FilteredElementCollector(this.doc))
+            {
                 collector.OfClass(typeof(SpatialElement));
-                foreach (Element e in collector) {
-                    if (e.IsValidObject && (e is Room)) {
+                foreach (Element e in collector)
+                {
+                    if (e.IsValidObject && (e is Room))
+                    {
                         Room room = e as Room;
-                        if (room.Area > 0 && room.Location != null) {
-                              allCandidates.Add(new RoomConversionCandidate(room, existingSheets, existingViews));
-                              Parameter p = room.LookupParameter("Department");
-                              if (p != null && p.HasValue) {
-                                  string depo = p.AsString().Trim();
-                                  if (departmentsInModel.Count > 0) {
-                                    if (!string.IsNullOrEmpty(depo) && !departmentsInModel.ContainsKey(depo)) {
+                        if (room.Area > 0 && room.Location != null)
+                        {
+                            allCandidates.Add(new RoomConversionCandidate(room, existingSheets, existingViews));
+                            Parameter p = room.LookupParameter("Department");
+                            if (p != null && p.HasValue)
+                            {
+                                string depo = p.AsString().Trim();
+                                if (departmentsInModel.Count > 0)
+                                {
+                                    if (!string.IsNullOrEmpty(depo) && !departmentsInModel.ContainsKey(depo))
+                                    {
                                         departmentsInModel.Add(depo, depo);
                                     }
-                                  } else {
-                                      if (!string.IsNullOrEmpty(depo)) {
-                                          departmentsInModel.Add(depo, depo);
-                                      }
-                                  }
-                              }
+                                }
+                                else
+                                {
+                                    if (!string.IsNullOrEmpty(depo))
+                                    {
+                                        departmentsInModel.Add(depo, depo);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -86,7 +92,8 @@ namespace SCaddins.RoomConvertor
             get { return allCandidates; }
         }
 
-        public Document Doc {
+        public Document Doc
+        {
             get { return doc; }
         }
 
@@ -112,13 +119,17 @@ namespace SCaddins.RoomConvertor
 
         public void CreateViewsAndSheets(List<RoomConversionCandidate> rooms)
         {
-            if (rooms == null) {
+            if (rooms == null)
+            {
                 Autodesk.Revit.UI.TaskDialog.Show("WARNING", "no rooms selected to covnert");
                 return;
             }
-            using (Transaction t = new Transaction(doc, "Rooms to Views")) {
-                if (t.Start() == TransactionStatus.Started) {
-                    foreach (RoomConversionCandidate c in rooms) {
+            using (Transaction t = new Transaction(doc, "Rooms to Views"))
+            {
+                if (t.Start() == TransactionStatus.Started)
+                {
+                    foreach (RoomConversionCandidate c in rooms)
+                    {
                         this.CreateViewAndSheet(c);
                     }
                     t.Commit();
@@ -144,11 +155,14 @@ namespace SCaddins.RoomConvertor
         {
             var result = new Dictionary<string, ElementId>();
 
-            using (var collector = new FilteredElementCollector(doc)) {
+            using (var collector = new FilteredElementCollector(doc))
+            {
                 collector.OfCategory(BuiltInCategory.OST_TitleBlocks).OfClass(typeof(FamilySymbol));
-                foreach (FamilySymbol e in collector) {
+                foreach (FamilySymbol e in collector)
+                {
                     var s = e.Family.Name + "-" + e.Name;
-                    if (!result.ContainsKey(s)) {
+                    if (!result.ContainsKey(s))
+                    {
                         result.Add(s, e.Id);
                     }
                 }
@@ -171,12 +185,16 @@ namespace SCaddins.RoomConvertor
         {
             int errCount = 0;
             int roomCount = 0;
-            if (rooms != null) {
-                using (var t = new Transaction(doc, "Rooms to Masses")) {
+            if (rooms != null)
+            {
+                using (var t = new Transaction(doc, "Rooms to Masses"))
+                {
                     t.Start();
-                    foreach (RoomConversionCandidate c in rooms) {
+                    foreach (RoomConversionCandidate c in rooms)
+                    {
                         roomCount++;
-                        if (!this.CreateRoomMass(c.Room)) {
+                        if (!this.CreateRoomMass(c.Room))
+                        {
                             errCount++;
                         }
                     }
@@ -186,21 +204,26 @@ namespace SCaddins.RoomConvertor
             Autodesk.Revit.UI.TaskDialog.Show("Rooms To Masses", (roomCount - errCount) + " Room masses created with " + errCount + " errors.");
         }
 
-        public void SynchronizeMassesToRooms() {
+        public void SynchronizeMassesToRooms()
+        {
             using (var collector = new FilteredElementCollector(doc))
-            using (var t = new Transaction(doc, "Synchronize Masses to Rooms")) {
+            using (var t = new Transaction(doc, "Synchronize Masses to Rooms"))
+            {
                 collector.OfCategory(BuiltInCategory.OST_Mass);
                 collector.OfClass(typeof(DirectShape));
                 t.Start();
                 int i = 0;
-                foreach (Element e in collector) {
+                foreach (Element e in collector)
+                {
                     Parameter p = e.LookupParameter("RoomId");
                     i++;
                     int intId = p.AsInteger();
-                    if (intId > 0) {
+                    if (intId > 0)
+                    {
                         ElementId id = new ElementId(intId);
                         Element room = doc.GetElement(id);
-                        if (room != null) {
+                        if (room != null)
+                        {
                             CopyAllMassParametersToRooms(e, (Room)room);
                         }
                     }
@@ -214,25 +237,30 @@ namespace SCaddins.RoomConvertor
         internal List<string> GetAllDepartments()
         {
             var result = new List<string>();
-            foreach (string s in this.departmentsInModel.Values) {
+            foreach (string s in this.departmentsInModel.Values)
+            {
                 result.Add(s);
             }
             return result;
         }
 
-        internal static List<string> GetAllDesignOptionNames(Document doc) {
+        internal static List<string> GetAllDesignOptionNames(Document doc)
+        {
             var result = new List<string>();
             var optIds = new List<ElementId>();
-            foreach (DesignOption dopt in new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_DesignOptions)) {
+            foreach (DesignOption dopt in new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_DesignOptions))
+            {
                 ElementId optId = dopt.Id;
-                if (!optIds.Contains(optId)) {
+                if (!optIds.Contains(optId))
+                {
                     optIds.Add(optId);
                 }
             }
 
             result.Add("Main Model");
 
-            foreach (ElementId id in optIds) {
+            foreach (ElementId id in optIds)
+            {
                 Element e = doc.GetElement(id);
                 var s = doc.GetElement(e.get_Parameter(BuiltInParameter.OPTION_SET_ID).AsElementId()).Name;
                 result.Add(s + @" : " + e.Name.Replace(@"(primary)", string.Empty).Trim());
@@ -241,10 +269,14 @@ namespace SCaddins.RoomConvertor
             return result;
         }
 
-        private static ElementId GetFloorPlanViewFamilyTypeId(Document doc) {
-            using (var collector = new FilteredElementCollector(doc)) {
-                foreach (ViewFamilyType vft in collector.OfClass(typeof(ViewFamilyType))) {
-                    if (vft.ViewFamily == ViewFamily.FloorPlan) {
+        private static ElementId GetFloorPlanViewFamilyTypeId(Document doc)
+        {
+            using (var collector = new FilteredElementCollector(doc))
+            {
+                foreach (ViewFamilyType vft in collector.OfClass(typeof(ViewFamilyType)))
+                {
+                    if (vft.ViewFamily == ViewFamily.FloorPlan)
+                    {
                         return vft.Id;
                     }
                 }
@@ -255,12 +287,14 @@ namespace SCaddins.RoomConvertor
         private static void CopyAllMassParametersToRooms(Element host, Room dest)
         {
             Parameter name = host.LookupParameter("Name");
-            if (name != null && name.StorageType == StorageType.String) {
+            if (name != null && name.StorageType == StorageType.String)
+            {
                 dest.Name = name.AsString();
             }
 
             Parameter number = host.LookupParameter("Number");
-            if (number != null && number.StorageType == StorageType.String) {
+            if (number != null && number.StorageType == StorageType.String)
+            {
                 dest.Number = number.AsString();
             }
 
@@ -270,7 +304,8 @@ namespace SCaddins.RoomConvertor
         private static void CopyAllRoomParametersToMasses(Element host, Element dest)
         {
             Parameter paramRoomId = dest.LookupParameter("RoomId");
-            if (paramRoomId != null && paramRoomId.StorageType == StorageType.Integer) {
+            if (paramRoomId != null && paramRoomId.StorageType == StorageType.Integer)
+            {
                 paramRoomId.Set(host.Id.IntegerValue);
             }
 
@@ -279,10 +314,12 @@ namespace SCaddins.RoomConvertor
 
         private static bool ValidElements(Element host, Element dest)
         {
-            if (host == null || dest == null) {
+            if (host == null || dest == null)
+            {
                 return false;
             }
-            if (!host.IsValidObject || !dest.IsValidObject) {
+            if (!host.IsValidObject || !dest.IsValidObject)
+            {
                 return false;
             }
             return true;
@@ -290,33 +327,43 @@ namespace SCaddins.RoomConvertor
 
         private static void CopyAllParameters(Element host, Element dest)
         {
-            if (!ValidElements(host, dest)) {
+            if (!ValidElements(host, dest))
+            {
                 return;
             }
-                        
-            foreach (Parameter param in host.Parameters) {      
-                if (!param.HasValue || param == null) {
+
+            foreach (Parameter param in host.Parameters)
+            {
+                if (!param.HasValue || param == null)
+                {
                     continue;
                 }
-                              
+
                 Parameter paramDest = dest.LookupParameter(param.Definition.Name);
-                if (paramDest != null && paramDest.UserModifiable && paramDest.StorageType == param.StorageType) {
-                    switch (param.StorageType) {
+                if (paramDest != null && paramDest.UserModifiable && paramDest.StorageType == param.StorageType)
+                {
+                    switch (param.StorageType)
+                    {
                         case StorageType.String:
-                            if (!paramDest.IsReadOnly && paramDest.UserModifiable) {
+                            if (!paramDest.IsReadOnly && paramDest.UserModifiable)
+                            {
                                 string v = param.AsString();
                                 paramDest.Set(v);
                             }
                             break;
+
                         case StorageType.Integer:
                             int b = param.AsInteger();
-                            if (b != -1 && !paramDest.IsReadOnly) {
+                            if (b != -1 && !paramDest.IsReadOnly)
+                            {
                                 paramDest.Set(b);
                             }
                             break;
+
                         case StorageType.Double:
                             double d = param.AsDouble();
-                            if (!paramDest.IsReadOnly) {
+                            if (!paramDest.IsReadOnly)
+                            {
                                 paramDest.Set(d);
                             }
                             break;
@@ -325,10 +372,12 @@ namespace SCaddins.RoomConvertor
             }
         }
 
-        private static XYZ CentreOfSheet(ViewSheet sheet, Document doc) {
+        private static XYZ CentreOfSheet(ViewSheet sheet, Document doc)
+        {
             FilteredElementCollector c = new FilteredElementCollector(doc, sheet.Id);
             c.OfCategory(BuiltInCategory.OST_TitleBlocks);
-            foreach (Element e in c) {
+            foreach (Element e in c)
+            {
                 BoundingBoxXYZ b = e.get_BoundingBox(sheet);
                 double x = b.Min.X + ((b.Max.X - b.Min.X) / 2);
                 double y = b.Min.Y + ((b.Max.Y - b.Min.Y) / 2);
@@ -337,7 +386,8 @@ namespace SCaddins.RoomConvertor
             return new XYZ(0, 0, 0);
         }
 
-        private static BoundingBoxXYZ CreateOffsetBoundingBox(double offset, BoundingBoxXYZ origBox) {
+        private static BoundingBoxXYZ CreateOffsetBoundingBox(double offset, BoundingBoxXYZ origBox)
+        {
             double offsetInFeet = SCaddins.Common.MiscUtilities.MillimetersToFeet(offset);
             XYZ min = new XYZ(origBox.Min.X - offsetInFeet, origBox.Min.Y - offsetInFeet, origBox.Min.Z);
             XYZ max = new XYZ(origBox.Max.X + offsetInFeet, origBox.Max.Y + offsetInFeet, origBox.Max.Z);
@@ -348,36 +398,48 @@ namespace SCaddins.RoomConvertor
         }
 
         private bool CreateRoomMass(Room room)
-        {    
-            if (!SpatialElementGeometryCalculator.CanCalculateGeometry(room)) {
+        {
+            if (!SpatialElementGeometryCalculator.CanCalculateGeometry(room))
+            {
                 return false;
             }
-            try {
+            try
+            {
                 SpatialElementGeometryResults results;
-                using (var calculator = new SpatialElementGeometryCalculator(doc)) {
-                           results = calculator.CalculateSpatialElementGeometry(room);
+                using (var calculator = new SpatialElementGeometryCalculator(doc))
+                {
+                    results = calculator.CalculateSpatialElementGeometry(room);
                 }
-                using (Solid roomSolid = results.GetGeometry()) {
+                using (Solid roomSolid = results.GetGeometry())
+                {
                     var eid = new ElementId(BuiltInCategory.OST_Mass);
-                    #if REVIT2019 || REVIT2018 || REVIT2017
+#if REVIT2019 || REVIT2018 || REVIT2017
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid);
-                    #else
+#else
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
-                    #endif
-                    if (roomShape != null && roomSolid.Volume > 0 && roomSolid.Faces.Size > 0) {
+#endif
+                    if (roomShape != null && roomSolid.Volume > 0 && roomSolid.Faces.Size > 0)
+                    {
                         var geomObj = new GeometryObject[] { roomSolid };
-                        if (geomObj != null && geomObj.Length > 0) {
+                        if (geomObj != null && geomObj.Length > 0)
+                        {
                             roomShape.SetShape(geomObj);
                             CopyAllRoomParametersToMasses(room, roomShape);
                             return true;
-                        } else {
+                        }
+                        else
+                        {
                             return false;
                         }
-                    } else {
+                    }
+                    else
+                    {
                         return false;
                     }
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 return false;
             }
@@ -401,7 +463,7 @@ namespace SCaddins.RoomConvertor
             plan.ViewTemplateId = ElementId.InvalidElementId;
             plan.Scale = this.Scale;
             BoundingBoxXYZ originalBoundingBox = candidate.Room.get_BoundingBox(plan);
-            
+
             // Put them on sheets
             plan.CropBox = CreateOffsetBoundingBox(50000, originalBoundingBox);
             plan.Name = candidate.DestinationViewName;
@@ -417,8 +479,9 @@ namespace SCaddins.RoomConvertor
 
             // FIXME Apply a view template
             // NOTE This could cause trouble with view scales
-            // plan.ViewTemplateId = 
+            // plan.ViewTemplateId =
         }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

@@ -17,9 +17,9 @@
 
 namespace SCaddins.LineOfSight
 {
+    using System.Dynamic;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using System.Dynamic;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -31,7 +31,8 @@ namespace SCaddins.LineOfSight
                 ref string message,
                 ElementSet elements)
         {
-            if (commandData == null) {
+            if (commandData == null)
+            {
                 return Result.Failed;
             }
 
@@ -51,4 +52,5 @@ namespace SCaddins.LineOfSight
         }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

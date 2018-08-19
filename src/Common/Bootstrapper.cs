@@ -1,5 +1,4 @@
-﻿
-namespace SCaddins.Common
+﻿namespace SCaddins.Common
 {
     using Caliburn.Micro;
 

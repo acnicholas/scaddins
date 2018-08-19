@@ -1,71 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
-
-namespace SCaddins.RenameUtilities
+﻿namespace SCaddins.RenameUtilities
 {
+    using System;
+    using System.ComponentModel;
+
     public class RenameCommand : INotifyPropertyChanged
     {
         private Func<string, string, string, string> renameFunction;
-        public event PropertyChangedEventHandler PropertyChanged;
+
         private string replacementPattern;
+
         private string searchPattern;
-
-        public string Name
-        {
-            get;
-        }
-
-        public string SearchPatternHint
-        {
-            get; set;
-        }
-
-        public string ReplacementPatternHint
-        {
-            get; set;
-        }
-
-        public string SearchPattern
-        {
-            get { return searchPattern; }
-            set
-            {
-                if (value != searchPattern) {
-                    searchPattern = value;
-                }
-                if (this.PropertyChanged != null) {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("SearchPattern"));
-                }
-            }
-        }
-
-        public string ReplacementPattern
-        {
-            get { return replacementPattern; }
-            set
-            {
-                if (value != replacementPattern) {
-                    replacementPattern = value;
-                }
-                if (this.PropertyChanged != null) {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("ReplacementPattern"));
-                }
-            }
-        }
-
-        public bool HasInputParameters
-        {
-            get; private set;
-        }
-
-        public string Rename(string inputString)
-        {
-                return renameFunction(inputString, SearchPattern, ReplacementPattern);
-        }
 
         public RenameCommand(Func<string, string, string, string> renameFunction, string name)
         {
@@ -87,6 +31,71 @@ namespace SCaddins.RenameUtilities
             Name = name;
             ReplacementPatternHint = "Replacement Pattern";
             SearchPatternHint = "Search Pattern";
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public bool HasInputParameters
+        {
+            get; private set;
+        }
+
+        public string Name
+        {
+            get;
+        }
+
+        public string ReplacementPattern
+        {
+            get
+            {
+                return replacementPattern;
+            }
+
+            set
+            {
+                if (value != replacementPattern)
+                {
+                    replacementPattern = value;
+                }
+                if (this.PropertyChanged != null)
+                {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs("ReplacementPattern"));
+                }
+            }
+        }
+
+        public string ReplacementPatternHint
+        {
+            get; set;
+        }
+
+        public string SearchPattern
+        {
+            get
+            {
+                return searchPattern;
+            }
+
+            set
+            {
+                if (value != searchPattern) {
+                    searchPattern = value;
+                }
+                if (this.PropertyChanged != null) {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs("SearchPattern"));
+                }
+            }
+        }
+
+        public string SearchPatternHint
+        {
+            get; set;
+        }
+
+        public string Rename(string inputString)
+        {
+            return renameFunction(inputString, SearchPattern, ReplacementPattern);
         }
     }
 }

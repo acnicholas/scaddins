@@ -17,18 +17,13 @@
 
 namespace SCaddins.ExportManager
 {
-    using System;
-    using System.IO;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using Caliburn.Micro;
-    using System.Dynamic;
 
     [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
-
     public class Command : IExternalCommand
     {
         public Autodesk.Revit.UI.Result Execute(
@@ -36,16 +31,20 @@ namespace SCaddins.ExportManager
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            if (commandData == null) {
+            if (commandData == null)
+            {
                 return Result.Failed;
             }
 
-            if (!System.IO.Directory.Exists(Constants.DefaultExportDirectory)) {
+            if (!System.IO.Directory.Exists(Constants.DefaultExportDirectory))
+            {
                 System.IO.Directory.CreateDirectory(Constants.DefaultExportDirectory);
             }
 
-            if (string.IsNullOrEmpty(FileUtilities.GetCentralFileName(commandData.Application.ActiveUIDocument.Document))) {
-                using (var fail = new TaskDialog("FAIL")) {
+            if (string.IsNullOrEmpty(FileUtilities.GetCentralFileName(commandData.Application.ActiveUIDocument.Document)))
+            {
+                using (var fail = new TaskDialog("FAIL"))
+                {
                     fail.MainContent = "Please save the file before continuing";
                     fail.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
                     fail.Show();
@@ -54,16 +53,16 @@ namespace SCaddins.ExportManager
             }
 
             var uidoc = commandData.Application.ActiveUIDocument;
-            if (uidoc == null) {
+            if (uidoc == null)
+            {
                 return Autodesk.Revit.UI.Result.Failed;
             }
-            
+
             var vm = new ViewModels.SCexportViewModel(new ExportManager(uidoc));
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SCexportViewModel.DefaultWindowSettings);
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }
-
     }
 }
 

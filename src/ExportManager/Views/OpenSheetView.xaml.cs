@@ -9,6 +9,5 @@ namespace SCaddins.ExportManager.Views
             InitializeComponent();
             this.SearchInput.Focus();
         }
-
     }
 }

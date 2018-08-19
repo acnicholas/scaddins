@@ -34,6 +34,12 @@ namespace SCaddins.DestructivePurge.ViewModels
             this.parent = parent;
         }
 
+        public ObservableCollection<CheckableItem> Children
+        {
+            get { return children; }
+            set { children = value; }
+        }
+
         public DeletableItem Deletable
         {
             get; set;
@@ -41,25 +47,33 @@ namespace SCaddins.DestructivePurge.ViewModels
 
         public bool? IsChecked
         {
-            get {
-                    return isChecked;
+            get
+            {
+                return isChecked;
             }
+
             set
             {
                 //cascade through children
-                if (value != isChecked) {
+                if (value != isChecked)
+                {
                     isChecked = value;
-                    if (isChecked.HasValue) {
-                        foreach (var i in Children) {
+                    if (isChecked.HasValue)
+                    {
+                        foreach (var i in Children)
+                        {
                             i.IsChecked = value;
                         }
                     }
                     NotifyOfPropertyChange(() => IsChecked);
-                    //cascade though siblings
-                    if (parent != null) {
+
+                    if (parent != null)
+                    {
                         int n = 0;
-                        foreach (var i in parent.Children) {
-                            if (i.IsChecked.HasValue && i.IsChecked.Value) {
+                        foreach (var i in parent.Children)
+                        {
+                            if (i.IsChecked.HasValue && i.IsChecked.Value)
+                            {
                                 n++;
                             }
                             if (i.IsChecked.HasValue && i.IsChecked.Value == false)
@@ -79,10 +93,12 @@ namespace SCaddins.DestructivePurge.ViewModels
             get { return Deletable.Name; }
         }
 
-        public ObservableCollection<CheckableItem> Children
+        public void AddChild(CheckableItem deletable)
         {
-            get { return children; }
-            set { children = value; }
+            if (deletable == null) {
+                return;
+            }
+            Children.Add(deletable);
         }
 
         public void AddChildren(List<DeletableItem> deletables)
@@ -90,14 +106,8 @@ namespace SCaddins.DestructivePurge.ViewModels
             if (deletables == null || deletables.Count < 1) return;
             foreach (var deletable in deletables)
             {
-                Children.Add(new CheckableItem(deletable, this));   
+                Children.Add(new CheckableItem(deletable, this));
             }
-        }
-
-        public void AddChild(CheckableItem deletable)
-        {
-            if (deletable == null) return;
-            Children.Add(deletable);
         }
     }
 }

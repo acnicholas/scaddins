@@ -1,40 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.DB;
 
 namespace SCaddins.SheetCopier
 {
-    class SheetInformation
+    internal class SheetInformation
     {
-        public string ParameterName
-        {
-            get; private set;
-        }
-
-        public string ParameterValue
-        {
-            get; private set;
-        }
-
-        public int IndexType
-        {
-            get; private set;
-        }
-
-        public string IndexTypeDescription
-        {
-            get; set;
-        }
-
         public SheetInformation(ViewSheet sheet)
         {
             IndexType = 0;
             IndexTypeDescription = "Selected Sheet";
             ParameterName = "Sheet Name";
-            ParameterValue = sheet.SheetNumber + " - "  + sheet.Name;
+            ParameterValue = sheet.SheetNumber + " - " + sheet.Name;
         }
 
         public SheetInformation(Element element)
@@ -50,26 +25,52 @@ namespace SCaddins.SheetCopier
             ParameterName = param.Definition.Name;
             IndexTypeDescription = "Parameters of Selected Sheet";
             IndexType = 2;
-            switch (param.StorageType) {
+            switch (param.StorageType)
+            {
                 case StorageType.Double:
                     ParameterValue = param.AsString();
                     break;
+
                 case StorageType.ElementId:
                     ParameterValue = param.AsString();
-                break;
+                    break;
+
                 case StorageType.Integer:
                     ParameterValue = param.AsInteger().ToString();
                     break;
+
                 case StorageType.None:
                     ParameterValue = string.Empty;
                     break;
+
                 case StorageType.String:
-                ParameterValue = param.AsString();
+                    ParameterValue = param.AsString();
                     break;
+
                 default:
                     ParameterValue = param.AsString();
-                break;
-            }           
+                    break;
+            }
+        }
+
+        public int IndexType
+        {
+            get; private set;
+        }
+
+        public string IndexTypeDescription
+        {
+            get; set;
+        }
+
+        public string ParameterName
+        {
+            get; private set;
+        }
+
+        public string ParameterValue
+        {
+            get; private set;
         }
     }
 }

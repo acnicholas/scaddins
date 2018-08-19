@@ -18,19 +18,19 @@
 namespace SCaddins.RoomConvertor.ViewModels
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using Caliburn.Micro;
 
     public class RoomConvertorViewModel : Screen
     {
-        private RoomConversionManager manager;
-        private List<RoomConversionCandidate> rooms;
-        private bool massCreationMode;
-        private bool sheetCreationMode;
-        public RoomConversionCandidate selectedRoom;
+        private RoomConversionCandidate selectedRoom;
         private RoomFilter filter;
-        List<RoomConversionCandidate> selectedRooms = new List<RoomConversionCandidate>();
+        private RoomConversionManager manager;
+        private bool massCreationMode;
+        private List<RoomConversionCandidate> rooms;
+        private List<RoomConversionCandidate> selectedRooms = new List<RoomConversionCandidate>();
+        private bool sheetCreationMode;
 
         public RoomConvertorViewModel(RoomConversionManager manager)
         {
@@ -48,30 +48,12 @@ namespace SCaddins.RoomConvertor.ViewModels
                 dynamic settings = new System.Dynamic.ExpandoObject();
                 settings.Height = 480;
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
-                  new System.Uri("pack://application:,,,/SCaddins;component/Assets/scasfar.png")
-                  );
+                  new System.Uri("pack://application:,,,/SCaddins;component/Assets/scasfar.png"));
                 settings.Width = 768;
                 settings.Title = "Room Convertor - By Andrew Nicholas";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;
                 return settings;
-            }
-        }
-
-        public bool SheetCreationMode
-        {
-            get
-            {
-                return sheetCreationMode;
-            }
-            set
-            {
-                if (value != sheetCreationMode)
-                {
-                    sheetCreationMode = value;
-                    NotifyOfPropertyChange(() => SheetCreationMode);
-                    NotifyOfPropertyChange(() => RunButtonText);
-                }
             }
         }
 
@@ -81,6 +63,7 @@ namespace SCaddins.RoomConvertor.ViewModels
             {
                 return massCreationMode;
             }
+
             set
             {
                 if (value != massCreationMode)
@@ -100,16 +83,32 @@ namespace SCaddins.RoomConvertor.ViewModels
             }
         }
 
+        public List<RoomParameter> RoomParameters
+        {
+            get
+            {
+                return SelectedRoom.RoomParameters;
+            }
+        }
+
         public ObservableCollection<RoomConversionCandidate> Rooms
         {
             get { return new ObservableCollection<RoomConversionCandidate>(rooms.Where(r => filter.PassesFilter(r.Room))); }
         }
 
-        public void RowSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
+        public string RunButtonText
         {
-            selectedRooms.AddRange(obj.AddedItems.Cast<RoomConversionCandidate>());
-            obj.RemovedItems.Cast<RoomConversionCandidate>().ToList().ForEach(w => selectedRooms.Remove(w));
-            NotifyOfPropertyChange(() => SelectionInformation);
+            get
+            {
+                if (MassCreationMode)
+                {
+                    return "Create Masses";
+                }
+                else
+                {
+                    return "Create Sheets";
+                }
+            }
         }
 
         public RoomConversionCandidate SelectedRoom
@@ -118,6 +117,7 @@ namespace SCaddins.RoomConvertor.ViewModels
             {
                 return selectedRoom;
             }
+
             set
             {
                 if (value != selectedRoom)
@@ -130,19 +130,29 @@ namespace SCaddins.RoomConvertor.ViewModels
             }
         }
 
-        public List<RoomParameter> RoomParameters
-        {
-            get
-            {
-                return SelectedRoom.RoomParameters; 
-            }
-        }
-
         public string SelectionInformation
         {
             get
             {
                 return Rooms.Count + " Rooms, " + selectedRooms.Count + " Selected";
+            }
+        }
+
+        public bool SheetCreationMode
+        {
+            get
+            {
+                return sheetCreationMode;
+            }
+
+            set
+            {
+                if (value != sheetCreationMode)
+                {
+                    sheetCreationMode = value;
+                    NotifyOfPropertyChange(() => SheetCreationMode);
+                    NotifyOfPropertyChange(() => RunButtonText);
+                }
             }
         }
 
@@ -152,6 +162,12 @@ namespace SCaddins.RoomConvertor.ViewModels
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.RoomFilterViewModel.DefaultWindowSettings);
             NotifyOfPropertyChange(() => Rooms);
             NotifyOfPropertyChange(() => SelectionInformation);
+        }
+
+        public void PushDataToRooms()
+        {
+            manager.SynchronizeMassesToRooms();
+            NotifyOfPropertyChange(() => Rooms);
         }
 
         public void RemoveFilter()
@@ -165,25 +181,28 @@ namespace SCaddins.RoomConvertor.ViewModels
         {
             var renameManager = new SCaddins.RenameUtilities.RenameManager(
               manager.Doc,
-              selectedRooms.Select(s => s.Room.Id).ToList()
-              );
+              selectedRooms.Select(s => s.Room.Id).ToList());
             var renameSheetModel = new SCaddins.RenameUtilities.ViewModels.RenameUtilitiesViewModel(renameManager);
             renameSheetModel.SelectedParameterCategory = "Sheets";
             SCaddinsApp.WindowManager.ShowDialog(renameSheetModel, null, RenameUtilities.ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings);
             NotifyOfPropertyChange(() => Rooms);
         }
 
-        public void PushDataToRooms()
+        public void RowSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
         {
-            manager.SynchronizeMassesToRooms();
-            NotifyOfPropertyChange(() => Rooms);
+            selectedRooms.AddRange(obj.AddedItems.Cast<RoomConversionCandidate>());
+            obj.RemovedItems.Cast<RoomConversionCandidate>().ToList().ForEach(w => selectedRooms.Remove(w));
+            NotifyOfPropertyChange(() => SelectionInformation);
         }
 
         public void run()
         {
-            if (MassCreationMode) {
+            if (MassCreationMode)
+            {
                 manager.CreateRoomMasses(selectedRooms);
-            } else {
+            }
+            else
+            {
                 dynamic settings = new System.Dynamic.ExpandoObject();
                 settings.Height = 480;
                 settings.Width = 480;
@@ -198,19 +217,5 @@ namespace SCaddins.RoomConvertor.ViewModels
                 }
             }
         }
-
-        public string RunButtonText
-        {
-            get
-            {
-                if (MassCreationMode) {
-                    return "Create Masses";
-                } else {
-                    return "Create Sheets";
-                }
-            }
-        }
-
     }
 }
-

@@ -17,8 +17,8 @@
 
 namespace SCaddins.DestructivePurge
 {
-    using Autodesk.Revit.DB;
     using System.Drawing;
+    using Autodesk.Revit.DB;
 
     public class DeletableItem
     {
@@ -30,11 +30,13 @@ namespace SCaddins.DestructivePurge
             this.PreviewImage = null;
         }
 
-        public string Info {
+        public ElementId Id
+        {
             get; set;
         }
 
-        public ElementId Id {
+        public string Info
+        {
             get; set;
         }
 
@@ -47,7 +49,7 @@ namespace SCaddins.DestructivePurge
         {
             get; set;
         }
-
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

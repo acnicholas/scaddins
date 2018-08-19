@@ -24,7 +24,116 @@ namespace SCaddins.ExportManager
     using SCaddins.Properties;
 
     public static class PrintSettings
-    {  
+    {
+        public static bool CheckSheetSize(
+                    double width, double height, double tw, double th)
+        {
+            double w = Math.Round(width);
+            double h = Math.Round(height);
+
+            // use a tollerance of 2mm.
+            return tw + 2 > w && tw - 2 < w && th + 2 > h && th - 2 < h;
+        }
+
+        public static bool CreatePrintSetting(Document doc, string isoSheetSize)
+        {
+            if (doc == null || string.IsNullOrEmpty(isoSheetSize))
+            {
+                return false;
+            }
+            PrintManager pm = doc.PrintManager;
+            bool success = false;
+            foreach (PaperSize paperSize in pm.PaperSizes)
+            {
+                if (paperSize.Name.Substring(0, 2) == isoSheetSize.Substring(0, 2))
+                {
+                    var t = new Transaction(doc, "Apply print settings");
+                    t.Start();
+                    var ips = pm.PrintSetup.CurrentPrintSetting;
+                    try
+                    {
+                        ips.PrintParameters.PaperSize = paperSize;
+                        ips.PrintParameters.HideCropBoundaries = true;
+                        if (isoSheetSize.Length > 2 && !isoSheetSize.Contains("FIT"))
+                        {
+                            ips.PrintParameters.PageOrientation =
+                            PageOrientationType.Portrait;
+                        }
+                        else
+                        {
+                            ips.PrintParameters.PageOrientation =
+                            PageOrientationType.Landscape;
+                        }
+
+                        ips.PrintParameters.HideScopeBoxes = true;
+                        ips.PrintParameters.HideReforWorkPlanes = true;
+                        ips.PrintParameters.HideUnreferencedViewTags = true;
+                        if (isoSheetSize.Contains("FIT"))
+                        {
+                            ips.PrintParameters.ZoomType = ZoomType.FitToPage;
+                            ips.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
+                            ips.PrintParameters.MarginType = MarginType.NoMargin;
+                        }
+                        else
+                        {
+                            ips.PrintParameters.ZoomType = ZoomType.Zoom;
+                            ips.PrintParameters.Zoom = 100;
+                            ips.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
+                            ips.PrintParameters.MarginType = MarginType.NoMargin;
+                        }
+
+                        pm.PrintSetup.SaveAs("SCX-" + isoSheetSize);
+                        t.Commit();
+                        success = true;
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        System.Diagnostics.Debug.Print(ex.Message);
+                        TaskDialog.Show(
+                            "SCexport",
+                            "Unable to create print setting: " + "SCX-" + isoSheetSize);
+                        t.RollBack();
+                    }
+                }
+            }
+            return success;
+        }
+
+        public static PrintSetting GetPrintSettingByName(Document doc, string printSetting)
+        {
+            if (doc == null || string.IsNullOrEmpty(printSetting))
+            {
+                return null;
+            }
+
+            foreach (ElementId id in doc.GetPrintSettingIds())
+            {
+                var ps2 = doc.GetElement(id) as PrintSetting;
+                if (ps2.Name.ToString().Equals("SCX-" + printSetting))
+                {
+                    return ps2;
+                }
+            }
+
+            if (!CreatePrintSetting(doc, printSetting))
+            {
+                return null;
+            }
+
+            foreach (ElementId id in doc.GetPrintSettingIds())
+            {
+                var ps2 = doc.GetElement(id) as PrintSetting;
+                if (ps2 != null && ps2.Name.ToString().Equals("SCX-" + printSetting))
+                {
+                    return ps2;
+                }
+            }
+
+            var msg = "SCX-" + printSetting + " could not be created!";
+            TaskDialog.Show("Creating Papersize", msg);
+            return null;
+        }
+
         /// <summary>
         /// Return the papersize of the current sheet
         /// FIXME add sizes other that iso A*
@@ -51,59 +160,6 @@ namespace SCaddins.ExportManager
             return Math.Round(sheet.Width).ToString(CultureInfo.InvariantCulture) + "x" +
                 Math.Round(sheet.Height).ToString(CultureInfo.InvariantCulture);
         }
-
-        public static bool CreatePrintSetting(Document doc, string isoSheetSize)
-        {
-            if (doc == null || string.IsNullOrEmpty(isoSheetSize)) {
-                return false;
-            }
-            PrintManager pm = doc.PrintManager;
-            bool success = false;
-            foreach (PaperSize paperSize in pm.PaperSizes) {
-                if (paperSize.Name.Substring(0, 2) == isoSheetSize.Substring(0, 2)) {
-                    var t = new Transaction(doc, "Apply print settings");
-                    t.Start();
-                    var ips = pm.PrintSetup.CurrentPrintSetting;
-                    try {
-                        ips.PrintParameters.PaperSize = paperSize;
-                        ips.PrintParameters.HideCropBoundaries = true;
-                        if (isoSheetSize.Length > 2 && !isoSheetSize.Contains("FIT")) {
-                            ips.PrintParameters.PageOrientation =
-                            PageOrientationType.Portrait;
-                        } else {
-                            ips.PrintParameters.PageOrientation =
-                            PageOrientationType.Landscape;
-                        }
-
-                        ips.PrintParameters.HideScopeBoxes = true;
-                        ips.PrintParameters.HideReforWorkPlanes = true;
-                        ips.PrintParameters.HideUnreferencedViewTags = true;
-                        if (isoSheetSize.Contains("FIT")) {
-                            ips.PrintParameters.ZoomType = ZoomType.FitToPage;
-                            ips.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
-                            ips.PrintParameters.MarginType = MarginType.NoMargin;
-                        } else {
-                            ips.PrintParameters.ZoomType = ZoomType.Zoom;
-                            ips.PrintParameters.Zoom = 100;
-                            ips.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
-                            ips.PrintParameters.MarginType = MarginType.NoMargin;
-                        }
-
-                        pm.PrintSetup.SaveAs("SCX-" + isoSheetSize);
-                        t.Commit();
-                        success = true;
-                    } catch (InvalidOperationException ex) {
-                        System.Diagnostics.Debug.Print(ex.Message);
-                        TaskDialog.Show(
-                            "SCexport",
-                            "Unable to create print setting: " + "SCX-" + isoSheetSize);
-                        t.RollBack();
-                    }
-                }
-            }
-            return success;
-        }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public static bool PrintToDevice(
                 Document doc,
@@ -183,35 +239,6 @@ namespace SCaddins.ExportManager
             }
         }
 
-        public static PrintSetting GetPrintSettingByName(Document doc, string printSetting)
-        {
-            if (doc == null || string.IsNullOrEmpty(printSetting)) {
-                return null;
-            }
-
-            foreach (ElementId id in doc.GetPrintSettingIds()) {
-                var ps2 = doc.GetElement(id) as PrintSetting;
-                if (ps2.Name.ToString().Equals("SCX-" + printSetting)) {
-                    return ps2;
-                }
-            }
-
-            if (!CreatePrintSetting(doc, printSetting)) {
-                return null;
-            }
-
-            foreach (ElementId id in doc.GetPrintSettingIds()) {
-                var ps2 = doc.GetElement(id) as PrintSetting;
-                if (ps2 != null && ps2.Name.ToString().Equals("SCX-" + printSetting)) {
-                    return ps2;
-                }
-            }
-
-            var msg = "SCX-" + printSetting + " could not be created!";
-            TaskDialog.Show("Creating Papersize", msg);
-            return null;
-        }
-
         public static bool SetPrinterByName(
                 Document doc, string name, PrintManager pm)
         {
@@ -254,15 +281,6 @@ namespace SCaddins.ExportManager
             } 
             
             return ps;
-        }
-        
-        public static bool CheckSheetSize(
-            double width, double height, double tw, double th)
-        {
-            double w = Math.Round(width);
-            double h = Math.Round(height);
-            // use a tollerance of 2mm.
-            return tw + 2 > w && tw - 2 < w && th + 2 > h && th - 2 < h;
         }
     }
 }
