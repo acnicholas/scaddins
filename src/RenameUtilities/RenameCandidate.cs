@@ -57,8 +57,8 @@ namespace SCaddins.RenameUtilities
                 this.newValue = value;
                 if (this.PropertyChanged != null)
                 {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("NewValue"));
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("ValueChanged"));
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(NewValue)));
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(ValueChanged)));
                 }
             }
         }

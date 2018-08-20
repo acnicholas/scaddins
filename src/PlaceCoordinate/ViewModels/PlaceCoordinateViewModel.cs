@@ -51,9 +51,9 @@ namespace SCaddins.PlaceCoordinate.ViewModels
                 dynamic settings = new System.Dynamic.ExpandoObject();
                 settings.Height = 400;
 
-                //settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
-                //  new System.Uri("pack://application:,,,/SCaddins;component/Assets/scasfar.png")
-                //  );
+                ////settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
+                ////  new System.Uri("pack://application:,,,/SCaddins;component/Assets/scasfar.png")
+                ////  );
                 settings.Title = "Place Coordinate - By Andrew Nicholas";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
@@ -80,7 +80,7 @@ namespace SCaddins.PlaceCoordinate.ViewModels
 
         public bool PlaceFamilyAtCoordinateIsEnabled
         {
-            //get { return false; }
+            ////get { return false; }
             get { return SelectedFamilySymbol != null; }
         }
 
@@ -107,6 +107,7 @@ namespace SCaddins.PlaceCoordinate.ViewModels
             {
                 return useSharedCoordinates;
             }
+
             set
             {
                 if (value != useSharedCoordinates)

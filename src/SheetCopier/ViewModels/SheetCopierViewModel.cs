@@ -28,11 +28,17 @@ namespace SCaddins.SheetCopier.ViewModels
     class SheetCopierViewModel : PropertyChangedBase
     {
         private SheetCopierManager copyManager;
+        List<string> levelsInModel = new List<string>();
         private SheetCopierSheet selectedSheet;
+        BindableCollection<SheetInformation> selectedSheetInformation = new BindableCollection<SheetInformation>();
         List<SheetCopierSheet> selectedSheets = new List<SheetCopierSheet>();
         List<SheetCopierViewOnSheet> selectedViews = new List<SheetCopierViewOnSheet>();
-        BindableCollection<SheetInformation> selectedSheetInformation = new BindableCollection<SheetInformation>();
-        List<string> levelsInModel = new List<string>();
+
+        public SheetCopierViewModel(UIDocument uidoc)
+        {
+            copyManager = new SheetCopierManager(uidoc);
+            levelsInModel = copyManager.Levels.Select(k => k.Key).ToList();
+        }
 
         public static dynamic DefaultWindowSettings
         {
@@ -49,22 +55,9 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
-        public ObservableCollection<SheetCopierSheet> Sheets
+        public string GoLabel
         {
-            get { return copyManager.Sheets; }
-        }
-
-        public ObservableCollection<SheetCopierViewOnSheet> ViewsOnSheet
-        {
-            get { return SelectedSheet.ViewsOnSheet; }
-        }
-
-        public string SelectedSheetName
-        {
-            get
-            {
-                return SelectedSheet.Number + " - " + SelectedSheet.Title;
-            }
+            get { return "Copy " + Sheets.Count + " Sheets"; }
         }
 
         public SheetCopierSheet SelectedSheet
@@ -76,25 +69,12 @@ namespace SCaddins.SheetCopier.ViewModels
 
             set
             {
-                if (value != selectedSheet)
-                {
+                if (value != selectedSheet) {
                     selectedSheet = value;
                     NotifyOfPropertyChange(() => SelectedSheetInformationView);
                     NotifyOfPropertyChange(() => ViewsOnSheet);
                     NotifyOfPropertyChange(() => SelectedSheetName);
                 }
-            }
-        }
-
-        public CollectionView SelectedSheetInformationView
-        {
-            get
-            {
-                CollectionView result = (CollectionView)CollectionViewSource.GetDefaultView(SelectedSheetInformation);
-                PropertyGroupDescription gd = new PropertyGroupDescription("IndexType");
-                result.GroupDescriptions.Clear();
-                result.GroupDescriptions.Add(gd);
-                return result;
             }
         }
 
@@ -119,6 +99,77 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
+        public CollectionView SelectedSheetInformationView
+        {
+            get
+            {
+                CollectionView result = (CollectionView)CollectionViewSource.GetDefaultView(SelectedSheetInformation);
+                PropertyGroupDescription gd = new PropertyGroupDescription("IndexType");
+                result.GroupDescriptions.Clear();
+                result.GroupDescriptions.Add(gd);
+                return result;
+            }
+        }
+
+        public string SelectedSheetName
+        {
+            get
+            {
+                return SelectedSheet.Number + " - " + SelectedSheet.Title;
+            }
+        }
+
+        public ObservableCollection<SheetCopierSheet> Sheets
+        {
+            get { return copyManager.Sheets; }
+        }
+
+        public ObservableCollection<SheetCopierViewOnSheet> ViewsOnSheet
+        {
+            get { return SelectedSheet.ViewsOnSheet; }
+        }
+
+        public void AddCurrentSheet()
+        {
+            copyManager.AddCurrentSheet();
+            NotifyOfPropertyChange(() => GoLabel);
+        }
+
+        public void AddSheets(List<SCaddins.ExportManager.ExportSheet> selectedSheets)
+        {
+            foreach (var sheet in selectedSheets) {
+                copyManager.AddSheet(sheet.Sheet);
+            }
+        }
+
+        public void CopySheetSelection()
+        {
+            if (SelectedSheet.SourceSheet != null) {
+                copyManager.AddSheet(SelectedSheet.SourceSheet);
+                NotifyOfPropertyChange(() => GoLabel);
+            }
+        }
+
+        public void Go()
+        {
+            copyManager.CreateSheets();
+        }
+
+        public void RemoveSelectedViews()
+        {
+            foreach (var s in selectedViews.ToList()) {
+                ViewsOnSheet.Remove(s);
+            }
+        }
+
+        public void RemoveSheetSelection()
+        {
+            foreach (var s in selectedSheets.ToList()) {
+                Sheets.Remove(s);
+            }
+            NotifyOfPropertyChange(() => GoLabel);
+        }
+
         public void RowSheetSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
         {
             try {
@@ -134,57 +185,6 @@ namespace SCaddins.SheetCopier.ViewModels
                 selectedViews.AddRange(obj.AddedItems.Cast<SheetCopierViewOnSheet>());
                 obj.RemovedItems.Cast<SheetCopierViewOnSheet>().ToList().ForEach(w => selectedViews.Remove(w));
             } catch {
-            }
-        }
-
-        public SheetCopierViewModel(UIDocument uidoc)
-        {
-            copyManager = new SheetCopierManager(uidoc);
-            levelsInModel = copyManager.Levels.Select(k => k.Key).ToList();
-        }
-
-        public void AddCurrentSheet()
-        {
-            copyManager.AddCurrentSheet();
-            NotifyOfPropertyChange(() => GoLabel);
-        }
-
-        public void RemoveSheetSelection()
-        {
-            foreach (var s in selectedSheets.ToList())
-                Sheets.Remove(s);
-            NotifyOfPropertyChange(() => GoLabel);
-        }
-
-        public void RemoveSelectedViews()
-        {
-            foreach (var s in selectedViews.ToList())
-                ViewsOnSheet.Remove(s);
-        }
-
-        public void CopySheetSelection()
-        {
-            if (SelectedSheet.SourceSheet != null)
-            {
-                copyManager.AddSheet(SelectedSheet.SourceSheet);
-                NotifyOfPropertyChange(() => GoLabel);
-            }
-        }
-
-        public void Go()
-        {
-            copyManager.CreateSheets();
-        }
-
-        public string GoLabel
-        {
-            get { return "Copy " + Sheets.Count + " Sheets"; }
-        }
-
-        public void AddSheets(List<SCaddins.ExportManager.ExportSheet> selectedSheets)
-        {
-            foreach (var sheet in selectedSheets) {
-                copyManager.AddSheet(sheet.Sheet);
             }
         }
     }

@@ -184,7 +184,9 @@ namespace SCaddins.ExportManager
                 if (ps.IsValidObject) {
                     pm.PrintSetup.CurrentPrintSetting = ps;
                 } else {
-                    if(log != null)log.AddWarning(null, Resources.WarningPrintSetupReadOnly);
+                    if (log != null) {
+                        log.AddWarning(null, Resources.WarningPrintSetupReadOnly);
+                    }
                 }
                 pm.PrintRange = PrintRange.Current;
                 pm.PrintSetup.CurrentPrintSetting.PrintParameters.MarginType = MarginType.NoMargin;
@@ -195,7 +197,9 @@ namespace SCaddins.ExportManager
                 return true;
             } catch (Exception ex) {
                 System.Diagnostics.Debug.Print(ex.Message);
-                if (log != null) log.AddError(null, ex.ToString());
+                if (log != null) {
+                    log.AddError(null, ex.ToString());
+                }
                 t.RollBack();
                 return false;
             }

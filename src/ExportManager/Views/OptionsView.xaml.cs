@@ -1,7 +1,7 @@
-﻿using System.Windows.Controls;
-
-namespace SCaddins.ExportManager.Views
+﻿namespace SCaddins.ExportManager.Views
 {
+    using System.Windows.Controls;
+
     /// <summary>
     /// Interaction logic for OptionsView.xaml
     /// </summary>

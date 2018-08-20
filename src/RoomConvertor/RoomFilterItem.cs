@@ -27,7 +27,6 @@ namespace SCaddins.RoomConvertor
         private LogicalOperator lo;
         private Parameter parameter;
         private string parameterName;
-        private bool paramIsString;
         private string test;
 
         public RoomFilterItem(LogicalOperator lo, ComparisonOperator co, string parameter, string test)
@@ -59,7 +58,7 @@ namespace SCaddins.RoomConvertor
                 return false;
             }
 
-            //FIXME not sure how else to do this...
+            ////FIXME not sure how else to do this...
             if (parameterName == "Level")
             {
                 return LevelPassesFilter(room);

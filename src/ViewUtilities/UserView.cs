@@ -17,12 +17,12 @@
 
 namespace SCaddins.ViewUtilities
 {
+    using System;
+    using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using SCaddins.Common;
     using SCaddins.Properties;
-    using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Copy a view; give it a user name, remove any view templates and

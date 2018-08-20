@@ -62,7 +62,7 @@ namespace SCaddins.ExportManager
             result = result.Replace(@"$sheetRevisionDescription", sheet.SheetRevisionDescription);
             result = result.Replace(@"$fileExtension", extension);
 
-            //search for, and replace Custom Paramters
+            // search for, and replace Custom Paramters
             string pattern = @"(__)(.*?)(__)";
             result = Regex.Replace(
                 result,

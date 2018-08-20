@@ -15,12 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using Caliburn.Micro;
-using System.Collections.ObjectModel;
-using System.Dynamic;
-
 namespace SCaddins.ExportManager.ViewModels
 {
+    using System.Collections.ObjectModel;
+    using System.Dynamic;
+    using Caliburn.Micro;
+
     internal class RevisionSelectionViewModel : Screen
     {
         public RevisionSelectionViewModel(Autodesk.Revit.DB.Document doc)

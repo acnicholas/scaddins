@@ -1,8 +1,7 @@
-﻿using System;
-using System.Windows.Controls;
-
-namespace SCaddins.SolarUtilities.Views
+﻿namespace SCaddins.SolarUtilities.Views
 {
+    using System.Windows.Controls;
+
     /// <summary>
     /// Interaction logic for SolarViewsForm.xaml
     /// </summary>

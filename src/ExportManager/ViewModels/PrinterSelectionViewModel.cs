@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using Caliburn.Micro;
-using System.Collections.Generic;
-
 namespace SCaddins.ExportManager.ViewModels
 {
+    using System.Collections.Generic;
+    using Caliburn.Micro;
+
     public class PrinterSelectionViewModel : Screen
     {
         private List<string> printers;
@@ -46,6 +46,7 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 return selectedPrinter;
             }
+
             set
             {
                 selectedPrinter = value;

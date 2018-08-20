@@ -78,6 +78,7 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 return currentProgress;
             }
+
             set
             {
                 currentProgress = value;
@@ -215,7 +216,9 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void ExecuteFilterView(KeyEventArgs keyArgs)
         {
-            if (keyArgs.OriginalSource.GetType() == typeof(System.Windows.Controls.TextBox)) return;
+            if (keyArgs.OriginalSource.GetType() == typeof(System.Windows.Controls.TextBox)) {
+                return;
+            }
 
             switch (keyArgs.Key)
             {
@@ -225,12 +228,16 @@ namespace SCaddins.ExportManager.ViewModels
 
                 case Key.J:
                     Sheets.MoveCurrentToNext();
-                    if (Sheets.IsCurrentAfterLast) Sheets.MoveCurrentToFirst();
+                    if (Sheets.IsCurrentAfterLast) {
+                       Sheets.MoveCurrentToFirst();
+                    }
                     break;
 
                 case Key.K:
                     Sheets.MoveCurrentToPrevious();
-                    if (Sheets.IsCurrentBeforeFirst) Sheets.MoveCurrentToLast();
+                    if (Sheets.IsCurrentBeforeFirst) {
+                        Sheets.MoveCurrentToLast();
+                    }
                     break;
 
                 case Key.L:
@@ -330,7 +337,7 @@ namespace SCaddins.ExportManager.ViewModels
             CurrentProgress = 0;
             log.Stop("Finished Print.");
 
-            if(exportManager.ShowExportLog) {
+            if (exportManager.ShowExportLog) {
                 var vm = new ViewModels.ExportLogViewModel(log);
                 SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
             }

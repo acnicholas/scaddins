@@ -1,16 +1,9 @@
-﻿using NUnit.Framework;
-using SCaddins.LineOfSight;
+﻿using Autodesk.Revit.DB;
+using NUnit.Framework;
+using RTF.Applications;
+using RTF.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using SCaddins.SolarUtilities;
-using System;
-using RTF.Applications;
-using Autodesk.Revit.DB;
-using RTF.Framework;
 
 namespace SCaddins.LineOfSight.Tests
 {

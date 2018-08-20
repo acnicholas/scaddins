@@ -95,7 +95,7 @@ namespace SCaddins.LineOfSight
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        //Properties
+        // Properties
 
         #region
 
@@ -111,9 +111,11 @@ namespace SCaddins.LineOfSight
                 if (distanceToFirstRowX != value) {
                     try {
                         distanceToFirstRowX = value;
-                        if (distanceToFirstRowX > 1) UpdateRows();
+                        if (distanceToFirstRowX > 1) {
+                            UpdateRows();
+                        }
                     } catch {
-                        //FIXME
+                        ////FIXME
                     }
                 }
             }
@@ -161,7 +163,7 @@ namespace SCaddins.LineOfSight
             private set
             {
                 this.infoString = value;
-                NotifyPropertyChanged("InfoString");
+                NotifyPropertyChanged(nameof(InfoString));
             }
         }
 

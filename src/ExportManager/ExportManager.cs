@@ -126,7 +126,9 @@ namespace SCaddins.ExportManager
 
             set
             {
-                if (value == Settings1.Default.AcadExportVersion) return;
+                if (value == Settings1.Default.AcadExportVersion) {
+                    return;
+                }
                 Settings1.Default.AcadExportVersion = value;
             }
         }
@@ -872,12 +874,13 @@ namespace SCaddins.ExportManager
                     this.ExportAdobePDF(sheet, log);
                 }
 
-                if (this.exportFlags.HasFlag(ExportOptions.GhostscriptPDF))
-                {
+                if (this.exportFlags.HasFlag(ExportOptions.GhostscriptPDF)) {
                     this.ExportGSPDF(sheet, log);
                 }
                 var elapsedTime = DateTime.Now - startTime;
-                if (log != null) log.AddMessage(Resources.MessageElapsedTimeForLastExport + elapsedTime.ToString());
+                if (log != null) {
+                    log.AddMessage(Resources.MessageElapsedTimeForLastExport + elapsedTime.ToString());
+                }
             }
             else
             {

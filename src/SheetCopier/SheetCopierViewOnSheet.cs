@@ -40,12 +40,12 @@ namespace SCaddins.SheetCopier
         {
             if (scopy == null)
             {
-                throw new ArgumentNullException("scopy");
+                throw new ArgumentNullException(nameof(scopy));
             }
             this.scopy = scopy;
             if (view == null)
             {
-                throw new ArgumentNullException("view");
+                throw new ArgumentNullException(nameof(view));
             }
             this.oldView = view;
             this.oldId = view.Id;
@@ -54,7 +54,7 @@ namespace SCaddins.SheetCopier
             this.newTitle =
                 title + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";
 
-            //remove invalid chars before continuing
+            ////remove invalid chars before continuing
             this.newTitle = string.Join("_", this.newTitle.Split(System.IO.Path.GetInvalidFileNameChars()));
             this.associatedLevelName = SheetCopierConstants.MenuItemCopy;
             this.viewTemplateName = SheetCopierConstants.MenuItemCopy;
@@ -85,7 +85,7 @@ namespace SCaddins.SheetCopier
                 if (this.PropertyChanged != null)
                 {
                     this.PropertyChanged(
-                        this, new PropertyChangedEventArgs("AssociatedLevelName"));
+                        this, new PropertyChangedEventArgs(nameof(AssociatedLevelName)));
                 }
             }
         }
@@ -122,7 +122,7 @@ namespace SCaddins.SheetCopier
                 if (this.PropertyChanged != null)
                 {
                     this.PropertyChanged(
-                        this, new PropertyChangedEventArgs("DuplicateWithDetailing"));
+                        this, new PropertyChangedEventArgs(nameof(DuplicateWithDetailing)));
                 }
             }
         }
@@ -209,7 +209,7 @@ namespace SCaddins.SheetCopier
                 if (this.PropertyChanged != null)
                 {
                     this.PropertyChanged(
-                        this, new PropertyChangedEventArgs("ViewTemplateName"));
+                        this, new PropertyChangedEventArgs(nameof(ViewTemplateName)));
                 }
             }
         }

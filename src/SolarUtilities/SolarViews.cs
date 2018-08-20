@@ -169,7 +169,9 @@ namespace SCaddins.SolarUtilities
                 foreach (var e in collector)
                 {
                     var vft = (ViewFamilyType)e;
-                    if (vft.ViewFamily == viewFamilyType) return vft.Id;
+                    if (vft.ViewFamily == viewFamilyType) {
+                        return vft.Id;
+                    }
                 }
             }
 

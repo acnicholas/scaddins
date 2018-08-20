@@ -20,7 +20,7 @@ namespace SCaddins.Common.ViewModels
     using System;
     using Caliburn.Micro;
 
-    class UpgradeViewModel : Screen
+    public class UpgradeViewModel : Screen
     {
         private string downloadLink;
 

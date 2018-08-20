@@ -75,8 +75,8 @@ namespace SCaddins.ExportManager
             {
                 this.forceDate = value;
                 this.SetExportName();
-                NotifyPropertyChanged("ForceDate");
-                NotifyPropertyChanged("FullExportName");
+                NotifyPropertyChanged(nameof(ForceDate));
+                NotifyPropertyChanged(nameof(FullExportName));
             }
         }
 
@@ -105,7 +105,7 @@ namespace SCaddins.ExportManager
             set
             {
                 northPointVisible = value;
-                NotifyPropertyChanged("NorthPointVisible");
+                NotifyPropertyChanged(nameof(NorthPointVisible));
             }
         }
 
@@ -158,7 +158,7 @@ namespace SCaddins.ExportManager
             set
             {
                 this.scale = value;
-                NotifyPropertyChanged("Scale");
+                NotifyPropertyChanged(nameof(Scale));
             }
         }
 
@@ -256,8 +256,8 @@ namespace SCaddins.ExportManager
             {
                 this.useDateForEmptyRevisions = value;
                 this.SetExportName();
-                NotifyPropertyChanged("UseDateForEmptyRevisions");
-                NotifyPropertyChanged("FullExportName");
+                NotifyPropertyChanged(nameof(UseDateForEmptyRevisions));
+                NotifyPropertyChanged(nameof(FullExportName));
             }
         }
 
@@ -290,8 +290,12 @@ namespace SCaddins.ExportManager
                         return null;
                     }
                     int d = p[0].AsInteger();
-                    if (d == 0) return false;
-                    if (d == 1) return true;
+                    if (d == 0) {
+                        return false;
+                    }
+                    if (d == 1) {
+                        return true;
+                    }
                     return null;
             } catch (FormatException) {
                     return null;
@@ -365,15 +369,15 @@ namespace SCaddins.ExportManager
             Parameter p = tb[0];
             p.SetValueString(this.RevitScaleWithoutFormatting());
             this.scaleBarScale = this.RevitScaleWithoutFormatting();
-            NotifyPropertyChanged("Scale");
+            NotifyPropertyChanged(nameof(Scale));
         }
 
         public void SetSegmentedSheetName(SegmentedSheetName newSegmentedFileName)
         {
             this.segmentedFileName = newSegmentedFileName;
             this.SetExportName();
-            NotifyPropertyChanged("SheetNumber");
-            NotifyPropertyChanged("FullExportName");
+            NotifyPropertyChanged(nameof(SheetNumber));
+            NotifyPropertyChanged(nameof(FullExportName));
         }
 
         public void ToggleNorthPoint(bool turnOn)
@@ -452,8 +456,8 @@ namespace SCaddins.ExportManager
             this.sheetDescription = this.sheet.get_Parameter(
                     BuiltInParameter.SHEET_NAME).AsString();
             this.SetExportName();
-            NotifyPropertyChanged("SheetDescription");
-            NotifyPropertyChanged("FullExportName");
+            NotifyPropertyChanged(nameof(SheetDescription));
+            NotifyPropertyChanged(nameof(FullExportName));
         }
 
         public void UpdateNumber()
@@ -461,8 +465,8 @@ namespace SCaddins.ExportManager
             this.sheetNumber = this.sheet.get_Parameter(
                     BuiltInParameter.SHEET_NUMBER).AsString();
             this.SetExportName();
-            NotifyPropertyChanged("SheetNumber");
-            NotifyPropertyChanged("FullExportName");
+            NotifyPropertyChanged(nameof(SheetNumber));
+            NotifyPropertyChanged(nameof(FullExportName));
         }
 
         public void UpdateRevision(bool refreshExportName)
@@ -478,10 +482,10 @@ namespace SCaddins.ExportManager
             {
                 this.SetExportName();
             }
-            NotifyPropertyChanged("SheetRevision");
-            NotifyPropertyChanged("SheetRevisionDescription");
-            NotifyPropertyChanged("SheetRevisionDate");
-            NotifyPropertyChanged("FullExportName");
+            NotifyPropertyChanged(nameof(SheetRevision));
+            NotifyPropertyChanged(nameof(SheetRevisionDescription));
+            NotifyPropertyChanged(nameof(SheetRevisionDate));
+            NotifyPropertyChanged(nameof(FullExportName));
         }
 
         public void UpdateScaleBarScale()
@@ -517,7 +521,7 @@ namespace SCaddins.ExportManager
             this.printSetting = PrintSettings.GetPrintSettingByName(
                     this.doc, this.pageSize);
             this.verified = true;
-            NotifyPropertyChanged("Scale");
+            NotifyPropertyChanged(nameof(Scale));
         }
 
         private void Init(

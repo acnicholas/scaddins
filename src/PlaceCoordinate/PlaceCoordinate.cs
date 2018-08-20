@@ -41,7 +41,7 @@ namespace SCaddins.PlaceCoordinate
             UIDocument udoc = commandData.Application.ActiveUIDocument;
             Document doc = udoc.Document;
 
-            //PlaceMGA(doc,);
+            ////PlaceMGA(doc,);
 
             var vm = new ViewModels.PlaceCoordinateViewModel(doc);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, PlaceCoordinate.ViewModels.PlaceCoordinateViewModel.DefaultWindowSettings);

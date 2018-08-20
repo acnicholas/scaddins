@@ -31,11 +31,11 @@ namespace SCaddins.RevisionUtilities
         {
             if (revisionCloud == null)
             {
-                throw new ArgumentNullException("revisionCloud");
+                throw new ArgumentNullException(nameof(revisionCloud));
             }
             if (doc == null)
             {
-                throw new ArgumentNullException("doc");
+                throw new ArgumentNullException(nameof(doc));
             }
             var revision = doc.GetElement(revisionCloud.RevisionId);
             Init(revision);

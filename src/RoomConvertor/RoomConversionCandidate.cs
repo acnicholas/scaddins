@@ -64,7 +64,7 @@ namespace SCaddins.RoomConvertor
                 this.destSheetName = value;
                 if (this.PropertyChanged != null)
                 {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("DestinationSheetName"));
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(DestinationSheetName)));
                 }
             }
         }
@@ -81,7 +81,7 @@ namespace SCaddins.RoomConvertor
                 this.destSheetNumber = value;
                 if (this.PropertyChanged != null)
                 {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("DestinationSheetNumber"));
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(DestinationSheetNumber)));
                 }
             }
         }
@@ -98,7 +98,7 @@ namespace SCaddins.RoomConvertor
                 this.destViewName = value;
                 if (this.PropertyChanged != null)
                 {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("DestinationViewName"));
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(DestinationViewName)));
                 }
             }
         }
@@ -141,7 +141,7 @@ namespace SCaddins.RoomConvertor
             get; set;
         }
 
-        //FIXME put ths somewhere more useful.
+        ////FIXME put ths somewhere more useful.
         public static string GetParamValueAsString(Parameter param)
         {
             switch (param.StorageType)

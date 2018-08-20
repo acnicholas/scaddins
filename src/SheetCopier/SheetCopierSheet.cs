@@ -35,12 +35,12 @@ namespace SCaddins.SheetCopier
         {
             if (scopy == null)
             {
-                throw new ArgumentNullException("scopy");
+                throw new ArgumentNullException(nameof(scopy));
             }
             this.scopy = scopy;
             if (sourceSheet == null)
             {
-                throw new ArgumentNullException("sourceSheet");
+                throw new ArgumentNullException(nameof(sourceSheet));
             }
             this.number = number;
             this.title = title;

@@ -183,9 +183,9 @@ namespace SCaddins
                 LoadAbout(scdll),
                 LoadSCincrementSettings(scdll));
 
-            //if (SCaddins.Scaddins.Default.UpgradeCheckOnStartUp) {
-            //    CheckForUpdates(true);
-            //}
+            ////if (SCaddins.Scaddins.Default.UpgradeCheckOnStartUp) {
+            ////    CheckForUpdates(true);
+            ////}
 
             return Result.Succeeded;
         }

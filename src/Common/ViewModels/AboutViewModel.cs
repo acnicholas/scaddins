@@ -127,7 +127,7 @@ namespace SCaddins.Common.ViewModels
             return FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
         }
 
-        public void NavigateTo(string url)
+        public static void NavigateTo(string url)
         {
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(url));
         }

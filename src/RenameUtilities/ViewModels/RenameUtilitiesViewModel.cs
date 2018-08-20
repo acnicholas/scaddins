@@ -54,7 +54,7 @@ namespace SCaddins.RenameUtilities.ViewModels
             }
         }
 
-        //Constructors
+        ////Constructors
         #region
         #endregion
 
@@ -132,6 +132,7 @@ namespace SCaddins.RenameUtilities.ViewModels
             {
                 return manager.renameCommand.ReplacementPattern;
             }
+
             set
             {
                 manager.renameCommand.ReplacementPattern = value;

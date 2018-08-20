@@ -33,7 +33,7 @@ namespace SCaddins.RenameUtilities
         {
             if (commandData == null)
             {
-                throw new ArgumentNullException("commandData");
+                throw new ArgumentNullException(nameof(commandData));
             }
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
@@ -44,14 +44,14 @@ namespace SCaddins.RenameUtilities
 
             IList<ElementId> elems = commandData.Application.ActiveUIDocument.Selection.GetElementIds().ToList<ElementId>();
 
-            //if (elems.Count > 0) {
-            //    using (var t = new TransactionGroup(doc, "Convert selected text to uppercase")) {
-            //        t.Start();
-            //        RenameManager.ConvertSelectionToUppercase(doc, elems);
-            //        t.Commit();
-            //    }
-            //     return Result.Succeeded;
-            //}
+            ////if (elems.Count > 0) {
+            ////    using (var t = new TransactionGroup(doc, "Convert selected text to uppercase")) {
+            ////        t.Start();
+            ////        RenameManager.ConvertSelectionToUppercase(doc, elems);
+            ////        t.Commit();
+            ////    }
+            ////     return Result.Succeeded;
+            ////}
 
             RenameManager manager = new RenameManager(doc);
             var vm = new ViewModels.RenameUtilitiesViewModel(manager);

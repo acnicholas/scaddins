@@ -21,7 +21,7 @@ namespace SCaddins.RoomConvertor.ViewModels
     using Caliburn.Micro;
     using Autodesk.Revit.DB;
 
-    class RoomToSheetWizardViewModel : Screen
+    public class RoomToSheetWizardViewModel : Screen
     {
         private RoomConversionManager manager;
 

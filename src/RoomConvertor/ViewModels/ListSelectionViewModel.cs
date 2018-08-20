@@ -20,7 +20,7 @@ using Caliburn.Micro;
 
 namespace SCaddins.RoomConvertor.ViewModels
 {
-    class ListSelectionViewModel : Screen
+    public class ListSelectionViewModel : Screen
     {
         public ListSelectionViewModel(List<string> items)
         {

@@ -135,7 +135,7 @@ namespace SCaddins.RoomConvertor.ViewModels
             get; set;
         }
 
-        public ObservableCollection<LogicalOperator> LogicalOperators
+        public static ObservableCollection<LogicalOperator> LogicalOperators
         {
             get
             {

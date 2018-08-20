@@ -27,7 +27,7 @@
             this.renameFunction = renameFunction;
             ReplacementPattern = replacement;
             SearchPattern = search;
-            HasInputParameters = true; ;
+            HasInputParameters = true;
             Name = name;
             ReplacementPatternHint = "Replacement Pattern";
             SearchPatternHint = "Search Pattern";
@@ -60,7 +60,7 @@
                 }
                 if (this.PropertyChanged != null)
                 {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("ReplacementPattern"));
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(ReplacementPattern)));
                 }
             }
         }
@@ -83,7 +83,7 @@
                     searchPattern = value;
                 }
                 if (this.PropertyChanged != null) {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("SearchPattern"));
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(SearchPattern)));
                 }
             }
         }

@@ -54,7 +54,7 @@ namespace SCaddins.DestructivePurge.ViewModels
 
             set
             {
-                //cascade through children
+                // cascade through children
                 if (value != isChecked)
                 {
                     isChecked = value;

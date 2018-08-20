@@ -59,8 +59,9 @@ namespace SCaddins.DestructivePurge.ViewModels
                 }
                 var i = new CheckableItem(new DeletableItem(enumValue.ToString()), viewOnSheets);
                 i.AddChildren(SCwashUtilities.Views(doc, true, enumValue));
-                if (i.Children.Count > 0)
+                if (i.Children.Count > 0) {
                     viewOnSheets.AddChild(i);
+                }
             }
             checkableItems.Add(viewOnSheets);
 
@@ -182,8 +183,9 @@ namespace SCaddins.DestructivePurge.ViewModels
             {
                 if (item.IsChecked.Value == true)
                 {
-                    if (item.Deletable.Id != null)
+                    if (item.Deletable.Id != null) {
                         toDelete.Add(item.Deletable.Id);
+                    }
                     RecurseItems(toDelete, item);
                 }
             }

@@ -31,7 +31,7 @@ namespace SCaddins.RenameUtilities
         private Document doc;
         private List<ElementId> elements;
 
-        //Constructors
+        ////Constructors
         #region
 
         public RenameManager(Document doc, List<ElementId> elements) : this(doc)
@@ -53,7 +53,7 @@ namespace SCaddins.RenameUtilities
             renameCommands.Add(new RenameCommand(RegexReplace, "Custom Replace", string.Empty, string.Empty));
             renameCommands.Add(new RenameCommand(Increment, "Increment Match", string.Empty, string.Empty));
 
-            //inc last
+            ////inc last
             var rcLast = new RenameCommand(IncrementLast, "Increment Last", @"(^\D+)(\d+$)", string.Empty);
             rcLast.ReplacementPatternHint = "Increment Amount";
             renameCommands.Add(rcLast);
@@ -63,7 +63,7 @@ namespace SCaddins.RenameUtilities
 
         #endregion
 
-        //Properties
+        ////Properties
         #region
 
         public Caliburn.Micro.BindableCollection<String> AvailableParameterTypes
@@ -103,6 +103,7 @@ namespace SCaddins.RenameUtilities
             {
                 return renameCommand;
             }
+
             set
             {
                 renameCommand = value;
@@ -314,7 +315,7 @@ namespace SCaddins.RenameUtilities
 
             if (category == BuiltInCategory.OST_Levels || category == BuiltInCategory.OST_Grids)
             {
-                //Parameter param = elem.GetParameters("Name").FirstOrDefault();
+                ////Parameter param = elem.GetParameters("Name").FirstOrDefault();
                 Parameter param = elem.LookupParameter("Name");
                 parametersList.Add(new RenameParameter(param, category));
                 return parametersList;

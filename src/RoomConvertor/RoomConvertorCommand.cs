@@ -31,7 +31,7 @@ namespace SCaddins.RoomConvertor
         {
             if (commandData == null)
             {
-                throw new ArgumentNullException("commandData");
+                throw new ArgumentNullException(nameof(commandData));
             }
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
