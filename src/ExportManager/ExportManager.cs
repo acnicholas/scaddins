@@ -540,7 +540,7 @@ namespace SCaddins.ExportManager
                 Microsoft.Win32.RegistryValueKind.String);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PrinterJobControl")]
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PrinterJobControl")]
         [SecurityCritical]
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private static void SetAcrobatExportRegistryVal(string fileName, ExportLog log)

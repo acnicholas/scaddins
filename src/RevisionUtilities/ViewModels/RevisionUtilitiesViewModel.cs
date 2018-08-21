@@ -23,7 +23,7 @@ namespace SCaddins.RevisionUtilities.ViewModels
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
-    class RevisionUtilitiesViewModel : Screen
+    public class RevisionUtilitiesViewModel : Screen
     {
         private Document doc;
         private List<RevisionItem> selectedRevisions;

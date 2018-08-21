@@ -6,11 +6,18 @@
 
     public class WindowManager : Caliburn.Micro.WindowManager
     {
+        private const int GWL_STYLE = -16;
         private IDialogService dialogService;
 
         public WindowManager(IDialogService dialogService) : base()
         {
             this.dialogService = dialogService;
+        }
+
+        public bool? ShowConfirmationDialog(string message, bool? defaultCheckboxValue, out bool checkboxResult)
+        {
+            checkboxResult = true;
+            return true;
         }
 
         public override bool? ShowDialog(object rootModel, object context = null, IDictionary<string, object> settings = null)
@@ -24,30 +31,24 @@
             return window.ShowDialog();
         }
 
-        public bool? ShowMessageBox(string message)
-        {
-            return dialogService.ShowMessageBox(message);
-        }
-
-        public bool? ShowConfirmationDialog(string message, bool? defaultCheckboxValue, out bool checkboxResult)
-        {
-            checkboxResult = true;
-            return true;
-        }
-
-        public bool? ShowSaveFileDialog(string defaultFileName, string defaultExtension, string filter, out string savePath)
-        {
-            return dialogService.ShowSaveAsDialog(defaultFileName, defaultExtension, filter, out savePath);
-        }
-
         public bool? ShowDirectorySelectionDialog(string defaultDir, out string dirPath)
         {
             return dialogService.ShowDirectorySelectionDialog(defaultDir, out dirPath);
         }
 
+        public bool? ShowMessageBox(string message)
+        {
+            return dialogService.ShowMessageBox(message);
+        }
+
         public void ShowPopup(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
             throw new NotImplementedException();
+        }
+
+        public bool? ShowSaveFileDialog(string defaultFileName, string defaultExtension, string filter, out string savePath)
+        {
+            return dialogService.ShowSaveAsDialog(defaultFileName, defaultExtension, filter, out savePath);
         }
 
         public void ShowWindow(object rootModel, object context = null, IDictionary<string, object> settings = null)
@@ -59,9 +60,6 @@
         private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
         [DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
-        private const int GWL_STYLE = -16;
-
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
             var hwnd = new System.Windows.Interop.WindowInteropHelper((System.Windows.Window)sender).Handle;

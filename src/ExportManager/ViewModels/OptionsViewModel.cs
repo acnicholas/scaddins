@@ -368,6 +368,7 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 return SCaddins.ExportManager.Settings1.Default.ShowExportLog;
             }
+
             set
             {
                 if (value == SCaddins.ExportManager.Settings1.Default.ShowExportLog) {

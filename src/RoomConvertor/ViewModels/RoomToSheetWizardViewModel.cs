@@ -18,9 +18,9 @@
 namespace SCaddins.RoomConvertor.ViewModels
 {
     using System.Collections.Generic;
-    using Caliburn.Micro;
     using Autodesk.Revit.DB;
-
+    using Caliburn.Micro;
+    
     public class RoomToSheetWizardViewModel : Screen
     {
         private RoomConversionManager manager;
@@ -70,7 +70,11 @@ namespace SCaddins.RoomConvertor.ViewModels
 
         public int CropOffset
         {
-            get { return manager.CropRegionEdgeOffset; }
+            get
+            {
+                return manager.CropRegionEdgeOffset;
+            }
+
             set
             {
                 if (value != manager.CropRegionEdgeOffset)

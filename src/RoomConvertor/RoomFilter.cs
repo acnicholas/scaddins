@@ -54,13 +54,11 @@ namespace SCaddins.RoomConvertor
         {
             foreach (RoomFilterItem item in filters)
             {
-
                 ////if (item.IsValid()) {
                 if (item != null && !item.PassesFilter(room))
                 {
                     return false;
                 }
-
                 ////}
             }
             return true;

@@ -95,7 +95,7 @@ namespace SCaddins.LineOfSight
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // Properties
+        //// Properties
 
         #region
 

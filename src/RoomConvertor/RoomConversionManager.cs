@@ -25,20 +25,20 @@ namespace SCaddins.RoomConvertor
 
     public class RoomConversionManager
     {
+        private List<RoomConversionCandidate> allCandidates;
+
+        private Dictionary<string, string> departmentsInModel;
+
+        private Document doc;
+
         private Dictionary<string, View> existingSheets =
-            new Dictionary<string, View>();
+                                    new Dictionary<string, View>();
 
         private Dictionary<string, View> existingViews =
             new Dictionary<string, View>();
 
         private Dictionary<string, ElementId> titleBlocks =
             new Dictionary<string, ElementId>();
-
-        private Dictionary<string, string> departmentsInModel;
-
-        private List<RoomConversionCandidate> allCandidates;
-
-        private Document doc;
 
         public RoomConversionManager(Document doc)
         {
@@ -92,29 +92,63 @@ namespace SCaddins.RoomConvertor
             get { return allCandidates; }
         }
 
-        public Document Doc
-        {
+        public int CropRegionEdgeOffset {
+            get; set;
+        }
+
+        public Document Doc {
             get { return doc; }
         }
 
-        public Dictionary<string, ElementId> TitleBlocks
-        {
+        public int Scale {
+            get; set;
+        }
+
+        public ElementId TitleBlockId {
+            get; set;
+        }
+
+        public Dictionary<string, ElementId> TitleBlocks {
             get { return titleBlocks; }
         }
 
-        public ElementId TitleBlockId
+        public static Dictionary<string, ElementId> GetAllTitleBlockTypes(Document doc)
         {
-            get; set;
+            var result = new Dictionary<string, ElementId>();
+
+            using (var collector = new FilteredElementCollector(doc)) {
+                collector.OfCategory(BuiltInCategory.OST_TitleBlocks).OfClass(typeof(FamilySymbol));
+                foreach (FamilySymbol e in collector) {
+                    var s = e.Family.Name + "-" + e.Name;
+                    if (!result.ContainsKey(s)) {
+                        result.Add(s, e.Id);
+                    }
+                }
+            }
+
+            // Add an empty title in case there's none
+            result.Add("none", ElementId.InvalidElementId);
+
+            return result;
         }
 
-        public int Scale
+        public void CreateRoomMasses(List<RoomConversionCandidate> rooms)
         {
-            get; set;
-        }
-
-        public int CropRegionEdgeOffset
-        {
-            get; set;
+            int errCount = 0;
+            int roomCount = 0;
+            if (rooms != null) {
+                using (var t = new Transaction(doc, "Rooms to Masses")) {
+                    t.Start();
+                    foreach (RoomConversionCandidate c in rooms) {
+                        roomCount++;
+                        if (!this.CreateRoomMass(c.Room)) {
+                            errCount++;
+                        }
+                    }
+                    t.Commit();
+                }
+            }
+            Autodesk.Revit.UI.TaskDialog.Show("Rooms To Masses", (roomCount - errCount) + " Room masses created with " + errCount + " errors.");
         }
 
         public void CreateViewsAndSheets(List<RoomConversionCandidate> rooms)
@@ -151,57 +185,11 @@ namespace SCaddins.RoomConvertor
             return s;
         }
 
-        public static Dictionary<string, ElementId> GetAllTitleBlockTypes(Document doc)
-        {
-            var result = new Dictionary<string, ElementId>();
-
-            using (var collector = new FilteredElementCollector(doc))
-            {
-                collector.OfCategory(BuiltInCategory.OST_TitleBlocks).OfClass(typeof(FamilySymbol));
-                foreach (FamilySymbol e in collector)
-                {
-                    var s = e.Family.Name + "-" + e.Name;
-                    if (!result.ContainsKey(s))
-                    {
-                        result.Add(s, e.Id);
-                    }
-                }
-            }
-
-            // Add an empty title in case there's none
-            result.Add("none", ElementId.InvalidElementId);
-
-            return result;
-        }
-
         public ElementId GetTitleBlockByName(string titleBlockName)
         {
             ElementId id = ElementId.InvalidElementId;
             bool titleFound = this.titleBlocks.TryGetValue(titleBlockName, out id);
             return titleFound ? id : ElementId.InvalidElementId;
-        }
-
-        public void CreateRoomMasses(List<RoomConversionCandidate> rooms)
-        {
-            int errCount = 0;
-            int roomCount = 0;
-            if (rooms != null)
-            {
-                using (var t = new Transaction(doc, "Rooms to Masses"))
-                {
-                    t.Start();
-                    foreach (RoomConversionCandidate c in rooms)
-                    {
-                        roomCount++;
-                        if (!this.CreateRoomMass(c.Room))
-                        {
-                            errCount++;
-                        }
-                    }
-                    t.Commit();
-                }
-            }
-            Autodesk.Revit.UI.TaskDialog.Show("Rooms To Masses", (roomCount - errCount) + " Room masses created with " + errCount + " errors.");
         }
 
         public void SynchronizeMassesToRooms()
@@ -234,6 +222,28 @@ namespace SCaddins.RoomConvertor
             }
         }
 
+        internal static List<string> GetAllDesignOptionNames(Document doc)
+        {
+            var result = new List<string>();
+            var optIds = new List<ElementId>();
+            foreach (DesignOption dopt in new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_DesignOptions)) {
+                ElementId optId = dopt.Id;
+                if (!optIds.Contains(optId)) {
+                    optIds.Add(optId);
+                }
+            }
+
+            result.Add("Main Model");
+
+            foreach (ElementId id in optIds) {
+                Element e = doc.GetElement(id);
+                var s = doc.GetElement(e.get_Parameter(BuiltInParameter.OPTION_SET_ID).AsElementId()).Name;
+                result.Add(s + @" : " + e.Name.Replace(@"(primary)", string.Empty).Trim());
+            }
+
+            return result;
+        }
+
         internal List<string> GetAllDepartments()
         {
             var result = new List<string>();
@@ -244,28 +254,91 @@ namespace SCaddins.RoomConvertor
             return result;
         }
 
-        internal static List<string> GetAllDesignOptionNames(Document doc)
+        private static XYZ CentreOfSheet(ViewSheet sheet, Document doc)
         {
-            var result = new List<string>();
-            var optIds = new List<ElementId>();
-            foreach (DesignOption dopt in new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_DesignOptions))
-            {
-                ElementId optId = dopt.Id;
-                if (!optIds.Contains(optId))
-                {
-                    optIds.Add(optId);
+            FilteredElementCollector c = new FilteredElementCollector(doc, sheet.Id);
+            c.OfCategory(BuiltInCategory.OST_TitleBlocks);
+            foreach (Element e in c) {
+                BoundingBoxXYZ b = e.get_BoundingBox(sheet);
+                double x = b.Min.X + ((b.Max.X - b.Min.X) / 2);
+                double y = b.Min.Y + ((b.Max.Y - b.Min.Y) / 2);
+                return new XYZ(x, y, 0);
+            }
+            return new XYZ(0, 0, 0);
+        }
+
+        private static void CopyAllMassParametersToRooms(Element host, Room dest)
+        {
+            Parameter name = host.LookupParameter("Name");
+            if (name != null && name.StorageType == StorageType.String) {
+                dest.Name = name.AsString();
+            }
+
+            Parameter number = host.LookupParameter("Number");
+            if (number != null && number.StorageType == StorageType.String) {
+                dest.Number = number.AsString();
+            }
+
+            CopyAllParameters(host, dest);
+        }
+
+        private static void CopyAllParameters(Element host, Element dest)
+        {
+            if (!ValidElements(host, dest)) {
+                return;
+            }
+
+            foreach (Parameter param in host.Parameters) {
+                if (!param.HasValue || param == null) {
+                    continue;
+                }
+
+                Parameter paramDest = dest.LookupParameter(param.Definition.Name);
+                if (paramDest != null && paramDest.UserModifiable && paramDest.StorageType == param.StorageType) {
+                    switch (param.StorageType) {
+                        case StorageType.String:
+                        if (!paramDest.IsReadOnly && paramDest.UserModifiable) {
+                            string v = param.AsString();
+                            paramDest.Set(v);
+                        }
+                        break;
+
+                        case StorageType.Integer:
+                        int b = param.AsInteger();
+                        if (b != -1 && !paramDest.IsReadOnly) {
+                            paramDest.Set(b);
+                        }
+                        break;
+
+                        case StorageType.Double:
+                        double d = param.AsDouble();
+                        if (!paramDest.IsReadOnly) {
+                            paramDest.Set(d);
+                        }
+                        break;
+                    }
                 }
             }
+        }
 
-            result.Add("Main Model");
-
-            foreach (ElementId id in optIds)
-            {
-                Element e = doc.GetElement(id);
-                var s = doc.GetElement(e.get_Parameter(BuiltInParameter.OPTION_SET_ID).AsElementId()).Name;
-                result.Add(s + @" : " + e.Name.Replace(@"(primary)", string.Empty).Trim());
+        private static void CopyAllRoomParametersToMasses(Element host, Element dest)
+        {
+            Parameter paramRoomId = dest.LookupParameter("RoomId");
+            if (paramRoomId != null && paramRoomId.StorageType == StorageType.Integer) {
+                paramRoomId.Set(host.Id.IntegerValue);
             }
 
+            CopyAllParameters(host, dest);
+        }
+
+        private static BoundingBoxXYZ CreateOffsetBoundingBox(double offset, BoundingBoxXYZ origBox)
+        {
+            double offsetInFeet = SCaddins.Common.MiscUtilities.MillimetersToFeet(offset);
+            XYZ min = new XYZ(origBox.Min.X - offsetInFeet, origBox.Min.Y - offsetInFeet, origBox.Min.Z);
+            XYZ max = new XYZ(origBox.Max.X + offsetInFeet, origBox.Max.Y + offsetInFeet, origBox.Max.Z);
+            BoundingBoxXYZ result = new BoundingBoxXYZ();
+            result.Min = min;
+            result.Max = max;
             return result;
         }
 
@@ -284,117 +357,18 @@ namespace SCaddins.RoomConvertor
             }
         }
 
-        private static void CopyAllMassParametersToRooms(Element host, Room dest)
-        {
-            Parameter name = host.LookupParameter("Name");
-            if (name != null && name.StorageType == StorageType.String)
-            {
-                dest.Name = name.AsString();
-            }
-
-            Parameter number = host.LookupParameter("Number");
-            if (number != null && number.StorageType == StorageType.String)
-            {
-                dest.Number = number.AsString();
-            }
-
-            CopyAllParameters(host, dest);
-        }
-
-        private static void CopyAllRoomParametersToMasses(Element host, Element dest)
-        {
-            Parameter paramRoomId = dest.LookupParameter("RoomId");
-            if (paramRoomId != null && paramRoomId.StorageType == StorageType.Integer)
-            {
-                paramRoomId.Set(host.Id.IntegerValue);
-            }
-
-            CopyAllParameters(host, dest);
-        }
-
         private static bool ValidElements(Element host, Element dest)
         {
             if (host == null || dest == null)
             {
                 return false;
             }
+
             if (!host.IsValidObject || !dest.IsValidObject)
             {
                 return false;
             }
             return true;
-        }
-
-        private static void CopyAllParameters(Element host, Element dest)
-        {
-            if (!ValidElements(host, dest))
-            {
-                return;
-            }
-
-            foreach (Parameter param in host.Parameters)
-            {
-                if (!param.HasValue || param == null)
-                {
-                    continue;
-                }
-
-                Parameter paramDest = dest.LookupParameter(param.Definition.Name);
-                if (paramDest != null && paramDest.UserModifiable && paramDest.StorageType == param.StorageType)
-                {
-                    switch (param.StorageType)
-                    {
-                        case StorageType.String:
-                            if (!paramDest.IsReadOnly && paramDest.UserModifiable)
-                            {
-                                string v = param.AsString();
-                                paramDest.Set(v);
-                            }
-                            break;
-
-                        case StorageType.Integer:
-                            int b = param.AsInteger();
-                            if (b != -1 && !paramDest.IsReadOnly)
-                            {
-                                paramDest.Set(b);
-                            }
-                            break;
-
-                        case StorageType.Double:
-                            double d = param.AsDouble();
-                            if (!paramDest.IsReadOnly)
-                            {
-                                paramDest.Set(d);
-                            }
-                            break;
-                    }
-                }
-            }
-        }
-
-        private static XYZ CentreOfSheet(ViewSheet sheet, Document doc)
-        {
-            FilteredElementCollector c = new FilteredElementCollector(doc, sheet.Id);
-            c.OfCategory(BuiltInCategory.OST_TitleBlocks);
-            foreach (Element e in c)
-            {
-                BoundingBoxXYZ b = e.get_BoundingBox(sheet);
-                double x = b.Min.X + ((b.Max.X - b.Min.X) / 2);
-                double y = b.Min.Y + ((b.Max.Y - b.Min.Y) / 2);
-                return new XYZ(x, y, 0);
-            }
-            return new XYZ(0, 0, 0);
-        }
-
-        private static BoundingBoxXYZ CreateOffsetBoundingBox(double offset, BoundingBoxXYZ origBox)
-        {
-            double offsetInFeet = SCaddins.Common.MiscUtilities.MillimetersToFeet(offset);
-            XYZ min = new XYZ(origBox.Min.X - offsetInFeet, origBox.Min.Y - offsetInFeet, origBox.Min.Z);
-            XYZ max = new XYZ(origBox.Max.X + offsetInFeet, origBox.Max.Y + offsetInFeet, origBox.Max.Z);
-            BoundingBoxXYZ result = new BoundingBoxXYZ();
-            result.Min = min;
-            result.Max = max;
-            return result;
         }
 
         private bool CreateRoomMass(Room room)
@@ -416,7 +390,7 @@ namespace SCaddins.RoomConvertor
 #if REVIT2019 || REVIT2018 || REVIT2017
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid);
 #else
-                    DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
+                                        DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
 #endif
                     if (roomShape != null && roomSolid.Volume > 0 && roomSolid.Faces.Size > 0)
                     {

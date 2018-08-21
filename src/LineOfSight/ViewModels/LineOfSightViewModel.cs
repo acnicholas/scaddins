@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using Autodesk.Revit.DB;
-using Caliburn.Micro;
-
 namespace SCaddins.LineOfSight.ViewModels
 {
+    using Autodesk.Revit.DB;
+    using Caliburn.Micro;
+
     internal class LineOfSightViewModel : PropertyChangedBase
     {
         private LineOfSight lineOfSight;

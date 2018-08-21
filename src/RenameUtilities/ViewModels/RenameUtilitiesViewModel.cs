@@ -191,7 +191,11 @@ namespace SCaddins.RenameUtilities.ViewModels
 
         public RenameParameter SelectedRenameParameter
         {
-            get { return selectedRenameParameter; }
+            get
+            {
+                return selectedRenameParameter;
+            }
+
             set
             {
                 selectedRenameParameter = value;

@@ -20,9 +20,9 @@ namespace SCaddins.ExportManager
     using System;
     using System.ComponentModel;
     using System.Globalization;
+    using System.Runtime.CompilerServices;
     using Autodesk.Revit.DB;
     using SCaddins.Common;
-    using System.Runtime.CompilerServices;
 
     public class ExportSheet : INotifyPropertyChanged
     {

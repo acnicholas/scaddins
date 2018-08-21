@@ -17,8 +17,8 @@
 
 namespace SCaddins.DestructivePurge
 {
-    using Autodesk.Revit.DB;
     using System.Collections.Generic;
+    using Autodesk.Revit.DB;
 
     public static class SCwashUtilities
     {

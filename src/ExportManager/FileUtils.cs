@@ -47,15 +47,15 @@ namespace SCaddins.ExportManager
                 }
             }
 
-            if (!ExportManager.ConfirmOverwrite) return true;
-            if (File.Exists(fileName))
-            {
+            if (!ExportManager.ConfirmOverwrite) {
+                return true;
+            }
+            if (File.Exists(fileName)) {
                 var message = fileName + " exists," + Environment.NewLine + "do you want do overwrite the existing file?";
                 bool confirmOverwriteDialog = true;
                 bool? result = SCaddinsApp.WindowManager.ShowConfirmationDialog(message, true, out confirmOverwriteDialog);
                 bool newBool = result.HasValue ? result.Value : false;
-                if (newBool)
-                {
+                if (newBool) {
                     ExportManager.ConfirmOverwrite = confirmOverwriteDialog;
                     return newBool;
                 }
@@ -98,7 +98,9 @@ namespace SCaddins.ExportManager
 
         public static string GetCentralFileName(Document doc)
         {
-            if (doc == null) return string.Empty;
+            if (doc == null) {
+                return string.Empty;
+            }
             if (doc.IsWorkshared)
             {
                 var mp = doc.GetWorksharingCentralModelPath();

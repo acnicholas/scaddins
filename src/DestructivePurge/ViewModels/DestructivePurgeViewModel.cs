@@ -17,11 +17,11 @@
 
 namespace SCaddins.DestructivePurge.ViewModels
 {
-    using Autodesk.Revit.DB;
-    using Caliburn.Micro;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using Autodesk.Revit.DB;
+    using Caliburn.Micro;
 
     internal class DestructivePurgeViewModel : PropertyChangedBase
     {
@@ -150,6 +150,11 @@ namespace SCaddins.DestructivePurge.ViewModels
 
         public System.Windows.Media.Imaging.BitmapImage PreviewImage
         {
+            get
+            {
+                return previewImage;
+            }
+
             set
             {
                 if (previewImage != value)
@@ -160,11 +165,6 @@ namespace SCaddins.DestructivePurge.ViewModels
                     NotifyOfPropertyChange(() => ImageWidth);
                     NotifyOfPropertyChange(() => ImageMargin);
                 }
-            }
-
-            get
-            {
-                return previewImage;
             }
         }
 

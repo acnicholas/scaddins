@@ -195,7 +195,7 @@ namespace SCaddins.RoomConvertor.ViewModels
             NotifyOfPropertyChange(() => SelectionInformation);
         }
 
-        public void run()
+        public void Run()
         {
             if (MassCreationMode)
             {

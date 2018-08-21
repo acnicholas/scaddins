@@ -385,8 +385,7 @@ namespace SCaddins.ExportManager.ViewModels
         {
             var renameManager = new SCaddins.RenameUtilities.RenameManager(
                 exportManager.Doc,
-                selectedSheets.Select(s => s.Id).ToList()
-                );
+                selectedSheets.Select(s => s.Id).ToList());
             var renameSheetModel = new SCaddins.RenameUtilities.ViewModels.RenameUtilitiesViewModel(renameManager);
             renameSheetModel.SelectedParameterCategory = "Sheets";
             SCaddinsApp.WindowManager.ShowDialog(renameSheetModel, null, RenameUtilities.ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings);

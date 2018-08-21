@@ -20,8 +20,8 @@ namespace SCaddins.SheetCopier.ViewModels
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Dynamic;
-    using System.Windows.Data;
     using System.Linq;
+    using System.Windows.Data;
     using Autodesk.Revit.UI;
     using Caliburn.Micro;
 

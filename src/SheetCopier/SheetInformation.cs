@@ -1,7 +1,7 @@
-﻿using Autodesk.Revit.DB;
-
-namespace SCaddins.SheetCopier
+﻿namespace SCaddins.SheetCopier
 {
+    using Autodesk.Revit.DB;
+
     internal class SheetInformation
     {
         public SheetInformation(ViewSheet sheet)

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Windows.Controls;
-
-namespace SCaddins.ExportManager.Views
+﻿namespace SCaddins.ExportManager.Views
 {
+    using System.Windows.Controls;
+
     public partial class SCexportView : UserControl
     {
         public SCexportView()

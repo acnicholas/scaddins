@@ -15,10 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using Caliburn.Micro;
-
 namespace SCaddins.ParameterUtilities.ViewModels
 {
+    using Caliburn.Micro;
+
     internal class SCincrementViewModel : Screen
     {
         public SCincrementViewModel()
