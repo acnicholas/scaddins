@@ -17,14 +17,14 @@
 
 namespace SCaddins.LineOfSight
 {
-    using Autodesk.Revit.ApplicationServices;
-    using Autodesk.Revit.DB;
-    using SCaddins.Common;
     using System;
     using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using Autodesk.Revit.ApplicationServices;
+    using Autodesk.Revit.DB;
+    using SCaddins.Common;
 
     public class LineOfSight : INotifyPropertyChanged
     {

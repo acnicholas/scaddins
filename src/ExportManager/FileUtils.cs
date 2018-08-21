@@ -42,7 +42,9 @@ namespace SCaddins.ExportManager
                     td.Show();
                 }
 
-                if (IsFileLocked(new FileInfo(fileName))) return false;
+                if (IsFileLocked(new FileInfo(fileName))) {
+                    return false;
+                }
             }
 
             if (!ExportManager.ConfirmOverwrite) return true;
@@ -88,7 +90,9 @@ namespace SCaddins.ExportManager
                               SCaddins.Constants.ShareDirectory +
                               Path.DirectorySeparatorChar +
                               Constants.ExampleConfigFileName;
-                if (File.Exists(example)) File.Copy(example, config, true);
+                if (File.Exists(example)) {
+                    File.Copy(example, config, true);
+                }
             }
         }
 
@@ -108,7 +112,9 @@ namespace SCaddins.ExportManager
         public static bool IsFileLocked(FileInfo file)
         {
             FileStream stream = null;
-            if (file == null || file.Exists == false) return false;
+            if (file == null || file.Exists == false) {
+                return false;
+            }
             try
             {
                 stream = file.Open(
@@ -122,7 +128,9 @@ namespace SCaddins.ExportManager
             }
             finally
             {
-                if (stream != null) stream.Close();
+                if (stream != null) {
+                    stream.Close();
+                }
             }
 
             return false;
@@ -143,17 +151,20 @@ namespace SCaddins.ExportManager
             {
                 Thread.Sleep(2000);
                 i++;
-                if (i > 30) return;
+                if (i > 30) {
+                    return;
+                }
             }
         }
         [SecurityCritical]
         internal static void EditConfigFile(Document doc)
         {
             var config = ExportManager.GetConfigFileName(doc);
-            if (File.Exists(config))
+            if (File.Exists(config)) {
                 Process.Start(Settings1.Default.TextEditor, config);
-            else
+            } else {
                 TaskDialog.Show("SCexport", "config file does not exist");
+            }
         }
     }
 }

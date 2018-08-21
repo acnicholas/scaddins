@@ -17,9 +17,9 @@
 
 namespace SCaddins.ExportManager.ViewModels
 {
-    using Caliburn.Micro;
     using System.Collections.Generic;
     using System.Dynamic;
+    using Caliburn.Micro;
 
     internal class ExportLogViewModel : Screen
     {

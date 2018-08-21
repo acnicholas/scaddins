@@ -34,8 +34,7 @@ namespace SCaddins.ExportManager.ViewModels
                 dynamic settings = new ExpandoObject();
                 settings.Height = 320;
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
-                    new System.Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png")
-                    );
+                    new System.Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png"));
                 settings.Width = 640;
                 settings.Title = "Confirm file overwrite?";
                 settings.ShowInTaskbar = false;

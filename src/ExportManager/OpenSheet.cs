@@ -74,8 +74,12 @@ namespace SCaddins.ExportManager
             int index = list.IndexOf(list.Find(ov => ov.SheetNumber == view.SheetNumber));
             if (index > -1)
             {
-                if (offset < 0 && index + offset < 0) return;
-                if (offset > 0 && index + offset >= list.Count) return;
+                if (offset < 0 && index + offset < 0) {
+                    return;
+                }
+                if (offset > 0 && index + offset >= list.Count) {
+                    return;
+                }
                 list[index + offset].Open();
             }
         }

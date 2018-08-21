@@ -17,12 +17,12 @@
 
 namespace SCaddins.ViewUtilities
 {
-    using Autodesk.Revit.Attributes;
-    using Autodesk.Revit.DB;
-    using Autodesk.Revit.UI;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
 
     [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]

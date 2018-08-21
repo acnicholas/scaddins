@@ -17,11 +17,11 @@
 
 namespace SCaddins.SheetCopier
 {
-    using Autodesk.Revit.DB;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using Autodesk.Revit.DB;
 
     public class SheetCopierSheet : Caliburn.Micro.PropertyChangedBase
     {

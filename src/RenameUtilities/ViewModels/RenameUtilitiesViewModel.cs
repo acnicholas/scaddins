@@ -15,13 +15,13 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using Caliburn.Micro;
-
 namespace SCaddins.RenameUtilities.ViewModels
 {
+    using System.Collections.Generic;
+    using System.Dynamic;
+    using System.Linq;
+    using Caliburn.Micro;
+
     internal class RenameUtilitiesViewModel : Screen
     {
         private RenameManager manager;
@@ -44,8 +44,7 @@ namespace SCaddins.RenameUtilities.ViewModels
                 settings.Height = 480;
                 settings.Width = 768;
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
-                    new System.Uri("pack://application:,,,/SCaddins;component/Assets/rename.png")
-                    );
+                    new System.Uri("pack://application:,,,/SCaddins;component/Assets/rename.png"));
                 settings.Title = "Rename Selected Sheet Parameters";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;
@@ -70,12 +69,12 @@ namespace SCaddins.RenameUtilities.ViewModels
         {
             get
             {
-                return manager.renameCommand.SearchPattern;
+                return manager.ActiveRenameCommand.SearchPattern;
             }
 
             set
             {
-                manager.renameCommand.SearchPattern = value;
+                manager.ActiveRenameCommand.SearchPattern = value;
                 manager.Rename();
                 NotifyOfPropertyChange(() => Pattern);
                 NotifyOfPropertyChange(() => RenameAllMatchesLabel);
@@ -130,12 +129,12 @@ namespace SCaddins.RenameUtilities.ViewModels
         {
             get
             {
-                return manager.renameCommand.ReplacementPattern;
+                return manager.ActiveRenameCommand.ReplacementPattern;
             }
 
             set
             {
-                manager.renameCommand.ReplacementPattern = value;
+                manager.ActiveRenameCommand.ReplacementPattern = value;
                 manager.Rename();
                 NotifyOfPropertyChange(() => Replacement);
                 NotifyOfPropertyChange(() => RenameAllMatchesLabel);

@@ -17,12 +17,12 @@
 
 namespace SCaddins.SheetCopier
 {
-    using Autodesk.Revit.DB;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
+    using Autodesk.Revit.DB;
 
     public class SheetCopierViewOnSheet : INotifyPropertyChanged
     {
@@ -185,7 +185,7 @@ namespace SCaddins.SheetCopier
                     if (this.PropertyChanged != null)
                     {
                         this.PropertyChanged(
-                            this, new PropertyChangedEventArgs("Title"));
+                            this, new PropertyChangedEventArgs(nameof(Title)));
                     }
                 }
                 else

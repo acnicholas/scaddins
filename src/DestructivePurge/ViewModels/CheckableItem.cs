@@ -103,7 +103,9 @@ namespace SCaddins.DestructivePurge.ViewModels
 
         public void AddChildren(List<DeletableItem> deletables)
         {
-            if (deletables == null || deletables.Count < 1) return;
+            if (deletables == null || deletables.Count < 1) {
+                return;
+            }
             foreach (var deletable in deletables)
             {
                 Children.Add(new CheckableItem(deletable, this));

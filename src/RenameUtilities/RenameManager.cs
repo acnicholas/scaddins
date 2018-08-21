@@ -15,19 +15,19 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using Autodesk.Revit.DB;
-
 namespace SCaddins.RenameUtilities
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using Autodesk.Revit.DB;
+
     public class RenameManager
     {
-        public Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate> renameCandidates;
-        public RenameCommand renameCommand;
-        public Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCommand> renameCommands;
+        private Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate> renameCandidates;
+        private RenameCommand renameCommand;
+        private Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCommand> renameCommands;
         private Document doc;
         private List<ElementId> elements;
 
@@ -94,6 +94,19 @@ namespace SCaddins.RenameUtilities
             get
             {
                 return renameCommands;
+            }
+        }
+
+        public RenameCommand ActiveRenameCommand
+        {
+            get
+            {
+                return renameCommand;
+            }
+
+            set
+            {
+                renameCommand = value;
             }
         }
 
@@ -170,65 +183,52 @@ namespace SCaddins.RenameUtilities
                         }
                     }
                     t.Commit();
-                    Autodesk.Revit.UI.TaskDialog.Show
-                        (@"Bulk Rename", successes + @" parameters succesfully renames, " + fails + @" errors.");
+                    Autodesk.Revit.UI.TaskDialog.Show(
+                        @"Bulk Rename", successes + @" parameters succesfully renames, " + fails + @" errors.");
                 }
                 else
                 {
-                    Autodesk.Revit.UI.TaskDialog.Show
-                        ("Error", "Failed to start Bulk Rename Revit Transaction...");
+                    Autodesk.Revit.UI.TaskDialog.Show("Error", "Failed to start Bulk Rename Revit Transaction...");
                 }
             }
         }
 
         public Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByCategoryName(string parameterCategory)
         {
-            if (parameterCategory == "Rooms")
-            {
+            if (parameterCategory == "Rooms") {
                 return GetParametersByCategory(BuiltInCategory.OST_Rooms);
             }
-            if (parameterCategory == "Views")
-            {
+            if (parameterCategory == "Views") {
                 return GetParametersByCategory(BuiltInCategory.OST_Views);
             }
-            if (parameterCategory == "Sheets")
-            {
+            if (parameterCategory == "Sheets") {
                 return GetParametersByCategory(BuiltInCategory.OST_Sheets);
             }
-            if (parameterCategory == "Walls")
-            {
+            if (parameterCategory == "Walls") {
                 return GetParametersByCategory(BuiltInCategory.OST_Walls);
             }
-            if (parameterCategory == "Doors")
-            {
+            if (parameterCategory == "Doors") {
                 return GetParametersByCategory(BuiltInCategory.OST_Doors);
             }
-            if (parameterCategory == "Windows")
-            {
+            if (parameterCategory == "Windows") {
                 return GetParametersByCategory(BuiltInCategory.OST_Windows);
             }
-            if (parameterCategory == "Windows")
-            {
+            if (parameterCategory == "Windows") {
                 return GetParametersByCategory(BuiltInCategory.OST_Revisions);
             }
-            if (parameterCategory == "Grids")
-            {
+            if (parameterCategory == "Grids") {
                 return GetParametersByType(typeof(Grid));
             }
-            if (parameterCategory == "Levels")
-            {
+            if (parameterCategory == "Levels") {
                 return GetParametersByCategory(BuiltInCategory.OST_Levels);
             }
-            if (parameterCategory == "Floors")
-            {
+            if (parameterCategory == "Floors") {
                 return GetParametersByCategory(BuiltInCategory.OST_Floors);
             }
-            if (parameterCategory == @"Text")
-            {
+            if (parameterCategory == @"Text") {
                 return GetParametersByCategory(BuiltInCategory.OST_TextNotes);
             }
-            if (parameterCategory == @"Model Groups")
-            {
+            if (parameterCategory == @"Model Groups") {
                 return GetParametersByType(typeof(Autodesk.Revit.DB.Group));
             }
             return new Caliburn.Micro.BindableCollection<RenameParameter>();
@@ -254,30 +254,21 @@ namespace SCaddins.RenameUtilities
             }
             renameCandidates.Clear();
             FilteredElementCollector collector;
-            if (elements == null)
-            {
+            if (elements == null) {
                 collector = new FilteredElementCollector(doc);
-            }
-            else
-            {
+            } else {
                 collector = new FilteredElementCollector(doc, elements);
             }
-            if (t != null)
-            {
+            if (t != null) {
                 collector.OfClass(t);
-            }
-            else
-            {
+            } else {
                 collector.OfCategory(category);
             }
-            foreach (Element element in collector)
-            {
+            foreach (Element element in collector) {
                 var p = element.GetParameters(parameter.Definition.Name);
-                if (p.Count > 0)
-                {
+                if (p.Count > 0) {
                     var rc = new RenameCandidate(p[0]);
-                    if (!string.IsNullOrEmpty(rc.OldValue))
-                    {
+                    if (!string.IsNullOrEmpty(rc.OldValue)) {
                         rc.NewValue = renameCommand.Rename(rc.OldValue);
                         renameCandidates.Add(rc);
                     }

@@ -856,21 +856,17 @@ namespace SCaddins.ExportManager
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         public void ExportSheet(ExportSheet sheet, ExportLog log)
         {
-            if (!sheet.Verified)
-            {
+            if (!sheet.Verified) {
                 sheet.UpdateSheetInfo();
             }
 
-            if (sheet.SCPrintSetting != null)
-            {
+            if (sheet.SCPrintSetting != null) {
                 var startTime = DateTime.Now;
-                if (this.exportFlags.HasFlag(ExportOptions.DWG))
-                {
+                if (this.exportFlags.HasFlag(ExportOptions.DWG)) {
                     this.ExportDWG(sheet, this.exportFlags.HasFlag(ExportOptions.NoTitle));
                 }
 
-                if (this.exportFlags.HasFlag(ExportOptions.PDF))
-                {
+                if (this.exportFlags.HasFlag(ExportOptions.PDF)) {
                     this.ExportAdobePDF(sheet, log);
                 }
 
@@ -881,10 +877,10 @@ namespace SCaddins.ExportManager
                 if (log != null) {
                     log.AddMessage(Resources.MessageElapsedTimeForLastExport + elapsedTime.ToString());
                 }
-            }
-            else
-            {
-                if (log != null) log.AddError(sheet.FullExportName, Resources.MessageNoPrintSettingAssigned);
+            } else {
+                if (log != null) {
+                    log.AddError(sheet.FullExportName, Resources.MessageNoPrintSettingAssigned);
+                }
             }
         }
 
@@ -906,8 +902,12 @@ namespace SCaddins.ExportManager
         // FIXME this is nasty
         private void ExportDWG(ExportSheet vs, bool removeTitle, ExportLog log)
         {
-            if (log != null) log.AddMessage(Environment.NewLine + Resources.MessageStartingDWGExport);
-            if (log != null) log.AddMessage(vs.ToString());
+            if (log != null) {
+                log.AddMessage(Environment.NewLine + Resources.MessageStartingDWGExport);
+            }
+            if (log != null) {
+                log.AddMessage(vs.ToString());
+            }
 
             List<ElementId> titleBlockHidden;
             titleBlockHidden = new List<ElementId>();
@@ -916,26 +916,25 @@ namespace SCaddins.ExportManager
 
             if (removeTitle)
             {
-                if (log != null) log.AddMessage(Resources.MessageAttemptingToHideTitleBlock);
+                if (log != null) {
+                    log.AddMessage(Resources.MessageAttemptingToHideTitleBlock);
+                }
                 ExportManager.RemoveTitleBlock(vs, titleBlockHidden, true, Doc);
             }
 
             PrintManager pm = Doc.PrintManager;
 
-            using (var t = new Transaction(Doc, Resources.ApplyPrintSettings))
-            {
-                if (t.Start() == TransactionStatus.Started)
-                {
-                    try
-                    {
+            using (var t = new Transaction(Doc, Resources.ApplyPrintSettings)) {
+                if (t.Start() == TransactionStatus.Started) {
+                    try {
                         pm.PrintToFile.Equals(true);
                         pm.PrintRange = PrintRange.Select;
                         pm.Apply();
                         t.Commit();
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        if (log != null) log.AddWarning(null, Resources.MessageCouldNotApplyPrintSettings);
+                    } catch (InvalidOperationException) {
+                        if (log != null) {
+                            log.AddWarning(null, Resources.MessageCouldNotApplyPrintSettings);
+                        }
                         t.RollBack();
                     }
                 }
@@ -947,20 +946,25 @@ namespace SCaddins.ExportManager
 
             using (var opts = GetDefaultDWGExportOptions())
             {
-                if (log != null) log.AddMessage(Resources.MessageAssigningExportOptions + opts);
+                if (log != null) {
+                    log.AddMessage(Resources.MessageAssigningExportOptions + opts);
+                }
                 pm.PrintRange = PrintRange.Select;
                 var name = vs.FullExportName + Resources.FileExtensionDWG;
-                if (log != null) log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
-                if (log != null) log.AddMessage(Resources.MessageExportingToFileName + name);
+                if (log != null) {
+                    log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
+                    log.AddMessage(Resources.MessageExportingToFileName + name);
+                }
                 Doc.Export(vs.ExportDirectory, name, views, opts);
             }
 
             FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionDWG));
             this.RunExportHooks("dwg", vs);
 
-            if (removeTitle)
-            {
-                if (log != null) log.AddMessage(Resources.MessageShowingTitleBlock);
+            if (removeTitle) {
+                if (log != null) {
+                    log.AddMessage(Resources.MessageShowingTitleBlock);
+                }
                 ExportManager.RemoveTitleBlock(vs, titleBlockHidden, false, Doc);
             }
         }

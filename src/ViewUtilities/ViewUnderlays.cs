@@ -17,9 +17,9 @@
 
 namespace SCaddins.ViewUtilities
 {
+    using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using System.Collections.Generic;
 
     public static class ViewUnderlays
     {

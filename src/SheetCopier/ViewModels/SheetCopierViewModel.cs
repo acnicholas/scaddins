@@ -28,11 +28,11 @@ namespace SCaddins.SheetCopier.ViewModels
     class SheetCopierViewModel : PropertyChangedBase
     {
         private SheetCopierManager copyManager;
-        List<string> levelsInModel = new List<string>();
+        private List<string> levelsInModel = new List<string>();
         private SheetCopierSheet selectedSheet;
-        BindableCollection<SheetInformation> selectedSheetInformation = new BindableCollection<SheetInformation>();
-        List<SheetCopierSheet> selectedSheets = new List<SheetCopierSheet>();
-        List<SheetCopierViewOnSheet> selectedViews = new List<SheetCopierViewOnSheet>();
+        private BindableCollection<SheetInformation> selectedSheetInformation = new BindableCollection<SheetInformation>();
+        private List<SheetCopierSheet> selectedSheets = new List<SheetCopierSheet>();
+        private List<SheetCopierViewOnSheet> selectedViews = new List<SheetCopierViewOnSheet>();
 
         public SheetCopierViewModel(UIDocument uidoc)
         {

@@ -17,10 +17,10 @@
 
 namespace SCaddins.ExportManager.ViewModels
 {
-    using Caliburn.Micro;
     using System.ComponentModel;
     using System.Dynamic;
     using System.Windows.Data;
+    using Caliburn.Micro;
 
     public class OpenSheetViewModel : Screen
     {

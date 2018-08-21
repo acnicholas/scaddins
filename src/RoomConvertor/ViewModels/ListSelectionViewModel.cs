@@ -29,7 +29,7 @@ namespace SCaddins.RoomConvertor.ViewModels
 
         public List<string> Items
         {
-            get; set;
+            get;
         }
 
         public string SelectedItem

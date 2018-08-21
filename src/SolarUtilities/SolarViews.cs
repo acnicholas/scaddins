@@ -90,12 +90,12 @@ namespace SCaddins.SolarUtilities
             using (var collector = new FilteredElementCollector(doc))
             {
                 collector.OfClass(typeof(Level));
-                foreach (Level level in collector)
-                    if (highestLevel < 0 || level.Elevation > highestLevel)
-                    {
+                foreach (Level level in collector) {
+                    if (highestLevel < 0 || level.Elevation > highestLevel) {
                         highestLevel = level.Elevation;
                         highestId = level.Id;
                     }
+                }
             }
 
             return highestId;

@@ -17,7 +17,6 @@
 
 namespace SCaddins.ExportManager.ViewModels
 {
-    using Caliburn.Micro;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
@@ -26,6 +25,7 @@ namespace SCaddins.ExportManager.ViewModels
     using System.Text.RegularExpressions;
     using System.Windows.Data;
     using System.Windows.Input;
+    using Caliburn.Micro;
 
     internal class SCexportViewModel : Screen
     {
@@ -62,8 +62,7 @@ namespace SCaddins.ExportManager.ViewModels
                 dynamic settings = new ExpandoObject();
                 settings.Height = 480;
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
-                    new System.Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png")
-                    );
+                    new System.Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png"));
                 settings.Width = 768;
                 settings.Title = "SCexport - By Andrew Nicholas";
                 settings.ShowInTaskbar = false;
@@ -118,13 +117,11 @@ namespace SCaddins.ExportManager.ViewModels
                 NotifyOfPropertyChange(() => ShowSearchHelpText);
                 if (ViewSheetSets.ToList().Where(v => v.ToString() == value).Count() < 1)
                 {
-                    var filter = new System.Predicate<object>
-                        (
+                    var filter = new System.Predicate<object>(
                         item =>
                             -1 < ((ExportSheet)item).SheetDescription.IndexOf(value, System.StringComparison.OrdinalIgnoreCase)
                                 ||
-                            -1 < ((ExportSheet)item).SheetNumber.IndexOf(value, System.StringComparison.OrdinalIgnoreCase)
-                        );
+                            -1 < ((ExportSheet)item).SheetNumber.IndexOf(value, System.StringComparison.OrdinalIgnoreCase));
                     Sheets.Filter = filter;
                     NotifyOfPropertyChange(() => Sheets);
                 }
@@ -210,8 +207,7 @@ namespace SCaddins.ExportManager.ViewModels
         public void CreateUserViews()
         {
             ViewUtilities.UserView.ShowSummaryDialog(
-                ViewUtilities.UserView.Create(selectedSheets, exportManager.Doc)
-            );
+                ViewUtilities.UserView.Create(selectedSheets, exportManager.Doc));
         }
 
         public void ExecuteFilterView(KeyEventArgs keyArgs)
@@ -321,7 +317,7 @@ namespace SCaddins.ExportManager.ViewModels
             SCaddinsApp.WindowManager.ShowDialog(optionsModel, null, settings);
         }
 
-        public void Print(string PrinterName, int printMode)
+        public void Print(string printerName, int printMode)
         {
             log.Clear();
             log.Start("Starting print...");
@@ -331,7 +327,7 @@ namespace SCaddins.ExportManager.ViewModels
             foreach (ExportSheet sheet in selectedSheets.OrderBy(x => x.SheetNumber).ToList())
             {
                 CurrentProgress += 1;
-                exportManager.Print(sheet, PrinterName, printMode, log);
+                exportManager.Print(sheet, printerName, printMode, log);
                 System.Windows.Forms.Application.DoEvents();
             }
             CurrentProgress = 0;
