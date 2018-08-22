@@ -25,6 +25,7 @@ namespace SCaddins.RevisionUtilities.ViewModels
 
     public class RevisionUtilitiesViewModel : Screen
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;
         private List<RevisionItem> selectedRevisions;
         private List<RevisionCloudItem> selectedRevisionClouds;
@@ -81,7 +82,8 @@ namespace SCaddins.RevisionUtilities.ViewModels
             {
                 if (revisionSelectionViewModel.SelectedRevision != null)
                 {
-                    RevisionUtilities.AssignRevisionToClouds(doc, 
+                    RevisionUtilities.AssignRevisionToClouds(
+                        doc, 
                         selectedRevisionClouds, 
                         revisionSelectionViewModel.SelectedRevision.Id);
                 }

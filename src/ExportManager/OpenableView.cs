@@ -22,6 +22,7 @@ namespace SCaddins.ExportManager
         
     public class OpenableView
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "view")]
         private Autodesk.Revit.DB.View view;
 
         public OpenableView(string name, string number, Autodesk.Revit.DB.View view)
@@ -48,20 +49,20 @@ namespace SCaddins.ExportManager
             }
         }
 
+        public void Open()
+        {
+            if (view != null) {
+                UIApplication uiapp = new UIApplication(view.Document.Application);
+                uiapp.ActiveUIDocument.ActiveView = view;
+            }
+        }
+
         internal bool IsMatch(string searchString)
         {
             if (string.IsNullOrEmpty(searchString)) {
                 return false;
             } else {
                 return Name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1 || SheetNumber.IndexOf(searchString) > -1;
-            }
-        }
-               
-        public void Open()
-        {
-            if (view != null) {
-                UIApplication uiapp = new UIApplication(view.Document.Application);
-                uiapp.ActiveUIDocument.ActiveView = view;
             }
         }
     }

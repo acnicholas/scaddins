@@ -28,6 +28,7 @@ namespace SCaddins.RenameUtilities
         private Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate> renameCandidates;
         private RenameCommand renameCommand;
         private Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCommand> renameCommands;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;
         private List<ElementId> elements;
 
@@ -54,9 +55,9 @@ namespace SCaddins.RenameUtilities
             renameCommands.Add(new RenameCommand(Increment, "Increment Match", string.Empty, string.Empty));
 
             ////inc last
-            var rcLast = new RenameCommand(IncrementLast, "Increment Last", @"(^\D+)(\d+$)", string.Empty);
-            rcLast.ReplacementPatternHint = "Increment Amount";
-            renameCommands.Add(rcLast);
+            var lastRenameCommand = new RenameCommand(IncrementLast, "Increment Last", @"(^\D+)(\d+$)", string.Empty);
+            lastRenameCommand.ReplacementPatternHint = "Increment Amount";
+            renameCommands.Add(lastRenameCommand);
 
             renameCommand = renameCommands[0];
         }
@@ -66,11 +67,11 @@ namespace SCaddins.RenameUtilities
         ////Properties
         #region
 
-        public Caliburn.Micro.BindableCollection<String> AvailableParameterTypes
+        public Caliburn.Micro.BindableCollection<string> AvailableParameterTypes
         {
             get
             {
-                Caliburn.Micro.BindableCollection<String> result = new Caliburn.Micro.BindableCollection<String>();
+                Caliburn.Micro.BindableCollection<string> result = new Caliburn.Micro.BindableCollection<string>();
                 result.Add("Rooms");
                 result.Add("Grids");
                 result.Add("Levels");
@@ -276,7 +277,7 @@ namespace SCaddins.RenameUtilities
             }
         }
 
-        private static string getIncrementedValue(string val, string search, string replace)
+        private static string GetIncrementedValue(string val, string search, string replace)
         {
             return string.Empty;
         }

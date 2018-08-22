@@ -45,7 +45,7 @@ namespace SCaddins.ViewUtilities
             return null;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1")]
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1")]
         public static void ApplySectionBoxToView(BoundingBoxXYZ bounds, View3D view)
         {
             if (bounds != null || view != null)
@@ -70,7 +70,7 @@ namespace SCaddins.ViewUtilities
             return new XYZ(middleX, middleY, eyeHeight);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public static BoundingBoxXYZ SectionViewExtentsBoundingBox(UIView view)
         {
             if (view == null)
@@ -94,7 +94,7 @@ namespace SCaddins.ViewUtilities
             return result;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public static BoundingBoxXYZ ViewExtentsBoundingBox(UIView view)
         {
             if (view == null)
@@ -153,7 +153,8 @@ namespace SCaddins.ViewUtilities
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private static void CreatePerspectiveFrom3D(UIDocument udoc, View3D view)
         {
             ViewOrientation3D v = view.GetOrientation();
@@ -171,7 +172,7 @@ namespace SCaddins.ViewUtilities
             v.Dispose();
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private static void CreatePerspectiveFromPlan(UIDocument udoc, View planView)
         {
             UIView view = ActiveUIView(udoc, planView);
@@ -189,7 +190,7 @@ namespace SCaddins.ViewUtilities
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private static void CreatePerspectiveFromSection(UIDocument udoc, View sectionView)
         {
             UIView view = ActiveUIView(udoc, sectionView);

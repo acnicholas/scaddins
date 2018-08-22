@@ -26,12 +26,12 @@ namespace SCaddins.RoomConvertor.ViewModels
 
     public class RoomFilterViewModel : Screen
     {
-        private RoomConversionManager manager;
-        private RoomFilter filter;
-        private Autodesk.Revit.DB.Parameter[] roomParameters;
         private string comparisonFieldOne = string.Empty;
-        private string comparisonFieldTwo = string.Empty;
         private string comparisonFieldThree = string.Empty;
+        private string comparisonFieldTwo = string.Empty;
+        private RoomFilter filter;
+        private RoomConversionManager manager;
+        private Autodesk.Revit.DB.Parameter[] roomParameters;
 
         public RoomFilterViewModel(RoomConversionManager manager, RoomFilter filter)
         {
@@ -54,87 +54,6 @@ namespace SCaddins.RoomConvertor.ViewModels
             }
         }
 
-        public ICollectionView RoomParameters
-        {
-            get
-            {
-                var result = new CollectionViewSource();
-                var collection = new ObservableCollection<Autodesk.Revit.DB.Parameter>(manager.GetRoomParameters());
-                result.Source = collection;
-                result.SortDescriptions.Add(new SortDescription("Definition.Name", ListSortDirection.Ascending));
-                return result.View;
-            }
-        }
-
-        public Autodesk.Revit.DB.Parameter RoomParameterOne
-        {
-            get
-            {
-                return roomParameters[0];
-            }
-
-            set
-            {
-                roomParameters[0] = value;
-                NotifyOfPropertyChange(() => RoomParameterOne);
-                if (value.Definition.Name == "Department")
-                {
-                    dynamic settings = new System.Dynamic.ExpandoObject();
-                    settings.Height = 320;
-                    settings.Width = 640;
-                    settings.Title = "Select Department";
-                    settings.ShowInTaskbar = false;
-                    settings.SizeToContent = System.Windows.SizeToContent.Height;
-                    var windowManager = SCaddinsApp.WindowManager;
-                    var vm = new ViewModels.ListSelectionViewModel(manager.GetAllDepartments());
-                    bool? r = windowManager.ShowDialog(vm, null, settings);
-                    if (r.HasValue && r.Value)
-                    {
-                        ComparisonFieldOne = vm.SelectedItem;
-                    }
-                }
-                if (value.Definition.Name == "Design Option")
-                {
-                    dynamic settings = new System.Dynamic.ExpandoObject();
-                    settings.Height = 320;
-                    settings.Width = 640;
-                    settings.Title = "Select Deisgn Option";
-                    settings.ShowInTaskbar = false;
-                    settings.SizeToContent = System.Windows.SizeToContent.Height;
-                    var windowManager = SCaddinsApp.WindowManager;
-                    var vm = new ViewModels.ListSelectionViewModel(RoomConversionManager.GetAllDesignOptionNames(manager.Doc));
-                    bool? r = windowManager.ShowDialog(vm, null, settings);
-                    if (r.HasValue && r.Value)
-                    {
-                        ComparisonFieldOne = vm.SelectedItem;
-                    }
-                }
-            }
-        }
-
-        public Autodesk.Revit.DB.Parameter RoomParameterTwo
-        {
-            get; set;
-        }
-
-        public Autodesk.Revit.DB.Parameter RoomParameterThree
-        {
-            get; set;
-        }
-
-        public ObservableCollection<ComparisonOperator> ComparisonOperators
-        {
-            get
-            {
-                return new ObservableCollection<ComparisonOperator>(Enum.GetValues(typeof(ComparisonOperator)).Cast<ComparisonOperator>().ToList());
-            }
-        }
-
-        public ComparisonOperator FirstSelectedComparisonOperator
-        {
-            get; set;
-        }
-
         public static ObservableCollection<LogicalOperator> LogicalOperators
         {
             get
@@ -152,8 +71,7 @@ namespace SCaddins.RoomConvertor.ViewModels
 
             set
             {
-                if (value != comparisonFieldOne)
-                {
+                if (value != comparisonFieldOne) {
                     comparisonFieldOne = value;
                     var f = new RoomFilterItem(
                             LogicalOperator.And,
@@ -166,6 +84,11 @@ namespace SCaddins.RoomConvertor.ViewModels
             }
         }
 
+        public string ComparisonFieldThree
+        {
+            get; set;
+        }
+
         public string ComparisonFieldTwo
         {
             get
@@ -175,17 +98,19 @@ namespace SCaddins.RoomConvertor.ViewModels
 
             set
             {
-                if (value != comparisonFieldTwo)
-                {
+                if (value != comparisonFieldTwo) {
                     comparisonFieldOne = value;
                     NotifyOfPropertyChange(() => ComparisonFieldTwo);
                 }
             }
         }
 
-        public string ComparisonFieldThree
+        public ObservableCollection<ComparisonOperator> ComparisonOperators
         {
-            get; set;
+            get
+            {
+                return new ObservableCollection<ComparisonOperator>(Enum.GetValues(typeof(ComparisonOperator)).Cast<ComparisonOperator>().ToList());
+            }
         }
 
         public bool EnableSecondFilter
@@ -202,6 +127,75 @@ namespace SCaddins.RoomConvertor.ViewModels
             {
                 return string.IsNullOrEmpty(ComparisonFieldTwo);
             }
+        }
+
+        public ComparisonOperator FirstSelectedComparisonOperator
+        {
+            get; set;
+        }
+
+        public Autodesk.Revit.DB.Parameter RoomParameterOne
+        {
+            get
+            {
+                return roomParameters[0];
+            }
+
+            set
+            {
+                roomParameters[0] = value;
+                NotifyOfPropertyChange(() => RoomParameterOne);
+                if (value.Definition.Name == "Department") {
+                    dynamic settings = new System.Dynamic.ExpandoObject();
+                    settings.Height = 320;
+                    settings.Width = 640;
+                    settings.Title = "Select Department";
+                    settings.ShowInTaskbar = false;
+                    settings.SizeToContent = System.Windows.SizeToContent.Height;
+                    var windowManager = SCaddinsApp.WindowManager;
+                    var vm = new ViewModels.ListSelectionViewModel(manager.GetAllDepartments());
+                    bool? r = windowManager.ShowDialog(vm, null, settings);
+                    if (r.HasValue && r.Value) {
+                        ComparisonFieldOne = vm.SelectedItem;
+                    }
+                }
+                if (value.Definition.Name == "Design Option") {
+                    dynamic settings = new System.Dynamic.ExpandoObject();
+                    settings.Height = 320;
+                    settings.Width = 640;
+                    settings.Title = "Select Deisgn Option";
+                    settings.ShowInTaskbar = false;
+                    settings.SizeToContent = System.Windows.SizeToContent.Height;
+                    var windowManager = SCaddinsApp.WindowManager;
+                    var vm = new ViewModels.ListSelectionViewModel(RoomConversionManager.GetAllDesignOptionNames(manager.Doc));
+                    bool? r = windowManager.ShowDialog(vm, null, settings);
+                    if (r.HasValue && r.Value) {
+                        ComparisonFieldOne = vm.SelectedItem;
+                    }
+                }
+            }
+        }
+
+        public ICollectionView RoomParameters
+        {
+            get
+            {
+                var result = new CollectionViewSource();
+                var collection = new ObservableCollection<Autodesk.Revit.DB.Parameter>(manager.GetRoomParameters());
+                result.Source = collection;
+                result.SortDescriptions.Add(new SortDescription("Definition.Name", ListSortDirection.Ascending));
+                return result.View;
+            }
+        }
+
+        public Autodesk.Revit.DB.Parameter RoomParameterThree
+        {
+            get; set;
+        }
+
+        public Autodesk.Revit.DB.Parameter RoomParameterTwo
+        {
+            get; set;
         }
 
         public void Cancel()

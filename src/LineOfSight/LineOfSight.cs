@@ -32,6 +32,7 @@ namespace SCaddins.LineOfSight
 
         private double distanceToFirstRowY;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;
 
         private double eyeHeight;
@@ -246,7 +247,6 @@ namespace SCaddins.LineOfSight
         }
         #endregion
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public ViewDrafting CreateLineOfSightDraftingView(string newViewName)
         {
             ViewDrafting view = null;
@@ -260,7 +260,7 @@ namespace SCaddins.LineOfSight
             return view;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.DateTime.ToString")]
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.DateTime.ToString")]
         public void Draw()
         {
             using (var t = new Transaction(doc, "Create sight line view"))
@@ -464,7 +464,7 @@ namespace SCaddins.LineOfSight
             }
         }
 
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             if (PropertyChanged != null)
             {

@@ -99,7 +99,7 @@ namespace SCaddins.RevisionUtilities
                 }
             }
 
-            string ExportFilename = string.IsNullOrEmpty(exportFilename) ? @"C:\Temp\SClouds" : exportFilename;
+            exportFilename = string.IsNullOrEmpty(exportFilename) ? @"C:\Temp\SClouds" : exportFilename;
             Application excelApp;
             Worksheet excelWorksheet;
             Workbook excelWorkbook;
@@ -146,8 +146,8 @@ namespace SCaddins.RevisionUtilities
             else
             {
                 WriteArray(data, cloudNumber, 8, excelWorksheet);
-                TaskDialog.Show("Finished", cloudNumber + @" revision clouds sheduled in the file " + ExportFilename);
-                excelWorkbook.SaveAs(ExportFilename, XlFileFormat.xlWorkbookNormal);
+                TaskDialog.Show("Finished", cloudNumber + @" revision clouds sheduled in the file " + exportFilename);
+                excelWorkbook.SaveAs(exportFilename, XlFileFormat.xlWorkbookNormal);
                 excelWorkbook.Close();
             }
         }

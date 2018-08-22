@@ -43,6 +43,18 @@ namespace SCaddins.SolarUtilities.ViewModels
             }
         }
 
+        public static BindableCollection<TimeSpan> Intervals
+        {
+            get
+            {
+                var times = new BindableCollection<TimeSpan>();
+                times.Add(new TimeSpan(00, 15, 00));
+                times.Add(new TimeSpan(00, 30, 00));
+                times.Add(new TimeSpan(1, 00, 00));
+                return times;
+            }
+        }
+
         public bool CanRotateCurrentView
         {
             get
@@ -141,18 +153,6 @@ namespace SCaddins.SolarUtilities.ViewModels
                 {
                     times.Add(new DateTime(creationDate.Year, creationDate.Month, creationDate.Day, hour, 0, 0, DateTimeKind.Local));
                 }
-                return times;
-            }
-        }
-
-        public static BindableCollection<TimeSpan> Intervals
-        {
-            get
-            {
-                var times = new BindableCollection<TimeSpan>();
-                times.Add(new TimeSpan(00, 15, 00));
-                times.Add(new TimeSpan(00, 30, 00));
-                times.Add(new TimeSpan(1, 00, 00));
                 return times;
             }
         }

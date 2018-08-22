@@ -26,7 +26,7 @@ namespace SCaddins.ExportManager
 
     public class ExportSheet : INotifyPropertyChanged
     {
-        #region Variables
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "doc")]
         private Document doc;
         private bool forceDate;
         private string fullExportName;
@@ -58,6 +58,8 @@ namespace SCaddins.ExportManager
         {
             this.Init(sheet, doc, fileNameTemplate, scx);
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public string ExportDirectory
         {
@@ -275,9 +277,6 @@ namespace SCaddins.ExportManager
         {
             get { return this.width * 304.8; }
         }
-        #endregion
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public static bool? GetNorthPointVisibility(Element titleBlock)
         {
@@ -553,7 +552,7 @@ namespace SCaddins.ExportManager
             this.SetExportName();
         }
 
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             if (PropertyChanged != null)
             {

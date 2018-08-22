@@ -92,10 +92,10 @@ namespace SCaddins.RoomConvertor
 
         private static int ParameterComparedToString(Parameter param, string value)
         {
-            const int result = 441976;
+            const int RESULT = 441976;
             if (!param.HasValue || string.IsNullOrWhiteSpace(value))
             {
-                return result;
+                return RESULT;
             }
             switch (param.StorageType)
             {
@@ -119,12 +119,12 @@ namespace SCaddins.RoomConvertor
                     break;
 
                 case StorageType.ElementId:
-                    return result;
+                    return RESULT;
 
                 default:
-                    return result;
+                    return RESULT;
             }
-            return result;
+            return RESULT;
         }
 
         private static bool ParameterValueContainsString(Parameter param, string value)

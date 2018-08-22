@@ -25,7 +25,7 @@ namespace SCaddins.SheetCopier.ViewModels
     using Autodesk.Revit.UI;
     using Caliburn.Micro;
 
-    class SheetCopierViewModel : PropertyChangedBase
+    class SheetCopierViewModel : Screen
     {
         private SheetCopierManager copyManager;
         private List<string> levelsInModel = new List<string>();

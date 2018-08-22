@@ -32,6 +32,7 @@ namespace SCaddins.SolarUtilities
     public class SolarViews
     {
         private readonly View activeView;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private readonly Document doc;
         private readonly ProjectPosition position;
         private readonly ProjectLocation projectLocation;
@@ -78,7 +79,7 @@ namespace SCaddins.SolarUtilities
         public static double GetAtmosphericRefraction(double altitudeRadians)
         {
             var altitudeDegrees = altitudeRadians * 180 / Math.PI;
-            var formula = altitudeDegrees + 7.31 / (altitudeDegrees + 4.4);
+            var formula = altitudeDegrees + (7.31 / (altitudeDegrees + 4.4));
             var radians = Math.PI * altitudeDegrees / 180.0;
             return 1 / Math.Tan(radians) * 0.00029088820866572;
         }
@@ -178,7 +179,7 @@ namespace SCaddins.SolarUtilities
             return null;
         }
 
-        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        ////[SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private void CreateShadowPlanViews()
         {
             var id = GetViewFamilyId(doc, ViewFamily.FloorPlan);
@@ -210,7 +211,8 @@ namespace SCaddins.SolarUtilities
                 }
             }
         }
-        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+
+        ////[SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private void CreateWinterViews()
         {
             var id = GetViewFamilyId(doc, ViewFamily.ThreeDimensional);
@@ -276,7 +278,8 @@ namespace SCaddins.SolarUtilities
             info.AppendLine("Sun Azimuth - " + azdeg.ToString(CultureInfo.InvariantCulture));
             return info.ToString();
         }
-        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+
+        ////[SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private void RotateView(View view)
         {
             if (view.ViewType == ViewType.ThreeD) {
@@ -288,8 +291,10 @@ namespace SCaddins.SolarUtilities
                 var viewBounds = view.get_BoundingBox(view);
                 var max = viewBounds.Max;
                 var min = viewBounds.Min;
-                var eye = new XYZ(min.X + (max.X - min.X) / 2, min.Y + (max.Y - min.Y) / 2,
-                    min.Z + (max.Z - min.Z) / 2);
+                var eye = new XYZ(
+                     min.X + ((max.X - min.X) / 2),
+                     min.Y + ((max.Y - min.Y) / 2),
+                     min.Z + ((max.Z - min.Z) / 2));
                 var forward = new XYZ(
                     -Math.Sin(azimuth),
                     -Math.Cos(azimuth),

@@ -23,6 +23,7 @@ namespace SCaddins.PlaceCoordinate.ViewModels
 
     internal class PlaceCoordinateViewModel : Screen
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;
         private List<Autodesk.Revit.DB.FamilySymbol> familiesInModel;
         private FamilySymbol selectedFamilySymbol;

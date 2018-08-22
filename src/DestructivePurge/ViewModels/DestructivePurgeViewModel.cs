@@ -26,6 +26,7 @@ namespace SCaddins.DestructivePurge.ViewModels
     internal class DestructivePurgeViewModel : PropertyChangedBase
     {
         private ObservableCollection<CheckableItem> checkableItems;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "doc")]
         private Document doc;
         private System.Windows.Media.Imaging.BitmapImage previewImage;
         private CheckableItem selectedItem;

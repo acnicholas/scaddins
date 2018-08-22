@@ -17,8 +17,8 @@
 
 namespace SCaddins.ExportManager.ViewModels
 {
-    using Caliburn.Micro;
     using System.Dynamic;
+    using Caliburn.Micro;
 
     public class ConfirmationDialogViewModel : Screen
     {

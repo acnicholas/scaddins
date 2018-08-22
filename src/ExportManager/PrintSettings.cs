@@ -160,7 +160,8 @@ namespace SCaddins.ExportManager
             return Math.Round(sheet.Width).ToString(CultureInfo.InvariantCulture) + "x" +
                 Math.Round(sheet.Height).ToString(CultureInfo.InvariantCulture);
         }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public static bool PrintToDevice(
                 Document doc,
                 string size,

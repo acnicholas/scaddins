@@ -67,7 +67,7 @@ namespace SCaddins.ExportManager
             return result;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
             ref string message,

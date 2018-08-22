@@ -53,7 +53,7 @@ namespace SCaddins.PlaceCoordinate
             return result;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public static void PlaceFamilyAtCoordinate(Document doc, FamilySymbol family, XYZ location, bool useSharedCoordinates)
         {
             if (doc == null || family == null) {
@@ -149,7 +149,7 @@ namespace SCaddins.PlaceCoordinate
             yp = useSurveyCoords ? ((y / FeetToInches) - projectPosition.NorthSouth) : (y / FeetToInches) - projectPosition.NorthSouth;
             nx = useSurveyCoords ? ((xp * Math.Cos(-ang)) - (yp * Math.Sin(-ang))) : xp;
             ny = useSurveyCoords ? ((xp * Math.Sin(-ang)) + (yp * Math.Cos(-ang))) : yp;
-            return new XYZ(nx, ny, -projectPosition.Elevation + z / FeetToInches);
+            return new XYZ(nx, ny, (-projectPosition.Elevation + z) / FeetToInches);
         }
     }
 }

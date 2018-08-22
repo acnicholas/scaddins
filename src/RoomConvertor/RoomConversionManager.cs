@@ -29,6 +29,7 @@ namespace SCaddins.RoomConvertor
 
         private Dictionary<string, string> departmentsInModel;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;
 
         private Dictionary<string, View> existingSheets =
@@ -419,7 +420,7 @@ namespace SCaddins.RoomConvertor
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private void CreateViewAndSheet(RoomConversionCandidate candidate)
         {
             // Create plans

@@ -6,7 +6,7 @@
 
     public class WindowManager : Caliburn.Micro.WindowManager
     {
-        private const int GWL_STYLE = -16;
+        private const int GWLSTYLE = -16;
         private IDialogService dialogService;
 
         public WindowManager(IDialogService dialogService) : base()
@@ -57,14 +57,16 @@
         }
 
         [DllImport("user32.dll")]
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PrinterJobControl")]
         private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
         [DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
             var hwnd = new System.Windows.Interop.WindowInteropHelper((System.Windows.Window)sender).Handle;
-            var value = GetWindowLong(hwnd, GWL_STYLE);
-            SetWindowLong(hwnd, GWL_STYLE, (int)(value & -131073 & -65537));
+            var value = GetWindowLong(hwnd, GWLSTYLE);
+            SetWindowLong(hwnd, GWLSTYLE, (int)(value & -131073 & -65537));
         }
     }
 }
