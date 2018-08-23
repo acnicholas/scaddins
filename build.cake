@@ -10,11 +10,13 @@ var buildDir = Directory(@"./src/bin");
 
 public MSBuildSettings GetBuildSettings(string config)
 {
-    return new MSBuildSettings()
+    var result = new MSBuildSettings()
 			.SetConfiguration(config)
 			.WithTarget("Clean,Build")
             .WithProperty("Platform","x64")
-            .SetVerbosity(Verbosity.Normal);
+            .SetVerbosity(Verbosity.Minimal);
+    result.WarningsAsError = true;
+	return result;
 }
 
 public bool APIAvailable(string revitVersion)
@@ -77,6 +79,7 @@ Task("Installer")
       var settings = new MSBuildSettings();
       settings.SetConfiguration("Release");
 	  settings.WithTarget("Clean,Build");
+	  settings.SetVerbosity(Verbosity.Minimal);
       settings.WorkingDirectory = new DirectoryPath(Environment.CurrentDirectory + @"\installer");
       MSBuild(solutionFileWix, settings);  
 });
