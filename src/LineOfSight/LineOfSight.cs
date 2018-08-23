@@ -51,6 +51,7 @@ namespace SCaddins.LineOfSight
 
         private double treadSize;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "view")]
         private View view;
 
         /// <summary>

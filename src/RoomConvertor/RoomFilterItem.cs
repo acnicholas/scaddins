@@ -25,6 +25,7 @@ namespace SCaddins.RoomConvertor
     {
         private ComparisonOperator co;
         private LogicalOperator lo;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "parameter")]
         private Parameter parameter;
         private string parameterName;
         private string test;

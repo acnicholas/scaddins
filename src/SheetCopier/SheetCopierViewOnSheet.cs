@@ -31,6 +31,7 @@ namespace SCaddins.SheetCopier
         private bool duplicateWithDetailing;
         private string newTitle;
         private ElementId oldId;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "oldView")]
         private View oldView;
         private string originalTitle;
         private SheetCopierManager scopy;

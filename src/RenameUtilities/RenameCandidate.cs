@@ -23,8 +23,10 @@ namespace SCaddins.RenameUtilities
     public class RenameCandidate : INotifyPropertyChanged
     {
         private string newValue;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "note")]
         private TextElement note;
         private string oldValue;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "parameter")]
         private Parameter parameter;
 
         public RenameCandidate(Parameter parameter)

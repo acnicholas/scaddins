@@ -22,6 +22,7 @@ namespace SCaddins.RevisionUtilities
 
     public class RevisionCloudItem : RevisionItem
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "cloud")]
         private RevisionCloud cloud;
         private string comments;
         private string hostViewName;

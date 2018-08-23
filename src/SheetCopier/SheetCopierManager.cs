@@ -47,6 +47,7 @@ namespace SCaddins.SheetCopier
 
         private ObservableCollection<SheetCopierSheet> sheets;
         private StringBuilder summaryText;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "uidoc")]
         private UIDocument uidoc;
         private Dictionary<string, View> viewTemplates =
             new Dictionary<string, View>();

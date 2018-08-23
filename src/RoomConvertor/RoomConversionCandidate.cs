@@ -29,6 +29,7 @@ namespace SCaddins.RoomConvertor
         private string destSheetName;
         private string destSheetNumber;
         private string destViewName;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "room")]
         private Room room;
 
         public RoomConversionCandidate(

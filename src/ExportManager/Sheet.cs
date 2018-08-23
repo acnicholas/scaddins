@@ -34,11 +34,14 @@ namespace SCaddins.ExportManager
         private ElementId id;
         private bool? northPointVisible;
         private string pageSize;
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PrinterJobControl")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "printSetting")]
         private PrintSetting printSetting;
         private string projectNumber;
         private string scale;
         private string scaleBarScale;
         private SegmentedSheetName segmentedFileName;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "sheet")]
         private ViewSheet sheet;
         private string sheetDescription;
         private string sheetNumber;

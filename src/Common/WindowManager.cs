@@ -41,7 +41,7 @@
             return dialogService.ShowMessageBox(message);
         }
 
-        public void ShowPopup(object rootModel, object context = null, IDictionary<string, object> settings = null)
+        public override void ShowPopup(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
             throw new NotImplementedException();
         }
@@ -51,7 +51,7 @@
             return dialogService.ShowSaveAsDialog(defaultFileName, defaultExtension, filter, out savePath);
         }
 
-        public void ShowWindow(object rootModel, object context = null, IDictionary<string, object> settings = null)
+        public override void ShowWindow(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
             throw new NotImplementedException();
         }
