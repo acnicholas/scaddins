@@ -146,50 +146,50 @@
     <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AdWindows" Condition="'$(Configuration)'=='Release2016'">
+    <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2016'">
       <HintPath>C:\Program Files\Autodesk\Revit 2016\AdWindows.dll</HintPath>
     </Reference>
-    <Reference Include="AdWindows" Condition="'$(Configuration)'=='Release2017'">
+    <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2017'">
       <HintPath>C:\Program Files\Autodesk\Revit 2017\AdWindows.dll</HintPath>
     </Reference>
-    <Reference Include="AdWindows" Condition="'$(Configuration)'=='Release2018'">
+    <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2018'">
       <HintPath>C:\Program Files\Autodesk\Revit 2018\AdWindows.dll</HintPath>
     </Reference>
-    <Reference Include="AdWindows" Condition="'$(Configuration)'=='Release2019'">
+    <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2019'">
       <HintPath>C:\Program Files\Autodesk\Revit 2019\AdWindows.dll</HintPath>
     </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net451\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
-    <Reference Include="RevitAPI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2016'">
+    <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2016'">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Autodesk\Revit 2016\RevitAPI.dll</HintPath>
     </Reference>
-    <Reference Include="RevitAPIUI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2016'">
+    <Reference Include="RevitAPIUI" Condition="'$(Configuration)'=='Release2016'">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Autodesk\Revit 2016\RevitAPIUI.dll</HintPath>
     </Reference>
-    <Reference Include="RevitAPI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2017'">
+    <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2017'">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Autodesk\Revit 2017\RevitAPI.dll</HintPath>
     </Reference>
-    <Reference Include="RevitAPIUI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2017'">
+    <Reference Include="RevitAPIUI" Condition="'$(Configuration)'=='Release2017'">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Autodesk\Revit 2017\RevitAPIUI.dll</HintPath>
     </Reference>
-    <Reference Include="RevitAPI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2018'">
+    <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2018'">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Autodesk\Revit 2018\RevitAPI.dll</HintPath>
     </Reference>
-    <Reference Include="RevitAPIUI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2018'">
+    <Reference Include="RevitAPIUI" Condition="'$(Configuration)'=='Release2018'">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Autodesk\Revit 2018\RevitAPIUI.dll</HintPath>
     </Reference>
-    <Reference Include="RevitAPI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2019'">
+    <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2019'">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
     </Reference>
-    <Reference Include="RevitAPIUI, Culture=neutral, processorArchitecture=AMD64" Condition="'$(Configuration)'=='Release2019'">
+    <Reference Include="RevitAPIUI" Condition="'$(Configuration)'=='Release2019'">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
     </Reference>
@@ -367,6 +367,7 @@
       <DependentUpon>RevisionUtilitiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="RoomConvertor\RoomFilterEnums.cs" />
+    <Compile Include="RoomConvertor\RoomParameter.cs" />
     <Compile Include="RoomConvertor\ViewModels\ListSelectionViewModel.cs" />
     <Compile Include="RoomConvertor\ViewModels\RoomConvertorViewModel.cs" />
     <Compile Include="RoomConvertor\ViewModels\RoomFilterViewModel.cs" />

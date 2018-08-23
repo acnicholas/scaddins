@@ -57,16 +57,15 @@
         }
 
         [DllImport("user32.dll")]
-        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PrinterJobControl")]
-        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+        private static extern int GetWindowLong(IntPtr handle, int index);
         [DllImport("user32.dll")]
-        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        private static extern int SetWindowLong(IntPtr handle, int index, int newLong);
 
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
-            var hwnd = new System.Windows.Interop.WindowInteropHelper((System.Windows.Window)sender).Handle;
-            var value = GetWindowLong(hwnd, GWLSTYLE);
-            SetWindowLong(hwnd, GWLSTYLE, (int)(value & -131073 & -65537));
+            var handle = new System.Windows.Interop.WindowInteropHelper((System.Windows.Window)sender).Handle;
+            var value = GetWindowLong(handle, GWLSTYLE);
+            SetWindowLong(handle, GWLSTYLE, (int)(value & -131073 & -65537));
         }
     }
 }

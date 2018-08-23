@@ -257,7 +257,11 @@ namespace SCaddins.LineOfSight
                     .Cast<ViewFamilyType>()
                     .FirstOrDefault<ViewFamilyType>(x => ViewFamily.Drafting == x.ViewFamily);
             view = ViewDrafting.Create(this.doc, viewFamilyType.Id);
+            #if REVIT2019
+            view.Name = newViewName;
+            #else
             view.ViewName = newViewName;
+            #endif
             return view;
         }
 

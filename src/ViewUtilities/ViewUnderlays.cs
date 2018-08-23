@@ -88,11 +88,11 @@ namespace SCaddins.ViewUtilities
         {
             if (element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_Views)
             {
-#if REVIT2016
-        		var param = element.get_Parameter(BuiltInParameter.VIEW_UNDERLAY_ID);
-#else
+                #if REVIT2016
+                var param = element.get_Parameter(BuiltInParameter.VIEW_UNDERLAY_ID);
+                #else
                 var param = element.get_Parameter(BuiltInParameter.VIEW_UNDERLAY_BOTTOM_ID);
-#endif
+                #endif
                 if (param != null)
                 {
                     param.Set(ElementId.InvalidElementId);

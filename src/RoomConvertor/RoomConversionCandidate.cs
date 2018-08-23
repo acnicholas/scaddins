@@ -201,22 +201,5 @@ namespace SCaddins.RoomConvertor
             }
         }
     }
-
-    public class RoomParameter
-    {
-        public RoomParameter(string def, string value, string convertedValue)
-        {
-            Def = def;
-            Value = value;
-            ConvertedValue = convertedValue;
-        }
-
-        public string ConvertedValue { get; set; }
-
-        public string Def { get; set; }
-
-        public string Value { get; set; }
-    }
 }
-
 /* vim: set ts=4 sw=4 nu expandtab: */

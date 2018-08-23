@@ -56,7 +56,7 @@ namespace SCaddins.RevisionUtilities
             get { return this.hostViewName; }
         }
 
-        public ElementId Id
+        public override ElementId Id
         {
             get { return this.id; }
         }

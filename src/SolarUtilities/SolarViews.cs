@@ -144,9 +144,15 @@ namespace SCaddins.SolarUtilities
                 foreach (View view in c)
                 {
                     var v = view;
-                    if (v.ViewName == name) {
+                    #if REVIT2019
+                    if (v.Name == name) {
                         return false;
                     }
+                    #else
+                    if (v.ViewName == name) {
+                        return false;
+                    }       
+                    #endif
                 }
             }
 

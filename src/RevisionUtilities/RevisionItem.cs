@@ -62,7 +62,7 @@ namespace SCaddins.RevisionUtilities
             set;
         }
 
-        public ElementId Id
+        public virtual ElementId Id
         {
             get; private set;
         }
