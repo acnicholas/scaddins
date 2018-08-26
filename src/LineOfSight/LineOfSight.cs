@@ -272,7 +272,7 @@ namespace SCaddins.LineOfSight
             {
                 t.Start();
 
-                string times = System.DateTime.Now.ToString();
+                string times = System.DateTime.Now.Ticks.ToString();
 
                 this.view = this.CreateLineOfSightDraftingView(
                     "LOS-X" + this.distanceToFirstRowX + "-Y" + this.distanceToFirstRowY + "-T" +
