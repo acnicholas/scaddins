@@ -62,16 +62,14 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value != searchInput)
-                {
+                if (value != searchInput) {
                     searchInput = value;
                     int successCount = 0;
                     int maxCount = (10 + (searchInput.Length - 1)) * 5;
                     SearchResults.Filter = v =>
                     {
                         OpenableView ov = v as OpenableView;
-                        if (successCount < maxCount && ov.IsMatch(searchInput))
-                        {
+                        if (successCount < maxCount && ov.IsMatch(searchInput)) {
                             successCount++;
                             return ov.IsMatch(searchInput);
                         }
@@ -137,42 +135,33 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void KeyDown(System.Windows.Input.KeyEventArgs args)
         {
-            if (args.Key == System.Windows.Input.Key.Escape)
-            {
+            if (args.Key == System.Windows.Input.Key.Escape) {
                 TryClose();
             }
-            if (args.Key == System.Windows.Input.Key.Enter)
-            {
-                if (selectedSearchResult != null)
-                {
-                    selectedSearchResult.Open();
-                    TryClose();
-                }
-                if (!SearchResults.IsEmpty)
-                {
+            if (args.Key == System.Windows.Input.Key.Enter) {
+                if (selectedSearchResult == null || SearchResults.IsEmpty) {
                     SelectNext();
                     selectedSearchResult.Open();
                     TryClose();
+                } else {
+                    selectedSearchResult.Open();
+                    TryClose();
                 }
             }
-            if (ctrlDown && args.Key == System.Windows.Input.Key.J)
-            {
+            if (ctrlDown && args.Key == System.Windows.Input.Key.J) {
                 SelectNext();
             }
-            if (ctrlDown && args.Key == System.Windows.Input.Key.K)
-            {
+            if (ctrlDown && args.Key == System.Windows.Input.Key.K) {
                 SelectPrevious();
             }
-            if (args.Key == System.Windows.Input.Key.LeftCtrl)
-            {
+            if (args.Key == System.Windows.Input.Key.LeftCtrl) {
                 ctrlDown = true;
             }
         }
 
         public void KeyUp(System.Windows.Input.KeyEventArgs args)
         {
-            if (args.Key == System.Windows.Input.Key.LeftCtrl)
-            {
+            if (args.Key == System.Windows.Input.Key.LeftCtrl) {
                 ctrlDown = false;
             }
         }
@@ -186,8 +175,7 @@ namespace SCaddins.ExportManager.ViewModels
         public void SelectNext()
         {
             SearchResults.MoveCurrentToNext();
-            if (SearchResults.IsCurrentAfterLast)
-            {
+            if (SearchResults.IsCurrentAfterLast) {
                 SearchResults.MoveCurrentToFirst();
             }
         }
@@ -195,8 +183,7 @@ namespace SCaddins.ExportManager.ViewModels
         public void SelectPrevious()
         {
             SearchResults.MoveCurrentToPrevious();
-            if (SearchResults.IsCurrentBeforeFirst)
-            {
+            if (SearchResults.IsCurrentBeforeFirst) {
                 SearchResults.MoveCurrentToLast();
             }
         }
