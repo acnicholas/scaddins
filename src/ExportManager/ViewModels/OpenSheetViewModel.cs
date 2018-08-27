@@ -65,19 +65,19 @@ namespace SCaddins.ExportManager.ViewModels
                 if (value != searchInput) {
                     searchInput = value;
                     int successCount = 0;
-                    int maxCount = (10 + (searchInput.Length - 1)) * 5;
-                    SearchResults.Filter = v =>
-                    {
+                    int maxCount = searchInput.Length * 10;
+                    SearchResults.Filter = v => {
                         OpenableView ov = v as OpenableView;
-                        if (successCount < maxCount && ov.IsMatch(searchInput)) {
+                        if (successCount < maxCount) {
+                        if (ov.IsMatch(searchInput)) {
                             successCount++;
-                            return ov.IsMatch(searchInput);
+                            return true;
+                        }
                         }
                         return false;
                     };
                     NotifyOfPropertyChange(() => ShowHelpText);
                     NotifyOfPropertyChange(() => ShowExtendedHelpText);
-                    NotifyOfPropertyChange(() => ShowSearchresults);
                     NotifyOfPropertyChange(() => ShowSearchresults);
                 }
             }
@@ -136,16 +136,19 @@ namespace SCaddins.ExportManager.ViewModels
         public void KeyDown(System.Windows.Input.KeyEventArgs args)
         {
             if (args.Key == System.Windows.Input.Key.Escape) {
-                TryClose();
+                TryClose(false);
             }
             if (args.Key == System.Windows.Input.Key.Enter) {
-                if (selectedSearchResult == null || SearchResults.IsEmpty) {
+                if (SearchResults.IsEmpty) {
+                    return;
+                }
+                if (selectedSearchResult == null) {
                     SelectNext();
                     selectedSearchResult.Open();
-                    TryClose();
+                    TryClose(true);
                 } else {
                     selectedSearchResult.Open();
-                    TryClose();
+                    TryClose(true);
                 }
             }
             if (ctrlDown && args.Key == System.Windows.Input.Key.J) {
