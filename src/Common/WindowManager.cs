@@ -10,7 +10,7 @@
         private IDialogService dialogService;
 
         public WindowManager(IDialogService dialogService) : base()
-        {
+        { 
             this.dialogService = dialogService;
         }
 

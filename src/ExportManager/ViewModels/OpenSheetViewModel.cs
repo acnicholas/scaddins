@@ -33,6 +33,10 @@ namespace SCaddins.ExportManager.ViewModels
         {
             this.searchResults = new CollectionViewSource();
             this.searchResults.Source = OpenSheet.ViewsInModel(doc, true);
+            SearchResults.Filter  = v => {
+                OpenableView ov = v as OpenableView;
+                return ov == null || ov.IsMatch(searchInput);
+            };
             selectedSearchResult = null;
             ctrlDown = false;
             SearchInput = string.Empty;
@@ -64,18 +68,7 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (value != searchInput) {
                     searchInput = value;
-                    int successCount = 0;
-                    int maxCount = searchInput.Length * 10;
-                    SearchResults.Filter = v => {
-                        OpenableView ov = v as OpenableView;
-                        if (successCount < maxCount) {
-                        if (ov.IsMatch(searchInput)) {
-                            successCount++;
-                            return true;
-                        }
-                        }
-                        return false;
-                    };
+                    SearchResults.Refresh();
                     NotifyOfPropertyChange(() => ShowHelpText);
                     NotifyOfPropertyChange(() => ShowExtendedHelpText);
                     NotifyOfPropertyChange(() => ShowSearchresults);

@@ -62,7 +62,7 @@ namespace SCaddins.ExportManager
             if (string.IsNullOrEmpty(searchString)) {
                 return false;
             } else {
-                return Name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1 || SheetNumber.IndexOf(searchString) > -1;
+                return Name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1 || SheetNumber.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1;
             }
         }
     }
