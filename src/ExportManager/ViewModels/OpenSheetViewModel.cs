@@ -34,8 +34,10 @@ namespace SCaddins.ExportManager.ViewModels
             this.searchResults = new CollectionViewSource();
             this.searchResults.Source = OpenSheet.ViewsInModel(doc, true);
             SearchResults.Filter  = v => {
-                OpenableView ov = v as OpenableView;
-                return ov == null || ov.IsMatch(searchInput);
+                ////using (SearchResults.DeferRefresh()) {
+                    OpenableView ov = v as OpenableView;
+                    return ov == null || ov.IsMatch(searchInput);
+                ////}
             };
             selectedSearchResult = null;
             ctrlDown = false;
@@ -51,8 +53,7 @@ namespace SCaddins.ExportManager.ViewModels
                 settings.MaxHeight = 480;
                 settings.WindowStyle = System.Windows.WindowStyle.None;
                 settings.ShowInTaskbar = false;
-                settings.SizeToContent = System.Windows.SizeToContent.Height;
-                settings.Background = System.Windows.Media.Brushes.Transparent;
+                settings.SizeToContent = System.Windows.SizeToContent.Manual;
                 return settings;
             }
         }
@@ -69,10 +70,10 @@ namespace SCaddins.ExportManager.ViewModels
                 if (value != searchInput) {
                     searchInput = value;
                     SearchResults.Refresh();
-                    NotifyOfPropertyChange(() => ShowHelpText);
-                    NotifyOfPropertyChange(() => ShowExtendedHelpText);
-                    NotifyOfPropertyChange(() => ShowSearchresults);
                 }
+                NotifyOfPropertyChange(() => ShowHelpText);
+                NotifyOfPropertyChange(() => ShowExtendedHelpText);
+                NotifyOfPropertyChange(() => ShowSearchresults);
             }
         }
 

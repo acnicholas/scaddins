@@ -6,21 +6,21 @@
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:local="clr-namespace:SCaddins.ExportManager.Views"
              mc:Ignorable="d"
-             d:DesignHeight="100" d:DesignWidth="300" Background="#FF515151">
+             d:DesignHeight="480" d:DesignWidth="640" Background="Black">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="600"></RowDefinition>
         </Grid.RowDefinitions>
         <Border BorderThickness="2" Grid.Row="0" Background="Black">
             <TextBox x:Name="SearchInput"
                  Height="Auto"
                  Margin="5"
                  Background="Black"
-                 BorderBrush="Transparent"
+                 BorderBrush="Black"
                  BorderThickness="0"
                  Foreground="White"
                  cal:Message.Attach="[Event KeyDown] = [Action KeyDown($eventArgs)]; [Event KeyUp] = [Action KeyUp($eventArgs)]"
@@ -33,7 +33,7 @@
             </Label>
         </Border>
         <Border BorderThickness="2" Grid.Row="1" Background="Black" Visibility="{Binding ShowExtendedHelpText, Converter={StaticResource BoolToVis}}">
-            <TextBlock Foreground="White" Height="Auto" Background="#FF515151">
+            <TextBlock Foreground="White" Height="Auto" Background="Black">
                 Type any text, if it is found in a Sheet or View Name it will be displayed.<LineBreak />
                 Select a view to open. and double click it or press enter.<LineBreak />
                 <LineBreak />
@@ -47,26 +47,27 @@
         <DataGrid
             x:Name="SearchResults"
             cal:Message.Attach="[Event KeyDown] = [Action KeyDown($eventArgs)]; [Event KeyUp] = [Action KeyUp($eventArgs)]; [Event MouseDoubleClick] = [Action MouseDoubleClick()]"
-            MaxHeight="400"
-            VerticalScrollBarVisibility="Auto"
+            MaxHeight="2000"
+            MaxWidth="2000"
+            VerticalAlignment="Top"
+            VerticalScrollBarVisibility="Disabled"
+            HorizontalScrollBarVisibility="Disabled"
+            AutoGenerateColumns="False"
             Margin="5"
+            RowHeight="30"
             Grid.Row="1"
-            VirtualizingStackPanel.VirtualizationMode="Standard"
+            VirtualizingPanel.VirtualizationMode="Standard"
             IsReadOnly="True"
             Visibility="{Binding ShowSearchResults, Converter={StaticResource BoolToVis}}"
-            SelectionMode="Single"
-            Foreground="White"
-            BorderBrush="Transparent"
-            Background="Transparent" GridLinesVisibility="None" HeadersVisibility="None" RowBackground="#FF515151" AlternatingRowBackground="#FF515151">
+            SelectionMode="Single" GridLinesVisibility="None" HeadersVisibility="None" RowBackground="Black" Foreground="White" Background="Black" ColumnWidth="640" EnableColumnVirtualization="True">
             <DataGrid.Resources>
                 <Style TargetType="DataGridRow">
                     <Setter Property="IsSelected" Value="{Binding IsSelected}" />
-                    <Style.Resources>
-                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{x:Static SystemColors.HighlightColor}" />
-                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}"/>
-                    </Style.Resources>
                 </Style>
             </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Description}" />
+            </DataGrid.Columns>
         </DataGrid>
     </Grid>
 </UserControl>

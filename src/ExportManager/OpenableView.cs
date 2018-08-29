@@ -30,13 +30,19 @@ namespace SCaddins.ExportManager
             this.view = view;
             Name = name;
             SheetNumber = number;
+            Description = Name + "[" + SheetNumber + "]" + "<" + ViewType + ">";
         }
         
         public string Name
         {
             get; set;
         }
-        
+
+        public string Description
+        {
+            get; set;
+        }
+
         public string SheetNumber
         {
             get; set;
@@ -59,10 +65,10 @@ namespace SCaddins.ExportManager
 
         internal bool IsMatch(string searchString)
         {
-            if (string.IsNullOrEmpty(searchString)) {
+            if (searchString == null) {
                 return false;
             } else {
-                return Name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1 || SheetNumber.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1;
+                return Description.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1;
             }
         }
     }
