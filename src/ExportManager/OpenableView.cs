@@ -43,6 +43,13 @@ namespace SCaddins.ExportManager
             get; set;
         }
 
+        public Autodesk.Revit.DB.ViewType RevitViewType {
+            get
+            {
+                return view.ViewType;
+            }
+        }
+
         public string SheetNumber
         {
             get; set;
@@ -63,12 +70,16 @@ namespace SCaddins.ExportManager
             }
         }
 
-        internal bool IsMatch(string searchString)
+        public bool IsMatch(string searchString, ViewModels.OpenSheetViewModel.ViewFilterFlags flags)
         {
             if (searchString == null) {
                 return false;
             } else {
-                return Description.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1;
+                if (flags.HasFlag(ViewModels.OpenSheetViewModel.ViewFilterFlags.Sheets)) {
+                    return Description.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1 && RevitViewType == Autodesk.Revit.DB.ViewType.DrawingSheet;
+                } else {
+                    return Description.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1;
+                }
             }
         }
     }

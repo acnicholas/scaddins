@@ -17,6 +17,7 @@
 
 namespace SCaddins.ExportManager.ViewModels
 {
+    using System;
     using System.ComponentModel;
     using System.Dynamic;
     using System.Windows.Data;
@@ -28,17 +29,30 @@ namespace SCaddins.ExportManager.ViewModels
         private string searchInput;
         private CollectionViewSource searchResults;
         private OpenableView selectedSearchResult;
+        private ViewFilterFlags viewFilterFlags;
+
+        [Flags]
+        public enum ViewFilterFlags
+        {
+            None = 0,
+            Sheets = 1 << 0,
+            Plans =  1 << 1,
+            ThreeD = 1 << 2,
+            AreaPlan = 1 << 3
+        }
+
 
         public OpenSheetViewModel(Autodesk.Revit.DB.Document doc)
         {
-            this.searchResults = new CollectionViewSource();
-            this.searchResults.Source = OpenSheet.ViewsInModel(doc, true);
+            searchResults = new CollectionViewSource();
+            searchResults.Source = OpenSheet.ViewsInModel(doc, true);
+            viewFilterFlags = 0; 
             SearchResults.Filter  = v => {
                     OpenableView ov = v as OpenableView;
                     if (searchInput == string.Empty) {
                         return false;
                     }
-                    return ov == null || ov.IsMatch(searchInput);
+                    return ov == null || ov.IsMatch(searchInput, viewFilterFlags);
             };
             selectedSearchResult = null;
             ctrlDown = false;
@@ -128,6 +142,9 @@ namespace SCaddins.ExportManager.ViewModels
             if (ctrlDown && args.Key == System.Windows.Input.Key.K) {
                 SelectPrevious();
             }
+            if (ctrlDown && args.Key == System.Windows.Input.Key.S) {
+                ToggleFilterFlag(ViewFilterFlags.Sheets);
+            }
             if (args.Key == System.Windows.Input.Key.LeftCtrl) {
                 ctrlDown = true;
             }
@@ -160,6 +177,12 @@ namespace SCaddins.ExportManager.ViewModels
             if (SearchResults.IsCurrentBeforeFirst) {
                 SearchResults.MoveCurrentToLast();
             }
+        }
+
+        private void ToggleFilterFlag(ViewFilterFlags flag)
+        {
+            viewFilterFlags ^= flag;
+            SearchResults.Refresh();
         }
     }
 }
