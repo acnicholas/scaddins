@@ -7,9 +7,6 @@
              xmlns:local="clr-namespace:SCaddins.ExportManager.Views"
              mc:Ignorable="d"
              d:DesignHeight="480" d:DesignWidth="640" Background="Black">
-    <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVis" />
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
@@ -24,50 +21,22 @@
                  BorderThickness="0"
                  Foreground="White"
                  cal:Message.Attach="[Event KeyDown] = [Action KeyDown($eventArgs)]; [Event KeyUp] = [Action KeyUp($eventArgs)]"
-                 AutomationProperties.HelpText="Start Typing" SelectionBrush="Black">
+                 SelectionBrush="Black">
             </TextBox>
         </Border>
-        <Border BorderThickness="2" Grid.Row="0" Background="Black" Visibility="{Binding ShowHelpText, Converter={StaticResource BoolToVis}}">
-            <Label Foreground="White">
-                Start typing view or sheets names/content...(Type '?' for Help)     
-            </Label>
-        </Border>
-        <Border BorderThickness="2" Grid.Row="1" Background="Black" Visibility="{Binding ShowExtendedHelpText, Converter={StaticResource BoolToVis}}">
-            <TextBlock Foreground="White" Height="Auto" Background="Black">
-                Type any text, if it is found in a Sheet or View Name it will be displayed.<LineBreak />
-                Select a view to open. and double click it or press enter.<LineBreak />
-                <LineBreak />
-                Key Bindings:<LineBreak />
-                -   Ctrl + J    -   Move Down<LineBreak />
-                -   Ctrl + K    -   Move Up<LineBreak />
-                -   Escape      -   Exit<LineBreak />
-                -   Enter       -   Open Selected View<LineBreak />
-            </TextBlock>
-        </Border>
-        <DataGrid
+        <ListBox
             x:Name="SearchResults"
+            DisplayMemberPath="Description"
             cal:Message.Attach="[Event KeyDown] = [Action KeyDown($eventArgs)]; [Event KeyUp] = [Action KeyUp($eventArgs)]; [Event MouseDoubleClick] = [Action MouseDoubleClick()]"
             MaxHeight="2000"
             MaxWidth="2000"
             VerticalAlignment="Top"
-            VerticalScrollBarVisibility="Disabled"
-            HorizontalScrollBarVisibility="Disabled"
-            AutoGenerateColumns="False"
             Margin="5"
-            RowHeight="30"
             Grid.Row="1"
             VirtualizingPanel.VirtualizationMode="Standard"
-            IsReadOnly="True"
-            Visibility="{Binding ShowSearchResults, Converter={StaticResource BoolToVis}}"
-            SelectionMode="Single" GridLinesVisibility="None" HeadersVisibility="None" RowBackground="Black" Foreground="White" Background="Black" ColumnWidth="640" EnableColumnVirtualization="True">
-            <DataGrid.Resources>
-                <Style TargetType="DataGridRow">
-                    <Setter Property="IsSelected" Value="{Binding IsSelected}" />
-                </Style>
-            </DataGrid.Resources>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Description}" />
-            </DataGrid.Columns>
-        </DataGrid>
+            SelectionMode="Single"
+            Foreground="White"
+            Background="Black">
+        </ListBox>
     </Grid>
 </UserControl>

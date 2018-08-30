@@ -34,10 +34,11 @@ namespace SCaddins.ExportManager.ViewModels
             this.searchResults = new CollectionViewSource();
             this.searchResults.Source = OpenSheet.ViewsInModel(doc, true);
             SearchResults.Filter  = v => {
-                ////using (SearchResults.DeferRefresh()) {
                     OpenableView ov = v as OpenableView;
+                    if (searchInput == string.Empty) {
+                        return false;
+                    }
                     return ov == null || ov.IsMatch(searchInput);
-                ////}
             };
             selectedSearchResult = null;
             ctrlDown = false;
@@ -71,9 +72,6 @@ namespace SCaddins.ExportManager.ViewModels
                     searchInput = value;
                     SearchResults.Refresh();
                 }
-                NotifyOfPropertyChange(() => ShowHelpText);
-                NotifyOfPropertyChange(() => ShowExtendedHelpText);
-                NotifyOfPropertyChange(() => ShowSearchresults);
             }
         }
 
@@ -95,30 +93,6 @@ namespace SCaddins.ExportManager.ViewModels
                 {
                     selectedSearchResult = value;
                 }
-            }
-        }
-
-        public bool ShowExtendedHelpText
-        {
-            get
-            {
-                return searchInput == "?";
-            }
-        }
-
-        public bool ShowHelpText
-        {
-            get
-            {
-                return searchInput.Length < 1;
-            }
-        }
-
-        public bool ShowSearchresults
-        {
-            get
-            {
-                return !ShowExtendedHelpText;
             }
         }
 
@@ -144,6 +118,9 @@ namespace SCaddins.ExportManager.ViewModels
                     selectedSearchResult.Open();
                     TryClose(true);
                 }
+            }
+            if (args.Key == System.Windows.Input.Key.Tab) {
+                SelectNext();
             }
             if (ctrlDown && args.Key == System.Windows.Input.Key.J) {
                 SelectNext();
