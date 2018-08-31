@@ -31,6 +31,7 @@ namespace SCaddins.ExportManager
             Name = name;
             SheetNumber = number;
             Description = Name + "[" + SheetNumber + "]" + "<" + ViewType + ">";
+            ShortDescription = Name + "[" + SheetNumber + "]";
         }
         
         public string Name
@@ -54,7 +55,12 @@ namespace SCaddins.ExportManager
         {
             get; set;
         }
-        
+
+        public string ShortDescription
+        {
+            get; set;
+        }
+
         public string ViewType {
             get
             {
@@ -76,9 +82,9 @@ namespace SCaddins.ExportManager
                 return false;
             } else {
                 if (flags.HasFlag(ViewModels.OpenSheetViewModel.ViewFilterFlags.Sheets)) {
-                    return Description.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1 && RevitViewType == Autodesk.Revit.DB.ViewType.DrawingSheet;
+                    return ShortDescription.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1 && RevitViewType == Autodesk.Revit.DB.ViewType.DrawingSheet;
                 } else {
-                    return Description.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1;
+                    return ShortDescription.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1;
                 }
             }
         }

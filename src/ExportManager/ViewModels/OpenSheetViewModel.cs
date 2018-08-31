@@ -31,17 +31,6 @@ namespace SCaddins.ExportManager.ViewModels
         private OpenableView selectedSearchResult;
         private ViewFilterFlags viewFilterFlags;
 
-        [Flags]
-        public enum ViewFilterFlags
-        {
-            None = 0,
-            Sheets = 1 << 0,
-            Plans =  1 << 1,
-            ThreeD = 1 << 2,
-            AreaPlan = 1 << 3
-        }
-
-
         public OpenSheetViewModel(Autodesk.Revit.DB.Document doc)
         {
             searchResults = new CollectionViewSource();
@@ -57,6 +46,16 @@ namespace SCaddins.ExportManager.ViewModels
             selectedSearchResult = null;
             ctrlDown = false;
             SearchInput = string.Empty;
+        }
+
+        [Flags]
+        public enum ViewFilterFlags
+        {
+            None = 0,
+            Sheets = 1 << 0,
+            Plans = 1 << 1,
+            ThreeD = 1 << 2,
+            AreaPlan = 1 << 3
         }
 
         public static dynamic DefaultWindowSettings
@@ -110,6 +109,11 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public string StatusText
+        {
+            get { return string.Format("Views: {0}", viewFilterFlags); }
+        }
+
         public void Exit()
         {
             TryClose();
@@ -144,6 +148,7 @@ namespace SCaddins.ExportManager.ViewModels
             }
             if (ctrlDown && args.Key == System.Windows.Input.Key.S) {
                 ToggleFilterFlag(ViewFilterFlags.Sheets);
+                NotifyOfPropertyChange(() => StatusText);
             }
             if (args.Key == System.Windows.Input.Key.LeftCtrl) {
                 ctrlDown = true;

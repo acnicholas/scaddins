@@ -10,7 +10,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition Height="600"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
         </Grid.RowDefinitions>
         <Border BorderThickness="2" Grid.Row="0" Background="Black">
             <TextBox x:Name="SearchInput"
@@ -28,8 +29,8 @@
             x:Name="SearchResults"
             DisplayMemberPath="Description"
             cal:Message.Attach="[Event KeyDown] = [Action KeyDown($eventArgs)]; [Event KeyUp] = [Action KeyUp($eventArgs)]; [Event MouseDoubleClick] = [Action MouseDoubleClick()]"
-            MaxHeight="2000"
-            MaxWidth="2000"
+            MaxHeight="400"
+            MaxWidth="640"
             VerticalAlignment="Top"
             Margin="5"
             Grid.Row="1"
@@ -38,5 +39,15 @@
             Foreground="White"
             Background="Black">
         </ListBox>
+        <Border BorderThickness="2" Grid.Row="2" Background="Black">
+            <Label x:Name="StatusText"
+                 Height="Auto"
+                 Margin="5"
+                 Background="Black"
+                 BorderBrush="Black"
+                 BorderThickness="0"
+                 Foreground="White">
+            </Label>
+        </Border>
     </Grid>
 </UserControl>
