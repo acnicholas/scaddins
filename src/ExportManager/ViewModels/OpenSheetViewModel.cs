@@ -21,6 +21,7 @@ namespace SCaddins.ExportManager.ViewModels
     using System.ComponentModel;
     using System.Dynamic;
     using System.Windows.Data;
+    using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
     public class OpenSheetViewModel : Screen
@@ -29,33 +30,23 @@ namespace SCaddins.ExportManager.ViewModels
         private string searchInput;
         private CollectionViewSource searchResults;
         private OpenableView selectedSearchResult;
-        private ViewFilterFlags viewFilterFlags;
+        private ViewType viewType;
 
         public OpenSheetViewModel(Autodesk.Revit.DB.Document doc)
         {
             searchResults = new CollectionViewSource();
             searchResults.Source = OpenSheet.ViewsInModel(doc, true);
-            viewFilterFlags = 0; 
+            viewType = ViewType.Undefined;
             SearchResults.Filter  = v => {
                     OpenableView ov = v as OpenableView;
                     if (searchInput == string.Empty) {
                         return false;
                     }
-                    return ov == null || ov.IsMatch(searchInput, viewFilterFlags);
+                    return ov == null || ov.IsMatch(searchInput, viewType);
             };
             selectedSearchResult = null;
             ctrlDown = false;
             SearchInput = string.Empty;
-        }
-
-        [Flags]
-        public enum ViewFilterFlags
-        {
-            None = 0,
-            Sheets = 1 << 0,
-            Plans = 1 << 1,
-            ThreeD = 1 << 2,
-            AreaPlan = 1 << 3
         }
 
         public static dynamic DefaultWindowSettings
@@ -63,10 +54,11 @@ namespace SCaddins.ExportManager.ViewModels
             get
             {
                 dynamic settings = new ExpandoObject();
-                settings.Width = 640;
-                settings.MaxHeight = 480;
+                settings.Width = 480;
+                settings.MaxHeight = 320;
                 settings.WindowStyle = System.Windows.WindowStyle.None;
                 settings.ShowInTaskbar = false;
+                settings.ResizeMode = System.Windows.ResizeMode.NoResize;
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;
                 return settings;
             }
@@ -111,7 +103,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public string StatusText
         {
-            get { return string.Format("Views: {0}", viewFilterFlags); }
+            get { return string.Format("Type '?' for help. View Type Filter: {0}", viewType); }
         }
 
         public void Exit()
@@ -147,7 +139,15 @@ namespace SCaddins.ExportManager.ViewModels
                 SelectPrevious();
             }
             if (ctrlDown && args.Key == System.Windows.Input.Key.S) {
-                ToggleFilterFlag(ViewFilterFlags.Sheets);
+                ToggleFilterFlag(ViewType.DrawingSheet);
+                NotifyOfPropertyChange(() => StatusText);
+            }
+            if (ctrlDown && args.Key == System.Windows.Input.Key.P) {
+                ToggleFilterFlag(ViewType.FloorPlan);
+                NotifyOfPropertyChange(() => StatusText);
+            }
+            if (ctrlDown && args.Key == System.Windows.Input.Key.E) {
+                ToggleFilterFlag(ViewType.Elevation | ViewType.Section);
                 NotifyOfPropertyChange(() => StatusText);
             }
             if (args.Key == System.Windows.Input.Key.LeftCtrl) {
@@ -184,9 +184,9 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        private void ToggleFilterFlag(ViewFilterFlags flag)
+        private void ToggleFilterFlag(ViewType vt)
         {
-            viewFilterFlags ^= flag;
+            viewType = viewType != vt ? vt : ViewType.Undefined;
             SearchResults.Refresh();
         }
     }

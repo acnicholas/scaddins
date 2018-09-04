@@ -18,6 +18,7 @@
 namespace SCaddins.ExportManager
 {
     using System;
+    using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
         
     public class OpenableView
@@ -76,13 +77,13 @@ namespace SCaddins.ExportManager
             }
         }
 
-        public bool IsMatch(string searchString, ViewModels.OpenSheetViewModel.ViewFilterFlags flags)
+        public bool IsMatch(string searchString, ViewType viewType)
         {
             if (searchString == null) {
                 return false;
             } else {
-                if (flags.HasFlag(ViewModels.OpenSheetViewModel.ViewFilterFlags.Sheets)) {
-                    return ShortDescription.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1 && RevitViewType == Autodesk.Revit.DB.ViewType.DrawingSheet;
+                if (viewType != Autodesk.Revit.DB.ViewType.Undefined) {
+                    return ShortDescription.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1 && RevitViewType == viewType;
                 } else {
                     return ShortDescription.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1;
                 }
