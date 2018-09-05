@@ -33,7 +33,8 @@
         </Grid.RowDefinitions>
         <ComboBox
             ItemsSource="{Binding ViewSheetSets}"
-            Text="{Binding SearchText, UpdateSourceTrigger=LostFocus}"    
+            Text="{Binding SearchText}" 
+            cal:Message.Attach="[Event MouseEnter] = [HideHelpLabel()]; [Event KeyDown] = [SearchBoxKeyDown($eventArgs)]; [Event SelectionChanged] = [SearchBoxSelectionChanged]; [Event LostFocus] = [SearchBoxSelectionChanged]"
             Width="Auto"
             Height="Auto"
             Grid.Column="0"
@@ -43,7 +44,6 @@
             VerticalAlignment="Stretch"
             Margin="5"
             x:Name="ViewsetCombo"
-            cal:Message.Attach="[Event MouseEnter] = [HideHelpLabel()]"
             Grid.ColumnSpan="2" />
         <Label
             Grid.Row="0"

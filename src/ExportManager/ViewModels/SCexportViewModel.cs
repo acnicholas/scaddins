@@ -34,6 +34,7 @@ namespace SCaddins.ExportManager.ViewModels
         private ExportLog log;
         private List<string> printTypes;
         private int searchStringLength;
+        private string searchText;
         private string selectedPrintType;
         private List<ExportSheet> selectedSheets = new List<ExportSheet>();
         private ViewSheetSetCombo selectedViewSheetSet;
@@ -110,26 +111,20 @@ namespace SCaddins.ExportManager.ViewModels
 
         public string SearchText
         {
+            get
+            {
+                return searchText;
+            }
+
             set
             {
-                searchStringLength = value.Length;
-                ShowSearchHelpText = searchStringLength < 1;
-                NotifyOfPropertyChange(() => ShowSearchHelpText);
-                if (ViewSheetSets.ToList().Where(v => v.ToString() == value).Count() < 1)
-                {
-                    var filter = new System.Predicate<object>(
-                        item =>
-                            -1 < ((ExportSheet)item).SheetDescription.IndexOf(value, System.StringComparison.OrdinalIgnoreCase)
-                                ||
-                            -1 < ((ExportSheet)item).SheetNumber.IndexOf(value, System.StringComparison.OrdinalIgnoreCase));
-                    Sheets.Filter = filter;
-                    NotifyOfPropertyChange(() => Sheets);
-                }
-                else
-                {
-                    selectedViewSheetSet = ViewSheetSets.ToList().Where(v => v.ToString() == value).First();
-                    SelectViewSheetSet();
-                }
+                if (value != searchText) {
+                    searchText = value;
+                    searchStringLength = value.Length;
+                    ShowSearchHelpText = searchStringLength < 1;
+                    NotifyOfPropertyChange(() => ShowSearchHelpText);
+                    NotifyOfPropertyChange(() => SearchText);
+                }            
             }
         }
 
@@ -403,6 +398,18 @@ namespace SCaddins.ExportManager.ViewModels
             NotifyOfPropertyChange(() => Sheets);
         }
 
+        public void SearchBoxKeyDown(KeyEventArgs keyArgs)
+        {
+            if (keyArgs.Key == Key.Enter) {
+                SearchBoxSelectionChanged(false);
+            }
+        }
+        
+        public void SearchBoxSelectionChanged()
+        {
+            SearchBoxSelectionChanged(true);
+        }
+
         public void SelectViewSheetSet()
         {
             if (selectedViewSheetSet.ViewSheetSet != null)
@@ -460,6 +467,29 @@ namespace SCaddins.ExportManager.ViewModels
             var activeSheetName = ExportManager.CurrentViewNumber(exportManager.Doc);
             var filter = new System.Predicate<object>(item => Regex.IsMatch(((ExportSheet)item).SheetNumber, @"^\D*" + number));
             Sheets.Filter = filter;
+        }
+
+        private void SearchBoxSelectionChanged(bool selectionChanged)
+        {
+            ////if (SearchText == null) {
+            ////    return;
+            ////}
+            NotifyOfPropertyChange(() => SearchText);
+            if (ViewSheetSets.ToList().Where(v => v.ToString() == SearchText).Count() < 1 && !selectionChanged) {
+                var filter = new System.Predicate<object>(
+                    item =>
+                        -1 < ((ExportSheet)item).SheetDescription.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)
+                            ||
+                        -1 < ((ExportSheet)item).SheetNumber.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase));
+                Sheets.Filter = filter;
+                NotifyOfPropertyChange(() => Sheets);
+            } else {
+                if (string.IsNullOrEmpty(SearchText)) {
+                    return;
+                }
+                selectedViewSheetSet = ViewSheetSets.ToList().Where(v => v.ToString() == SearchText).First();
+                SelectViewSheetSet();
+            }
         }
     }
 }
