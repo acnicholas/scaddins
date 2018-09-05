@@ -286,6 +286,8 @@ namespace SCaddins.ExportManager.ViewModels
                 System.Windows.Forms.Application.DoEvents();
             }
             CurrentProgress = 0;
+            log.Stop("Finished Export.");
+            TryShowExportLog();
         }
 
         public void FixScaleBars()
@@ -332,11 +334,7 @@ namespace SCaddins.ExportManager.ViewModels
             }
             CurrentProgress = 0;
             log.Stop("Finished Print.");
-
-            if (exportManager.ShowExportLog) {
-                var vm = new ViewModels.ExportLogViewModel(log);
-                SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
-            }
+            TryShowExportLog();
         }
 
         public void PrintA2()
@@ -431,6 +429,14 @@ namespace SCaddins.ExportManager.ViewModels
         {
             ShowSearchHelpText = searchStringLength < 1;
             NotifyOfPropertyChange(() => ShowSearchHelpText);
+        }
+
+        public void TryShowExportLog()
+        {
+            if (exportManager.ShowExportLog && log != null) {
+                var vm = new ViewModels.ExportLogViewModel(log);
+                SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
+            }
         }
 
         public void TurnNorthPointsOff()

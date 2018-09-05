@@ -33,7 +33,7 @@
         </Grid.RowDefinitions>
         <ComboBox
             ItemsSource="{Binding ViewSheetSets}"
-            Text="{Binding SearchText}"    
+            Text="{Binding SearchText, UpdateSourceTrigger=LostFocus}"    
             Width="Auto"
             Height="Auto"
             Grid.Column="0"
