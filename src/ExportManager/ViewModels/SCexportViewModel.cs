@@ -86,6 +86,11 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public bool IsSearchTextFocused
+        {
+            get; set; 
+        }
+
         public BindableCollection<string> PrintTypes
         {
             get
@@ -123,7 +128,16 @@ namespace SCaddins.ExportManager.ViewModels
                     searchStringLength = value.Length;
                     ShowSearchHelpText = searchStringLength < 1;
                     NotifyOfPropertyChange(() => ShowSearchHelpText);
-                    NotifyOfPropertyChange(() => SearchText);
+                    if (string.Empty == value) {
+                        Sheets.Filter = null;
+                        NotifyOfPropertyChange(() => Sheets);
+                        return;
+                    }
+                    var selection = ViewSheetSets.ToList().Where(v => v.ToString() == SearchText);
+                    if (selection.Count() > 0) {
+                        selectedViewSheetSet = selection.First();
+                        SelectViewSheetSet();
+                    }
                 }            
             }
         }
@@ -215,20 +229,6 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 case Key.C:
                     RemoveViewFilter();
-                    break;
-
-                case Key.J:
-                    Sheets.MoveCurrentToNext();
-                    if (Sheets.IsCurrentAfterLast) {
-                       Sheets.MoveCurrentToFirst();
-                    }
-                    break;
-
-                case Key.K:
-                    Sheets.MoveCurrentToPrevious();
-                    if (Sheets.IsCurrentBeforeFirst) {
-                        Sheets.MoveCurrentToLast();
-                    }
                     break;
 
                 case Key.L:
@@ -471,9 +471,9 @@ namespace SCaddins.ExportManager.ViewModels
 
         private void SearchBoxSelectionChanged(bool selectionChanged)
         {
-            ////if (SearchText == null) {
-            ////    return;
-            ////}
+            if(SearchText == null || string.IsNullOrEmpty(SearchText)) {
+                return;
+            }
             NotifyOfPropertyChange(() => SearchText);
             if (ViewSheetSets.ToList().Where(v => v.ToString() == SearchText).Count() < 1 && !selectionChanged) {
                 var filter = new System.Predicate<object>(
@@ -484,9 +484,6 @@ namespace SCaddins.ExportManager.ViewModels
                 Sheets.Filter = filter;
                 NotifyOfPropertyChange(() => Sheets);
             } else {
-                if (string.IsNullOrEmpty(SearchText)) {
-                    return;
-                }
                 selectedViewSheetSet = ViewSheetSets.ToList().Where(v => v.ToString() == SearchText).First();
                 SelectViewSheetSet();
             }

@@ -32,13 +32,15 @@
                 Height="30" />
         </Grid.RowDefinitions>
         <ComboBox
+            TabIndex="2"
             ItemsSource="{Binding ViewSheetSets}"
             Text="{Binding SearchText}" 
-            cal:Message.Attach="[Event MouseEnter] = [HideHelpLabel()]; [Event KeyDown] = [SearchBoxKeyDown($eventArgs)]; [Event SelectionChanged] = [SearchBoxSelectionChanged]; [Event LostFocus] = [SearchBoxSelectionChanged]"
+            cal:Message.Attach="[Event MouseEnter] = [HideHelpLabel()]; [Event KeyDown] = [SearchBoxKeyDown($eventArgs)]; [Event LostFocus] = [SearchBoxSelectionChanged]"
             Width="Auto"
             Height="Auto"
             Grid.Column="0"
             IsEditable="True"
+            IsTextSearchEnabled="False"
             Grid.Row="0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
@@ -62,6 +64,7 @@
             AutoGenerateColumns="False"
             Grid.Column="0"
             Grid.Row="1"
+            TabIndex="2"
             Width="Auto"
             Height="Auto"
             HorizontalAlignment="Stretch"
