@@ -471,7 +471,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         private void SearchBoxSelectionChanged(bool selectionChanged)
         {
-            if(SearchText == null || string.IsNullOrEmpty(SearchText)) {
+            if (SearchText == null || string.IsNullOrEmpty(SearchText)) {
                 return;
             }
             NotifyOfPropertyChange(() => SearchText);
