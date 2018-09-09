@@ -53,7 +53,13 @@
 
         public override void ShowWindow(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
-            throw new NotImplementedException();
+            System.Windows.Window window = CreateWindow(rootModel, true, context, settings);
+            if (window != null) {
+                System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(window);
+                helper.Owner = Autodesk.Windows.ComponentManager.ApplicationWindow;
+                window.SourceInitialized += new EventHandler(Window_SourceInitialized);
+            }
+            window.Show();
         }
 
         [DllImport("user32.dll")]
