@@ -396,9 +396,11 @@
     <Compile Include="SheetCopier\Views\SheetCopierView.xaml.cs">
       <DependentUpon>SheetCopierView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SolarUtilities\Creator.cs" />
     <Compile Include="SolarUtilities\DirectSunCommand.cs" />
     <Compile Include="SolarUtilities\SolarViews.cs" />
     <Compile Include="SolarUtilities\SolarViewsCommand.cs" />
+    <Compile Include="SolarUtilities\Util.cs" />
     <Compile Include="SolarUtilities\ViewModels\DirectSunViewModel.cs" />
     <Compile Include="SolarUtilities\Views\DirectSunView.xaml.cs">
       <DependentUpon>DirectSunView.xaml</DependentUpon>

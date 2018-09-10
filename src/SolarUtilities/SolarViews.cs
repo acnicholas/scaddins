@@ -37,8 +37,8 @@ namespace SCaddins.SolarUtilities
         private readonly Document doc;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "position")]
         private readonly ProjectPosition position;
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "prjectLocation")]
-        private readonly ProjectLocation projectLocation;
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "prjectLocation")]
+        ////private readonly ProjectLocation projectLocation;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "udoc")]
         private readonly UIDocument udoc;
 
@@ -46,17 +46,28 @@ namespace SCaddins.SolarUtilities
         {
             doc = udoc.Document;
             this.udoc = udoc;
-            projectLocation = doc.ActiveProjectLocation;
-            #if REVIT2018 || REVIT2019
-                position = projectLocation.GetProjectPosition(XYZ.Zero);
-            #else
-                position = this.projectLocation.get_ProjectPosition(XYZ.Zero);
-            #endif
+            ////var projectLocation = doc.ActiveProjectLocation;
+            ////#if REVIT2018 || REVIT2019
+            ////    position = projectLocation.GetProjectPosition(XYZ.Zero);
+            ////#else
+            ////    position = this.projectLocation.get_ProjectPosition(XYZ.Zero);
+            ////#endif
+            position = GetProjectPosition(doc);
 
             StartTime = new DateTime(2018, 6, 21, 9, 0, 0);
             EndTime = new DateTime(2018, 6, 21, 15, 0, 0);
             ExportTimeInterval = new TimeSpan(1, 0, 0);
             activeView = doc.ActiveView;
+        }
+
+        public static ProjectPosition GetProjectPosition(Document doc)
+        {
+            var projectLocation = doc.ActiveProjectLocation;
+            #if REVIT2018 || REVIT2019
+                return projectLocation.GetProjectPosition(XYZ.Zero);
+            #else
+                return projectLocation.get_ProjectPosition(XYZ.Zero);
+            #endif
         }
 
         public string ActiveIewInformation => GetViewInfo(activeView);
@@ -289,27 +300,40 @@ namespace SCaddins.SolarUtilities
             return info.ToString();
         }
 
+        private static XYZ GetEyeLocation(View view)
+        {
+            var viewBounds = view.get_BoundingBox(view);
+            var max = viewBounds.Max;
+            var min = viewBounds.Min;
+            return new XYZ(
+                 min.X + ((max.X - min.X) / 2),
+                 min.Y + ((max.Y - min.Y) / 2),
+                 min.Z + ((max.Z - min.Z) / 2));
+        }
+
+        public static XYZ GetSunDirectionalVector(View view, ProjectPosition projectPosition,out double azimuth)
+        {
+            var sunSettings = view.SunAndShadowSettings;
+            var frame = sunSettings.ActiveFrame;
+            azimuth = sunSettings.GetFrameAzimuth(frame);
+            var altitude = sunSettings.GetFrameAltitude(frame);
+            azimuth += projectPosition.Angle;         
+            var forward = new XYZ(
+                -Math.Sin(azimuth),
+                -Math.Cos(azimuth),
+                -Math.Tan(altitude - GetAtmosphericRefraction(altitude)));
+            return forward;
+        }
+
         ////[SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private void RotateView(View view)
         {
             if (view.ViewType == ViewType.ThreeD) {
-                var sunSettings = view.SunAndShadowSettings;
-                var frame = sunSettings.ActiveFrame;
-                var azimuth = sunSettings.GetFrameAzimuth(frame);
-                var altitude = sunSettings.GetFrameAltitude(frame);
-                azimuth += position.Angle;
-                var viewBounds = view.get_BoundingBox(view);
-                var max = viewBounds.Max;
-                var min = viewBounds.Min;
-                var eye = new XYZ(
-                     min.X + ((max.X - min.X) / 2),
-                     min.Y + ((max.Y - min.Y) / 2),
-                     min.Z + ((max.Z - min.Z) / 2));
-                var forward = new XYZ(
-                    -Math.Sin(azimuth),
-                    -Math.Cos(azimuth),
-                    -Math.Tan(altitude - GetAtmosphericRefraction(altitude)));
+
+                double azimuth;
+                var forward = GetSunDirectionalVector(view, position, out azimuth);
                 var up = forward.CrossProduct(new XYZ(Math.Cos(azimuth), -Math.Sin(azimuth), 0));
+
                 var v3d = (View3D)view;
                 if (v3d.IsLocked) {
                     TaskDialog.Show("ERROR", "View is locked, please unlock before rotating");
@@ -319,7 +343,7 @@ namespace SCaddins.SolarUtilities
                 using (var t = new Transaction(doc))
                 {
                     t.Start("Rotate View");
-                    v3d.SetOrientation(new ViewOrientation3D(eye, up, forward));
+                    v3d.SetOrientation(new ViewOrientation3D(GetEyeLocation(view), up, forward));
                     if (v3d.CanBeLocked() && !v3d.Name.StartsWith("{", StringComparison.OrdinalIgnoreCase)) {
                         try {
                             v3d.SaveOrientationAndLock();

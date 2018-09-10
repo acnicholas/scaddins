@@ -58,22 +58,30 @@ namespace SCaddins.SolarUtilities
 
         public static void RunAnalysis(IList<Reference> faceSelection, IList<Reference> massSelection, int divisions, UIDocument uidoc)
         {
-            UV uv = new UV(0.5, 0.5);
             if (faceSelection == null) {
                 return;
             }
+
+            Transaction t = new Transaction(uidoc.Document);
+            t.Start("test");
+
             foreach (Reference r in faceSelection) {
                 Face f = (Face)uidoc.Document.GetElement(r).GetGeometryObjectFromReference(r);
-                XYZ start = f.Evaluate(uv);
-                XYZ end = new XYZ(start.X+10000, start.Y+10000, start.Z);
-                Line line = Line.CreateBound(start, end);
-                Transaction t = new Transaction(uidoc.Document);
-                t.Start("test");
-                Plane p = Plane.CreateByNormalAndOrigin(f.ComputeNormal(uv), start);
-                SketchPlane sp = SketchPlane.Create(uidoc.Document, p);
-                uidoc.Document.Create.NewModelCurve(line, sp);
-                t.Commit();
+                var bb = f.GetBoundingBox();
+                for (double u = bb.Min.U; u < bb.Max.U; u += (bb.Max.U - bb.Min.U) / 10) {
+                    for (double v = bb.Min.V; u < bb.Max.V; v += (bb.Max.V - bb.Min.V) / 10) {
+                        UV uv = new UV(u, v);
+                        if (f.IsInside(uv)) {
+                            XYZ start = f.Evaluate(uv);
+                            XYZ sunDirection = SolarViews.GetSunDirectionalVector(uidoc.ActiveView, SolarViews.GetProjectPosition(uidoc.Document), out double azimuth);
+                            XYZ end = start.Add(sunDirection.Multiply(1000));
+                            BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
+                        }                 
+                    }
+                }
             }
+
+            t.Commit();
         }
     }
 }
