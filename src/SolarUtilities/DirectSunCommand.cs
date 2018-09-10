@@ -17,6 +17,7 @@
 
 namespace SCaddins.SolarUtilities
 {
+    using System.Collections.Generic;
     using System.Dynamic;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -47,8 +48,32 @@ namespace SCaddins.SolarUtilities
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
 
             var vm = new ViewModels.DirectSunViewModel(commandData.Application.ActiveUIDocument);
-            SCaddinsApp.WindowManager.ShowWindow(vm, null, settings);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
+            if (vm.SelectedCloseMode == ViewModels.DirectSunViewModel.CloseMode.Analize) {
+                RunAnalysis(vm.FaceSelection, vm.MassSelection, 10, udoc);
+            }
             return Autodesk.Revit.UI.Result.Succeeded;
+        }
+
+
+        public static void RunAnalysis(IList<Reference> faceSelection, IList<Reference> massSelection, int divisions, UIDocument uidoc)
+        {
+            UV uv = new UV(0.5, 0.5);
+            if (faceSelection == null) {
+                return;
+            }
+            foreach (Reference r in faceSelection) {
+                Face f = (Face)uidoc.Document.GetElement(r).GetGeometryObjectFromReference(r);
+                XYZ start = f.Evaluate(uv);
+                XYZ end = new XYZ(start.X+10000, start.Y+10000, start.Z);
+                Line line = Line.CreateBound(start, end);
+                Transaction t = new Transaction(uidoc.Document);
+                t.Start("test");
+                Plane p = Plane.CreateByNormalAndOrigin(f.ComputeNormal(uv), start);
+                SketchPlane sp = SketchPlane.Create(uidoc.Document, p);
+                uidoc.Document.Create.NewModelCurve(line, sp);
+                t.Commit();
+            }
         }
     }
 }
