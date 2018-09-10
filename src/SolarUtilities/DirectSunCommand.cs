@@ -63,18 +63,20 @@ namespace SCaddins.SolarUtilities
             }
 
             Transaction t = new Transaction(uidoc.Document);
-            t.Start("test");
+            t.Start("testSolarVectorLines");
 
             foreach (Reference r in faceSelection) {
                 Face f = (Face)uidoc.Document.GetElement(r).GetGeometryObjectFromReference(r);
                 var bb = f.GetBoundingBox();
                 for (double u = bb.Min.U; u < bb.Max.U; u += (bb.Max.U - bb.Min.U) / 10) {
-                    for (double v = bb.Min.V; u < bb.Max.V; v += (bb.Max.V - bb.Min.V) / 10) {
+                    for (double v = bb.Min.V; v < bb.Max.V; v += (bb.Max.V - bb.Min.V) / 10) {
                         UV uv = new UV(u, v);
                         if (f.IsInside(uv)) {
                             XYZ start = f.Evaluate(uv);
+                            start.Add(f.ComputeNormal(uv).Normalize().Multiply(100));
                             XYZ sunDirection = SolarViews.GetSunDirectionalVector(uidoc.ActiveView, SolarViews.GetProjectPosition(uidoc.Document), out double azimuth);
-                            XYZ end = start.Add(sunDirection.Multiply(1000));
+                            start = start.Subtract(sunDirection.Normalize());
+                            XYZ end = start.Subtract(sunDirection.Multiply(1000));
                             BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
                         }                 
                     }

@@ -1,4 +1,3 @@
-
 //
 // Util.cs - The Building Coder Revit API utility methods
 //
@@ -24,7 +23,6 @@ namespace BuildingCoder
 {
     internal class Util
     {
-
         public const double _eps = 1.0e-9;
 
         public static double Eps {
@@ -1651,7 +1649,6 @@ namespace BuildingCoder
                   as Definition;
             }
         }
-
     }
 
     public static class IEnumerableExtensions
@@ -2033,7 +2030,6 @@ namespace BuildingCoder
     /// </summary>
     public static class CompatibilityMethods
     {
-
         public static XYZ GetPoint2(
           this Curve curva,
           int i)
@@ -2702,7 +2698,7 @@ namespace BuildingCoder
                 met = view.GetType()
                   .GetMethod("set_ProjLineWeightOverrideByElement",
                     new Type[] { typeof( ICollection<ElementId> ),
-            typeof( int ) });
+            typeof(int) });
                 met.Invoke(view, new object[] { ids, espessura });
             }
         }
@@ -2744,7 +2740,5 @@ namespace BuildingCoder
                 met.Invoke(wall, null);
             }
         }
-
     }
-
 }
