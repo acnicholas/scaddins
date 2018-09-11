@@ -20,6 +20,7 @@ namespace SCaddins.SolarUtilities
     using System.Collections.Generic;
     using System.Dynamic;
     using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Analysis;
     using Autodesk.Revit.UI;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
@@ -27,7 +28,7 @@ namespace SCaddins.SolarUtilities
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class DirectSunCommand : IExternalCommand
     {
-        public static void RunAnalysis(IList<Reference> faceSelection, IList<Reference> massSelection, int divisions, UIDocument uidoc)
+        public static void CreateAnalysisRays(IList<Reference> faceSelection, IList<Reference> massSelection, int divisions, UIDocument uidoc)
         {
             if (faceSelection == null) {
                 return;
@@ -54,9 +55,9 @@ namespace SCaddins.SolarUtilities
                             start = start.Subtract(sunDirection.Normalize());
                             XYZ end = start.Subtract(sunDirection.Multiply(1000));
                             ////#if DEBUG
-                            BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
+                            //// BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
                             ////#endif
-                            ////Line line = Line.CreateBound(start, end);
+                            Line line = Line.CreateBound(start, end);
                             lineCount++;
                         }
                     }
@@ -91,9 +92,56 @@ namespace SCaddins.SolarUtilities
             var vm = new ViewModels.DirectSunViewModel(commandData.Application.ActiveUIDocument);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
             if (vm.SelectedCloseMode == ViewModels.DirectSunViewModel.CloseMode.Analize) {
-                RunAnalysis(vm.FaceSelection, vm.MassSelection, 10, udoc);
+                ////CreateAnalysisRays(vm.FaceSelection, vm.MassSelection, 10, udoc);
+                CreateAnalysisSurfaces(udoc, vm.FaceSelection);
             }
             return Autodesk.Revit.UI.Result.Succeeded;
+        }
+
+        private static void CreateAnalysisSurfaces(UIDocument uiDoc, IList<Reference> faceSelection)
+        {
+            Document doc = uiDoc.Document;
+
+            SpatialFieldManager sfm = SpatialFieldManager.GetSpatialFieldManager(doc.ActiveView);
+            if (sfm == null) {
+                sfm = SpatialFieldManager.CreateSpatialFieldManager(doc.ActiveView, 1);
+            }
+            ////Reference reference = uiDoc.Selection.PickObject(ObjectType.Face, "Select a face");
+            ////int idx = sfm.AddSpatialFieldPrimitive(reference);
+            sfm.Clear();
+
+            int n = 0;
+
+            foreach (Reference reference in faceSelection) {
+
+                ////Reference reference = faceSelection[0];
+                int idx = sfm.AddSpatialFieldPrimitive(reference);
+
+                Face face = doc.GetElement(reference).GetGeometryObjectFromReference(reference) as Face;
+
+                IList<UV> pointsUV = new List<UV>();
+                BoundingBoxUV bb = face.GetBoundingBox();
+                UV min = bb.Min;
+                UV max = bb.Max;
+                pointsUV.Add(new UV(min.U, min.V));
+                pointsUV.Add(new UV(max.U, max.V));
+
+                FieldDomainPointsByUV pnts = new FieldDomainPointsByUV(pointsUV);
+
+                List<double> doubleList = new List<double>();
+                IList<ValueAtPoint> valList = new List<ValueAtPoint>();
+                doubleList.Add(0);
+                valList.Add(new ValueAtPoint(doubleList));
+                doubleList.Clear();
+                doubleList.Add(10);
+                valList.Add(new ValueAtPoint(doubleList));
+
+                FieldValues vals = new FieldValues(valList);
+                AnalysisResultSchema resultSchema = new AnalysisResultSchema("Total Hours of Direct Sun " + n, "Description");
+                int schemaIndex = sfm.RegisterResult(resultSchema);
+                sfm.UpdateSpatialFieldPrimitive(idx, pnts, vals, schemaIndex);
+                n++;
+            }
         }
     }
 }
