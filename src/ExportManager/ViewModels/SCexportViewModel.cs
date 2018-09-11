@@ -205,6 +205,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void CopySheets()
         {
+            ////TryClose(true);
             var sheetCopierModel = new SCaddins.SheetCopier.ViewModels.SheetCopierViewModel(exportManager.UIDoc);
             sheetCopierModel.AddSheets(selectedSheets);
             SCaddinsApp.WindowManager.ShowDialog(

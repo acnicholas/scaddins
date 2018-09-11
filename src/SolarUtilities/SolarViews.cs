@@ -46,28 +46,11 @@ namespace SCaddins.SolarUtilities
         {
             doc = udoc.Document;
             this.udoc = udoc;
-            ////var projectLocation = doc.ActiveProjectLocation;
-            ////#if REVIT2018 || REVIT2019
-            ////    position = projectLocation.GetProjectPosition(XYZ.Zero);
-            ////#else
-            ////    position = this.projectLocation.get_ProjectPosition(XYZ.Zero);
-            ////#endif
             position = GetProjectPosition(doc);
-
             StartTime = new DateTime(2018, 6, 21, 9, 0, 0);
             EndTime = new DateTime(2018, 6, 21, 15, 0, 0);
             ExportTimeInterval = new TimeSpan(1, 0, 0);
             activeView = doc.ActiveView;
-        }
-
-        public static ProjectPosition GetProjectPosition(Document doc)
-        {
-            var projectLocation = doc.ActiveProjectLocation;
-            #if REVIT2018 || REVIT2019
-                return projectLocation.GetProjectPosition(XYZ.Zero);
-            #else
-                return projectLocation.get_ProjectPosition(XYZ.Zero);
-            #endif
         }
 
         public string ActiveIewInformation => GetViewInfo(activeView);
@@ -103,8 +86,7 @@ namespace SCaddins.SolarUtilities
         {
             double highestLevel = -1;
             ElementId highestId = null;
-            using (var collector = new FilteredElementCollector(doc))
-            {
+            using (var collector = new FilteredElementCollector(doc)) {
                 collector.OfClass(typeof(Level));
                 foreach (Level level in collector) {
                     if (highestLevel < 0 || level.Elevation > highestLevel) {
@@ -120,12 +102,21 @@ namespace SCaddins.SolarUtilities
         // FIXME this can go in a utiliy class.
         public static string GetNiceViewName(Document doc, string request)
         {
-            if (ViewNameIsAvailable(doc, request))
-            {
+            if (ViewNameIsAvailable(doc, request)) {
                 return request;
             }
             return request + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) +
                    @")";
+        }
+
+        public static ProjectPosition GetProjectPosition(Document doc)
+        {
+            var projectLocation = doc.ActiveProjectLocation;
+            #if REVIT2018 || REVIT2019
+                return projectLocation.GetProjectPosition(XYZ.Zero);
+            #else
+                return projectLocation.get_ProjectPosition(XYZ.Zero);
+            #endif
         }
 
         /// <summary>
@@ -141,6 +132,20 @@ namespace SCaddins.SolarUtilities
             return 1 / Math.Tan(radians) * 0.00029088820866572;
         }
 
+        public static XYZ GetSunDirectionalVector(View view, ProjectPosition projectPosition, out double azimuth)
+        {
+            var sunSettings = view.SunAndShadowSettings;
+            var frame = sunSettings.ActiveFrame;
+            azimuth = sunSettings.GetFrameAzimuth(frame);
+            var altitude = sunSettings.GetFrameAltitude(frame);
+            azimuth += projectPosition.Angle;
+            var forward = new XYZ(
+                -Math.Sin(azimuth),
+                -Math.Cos(azimuth),
+                -Math.Tan(altitude - GetAtmosphericRefraction(altitude)));
+            return forward;
+        }
+
         public static bool ViewIsIso(View view)
         {
             return view.ViewType == ViewType.ThreeD;
@@ -149,21 +154,19 @@ namespace SCaddins.SolarUtilities
         // FIXME put this somewhere else.
         public static bool ViewNameIsAvailable(Document doc, string name)
         {
-            using (var c = new FilteredElementCollector(doc))
-            {
+            using (var c = new FilteredElementCollector(doc)) {
                 c.OfClass(typeof(View));
-                foreach (View view in c)
-                {
+                foreach (View view in c) {
                     var v = view;
-                    #if REVIT2019
+#if REVIT2019
                     if (v.Name == name) {
                         return false;
                     }
-                    #else
+#else
                     if (v.ViewName == name) {
                         return false;
-                    }       
-                    #endif
+                    }
+#endif
                 }
             }
 
@@ -181,6 +184,17 @@ namespace SCaddins.SolarUtilities
             if (CreateShadowPlans) {
                 CreateShadowPlanViews();
             }
+        }
+
+        private static XYZ GetEyeLocation(View view)
+        {
+            var viewBounds = view.get_BoundingBox(view);
+            var max = viewBounds.Max;
+            var min = viewBounds.Min;
+            return new XYZ(
+                 min.X + ((max.X - min.X) / 2),
+                 min.Y + ((max.Y - min.Y) / 2),
+                 min.Z + ((max.Z - min.Z) / 2));
         }
 
         private static ElementId GetViewFamilyId(Document doc, ViewFamily viewFamilyType)
@@ -299,37 +313,10 @@ namespace SCaddins.SolarUtilities
             info.AppendLine("Sun Azimuth - " + azdeg.ToString(CultureInfo.InvariantCulture));
             return info.ToString();
         }
-
-        private static XYZ GetEyeLocation(View view)
-        {
-            var viewBounds = view.get_BoundingBox(view);
-            var max = viewBounds.Max;
-            var min = viewBounds.Min;
-            return new XYZ(
-                 min.X + ((max.X - min.X) / 2),
-                 min.Y + ((max.Y - min.Y) / 2),
-                 min.Z + ((max.Z - min.Z) / 2));
-        }
-
-        public static XYZ GetSunDirectionalVector(View view, ProjectPosition projectPosition,out double azimuth)
-        {
-            var sunSettings = view.SunAndShadowSettings;
-            var frame = sunSettings.ActiveFrame;
-            azimuth = sunSettings.GetFrameAzimuth(frame);
-            var altitude = sunSettings.GetFrameAltitude(frame);
-            azimuth += projectPosition.Angle;         
-            var forward = new XYZ(
-                -Math.Sin(azimuth),
-                -Math.Cos(azimuth),
-                -Math.Tan(altitude - GetAtmosphericRefraction(altitude)));
-            return forward;
-        }
-
         ////[SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private void RotateView(View view)
         {
             if (view.ViewType == ViewType.ThreeD) {
-
                 double azimuth;
                 var forward = GetSunDirectionalVector(view, position, out azimuth);
                 var up = forward.CrossProduct(new XYZ(Math.Cos(azimuth), -Math.Sin(azimuth), 0));

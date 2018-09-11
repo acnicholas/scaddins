@@ -396,8 +396,19 @@
     <Compile Include="SheetCopier\Views\SheetCopierView.xaml.cs">
       <DependentUpon>SheetCopierView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SolarUtilities\CompatibilityMethods.cs" />
     <Compile Include="SolarUtilities\Creator.cs" />
     <Compile Include="SolarUtilities\DirectSunCommand.cs" />
+    <Compile Include="SolarUtilities\IEnumerableExtensions.cs" />
+    <Compile Include="SolarUtilities\JtBoundingBoxXyzExtensionMethods.cs" />
+    <Compile Include="SolarUtilities\JtBuiltInCategoryExtensionMethods.cs" />
+    <Compile Include="SolarUtilities\JtEdgeArrayExtensionMethods.cs" />
+    <Compile Include="SolarUtilities\JtElementExtensionMethods.cs" />
+    <Compile Include="SolarUtilities\JtElementIdExtensionMethods.cs" />
+    <Compile Include="SolarUtilities\JtFamilyParameterExtensionMethods.cs" />
+    <Compile Include="SolarUtilities\JtFilteredElementCollectorExtensions.cs" />
+    <Compile Include="SolarUtilities\JtLineExtensionMethods.cs" />
+    <Compile Include="SolarUtilities\JtPlaneExtensionMethods.cs" />
     <Compile Include="SolarUtilities\SolarViews.cs" />
     <Compile Include="SolarUtilities\SolarViewsCommand.cs" />
     <Compile Include="SolarUtilities\Util.cs" />

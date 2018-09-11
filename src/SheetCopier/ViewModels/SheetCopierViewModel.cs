@@ -152,6 +152,7 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public void Go()
         {
+            ////TryClose(true);
             copyManager.CreateSheets();
         }
 

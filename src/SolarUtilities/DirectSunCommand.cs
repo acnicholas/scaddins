@@ -27,6 +27,47 @@ namespace SCaddins.SolarUtilities
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class DirectSunCommand : IExternalCommand
     {
+        public static void RunAnalysis(IList<Reference> faceSelection, IList<Reference> massSelection, int divisions, UIDocument uidoc)
+        {
+            if (faceSelection == null) {
+                return;
+            }
+
+            int lineCount = 0;
+
+            System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
+
+            Transaction t = new Transaction(uidoc.Document);
+            t.Start("testSolarVectorLines");
+
+            foreach (Reference r in faceSelection) {
+                Face f = (Face)uidoc.Document.GetElement(r).GetGeometryObjectFromReference(r);
+                var bb = f.GetBoundingBox();
+                for (double u = bb.Min.U; u < bb.Max.U; u += (bb.Max.U - bb.Min.U) / divisions) {
+                    for (double v = bb.Min.V; v < bb.Max.V; v += (bb.Max.V - bb.Min.V) / divisions) {
+                        UV uv = new UV(u, v);
+                        if (f.IsInside(uv)) {
+                            XYZ start = f.Evaluate(uv);
+                            start.Add(f.ComputeNormal(uv).Normalize().Multiply(100));
+                            XYZ sunDirection = SolarViews.GetSunDirectionalVector(uidoc.ActiveView, SolarViews.GetProjectPosition(uidoc.Document), out double azimuth);
+                            start = start.Subtract(sunDirection.Normalize());
+                            XYZ end = start.Subtract(sunDirection.Multiply(1000));
+                            ////#if DEBUG
+                            BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
+                            ////#endif
+                            ////Line line = Line.CreateBound(start, end);
+                            lineCount++;
+                        }
+                    }
+                }
+            }
+
+            t.Commit();
+            stopwatch.Stop();
+            TaskDialog.Show("Time Elapsed", lineCount + " lines drawn in " + stopwatch.Elapsed.ToString() + @"(hh:mm:ss:uu)");
+        }
+
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
@@ -53,37 +94,6 @@ namespace SCaddins.SolarUtilities
                 RunAnalysis(vm.FaceSelection, vm.MassSelection, 10, udoc);
             }
             return Autodesk.Revit.UI.Result.Succeeded;
-        }
-
-
-        public static void RunAnalysis(IList<Reference> faceSelection, IList<Reference> massSelection, int divisions, UIDocument uidoc)
-        {
-            if (faceSelection == null) {
-                return;
-            }
-
-            Transaction t = new Transaction(uidoc.Document);
-            t.Start("testSolarVectorLines");
-
-            foreach (Reference r in faceSelection) {
-                Face f = (Face)uidoc.Document.GetElement(r).GetGeometryObjectFromReference(r);
-                var bb = f.GetBoundingBox();
-                for (double u = bb.Min.U; u < bb.Max.U; u += (bb.Max.U - bb.Min.U) / 10) {
-                    for (double v = bb.Min.V; v < bb.Max.V; v += (bb.Max.V - bb.Min.V) / 10) {
-                        UV uv = new UV(u, v);
-                        if (f.IsInside(uv)) {
-                            XYZ start = f.Evaluate(uv);
-                            start.Add(f.ComputeNormal(uv).Normalize().Multiply(100));
-                            XYZ sunDirection = SolarViews.GetSunDirectionalVector(uidoc.ActiveView, SolarViews.GetProjectPosition(uidoc.Document), out double azimuth);
-                            start = start.Subtract(sunDirection.Normalize());
-                            XYZ end = start.Subtract(sunDirection.Multiply(1000));
-                            BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
-                        }                 
-                    }
-                }
-            }
-
-            t.Commit();
         }
     }
 }
