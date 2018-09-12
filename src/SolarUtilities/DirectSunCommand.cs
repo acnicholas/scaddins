@@ -28,6 +28,37 @@ namespace SCaddins.SolarUtilities
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class DirectSunCommand : IExternalCommand
     {
+        public static List<Solid> SolidsFromReferences(IList<Reference> massSelection, Document doc)
+        {
+            List<Solid> result = new List<Solid>();
+            foreach (Reference solidRef in massSelection) {
+                Element e = doc.GetElement(solidRef);
+                GeometryElement geoElem = e.get_Geometry(new Options());
+                foreach (GeometryObject obj in geoElem) {
+                    if (obj is Solid) {
+                        Solid solid = obj as Solid;
+                        result.Add(solid);
+                    }
+                }
+            }
+            TaskDialog.Show("Debug", "Solids added: " + result.Count);
+            return result;
+        }
+
+        public static List<Face> FacesFromReferences(IList<Reference> faceSelection, Document doc)
+        {
+            List<Face> result = new List<Face>();
+            foreach (Reference r in faceSelection) {
+                Face f = (Face)doc.GetElement(r).GetGeometryObjectFromReference(r);
+                result.Add(f);
+            }
+            TaskDialog.Show("Debug", "Faces added: " + result.Count);
+            return result;
+        }
+
+        ////public static List<Line> Lines
+
+
         public static void CreateAnalysisRays(IList<Reference> faceSelection, IList<Reference> massSelection, int divisions, UIDocument uidoc)
         {
             if (faceSelection == null) {
@@ -39,26 +70,46 @@ namespace SCaddins.SolarUtilities
             System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
             stopwatch.Start();
 
+            var solids = SolidsFromReferences(massSelection, uidoc.Document);
+
             Transaction t = new Transaction(uidoc.Document);
             t.Start("testSolarVectorLines");
 
-            foreach (Reference r in faceSelection) {
-                Face f = (Face)uidoc.Document.GetElement(r).GetGeometryObjectFromReference(r);
-                var bb = f.GetBoundingBox();
-                for (double u = bb.Min.U; u < bb.Max.U; u += (bb.Max.U - bb.Min.U) / divisions) {
-                    for (double v = bb.Min.V; v < bb.Max.V; v += (bb.Max.V - bb.Min.V) / divisions) {
+            foreach (Face face in FacesFromReferences(faceSelection, uidoc.Document)) {
+                var bb = face.GetBoundingBox();
+                for (double u = bb.Min.U; u <= bb.Max.U; u += (bb.Max.U - bb.Min.U) / divisions) {
+                    for (double v = bb.Min.V; v <= bb.Max.V; v += (bb.Max.V - bb.Min.V) / divisions) {
                         UV uv = new UV(u, v);
-                        if (f.IsInside(uv)) {
-                            XYZ start = f.Evaluate(uv);
-                            start.Add(f.ComputeNormal(uv).Normalize().Multiply(100));
-                            XYZ sunDirection = SolarViews.GetSunDirectionalVector(uidoc.ActiveView, SolarViews.GetProjectPosition(uidoc.Document), out double azimuth);
-                            start = start.Subtract(sunDirection.Normalize());
-                            XYZ end = start.Subtract(sunDirection.Multiply(1000));
-                            ////#if DEBUG
-                            //// BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
-                            ////#endif
-                            Line line = Line.CreateBound(start, end);
-                            lineCount++;
+                        
+                        if (face.IsInside(uv)) {
+                            
+                            SunAndShadowSettings setting = uidoc.ActiveView.SunAndShadowSettings;
+                            double hoursOfSun = setting.NumberOfFrames;
+                            for (int activeFrame = 0; activeFrame < setting.NumberOfFrames; activeFrame++) {
+                                setting.ActiveFrame = activeFrame;
+                                ////TaskDialog.Show("Time", setting.ActiveFrameTime.ToLongTimeString());
+                                XYZ start = face.Evaluate(uv);
+                                start.Add(face.ComputeNormal(uv).Normalize().Multiply(100));
+                                XYZ sunDirection = SolarViews.GetSunDirectionalVector(uidoc.ActiveView, SolarViews.GetProjectPosition(uidoc.Document), out double azimuth);
+                                start = start.Subtract(sunDirection.Normalize());
+                                XYZ end = start.Subtract(sunDirection.Multiply(1000));
+                                BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
+                                Line line = Line.CreateBound(start, end);
+                                lineCount++;
+
+                                foreach (Solid solid in solids) {
+
+                                    var solidInt = solid.IntersectWithCurve(line, new SolidCurveIntersectionOptions());
+                                    if (solidInt.SegmentCount > 0) {
+                                        ////TaskDialog.Show("Debug", "Collision Found");
+                                        hoursOfSun--;
+                                        break;
+                                    }
+
+                                }
+
+                            } //ray loop
+                            TaskDialog.Show("RayHits", hoursOfSun.ToString());
                         }
                     }
                 }
@@ -92,8 +143,8 @@ namespace SCaddins.SolarUtilities
             var vm = new ViewModels.DirectSunViewModel(commandData.Application.ActiveUIDocument);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
             if (vm.SelectedCloseMode == ViewModels.DirectSunViewModel.CloseMode.Analize) {
-                ////CreateAnalysisRays(vm.FaceSelection, vm.MassSelection, 10, udoc);
-                CreateAnalysisSurfaces(udoc, vm.FaceSelection);
+                CreateAnalysisRays(vm.FaceSelection, vm.MassSelection, 1, udoc);
+                ////CreateAnalysisSurfaces(udoc, vm.FaceSelection);
             }
             return Autodesk.Revit.UI.Result.Succeeded;
         }
