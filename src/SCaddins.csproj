@@ -399,6 +399,7 @@
     <Compile Include="SolarUtilities\CompatibilityMethods.cs" />
     <Compile Include="SolarUtilities\Creator.cs" />
     <Compile Include="SolarUtilities\DirectSunCommand.cs" />
+    <Compile Include="SolarUtilities\DirectSunTestPoint.cs" />
     <Compile Include="SolarUtilities\IEnumerableExtensions.cs" />
     <Compile Include="SolarUtilities\JtBoundingBoxXyzExtensionMethods.cs" />
     <Compile Include="SolarUtilities\JtBuiltInCategoryExtensionMethods.cs" />

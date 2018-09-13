@@ -56,6 +56,20 @@
             }
         }
 
+        public static dynamic DefaultViewSettings
+        {
+            get
+            {
+                dynamic settings = new ExpandoObject();
+                settings.Height = 480;
+                settings.Width = 300;
+                settings.Title = "Direct Sun - By Andrew Nicholas";
+                settings.ShowInTaskbar = false;
+                settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+                return settings;
+            }
+        }
+
         public void RunAnalysis()
         {
             selectedCloseMode = CloseMode.Analize;

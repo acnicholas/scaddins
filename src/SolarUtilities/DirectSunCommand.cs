@@ -18,7 +18,6 @@
 namespace SCaddins.SolarUtilities
 {
     using System.Collections.Generic;
-    using System.Dynamic;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Analysis;
     using Autodesk.Revit.UI;
@@ -28,16 +27,26 @@ namespace SCaddins.SolarUtilities
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class DirectSunCommand : IExternalCommand
     {
-        public static List<Solid> SolidsFromReferences(IList<Reference> massSelection, Document doc)
+        private static List<Solid> SolidsFromReferences(IList<Reference> massSelection, Document doc)
         {
             List<Solid> result = new List<Solid>();
             foreach (Reference solidRef in massSelection) {
                 Element e = doc.GetElement(solidRef);
-                GeometryElement geoElem = e.get_Geometry(new Options());
+
+                Options opt = new Options()
+                {
+                    ComputeReferences = false,
+                    IncludeNonVisibleObjects = false,
+                    View = doc.ActiveView
+                };
+
+                GeometryElement geoElem = e.get_Geometry(opt);
                 foreach (GeometryObject obj in geoElem) {
                     if (obj is Solid) {
                         Solid solid = obj as Solid;
-                        result.Add(solid);
+                        if (solid.IsElementGeometry && solid.Faces.Size > 0) {
+                            result.Add(solid);
+                        }     
                     }
                 }
             }
@@ -45,25 +54,27 @@ namespace SCaddins.SolarUtilities
             return result;
         }
 
-        public static List<Face> FacesFromReferences(IList<Reference> faceSelection, Document doc)
+        private static List<DirectSunTestFace> CreateEmptyTestFaces(IList<Reference> faceSelection, Document doc)
         {
-            List<Face> result = new List<Face>();
+            int n = 0;
+            List<DirectSunTestFace> result = new List<DirectSunTestFace>();
             foreach (Reference r in faceSelection) {
-                Face f = (Face)doc.GetElement(r).GetGeometryObjectFromReference(r);
-                result.Add(f);
+                n++;
+                Element elem = doc.GetElement(r);
+                Face f = (Face)elem.GetGeometryObjectFromReference(r);
+                result.Add(new DirectSunTestFace(r, @"DirectSun(" + n.ToString() +  @")", doc));
             }
             TaskDialog.Show("Debug", "Faces added: " + result.Count);
             return result;
         }
 
-        ////public static List<Line> Lines
-
-
-        public static void CreateAnalysisRays(IList<Reference> faceSelection, IList<Reference> massSelection, int divisions, UIDocument uidoc)
+        public static void CreateTestFaces(IList<Reference> faceSelection, IList<Reference> massSelection, int analysysGridSize, UIDocument uidoc, View view)
         {
             if (faceSelection == null) {
                 return;
             }
+
+            List<DirectSunTestFace> testFaces = CreateEmptyTestFaces(faceSelection, uidoc.Document);
 
             int lineCount = 0;
 
@@ -75,44 +86,69 @@ namespace SCaddins.SolarUtilities
             Transaction t = new Transaction(uidoc.Document);
             t.Start("testSolarVectorLines");
 
-            foreach (Face face in FacesFromReferences(faceSelection, uidoc.Document)) {
-                var bb = face.GetBoundingBox();
-                for (double u = bb.Min.U; u <= bb.Max.U; u += (bb.Max.U - bb.Min.U) / divisions) {
-                    for (double v = bb.Min.V; v <= bb.Max.V; v += (bb.Max.V - bb.Min.V) / divisions) {
+            foreach (DirectSunTestFace testFace in testFaces) {
+                var boundingBox = testFace.Face.GetBoundingBox();
+
+
+                ////TaskDialog.Show("U", (boundingBox.Max.U - boundingBox.Min.U).ToString());
+                ////TaskDialog.Show("V", (boundingBox.Max.V - boundingBox.Min.V).ToString());
+
+                double uSize = boundingBox.Max.U - boundingBox.Min.U;
+                double vSize = boundingBox.Max.V - boundingBox.Min.V;
+                int uGridDivisions = uSize > 2 * analysysGridSize ? (int)(uSize / analysysGridSize) : 2;
+                int vGridDivisions = vSize > 2 * analysysGridSize ? (int)(vSize / analysysGridSize) : 2;
+                double uGridSize = uSize / uGridDivisions;
+                double vGridSize = vSize / vGridDivisions;
+
+                ////TaskDialog.Show("U", uGridDivisions.ToString() + "-" + uGridSize.ToString());
+                ////TaskDialog.Show("V", vGridDivisions.ToString() + "-" + vGridSize.ToString());
+
+                for (double u = boundingBox.Min.U + uGridSize / 2; u <= boundingBox.Max.U; u += uGridSize) {
+                    for (double v = boundingBox.Min.V + vGridSize / 2; v <= boundingBox.Max.V; v += vGridSize) {
                         UV uv = new UV(u, v);
                         
-                        if (face.IsInside(uv)) {
+                        if (testFace.Face.IsInside(uv)) {
                             
-                            SunAndShadowSettings setting = uidoc.ActiveView.SunAndShadowSettings;
+                            SunAndShadowSettings setting = view.SunAndShadowSettings;
                             double hoursOfSun = setting.NumberOfFrames;
                             for (int activeFrame = 0; activeFrame < setting.NumberOfFrames; activeFrame++) {
                                 setting.ActiveFrame = activeFrame;
                                 ////TaskDialog.Show("Time", setting.ActiveFrameTime.ToLongTimeString());
-                                XYZ start = face.Evaluate(uv);
-                                start.Add(face.ComputeNormal(uv).Normalize().Multiply(100));
+                                XYZ start = testFace.Face.Evaluate(uv);
+                                start.Add(testFace.Face.ComputeNormal(uv).Normalize().Multiply(100));
                                 XYZ sunDirection = SolarViews.GetSunDirectionalVector(uidoc.ActiveView, SolarViews.GetProjectPosition(uidoc.Document), out double azimuth);
                                 start = start.Subtract(sunDirection.Normalize());
                                 XYZ end = start.Subtract(sunDirection.Multiply(1000));
-                                BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
+                                ////BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
                                 Line line = Line.CreateBound(start, end);
-                                lineCount++;
+                                ////lineCount++;
 
-                                foreach (Solid solid in solids) {
-
-                                    var solidInt = solid.IntersectWithCurve(line, new SolidCurveIntersectionOptions());
-                                    if (solidInt.SegmentCount > 0) {
-                                        ////TaskDialog.Show("Debug", "Collision Found");
-                                        hoursOfSun--;
-                                        break;
-                                    }
-
+                                foreach (Solid solid in solids) { 
+                                    try {
+                                        var solidInt = solid.IntersectWithCurve(line, new SolidCurveIntersectionOptions());
+                                        if (solidInt.SegmentCount > 0) {
+                                            ////TaskDialog.Show("Debug", "Collision Found");
+                                            hoursOfSun--;
+                                            break;
+                                        }
+                                   } catch {
+                                        continue;
+                                   }
                                 }
 
                             } //ray loop
-                            TaskDialog.Show("RayHits", hoursOfSun.ToString());
+                            testFace.AddValueAtPoint(uv, hoursOfSun);
+                            ////TaskDialog.Show("RayHits", hoursOfSun.ToString());
                         }
                     }
                 }
+            }
+
+            SpatialFieldManager sfm = DirectSunTestFace.GetSpatialFieldManager(uidoc.Document);
+            sfm.Clear();
+
+            foreach (DirectSunTestFace testFace in testFaces) {
+                testFace.CreateAnalysisSurface(uidoc, sfm);
             }
 
             t.Commit();
@@ -131,68 +167,14 @@ namespace SCaddins.SolarUtilities
             }
 
             UIDocument udoc = commandData.Application.ActiveUIDocument;
-            Document doc = udoc.Document;
-
-            dynamic settings = new ExpandoObject();
-            settings.Height = 480;
-            settings.Width = 300;
-            settings.Title = "Direct Sun - By Andrew Nicholas";
-            settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+            ////Document doc = udoc.Document;
 
             var vm = new ViewModels.DirectSunViewModel(commandData.Application.ActiveUIDocument);
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.DirectSunViewModel.DefaultViewSettings);
             if (vm.SelectedCloseMode == ViewModels.DirectSunViewModel.CloseMode.Analize) {
-                CreateAnalysisRays(vm.FaceSelection, vm.MassSelection, 1, udoc);
-                ////CreateAnalysisSurfaces(udoc, vm.FaceSelection);
+                CreateTestFaces(vm.FaceSelection, vm.MassSelection, 10, udoc, udoc.ActiveView);
             }
             return Autodesk.Revit.UI.Result.Succeeded;
-        }
-
-        private static void CreateAnalysisSurfaces(UIDocument uiDoc, IList<Reference> faceSelection)
-        {
-            Document doc = uiDoc.Document;
-
-            SpatialFieldManager sfm = SpatialFieldManager.GetSpatialFieldManager(doc.ActiveView);
-            if (sfm == null) {
-                sfm = SpatialFieldManager.CreateSpatialFieldManager(doc.ActiveView, 1);
-            }
-            ////Reference reference = uiDoc.Selection.PickObject(ObjectType.Face, "Select a face");
-            ////int idx = sfm.AddSpatialFieldPrimitive(reference);
-            sfm.Clear();
-
-            int n = 0;
-
-            foreach (Reference reference in faceSelection) {
-
-                ////Reference reference = faceSelection[0];
-                int idx = sfm.AddSpatialFieldPrimitive(reference);
-
-                Face face = doc.GetElement(reference).GetGeometryObjectFromReference(reference) as Face;
-
-                IList<UV> pointsUV = new List<UV>();
-                BoundingBoxUV bb = face.GetBoundingBox();
-                UV min = bb.Min;
-                UV max = bb.Max;
-                pointsUV.Add(new UV(min.U, min.V));
-                pointsUV.Add(new UV(max.U, max.V));
-
-                FieldDomainPointsByUV pnts = new FieldDomainPointsByUV(pointsUV);
-
-                List<double> doubleList = new List<double>();
-                IList<ValueAtPoint> valList = new List<ValueAtPoint>();
-                doubleList.Add(0);
-                valList.Add(new ValueAtPoint(doubleList));
-                doubleList.Clear();
-                doubleList.Add(10);
-                valList.Add(new ValueAtPoint(doubleList));
-
-                FieldValues vals = new FieldValues(valList);
-                AnalysisResultSchema resultSchema = new AnalysisResultSchema("Total Hours of Direct Sun " + n, "Description");
-                int schemaIndex = sfm.RegisterResult(resultSchema);
-                sfm.UpdateSpatialFieldPrimitive(idx, pnts, vals, schemaIndex);
-                n++;
-            }
         }
     }
 }
