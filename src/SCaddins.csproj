@@ -398,6 +398,7 @@
     </Compile>
     <Compile Include="SolarUtilities\CompatibilityMethods.cs" />
     <Compile Include="SolarUtilities\Creator.cs" />
+    <Compile Include="SolarUtilities\DirectSunColourSchemes.cs" />
     <Compile Include="SolarUtilities\DirectSunCommand.cs" />
     <Compile Include="SolarUtilities\DirectSunTestPoint.cs" />
     <Compile Include="SolarUtilities\IEnumerableExtensions.cs" />

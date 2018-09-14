@@ -62,7 +62,10 @@ namespace SCaddins.SolarUtilities
                 n++;
                 Element elem = doc.GetElement(r);
                 Face f = (Face)elem.GetGeometryObjectFromReference(r);
-                result.Add(new DirectSunTestFace(r, @"DirectSun(" + n.ToString() +  @")", doc));
+                var normal = f.ComputeNormal(new UV(0, 0));
+                if (normal.Z > 0) {
+                    result.Add(new DirectSunTestFace(r, @"DirectSun(" + n.ToString() + @")", doc));
+                }
             }
             ////TaskDialog.Show("Debug", "Faces added: " + result.Count);
             return result;
@@ -86,9 +89,11 @@ namespace SCaddins.SolarUtilities
             Transaction t = new Transaction(uidoc.Document);
             t.Start("testSolarVectorLines");
 
+            //create colour scheme
+            DirectSunColourSchemes.CreateAnalysisScheme(DirectSunColourSchemes.DefaultColours, uidoc.Document, "Direct Sunlight Hours");
+
             foreach (DirectSunTestFace testFace in testFaces) {
                 var boundingBox = testFace.Face.GetBoundingBox();
-
 
                 ////TaskDialog.Show("U", (boundingBox.Max.U - boundingBox.Min.U).ToString());
                 ////TaskDialog.Show("V", (boundingBox.Max.V - boundingBox.Min.V).ToString());
@@ -97,14 +102,14 @@ namespace SCaddins.SolarUtilities
                 //double vSize = boundingBox.Max.V - boundingBox.Min.V;
                 //int uGridDivisions = uSize > 2 * analysysGridSize ? (int)(uSize / analysysGridSize) : 2;
                 //int vGridDivisions = vSize > 2 * analysysGridSize ? (int)(vSize / analysysGridSize) : 2;
-                double uGridSize = analysysGridSize;
-                double vGridSize = analysysGridSize;
+                //double uGridSize = analysysGridSize;
+                //double vGridSize = analysysGridSize;
 
                 ////TaskDialog.Show("U", uGridDivisions.ToString() + "-" + uGridSize.ToString());
                 ////TaskDialog.Show("V", vGridDivisions.ToString() + "-" + vGridSize.ToString());
 
-                for (double u = boundingBox.Min.U + uGridSize / 2; u <= boundingBox.Max.U - uGridSize / 2; u += uGridSize) {
-                    for (double v = boundingBox.Min.V + vGridSize / 2; v <= boundingBox.Max.V - vGridSize / 2; v += vGridSize) {
+                for (double u = boundingBox.Min.U + analysysGridSize / 2; u <= boundingBox.Max.U - analysysGridSize / 2; u += analysysGridSize) {
+                    for (double v = boundingBox.Min.V + analysysGridSize / 2; v <= boundingBox.Max.V - analysysGridSize / 2; v += analysysGridSize) {
                         UV uv = new UV(u, v);
                         
                         if (testFace.Face.IsInside(uv)) {
@@ -172,7 +177,7 @@ namespace SCaddins.SolarUtilities
             var vm = new ViewModels.DirectSunViewModel(commandData.Application.ActiveUIDocument);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.DirectSunViewModel.DefaultViewSettings);
             if (vm.SelectedCloseMode == ViewModels.DirectSunViewModel.CloseMode.Analize) {
-                CreateTestFaces(vm.FaceSelection, vm.MassSelection, 3, udoc, udoc.ActiveView);
+                CreateTestFaces(vm.FaceSelection, vm.MassSelection, 12, udoc, udoc.ActiveView);
             }
             return Autodesk.Revit.UI.Result.Succeeded;
         }

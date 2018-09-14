@@ -72,7 +72,12 @@ namespace SCaddins.SolarUtilities
             FieldValues vals = new FieldValues(valList);
             AnalysisResultSchema resultSchema = new AnalysisResultSchema(name, name);
             int schemaIndex = sfm.RegisterResult(resultSchema);
-            sfm.UpdateSpatialFieldPrimitive(idx, pnts, vals, schemaIndex);
+            //if(pointsUV.Count != valList.Count) {
+            //  return;
+            //}
+            try {
+                sfm.UpdateSpatialFieldPrimitive(idx, pnts, vals, schemaIndex);
+            } catch { }
         }
 
         public static SpatialFieldManager GetSpatialFieldManager(Document doc)
