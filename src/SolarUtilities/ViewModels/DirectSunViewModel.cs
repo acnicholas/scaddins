@@ -21,6 +21,7 @@
             selectedCloseMode = CloseMode.Close;
             MassSelection = null;
             FaceSelection = null;
+            AnalysisGridSize = 3;
         }
 
         public enum CloseMode
@@ -29,6 +30,11 @@
             MassSelection,
             FaceSelection,
             Analize
+        }
+
+        public int AnalysisGridSize
+        {
+            get; set;  
         }
 
         public IList<Reference> FaceSelection

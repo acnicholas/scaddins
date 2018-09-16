@@ -44,13 +44,15 @@ namespace SCaddins.SolarUtilities
             colourSettings.SetIntermediateColors(colours);
             colourSettings.ColorSettingsType = AnalysisDisplayStyleColorSettingsType.GradientColor;
 
-            var ads = AnalysisDisplayStyle.CreateAnalysisDisplayStyle (
-                doc,
-                name,
-                colouredSurfaceSettings,
-                colourSettings,
-                new AnalysisDisplayLegendSettings()
-            );
+            if (AnalysisDisplayStyle.IsNameUnique(doc, name, null)) {
+                var ads = AnalysisDisplayStyle.CreateAnalysisDisplayStyle(
+                    doc,
+                    name,
+                    colouredSurfaceSettings,
+                    colourSettings,
+                    new AnalysisDisplayLegendSettings()
+                );
+            }
         }
     }
 }
