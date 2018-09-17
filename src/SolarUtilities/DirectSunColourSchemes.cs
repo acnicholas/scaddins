@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Analysis;
-
-namespace SCaddins.SolarUtilities
+﻿namespace SCaddins.SolarUtilities
 {
-    class DirectSunColourSchemes
-    {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Analysis;
 
+    public static class DirectSunColourSchemes
+    {
         public static List<AnalysisDisplayColorEntry> DefaultColours
         {
             get
             {
                 List<AnalysisDisplayColorEntry> result = new List<AnalysisDisplayColorEntry>
                 {
-                    new AnalysisDisplayColorEntry(new Color(75, 107, 169),0),
+                    new AnalysisDisplayColorEntry(new Color(75, 107, 169), 0),
                     new AnalysisDisplayColorEntry(new Color(115, 147, 202)),
                     new AnalysisDisplayColorEntry(new Color(170, 200, 247)),
                     new AnalysisDisplayColorEntry(new Color(193, 213, 208)),
@@ -26,7 +22,7 @@ namespace SCaddins.SolarUtilities
                     new AnalysisDisplayColorEntry(new Color(239, 156, 21)),
                     new AnalysisDisplayColorEntry(new Color(234, 123, 0)),
                     new AnalysisDisplayColorEntry(new Color(234, 74, 0)),
-                    new AnalysisDisplayColorEntry(new Color(234, 38, 0),7)
+                    new AnalysisDisplayColorEntry(new Color(234, 38, 0), 7)
                 };
                 return result;
             }
@@ -50,9 +46,8 @@ namespace SCaddins.SolarUtilities
                     name,
                     colouredSurfaceSettings,
                     colourSettings,
-                    new AnalysisDisplayLegendSettings()
-                );
-                if(!showLegend) {
+                    new AnalysisDisplayLegendSettings());
+                if (!showLegend) {
                     ads.GetLegendSettings().ShowLegend = false;
                 }
             }

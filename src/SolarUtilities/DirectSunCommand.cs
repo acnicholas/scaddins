@@ -27,50 +27,6 @@ namespace SCaddins.SolarUtilities
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class DirectSunCommand : IExternalCommand
     {
-        private static List<Solid> SolidsFromReferences(IList<Reference> massSelection, Document doc)
-        {
-            List<Solid> result = new List<Solid>();
-            foreach (Reference solidRef in massSelection) {
-                Element e = doc.GetElement(solidRef);
-
-                Options opt = new Options()
-                {
-                    ComputeReferences = false,
-                    IncludeNonVisibleObjects = false,
-                    View = doc.ActiveView
-                };
-
-                GeometryElement geoElem = e.get_Geometry(opt);
-                foreach (GeometryObject obj in geoElem) {
-                    if (obj is Solid) {
-                        Solid solid = obj as Solid;
-                        if (solid.IsElementGeometry && solid.Faces.Size > 0) {
-                            result.Add(solid);
-                        }     
-                    }
-                }
-            }
-            ////TaskDialog.Show("Debug", "Solids added: " + result.Count);
-            return result;
-        }
-
-        private static List<DirectSunTestFace> CreateEmptyTestFaces(IList<Reference> faceSelection, Document doc)
-        {
-            int n = 0;
-            List<DirectSunTestFace> result = new List<DirectSunTestFace>();
-            foreach (Reference r in faceSelection) {
-                n++;
-                Element elem = doc.GetElement(r);
-                Face f = (Face)elem.GetGeometryObjectFromReference(r);
-                var normal = f.ComputeNormal(new UV(0, 0));
-                //if (normal.Z >= 0) {
-                    result.Add(new DirectSunTestFace(r, @"DirectSun(" + n.ToString() + @")", doc));
-                //}
-            }
-            ////TaskDialog.Show("Debug", "Faces added: " + result.Count);
-            return result;
-        }
-
         public static void CreateTestFaces(IList<Reference> faceSelection, IList<Reference> massSelection, double analysysGridSize, UIDocument uidoc, View view)
         {
             if (faceSelection == null) {
@@ -78,8 +34,6 @@ namespace SCaddins.SolarUtilities
             }
 
             List<DirectSunTestFace> testFaces = CreateEmptyTestFaces(faceSelection, uidoc.Document);
-
-            ////int lineCount = 0;
 
             System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
             stopwatch.Start();
@@ -89,48 +43,37 @@ namespace SCaddins.SolarUtilities
             Transaction t = new Transaction(uidoc.Document);
             t.Start("testSolarVectorLines");
 
-            //create colour scheme
+            ////create colour scheme
             DirectSunColourSchemes.CreateAnalysisScheme(DirectSunColourSchemes.DefaultColours, uidoc.Document, "Direct Sunlight Hours", true);
             DirectSunColourSchemes.CreateAnalysisScheme(DirectSunColourSchemes.DefaultColours, uidoc.Document, "Direct Sunlight Hours - No Legend", false);
 
             foreach (DirectSunTestFace testFace in testFaces) {
                 var boundingBox = testFace.Face.GetBoundingBox();
+                double boundingBoxUTotal = boundingBox.Max.U - boundingBox.Min.U;
+                double boundingBoxVTotal = boundingBox.Max.V - boundingBox.Min.V;
+                double gridDivisionsU = boundingBoxUTotal > 2 * analysysGridSize ? (boundingBoxUTotal / analysysGridSize) : 2;
+                double gridDivisionsV = boundingBoxVTotal > 2 * analysysGridSize ? (boundingBoxVTotal / analysysGridSize) : 2;
+                double gridSizeU = boundingBoxUTotal / gridDivisionsU;
+                double gridSizeV = boundingBoxVTotal / gridDivisionsV;
 
-                ////TaskDialog.Show("U", (boundingBox.Max.U - boundingBox.Min.U).ToString());
-                ////TaskDialog.Show("V", (boundingBox.Max.V - boundingBox.Min.V).ToString());
-
-                double uSize = boundingBox.Max.U - boundingBox.Min.U;
-                double vSize = boundingBox.Max.V - boundingBox.Min.V;
-                double uGridDivisions = uSize > 2 * analysysGridSize ? (uSize / analysysGridSize) : 2;
-                double vGridDivisions = vSize > 2 * analysysGridSize ? (vSize / analysysGridSize) : 2;
-                double uGridSize = uSize / uGridDivisions;
-                double vGridSize = vSize / vGridDivisions;
-
-                ////TaskDialog.Show("U", uGridDivisions.ToString() + "-" + uGridSize.ToString());
-                ////TaskDialog.Show("V", vGridDivisions.ToString() + "-" + vGridSize.ToString());
-
-                for (double u = boundingBox.Min.U + uGridSize / 2; u <= boundingBox.Max.U; u += uGridSize) {
-                    for (double v = boundingBox.Min.V + vGridSize / 2; v <= boundingBox.Max.V; v += vGridSize) {
+                for (double u = boundingBox.Min.U + (gridSizeU / 2); u <= boundingBox.Max.U; u += gridSizeU) {
+                    for (double v = boundingBox.Min.V + (gridSizeV / 2); v <= boundingBox.Max.V; v += gridSizeV) {
                         UV uv = new UV(u, v);
-                        
+
                         if (testFace.Face.IsInside(uv)) {
-                            
                             SunAndShadowSettings setting = view.SunAndShadowSettings;
                             var hoursOfSun = setting.NumberOfFrames;
-                            //Autodesk makes active frame starts from 1..
+                            //// Autodesk makes active frame starts from 1..
                             for (int activeFrame = 1; activeFrame <= setting.NumberOfFrames; activeFrame++) {
                                 setting.ActiveFrame = activeFrame;
-                                ////TaskDialog.Show("Time", setting.ActiveFrameTime.ToLongTimeString());
                                 XYZ start = testFace.Face.Evaluate(uv);
-                                start = start.Add(testFace.Face.ComputeNormal(uv).Normalize()/16);
+                                start = start.Add(testFace.Face.ComputeNormal(uv).Normalize() / 16);
                                 XYZ sunDirection = SolarViews.GetSunDirectionalVector(uidoc.ActiveView, SolarViews.GetProjectPosition(uidoc.Document), out double azimuth);
-                                //start = start.Subtract(sunDirection.Normalize()/16);
                                 XYZ end = start.Subtract(sunDirection.Multiply(1000));
-                                //BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
+                                ////BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
                                 Line line = Line.CreateBound(start, end);
-                                ////lineCount++;
 
-                                foreach (Solid solid in solids) { 
+                                foreach (Solid solid in solids) {
                                     try {
                                         var solidInt = solid.IntersectWithCurve(line, new SolidCurveIntersectionOptions());
                                         if (solidInt.SegmentCount > 0) {
@@ -138,12 +81,11 @@ namespace SCaddins.SolarUtilities
                                             hoursOfSun = hoursOfSun - 1;
                                             break;
                                         }
-                                   } catch {
+                                    } catch {
                                         continue;
-                                   }
+                                    }
                                 }
-
-                            } //ray loop
+                            } ////ray loop
                             testFace.AddValueAtPoint(uv, hoursOfSun - 1);
                             ////TaskDialog.Show("RayHits", hoursOfSun.ToString());
                         }
@@ -180,12 +122,56 @@ namespace SCaddins.SolarUtilities
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.DirectSunViewModel.DefaultViewSettings);
             if (vm.SelectedCloseMode == ViewModels.DirectSunViewModel.CloseMode.Analize) {
                 CreateTestFaces(vm.FaceSelection, vm.MassSelection, vm.AnalysisGridSize, udoc, udoc.ActiveView);
-            } 
+            }
             if (vm.SelectedCloseMode == ViewModels.DirectSunViewModel.CloseMode.Clear) {
                 SpatialFieldManager sfm = DirectSunTestFace.GetSpatialFieldManager(udoc.Document);
                 sfm.Clear();
             }
             return Autodesk.Revit.UI.Result.Succeeded;
+        }
+
+        private static List<DirectSunTestFace> CreateEmptyTestFaces(IList<Reference> faceSelection, Document doc)
+        {
+            int n = 0;
+            List<DirectSunTestFace> result = new List<DirectSunTestFace>();
+            foreach (Reference r in faceSelection) {
+                n++;
+                Element elem = doc.GetElement(r);
+                Face f = (Face)elem.GetGeometryObjectFromReference(r);
+                var normal = f.ComputeNormal(new UV(0, 0));
+                ////if (normal.Z >= 0) {
+                result.Add(new DirectSunTestFace(r, @"DirectSun(" + n.ToString() + @")", doc));
+                ////}
+            }
+            ////TaskDialog.Show("Debug", "Faces added: " + result.Count);
+            return result;
+        }
+
+        private static List<Solid> SolidsFromReferences(IList<Reference> massSelection, Document doc)
+        {
+            List<Solid> result = new List<Solid>();
+            foreach (Reference solidRef in massSelection) {
+                Element e = doc.GetElement(solidRef);
+
+                Options opt = new Options()
+                {
+                    ComputeReferences = false,
+                    IncludeNonVisibleObjects = false,
+                    View = doc.ActiveView
+                };
+
+                GeometryElement geoElem = e.get_Geometry(opt);
+                foreach (GeometryObject obj in geoElem) {
+                    if (obj is Solid) {
+                        Solid solid = obj as Solid;
+                        if (solid.IsElementGeometry && solid.Faces.Size > 0) {
+                            result.Add(solid);
+                        }     
+                    }
+                }
+            }
+            ////TaskDialog.Show("Debug", "Solids added: " + result.Count);
+            return result;
         }
     }
 }

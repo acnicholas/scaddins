@@ -1,9 +1,7 @@
 ﻿namespace SCaddins.SolarUtilities.ViewModels
 {
-    using System;
     using System.Collections.Generic;
     using System.Dynamic;
-    using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Caliburn.Micro;
@@ -33,6 +31,20 @@
             Clear
         }
 
+        public static dynamic DefaultViewSettings
+        {
+            get
+            {
+                dynamic settings = new ExpandoObject();
+                settings.Height = 480;
+                settings.Width = 300;
+                settings.Title = "Direct Sun - By Andrew Nicholas";
+                settings.ShowInTaskbar = false;
+                settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+                return settings;
+            }
+        }
+
         public int AnalysisGridSize
         {
             get; set;  
@@ -53,27 +65,21 @@
             get { return selectedCloseMode; }
         }
 
-        public string SelectionInformation
+        public string SelectedMassInformation
         {
             get
             {
                 int m = MassSelection != null ? MassSelection.Count : 0;
-                int f = FaceSelection != null ? FaceSelection.Count : 0;
-                return string.Format("Masses: {0}, Faces {1}", m, f);
+                return string.Format("Selected Masses: {0}", m);
             }
         }
 
-        public static dynamic DefaultViewSettings
+        public string SelectedFaceInformation
         {
             get
             {
-                dynamic settings = new ExpandoObject();
-                settings.Height = 480;
-                settings.Width = 300;
-                settings.Title = "Direct Sun - By Andrew Nicholas";
-                settings.ShowInTaskbar = false;
-                settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
-                return settings;
+                int f = FaceSelection != null ? FaceSelection.Count : 0;
+                return string.Format("Selected Faces: {0}", f);
             }
         }
 
@@ -126,13 +132,7 @@
 
         private static void Respawn(DirectSunViewModel viewModel)
         {
-            dynamic settings = new ExpandoObject();
-            settings.Height = 480;
-            settings.Width = 300;
-            settings.Title = "Direct Sun - By Andrew Nicholas";
-            settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
-            SCaddinsApp.WindowManager.ShowDialog(viewModel, null, settings);
+            SCaddinsApp.WindowManager.ShowDialog(viewModel, null, DefaultViewSettings);
         }
     }
 }

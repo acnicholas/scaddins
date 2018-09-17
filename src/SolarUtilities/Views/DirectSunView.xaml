@@ -9,21 +9,35 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <Button x:Name="SelectMasses" Grid.Row="0">Select Analysis Masses</Button>
-        <Button x:Name="SelectAnalysisFaces" Grid.Row="1">Select Analysis Faces(to colour)</Button>
-        <TextBlock x:Name="SelectionInformation"
-                   Grid.Row="2"
-                   TextWrapping="Wrap">
-        </TextBlock>
-        <TextBox x:Name="AnalysisGridSize" Grid.Row="3"></TextBox>
-        <Button x:Name="RunAnalysis" Grid.Row="4">Run Analysis</Button>
-        <Button x:Name="Clear" Grid.Row="5">Clear Current Analysis</Button>
+        <GroupBox Grid.Row="0" Header="Settings" Margin="5">
+        <Grid Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="SelectMasses" Grid.Row="0" Grid.Column="0" Margin="5">Select Solids (To Cast Shadows)</Button>
+            <Button x:Name="SelectAnalysisFaces" Grid.Row="1" Grid.Column="0" Margin="5">Select Analysis Faces (To colour)</Button>
+            <Label x:Name="SelectedMassInformation" Margin="5" Grid.Row="0" Grid.Column="1"></Label>
+            <Label x:Name="SelectedFaceInformation" Margin="5" Grid.Row="1" Grid.Column="1"></Label>
+            <Label Margin="5" Grid.Row="2" Grid.Column="0">Analysis Grid Size(feet)</Label>
+            <TextBox x:Name="AnalysisGridSize" Grid.Row="2" Grid.Column="1" Margin="5"></TextBox>
+        </Grid>
+        </GroupBox>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="RunAnalysis" Margin="5">Run Analysis</Button>
+            <Button x:Name="Clear" Margin="5" Grid.Column="1">Clear Current Analysis</Button>
+        </Grid>
     </Grid>
 </UserControl>
