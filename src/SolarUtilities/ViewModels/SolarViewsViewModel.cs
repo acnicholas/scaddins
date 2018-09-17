@@ -20,6 +20,9 @@ namespace SCaddins.SolarUtilities.ViewModels
     using System;
     using Autodesk.Revit.UI;
     using Caliburn.Micro;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Analysis;
+    using Autodesk.Revit.UI;
 
     internal class SolarViewsViewModel : Screen
     {
@@ -63,6 +66,13 @@ namespace SCaddins.SolarUtilities.ViewModels
             }
         }
 
+        public bool CanCreateAnalysisView {
+            get
+            {
+                return model.CanCreateAnalysisView;
+            }
+        }
+
         public bool Create3dViews
         {
             get
@@ -92,6 +102,22 @@ namespace SCaddins.SolarUtilities.ViewModels
                 if (model.CreateShadowPlans != value)
                 {
                     model.CreateShadowPlans = value;
+                    NotifyOfPropertyChange(() => CurrentModeSummary);
+                }
+            }
+        }
+
+        public bool CreateAnalysisView
+        {
+            get
+            {
+                return model.CreateAnalysisView;
+            }
+
+            set
+            {
+                if (model.CreateAnalysisView != value) {
+                    model.CreateAnalysisView = value;
                     NotifyOfPropertyChange(() => CurrentModeSummary);
                 }
             }
@@ -131,6 +157,9 @@ namespace SCaddins.SolarUtilities.ViewModels
                 }
                 if (CreateShadowPlans) {
                     return "Create Plans";
+                }
+                if (CreateAnalysisView) {
+                    return "Create Analysis View";
                 }
                 return "OK";
             }
@@ -236,6 +265,24 @@ namespace SCaddins.SolarUtilities.ViewModels
             }
         }
 
+        protected override void OnDeactivate(bool close)
+        {
+            if (model.CreateAnalysisView) {    
+                var vm = new DirectSunViewModel(model.UIDoc);
+                DirectSunViewModel.Respawn(vm);
+                if (vm.SelectedCloseMode == ViewModels.DirectSunViewModel.CloseMode.Analize) {
+                    DirectSunCommand.CreateTestFaces(vm.FaceSelection, vm.MassSelection, vm.AnalysisGridSize, model.UIDoc, model.UIDoc.ActiveView);
+                }
+                if (vm.SelectedCloseMode == ViewModels.DirectSunViewModel.CloseMode.Clear) {
+                    SpatialFieldManager sfm = DirectSunTestFace.GetSpatialFieldManager(model.UIDoc.Document);
+                    sfm.Clear();
+                }
+                base.OnDeactivate(close);
+            } else {
+                base.OnDeactivate(close);
+            }
+        }
+
         public string ViewInformation
         {
             get
@@ -246,10 +293,14 @@ namespace SCaddins.SolarUtilities.ViewModels
 
         public void OK()
         {
-            model.StartTime = startTime;
-            model.EndTime = endTime;
-            model.ExportTimeInterval = interval;
-            model.Go();
+            if (model.CreateAnalysisView) {
+                TryClose(true);
+            } else {
+                model.StartTime = startTime;
+                model.EndTime = endTime;
+                model.ExportTimeInterval = interval;
+                model.Go();
+            }
         }
     }
 }

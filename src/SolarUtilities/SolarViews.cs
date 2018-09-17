@@ -57,9 +57,21 @@ namespace SCaddins.SolarUtilities
 
         public bool CanRotateActiveView => ViewIsIso(activeView);
 
+        public bool CanCreateAnalysisView => ViewIsSingleDay(activeView);
+
         public bool Create3dViews { get; set; }
 
         public bool CreateShadowPlans { get; set; }
+
+        public bool CreateAnalysisView { get; set; }
+
+        public UIDocument UIDoc {
+            get
+            {
+                return udoc;
+            }
+        }
+             
 
         public DateTime EndTime { get; set; }
 
@@ -149,6 +161,12 @@ namespace SCaddins.SolarUtilities
         public static bool ViewIsIso(View view)
         {
             return view.ViewType == ViewType.ThreeD;
+        }
+
+        public static bool ViewIsSingleDay(View view)
+        {
+            var sunSettings = view.SunAndShadowSettings;
+            return sunSettings.TimeInterval == SunStudyTimeInterval.Hour && sunSettings.SunAndShadowType == SunAndShadowType.OneDayStudy;
         }
 
         // FIXME put this somewhere else.

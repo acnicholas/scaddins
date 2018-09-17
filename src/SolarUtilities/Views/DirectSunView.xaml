@@ -36,8 +36,8 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button x:Name="RunAnalysis" Margin="5">Run Analysis</Button>
-            <Button x:Name="Clear" Margin="5" Grid.Column="1">Clear Current Analysis</Button>
+            <Button x:Name="Clear" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Bottom">Clear Current Analysis</Button>
+            <Button x:Name="RunAnalysis" Margin="5" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">Create Analysis</Button>
         </Grid>
     </Grid>
 </UserControl>

@@ -130,7 +130,7 @@
             }
         }
 
-        private static void Respawn(DirectSunViewModel viewModel)
+        public static void Respawn(DirectSunViewModel viewModel)
         {
             SCaddinsApp.WindowManager.ShowDialog(viewModel, null, DefaultViewSettings);
         }

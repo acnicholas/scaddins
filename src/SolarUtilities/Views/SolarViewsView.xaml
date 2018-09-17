@@ -55,6 +55,7 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <RadioButton
                         IsEnabled="{Binding CanRotateCurrentView}"
@@ -72,6 +73,12 @@
                         Grid.Row="2"
                         IsChecked="{Binding CreateShadowPlans}"
                         Content="Create Multiple Shadow Plans" />
+                    <RadioButton
+                        IsEnabled="{Binding CanCreateAnalysisView}"
+                        x:Name="CreateAnalysisView"
+                        Margin="5"
+                        Grid.Row="3"
+                        Content="Create Analysis View" />
                 </Grid>
             </GroupBox>
             <GroupBox
