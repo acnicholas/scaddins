@@ -63,9 +63,9 @@ namespace SCaddins.SolarUtilities
                 Element elem = doc.GetElement(r);
                 Face f = (Face)elem.GetGeometryObjectFromReference(r);
                 var normal = f.ComputeNormal(new UV(0, 0));
-                if (normal.Z >= 0) {
+                //if (normal.Z >= 0) {
                     result.Add(new DirectSunTestFace(r, @"DirectSun(" + n.ToString() + @")", doc));
-                }
+                //}
             }
             ////TaskDialog.Show("Debug", "Faces added: " + result.Count);
             return result;
@@ -90,7 +90,8 @@ namespace SCaddins.SolarUtilities
             t.Start("testSolarVectorLines");
 
             //create colour scheme
-            DirectSunColourSchemes.CreateAnalysisScheme(DirectSunColourSchemes.DefaultColours, uidoc.Document, "Direct Sunlight Hours");
+            DirectSunColourSchemes.CreateAnalysisScheme(DirectSunColourSchemes.DefaultColours, uidoc.Document, "Direct Sunlight Hours", true);
+            DirectSunColourSchemes.CreateAnalysisScheme(DirectSunColourSchemes.DefaultColours, uidoc.Document, "Direct Sunlight Hours - No Legend", false);
 
             foreach (DirectSunTestFace testFace in testFaces) {
                 var boundingBox = testFace.Face.GetBoundingBox();
@@ -115,16 +116,17 @@ namespace SCaddins.SolarUtilities
                         if (testFace.Face.IsInside(uv)) {
                             
                             SunAndShadowSettings setting = view.SunAndShadowSettings;
-                            double hoursOfSun = setting.NumberOfFrames - 1;
-                            for (int activeFrame = 0; activeFrame < setting.NumberOfFrames; activeFrame++) {
+                            var hoursOfSun = setting.NumberOfFrames;
+                            //Autodesk makes active frame starts from 1..
+                            for (int activeFrame = 1; activeFrame <= setting.NumberOfFrames; activeFrame++) {
                                 setting.ActiveFrame = activeFrame;
                                 ////TaskDialog.Show("Time", setting.ActiveFrameTime.ToLongTimeString());
                                 XYZ start = testFace.Face.Evaluate(uv);
-                                ////start.Add(testFace.Face.ComputeNormal(uv).Normalize().Multiply(100));
+                                start = start.Add(testFace.Face.ComputeNormal(uv).Normalize()/16);
                                 XYZ sunDirection = SolarViews.GetSunDirectionalVector(uidoc.ActiveView, SolarViews.GetProjectPosition(uidoc.Document), out double azimuth);
-                                start = start.Subtract(sunDirection.Normalize()/16);
+                                //start = start.Subtract(sunDirection.Normalize()/16);
                                 XYZ end = start.Subtract(sunDirection.Multiply(1000));
-                                ////BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
+                                //BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
                                 Line line = Line.CreateBound(start, end);
                                 ////lineCount++;
 
@@ -133,7 +135,7 @@ namespace SCaddins.SolarUtilities
                                         var solidInt = solid.IntersectWithCurve(line, new SolidCurveIntersectionOptions());
                                         if (solidInt.SegmentCount > 0) {
                                             ////TaskDialog.Show("Debug", "Collision Found");
-                                            hoursOfSun--;
+                                            hoursOfSun = hoursOfSun - 1;
                                             break;
                                         }
                                    } catch {
@@ -142,7 +144,7 @@ namespace SCaddins.SolarUtilities
                                 }
 
                             } //ray loop
-                            testFace.AddValueAtPoint(uv, hoursOfSun);
+                            testFace.AddValueAtPoint(uv, hoursOfSun - 1);
                             ////TaskDialog.Show("RayHits", hoursOfSun.ToString());
                         }
                     }
@@ -178,6 +180,10 @@ namespace SCaddins.SolarUtilities
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.DirectSunViewModel.DefaultViewSettings);
             if (vm.SelectedCloseMode == ViewModels.DirectSunViewModel.CloseMode.Analize) {
                 CreateTestFaces(vm.FaceSelection, vm.MassSelection, vm.AnalysisGridSize, udoc, udoc.ActiveView);
+            } 
+            if (vm.SelectedCloseMode == ViewModels.DirectSunViewModel.CloseMode.Clear) {
+                SpatialFieldManager sfm = DirectSunTestFace.GetSpatialFieldManager(udoc.Document);
+                sfm.Clear();
             }
             return Autodesk.Revit.UI.Result.Succeeded;
         }

@@ -29,7 +29,8 @@
             Close,
             MassSelection,
             FaceSelection,
-            Analize
+            Analize,
+            Clear
         }
 
         public int AnalysisGridSize
@@ -76,6 +77,12 @@
             }
         }
 
+        public void Clear()
+        {
+            selectedCloseMode = CloseMode.Clear;
+            TryClose(true);
+        }
+
         public void RunAnalysis()
         {
             selectedCloseMode = CloseMode.Analize;
@@ -107,6 +114,9 @@
                 case CloseMode.MassSelection:
                 MassSelection = uidoc.Selection.PickObjects(Autodesk.Revit.UI.Selection.ObjectType.Element, "Select Masses");
                 Respawn(this);
+                break;
+                case CloseMode.Clear:
+                base.OnDeactivate(close);
                 break;
                 default:
                 base.OnDeactivate(close);

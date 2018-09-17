@@ -14,6 +14,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Button x:Name="SelectMasses" Grid.Row="0">Select Analysis Masses</Button>
         <Button x:Name="SelectAnalysisFaces" Grid.Row="1">Select Analysis Faces(to colour)</Button>
@@ -23,5 +24,6 @@
         </TextBlock>
         <TextBox x:Name="AnalysisGridSize" Grid.Row="3"></TextBox>
         <Button x:Name="RunAnalysis" Grid.Row="4">Run Analysis</Button>
+        <Button x:Name="Clear" Grid.Row="5">Clear Current Analysis</Button>
     </Grid>
 </UserControl>

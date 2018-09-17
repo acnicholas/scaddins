@@ -32,7 +32,7 @@ namespace SCaddins.SolarUtilities
             }
         }
 
-        public static void CreateAnalysisScheme(List<AnalysisDisplayColorEntry> colours, Document doc, string name)
+        public static void CreateAnalysisScheme(List<AnalysisDisplayColorEntry> colours, Document doc, string name, bool showLegend)
         {
             var colouredSurfaceSettings = new AnalysisDisplayColoredSurfaceSettings();
             colouredSurfaceSettings.ShowContourLines = true;
@@ -52,6 +52,9 @@ namespace SCaddins.SolarUtilities
                     colourSettings,
                     new AnalysisDisplayLegendSettings()
                 );
+                if(!showLegend) {
+                    ads.GetLegendSettings().ShowLegend = false;
+                }
             }
         }
     }
