@@ -1,4 +1,4 @@
-﻿namespace SCaddins.SolarUtilities.Views
+﻿namespace SCaddins.SolarAnalysis.Views
 {
     using System.Windows.Controls;
 

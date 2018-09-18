@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2013-2017 by Andrew Nicholas
+﻿// (C) Copyright 2013-2018 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -15,21 +15,22 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SolarUtilities
+namespace SCaddins.SolarAnalysis
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Text;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Analysis;
     using Autodesk.Revit.UI;
 
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     [Journaling(JournalingMode.NoCommandData)]
-    public class SolarViews
+    public class SolarAnalysisManager
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "activeView")]
         private readonly View activeView;
@@ -42,7 +43,7 @@ namespace SCaddins.SolarUtilities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "udoc")]
         private readonly UIDocument udoc;
 
-        public SolarViews(UIDocument udoc)
+        public SolarAnalysisManager(UIDocument udoc)
         {
             doc = udoc.Document;
             this.udoc = udoc;
@@ -55,23 +56,15 @@ namespace SCaddins.SolarUtilities
 
         public string ActiveIewInformation => GetViewInfo(activeView);
 
-        public bool CanRotateActiveView => ViewIsIso(activeView);
-
         public bool CanCreateAnalysisView => ViewIsSingleDay(activeView);
+
+        public bool CanRotateActiveView => ViewIsIso(activeView);
 
         public bool Create3dViews { get; set; }
 
-        public bool CreateShadowPlans { get; set; }
-
         public bool CreateAnalysisView { get; set; }
 
-        public UIDocument UIDoc {
-            get
-            {
-                return udoc;
-            }
-        }
-             
+        public bool CreateShadowPlans { get; set; }
 
         public DateTime EndTime { get; set; }
 
@@ -80,6 +73,92 @@ namespace SCaddins.SolarUtilities
         public bool RotateCurrentView { get; set; }
 
         public DateTime StartTime { get; set; }
+
+        public UIDocument UIDoc
+        {
+            get
+            {
+                return udoc;
+            }
+        }
+
+        public static void CreateTestFaces(IList<Reference> faceSelection, IList<Reference> massSelection, double analysysGridSize, UIDocument uidoc, View view)
+        {
+            if (faceSelection == null) {
+                return;
+            }
+
+            List<DirectSunTestFace> testFaces = CreateEmptyTestFaces(faceSelection, uidoc.Document);
+
+            System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
+
+            var solids = SolidsFromReferences(massSelection, uidoc.Document);
+
+            Transaction t = new Transaction(uidoc.Document);
+            t.Start("testSolarVectorLines");
+
+            ////create colour scheme
+            SolarAnalysisColourSchemes.CreateAnalysisScheme(SolarAnalysisColourSchemes.DefaultColours, uidoc.Document, "Direct Sunlight Hours", true);
+            SolarAnalysisColourSchemes.CreateAnalysisScheme(SolarAnalysisColourSchemes.DefaultColours, uidoc.Document, "Direct Sunlight Hours - No Legend", false);
+
+            foreach (DirectSunTestFace testFace in testFaces) {
+                var boundingBox = testFace.Face.GetBoundingBox();
+                double boundingBoxUTotal = boundingBox.Max.U - boundingBox.Min.U;
+                double boundingBoxVTotal = boundingBox.Max.V - boundingBox.Min.V;
+                double gridDivisionsU = boundingBoxUTotal > 2 * analysysGridSize ? (boundingBoxUTotal / analysysGridSize) : 2;
+                double gridDivisionsV = boundingBoxVTotal > 2 * analysysGridSize ? (boundingBoxVTotal / analysysGridSize) : 2;
+                double gridSizeU = boundingBoxUTotal / gridDivisionsU;
+                double gridSizeV = boundingBoxVTotal / gridDivisionsV;
+
+                for (double u = boundingBox.Min.U + (gridSizeU / 2); u <= boundingBox.Max.U; u += gridSizeU) {
+                    for (double v = boundingBox.Min.V + (gridSizeV / 2); v <= boundingBox.Max.V; v += gridSizeV) {
+                        UV uv = new UV(u, v);
+
+                        if (testFace.Face.IsInside(uv)) {
+                            SunAndShadowSettings setting = view.SunAndShadowSettings;
+                            var hoursOfSun = setting.NumberOfFrames;
+                            //// Autodesk makes active frame starts from 1..
+                            for (int activeFrame = 1; activeFrame <= setting.NumberOfFrames; activeFrame++) {
+                                setting.ActiveFrame = activeFrame;
+                                XYZ start = testFace.Face.Evaluate(uv);
+                                start = start.Add(testFace.Face.ComputeNormal(uv).Normalize() / 16);
+                                XYZ sunDirection = SolarAnalysisManager.GetSunDirectionalVector(uidoc.ActiveView, SolarAnalysisManager.GetProjectPosition(uidoc.Document), out double azimuth);
+                                XYZ end = start.Subtract(sunDirection.Multiply(1000));
+                                ////BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
+                                Line line = Line.CreateBound(start, end);
+
+                                foreach (Solid solid in solids) {
+                                    try {
+                                        var solidInt = solid.IntersectWithCurve(line, new SolidCurveIntersectionOptions());
+                                        if (solidInt.SegmentCount > 0) {
+                                            ////TaskDialog.Show("Debug", "Collision Found");
+                                            hoursOfSun = hoursOfSun - 1;
+                                            break;
+                                        }
+                                    } catch {
+                                        continue;
+                                    }
+                                }
+                            } ////ray loop
+                            testFace.AddValueAtPoint(uv, hoursOfSun - 1);
+                            ////TaskDialog.Show("RayHits", hoursOfSun.ToString());
+                        }
+                    }
+                }
+            }
+
+            SpatialFieldManager sfm = DirectSunTestFace.GetSpatialFieldManager(uidoc.Document);
+            sfm.Clear();
+
+            foreach (DirectSunTestFace testFace in testFaces) {
+                testFace.CreateAnalysisSurface(uidoc, sfm);
+            }
+
+            t.Commit();
+            stopwatch.Stop();
+            TaskDialog.Show("Time Elapsed", "Time elepsed " + stopwatch.Elapsed.ToString() + @"(hh:mm:ss:uu)");
+        }
 
         /// <summary>
         ///     Gets the Atmospheric Refraction using Bennett's formula
@@ -124,11 +203,11 @@ namespace SCaddins.SolarUtilities
         public static ProjectPosition GetProjectPosition(Document doc)
         {
             var projectLocation = doc.ActiveProjectLocation;
-            #if REVIT2018 || REVIT2019
-                return projectLocation.GetProjectPosition(XYZ.Zero);
-            #else
+#if REVIT2018 || REVIT2019
+            return projectLocation.GetProjectPosition(XYZ.Zero);
+#else
                 return projectLocation.get_ProjectPosition(XYZ.Zero);
-            #endif
+#endif
         }
 
         /// <summary>
@@ -177,9 +256,9 @@ namespace SCaddins.SolarUtilities
                 foreach (View view in c) {
                     var v = view;
 #if REVIT2019
-                    if (v.Name == name) {
-                        return false;
-                    }
+                                        if (v.Name == name) {
+                                            return false;
+                                        }
 #else
                     if (v.ViewName == name) {
                         return false;
@@ -204,6 +283,23 @@ namespace SCaddins.SolarUtilities
             }
         }
 
+        private static List<DirectSunTestFace> CreateEmptyTestFaces(IList<Reference> faceSelection, Document doc)
+        {
+            int n = 0;
+            List<DirectSunTestFace> result = new List<DirectSunTestFace>();
+            foreach (Reference r in faceSelection) {
+                n++;
+                Element elem = doc.GetElement(r);
+                Face f = (Face)elem.GetGeometryObjectFromReference(r);
+                var normal = f.ComputeNormal(new UV(0, 0));
+                ////if (normal.Z >= 0) {
+                result.Add(new DirectSunTestFace(r, @"DirectSun(" + n.ToString() + @")", doc));
+                ////}
+            }
+            ////TaskDialog.Show("Debug", "Faces added: " + result.Count);
+            return result;
+        }
+
         private static XYZ GetEyeLocation(View view)
         {
             var viewBounds = view.get_BoundingBox(view);
@@ -217,11 +313,9 @@ namespace SCaddins.SolarUtilities
 
         private static ElementId GetViewFamilyId(Document doc, ViewFamily viewFamilyType)
         {
-            using (var collector = new FilteredElementCollector(doc))
-            {
+            using (var collector = new FilteredElementCollector(doc)) {
                 collector.OfClass(typeof(ViewFamilyType));
-                foreach (var e in collector)
-                {
+                foreach (var e in collector) {
                     var vft = (ViewFamilyType)e;
                     if (vft.ViewFamily == viewFamilyType) {
                         return vft.Id;
@@ -232,6 +326,32 @@ namespace SCaddins.SolarUtilities
             return null;
         }
 
+        private static List<Solid> SolidsFromReferences(IList<Reference> massSelection, Document doc)
+        {
+            List<Solid> result = new List<Solid>();
+            foreach (Reference solidRef in massSelection) {
+                Element e = doc.GetElement(solidRef);
+
+                Options opt = new Options()
+                {
+                    ComputeReferences = false,
+                    IncludeNonVisibleObjects = false,
+                    View = doc.ActiveView
+                };
+
+                GeometryElement geoElem = e.get_Geometry(opt);
+                foreach (GeometryObject obj in geoElem) {
+                    if (obj is Solid) {
+                        Solid solid = obj as Solid;
+                        if (solid.IsElementGeometry && solid.Faces.Size > 0) {
+                            result.Add(solid);
+                        }
+                    }
+                }
+            }
+            ////TaskDialog.Show("Debug", "Solids added: " + result.Count);
+            return result;
+        }
         ////[SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private void CreateShadowPlanViews()
         {

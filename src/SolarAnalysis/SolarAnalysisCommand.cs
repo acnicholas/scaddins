@@ -1,4 +1,4 @@
-// (C) Copyright 2013-2015 by Andrew Nicholas
+// (C) Copyright 2013-2018 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SolarUtilities
+namespace SCaddins.SolarAnalysis
 {
     using System.Dynamic;
     using Autodesk.Revit.DB;

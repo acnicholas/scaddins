@@ -174,13 +174,13 @@ namespace SCaddins.ViewUtilities
             // Revit wont allow { or } so replace them if they exist
             name = name.Replace(@"{", string.Empty).Replace(@"}", string.Empty);
             name = Environment.UserName + "-" + name + "-" + MiscUtilities.GetDateString;
-            if (SolarUtilities.SolarViews.ViewNameIsAvailable(doc, name))
+            if (SolarAnalysis.SolarAnalysisManager.ViewNameIsAvailable(doc, name))
             {
                 return name;
             }
             else
             {
-                return SolarUtilities.SolarViews.GetNiceViewName(doc, name);
+                return SolarAnalysis.SolarAnalysisManager.GetNiceViewName(doc, name);
             }
         }
 

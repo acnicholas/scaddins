@@ -15,26 +15,25 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SolarUtilities.ViewModels
+namespace SCaddins.SolarAnalysis.ViewModels
 {
     using System;
-    using Autodesk.Revit.UI;
-    using Caliburn.Micro;
-    using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Analysis;
     using Autodesk.Revit.UI;
+
+    using Caliburn.Micro;
 
     internal class SolarViewsViewModel : Screen
     {
         private DateTime creationDate;
         private DateTime endTime;
         private TimeSpan interval;
-        private SolarViews model;
+        private SolarAnalysisManager model;
         private DateTime startTime;
 
         public SolarViewsViewModel(UIDocument uidoc)
         {
-            model = new SolarViews(uidoc);
+            model = new SolarAnalysisManager(uidoc);
             creationDate = new DateTime(2018, 06, 21);
             startTime = new DateTime(2018, 06, 21, 9, 0, 0, DateTimeKind.Local);
             endTime = new DateTime(2018, 06, 21, 15, 0, 0);
@@ -58,18 +57,19 @@ namespace SCaddins.SolarUtilities.ViewModels
             }
         }
 
+        public bool CanCreateAnalysisView
+        {
+            get
+            {
+                return model.CanCreateAnalysisView;
+            }
+        }
+
         public bool CanRotateCurrentView
         {
             get
             {
                 return model.CanRotateActiveView;
-            }
-        }
-
-        public bool CanCreateAnalysisView {
-            get
-            {
-                return model.CanCreateAnalysisView;
             }
         }
 
@@ -90,6 +90,22 @@ namespace SCaddins.SolarUtilities.ViewModels
             }
         }
 
+        public bool CreateAnalysisView
+        {
+            get
+            {
+                return model.CreateAnalysisView;
+            }
+
+            set
+            {
+                if (model.CreateAnalysisView != value) {
+                    model.CreateAnalysisView = value;
+                    NotifyOfPropertyChange(() => CurrentModeSummary);
+                }
+            }
+        }
+
         public bool CreateShadowPlans
         {
             get
@@ -102,22 +118,6 @@ namespace SCaddins.SolarUtilities.ViewModels
                 if (model.CreateShadowPlans != value)
                 {
                     model.CreateShadowPlans = value;
-                    NotifyOfPropertyChange(() => CurrentModeSummary);
-                }
-            }
-        }
-
-        public bool CreateAnalysisView
-        {
-            get
-            {
-                return model.CreateAnalysisView;
-            }
-
-            set
-            {
-                if (model.CreateAnalysisView != value) {
-                    model.CreateAnalysisView = value;
                     NotifyOfPropertyChange(() => CurrentModeSummary);
                 }
             }
@@ -265,24 +265,6 @@ namespace SCaddins.SolarUtilities.ViewModels
             }
         }
 
-        protected override void OnDeactivate(bool close)
-        {
-            if (model.CreateAnalysisView) {    
-                var vm = new DirectSunViewModel(model.UIDoc);
-                DirectSunViewModel.Respawn(vm);
-                if (vm.SelectedCloseMode == ViewModels.DirectSunViewModel.CloseMode.Analize) {
-                    DirectSunCommand.CreateTestFaces(vm.FaceSelection, vm.MassSelection, vm.AnalysisGridSize, model.UIDoc, model.UIDoc.ActiveView);
-                }
-                if (vm.SelectedCloseMode == ViewModels.DirectSunViewModel.CloseMode.Clear) {
-                    SpatialFieldManager sfm = DirectSunTestFace.GetSpatialFieldManager(model.UIDoc.Document);
-                    sfm.Clear();
-                }
-                base.OnDeactivate(close);
-            } else {
-                base.OnDeactivate(close);
-            }
-        }
-
         public string ViewInformation
         {
             get
@@ -300,6 +282,24 @@ namespace SCaddins.SolarUtilities.ViewModels
                 model.EndTime = endTime;
                 model.ExportTimeInterval = interval;
                 model.Go();
+            }
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            if (model.CreateAnalysisView) {    
+                var vm = new DirectSunViewModel(model.UIDoc);
+                DirectSunViewModel.Respawn(vm, false);
+                if (vm.SelectedCloseMode == ViewModels.DirectSunViewModel.CloseMode.Analize) {
+                    SCaddins.SolarAnalysis.SolarAnalysisManager.CreateTestFaces(vm.FaceSelection, vm.MassSelection, vm.AnalysisGridSize, model.UIDoc, model.UIDoc.ActiveView);
+                }
+                if (vm.SelectedCloseMode == ViewModels.DirectSunViewModel.CloseMode.Clear) {
+                    SpatialFieldManager sfm = DirectSunTestFace.GetSpatialFieldManager(model.UIDoc.Document);
+                    sfm.Clear();
+                }
+                base.OnDeactivate(close);
+            } else {
+                base.OnDeactivate(close);
             }
         }
     }

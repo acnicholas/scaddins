@@ -352,13 +352,13 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="RenameUtilities\RenameManager.cs" />
-    <Compile Include="RenameUtilities\RenameCandidate.cs" />
-    <Compile Include="RenameUtilities\RenameParameter.cs" />
-    <Compile Include="RenameUtilities\RenameUtilitiesCommand.cs" />
-    <Compile Include="RenameUtilities\ViewModels\RenameUtilitiesViewModel.cs" />
-    <Compile Include="RenameUtilities\RenameCommand.cs" />
-    <Compile Include="RenameUtilities\Views\RenameUtilitiesView.xaml.cs">
+    <Compile Include="RoomConvertor\RenameUtilities\RenameManager.cs" />
+    <Compile Include="RoomConvertor\RenameUtilities\RenameCandidate.cs" />
+    <Compile Include="RoomConvertor\RenameUtilities\RenameParameter.cs" />
+    <Compile Include="RoomConvertor\RenameUtilities\RenameUtilitiesCommand.cs" />
+    <Compile Include="RoomConvertor\RenameUtilities\ViewModels\RenameUtilitiesViewModel.cs" />
+    <Compile Include="RoomConvertor\RenameUtilities\RenameCommand.cs" />
+    <Compile Include="RoomConvertor\RenameUtilities\Views\RenameUtilitiesView.xaml.cs">
       <DependentUpon>RenameUtilitiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="RevisionUtilities\RevisionItem.cs" />
@@ -391,38 +391,37 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SharedAssemblyInfo.cs" />
-    <Compile Include="SheetCopier\SheetInformation.cs" />
-    <Compile Include="SheetCopier\ViewModels\SheetCopierViewModel.cs" />
-    <Compile Include="SheetCopier\Views\SheetCopierView.xaml.cs">
+    <Compile Include="SolarAnalysis\SheetCopier\SheetInformation.cs" />
+    <Compile Include="SolarAnalysis\SheetCopier\ViewModels\SheetCopierViewModel.cs" />
+    <Compile Include="SolarAnalysis\SheetCopier\Views\SheetCopierView.xaml.cs">
       <DependentUpon>SheetCopierView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SolarUtilities\CompatibilityMethods.cs" />
-    <Compile Include="SolarUtilities\Creator.cs" />
-    <Compile Include="SolarUtilities\DirectSunColourSchemes.cs" />
-    <Compile Include="SolarUtilities\DirectSunCommand.cs" />
-    <Compile Include="SolarUtilities\DirectSunTestPoint.cs" />
-    <Compile Include="SolarUtilities\IEnumerableExtensions.cs" />
-    <Compile Include="SolarUtilities\JtBoundingBoxXyzExtensionMethods.cs" />
-    <Compile Include="SolarUtilities\JtBuiltInCategoryExtensionMethods.cs" />
-    <Compile Include="SolarUtilities\JtEdgeArrayExtensionMethods.cs" />
-    <Compile Include="SolarUtilities\JtElementExtensionMethods.cs" />
-    <Compile Include="SolarUtilities\JtElementIdExtensionMethods.cs" />
-    <Compile Include="SolarUtilities\JtFamilyParameterExtensionMethods.cs" />
-    <Compile Include="SolarUtilities\JtFilteredElementCollectorExtensions.cs" />
-    <Compile Include="SolarUtilities\JtLineExtensionMethods.cs" />
-    <Compile Include="SolarUtilities\JtPlaneExtensionMethods.cs" />
-    <Compile Include="SolarUtilities\SolarViews.cs" />
-    <Compile Include="SolarUtilities\SolarViewsCommand.cs" />
-    <Compile Include="SolarUtilities\Util.cs" />
-    <Compile Include="SolarUtilities\ViewModels\DirectSunViewModel.cs" />
-    <Compile Include="SolarUtilities\Views\DirectSunView.xaml.cs">
+    <Compile Include="SolarAnalysis\BuildingCoder\CompatibilityMethods.cs" />
+    <Compile Include="SolarAnalysis\BuildingCoder\Creator.cs" />
+    <Compile Include="SolarAnalysis\SolarAnalysisColourSchemes.cs" />
+    <Compile Include="SolarAnalysis\SolarAnalysisTestFace.cs" />
+    <Compile Include="SolarAnalysis\BuildingCoder\IEnumerableExtensions.cs" />
+    <Compile Include="SolarAnalysis\BuildingCoder\JtBoundingBoxXyzExtensionMethods.cs" />
+    <Compile Include="SolarAnalysis\BuildingCoder\JtBuiltInCategoryExtensionMethods.cs" />
+    <Compile Include="SolarAnalysis\BuildingCoder\JtEdgeArrayExtensionMethods.cs" />
+    <Compile Include="SolarAnalysis\BuildingCoder\JtElementExtensionMethods.cs" />
+    <Compile Include="SolarAnalysis\BuildingCoder\JtElementIdExtensionMethods.cs" />
+    <Compile Include="SolarAnalysis\BuildingCoder\JtFamilyParameterExtensionMethods.cs" />
+    <Compile Include="SolarAnalysis\BuildingCoder\JtFilteredElementCollectorExtensions.cs" />
+    <Compile Include="SolarAnalysis\BuildingCoder\JtLineExtensionMethods.cs" />
+    <Compile Include="SolarAnalysis\BuildingCoder\JtPlaneExtensionMethods.cs" />
+    <Compile Include="SolarAnalysis\SolarAnalysisManager.cs" />
+    <Compile Include="SolarAnalysis\SolarAnalysisCommand.cs" />
+    <Compile Include="SolarAnalysis\BuildingCoder\Util.cs" />
+    <Compile Include="SolarAnalysis\ViewModels\DirectSunViewModel.cs" />
+    <Compile Include="SolarAnalysis\Views\DirectSunView.xaml.cs">
       <DependentUpon>DirectSunView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SolarUtilities\Views\SolarViewsView.xaml.cs">
+    <Compile Include="SolarAnalysis\Views\SolarViewsView.xaml.cs">
       <DependentUpon>SolarViewsView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SolarUtilities\ViewModels\SolarViewsViewModel.cs" />
+    <Compile Include="SolarAnalysis\ViewModels\SolarViewsViewModel.cs" />
     <Compile Include="ViewUtilities\CameraFromViewCommand.cs" />
     <Compile Include="RoomConvertor\RoomFilter.cs" />
     <Compile Include="RoomConvertor\RoomFilterItem.cs" />
@@ -462,12 +461,12 @@
     <Compile Include="RevisionUtilities\RevisionUtilities.cs" />
     <Compile Include="RevisionUtilities\Command.cs" />
     <Compile Include="PlaceCoordinate\PlaceCoordinate.cs" />
-    <Compile Include="SheetCopier\SheetCopierEnums.cs" />
-    <Compile Include="SheetCopier\SheetCopierManager.cs" />
-    <Compile Include="SheetCopier\SheetCopierCommand.cs" />
-    <Compile Include="SheetCopier\SheetCopierConstants.cs" />
-    <Compile Include="SheetCopier\SheetCopierSheet.cs" />
-    <Compile Include="SheetCopier\SheetCopierViewOnSheet.cs" />
+    <Compile Include="SolarAnalysis\SheetCopier\SheetCopierEnums.cs" />
+    <Compile Include="SolarAnalysis\SheetCopier\SheetCopierManager.cs" />
+    <Compile Include="SolarAnalysis\SheetCopier\SheetCopierCommand.cs" />
+    <Compile Include="SolarAnalysis\SheetCopier\SheetCopierConstants.cs" />
+    <Compile Include="SolarAnalysis\SheetCopier\SheetCopierSheet.cs" />
+    <Compile Include="SolarAnalysis\SheetCopier\SheetCopierViewOnSheet.cs" />
     <Compile Include="DestructivePurge\DestructivePurge.cs" />
     <Compile Include="DestructivePurge\DestructivePurgeCommand.cs" />
     <Compile Include="DestructivePurge\DeletableItem.cs" />
@@ -558,7 +557,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RenameUtilities\Views\RenameUtilitiesView.xaml">
+    <Page Include="RoomConvertor\RenameUtilities\Views\RenameUtilitiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -582,15 +581,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SheetCopier\Views\SheetCopierView.xaml">
+    <Page Include="SolarAnalysis\SheetCopier\Views\SheetCopierView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SolarUtilities\Views\DirectSunView.xaml">
+    <Page Include="SolarAnalysis\Views\DirectSunView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SolarUtilities\Views\SolarViewsView.xaml">
+    <Page Include="SolarAnalysis\Views\SolarViewsView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
