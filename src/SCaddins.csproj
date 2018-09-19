@@ -352,13 +352,13 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="RoomConvertor\RenameUtilities\RenameManager.cs" />
-    <Compile Include="RoomConvertor\RenameUtilities\RenameCandidate.cs" />
-    <Compile Include="RoomConvertor\RenameUtilities\RenameParameter.cs" />
-    <Compile Include="RoomConvertor\RenameUtilities\RenameUtilitiesCommand.cs" />
-    <Compile Include="RoomConvertor\RenameUtilities\ViewModels\RenameUtilitiesViewModel.cs" />
-    <Compile Include="RoomConvertor\RenameUtilities\RenameCommand.cs" />
-    <Compile Include="RoomConvertor\RenameUtilities\Views\RenameUtilitiesView.xaml.cs">
+    <Compile Include="RenameUtilities\RenameCandidate.cs" />
+    <Compile Include="RenameUtilities\RenameCommand.cs" />
+    <Compile Include="RenameUtilities\RenameManager.cs" />
+    <Compile Include="RenameUtilities\RenameParameter.cs" />
+    <Compile Include="RenameUtilities\RenameUtilitiesCommand.cs" />
+    <Compile Include="RenameUtilities\ViewModels\RenameUtilitiesViewModel.cs" />
+    <Compile Include="RenameUtilities\Views\RenameUtilitiesView.xaml.cs">
       <DependentUpon>RenameUtilitiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="RevisionUtilities\RevisionItem.cs" />
@@ -391,10 +391,20 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SharedAssemblyInfo.cs" />
-    <Compile Include="SolarAnalysis\SheetCopier\SheetInformation.cs" />
-    <Compile Include="SolarAnalysis\SheetCopier\ViewModels\SheetCopierViewModel.cs" />
-    <Compile Include="SolarAnalysis\SheetCopier\Views\SheetCopierView.xaml.cs">
+    <Compile Include="SheetCopier\SheetCopierCommand.cs" />
+    <Compile Include="SheetCopier\SheetCopierConstants.cs" />
+    <Compile Include="SheetCopier\SheetCopierEnums.cs" />
+    <Compile Include="SheetCopier\SheetCopierManager.cs" />
+    <Compile Include="SheetCopier\SheetCopierSheet.cs" />
+    <Compile Include="SheetCopier\SheetCopierViewOnSheet.cs" />
+    <Compile Include="SheetCopier\SheetInformation.cs" />
+    <Compile Include="SheetCopier\ViewModels\SheetCopierViewModel.cs" />
+    <Compile Include="SheetCopier\ViewModels\SheetSelectionViewModel.cs" />
+    <Compile Include="SheetCopier\Views\SheetCopierView.xaml.cs">
       <DependentUpon>SheetCopierView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SheetCopier\Views\SheetSelectionView.xaml.cs">
+      <DependentUpon>SheetSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SolarAnalysis\BuildingCoder\CompatibilityMethods.cs" />
     <Compile Include="SolarAnalysis\BuildingCoder\Creator.cs" />
@@ -413,10 +423,6 @@
     <Compile Include="SolarAnalysis\SolarAnalysisManager.cs" />
     <Compile Include="SolarAnalysis\SolarAnalysisCommand.cs" />
     <Compile Include="SolarAnalysis\BuildingCoder\Util.cs" />
-    <Compile Include="SolarAnalysis\ViewModels\DirectSunViewModel.cs" />
-    <Compile Include="SolarAnalysis\Views\DirectSunView.xaml.cs">
-      <DependentUpon>DirectSunView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SolarAnalysis\Views\SolarViewsView.xaml.cs">
       <DependentUpon>SolarViewsView.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -461,12 +467,6 @@
     <Compile Include="RevisionUtilities\RevisionUtilities.cs" />
     <Compile Include="RevisionUtilities\Command.cs" />
     <Compile Include="PlaceCoordinate\PlaceCoordinate.cs" />
-    <Compile Include="SolarAnalysis\SheetCopier\SheetCopierEnums.cs" />
-    <Compile Include="SolarAnalysis\SheetCopier\SheetCopierManager.cs" />
-    <Compile Include="SolarAnalysis\SheetCopier\SheetCopierCommand.cs" />
-    <Compile Include="SolarAnalysis\SheetCopier\SheetCopierConstants.cs" />
-    <Compile Include="SolarAnalysis\SheetCopier\SheetCopierSheet.cs" />
-    <Compile Include="SolarAnalysis\SheetCopier\SheetCopierViewOnSheet.cs" />
     <Compile Include="DestructivePurge\DestructivePurge.cs" />
     <Compile Include="DestructivePurge\DestructivePurgeCommand.cs" />
     <Compile Include="DestructivePurge\DeletableItem.cs" />
@@ -557,9 +557,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RoomConvertor\RenameUtilities\Views\RenameUtilitiesView.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="RenameUtilities\Views\RenameUtilitiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="RevisionUtilities\Views\RevisionUtilitiesView.xaml">
       <SubType>Designer</SubType>
@@ -581,13 +581,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SolarAnalysis\SheetCopier\Views\SheetCopierView.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="SheetCopier\Views\SheetCopierView.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="SolarAnalysis\Views\DirectSunView.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="SheetCopier\Views\SheetSelectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SolarAnalysis\Views\SolarViewsView.xaml">
       <SubType>Designer</SubType>

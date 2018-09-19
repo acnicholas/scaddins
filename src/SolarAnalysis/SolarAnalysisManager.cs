@@ -100,7 +100,7 @@ namespace SCaddins.SolarAnalysis
 
             ////create colour scheme
             SolarAnalysisColourSchemes.CreateAnalysisScheme(SolarAnalysisColourSchemes.DefaultColours, uidoc.Document, "Direct Sunlight Hours", true);
-            SolarAnalysisColourSchemes.CreateAnalysisScheme(SolarAnalysisColourSchemes.DefaultColours, uidoc.Document, "Direct Sunlight Hours - No Legend", false);
+            var schemeId = SolarAnalysisColourSchemes.CreateAnalysisScheme(SolarAnalysisColourSchemes.DefaultColours, uidoc.Document, "Direct Sunlight Hours - No Legend", false);
 
             foreach (DirectSunTestFace testFace in testFaces) {
                 var boundingBox = testFace.Face.GetBoundingBox();
@@ -154,6 +154,8 @@ namespace SCaddins.SolarAnalysis
             foreach (DirectSunTestFace testFace in testFaces) {
                 testFace.CreateAnalysisSurface(uidoc, sfm);
             }
+
+            view.AnalysisDisplayStyleId = schemeId;
 
             t.Commit();
             stopwatch.Stop();

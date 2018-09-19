@@ -23,7 +23,7 @@ namespace SCaddins.DestructivePurge.ViewModels
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
-    internal class DestructivePurgeViewModel : PropertyChangedBase
+    internal class DestructivePurgeViewModel : Screen
     {
         private ObservableCollection<CheckableItem> checkableItems;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "doc")]
@@ -177,23 +177,36 @@ namespace SCaddins.DestructivePurge.ViewModels
             }
         }
 
-        public void DeleteElements()
+        public void DeleteElementsFromModel()
         {
             List<ElementId> toDelete = new List<ElementId>();
-            foreach (var item in CheckableItems)
-            {
-                if (item.IsChecked.Value == true)
-                {
-                    if (item.Deletable.Id != null) {
+            foreach (var item in CheckableItems) {
+                if (item.IsChecked.Value == true) {
+                    var eid = item.Deletable.Id;
+                    if (eid != null) {
                         toDelete.Add(item.Deletable.Id);
                     }
-                    RecurseItems(toDelete, item);
+                    RecurseItems(ref toDelete, item);
                 }
             }
+
+            foreach (var eid in toDelete) {
+                if (!doc.GetElement(eid).IsValidObject) {
+                    toDelete.Remove(eid);
+                }
+            }
+
+            ////this.IsNotifying = false;
             SCwashUtilities.RemoveElements(doc, toDelete);
+            ////this.IsNotifying = true;
         }
 
-        public void RecurseItems(List<ElementId> list, CheckableItem item)
+        public void DeleteElements()
+        {
+            TryClose(true);
+        }
+
+        public void RecurseItems(ref List<ElementId> list, CheckableItem item)
         {
             foreach (var child in item.Children)
             {
@@ -201,7 +214,7 @@ namespace SCaddins.DestructivePurge.ViewModels
                     if (child.Deletable.Id != null) {
                         list.Add(child.Deletable.Id);
                     }
-                    RecurseItems(list, child);
+                    RecurseItems(ref list, child);
                 }
             }
         }

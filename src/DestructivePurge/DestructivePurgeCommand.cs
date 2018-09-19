@@ -46,6 +46,7 @@ namespace SCaddins.DestructivePurge
 
             var vm = new ViewModels.DestructivePurgeViewModel(udoc.Document);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
+            vm.DeleteElementsFromModel();
 
             return Result.Succeeded;
         }

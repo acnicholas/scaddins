@@ -39,15 +39,13 @@ namespace SCaddins.SolarAnalysis
             UIDocument udoc = commandData.Application.ActiveUIDocument;
             Document doc = udoc.Document;
 
-            dynamic settings = new ExpandoObject();
-            settings.Height = 480;
-            settings.Width = 300;
-            settings.Title = "Angle of Sun - By Andrew Nicholas";
-            settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
-
             var vm = new ViewModels.SolarViewsViewModel(commandData.Application.ActiveUIDocument);
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SolarViewsViewModel.DefaultViewSettings);
+
+            if (vm.CreateAnalysisView) {
+                SolarAnalysisManager.CreateTestFaces(vm.FaceSelection, vm.MassSelection, vm.AnalysisGridSize, udoc, udoc.ActiveView);
+            }
+
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }

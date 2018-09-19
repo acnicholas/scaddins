@@ -56,8 +56,10 @@ namespace SCaddins.SheetCopier
             {
                 var vm = new ViewModels.SheetCopierViewModel(commandData.Application.ActiveUIDocument);
                 SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SheetCopierViewModel.DefaultWindowSettings);
-            }
-            catch
+                ////if (vm.RunAfterClose) {
+                ////    vm.CreateSheets();
+                ////}
+            } catch
             {
                 return Autodesk.Revit.UI.Result.Failed;
             }

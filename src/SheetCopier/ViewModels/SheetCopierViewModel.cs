@@ -38,6 +38,7 @@ namespace SCaddins.SheetCopier.ViewModels
         {
             copyManager = new SheetCopierManager(uidoc);
             levelsInModel = copyManager.Levels.Select(k => k.Key).ToList();
+            RunAfterClose = false;
         }
 
         public static dynamic DefaultWindowSettings
@@ -58,6 +59,11 @@ namespace SCaddins.SheetCopier.ViewModels
         public string GoLabel
         {
             get { return "Copy " + Sheets.Count + " Sheets"; }
+        }
+
+        public bool RunAfterClose
+        {
+            get; set;
         }
 
         public SheetCopierSheet SelectedSheet
@@ -150,8 +156,14 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
+        public void CreateSheets()
+        {
+            copyManager.CreateSheets();
+        }
+
         public void Go()
         {
+            ////RunAfterClose = true;
             ////TryClose(true);
             copyManager.CreateSheets();
         }

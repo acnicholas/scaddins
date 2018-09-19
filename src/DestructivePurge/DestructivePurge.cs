@@ -90,21 +90,35 @@ namespace SCaddins.DestructivePurge
 
         public static void RemoveElements(Document doc, List<ElementId> elements)
         {
+            ////return;
+
             if (elements == null || doc == null) {
                 return;
             }
             if (elements.Count < 1) {
                 return;
             }
-            Autodesk.Revit.UI.TaskDialog.Show("Failure", "Starting Transaction");
+            ////Autodesk.Revit.UI.TaskDialog.Show("Failure", "Starting Transaction");
             using (var t = new Transaction(doc))
             {
                 if (t.Start("Delete Elements") == TransactionStatus.Started) {
-                    Autodesk.Revit.UI.TaskDialog.Show("Failure", elements.Count.ToString());
-                    ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
-                    if (deletedIdSet.Count == 0) {
-                        Autodesk.Revit.UI.TaskDialog.Show("Failure", "No elements could be purged...");
+                    foreach (ElementId id in elements) {
+                        ////var d = new List<Autodesk.Revit.DB.ElementId>();
+                        ////d.Add(id);
+                        ////Autodesk.Revit.UI.TaskDialog.Show("Failure", elements.Count.ToString());
+                        if (id == ElementId.InvalidElementId || id == null) {
+                            continue;
+                        }
+                        try {
+                            ////ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(d);
+                            ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(id);
+                        } catch {
+                            ////FIXME
+                        }
                     }
+                    ////if (deletedIdSet.Count == 0) {
+                    ////    Autodesk.Revit.UI.TaskDialog.Show("Failure", "No elements could be purged...");
+                    ////}
                     if (t.Commit() != TransactionStatus.Committed) {
                         Autodesk.Revit.UI.TaskDialog.Show("Failure", "Destructive Purge could not be run");
                     }

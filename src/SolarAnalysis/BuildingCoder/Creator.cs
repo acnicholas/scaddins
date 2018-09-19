@@ -63,8 +63,11 @@ namespace BuildingCoder
             ////  = doc.Application.Create;
 
             ////Plane plane = creApp.NewPlane( norm, p ); // 2014
-            ////Plane plane = new Plane( norm, p ); // 2015, 2016
+#if REVIT2016
+            Plane plane = new Plane(norm, p); // 2015, 2016
+#else
             Plane plane = Plane.CreateByNormalAndOrigin(norm, p); // 2017
+#endif
 
             ////SketchPlane sketchPlane = creDoc.NewSketchPlane( plane ); // 2013
             SketchPlane sketchPlane = SketchPlane.Create(doc, plane); // 2014
@@ -207,14 +210,17 @@ namespace BuildingCoder
                   XYZ origin,
                   XYZ normal)
         {
-            Plane plane = Plane.CreateByNormalAndOrigin(
-              normal, origin); // 2017
+#if !REVIT2016
+            Plane plane = Plane.CreateByNormalAndOrigin(normal, origin); // 2017
 
             SketchPlane sketchPlane = SketchPlane.Create(
               doc, plane);
 
             return credoc.NewModelCurve(
               curve, sketchPlane);
+#else
+            return null;
+#endif
         }
 
         /// <summary>
@@ -273,10 +279,14 @@ namespace BuildingCoder
         private SketchPlane NewSketchPlaneContainCurve(
           Curve curve)
         {
+#if !REVIT2016
             XYZ p = curve.GetEndPoint(0);
             XYZ normal = GetCurveNormal(curve);
             Plane plane = Plane.CreateByNormalAndOrigin(normal, p); // 2017
             return SketchPlane.Create(doc, plane); // 2014
+#else
+            return null;
+#endif
         }
 
         private SketchPlane NewSketchPlanePassLine(
@@ -292,12 +302,14 @@ namespace BuildingCoder
             } else {
                 norm = XYZ.BasisZ;
             }
+#if REVIT2016
             ////Plane plane = _creapp.NewPlane( norm, p ); // 2016
+            return null;
+#else
             Plane plane = Plane.CreateByNormalAndOrigin(norm, p); // 2017
-
+             return SketchPlane.Create(doc, plane); // 2014
+#endif
             ////return _credoc.NewSketchPlane( plane ); // 2013
-
-            return SketchPlane.Create(doc, plane); // 2014
         }
     }
 }

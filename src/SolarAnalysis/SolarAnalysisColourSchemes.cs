@@ -45,8 +45,10 @@ namespace SCaddins.SolarAnalysis
             }
         }
 
-        public static void CreateAnalysisScheme(List<AnalysisDisplayColorEntry> colours, Document doc, string name, bool showLegend)
+        public static ElementId CreateAnalysisScheme(List<AnalysisDisplayColorEntry> colours, Document doc, string name, bool showLegend)
         {
+            var result = ElementId.InvalidElementId;
+
             var colouredSurfaceSettings = new AnalysisDisplayColoredSurfaceSettings();
             colouredSurfaceSettings.ShowContourLines = true;
             colouredSurfaceSettings.ShowGridLines = false;
@@ -67,7 +69,12 @@ namespace SCaddins.SolarAnalysis
                 if (!showLegend) {
                     ads.GetLegendSettings().ShowLegend = false;
                 }
+                result = ads.Id;
+            } else {
+                result = AnalysisDisplayStyle.FindByName(doc, name);
             }
+
+            return result;
         }
     }
 }

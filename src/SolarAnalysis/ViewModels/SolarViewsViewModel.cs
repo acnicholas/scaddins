@@ -18,9 +18,10 @@
 namespace SCaddins.SolarAnalysis.ViewModels
 {
     using System;
-    using Autodesk.Revit.DB.Analysis;
+    using System.Collections.Generic;
+    using System.Dynamic;
+    using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-
     using Caliburn.Micro;
 
     internal class SolarViewsViewModel : Screen
@@ -29,19 +30,54 @@ namespace SCaddins.SolarAnalysis.ViewModels
         private DateTime endTime;
         private TimeSpan interval;
         private SolarAnalysisManager model;
+        private CloseMode selectedCloseMode;
         private DateTime startTime;
+        ////private Rectangle windowBounds;
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "uidoc")]
+        private UIDocument uidoc;
 
         public SolarViewsViewModel(UIDocument uidoc)
         {
+            this.uidoc = uidoc;
+            selectedCloseMode = CloseMode.Close;
+            MassSelection = null;
+            FaceSelection = null;
+            AnalysisGridSize = 3;
+            Size = SCaddinsApp.WindowManager.Size;
+            Left = SCaddinsApp.WindowManager.Left;
+            Top = SCaddinsApp.WindowManager.Top;
             model = new SolarAnalysisManager(uidoc);
             creationDate = new DateTime(2018, 06, 21);
             startTime = new DateTime(2018, 06, 21, 9, 0, 0, DateTimeKind.Local);
             endTime = new DateTime(2018, 06, 21, 15, 0, 0);
             interval = new TimeSpan(1, 00, 00);
             RotateCurrentView = CanRotateCurrentView;
-            if (!CanRotateCurrentView)
-            {
+            if (!CanRotateCurrentView) {
                 Create3dViews = true;
+            }
+        }
+
+        public enum CloseMode
+        {
+            Close,
+            MassSelection,
+            FaceSelection,
+            Analize,
+            Clear
+        }
+
+        public static dynamic DefaultViewSettings
+        {
+            get
+            {
+                dynamic settings = new ExpandoObject();
+                settings.Height = 480;
+                settings.Width = 300;
+                settings.Title = "Direct Sun - By Andrew Nicholas";
+                settings.ShowInTaskbar = false;
+                settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+                return settings;
             }
         }
 
@@ -55,6 +91,11 @@ namespace SCaddins.SolarAnalysis.ViewModels
                 times.Add(new TimeSpan(1, 00, 00));
                 return times;
             }
+        }
+
+        public double AnalysisGridSize
+        {
+            get; set;
         }
 
         public bool CanCreateAnalysisView
@@ -82,10 +123,11 @@ namespace SCaddins.SolarAnalysis.ViewModels
 
             set
             {
-                if (model.Create3dViews != value)
-                {
+                if (model.Create3dViews != value) {
                     model.Create3dViews = value;
                     NotifyOfPropertyChange(() => CurrentModeSummary);
+                    NotifyOfPropertyChange(() => CreateAnalysisView);
+                    NotifyOfPropertyChange(() => ShowDateSelectionPanel);
                 }
             }
         }
@@ -102,6 +144,8 @@ namespace SCaddins.SolarAnalysis.ViewModels
                 if (model.CreateAnalysisView != value) {
                     model.CreateAnalysisView = value;
                     NotifyOfPropertyChange(() => CurrentModeSummary);
+                    NotifyOfPropertyChange(() => CreateAnalysisView);
+                    NotifyOfPropertyChange(() => ShowDateSelectionPanel);
                 }
             }
         }
@@ -115,10 +159,11 @@ namespace SCaddins.SolarAnalysis.ViewModels
 
             set
             {
-                if (model.CreateShadowPlans != value)
-                {
+                if (model.CreateShadowPlans != value) {
                     model.CreateShadowPlans = value;
                     NotifyOfPropertyChange(() => CurrentModeSummary);
+                    NotifyOfPropertyChange(() => CreateAnalysisView);
+                    NotifyOfPropertyChange(() => ShowDateSelectionPanel);
                 }
             }
         }
@@ -132,8 +177,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
 
             set
             {
-                if (value != creationDate)
-                {
+                if (value != creationDate) {
                     var oldStartIndex = StartTimes.IndexOf(SelectedStartTime);
                     var oldEndIndex = EndTimes.IndexOf(SelectedEndTime);
                     creationDate = value;
@@ -178,27 +222,54 @@ namespace SCaddins.SolarAnalysis.ViewModels
             get
             {
                 var times = new BindableCollection<DateTime>();
-                for (int hour = 9; hour < 18; hour++)
-                {
+                for (int hour = 9; hour < 18; hour++) {
                     times.Add(new DateTime(creationDate.Year, creationDate.Month, creationDate.Day, hour, 0, 0, DateTimeKind.Local));
                 }
                 return times;
             }
         }
 
+        public IList<Reference> FaceSelection
+        {
+            get; set;
+        }
+
+        public double Left
+        {
+            get; set;
+        }
+
+        public IList<Reference> MassSelection
+        {
+            get; set;
+        }
+
         public bool RotateCurrentView
         {
-            get {
+            get
+            {
                 return model.RotateCurrentView;
             }
 
             set
             {
-                if (model.RotateCurrentView != value)
-                {
+                if (model.RotateCurrentView != value) {
                     model.RotateCurrentView = value;
                     NotifyOfPropertyChange(() => CurrentModeSummary);
                 }
+            }
+        }
+
+        public CloseMode SelectedCloseMode
+        {
+            get
+            {
+                return selectedCloseMode;
+            }
+
+            set
+            {
+                selectedCloseMode = value;
             }
         }
 
@@ -211,11 +282,19 @@ namespace SCaddins.SolarAnalysis.ViewModels
 
             set
             {
-                if (value != endTime)
-                {
+                if (value != endTime) {
                     endTime = value;
                     NotifyOfPropertyChange(() => SelectedEndTime);
                 }
+            }
+        }
+
+        public string SelectedFaceInformation
+        {
+            get
+            {
+                int f = FaceSelection != null ? FaceSelection.Count : 0;
+                return string.Format("Selected Faces: {0}", f);
             }
         }
 
@@ -228,10 +307,18 @@ namespace SCaddins.SolarAnalysis.ViewModels
 
             set
             {
-                if (value != interval)
-                {
+                if (value != interval) {
                     interval = value;
                 }
+            }
+        }
+
+        public string SelectedMassInformation
+        {
+            get
+            {
+                int m = MassSelection != null ? MassSelection.Count : 0;
+                return string.Format("Selected Masses: {0}", m);
             }
         }
 
@@ -244,12 +331,24 @@ namespace SCaddins.SolarAnalysis.ViewModels
 
             set
             {
-                if (value != startTime)
-                {
+                if (value != startTime) {
                     startTime = value;
                     NotifyOfPropertyChange(() => SelectedStartTime);
                 }
             }
+        }
+
+        public bool ShowDateSelectionPanel
+        {
+            get
+            {
+                return CreateShadowPlans || Create3dViews;
+            }
+        }
+
+        public System.Windows.Size Size
+        {
+            get; set;
         }
 
         public BindableCollection<DateTime> StartTimes
@@ -257,12 +356,19 @@ namespace SCaddins.SolarAnalysis.ViewModels
             get
             {
                 var times = new BindableCollection<DateTime>();
-                for (int hour = 8; hour < 17; hour++)
-                {
+                for (int hour = 8; hour < 17; hour++) {
                     times.Add(new DateTime(creationDate.Year, creationDate.Month, creationDate.Day, hour, 0, 0, DateTimeKind.Local));
                 }
                 return times;
             }
+        }
+
+        /// <summary>
+        /// Top left coord of main dialog
+        /// </summary>
+        public double Top
+        {
+            get; set;
         }
 
         public string ViewInformation
@@ -273,6 +379,37 @@ namespace SCaddins.SolarAnalysis.ViewModels
             }
         }
 
+        /// <summary>
+        /// Attempt to re-open the main dialog after a user selection has been made.
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <param name="resize">Resize and relocate to previous location.</param>
+        public static void Respawn(SolarViewsViewModel viewModel, bool resize)
+        {
+            var settings = DefaultViewSettings;
+
+            // Reopen window with previous position / size
+            if (resize) {
+                settings.Width = viewModel.Size.Width;
+                settings.Height = viewModel.Size.Height;
+                settings.Top = viewModel.Top;
+                settings.Left = viewModel.Left;
+                settings.WindowStartupLocation = System.Windows.WindowStartupLocation.Manual;
+                settings.SizeToContent = System.Windows.SizeToContent.Manual;
+            }
+            viewModel.SelectedCloseMode = CloseMode.Close;
+            SCaddinsApp.WindowManager.ShowDialog(viewModel, null, settings);
+        }
+
+        public void Clear()
+        {
+            selectedCloseMode = CloseMode.Clear;
+            TryClose(true);
+        }
+
+        /// <summary>
+        /// Run the selected mode.
+        /// </summary>
         public void OK()
         {
             if (model.CreateAnalysisView) {
@@ -285,21 +422,64 @@ namespace SCaddins.SolarAnalysis.ViewModels
             }
         }
 
+        public void RunAnalysis()
+        {
+            selectedCloseMode = CloseMode.Analize;
+            TryClose(true);
+        }
+
+        public void SelectAnalysisFaces()
+        {
+            selectedCloseMode = CloseMode.FaceSelection;
+            TryClose(false);
+        }
+
+        public void SelectMasses()
+        {
+            selectedCloseMode = CloseMode.MassSelection;
+            TryClose(false);
+        }
+
         protected override void OnDeactivate(bool close)
         {
-            if (model.CreateAnalysisView) {    
-                var vm = new DirectSunViewModel(model.UIDoc);
-                DirectSunViewModel.Respawn(vm, false);
-                if (vm.SelectedCloseMode == ViewModels.DirectSunViewModel.CloseMode.Analize) {
-                    SCaddins.SolarAnalysis.SolarAnalysisManager.CreateTestFaces(vm.FaceSelection, vm.MassSelection, vm.AnalysisGridSize, model.UIDoc, model.UIDoc.ActiveView);
+            // Get old size/location for respawning (if required)
+            Size = SCaddinsApp.WindowManager.Size;
+            Left = SCaddinsApp.WindowManager.Left;
+            Top = SCaddinsApp.WindowManager.Top;
+
+            switch (selectedCloseMode) {
+                case CloseMode.Close:
+                base.OnDeactivate(true);
+                break;
+
+                case CloseMode.FaceSelection:
+                try {
+                    FaceSelection = uidoc.Selection.PickObjects(Autodesk.Revit.UI.Selection.ObjectType.Face, "Select Faces");
+                } catch (OperationCanceledException ex) {
+                    SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
+                    FaceSelection = null;
                 }
-                if (vm.SelectedCloseMode == ViewModels.DirectSunViewModel.CloseMode.Clear) {
-                    SpatialFieldManager sfm = DirectSunTestFace.GetSpatialFieldManager(model.UIDoc.Document);
-                    sfm.Clear();
+                Respawn(this, true);
+                break;
+
+                case CloseMode.MassSelection:
+                try {
+                    MassSelection = uidoc.Selection.PickObjects(Autodesk.Revit.UI.Selection.ObjectType.Element, "Select Masses");
+                } catch (OperationCanceledException ex) {
+                    SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
+                    MassSelection = null;
                 }
+                Respawn(this, true);
+                break;
+
+                case CloseMode.Clear:
+                case CloseMode.Analize:
                 base.OnDeactivate(close);
-            } else {
-                base.OnDeactivate(close);
+                break;
+
+                default:
+                base.OnDeactivate(true);
+                break;
             }
         }
     }

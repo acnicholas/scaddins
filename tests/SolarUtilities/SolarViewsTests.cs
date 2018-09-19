@@ -4,7 +4,7 @@ using RTF.Applications;
 using Autodesk.Revit.DB;
 using RTF.Framework;
 
-namespace SCaddins.SolarUtilities.Tests
+namespace SCaddins.SolarAnalysis.Tests
 {
     [TestFixture()]
     public class SolarViewsTests
@@ -14,8 +14,8 @@ namespace SCaddins.SolarUtilities.Tests
         public void ViewNameIsAvailableTest()
         {
             var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
-            Assert.IsTrue(SolarViews.ViewNameIsAvailable(doc, "This_view_name_is_not_used"));
-            Assert.IsFalse(SolarViews.ViewNameIsAvailable(doc, "Level 1"));
+            Assert.IsTrue(SolarAnalysisManager.ViewNameIsAvailable(doc, "This_view_name_is_not_used"));
+            Assert.IsFalse(SolarAnalysisManager.ViewNameIsAvailable(doc, "Level 1"));
         }
 
         [Test()]
@@ -23,8 +23,8 @@ namespace SCaddins.SolarUtilities.Tests
         public void GetNiceViewNameTest()
         {
             var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
-            Assert.IsTrue(SolarViews.GetNiceViewName(doc, "This_view_name_is_not_used") == "This_view_name_is_not_used");
-            Assert.IsTrue(SolarViews.GetNiceViewName(doc, "Level 1") != "Level 1");
+            Assert.IsTrue(SolarAnalysisManager.GetNiceViewName(doc, "This_view_name_is_not_used") == "This_view_name_is_not_used");
+            Assert.IsTrue(SolarAnalysisManager.GetNiceViewName(doc, "Level 1") != "Level 1");
         }
 
         [Test()]
@@ -32,7 +32,7 @@ namespace SCaddins.SolarUtilities.Tests
         public void GetHighestLevelTest()
         {
             var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
-            ElementId highestLevelId = SolarViews.GetHighestLevel(doc);
+            ElementId highestLevelId = SolarAnalysisManager.GetHighestLevel(doc);
             Element highestLevel = doc.GetElement(highestLevelId);
             Assert.IsTrue(highestLevel.Name == "Roof Line");
         }
