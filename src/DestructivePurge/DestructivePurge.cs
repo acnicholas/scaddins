@@ -98,24 +98,29 @@ namespace SCaddins.DestructivePurge
             if (elements.Count < 1) {
                 return;
             }
+
+            // Remove active view from set
+            var activeViewId = doc.ActiveView.Id;
+            elements.Remove(activeViewId);
+
             ////Autodesk.Revit.UI.TaskDialog.Show("Failure", "Starting Transaction");
             using (var t = new Transaction(doc))
             {
                 if (t.Start("Delete Elements") == TransactionStatus.Started) {
-                    foreach (ElementId id in elements) {
+                    ////foreach (ElementId id in elements) {
                         ////var d = new List<Autodesk.Revit.DB.ElementId>();
                         ////d.Add(id);
                         ////Autodesk.Revit.UI.TaskDialog.Show("Failure", elements.Count.ToString());
-                        if (id == ElementId.InvalidElementId || id == null) {
-                            continue;
-                        }
+                        ////if (id == ElementId.InvalidElementId || id == null) {
+                        ////    continue;
+                        ////}
                         try {
                             ////ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(d);
-                            ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(id);
+                            ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
                         } catch {
                             ////FIXME
                         }
-                    }
+                    ////}
                     ////if (deletedIdSet.Count == 0) {
                     ////    Autodesk.Revit.UI.TaskDialog.Show("Failure", "No elements could be purged...");
                     ////}

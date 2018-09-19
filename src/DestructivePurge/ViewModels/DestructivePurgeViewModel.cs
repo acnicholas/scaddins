@@ -33,11 +33,18 @@ namespace SCaddins.DestructivePurge.ViewModels
 
         public DestructivePurgeViewModel(Autodesk.Revit.DB.Document doc)
         {
-            checkableItems = new ObservableCollection<CheckableItem>();
-            selectedItem = null;
             this.doc = doc;
+            CheckableItems = GetPurgableItems();
+            selectedItem = null;  
             previewImage = null;
+            selectedItem = CheckableItems[0];
+            NotifyOfPropertyChange(() => ShowButtonLabel);
 
+        }
+
+        public ObservableCollection<CheckableItem> GetPurgableItems()
+        {
+            var result = new ObservableCollection<CheckableItem>();
             var viewNotOnSheets = new CheckableItem(new DeletableItem("Views NOT On Sheets"), null);
             foreach (ViewType enumValue in Enum.GetValues(typeof(ViewType)))
             {
@@ -50,7 +57,7 @@ namespace SCaddins.DestructivePurge.ViewModels
                     viewNotOnSheets.AddChild(i);
                 }
             }
-            checkableItems.Add(viewNotOnSheets);
+            result.Add(viewNotOnSheets);
 
             var viewOnSheets = new CheckableItem(new DeletableItem("Views On Sheets"), null);
             foreach (ViewType enumValue in Enum.GetValues(typeof(ViewType)))
@@ -64,31 +71,30 @@ namespace SCaddins.DestructivePurge.ViewModels
                     viewOnSheets.AddChild(i);
                 }
             }
-            checkableItems.Add(viewOnSheets);
+            result.Add(viewOnSheets);
 
             var sheets = new CheckableItem(new DeletableItem("Sheets"), null);
             sheets.AddChildren(SCwashUtilities.Views(doc, true, ViewType.DrawingSheet));
-            checkableItems.Add(sheets);
+            result.Add(sheets);
             var images = new CheckableItem(new DeletableItem("Images"), null);
             images.AddChildren(SCwashUtilities.Images(doc));
-            checkableItems.Add(images);
+            result.Add(images);
             var imports = new CheckableItem(new DeletableItem("CAD Imports"), null);
             imports.AddChildren(SCwashUtilities.Imports(doc, false));
-            checkableItems.Add(imports);
+            result.Add(imports);
             var links = new CheckableItem(new DeletableItem("CAD Links"), null);
             links.AddChildren(SCwashUtilities.Imports(doc, true));
-            checkableItems.Add(links);
+            result.Add(links);
             var revisions = new CheckableItem(new DeletableItem("Revisions"), null);
             revisions.AddChildren(SCwashUtilities.Revisions(doc));
-            checkableItems.Add(revisions);
+            result.Add(revisions);
             var uvf = new CheckableItem(new DeletableItem("Unused View Filters"), null);
             uvf.AddChildren(SCwashUtilities.UnusedViewFilters(doc));
-            checkableItems.Add(uvf);
+            result.Add(uvf);
             var ubr = new CheckableItem(new DeletableItem("Unbound Rooms"), null);
             ubr.AddChildren(SCwashUtilities.UnboundRooms(doc));
-            checkableItems.Add(ubr);
-            selectedItem = checkableItems[0];
-            NotifyOfPropertyChange(() => ShowButtonLabel);
+            result.Add(ubr);
+            return result;
         }
 
         public ObservableCollection<CheckableItem> CheckableItems
@@ -181,37 +187,33 @@ namespace SCaddins.DestructivePurge.ViewModels
         {
             List<ElementId> toDelete = new List<ElementId>();
             foreach (var item in CheckableItems) {
-                if (item.IsChecked.Value == true) {
+                if ((item.IsChecked.HasValue && item.IsChecked.Value == true) || !item.IsChecked.HasValue) {
                     var eid = item.Deletable.Id;
-                    if (eid != null) {
+                    if (eid != null && doc.GetElement(eid).IsValidObject) {
                         toDelete.Add(item.Deletable.Id);
                     }
                     RecurseItems(ref toDelete, item);
                 }
             }
 
-            foreach (var eid in toDelete) {
-                if (!doc.GetElement(eid).IsValidObject) {
-                    toDelete.Remove(eid);
-                }
-            }
-
-            ////this.IsNotifying = false;
+            this.IsNotifying = false;
             SCwashUtilities.RemoveElements(doc, toDelete);
-            ////this.IsNotifying = true;
+            this.IsNotifying = true;
+            CheckableItems = GetPurgableItems();
         }
 
         public void DeleteElements()
         {
-            TryClose(true);
+            ////TryClose(true);
+            DeleteElementsFromModel();
         }
 
         public void RecurseItems(ref List<ElementId> list, CheckableItem item)
         {
             foreach (var child in item.Children)
             {
-                if (child.IsChecked.Value == true) {
-                    if (child.Deletable.Id != null) {
+                if ((child.IsChecked.HasValue && child.IsChecked.Value == true) || !child.IsChecked.HasValue) {
+                    if (child.Deletable.Id != null && doc.GetElement(child.Deletable.Id).IsValidObject) {
                         list.Add(child.Deletable.Id);
                     }
                     RecurseItems(ref list, child);
