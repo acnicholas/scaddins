@@ -28,7 +28,7 @@ namespace SCaddins.DestructivePurge
             this.Id = null;
             this.Name = name;
             this.PreviewImage = null;
-            this.HasDependencies = false;
+            this.HasParent = false;
         }
 
         public ElementId Id
@@ -36,7 +36,7 @@ namespace SCaddins.DestructivePurge
             get; set;
         }
 
-        public bool HasDependencies
+        public bool HasParent
         {
             get; set;
         }

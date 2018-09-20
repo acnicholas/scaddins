@@ -188,7 +188,7 @@ namespace SCaddins.DestructivePurge.ViewModels
             List<ElementId> toDelete = new List<ElementId>();
             foreach (var item in CheckableItems) {
                 if (item.IsYes) {
-                    if (!item.Deletable.HasDependencies && item.Deletable.Id != null && doc.GetElement(item.Deletable.Id).IsValidObject) {
+                    if (!item.Deletable.HasParent && item.Deletable.Id != null && doc.GetElement(item.Deletable.Id).IsValidObject) {
                         toDelete.Add(item.Deletable.Id);
                     }
                     RecurseItems(toDelete, item);
@@ -216,7 +216,7 @@ namespace SCaddins.DestructivePurge.ViewModels
             foreach (var child in item.Children)
             {
                 if (child.IsYes) {
-                    if (!child.Deletable.HasDependencies && child.Deletable.Id != null && doc.GetElement(child.Deletable.Id).IsValidObject) {
+                    if (!child.Deletable.HasParent && child.Deletable.Id != null && doc.GetElement(child.Deletable.Id).IsValidObject) {
                         list.Add(child.Deletable.Id);
                     }
                     RecurseItems(list, child);

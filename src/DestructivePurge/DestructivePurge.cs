@@ -43,6 +43,7 @@ namespace SCaddins.DestructivePurge
                     try
                     {
                         tn.PreviewImage = type.GetImage();
+                        tn.HasParent = true;
                     }
                     catch
                     {
@@ -338,7 +339,7 @@ namespace SCaddins.DestructivePurge
                         var tn = new DeletableItem(n);
                         tn.Info = s;
                         tn.Id = view.Id;
-                        tn.HasDependencies = view.GetDependentViewIds().Count > 0;
+                        tn.HasParent = s.Contains(@"Parent View");
                         if (view.ViewType == ViewType.ProjectBrowser || view.ViewType == ViewType.SystemBrowser)
                         {
                             continue;
