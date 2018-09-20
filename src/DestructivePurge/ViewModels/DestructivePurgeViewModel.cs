@@ -52,7 +52,7 @@ namespace SCaddins.DestructivePurge.ViewModels
                     continue;
                 }
                 var i = new CheckableItem(new DeletableItem(enumValue.ToString()), viewNotOnSheets);
-                i.AddChildren(SCwashUtilities.Views(doc, false, enumValue));
+                i.AddChildren(DestructivePurgeUtilitiles.Views(doc, false, enumValue));
                 if (i.Children.Count > 0) {
                     viewNotOnSheets.AddChild(i);
                 }
@@ -66,7 +66,7 @@ namespace SCaddins.DestructivePurge.ViewModels
                     continue;
                 }
                 var i = new CheckableItem(new DeletableItem(enumValue.ToString()), viewOnSheets);
-                i.AddChildren(SCwashUtilities.Views(doc, true, enumValue));
+                i.AddChildren(DestructivePurgeUtilitiles.Views(doc, true, enumValue));
                 if (i.Children.Count > 0) {
                     viewOnSheets.AddChild(i);
                 }
@@ -74,25 +74,25 @@ namespace SCaddins.DestructivePurge.ViewModels
             result.Add(viewOnSheets);
 
             var sheets = new CheckableItem(new DeletableItem("Sheets"), null);
-            sheets.AddChildren(SCwashUtilities.Views(doc, true, ViewType.DrawingSheet));
+            sheets.AddChildren(DestructivePurgeUtilitiles.Views(doc, true, ViewType.DrawingSheet));
             result.Add(sheets);
             var images = new CheckableItem(new DeletableItem("Images"), null);
-            images.AddChildren(SCwashUtilities.Images(doc));
+            images.AddChildren(DestructivePurgeUtilitiles.Images(doc));
             result.Add(images);
             var imports = new CheckableItem(new DeletableItem("CAD Imports"), null);
-            imports.AddChildren(SCwashUtilities.Imports(doc, false));
+            imports.AddChildren(DestructivePurgeUtilitiles.Imports(doc, false));
             result.Add(imports);
             var links = new CheckableItem(new DeletableItem("CAD Links"), null);
-            links.AddChildren(SCwashUtilities.Imports(doc, true));
+            links.AddChildren(DestructivePurgeUtilitiles.Imports(doc, true));
             result.Add(links);
             var revisions = new CheckableItem(new DeletableItem("Revisions"), null);
-            revisions.AddChildren(SCwashUtilities.Revisions(doc));
+            revisions.AddChildren(DestructivePurgeUtilitiles.Revisions(doc));
             result.Add(revisions);
             var uvf = new CheckableItem(new DeletableItem("Unused View Filters"), null);
-            uvf.AddChildren(SCwashUtilities.UnusedViewFilters(doc));
+            uvf.AddChildren(DestructivePurgeUtilitiles.UnusedViewFilters(doc));
             result.Add(uvf);
             var ubr = new CheckableItem(new DeletableItem("Unbound Rooms"), null);
-            ubr.AddChildren(SCwashUtilities.UnboundRooms(doc));
+            ubr.AddChildren(DestructivePurgeUtilitiles.UnboundRooms(doc));
             result.Add(ubr);
             return result;
         }
@@ -183,40 +183,46 @@ namespace SCaddins.DestructivePurge.ViewModels
             }
         }
 
-        public void DeleteElementsFromModel()
+        public List<ElementId> GetItemsToDelete()
         {
             List<ElementId> toDelete = new List<ElementId>();
             foreach (var item in CheckableItems) {
-                if ((item.IsChecked.HasValue && item.IsChecked.Value == true) || !item.IsChecked.HasValue) {
-                    var eid = item.Deletable.Id;
-                    if (eid != null && doc.GetElement(eid).IsValidObject) {
+                if (item.IsYes) {
+                    if (!item.Deletable.HasDependencies && item.Deletable.Id != null && doc.GetElement(item.Deletable.Id).IsValidObject) {
                         toDelete.Add(item.Deletable.Id);
                     }
-                    RecurseItems(ref toDelete, item);
+                    RecurseItems(toDelete, item);
+                }
+                if (item.IsMaybe) {
+                    RecurseItems(toDelete, item);
                 }
             }
 
-            this.IsNotifying = false;
-            SCwashUtilities.RemoveElements(doc, toDelete);
-            this.IsNotifying = true;
-            CheckableItems = GetPurgableItems();
+            return toDelete;
+
+            ////this.IsNotifying = false;
+            ////DestructivePurgeUtilitiles.RemoveElements(doc, toDelete);
+            ////this.IsNotifying = true;
+            ////CheckableItems = GetPurgableItems();
         }
 
         public void DeleteElements()
         {
-            ////TryClose(true);
-            DeleteElementsFromModel();
+            TryClose(true);
         }
 
-        public void RecurseItems(ref List<ElementId> list, CheckableItem item)
+        public void RecurseItems(List<ElementId> list, CheckableItem item)
         {
             foreach (var child in item.Children)
             {
-                if ((child.IsChecked.HasValue && child.IsChecked.Value == true) || !child.IsChecked.HasValue) {
-                    if (child.Deletable.Id != null && doc.GetElement(child.Deletable.Id).IsValidObject) {
+                if (child.IsYes) {
+                    if (!child.Deletable.HasDependencies && child.Deletable.Id != null && doc.GetElement(child.Deletable.Id).IsValidObject) {
                         list.Add(child.Deletable.Id);
                     }
-                    RecurseItems(ref list, child);
+                    RecurseItems(list, child);
+                }
+                if (child.IsMaybe) {
+                    RecurseItems(list, child);
                 }
             }
         }
@@ -227,7 +233,7 @@ namespace SCaddins.DestructivePurge.ViewModels
             NotifyOfPropertyChange(() => Details);
             NotifyOfPropertyChange(() => ShowButtonLabel);
             NotifyOfPropertyChange(() => EnableShowElemant);
-            PreviewImage = SCwashUtilities.ToBitmapImage(item.Deletable.PreviewImage);
+            PreviewImage = DestructivePurgeUtilitiles.ToBitmapImage(item.Deletable.PreviewImage);
         }
 
         public void ShowElement()

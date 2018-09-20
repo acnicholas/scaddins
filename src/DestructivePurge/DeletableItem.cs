@@ -28,9 +28,15 @@ namespace SCaddins.DestructivePurge
             this.Id = null;
             this.Name = name;
             this.PreviewImage = null;
+            this.HasDependencies = false;
         }
 
         public ElementId Id
+        {
+            get; set;
+        }
+
+        public bool HasDependencies
         {
             get; set;
         }

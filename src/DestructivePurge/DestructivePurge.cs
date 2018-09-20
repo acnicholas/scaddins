@@ -19,8 +19,9 @@ namespace SCaddins.DestructivePurge
 {
     using System.Collections.Generic;
     using Autodesk.Revit.DB;
+    using Autodesk.Revit.Exceptions;
 
-    public static class SCwashUtilities
+    public static class DestructivePurgeUtilitiles
     {
         public static List<DeletableItem> Images(Document doc)
         {
@@ -107,7 +108,16 @@ namespace SCaddins.DestructivePurge
             using (var t = new Transaction(doc))
             {
                 if (t.Start("Delete Elements") == TransactionStatus.Started) {
-                    ////foreach (ElementId id in elements) {
+                    foreach (ElementId id in elements) {
+
+                        System.IO.File.AppendAllText(@"c:\Temp\log.txt", id.ToString() + System.Environment.NewLine);
+
+                        if (id == null || id == ElementId.InvalidElementId) {
+                            continue;
+                        }
+                        if (!doc.GetElement(id).IsValidObject) {
+                            continue;
+                        }
                         ////var d = new List<Autodesk.Revit.DB.ElementId>();
                         ////d.Add(id);
                         ////Autodesk.Revit.UI.TaskDialog.Show("Failure", elements.Count.ToString());
@@ -115,18 +125,27 @@ namespace SCaddins.DestructivePurge
                         ////    continue;
                         ////}
                         try {
-                            ////ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(d);
-                            ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
-                        } catch {
-                            ////FIXME
+                            if (id != null && doc.GetElement(id) != null) {
+                                ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(id);
+                            }
+                            ////ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
+                        } catch (ArgumentNullException anex) {
+                            Autodesk.Revit.UI.TaskDialog.Show("Failure", id.ToString() + System.Environment.NewLine + anex.Message);
+                        } catch (ModificationForbiddenException mfex) {
+                            Autodesk.Revit.UI.TaskDialog.Show("Failure", id.ToString() + System.Environment.NewLine + mfex.Message);
                         }
-                    ////}
+                        doc.Regenerate();
+                    }
                     ////if (deletedIdSet.Count == 0) {
                     ////    Autodesk.Revit.UI.TaskDialog.Show("Failure", "No elements could be purged...");
                     ////}
+                    ////doc.Regenerate();
                     if (t.Commit() != TransactionStatus.Committed) {
                         Autodesk.Revit.UI.TaskDialog.Show("Failure", "Destructive Purge could not be run");
+                    } else {
+                        //doc.Regenerate();
                     }
+
                 }
             }
         }
@@ -156,7 +175,7 @@ namespace SCaddins.DestructivePurge
         public static List<DeletableItem> Sheets(Document doc, bool placedOnSheet)
         {
             var result = new List<DeletableItem>();
-            result.AddRange(SCwashUtilities.Views(doc, placedOnSheet, ViewType.DrawingSheet));
+            result.AddRange(DestructivePurgeUtilitiles.Views(doc, placedOnSheet, ViewType.DrawingSheet));
             return result;
         }
 
@@ -319,6 +338,7 @@ namespace SCaddins.DestructivePurge
                         var tn = new DeletableItem(n);
                         tn.Info = s;
                         tn.Id = view.Id;
+                        tn.HasDependencies = view.GetDependentViewIds().Count > 0;
                         if (view.ViewType == ViewType.ProjectBrowser || view.ViewType == ViewType.SystemBrowser)
                         {
                             continue;

@@ -45,6 +45,30 @@ namespace SCaddins.DestructivePurge.ViewModels
             get; set;
         }
 
+        public bool IsYesOrMaybe
+        {
+            get
+            {
+                return IsYesOrMaybe || IsMaybe;
+            }
+        }
+
+        public bool IsYes
+        {
+            get
+            {
+                return (IsChecked.HasValue && IsChecked.Value == true);
+            }
+        }
+
+        public bool IsMaybe
+        {
+            get
+            {
+                return IsChecked == null;
+            }
+        }
+
         public bool? IsChecked
         {
             get
