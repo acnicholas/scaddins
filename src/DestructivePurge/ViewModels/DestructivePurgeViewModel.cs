@@ -183,13 +183,13 @@ namespace SCaddins.DestructivePurge.ViewModels
             }
         }
 
-        public List<ElementId> GetItemsToDelete()
+        public void DeleteElements()
         {
-            List<ElementId> toDelete = new List<ElementId>();
+            List<DeletableItem> toDelete = new List<DeletableItem>();
             foreach (var item in CheckableItems) {
                 if (item.IsYes) {
-                    if (!item.Deletable.HasParent && item.Deletable.Id != null && doc.GetElement(item.Deletable.Id).IsValidObject) {
-                        toDelete.Add(item.Deletable.Id);
+                    if (item.Deletable.Id != null && doc.GetElement(item.Deletable.Id).IsValidObject) {
+                        toDelete.Add(item.Deletable);
                     }
                     RecurseItems(toDelete, item);
                 }
@@ -198,26 +198,19 @@ namespace SCaddins.DestructivePurge.ViewModels
                 }
             }
 
-            return toDelete;
-
-            ////this.IsNotifying = false;
-            ////DestructivePurgeUtilitiles.RemoveElements(doc, toDelete);
-            ////this.IsNotifying = true;
-            ////CheckableItems = GetPurgableItems();
+            this.IsNotifying = false;
+            DestructivePurgeUtilitiles.RemoveElements(doc, toDelete);
+            this.IsNotifying = true;
+            CheckableItems = GetPurgableItems();
         }
 
-        public void DeleteElements()
-        {
-            TryClose(true);
-        }
-
-        public void RecurseItems(List<ElementId> list, CheckableItem item)
+        public void RecurseItems(List<DeletableItem> list, CheckableItem item)
         {
             foreach (var child in item.Children)
             {
                 if (child.IsYes) {
-                    if (!child.Deletable.HasParent && child.Deletable.Id != null && doc.GetElement(child.Deletable.Id).IsValidObject) {
-                        list.Add(child.Deletable.Id);
+                    if (child.Deletable.Id != null && doc.GetElement(child.Deletable.Id).IsValidObject) {
+                        list.Add(child.Deletable);
                     }
                     RecurseItems(list, child);
                 }

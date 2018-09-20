@@ -29,6 +29,7 @@ namespace SCaddins.DestructivePurge
             this.Name = name;
             this.PreviewImage = null;
             this.HasParent = false;
+            this.ParentId = ElementId.InvalidElementId;
         }
 
         public ElementId Id
@@ -37,6 +38,11 @@ namespace SCaddins.DestructivePurge
         }
 
         public bool HasParent
+        {
+            get; set;
+        }
+
+        public ElementId ParentId
         {
             get; set;
         }

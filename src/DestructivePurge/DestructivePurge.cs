@@ -39,6 +39,7 @@ namespace SCaddins.DestructivePurge
                     tn.Id = image.Id;
 
                     ElementId typeId = image.GetTypeId();
+                    tn.ParentId = typeId;
                     ImageType type = doc.GetElement(typeId) as ImageType;
                     try
                     {
@@ -90,9 +91,8 @@ namespace SCaddins.DestructivePurge
             return result;
         }
 
-        public static void RemoveElements(Document doc, List<ElementId> elements)
+        public static void RemoveElements(Document doc, List<DeletableItem> elements)
         {
-            ////return;
 
             if (elements == null || doc == null) {
                 return;
@@ -101,46 +101,46 @@ namespace SCaddins.DestructivePurge
                 return;
             }
 
-            // Remove active view from set
-            var activeViewId = doc.ActiveView.Id;
-            elements.Remove(activeViewId);
-
-            ////Autodesk.Revit.UI.TaskDialog.Show("Failure", "Starting Transaction");
             using (var t = new Transaction(doc))
             {
                 if (t.Start("Delete Elements") == TransactionStatus.Started) {
-                    foreach (ElementId id in elements) {
+                    foreach (DeletableItem di in elements) {
 
-                        System.IO.File.AppendAllText(@"c:\Temp\log.txt", id.ToString() + System.Environment.NewLine);
-
-                        if (id == null || id == ElementId.InvalidElementId) {
+                        if (di.Id == null) {
                             continue;
                         }
-                        if (!doc.GetElement(id).IsValidObject) {
-                            continue;
-                        }
-                        ////var d = new List<Autodesk.Revit.DB.ElementId>();
-                        ////d.Add(id);
-                        ////Autodesk.Revit.UI.TaskDialog.Show("Failure", elements.Count.ToString());
-                        ////if (id == ElementId.InvalidElementId || id == null) {
-                        ////    continue;
-                        ////}
                         try {
-                            if (id != null && doc.GetElement(id) != null) {
-                                ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(id);
-                            }
-                            ////ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(elements);
-                        } catch (ArgumentNullException anex) {
-                            Autodesk.Revit.UI.TaskDialog.Show("Failure", id.ToString() + System.Environment.NewLine + anex.Message);
-                        } catch (ModificationForbiddenException mfex) {
-                            Autodesk.Revit.UI.TaskDialog.Show("Failure", id.ToString() + System.Environment.NewLine + mfex.Message);
+                            if(!doc.GetElement(di.Id).IsValidObject) continue;
+                        } catch {
+                            continue;
                         }
-                        doc.Regenerate();
+
+                        if (doc.ActiveView.Id == di.Id) {
+                            continue;
+                        }
+                        if (di.ParentId == null) {
+                            continue;
+                        }
+                        if (di.HasParent && di.ParentId == ElementId.InvalidElementId) {
+                            continue;
+                        }
+                        if (di.HasParent) {
+                            try {
+                                if (!doc.GetElement(di.ParentId).IsValidObject) continue;
+                            } catch {
+                                continue;
+                            }
+                        }
+
+                        try {
+                                ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(di.Id);
+                        } catch (ArgumentNullException anex) {
+                            Autodesk.Revit.UI.TaskDialog.Show("Failure", di.Id.ToString() + System.Environment.NewLine + anex.Message);
+                        } catch (ModificationForbiddenException mfex) {
+                            Autodesk.Revit.UI.TaskDialog.Show("Failure", di.Id.ToString() + System.Environment.NewLine + mfex.Message);
+                        }
                     }
-                    ////if (deletedIdSet.Count == 0) {
-                    ////    Autodesk.Revit.UI.TaskDialog.Show("Failure", "No elements could be purged...");
-                    ////}
-                    ////doc.Regenerate();
+
                     if (t.Commit() != TransactionStatus.Committed) {
                         Autodesk.Revit.UI.TaskDialog.Show("Failure", "Destructive Purge could not be run");
                     } else {
@@ -167,7 +167,9 @@ namespace SCaddins.DestructivePurge
                     "id - " + revision.Id.ToString();
                     tn.Info += System.Environment.NewLine + s;
                     tn.Id = revision.Id;
-                    result.Add(tn);
+                    if (revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger() > 1) {
+                        result.Add(tn);
+                    }
                 }
             }
             return result;
@@ -340,6 +342,12 @@ namespace SCaddins.DestructivePurge
                         tn.Info = s;
                         tn.Id = view.Id;
                         tn.HasParent = s.Contains(@"Parent View");
+                        if (tn.HasParent) {
+                            Parameter parentId = view.GetParameters(@"Parent View")[0];
+                            var pId = parentId.AsElementId();
+                            //Autodesk.Revit.UI.TaskDialog.Show("test", pId.ToString());
+                            tn.ParentId = pId;
+                        }
                         if (view.ViewType == ViewType.ProjectBrowser || view.ViewType == ViewType.SystemBrowser)
                         {
                             continue;
