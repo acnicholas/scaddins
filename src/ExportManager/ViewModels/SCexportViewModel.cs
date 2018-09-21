@@ -50,7 +50,7 @@ namespace SCaddins.ExportManager.ViewModels
             this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
             Sheets = CollectionViewSource.GetDefaultView(this.sheets);
             this.selectedViewSheetSet = null;
-            ShowSearchHelpText = true;
+            ////ShowSearchHelpText = true;
             CurrentProgress = 0;
             ProgressBarMaximum = 1;
             log = new ExportLog();
@@ -125,19 +125,27 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (value != searchText) {
                     searchText = value;
-                    searchStringLength = value.Length;
-                    ShowSearchHelpText = searchStringLength < 1;
-                    NotifyOfPropertyChange(() => ShowSearchHelpText);
-                    if (string.Empty == value) {
-                        Sheets.Filter = null;
+                    //searchStringLength = value.Length;
+                    //ShowSearchHelpText = searchStringLength < 1;
+                    //NotifyOfPropertyChange(() => ShowSearchHelpText);
+                    ////if (string.Empty == value) {
+                    ////    Sheets.Filter = null;
+                    ////    NotifyOfPropertyChange(() => Sheets);
+                    ////    return;
+                    ////} else {
+                        var filter = new System.Predicate<object>(
+                            item =>
+                                -1 < ((ExportSheet)item).SheetDescription.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)
+                                ||
+                                -1 < ((ExportSheet)item).SheetNumber.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase));
+                        Sheets.Filter = filter;
                         NotifyOfPropertyChange(() => Sheets);
-                        return;
-                    }
-                    var selection = ViewSheetSets.ToList().Where(v => v.ToString() == SearchText);
-                    if (selection.Count() > 0) {
-                        selectedViewSheetSet = selection.First();
-                        SelectViewSheetSet();
-                    }
+                    ////}
+                    //var selection = ViewSheetSets.ToList().Where(v => v.ToString() == SearchText);
+                    //if (selection.Count() > 0) {
+                    //    selectedViewSheetSet = selection.First();
+                    //    SelectViewSheetSet();
+                    //}
                 }            
             }
         }
@@ -178,10 +186,10 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public bool ShowSearchHelpText
-        {
-            get; set;
-        }
+        ////public bool ShowSearchHelpText
+        ////{
+        ////    get; set;
+        ////}
 
         public ObservableCollection<ViewSheetSetCombo> ViewSheetSets
         {
@@ -205,13 +213,14 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void CopySheets()
         {
-            ////TryClose(true);
             var sheetCopierModel = new SCaddins.SheetCopier.ViewModels.SheetCopierViewModel(exportManager.UIDoc);
             sheetCopierModel.AddSheets(selectedSheets);
+            this.IsNotifying = false;
             SCaddinsApp.WindowManager.ShowDialog(
                 sheetCopierModel,
                 null,
                 SheetCopier.ViewModels.SheetCopierViewModel.DefaultWindowSettings);
+            this.IsNotifying = true;
         }
 
         public void CreateUserViews()
@@ -291,11 +300,11 @@ namespace SCaddins.ExportManager.ViewModels
             ExportManager.FixScaleBars(selectedSheets, exportManager.Doc);
         }
 
-        public void HideHelpLabel()
-        {
-            ShowSearchHelpText = false;
-            NotifyOfPropertyChange(() => ShowSearchHelpText);
-        }
+        ////public void HideHelpLabel()
+        ////{
+        ////    ShowSearchHelpText = false;
+        ////    NotifyOfPropertyChange(() => ShowSearchHelpText);
+        ////}
 
         public void OpenViewsCommand()
         {
@@ -399,31 +408,31 @@ namespace SCaddins.ExportManager.ViewModels
             NotifyOfPropertyChange(() => Sheets);
         }
 
-        public void SearchBoxKeyDown(KeyEventArgs keyArgs)
-        {
-            if (keyArgs.Key == Key.Enter) {
-                SearchBoxSelectionChanged(false);
-            }
-        }
+        ////public void SearchBoxKeyDown(KeyEventArgs keyArgs)
+        ////{
+        ////    if (keyArgs.Key == Key.Enter) {
+        ////        SearchBoxSelectionChanged(false);
+        ////    }
+        ////}
         
-        public void SearchBoxSelectionChanged()
-        {
-            SearchBoxSelectionChanged(true);
-        }
+        ////public void SearchBoxSelectionChanged()
+        ////{
+        ////    SearchBoxSelectionChanged(true);
+        ////}
 
-        public void SelectViewSheetSet()
-        {
-            if (selectedViewSheetSet.ViewSheetSet != null)
-            {
-                var filter = new System.Predicate<object>(item => selectedViewSheetSet.ViewSheetSet.Views.Contains(((ExportSheet)item).Sheet));
-                Sheets.Filter = filter;
-            }
-            else
-            {
-                Sheets.Filter = null;
-            }
-            NotifyOfPropertyChange(() => Sheets);
-        }
+        ////public void SelectViewSheetSet()
+        ////{
+        ////    if (selectedViewSheetSet.ViewSheetSet != null)
+        ////    {
+        ////        var filter = new System.Predicate<object>(item => selectedViewSheetSet.ViewSheetSet.Views.Contains(((ExportSheet)item).Sheet));
+        ////        Sheets.Filter = filter;
+        ////    }
+        ////    else
+        ////    {
+        ////        Sheets.Filter = null;
+        ////    }
+        ////    NotifyOfPropertyChange(() => Sheets);
+        ////}
 
         public void ShowLatestRevision()
         {
@@ -433,11 +442,11 @@ namespace SCaddins.ExportManager.ViewModels
             NotifyOfPropertyChange(() => Sheets);
         }
 
-        public void TryShowHelpLabel()
-        {
-            ShowSearchHelpText = searchStringLength < 1;
-            NotifyOfPropertyChange(() => ShowSearchHelpText);
-        }
+        ////public void TryShowHelpLabel()
+        ////{
+        ////    ShowSearchHelpText = searchStringLength < 1;
+        ////    NotifyOfPropertyChange(() => ShowSearchHelpText);
+        ////}
 
         public void TryShowExportLog()
         {
@@ -470,24 +479,24 @@ namespace SCaddins.ExportManager.ViewModels
             Sheets.Filter = filter;
         }
 
-        private void SearchBoxSelectionChanged(bool selectionChanged)
-        {
-            if (SearchText == null || string.IsNullOrEmpty(SearchText)) {
-                return;
-            }
-            NotifyOfPropertyChange(() => SearchText);
-            if (ViewSheetSets.ToList().Where(v => v.ToString() == SearchText).Count() < 1 && !selectionChanged) {
-                var filter = new System.Predicate<object>(
-                    item =>
-                        -1 < ((ExportSheet)item).SheetDescription.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)
-                            ||
-                        -1 < ((ExportSheet)item).SheetNumber.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase));
-                Sheets.Filter = filter;
-                NotifyOfPropertyChange(() => Sheets);
-            } else {
-                selectedViewSheetSet = ViewSheetSets.ToList().Where(v => v.ToString() == SearchText).First();
-                SelectViewSheetSet();
-            }
-        }
+        ////private void SearchBoxSelectionChanged(bool selectionChanged)
+        ////{
+        ////    if (SearchText == null || string.IsNullOrEmpty(SearchText)) {
+        ////        return;
+        ////    }
+        ////    // NotifyOfPropertyChange(() => SearchText);
+        ////    if (ViewSheetSets.ToList().Where(v => v.ToString() == SearchText).Count() < 1 && !selectionChanged) {
+        ////        var filter = new System.Predicate<object>(
+        ////            item =>
+        ////                -1 < ((ExportSheet)item).SheetDescription.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)
+        ////                    ||
+        ////                -1 < ((ExportSheet)item).SheetNumber.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase));
+        ////        Sheets.Filter = filter;
+        ////        NotifyOfPropertyChange(() => Sheets);
+        ////    //} else {
+        ////    //    selectedViewSheetSet = ViewSheetSets.ToList().Where(v => v.ToString() == SearchText).First();
+        ////    //    SelectViewSheetSet();
+        ////    //}
+        ////}
     }
 }

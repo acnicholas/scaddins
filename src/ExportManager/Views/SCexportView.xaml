@@ -31,7 +31,7 @@
             <RowDefinition
                 Height="30" />
         </Grid.RowDefinitions>
-        <ComboBox
+        <!--<ComboBox
             TabIndex="2"
             ItemsSource="{Binding ViewSheetSets}"
             Text="{Binding SearchText}" 
@@ -46,16 +46,19 @@
             VerticalAlignment="Stretch"
             Margin="5"
             x:Name="ViewsetCombo"
-            Grid.ColumnSpan="2" />
-        <Label
+            Grid.ColumnSpan="2" />-->
+
+        <TextBox
+            TabIndex="2"
+            x:Name="SearchText"
+            Width="Auto" 
+            Height="Auto"
+            Grid.Column="0"
             Grid.Row="0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            Foreground="DarkGray"
-            Visibility="{Binding ShowSearchHelpText , Converter={StaticResource BoolToVis}}"
-            cal:Message.Attach="[Event MouseEnter] = [HideHelpLabel()]">
-            ? Type to search, or use the drop-down arrow to load a view set.
-        </Label>
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Margin="5"
+            Grid.ColumnSpan="2" />
         <DataGrid
             cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($source,$eventArgs)]"
             x:Name="Sheets"
