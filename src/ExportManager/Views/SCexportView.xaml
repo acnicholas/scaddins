@@ -31,23 +31,6 @@
             <RowDefinition
                 Height="30" />
         </Grid.RowDefinitions>
-        <!--<ComboBox
-            TabIndex="2"
-            ItemsSource="{Binding ViewSheetSets}"
-            Text="{Binding SearchText}" 
-            cal:Message.Attach="[Event MouseEnter] = [HideHelpLabel()]; [Event KeyDown] = [SearchBoxKeyDown($eventArgs)]; [Event LostFocus] = [SearchBoxSelectionChanged]"
-            Width="Auto"
-            Height="Auto"
-            Grid.Column="0"
-            IsEditable="True"
-            IsTextSearchEnabled="False"
-            Grid.Row="0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Margin="5"
-            x:Name="ViewsetCombo"
-            Grid.ColumnSpan="2" />-->
-
         <TextBox
             TabIndex="2"
             x:Name="SearchText"

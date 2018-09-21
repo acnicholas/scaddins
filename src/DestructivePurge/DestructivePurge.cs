@@ -93,7 +93,6 @@ namespace SCaddins.DestructivePurge
 
         public static void RemoveElements(Document doc, List<DeletableItem> elements)
         {
-
             if (elements == null || doc == null) {
                 return;
             }
@@ -105,12 +104,13 @@ namespace SCaddins.DestructivePurge
             {
                 if (t.Start("Delete Elements") == TransactionStatus.Started) {
                     foreach (DeletableItem di in elements) {
-
                         if (di.Id == null) {
                             continue;
                         }
                         try {
-                            if(!doc.GetElement(di.Id).IsValidObject) continue;
+                            if (!doc.GetElement(di.Id).IsValidObject) {
+                                continue;
+                            }
                         } catch {
                             continue;
                         }
@@ -126,7 +126,9 @@ namespace SCaddins.DestructivePurge
                         }
                         if (di.HasParent) {
                             try {
-                                if (!doc.GetElement(di.ParentId).IsValidObject) continue;
+                                if (!doc.GetElement(di.ParentId).IsValidObject) {
+                                    continue;
+                                }
                             } catch {
                                 continue;
                             }
@@ -143,10 +145,7 @@ namespace SCaddins.DestructivePurge
 
                     if (t.Commit() != TransactionStatus.Committed) {
                         Autodesk.Revit.UI.TaskDialog.Show("Failure", "Destructive Purge could not be run");
-                    } else {
-                        //doc.Regenerate();
-                    }
-
+                    } 
                 }
             }
         }
@@ -345,7 +344,6 @@ namespace SCaddins.DestructivePurge
                         if (tn.HasParent) {
                             Parameter parentId = view.GetParameters(@"Parent View")[0];
                             var pId = parentId.AsElementId();
-                            //Autodesk.Revit.UI.TaskDialog.Show("test", pId.ToString());
                             tn.ParentId = pId;
                         }
                         if (view.ViewType == ViewType.ProjectBrowser || view.ViewType == ViewType.SystemBrowser)

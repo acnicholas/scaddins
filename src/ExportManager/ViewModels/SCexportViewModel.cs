@@ -33,11 +33,9 @@ namespace SCaddins.ExportManager.ViewModels
         private double currentProgress;
         private ExportLog log;
         private List<string> printTypes;
-        private int searchStringLength;
         private string searchText;
         private string selectedPrintType;
         private List<ExportSheet> selectedSheets = new List<ExportSheet>();
-        private ViewSheetSetCombo selectedViewSheetSet;
         private ObservableCollection<ExportSheet> sheets;
         private ICollectionView sheetsCollection;
 
@@ -46,11 +44,8 @@ namespace SCaddins.ExportManager.ViewModels
             printTypes = (new string[] { "Print A3", "Print A2", "Print Full Size" }).ToList();
             selectedPrintType = "Print A3";
             this.exportManager = exportManager;
-            this.searchStringLength = 0;
             this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
             Sheets = CollectionViewSource.GetDefaultView(this.sheets);
-            this.selectedViewSheetSet = null;
-            ////ShowSearchHelpText = true;
             CurrentProgress = 0;
             ProgressBarMaximum = 1;
             log = new ExportLog();
@@ -125,27 +120,6 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (value != searchText) {
                     searchText = value;
-                    //searchStringLength = value.Length;
-                    //ShowSearchHelpText = searchStringLength < 1;
-                    //NotifyOfPropertyChange(() => ShowSearchHelpText);
-                    ////if (string.Empty == value) {
-                    ////    Sheets.Filter = null;
-                    ////    NotifyOfPropertyChange(() => Sheets);
-                    ////    return;
-                    ////} else {
-                        var filter = new System.Predicate<object>(
-                            item =>
-                                -1 < ((ExportSheet)item).SheetDescription.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)
-                                ||
-                                -1 < ((ExportSheet)item).SheetNumber.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase));
-                        Sheets.Filter = filter;
-                        NotifyOfPropertyChange(() => Sheets);
-                    ////}
-                    //var selection = ViewSheetSets.ToList().Where(v => v.ToString() == SearchText);
-                    //if (selection.Count() > 0) {
-                    //    selectedViewSheetSet = selection.First();
-                    //    SelectViewSheetSet();
-                    //}
                 }            
             }
         }
@@ -185,11 +159,6 @@ namespace SCaddins.ExportManager.ViewModels
                 NotifyOfPropertyChange(() => Sheets);
             }
         }
-
-        ////public bool ShowSearchHelpText
-        ////{
-        ////    get; set;
-        ////}
 
         public ObservableCollection<ViewSheetSetCombo> ViewSheetSets
         {
@@ -232,6 +201,15 @@ namespace SCaddins.ExportManager.ViewModels
         public void ExecuteFilterView(KeyEventArgs keyArgs)
         {
             if (keyArgs.OriginalSource.GetType() == typeof(System.Windows.Controls.TextBox)) {
+                if (keyArgs.Key == Key.Enter) {
+                    var filter = new System.Predicate<object>(
+                    item =>
+                       -1 < ((ExportSheet)item).SheetDescription.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)
+                       ||
+                       -1 < ((ExportSheet)item).SheetNumber.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase));
+                    Sheets.Filter = filter;
+                    NotifyOfPropertyChange(() => Sheets);
+                }
                 return;
             }
 
@@ -299,12 +277,6 @@ namespace SCaddins.ExportManager.ViewModels
         {
             ExportManager.FixScaleBars(selectedSheets, exportManager.Doc);
         }
-
-        ////public void HideHelpLabel()
-        ////{
-        ////    ShowSearchHelpText = false;
-        ////    NotifyOfPropertyChange(() => ShowSearchHelpText);
-        ////}
 
         public void OpenViewsCommand()
         {
@@ -408,32 +380,6 @@ namespace SCaddins.ExportManager.ViewModels
             NotifyOfPropertyChange(() => Sheets);
         }
 
-        ////public void SearchBoxKeyDown(KeyEventArgs keyArgs)
-        ////{
-        ////    if (keyArgs.Key == Key.Enter) {
-        ////        SearchBoxSelectionChanged(false);
-        ////    }
-        ////}
-        
-        ////public void SearchBoxSelectionChanged()
-        ////{
-        ////    SearchBoxSelectionChanged(true);
-        ////}
-
-        ////public void SelectViewSheetSet()
-        ////{
-        ////    if (selectedViewSheetSet.ViewSheetSet != null)
-        ////    {
-        ////        var filter = new System.Predicate<object>(item => selectedViewSheetSet.ViewSheetSet.Views.Contains(((ExportSheet)item).Sheet));
-        ////        Sheets.Filter = filter;
-        ////    }
-        ////    else
-        ////    {
-        ////        Sheets.Filter = null;
-        ////    }
-        ////    NotifyOfPropertyChange(() => Sheets);
-        ////}
-
         public void ShowLatestRevision()
         {
             var revDate = ExportManager.LatestRevisionDate(exportManager.Doc);
@@ -441,12 +387,6 @@ namespace SCaddins.ExportManager.ViewModels
             Sheets.Filter = filter;
             NotifyOfPropertyChange(() => Sheets);
         }
-
-        ////public void TryShowHelpLabel()
-        ////{
-        ////    ShowSearchHelpText = searchStringLength < 1;
-        ////    NotifyOfPropertyChange(() => ShowSearchHelpText);
-        ////}
 
         public void TryShowExportLog()
         {
@@ -478,25 +418,5 @@ namespace SCaddins.ExportManager.ViewModels
             var filter = new System.Predicate<object>(item => Regex.IsMatch(((ExportSheet)item).SheetNumber, @"^\D*" + number));
             Sheets.Filter = filter;
         }
-
-        ////private void SearchBoxSelectionChanged(bool selectionChanged)
-        ////{
-        ////    if (SearchText == null || string.IsNullOrEmpty(SearchText)) {
-        ////        return;
-        ////    }
-        ////    // NotifyOfPropertyChange(() => SearchText);
-        ////    if (ViewSheetSets.ToList().Where(v => v.ToString() == SearchText).Count() < 1 && !selectionChanged) {
-        ////        var filter = new System.Predicate<object>(
-        ////            item =>
-        ////                -1 < ((ExportSheet)item).SheetDescription.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)
-        ////                    ||
-        ////                -1 < ((ExportSheet)item).SheetNumber.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase));
-        ////        Sheets.Filter = filter;
-        ////        NotifyOfPropertyChange(() => Sheets);
-        ////    //} else {
-        ////    //    selectedViewSheetSet = ViewSheetSets.ToList().Where(v => v.ToString() == SearchText).First();
-        ////    //    SelectViewSheetSet();
-        ////    //}
-        ////}
     }
 }

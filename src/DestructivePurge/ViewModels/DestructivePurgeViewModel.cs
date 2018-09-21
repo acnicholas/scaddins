@@ -39,7 +39,109 @@ namespace SCaddins.DestructivePurge.ViewModels
             previewImage = null;
             selectedItem = CheckableItems[0];
             NotifyOfPropertyChange(() => ShowButtonLabel);
+        }
 
+        public ObservableCollection<CheckableItem> CheckableItems
+        {
+            get
+            {
+                return checkableItems;
+            }
+
+            set
+            {
+                checkableItems = value;
+                NotifyOfPropertyChange(() => CheckableItems);
+            }
+        }
+
+        public string Details
+        {
+            get
+            {
+                if (selectedItem.Deletable.Info == "-") {
+                    return "Select an element to view additional properties";
+                } else {
+                    return selectedItem.Deletable.Info;
+                }
+            }
+        }
+
+        public bool EnableShowElemant
+        {
+            get { return selectedItem.Deletable.Id != null; }
+        }
+
+        public int ImageHeight
+        {
+            get
+            {
+                return PreviewImage != null ? 196 : 0;
+            }
+        }
+
+        public int ImageMargin
+        {
+            get
+            {
+                return PreviewImage != null ? 5 : 0;
+            }
+        }
+
+        public int ImageWidth
+        {
+            get
+            {
+                return PreviewImage != null ? 196 : 0;
+            }
+        }
+
+        public System.Windows.Media.Imaging.BitmapImage PreviewImage
+        {
+            get
+            {
+                return previewImage;
+            }
+
+            set
+            {
+                if (previewImage != value) {
+                    previewImage = value;
+                    NotifyOfPropertyChange(() => PreviewImage);
+                    NotifyOfPropertyChange(() => ImageHeight);
+                    NotifyOfPropertyChange(() => ImageWidth);
+                    NotifyOfPropertyChange(() => ImageMargin);
+                }
+            }
+        }
+
+        public string ShowButtonLabel
+        {
+            get
+            {
+                return selectedItem.Deletable.Id == null ? "Select Element" : "Show Element " + selectedItem.Deletable.Id.ToString();
+            }
+        }
+
+        public void DeleteElements()
+        {
+            List<DeletableItem> toDelete = new List<DeletableItem>();
+            foreach (var item in CheckableItems) {
+                if (item.IsYes) {
+                    if (item.Deletable.Id != null && doc.GetElement(item.Deletable.Id).IsValidObject) {
+                        toDelete.Add(item.Deletable);
+                    }
+                    RecurseItems(toDelete, item);
+                }
+                if (item.IsMaybe) {
+                    RecurseItems(toDelete, item);
+                }
+            }
+
+            this.IsNotifying = false;
+            DestructivePurgeUtilitiles.RemoveElements(doc, toDelete);
+            this.IsNotifying = true;
+            CheckableItems = GetPurgableItems();
         }
 
         public ObservableCollection<CheckableItem> GetPurgableItems()
@@ -95,113 +197,6 @@ namespace SCaddins.DestructivePurge.ViewModels
             ubr.AddChildren(DestructivePurgeUtilitiles.UnboundRooms(doc));
             result.Add(ubr);
             return result;
-        }
-
-        public ObservableCollection<CheckableItem> CheckableItems
-        {
-            get
-            {
-                return checkableItems;
-            }
-
-            set
-            {
-                checkableItems = value;
-                NotifyOfPropertyChange(() => CheckableItems);
-            }
-        }
-
-        public string Details
-        {
-            get
-            {
-                if (selectedItem.Deletable.Info == "-")
-                {
-                    return "Select an element to view additional properties";
-                }
-                else
-                {
-                    return selectedItem.Deletable.Info;
-                }
-            }
-        }
-
-        public bool EnableShowElemant
-        {
-            get { return selectedItem.Deletable.Id != null; }
-        }
-
-        public int ImageHeight
-        {
-            get
-            {
-                return PreviewImage != null ? 196 : 0;
-            }
-        }
-
-        public int ImageMargin
-        {
-            get
-            {
-                return PreviewImage != null ? 5 : 0;
-            }
-        }
-
-        public int ImageWidth
-        {
-            get
-            {
-                return PreviewImage != null ? 196 : 0;
-            }
-        }
-
-        public System.Windows.Media.Imaging.BitmapImage PreviewImage
-        {
-            get
-            {
-                return previewImage;
-            }
-
-            set
-            {
-                if (previewImage != value)
-                {
-                    previewImage = value;
-                    NotifyOfPropertyChange(() => PreviewImage);
-                    NotifyOfPropertyChange(() => ImageHeight);
-                    NotifyOfPropertyChange(() => ImageWidth);
-                    NotifyOfPropertyChange(() => ImageMargin);
-                }
-            }
-        }
-
-        public string ShowButtonLabel
-        {
-            get
-            {
-                return selectedItem.Deletable.Id == null ? "Select Element" : "Show Element " + selectedItem.Deletable.Id.ToString();
-            }
-        }
-
-        public void DeleteElements()
-        {
-            List<DeletableItem> toDelete = new List<DeletableItem>();
-            foreach (var item in CheckableItems) {
-                if (item.IsYes) {
-                    if (item.Deletable.Id != null && doc.GetElement(item.Deletable.Id).IsValidObject) {
-                        toDelete.Add(item.Deletable);
-                    }
-                    RecurseItems(toDelete, item);
-                }
-                if (item.IsMaybe) {
-                    RecurseItems(toDelete, item);
-                }
-            }
-
-            this.IsNotifying = false;
-            DestructivePurgeUtilitiles.RemoveElements(doc, toDelete);
-            this.IsNotifying = true;
-            CheckableItems = GetPurgableItems();
         }
 
         public void RecurseItems(List<DeletableItem> list, CheckableItem item)
