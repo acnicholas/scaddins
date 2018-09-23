@@ -116,7 +116,7 @@ namespace SCaddins
         public static PushButtonData LoadSCaos(string dll, int iconSize)
         {
             var pbd = new PushButtonData(
-                              "SCaos", Resources.AngleOfSun, dll, "SCaddins.SolarUtilities.Command");
+                              "SCaos", Resources.AngleOfSun, dll, "SCaddins.SolarAnalysis.Command");
             pbd.SetContextualHelp(
                 new ContextualHelp(
                     ContextualHelpType.Url, Constants.HelpLink));

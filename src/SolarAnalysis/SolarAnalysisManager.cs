@@ -38,8 +38,6 @@ namespace SCaddins.SolarAnalysis
         private readonly Document doc;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "position")]
         private readonly ProjectPosition position;
-        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "prjectLocation")]
-        ////private readonly ProjectLocation projectLocation;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "udoc")]
         private readonly UIDocument udoc;
 
@@ -247,6 +245,9 @@ namespace SCaddins.SolarAnalysis
         public static bool ViewIsSingleDay(View view)
         {
             var sunSettings = view.SunAndShadowSettings;
+            if (sunSettings == null) {
+                return false;
+            }
             return sunSettings.TimeInterval == SunStudyTimeInterval.Hour && sunSettings.SunAndShadowType == SunAndShadowType.OneDayStudy;
         }
 

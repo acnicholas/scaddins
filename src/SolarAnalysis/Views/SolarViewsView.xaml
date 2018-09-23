@@ -85,7 +85,12 @@
                         x:Name="CreateAnalysisView"
                         Margin="5"
                         Grid.Row="3"
-                        Content="Create Analysis View" />
+                        ToolTipService.ShowOnDisabled="True"
+                        Content="Create Analysis View">
+                        <RadioButton.ToolTip>
+                            <Label>Create a coloured Solar Analysis (Direct Sun) View. The active view's Sun Settings must be a single day, with hourly frame intervals</Label>
+                        </RadioButton.ToolTip>
+                    </RadioButton>
                 </Grid>
             </GroupBox>
             <GroupBox
