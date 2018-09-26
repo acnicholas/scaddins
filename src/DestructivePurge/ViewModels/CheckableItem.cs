@@ -49,7 +49,7 @@ namespace SCaddins.DestructivePurge.ViewModels
         {
             get
             {
-                return IsYesOrMaybe || IsMaybe;
+                return IsYes || IsMaybe;
             }
         }
 
@@ -61,11 +61,36 @@ namespace SCaddins.DestructivePurge.ViewModels
             }
         }
 
+        public bool IsNo
+        {
+            get
+            {
+                return IsChecked.HasValue && IsChecked.Value == false;
+            }
+        }
+
         public bool IsMaybe
         {
             get
             {
                 return IsChecked == null;
+            }
+        }
+
+        public int CheckedCount
+        {
+            get
+            {
+                int n = 0;
+                if (IsYes && Deletable.Id != null) {
+                    n++;
+                }
+                if (IsYesOrMaybe) {
+                    foreach (var child in Children) {
+                        n += child.CheckedCount;
+                    }
+                }
+                return n;
             }
         }
 
@@ -78,7 +103,6 @@ namespace SCaddins.DestructivePurge.ViewModels
 
             set
             {
-                // cascade through children
                 if (value != isChecked)
                 {
                     isChecked = value;
@@ -90,6 +114,7 @@ namespace SCaddins.DestructivePurge.ViewModels
                         }
                     }
                     NotifyOfPropertyChange(() => IsChecked);
+                    NotifyOfPropertyChange(() => CheckedCount);
 
                     if (parent != null)
                     {

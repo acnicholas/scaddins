@@ -30,6 +30,7 @@ namespace SCaddins.DestructivePurge.ViewModels
         private Document doc;
         private System.Windows.Media.Imaging.BitmapImage previewImage;
         private CheckableItem selectedItem;
+        //private int checkedCount;
 
         public DestructivePurgeViewModel(Autodesk.Revit.DB.Document doc)
         {
@@ -52,6 +53,21 @@ namespace SCaddins.DestructivePurge.ViewModels
             {
                 checkableItems = value;
                 NotifyOfPropertyChange(() => CheckableItems);
+            }
+        }
+
+        public int CheckedCount
+        {
+            get
+            {
+                int n = 0;
+                foreach (CheckableItem ci in CheckableItems) {
+                    if (ci.IsYesOrMaybe) {
+                        n += ci.CheckedCount;
+                    }
+                }
+                return n;
+                //return 0;
             }
         }
 
@@ -120,6 +136,14 @@ namespace SCaddins.DestructivePurge.ViewModels
             get
             {
                 return selectedItem.Deletable.Id == null ? "Select Element" : "Show Element " + selectedItem.Deletable.Id.ToString();
+            }
+        }
+
+        public string DeleteButtonLabel
+        {
+            get
+            {
+                return "Delete " + CheckedCount;
             }
         }
 
@@ -215,12 +239,18 @@ namespace SCaddins.DestructivePurge.ViewModels
             }
         }
 
+        public void TreeViewSourceUpdated()
+        {
+            NotifyOfPropertyChange(() => DeleteButtonLabel);
+        }
+
         public void SelectedItemChanged(CheckableItem item)
         {
             selectedItem = item;
             NotifyOfPropertyChange(() => Details);
             NotifyOfPropertyChange(() => ShowButtonLabel);
             NotifyOfPropertyChange(() => EnableShowElemant);
+            NotifyOfPropertyChange(() => DeleteButtonLabel);
             PreviewImage = DestructivePurgeUtilitiles.ToBitmapImage(item.Deletable.PreviewImage);
         }
 

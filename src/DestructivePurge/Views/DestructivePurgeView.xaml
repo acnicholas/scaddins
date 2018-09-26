@@ -20,14 +20,18 @@
         <GroupBox Grid.Column="0" Margin="5" Header="Elements To Delete">
             <TreeView 
             Margin="5"
-            cal:Message.Attach="[Event SelectedItemChanged] = [Action SelectedItemChanged($this.SelectedItem)]" 
+            cal:Message.Attach="[Event SelectedItemChanged] = [Action SelectedItemChanged($this.SelectedItem)]; [Event MouseUp] = [Action TreeViewSourceUpdated()]" 
             ItemsSource="{Binding CheckableItems}">
                 <TreeView.Resources>
-                    <HierarchicalDataTemplate
-                DataType="{x:Type local:CheckableItem}" 
-                ItemsSource="{Binding Children}">
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox IsChecked="{Binding IsChecked}"/>
+                    <HierarchicalDataTemplate   
+                         DataType="{x:Type local:CheckableItem}"
+                         ItemsSource="{Binding Children}">
+                        <StackPanel                          
+                            Orientation="Horizontal">
+                            <CheckBox
+                                IsChecked="{Binding IsChecked}"
+                                cal:Message.Attach="[Event Checked] = [Action TreeViewSourceUpdated()]"
+                            />
                             <TextBlock Text="{Binding Name}"/>
                         </StackPanel>
                     </HierarchicalDataTemplate>
@@ -59,7 +63,7 @@
                 Content="{Binding Path=ShowButtonLabel}"
                 MinWidth="75">
             </Button>
-            <Button x:Name="DeleteElements" Margin="5" Grid.Column="1" HorizontalAlignment="Right" Width="75">Delete</Button>
+            <Button x:Name="DeleteElements" Content="{Binding Path=DeleteButtonLabel}" Margin="5" Grid.Column="1" HorizontalAlignment="Right" Width="75"></Button>
         </Grid>
     </Grid>
 </UserControl>
