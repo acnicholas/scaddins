@@ -19,23 +19,32 @@
         </Grid.RowDefinitions>
         <GroupBox Grid.Column="0" Margin="5" Header="Elements To Delete">
             <TreeView 
+            x:Name="TreeView"
             Margin="5"
-            cal:Message.Attach="[Event SelectedItemChanged] = [Action SelectedItemChanged($this.SelectedItem)]; [Event MouseUp] = [Action TreeViewSourceUpdated()]" 
+            cal:Message.Attach="[Event SelectedItemChanged] = [Action SelectedItemChanged($this.SelectedItem)]" 
             ItemsSource="{Binding CheckableItems}">
                 <TreeView.Resources>
                     <HierarchicalDataTemplate   
-                         DataType="{x:Type local:CheckableItem}"
+                         DataType="{x:Type local:CheckableItem}"  
                          ItemsSource="{Binding Children}">
                         <StackPanel                          
                             Orientation="Horizontal">
                             <CheckBox
                                 IsChecked="{Binding IsChecked}"
-                                cal:Message.Attach="[Event Checked] = [Action TreeViewSourceUpdated()]"
+                                cal:Message.Attach="[Event Checked] = [Action TreeViewSourceUpdated()]; [Event Unchecked] = [Action TreeViewSourceUpdated()]; [Event Indeterminate] = [Action TreeViewSourceUpdated()]"
                             />
                             <TextBlock Text="{Binding Name}"/>
                         </StackPanel>
                     </HierarchicalDataTemplate>
                 </TreeView.Resources>
+                <TreeView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Select All" cal:Message.Attach="SelectAll">
+                        </MenuItem>
+                        <MenuItem cal:Message.Attach="SelectNone" Header="Select None">
+                        </MenuItem>
+                    </ContextMenu>
+                </TreeView.ContextMenu>
             </TreeView>
         </GroupBox>
         <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Height="Auto"></GridSplitter>

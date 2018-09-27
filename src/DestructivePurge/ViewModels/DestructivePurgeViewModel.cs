@@ -30,7 +30,6 @@ namespace SCaddins.DestructivePurge.ViewModels
         private Document doc;
         private System.Windows.Media.Imaging.BitmapImage previewImage;
         private CheckableItem selectedItem;
-        //private int checkedCount;
 
         public DestructivePurgeViewModel(Autodesk.Revit.DB.Document doc)
         {
@@ -67,12 +66,17 @@ namespace SCaddins.DestructivePurge.ViewModels
                     }
                 }
                 return n;
-                //return 0;
             }
         }
 
-        public string Details
-        {
+        public string DeleteButtonLabel {
+            get
+            {
+                return "Delete " + CheckedCount;
+            }
+        }
+
+        public string Details {
             get
             {
                 if (selectedItem.Deletable.Info == "-") {
@@ -139,11 +143,12 @@ namespace SCaddins.DestructivePurge.ViewModels
             }
         }
 
-        public string DeleteButtonLabel
+        public void CollapseAll(object sender)
         {
-            get
-            {
-                return "Delete " + CheckedCount;
+            var treeView = sender as System.Windows.Controls.TreeView;
+            foreach (var item in treeView.Items) {
+                var treeViewItem = item as System.Windows.Controls.TreeViewItem;
+                treeViewItem.IsExpanded = false;
             }
         }
 
@@ -239,9 +244,9 @@ namespace SCaddins.DestructivePurge.ViewModels
             }
         }
 
-        public void TreeViewSourceUpdated()
+        public void SelectAll()
         {
-            NotifyOfPropertyChange(() => DeleteButtonLabel);
+            SelectAllOrNone(true);
         }
 
         public void SelectedItemChanged(CheckableItem item)
@@ -254,21 +259,34 @@ namespace SCaddins.DestructivePurge.ViewModels
             PreviewImage = DestructivePurgeUtilitiles.ToBitmapImage(item.Deletable.PreviewImage);
         }
 
+        public void SelectNone()
+        {
+            SelectAllOrNone(false);
+        }
+
         public void ShowElement()
         {
-            if (selectedItem.Deletable.Id != null)
-            {
+            if (selectedItem.Deletable.Id != null) {
                 var uiapp = new Autodesk.Revit.UI.UIApplication(doc.Application);
                 Element e = doc.GetElement(selectedItem.Deletable.Id);
                 Type t = e.GetType();
-                if (e is Autodesk.Revit.DB.View)
-                {
+                if (e is Autodesk.Revit.DB.View) {
                     uiapp.ActiveUIDocument.ActiveView = (Autodesk.Revit.DB.View)e;
-                }
-                else
-                {
+                } else {
                     uiapp.ActiveUIDocument.ShowElements(selectedItem.Deletable.Id);
                 }
+            }
+        }
+
+        public void TreeViewSourceUpdated()
+        {
+            NotifyOfPropertyChange(() => DeleteButtonLabel);
+        }
+
+        private void SelectAllOrNone(bool selectAll)
+        {
+            foreach (var item in CheckableItems) {
+                item.IsChecked = selectAll;
             }
         }
     }
