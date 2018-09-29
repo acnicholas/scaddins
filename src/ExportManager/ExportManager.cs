@@ -387,10 +387,12 @@ namespace SCaddins.ExportManager
                 sheet.UpdateSheetInfo();
             }
 
+            log.AddMessage(sheet.ToString());
+
             if (sheet.SCPrintSetting != null) {
                 var startTime = DateTime.Now;
                 if (this.exportFlags.HasFlag(ExportOptions.DWG)) {
-                    this.ExportDWG(sheet, this.exportFlags.HasFlag(ExportOptions.NoTitle));
+                    this.ExportDWG(sheet, this.exportFlags.HasFlag(ExportOptions.NoTitle), log);
                 }
 
                 if (this.exportFlags.HasFlag(ExportOptions.PDF)) {
@@ -629,6 +631,12 @@ namespace SCaddins.ExportManager
             }
         }
 
+        private static bool IsViewerMode()
+        {
+            var MainWindowTitle = System.Diagnostics.Process.GetCurrentProcess().MainWindowTitle;
+            return MainWindowTitle.Contains("VIEWER");
+        }
+
         private static string TimeSpanAsString(TimeSpan time)
         {
             var result = "Elapsed Time: " +
@@ -637,10 +645,22 @@ namespace SCaddins.ExportManager
                 MiscUtilities.PadLeftZeros(time.Seconds.ToString(CultureInfo.CurrentCulture), 2) + "s";
             return result;
         }
+
         [SecurityCritical]
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private bool ExportAdobePDF(ExportSheet vs, ExportLog log)
         {
+            if (log != null) {
+                log.AddMessage(Environment.NewLine + Resources.MessageStartingPDFExport);
+            } else {
+                return false;
+            }
+
+            if (IsViewerMode()) {
+                log.AddError(vs.FullExportName, "Revit is in Viewer mode. Printing is not allowed");
+                return false;
+            }
+
             PrintManager pm = Doc.PrintManager;
 
             log.AddMessage(Resources.MessageApplyingPrintSetting + vs.PrintSettingName);
@@ -657,6 +677,7 @@ namespace SCaddins.ExportManager
                     File.Delete(vs.FullExportPath(Resources.FileExtensionPDF));
                 }
                 log.AddMessage(Resources.MessageSubmittingPrint);
+                
                 if (pm.SubmitPrint(vs.Sheet)) {
                     log.AddMessage(Resources.MessageApparentlyCompletedSuccessfully);
                 } else {
@@ -675,19 +696,18 @@ namespace SCaddins.ExportManager
             return true;
         }
 
-        private void ExportDWG(ExportSheet vs, bool removeTitle)
-        {
-            ExportDWG(vs, removeTitle, null);
-        }
-
         // FIXME this is nasty
         private void ExportDWG(ExportSheet vs, bool removeTitle, ExportLog log)
         {
             if (log != null) {
                 log.AddMessage(Environment.NewLine + Resources.MessageStartingDWGExport);
+            } else {
+                return;
             }
-            if (log != null) {
-                log.AddMessage(vs.ToString());
+
+            if (IsViewerMode()) {
+                log.AddError(vs.FullExportName, "Revit is in Viewer mode. Exporting DWG files is not allowed");
+                return;
             }
 
             List<ElementId> titleBlockHidden;

@@ -817,6 +817,15 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ### Starting Adobe PDF Export ###.
+        /// </summary>
+        internal static string MessageStartingPDFExport {
+            get {
+                return ResourceManager.GetString("MessageStartingPDFExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submitting print....
         /// </summary>
         internal static string MessageSubmittingPrint {
