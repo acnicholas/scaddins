@@ -81,7 +81,7 @@
                     <Button x:Name="RemoveSheetSelection" Grid.Column="1" Margin="5">Remove Selection</Button>
                     <Button x:Name="CopySheetSelection" Grid.Column="2" Margin="5">Copy</Button>
                     <Button x:Name="AddCurrentSheet" Grid.Column="3" Margin="5">Add Current Sheet</Button>
-                    <Button x:Name="AddSheetSelection" Grid.Column="4" Margin="5">Add Selected Sheets</Button>
+                    <Button x:Name="AddSheets" Grid.Column="4" Margin="5">Select Sheets</Button>
                 </Grid>
                 <DataGrid
                     x:Name="Sheets"

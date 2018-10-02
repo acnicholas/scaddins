@@ -141,18 +141,27 @@ namespace SCaddins.SheetCopier.ViewModels
             NotifyOfPropertyChange(() => GoLabel);
         }
 
-        public void AddSheetSelection()
+        public void AddSheets()
         {
-            this.IsNotifying = false;
             var vm = new ViewModels.SheetSelectionViewModel(copyManager);
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SheetSelectionViewModel.DefaultWindowSettings);
-            this.IsNotifying = true;
+            bool? result =SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SheetSelectionViewModel.DefaultWindowSettings);
+            if (result.HasValue && result.Value == true) {
+                AddSheets(vm.SelectedSheets);
+                NotifyOfPropertyChange(() => GoLabel);
+            }
         }
 
         public void AddSheets(List<SCaddins.ExportManager.ExportSheet> selectedSheets)
         {
             foreach (var sheet in selectedSheets) {
                 copyManager.AddSheet(sheet.Sheet);
+            }
+        }
+
+        public void AddSheets(List<Autodesk.Revit.DB.ViewSheet> selectedSheets)
+        {
+            foreach (var sheet in selectedSheets) {
+                copyManager.AddSheet(sheet);
             }
         }
 

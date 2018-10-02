@@ -26,12 +26,13 @@ namespace SCaddins.SheetCopier.ViewModels
 
      public class SheetSelectionViewModel : Screen
     {
+        private List<ViewSheet> sheets;
+        private List<ViewSheet> selectedSheets;
+
         public SheetSelectionViewModel(SheetCopierManager manager)
         {
-            var list = manager.ExistingViews.Values.ToList<Autodesk.Revit.DB.View>().Cast<ViewSheet>();
-            //if (list != null && list.Count() > 0) {
-            //    Sheets = new ObservableCollection<ViewSheet>(list);
-            //}
+            sheets = manager.ExistingSheets.Values.ToList<Autodesk.Revit.DB.View>().Cast<ViewSheet>().ToList();
+            selectedSheets = new List<ViewSheet>();
         }
 
         public static dynamic DefaultWindowSettings {
@@ -48,12 +49,27 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
-        public ObservableCollection<ViewSheet> Sheets {
-            get; set;
+        public List<ViewSheet> Sheets {
+            get
+            {
+                return sheets;
+            }
         }
 
-        public RevisionUtilities.RevisionItem SelectedRevision {
-            get; set;
+        public List<ViewSheet> SelectedSheets {
+            get
+            {
+                return selectedSheets;
+            }
+        }
+
+        public void RowSheetSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
+        {
+            try {
+                selectedSheets.AddRange(obj.AddedItems.Cast<ViewSheet>());
+                obj.RemovedItems.Cast<ViewSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
+            } catch {
+            }
         }
 
         public void Cancel()
