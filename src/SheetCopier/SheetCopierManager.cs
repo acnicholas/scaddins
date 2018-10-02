@@ -81,6 +81,14 @@ namespace SCaddins.SheetCopier
             }
         }
 
+        public Dictionary<string, View> ExistingSheets
+        {
+            get
+            {
+                return this.existingSheets;
+            }
+        }
+
         public Dictionary<string, Level> Levels
         {
             get

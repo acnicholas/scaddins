@@ -19,24 +19,19 @@ namespace SCaddins.SheetCopier.ViewModels
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Dynamic;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
      public class SheetSelectionViewModel : Screen
     {
-        public SheetSelectionViewModel(Autodesk.Revit.DB.Document doc)
+        public SheetSelectionViewModel(SheetCopierManager manager)
         {
-            List<ViewSheet> sheets = new List<ViewSheet>();
-            using (FilteredElementCollector collector = new FilteredElementCollector(doc)) {
-                collector.OfCategory(BuiltInCategory.OST_Sheets);
-                collector.OfClass(typeof(ViewSheet));
-                foreach (ViewSheet v in collector) {
-                    sheets.Add(v);
-                }
-            }
-
-            Sheets = new ObservableCollection<ViewSheet>(sheets);
+            var list = manager.ExistingViews.Values.ToList<Autodesk.Revit.DB.View>().Cast<ViewSheet>();
+            //if (list != null && list.Count() > 0) {
+            //    Sheets = new ObservableCollection<ViewSheet>(list);
+            //}
         }
 
         public static dynamic DefaultWindowSettings {

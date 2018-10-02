@@ -143,8 +143,10 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public void AddSheetSelection()
         {
-            var vm = new ViewModels.SheetSelectionViewModel(copyManager.Doc);
+            this.IsNotifying = false;
+            var vm = new ViewModels.SheetSelectionViewModel(copyManager);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SheetSelectionViewModel.DefaultWindowSettings);
+            this.IsNotifying = true;
         }
 
         public void AddSheets(List<SCaddins.ExportManager.ExportSheet> selectedSheets)
