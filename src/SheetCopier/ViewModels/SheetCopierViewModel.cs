@@ -141,6 +141,12 @@ namespace SCaddins.SheetCopier.ViewModels
             NotifyOfPropertyChange(() => GoLabel);
         }
 
+        public void AddSheetSelection()
+        {
+            var vm = new ViewModels.SheetSelectionViewModel(copyManager.Doc);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SheetSelectionViewModel.DefaultWindowSettings);
+        }
+
         public void AddSheets(List<SCaddins.ExportManager.ExportSheet> selectedSheets)
         {
             foreach (var sheet in selectedSheets) {
@@ -163,8 +169,6 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public void Go()
         {
-            ////RunAfterClose = true;
-            ////TryClose(true);
             copyManager.CreateSheets();
         }
 

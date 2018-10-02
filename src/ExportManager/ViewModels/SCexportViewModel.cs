@@ -257,7 +257,6 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void Export()
         {
-            //ExportLog log = new ExportLog();
             log.Clear();
             log.Start("Beginning Export.");
             ProgressBarMaximum = selectedSheets.Count;
@@ -354,7 +353,9 @@ namespace SCaddins.ExportManager.ViewModels
         public void RemoveViewFilter()
         {
             Sheets.Filter = null;
+            SearchText = string.Empty;
             NotifyOfPropertyChange(() => Sheets);
+            NotifyOfPropertyChange(() => SearchText);
         }
 
         public void RenameSheets()

@@ -383,14 +383,18 @@ namespace SCaddins.ExportManager
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         public void ExportSheet(ExportSheet sheet, ExportLog log)
         {
+            if (log == null) {
+                throw new ArgumentNullException();
+            }
+
+            var startTime = log.StartLoggingIndividualItem(null);
+            log.AddMessage(sheet.ToString());
+
             if (!sheet.Verified) {
                 sheet.UpdateSheetInfo();
             }
-
-            log.AddMessage(sheet.ToString());
-
+ 
             if (sheet.SCPrintSetting != null) {
-                var startTime = DateTime.Now;
                 if (this.exportFlags.HasFlag(ExportOptions.DWG)) {
                     this.ExportDWG(sheet, this.exportFlags.HasFlag(ExportOptions.NoTitle), log);
                 }
@@ -402,15 +406,10 @@ namespace SCaddins.ExportManager
                 if (this.exportFlags.HasFlag(ExportOptions.GhostscriptPDF)) {
                     this.ExportGSPDF(sheet, log);
                 }
-                var elapsedTime = DateTime.Now - startTime;
-                if (log != null) {
-                    log.AddMessage(Resources.MessageElapsedTimeForLastExport + elapsedTime.ToString());
-                }
             } else {
-                if (log != null) {
                     log.AddError(sheet.FullExportName, Resources.MessageNoPrintSettingAssigned);
-                }
             }
+            log.EndLoggingIndividualItem(startTime, null);
         }
 
         public bool GSSanityCheck()
@@ -633,8 +632,8 @@ namespace SCaddins.ExportManager
 
         private static bool IsViewerMode()
         {
-            var MainWindowTitle = System.Diagnostics.Process.GetCurrentProcess().MainWindowTitle;
-            return MainWindowTitle.Contains("VIEWER");
+            var mainWindowTitle = System.Diagnostics.Process.GetCurrentProcess().MainWindowTitle;
+            return mainWindowTitle.Contains("VIEWER");
         }
 
         private static string TimeSpanAsString(TimeSpan time)

@@ -17,25 +17,26 @@
 
 namespace SCaddins.SheetCopier.ViewModels
 {
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Dynamic;
+    using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
      public class SheetSelectionViewModel : Screen
     {
         public SheetSelectionViewModel(Autodesk.Revit.DB.Document doc)
         {
-            ////List<> sheets = new List<>
-            ////using (FilteredElementCollector collector = new FilteredElementCollector(doc)) {
-            ////    collector.OfCategory(BuiltInCategory.OST_Sheets);
-            ////    collector.OfClass(typeof(ViewSheet));
-            ////    foreach (ViewSheet v in collector) {
-            ////        var scxSheet = new ExportSheet(v, Doc, this.fileNameTypes[0], this);
-            ////        s.Add(scxSheet);
-            ////    }
-            ////}
+            List<ViewSheet> sheets = new List<ViewSheet>();
+            using (FilteredElementCollector collector = new FilteredElementCollector(doc)) {
+                collector.OfCategory(BuiltInCategory.OST_Sheets);
+                collector.OfClass(typeof(ViewSheet));
+                foreach (ViewSheet v in collector) {
+                    sheets.Add(v);
+                }
+            }
 
-            ////Sheets = new ObservableCollection<SCaddins.ExportManager.ExportSheet>(SCaddins.ExportManager.ExportManager.);
+            Sheets = new ObservableCollection<ViewSheet>(sheets);
         }
 
         public static dynamic DefaultWindowSettings {
@@ -52,7 +53,7 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
-        public ObservableCollection<SCaddins.ExportManager.ExportSheet> Sheets {
+        public ObservableCollection<ViewSheet> Sheets {
             get; set;
         }
 

@@ -75,11 +75,13 @@
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Label  Grid.Column="0" Margin="5">New Sheets</Label>
                     <Button x:Name="RemoveSheetSelection" Grid.Column="1" Margin="5">Remove Selection</Button>
                     <Button x:Name="CopySheetSelection" Grid.Column="2" Margin="5">Copy</Button>
                     <Button x:Name="AddCurrentSheet" Grid.Column="3" Margin="5">Add Current Sheet</Button>
+                    <Button x:Name="AddSheetSelection" Grid.Column="4" Margin="5">Add Selected Sheets</Button>
                 </Grid>
                 <DataGrid
                     x:Name="Sheets"
