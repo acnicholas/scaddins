@@ -141,10 +141,18 @@ namespace SCaddins.SheetCopier.ViewModels
             NotifyOfPropertyChange(() => GoLabel);
         }
 
+        public bool AddCurrentSheetIsEnabled
+        {
+            get
+            {
+                return copyManager.Doc.ActiveView.ViewType == Autodesk.Revit.DB.ViewType.DrawingSheet;
+            }
+        }
+
         public void AddSheets()
         {
             var vm = new ViewModels.SheetSelectionViewModel(copyManager);
-            bool? result =SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SheetSelectionViewModel.DefaultWindowSettings);
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SheetSelectionViewModel.DefaultWindowSettings);
             if (result.HasValue && result.Value == true) {
                 AddSheets(vm.SelectedSheets);
                 NotifyOfPropertyChange(() => GoLabel);
@@ -173,6 +181,14 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
+        public bool CopySheetSelectionIsEnabled
+        {
+            get
+            {
+                return selectedSheet != null;
+            }
+        }
+
         public void CreateSheets()
         {
             copyManager.CreateSheets();
@@ -190,12 +206,28 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
+        public bool RemoveSelectedViewsIsEnabled
+        {
+            get
+            {
+                return selectedViews.Count > 0;
+            }
+        }
+
         public void RemoveSheetSelection()
         {
             foreach (var s in selectedSheets.ToList()) {
                 Sheets.Remove(s);
             }
             NotifyOfPropertyChange(() => GoLabel);
+        }
+
+        public bool RemoveSheetSelectionIsEnabled
+        {
+            get
+            {
+                return selectedSheet != null;
+            }
         }
 
         public void RowSheetSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
@@ -205,6 +237,9 @@ namespace SCaddins.SheetCopier.ViewModels
                 obj.RemovedItems.Cast<SheetCopierSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
             } catch {
             }
+            NotifyOfPropertyChange(() => GoLabel);
+            NotifyOfPropertyChange(() => CopySheetSelectionIsEnabled);
+            NotifyOfPropertyChange(() => RemoveSheetSelectionIsEnabled);
         }
 
         public void RowViewsOnSheetSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
@@ -214,6 +249,7 @@ namespace SCaddins.SheetCopier.ViewModels
                 obj.RemovedItems.Cast<SheetCopierViewOnSheet>().ToList().ForEach(w => selectedViews.Remove(w));
             } catch {
             }
+            NotifyOfPropertyChange(() => RemoveSelectedViewsIsEnabled);
         }
     }
 }
