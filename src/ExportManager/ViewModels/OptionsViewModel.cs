@@ -90,7 +90,11 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                exportManager.UseDateForEmptyRevisions = value;
+                if (exportManager.UseDateForEmptyRevisions != value) {
+                    exportManager.UseDateForEmptyRevisions = value;
+                    Settings1.Default.UseDateForEmptyRevisions = value;
+                    Settings1.Default.Save();
+                }
             }
         }
 
@@ -129,6 +133,8 @@ namespace SCaddins.ExportManager.ViewModels
                     return;
                 }
                 exportManager.ExportDirectory = value;
+                Settings1.Default.ExportDir = value;
+                Settings1.Default.Save();
                 NotifyOfPropertyChange(() => ExportDirectory);
             }
         }
@@ -192,7 +198,11 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                exportManager.ForceRevisionToDateString = value;
+                if (exportManager.ForceRevisionToDateString != value) {
+                    exportManager.ForceRevisionToDateString = value;
+                    Settings1.Default.ForceDateRevision = value;
+                    Settings1.Default.Save();
+                }
             }
         }
 

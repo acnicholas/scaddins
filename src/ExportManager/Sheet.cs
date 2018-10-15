@@ -28,6 +28,7 @@ namespace SCaddins.ExportManager
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "doc")]
         private Document doc;
+        private string exportDirectory;
         private bool forceDate;
         private string fullExportName;
         private double height;
@@ -66,7 +67,17 @@ namespace SCaddins.ExportManager
 
         public string ExportDirectory
         {
-            get; set;
+            get
+            {
+                return exportDirectory;
+            }
+            set
+            {
+                if (exportDirectory != value) {
+                    exportDirectory = value;
+                    NotifyPropertyChanged(nameof(ExportDirectory));
+                }
+            }
         }
 
         public bool ForceDate
@@ -82,6 +93,7 @@ namespace SCaddins.ExportManager
                 this.SetExportName();
                 NotifyPropertyChanged(nameof(ForceDate));
                 NotifyPropertyChanged(nameof(FullExportName));
+                NotifyPropertyChanged(nameof(SheetRevision));
             }
         }
 
@@ -263,6 +275,7 @@ namespace SCaddins.ExportManager
                 this.SetExportName();
                 NotifyPropertyChanged(nameof(UseDateForEmptyRevisions));
                 NotifyPropertyChanged(nameof(FullExportName));
+                NotifyPropertyChanged(nameof(SheetRevision));
             }
         }
 

@@ -57,6 +57,7 @@ namespace SCaddins.SheetCopier
                     this.viewsOnSheet.Add(new SheetCopierViewOnSheet(v.Name, v, scopy));
                 }
             }
+            SheetCategories = new ObservableCollection<string>(scopy.SheetCategories.ToList());
         }
 
         public ViewSheet DestinationSheet
@@ -86,19 +87,9 @@ namespace SCaddins.SheetCopier
             }
         }
 
-        public List<string> SheetCategories
+        public ObservableCollection<string> SheetCategories
         {
-            get
-            {
-                try
-                {
-                    return scopy.SheetCategories;
-                }
-                catch
-                {
-                    return null;
-                }
-            }
+            get; set; 
         }
 
         public string SheetCategory
@@ -110,12 +101,23 @@ namespace SCaddins.SheetCopier
 
             set
             {
-                if (sheetCategory != value)
-                {
+                //if (sheetCategory != value)
+                //{
                     sheetCategory = value;
+                    if (!SheetCategories.Contains(sheetCategory)) {
+                        foreach(var s in scopy.Sheets) {
+                            s.SheetCategories.Add(sheetCategory);
+                            s.RefreshSheetCategories();
+                        }
+                    }
                     NotifyOfPropertyChange(() => SheetCategory);
-                }
+                //}
             }
+        }
+
+        public void RefreshSheetCategories()
+        {
+            NotifyOfPropertyChange(() => SheetCategories);
         }
 
         public ViewSheet SourceSheet

@@ -42,8 +42,8 @@ namespace SCaddins.SheetCopier
         private Dictionary<string, Level> levels =
             new Dictionary<string, Level>();
 
-        private List<string> sheetCategories =
-            new List<string>();
+        private ObservableCollection<string> sheetCategories =
+            new ObservableCollection<string>();
 
         private ObservableCollection<SheetCopierSheet> sheets;
         private StringBuilder summaryText;
@@ -97,7 +97,7 @@ namespace SCaddins.SheetCopier
             }
         }
 
-        public List<string> SheetCategories
+        public ObservableCollection<string> SheetCategories
         {
             get
             {
@@ -220,6 +220,11 @@ namespace SCaddins.SheetCopier
                 return AddSheet((ViewSheet)doc.ActiveView);
             }
             return false;
+        }
+
+        public void AddSheetCategory(string name)
+        {
+            sheetCategories.Add(name);
         }
 
         // add an empty sheet to the doc.
