@@ -79,6 +79,7 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 currentProgress = value;
                 NotifyOfPropertyChange(() => CurrentProgress);
+                NotifyOfPropertyChange(() => ProgressBarText);
             }
         }
 
@@ -105,8 +106,13 @@ namespace SCaddins.ExportManager.ViewModels
         {
             get
             {
-                var numberOfSheets = selectedSheets.Count;
-                return numberOfSheets + @" Sheet[s] Selected To Export/Print";
+                if (CurrentProgress == 0) {
+                    var numberOfSheets = selectedSheets.Count;
+                    return numberOfSheets + @" Sheet[s] Selected To Export/Print";
+                } else {
+                    string percentageCompete = ((CurrentProgress / selectedSheets.Count) * 100).ToString();
+                    return "Exporting " + CurrentProgress + @"/" + selectedSheets.Count + @"("+ percentageCompete  + @"%) [Elapsed Time = " +  log.TimeSinceStart + @"]";
+                }
             }
         }
 
@@ -273,6 +279,7 @@ namespace SCaddins.ExportManager.ViewModels
             foreach (ExportSheet sheet in selectedSheets)
             {
                 CurrentProgress += 1;
+                System.Windows.Forms.Application.DoEvents();
                 exportManager.ExportSheet(sheet, log);
                 System.Windows.Forms.Application.DoEvents();
             }
@@ -314,6 +321,7 @@ namespace SCaddins.ExportManager.ViewModels
             foreach (ExportSheet sheet in selectedSheets.OrderBy(x => x.SheetNumber).ToList())
             {
                 CurrentProgress += 1;
+                System.Windows.Forms.Application.DoEvents();
                 exportManager.Print(sheet, printerName, printMode, log);
                 System.Windows.Forms.Application.DoEvents();
             }
