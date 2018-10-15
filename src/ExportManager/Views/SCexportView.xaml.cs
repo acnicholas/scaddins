@@ -19,5 +19,10 @@
         {
             Sheets.UnselectAll();
         }
+
+        private void Sheets_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Sheets.ScrollIntoView(Sheets.SelectedItem);
+        }
     }
 }

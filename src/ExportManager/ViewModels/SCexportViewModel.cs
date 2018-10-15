@@ -46,6 +46,7 @@ namespace SCaddins.ExportManager.ViewModels
             this.exportManager = exportManager;
             this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
             Sheets = CollectionViewSource.GetDefaultView(this.sheets);
+            Sheets.SortDescriptions.Add(new SortDescription("FullExportName", ListSortDirection.Ascending));
             CurrentProgress = 0;
             ProgressBarMaximum = 1;
             log = new ExportLog();
@@ -204,6 +205,8 @@ namespace SCaddins.ExportManager.ViewModels
                 if (keyArgs.Key == Key.Enter) {
                     var filter = new System.Predicate<object>(
                     item =>
+                       item != null
+                       &&
                        -1 < ((ExportSheet)item).SheetDescription.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)
                        ||
                        -1 < ((ExportSheet)item).SheetNumber.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase));
@@ -234,9 +237,14 @@ namespace SCaddins.ExportManager.ViewModels
 
             if (keyArgs.Key == Key.S)
             {
-                var activeSheetName = ExportManager.CurrentViewNumber(exportManager.Doc);
-                var filter = new System.Predicate<object>(item => ((ExportSheet)item).SheetNumber.Equals(activeSheetName));
-                Sheets.Filter = filter;
+                var activeSheetNumber = ExportManager.CurrentViewNumber(exportManager.Doc);
+                if (activeSheetNumber == null)
+                {
+                    return;
+                }
+                ExportSheet ss = sheets.Where<ExportSheet>(item => (item).SheetNumber.Equals(activeSheetNumber)).First<ExportSheet>();
+                SelectedSheet = ss;
+                NotifyOfPropertyChange(() => SelectedSheet);
             }
 
             if (keyArgs.Key == Key.Escape)
