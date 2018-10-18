@@ -71,6 +71,7 @@ namespace SCaddins.ExportManager
             {
                 return exportDirectory;
             }
+
             set
             {
                 if (exportDirectory != value) {
@@ -537,6 +538,7 @@ namespace SCaddins.ExportManager
                     this.doc, this.pageSize);
             this.verified = true;
             NotifyPropertyChanged(nameof(Scale));
+            NotifyPropertyChanged(nameof(PrintSettingName));
         }
 
         private void Init(

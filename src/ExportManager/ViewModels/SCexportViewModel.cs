@@ -111,7 +111,7 @@ namespace SCaddins.ExportManager.ViewModels
                     return numberOfSheets + @" Sheet[s] Selected To Export/Print";
                 } else {
                     string percentageCompete = ((CurrentProgress / selectedSheets.Count) * 100).ToString();
-                    return "Exporting " + CurrentProgress + @"/" + selectedSheets.Count + @"("+ percentageCompete  + @"%) [Elapsed Time = " +  log.TimeSinceStart + @"]";
+                    return "Exporting " + CurrentProgress + @"/" + selectedSheets.Count + @"(" + percentageCompete  + @"%) [Elapsed Time = " + log.TimeSinceStart + @"]";
                 }
             }
         }
@@ -205,19 +205,58 @@ namespace SCaddins.ExportManager.ViewModels
                 ViewUtilities.UserView.Create(selectedSheets, exportManager.Doc));
         }
 
-        public void ExecuteFilterView(KeyEventArgs keyArgs)
+        public string ExportButtonLabel
+        {
+            get
+            {
+                return @"Export" + SelectedExportTypesAsString;
+            }
+        }
+
+        private string SelectedExportTypesAsString
+        {
+            get
+            {
+                List<string> list = new List<string>();
+                list.Add(@"[");
+                if (exportManager.HasExportOption(ExportOptions.PDF)) {
+                    list.Add("PDF");
+                }
+                if (exportManager.HasExportOption(ExportOptions.GhostscriptPDF))
+                {
+                    list.Add("gPDF");
+                }
+                if (exportManager.HasExportOption(ExportOptions.DWG))
+                {
+                    list.Add("DWG");
+                }
+                list.Add(@"]");
+                return string.Join(",", list.ToArray());
+            }
+        }
+
+        private void ExecuteSearch()
+        {
+            if (SearchText == null)
+            {
+                return;
+            }
+            var filter = new System.Predicate<object>(
+                 item =>
+                    (item != null)
+                    &&
+                    (-1 < ((ExportSheet)item).SheetDescription.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)
+                    ||
+                    -1 < ((ExportSheet)item).SheetNumber.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)));
+            Sheets.Filter = filter;
+            NotifyOfPropertyChange(() => Sheets);
+        }
+
+        public void KeyPressed(KeyEventArgs keyArgs)
         {
             if (keyArgs.OriginalSource.GetType() == typeof(System.Windows.Controls.TextBox)) {
                 if (keyArgs.Key == Key.Enter) {
-                    var filter = new System.Predicate<object>(
-                    item =>
-                       item != null
-                       &&
-                       -1 < ((ExportSheet)item).SheetDescription.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)
-                       ||
-                       -1 < ((ExportSheet)item).SheetNumber.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase));
-                    Sheets.Filter = filter;
-                    NotifyOfPropertyChange(() => Sheets);
+                    ExecuteSearch();
                 }
                 return;
             }
@@ -232,13 +271,16 @@ namespace SCaddins.ExportManager.ViewModels
                     ShowLatestRevision();
                     break;
 
+                case Key.O:
+                    OpenViewsCommand();
+                    break;
+
+                case Key.V:
+                    VerifySheets();
+                    break;
+
                 default:
                     break;
-            }
-
-            if (keyArgs.Key == Key.O)
-            {
-                OpenViewsCommand();
             }
 
             if (keyArgs.Key == Key.S)
@@ -248,7 +290,7 @@ namespace SCaddins.ExportManager.ViewModels
                 {
                     return;
                 }
-                ExportSheet ss = sheets.Where<ExportSheet>(item => (item).SheetNumber.Equals(activeSheetNumber)).First<ExportSheet>();
+                ExportSheet ss = sheets.Where<ExportSheet>(item => item.SheetNumber.Equals(activeSheetNumber)).First<ExportSheet>();
                 SelectedSheet = ss;
                 NotifyOfPropertyChange(() => SelectedSheet);
             }
@@ -309,6 +351,7 @@ namespace SCaddins.ExportManager.ViewModels
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
             var optionsModel = new OptionsViewModel(exportManager, this);
             SCaddinsApp.WindowManager.ShowDialog(optionsModel, null, settings);
+            NotifyOfPropertyChange(() => ExportButtonLabel);
         }
 
         public void Print(string printerName, int printMode)
@@ -396,6 +439,11 @@ namespace SCaddins.ExportManager.ViewModels
             selectedSheets = grid.SelectedItems.Cast<ExportSheet>().ToList();
             NotifyOfPropertyChange(() => ProgressBarText);
             NotifyOfPropertyChange(() => Sheets);
+        }
+
+        public void SearchButton()
+        {
+            ExecuteSearch();
         }
 
         public void ShowLatestRevision()

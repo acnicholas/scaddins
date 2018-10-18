@@ -56,9 +56,41 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
+        public bool AddCurrentSheetIsEnabled
+        {
+            get
+            {
+                return copyManager.Doc.ActiveView.ViewType == Autodesk.Revit.DB.ViewType.DrawingSheet;
+            }
+        }
+
+        public bool CopySheetSelectionIsEnabled
+        {
+            get
+            {
+                return selectedSheet != null;
+            }
+        }
+
         public string GoLabel
         {
             get { return "Copy " + Sheets.Count + " Sheets"; }
+        }
+
+        public bool RemoveSelectedViewsIsEnabled
+        {
+            get
+            {
+                return selectedViews.Count > 0;
+            }
+        }
+
+        public bool RemoveSheetSelectionIsEnabled
+        {
+            get
+            {
+                return selectedSheet != null;
+            }
         }
 
         public bool RunAfterClose
@@ -141,14 +173,6 @@ namespace SCaddins.SheetCopier.ViewModels
             NotifyOfPropertyChange(() => GoLabel);
         }
 
-        public bool AddCurrentSheetIsEnabled
-        {
-            get
-            {
-                return copyManager.Doc.ActiveView.ViewType == Autodesk.Revit.DB.ViewType.DrawingSheet;
-            }
-        }
-
         public void AddSheets()
         {
             var vm = new ViewModels.SheetSelectionViewModel(copyManager);
@@ -181,14 +205,6 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
-        public bool CopySheetSelectionIsEnabled
-        {
-            get
-            {
-                return selectedSheet != null;
-            }
-        }
-
         public void CreateSheets()
         {
             copyManager.CreateSheets();
@@ -206,28 +222,12 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
-        public bool RemoveSelectedViewsIsEnabled
-        {
-            get
-            {
-                return selectedViews.Count > 0;
-            }
-        }
-
         public void RemoveSheetSelection()
         {
             foreach (var s in selectedSheets.ToList()) {
                 Sheets.Remove(s);
             }
             NotifyOfPropertyChange(() => GoLabel);
-        }
-
-        public bool RemoveSheetSelectionIsEnabled
-        {
-            get
-            {
-                return selectedSheet != null;
-            }
         }
 
         public void RowSheetSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)

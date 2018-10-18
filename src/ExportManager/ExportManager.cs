@@ -611,8 +611,7 @@ namespace SCaddins.ExportManager
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private static void SetAcrobatExportRegistryVal(string fileName, ExportLog log)
         {
-            string exe =
-                Process.GetCurrentProcess().MainModule.FileName;
+            string exe = Process.GetCurrentProcess().MainModule.FileName;
             try {
                 log.AddMessage("Attempting to set Acrobat Registry Value with value");
                 log.AddMessage("\t" + Constants.AcrobatPrinterJobControl);

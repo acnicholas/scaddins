@@ -170,12 +170,9 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value)
-                {
+                if (value) {
                     exportManager.AddExportOption(ExportOptions.GhostscriptPDF);
-                }
-                else
-                {
+                } else {
                     exportManager.RemoveExportOption(ExportOptions.GhostscriptPDF);
                 }
             }

@@ -50,6 +50,11 @@ namespace SCaddins.ExportManager
                     var t = new Transaction(doc, "Apply print settings");
                     t.Start();
                     var ips = pm.PrintSetup.CurrentPrintSetting;
+                    if (ips.PrintParameters.IsReadOnly)
+                    {
+                        t.RollBack();
+                        return false;
+                    }
                     try
                     {
                         ips.PrintParameters.PaperSize = paperSize;
@@ -225,22 +230,32 @@ namespace SCaddins.ExportManager
                 return false;
             }
 
-            var t = new Transaction(doc, "Print Pdf");
-            t.Start();
-            try {
-                pm.PrintSetup.CurrentPrintSetting = vs.SCPrintSetting;
-                pm.PrintRange = PrintRange.Current;
-                pm.PrintToFile = true;
-                pm.PrintToFileName = vs.FullExportPath(ext);
-                pm.Apply();
-                t.Commit();
-                t.Dispose();
-                return true;
-            } catch (InvalidOperationException ex) {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-                t.RollBack();
-                t.Dispose();
-                return false;
+            using (var t = new Transaction(doc, "Print Pdf"))
+            {
+                if (t.Start() == TransactionStatus.Started)
+                {
+                    try {
+                        if (!pm.PrintSetup.IsReadOnly)
+                        {
+                            pm.PrintSetup.CurrentPrintSetting = vs.SCPrintSetting;
+                            pm.PrintRange = PrintRange.Current;
+                            pm.PrintToFile = true;
+                            pm.PrintToFileName = vs.FullExportPath(ext);
+                            pm.Apply();
+                            t.Commit();
+                            return true;
+                        }
+                        t.Commit();
+                        return false;
+                    } catch (InvalidOperationException ex) {
+                        System.Diagnostics.Debug.WriteLine(ex.Message);
+                        t.RollBack();
+                        return false;
+                    }
+                } else {
+                    t.RollBack();
+                    return false;
+                }
             }
         }
 

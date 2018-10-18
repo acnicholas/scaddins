@@ -7,7 +7,7 @@
     mc:Ignorable="d"
     xmlns:local="clr-namespace:SCaddins.ExportManager.ViewModels"
     x:Class="SCaddins.ExportManager.Views.SCexportView"
-    cal:Message.Attach="[Event KeyDown] = [ExecuteFilterView($eventArgs)]"
+    cal:Message.Attach="[Event KeyDown] = [KeyPressed($eventArgs)]"
     d:DesignWidth="628" d:DesignHeight="272">
 
     <UserControl.Resources>
@@ -42,6 +42,19 @@
             VerticalAlignment="Stretch"
             Margin="5"
             Grid.ColumnSpan="2" />
+        <Button
+            Height="Auto"
+            Width="Auto"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Stretch"
+            Grid.Column="2"
+            Grid.Row="0"
+            Margin="5"
+            x:Name="SearchButton"
+            Background="Transparent"
+            BorderBrush="Transparent">
+            <Image Source="/SCaddins;component/Assets/find.png" Stretch="None" />
+        </Button>
         <DataGrid
             cal:Message.Attach="[Event SelectionChanged] = [Row_SelectionChanged($source,$eventArgs)]"
             x:Name="Sheets"
@@ -217,7 +230,7 @@
         <TextBlock x:Name="ProgressBarText" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Margin="5,0,5,5">Test This Shxx</TextBlock>
         <Button
             cal:Message.Attach="Export"
-            Content="Export"
+            Content="{Binding ExportButtonLabel}"
             Width="Auto"
             Height="Auto"
             Grid.Row="2"
@@ -263,7 +276,7 @@
             Height="Auto"
             Width="Auto"
             Grid.Row="0"
-            HorizontalAlignment="Stretch"
+            HorizontalAlignment="Right"
             VerticalAlignment="Stretch"
             Margin="5"
             x:Name="OptionsButton"

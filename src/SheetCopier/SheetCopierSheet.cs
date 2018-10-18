@@ -101,23 +101,15 @@ namespace SCaddins.SheetCopier
 
             set
             {
-                //if (sheetCategory != value)
-                //{
                     sheetCategory = value;
                     if (!SheetCategories.Contains(sheetCategory)) {
-                        foreach(var s in scopy.Sheets) {
+                        foreach (var s in scopy.Sheets) {
                             s.SheetCategories.Add(sheetCategory);
                             s.RefreshSheetCategories();
                         }
                     }
                     NotifyOfPropertyChange(() => SheetCategory);
-                //}
             }
-        }
-
-        public void RefreshSheetCategories()
-        {
-            NotifyOfPropertyChange(() => SheetCategories);
         }
 
         public ViewSheet SourceSheet
@@ -157,6 +149,11 @@ namespace SCaddins.SheetCopier
                 }
             }
             return null;
+        }
+
+        public void RefreshSheetCategories()
+        {
+            NotifyOfPropertyChange(() => SheetCategories);
         }
 
         private string GetSheetCategory(string parameterName)
