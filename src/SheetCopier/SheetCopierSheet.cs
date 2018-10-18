@@ -28,6 +28,7 @@ namespace SCaddins.SheetCopier
         private string number;
         private SheetCopierManager scopy;
         private string sheetCategory;
+        private string userCreatedSheetCategory;
         private string title;
         private ObservableCollection<SheetCopierViewOnSheet> viewsOnSheet;
 
@@ -46,6 +47,7 @@ namespace SCaddins.SheetCopier
             this.title = title;
             this.SourceSheet = sourceSheet;
             this.sheetCategory = this.GetSheetCategory(SheetCopierConstants.SheetCategory);
+            this.userCreatedSheetCategory = sheetCategory;
             this.DestinationSheet = null;
             this.viewsOnSheet = new ObservableCollection<SheetCopierViewOnSheet>();
             foreach (ElementId id in sourceSheet.GetAllPlacedViews())
@@ -92,8 +94,30 @@ namespace SCaddins.SheetCopier
             get; set; 
         }
 
-        public string SheetCategory
-        {
+        public string UserCreatedSheetCategory {
+            get
+            {
+                return userCreatedSheetCategory;
+            }
+
+            set
+            {
+                userCreatedSheetCategory = value;
+
+                foreach (var s in scopy.Sheets) {
+                    //// Autodesk.Revit.UI.TaskDialog.Show("test", s.number.ToString());
+                    if (!s.SheetCategories.Contains(userCreatedSheetCategory)) {
+                        s.SheetCategories.Add(userCreatedSheetCategory);
+                        s.RefreshSheetCategories();
+                    }
+                }
+                SheetCategory = userCreatedSheetCategory;
+                NotifyOfPropertyChange(() => UserCreatedSheetCategory);
+            }
+        }
+
+
+        public string SheetCategory {
             get
             {
                 return sheetCategory;
@@ -101,18 +125,14 @@ namespace SCaddins.SheetCopier
 
             set
             {
+                if (sheetCategory != value) {
                     sheetCategory = value;
-                    if (!SheetCategories.Contains(sheetCategory)) {
-                        foreach (var s in scopy.Sheets) {
-                            s.SheetCategories.Add(sheetCategory);
-                            s.RefreshSheetCategories();
-                        }
-                    }
                     NotifyOfPropertyChange(() => SheetCategory);
+                }
             }
         }
 
-        public ViewSheet SourceSheet
+public ViewSheet SourceSheet
         {
             get; set;
         }

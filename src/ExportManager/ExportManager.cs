@@ -121,6 +121,15 @@ namespace SCaddins.ExportManager
             }
         }
 
+        public void ToggleExportOption(ExportOptions option)
+        {
+            if (HasExportOption(option)) {
+                RemoveExportOption(option);
+            } else {
+                AddExportOption(option);
+            }
+        }
+
         public SegmentedSheetName FileNameScheme
         {
             get

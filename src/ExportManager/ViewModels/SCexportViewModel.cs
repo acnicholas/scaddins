@@ -241,15 +241,22 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 return;
             }
-            var filter = new System.Predicate<object>(
-                 item =>
-                    (item != null)
-                    &&
-                    (-1 < ((ExportSheet)item).SheetDescription.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)
-                    ||
-                    -1 < ((ExportSheet)item).SheetNumber.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)));
-            Sheets.Filter = filter;
-            NotifyOfPropertyChange(() => Sheets);
+            //if (Sheets.IsEmpty) return;
+            this.IsNotifying = false;
+            try {
+                var filter = new System.Predicate<object>(
+                     item =>
+                        (
+                            ((item != null) && (-1 < ((ExportSheet)item).SheetDescription.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)))
+                            ||
+                            ((item != null) && (-1 < ((ExportSheet)item).SheetNumber.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)))
+                        )
+                );
+                if (Sheets.CanFilter) Sheets.Filter = filter;
+            } catch {
+
+            }
+            this.IsNotifying = true;
         }
 
         public void KeyPressed(KeyEventArgs keyArgs)
@@ -267,12 +274,27 @@ namespace SCaddins.ExportManager.ViewModels
                     RemoveViewFilter();
                     break;
 
+                case Key.D:
+                    exportManager.ToggleExportOption(ExportOptions.DWG);
+                    NotifyOfPropertyChange(() => ExportButtonLabel);
+                    break;
+
+                case Key.G:
+                    exportManager.ToggleExportOption(ExportOptions.GhostscriptPDF);
+                    NotifyOfPropertyChange(() => ExportButtonLabel);
+                    break;
+
                 case Key.L:
                     ShowLatestRevision();
                     break;
 
                 case Key.O:
                     OpenViewsCommand();
+                    break;
+
+                case Key.P:
+                    exportManager.ToggleExportOption(ExportOptions.PDF);
+                    NotifyOfPropertyChange(() => ExportButtonLabel);
                     break;
 
                 case Key.V:

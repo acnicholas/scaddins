@@ -117,7 +117,7 @@
                         <DataGridTemplateColumn Header="View Category">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ComboBox  Background="Transparent" IsEditable="True" Text="{Binding SheetCategory}" ItemsSource="{Binding SheetCategories}"/>
+                                    <ComboBox  Background="Transparent" IsEditable="True"  Text="{Binding UserCreatedSheetCategory, UpdateSourceTrigger=LostFocus}" ItemsSource="{Binding SheetCategories}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
