@@ -83,6 +83,14 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public string ExportButtonLabel
+        {
+            get
+            {
+                return @"Export" + SelectedExportTypesAsString;
+            }
+        }
+
         public bool IsSearchTextFocused
         {
             get; set; 
@@ -172,6 +180,29 @@ namespace SCaddins.ExportManager.ViewModels
             get { return exportManager.AllViewSheetSets; }
         }
 
+        private string SelectedExportTypesAsString
+        {
+            get
+            {
+                List<string> list = new List<string>();
+                list.Add(@"[");
+                if (exportManager.HasExportOption(ExportOptions.PDF))
+                {
+                    list.Add("PDF");
+                }
+                if (exportManager.HasExportOption(ExportOptions.GhostscriptPDF))
+                {
+                    list.Add("gPDF");
+                }
+                if (exportManager.HasExportOption(ExportOptions.DWG))
+                {
+                    list.Add("DWG");
+                }
+                list.Add(@"]");
+                return string.Join(",", list.ToArray());
+            }
+        }
+
         public void AddRevision()
         {
             var revisionSelectionViewModel = new RevisionSelectionViewModel(exportManager.Doc);
@@ -205,64 +236,37 @@ namespace SCaddins.ExportManager.ViewModels
                 ViewUtilities.UserView.Create(selectedSheets, exportManager.Doc));
         }
 
-        public string ExportButtonLabel
+        public void Export()
         {
-            get
+            log.Clear();
+            log.Start("Beginning Export.");
+            ProgressBarMaximum = selectedSheets.Count;
+            NotifyOfPropertyChange(() => ProgressBarMaximum);
+            System.Windows.Forms.Application.DoEvents();
+            foreach (ExportSheet sheet in selectedSheets)
             {
-                return @"Export" + SelectedExportTypesAsString;
+                CurrentProgress += 1;
+                System.Windows.Forms.Application.DoEvents();
+                exportManager.ExportSheet(sheet, log);
+                System.Windows.Forms.Application.DoEvents();
             }
+            CurrentProgress = 0;
+            log.Stop("Finished Export.");
+            TryShowExportLog();
         }
 
-        private string SelectedExportTypesAsString
+        public void FixScaleBars()
         {
-            get
-            {
-                List<string> list = new List<string>();
-                list.Add(@"[");
-                if (exportManager.HasExportOption(ExportOptions.PDF)) {
-                    list.Add("PDF");
-                }
-                if (exportManager.HasExportOption(ExportOptions.GhostscriptPDF))
-                {
-                    list.Add("gPDF");
-                }
-                if (exportManager.HasExportOption(ExportOptions.DWG))
-                {
-                    list.Add("DWG");
-                }
-                list.Add(@"]");
-                return string.Join(",", list.ToArray());
-            }
-        }
-
-        private void ExecuteSearch()
-        {
-            if (SearchText == null)
-            {
-                return;
-            }
-            //if (Sheets.IsEmpty) return;
-            this.IsNotifying = false;
-            try {
-                var filter = new System.Predicate<object>(
-                     item =>
-                        (
-                            ((item != null) && (-1 < ((ExportSheet)item).SheetDescription.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)))
-                            ||
-                            ((item != null) && (-1 < ((ExportSheet)item).SheetNumber.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)))
-                        )
-                );
-                if (Sheets.CanFilter) Sheets.Filter = filter;
-            } catch {
-
-            }
-            this.IsNotifying = true;
+            ExportManager.FixScaleBars(selectedSheets, exportManager.Doc);
         }
 
         public void KeyPressed(KeyEventArgs keyArgs)
         {
-            if (keyArgs.OriginalSource.GetType() == typeof(System.Windows.Controls.TextBox)) {
-                if (keyArgs.Key == Key.Enter) {
+            //// only executre search if in the search text box
+            if (keyArgs.OriginalSource.GetType() == typeof(System.Windows.Controls.TextBox))
+            {
+                if (keyArgs.Key == Key.Enter)
+                {
                     ExecuteSearch();
                 }
                 return;
@@ -297,64 +301,32 @@ namespace SCaddins.ExportManager.ViewModels
                     NotifyOfPropertyChange(() => ExportButtonLabel);
                     break;
 
+                case Key.S:
+                    var activeSheetNumber = ExportManager.CurrentViewNumber(exportManager.Doc);
+                    if (activeSheetNumber == null)
+                    {
+                        return;
+                    }
+                    ExportSheet ss = sheets.Where<ExportSheet>(item => item.SheetNumber.Equals(activeSheetNumber)).First<ExportSheet>();
+                    SelectedSheet = ss;
+                    NotifyOfPropertyChange(() => SelectedSheet);
+                    break;
+
                 case Key.V:
                     VerifySheets();
                     break;
 
+                case Key.Escape:
+                    TryClose();
+                    break;
+
                 default:
+                    if (keyArgs.Key >= Key.D0 && keyArgs.Key <= Key.D9)
+                    {
+                        FilterByNumber(((int)keyArgs.Key - (int)Key.D0).ToString());
+                    }
                     break;
             }
-
-            if (keyArgs.Key == Key.S)
-            {
-                var activeSheetNumber = ExportManager.CurrentViewNumber(exportManager.Doc);
-                if (activeSheetNumber == null)
-                {
-                    return;
-                }
-                ExportSheet ss = sheets.Where<ExportSheet>(item => item.SheetNumber.Equals(activeSheetNumber)).First<ExportSheet>();
-                SelectedSheet = ss;
-                NotifyOfPropertyChange(() => SelectedSheet);
-            }
-
-            if (keyArgs.Key == Key.Escape)
-            {
-                TryClose();
-            }
-
-            if (keyArgs.Key == Key.D1)
-            {
-                FilterByNumber("1");
-            }
-
-            if (keyArgs.Key == Key.D2)
-            {
-                FilterByNumber("2");
-            }
-        }
-
-        public void Export()
-        {
-            log.Clear();
-            log.Start("Beginning Export.");
-            ProgressBarMaximum = selectedSheets.Count;
-            NotifyOfPropertyChange(() => ProgressBarMaximum);
-            System.Windows.Forms.Application.DoEvents();
-            foreach (ExportSheet sheet in selectedSheets)
-            {
-                CurrentProgress += 1;
-                System.Windows.Forms.Application.DoEvents();
-                exportManager.ExportSheet(sheet, log);
-                System.Windows.Forms.Application.DoEvents();
-            }
-            CurrentProgress = 0;
-            log.Stop("Finished Export.");
-            TryShowExportLog();
-        }
-
-        public void FixScaleBars()
-        {
-            ExportManager.FixScaleBars(selectedSheets, exportManager.Doc);
         }
 
         public void OpenViewsCommand()
@@ -478,7 +450,8 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void TryShowExportLog()
         {
-            if (exportManager.ShowExportLog && log != null) {
+            if (exportManager.ShowExportLog && log != null)
+            {
                 var vm = new ViewModels.ExportLogViewModel(log);
                 SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
             }
@@ -500,11 +473,38 @@ namespace SCaddins.ExportManager.ViewModels
             NotifyOfPropertyChange(() => Sheets);
         }
 
+        private void ExecuteSearch()
+        {
+            if (SearchText == null)
+            {
+                return;
+            }
+
+            this.IsNotifying = false;
+            try {
+                var filter = new System.Predicate<object>(
+                     item =>
+                        (((item != null) && (-1 < ((ExportSheet)item).SheetDescription.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)))
+                            ||
+                        ((item != null) && (-1 < ((ExportSheet)item).SheetNumber.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)))));
+                if (Sheets.CanFilter)
+                {
+                    Sheets.Filter = filter;
+                }
+            } catch {
+            }
+            this.IsNotifying = true;
+        }
+
         private void FilterByNumber(string number)
         {
             var activeSheetName = ExportManager.CurrentViewNumber(exportManager.Doc);
-            var filter = new System.Predicate<object>(item => Regex.IsMatch(((ExportSheet)item).SheetNumber, @"^\D*" + number));
-            Sheets.Filter = filter;
+            try
+            {
+                var filter = new System.Predicate<object>(item => Regex.IsMatch(((ExportSheet)item).SheetNumber, @"^\D*" + number));
+                Sheets.Filter = filter;
+            } catch {
+            }
         }
     }
 }

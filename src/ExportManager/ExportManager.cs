@@ -121,15 +121,6 @@ namespace SCaddins.ExportManager
             }
         }
 
-        public void ToggleExportOption(ExportOptions option)
-        {
-            if (HasExportOption(option)) {
-                RemoveExportOption(option);
-            } else {
-                AddExportOption(option);
-            }
-        }
-
         public SegmentedSheetName FileNameScheme
         {
             get
@@ -140,7 +131,8 @@ namespace SCaddins.ExportManager
             set
             {
                 this.fileNameScheme = value;
-                foreach (ExportSheet sheet in allSheets) {
+                foreach (ExportSheet sheet in allSheets)
+                {
                     sheet.SetSegmentedSheetName(fileNameScheme);
                 }
             }
@@ -161,7 +153,8 @@ namespace SCaddins.ExportManager
             set
             {
                 this.forceDate = value;
-                foreach (ExportSheet sheet in this.allSheets) {
+                foreach (ExportSheet sheet in this.allSheets)
+                {
                     sheet.ForceDate = value;
                 }
             }
@@ -226,13 +219,17 @@ namespace SCaddins.ExportManager
 
         public static void AddRevisions(ICollection<ExportSheet> sheets, ElementId revisionId, Document doc)
         {
-            if (sheets == null || revisionId == null || revisionId == null) {
+            if (sheets == null || revisionId == null || revisionId == null)
+            {
                 return;
             }
 
-            using (var t = new Transaction(doc, "SCexport: Add new revisions")) {
-                if (t.Start() == TransactionStatus.Started) {
-                    foreach (ExportSheet sheet in sheets) {
+            using (var t = new Transaction(doc, "SCexport: Add new revisions"))
+            {
+                if (t.Start() == TransactionStatus.Started)
+                {
+                    foreach (ExportSheet sheet in sheets)
+                    {
                         ICollection<ElementId> il = sheet.Sheet.GetAdditionalRevisionIds();
                         il.Add(revisionId);
                         sheet.Sheet.SetAdditionalRevisionIds(il);
@@ -240,12 +237,15 @@ namespace SCaddins.ExportManager
                     }
                     doc.Regenerate();
                     t.Commit();
-                } else {
+                }
+                else
+                {
                     TaskDialog.Show("Error", "SCexport: error adding revisions, could not start transaction.");
                 }
             }
 
-            foreach (ExportSheet sheet in sheets) {
+            foreach (ExportSheet sheet in sheets)
+            {
                 sheet.UpdateRevision(true);
             }
         }
@@ -259,28 +259,37 @@ namespace SCaddins.ExportManager
         public static string CurrentViewNumber(Document doc)
         {
             View v = doc.ActiveView;
-            if (v.ViewType == ViewType.DrawingSheet) {
+            if (v.ViewType == ViewType.DrawingSheet)
+            {
                 return v.get_Parameter(
                     BuiltInParameter.SHEET_NUMBER).AsString();
-            } else {
+            }
+            else
+            {
                 return null;
             }
         }
 
         public static void FixScaleBars(ICollection<ExportSheet> sheets, Document doc)
         {
-            if (sheets == null) {
+            if (sheets == null)
+            {
                 TaskDialog.Show("Error", "Please select sheets before attempting to add revisions");
                 return;
             }
-            using (Transaction t = new Autodesk.Revit.DB.Transaction(doc)) {
-                if (t.Start("SCexport - Fix Scale Bars") == TransactionStatus.Started) {
-                    foreach (ExportSheet sheet in sheets) {
-                        if (!sheet.ValidScaleBar) {
+            using (Transaction t = new Autodesk.Revit.DB.Transaction(doc))
+            {
+                if (t.Start("SCexport - Fix Scale Bars") == TransactionStatus.Started)
+                {
+                    foreach (ExportSheet sheet in sheets)
+                    {
+                        if (!sheet.ValidScaleBar)
+                        {
                             sheet.UpdateScaleBarScale();
                         }
                     }
-                    if (t.Commit() != TransactionStatus.Committed) {
+                    if (t.Commit() != TransactionStatus.Committed)
+                    {
                         TaskDialog.Show("Failure", "Could not fix scale bars");
                     }
                 }
@@ -289,13 +298,13 @@ namespace SCaddins.ExportManager
 
         public static string GetConfigFileName(Document doc)
         {
-            #if DEBUG
+#if DEBUG
             Debug.WriteLine("getting config file for " + doc.Title);
             string s = @"C:\Andrew\code\cs\scaddins\share\SCexport-example-conf.xml";
-            #else
+#else
             string central = FileUtilities.GetCentralFileName(doc);
             string s = Path.GetDirectoryName(central) + @"\SCexport.xml";
-            #endif
+#endif
             return s;
         }
 
@@ -311,11 +320,14 @@ namespace SCaddins.ExportManager
         {
             string s = string.Empty;
             int i = -1;
-            using (FilteredElementCollector collector = new FilteredElementCollector(doc)) {
+            using (FilteredElementCollector collector = new FilteredElementCollector(doc))
+            {
                 collector.OfCategory(BuiltInCategory.OST_Revisions);
-                foreach (Element e in collector) {
+                foreach (Element e in collector)
+                {
                     int j = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger();
-                    if (j > i) {
+                    if (j > i)
+                    {
                         i = j;
                         s = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString();
                     }
@@ -392,38 +404,47 @@ namespace SCaddins.ExportManager
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         public void ExportSheet(ExportSheet sheet, ExportLog log)
         {
-            if (log == null) {
+            if (log == null)
+            {
                 throw new ArgumentNullException();
             }
 
             var startTime = log.StartLoggingIndividualItem(null);
             log.AddMessage(sheet.ToString());
 
-            if (!sheet.Verified) {
+            if (!sheet.Verified)
+            {
                 sheet.UpdateSheetInfo();
             }
- 
-            if (sheet.SCPrintSetting != null) {
-                if (this.exportFlags.HasFlag(ExportOptions.DWG)) {
+
+            if (sheet.SCPrintSetting != null)
+            {
+                if (this.exportFlags.HasFlag(ExportOptions.DWG))
+                {
                     this.ExportDWG(sheet, this.exportFlags.HasFlag(ExportOptions.NoTitle), log);
                 }
 
-                if (this.exportFlags.HasFlag(ExportOptions.PDF)) {
+                if (this.exportFlags.HasFlag(ExportOptions.PDF))
+                {
                     this.ExportAdobePDF(sheet, log);
                 }
 
-                if (this.exportFlags.HasFlag(ExportOptions.GhostscriptPDF)) {
+                if (this.exportFlags.HasFlag(ExportOptions.GhostscriptPDF))
+                {
                     this.ExportGSPDF(sheet, log);
                 }
-            } else {
-                    log.AddError(sheet.FullExportName, Resources.MessageNoPrintSettingAssigned);
+            }
+            else
+            {
+                log.AddError(sheet.FullExportName, Resources.MessageNoPrintSettingAssigned);
             }
             log.EndLoggingIndividualItem(startTime, null);
         }
 
         public bool GSSanityCheck()
         {
-            if (!Directory.Exists(this.GhostscriptBinDirectory) || !Directory.Exists(this.GhostscriptLibDirectory)) {
+            if (!Directory.Exists(this.GhostscriptBinDirectory) || !Directory.Exists(this.GhostscriptLibDirectory))
+            {
                 return false;
             }
             var ps = new System.Drawing.Printing.PrinterSettings();
@@ -513,13 +534,25 @@ namespace SCaddins.ExportManager
 
         public void SetFileNameScheme(string newScheme)
         {
-            foreach (SegmentedSheetName scheme in this.fileNameTypes) {
-                if (newScheme == scheme.Name) {
+            foreach (SegmentedSheetName scheme in this.fileNameTypes)
+            {
+                if (newScheme == scheme.Name)
+                {
                     this.fileNameScheme = scheme;
-                    foreach (ExportSheet sheet in this.allSheets) {
+                    foreach (ExportSheet sheet in this.allSheets)
+                    {
                         sheet.SetSegmentedSheetName(this.fileNameScheme);
                     }
                 }
+            }
+        }
+
+        public void ToggleExportOption(ExportOptions option)
+        {
+            if (HasExportOption(option)) {
+                RemoveExportOption(option);
+            } else {
+                AddExportOption(option);
             }
         }
 
@@ -572,6 +605,12 @@ namespace SCaddins.ExportManager
                 "HungAppTimeout",
                 "30000",
                 Microsoft.Win32.RegistryValueKind.String);
+        }
+
+        private static bool IsViewerMode()
+        {
+            var mainWindowTitle = System.Diagnostics.Process.GetCurrentProcess().MainWindowTitle;
+            return mainWindowTitle.Contains("VIEWER");
         }
 
         private static string PercentageSting(int n, int total)
@@ -636,12 +675,6 @@ namespace SCaddins.ExportManager
             } catch (SecurityException ex) {
                 log.AddError(fileName, ex.Message);
             }
-        }
-
-        private static bool IsViewerMode()
-        {
-            var mainWindowTitle = System.Diagnostics.Process.GetCurrentProcess().MainWindowTitle;
-            return mainWindowTitle.Contains("VIEWER");
         }
 
         private static string TimeSpanAsString(TimeSpan time)
@@ -974,12 +1007,12 @@ namespace SCaddins.ExportManager
             }
             try {
                 var settings = new XmlReaderSettings();
-                #if !DEBUG
+#if !DEBUG
                 settings.Schemas.Add(
                     null, SCaddins.Constants.InstallDirectory + @"\etc\SCexport.xsd");
-                #else
+#else
                 settings.Schemas.Add(null, @"C:\Andrew\code\cs\scaddins\etc\SCexport.xsd");
-                #endif
+#endif
                 settings.ValidationType = ValidationType.Schema;
                 XmlReader reader = XmlReader.Create(filename, settings);
                 var document = new XmlDocument();

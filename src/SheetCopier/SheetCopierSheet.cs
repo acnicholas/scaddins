@@ -105,7 +105,6 @@ namespace SCaddins.SheetCopier
                 userCreatedSheetCategory = value;
 
                 foreach (var s in scopy.Sheets) {
-                    //// Autodesk.Revit.UI.TaskDialog.Show("test", s.number.ToString());
                     if (!s.SheetCategories.Contains(userCreatedSheetCategory)) {
                         s.SheetCategories.Add(userCreatedSheetCategory);
                         s.RefreshSheetCategories();
@@ -115,7 +114,6 @@ namespace SCaddins.SheetCopier
                 NotifyOfPropertyChange(() => UserCreatedSheetCategory);
             }
         }
-
 
         public string SheetCategory {
             get
