@@ -70,6 +70,11 @@ namespace SCaddins.RoomConvertor
                 return ParameterValueContainsString(parameter, test);
             }
 
+            if (co == ComparisonOperator.DoesNotContain)
+            {
+                return !ParameterValueContainsString(parameter, test);
+            }
+
             int p = ParameterComparedToString(parameter, test);
 
             switch (co)

@@ -27,6 +27,7 @@ namespace SCaddins.RoomConvertor
         // GreaterThanOrEqual,
         // LessThanOrEqual,
         Contains,
+        DoesNotContain
 
         // Matches
     }
