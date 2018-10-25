@@ -87,7 +87,7 @@ namespace SCaddins.ExportManager.ViewModels
         {
             get
             {
-                return @"Export" + SelectedExportTypesAsString;
+                return @"Export";
             }
         }
 
@@ -116,7 +116,7 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (CurrentProgress == 0) {
                     var numberOfSheets = selectedSheets.Count;
-                    return numberOfSheets + @" Sheet[s] Selected To Export/Print";
+                    return numberOfSheets + @" Sheet[s] Selected To Export/Print " + SelectedExportTypesAsString;
                 } else {
                     string percentageCompete = ((CurrentProgress / selectedSheets.Count) * 100).ToString();
                     return "Exporting " + CurrentProgress + @"/" + selectedSheets.Count + @"(" + percentageCompete  + @"%) [Elapsed Time = " + log.TimeSinceStart + @"]";
@@ -185,7 +185,6 @@ namespace SCaddins.ExportManager.ViewModels
             get
             {
                 List<string> list = new List<string>();
-                list.Add(@"[");
                 if (exportManager.HasExportOption(ExportOptions.PDF))
                 {
                     list.Add("PDF");
@@ -198,8 +197,7 @@ namespace SCaddins.ExportManager.ViewModels
                 {
                     list.Add("DWG");
                 }
-                list.Add(@"]");
-                return string.Join(",", list.ToArray());
+                return @"[" + string.Join(",", list.ToArray()) + @"]";
             }
         }
 
@@ -246,7 +244,6 @@ namespace SCaddins.ExportManager.ViewModels
             foreach (ExportSheet sheet in selectedSheets)
             {
                 CurrentProgress += 1;
-                System.Windows.Forms.Application.DoEvents();
                 exportManager.ExportSheet(sheet, log);
                 System.Windows.Forms.Application.DoEvents();
             }
@@ -345,7 +342,7 @@ namespace SCaddins.ExportManager.ViewModels
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
             var optionsModel = new OptionsViewModel(exportManager, this);
             SCaddinsApp.WindowManager.ShowDialog(optionsModel, null, settings);
-            NotifyOfPropertyChange(() => ExportButtonLabel);
+            NotifyOfPropertyChange(() => ProgressBarText);
         }
 
         public void Print(string printerName, int printMode)
