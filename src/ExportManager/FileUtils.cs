@@ -1,4 +1,4 @@
-// (C) Copyright 2012-2014 by Andrew Nicholas
+// (C) Copyright 2012-2018 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -50,13 +50,14 @@ namespace SCaddins.ExportManager
             if (!ExportManager.ConfirmOverwrite) {
                 return true;
             }
+
             if (File.Exists(fileName)) {
                 var message = fileName + " exists," + Environment.NewLine + "do you want do overwrite the existing file?";
                 bool confirmOverwriteDialog = true;
-                bool? result = SCaddinsApp.WindowManager.ShowConfirmationDialog(message, true, out confirmOverwriteDialog);
+                bool? result = SCaddinsApp.WindowManager.ShowConfirmationDialog(message, ExportManager.ConfirmOverwrite, out confirmOverwriteDialog);
+                ExportManager.ConfirmOverwrite = confirmOverwriteDialog;
                 bool newBool = result.HasValue ? result.Value : false;
                 if (newBool) {
-                    ExportManager.ConfirmOverwrite = confirmOverwriteDialog;
                     return newBool;
                 }
                 return false;

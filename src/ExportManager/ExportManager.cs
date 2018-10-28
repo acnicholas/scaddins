@@ -657,7 +657,7 @@ namespace SCaddins.ExportManager
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PrinterJobControl")]
         [SecurityCritical]
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
-        private static void SetAcrobatExportRegistryVal(string fileName, ExportLog log)
+        private static bool SetAcrobatExportRegistryVal(string fileName, ExportLog log)
         {
             string exe = Process.GetCurrentProcess().MainModule.FileName;
             try {
@@ -670,10 +670,13 @@ namespace SCaddins.ExportManager
                     exe,
                     fileName,
                     Microsoft.Win32.RegistryValueKind.String);
+                return true;
             } catch (UnauthorizedAccessException ex) {
                 log.AddError(fileName, ex.Message);
+                return false;
             } catch (SecurityException ex) {
                 log.AddError(fileName, ex.Message);
+                return false;
             }
         }
 
@@ -710,7 +713,10 @@ namespace SCaddins.ExportManager
                 return false;
             }
 
-            SetAcrobatExportRegistryVal(vs.FullExportPath(Resources.FileExtensionPDF), log);
+            if (!SetAcrobatExportRegistryVal(vs.FullExportPath(Resources.FileExtensionPDF), log)) {
+                log.AddError(vs.FullExportName, "Unable to write to registry");
+                return false;
+            }
 
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF))) {
                 if (File.Exists(vs.FullExportPath(Resources.FileExtensionPDF))) {

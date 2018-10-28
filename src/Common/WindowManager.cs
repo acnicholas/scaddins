@@ -31,8 +31,7 @@
 
         public bool? ShowConfirmationDialog(string message, bool? defaultCheckboxValue, out bool checkboxResult)
         {
-            checkboxResult = true;
-            return true;
+            return dialogService.ShowConfirmationDialog(message, defaultCheckboxValue, out checkboxResult);
         }
 
         public override bool? ShowDialog(object rootModel, object context = null, IDictionary<string, object> settings = null)
