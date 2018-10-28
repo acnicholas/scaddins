@@ -277,12 +277,12 @@ namespace SCaddins.ExportManager.ViewModels
 
                 case Key.D:
                     exportManager.ToggleExportOption(ExportOptions.DWG);
-                    NotifyOfPropertyChange(() => ExportButtonLabel);
+                    NotifyOfPropertyChange(() => ProgressBarText);
                     break;
 
                 case Key.G:
                     exportManager.ToggleExportOption(ExportOptions.GhostscriptPDF);
-                    NotifyOfPropertyChange(() => ExportButtonLabel);
+                    NotifyOfPropertyChange(() => ProgressBarText);
                     break;
 
                 case Key.L:
@@ -295,7 +295,7 @@ namespace SCaddins.ExportManager.ViewModels
 
                 case Key.P:
                     exportManager.ToggleExportOption(ExportOptions.PDF);
-                    NotifyOfPropertyChange(() => ExportButtonLabel);
+                    NotifyOfPropertyChange(() => ProgressBarText);
                     break;
 
                 case Key.S:

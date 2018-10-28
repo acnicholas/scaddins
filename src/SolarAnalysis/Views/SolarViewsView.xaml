@@ -201,7 +201,7 @@
                     <Button x:Name="SelectAnalysisFaces" Grid.Row="1" Grid.Column="0" Margin="5">Select Analysis Faces (To colour)</Button>
                     <Label x:Name="SelectedMassInformation" Margin="5" Grid.Row="0" Grid.Column="1"></Label>
                     <Label x:Name="SelectedFaceInformation" Margin="5" Grid.Row="1" Grid.Column="1"></Label>
-                    <Label Margin="5" Grid.Row="2" Grid.Column="0">Analysis Grid Size(feet)</Label>
+                    <Label Margin="5" Grid.Row="2" Grid.Column="0">Analysis Grid Size(mm)</Label>
                     <TextBox x:Name="AnalysisGridSize" Grid.Row="2" Grid.Column="1" Margin="5"></TextBox>
                 </Grid>
             </GroupBox>

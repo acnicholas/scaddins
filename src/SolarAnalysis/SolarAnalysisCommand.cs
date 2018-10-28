@@ -43,7 +43,8 @@ namespace SCaddins.SolarAnalysis
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SolarViewsViewModel.DefaultViewSettings);
 
             if (vm.CreateAnalysisView) {
-                SolarAnalysisManager.CreateTestFaces(vm.FaceSelection, vm.MassSelection, vm.AnalysisGridSize, udoc, udoc.ActiveView);
+                var internalUnitsGridSize = Autodesk.Revit.DB.UnitUtils.ConvertToInternalUnits(vm.AnalysisGridSize, DisplayUnitType.DUT_MILLIMETERS);
+                SolarAnalysisManager.CreateTestFaces(vm.FaceSelection, vm.MassSelection, internalUnitsGridSize, udoc, udoc.ActiveView);
             }
 
             return Autodesk.Revit.UI.Result.Succeeded;

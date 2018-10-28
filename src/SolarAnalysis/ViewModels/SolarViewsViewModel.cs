@@ -43,7 +43,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
             selectedCloseMode = CloseMode.Close;
             MassSelection = null;
             FaceSelection = null;
-            AnalysisGridSize = 3;
+            AnalysisGridSize = 1000;
             Size = SCaddinsApp.WindowManager.Size;
             Left = SCaddinsApp.WindowManager.Left;
             Top = SCaddinsApp.WindowManager.Top;
