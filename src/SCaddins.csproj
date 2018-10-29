@@ -626,7 +626,9 @@
     <Resource Include="Assets\xmlElement.png" />
     <Resource Include="Assets\xmlFile.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Assets\hamburger.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\clock.png" />
     <Resource Include="Assets\config2.png" />
