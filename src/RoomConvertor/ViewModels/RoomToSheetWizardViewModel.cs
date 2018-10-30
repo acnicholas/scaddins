@@ -35,6 +35,10 @@ namespace SCaddins.RoomConvertor.ViewModels
             get { return manager.TitleBlocks; }
         }
 
+        public Dictionary<string, ElementId> ViewTemplates {
+            get { return manager.ViewTemplates; }
+        }
+
         public ElementId SelectedTitleBlock
         {
             get
@@ -48,6 +52,21 @@ namespace SCaddins.RoomConvertor.ViewModels
                 {
                     manager.TitleBlockId = value;
                     NotifyOfPropertyChange(() => SelectedTitleBlock);
+                }
+            }
+        }
+
+        public ElementId SelectedViewTemplate {
+            get
+            {
+                return manager.ViewTemplateId;
+            }
+
+            set
+            {
+                if (value != manager.ViewTemplateId) {
+                    manager.ViewTemplateId = value;
+                    NotifyOfPropertyChange(() => SelectedViewTemplate);
                 }
             }
         }

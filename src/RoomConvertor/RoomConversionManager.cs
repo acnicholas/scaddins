@@ -41,6 +41,9 @@ namespace SCaddins.RoomConvertor
         private Dictionary<string, ElementId> titleBlocks =
             new Dictionary<string, ElementId>();
 
+        private Dictionary<string, ElementId> viewTemplates =
+            new Dictionary<string, ElementId>();
+
         public RoomConversionManager(Document doc)
         {
             departmentsInModel = new Dictionary<string, string>();
@@ -48,6 +51,8 @@ namespace SCaddins.RoomConvertor
             this.doc = doc;
             this.titleBlocks = GetAllTitleBlockTypes(this.doc);
             this.TitleBlockId = ElementId.InvalidElementId;
+            this.viewTemplates = GetViewTemplates(this.doc);
+            this.ViewTemplateId = ElementId.InvalidElementId;
             this.Scale = 50;
             this.CropRegionEdgeOffset = 300;
             SheetCopier.SheetCopierManager.GetAllSheets(existingSheets, this.doc);
@@ -109,8 +114,16 @@ namespace SCaddins.RoomConvertor
             get; set;
         }
 
+        public ElementId ViewTemplateId {
+            get; set;
+        }
+
         public Dictionary<string, ElementId> TitleBlocks {
             get { return titleBlocks; }
+        }
+
+        public Dictionary<string, ElementId> ViewTemplates {
+            get { return viewTemplates; }
         }
 
         public static Dictionary<string, ElementId> GetAllTitleBlockTypes(Document doc)
@@ -251,6 +264,20 @@ namespace SCaddins.RoomConvertor
             foreach (string s in this.departmentsInModel.Values)
             {
                 result.Add(s);
+            }
+            return result;
+        }
+
+        private static Dictionary<string, ElementId> GetViewTemplates(Document doc)
+        {
+            var result = new Dictionary<string, ElementId>();
+            using (var c = new FilteredElementCollector(doc)) {
+                c.OfCategory(BuiltInCategory.OST_Views);
+                foreach (View view in c) {
+                    if (view.IsTemplate) {
+                        result.Add(view.Name, view.Id);
+                    }
+                }
             }
             return result;
         }
@@ -453,7 +480,7 @@ namespace SCaddins.RoomConvertor
 
             // FIXME Apply a view template
             // NOTE This could cause trouble with view scales
-            // plan.ViewTemplateId =
+            plan.ViewTemplateId = this.ViewTemplateId;
         }
     }
 }

@@ -81,7 +81,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
             }
         }
 
-        public static BindableCollection<TimeSpan> Intervals
+        public BindableCollection<TimeSpan> Intervals
         {
             get
             {
