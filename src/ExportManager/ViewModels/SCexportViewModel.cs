@@ -243,8 +243,10 @@ namespace SCaddins.ExportManager.ViewModels
             System.Windows.Forms.Application.DoEvents();
             foreach (ExportSheet sheet in selectedSheets)
             {
+                this.IsNotifying = false;
                 CurrentProgress += 1;
                 exportManager.ExportSheet(sheet, log);
+                this.IsNotifying = true;
                 System.Windows.Forms.Application.DoEvents();
             }
             CurrentProgress = 0;
@@ -440,9 +442,16 @@ namespace SCaddins.ExportManager.ViewModels
         public void ShowLatestRevision()
         {
             var revDate = ExportManager.LatestRevisionDate(exportManager.Doc);
-            var filter = new System.Predicate<object>(item => ((ExportSheet)item).SheetRevisionDate.Equals(revDate));
-            Sheets.Filter = filter;
-            NotifyOfPropertyChange(() => Sheets);
+            this.IsNotifying = false;
+            try
+            {
+                var filter = new System.Predicate<object>(item => ((ExportSheet)item).SheetRevisionDate.Equals(revDate));
+                Sheets.Filter = filter;
+            }
+            catch
+            {
+            }
+            this.IsNotifying = true;
         }
 
         public void TryShowExportLog()
