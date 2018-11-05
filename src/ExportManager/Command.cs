@@ -20,12 +20,19 @@ namespace SCaddins.ExportManager
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using System.Runtime.InteropServices;
 
     [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
     {
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern System.IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(System.IntPtr hWnd, int nCmdShow);
+
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
             ref string message,
@@ -58,12 +65,51 @@ namespace SCaddins.ExportManager
                 return Autodesk.Revit.UI.Result.Failed;
             }
 
-            var vm = new ViewModels.SCexportViewModel(new ExportManager(uidoc));
+            var manager = new ExportManager(uidoc);
+            //manager.Update();
+            var log = new ExportLog();
+
+            var vm = new ViewModels.SCexportViewModel(manager);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SCexportViewModel.DefaultWindowSettings);
+
+            SCaddins.ExportManager.Views.ProgressDialog progress = new Views.ProgressDialog(vm.SelectedSheets.Count);
+
+            log.Clear();
+            log.Start("Beginning Export.");
+
+            progress.Show();
+            progress.Run(manager, vm.SelectedSheets, log);
+
+            ////foreach (var sheet in vm.SelectedSheets)
+            ////{
+            ////    progress.Step();
+            ////    progress.BringToFront();
+            ////    progress.Refresh();
+            ////    manager.ExportSheet(sheet, log);
+            ////    TryHideAcrobatProgress();
+            ////}
+
+            progress.Dispose();
+
+            log.Stop("Finished Export.");
+            //vm.TryShowExportLog(log);
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }
+
+        private void TryHideAcrobatProgress()
+        {
+            System.IntPtr hWnd = FindWindow(null, @"Creating Adobe PDF");
+            if ((int)hWnd > 0)
+            {
+                ShowWindow(hWnd, 0);
+            } else
+            {
+                TaskDialog.Show("TEST", "nope");
+            }
+        }
     }
 }
+
 
 /* vim: set ts=4 sw=4 nu expandtab: */

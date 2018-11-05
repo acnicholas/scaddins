@@ -562,6 +562,7 @@ namespace SCaddins.ExportManager
             {
                 PrintManager pm = Doc.PrintManager;
                 if (pm == null) {
+                    SCaddinsApp.WindowManager.ShowMessageBox("PM is null");
                     return;
                 }
                 if (PrintSettings.SetPrinterByName(Doc, this.PdfPrinterName, pm)) {

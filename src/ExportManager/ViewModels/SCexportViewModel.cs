@@ -31,7 +31,7 @@ namespace SCaddins.ExportManager.ViewModels
     {
         private readonly ExportManager exportManager;
         private double currentProgress;
-        private ExportLog log;
+        private bool isClosing;
         private List<string> printTypes;
         private string searchText;
         private string selectedPrintType;
@@ -44,12 +44,11 @@ namespace SCaddins.ExportManager.ViewModels
             printTypes = (new string[] { "Print A3", "Print A2", "Print Full Size" }).ToList();
             selectedPrintType = "Print A3";
             this.exportManager = exportManager;
+            isClosing = false;
             this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
             Sheets = CollectionViewSource.GetDefaultView(this.sheets);
             Sheets.SortDescriptions.Add(new SortDescription("FullExportName", ListSortDirection.Ascending));
-            CurrentProgress = 0;
-            ProgressBarMaximum = 1;
-            log = new ExportLog();
+            //VerifySheets();
         }
 
         public static dynamic DefaultWindowSettings
@@ -68,18 +67,11 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public double CurrentProgress
+        public List<ExportSheet> SelectedSheets
         {
             get
             {
-                return currentProgress;
-            }
-
-            set
-            {
-                currentProgress = value;
-                NotifyOfPropertyChange(() => CurrentProgress);
-                NotifyOfPropertyChange(() => ProgressBarText);
+                return selectedSheets;
             }
         }
 
@@ -101,26 +93,6 @@ namespace SCaddins.ExportManager.ViewModels
             get
             {
                 return new BindableCollection<string>(printTypes);
-            }
-        }
-
-        public double ProgressBarMaximum
-        {
-            get;
-            set;
-        }
-
-        public string ProgressBarText
-        {
-            get
-            {
-                if (CurrentProgress == 0) {
-                    var numberOfSheets = selectedSheets.Count;
-                    return numberOfSheets + @" Sheet[s] Selected To Export/Print " + SelectedExportTypesAsString;
-                } else {
-                    string percentageCompete = ((CurrentProgress / selectedSheets.Count) * 100).ToString();
-                    return "Exporting " + CurrentProgress + @"/" + selectedSheets.Count + @"(" + percentageCompete  + @"%) [Elapsed Time = " + log.TimeSinceStart + @"]";
-                }
             }
         }
 
@@ -234,24 +206,28 @@ namespace SCaddins.ExportManager.ViewModels
                 ViewUtilities.UserView.Create(selectedSheets, exportManager.Doc));
         }
 
+
+
         public void Export()
         {
-            log.Clear();
-            log.Start("Beginning Export.");
-            ProgressBarMaximum = selectedSheets.Count;
-            NotifyOfPropertyChange(() => ProgressBarMaximum);
-            System.Windows.Forms.Application.DoEvents();
-            foreach (ExportSheet sheet in selectedSheets)
-            {
-                this.IsNotifying = false;
-                CurrentProgress += 1;
-                exportManager.ExportSheet(sheet, log);
-                this.IsNotifying = true;
-                System.Windows.Forms.Application.DoEvents();
-            }
-            CurrentProgress = 0;
-            log.Stop("Finished Export.");
-            TryShowExportLog();
+            isClosing = true;
+            TryClose(true);
+            //log.Clear();
+            //log.Start("Beginning Export.");
+            //ProgressBarMaximum = selectedSheets.Count;
+            //NotifyOfPropertyChange(() => ProgressBarMaximum);
+            //System.Windows.Forms.Application.DoEvents();
+            //foreach (ExportSheet sheet in selectedSheets)
+            //{
+            //    this.IsNotifying = false;
+            //    CurrentProgress += 1;
+            //    exportManager.ExportSheet(sheet, log);
+            //    this.IsNotifying = true;
+            //    System.Windows.Forms.Application.DoEvents();
+            //}
+            //CurrentProgress = 0;
+            //log.Stop("Finished Export.");
+            //TryShowExportLog();
         }
 
         public void FixScaleBars()
@@ -279,12 +255,10 @@ namespace SCaddins.ExportManager.ViewModels
 
                 case Key.D:
                     exportManager.ToggleExportOption(ExportOptions.DWG);
-                    NotifyOfPropertyChange(() => ProgressBarText);
                     break;
 
                 case Key.G:
                     exportManager.ToggleExportOption(ExportOptions.GhostscriptPDF);
-                    NotifyOfPropertyChange(() => ProgressBarText);
                     break;
 
                 case Key.L:
@@ -297,7 +271,6 @@ namespace SCaddins.ExportManager.ViewModels
 
                 case Key.P:
                     exportManager.ToggleExportOption(ExportOptions.PDF);
-                    NotifyOfPropertyChange(() => ProgressBarText);
                     break;
 
                 case Key.S:
@@ -344,57 +317,51 @@ namespace SCaddins.ExportManager.ViewModels
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
             var optionsModel = new OptionsViewModel(exportManager, this);
             SCaddinsApp.WindowManager.ShowDialog(optionsModel, null, settings);
-            NotifyOfPropertyChange(() => ProgressBarText);
         }
 
-        public void Print(string printerName, int printMode)
+        public void Print(string printerName, int printMode, ExportLog log)
         {
             log.Clear();
             log.Start("Starting print...");
-            ProgressBarMaximum = selectedSheets.Count;
-            NotifyOfPropertyChange(() => ProgressBarMaximum);
             System.Windows.Forms.Application.DoEvents();
             foreach (ExportSheet sheet in selectedSheets.OrderBy(x => x.SheetNumber).ToList())
             {
-                CurrentProgress += 1;
                 System.Windows.Forms.Application.DoEvents();
                 exportManager.Print(sheet, printerName, printMode, log);
                 System.Windows.Forms.Application.DoEvents();
             }
-            CurrentProgress = 0;
             log.Stop("Finished Print.");
-            TryShowExportLog();
         }
 
-        public void PrintA2()
+        public void PrintA2(ExportLog log)
         {
-            Print(exportManager.PrinterNameLargeFormat, 2);
+            Print(exportManager.PrinterNameLargeFormat, 2, log);
         }
 
-        public void PrintA3()
+        public void PrintA3(ExportLog log)
         {
-            Print(exportManager.PrinterNameA3, 3);
+            Print(exportManager.PrinterNameA3, 3, log);
         }
 
-        public void PrintButton()
+        public void PrintButton(ExportLog log)
         {
             if (selectedPrintType == "Print A3")
             {
-                PrintA3();
+                PrintA3(log);
             }
             if (selectedPrintType == "Print A2")
             {
-                PrintA2();
+                PrintA2(log);
             }
             if (selectedPrintType == "Print Full Size")
             {
-                PrintFullsize();
+                PrintFullsize(log);
             }
         }
 
-        public void PrintFullsize()
+        public void PrintFullsize(ExportLog log)
         {
-            Print(exportManager.PrinterNameLargeFormat, 1);
+            Print(exportManager.PrinterNameLargeFormat, 1, log);
         }
 
         public void RemoveUnderlays()
@@ -428,10 +395,12 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void Row_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs obj)
         {
-            var grid = sender as System.Windows.Controls.DataGrid;
-            selectedSheets = grid.SelectedItems.Cast<ExportSheet>().ToList();
-            NotifyOfPropertyChange(() => ProgressBarText);
-            NotifyOfPropertyChange(() => Sheets);
+            if (!isClosing)
+            {
+                var grid = sender as System.Windows.Controls.DataGrid;
+                selectedSheets = grid.SelectedItems.Cast<ExportSheet>().ToList();
+                NotifyOfPropertyChange(() => Sheets);
+            }
         }
 
         public void SearchButton()
@@ -454,7 +423,7 @@ namespace SCaddins.ExportManager.ViewModels
             this.IsNotifying = true;
         }
 
-        public void TryShowExportLog()
+        public void TryShowExportLog(ExportLog log)
         {
             if (exportManager.ShowExportLog && log != null)
             {
