@@ -66,30 +66,29 @@ namespace SCaddins.ExportManager
             }
 
             var manager = new ExportManager(uidoc);
-            //manager.Update();
             var log = new ExportLog();
-
             var vm = new ViewModels.SCexportViewModel(manager);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SCexportViewModel.DefaultWindowSettings);
 
-            SCaddins.ExportManager.Views.ProgressDialog progress = new Views.ProgressDialog(vm.SelectedSheets.Count);
+            var progressVm = new ViewModels.ProgressMonitorViewModel();
+            progressVm.MaximumValue = vm.SelectedSheets.Count;
+            progressVm.Value = 0;
 
             log.Clear();
             log.Start("Beginning Export.");
 
-            progress.Show();
-            progress.Run(manager, vm.SelectedSheets, log);
+            SCaddinsApp.WindowManager.ShowWindow(progressVm, null, ViewModels.ProgressMonitorViewModel.DefaultWindowSettings);
 
-            ////foreach (var sheet in vm.SelectedSheets)
-            ////{
-            ////    progress.Step();
-            ////    progress.BringToFront();
-            ////    progress.Refresh();
-            ////    manager.ExportSheet(sheet, log);
-            ////    TryHideAcrobatProgress();
-            ////}
-
-            progress.Dispose();
+            foreach (var sheet in vm.SelectedSheets) {
+                progressVm.ProgressSummary += "Exporting " + sheet.FullExportName + "...";
+                manager.ExportSheet(sheet, log);
+                ////TryHideAcrobatProgress();
+                progressVm.ProgressSummary += "OK" + System.Environment.NewLine;
+                progressVm.Value++;
+                if (progressVm.CancelPressed) {
+                    break;
+                }
+            }
 
             log.Stop("Finished Export.");
             //vm.TryShowExportLog(log);
@@ -105,7 +104,7 @@ namespace SCaddins.ExportManager
                 ShowWindow(hWnd, 0);
             } else
             {
-                TaskDialog.Show("TEST", "nope");
+                ////TaskDialog.Show("TEST", "nope");
             }
         }
     }

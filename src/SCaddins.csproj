@@ -295,6 +295,7 @@
     <Compile Include="ExportManager\ViewModels\OpenSheetViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\OptionsViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\PrinterSelectionViewModel.cs" />
+    <Compile Include="ExportManager\ViewModels\ProgressMonitorViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\RevisionSelectionViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\SCexportViewModel.cs" />
     <Compile Include="ExportManager\Views\ConfirmationDialogView.xaml.cs">
@@ -312,11 +313,8 @@
     <Compile Include="ExportManager\Views\PrinterSelectionView.xaml.cs">
       <DependentUpon>PrinterSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ExportManager\Views\ProgressDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ExportManager\Views\ProgressDialog.Designer.cs">
-      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    <Compile Include="ExportManager\Views\ProgressMonitorView.xaml.cs">
+      <DependentUpon>ProgressMonitorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ExportManager\Views\RevisionSelectionView.xaml.cs">
       <DependentUpon>RevisionSelectionView.xaml</DependentUpon>
@@ -482,9 +480,6 @@
     <Compile Include="ViewUtilities\CreateUserViewCommand.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ExportManager\Views\ProgressDialog.resx">
-      <DependentUpon>ProgressDialog.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
@@ -546,6 +541,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ExportManager\Views\PrinterSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportManager\Views\ProgressMonitorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

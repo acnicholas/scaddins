@@ -212,22 +212,6 @@ namespace SCaddins.ExportManager.ViewModels
         {
             isClosing = true;
             TryClose(true);
-            //log.Clear();
-            //log.Start("Beginning Export.");
-            //ProgressBarMaximum = selectedSheets.Count;
-            //NotifyOfPropertyChange(() => ProgressBarMaximum);
-            //System.Windows.Forms.Application.DoEvents();
-            //foreach (ExportSheet sheet in selectedSheets)
-            //{
-            //    this.IsNotifying = false;
-            //    CurrentProgress += 1;
-            //    exportManager.ExportSheet(sheet, log);
-            //    this.IsNotifying = true;
-            //    System.Windows.Forms.Application.DoEvents();
-            //}
-            //CurrentProgress = 0;
-            //log.Stop("Finished Export.");
-            //TryShowExportLog();
         }
 
         public void FixScaleBars()
