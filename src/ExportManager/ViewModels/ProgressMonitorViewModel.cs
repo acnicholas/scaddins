@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Dynamic;
-using Caliburn.Micro;
-
-namespace SCaddins.ExportManager.ViewModels
+﻿namespace SCaddins.ExportManager.ViewModels
 {
+    using System.Dynamic;
+    using Caliburn.Micro;
+
     class ProgressMonitorViewModel : PropertyChangedBase
     {
 
@@ -54,8 +49,9 @@ namespace SCaddins.ExportManager.ViewModels
         {
             get
             {
-                return text; ;
+                return text;
             }
+
             set
             {
                 text = value;
@@ -69,6 +65,7 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 return progressSummary;
             }
+
             set
             {
                 progressSummary = value;
@@ -89,9 +86,10 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 return maximumValue;
             }
+
             set
             {
-                maximumValue = value; ;
+                maximumValue = value;
                 NotifyOfPropertyChange(() => MaximumValue);
             }
         }

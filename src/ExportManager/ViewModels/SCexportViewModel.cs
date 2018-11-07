@@ -236,6 +236,7 @@ namespace SCaddins.ExportManager.ViewModels
         public void Export()
         {
             isClosing = true;
+            closeMode = CloseMode.Export;
             TryClose(true);
         }
 
