@@ -17,7 +17,12 @@ namespace SCaddins.ExportManager.Views
         private void ProgressSummary_SourceUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)
         {
             //// ScrollView.ScrollToBottom();
-            ScrollView.ScrollToEnd();
+            ////ScrollView.ScrollToEnd();
+        }
+
+        private void ProgressSummary_TargetUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)
+        {
+            ScrollView.ScrollToBottom();
         }
     }
 }

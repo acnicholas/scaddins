@@ -25,7 +25,7 @@ namespace SCaddins.ExportManager.ViewModels
             get
             {
                 dynamic settings = new ExpandoObject();
-                settings.Height = 148;
+                settings.Height = 320;
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
                     new System.Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png"));
                 settings.Width = 640;
@@ -76,6 +76,11 @@ namespace SCaddins.ExportManager.ViewModels
                 System.Windows.Forms.Application.DoEvents();
             }
 
+        }
+
+        public string ButtonLabel
+        {
+            get; set;
         }
 
         public int MaximumValue

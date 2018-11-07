@@ -13,11 +13,11 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <ProgressBar x:Name="Value" Minimum="0" Maximum="{Binding MaximumValue}"  Grid.Row="0" Margin="5"/>
-        <TextBlock x:Name="Text" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Margin="5">Test This Shxx</TextBlock>
-        <Button x:Name="Cancel" Grid.Row="2" Margin="5" MaxWidth="100">Cancel</Button>
-        <ScrollViewer x:Name="ScrollView"   Grid.Row="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" CanContentScroll="True">
-        <TextBlock x:Name="ProgressSummary" ManipulationCompleted="ProgressSummary_ManipulationCompleted" SourceUpdated="ProgressSummary_SourceUpdated"></TextBlock>
+        <ProgressBar x:Name="Value" Minimum="0" Maximum="{Binding MaximumValue}"  MinHeight="30"  Grid.Row="0" Margin="5"/>
+        <TextBlock x:Name="Text" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Margin="5"></TextBlock>
+        <Button x:Name="Cancel" Content="{Binding ButtonLabel}" Grid.Row="2" Margin="5" MaxWidth="100"></Button>
+        <ScrollViewer x:Name="ScrollView"   HorizontalScrollBarVisibility="Auto" Grid.Row="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,5,5,15" CanContentScroll="True">
+            <TextBlock Text="{Binding ProgressSummary, NotifyOnTargetUpdated=True}" TargetUpdated="ProgressSummary_TargetUpdated"></TextBlock>
         </ScrollViewer>
     </Grid>
 </UserControl>

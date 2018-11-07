@@ -70,43 +70,90 @@ namespace SCaddins.ExportManager
             var vm = new ViewModels.SCexportViewModel(manager);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SCexportViewModel.DefaultWindowSettings);
 
-            var progressVm = new ViewModels.ProgressMonitorViewModel();
-            progressVm.MaximumValue = vm.SelectedSheets.Count;
-            progressVm.Value = 0;
+            var closeMode = vm.CloseStatus;
 
-            log.Clear();
-            log.Start("Beginning Export.");
+            if (vm.CloseStatus != ViewModels.SCexportViewModel.CloseMode.Exit)
+            {
+                string exportType = string.Empty;
 
-            SCaddinsApp.WindowManager.ShowWindow(progressVm, null, ViewModels.ProgressMonitorViewModel.DefaultWindowSettings);
-
-            foreach (var sheet in vm.SelectedSheets) {
-                progressVm.ProgressSummary += "Exporting " + sheet.FullExportName + "...";
-                manager.ExportSheet(sheet, log);
-                ////TryHideAcrobatProgress();
-                progressVm.ProgressSummary += "OK" + System.Environment.NewLine;
-                progressVm.Value++;
-                if (progressVm.CancelPressed) {
-                    break;
+                switch (vm.CloseStatus)
+                {
+                    case ViewModels.SCexportViewModel.CloseMode.Export:
+                        exportType = "Exporting";
+                        break;
+                    case ViewModels.SCexportViewModel.CloseMode.Print:
+                    case ViewModels.SCexportViewModel.CloseMode.PrintA3:
+                    case ViewModels.SCexportViewModel.CloseMode.PrintA2:
+                        exportType = "Printing";
+                        break;
+                    default:
+                        break;
                 }
+
+                var progressVm = new ViewModels.ProgressMonitorViewModel();
+                progressVm.MaximumValue = vm.SelectedSheets.Count;
+                progressVm.Value = 0;
+
+                log.Clear();
+                log.Start(exportType + " Started.");
+
+                SCaddinsApp.WindowManager.ShowWindow(progressVm, null, ViewModels.ProgressMonitorViewModel.DefaultWindowSettings);
+
+                foreach (var sheet in vm.SelectedSheets)
+                {
+                    progressVm.ProgressSummary += exportType + @" " + sheet.FullExportName + "...";
+
+                    switch (vm.CloseStatus)
+                    {
+                        case ViewModels.SCexportViewModel.CloseMode.Export:
+                            manager.ExportSheet(sheet, log);
+                            break;
+                        case ViewModels.SCexportViewModel.CloseMode.Print:
+                            manager.Print(sheet, manager.PrinterNameLargeFormat, 1, log);
+                            break;
+                        case ViewModels.SCexportViewModel.CloseMode.PrintA3:
+                            manager.Print(sheet, manager.PrinterNameA3, 3, log);
+                            break;
+                        case ViewModels.SCexportViewModel.CloseMode.PrintA2:
+                            manager.Print(sheet, manager.PrinterNameLargeFormat, 2, log);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    progressVm.ProgressSummary += "OK" + System.Environment.NewLine;
+                    progressVm.Value++;
+                    if (progressVm.CancelPressed)
+                    {
+                        break;
+                    }
+                }
+
+                log.Stop("Finished");
+
             }
 
-            log.Stop("Finished Export.");
-            //vm.TryShowExportLog(log);
+            if (manager.ShowExportLog && log != null)
+            {
+                var logVM = new ViewModels.ExportLogViewModel(log);
+                SCaddinsApp.WindowManager.ShowDialog(logVM, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
+            }
+
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }
 
-        private void TryHideAcrobatProgress()
-        {
-            System.IntPtr hWnd = FindWindow(null, @"Creating Adobe PDF");
-            if ((int)hWnd > 0)
-            {
-                ShowWindow(hWnd, 0);
-            } else
-            {
-                ////TaskDialog.Show("TEST", "nope");
-            }
-        }
+        ////private void TryHideAcrobatProgress()
+        ////{
+        ////    System.IntPtr hWnd = FindWindow(null, @"Creating Adobe PDF");
+        ////    if ((int)hWnd > 0)
+        ////    {
+        ////        ShowWindow(hWnd, 0);
+        ////    } else
+        ////    {
+        ////        ////TaskDialog.Show("TEST", "nope");
+        ////    }
+        ////}
     }
 }
 

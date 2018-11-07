@@ -30,7 +30,6 @@ namespace SCaddins.ExportManager.ViewModels
     internal class SCexportViewModel : Screen
     {
         private readonly ExportManager exportManager;
-        private double currentProgress;
         private bool isClosing;
         private List<string> printTypes;
         private string searchText;
@@ -39,16 +38,35 @@ namespace SCaddins.ExportManager.ViewModels
         private ObservableCollection<ExportSheet> sheets;
         private ICollectionView sheetsCollection;
 
+        public enum CloseMode
+        {
+            Exit,
+            Print,
+            PrintA3,
+            PrintA2,
+            Export
+        };
+
+        private CloseMode closeMode;
+
         public SCexportViewModel(ExportManager exportManager)
         {
             printTypes = (new string[] { "Print A3", "Print A2", "Print Full Size" }).ToList();
             selectedPrintType = "Print A3";
             this.exportManager = exportManager;
             isClosing = false;
-            this.sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
+            closeMode = CloseMode.Exit;
+            sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
             Sheets = CollectionViewSource.GetDefaultView(this.sheets);
             Sheets.SortDescriptions.Add(new SortDescription("FullExportName", ListSortDirection.Ascending));
-            //VerifySheets();
+        }
+
+        public CloseMode CloseStatus
+        {
+            get
+            {
+                return closeMode;
+            }
         }
 
         public static dynamic DefaultWindowSettings
@@ -147,6 +165,15 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public string StatusText
+        {
+            get
+            {
+                var numberOfSheets = selectedSheets.Count;
+                return numberOfSheets + @" Sheet[s] Selected To Export/Print " + SelectedExportTypesAsString;
+            }
+        }
+
         public ObservableCollection<ViewSheetSetCombo> ViewSheetSets
         {
             get { return exportManager.AllViewSheetSets; }
@@ -205,8 +232,6 @@ namespace SCaddins.ExportManager.ViewModels
             ViewUtilities.UserView.ShowSummaryDialog(
                 ViewUtilities.UserView.Create(selectedSheets, exportManager.Doc));
         }
-
-
 
         public void Export()
         {
@@ -303,49 +328,22 @@ namespace SCaddins.ExportManager.ViewModels
             SCaddinsApp.WindowManager.ShowDialog(optionsModel, null, settings);
         }
 
-        public void Print(string printerName, int printMode, ExportLog log)
+        public void PrintButton()
         {
-            log.Clear();
-            log.Start("Starting print...");
-            System.Windows.Forms.Application.DoEvents();
-            foreach (ExportSheet sheet in selectedSheets.OrderBy(x => x.SheetNumber).ToList())
-            {
-                System.Windows.Forms.Application.DoEvents();
-                exportManager.Print(sheet, printerName, printMode, log);
-                System.Windows.Forms.Application.DoEvents();
-            }
-            log.Stop("Finished Print.");
-        }
-
-        public void PrintA2(ExportLog log)
-        {
-            Print(exportManager.PrinterNameLargeFormat, 2, log);
-        }
-
-        public void PrintA3(ExportLog log)
-        {
-            Print(exportManager.PrinterNameA3, 3, log);
-        }
-
-        public void PrintButton(ExportLog log)
-        {
+            isClosing = true;
             if (selectedPrintType == "Print A3")
             {
-                PrintA3(log);
+                closeMode = CloseMode.PrintA3;
             }
             if (selectedPrintType == "Print A2")
             {
-                PrintA2(log);
+                closeMode = CloseMode.PrintA2;
             }
             if (selectedPrintType == "Print Full Size")
             {
-                PrintFullsize(log);
+                closeMode = CloseMode.Print;
             }
-        }
-
-        public void PrintFullsize(ExportLog log)
-        {
-            Print(exportManager.PrinterNameLargeFormat, 1, log);
+            TryClose(true);
         }
 
         public void RemoveUnderlays()
@@ -384,6 +382,7 @@ namespace SCaddins.ExportManager.ViewModels
                 var grid = sender as System.Windows.Controls.DataGrid;
                 selectedSheets = grid.SelectedItems.Cast<ExportSheet>().ToList();
                 NotifyOfPropertyChange(() => Sheets);
+                NotifyOfPropertyChange(() => StatusText);
             }
         }
 
@@ -405,15 +404,6 @@ namespace SCaddins.ExportManager.ViewModels
             {
             }
             this.IsNotifying = true;
-        }
-
-        public void TryShowExportLog(ExportLog log)
-        {
-            if (exportManager.ShowExportLog && log != null)
-            {
-                var vm = new ViewModels.ExportLogViewModel(log);
-                SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
-            }
         }
 
         public void TurnNorthPointsOff()
