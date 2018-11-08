@@ -10,10 +10,12 @@
         private int maximumValue;
         private string text;
         private string progressSummary;
+        private bool processComplete;
 
         public ProgressMonitorViewModel()
         {
             CancelPressed = false;
+            ProcessComplete = false;
         }
 
         public static dynamic DefaultWindowSettings {
@@ -77,7 +79,10 @@
 
         public string ButtonLabel
         {
-            get; set;
+            get
+            {
+                return ProcessComplete ? "Done" : "Cancel";
+            }
         }
 
         public int MaximumValue
@@ -97,6 +102,20 @@
         public bool CancelPressed
         {
             get; set;
+        }
+
+        public bool ProcessComplete
+        {
+            get
+            {
+                return processComplete;
+            }
+            set
+            {
+                processComplete = value;
+                NotifyOfPropertyChange(() => ProcessComplete);
+                NotifyOfPropertyChange(() => ButtonLabel);
+            }
         }
 
         public void Cancel()

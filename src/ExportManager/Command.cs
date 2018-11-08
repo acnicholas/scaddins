@@ -130,14 +130,15 @@ namespace SCaddins.ExportManager
                 }
 
                 log.Stop("Finished");
+                progressVm.ProcessComplete = true;
 
             }
 
-            if (manager.ShowExportLog && log != null)
-            {
-                var logVM = new ViewModels.ExportLogViewModel(log);
-                SCaddinsApp.WindowManager.ShowDialog(logVM, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
-            }
+            ////if (manager.ShowExportLog && log != null)
+            ////{
+            ////    var logVM = new ViewModels.ExportLogViewModel(log);
+            ////    SCaddinsApp.WindowManager.ShowDialog(logVM, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
+            ////}
 
 
             return Autodesk.Revit.UI.Result.Succeeded;
