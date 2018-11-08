@@ -33,8 +33,7 @@
             }
         }
 
-        public int Value
-        {
+        public int Value {
             get
             {
                 return currentValue;
@@ -47,8 +46,7 @@
             }
         }
 
-        public string Text
-        {
+        public string Text {
             get
             {
                 return text;
@@ -61,8 +59,7 @@
             }
         }
 
-        public string ProgressSummary
-        {
+        public string ProgressSummary {
             get
             {
                 return progressSummary;
@@ -77,16 +74,14 @@
 
         }
 
-        public string ButtonLabel
-        {
+        public string ButtonLabel {
             get
             {
                 return ProcessComplete ? "Done" : "Cancel";
             }
         }
 
-        public int MaximumValue
-        {
+        public int MaximumValue {
             get
             {
                 return maximumValue;
@@ -99,13 +94,11 @@
             }
         }
 
-        public bool CancelPressed
-        {
+        public bool CancelPressed {
             get; set;
         }
 
-        public bool ProcessComplete
-        {
+        public bool ProcessComplete {
             get
             {
                 return processComplete;
@@ -121,6 +114,11 @@
         public void Cancel()
         {
             CancelPressed = true;
+        }
+
+        public void Stop(ExportLog log)
+        {
+            ProgressSummary += log.SummaryBanner;
         }
     }
 }

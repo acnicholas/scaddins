@@ -30,6 +30,7 @@
         private DateTime endTime;
         private List<ExportLogItem> errorLog;
         private int errors;
+        private int predictedNumberOfExports;
         private StringBuilder fullLog;
         private DateTime startTime;
         private List<ExportLogItem> warningLog;
@@ -38,6 +39,7 @@
         public ExportLog()
         {
             this.errors = 0;
+            this.predictedNumberOfExports = 0;
             this.warnings = 0;
             this.fullLog = new StringBuilder();
             this.startTime = DateTime.Now;
@@ -113,22 +115,39 @@
             this.fullLog.Clear();
         }
 
+        public string SummaryBanner 
+        {
+            get; private set;
+        }
+
+        public string StartBanner {
+            get; private set;
+        }
+
+        public TimeSpan LastItemElapsedTime
+        {
+            get; private set;
+        }
+
         public void EndLoggingIndividualItem(DateTime itemStartTime, string message)
         {
-            var logItemElapsedTime = DateTime.Now - itemStartTime;
-            this.AddLogItem("Export Time: " + this.TotalExportTime.ToString());
+            LastItemElapsedTime = DateTime.Now - itemStartTime;
+            this.AddLogItem("Export Time: " + LastItemElapsedTime.ToString());
             this.AddLogItem(ItemEndBanner);
         }
 
         public void Start(string message)
         {
+            this.Clear();
             this.AddLogItem(message);
             this.startTime = DateTime.Now;
-            this.AddLogItem("Start Time: " + this.startTime.ToLongTimeString());
+            StartBanner = "Start Time: " + this.startTime.ToLongTimeString();
+            AddLogItem("Start Time: " + this.startTime.ToLongTimeString());
         }
 
         public DateTime StartLoggingIndividualItem(string message)
         {
+            TotalExports++;
             this.AddLogItem(ItemStartBanner);
             this.AddLogItem(message);
             return DateTime.Now;
@@ -138,6 +157,7 @@
         {
             this.AddLogItem(message);
             this.endTime = DateTime.Now;
+            SummaryBanner = TotalExports + " completed with " + Errors + " errors and " + Warnings + " warnings";
             this.AddLogItem("End Time: " + this.endTime.ToLongTimeString());
             this.AddLogItem("Total Export Time: " + this.TotalExportTime.ToString());
         }

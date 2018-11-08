@@ -101,7 +101,7 @@ namespace SCaddins.ExportManager
 
                 foreach (var sheet in vm.SelectedSheets)
                 {
-                    progressVm.ProgressSummary += exportType + @" " + sheet.FullExportName + "...";
+                    progressVm.ProgressSummary += exportType + @" >>> " + sheet.FullExportName + "...";
 
                     switch (vm.CloseStatus)
                     {
@@ -121,7 +121,7 @@ namespace SCaddins.ExportManager
                             break;
                     }
 
-                    progressVm.ProgressSummary += "OK" + System.Environment.NewLine;
+                    progressVm.ProgressSummary += "OK [" + log.LastItemElapsedTime.ToString() + @"]" +  System.Environment.NewLine;
                     progressVm.Value++;
                     if (progressVm.CancelPressed)
                     {
@@ -130,6 +130,7 @@ namespace SCaddins.ExportManager
                 }
 
                 log.Stop("Finished");
+                progressVm.Stop(log);
                 progressVm.ProcessComplete = true;
 
             }
