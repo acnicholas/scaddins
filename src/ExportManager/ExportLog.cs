@@ -30,7 +30,6 @@
         private DateTime endTime;
         private List<ExportLogItem> errorLog;
         private int errors;
-        private int predictedNumberOfExports;
         private StringBuilder fullLog;
         private DateTime startTime;
         private List<ExportLogItem> warningLog;
@@ -39,7 +38,6 @@
         public ExportLog()
         {
             this.errors = 0;
-            this.predictedNumberOfExports = 0;
             this.warnings = 0;
             this.fullLog = new StringBuilder();
             this.startTime = DateTime.Now;
@@ -62,6 +60,21 @@
         public string FullOutputLog
         {
             get { return this.fullLog.ToString(); }
+        }
+
+        public TimeSpan LastItemElapsedTime
+        {
+            get; private set;
+        }
+
+        public string StartBanner
+        {
+            get; private set;
+        }
+
+        public string SummaryBanner
+        {
+            get; private set;
         }
 
         public TimeSpan TimeSinceStart
@@ -113,20 +126,6 @@
             this.errorLog.Clear();
             this.warningLog.Clear();
             this.fullLog.Clear();
-        }
-
-        public string SummaryBanner 
-        {
-            get; private set;
-        }
-
-        public string StartBanner {
-            get; private set;
-        }
-
-        public TimeSpan LastItemElapsedTime
-        {
-            get; private set;
         }
 
         public void EndLoggingIndividualItem(DateTime itemStartTime, string message)

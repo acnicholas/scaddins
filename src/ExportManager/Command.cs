@@ -17,24 +17,24 @@
 
 namespace SCaddins.ExportManager
 {
+    using System.Runtime.InteropServices;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using System.Runtime.InteropServices;
 
     [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
     {
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern System.IntPtr FindWindow(string lpClassName, string lpWindowName);
+        ////[DllImport("user32.dll", SetLastError = true)]
+        ////public static extern System.IntPtr FindWindow(string lpClassName, string lpWindowName);
 
-        [DllImport("user32.dll")]
-        static extern bool ShowWindow(System.IntPtr hWnd, int nCmdShow);
+        ////[DllImport("user32.dll")]
+        ////public static extern bool ShowWindow(System.IntPtr hWnd, int nCmdShow);
 
         public Autodesk.Revit.UI.Result Execute(
-            ExternalCommandData commandData,
+                    ExternalCommandData commandData,
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
@@ -121,7 +121,7 @@ namespace SCaddins.ExportManager
                             break;
                     }
 
-                    progressVm.ProgressSummary += "OK [" + log.LastItemElapsedTime.ToString() + @"]" +  System.Environment.NewLine;
+                    progressVm.ProgressSummary += "OK [" + log.LastItemElapsedTime.ToString() + @"]" + System.Environment.NewLine;
                     progressVm.Value++;
                     if (progressVm.CancelPressed)
                     {
@@ -132,7 +132,6 @@ namespace SCaddins.ExportManager
                 log.Stop("Finished");
                 progressVm.Stop(log);
                 progressVm.ProcessComplete = true;
-
             }
 
             ////if (manager.ShowExportLog && log != null)
@@ -140,7 +139,6 @@ namespace SCaddins.ExportManager
             ////    var logVM = new ViewModels.ExportLogViewModel(log);
             ////    SCaddinsApp.WindowManager.ShowDialog(logVM, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
             ////}
-
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }
@@ -158,6 +156,4 @@ namespace SCaddins.ExportManager
         ////}
     }
 }
-
-
 /* vim: set ts=4 sw=4 nu expandtab: */

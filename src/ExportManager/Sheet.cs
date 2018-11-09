@@ -61,7 +61,6 @@ namespace SCaddins.ExportManager
                 ExportManager scx)
         {
             this.Init(sheet, doc, fileNameTemplate, scx);
-            //this.UpdateSheetInfo();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

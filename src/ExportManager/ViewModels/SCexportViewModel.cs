@@ -30,6 +30,7 @@ namespace SCaddins.ExportManager.ViewModels
     internal class SCexportViewModel : Screen
     {
         private readonly ExportManager exportManager;
+        private CloseMode closeMode;
         private bool isClosing;
         private List<string> printTypes;
         private string searchText;
@@ -37,17 +38,6 @@ namespace SCaddins.ExportManager.ViewModels
         private List<ExportSheet> selectedSheets = new List<ExportSheet>();
         private ObservableCollection<ExportSheet> sheets;
         private ICollectionView sheetsCollection;
-
-        public enum CloseMode
-        {
-            Exit,
-            Print,
-            PrintA3,
-            PrintA2,
-            Export
-        };
-
-        private CloseMode closeMode;
 
         public SCexportViewModel(ExportManager exportManager)
         {
@@ -61,12 +51,13 @@ namespace SCaddins.ExportManager.ViewModels
             Sheets.SortDescriptions.Add(new SortDescription("FullExportName", ListSortDirection.Ascending));
         }
 
-        public CloseMode CloseStatus
+        public enum CloseMode
         {
-            get
-            {
-                return closeMode;
-            }
+            Exit,
+            Print,
+            PrintA3,
+            PrintA2,
+            Export
         }
 
         public static dynamic DefaultWindowSettings
@@ -85,11 +76,11 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public List<ExportSheet> SelectedSheets
+        public CloseMode CloseStatus
         {
             get
             {
-                return selectedSheets;
+                return closeMode;
             }
         }
 
@@ -103,7 +94,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public bool IsSearchTextFocused
         {
-            get; set; 
+            get; set;
         }
 
         public BindableCollection<string> PrintTypes
@@ -123,9 +114,10 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value != searchText) {
+                if (value != searchText)
+                {
                     searchText = value;
-                }            
+                }
             }
         }
 
@@ -149,6 +141,14 @@ namespace SCaddins.ExportManager.ViewModels
         public ExportSheet SelectedSheet
         {
             get; set;
+        }
+
+        public List<ExportSheet> SelectedSheets
+        {
+            get
+            {
+                return selectedSheets;
+            }
         }
 
         public ICollectionView Sheets

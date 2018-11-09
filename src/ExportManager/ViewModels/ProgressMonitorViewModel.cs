@@ -3,9 +3,8 @@
     using System.Dynamic;
     using Caliburn.Micro;
 
-    class ProgressMonitorViewModel : PropertyChangedBase
+    public class ProgressMonitorViewModel : PropertyChangedBase
     {
-
         private int currentValue;
         private int maximumValue;
         private string text;
@@ -38,6 +37,7 @@
             {
                 return currentValue;
             }
+
             set
             {
                 currentValue = value;
@@ -71,7 +71,6 @@
                 NotifyOfPropertyChange(() => ProgressSummary);
                 System.Windows.Forms.Application.DoEvents();
             }
-
         }
 
         public string ButtonLabel {
@@ -103,6 +102,7 @@
             {
                 return processComplete;
             }
+
             set
             {
                 processComplete = value;
