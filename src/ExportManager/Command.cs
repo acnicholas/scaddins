@@ -101,7 +101,7 @@ namespace SCaddins.ExportManager
 
                 foreach (var sheet in vm.SelectedSheets)
                 {
-                    progressVm.ProgressSummary += exportType + @" >>> " + sheet.FullExportName + "...";
+                    progressVm.ProgressSummary += @" --> " + exportType + @" " + sheet.FullExportName + "...";
 
                     switch (vm.CloseStatus)
                     {

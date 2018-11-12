@@ -3,7 +3,7 @@
     using System.Dynamic;
     using Caliburn.Micro;
 
-    public class ProgressMonitorViewModel : PropertyChangedBase
+    public class ProgressMonitorViewModel : Screen
     {
         private int currentValue;
         private int maximumValue;
@@ -113,7 +113,15 @@
 
         public void Cancel()
         {
-            CancelPressed = true;
+            if (!CancelPressed && ! ProcessComplete) {
+                CancelPressed = true;
+                ProcessComplete = true;
+                ProgressSummary += @"Process Cancelled :(" + System.Environment.NewLine + System.Environment.NewLine;
+            } else {
+                if (this.IsActive) {
+                    TryClose();
+                }
+            }
         }
 
         public void Stop(ExportLog log)

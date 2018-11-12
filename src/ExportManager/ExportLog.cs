@@ -156,7 +156,7 @@
         {
             this.AddLogItem(message);
             this.endTime = DateTime.Now;
-            SummaryBanner = TotalExports + " completed with " + Errors + " errors and " + Warnings + " warnings";
+            SummaryBanner = TotalExports + " exports completed with " + Errors + " errors and " + Warnings + " warnings";
             this.AddLogItem("End Time: " + this.endTime.ToLongTimeString());
             this.AddLogItem("Total Export Time: " + this.TotalExportTime.ToString());
         }

@@ -736,7 +736,7 @@ namespace SCaddins.ExportManager
 
                 SCaddins.Common.SystemUtilities.KillAllProcesses("acrotray");
             } else {
-                log.AddError(vs.FullExportName, Resources.ErrorCantOverwriteFile);
+                ////log.AddError(vs.FullExportName, Resources.ErrorCantOverwriteFile);
                 return false;
             }
 
