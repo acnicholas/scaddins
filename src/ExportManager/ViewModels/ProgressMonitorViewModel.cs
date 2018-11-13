@@ -113,7 +113,7 @@
 
         public void Cancel()
         {
-            if (!CancelPressed && ! ProcessComplete) {
+            if (!CancelPressed && !ProcessComplete) {
                 CancelPressed = true;
                 ProcessComplete = true;
                 ProgressSummary += @"Process Cancelled :(" + System.Environment.NewLine + System.Environment.NewLine;
