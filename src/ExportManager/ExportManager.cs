@@ -72,6 +72,13 @@ namespace SCaddins.ExportManager
             get; set;
         }
 
+        public string ForceRasterPrintParameterName {
+            get
+            {
+                return Settings1.Default.UseRasterPrinterParameter;
+            }
+        }
+
         public ACADVersion AcadVersion
         {
             get
@@ -480,7 +487,7 @@ namespace SCaddins.ExportManager
         }
 
         public void Print(
-                                                            ExportSheet sheet,
+            ExportSheet sheet,
             string printerName,
             int scale)
         {

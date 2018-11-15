@@ -299,6 +299,22 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public string ForceRasterPrintParameterName {
+            get
+            {
+                return SCaddins.ExportManager.Settings1.Default.UseRasterPrinterParameter;
+            }
+
+            set
+            {
+                if (value == SCaddins.ExportManager.Settings1.Default.UseRasterPrinterParameter) {
+                    return;
+                }
+                SCaddins.ExportManager.Settings1.Default.UseRasterPrinterParameter = value;
+                SCaddins.ExportManager.Settings1.Default.Save();
+            }
+        }
+
         public string PostscriptPrintDriverName
         {
             get

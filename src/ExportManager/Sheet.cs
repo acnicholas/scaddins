@@ -30,6 +30,7 @@ namespace SCaddins.ExportManager
         private Document doc;
         private string exportDirectory;
         private bool forceDate;
+        private bool forceRasterPrint;
         private string fullExportName;
         private double height;
         private ElementId id;
@@ -95,6 +96,14 @@ namespace SCaddins.ExportManager
                 NotifyPropertyChanged(nameof(ForceDate));
                 NotifyPropertyChanged(nameof(FullExportName));
                 NotifyPropertyChanged(nameof(SheetRevision));
+            }
+        }
+
+        public bool ForceRasterPrint
+        {
+            get
+            {
+                return forceRasterPrint;
             }
         }
 
@@ -565,9 +574,25 @@ namespace SCaddins.ExportManager
             this.pageSize = string.Empty;
             this.id = viewSheet.Id;
             this.ForceDate = scx.ForceRevisionToDateString;
+            this.forceRasterPrint = UseRasterPrinting(scx.ForceRasterPrintParameterName);
             this.useDateForEmptyRevisions = scx.UseDateForEmptyRevisions;
             this.UpdateRevision(false);
             this.SetExportName();
+        }
+
+        private bool UseRasterPrinting(string parameterName)
+        {
+            bool result = false;
+            if (!string.IsNullOrEmpty(parameterName)) {
+                var parameters = this.sheet.GetParameters(parameterName);
+                if (parameters.Count == 1) {
+                    result = parameters[0].HasValue && parameters[0].StorageType == StorageType.Integer && parameters[0].AsInteger() == 1;
+                }
+            }
+            if (result) {
+                Autodesk.Revit.UI.TaskDialog.Show("test", "Raster Printing Enabled for sheet " + this.SheetNumber);
+            }
+            return result;
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

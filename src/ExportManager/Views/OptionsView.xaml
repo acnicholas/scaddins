@@ -46,7 +46,7 @@
                             <Button x:Name="SelectExportDirectory" Grid.Column="2" Grid.Row="1" Margin="5" HorizontalAlignment="Right" MaxWidth="20">...</Button>
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Title Block Parameters" Grid.Row="2" Margin="5">
+                    <GroupBox Header="Title Block and Sheet Parameters" Grid.Row="2" Margin="5">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
@@ -55,11 +55,14 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
                             <Label Grid.Column="0" Grid.Row="0" Content="Scale Bar Scale" VerticalAlignment="Center" Margin="5"></Label>
                             <Label Grid.Column="0" Grid.Row="1" Content="North Point Visibility" VerticalAlignment="Center" Margin="5"></Label>
+                            <Label Grid.Column="0" Grid.Row="2" Content="Force Raster Print(sheet)" VerticalAlignment="Center" Margin="5"></Label>
                             <TextBox x:Name="ScaleBarScaleParameterName" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5"></TextBox>
                             <TextBox x:Name="NorthPointVisibilityParameterName" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></TextBox>
+                            <TextBox x:Name="ForceRasterPrintParameterName" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="5"></TextBox>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Export Options" Grid.Row="3" Margin="5">

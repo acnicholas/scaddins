@@ -241,6 +241,11 @@ namespace SCaddins.ExportManager
                             pm.PrintRange = PrintRange.Current;
                             pm.PrintToFile = true;
                             pm.PrintToFileName = vs.FullExportPath(ext);
+                            pm.PrintSetup.CurrentPrintSetting.PrintParameters.HiddenLineViews
+                                = vs.ForceRasterPrint ? HiddenLineViewsType.RasterProcessing : HiddenLineViewsType.VectorProcessing;
+                            pm.PrintSetup.InSession.PrintParameters.HiddenLineViews
+                                = vs.ForceRasterPrint ? HiddenLineViewsType.RasterProcessing : HiddenLineViewsType.VectorProcessing;
+                            pm.PrintSetup.Save();
                             pm.Apply();
                             t.Commit();
                             return true;
