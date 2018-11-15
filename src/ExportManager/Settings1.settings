@@ -53,5 +53,8 @@
     <Setting Name="UseDateForEmptyRevisions" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="UseRasterPrinterParameter" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Force Raster Print</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

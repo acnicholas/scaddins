@@ -238,5 +238,17 @@ namespace SCaddins.ExportManager {
                 this["UseDateForEmptyRevisions"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Force Raster Print")]
+        public string UseRasterPrinterParameter {
+            get {
+                return ((string)(this["UseRasterPrinterParameter"]));
+            }
+            set {
+                this["UseRasterPrinterParameter"] = value;
+            }
+        }
     }
 }
