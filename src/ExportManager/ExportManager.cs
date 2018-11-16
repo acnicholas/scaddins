@@ -511,17 +511,17 @@ namespace SCaddins.ExportManager
             switch (scale)
             {
                 case 3:
-                    printSetttingsValid |= PrintSettings.PrintToDevice(Doc, "A3-FIT", pm, printerName, log);
+                    printSetttingsValid |= PrintSettings.PrintToDevice(Doc, "A3-FIT", pm, printerName, sheet.ForceRasterPrint, log);
                     break;
 
                 case 2:
-                    printSetttingsValid |= PrintSettings.PrintToDevice(Doc, "A2-FIT", pm, printerName, log);
+                    printSetttingsValid |= PrintSettings.PrintToDevice(Doc, "A2-FIT", pm, printerName, sheet.ForceRasterPrint, log);
                     break;
 
                 default:
                     int i = int.Parse(sheet.PageSize.Substring(1, 1), CultureInfo.InvariantCulture);
                     string printerNameTmp = i > 2 ? this.PrinterNameA3 : this.PrinterNameLargeFormat;
-                    printSetttingsValid |= PrintSettings.PrintToDevice(Doc, sheet.PageSize, pm, printerNameTmp, log);
+                    printSetttingsValid |= PrintSettings.PrintToDevice(Doc, sheet.PageSize, pm, printerNameTmp, sheet.ForceRasterPrint, log);
                     break;
             }
             if (printSetttingsValid)

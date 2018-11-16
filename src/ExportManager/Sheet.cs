@@ -62,6 +62,7 @@ namespace SCaddins.ExportManager
                 ExportManager scx)
         {
             this.Init(sheet, doc, fileNameTemplate, scx);
+            this.UpdateSheetInfo();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -148,6 +149,8 @@ namespace SCaddins.ExportManager
         {
             get
             {
+                ////string raster = ForceRasterPrint ? @"(Raster)" : string.Empty;
+                ////string raster = string.Empty;
                 return this.printSetting != null ? this.printSetting.Name : string.Empty;
             }
         }
@@ -543,8 +546,7 @@ namespace SCaddins.ExportManager
                         BuiltInParameter.SHEET_HEIGHT).AsDouble();
             }
             this.pageSize = PrintSettings.GetSheetSizeAsString(this);
-            this.printSetting = PrintSettings.GetPrintSettingByName(
-                    this.doc, this.pageSize);
+            this.printSetting = PrintSettings.GetPrintSettingByName(this.doc, this.pageSize, this.forceRasterPrint);
             this.verified = true;
             NotifyPropertyChanged(nameof(Scale));
             NotifyPropertyChanged(nameof(PrintSettingName));
@@ -589,9 +591,9 @@ namespace SCaddins.ExportManager
                     result = parameters[0].HasValue && parameters[0].StorageType == StorageType.Integer && parameters[0].AsInteger() == 1;
                 }
             }
-            if (result) {
-                Autodesk.Revit.UI.TaskDialog.Show("test", "Raster Printing Enabled for sheet " + this.SheetNumber);
-            }
+            ////if (result) {
+                ////Autodesk.Revit.UI.TaskDialog.Show("test", "Raster Printing Enabled for sheet " + this.SheetNumber);
+            ////}
             return result;
         }
 

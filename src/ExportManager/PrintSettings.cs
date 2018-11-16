@@ -35,7 +35,7 @@ namespace SCaddins.ExportManager
             return tw + 2 > w && tw - 2 < w && th + 2 > h && th - 2 < h;
         }
 
-        public static bool CreatePrintSetting(Document doc, string isoSheetSize)
+        public static bool CreatePrintSetting(Document doc, string isoSheetSize, bool forceRaster)
         {
             if (doc == null || string.IsNullOrEmpty(isoSheetSize))
             {
@@ -87,7 +87,14 @@ namespace SCaddins.ExportManager
                             ips.PrintParameters.MarginType = MarginType.NoMargin;
                         }
 
-                        pm.PrintSetup.SaveAs("SCX-" + isoSheetSize);
+                        if (!forceRaster)
+                        {
+                            pm.PrintSetup.SaveAs("SCX-" + isoSheetSize);
+                        } else {
+                            ips.PrintParameters.HiddenLineViews = HiddenLineViewsType.RasterProcessing;
+                            pm.PrintSetup.SaveAs("SCX-" + isoSheetSize + @"(Raster)");
+                        }
+
                         t.Commit();
                         success = true;
                     }
@@ -104,7 +111,7 @@ namespace SCaddins.ExportManager
             return success;
         }
 
-        public static PrintSetting GetPrintSettingByName(Document doc, string printSetting)
+        public static PrintSetting GetPrintSettingByName(Document doc, string printSetting, bool forceRaster)
         {
             if (doc == null || string.IsNullOrEmpty(printSetting))
             {
@@ -114,13 +121,23 @@ namespace SCaddins.ExportManager
             foreach (ElementId id in doc.GetPrintSettingIds())
             {
                 var ps2 = doc.GetElement(id) as PrintSetting;
-                if (ps2.Name.ToString().Equals("SCX-" + printSetting))
+                if (!forceRaster)
                 {
-                    return ps2;
+                    if (ps2 != null && ps2.Name.ToString().Equals("SCX-" + printSetting))
+                    {
+                        return ps2;
+                    }
+                }
+                else
+                {
+                    if (ps2 != null && ps2.Name.ToString().Equals("SCX-" + printSetting + @"(Raster)"))
+                    {
+                        return ps2;
+                    }
                 }
             }
 
-            if (!CreatePrintSetting(doc, printSetting))
+            if (!CreatePrintSetting(doc, printSetting, forceRaster))
             {
                 return null;
             }
@@ -128,9 +145,17 @@ namespace SCaddins.ExportManager
             foreach (ElementId id in doc.GetPrintSettingIds())
             {
                 var ps2 = doc.GetElement(id) as PrintSetting;
-                if (ps2 != null && ps2.Name.ToString().Equals("SCX-" + printSetting))
+                if (!forceRaster)
                 {
-                    return ps2;
+                    if (ps2 != null && ps2.Name.ToString().Equals("SCX-" + printSetting))
+                    {
+                        return ps2;
+                    }
+                } else {
+                    if (ps2 != null && ps2.Name.ToString().Equals("SCX-" + printSetting + @"(Raster)"))
+                    {
+                        return ps2;
+                    }
                 }
             }
 
@@ -172,13 +197,14 @@ namespace SCaddins.ExportManager
                 string size,
                 PrintManager pm,
                 string printerName,
+                bool forceRaster,
                 ExportLog log)
         {
             if (pm == null) {
                 return false;
             }
 
-            PrintSetting ps = LoadRevitPrintSetting(doc, size, pm, printerName, log);
+            PrintSetting ps = LoadRevitPrintSetting(doc, size, pm, printerName, forceRaster, log);
             
             if (ps == null) {
                 return false;
@@ -241,11 +267,6 @@ namespace SCaddins.ExportManager
                             pm.PrintRange = PrintRange.Current;
                             pm.PrintToFile = true;
                             pm.PrintToFileName = vs.FullExportPath(ext);
-                            pm.PrintSetup.CurrentPrintSetting.PrintParameters.HiddenLineViews
-                                = vs.ForceRasterPrint ? HiddenLineViewsType.RasterProcessing : HiddenLineViewsType.VectorProcessing;
-                            pm.PrintSetup.InSession.PrintParameters.HiddenLineViews
-                                = vs.ForceRasterPrint ? HiddenLineViewsType.RasterProcessing : HiddenLineViewsType.VectorProcessing;
-                            pm.PrintSetup.Save();
                             pm.Apply();
                             t.Commit();
                             return true;
@@ -289,10 +310,11 @@ namespace SCaddins.ExportManager
                 string size,
                 PrintManager pm,
                 string printerName,
+                bool forceRaster,
                 ExportLog log)
         {       
             log.AddMessage(Resources.MessageAttemptingToLoadRevitPrintSettings + size);
-            PrintSetting ps = PrintSettings.GetPrintSettingByName(doc, size);
+            PrintSetting ps = PrintSettings.GetPrintSettingByName(doc, size, forceRaster);
 
             if (ps == null) {
                 log.AddError(null, Resources.ErrorRetrievingRevitPrintSettingsFAILED);
