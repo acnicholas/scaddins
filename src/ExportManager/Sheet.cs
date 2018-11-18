@@ -149,8 +149,6 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                ////string raster = ForceRasterPrint ? @"(Raster)" : string.Empty;
-                ////string raster = string.Empty;
                 return this.printSetting != null ? this.printSetting.Name : string.Empty;
             }
         }

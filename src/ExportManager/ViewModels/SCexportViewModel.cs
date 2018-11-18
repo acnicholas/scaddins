@@ -265,10 +265,12 @@ namespace SCaddins.ExportManager.ViewModels
 
                 case Key.D:
                     exportManager.ToggleExportOption(ExportOptions.DWG);
+                    NotifyOfPropertyChange(() => StatusText);
                     break;
 
                 case Key.G:
                     exportManager.ToggleExportOption(ExportOptions.GhostscriptPDF);
+                    NotifyOfPropertyChange(() => StatusText);
                     break;
 
                 case Key.L:
@@ -281,6 +283,7 @@ namespace SCaddins.ExportManager.ViewModels
 
                 case Key.P:
                     exportManager.ToggleExportOption(ExportOptions.PDF);
+                    NotifyOfPropertyChange(() => StatusText);
                     break;
 
                 case Key.S:
@@ -327,6 +330,7 @@ namespace SCaddins.ExportManager.ViewModels
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
             var optionsModel = new OptionsViewModel(exportManager, this);
             SCaddinsApp.WindowManager.ShowDialog(optionsModel, null, settings);
+            NotifyOfPropertyChange(() => StatusText);
         }
 
         public void PrintButton()

@@ -111,6 +111,15 @@ namespace SCaddins.ExportManager
             return success;
         }
 
+        /// <summary>
+        /// Retrieve the print setting for this sheet.
+        /// If it is not found, attempt to create a new one.
+        /// ...if this still failes return null.
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="printSetting">The Name of the print setting</param>
+        /// <param name="forceRaster"></param>
+        /// <returns></returns>
         public static PrintSetting GetPrintSettingByName(Document doc, string printSetting, bool forceRaster)
         {
             if (doc == null || string.IsNullOrEmpty(printSetting))
@@ -142,6 +151,7 @@ namespace SCaddins.ExportManager
                 return null;
             }
 
+            // FIXME. put this in a separate method. it's the same as above.
             foreach (ElementId id in doc.GetPrintSettingIds())
             {
                 var ps2 = doc.GetElement(id) as PrintSetting;
@@ -165,7 +175,7 @@ namespace SCaddins.ExportManager
         }
 
         /// <summary>
-        /// Return the papersize of the current sheet
+        /// Return the name of the papersize of the current sheet
         /// FIXME add sizes other that iso A*
         /// </summary>
         public static string GetSheetSizeAsString(ExportSheet sheet)

@@ -4,11 +4,17 @@
 
 ####NEW####
 
-- **New Interface using WPF**
+- **Completely new Interface using WPF, *many* minor changes**
+- Option to force raster prints in SCexport.
+- New progress dialog for SCexport that enables cancelling.
+- New search field in SCexport
+- Custom parameters added to SCexport (can now use any parameter for export naming)
+- New solar analysis view creation tool.
+- Option to bulk select sheets to copy in Sheet Copier.
 
 ####SUMMARY####
 
-Completely revised interface using Windows Presentation Framework.
+**Completely** revised interface using Windows Presentation Framework.
 Most add-ins include minor improvements/changes.
 
 ####FIXES#####
