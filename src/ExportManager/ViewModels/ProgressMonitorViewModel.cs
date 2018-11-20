@@ -42,6 +42,7 @@
             {
                 currentValue = value;
                 NotifyOfPropertyChange(() => Value);
+                NotifyOfPropertyChange(() => Text);
                 System.Windows.Forms.Application.DoEvents();
             }
         }
@@ -49,13 +50,7 @@
         public string Text {
             get
             {
-                return text;
-            }
-
-            set
-            {
-                text = value;
-                NotifyOfPropertyChange(() => Text);
+                return  string.Format("{0:0.##}%", (double)Value/MaximumValue*100) ;
             }
         }
 
