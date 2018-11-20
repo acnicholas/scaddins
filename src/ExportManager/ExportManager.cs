@@ -353,8 +353,7 @@ namespace SCaddins.ExportManager
             OpenSheet.OpenNextSheet(udoc, view);
         }
 
-        public static FamilyInstance TitleBlockInstanceFromSheetNumber(
-                                                                                    string sheetNumber, Document doc)
+        public static FamilyInstance TitleBlockInstanceFromSheetNumber(string sheetNumber, Document doc)
         {
             if (doc == null)
             {
