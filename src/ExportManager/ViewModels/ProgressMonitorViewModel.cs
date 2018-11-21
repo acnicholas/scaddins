@@ -7,7 +7,6 @@
     {
         private int currentValue;
         private int maximumValue;
-        private string text;
         private string progressSummary;
         private bool processComplete;
 
@@ -50,7 +49,7 @@
         public string Text {
             get
             {
-                return  string.Format("{0:0.##}%", (double)Value/MaximumValue*100) ;
+                return string.Format("{0:0.##}%", (double)Value / MaximumValue * 100);
             }
         }
 

@@ -122,7 +122,8 @@ namespace SCaddins.ExportManager
                     }
 
                     progressVm.Value++;
-                    string niceTime = string.Format("OK  [ time {0:hh\\.mm\\:ss}  total {1:hh\\.mm\\:ss}  ~remaining {2:hh\\.mm\\:ss}]",
+                    string niceTime = string.Format(
+                        "OK  [ time {0:hh\\.mm\\:ss}  total {1:hh\\.mm\\:ss}  ~remaining {2:hh\\.mm\\:ss}]",
                         log.LastItemElapsedTime,
                         log.TimeSinceStart,
                         System.TimeSpan.FromTicks(log.TimeSinceStart.Ticks / progressVm.Value * (progressVm.MaximumValue - progressVm.Value)));
