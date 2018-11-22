@@ -17,50 +17,48 @@
 
 namespace SCaddins
 {
-    using System;
-
     /// <summary>
     /// Description of Conctants.
     /// </summary>
     public static class Constants
     {
-        /// <summary> Example project configuration dir. </summary>
-        public const string EtcDirectory = "etc";
-
-        /// <summary> Data directory. </summary>
-        public const string ShareDirectory = "share";
-
-        /// <summary> Data directory. </summary>
-        public const string OptDirectory = "opt";
-
-        /// <summary> The install dir.</summary>
-        public const string InstallDirectory = @"C:\Program Files\SCaddins\SCaddins\";
-
-        /// <summary> Web [http] link to source code. </summary>
-        public const string SourceLink =
-            "https://github.com/acnicholas/scaddins";
+        /// <summary> Web [http] link to changelog. </summary>
+        public const string ChangelogLink =
+            "https://github.com/acnicholas/scaddins/blob/master/CHANGELOG.md";
 
         /// <summary> Web [http] link to download binaries. </summary>
         public const string DownloadLink =
             "https://github.com/acnicholas/scaddins/releases/latest";
 
-        /// <summary> Web [http] link to changelog. </summary>
-        public const string ChangelogLink =
-            "https://github.com/acnicholas/scaddins/blob/master/CHANGELOG.md";
+        /// <summary> Example project configuration dir. </summary>
+        public const string EtcDirectory = "etc";
 
         /// <summary> Web [http] link to forum. </summary>
         public const string HelpLink =
             "https://github.com/acnicholas/scaddins/wiki";
 
+        /// <summary> The install dir.</summary>
+        public const string InstallDirectory = @"C:\Program Files\SCaddins\SCaddins\";
+
+        /// <summary> Data directory. </summary>
+        public const string OptDirectory = "opt";
+
+        /// <summary> Data directory. </summary>
+        public const string ShareDirectory = "share";
+
+        /// <summary> Web [http] link to source code. </summary>
+        public const string SourceLink =
+            "https://github.com/acnicholas/scaddins";
+
         /// <summary> License to display in about box. </summary>
         public static readonly string License =
             "SCaddins is free software: you can redistribute it and/or modify " +
-            "it under the terms of the GNU Lesser General Public License as "  +
+            "it under the terms of the GNU Lesser General Public License as " +
             "published by the Free Software Foundation, either version 3 of " +
             "the License, or (at your option) any later version." +
             System.Environment.NewLine +
             System.Environment.NewLine +
-            "SCaddins is distributed in the hope that it will be useful, "  +
+            "SCaddins is distributed in the hope that it will be useful, " +
             "but WITHOUT ANY WARRANTY; without even the implied warranty of " +
             "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the " +
             "GNU Lesser General Public License for more details." +
@@ -72,17 +70,20 @@ namespace SCaddins
 
         public static string FamilyDirectory
         {
-            get {
+            get
+            {
                 return InstallDirectory + @"\" + ShareDirectory + @"\rfa\";
             }
         }
 
         public static string IconDirectory
         {
-            get {
+            get
+            {
                 return InstallDirectory + @"\" + ShareDirectory + @"\icons\";
             }
         }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

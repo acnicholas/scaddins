@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2017 by Andrew Nicholas
+﻿// (C) Copyright 2017-2018 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -15,149 +15,346 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Architecture;
-
 namespace SCaddins.RenameUtilities
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using Autodesk.Revit.DB;
+
     public class RenameManager
     {
+        private Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate> renameCandidates;
+        private RenameCommand renameCommand;
+        private Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCommand> renameCommands;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;
-        
+        private List<ElementId> elements;
+
+        ////Constructors
+        #region
+
+        public RenameManager(Document doc, List<ElementId> elements) : this(doc)
+        {
+            this.elements = new List<ElementId>();
+            this.elements.AddRange(elements);
+        }
+
         public RenameManager(Document doc)
         {
             this.doc = doc;
+            renameCandidates = new Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate>();
+            renameCommands = new Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCommand>();
+            renameCommands.Add(new RenameCommand((a, c, b) => a, "None"));
+            renameCommands.Add(new RenameCommand((a, c, b) => a.ToUpper(), "UpperCase"));
+            renameCommands.Add(new RenameCommand((a, c, b) => a.ToLower(), "Lowercase"));
+            renameCommands.Add(new RenameCommand((a, c, b) => a.Replace(' ', '_'), "Spaces to Underscore"));
+            renameCommands.Add(new RenameCommand((a, c, b) => a.Replace(' ', '-'), "Spaces to Hyphen"));
+            renameCommands.Add(new RenameCommand(RegexReplace, "Custom Replace", string.Empty, string.Empty));
+            renameCommands.Add(new RenameCommand(Increment, "Increment Match", string.Empty, string.Empty));
+
+            ////inc last
+            var lastRenameCommand = new RenameCommand(IncrementLast, "Increment Last", @"(^\D+)(\d+$)", string.Empty);
+            lastRenameCommand.ReplacementPatternHint = "Increment Amount";
+            renameCommands.Add(lastRenameCommand);
+
+            renameCommand = renameCommands[0];
         }
-        
-        public void Rename(List<RenameCandidate> renameCandidates)
+
+        #endregion
+
+        ////Properties
+        #region
+
+        public Caliburn.Micro.BindableCollection<string> AvailableParameterTypes
+        {
+            get
+            {
+                Caliburn.Micro.BindableCollection<string> result = new Caliburn.Micro.BindableCollection<string>();
+                result.Add("Rooms");
+                result.Add("Grids");
+                result.Add("Levels");
+                result.Add("Text");
+                result.Add("Views");
+                result.Add("Sheets");
+                result.Add("Walls");
+                result.Add("Doors");
+                result.Add(@"Model Groups");
+                return result;
+            }
+        }
+
+        public Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate> RenameCandidates
+        {
+            get { return renameCandidates; }
+        }
+
+        public Caliburn.Micro.BindableCollection<RenameCommand> RenameModes
+        {
+            get
+            {
+                return renameCommands;
+            }
+        }
+
+        public RenameCommand ActiveRenameCommand
+        {
+            get
+            {
+                return renameCommand;
+            }
+
+            set
+            {
+                renameCommand = value;
+            }
+        }
+
+        public RenameCommand SelectedRenameMode
+        {
+            get
+            {
+                return renameCommand;
+            }
+
+            set
+            {
+                renameCommand = value;
+                Rename();
+            }
+        }
+
+        public static string Increment(string val, string search, string replace)
+        {
+            return "todo";
+        }
+
+        public static string IncrementLast(string val, string search, string replace)
+        {
+            var match = Regex.Match(val, search);
+            if (match.Success)
+            {
+                var matchLength = match.Groups[2].Value.Length;
+                if (int.TryParse(match.Groups[2].Value, out int n) && int.TryParse(replace, out int incVal))
+                {
+                    var i = n + incVal;
+                    string pad = string.Empty;
+                    for (int j = (int)Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++)
+                    {
+                        pad += "0";
+                    }
+                    return Regex.Replace(val, search, m => m.Groups[1].Value + pad + i);
+                }
+            }
+            return val;
+        }
+
+        public static string RegexReplace(string val, string search, string replace)
+        {
+            return Regex.Replace(val, search, replace);
+        }
+
+        public void CommitRename()
+        {
+            CommitRenameSelection(renameCandidates.ToList<RenameCandidate>());
+        }
+
+        public void CommitRenameSelection(List<RenameCandidate> selectedCandiates)
         {
             int fails = 0;
             int successes = 0;
-            using (var t = new Transaction(doc)) {
-                if (t.Start("Bulk Rename") == TransactionStatus.Started) { 
-                    foreach (RenameCandidate candidate in renameCandidates) {
-                        if (candidate.ValueChanged()) {
-                            if (candidate.Rename()) {
+
+            using (var t = new Transaction(doc))
+            {
+                if (t.Start("Bulk Rename") == TransactionStatus.Started)
+                {
+                    foreach (RenameCandidate candidate in selectedCandiates)
+                    {
+                        if (candidate.ValueChanged)
+                        {
+                            if (candidate.Rename())
+                            {
                                 successes++;
-                            } else {
+                            }
+                            else
+                            {
                                 fails++;
                             }
                         }
                     }
                     t.Commit();
-                    Autodesk.Revit.UI.TaskDialog.Show(@"Bulk Rename", successes + @" parameters succesfully renames, " + fails + @" errors.");
-                } else {
+                    Autodesk.Revit.UI.TaskDialog.Show(
+                        @"Bulk Rename", successes + @" parameters succesfully renames, " + fails + @" errors.");
+                }
+                else
+                {
                     Autodesk.Revit.UI.TaskDialog.Show("Error", "Failed to start Bulk Rename Revit Transaction...");
                 }
             }
         }
-        
-        private static void ConvertViewName(View view)
+
+        public Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByCategoryName(string parameterCategory)
         {
-            string newName = NewString(view.Name);
-            if (ValidRevitName(newName)) {
-                view.Name = newName;
+            if (parameterCategory == "Rooms") {
+                return GetParametersByCategory(BuiltInCategory.OST_Rooms);
             }
-        }
-        
-        private static string NewString(string oldString)
-        {
-            return oldString.ToUpper(CultureInfo.CurrentCulture);
+            if (parameterCategory == "Views") {
+                return GetParametersByCategory(BuiltInCategory.OST_Views);
+            }
+            if (parameterCategory == "Sheets") {
+                return GetParametersByCategory(BuiltInCategory.OST_Sheets);
+            }
+            if (parameterCategory == "Walls") {
+                return GetParametersByCategory(BuiltInCategory.OST_Walls);
+            }
+            if (parameterCategory == "Doors") {
+                return GetParametersByCategory(BuiltInCategory.OST_Doors);
+            }
+            if (parameterCategory == "Windows") {
+                return GetParametersByCategory(BuiltInCategory.OST_Windows);
+            }
+            if (parameterCategory == "Windows") {
+                return GetParametersByCategory(BuiltInCategory.OST_Revisions);
+            }
+            if (parameterCategory == "Grids") {
+                return GetParametersByType(typeof(Grid));
+            }
+            if (parameterCategory == "Levels") {
+                return GetParametersByCategory(BuiltInCategory.OST_Levels);
+            }
+            if (parameterCategory == "Floors") {
+                return GetParametersByCategory(BuiltInCategory.OST_Floors);
+            }
+            if (parameterCategory == @"Text") {
+                return GetParametersByCategory(BuiltInCategory.OST_TextNotes);
+            }
+            if (parameterCategory == @"Model Groups") {
+                return GetParametersByType(typeof(Autodesk.Revit.DB.Group));
+            }
+            return new Caliburn.Micro.BindableCollection<RenameParameter>();
         }
 
-        private static bool ValidRevitName(string s)
+        /// <summary>
+        /// Renames candidates without committing the change to Revit
+        /// </summary>
+        public void Rename()
+        {
+            foreach (RenameCandidate rc in renameCandidates)
+            {
+                rc.NewValue = renameCommand.Rename(rc.OldValue);
+            }
+        }
+
+        public void SetCandidatesByParameter(Parameter parameter, BuiltInCategory category, Type t)
+        {
+            if (category == BuiltInCategory.OST_TextNotes || category == BuiltInCategory.OST_IOSModelGroups)
+            {
+                GetTextNoteValues(category);
+                return;
+            }
+            renameCandidates.Clear();
+            FilteredElementCollector collector;
+            if (elements == null) {
+                collector = new FilteredElementCollector(doc);
+            } else {
+                collector = new FilteredElementCollector(doc, elements);
+            }
+            if (t != null) {
+                collector.OfClass(t);
+            } else {
+                collector.OfCategory(category);
+            }
+            foreach (Element element in collector) {
+                var p = element.GetParameters(parameter.Definition.Name);
+                if (p.Count > 0) {
+                    var rc = new RenameCandidate(p[0]);
+                    if (!string.IsNullOrEmpty(rc.OldValue)) {
+                        rc.NewValue = renameCommand.Rename(rc.OldValue);
+                        renameCandidates.Add(rc);
+                    }
+                }
+            }
+        }
+
+        private static string GetIncrementedValue(string val, string search, string replace)
+        {
+            return string.Empty;
+        }
+
+        private static bool IsValidRevitName(string s)
         {
             return !(s.Contains("{") || s.Contains("}"));
         }
 
-        private static void ConvertAnnotation(TextElement text)
+        private Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByCategory(BuiltInCategory category)
         {
-            text.Text = NewString(text.Text);
-        }
-
-        private static void ConvertRoom(Room room)
-        {
-            Parameter param = room.LookupParameter("Name");
-            param.Set(NewString(param.AsString()));
-        }
-        
-        public static void ConvertSelectionToUppercase(Document doc, IList<ElementId> elements)
-        {
-            if (elements == null || doc == null) {
-                return;
-            }
-            using (var trans = new Transaction(doc)) {
-                trans.Start("Convert selected elements to uppercase (SCulcase)");
-                foreach (Autodesk.Revit.DB.ElementId eid in elements) {
-                    Element e = doc.GetElement(eid);
-                    Category category = e.Category;
-                    var enumCategory = (BuiltInCategory)category.Id.IntegerValue;
-                    switch (enumCategory) {
-                        case BuiltInCategory.OST_Views:
-                            var v = (View)e;
-                            ConvertViewName(v);
-                            break;
-                        case BuiltInCategory.OST_TextNotes:
-                            var text = (TextElement)e;
-                            ConvertAnnotation(text);
-                            break;
-                        case BuiltInCategory.OST_Rooms:
-                            var room = (Room)e;
-                            ConvertRoom(room);
-                            break;
-                    }
-                }
-                trans.Commit();
-            }
-        }
-        
-         public List<RenameCandidate> GetTextNoteValues(BuiltInCategory category){
-            List<RenameCandidate> candidates = new List<RenameCandidate>();
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
-            collector.OfCategory(category);
-            foreach (Element element in collector) {
-                var textNote = (TextElement)element;
-                if(textNote != null) {
-                    candidates.Add(new RenameCandidate(textNote));
-                }
-            }
-            return candidates;
-        }
-             
-        public List<RenameCandidate> GetParameterValues(Parameter parameter, BuiltInCategory category){
-            if (category == BuiltInCategory.OST_TextNotes || category == BuiltInCategory.OST_IOSModelGroups) {
-                return GetTextNoteValues(category);
-            }
-            List<RenameCandidate> candidates = new List<RenameCandidate>();
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
-            collector.OfCategory(category);
-            foreach (Element element in collector) {
-                var p = element.GetParameters(parameter.Definition.Name);
-                if (p.Count > 0) {
-                    candidates.Add(new RenameCandidate(p[0]));
-                }
-            }
-            return candidates;
-        }
-        
-        public List<RenameParameter> GetParametersByCategory(BuiltInCategory category)
-        {
-            List<RenameParameter> parametersList = new List<RenameParameter>();
-            if(category == BuiltInCategory.OST_TextNotes || category == BuiltInCategory.OST_IOSModelGroups) {
+            Caliburn.Micro.BindableCollection<RenameParameter> parametersList = new Caliburn.Micro.BindableCollection<RenameParameter>();
+            if (category == BuiltInCategory.OST_TextNotes)
+            {
                 parametersList.Add(new RenameParameter(category));
+                return parametersList;
             }
+
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             collector.OfCategory(category);
             var elem = collector.FirstElement();
-            foreach (Parameter param in elem.Parameters) {
-                if (param.StorageType == StorageType.String && !param.IsReadOnly) {
+            var elem2 = collector.ToElements()[collector.GetElementCount() - 1];
+            if (elem2.Parameters.Size > elem.Parameters.Size)
+            {
+                elem = elem2;
+            }
+
+            if (category == BuiltInCategory.OST_Levels || category == BuiltInCategory.OST_Grids)
+            {
+                ////Parameter param = elem.GetParameters("Name").FirstOrDefault();
+                Parameter param = elem.LookupParameter("Name");
+                parametersList.Add(new RenameParameter(param, category));
+                return parametersList;
+            }
+
+            foreach (Parameter param in elem.Parameters)
+            {
+                if (param.StorageType == StorageType.String && !param.IsReadOnly)
+                {
                     parametersList.Add(new RenameParameter(param, category));
                 }
             }
             return parametersList;
+        }
+
+        private Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByType(Type t)
+        {
+            Caliburn.Micro.BindableCollection<RenameParameter> parametersList = new Caliburn.Micro.BindableCollection<RenameParameter>();
+
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfClass(t);
+            var elem = collector.FirstElement();
+            var elem2 = collector.ToElements()[collector.GetElementCount() - 1];
+            if (elem2.Parameters.Size > elem.Parameters.Size)
+            {
+                elem = elem2;
+            }
+            Parameter param = elem.LookupParameter("Name");
+            parametersList.Add(new RenameParameter(param, t));
+            return parametersList;
+        }
+        #endregion
+        private void GetTextNoteValues(BuiltInCategory category)
+        {
+            renameCandidates.Clear();
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfCategory(category);
+            foreach (Element element in collector)
+            {
+                var textNote = (TextElement)element;
+                if (textNote != null)
+                {
+                    var rc = new RenameCandidate(textNote);
+                    rc.NewValue = renameCommand.Rename(rc.OldValue);
+                    renameCandidates.Add(rc);
+                }
+            }
         }
     }
 }

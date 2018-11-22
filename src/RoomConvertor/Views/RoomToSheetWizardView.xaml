@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="SCaddins.RoomConvertor.Views.RoomToSheetWizardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SCaddins.RoomConvertor.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0" Header="Settings for new Sheets" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0"  Margin="5">Title Block</Label>
+                <Label Grid.Row="1" Grid.Column="0"  Margin="5">Scale (1 : n )</Label>
+                <Label Grid.Row="2" Grid.Column="0"  Margin="5">View Template</Label>
+                <Label Grid.Row="3" Grid.Column="0"  Margin="5">Crop Offset (mm)</Label>
+                <ComboBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="5"
+                    ItemsSource="{Binding TitleBlocks}"
+                    SelectedValue="{Binding SelectedTitleBlock}"
+                    SelectedValuePath="Value"
+                    DisplayMemberPath="Key">
+                </ComboBox>
+                <TextBox x:Name="Scale" Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
+                <ComboBox
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="5"
+                    ItemsSource="{Binding ViewTemplates}"
+                    SelectedValue="{Binding SelectedViewTemplate}"
+                    SelectedValuePath="Value"
+                    DisplayMemberPath="Key">
+                    
+                </ComboBox>
+                <TextBox x:Name="CropOffset" Grid.Row="3" Grid.Column="1" Margin="5"></TextBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="1">
+            <Grid Height="Auto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="Cancel" Grid.Column="0" Margin="5">Cancel</Button>
+                <Button x:Name="OK" Grid.Column="1" Margin="5">OK</Button>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

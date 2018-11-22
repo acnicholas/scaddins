@@ -14,7 +14,7 @@ Download the latest version from [**here**](https://github.com/acnicholas/scaddi
 
 Run the powershell script `build.ps1` to build the project.
 
-SCaddins will attempt to build for availble Revit versions (2016-2018) by looking for RevitAPI[UI].dll in the following standard locations:
+SCaddins will attempt to build for availble Revit versions (2016-2019) by looking for RevitAPI[UI].dll in the following standard locations:
 
  - C:\Program Files\AutoDesk\Revit 2016
  - C:\Program Files\AutoDesk\Revit 2017

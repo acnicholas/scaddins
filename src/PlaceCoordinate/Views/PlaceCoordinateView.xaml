@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="SCaddins.PlaceCoordinate.Views.PlaceCoordinateView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SCaddins.PlaceCoordinate.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="300">
+    <Grid Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Width="Auto" TextAlignment="Left" TextWrapping="Wrap" Margin="5">
+            Place a family at the specified shared coordinate<LineBreak />...Or Internal model coordinate (0,0,0).
+        </TextBlock>
+        <GroupBox Grid.Row="1" Header="Placement Settings" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition ></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{Binding XCoordinateLabel}"  Grid.Row="0" Margin="5"></Label>
+                <TextBox x:Name="XCoordinate" Grid.Column="1" Grid.Row="0" Margin="5"></TextBox>
+                <Label Grid.Column="0" Content="{Binding YCoordinateLabel}" Grid.Row="1" Margin="5"></Label>
+                <TextBox x:Name="YCoordinate" Grid.Column="1" Grid.Row="1" Margin="5"></TextBox>
+                <Label Grid.Column="0" Content="{Binding ZCoordinateLabel}" Grid.Row="2" Margin="5"></Label>
+                <TextBox x:Name="ZCoordinate" Grid.Column="1" Grid.Row="2" Margin="5"></TextBox>
+            </Grid>   
+        </GroupBox>
+        <GroupBox Grid.Row="2" Header="Advanced Settings">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Margin="5">Family (Generic Models Only)</Label>
+                <ComboBox x:Name="FamilySymbols" DisplayMemberPath="Name" Grid.Column="1" Grid.Row="0" Margin="5"></ComboBox>
+                <CheckBox Margin="5" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="UseSharedCoordinates">Use Survey Point (Uncheck to use model origin(0,0,0))</CheckBox>
+            </Grid>
+        </GroupBox>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="Cancel" Grid.Column="0" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Bottom" MinWidth="75" Margin="5">Cancel</Button>
+            <Button x:Name="PlaceFamilyAtCoordinate"  IsEnabled="{Binding PlaceFamilyAtCoordinateIsEnabled}" VerticalAlignment="Bottom" Grid.Column="1" Width="Auto"  HorizontalAlignment="Right" MinWidth="75" Margin="5">Place Family</Button>
+        </Grid>
+    </Grid>
+</UserControl>

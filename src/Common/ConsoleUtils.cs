@@ -17,7 +17,6 @@
 
 namespace SCaddins.Common
 {
-    using System;
     using System.Diagnostics;
     using System.Security;
     using System.Security.Permissions;
@@ -30,7 +29,7 @@ namespace SCaddins.Common
         {
             StartHiddenConsoleProg(exePath, args, 20000);
         }
-        
+
         [SecurityCritical]
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         internal static void StartHiddenConsoleProg(string exePath, string args, int waitTime)
@@ -39,7 +38,8 @@ namespace SCaddins.Common
             startInfo.FileName = exePath;
 
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            if (!string.IsNullOrEmpty(args)) {
+            if (!string.IsNullOrEmpty(args))
+            {
                 startInfo.Arguments = args;
             }
             Process p = System.Diagnostics.Process.Start(startInfo);

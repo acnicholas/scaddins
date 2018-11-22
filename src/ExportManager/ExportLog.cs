@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2015 by Andrew Nicholas
+﻿// (C) Copyright 2015-2018 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -18,21 +18,22 @@
  namespace SCaddins.ExportManager
  {
     using System;
-    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
     using System.Text;
-    using SCaddins.ExportManager;
 
     public class ExportLog
     {
         private const string ErrPrefix = "[EE]";
+        private const string ItemEndBanner = "## End Individual Sheet Export ##";
+        private const string ItemStartBanner = "## Start Individual Sheet Export ##";
         private const string WarningPrefix = "[WW]";
-        private Collection<ExportLogItem> errorLog;
-        private Collection<ExportLogItem> warningLog;
-        private StringBuilder fullLog;
-        private int warnings;
-        private int errors;
-        private DateTime startTime;
         private DateTime endTime;
+        private List<ExportLogItem> errorLog;
+        private int errors;
+        private StringBuilder fullLog;
+        private DateTime startTime;
+        private List<ExportLogItem> warningLog;
+        private int warnings;
 
         public ExportLog()
         {
@@ -42,13 +43,13 @@
             this.startTime = DateTime.Now;
             this.endTime = DateTime.Now;
             this.TotalExports = 0;
-            this.errorLog = new Collection<ExportLogItem>();
-            this.warningLog = new Collection<ExportLogItem>();
+            this.errorLog = new List<ExportLogItem>();
+            this.warningLog = new List<ExportLogItem>();
         }
-                
-        public int Warnings
+
+        public List<ExportLogItem> ErrorLog
         {
-            get { return this.warnings; }
+            get { return this.errorLog; }
         }
 
         public int Errors
@@ -56,39 +57,49 @@
             get { return this.errors; }
         }
 
-        public int TotalExports
-        {
-            get; set;
-        }
-
-        public Collection<ExportLogItem> ErrorLog
-        {
-            get { return this.errorLog; }
-        }
-
-        public Collection<ExportLogItem> WarningLog
-        {
-            get { return this.warningLog; }
-        }
-        
         public string FullOutputLog
         {
             get { return this.fullLog.ToString(); }
+        }
+
+        public TimeSpan LastItemElapsedTime
+        {
+            get; private set;
+        }
+
+        public string StartBanner
+        {
+            get; private set;
+        }
+
+        public string SummaryBanner
+        {
+            get; private set;
         }
 
         public TimeSpan TimeSinceStart
         {
             get { return DateTime.Now - this.startTime; }
         }
-        
+
+        public int TotalExports
+        {
+            get; set;
+        }
+
         public TimeSpan TotalExportTime
         {
             get { return this.endTime - this.startTime; }
         }
-        
-        public void AddMessage(string message)
+
+        public List<ExportLogItem> WarningLog
         {
-            this.AddLogItem(message);
+            get { return this.warningLog; }
+        }
+
+        public int Warnings
+        {
+            get { return this.warnings; }
         }
 
         public void AddError(string fileName, string message)
@@ -98,13 +109,18 @@
             this.errorLog.Add(new ExportLogItem(message, fileName));
         }
 
+        public void AddMessage(string message)
+        {
+            this.AddLogItem(message);
+        }
+
         public void AddWarning(string fileName, string message)
         {
             this.AddLogItem(WarningPrefix + message);
             this.warnings++;
             this.warningLog.Add(new ExportLogItem(message, fileName));
         }
-        
+
         public void Clear()
         {
             this.errorLog.Clear();
@@ -112,24 +128,35 @@
             this.fullLog.Clear();
         }
 
-        public void ShowSummaryDialog()
+        public void EndLoggingIndividualItem(DateTime itemStartTime, string message)
         {
-            using (var logDialog = new ExportLogDialog(this)) {
-                logDialog.ShowDialog();
-            }
+            LastItemElapsedTime = DateTime.Now - itemStartTime;
+            this.AddLogItem("Export Time: " + LastItemElapsedTime.ToString());
+            this.AddLogItem(ItemEndBanner);
         }
-        
+
         public void Start(string message)
         {
+            this.Clear();
             this.AddLogItem(message);
             this.startTime = DateTime.Now;
-            this.AddLogItem("Start Time: " + this.startTime.ToLongTimeString());
+            StartBanner = "Start Time: " + this.startTime.ToLongTimeString();
+            AddLogItem("Start Time: " + this.startTime.ToLongTimeString());
         }
-        
+
+        public DateTime StartLoggingIndividualItem(string message)
+        {
+            TotalExports++;
+            this.AddLogItem(ItemStartBanner);
+            this.AddLogItem(message);
+            return DateTime.Now;
+        }
+
         public void Stop(string message)
         {
             this.AddLogItem(message);
             this.endTime = DateTime.Now;
+            SummaryBanner = TotalExports + " exports completed with " + Errors + " errors and " + Warnings + " warnings";
             this.AddLogItem("End Time: " + this.endTime.ToLongTimeString());
             this.AddLogItem("Total Export Time: " + this.TotalExportTime.ToString());
         }

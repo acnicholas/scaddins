@@ -21,36 +21,60 @@ namespace SCaddins.RenameUtilities
     using Autodesk.Revit.DB;
 
     public class RenameParameter
-    {      
+    {
+        public RenameParameter(Parameter parameter, BuiltInCategory category)
+        {
+            this.Parameter = parameter;
+            this.Category = category;
+            this.Type = null;
+            this.Name = parameter.Definition.Name;
+        }
+
+        public RenameParameter(Parameter parameter, Type t)
+        {
+            this.Parameter = parameter;
+            this.Type = t;
+            this.Category = BuiltInCategory.INVALID;
+            this.Name = parameter.Definition.Name;
+        }
+
+        public RenameParameter(BuiltInCategory category)
+        {
+            this.Parameter = null;
+            this.Category = category;
+            this.Type = null;
+            this.Name = "Text";
+        }
+
+        public BuiltInCategory Category
+        {
+            get;
+            private set;
+        }
+
         public string Name
         {
             get;
             set;
         }
 
-        public RenameParameter(Parameter parameter, BuiltInCategory category)
+        public Parameter Parameter
         {
-            this.Parameter = parameter;
-            this.Category = category;
-            this.Name = parameter.Definition.Name;
-        }
-        
-        public RenameParameter(BuiltInCategory category)
-        {
-            this.Parameter = null;
-            this.Category = category;
-            this.Name = "Text";
+            get;
+            private set;
         }
 
-        public Parameter Parameter {
+        public Type Type
+        {
             get;
             private set;
-        } 
-        
-        public BuiltInCategory Category {
-            get;
-            private set;
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

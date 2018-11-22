@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2016 by Andrew Nicholas
+﻿// (C) Copyright 2016-2018 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -17,52 +17,80 @@
 
 namespace SCaddins.RoomConvertor
 {
-    using System;
+    using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
 
     public class RoomFilterItem
     {
-       private LogicalOperator lo;
-       private ComparisonOperator co;
-       private string parameterName;
-       private string test;
+        private ComparisonOperator co;
+        private LogicalOperator lo;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "parameter")]
+        private Parameter parameter;
+        private string parameterName;
+        private string test;
 
-        public RoomFilterItem(string lo, string co, string parameter, string test)
+        public RoomFilterItem(LogicalOperator lo, ComparisonOperator co, string parameter, string test)
         {
-           this.lo = (LogicalOperator)Enum.Parse(typeof(LogicalOperator), lo);
-           this.co = (ComparisonOperator)Enum.Parse(typeof(ComparisonOperator), co);
-           this.parameterName = parameter;
-           this.test = test;
+            this.lo = lo;
+            this.co = co;
+            this.parameterName = parameter;
+            this.parameter = null;
+            this.test = test;
         }
 
-        public static bool IsValid()
+        public bool IsValid()
         {
-            return true;
+            return !string.IsNullOrEmpty(test);
         }
 
-        private static Parameter ParamFromString(Room room, string name)
+        public bool PassesFilter(Room room)
         {
-            if (room.GetParameters(name).Count > 0) {
-                return room.GetParameters(name)[0];
-            }
-            return null;
-        }
-        
-        private static bool ParameterValueContainsString(Parameter param, string value)
-        {
-            if (!param.HasValue || string.IsNullOrWhiteSpace(value)) {
+            parameter = ParamFromString(room, parameterName);
+
+            // FIXME add OR oprion one day.
+            if (lo != LogicalOperator.And)
+            {
                 return false;
             }
-            switch (param.StorageType) {
-                case StorageType.Double:
-                        return false;
-                case StorageType.String:
-                        return param.AsString().Contains(value);
-                case StorageType.Integer:
-                        return false;
-                case StorageType.ElementId:
-                    return false;
+
+            if (parameter == null)
+            {
+                return false;
+            }
+
+            ////FIXME not sure how else to do this...
+            if (parameterName == "Level")
+            {
+                return LevelPassesFilter(room);
+            }
+
+            if (co == ComparisonOperator.Contains)
+            {
+                return ParameterValueContainsString(parameter, test);
+            }
+
+            if (co == ComparisonOperator.DoesNotContain)
+            {
+                return !ParameterValueContainsString(parameter, test);
+            }
+
+            int p = ParameterComparedToString(parameter, test);
+
+            switch (co)
+            {
+                case ComparisonOperator.Equals:
+                    return p == 0;
+
+                case ComparisonOperator.LessThan:
+                    return p < 0 && p != 441976;
+
+                case ComparisonOperator.GreaterThan:
+                    return p > 0 && p != 441976;
+
+                case ComparisonOperator.NotEqual:
+                    return p != 0 && p != 441976;
+
                 default:
                     return false;
             }
@@ -70,64 +98,113 @@ namespace SCaddins.RoomConvertor
 
         private static int ParameterComparedToString(Parameter param, string value)
         {
-            const int result = 441976;
-            if (!param.HasValue || string.IsNullOrWhiteSpace(value)) {
-                return result;
+            const int RESULT = 441976;
+            if (!param.HasValue || string.IsNullOrWhiteSpace(value))
+            {
+                return RESULT;
             }
-            switch (param.StorageType) {
+            switch (param.StorageType)
+            {
                 case StorageType.Double:
                     double parse;
-                    if (double.TryParse(value, out parse)) {
+                    if (double.TryParse(value, out parse))
+                    {
                         return param.AsDouble().CompareTo(parse);
-                    } 
-                    break;
-                case StorageType.String:
-                    return param.AsString().Equals(value) ? 0 : result;
-                case StorageType.Integer:
-                    int iparse;
-                    if (int.TryParse(value, out iparse)) {
-                           return param.AsInteger().CompareTo(iparse);
                     }
                     break;
+
+                case StorageType.String:
+                    return param.AsString().CompareTo(value);
+
+                case StorageType.Integer:
+                    int iparse;
+                    if (int.TryParse(value, out iparse))
+                    {
+                        return param.AsInteger().CompareTo(iparse);
+                    }
+                    break;
+
                 case StorageType.ElementId:
-                    return result;
+                    return RESULT;
+
                 default:
-                    return result;
+                    return RESULT;
             }
-            return result;
+            return RESULT;
         }
 
-        public bool PassesFilter(Room room)
+        private static bool ParameterValueContainsString(Parameter param, string value)
         {
-            // FIXME add OR oprion one day.
-            if (lo != LogicalOperator.And) {
+            if (!param.HasValue || string.IsNullOrWhiteSpace(value))
+            {
                 return false;
             }
-            
-            Parameter param = ParamFromString(room, parameterName);
-            if (param == null) {
-                return false;
-            }
-            
-            if (co == ComparisonOperator.Contains) {
-                return ParameterValueContainsString(param, test);
-            }
+            switch (param.StorageType)
+            {
+                case StorageType.Double:
+                    return false;
 
-            int p = ParameterComparedToString(param, test);
+                case StorageType.String:
+                    return param.AsString().Contains(value);
 
-            switch (co) {
-                case ComparisonOperator.Equals:
-                    return p == 0;
-                case ComparisonOperator.LessThan:
-                    return p < 0 && p != 441976;
-                case ComparisonOperator.GreaterThan:
-                    return p > 0 && p != 441976;
-                case ComparisonOperator.NotEqual:
-                    return p != 0 && p != 441976;
+                case StorageType.Integer:
+                    return false;
+
+                case StorageType.ElementId:
+                    return false;
+
                 default:
                     return false;
             }
         }
+
+        private static Parameter ParamFromString(Element element, string name)
+        {
+            if (element.GetParameters(name).Count > 0)
+            {
+                return element.GetParameters(name)[0];
+            }
+            return null;
+        }
+
+        private bool LevelPassesFilter(Room room)
+        {
+            if (co == ComparisonOperator.Equals)
+            {
+                return room.Level.Name == test;
+            }
+
+            if (co == ComparisonOperator.Contains)
+            {
+                return room.Level.Name.Contains(test);
+            }
+
+            var collector = new FilteredElementCollector(room.Document)
+                .OfClass(typeof(Level))
+                .Cast<Level>()
+                .Where<Level>(lvl => lvl.Name == test);
+
+            if (collector.Count() > 0)
+            {
+                double elev = collector.First().Elevation;
+                {
+                    int p = room.Level.Elevation.CompareTo(elev);
+                    switch (co)
+                    {
+                        case ComparisonOperator.LessThan:
+                            return p < 0;
+
+                        case ComparisonOperator.GreaterThan:
+                            return p > 0;
+
+                        case ComparisonOperator.NotEqual:
+                            return p != 0;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

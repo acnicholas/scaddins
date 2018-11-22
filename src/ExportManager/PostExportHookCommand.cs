@@ -17,9 +17,9 @@
 
 namespace SCaddins.ExportManager
 {
-    using System;
     using System.Collections.ObjectModel;
     using System.Globalization;
+    using System.Text.RegularExpressions;
 
     public class PostExportHookCommand
     {
@@ -43,10 +43,6 @@ namespace SCaddins.ExportManager
 
         public static string FormatConfigurationString(ExportSheet sheet, string value, string extension)
         {
-            // FIXME this seems to return string.Empty when not expected.?
-            // if (sheet == null || string.IsNullOrEmpty(value) || string.IsNullOrEmpty(extension)) {
-            //     return string.Empty;
-            // }
             string result = value;
             result = result.Replace(@"$height", sheet.Height.ToString(CultureInfo.InvariantCulture));
             result = result.Replace(@"$width", sheet.Width.ToString(CultureInfo.InvariantCulture));
@@ -61,6 +57,13 @@ namespace SCaddins.ExportManager
             result = result.Replace(@"$sheetRevisionDate", sheet.SheetRevisionDate);
             result = result.Replace(@"$sheetRevisionDescription", sheet.SheetRevisionDescription);
             result = result.Replace(@"$fileExtension", extension);
+
+            // search for, and replace Custom Paramters
+            string pattern = @"(__)(.*?)(__)";
+            result = Regex.Replace(
+                result,
+                pattern,
+                m => RoomConvertor.RoomConversionCandidate.GetParamValueAsString(sheet.ParamFromString(m.Groups[2].Value)));
             return result;
         }
 
@@ -86,10 +89,12 @@ namespace SCaddins.ExportManager
 
         public bool HasExtension(string extension)
         {
-            if (string.IsNullOrEmpty(extension)) {
+            if (string.IsNullOrEmpty(extension))
+            {
                 return false;
             }
-            if (this.supportedFilenameExtensions == null || this.supportedFilenameExtensions.Count < 1) {
+            if (this.supportedFilenameExtensions == null || this.supportedFilenameExtensions.Count < 1)
+            {
                 return false;
             }
             return this.supportedFilenameExtensions.Contains(extension);
@@ -98,18 +103,22 @@ namespace SCaddins.ExportManager
         public string ListExtensions()
         {
             string s = string.Empty;
-            foreach (string fne in this.supportedFilenameExtensions) {
+            foreach (string fne in this.supportedFilenameExtensions)
+            {
                 s += fne + System.Environment.NewLine;
             }
             return s;
         }
 
-        internal void Run(ExportSheet sheet, string extension) {
+        internal void Run(ExportSheet sheet, string extension)
+        {
             string a = FormatConfigurationString(sheet, this.args, extension);
-            if (!string.IsNullOrEmpty(a)) {
+            if (!string.IsNullOrEmpty(a))
+            {
                 Common.ConsoleUtilities.StartHiddenConsoleProg(this.cmd, a);
             }
         }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

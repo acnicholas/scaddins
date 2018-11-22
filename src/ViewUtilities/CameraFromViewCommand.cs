@@ -27,63 +27,37 @@ namespace SCaddins.ViewUtilities
     [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
-
     public class CameraFromViewCommand : IExternalCommand
     {
-        public Autodesk.Revit.UI.Result Execute(
-            ExternalCommandData commandData,
-            ref string message,
-            Autodesk.Revit.DB.ElementSet elements)
-        {
-            if (commandData == null) {
-                return Result.Failed;
-            }
-
-            Document doc = commandData.Application.ActiveUIDocument.Document;
-            View currentView = doc.ActiveView;
-
-            switch (currentView.ViewType) {
-                case ViewType.ThreeD:
-                    CreatePerspectiveFrom3D(commandData.Application.ActiveUIDocument, currentView as View3D);
-                    break;
-               case ViewType.FloorPlan:
-                    CreatePerspectiveFromPlan(commandData.Application.ActiveUIDocument, currentView);
-                    break;
-                case ViewType.CeilingPlan:
-                    break;
-                case ViewType.Section:
-                    CreatePerspectiveFromSection(commandData.Application.ActiveUIDocument, currentView);
-                    break;
-                default:
-                    using (TaskDialog td = new TaskDialog("SCam - SC Camera Tool")) {
-                        td.MainInstruction = "Oops!";
-                        td.MainContent = "Currently cameras can only be created in 3d and Plan views" +
-                            System.Environment.NewLine +
-                            "Please create sections/elevations from an isometric view";
-                        td.Show();
-                    }
-                    break;
-            }
-
-            return Autodesk.Revit.UI.Result.Succeeded;
-        }
-               
         public static UIView ActiveUIView(UIDocument udoc, Element planView)
         {
-            if (udoc != null && planView != null) {
-                foreach (UIView view in udoc.GetOpenUIViews()) {
+            if (udoc != null && planView != null)
+            {
+                foreach (UIView view in udoc.GetOpenUIViews())
+                {
                     View v = (View)udoc.Document.GetElement(view.ViewId);
-                    if (v.Name == planView.Name) {
+                    if (v.Name == planView.Name)
+                    {
                         return view;
                     }
                 }
             }
-            return null;   
+            return null;
         }
-        
+
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1")]
+        public static void ApplySectionBoxToView(BoundingBoxXYZ bounds, View3D view)
+        {
+            if (bounds != null || view != null)
+            {
+                view.SetSectionBox(bounds);
+            }
+        }
+
         public static XYZ GetMiddleOfActiveViewWindow(UIView view)
-        { 
-            if (view == null) {
+        {
+            if (view == null)
+            {
                 return new XYZ();
             }
             XYZ topLeft = view.GetZoomCorners()[0];
@@ -96,10 +70,35 @@ namespace SCaddins.ViewUtilities
             return new XYZ(middleX, middleY, eyeHeight);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        public static BoundingBoxXYZ SectionViewExtentsBoundingBox(UIView view)
+        {
+            if (view == null)
+            {
+                return new BoundingBoxXYZ();
+            }
+            BoundingBoxXYZ result = new BoundingBoxXYZ();
+            try
+            {
+                XYZ min = new XYZ(view.GetZoomCorners()[0].X, view.GetZoomCorners()[0].Y, view.GetZoomCorners()[0].Z - 4);
+                XYZ max = new XYZ(view.GetZoomCorners()[1].X, view.GetZoomCorners()[1].Y, view.GetZoomCorners()[1].Z + 4);
+                result.set_Bounds(0, min);
+                result.set_Bounds(1, max);
+            }
+            catch (ArgumentException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                result.Dispose();
+                return null;
+            }
+            return result;
+        }
+
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public static BoundingBoxXYZ ViewExtentsBoundingBox(UIView view)
         {
-            if (view == null) {
+            if (view == null)
+            {
                 return new BoundingBoxXYZ();
             }
             BoundingBoxXYZ result = new BoundingBoxXYZ();
@@ -110,43 +109,79 @@ namespace SCaddins.ViewUtilities
             return result;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        public static BoundingBoxXYZ SectionViewExtentsBoundingBox(UIView view)
+        public Autodesk.Revit.UI.Result Execute(
+                                                    ExternalCommandData commandData,
+            ref string message,
+            Autodesk.Revit.DB.ElementSet elements)
         {
-            if (view == null) {
-                return new BoundingBoxXYZ();
+            if (commandData == null)
+            {
+                return Result.Failed;
             }
-            BoundingBoxXYZ result = new BoundingBoxXYZ();
-            try {
-                XYZ min = new XYZ(view.GetZoomCorners()[0].X, view.GetZoomCorners()[0].Y, view.GetZoomCorners()[0].Z - 4);
-                XYZ max = new XYZ(view.GetZoomCorners()[1].X, view.GetZoomCorners()[1].Y, view.GetZoomCorners()[1].Z + 4);
-                result.set_Bounds(0, min);
-                result.set_Bounds(1, max);
-            } catch (ArgumentException ex) {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-                result.Dispose();
-                return null;
+
+            Document doc = commandData.Application.ActiveUIDocument.Document;
+            View currentView = doc.ActiveView;
+
+            switch (currentView.ViewType)
+            {
+                case ViewType.ThreeD:
+                    CreatePerspectiveFrom3D(commandData.Application.ActiveUIDocument, currentView as View3D);
+                    break;
+
+                case ViewType.FloorPlan:
+                    CreatePerspectiveFromPlan(commandData.Application.ActiveUIDocument, currentView);
+                    break;
+
+                case ViewType.CeilingPlan:
+                    break;
+
+                case ViewType.Section:
+                    CreatePerspectiveFromSection(commandData.Application.ActiveUIDocument, currentView);
+                    break;
+
+                default:
+                    using (TaskDialog td = new TaskDialog("SCam - SC Camera Tool"))
+                    {
+                        td.MainInstruction = "Oops!";
+                        td.MainContent = "Currently cameras can only be created in 3d and Plan views" +
+                            System.Environment.NewLine +
+                            "Please create sections/elevations from an isometric view";
+                        td.Show();
+                    }
+                    break;
             }
-            return result;
+
+            return Autodesk.Revit.UI.Result.Succeeded;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1")]
-        public static void ApplySectionBoxToView(BoundingBoxXYZ bounds, View3D view)
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        private static void CreatePerspectiveFrom3D(UIDocument udoc, View3D view)
         {
-            if (bounds != null || view != null) {
-                view.SetSectionBox(bounds);
+            ViewOrientation3D v = view.GetOrientation();
+            View3D np;
+            using (var t = new Transaction(udoc.Document))
+            {
+                if (t.Start("Create perspective view") == TransactionStatus.Started) {
+                XYZ centreOfScreen = GetMiddleOfActiveViewWindow(ActiveUIView(udoc, (View)view));
+                np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
+                np.SetOrientation(new ViewOrientation3D(new XYZ(centreOfScreen.X, centreOfScreen.Y, v.EyePosition.Z), v.UpDirection, v.ForwardDirection));
+                t.Commit();
+                np.Dispose();
+                }
             }
+            v.Dispose();
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private static void CreatePerspectiveFromPlan(UIDocument udoc, View planView)
         {
             UIView view = ActiveUIView(udoc, planView);
-            XYZ eye = GetMiddleOfActiveViewWindow(view);            
+            XYZ eye = GetMiddleOfActiveViewWindow(view);
             XYZ up = new XYZ(0, 1, 0);
             XYZ forward = new XYZ(0, 0, -1);
             ViewOrientation3D v = new ViewOrientation3D(eye, up, forward);
-            using (var t = new Transaction(udoc.Document)) {
+            using (var t = new Transaction(udoc.Document))
+            {
                 t.Start("Create perspective view");
                 View3D np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
                 np.SetOrientation(new ViewOrientation3D(v.EyePosition, v.UpDirection, v.ForwardDirection));
@@ -155,51 +190,39 @@ namespace SCaddins.ViewUtilities
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private static void CreatePerspectiveFromSection(UIDocument udoc, View sectionView)
         {
             UIView view = ActiveUIView(udoc, sectionView);
-            XYZ eye = GetMiddleOfActiveViewWindow(view);            
+            XYZ eye = GetMiddleOfActiveViewWindow(view);
             XYZ up = new XYZ(0, 0, 1);
             XYZ forward = new XYZ(0, 0, -1);
             ViewOrientation3D v = new ViewOrientation3D(eye, up, forward);
-            using (var t = new Transaction(udoc.Document)) {
+            using (var t = new Transaction(udoc.Document))
+            {
                 t.Start("Create perspective view");
                 View3D np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
                 np.SetOrientation(new ViewOrientation3D(v.EyePosition, v.UpDirection, v.ForwardDirection));
                 ApplySectionBoxToView(SectionViewExtentsBoundingBox(view), np);
                 t.Commit();
-            }          
+            }
         }
-        
+
         private static List<ViewFamilyType> Get3DViewFamilyTypes(Document doc)
         {
             List<ViewFamilyType> viewFamilyTypes = new List<ViewFamilyType>();
-            using (var collector = new FilteredElementCollector(doc)) {
+            using (var collector = new FilteredElementCollector(doc))
+            {
                 collector.OfClass(typeof(ViewFamilyType));
-                foreach (ViewFamilyType viewFamilyType in collector) {
-                    if (viewFamilyType.ViewFamily == ViewFamily.ThreeDimensional) {
+                foreach (ViewFamilyType viewFamilyType in collector)
+                {
+                    if (viewFamilyType.ViewFamily == ViewFamily.ThreeDimensional)
+                    {
                         viewFamilyTypes.Add(viewFamilyType);
-                    }  
+                    }
                 }
             }
             return viewFamilyTypes;
-        }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        private static void CreatePerspectiveFrom3D(UIDocument udoc, View3D view)
-        {
-            ViewOrientation3D v = view.GetOrientation();
-            View3D np;
-            using (var t = new Transaction(udoc.Document)) {
-                if (t.Start("Create perspective view") == TransactionStatus.Started) { }
-                XYZ centreOfScreen = GetMiddleOfActiveViewWindow(ActiveUIView(udoc, (View)view));
-                np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
-                np.SetOrientation(new ViewOrientation3D(new XYZ(centreOfScreen.X, centreOfScreen.Y, v.EyePosition.Z), v.UpDirection, v.ForwardDirection));
-                t.Commit();
-                np.Dispose();
-            }
-            v.Dispose();
         }
     }
 }

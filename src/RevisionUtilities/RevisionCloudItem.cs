@@ -19,18 +19,21 @@ namespace SCaddins.RevisionUtilities
 {
     using System.Linq;
     using Autodesk.Revit.DB;
-    
+
     public class RevisionCloudItem : RevisionItem
     {
-        private string sheetNumber;
-        private string sheetName;
-        private string revision;
-        private string mark;
-        private string comments;
-        private string hostViewName; // for clouds not on sheets
-        private ElementId id;
-        
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "cloud")]
         private RevisionCloud cloud;
+        private string comments;
+        private string hostViewName;
+
+        // for clouds not on sheets
+        private ElementId id;
+
+        private string mark;
+        private string revision;
+        private string sheetName;
+        private string sheetNumber;
 
         public RevisionCloudItem(Document doc, RevisionCloud revisionCloud) : base(doc, revisionCloud)
         {
@@ -42,34 +45,41 @@ namespace SCaddins.RevisionUtilities
             this.hostViewName = GetHostViewName(doc);
             UpdateSheetNameAndNumberStrings(doc);
         }
-                              
-        public string SheetNumber {
-            get { return this.sheetNumber; }
+
+        public string Comments
+        {
+            get { return this.comments; }
         }
-        
-        public string SheetName {
-            get { return this.sheetName; }
-        }
-        
-        public string HostViewName {
+
+        public string HostViewName
+        {
             get { return this.hostViewName; }
         }
-          
-        public ElementId Id {
-            get { return this.id; }
-        } 
 
-        public string Revision {
+        public override ElementId Id
+        {
+            get { return this.id; }
+        }
+
+        public string Mark
+        {
+            get { return this.mark; }
+        }
+
+        public string Revision
+        {
             get { return this.revision; }
         }
 
-        public string Mark {
-            get { return this.mark; }
-        } 
+        public string SheetName
+        {
+            get { return this.sheetName; }
+        }
 
-        public string Comments {
-            get { return this.comments; }
-        }        
+        public string SheetNumber
+        {
+            get { return this.sheetNumber; }
+        }
 
         public void SetCloudId(ElementId revisionId)
         {
@@ -83,25 +93,29 @@ namespace SCaddins.RevisionUtilities
 
         private void UpdateSheetNameAndNumberStrings(Document doc)
         {
-           this.sheetNumber = "-";
-           this.sheetName = "-";
-           if (cloud.GetSheetIds().Count == 1) {
-               ElementId id2 = cloud.GetSheetIds().ToList().First<ElementId>();
-                if (id2 != null) {
+            this.sheetNumber = "-";
+            this.sheetName = "-";
+            if (cloud.GetSheetIds().Count == 1)
+            {
+                ElementId id2 = cloud.GetSheetIds().ToList().First<ElementId>();
+                if (id2 != null)
+                {
                     Element e2 = doc.GetElement(id2);
                     ViewSheet vs = (ViewSheet)e2;
-                    if (vs != null) {
+                    if (vs != null)
+                    {
                         this.sheetNumber = vs.SheetNumber;
                         this.revision = vs.get_Parameter(BuiltInParameter.SHEET_CURRENT_REVISION).AsString();
                         this.sheetName = vs.Name;
-                    } 
+                    }
                 }
             }
-            
-            if (cloud.GetSheetIds().Count > 1) {
+
+            if (cloud.GetSheetIds().Count > 1)
+            {
                 this.sheetNumber = "Multiple";
                 this.sheetName = "Multiple";
-            }   
+            }
         }
     }
 }

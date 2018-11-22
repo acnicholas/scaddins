@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="SCaddins.ExportManager.Views.ExportLogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SCaddins.ExportManager.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <TabControl x:Name="ErrorTabs" HorizontalAlignment="Stretch" Height="Auto" Margin="0,0,0,0" VerticalAlignment="Stretch" Width="Auto">
+            <TabItem Header="Output" Margin="0,0,0,0">
+                <Grid Background="#FFE5E5E5">
+                    <TextBox x:Name="Output"></TextBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="{Binding WarningsHeader}">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="Warnings">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Header="Export Name"
+                                Binding="{Binding Description}" />
+                            <DataGridTextColumn
+                                Header="Number"
+                                Binding="{Binding Filename}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="{Binding ErrorsHeader}" Margin="0,0,0,0">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="Errors">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Header="Export Name"
+                                Binding="{Binding Description}" />
+                            <DataGridTextColumn
+                                Header="Number"
+                                Binding="{Binding Filename}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</UserControl>

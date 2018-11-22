@@ -15,7 +15,7 @@
 							<?if $(env.R2016) = Enabled ?>
 							<Component Id="SCaddinsRFA2016" Guid="5A4670F8-0154-4072-B3DF-03308798A1CE" DiskId="1" Win64="yes">
 								<CreateFolder />
-								<File Id="_016.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2015\SC-Survey_Point.rfa" />
+								<File Id="_016.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2016\SC-Survey_Point.rfa" />
 							</Component>
 							<?endif?>
 						</Directory>
@@ -23,7 +23,7 @@
 							<?if $(env.R2017) = Enabled ?>
 							<Component Id="SCaddinsRFA2017" Guid="12A17D8D-5DC0-413B-8B71-C0F36B2BB9C7" DiskId="1" Win64="yes">
 								<CreateFolder />
-								<File Id="_017.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2015\SC-Survey_Point.rfa" />
+								<File Id="_017.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2017\SC-Survey_Point.rfa" />
 							</Component>
 							<?endif?>
 						</Directory>
@@ -31,7 +31,7 @@
 							<?if $(env.R2018) = Enabled ?>
 							<Component Id="SCaddinsRFA2018" Guid="1610E6AA-DDA3-4D1E-B734-174CFBB94313" Win64="yes" DiskId="1">
 								<CreateFolder />
-								<File Id="_018.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2015\SC-Survey_Point.rfa" />
+								<File Id="_018.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2018\SC-Survey_Point.rfa" />
 							</Component>
 							<?endif?>
 						</Directory>
@@ -39,7 +39,7 @@
 							<?if $(env.R2019) = Enabled ?>
 							<Component Id="SCaddinsRFA2019" Guid="2C29F31E-597B-4F61-958A-DFCD59CDEF6D" Win64="yes" DiskId="1">
 								<CreateFolder />
-								<File Id="_019.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2015\SC-Survey_Point.rfa" />
+								<File Id="_019.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2019\SC-Survey_Point.rfa" />
 							</Component>
 							<?endif?>
 						</Directory>
@@ -57,6 +57,10 @@
 						<CreateFolder />
 						<File Id="SCaddins2016.dll" Name="SCaddins.dll" Source="..\src\bin\Release2016\SCaddins.dll" />
 						<File Id="net45.Newtonsoft.Json1.dll" Name="Newtonsoft.Json.dll" Source="..\src\bin\Release2016\Newtonsoft.Json.dll" />
+						<File Id="CM16" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2016\Caliburn.Micro.dll" />
+						<File Id="CMP16" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2016\Caliburn.Micro.Platform.dll" />
+						<File Id="CMPC16" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2016\Caliburn.Micro.Platform.Core.dll" />
+            <File Id="SWI16" Name="System.Windows.Interactivity.dll" Source="..\src\bin\Release2016\System.Windows.Interactivity.dll" />
 					</Component>
 				</Directory>
 				<?endif?>
@@ -66,6 +70,10 @@
 						<CreateFolder />
 						<File Id="SCaddins2017.dll" Name="SCaddins.dll" Source="..\src\bin\Release2017\SCaddins.dll" />
 						<File Id="net45.Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="..\src\bin\Release2017\Newtonsoft.Json.dll" />
+						<File Id="CM17" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2017\Caliburn.Micro.dll" />
+						<File Id="CMP17" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2017\Caliburn.Micro.Platform.dll" />
+						<File Id="CMPC17" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2017\Caliburn.Micro.Platform.Core.dll" />
+            <File Id="SWI17" Name="System.Windows.Interactivity.dll" Source="..\src\bin\Release2017\System.Windows.Interactivity.dll" />
 					</Component>
 				</Directory>
 				<?endif?>
@@ -75,6 +83,9 @@
 						<CreateFolder />
 						<File Id="SCaddins2018.dll" Name="SCaddins.dll" Source="..\src\bin\Release2018\SCaddins.dll" />
 						<File Id="Newtonsoft.Json.dll.18" Name="Newtonsoft.Json.dll" Source="..\src\bin\Release2018\Newtonsoft.Json.dll" />
+						<File Id="CM18" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2018\Caliburn.Micro.dll" />
+						<File Id="CMP18" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2018\Caliburn.Micro.Platform.dll" />
+						<File Id="CMPC18" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2018\Caliburn.Micro.Platform.Core.dll" />
 					</Component>
 				</Directory>
 				<?endif?>
@@ -84,6 +95,9 @@
 						<CreateFolder />
 						<File Id="SCaddins2019.dll" Name="SCaddins.dll" Source="..\src\bin\Release2019\SCaddins.dll" />
 						<File Id="Newtonsoft.Json.dll.19" Name="Newtonsoft.Json.dll" Source="..\src\bin\Release2019\Newtonsoft.Json.dll" />
+						<File Id="CM19" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2019\Caliburn.Micro.dll" />
+						<File Id="CMP19" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2019\Caliburn.Micro.Platform.dll" />
+						<File Id="CMPC19" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2019\Caliburn.Micro.Platform.Core.dll" />
 					</Component>
 				</Directory>
 				<?endif?>

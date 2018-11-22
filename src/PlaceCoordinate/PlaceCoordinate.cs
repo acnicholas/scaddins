@@ -14,9 +14,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCoord
+namespace SCaddins.PlaceCoordinate
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -28,55 +29,84 @@ namespace SCaddins.SCoord
     {
         private const double FeetToInches = 304.8;
 
-        public Autodesk.Revit.UI.Result Execute(
-            ExternalCommandData commandData,
-            ref string message,
-            Autodesk.Revit.DB.ElementSet elements)
+        public static bool DefaultSpotCoordinateFamilyExists(Document doc)
         {
-            if (commandData == null) {
-                return Result.Failed;
-            }
-            UIDocument udoc = commandData.Application.ActiveUIDocument;
-            Document doc = udoc.Document;
-            PlaceMGA(doc);
-            return Autodesk.Revit.UI.Result.Succeeded;
+            return System.IO.File.Exists(DefaultSpotCoordinateFamilyName(doc));
         }
 
-        private static XYZ ToMGA(ProjectPosition projectPosition, double x, double y, double z)
+        public static string DefaultSpotCoordinateFamilyName(Document doc)
         {
-            double xp, yp;
-            double ang = projectPosition.Angle;
-            double nx, ny;
-            xp = (x / FeetToInches) - projectPosition.EastWest;
-            yp = (y / FeetToInches) - projectPosition.NorthSouth;
-            nx = (xp * Math.Cos(-ang)) - (yp * Math.Sin(-ang));
-            ny = (xp * Math.Sin(-ang)) + (yp * Math.Cos(-ang));
-            return new XYZ(nx, ny, z / FeetToInches);
+            string version = doc.Application.VersionNumber;
+            return SCaddins.Constants.FamilyDirectory + version + @"\SC-Survey_Point.rfa";
         }
 
-        private static FamilySymbol GetSpotCoordFamily(Document doc)
+        public static List<FamilySymbol> GetAllFamilySymbols(Document doc)
         {
+            List<FamilySymbol> result = new List<FamilySymbol>();
             using (var collector = new FilteredElementCollector(doc)) {
                 collector.OfCategory(BuiltInCategory.OST_GenericModel);
                 collector.OfClass(typeof(FamilySymbol));
-                foreach (FamilySymbol f in collector) {
-                    if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture))) {
-                        return f;
-                    }
+                foreach (FamilySymbol fs in collector) {
+                    result.Add(fs);
                 }
             }
-            string version = doc.Application.VersionNumber;
-            string family = SCaddins.Constants.FamilyDirectory +
-                            version + @"\SC-Survey_Point.rfa";
-            if (System.IO.File.Exists(family)) {
+            return result;
+        }
+
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        public static void PlaceFamilyAtCoordinate(Document doc, FamilySymbol family, XYZ location, bool useSharedCoordinates)
+        {
+            if (doc == null || family == null) {
+                return;
+            }
+
+            ProjectLocation currentLocation = doc.ActiveProjectLocation;
+            var origin = new XYZ(0, 0, 0);
+            #if REVIT2018 || REVIT2019
+                ProjectPosition projectPosition = currentLocation.GetProjectPosition(origin);
+            #else
+                        ProjectPosition projectPosition = currentLocation.get_ProjectPosition(origin);
+            #endif
+
+            XYZ newLocation = ToMGA(projectPosition, location.X, location.Y, location.Z, useSharedCoordinates);
+
+            using (var t = new Transaction(doc, "Place Family at Coordinate.")) {
+                if (t.Start() == TransactionStatus.Started) {
+                    if (!family.IsActive) {
+                        family.Activate();
+                        doc.Regenerate();
+                    }
+                    FamilyInstance fi = doc.Create.NewFamilyInstance(
+                        newLocation,
+                        family,
+                        Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
+                    t.Commit();
+                }
+            }
+        }
+
+        public static FamilySymbol TryGetDefaultSpotCoordFamily(List<FamilySymbol> familes, Document doc)
+        {
+            foreach (FamilySymbol f in familes) {
+                if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture))) {
+                    return f;
+                }
+            }
+            return null;
+        }
+
+        public static FamilySymbol TryLoadDefaultSpotCoordFamily(List<FamilySymbol> familes, Document doc)
+        {
+            if (DefaultSpotCoordinateFamilyExists(doc)) {
                 Family fam;
                 using (var loadFamily = new Transaction(doc, "Load Family")) {
                     loadFamily.Start();
-                    doc.LoadFamily(family, out fam);
+                    doc.LoadFamily(DefaultSpotCoordinateFamilyName(doc), out fam);
+                    doc.Regenerate();
                     loadFamily.Commit();
                 }
                 System.Collections.Generic.ISet<ElementId> sids = fam.GetFamilySymbolIds();
-                foreach (ElementId id in sids) {   
+                foreach (ElementId id in sids) {
                     var f = doc.GetElement(id) as FamilySymbol;
                     if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture))) {
                         return f;
@@ -87,65 +117,41 @@ namespace SCaddins.SCoord
             return null;
         }
 
-        private static Level GetLevelZero(Document doc)
+        public Autodesk.Revit.UI.Result Execute(
+            ExternalCommandData commandData,
+            ref string message,
+            Autodesk.Revit.DB.ElementSet elements)
         {
-            using (var collector1 = new FilteredElementCollector(doc)) {
-                collector1.OfClass(typeof(Level));
-                foreach (Level l in collector1) {
-                    if (l.Name.ToUpper(CultureInfo.CurrentCulture).Contains("SEA")) {
-                        return l;
-                    }
-                    if (l.Name.ToUpper(CultureInfo.CurrentCulture).Contains("ZERO")) {
-                        return l;
-                    }
-                }
+            if (commandData == null) {
+                return Result.Failed;
             }
-            TaskDialog.Show("SCoord", "Sea level not found.");
-            return null;
+            UIDocument udoc = commandData.Application.ActiveUIDocument;
+            Document doc = udoc.Document;
+
+            ////PlaceMGA(doc,);
+
+            var vm = new ViewModels.PlaceCoordinateViewModel(doc);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, PlaceCoordinate.ViewModels.PlaceCoordinateViewModel.DefaultWindowSettings);
+
+            return Result.Succeeded;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        private static void PlaceMGA(Document doc)
+        private static XYZ ToMGA(ProjectPosition projectPosition, double x, double y, double z, bool useSurveyCoords)
         {
-            Level levelZero = GetLevelZero(doc);
-            FamilySymbol family = GetSpotCoordFamily(doc);
-            if (levelZero == null || family == null) {
-                return;
+            if (!useSurveyCoords) {
+                return new XYZ(x / FeetToInches, y / FeetToInches, z / FeetToInches);
             }
 
-            ProjectLocation currentLocation = doc.ActiveProjectLocation;
-            var origin = new XYZ(0, 0, 0);
-            #if REVIT2018 || REVIT2019
-            ProjectPosition projectPosition = currentLocation.GetProjectPosition(origin);
-            #else
-            ProjectPosition projectPosition = currentLocation.get_ProjectPosition(origin);
-            #endif
-
-            var form = new SCoordForm();
-            System.Windows.Forms.DialogResult r = form.ShowDialog();
-
-            if (r == System.Windows.Forms.DialogResult.Cancel) {
-                return;
-            }
-
-            double x = Convert.ToDouble(form.textBoxEW.Text, CultureInfo.CurrentCulture);
-            double y = Convert.ToDouble(form.textBoxNS.Text, CultureInfo.CurrentCulture);
-            double z = Convert.ToDouble(form.textBoxElevation.Text, CultureInfo.CurrentCulture);
-            XYZ newLocation = ToMGA(projectPosition, x, y, z);
-
-            using (var t = new Transaction(doc, "Place SCoord")) {
-                if (t.Start() == TransactionStatus.Started) {
-                    FamilyInstance fi = doc.Create.NewFamilyInstance(
-                                            newLocation,
-                                            family,
-                                            levelZero,
-                                            Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
-                    Parameter p = fi.LookupParameter("Z");
-                    p.Set(newLocation.Z);
-                    t.Commit();
-                }
-            }
+            double xp, yp;
+            double ang = projectPosition.Angle;
+            double nx, ny;
+            xp = useSurveyCoords ? ((x / FeetToInches) - projectPosition.EastWest) : (x / FeetToInches) - projectPosition.EastWest;
+            yp = useSurveyCoords ? ((y / FeetToInches) - projectPosition.NorthSouth) : (y / FeetToInches) - projectPosition.NorthSouth;
+            nx = useSurveyCoords ? ((xp * Math.Cos(-ang)) - (yp * Math.Sin(-ang))) : xp;
+            ny = useSurveyCoords ? ((xp * Math.Sin(-ang)) + (yp * Math.Cos(-ang))) : yp;
+            return new XYZ(nx, ny, (-projectPosition.Elevation + z) / FeetToInches);
         }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

@@ -24,9 +24,158 @@ namespace SCaddins.ExportManager
     using SCaddins.Properties;
 
     public static class PrintSettings
-    {  
+    {
+        public static bool CheckSheetSize(
+                    double width, double height, double tw, double th)
+        {
+            double w = Math.Round(width);
+            double h = Math.Round(height);
+
+            // use a tollerance of 2mm.
+            return tw + 2 > w && tw - 2 < w && th + 2 > h && th - 2 < h;
+        }
+
+        public static bool CreatePrintSetting(Document doc, string isoSheetSize, bool forceRaster)
+        {
+            if (doc == null || string.IsNullOrEmpty(isoSheetSize))
+            {
+                return false;
+            }
+            PrintManager pm = doc.PrintManager;
+            bool success = false;
+            foreach (PaperSize paperSize in pm.PaperSizes)
+            {
+                if (paperSize.Name.Substring(0, 2) == isoSheetSize.Substring(0, 2))
+                {
+                    var t = new Transaction(doc, "Apply print settings");
+                    t.Start();
+                    var ips = pm.PrintSetup.CurrentPrintSetting;
+                    if (ips.PrintParameters.IsReadOnly)
+                    {
+                        t.RollBack();
+                        return false;
+                    }
+                    try
+                    {
+                        ips.PrintParameters.PaperSize = paperSize;
+                        ips.PrintParameters.HideCropBoundaries = true;
+                        if (isoSheetSize.Length > 2 && !isoSheetSize.Contains("FIT"))
+                        {
+                            ips.PrintParameters.PageOrientation =
+                            PageOrientationType.Portrait;
+                        }
+                        else
+                        {
+                            ips.PrintParameters.PageOrientation =
+                            PageOrientationType.Landscape;
+                        }
+
+                        ips.PrintParameters.HideScopeBoxes = true;
+                        ips.PrintParameters.HideReforWorkPlanes = true;
+                        ips.PrintParameters.HideUnreferencedViewTags = true;
+                        if (isoSheetSize.Contains("FIT"))
+                        {
+                            ips.PrintParameters.ZoomType = ZoomType.FitToPage;
+                            ips.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
+                            ips.PrintParameters.MarginType = MarginType.NoMargin;
+                        }
+                        else
+                        {
+                            ips.PrintParameters.ZoomType = ZoomType.Zoom;
+                            ips.PrintParameters.Zoom = 100;
+                            ips.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
+                            ips.PrintParameters.MarginType = MarginType.NoMargin;
+                        }
+
+                        if (!forceRaster)
+                        {
+                            pm.PrintSetup.SaveAs("SCX-" + isoSheetSize);
+                        } else {
+                            ips.PrintParameters.HiddenLineViews = HiddenLineViewsType.RasterProcessing;
+                            pm.PrintSetup.SaveAs("SCX-" + isoSheetSize + @"(Raster)");
+                        }
+
+                        t.Commit();
+                        success = true;
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        System.Diagnostics.Debug.Print(ex.Message);
+                        TaskDialog.Show(
+                            "SCexport",
+                            "Unable to create print setting: " + "SCX-" + isoSheetSize);
+                        t.RollBack();
+                    }
+                }
+            }
+            return success;
+        }
+
         /// <summary>
-        /// Return the papersize of the current sheet
+        /// Retrieve the print setting for this sheet.
+        /// If it is not found, attempt to create a new one.
+        /// ...if this still failes return null.
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="printSetting">The Name of the print setting</param>
+        /// <param name="forceRaster"></param>
+        /// <returns></returns>
+        public static PrintSetting GetPrintSettingByName(Document doc, string printSetting, bool forceRaster)
+        {
+            if (doc == null || string.IsNullOrEmpty(printSetting))
+            {
+                return null;
+            }
+
+            foreach (ElementId id in doc.GetPrintSettingIds())
+            {
+                var ps2 = doc.GetElement(id) as PrintSetting;
+                if (!forceRaster)
+                {
+                    if (ps2 != null && ps2.Name.ToString().Equals("SCX-" + printSetting))
+                    {
+                        return ps2;
+                    }
+                }
+                else
+                {
+                    if (ps2 != null && ps2.Name.ToString().Equals("SCX-" + printSetting + @"(Raster)"))
+                    {
+                        return ps2;
+                    }
+                }
+            }
+
+            if (!CreatePrintSetting(doc, printSetting, forceRaster))
+            {
+                return null;
+            }
+
+            // FIXME. put this in a separate method. it's the same as above.
+            foreach (ElementId id in doc.GetPrintSettingIds())
+            {
+                var ps2 = doc.GetElement(id) as PrintSetting;
+                if (!forceRaster)
+                {
+                    if (ps2 != null && ps2.Name.ToString().Equals("SCX-" + printSetting))
+                    {
+                        return ps2;
+                    }
+                } else {
+                    if (ps2 != null && ps2.Name.ToString().Equals("SCX-" + printSetting + @"(Raster)"))
+                    {
+                        return ps2;
+                    }
+                }
+            }
+
+            var msg = "SCX-" + printSetting + " could not be created!";
+            TaskDialog.Show("Creating Papersize", msg);
+            return null;
+        }
+
+        /// <summary>
+        /// Return the name of the papersize of the current sheet
         /// FIXME add sizes other that iso A*
         /// </summary>
         public static string GetSheetSizeAsString(ExportSheet sheet)
@@ -52,75 +201,20 @@ namespace SCaddins.ExportManager
                 Math.Round(sheet.Height).ToString(CultureInfo.InvariantCulture);
         }
 
-        public static bool CreatePrintSetting(Document doc, string isoSheetSize)
-        {
-            if (doc == null || string.IsNullOrEmpty(isoSheetSize)) {
-                return false;
-            }
-            PrintManager pm = doc.PrintManager;
-            bool success = false;
-            foreach (PaperSize paperSize in pm.PaperSizes) {
-                if (paperSize.Name.Substring(0, 2) == isoSheetSize.Substring(0, 2)) {
-                    var t = new Transaction(doc, "Apply print settings");
-                    t.Start();
-                    var ips = pm.PrintSetup.CurrentPrintSetting;
-                    try {
-                        ips.PrintParameters.PaperSize = paperSize;
-                        ips.PrintParameters.HideCropBoundaries = true;
-                        if (isoSheetSize.Length > 2 && !isoSheetSize.Contains("FIT")) {
-                            ips.PrintParameters.PageOrientation =
-                            PageOrientationType.Portrait;
-                        } else {
-                            ips.PrintParameters.PageOrientation =
-                            PageOrientationType.Landscape;
-                        }
-
-                        ips.PrintParameters.HideScopeBoxes = true;
-                        ips.PrintParameters.HideReforWorkPlanes = true;
-                        ips.PrintParameters.HideUnreferencedViewTags = true;
-                        if (isoSheetSize.Contains("FIT")) {
-                            ips.PrintParameters.ZoomType = ZoomType.FitToPage;
-                            ips.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
-                            ips.PrintParameters.MarginType = MarginType.UserDefined;
-                            ips.PrintParameters.UserDefinedMarginX = 0;
-                            ips.PrintParameters.UserDefinedMarginY = 0;
-                        } else {
-                            ips.PrintParameters.ZoomType = ZoomType.Zoom;
-                            ips.PrintParameters.Zoom = 100;
-                            ips.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
-                            ips.PrintParameters.MarginType = MarginType.UserDefined;
-                            ips.PrintParameters.UserDefinedMarginX = 0;
-                            ips.PrintParameters.UserDefinedMarginY = 0;
-                        }
-
-                        pm.PrintSetup.SaveAs("SCX-" + isoSheetSize);
-                        t.Commit();
-                        success = true;
-                    } catch (InvalidOperationException ex) {
-                        System.Diagnostics.Debug.Print(ex.Message);
-                        TaskDialog.Show(
-                            "SCexport",
-                            "Unable to create print setting: " + "SCX-" + isoSheetSize);
-                        t.RollBack();
-                    }
-                }
-            }
-            return success;
-        }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public static bool PrintToDevice(
                 Document doc,
                 string size,
                 PrintManager pm,
                 string printerName,
+                bool forceRaster,
                 ExportLog log)
         {
             if (pm == null) {
                 return false;
             }
 
-            PrintSetting ps = LoadRevitPrintSetting(doc, size, pm, printerName, log);
+            PrintSetting ps = LoadRevitPrintSetting(doc, size, pm, printerName, forceRaster, log);
             
             if (ps == null) {
                 return false;
@@ -132,7 +226,9 @@ namespace SCaddins.ExportManager
                 if (ps.IsValidObject) {
                     pm.PrintSetup.CurrentPrintSetting = ps;
                 } else {
-                    log.AddWarning(null, Resources.WarningPrintSetupReadOnly);
+                    if (log != null) {
+                        log.AddWarning(null, Resources.WarningPrintSetupReadOnly);
+                    }
                 }
                 pm.PrintRange = PrintRange.Current;
                 pm.PrintSetup.CurrentPrintSetting.PrintParameters.MarginType = MarginType.NoMargin;
@@ -143,7 +239,9 @@ namespace SCaddins.ExportManager
                 return true;
             } catch (Exception ex) {
                 System.Diagnostics.Debug.Print(ex.Message);
-                log.AddError(null, ex.ToString());
+                if (log != null) {
+                    log.AddError(null, ex.ToString());
+                }
                 t.RollBack();
                 return false;
             }
@@ -168,52 +266,33 @@ namespace SCaddins.ExportManager
                 return false;
             }
 
-            var t = new Transaction(doc, "Print Pdf");
-            t.Start();
-            try {
-                pm.PrintSetup.CurrentPrintSetting = vs.SCPrintSetting;
-                pm.PrintRange = PrintRange.Current;
-                pm.PrintToFile = true;
-                pm.PrintToFileName = vs.FullExportPath(ext);
-                pm.Apply();
-                t.Commit();
-                t.Dispose();
-                return true;
-            } catch (InvalidOperationException ex) {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-                t.RollBack();
-                t.Dispose();
-                return false;
-            }
-        }
-
-        public static PrintSetting GetPrintSettingByName(Document doc, string printSetting)
-        {
-            if (doc == null || string.IsNullOrEmpty(printSetting)) {
-                return null;
-            }
-
-            foreach (ElementId id in doc.GetPrintSettingIds()) {
-                var ps2 = doc.GetElement(id) as PrintSetting;
-                if (ps2.Name.ToString().Equals("SCX-" + printSetting)) {
-                    return ps2;
+            using (var t = new Transaction(doc, "Print Pdf"))
+            {
+                if (t.Start() == TransactionStatus.Started)
+                {
+                    try {
+                        if (!pm.PrintSetup.IsReadOnly)
+                        {
+                            pm.PrintSetup.CurrentPrintSetting = vs.SCPrintSetting;
+                            pm.PrintRange = PrintRange.Current;
+                            pm.PrintToFile = true;
+                            pm.PrintToFileName = vs.FullExportPath(ext);
+                            pm.Apply();
+                            t.Commit();
+                            return true;
+                        }
+                        t.Commit();
+                        return false;
+                    } catch (InvalidOperationException ex) {
+                        System.Diagnostics.Debug.WriteLine(ex.Message);
+                        t.RollBack();
+                        return false;
+                    }
+                } else {
+                    t.RollBack();
+                    return false;
                 }
             }
-
-            if (!CreatePrintSetting(doc, printSetting)) {
-                return null;
-            }
-
-            foreach (ElementId id in doc.GetPrintSettingIds()) {
-                var ps2 = doc.GetElement(id) as PrintSetting;
-                if (ps2 != null && ps2.Name.ToString().Equals("SCX-" + printSetting)) {
-                    return ps2;
-                }
-            }
-
-            var msg = "SCX-" + printSetting + " could not be created!";
-            TaskDialog.Show("Creating Papersize", msg);
-            return null;
         }
 
         public static bool SetPrinterByName(
@@ -241,10 +320,11 @@ namespace SCaddins.ExportManager
                 string size,
                 PrintManager pm,
                 string printerName,
+                bool forceRaster,
                 ExportLog log)
         {       
             log.AddMessage(Resources.MessageAttemptingToLoadRevitPrintSettings + size);
-            PrintSetting ps = PrintSettings.GetPrintSettingByName(doc, size);
+            PrintSetting ps = PrintSettings.GetPrintSettingByName(doc, size, forceRaster);
 
             if (ps == null) {
                 log.AddError(null, Resources.ErrorRetrievingRevitPrintSettingsFAILED);
@@ -258,15 +338,6 @@ namespace SCaddins.ExportManager
             } 
             
             return ps;
-        }
-        
-        private static bool CheckSheetSize(
-            double width, double height, double tw, double th)
-        {
-            double w = Math.Round(width);
-            double h = Math.Round(height);
-            // use a tollerance of 2mm.
-            return tw + 2 > w && tw - 2 < w && th + 2 > h && th - 2 < h;
         }
     }
 }

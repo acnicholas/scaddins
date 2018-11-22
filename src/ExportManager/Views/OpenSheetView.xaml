@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="SCaddins.ExportManager.Views.OpenSheetView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:local="clr-namespace:SCaddins.ExportManager.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="480" d:DesignWidth="640" Background="Black">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border BorderThickness="2" Grid.Row="0" Background="Black">
+            <TextBox x:Name="SearchInput"
+                 Height="Auto"
+                 Margin="5"
+                 Background="Black"
+                 BorderBrush="Black"
+                 BorderThickness="0"
+                 Foreground="White"
+                 cal:Message.Attach="[Event KeyDown] = [Action KeyDown($eventArgs)]; [Event KeyUp] = [Action KeyUp($eventArgs)]"
+                 SelectionBrush="Black">
+            </TextBox>
+        </Border>
+        <ListBox
+            x:Name="SearchResults"
+            DisplayMemberPath="Description"
+            cal:Message.Attach="[Event KeyDown] = [Action KeyDown($eventArgs)]; [Event KeyUp] = [Action KeyUp($eventArgs)]; [Event MouseDoubleClick] = [Action MouseDoubleClick()]"
+            MaxHeight="400"
+            MaxWidth="640"
+            Height="Auto"
+            VerticalAlignment="Stretch"
+            Margin="5"
+            Grid.Row="1"
+            VirtualizingPanel.VirtualizationMode="Standard"
+            SelectionMode="Single"
+            Foreground="White"
+            Background="Black">
+        </ListBox>
+        <Border BorderThickness="2" Grid.Row="2" Background="Black">
+            <Label x:Name="StatusText"
+                 Height="Auto"
+                 Margin="5"
+                 Background="Black"
+                 BorderBrush="Black"
+                 BorderThickness="0"
+                 Foreground="White">
+            </Label>
+        </Border>
+    </Grid>
+</UserControl>

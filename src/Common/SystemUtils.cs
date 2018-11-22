@@ -28,15 +28,23 @@ namespace SCaddins.Common
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         internal static void KillAllProcesses(string processName)
         {
-            try {
-                foreach (Process proc in Process.GetProcessesByName(processName)) {
+            try
+            {
+                foreach (Process proc in Process.GetProcessesByName(processName))
+                {
                     proc.Kill();
                 }
-            } catch (InvalidOperationException ex) {
-                Autodesk.Revit.UI.TaskDialog.Show("InvalidOperationException", ex.Message);
-            } catch (NotSupportedException ex) {
-                Autodesk.Revit.UI.TaskDialog.Show("NotSupportedException", ex.Message);
-            } catch (System.ComponentModel.Win32Exception ex) {
+            }
+            catch (InvalidOperationException ex)
+            {
+                SCaddinsApp.WindowManager.ShowMessageBox("InvalidOperationException: " + ex.Message);
+            }
+            catch (NotSupportedException ex)
+            {
+                SCaddinsApp.WindowManager.ShowMessageBox("NotSupportedException: " + ex.Message);
+            }
+            catch (System.ComponentModel.Win32Exception ex)
+            {
                 Debug.WriteLine(ex.Message);
             }
         }

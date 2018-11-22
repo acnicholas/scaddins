@@ -15,11 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.SCwash
+namespace SCaddins.DestructivePurge
 {
-    using System;
-    using System.Linq;
-    using Autodesk.Revit.DB;
+    using System.Dynamic;
     using Autodesk.Revit.UI;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
@@ -32,33 +30,25 @@ namespace SCaddins.SCwash
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            if (commandData == null) {
+            if (commandData == null)
+            {
                 return Result.Failed;
             }
 
-            string warning = "SCwash can be a weapon of mass destruction!" + System.Environment.NewLine +
-                System.Environment.NewLine +
-                "make sure you dettach your model from central before running this Add-in." + System.Environment.NewLine +
-                System.Environment.NewLine +
-                "continue?";
-
             UIDocument udoc = commandData.Application.ActiveUIDocument;
-            using (var td = new TaskDialog("SCwash WARNING!")) {
-                td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-                td.MainInstruction = "WARNING!";
-                td.MainContent = warning;
-                td.CommonButtons = TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No;
-                TaskDialogResult tr = td.Show();
-                if (tr == TaskDialogResult.No) {
-                    return Autodesk.Revit.UI.Result.Succeeded;
-                }
-            }
 
-            using (SCwashForm form = new SCwashForm(udoc.Document, udoc)) {
-                form.ShowDialog();
-            }
+            dynamic settings = new ExpandoObject();
+            settings.Height = 480;
+            settings.Width = 768;
+            settings.Title = "Destructive Purge - By Andrew Nicholas";
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+
+            var vm = new ViewModels.DestructivePurgeViewModel(udoc.Document);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
             return Result.Succeeded;
         }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

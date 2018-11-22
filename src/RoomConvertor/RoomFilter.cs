@@ -17,40 +17,53 @@
 
 namespace SCaddins.RoomConvertor
 {
-    using System.Collections.ObjectModel;
     using Autodesk.Revit.DB.Architecture;
 
     public class RoomFilter
     {
-        private Collection<RoomFilterItem> filters;
+        private RoomFilterItem[] filters;
 
         public RoomFilter()
         {
-            this.filters = new Collection<RoomFilterItem>();
-            this.filters.Clear();
+            this.filters = new RoomFilterItem[3];
         }
 
-        public void AddFilterItem(RoomFilterItem item)
+        public int Size
         {
-            filters.Add(item);
+            get { return 3; }
+        }
+
+        public void AddFilterItem(RoomFilterItem item, int index)
+        {
+            filters[index] = item;
         }
 
         public void Clear()
         {
-            filters.Clear();
+            filters[0] = null;
+            filters[1] = null;
+            filters[2] = null;
         }
-        
+
+        public RoomFilterItem GetFiterItem(int index)
+        {
+            return filters[index];
+        }
+
         public bool PassesFilter(Room room)
         {
-            foreach (RoomFilterItem item in filters) {
-                if (RoomFilterItem.IsValid()) {
-                    if (!item.PassesFilter(room)) {
-                        return false;
-                    }
+            foreach (RoomFilterItem item in filters)
+            {
+                ////if (item.IsValid()) {
+                if (item != null && !item.PassesFilter(room))
+                {
+                    return false;
                 }
+                ////}
             }
             return true;
         }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

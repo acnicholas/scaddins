@@ -29,7 +29,8 @@ namespace SCaddins.ViewUtilities
         public Result Execute(
             ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            if (commandData == null) {
+            if (commandData == null)
+            {
                 return Result.Failed;
             }
 
@@ -37,17 +38,22 @@ namespace SCaddins.ViewUtilities
             View view = doc.ActiveView;
             List<View> newUserViews = new List<View>();
 
-            using (Transaction t = new Transaction(doc)) {
-                if (t.Start("SCuv Copies User View") == TransactionStatus.Started) {
+            using (Transaction t = new Transaction(doc))
+            {
+                if (t.Start("SCuv Copies User View") == TransactionStatus.Started)
+                {
                     newUserViews = UserView.Create(view, doc);
-                    if (t.Commit() != TransactionStatus.Committed) {
+                    if (t.Commit() != TransactionStatus.Committed)
+                    {
                         TaskDialog.Show("Failed", "Could not create user view[s]");
                     }
                 }
             }
-            if(newUserViews == null || newUserViews.Count > 0) {
+            if (newUserViews == null || newUserViews.Count > 0)
+            {
                 UserView.ShowSummaryDialog(newUserViews);
-                if (newUserViews != null) {
+                if (newUserViews != null)
+                {
                     UIApplication uiapp = new UIApplication(doc.Application);
                     uiapp.ActiveUIDocument.ActiveView = newUserViews[0];
                 }
@@ -56,4 +62,5 @@ namespace SCaddins.ViewUtilities
         }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

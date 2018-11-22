@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="SCaddins.DestructivePurge.Views.DestructivePurgeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SCaddins.DestructivePurge.ViewModels"
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="200" Width="200*"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition MaxWidth="300"  Width="200*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="300*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Column="0" Margin="5" Header="Elements To Delete">
+            <TreeView 
+            x:Name="TreeView"
+            Margin="5"
+            cal:Message.Attach="[Event SelectedItemChanged] = [Action SelectedItemChanged($this.SelectedItem)]" 
+            ItemsSource="{Binding CheckableItems}">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate   
+                         DataType="{x:Type local:CheckableItem}"  
+                         ItemsSource="{Binding Children}">
+                        <StackPanel                          
+                            Orientation="Horizontal">
+                            <CheckBox
+                                IsChecked="{Binding IsChecked}"
+                                cal:Message.Attach="[Event Checked] = [Action TreeViewSourceUpdated()]; [Event Unchecked] = [Action TreeViewSourceUpdated()]; [Event Indeterminate] = [Action TreeViewSourceUpdated()]"
+                            />
+                            <TextBlock Text="{Binding Name}"/>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.Resources>
+                <TreeView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Select All" cal:Message.Attach="SelectAll">
+                        </MenuItem>
+                        <MenuItem cal:Message.Attach="SelectNone" Header="Select None">
+                        </MenuItem>
+                    </ContextMenu>
+                </TreeView.ContextMenu>
+            </TreeView>
+        </GroupBox>
+        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Height="Auto"></GridSplitter>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Source="{Binding Path=PreviewImage}" Width="{Binding ImageWidth}" Height="{Binding ImageHeight}" Margin="{Binding ImageMargin}"></Image>
+            <GroupBox Grid.Row="1" Margin="5" Header="Element Details" Height="Auto" VerticalAlignment="Stretch">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5" >
+                    <TextBlock x:Name="Details"></TextBlock>
+                </ScrollViewer>
+            </GroupBox>
+        </Grid>
+        <Grid Grid.Row="1" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button
+                x:Name="ShowElement"
+                Margin="5"
+                HorizontalAlignment="Left"
+                Content="{Binding Path=ShowButtonLabel}"
+                MinWidth="75">
+            </Button>
+            <Button x:Name="DeleteElements" Content="{Binding Path=DeleteButtonLabel}" Margin="5" Grid.Column="1" HorizontalAlignment="Right" Width="75"></Button>
+        </Grid>
+    </Grid>
+</UserControl>

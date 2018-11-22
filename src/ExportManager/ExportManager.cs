@@ -32,39 +32,37 @@ namespace SCaddins.ExportManager
     using Autodesk.Revit.UI;
     using SCaddins.Common;
     using SCaddins.Properties;
-    using SCaddins.ExportManager;
 
     public class ExportManager
     {
-        private static Dictionary<string, FamilyInstance> titleBlocks;
-        private static Document doc;
         private static string activeDoc;
-        private ExportOptions exportFlags;
-        private ExportLog log;
-        private Collection<SegmentedSheetName> fileNameTypes;
-        private Collection<ViewSheetSetCombo> allViewSheetSets;
-        private Dictionary<string, PostExportHookCommand> postExportHooks;
-        private SegmentedSheetName fileNameScheme;
-        private SortableBindingListCollection<ExportSheet> allSheets;
-        private bool forceDate;
+        private static Dictionary<string, FamilyInstance> titleBlocks;
+        private ObservableCollection<ExportSheet> allSheets;
+        private ObservableCollection<ViewSheetSetCombo> allViewSheetSets;
+        private bool dateForEmptyRevisions;
         private string exportDirectory;
+        private ExportOptions exportFlags;
+        private SegmentedSheetName fileNameScheme;
+        private List<SegmentedSheetName> fileNameTypes;
+        private bool forceDate;
+        private Dictionary<string, PostExportHookCommand> postExportHooks;
 
-        public ExportManager(Document doc)
+        public ExportManager(UIDocument uidoc)
         {
-            ExportManager.doc = doc;
+            Doc = uidoc.Document;
+            UIDoc = uidoc;
             this.fileNameScheme = null;
             this.exportDirectory = Constants.DefaultExportDirectory;
             ExportManager.ConfirmOverwrite = true;
             ExportManager.activeDoc = null;
-            this.log = new ExportLog();
-            this.allViewSheetSets = new Collection<ViewSheetSetCombo>();
-            this.allSheets = new SortableBindingListCollection<ExportSheet>();
-            this.fileNameTypes = new Collection<SegmentedSheetName>();
+            this.allViewSheetSets = new ObservableCollection<ViewSheetSetCombo>();
+            this.allSheets = new ObservableCollection<ExportSheet>();
+            this.fileNameTypes = new List<SegmentedSheetName>();
             this.postExportHooks = new Dictionary<string, PostExportHookCommand>();
             this.exportFlags = ExportOptions.None;
             this.LoadSettings();
             this.SetDefaultFlags();
-            ExportManager.PopulateViewSheetSets(this.allViewSheetSets);
+            ExportManager.PopulateViewSheetSets(this.allViewSheetSets, Doc);
             this.PopulateSheets(this.allSheets);
             ExportManager.FixAcrotrayHang();
         }
@@ -74,12 +72,107 @@ namespace SCaddins.ExportManager
             get; set;
         }
 
-        public string PrinterNameA3
+        public string ForceRasterPrintParameterName {
+            get
+            {
+                return Settings1.Default.UseRasterPrinterParameter;
+            }
+        }
+
+        public ACADVersion AcadVersion
+        {
+            get
+            {
+                return Settings1.Default.AcadExportVersion;
+            }
+
+            set
+            {
+                if (value == Settings1.Default.AcadExportVersion) {
+                    return;
+                }
+                Settings1.Default.AcadExportVersion = value;
+            }
+        }
+
+        public ObservableCollection<ExportSheet> AllSheets
+        {
+            get { return this.allSheets; }
+        }
+
+        public ObservableCollection<ViewSheetSetCombo> AllViewSheetSets
+        {
+            get { return this.allViewSheetSets; }
+        }
+
+        public Document Doc
         {
             get; set;
         }
 
-        public string PrinterNameLargeFormat
+        public string ExportDirectory
+        {
+            get
+            {
+                return this.exportDirectory;
+            }
+
+            set
+            {
+                if (value != null) {
+                    this.exportDirectory = value;
+                    foreach (ExportSheet sheet in this.allSheets) {
+                        sheet.ExportDirectory = value;
+                    }
+                }
+            }
+        }
+
+        public SegmentedSheetName FileNameScheme
+        {
+            get
+            {
+                return this.fileNameScheme;
+            }
+
+            set
+            {
+                this.fileNameScheme = value;
+                foreach (ExportSheet sheet in allSheets)
+                {
+                    sheet.SetSegmentedSheetName(fileNameScheme);
+                }
+            }
+        }
+
+        public List<SegmentedSheetName> FileNameTypes
+        {
+            get { return this.fileNameTypes; }
+        }
+
+        public bool ForceRevisionToDateString
+        {
+            get
+            {
+                return this.forceDate;
+            }
+
+            set
+            {
+                this.forceDate = value;
+                foreach (ExportSheet sheet in this.allSheets)
+                {
+                    sheet.ForceDate = value;
+                }
+            }
+        }
+
+        public string GhostscriptBinDirectory
+        {
+            get; set;
+        }
+
+        public string GhostscriptLibDirectory
         {
             get; set;
         }
@@ -94,128 +187,74 @@ namespace SCaddins.ExportManager
             get; set;
         }
 
-        public string GhostscriptLibDirectory
+        public string PrinterNameA3
         {
             get; set;
         }
 
-        public string GhostscriptBinDirectory
+        public string PrinterNameLargeFormat
         {
             get; set;
         }
 
-        public Collection<SegmentedSheetName> FileNameTypes
-        {
-            get { return this.fileNameTypes; }
-        }
-
-        public SortableBindingListCollection<ExportSheet> AllSheets
-        {
-            get { return this.allSheets; }
-        }
-
-        public Collection<ViewSheetSetCombo> AllViewSheetSets
-        {
-            get { return this.allViewSheetSets; }
-        }
-
-        public ExportOptions ExportOptions
+        public bool ShowExportLog
         {
             get; set;
         }
 
-        public ACADVersion AcadVersion
+        public UIDocument UIDoc
         {
             get; set;
         }
-        
+
         public bool UseDateForEmptyRevisions
         {
-        	get; set;
-        }
-
-        public bool ForceRevisionToDateString
-        {
-            get {
-                return this.forceDate;
+            get
+            {
+                return dateForEmptyRevisions;
             }
 
-            set {
-                this.forceDate = value;
-                foreach (ExportSheet sheet in this.allSheets) {
-                    sheet.ForceDate = value;
+            set
+            {
+                this.dateForEmptyRevisions = value;
+                foreach (ExportSheet sheet in this.allSheets)
+                {
+                    sheet.UseDateForEmptyRevisions = value;
                 }
             }
         }
 
-        public string ExportDirectory {
-            get {
-                return this.exportDirectory;
+        public static void AddRevisions(ICollection<ExportSheet> sheets, ElementId revisionId, Document doc)
+        {
+            if (sheets == null || revisionId == null || revisionId == null)
+            {
+                return;
             }
 
-            set {
-                if (value != null) {
-                    this.exportDirectory = value;
-                    foreach (ExportSheet sheet in this.allSheets) {
-                        sheet.ExportDirectory = value;
+            using (var t = new Transaction(doc, "SCexport: Add new revisions"))
+            {
+                if (t.Start() == TransactionStatus.Started)
+                {
+                    foreach (ExportSheet sheet in sheets)
+                    {
+                        ICollection<ElementId> il = sheet.Sheet.GetAdditionalRevisionIds();
+                        il.Add(revisionId);
+                        sheet.Sheet.SetAdditionalRevisionIds(il);
+                        sheet.UpdateRevision(true);
                     }
+                    doc.Regenerate();
+                    t.Commit();
+                }
+                else
+                {
+                    TaskDialog.Show("Error", "SCexport: error adding revisions, could not start transaction.");
                 }
             }
-        }
 
-        public SegmentedSheetName FileNameScheme {
-            get {
-                return this.fileNameScheme;
+            foreach (ExportSheet sheet in sheets)
+            {
+                sheet.UpdateRevision(true);
             }
-        }
-        
-        public bool ShowExportLog {
-            get; set;
-        }
-                
-        public static View FindView(string sheetNumber, Document doc)
-        {
-            if (doc == null) {
-                return null;
-            }    
-            
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
-            collector.OfCategory(BuiltInCategory.OST_Sheets);
-            foreach (ViewSheet view in collector){
-                if (view.Name == sheetNumber || view.SheetNumber == sheetNumber) {
-                    return (View)view;
-                }
-            }
-            FilteredElementCollector collector2 = new FilteredElementCollector(doc);
-            collector2.OfCategory(BuiltInCategory.OST_Views);
-            foreach (View view in collector2){
-                if (view.Name == sheetNumber) {
-                    return view;
-                }
-            }
-            return null;
-        }
-                
-        public static FamilyInstance TitleBlockInstanceFromSheetNumber(
-            string sheetNumber, Document doc)
-        {
-            if (doc == null) {
-                return null;
-            }
-
-            FamilyInstance result;
-            if ((titleBlocks == null) || (activeDoc != FileUtilities.GetCentralFileName(doc))) {
-                activeDoc = FileUtilities.GetCentralFileName(doc);
-                titleBlocks = AllTitleBlocks(doc);
-            }
-
-            if (titleBlocks.TryGetValue(sheetNumber, out result)) {
-                return result;
-            } else {
-                titleBlocks = AllTitleBlocks(doc);
-            }
-
-            return titleBlocks.TryGetValue(sheetNumber, out result) ? result : null;
         }
 
         public static string CreateSCexportConfig(Document doc)
@@ -223,7 +262,59 @@ namespace SCaddins.ExportManager
             string s = GetConfigFileName(doc);
             return File.Exists(s) ? s : null;
         }
-        
+
+        public static string CurrentViewNumber(Document doc)
+        {
+            View v = doc.ActiveView;
+            if (v.ViewType == ViewType.DrawingSheet)
+            {
+                return v.get_Parameter(
+                    BuiltInParameter.SHEET_NUMBER).AsString();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static void FixScaleBars(ICollection<ExportSheet> sheets, Document doc)
+        {
+            if (sheets == null)
+            {
+                TaskDialog.Show("Error", "Please select sheets before attempting to add revisions");
+                return;
+            }
+            using (Transaction t = new Autodesk.Revit.DB.Transaction(doc))
+            {
+                if (t.Start("SCexport - Fix Scale Bars") == TransactionStatus.Started)
+                {
+                    foreach (ExportSheet sheet in sheets)
+                    {
+                        if (!sheet.ValidScaleBar)
+                        {
+                            sheet.UpdateScaleBarScale();
+                        }
+                    }
+                    if (t.Commit() != TransactionStatus.Committed)
+                    {
+                        TaskDialog.Show("Failure", "Could not fix scale bars");
+                    }
+                }
+            }
+        }
+
+        public static string GetConfigFileName(Document doc)
+        {
+#if DEBUG
+            Debug.WriteLine("getting config file for " + doc.Title);
+            string s = @"C:\Andrew\code\cs\scaddins\share\SCexport-example-conf.xml";
+#else
+            string central = FileUtilities.GetCentralFileName(doc);
+            string s = Path.GetDirectoryName(central) + @"\SCexport.xml";
+#endif
+            return s;
+        }
+
         public static string GetOldConfigFileName(Document doc)
         {
             string central = FileUtilities.GetCentralFileName(doc);
@@ -231,155 +322,19 @@ namespace SCaddins.ExportManager
                 Path.GetFileNameWithoutExtension(central) + Resources.FileExtensionXML;
             return s;
         }
-        
-        public static string GetConfigFileName(Document doc)
-        {
-            // if (File.Exists(GetOldConfigFileName(doc))) {
-            //     TaskDialog.Show("Old config found");
-            // }            
-            #if DEBUG
-            Debug.WriteLine("getting config file for " + doc.Title);
-            string s = @"C:\Andrew\code\cs\scaddins\share\SCexport-example-conf.xml";
-            #else
-            string central = FileUtilities.GetCentralFileName(doc);
-            string s = Path.GetDirectoryName(central) + @"\SCexport.xml";
-            #endif
-            return s;
-        }
 
-        public static void OpenPreviousSheet(UIDocument udoc, ViewSheet view)
-        {
-            OpenSheet(udoc, view, -1);
-        }
-
-        public static void OpenNextSheet(UIDocument udoc, ViewSheet view)
-        {
-            OpenSheet(udoc, view, 1);
-        }
-
-        public static void RenameSheets(ICollection<ExportSheet> sheets)
-        {
-            using (var renameSheetDialog = new RenameSheetForm(sheets, doc)) {
-                var result = renameSheetDialog.ShowDialog();
-                if (result == System.Windows.Forms.DialogResult.OK) {
-                    foreach (ExportSheet sheet in sheets) {
-                        sheet.UpdateNumber();
-                        sheet.UpdateName();
-                    }
-                }
-            }
-        }
-
-        public static void FixScaleBars(ICollection<ExportSheet> sheets)
-        {
-            if (sheets == null) {
-                TaskDialog.Show("Error", "Please select sheets before attempting to add revisions");
-                return;
-            }
-            using (Transaction t = new Autodesk.Revit.DB.Transaction(doc)) {
-                if (t.Start("SCexport - Fix Scale Bars") == TransactionStatus.Started) {
-                    foreach (ExportSheet sheet in sheets) {
-                        if (!sheet.ValidScaleBar) {
-                            sheet.UpdateScaleBarScale();
-                        }
-                    }
-                    if (t.Commit() != TransactionStatus.Committed) {
-                        TaskDialog.Show("Failure", "Could not fix scale bars");
-                    }
-                }
-            }
-        }
-        
-        public static void ToggleNorthPoints(ICollection<ExportSheet> sheets)
-        {
-            if (sheets == null) {
-                return;
-            }
-            using (Transaction t = new Autodesk.Revit.DB.Transaction(doc)) {
-                if (t.Start("SCexport - Toggle North Points") == TransactionStatus.Started) {
-                    foreach (ExportSheet sheet in sheets) {
-                        sheet.ToggleNorthPoint();
-                    }
-                    if (t.Commit() != TransactionStatus.Committed) {
-                        TaskDialog.Show("Failure", "Could not toggle north points");
-                    }
-                }
-            }
-        }
-
-        public static void AddRevisions(ICollection<ExportSheet> sheets)
-        {
-            if (sheets == null) {
-                TaskDialog.Show("Error", "Please select sheets before attempting to add revisions");
-                return;
-            }
-            using (var r = new RevisionSelectionDialog(doc)) {
-                var result = r.ShowDialog();
-                if ((r.Id != null) && (result == System.Windows.Forms.DialogResult.OK)) {
-                    using (var t = new Transaction(doc, "SCexport: Add new revisions")) {
-                        if (t.Start() == TransactionStatus.Started) {
-                            foreach (ExportSheet sheet in sheets) {
-                                ICollection<ElementId> il = sheet.Sheet.GetAdditionalRevisionIds();
-                                il.Add(r.Id);
-                                sheet.Sheet.SetAdditionalRevisionIds(il);
-                            }
-                            t.Commit();
-                        } else {
-                            TaskDialog.Show("Error", "SCexport: error adding revisions, could not start transaction.");
-                        }
-                    }
-                }
-            }
-            foreach (ExportSheet sheet in sheets) {
-                sheet.UpdateRevision(true);
-            }
-        }
-
-        public static string CurrentViewName()
-        {
-            View v = doc.ActiveView;
-            if (v.ViewType == ViewType.DrawingSheet) {
-                return v.get_Parameter(
-                    BuiltInParameter.SHEET_NUMBER).AsString();
-            } else {
-                return null;
-            }
-        }
-
-        public static ACADVersion AcadVersionFromString(string version)
-        {
-            if (version == "R2007") {
-                return ACADVersion.R2007;
-            }
-            if (version == "R2010") {
-                return ACADVersion.R2010;
-            }
-            return (version == "R2013") ? ACADVersion.R2013 : ACADVersion.Default;
-        }
-
-        public static string AcadVersionToString(ACADVersion version)
-        {
-            switch (version) {
-                case ACADVersion.R2007:
-                    return "R2007";
-                case ACADVersion.R2010:
-                    return "R2010";
-                case ACADVersion.R2013:
-                    return "R2013";
-                default:
-                    return "Default";
-            }
-        }
-
-        public static string LatestRevisionDate()
+        public static string LatestRevisionDate(Document doc)
         {
             string s = string.Empty;
             int i = -1;
-            using (FilteredElementCollector collector = new FilteredElementCollector(doc)) {
+            using (FilteredElementCollector collector = new FilteredElementCollector(doc))
+            {
                 collector.OfCategory(BuiltInCategory.OST_Revisions);
-                foreach (Element e in collector) {
+                foreach (Element e in collector)
+                {
                     int j = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger();
-                    if (j > i) {
+                    if (j > i)
+                    {
                         i = j;
                         s = e.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString();
                     }
@@ -388,75 +343,60 @@ namespace SCaddins.ExportManager
             return (s.Length > 1) ? s : string.Empty;
         }
 
-        public void Print(
-            ICollection<ExportSheet> sheets,
-            string printerName,
-            int scale,
-            System.Windows.Forms.ToolStripProgressBar progressBar,
-            System.Windows.Forms.ToolStripItem info,
-            System.Windows.Forms.Control strip)
+        public static void OpenNextSheet(UIDocument udoc, ViewSheet view)
         {
-            if (info == null || progressBar == null || strip == null) {
-                return;
-            }
-
-            PrintManager pm = doc.PrintManager;
-            TaskDialogResult tdr = ShowPrintWarning();
-            DateTime startTime = DateTime.Now;
-            TimeSpan elapsedTime = DateTime.Now - startTime;
-
-            if (tdr == TaskDialogResult.Ok) { 
-                bool printSetttingsValid;
-                this.log.Clear();
-                this.log.Start(Resources.StartingPrint);
-                foreach (ExportSheet sheet in sheets.OrderBy(x => x.SheetNumber).ToList()) {      
-                    progressBar.PerformStep();
-                    elapsedTime = DateTime.Now - startTime;
-                    info.Text = ExportManager.PercentageSting(progressBar.Value, progressBar.Maximum) +
-                    Resources.SpacerHyphen + ExportManager.TimeSpanAsString(elapsedTime);
-                    strip.Update();
-                    
-                    if (!sheet.Verified) {
-                        sheet.UpdateSheetInfo();
-                    }
-                    printSetttingsValid = false;
-
-                    switch (scale) {
-                    case 3:
-                        printSetttingsValid |= PrintSettings.PrintToDevice(doc, "A3-FIT", pm, printerName, this.log);
-                        break;
-                    case 2:
-                        printSetttingsValid |= PrintSettings.PrintToDevice(doc, "A2-FIT", pm, printerName, this.log);
-                        break;
-                    default:
-                        int i = int.Parse(sheet.PageSize.Substring(1, 1), CultureInfo.InvariantCulture);
-                        string printerNameTmp = i > 2 ? this.PrinterNameA3 : this.PrinterNameLargeFormat;
-                        printSetttingsValid |= PrintSettings.PrintToDevice(doc, sheet.PageSize, pm, printerNameTmp, this.log);
-                        break;
-                    }
-                    if (printSetttingsValid) {
-                        pm.SubmitPrint(sheet.Sheet);
-                    }
-                }
-                this.log.Stop(Resources.FinishedPrint);
-                #if DEBUG
-                this.log.ShowSummaryDialog();
-                #else
-                if (this.log.Errors > 0) {
-                    this.log.ShowSummaryDialog();
-                }
-                #endif
-            }
+            OpenSheet.OpenPreviousSheet(udoc, view);
         }
 
-        public void Update()
+        public static void OpenPreviousSheet(UIDocument udoc, ViewSheet view)
         {
-            PrintManager pm = doc.PrintManager;
-            PrintSettings.SetPrinterByName(doc, this.PdfPrinterName, pm);
+            OpenSheet.OpenNextSheet(udoc, view);
+        }
 
-            foreach (ExportSheet sc in this.allSheets) {
-                if (!sc.Verified) {
-                    sc.UpdateSheetInfo();
+        public static FamilyInstance TitleBlockInstanceFromSheetNumber(string sheetNumber, Document doc)
+        {
+            if (doc == null)
+            {
+                return null;
+            }
+
+            FamilyInstance result;
+            if ((titleBlocks == null) || (activeDoc != FileUtilities.GetCentralFileName(doc)))
+            {
+                activeDoc = FileUtilities.GetCentralFileName(doc);
+                titleBlocks = AllTitleBlocks(doc);
+            }
+
+            if (titleBlocks.TryGetValue(sheetNumber, out result))
+            {
+                return result;
+            }
+            else
+            {
+                titleBlocks = AllTitleBlocks(doc);
+            }
+
+            return titleBlocks.TryGetValue(sheetNumber, out result) ? result : null;
+        }
+
+        public static void ToggleNorthPoints(ICollection<ExportSheet> sheets, Document doc, bool turnOn)
+        {
+            if (sheets == null)
+            {
+                return;
+            }
+            using (Transaction t = new Autodesk.Revit.DB.Transaction(doc))
+            {
+                if (t.Start("SCexport - Toggle North Points") == TransactionStatus.Started)
+                {
+                    foreach (ExportSheet sheet in sheets)
+                    {
+                        sheet.ToggleNorthPoint(turnOn);
+                    }
+                    if (t.Commit() != TransactionStatus.Committed)
+                    {
+                        TaskDialog.Show("Failure", "Could not toggle north points");
+                    }
                 }
             }
         }
@@ -466,9 +406,56 @@ namespace SCaddins.ExportManager
             this.exportFlags |= exportOptions;
         }
 
-        public void RemoveExportOption(ExportOptions exportOptions)
+        [SecurityCritical]
+        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+        public void ExportSheet(ExportSheet sheet, ExportLog log)
         {
-            this.exportFlags = this.exportFlags & ~exportOptions;
+            if (log == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var startTime = log.StartLoggingIndividualItem(null);
+            log.AddMessage(sheet.ToString());
+
+            if (!sheet.Verified)
+            {
+                sheet.UpdateSheetInfo();
+            }
+
+            if (sheet.SCPrintSetting != null)
+            {
+                if (this.exportFlags.HasFlag(ExportOptions.DWG))
+                {
+                    this.ExportDWG(sheet, this.exportFlags.HasFlag(ExportOptions.NoTitle), log);
+                }
+
+                if (this.exportFlags.HasFlag(ExportOptions.PDF))
+                {
+                    this.ExportAdobePDF(sheet, log);
+                }
+
+                if (this.exportFlags.HasFlag(ExportOptions.GhostscriptPDF))
+                {
+                    this.ExportGSPDF(sheet, log);
+                }
+            }
+            else
+            {
+                log.AddError(sheet.FullExportName, Resources.MessageNoPrintSettingAssigned);
+            }
+            log.EndLoggingIndividualItem(startTime, null);
+        }
+
+        public bool GSSanityCheck()
+        {
+            if (!Directory.Exists(this.GhostscriptBinDirectory) || !Directory.Exists(this.GhostscriptLibDirectory))
+            {
+                return false;
+            }
+            var ps = new System.Drawing.Printing.PrinterSettings();
+            ps.PrinterName = this.PostscriptPrinterName;
+            return ps.IsValid;
         }
 
         public bool HasExportOption(ExportOptions option)
@@ -476,51 +463,19 @@ namespace SCaddins.ExportManager
             return this.exportFlags.HasFlag(option);
         }
 
-        public void SetFileNameScheme(string newScheme)
+        public void LoadSettings()
         {
-            foreach (SegmentedSheetName scheme in this.fileNameTypes) {
-                if (newScheme == scheme.Name) {
-                    this.fileNameScheme = scheme;
-                    foreach (ExportSheet sheet in this.allSheets) {
-                        sheet.SetSegmentedSheetName(this.fileNameScheme);
-                    } 
-                }
-            }
-        }
-
-        public int GetTotalNumberOfExports(ICollection<ExportSheet> sheets)
-        {
-            if (sheets == null) {
-                TaskDialog.Show("Error", "Please select sheets before attempting to add revisions");
-                return 0;
-            }
-            int i = 0;
-            if (this.HasExportOption(ExportOptions.DGN)) {
-                i++;
-            }
-            if (this.HasExportOption(ExportOptions.DWF)) {
-                i++;
-            }
-            if (this.HasExportOption(ExportOptions.DWG)) {
-                i++;
-            }
-            if (this.HasExportOption(ExportOptions.GhostscriptPDF)) {
-                i++;
-            }
-            if (this.HasExportOption(ExportOptions.PDF)) {
-                i++;
-            }
-            return i * sheets.Count;
-        }
-
-        public bool GSSanityCheck()
-        {
-            if (!Directory.Exists(this.GhostscriptBinDirectory) || !Directory.Exists(this.GhostscriptLibDirectory)) {
-                return false;
-            }
-            var ps = new System.Drawing.Printing.PrinterSettings();
-            ps.PrinterName = this.PostscriptPrinterName;
-            return ps.IsValid;
+            this.GhostscriptBinDirectory = SCaddins.ExportManager.Settings1.Default.GSBinDirectory;
+            this.PdfPrinterName = SCaddins.ExportManager.Settings1.Default.AdobePrinterDriver;
+            this.PrinterNameA3 = SCaddins.ExportManager.Settings1.Default.A3PrinterDriver;
+            this.PrinterNameLargeFormat = SCaddins.ExportManager.Settings1.Default.LargeFormatPrinterDriver;
+            this.PostscriptPrinterName = SCaddins.ExportManager.Settings1.Default.PSPrinterDriver;
+            this.GhostscriptLibDirectory = SCaddins.ExportManager.Settings1.Default.GSLibDirectory;
+            this.exportDirectory = SCaddins.ExportManager.Settings1.Default.ExportDir;
+            this.AcadVersion = SCaddins.ExportManager.Settings1.Default.AcadExportVersion;
+            this.ShowExportLog = SCaddins.ExportManager.Settings1.Default.ShowExportLog;
+            this.ForceRevisionToDateString = SCaddins.ExportManager.Settings1.Default.ForceDateRevision;
+            this.UseDateForEmptyRevisions = SCaddins.ExportManager.Settings1.Default.UseDateForEmptyRevisions;
         }
 
         public bool PDFSanityCheck()
@@ -530,82 +485,102 @@ namespace SCaddins.ExportManager
             return ps.IsValid;
         }
 
-        public void LoadSettings()
+        public void Print(
+            ExportSheet sheet,
+            string printerName,
+            int scale)
         {
-            this.GhostscriptBinDirectory = SCaddins.ExportManager.Settings1.Default.GSBinDirectory;
-            this.PdfPrinterName = SCaddins.ExportManager.Settings1.Default.AdobePrinterDriver; 
-            this.PrinterNameA3 = SCaddins.ExportManager.Settings1.Default.A3PrinterDriver; 
-            this.PrinterNameLargeFormat = SCaddins.ExportManager.Settings1.Default.LargeFormatPrinterDriver;
-            this.PostscriptPrinterName = SCaddins.ExportManager.Settings1.Default.PSPrinterDriver; 
-            this.GhostscriptLibDirectory = SCaddins.ExportManager.Settings1.Default.GSLibDirectory; 
-            this.exportDirectory = SCaddins.ExportManager.Settings1.Default.ExportDir;
-            this.AcadVersion = AcadVersionFromString(SCaddins.ExportManager.Settings1.Default.AcadExportVersion);
-            this.ShowExportLog = SCaddins.ExportManager.Settings1.Default.ShowExportLog;
-            this.ForceRevisionToDateString = SCaddins.ExportManager.Settings1.Default.ForceDateRevision;
-            this.UseDateForEmptyRevisions = SCaddins.ExportManager.Settings1.Default.UseDateForEmptyRevisions;
+            Print(sheet, printerName, scale, null);
         }
 
-        [SecurityCritical]
-        internal void ExportSheets(
-         ICollection<ExportSheet> sheets,
-         System.Windows.Forms.ToolStripProgressBar progressBar,
-         System.Windows.Forms.ToolStripItem info,
-         System.Windows.Forms.Control strip) {
-            if (progressBar == null || info == null || strip == null || sheets == null) {
-                return;
+        public void Print(
+        ExportSheet sheet,
+        string printerName,
+        int scale,
+        ExportLog log)
+        {
+            PrintManager pm = Doc.PrintManager;
+            bool printSetttingsValid;
+            if (!sheet.Verified)
+            {
+                sheet.UpdateSheetInfo();
             }
+            printSetttingsValid = false;
 
-            DateTime startTime = DateTime.Now;
-            TimeSpan elapsedTime = DateTime.Now - startTime;
-            PrintManager pm = doc.PrintManager;
-            PrintSettings.SetPrinterByName(doc, this.PdfPrinterName, pm);
-            this.log.Clear();
-            this.log.TotalExports = progressBar.Maximum;
-            this.log.Start(Resources.ExportStarted);
+            switch (scale)
+            {
+                case 3:
+                    printSetttingsValid |= PrintSettings.PrintToDevice(Doc, "A3-FIT", pm, printerName, sheet.ForceRasterPrint, log);
+                    break;
 
-            foreach (ExportSheet sheet in sheets) {
-                progressBar.PerformStep();
-                elapsedTime = DateTime.Now - startTime;
-                info.Text = ExportManager.PercentageSting(progressBar.Value, progressBar.Maximum) +
-                    Resources.SpacerHyphen + ExportManager.TimeSpanAsString(elapsedTime);
-                strip.Update();
-                this.ExportSheet(sheet);
+                case 2:
+                    printSetttingsValid |= PrintSettings.PrintToDevice(Doc, "A2-FIT", pm, printerName, sheet.ForceRasterPrint, log);
+                    break;
+
+                default:
+                    int i = int.Parse(sheet.PageSize.Substring(1, 1), CultureInfo.InvariantCulture);
+                    string printerNameTmp = i > 2 ? this.PrinterNameA3 : this.PrinterNameLargeFormat;
+                    printSetttingsValid |= PrintSettings.PrintToDevice(Doc, sheet.PageSize, pm, printerNameTmp, sheet.ForceRasterPrint, log);
+                    break;
             }
-
-            this.log.Stop(Resources.ExportComplete);
-
-            #if DEBUG
-            this.log.ShowSummaryDialog();
-            #else
-            if (this.log.Errors > 0 || this.ShowExportLog) {
-                this.log.ShowSummaryDialog();
+            if (printSetttingsValid)
+            {
+                pm.SubmitPrint(sheet.Sheet);
             }
-            #endif
+            else
+            {
+                TaskDialog.Show("test", "print error");
+            }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        private static void OpenSheet(UIDocument udoc, ViewSheet view, int inc)
+        public void RemoveExportOption(ExportOptions exportOptions)
         {
-            IList<ViewSheet> sheets = new List<ViewSheet>();
-            using (var collector = new FilteredElementCollector(udoc.Document)) {
-                collector.OfCategory(BuiltInCategory.OST_Sheets);
-                collector.OfClass(typeof(ViewSheet)); 
-                foreach (ViewSheet v in collector) {
-                    sheets.Add(v);
+            this.exportFlags = this.exportFlags & ~exportOptions;
+        }
+
+        public void SetFileNameScheme(string newScheme)
+        {
+            foreach (SegmentedSheetName scheme in this.fileNameTypes)
+            {
+                if (newScheme == scheme.Name)
+                {
+                    this.fileNameScheme = scheme;
+                    foreach (ExportSheet sheet in this.allSheets)
+                    {
+                        sheet.SetSegmentedSheetName(this.fileNameScheme);
+                    }
                 }
             }
-            IEnumerable<ViewSheet> sortedEnum = sheets.OrderBy(f => f.SheetNumber);
-            IList<ViewSheet> sortedSheets = sortedEnum.ToList();
-            
+        }
 
-            for (int i = 0; i < sortedSheets.Count; i++) {
-                if(inc == -1 && i == 0) continue;
-                if(inc == 1 && i == (sortedSheets.Count - 1)) continue;
-                if (sortedSheets[i].SheetNumber == view.SheetNumber) {
-                    UIApplication uiapp = new UIApplication(udoc.Document.Application);
-                    uiapp.ActiveUIDocument.ActiveView = sortedSheets[i + inc];
+        public void ToggleExportOption(ExportOptions option)
+        {
+            if (HasExportOption(option)) {
+                RemoveExportOption(option);
+            } else {
+                AddExportOption(option);
+            }
+        }
+
+        public void Update()
+        {
+            try
+            {
+                PrintManager pm = Doc.PrintManager;
+                if (pm == null) {
+                    SCaddinsApp.WindowManager.ShowMessageBox("PM is null");
                     return;
                 }
+                if (PrintSettings.SetPrinterByName(Doc, this.PdfPrinterName, pm)) {
+                    foreach (ExportSheet sc in this.allSheets) {
+                        if (!sc.Verified) {
+                            sc.UpdateSheetInfo();
+                        }
+                    }
+                }
+            }
+            catch {
+                System.Diagnostics.Debug.WriteLine("Update error in ExportManager.");
             }
         }
 
@@ -613,48 +588,20 @@ namespace SCaddins.ExportManager
         {
             var result = new Dictionary<string, FamilyInstance>();
 
-            using (var collector = new FilteredElementCollector(document)) {
+            using (var collector = new FilteredElementCollector(document))
+            {
                 collector.OfCategory(BuiltInCategory.OST_TitleBlocks);
                 collector.OfClass(typeof(FamilyInstance));
-                foreach (FamilyInstance e in collector) {
+                foreach (FamilyInstance e in collector)
+                {
                     var s = e.get_Parameter(BuiltInParameter.SHEET_NUMBER).AsString();
-                    if (!result.ContainsKey(s)) {
+                    if (!result.ContainsKey(s))
+                    {
                         result.Add(s, e);
                     }
                 }
             }
 
-            return result;
-        }
-
-        private static TaskDialogResult ShowPrintWarning()
-        {
-            using (var td = new TaskDialog("SCexport - Print Warning")) {
-                td.MainInstruction = "Warning";
-                td.MainContent = "The print feature is experimental, please only export a " +
-                    "small selection of sheets until you are sure it is working correctly." +
-                    System.Environment.NewLine + System.Environment.NewLine +
-                    "Press ok to continue.";
-                td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-                td.CommonButtons = TaskDialogCommonButtons.Ok | TaskDialogCommonButtons.No;
-                TaskDialogResult tdr = td.Show();
-                return tdr;
-            }
-        }
-
-        private static string PercentageSting(int n, int total)
-        {
-            var result = "Exporting " + n + " of " + total +
-                " (" + (int)(((double)n / (double)total) * 100) + @"%)";
-            return result;
-        }
-
-        private static string TimeSpanAsString(TimeSpan time)
-        {
-            var result = "Elapsed Time: " +
-                MiscUtilities.PadLeftZeros(time.Hours.ToString(CultureInfo.CurrentCulture), 2) + "h:" +
-                MiscUtilities.PadLeftZeros(time.Minutes.ToString(CultureInfo.CurrentCulture), 2) + "m:" +
-                MiscUtilities.PadLeftZeros(time.Seconds.ToString(CultureInfo.CurrentCulture), 2) + "s";
             return result;
         }
 
@@ -667,34 +614,36 @@ namespace SCaddins.ExportManager
                 Microsoft.Win32.RegistryValueKind.String);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PrinterJobControl")]
-        [SecurityCritical]
-        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
-        private static void SetAcrobatExportRegistryVal(string fileName, ExportLog log)
+        private static bool IsViewerMode()
         {
-            string exe =
-                Process.GetCurrentProcess().MainModule.FileName;
-            try {
-                log.AddMessage("Attempting to set Acrobat Registry Value with value");
-                log.AddMessage("\t" + Constants.AcrobatPrinterJobControl);
-                log.AddMessage("\t" + exe);
-                log.AddMessage("\t" + fileName);
-                Microsoft.Win32.Registry.SetValue(
-                    Constants.AcrobatPrinterJobControl,
-                    exe,
-                    fileName,
-                    Microsoft.Win32.RegistryValueKind.String);
-            } catch (UnauthorizedAccessException ex) {
-                log.AddError(fileName, ex.Message);
-            } catch (SecurityException ex) {
-                log.AddError(fileName, ex.Message);
+            var mainWindowTitle = System.Diagnostics.Process.GetCurrentProcess().MainWindowTitle;
+            return mainWindowTitle.Contains("VIEWER");
+        }
+
+        private static string PercentageSting(int n, int total)
+        {
+            var result = "Exporting " + n + " of " + total +
+                " (" + (int)(((double)n / (double)total) * 100) + @"%)";
+            return result;
+        }
+
+        private static void PopulateViewSheetSets(ObservableCollection<ViewSheetSetCombo> vss, Document doc)
+        {
+            vss.Clear();
+            vss.Add(new ViewSheetSetCombo("<All Sheets in Model>"));
+            using (FilteredElementCollector collector = new FilteredElementCollector(doc)) {
+                collector.OfClass(typeof(ViewSheetSet));
+                foreach (ViewSheetSet v in collector) {
+                    vss.Add(new ViewSheetSetCombo(v));
+                }
             }
         }
 
         private static void RemoveTitleBlock(
             ExportSheet vs,
             ICollection<ElementId> title,
-            bool hide)
+            bool hide,
+            Document doc)
         {
             var view = doc.GetElement(vs.Id) as View;
             var t = new Transaction(doc, "Hide Title");
@@ -712,81 +661,304 @@ namespace SCaddins.ExportManager
             }
         }
 
-        private static void PopulateViewSheetSets(Collection<ViewSheetSetCombo> vss)
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PrinterJobControl")]
+        [SecurityCritical]
+        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+        private static bool SetAcrobatExportRegistryVal(string fileName, ExportLog log)
         {
-            vss.Clear();
-            using (FilteredElementCollector collector = new FilteredElementCollector(doc)) {
-                collector.OfClass(typeof(ViewSheetSet));
-                foreach (ViewSheetSet v in collector) {
-                    vss.Add(new ViewSheetSetCombo(v));
-                }
+            string exe = Process.GetCurrentProcess().MainModule.FileName;
+            try {
+                log.AddMessage("Attempting to set Acrobat Registry Value with value");
+                log.AddMessage("\t" + Constants.AcrobatPrinterJobControl);
+                log.AddMessage("\t" + exe);
+                log.AddMessage("\t" + fileName);
+                Microsoft.Win32.Registry.SetValue(
+                    Constants.AcrobatPrinterJobControl,
+                    exe,
+                    fileName,
+                    Microsoft.Win32.RegistryValueKind.String);
+                return true;
+            } catch (UnauthorizedAccessException ex) {
+                log.AddError(fileName, ex.Message);
+                return false;
+            } catch (SecurityException ex) {
+                log.AddError(fileName, ex.Message);
+                return false;
             }
         }
 
-        private static void ExportDWF(ExportSheet vs)
+        private static string TimeSpanAsString(TimeSpan time)
         {
-            var views = new ViewSet();
-            views.Insert(vs.Sheet);
-            var opts = new DWFExportOptions();
-            opts.CropBoxVisible = false;
-            opts.ExportingAreas = true;
-            using (var t = new Transaction(doc)) {
-                if (t.Start("Export DWF") == TransactionStatus.Started) {
+            var result = "Elapsed Time: " +
+                MiscUtilities.PadLeftZeros(time.Hours.ToString(CultureInfo.CurrentCulture), 2) + "h:" +
+                MiscUtilities.PadLeftZeros(time.Minutes.ToString(CultureInfo.CurrentCulture), 2) + "m:" +
+                MiscUtilities.PadLeftZeros(time.Seconds.ToString(CultureInfo.CurrentCulture), 2) + "s";
+            return result;
+        }
+
+        [SecurityCritical]
+        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+        private bool ExportAdobePDF(ExportSheet vs, ExportLog log)
+        {
+            if (log != null) {
+                log.AddMessage(Environment.NewLine + Resources.MessageStartingPDFExport);
+            } else {
+                return false;
+            }
+
+            if (IsViewerMode()) {
+                log.AddError(vs.FullExportName, "Revit is in Viewer mode. Printing is not allowed");
+                return false;
+            }
+
+            PrintManager pm = Doc.PrintManager;
+
+            log.AddMessage(Resources.MessageApplyingPrintSetting + vs.PrintSettingName);
+
+            if (!PrintSettings.PrintToFile(Doc, vs, pm, Resources.FileExtensionPDF, this.PdfPrinterName)) {
+                log.AddError(vs.FullExportName, Resources.ErrorFailedToAssignPrintSetting + vs.PrintSettingName);
+                return false;
+            }
+
+            if (!SetAcrobatExportRegistryVal(vs.FullExportPath(Resources.FileExtensionPDF), log)) {
+                log.AddError(vs.FullExportName, "Unable to write to registry");
+                return false;
+            }
+
+            if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF))) {
+                if (File.Exists(vs.FullExportPath(Resources.FileExtensionPDF))) {
+                    File.Delete(vs.FullExportPath(Resources.FileExtensionPDF));
+                }
+                log.AddMessage(Resources.MessageSubmittingPrint);
+                
+                if (pm.SubmitPrint(vs.Sheet)) {
+                    log.AddMessage(Resources.MessageApparentlyCompletedSuccessfully);
+                } else {
+                    log.AddError(vs.FullExportName, Resources.ErrorFailedToPrint);
+                }
+                FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPDF));
+
+                this.RunExportHooks(Resources.FileExtensionPDF, vs);
+
+                SCaddins.Common.SystemUtilities.KillAllProcesses("acrotray");
+            } else {
+                ////log.AddError(vs.FullExportName, Resources.ErrorCantOverwriteFile);
+                return false;
+            }
+
+            return true;
+        }
+
+        // FIXME this is nasty
+        private void ExportDWG(ExportSheet vs, bool removeTitle, ExportLog log)
+        {
+            if (log != null) {
+                log.AddMessage(Environment.NewLine + Resources.MessageStartingDWGExport);
+            } else {
+                return;
+            }
+
+            if (IsViewerMode()) {
+                log.AddError(vs.FullExportName, "Revit is in Viewer mode. Exporting DWG files is not allowed");
+                return;
+            }
+
+            List<ElementId> titleBlockHidden;
+            titleBlockHidden = new List<ElementId>();
+            var titleBlock = ExportManager.TitleBlockInstanceFromSheetNumber(vs.SheetNumber, Doc);
+            titleBlockHidden.Add(titleBlock.Id);
+
+            if (removeTitle) {
+                if (log != null) {
+                    log.AddMessage(Resources.MessageAttemptingToHideTitleBlock);
+                }
+                ExportManager.RemoveTitleBlock(vs, titleBlockHidden, true, Doc);
+            }
+
+            PrintManager pm = Doc.PrintManager;
+
+            using (var t = new Transaction(Doc, Resources.ApplyPrintSettings)) {
+                if (t.Start() == TransactionStatus.Started) {
                     try {
-                        string tmp = vs.FullExportName + ".dwf";
-                        doc.Export(vs.ExportDirectory, tmp, views, opts);
+                        pm.PrintToFile.Equals(true);
+                        pm.PrintRange = PrintRange.Select;
+                        pm.Apply();
                         t.Commit();
-                    } catch (ArgumentException e) {
-                        TaskDialog.Show("SCexport", "cannot export dwf: " + e.Message);
-                        t.RollBack();
-                    } catch (InvalidOperationException e) {
-                        TaskDialog.Show("SCexport", "cannot export dwf: " + e.Message);
+                    } catch (InvalidOperationException) {
+                        if (log != null) {
+                            log.AddWarning(null, Resources.MessageCouldNotApplyPrintSettings);
+                        }
                         t.RollBack();
                     }
                 }
             }
-        }
 
-        private static void ExportDGN(ExportSheet vs)
-        {
-            using (var opts = new DGNExportOptions()) {
-                ICollection<ElementId> views;
-                views = new List<ElementId>();
-                views.Add(vs.Id);
-                doc.Export(vs.ExportDirectory, vs.FullExportName, views, opts);
-            }
-        }
- 
-        private void SetDefaultFlags()
-        {
-            if (SCaddins.ExportManager.Settings1.Default.AdobePDFMode && this.PDFSanityCheck()) {
-                this.AddExportOption(ExportOptions.PDF);
-            } else if (!SCaddins.ExportManager.Settings1.Default.AdobePDFMode && this.GSSanityCheck()) {
-                this.AddExportOption(ExportOptions.GhostscriptPDF);
-            } else {
-                if (this.PDFSanityCheck()) {
-                     this.AddExportOption(ExportOptions.PDF);   
+            List<ElementId> views;
+            views = new List<ElementId>();
+            views.Add(vs.Id);
+
+            using (var opts = GetDefaultDWGExportOptions()) {
+                if (log != null) {
+                    log.AddMessage(Resources.MessageAssigningExportOptions + opts);
                 }
-                this.AddExportOption(ExportOptions.DWG);
+                pm.PrintRange = PrintRange.Select;
+                var name = vs.FullExportName + Resources.FileExtensionDWG;
+                if (log != null) {
+                    log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
+                    log.AddMessage(Resources.MessageExportingToFileName + name);
+                }
+                Doc.Export(vs.ExportDirectory, name, views, opts);
             }
-            if (SCaddins.ExportManager.Settings1.Default.HideTitleBlocks) {
-                this.AddExportOption(ExportOptions.NoTitle);
+
+            FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionDWG));
+            this.RunExportHooks("dwg", vs);
+
+            if (removeTitle) {
+                if (log != null) {
+                    log.AddMessage(Resources.MessageShowingTitleBlock);
+                }
+                ExportManager.RemoveTitleBlock(vs, titleBlockHidden, false, Doc);
             }
-            this.forceDate |= SCaddins.ExportManager.Settings1.Default.ForceDateRevision;
         }
 
-        private void PopulateSheets(SortableBindingListCollection<ExportSheet> s)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", Justification = "Parameter name required by ps2pdf", MessageId = "sPAPERSIZE")]
+        [SecurityCritical]
+        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+        private bool ExportGSPDF(ExportSheet vs, ExportLog log)
         {
-            string config = GetConfigFileName(doc);
-            bool b = this.ImportXMLinfo(config);
-            if (!b) {
-                var name = new SegmentedSheetName();
-                name.Name = "YYYYMMDD-AD-NNN";
-                name.NameFormat = "$projectNumber-$sheetNumber[$sheetRevision]";
-                this.fileNameTypes.Add(name);
-                this.fileNameScheme = name;
+            log.AddMessage(Environment.NewLine + Resources.MessageStartingGhostscriptPDFExport);
+            log.AddMessage(vs.ToString());
+
+            PrintManager pm = Doc.PrintManager;
+
+            log.AddMessage(Resources.MessageApplyingPrintSetting + vs.PrintSettingName);
+
+            if (!PrintSettings.PrintToFile(Doc, vs, pm, Resources.FileExtensionPS, this.PostscriptPrinterName)) {
+                log.AddError(vs.FullExportName, Resources.ErrorFailedToAssignPrintSetting + vs.PrintSettingName);
+                return false;
             }
-            if (this.fileNameTypes.Count <= 0) {
+
+            log.AddMessage(Resources.MessageSubmittingPrint);
+
+            try {
+                pm.SubmitPrint(vs.Sheet);
+            } catch (InvalidOperationException) {
+                File.Delete(vs.FullExportPath(Resources.FileExtensionPS));
+                pm.SubmitPrint(vs.Sheet);
+            }
+
+            log.AddMessage(Resources.StartingPrint + vs.FullExportPath(Resources.FileExtensionPS));
+
+            FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPS));
+
+            log.AddMessage(Resources.OK);
+
+            string prog = "\"" + this.GhostscriptLibDirectory + @"\ps2pdf" + "\"";
+            string size = vs.PageSize.ToLower(CultureInfo.CurrentCulture);
+            string sizeFix = size.ToLower(CultureInfo.CurrentCulture).Replace("p", string.Empty);
+            string args =
+                "-sPAPERSIZE#" +
+                sizeFix + " \"" + vs.FullExportPath(Resources.FileExtensionPS) +
+                "\" \"" + vs.FullExportPath(Resources.FileExtensionPDF) + "\"";
+
+            if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF))) {
+                log.AddMessage("Converting to PDF with: " + prog + " " + args);
+                SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg(prog, args);
+                FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPDF));
+                this.RunExportHooks("pdf", vs);
+            } else {
+                log.AddWarning(vs.FullExportName, Resources.MessageUnableToOverwriteExistingFile + vs.FullExportPath(Resources.FileExtensionPDF));
+            }
+
+            return true;
+        }
+
+        private DWGExportOptions GetDefaultDWGExportOptions()
+        {
+            var opts = new DWGExportOptions();
+            opts.MergedViews = true;
+            opts.FileVersion = this.AcadVersion;
+            opts.HideScopeBox = true;
+            opts.HideUnreferenceViewTags = true;
+            return opts;
+        }
+
+        private bool ImportXMLinfo(string filename)
+        {
+            if (!System.IO.File.Exists(filename)) {
+                return false;
+            }
+            if (!this.ValidateXML(filename)) {
+                return false;
+            }
+
+            using (var reader = new XmlTextReader(filename)) {
+                while (reader.Read()) {
+                    if (reader.NodeType == XmlNodeType.Element && reader.Name == "PostExportHook") {
+                        var hook = new PostExportHookCommand();
+                        if (reader.AttributeCount > 0) {
+                            hook.SetName(reader.GetAttribute("name"));
+                        }
+                        do {
+                            reader.Read();
+                            if (reader.NodeType == XmlNodeType.Element) {
+                                switch (reader.Name) {
+                                    case "Command":
+                                    hook.SetCommand(reader.ReadString());
+                                    break;
+
+                                    case "Args":
+                                    hook.SetArguments(reader.ReadString());
+                                    break;
+
+                                    case "SupportedFileExtension":
+                                    hook.AddSupportedFilenameExtension(reader.ReadString());
+                                    break;
+                                }
+                            }
+                        } while (!(reader.NodeType == XmlNodeType.EndElement &&
+                                 reader.Name == "PostExportHook"));
+                        this.postExportHooks.Add(hook.Name, hook);
+                    }
+
+                    if (reader.NodeType == XmlNodeType.Element && reader.Name == "FilenameScheme") {
+                        var name = new SegmentedSheetName();
+                        if (reader.AttributeCount > 0) {
+                            name.Name = reader.GetAttribute("name");
+                        }
+                        do {
+                            reader.Read();
+                            if (reader.NodeType == XmlNodeType.Element) {
+                                switch (reader.Name) {
+                                    case "Format":
+                                    name.NameFormat = reader.ReadString();
+                                    break;
+
+                                    case "Hook":
+                                    name.Hooks.Add(reader.ReadString());
+                                    break;
+                                }
+                            }
+                        } while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == "FilenameScheme"));
+                        this.fileNameTypes.Add(name);
+                    }
+                }
+
+                if (this.fileNameTypes.Count > 0) {
+                    this.fileNameScheme = this.fileNameTypes[0];
+                    foreach (ExportSheet sheet in this.allSheets) {
+                        sheet.SetSegmentedSheetName(this.fileNameScheme);
+                    }
+                }
+            }
+            return true;
+        }
+
+        private void PopulateSheets(ObservableCollection<ExportSheet> s)
+        {
+            string config = GetConfigFileName(Doc);
+            bool b = this.ImportXMLinfo(config);
+            if (!b || this.fileNameTypes.Count <= 0) {
                 var name = new SegmentedSheetName();
                 name.Name = "YYYYMMDD-AD-NNN";
                 name.NameFormat = "$projectNumber-$sheetNumber[$sheetRevision]";
@@ -795,27 +967,49 @@ namespace SCaddins.ExportManager
             }
 
             s.Clear();
-            using (FilteredElementCollector collector = new FilteredElementCollector(doc)) {
+            using (FilteredElementCollector collector = new FilteredElementCollector(Doc)) {
                 collector.OfCategory(BuiltInCategory.OST_Sheets);
                 collector.OfClass(typeof(ViewSheet));
                 foreach (ViewSheet v in collector) {
-                    var scxSheet = new ExportSheet(v, doc, this.fileNameTypes[0], this);
+                    var scxSheet = new ExportSheet(v, Doc, this.fileNameTypes[0], this);
                     s.Add(scxSheet);
                 }
             }
         }
 
-        private void ValidationEventHandler(
-            object sender, ValidationEventArgs e)
+        private void RunExportHooks(string extension, ExportSheet vs)
         {
-            switch (e.Severity) {
-                case XmlSeverityType.Error:
-                    TaskDialog.Show("Error: {0}", e.Message);
-                    break;
-                case XmlSeverityType.Warning:
-                    TaskDialog.Show("Warning {0}", e.Message);
-                    break;
+            for (int i = 0; i < this.postExportHooks.Count; i++) {
+                if (this.postExportHooks.ElementAt(i).Value.HasExtension(extension)) {
+                    if (this.fileNameScheme.Hooks.Count < 1) {
+                        return;
+                    } else {
+                        if (this.fileNameScheme.Hooks.Contains(this.postExportHooks.ElementAt(i).Key)) {
+                            this.postExportHooks.ElementAt(i).Value.Run(vs, extension);
+                        }
+                    }
+                }
             }
+        }
+
+        private void SetDefaultFlags()
+        {
+            if (SCaddins.ExportManager.Settings1.Default.AdobePDFMode && this.PDFSanityCheck()) {
+                this.AddExportOption(ExportOptions.PDF);
+            } else if (!SCaddins.ExportManager.Settings1.Default.AdobePDFMode && this.GSSanityCheck()) {
+                this.AddExportOption(ExportOptions.GhostscriptPDF);
+            } else {
+                if (this.PDFSanityCheck()) {
+                    this.AddExportOption(ExportOptions.PDF);
+                }
+                this.AddExportOption(ExportOptions.DWG);
+            }
+
+            if (SCaddins.ExportManager.Settings1.Default.HideTitleBlocks) {
+                this.AddExportOption(ExportOptions.NoTitle);
+            }
+
+            this.forceDate |= SCaddins.ExportManager.Settings1.Default.ForceDateRevision;
         }
 
         private bool ValidateXML(string filename)
@@ -826,12 +1020,12 @@ namespace SCaddins.ExportManager
             }
             try {
                 var settings = new XmlReaderSettings();
-                #if !DEBUG
+#if !DEBUG
                 settings.Schemas.Add(
                     null, SCaddins.Constants.InstallDirectory + @"\etc\SCexport.xsd");
-                #else
+#else
                 settings.Schemas.Add(null, @"C:\Andrew\code\cs\scaddins\etc\SCexport.xsd");
-                #endif
+#endif
                 settings.ValidationType = ValidationType.Schema;
                 XmlReader reader = XmlReader.Create(filename, settings);
                 var document = new XmlDocument();
@@ -857,280 +1051,22 @@ namespace SCaddins.ExportManager
                 td.MainContent = errorMessage;
                 td.Show();
             }
-            return false;   
+            return false;
         }
 
-        private bool ImportXMLinfo(string filename)
+        private void ValidationEventHandler(
+                    object sender, ValidationEventArgs e)
         {
-            if (!System.IO.File.Exists(filename)) {
-                return false;
+            switch (e.Severity)
+            {
+                case XmlSeverityType.Error:
+                    TaskDialog.Show("Error: {0}", e.Message);
+                    break;
+
+                case XmlSeverityType.Warning:
+                    TaskDialog.Show("Warning {0}", e.Message);
+                    break;
             }
-            if (!this.ValidateXML(filename)) {
-                return false;
-            }
-
-            using (var reader = new XmlTextReader(filename)) {
-                while (reader.Read()) {
-                    if (reader.NodeType == XmlNodeType.Element && reader.Name == "PostExportHook") {
-                        var hook = new PostExportHookCommand();
-                        if (reader.AttributeCount > 0) {
-                            hook.SetName(reader.GetAttribute("name"));
-                        }
-                        do {
-                            reader.Read();
-                            if (reader.NodeType == XmlNodeType.Element) {
-                                switch (reader.Name) {
-                                    case "Command":
-                                        hook.SetCommand(reader.ReadString());
-                                        break;
-                                    case "Args":
-                                        hook.SetArguments(reader.ReadString());
-                                        break;
-                                    case "SupportedFileExtension":
-                                        hook.AddSupportedFilenameExtension(reader.ReadString());
-                                        break;
-                                }
-                            }
-                        } while (!(reader.NodeType == XmlNodeType.EndElement &&
-                                 reader.Name == "PostExportHook"));
-                        this.postExportHooks.Add(hook.Name, hook);
-                    }
-
-                    if (reader.NodeType == XmlNodeType.Element && reader.Name == "FilenameScheme") {
-                        var name = new SegmentedSheetName();
-                        if (reader.AttributeCount > 0) {
-                            name.Name = reader.GetAttribute("name");
-                        }
-                        do {
-                            reader.Read();
-                            if (reader.NodeType == XmlNodeType.Element) {
-                                switch (reader.Name) {
-                                    case "Format":
-                                        name.NameFormat = reader.ReadString();
-                                        break;
-                                    case "Hook":
-                                        name.Hooks.Add(reader.ReadString());
-                                        break;
-                                }
-                            }
-                        } while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == "FilenameScheme"));
-                        this.fileNameTypes.Add(name);
-                    }
-                }
-
-                if (this.fileNameTypes.Count > 0) {
-                    this.fileNameScheme = this.fileNameTypes[0];
-                    foreach (ExportSheet sheet in this.allSheets) {
-                        sheet.SetSegmentedSheetName(this.fileNameScheme);
-                    }
-                }
-            }
-            return true;
-        }
-
-        [SecurityCritical]
-        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
-        private void ExportSheet(ExportSheet sheet)
-        {
-            if (!sheet.Verified) {
-                sheet.UpdateSheetInfo();
-            }
-
-            if (sheet.SCPrintSetting != null) {
-                var startTime = DateTime.Now;
-                if (this.exportFlags.HasFlag(ExportOptions.DWG)) {             
-                    this.ExportDWG(sheet, this.exportFlags.HasFlag(ExportOptions.NoTitle));
-                }
-
-                if (this.exportFlags.HasFlag(ExportOptions.PDF)) {
-                    this.ExportAdobePDF(sheet);
-                }
-
-                if (this.exportFlags.HasFlag(ExportOptions.GhostscriptPDF)) {
-                    this.ExportGSPDF(sheet);
-                }
-
-                if (this.exportFlags.HasFlag(ExportOptions.DGN)) {
-                    ExportManager.ExportDGN(sheet);
-                }
-
-                if (this.exportFlags.HasFlag(ExportOptions.DWF)) {
-                    ExportManager.ExportDWF(sheet);
-                }
-                var elapsedTime = DateTime.Now - startTime;
-                this.log.AddMessage(Resources.MessageElapsedTimeForLastExport + elapsedTime.ToString());
-            } else {
-                this.log.AddError(sheet.FullExportName, Resources.MessageNoPrintSettingAssigned);
-            }
-        }
-
-        private DWGExportOptions GetDefaultDWGExportOptions()
-        {
-            var opts = new DWGExportOptions();
-            opts.MergedViews = true;
-            opts.FileVersion = this.AcadVersion;
-            opts.HideScopeBox = true;
-            opts.HideUnreferenceViewTags = true;
-            return opts;
-        }
-
-        // FIXME this is nasty
-        private void ExportDWG(ExportSheet vs, bool removeTitle)
-        {
-            this.log.AddMessage(Environment.NewLine + Resources.MessageStartingDWGExport);
-            this.log.AddMessage(vs.ToString());
-            
-            List<ElementId> titleBlockHidden;
-            titleBlockHidden = new List<ElementId>();
-            var titleBlock = ExportManager.TitleBlockInstanceFromSheetNumber(vs.SheetNumber, doc);
-            titleBlockHidden.Add(titleBlock.Id);
-
-            if (removeTitle) {
-                this.log.AddMessage(Resources.MessageAttemptingToHideTitleBlock);
-                ExportManager.RemoveTitleBlock(vs, titleBlockHidden, true);
-            }
-
-            PrintManager pm = doc.PrintManager;
-
-            using (var t = new Transaction(doc, Resources.ApplyPrintSettings)) {
-                if (t.Start() == TransactionStatus.Started) {
-                    try {
-                        pm.PrintToFile.Equals(true);
-                        pm.PrintRange = PrintRange.Select;
-                        pm.Apply();
-                        t.Commit();
-                    } catch (InvalidOperationException) {
-                        this.log.AddWarning(null, Resources.MessageCouldNotApplyPrintSettings);
-                        t.RollBack();
-                    }
-                } 
-            }
-
-            List<ElementId> views;
-            views = new List<ElementId>();
-            views.Add(vs.Id);
-
-            using (var opts = GetDefaultDWGExportOptions()) {
-                this.log.AddMessage(Resources.MessageAssigningExportOptions + opts);
-                pm.PrintRange = PrintRange.Select;
-                var name = vs.FullExportName + Resources.FileExtensionDWG;
-                this.log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
-                this.log.AddMessage(Resources.MessageExportingToFileName + name);
-                doc.Export(vs.ExportDirectory, name, views, opts);
-            }
-           
-            FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionDWG));
-            this.RunExportHooks("dwg", vs);
-
-            if (removeTitle) {
-                this.log.AddMessage(Resources.MessageShowingTitleBlock);
-                ExportManager.RemoveTitleBlock(vs, titleBlockHidden, false);
-            }
-        }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "sPAPERSIZE")]
-        [SecurityCritical]
-        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
-        private bool ExportGSPDF(ExportSheet vs)
-        {
-            this.log.AddMessage(Environment.NewLine + Resources.MessageStartingGhostscriptPDFExport);
-            this.log.AddMessage(vs.ToString());
-            
-            PrintManager pm = doc.PrintManager;
-            
-            this.log.AddMessage(Resources.MessageApplyingPrintSetting + vs.PrintSettingName);
-
-            if (!PrintSettings.PrintToFile(doc, vs, pm, Resources.FileExtensionPS, this.PostscriptPrinterName)) {
-                this.log.AddError(vs.FullExportName, Resources.ErrorFailedToAssignPrintSetting + vs.PrintSettingName);
-                return false;
-            }
-            
-            this.log.AddMessage(Resources.MessageSubmittingPrint);
-
-            try {
-                pm.SubmitPrint(vs.Sheet);
-            } catch (InvalidOperationException) {
-                File.Delete(vs.FullExportPath(Resources.FileExtensionPS));
-                pm.SubmitPrint(vs.Sheet);
-            }
-            
-            this.log.AddMessage(Resources.StartingPrint + vs.FullExportPath(Resources.FileExtensionPS));
-
-            FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPS));
-            
-            this.log.AddMessage(Resources.OK);
-            
-            string prog = "\"" + this.GhostscriptLibDirectory  + @"\ps2pdf" + "\"";
-            string size = vs.PageSize.ToLower(CultureInfo.CurrentCulture);
-            string sizeFix = size.ToLower(CultureInfo.CurrentCulture).Replace("p", string.Empty);   
-            string args = 
-                "-sPAPERSIZE#" +
-                sizeFix + " \"" + vs.FullExportPath(Resources.FileExtensionPS) +
-                "\" \"" + vs.FullExportPath(Resources.FileExtensionPDF) + "\"";
-
-            if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF))) {
-                this.log.AddMessage("Converting to PDF with: " + prog + " " + args);
-                SCaddins.Common.ConsoleUtilities.StartHiddenConsoleProg(prog, args);
-                FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPDF));
-                this.RunExportHooks("pdf", vs);
-            } else {
-                this.log.AddWarning(vs.FullExportName, Resources.MessageUnableToOverwriteExistingFile + vs.FullExportPath(Resources.FileExtensionPDF));    
-            }
-
-            return true;
-        }
-        
-        private void RunExportHooks(string extension, ExportSheet vs)
-        {
-            for (int i = 0; i < this.postExportHooks.Count; i++) {
-                if (this.postExportHooks.ElementAt(i).Value.HasExtension(extension)) {
-                    if (this.fileNameScheme.Hooks.Count < 1) {
-                        return;
-                    } else {
-                        if (this.fileNameScheme.Hooks.Contains(this.postExportHooks.ElementAt(i).Key)) {
-                            this.postExportHooks.ElementAt(i).Value.Run(vs, extension);
-                        }
-                    }
-                }  
-            }
-        }
-
-        [SecurityCritical]
-        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
-        private bool ExportAdobePDF(ExportSheet vs)
-        {
-            PrintManager pm = doc.PrintManager;
-            
-            this.log.AddMessage(Resources.MessageApplyingPrintSetting + vs.PrintSettingName);
-
-            if (!PrintSettings.PrintToFile(doc, vs, pm, Resources.FileExtensionPDF, this.PdfPrinterName)) {
-                this.log.AddError(vs.FullExportName, Resources.ErrorFailedToAssignPrintSetting + vs.PrintSettingName);
-                return false;
-            }
-
-            SetAcrobatExportRegistryVal(vs.FullExportPath(Resources.FileExtensionPDF), this.log);
-
-            if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF))) {
-                if (File.Exists(vs.FullExportPath(Resources.FileExtensionPDF))) {
-                    File.Delete(vs.FullExportPath(Resources.FileExtensionPDF));
-                }
-                this.log.AddMessage(Resources.MessageSubmittingPrint);
-                if (pm.SubmitPrint(vs.Sheet)) {
-                    this.log.AddMessage(Resources.MessageApparentlyCompletedSuccessfully);
-                } else {
-                    this.log.AddError(vs.FullExportName, Resources.ErrorFailedToPrint);    
-                }
-                FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPDF));
-                
-                this.RunExportHooks(Resources.FileExtensionPDF, vs);
-                             
-                SCaddins.Common.SystemUtilities.KillAllProcesses("acrotray");
-            } else {
-                this.log.AddError(vs.FullExportName, Resources.ErrorCantOverwriteFile);
-                return false;
-            }
-            
-            return true;
         }
     }
 }

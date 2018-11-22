@@ -17,8 +17,6 @@
 
 namespace SCaddins.SheetCopier
 {
-    using System;
-    
     public enum ViewPortPlacementMode
     {
         Copy,

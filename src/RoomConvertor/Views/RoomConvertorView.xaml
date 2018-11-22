@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="SCaddins.RoomConvertor.Views.RoomConvertorView"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="300*"></RowDefinition>
+            <RowDefinition Height="Auto" MaxHeight="300"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.Background>
+                <ImageBrush/>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition  Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                <RadioButton x:Name="SheetCreationMode" Margin="5">Place Rooms on Sheets</RadioButton>
+                <RadioButton x:Name="MassCreationMode" Margin="5">Create Masses from Rooms</RadioButton>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Grid.Column="2" Orientation="Horizontal">
+                <Button x:Name="AddFilter" Margin="5" BorderThickness="0" Background="{x:Null}">
+                    <Image Source="/SCaddins;component/Assets/filter.png"></Image>
+                </Button>
+                <Button x:Name="RemoveFilter" Margin="5" BorderThickness="0" Background="{x:Null}">
+                    <Image Source="/SCaddins;component/Assets/remove_filter.png"></Image>
+                </Button>
+                <Button x:Name="RenameSelectedRooms" Margin="5" BorderThickness="0" Background="{x:Null}">
+                    <Image Source="/SCaddins;component/Assets/rename.png"></Image>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <FrameworkElement x:Name="dummy" Visibility="Collapsed"/>
+
+        <DataGrid
+            x:Name="Rooms"
+            cal:Message.Attach="[Event SelectionChanged] = [RowSelectionChanged($eventArgs)]"
+            Grid.Row="1"
+            Width="Auto"
+            Height="Auto"
+            VirtualizingStackPanel.VirtualizationMode="Standard"
+            AutoGenerateColumns="False" 
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch" Margin="5">
+
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{x:Static SystemColors.HighlightColor}" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}"/>
+                    </Style.Resources>
+                </Style>
+            </DataGrid.Resources>
+
+            <DataGrid.VerticalGridLinesBrush>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
+            </DataGrid.VerticalGridLinesBrush>
+            <DataGrid.HorizontalGridLinesBrush>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
+            </DataGrid.HorizontalGridLinesBrush>
+            <DataGrid.AlternatingRowBackground>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+            </DataGrid.AlternatingRowBackground>
+            <DataGrid.Columns>
+                <DataGridTextColumn 
+                    Header="Room Number"
+                    Binding="{Binding Number}">
+                </DataGridTextColumn>
+                <DataGridTextColumn
+                    Header="Room Name"
+                    Binding="{Binding Name}">
+                </DataGridTextColumn>
+                <DataGridTextColumn
+                    Header="New Sheet Number"
+                    Binding="{Binding DestinationSheetNumber}"
+                    Visibility="{Binding DataContext.SheetCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference dummy}}">
+                </DataGridTextColumn>
+                <DataGridTextColumn
+                    Header="New View Name"
+                    Binding="{Binding DestinationViewName}"
+                    Visibility="{Binding DataContext.SheetCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference dummy}}">
+                </DataGridTextColumn>
+                <DataGridTextColumn
+                    Header="New Sheet Name"
+                    Binding="{Binding DestinationSheetName}"
+                    Visibility="{Binding DataContext.SheetCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference dummy}}">
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Expander Grid.Row="2" ExpandDirection="Up" Header="Room Information" MaxHeight="300" Visibility="{Binding DataContext.RoomInformationIsAvailable,Converter={StaticResource BoolToVis},Source={x:Reference dummy}}">
+            <DataGrid x:Name="RoomParameters" Margin="5"/>
+        </Expander>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="SelectionInformation"></Label>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="PushDataToRooms" Margin="5">Push Mass Data To Rooms</Button>
+                <Button x:Name="Run" Content="{Binding RunButtonText}" Margin="5"></Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

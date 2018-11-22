@@ -19,27 +19,41 @@ namespace SCaddins.RevisionUtilities
 {
     using System;
     using Autodesk.Revit.DB;
-    
+
     public class RevisionItem
     {
-        private string description;
         private string date;
+        private string description;
         private bool issued;
         private int sequence;
 
-        public RevisionItem(Document doc, RevisionCloud revisionCloud) {
-            if (revisionCloud == null) {
-                throw new ArgumentNullException("revisionCloud");
+        public RevisionItem(Document doc, RevisionCloud revisionCloud)
+        {
+            if (revisionCloud == null)
+            {
+                throw new ArgumentNullException(nameof(revisionCloud));
             }
-            if (doc == null) {
-                throw new ArgumentNullException("doc");
+            if (doc == null)
+            {
+                throw new ArgumentNullException(nameof(doc));
             }
             var revision = doc.GetElement(revisionCloud.RevisionId);
             Init(revision);
         }
 
-        public RevisionItem(Revision revision) {
+        public RevisionItem(Revision revision)
+        {
             Init(revision);
+        }
+
+        public string Date
+        {
+            get { return this.date; }
+        }
+
+        public string Description
+        {
+            get { return this.description; }
         }
 
         public bool Export
@@ -48,14 +62,14 @@ namespace SCaddins.RevisionUtilities
             set;
         }
 
-        public string Description
+        public virtual ElementId Id
         {
-            get { return this.description; }
+            get; private set;
         }
 
-        public string Date
+        public bool Issued
         {
-            get { return this.date; }
+            get { return this.issued; }
         }
 
         public int Sequence
@@ -63,17 +77,13 @@ namespace SCaddins.RevisionUtilities
             get { return this.sequence; }
         }
 
-        public bool Issued
-        {
-            get { return this.issued; }
-        }
-          
         private void Init(Element revision)
         {
+            this.Id = revision.Id;
             this.description = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
             this.date = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString();
             this.issued = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_ISSUED).AsInteger() == 1;
-            this.sequence = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger();    
+            this.sequence = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger();
         }
     }
 }

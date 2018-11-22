@@ -26,38 +26,39 @@ namespace SCaddins.SheetCopier
     using System.Text;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    
+
     public class SheetCopierManager
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;
-        private UIDocument uidoc;
-        private System.ComponentModel.BindingList<SheetCopierSheet> sheets;
         private Dictionary<string, View> existingSheets =
             new Dictionary<string, View>();
-        
+
         private Dictionary<string, View> existingViews =
             new Dictionary<string, View>();
-        
-        private Dictionary<string, View> viewTemplates =
-            new Dictionary<string, View>();
-        
+
+        private ElementId floorPlanViewFamilyTypeId = null;
+        private List<Revision> hiddenRevisionClouds = new List<Revision>();
         private Dictionary<string, Level> levels =
             new Dictionary<string, Level>();
-        
-        private Collection<string> sheetCategories = 
-            new Collection<string>();
-        
-        private StringBuilder summaryText; 
-        private List<Revision> hiddenRevisionClouds = new List<Revision>();
-        private ElementId floorPlanViewFamilyTypeId = null;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0")]
+        private ObservableCollection<string> sheetCategories =
+            new ObservableCollection<string>();
+
+        private ObservableCollection<SheetCopierSheet> sheets;
+        private StringBuilder summaryText;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "uidoc")]
+        private UIDocument uidoc;
+        private Dictionary<string, View> viewTemplates =
+            new Dictionary<string, View>();
+
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0")]
         public SheetCopierManager(UIDocument uidoc)
         {
             this.summaryText = new StringBuilder();
             this.doc = uidoc.Document;
             this.uidoc = uidoc;
-            this.sheets = new System.ComponentModel.BindingList<SheetCopierSheet>();
+            this.sheets = new ObservableCollection<SheetCopierSheet>();
             this.hiddenRevisionClouds = GetAllHiddenRevisions(this.doc);
             this.GetViewTemplates();
             GetAllSheets(existingSheets, doc);
@@ -66,175 +67,100 @@ namespace SCaddins.SheetCopier
             this.GetFloorPlanViewFamilyTypeId();
             this.GetAllSheetCategories();
         }
-               
-        #region properties
 
-        public System.ComponentModel.BindingList<SheetCopierSheet> Sheets {
-            get {
+        public Document Doc
+        {
+            get { return doc; }
+        }
+
+        public Dictionary<string, View> ExistingViews
+        {
+            get
+            {
+                return this.existingViews;
+            }
+        }
+
+        public Dictionary<string, View> ExistingSheets
+        {
+            get
+            {
+                return this.existingSheets;
+            }
+        }
+
+        public Dictionary<string, Level> Levels
+        {
+            get
+            {
+                return this.levels;
+            }
+        }
+
+        public ObservableCollection<string> SheetCategories
+        {
+            get
+            {
+                return this.sheetCategories;
+            }
+        }
+
+        public ObservableCollection<SheetCopierSheet> Sheets
+        {
+            get
+            {
                 return this.sheets;
             }
         }
 
-        public Dictionary<string, View> ViewTemplates {
-            get {
+        public Dictionary<string, View> ViewTemplates
+        {
+            get
+            {
                 return this.viewTemplates;
             }
         }
 
-        public Dictionary<string, Level> Levels {
-            get {
-                return this.levels;
-            }
-        }
-    
-        public Dictionary<string, View> ExistingViews {
-            get {
-                return this.existingViews;
-            }
-        }
-        
-        public Collection<string> SheetCategories {
-            get {
-                return this.sheetCategories;
-            }    
-        }
-    
-        #endregion
-
-        #region public methods
-
-        public static ViewSheet ViewToViewSheet(View view)
+        public static void DeleteRevisionClouds(ElementId viewId, Document doc)
         {
-            if (view == null) {
-                return null;
-            }
-            return (view.ViewType != ViewType.DrawingSheet) ? null : view as ViewSheet;
-        }
-                  
-        public bool SheetNumberAvailable(string number)
-        {
-            if (string.IsNullOrEmpty(number)) {
-                return false;
-            }
-            foreach (SheetCopierSheet s in this.sheets) {
-                if (s.Number.ToUpper(CultureInfo.InvariantCulture).Equals(number.ToUpper(CultureInfo.InvariantCulture))) {
-                    return false;
-                }
-            }
-            return !this.existingSheets.ContainsKey(number);
-        }
-
-        public bool ViewNameAvailable(string title)
-        {
-            if (string.IsNullOrEmpty(title)) {
-                return false;
-            }
-            foreach (SheetCopierSheet s in this.sheets) {
-                foreach (SheetCopierViewOnSheet v in s.ViewsOnSheet) {
-                    if (v.Title.ToUpper(CultureInfo.InvariantCulture).Equals(title.ToUpper(CultureInfo.InvariantCulture))) {
-                        return false;
-                    }
-                }
-            }
-            return !this.existingViews.ContainsKey(title);
-        }
-
-        public void CreateSheets()
-        {
-            if (sheets.Count < 1) {
+            if (doc == null || viewId == null) {
+                // FIXME add error message;
                 return;
             }
-            
-            int n = 0;
-            View firstSheet = null;
-            summaryText.Clear();
-            
-            using (var t = new Transaction(this.doc, "Copy Sheets")) {
-                if (t.Start() == TransactionStatus.Started) {
-                    foreach (SheetCopierSheet sheet in sheets) {
-                        n++;
-                        if (CreateAndPopulateNewSheet(sheet, summaryText) && n == 1) {
-                            firstSheet = sheet.DestinationSheet;
-                        }
+            using (var collector = new FilteredElementCollector(doc, viewId)) {
+                collector.OfCategory(BuiltInCategory.OST_RevisionClouds);
+                var clouds = new List<ElementId>();
+                var issuedClouds = new List<Revision>();
+                foreach (Element e in collector) {
+                    var cloud = e as RevisionCloud;
+                    var revisionId = cloud.RevisionId;
+                    var revision = doc.GetElement(revisionId) as Revision;
+                    if (revision.Issued) {
+                        revision.Issued = false;
+                        issuedClouds.Add(revision);
                     }
-                    if (TransactionStatus.Committed != t.Commit()) {
-                        TaskDialog.Show("Copy Sheets Failure", "Transaction could not be committed");
-                    } else {
-                        // try to open the first sheet created
-                        if (firstSheet != null) {
-                            var uiapp = new UIApplication(doc.Application);
-                            uiapp.ActiveUIDocument.ActiveView = firstSheet;
-                            
-                        }
-                    }
+                    clouds.Add(e.Id);
                 }
-            }
-
-            using (var td = new TaskDialog("Copy Sheets - Summary")) {
-                td.MainInstruction = "Copy Sheets - Summary";
-                td.MainContent = summaryText.ToString();
-                td.MainIcon = TaskDialogIcon.TaskDialogIconNone;
-                td.Show();
-            }
-        }
-    
-        public void AddSheet(ViewSheet sourceSheet)
-        {
-            if (sourceSheet != null) {
-                string n = this.GetNewSheetNumber(sourceSheet.SheetNumber);
-                string t = sourceSheet.Name + SheetCopierConstants.MenuItemCopy;
-                this.sheets.Add(new SheetCopierSheet(n, t, this, sourceSheet));
-            }
-
-            // FIXME add error message,
-        }
-        
-        #endregion
-
-        #region private methods
-                              
-        private static Dictionary<ElementId, XYZ> GetVPDictionary(
-            ViewSheet srcSheet, Document doc)
-        {
-            var result = new Dictionary<ElementId, XYZ>();
-            foreach (ElementId viewPortId in srcSheet.GetAllViewports()) {
-                var viewPort = (Viewport)doc.GetElement(viewPortId);
-                var viewPortCentre = viewPort.GetBoxCenter();
-                result.Add(
-                    viewPort.ViewId, viewPortCentre);
-            }
-            return result;
-        }
-
-        private void GetViewTemplates()
-        {
-            this.viewTemplates.Clear();
-            using (var c = new FilteredElementCollector(this.doc)) {
-                c.OfCategory(BuiltInCategory.OST_Views);
-                foreach (View view in c) {
-                    if (view.IsTemplate) {
-                        this.viewTemplates.Add(view.Name, view);
-                    }
+                doc.Delete(clouds);
+                foreach (Revision r in issuedClouds) {
+                    r.Issued = true;
                 }
             }
         }
-          
-        private void GetAllSheetCategories()
+
+        public static List<Revision> GetAllHiddenRevisions(Document doc)
         {
-            this.sheetCategories.Clear();
-            using (var c1 = new FilteredElementCollector(this.doc)) {
-                c1.OfCategory(BuiltInCategory.OST_Sheets);
-                foreach (View view in c1) {
-                    var viewCategoryParamList = view.GetParameters(SheetCopierConstants.SheetCategory);
-                    if (viewCategoryParamList != null && viewCategoryParamList.Count > 0) {
-                        Parameter viewCategoryParam = viewCategoryParamList.First();
-                        string s = viewCategoryParam.AsString();
-                        if (!string.IsNullOrEmpty(s) && !this.sheetCategories.Contains(s)) {
-                            this.sheetCategories.Add(s);
-                        }
+            var revisions = new List<Revision>();
+            using (FilteredElementCollector collector = new FilteredElementCollector(doc)) {
+                collector.OfCategory(BuiltInCategory.OST_Revisions);
+                foreach (Element e in collector) {
+                    Revision rev = e as Revision;
+                    if (rev.Visibility == RevisionVisibility.Hidden) {
+                        revisions.Add(rev);
                     }
                 }
             }
+            return revisions;
         }
 
         public static void GetAllSheets(Dictionary<string, View> existingSheets, Document doc)
@@ -278,9 +204,95 @@ namespace SCaddins.SheetCopier
             }
         }
 
+        public static ViewSheet ViewToViewSheet(View view)
+        {
+            if (view == null)
+            {
+                return null;
+            }
+            return (view.ViewType != ViewType.DrawingSheet) ? null : view as ViewSheet;
+        }
+
+        public bool AddCurrentSheet()
+        {
+            if (doc.ActiveView.ViewType == ViewType.DrawingSheet)
+            {
+                return AddSheet((ViewSheet)doc.ActiveView);
+            }
+            return false;
+        }
+
+        public void AddSheetCategory(string name)
+        {
+            sheetCategories.Add(name);
+        }
+
+        // add an empty sheet to the doc.
+        // this comes first before copying titleblock, views etc.
+        public ViewSheet AddEmptySheetToDocument(
+            string sheetNumber,
+            string sheetTitle,
+            string viewCategory)
+        {
+            var result = ViewSheet.Create(this.doc, ElementId.InvalidElementId);
+            result.Name = sheetTitle;
+            result.SheetNumber = sheetNumber;
+            var viewCategoryParamList = result.GetParameters(SheetCopierConstants.SheetCategory);
+            if (viewCategoryParamList.Count > 0) {
+                Parameter viewCategoryParam = viewCategoryParamList.First();
+                viewCategoryParam.Set(viewCategory);
+            }
+            return result;
+        }
+
+        public bool AddSheet(ViewSheet sourceSheet)
+        {
+            if (sourceSheet != null)
+            {
+                string n = this.GetNewSheetNumber(sourceSheet.SheetNumber);
+                string t = sourceSheet.Name + SheetCopierConstants.MenuItemCopy;
+                this.sheets.Add(new SheetCopierSheet(n, t, this, sourceSheet));
+                return true;
+            }
+            return false;
+
+            // FIXME add error message,
+        }
+
+        public void CopyElementsBetweenSheets(SheetCopierSheet sheet)
+        {
+            IList<ElementId> list = new List<ElementId>();
+            using (var collector = new FilteredElementCollector(this.doc)) {
+                collector.OwnedByView(sheet.SourceSheet.Id);
+                foreach (Element e in collector) {
+                    if (!(e is Viewport)) {
+                        if (e is CurveElement) {
+                            continue;
+                        }
+                        if (e.IsValidObject && e.ViewSpecific) {
+                            list.Add(e.Id);
+                        }
+                    }
+                }
+            }
+            if (list.Count > 0) {
+                Transform transform;
+                CopyPasteOptions options;
+                ElementTransformUtils.CopyElements(
+                    sheet.SourceSheet,
+                    list,
+                    sheet.DestinationSheet,
+                    transform = new Transform(ElementTransformUtils.GetTransformFromViewToView(sheet.SourceSheet, sheet.DestinationSheet)),
+                    options = new CopyPasteOptions());
+                DeleteRevisionClouds(sheet.DestinationSheet.Id, this.doc);
+                options.Dispose();
+                transform.Dispose();
+            }
+        }
+
         // this is where the action happens
         public bool CreateAndPopulateNewSheet(SheetCopierSheet sheet, StringBuilder summary)
-        { 
+        {
             if (sheet == null) {
                 return false;
             }
@@ -289,25 +301,25 @@ namespace SCaddins.SheetCopier
             foreach (Revision rev in this.hiddenRevisionClouds) {
                 rev.Visibility = RevisionVisibility.CloudAndTagVisible;
             }
-            
+
             sheet.DestinationSheet = this.AddEmptySheetToDocument(
                 sheet.Number,
                 sheet.Title,
                 sheet.SheetCategory);
- 
+
             if (sheet.DestinationSheet != null) {
                 Debug.WriteLine(sheet.Number + " added to document.");
                 this.CreateViewports(sheet);
             } else {
                 return false;
             }
-            
+
             try {
                 this.CopyElementsBetweenSheets(sheet);
             } catch (InvalidOperationException e) {
                 Debug.WriteLine(e.Message);
-            } 
-            
+            }
+
             foreach (Revision rev in this.hiddenRevisionClouds) {
                 rev.Visibility = RevisionVisibility.Hidden;
             }
@@ -321,53 +333,101 @@ namespace SCaddins.SheetCopier
             return true;
         }
 
-        private void GetFloorPlanViewFamilyTypeId() {
-            using (var collector = new FilteredElementCollector(this.doc)) {
-                collector.OfClass(typeof(ViewFamilyType));
-                foreach (ViewFamilyType vft in collector) {
-                    if (vft.ViewFamily == ViewFamily.FloorPlan) {
-                        this.floorPlanViewFamilyTypeId = vft.Id;
+        public void CreateSheets()
+        {
+            if (sheets.Count < 1)
+            {
+                return;
+            }
+
+            int n = 0;
+            View firstSheet = null;
+            summaryText.Clear();
+
+            using (var t = new Transaction(this.doc, "Copy Sheets"))
+            {
+                if (t.Start() == TransactionStatus.Started)
+                {
+                    foreach (SheetCopierSheet sheet in sheets)
+                    {
+                        n++;
+                        if (CreateAndPopulateNewSheet(sheet, summaryText) && n == 1)
+                        {
+                            firstSheet = sheet.DestinationSheet;
+                        }
+                    }
+                    if (TransactionStatus.Committed != t.Commit())
+                    {
+                        TaskDialog.Show("Copy Sheets Failure", "Transaction could not be committed");
+                    }
+                    else
+                    {
+                        // try to open the first sheet created
+                        if (firstSheet != null)
+                        {
+                            var uiapp = new UIApplication(doc.Application);
+                            uiapp.ActiveUIDocument.ActiveView = firstSheet;
+                        }
                     }
                 }
             }
+
+            using (var td = new TaskDialog("Copy Sheets - Summary"))
+            {
+                td.MainInstruction = "Copy Sheets - Summary";
+                td.MainContent = summaryText.ToString();
+                td.MainIcon = TaskDialogIcon.TaskDialogIconNone;
+                td.Show();
+            }
         }
 
-        private void GetAllLevelsInModel() {
-            this.levels.Clear();
-            using (var collector = new FilteredElementCollector(this.doc)) {
-                collector.OfClass(typeof(Level));
-                foreach (Element element in collector) {
-                    this.levels.Add(element.Name.ToString(), element as Level);
+        public void CreateViewports(SheetCopierSheet sheet)
+        {
+            Dictionary<ElementId, XYZ> viewPorts =
+                SheetCopierManager.GetVPDictionary(sheet.SourceSheet, this.doc);
+
+            foreach (SheetCopierViewOnSheet view in sheet.ViewsOnSheet) {
+                XYZ sourceViewPortCentre = null;
+                if (!viewPorts.TryGetValue(view.OldId, out sourceViewPortCentre)) {
+                    TaskDialog.Show("SCopy", "Error...");
+                    continue;
+                }
+
+                switch (view.CreationMode) {
+                    case ViewPortPlacementMode.Copy:
+                    this.DuplicateViewOntoSheet(view, sheet, sourceViewPortCentre);
+                    break;
+
+                    case ViewPortPlacementMode.New:
+                    this.PlaceNewViewOnSheet(view, sheet, sourceViewPortCentre);
+                    break;
+
+                    case ViewPortPlacementMode.Legend:
+                    this.PlaceViewPortOnSheet(sheet.DestinationSheet, view.OldView.Id, sourceViewPortCentre);
+                    break;
                 }
             }
         }
 
-        // add an empty sheet to the doc.
-        // this comes first before copying titleblock, views etc.
-        private ViewSheet AddEmptySheetToDocument(
-            string sheetNumber,
-            string sheetTitle,
-            string viewCategory)
+        public void DuplicateViewOntoSheet(
+            SheetCopierViewOnSheet view,
+            SheetCopierSheet sheet,
+            XYZ sourceViewCentre)
         {
-            var result = ViewSheet.Create(this.doc, ElementId.InvalidElementId);
-                result.Name = sheetTitle;
-                result.SheetNumber = sheetNumber;
-                var viewCategoryParamList = result.GetParameters(SheetCopierConstants.SheetCategory);
-                if (viewCategoryParamList.Count > 0) {
-                    Parameter viewCategoryParam = viewCategoryParamList.First();
-                    viewCategoryParam.Set(viewCategory);
-                }
-            return result;
+            var d = view.DuplicateWithDetailing == true ? ViewDuplicateOption.WithDetailing : ViewDuplicateOption.Duplicate;
+            ElementId destViewId = view.OldView.Duplicate(d);
+            DeleteRevisionClouds(destViewId, this.doc);
+            string newName = sheet.GetNewViewName(view.OldView.Id);
+            var v = this.doc.GetElement(destViewId) as View;
+            if (newName != null) {
+                v.Name = newName;
+                var dv = this.doc.GetElement(destViewId) as View;
+                this.TryAssignViewTemplate(dv, view.ViewTemplateName);
+            }
+            this.PlaceViewPortOnSheet(sheet.DestinationSheet, destViewId, sourceViewCentre);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        private void PlaceViewPortOnSheet(
-            Element destSheet, ElementId destViewId, XYZ viewCentre)
-        {
-            Viewport.Create(this.doc, destSheet.Id, destViewId, viewCentre);
-        }
-
-        private string GetNewSheetNumber(string originalNumber)
+        public string GetNewSheetNumber(string originalNumber)
         {
             int inc = 0;
             do {
@@ -375,18 +435,8 @@ namespace SCaddins.SheetCopier
             } while (!this.SheetNumberAvailable(originalNumber + "-" + inc.ToString(CultureInfo.InvariantCulture)));
             return originalNumber + "-" + inc.ToString(CultureInfo.InvariantCulture);
         }
-        
-        private void TryAssignViewTemplate(View view, string templateName)
-        {
-            if (templateName != SheetCopierConstants.MenuItemCopy) {
-                View vt = null;
-                if (this.viewTemplates.TryGetValue(templateName, out vt)) {
-                    view.ViewTemplateId = vt.Id;
-                }
-            }   
-        }
-               
-        private void PlaceNewViewOnSheet(
+
+        public void PlaceNewViewOnSheet(
             SheetCopierViewOnSheet view,
             SheetCopierSheet sheet,
             XYZ sourceViewCentre)
@@ -404,125 +454,139 @@ namespace SCaddins.SheetCopier
             }
             level.Dispose();
         }
-        
-        public static List<Revision> GetAllHiddenRevisions(Document doc)
+
+        ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        public void PlaceViewPortOnSheet(
+            Element destSheet, ElementId destViewId, XYZ viewCentre)
         {
-            var revisions = new List<Revision>();
-            using (FilteredElementCollector collector = new FilteredElementCollector(doc)) {
-                collector.OfCategory(BuiltInCategory.OST_Revisions);
-                foreach (Element e in collector) {
-                    Revision rev = e as Revision;
-                    if (rev.Visibility == RevisionVisibility.Hidden) {
-                        revisions.Add(rev);
-                    }
-                }
-            }
-            return revisions;
-        }
-        
-        public static void DeleteRevisionClouds(ElementId viewId, Document doc)
-        {
-            if (doc == null || viewId == null) {
-                // FIXME add error message;
-                return;
-            }
-            using (var collector = new FilteredElementCollector(doc, viewId)) {
-                collector.OfCategory(BuiltInCategory.OST_RevisionClouds);
-                var clouds = new List<ElementId>();
-                var issuedClouds = new List<Revision>();
-                foreach (Element e in collector) {
-                    var cloud = e as RevisionCloud;
-                    var revisionId = cloud.RevisionId;
-                    var revision = doc.GetElement(revisionId) as Revision;
-                    if (revision.Issued) {
-                        revision.Issued = false;
-                        issuedClouds.Add(revision);
-                    }
-                    clouds.Add(e.Id);
-                }
-                doc.Delete(clouds);
-                foreach (Revision r in issuedClouds) {
-                    r.Issued = true;
-                }
-            }
-        }
-        
-        private void DuplicateViewOntoSheet(
-            SheetCopierViewOnSheet view,
-            SheetCopierSheet sheet,
-            XYZ sourceViewCentre)
-        {
-            var d = view.DuplicateWithDetailing == true ? ViewDuplicateOption.WithDetailing : ViewDuplicateOption.Duplicate;          
-            ElementId destViewId = view.OldView.Duplicate(d);
-            DeleteRevisionClouds(destViewId, this.doc);
-            string newName = sheet.GetNewViewName(view.OldView.Id);
-            var v = this.doc.GetElement(destViewId) as View;
-            if (newName != null) {
-                v.Name = newName;
-                var dv = this.doc.GetElement(destViewId) as View;  
-                this.TryAssignViewTemplate(dv, view.ViewTemplateName);                
-            }
-            this.PlaceViewPortOnSheet(sheet.DestinationSheet, destViewId, sourceViewCentre);
+            Viewport.Create(this.doc, destSheet.Id, destViewId, viewCentre);
         }
 
-        private void CopyElementsBetweenSheets(SheetCopierSheet sheet)
+        public bool SheetNumberAvailable(string number)
         {
-            IList<ElementId> list = new List<ElementId>();
-            using (var collector = new FilteredElementCollector(this.doc)) {
-                collector.OwnedByView(sheet.SourceSheet.Id);
-                foreach (Element e in collector) {
-                    if (!(e is Viewport)) {
-                        // Debug.WriteLine("adding " + e.GetType().ToString() + " to copy list(CopyElementsBetweenSheets).");
-                        if (e is CurveElement) {
-                            continue;
-                        }
-                        if (e.IsValidObject && e.ViewSpecific) {
-                            list.Add(e.Id);
+            if (string.IsNullOrEmpty(number))
+            {
+                return false;
+            }
+            foreach (SheetCopierSheet s in this.sheets)
+            {
+                if (s.Number.ToUpper(CultureInfo.InvariantCulture).Equals(number.ToUpper(CultureInfo.InvariantCulture)))
+                {
+                    return false;
+                }
+            }
+            return !this.existingSheets.ContainsKey(number);
+        }
+
+        public void TryAssignViewTemplate(View view, string templateName)
+        {
+            if (templateName != SheetCopierConstants.MenuItemCopy) {
+                View vt = null;
+                if (this.viewTemplates.TryGetValue(templateName, out vt)) {
+                    view.ViewTemplateId = vt.Id;
+                }
+            }
+        }
+
+        public bool ViewNameAvailable(string title)
+        {
+            if (string.IsNullOrEmpty(title))
+            {
+                return false;
+            }
+            foreach (SheetCopierSheet s in this.sheets)
+            {
+                foreach (SheetCopierViewOnSheet v in s.ViewsOnSheet)
+                {
+                    if (v.Title.ToUpper(CultureInfo.InvariantCulture).Equals(title.ToUpper(CultureInfo.InvariantCulture)))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return !this.existingViews.ContainsKey(title);
+        }
+
+        private static Dictionary<ElementId, XYZ> GetVPDictionary(ViewSheet srcSheet, Document doc)
+        {
+            var result = new Dictionary<ElementId, XYZ>();
+            foreach (ElementId viewPortId in srcSheet.GetAllViewports())
+            {
+                var viewPort = (Viewport)doc.GetElement(viewPortId);
+                var viewPortCentre = viewPort.GetBoxCenter();
+                result.Add(
+                    viewPort.ViewId, viewPortCentre);
+            }
+            return result;
+        }
+
+        private void GetAllLevelsInModel()
+        {
+            this.levels.Clear();
+            using (var collector = new FilteredElementCollector(this.doc))
+            {
+                collector.OfClass(typeof(Level));
+                foreach (Element element in collector)
+                {
+                    this.levels.Add(element.Name.ToString(), element as Level);
+                }
+            }
+        }
+
+        private void GetAllSheetCategories()
+        {
+            this.sheetCategories.Clear();
+            this.sheetCategories.Add(@"<None>");
+            using (var c1 = new FilteredElementCollector(this.doc))
+            {
+                c1.OfCategory(BuiltInCategory.OST_Sheets);
+                foreach (View view in c1)
+                {
+                    var viewCategoryParamList = view.GetParameters(SheetCopierConstants.SheetCategory);
+                    if (viewCategoryParamList != null && viewCategoryParamList.Count > 0)
+                    {
+                        Parameter viewCategoryParam = viewCategoryParamList.First();
+                        string s = viewCategoryParam.AsString();
+                        if (!string.IsNullOrEmpty(s) && !this.sheetCategories.Contains(s))
+                        {
+                            this.sheetCategories.Add(s);
                         }
                     }
                 }
-            }            
-            if (list.Count > 0) {
-                Transform transform;
-                CopyPasteOptions options;
-                ElementTransformUtils.CopyElements(
-                    sheet.SourceSheet,
-                    list,
-                    sheet.DestinationSheet,
-                    transform = new Transform(ElementTransformUtils.GetTransformFromViewToView(sheet.SourceSheet, sheet.DestinationSheet)),
-                    options = new CopyPasteOptions());
-                DeleteRevisionClouds(sheet.DestinationSheet.Id, this.doc);
-                options.Dispose();
-                transform.Dispose();
             }
         }
-             
-        private void CreateViewports(SheetCopierSheet sheet)
-        {
-            Dictionary<ElementId, XYZ> viewPorts =
-                SheetCopierManager.GetVPDictionary(sheet.SourceSheet, this.doc);
 
-            foreach (SheetCopierViewOnSheet view in sheet.ViewsOnSheet) {
-                XYZ sourceViewPortCentre = null;
-                if (!viewPorts.TryGetValue(view.OldId, out sourceViewPortCentre)) {
-                    TaskDialog.Show("SCopy", "Error...");
-                    continue;
+        private void GetFloorPlanViewFamilyTypeId()
+        {
+            using (var collector = new FilteredElementCollector(this.doc))
+            {
+                collector.OfClass(typeof(ViewFamilyType));
+                foreach (ViewFamilyType vft in collector)
+                {
+                    if (vft.ViewFamily == ViewFamily.FloorPlan)
+                    {
+                        this.floorPlanViewFamilyTypeId = vft.Id;
+                    }
                 }
-                             
-                switch (view.CreationMode) {
-                    case ViewPortPlacementMode.Copy:
-                        this.DuplicateViewOntoSheet(view, sheet, sourceViewPortCentre);
-                        break;
-                    case ViewPortPlacementMode.New:
-                        this.PlaceNewViewOnSheet(view, sheet, sourceViewPortCentre);
-                        break;     
-                    case ViewPortPlacementMode.Legend:
-                        this.PlaceViewPortOnSheet(sheet.DestinationSheet, view.OldView.Id, sourceViewPortCentre);
-                        break;                 
-                }
-            }       
+            }
         }
-        #endregion
+
+        private void GetViewTemplates()
+        {
+            this.viewTemplates.Clear();
+            using (var c = new FilteredElementCollector(this.doc))
+            {
+                c.OfCategory(BuiltInCategory.OST_Views);
+                foreach (View view in c)
+                {
+                    if (view.IsTemplate)
+                    {
+                        this.viewTemplates.Add(view.Name, view);
+                    }
+                }
+            }
+        }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

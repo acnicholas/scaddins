@@ -16,14 +16,19 @@
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace SCaddins.LineOfSight
-{ 
+{
     public class SCightLinesRow
     {
         public SCightLinesRow()
         {
         }
-        
+
         public double CValue
+        {
+            get; set;
+        }
+
+        public double EyeHeight
         {
             get; set;
         }
@@ -33,7 +38,7 @@ namespace SCaddins.LineOfSight
             get; set;
         }
 
-        public double RiserHeight
+        public double Going
         {
             get; set;
         }
@@ -43,12 +48,7 @@ namespace SCaddins.LineOfSight
             get; set;
         }
 
-        public double Going
-        {
-            get; set;
-        }
-
-        public double EyeHeight
+        public double RiserHeight
         {
             get; set;
         }

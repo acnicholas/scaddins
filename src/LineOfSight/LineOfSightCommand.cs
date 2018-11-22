@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2012-2014 by Andrew Nicholas
+﻿// (C) Copyright 2012-2018 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -17,6 +17,7 @@
 
 namespace SCaddins.LineOfSight
 {
+    using System.Dynamic;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
@@ -30,17 +31,26 @@ namespace SCaddins.LineOfSight
                 ref string message,
                 ElementSet elements)
         {
-            if (commandData == null) {
+            if (commandData == null)
+            {
                 return Result.Failed;
             }
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            var sightLines = new StadiumSection(doc, 1220, 900, 15, 60, 180, 20, 12000, 1000);
-            using (var opts = new SCightLinesMainForm(sightLines)) {
-                opts.ShowDialog();
-            }
+
+            dynamic settings = new ExpandoObject();
+            settings.Height = 480;
+            settings.Width = 360;
+            settings.Title = "Stadium Line Of Sight - By A.Nicholas";
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.Width;
+
+            var vm = new ViewModels.LineOfSightViewModel(doc);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
+
             return Result.Succeeded;
         }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

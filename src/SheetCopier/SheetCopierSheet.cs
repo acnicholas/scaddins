@@ -19,123 +19,177 @@ namespace SCaddins.SheetCopier
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using Autodesk.Revit.DB;
-    
-    public class SheetCopierSheet : INotifyPropertyChanged
-    {  
-        private SheetCopierManager scopy;
-        private string title;
+
+    public class SheetCopierSheet : Caliburn.Micro.PropertyChangedBase
+    {
         private string number;
-        private string sheetCategory;            
-        private BindingList<SheetCopierViewOnSheet> viewsOnSheet;
-        
-        public SheetCopierSheet(string number, string title,  SheetCopierManager scopy, ViewSheet sourceSheet)
+        private SheetCopierManager scopy;
+        private string sheetCategory;
+        private string userCreatedSheetCategory;
+        private string title;
+        private ObservableCollection<SheetCopierViewOnSheet> viewsOnSheet;
+
+        public SheetCopierSheet(string number, string title, SheetCopierManager scopy, ViewSheet sourceSheet)
         {
-            if (scopy == null) {
-                throw new ArgumentNullException("scopy");
+            if (scopy == null)
+            {
+                throw new ArgumentNullException(nameof(scopy));
             }
             this.scopy = scopy;
-            if (sourceSheet == null) {
-                throw new ArgumentNullException("sourceSheet");
+            if (sourceSheet == null)
+            {
+                throw new ArgumentNullException(nameof(sourceSheet));
             }
             this.number = number;
-            this.title = title; 
+            this.title = title;
             this.SourceSheet = sourceSheet;
             this.sheetCategory = this.GetSheetCategory(SheetCopierConstants.SheetCategory);
+            this.userCreatedSheetCategory = sheetCategory;
             this.DestinationSheet = null;
-            this.viewsOnSheet = new BindingList<SheetCopierViewOnSheet>();
-            foreach (ElementId id in sourceSheet.GetAllPlacedViews()) {              
+            this.viewsOnSheet = new ObservableCollection<SheetCopierViewOnSheet>();
+            foreach (ElementId id in sourceSheet.GetAllPlacedViews())
+            {
                 Element element = sourceSheet.Document.GetElement(id);
-                if (element != null) {
+                if (element != null)
+                {
                     var v = element as View;
                     this.viewsOnSheet.Add(new SheetCopierViewOnSheet(v.Name, v, scopy));
                 }
             }
+            SheetCategories = new ObservableCollection<string>(scopy.SheetCategories.ToList());
         }
-               
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        public ViewSheet DestinationSheet {
-            get; set;    
+        public ViewSheet DestinationSheet
+        {
+            get; set;
         }
-                
-        public ViewSheet SourceSheet {
-            get; set;    
-        }
-        
-        public string Number {
-            get {
+
+        public string Number
+        {
+            get
+            {
                 return this.number;
             }
-            
-            set {
-                if (value != this.number && this.scopy.SheetNumberAvailable(value)) {
+
+            set
+            {
+                if (value != this.number && this.scopy.SheetNumberAvailable(value))
+                {
                     this.number = value;
-                    if (this.PropertyChanged != null) {
-                        this.PropertyChanged(
-                            this, new PropertyChangedEventArgs("Number"));
-                    }
-                } else {
+                    NotifyOfPropertyChange(() => Number);
+                }
+                else
+                {
                     Autodesk.Revit.UI.TaskDialog.Show(
                         "SCopy - WARNING", value + " exists, you can't use it!.");
                 }
             }
         }
 
-        public string Title {
-            get {
-                return this.title;
+        public ObservableCollection<string> SheetCategories
+        {
+            get; set; 
+        }
+
+        public string UserCreatedSheetCategory {
+            get
+            {
+                return userCreatedSheetCategory;
             }
-            
-            set {
-                this.title = value;
-                if (this.PropertyChanged != null) {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("Title"));
+
+            set
+            {
+                userCreatedSheetCategory = value;
+
+                foreach (var s in scopy.Sheets) {
+                    if (!s.SheetCategories.Contains(userCreatedSheetCategory)) {
+                        s.SheetCategories.Add(userCreatedSheetCategory);
+                        s.RefreshSheetCategories();
+                    }
                 }
+                SheetCategory = userCreatedSheetCategory;
+                NotifyOfPropertyChange(() => UserCreatedSheetCategory);
             }
         }
-        
+
         public string SheetCategory {
-            get {
-                return this.sheetCategory;
+            get
+            {
+                return sheetCategory;
             }
-            
-            set {
-                this.sheetCategory = value;
-                if (this.PropertyChanged != null) {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("SheetCategory"));
+
+            set
+            {
+                if (sheetCategory != value) {
+                    sheetCategory = value;
+                    NotifyOfPropertyChange(() => SheetCategory);
                 }
             }
         }
 
-        public BindingList<SheetCopierViewOnSheet> ViewsOnSheet {
-            get {
+public ViewSheet SourceSheet
+        {
+            get; set;
+        }
+
+        public string Title
+        {
+            get
+            {
+                return this.title;
+            }
+
+            set
+            {
+                this.title = value;
+                NotifyOfPropertyChange(() => Title);
+            }
+        }
+
+        public ObservableCollection<SheetCopierViewOnSheet> ViewsOnSheet
+        {
+            get
+            {
                 return this.viewsOnSheet;
             }
         }
-        
+
         public string GetNewViewName(ElementId id)
         {
-            foreach (SheetCopierViewOnSheet v in this.viewsOnSheet) {
-                if (id == v.OldId) {
+            foreach (SheetCopierViewOnSheet v in this.viewsOnSheet)
+            {
+                if (id == v.OldId)
+                {
                     return v.Title;
                 }
             }
             return null;
         }
-        
+
+        public void RefreshSheetCategories()
+        {
+            NotifyOfPropertyChange(() => SheetCategories);
+        }
+
         private string GetSheetCategory(string parameterName)
         {
             var viewCategoryParamList = this.SourceSheet.GetParameters(parameterName);
-            if (viewCategoryParamList != null && viewCategoryParamList.Count > 0) {
+            if (viewCategoryParamList != null && viewCategoryParamList.Count > 0)
+            {
                 Parameter viewCategoryParam = viewCategoryParamList.First();
                 string s = viewCategoryParam.AsString();
+                if (string.IsNullOrEmpty(s) || string.IsNullOrWhiteSpace(s))
+                {
+                    return @"<None>";
+                }
                 return s;
-            } 
-            return @"n/a";
-        }               
+            }
+            return @"<None>";
+        }
     }
 }
+
 /* vim: set ts=4 sw=4 nu expandtab: */

@@ -4,17 +4,19 @@ using System.IO;
 var target = Argument("target", "Default");
 var solutionFile = GetFiles("src/*.sln").First();
 var solutionFileWix = GetFiles("installer/SCaddins.Installer.wixproj").First();
-var buildDir = Directory(@"./bin/Release");
+var buildDir = Directory(@"./src/bin");
 
 // METHODS
 
 public MSBuildSettings GetBuildSettings(string config)
 {
-    return new MSBuildSettings()
+    var result = new MSBuildSettings()
 			.SetConfiguration(config)
 			.WithTarget("Clean,Build")
             .WithProperty("Platform","x64")
-            .SetVerbosity(Verbosity.Normal);
+            .SetVerbosity(Verbosity.Minimal);
+    result.WarningsAsError = true;
+	return result;
 }
 
 public bool APIAvailable(string revitVersion)
@@ -66,9 +68,7 @@ Task("Revit2019")
     .WithCriteria(APIAvailable("2019"))
     .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2019")));
 
-
-Task("Dist")
-    .IsDependentOn("Default")
+Task("Installer")
     .IsDependentOn("Restore-Installer-NuGet-Packages")
     .Does(() =>
 {
@@ -79,16 +79,21 @@ Task("Dist")
       var settings = new MSBuildSettings();
       settings.SetConfiguration("Release");
 	  settings.WithTarget("Clean,Build");
+	  settings.SetVerbosity(Verbosity.Minimal);
       settings.WorkingDirectory = new DirectoryPath(Environment.CurrentDirectory + @"\installer");
       MSBuild(solutionFileWix, settings);  
 });
+
+Task("Dist")
+    .IsDependentOn("Default")
+    .IsDependentOn("Installer");
 
 Task("Default")
     .IsDependentOn("Clean")
     .IsDependentOn("Revit2016")
     .IsDependentOn("Revit2017")
     .IsDependentOn("Revit2018")
-	.IsDependentOn("Revit2019")
-	.IsDependentOn("CreateAddinManifests");
+    .IsDependentOn("Revit2019")
+    .IsDependentOn("CreateAddinManifests");
 
 RunTarget(target);

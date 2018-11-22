@@ -17,8 +17,7 @@
 
 namespace SCaddins.Common
 {
-    using System;
-    using System.Linq;
+    using System.Dynamic;
     using Autodesk.Revit.UI;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
@@ -31,9 +30,16 @@ namespace SCaddins.Common
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            using (AboutBox1 about = new AboutBox1()) {
-                about.ShowDialog();
-            }
+            dynamic settings = new ExpandoObject();
+            settings.Height = 640;
+            settings.Width = 480;
+            settings.Title = "About SCaddins";
+            settings.ShowInTaskbar = false;
+            settings.ResizeMode = System.Windows.ResizeMode.NoResize;
+            settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+            var aboutViewModel = new SCaddins.Common.ViewModels.AboutViewModel();
+            SCaddinsApp.WindowManager.ShowDialog(aboutViewModel, null, settings);
+
             return Autodesk.Revit.UI.Result.Succeeded;
         }
     }

@@ -31,30 +31,32 @@ namespace SCaddins.RenameUtilities
         public Result Execute(
             ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            if (commandData == null) {
-                throw new ArgumentNullException("commandData");
+            if (commandData == null)
+            {
+                throw new ArgumentNullException(nameof(commandData));
             }
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            if (doc == null) {
+            if (doc == null)
+            {
                 return Result.Failed;
             }
-            
+
             IList<ElementId> elems = commandData.Application.ActiveUIDocument.Selection.GetElementIds().ToList<ElementId>();
-            if (elems.Count > 0) {
-                using (var t = new TransactionGroup(doc, "Convert selected text to uppercase")) {
-                    t.Start();
-                    RenameManager.ConvertSelectionToUppercase(doc, elems);
-                    t.Commit();
-                }
-                 return Result.Succeeded;
-            }
-                       
+
+            ////if (elems.Count > 0) {
+            ////    using (var t = new TransactionGroup(doc, "Convert selected text to uppercase")) {
+            ////        t.Start();
+            ////        RenameManager.ConvertSelectionToUppercase(doc, elems);
+            ////        t.Commit();
+            ////    }
+            ////     return Result.Succeeded;
+            ////}
+
             RenameManager manager = new RenameManager(doc);
-                          
-            using (var mainForm = new RenameUtilities.Form1(manager)) {
-                mainForm.ShowDialog();
-            }
+            var vm = new ViewModels.RenameUtilitiesViewModel(manager);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings);
+
             return Result.Succeeded;
         }
     }

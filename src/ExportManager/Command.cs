@@ -17,8 +17,7 @@
 
 namespace SCaddins.ExportManager
 {
-    using System;
-    using System.IO;
+    using System.Runtime.InteropServices;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -26,24 +25,33 @@ namespace SCaddins.ExportManager
     [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
-
     public class Command : IExternalCommand
     {
+        ////[DllImport("user32.dll", SetLastError = true)]
+        ////public static extern System.IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        ////[DllImport("user32.dll")]
+        ////public static extern bool ShowWindow(System.IntPtr hWnd, int nCmdShow);
+
         public Autodesk.Revit.UI.Result Execute(
-            ExternalCommandData commandData,
+                    ExternalCommandData commandData,
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            if (commandData == null) {
+            if (commandData == null)
+            {
                 return Result.Failed;
             }
 
-            if (!System.IO.Directory.Exists(Constants.DefaultExportDirectory)) {
+            if (!System.IO.Directory.Exists(Constants.DefaultExportDirectory))
+            {
                 System.IO.Directory.CreateDirectory(Constants.DefaultExportDirectory);
             }
 
-            if (string.IsNullOrEmpty(FileUtilities.GetCentralFileName(commandData.Application.ActiveUIDocument.Document))) {
-                using (var fail = new TaskDialog("FAIL")) {
+            if (string.IsNullOrEmpty(FileUtilities.GetCentralFileName(commandData.Application.ActiveUIDocument.Document)))
+            {
+                using (var fail = new TaskDialog("FAIL"))
+                {
                     fail.MainContent = "Please save the file before continuing";
                     fail.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
                     fail.Show();
@@ -52,15 +60,106 @@ namespace SCaddins.ExportManager
             }
 
             var uidoc = commandData.Application.ActiveUIDocument;
-            if (uidoc == null) {
+            if (uidoc == null)
+            {
                 return Autodesk.Revit.UI.Result.Failed;
             }
-            using (var form = new MainForm(commandData.Application.ActiveUIDocument)) {
-                form.ShowDialog();
+
+            var manager = new ExportManager(uidoc);
+            var log = new ExportLog();
+            var vm = new ViewModels.SCexportViewModel(manager);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SCexportViewModel.DefaultWindowSettings);
+
+            var closeMode = vm.CloseStatus;
+
+            if (vm.CloseStatus != ViewModels.SCexportViewModel.CloseMode.Exit)
+            {
+                string exportType = string.Empty;
+
+                switch (vm.CloseStatus)
+                {
+                    case ViewModels.SCexportViewModel.CloseMode.Export:
+                        exportType = "Exporting";
+                        break;
+                    case ViewModels.SCexportViewModel.CloseMode.Print:
+                    case ViewModels.SCexportViewModel.CloseMode.PrintA3:
+                    case ViewModels.SCexportViewModel.CloseMode.PrintA2:
+                        exportType = "Printing";
+                        break;
+                    default:
+                        break;
+                }
+
+                var progressVm = new ViewModels.ProgressMonitorViewModel();
+                progressVm.MaximumValue = vm.SelectedSheets.Count;
+                progressVm.Value = 0;
+
+                log.Clear();
+                log.Start(exportType + " Started.");
+
+                SCaddinsApp.WindowManager.ShowWindow(progressVm, null, ViewModels.ProgressMonitorViewModel.DefaultWindowSettings);
+
+                foreach (var sheet in vm.SelectedSheets)
+                {
+                    progressVm.ProgressSummary += @" --> " + exportType + @" " + sheet.FullExportName + "...";
+
+                    switch (vm.CloseStatus)
+                    {
+                        case ViewModels.SCexportViewModel.CloseMode.Export:
+                            manager.ExportSheet(sheet, log);
+                            break;
+                        case ViewModels.SCexportViewModel.CloseMode.Print:
+                            manager.Print(sheet, manager.PrinterNameLargeFormat, 1, log);
+                            break;
+                        case ViewModels.SCexportViewModel.CloseMode.PrintA3:
+                            manager.Print(sheet, manager.PrinterNameA3, 3, log);
+                            break;
+                        case ViewModels.SCexportViewModel.CloseMode.PrintA2:
+                            manager.Print(sheet, manager.PrinterNameLargeFormat, 2, log);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    progressVm.Value++;
+                    string niceTime = string.Format(
+                        "OK  [ time {0:hh\\.mm\\:ss}  total {1:hh\\.mm\\:ss}  ~remaining {2:hh\\.mm\\:ss}]",
+                        log.LastItemElapsedTime,
+                        log.TimeSinceStart,
+                        System.TimeSpan.FromTicks(log.TimeSinceStart.Ticks / progressVm.Value * (progressVm.MaximumValue - progressVm.Value)));
+                    progressVm.ProgressSummary += niceTime + System.Environment.NewLine;
+
+                    if (progressVm.CancelPressed)
+                    {
+                        break;
+                    }
+                }
+
+                log.Stop("Finished");
+                progressVm.Stop(log);
+                progressVm.ProcessComplete = true;
             }
+
+            ////if (manager.ShowExportLog && log != null)
+            ////{
+            ////    var logVM = new ViewModels.ExportLogViewModel(log);
+            ////    SCaddinsApp.WindowManager.ShowDialog(logVM, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
+            ////}
+
             return Autodesk.Revit.UI.Result.Succeeded;
         }
+
+        ////private void TryHideAcrobatProgress()
+        ////{
+        ////    System.IntPtr hWnd = FindWindow(null, @"Creating Adobe PDF");
+        ////    if ((int)hWnd > 0)
+        ////    {
+        ////        ShowWindow(hWnd, 0);
+        ////    } else
+        ////    {
+        ////        ////TaskDialog.Show("TEST", "nope");
+        ////    }
+        ////}
     }
 }
-
 /* vim: set ts=4 sw=4 nu expandtab: */

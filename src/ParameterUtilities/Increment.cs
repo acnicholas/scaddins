@@ -12,7 +12,7 @@
 * Available under a Creative Commons Attribution-Noncommercial-Share Alike license. Copyright © 2013  Harry Mattison.
 */
 
-namespace SCaddins.ParameterUtils
+namespace SCaddins.ParameterUtilities
 {
     using System;
     using System.Collections.Generic;

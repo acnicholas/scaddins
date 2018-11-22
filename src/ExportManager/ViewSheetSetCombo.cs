@@ -17,7 +17,6 @@
 
 namespace SCaddins.ExportManager
 {
-        using System;
         using Autodesk.Revit.DB;
 
         public class ViewSheetSetCombo

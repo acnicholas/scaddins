@@ -1,0 +1,195 @@
+﻿<UserControl x:Class="SCaddins.SheetCopier.Views.SheetCopierView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition Width="300*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Expander ExpandDirection="Right" Height="Auto" HorizontalAlignment="Stretch">
+                <Expander.Header>
+                    <TextBlock Text="Source Sheet Information">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform Angle="-90"/>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                </Expander.Header>
+                <Grid MinWidth="200" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                <Label Grid.Row="0" Margin="5" x:Name="SelectedSheetName"></Label>
+                <ListView x:Name="SelectedSheetInformationView" Grid.Row="1" Margin="5" MaxWidth="300" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Height="Auto">
+                        <ListView.View>
+                            <GridView>
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Parameter" DisplayMemberBinding="{Binding ParameterName}"></GridViewColumn>
+                                    <GridViewColumn Header="Info" DisplayMemberBinding="{Binding ParameterValue}"></GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                        <ListView.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock FontWeight="Bold" Text="{Binding Items[0].IndexTypeDescription}"/>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </ListView.GroupStyle>
+
+                </ListView>
+            </Grid>
+            </Expander>
+        </Grid>
+        <GridSplitter Grid.Column="1" Height="Auto" Width="Auto"></GridSplitter>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="150*"></RowDefinition>
+                <RowDefinition Height="5"></RowDefinition>
+                <RowDefinition Height="100*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label  Grid.Column="0" Margin="5">New Sheets</Label>
+                    <Button x:Name="RemoveSheetSelection" IsEnabled="{Binding RemoveSheetSelectionIsEnabled}" Grid.Column="1" Margin="5">Remove Selection</Button>
+                    <Button x:Name="CopySheetSelection" Grid.Column="2" IsEnabled="{Binding CopySheetSelectionIsEnabled}" Margin="5">Copy</Button>
+                    <Button x:Name="AddCurrentSheet" IsEnabled="{Binding AddCurrentSheetIsEnabled}" Grid.Column="3" Margin="5">Add Current Sheet</Button>
+                    <Button x:Name="AddSheets" Grid.Column="4" Margin="5">Select Sheets</Button>
+                </Grid>
+                <DataGrid
+                    x:Name="Sheets"
+                    AutoGenerateColumns="False"
+                    Grid.Row="1"
+                    Margin="5"
+                    SelectionMode="Single"
+                    VirtualizingStackPanel.VirtualizationMode="Standard"
+                    cal:Message.Attach="[Event SelectionChanged] = [RowSheetSelectionChanged($eventArgs)]"
+                    GridLinesVisibility="None">
+                    <DataGrid.AlternatingRowBackground>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                    </DataGrid.AlternatingRowBackground>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Sheet Number" Binding="{Binding Number}" MinWidth="100"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Sheet Name" Binding="{Binding Title}" Width="*"></DataGridTextColumn>
+                        <!--<DataGridComboBoxColumn
+                            SelectedItemBinding="{Binding SheetCategory}"
+                            Header="View Category"
+                            MinWidth="100">
+                            <DataGridComboBoxColumn.ElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="ItemsSource" Value="{Binding SheetCategories}"/>
+                                    <Setter Property="IsReadOnly" Value="True"/>
+                                </Style>
+                            </DataGridComboBoxColumn.ElementStyle>
+                            <DataGridComboBoxColumn.EditingElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="ItemsSource" Value="{Binding SheetCategories}"/>
+                                </Style>
+                            </DataGridComboBoxColumn.EditingElementStyle>
+                        </DataGridComboBoxColumn>-->
+                        <DataGridTemplateColumn Header="View Category">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox  Background="Transparent" IsEditable="True"  Text="{Binding UserCreatedSheetCategory, UpdateSourceTrigger=LostFocus}" ItemsSource="{Binding SheetCategories}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+            <GridSplitter Grid.Row="1" Height="5" Width="Auto"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"></GridSplitter>
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label  Grid.Column="0">Views on New Sheets</Label>
+                    <Button x:Name="RemoveSelectedViews" IsEnabled="{Binding RemoveSelectedViewsIsEnabled}" Grid.Column="1" Margin="5">Remove View[s]</Button>
+                </Grid>
+                <DataGrid
+                    x:Name="ViewsOnSheet"
+                    AutoGenerateColumns="False"
+                    Grid.Row="1"
+                    VirtualizingStackPanel.VirtualizationMode="Standard"
+                    GridLinesVisibility="None"
+                    cal:Message.Attach="[Event SelectionChanged] = [RowViewsOnSheetSelectionChanged($eventArgs)]"
+                    Margin="5">
+                    <DataGrid.AlternatingRowBackground>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                    </DataGrid.AlternatingRowBackground>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Original Title" Binding="{Binding OriginalTitle, Mode=OneWay}"  MinWidth="75"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Proposed Title" Binding="{Binding Title}"  MinWidth="75"></DataGridTextColumn>
+                        <DataGridComboBoxColumn
+                            SelectedItemBinding="{Binding ViewTemplateName}"
+                            Header="View Template"
+                            MinWidth="75">
+                            <DataGridComboBoxColumn.ElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="ItemsSource" Value="{Binding AvailableViewTemplates}"/>
+                                    <Setter Property="IsReadOnly" Value="True"/>
+                                </Style>
+                            </DataGridComboBoxColumn.ElementStyle>
+                            <DataGridComboBoxColumn.EditingElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="ItemsSource" Value="{Binding AvailableViewTemplates}"/>
+                                </Style>
+                            </DataGridComboBoxColumn.EditingElementStyle>
+                        </DataGridComboBoxColumn>
+                        <DataGridComboBoxColumn
+                            SelectedItemBinding="{Binding AssociatedLevelName}"
+                            Header="Associated Level"
+                            MinWidth="75">
+                            <DataGridComboBoxColumn.ElementStyle>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="ItemsSource" Value="{Binding LevelsInModel}"/>
+                                <Setter Property="IsReadOnly" Value="True"/>
+                            </Style>
+                            </DataGridComboBoxColumn.ElementStyle>
+                            <DataGridComboBoxColumn.EditingElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="ItemsSource" Value="{Binding LevelsInModel}"/>
+                                </Style>
+                            </DataGridComboBoxColumn.EditingElementStyle>
+                        </DataGridComboBoxColumn>
+                        <DataGridTextColumn Header="View Type" MinWidth="75" Binding="{Binding RevitViewType, Mode=OneWay}"></DataGridTextColumn>
+                        <DataGridCheckBoxColumn Header="Copy Detailing" Binding="{Binding DuplicateWithDetailing}" Width="*"></DataGridCheckBoxColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Grid>
+        <Button x:Name="Go" Content="{Binding GoLabel}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" MinWidth="50" Margin="5"></Button>
+    </Grid>
+</UserControl>

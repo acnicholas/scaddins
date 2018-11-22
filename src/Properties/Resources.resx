@@ -672,4 +672,7 @@
   <data name="MessageNoPrintSettingAssigned" xml:space="preserve">
     <value>No print setting assigned.</value>
   </data>
+  <data name="MessageStartingPDFExport" xml:space="preserve">
+    <value>### Starting Adobe PDF Export ###</value>
+  </data>
 </root>

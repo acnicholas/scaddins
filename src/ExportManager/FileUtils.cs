@@ -1,4 +1,4 @@
-// (C) Copyright 2012-2014 by Andrew Nicholas
+// (C) Copyright 2012-2018 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -18,24 +18,65 @@
 namespace SCaddins.ExportManager
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Security;
+    using System.Threading;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
     public static class FileUtilities
     {
+        public static bool CanOverwriteFile(string fileName)
+        {
+            if (IsFileLocked(new FileInfo(fileName)))
+            {
+                using (var td = new TaskDialog("File in use"))
+                {
+                    td.MainContent = "The file: " + fileName + " appears to be in use." +
+                                     Environment.NewLine +
+                                     "please close it before continuing...";
+                    td.MainInstruction = "File in use";
+                    td.CommonButtons = TaskDialogCommonButtons.Ok;
+                    td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+                    td.Show();
+                }
+
+                if (IsFileLocked(new FileInfo(fileName))) {
+                    return false;
+                }
+            }
+
+            if (!ExportManager.ConfirmOverwrite) {
+                return true;
+            }
+
+            if (File.Exists(fileName)) {
+                var message = fileName + " exists," + Environment.NewLine + "do you want do overwrite the existing file?";
+                bool confirmOverwriteDialog = true;
+                bool? result = SCaddinsApp.WindowManager.ShowConfirmationDialog(message, ExportManager.ConfirmOverwrite, out confirmOverwriteDialog);
+                ExportManager.ConfirmOverwrite = confirmOverwriteDialog;
+                bool newBool = result.HasValue ? result.Value : false;
+                if (newBool) {
+                    return newBool;
+                }
+                return false;
+            }
+            return true;
+        }
+
         public static bool ConfigFileExists(Document doc)
         {
-             string config = ExportManager.GetConfigFileName(doc);
-             return System.IO.File.Exists(config);
+            var config = ExportManager.GetConfigFileName(doc);
+            return File.Exists(config);
         }
 
         public static void CreateConfigFile(Document doc)
         {
-            string config = ExportManager.GetConfigFileName(doc);
-            TaskDialogResult overwrite = TaskDialogResult.Yes;
-            if (System.IO.File.Exists(config)) {
+            var config = ExportManager.GetConfigFileName(doc);
+            var overwrite = TaskDialogResult.Yes;
+            if (File.Exists(config))
+            {
                 const string FileExistsMessage = "config exists, do you want to overwrite?";
                 overwrite = TaskDialog.Show(
                     "WARNING",
@@ -43,36 +84,17 @@ namespace SCaddins.ExportManager
                     TaskDialogCommonButtons.No | TaskDialogCommonButtons.Yes);
             }
 
-            if (overwrite == TaskDialogResult.Yes) {
-                string example = SCaddins.Constants.InstallDirectory +
-                    Path.DirectorySeparatorChar +
-                    SCaddins.Constants.ShareDirectory +
-                    Path.DirectorySeparatorChar +
-                    Constants.ExampleConfigFileName;
-                if (System.IO.File.Exists(example)) {
-                    System.IO.File.Copy(example, config, true);
+            if (overwrite == TaskDialogResult.Yes)
+            {
+                var example = SCaddins.Constants.InstallDirectory +
+                              Path.DirectorySeparatorChar +
+                              SCaddins.Constants.ShareDirectory +
+                              Path.DirectorySeparatorChar +
+                              Constants.ExampleConfigFileName;
+                if (File.Exists(example)) {
+                    File.Copy(example, config, true);
                 }
             }
-        }
-
-        public static bool IsValidFileName(string fileName)
-        {
-           var valid = !string.IsNullOrEmpty(fileName) &&
-              fileName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
-           return valid;
-        }
-
-        ////FIXME - add delay param
-        public static void WaitForFileAccess(string file)
-        {
-           int i = 0;
-           while (IsFileLocked(new FileInfo(file))) {
-                System.Threading.Thread.Sleep(2000);
-                i++;
-                if (i > 30) {
-                    return;
-                }
-           }
         }
 
         public static string GetCentralFileName(Document doc)
@@ -80,29 +102,35 @@ namespace SCaddins.ExportManager
             if (doc == null) {
                 return string.Empty;
             }
-            if (doc.IsWorkshared) {
-                ModelPath mp = doc.GetWorksharingCentralModelPath();
-                string s = ModelPathUtils.ConvertModelPathToUserVisiblePath(mp);
+            if (doc.IsWorkshared)
+            {
+                var mp = doc.GetWorksharingCentralModelPath();
+                var s = ModelPathUtils.ConvertModelPathToUserVisiblePath(mp);
                 return s;
-            } else {
-                return doc.PathName;
             }
+
+            return doc.PathName;
         }
 
-        public static bool IsFileLocked(System.IO.FileInfo file)
+        public static bool IsFileLocked(FileInfo file)
         {
-            System.IO.FileStream stream = null;
+            FileStream stream = null;
             if (file == null || file.Exists == false) {
                 return false;
             }
-            try {
+            try
+            {
                 stream = file.Open(
                     FileMode.Open,
                     FileAccess.ReadWrite,
                     FileShare.None);
-            } catch (IOException) {
+            }
+            catch (IOException)
+            {
                 return true;
-            } finally {
+            }
+            finally
+            {
                 if (stream != null) {
                     stream.Close();
                 }
@@ -111,63 +139,32 @@ namespace SCaddins.ExportManager
             return false;
         }
 
-        public static bool CanOverwriteFile(string fileName)
+        public static bool IsValidFileName(string fileName)
         {
-            if (IsFileLocked(new FileInfo(fileName))) {
-                using (var td = new TaskDialog("File in use")) {
-                    td.MainContent = "The file: " + fileName + " appears to be in use." +
-                        System.Environment.NewLine +
-                        "please close it before continuing...";
-                    td.MainInstruction = "File in use";
-                    td.CommonButtons = TaskDialogCommonButtons.Ok;
-                    td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-                    td.Show();
-                }
-                if (IsFileLocked(new FileInfo(fileName))) {
-                    return false;
-                }
-            }
-            if (!ExportManager.ConfirmOverwrite) {
-                return true;
-            }
-            if (System.IO.File.Exists(fileName)) {
-                string s = fileName + " exists," + System.Environment.NewLine +
-                    "do you want do overwrite the existing file?";
-                using (var dialog = new ConfirmationDialog(s))
-                {
-                    dialog.StartPosition =
-                        System.Windows.Forms.FormStartPosition.CenterParent;
-                    dialog.TopMost = true;
-                    System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-                    return result == System.Windows.Forms.DialogResult.Yes ? true : false;
-                }
-            } else {
-                return true;
-            }
+            var valid = !string.IsNullOrEmpty(fileName) &&
+                        fileName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
+            return valid;
         }
 
-        public static string GetFullPath(string fileName)
+        ////FIXME - add delay param
+        public static void WaitForFileAccess(string file)
         {
-            if (File.Exists(fileName)) {
-                return Path.GetFullPath(fileName);
-            }
-
-            var values = Environment.GetEnvironmentVariable("PATH");
-            foreach (var path in values.Split(';')) {
-                var fullPath = Path.Combine(path, fileName);
-                if (File.Exists(fullPath)) {
-                    return fullPath;
+            var i = 0;
+            while (IsFileLocked(new FileInfo(file)))
+            {
+                Thread.Sleep(2000);
+                i++;
+                if (i > 30) {
+                    return;
                 }
             }
-
-            return null;
         }
-
         [SecurityCritical]
-        internal static void EditConfigFile(Document doc) {
-            string config = ExportManager.GetConfigFileName(doc);
-            if (System.IO.File.Exists(config)) {
-                System.Diagnostics.Process.Start(SCaddins.ExportManager.Settings1.Default.TextEditor, config);
+        internal static void EditConfigFile(Document doc)
+        {
+            var config = ExportManager.GetConfigFileName(doc);
+            if (File.Exists(config)) {
+                Process.Start(Settings1.Default.TextEditor, config);
             } else {
                 TaskDialog.Show("SCexport", "config file does not exist");
             }
