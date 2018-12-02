@@ -67,20 +67,7 @@ namespace SCaddins.ExportManager
             ExportManager.FixAcrotrayHang();
         }
 
-        public static bool ConfirmOverwrite
-        {
-            get; set;
-        }
-
-        public string ForceRasterPrintParameterName {
-            get
-            {
-                return Settings1.Default.UseRasterPrinterParameter;
-            }
-        }
-
-        public ACADVersion AcadVersion
-        {
+        public static ACADVersion AcadVersion {
             get
             {
                 return Settings1.Default.AcadExportVersion;
@@ -95,23 +82,23 @@ namespace SCaddins.ExportManager
             }
         }
 
-        public ObservableCollection<ExportSheet> AllSheets
-        {
-            get { return this.allSheets; }
-        }
-
-        public ObservableCollection<ViewSheetSetCombo> AllViewSheetSets
-        {
-            get { return this.allViewSheetSets; }
-        }
-
-        public Document Doc
-        {
+        public static bool ConfirmOverwrite {
             get; set;
         }
 
-        public string ExportDirectory
-        {
+        public ObservableCollection<ExportSheet> AllSheets {
+            get { return this.allSheets; }
+        }
+
+        public ObservableCollection<ViewSheetSetCombo> AllViewSheetSets {
+            get { return this.allViewSheetSets; }
+        }
+
+        public Document Doc {
+            get; set;
+        }
+
+        public string ExportDirectory {
             get
             {
                 return this.exportDirectory;
@@ -128,8 +115,7 @@ namespace SCaddins.ExportManager
             }
         }
 
-        public SegmentedSheetName FileNameScheme
-        {
+        public SegmentedSheetName FileNameScheme {
             get
             {
                 return this.fileNameScheme;
@@ -138,18 +124,22 @@ namespace SCaddins.ExportManager
             set
             {
                 this.fileNameScheme = value;
-                foreach (ExportSheet sheet in allSheets)
-                {
+                foreach (ExportSheet sheet in allSheets) {
                     sheet.SetSegmentedSheetName(fileNameScheme);
                 }
             }
         }
 
-        public List<SegmentedSheetName> FileNameTypes
-        {
+        public List<SegmentedSheetName> FileNameTypes {
             get { return this.fileNameTypes; }
         }
 
+        public static string ForceRasterPrintParameterName {
+            get
+            {
+                return Settings1.Default.UseRasterPrinterParameter;
+            }
+        }
         public bool ForceRevisionToDateString
         {
             get
@@ -306,8 +296,8 @@ namespace SCaddins.ExportManager
         public static string GetConfigFileName(Document doc)
         {
 #if DEBUG
-            Debug.WriteLine("getting config file for " + doc.Title);
-            string s = @"C:\Andrew\code\cs\scaddins\share\SCexport-example-conf.xml";
+                        Debug.WriteLine("getting config file for " + doc.Title);
+                        string s = @"C:\Andrew\code\cs\scaddins\share\SCexport-example-conf.xml";
 #else
             string central = FileUtilities.GetCentralFileName(doc);
             string s = Path.GetDirectoryName(central) + @"\SCexport.xml";
@@ -472,7 +462,7 @@ namespace SCaddins.ExportManager
             this.PostscriptPrinterName = SCaddins.ExportManager.Settings1.Default.PSPrinterDriver;
             this.GhostscriptLibDirectory = SCaddins.ExportManager.Settings1.Default.GSLibDirectory;
             this.exportDirectory = SCaddins.ExportManager.Settings1.Default.ExportDir;
-            this.AcadVersion = SCaddins.ExportManager.Settings1.Default.AcadExportVersion;
+            AcadVersion = SCaddins.ExportManager.Settings1.Default.AcadExportVersion;
             this.ShowExportLog = SCaddins.ExportManager.Settings1.Default.ShowExportLog;
             this.ForceRevisionToDateString = SCaddins.ExportManager.Settings1.Default.ForceDateRevision;
             this.UseDateForEmptyRevisions = SCaddins.ExportManager.Settings1.Default.UseDateForEmptyRevisions;
@@ -877,7 +867,7 @@ namespace SCaddins.ExportManager
         {
             var opts = new DWGExportOptions();
             opts.MergedViews = true;
-            opts.FileVersion = this.AcadVersion;
+            opts.FileVersion = AcadVersion;
             opts.HideScopeBox = true;
             opts.HideUnreferenceViewTags = true;
             return opts;
@@ -1024,7 +1014,7 @@ namespace SCaddins.ExportManager
                 settings.Schemas.Add(
                     null, SCaddins.Constants.InstallDirectory + @"\etc\SCexport.xsd");
 #else
-                settings.Schemas.Add(null, @"C:\Andrew\code\cs\scaddins\etc\SCexport.xsd");
+                                settings.Schemas.Add(null, @"C:\Andrew\code\cs\scaddins\etc\SCexport.xsd");
 #endif
                 settings.ValidationType = ValidationType.Schema;
                 XmlReader reader = XmlReader.Create(filename, settings);

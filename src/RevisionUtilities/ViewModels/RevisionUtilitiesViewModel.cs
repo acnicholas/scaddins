@@ -47,10 +47,10 @@ namespace SCaddins.RevisionUtilities.ViewModels
             get { return RevisionUtilities.GetRevisionClouds(doc); }
         }
 
-        public void RevisionSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
+        public void RevisionSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs eventArgs)
         {
-            selectedRevisions.AddRange(obj.AddedItems.Cast<RevisionItem>());
-            obj.RemovedItems.Cast<RevisionItem>().ToList().ForEach(w => selectedRevisions.Remove(w));
+            selectedRevisions.AddRange(eventArgs.AddedItems.Cast<RevisionItem>());
+            eventArgs.RemovedItems.Cast<RevisionItem>().ToList().ForEach(w => selectedRevisions.Remove(w));
         }
 
         public void RevisionCloudSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)

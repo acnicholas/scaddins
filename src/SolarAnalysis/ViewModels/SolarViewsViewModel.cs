@@ -81,7 +81,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
             }
         }
 
-        public BindableCollection<TimeSpan> Intervals
+        public static BindableCollection<TimeSpan> Intervals
         {
             get
             {
@@ -294,7 +294,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
             get
             {
                 int f = FaceSelection != null ? FaceSelection.Count : 0;
-                return string.Format("Selected Faces: {0}", f);
+                return $"Selected Faces: {f}";
             }
         }
 
@@ -318,7 +318,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
             get
             {
                 int m = MassSelection != null ? MassSelection.Count : 0;
-                return string.Format("Selected Masses: {0}", m);
+                return $"Selected Masses: {m}";
             }
         }
 

@@ -62,11 +62,11 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
-        public void RowSheetSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
+        public void RowSheetSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs eventArgs)
         {
             try {
-                selectedSheets.AddRange(obj.AddedItems.Cast<ViewSheet>());
-                obj.RemovedItems.Cast<ViewSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
+                selectedSheets.AddRange(eventArgs.AddedItems.Cast<ViewSheet>());
+                eventArgs.RemovedItems.Cast<ViewSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
             } catch {
             }
         }

@@ -574,7 +574,7 @@ namespace SCaddins.ExportManager
             this.pageSize = string.Empty;
             this.id = viewSheet.Id;
             this.ForceDate = scx.ForceRevisionToDateString;
-            this.forceRasterPrint = UseRasterPrinting(scx.ForceRasterPrintParameterName);
+            this.forceRasterPrint = UseRasterPrinting(ExportManager.ForceRasterPrintParameterName);
             this.useDateForEmptyRevisions = scx.UseDateForEmptyRevisions;
             this.UpdateRevision(false);
             this.SetExportName();

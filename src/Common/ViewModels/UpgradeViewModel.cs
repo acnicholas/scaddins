@@ -72,7 +72,7 @@ namespace SCaddins.Common.ViewModels
             System.Diagnostics.Process.Start(downloadLink);
         }
 
-        public void OpenChangeLog()
+        public static void OpenChangeLog()
         {
             System.Diagnostics.Process.Start(SCaddins.Constants.ChangelogLink);
         }

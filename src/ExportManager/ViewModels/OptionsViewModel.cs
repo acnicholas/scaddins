@@ -34,8 +34,55 @@ namespace SCaddins.ExportManager.ViewModels
             this.exportManagerViewModel = exportManagerViewModel;
         }
 
-        public string A3PrinterName
-        {
+        public static string ForceRasterPrintParameterName {
+            get
+            {
+                return SCaddins.ExportManager.Settings1.Default.UseRasterPrinterParameter;
+            }
+
+            set
+            {
+                if (value == SCaddins.ExportManager.Settings1.Default.UseRasterPrinterParameter) {
+                    return;
+                }
+                SCaddins.ExportManager.Settings1.Default.UseRasterPrinterParameter = value;
+                SCaddins.ExportManager.Settings1.Default.Save();
+            }
+        }
+
+        public static string NorthPointVisibilityParameterName {
+            get
+            {
+                return SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter;
+            }
+
+            set
+            {
+                if (value == SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter) {
+                    return;
+                }
+                SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter = value;
+                SCaddins.ExportManager.Settings1.Default.Save();
+            }
+        }
+
+        public static string ScaleBarScaleParameterName {
+            get
+            {
+                return SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter;
+            }
+
+            set
+            {
+                if (value == SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter) {
+                    return;
+                }
+                SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter = value;
+                SCaddins.ExportManager.Settings1.Default.Save();
+            }
+        }
+
+        public string A3PrinterName {
             get
             {
                 return exportManager.PrinterNameA3;
@@ -282,39 +329,6 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public string NorthPointVisibilityParameterName
-        {
-            get
-            {
-                return SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter;
-            }
-
-            set
-            {
-                if (value == SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter) {
-                    return;
-                }
-                SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter = value;
-                SCaddins.ExportManager.Settings1.Default.Save();
-            }
-        }
-
-        public string ForceRasterPrintParameterName {
-            get
-            {
-                return SCaddins.ExportManager.Settings1.Default.UseRasterPrinterParameter;
-            }
-
-            set
-            {
-                if (value == SCaddins.ExportManager.Settings1.Default.UseRasterPrinterParameter) {
-                    return;
-                }
-                SCaddins.ExportManager.Settings1.Default.UseRasterPrinterParameter = value;
-                SCaddins.ExportManager.Settings1.Default.Save();
-            }
-        }
-
         public string PostscriptPrintDriverName
         {
             get
@@ -334,36 +348,19 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public string ScaleBarScaleParameterName
-        {
-            get
-            {
-                return SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter;
-            }
-
-            set
-            {
-                if (value == SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter) {
-                    return;
-                }
-                SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter = value;
-                SCaddins.ExportManager.Settings1.Default.Save();
-            }
-        }
-
         public Autodesk.Revit.DB.ACADVersion SelectedAutoCADExportVersion
         {
             get
             {
-                return exportManager.AcadVersion;
+                return ExportManager.AcadVersion;
             }
 
             set
             {
-                if (value == exportManager.AcadVersion) {
+                if (value == ExportManager.AcadVersion) {
                     return;
                 }
-                exportManager.AcadVersion = value;
+                ExportManager.AcadVersion = value;
                 Settings1.Default.AcadExportVersion = value;
                 Settings1.Default.Save();
             }

@@ -27,7 +27,7 @@ namespace SCaddins.RoomConvertor.ViewModels
     public class RoomFilterViewModel : Screen
     {
         private string comparisonFieldOne = string.Empty;
-        private string comparisonFieldThree = string.Empty;
+        ////private string comparisonFieldThree = string.Empty;
         private string comparisonFieldTwo = string.Empty;
         private RoomFilter filter;
         private RoomConversionManager manager;

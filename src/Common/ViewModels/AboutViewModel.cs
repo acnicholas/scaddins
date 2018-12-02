@@ -27,7 +27,7 @@ namespace SCaddins.Common.ViewModels
         {
         }
 
-        public string AssemblyCompany {
+        public static string AssemblyCompany {
             get
             {
                 object[] attributes = Assembly.GetExecutingAssembly()
@@ -39,7 +39,7 @@ namespace SCaddins.Common.ViewModels
             }
         }
 
-        public string AssemblyCopyright {
+        public static string AssemblyCopyright {
             get
             {
                 object[] attributes = Assembly.GetExecutingAssembly()
@@ -48,7 +48,7 @@ namespace SCaddins.Common.ViewModels
             }
         }
 
-        public string AssemblyDescription {
+        public static string AssemblyDescription {
             get
             {
                 object[] attributes = Assembly.GetExecutingAssembly()
@@ -57,14 +57,7 @@ namespace SCaddins.Common.ViewModels
             }
         }
 
-        public string AssemblyInformationalVersion {
-            get
-            {
-                return GetInformationalVersion(Assembly.GetExecutingAssembly());
-            }
-        }
-
-        public string AssemblyProduct {
+        public static string AssemblyProduct {
             get
             {
                 object[] attributes = Assembly.GetExecutingAssembly()
@@ -73,7 +66,7 @@ namespace SCaddins.Common.ViewModels
             }
         }
 
-        public string AssemblyTitle {
+        public static string AssemblyTitle {
             get
             {
                 object[] attributes = Assembly.GetExecutingAssembly()
@@ -91,12 +84,25 @@ namespace SCaddins.Common.ViewModels
             }
         }
 
-        public string AssemblyVersion
-        {
+        public static string AssemblyVersion {
             get
             {
                 return Assembly.GetExecutingAssembly().GetName()
                     .Version.ToString().Trim();
+            }
+        }
+
+        public static string License {
+            get
+            {
+                return SCaddins.Constants.License;
+            }
+        }
+
+        public string AssemblyInformationalVersion {
+            get
+            {
+                return GetInformationalVersion(Assembly.GetExecutingAssembly());
             }
         }
 
@@ -108,22 +114,14 @@ namespace SCaddins.Common.ViewModels
             }
         }
 
-        public string License
+        public static void CheckForUpgrades()
         {
-            get
-            {
-                return SCaddins.Constants.License;
-            }
+            SCaddinsApp.CheckForUpdates(false);
         }
 
         public static void NavigateTo(string url)
         {
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(url));
-        }
-
-        public void CheckForUpgrades()
-        {
-            SCaddinsApp.CheckForUpdates(false);
         }
 
         public string GetInformationalVersion(Assembly assembly)

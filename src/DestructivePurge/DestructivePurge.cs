@@ -162,7 +162,7 @@ namespace SCaddins.DestructivePurge
                     var nodeName = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString() + " - " +
                         revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
                     var tn = new DeletableItem(nodeName);
-                    tn.Info = "Name = " + revision.Name.ToString() + System.Environment.NewLine +
+                    tn.Info = "Name = " + revision.Name + System.Environment.NewLine +
                     "id - " + revision.Id.ToString();
                     tn.Info += System.Environment.NewLine + s;
                     tn.Id = revision.Id;
@@ -222,8 +222,8 @@ namespace SCaddins.DestructivePurge
                             bound = true;
                         }
                     }
-                    var tn = new DeletableItem(room.Name.ToString());
-                    tn.Info = "Name = " + room.Name.ToString() + System.Environment.NewLine +
+                    var tn = new DeletableItem(room.Name);
+                    tn.Info = "Name = " + room.Name + System.Environment.NewLine +
                     "id - " + room.Id.ToString();
                     tn.Info += System.Environment.NewLine + s;
                     tn.Id = room.Id;

@@ -188,10 +188,10 @@ namespace SCaddins.RoomConvertor.ViewModels
             NotifyOfPropertyChange(() => Rooms);
         }
 
-        public void RowSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
+        public void RowSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs eventArgs)
         {
-            selectedRooms.AddRange(obj.AddedItems.Cast<RoomConversionCandidate>());
-            obj.RemovedItems.Cast<RoomConversionCandidate>().ToList().ForEach(w => selectedRooms.Remove(w));
+            selectedRooms.AddRange(eventArgs.AddedItems.Cast<RoomConversionCandidate>());
+            eventArgs.RemovedItems.Cast<RoomConversionCandidate>().ToList().ForEach(w => selectedRooms.Remove(w));
             NotifyOfPropertyChange(() => SelectionInformation);
         }
 

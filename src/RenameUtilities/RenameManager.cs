@@ -277,10 +277,10 @@ namespace SCaddins.RenameUtilities
             }
         }
 
-        private static string GetIncrementedValue(string val, string search, string replace)
-        {
-            return string.Empty;
-        }
+        ////private static string GetIncrementedValue(string val, string search, string replace)
+        ////{
+        ////    return string.Empty;
+        ////}
 
         private static bool IsValidRevitName(string s)
         {
