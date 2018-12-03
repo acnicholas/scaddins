@@ -10,6 +10,12 @@ namespace SCaddins.ExportManager.Tests
     public class FileUtilitiesTests
     {
         [Test()]
+        public void CanOverwriteFileTest()
+        {
+            Assert.Pass();
+        }
+
+        [Test()]
         [TestModel(@"./rac_basic_sample_project.rvt")]
         public void ConfigFileExistsTest()
         {
@@ -26,19 +32,6 @@ namespace SCaddins.ExportManager.Tests
         }
 
         [Test()]
-        public void IsValidFileNameTest()
-        {
-            Assert.True(FileUtilities.IsValidFileName("ValidFileName"));
-        }
-
-        [Test()]
-        public void IsInvalidFileNameTest()
-        {
-            var invalidChars = Path.GetInvalidFileNameChars();
-            Assert.False(FileUtilities.IsValidFileName(new string(invalidChars)));
-        }
-
-        [Test()]
         [TestModel(@"./rac_basic_sample_project.rvt")]
         public void GetCentralFileNameTest()
         {
@@ -46,10 +39,17 @@ namespace SCaddins.ExportManager.Tests
             Assert.IsEmpty(FileUtilities.GetCentralFileName(doc));
         }
 
-        [Test()]
-        public void CanOverwriteFileTest()
-        {
-            Assert.Pass();
-        }
+        ////[Test()]
+        ////public void IsInvalidFileNameTest()
+        ////{
+        ////    var invalidChars = Path.GetInvalidFileNameChars();
+        ////    Assert.False(FileUtilities.IsValidFileName(new string(invalidChars)));
+        ////}
+
+        ////[Test()]
+        ////public void IsValidFileNameTest()
+        ////{
+        ////    Assert.True(FileUtilities.IsValidFileName("ValidFileName"));
+        ////}
     }
 }

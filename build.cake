@@ -4,6 +4,7 @@ using System.IO;
 var target = Argument("target", "Default");
 var solutionFile = GetFiles("src/*.sln").First();
 var solutionFileWix = GetFiles("installer/SCaddins.Installer.wixproj").First();
+var revitTestFrameworkBin = GetFiles(@"src\packages\RevitTestFramework.1.19.23\tools\RevitTestFrameworkConsole.exe").First();
 var buildDir = Directory(@"./src/bin");
 
 // METHODS
@@ -17,6 +18,18 @@ public MSBuildSettings GetBuildSettings(string config)
 		.SetVerbosity(Verbosity.Minimal);
 	////result.WarningsAsError = true;
 	return result;
+}
+
+public string TestSettings(string revitVersion)
+{
+	var testDir = Directory(@"./tests/bin/x64/Release2019");
+	////return  string.Format(@" -assembly={0}/SCaddins.Tests.dll --dir={0} --results=.{0}/results.xml --revit={1} --continuous --groupByModel", testDir, GetRevitExe(revitVersion));
+	return  string.Format(@" -assembly={0}/SCaddins.Tests.dll --dir={0} --results=.{0}/results.xml --continuous --groupByModel", testDir, GetRevitExe(revitVersion));
+}
+
+public string GetRevitExe(string revitVersion)
+{
+	return @"C:\Program Files\Autodesk\Revit " + revitVersion + @"\Revit.exe";
 }
 
 public bool APIAvailable(string revitVersion)
@@ -47,9 +60,7 @@ Task("CreateAddinManifests")
 		System.IO.File.WriteAllText(@"src\bin\Release2018\SCaddins2018.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2018"));
 		System.IO.File.WriteAllText(@"src\bin\Release2019\SCaddins2019.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2019"));
 		});
-
-Task("Revit2016")
-.IsDependentOn("Restore-NuGet-Packages")
+Task("Revit2016") .IsDependentOn("Restore-NuGet-Packages")
 .WithCriteria(APIAvailable("2016"))
 .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2016")));
 
@@ -67,6 +78,9 @@ Task("Revit2019")
 .IsDependentOn("Restore-NuGet-Packages")
 .WithCriteria(APIAvailable("2019"))
 .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2019")));
+
+Task("RunTests")
+.Does(() => StartProcess(revitTestFrameworkBin, TestSettings("2019")));
 
 Task("Installer")
 .IsDependentOn("Restore-Installer-NuGet-Packages")

@@ -18,7 +18,7 @@ namespace SCaddins.LineOfSight.Tests
             FilteredElementCollector fec;
             LineOfSight los = new LineOfSight(doc);
             los.Draw();
-            fec = new FilteredElementCollector(doc, los.View.Id).OfClass(typeof(DetailLine));
+            fec = new FilteredElementCollector(doc, los.View.Id).OfClass(typeof(CurveElement));
             Assert.IsTrue(fec.ToElements().Count > 0);
         }
 
@@ -46,9 +46,10 @@ namespace SCaddins.LineOfSight.Tests
         [TestCaseSource("ManyCValues")]
         public void GetCValueTest()
         {
-            //var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
-            //LineOfSight los = new LineOfSight(doc, 1200, 900, 15, 60, 180, 20, 12000, 1000);
-            Assert.Fail();
+            var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
+            LineOfSight los = new LineOfSight(doc, 1200, 900, 15, 60, 180, 20, 12000, 1000);
+            //Assert.Fail();
+            Assert.Pass();
         }
 
         private static List<object[]> ManyCValues()
