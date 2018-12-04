@@ -44,7 +44,7 @@ namespace SCaddins.LineOfSight.Tests
 
         [Test()]
         [TestCaseSource("ManyCValues")]
-        public void GetCValueTest()
+        public void GetCValueTest(int a, int b)
         {
             var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
             LineOfSight los = new LineOfSight(doc, 1200, 900, 15, 60, 180, 20, 12000, 1000);
@@ -56,9 +56,9 @@ namespace SCaddins.LineOfSight.Tests
         {
             var testParams = new List<object[]>
             {
-                new object[] {1, 1},
-                new object[] {2, 2},
-                new object[] {3, 3}
+                new object[] {1, 60},
+                new object[] {2, 90},
+                new object[] {3, 100}
             };
 
             return testParams;

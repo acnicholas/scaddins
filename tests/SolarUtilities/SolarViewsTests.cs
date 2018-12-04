@@ -38,12 +38,14 @@ namespace SCaddins.SolarAnalysis.Tests
         }
 
         [Test()]
+        [TestModel(@"./rac_basic_sample_project.rvt")]
         public void ViewIsIsoTest()
         {
             throw new NotImplementedException();
         }
 
         [Test()]
+        [TestModel(@"./rac_basic_sample_project.rvt")]
         public void GoTest()
         {
             throw new NotImplementedException();
