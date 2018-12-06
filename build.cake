@@ -4,8 +4,11 @@ using System.IO;
 var target = Argument("target", "Default");
 var solutionFile = GetFiles("src/*.sln").First();
 var solutionFileWix = GetFiles("installer/SCaddins.Installer.wixproj").First();
-var revitTestFrameworkBin = GetFiles(@"src\packages\RevitTestFramework.1.19.23\tools\RevitTestFrameworkConsole.exe").First();
+var revitTestFrameworkGUIBin = @"../RevitTestFramework/bin/AnyCPU/Debug/RevitTestFrameworkGUI.exe";
+var revitTestFrameworkBin = @"src/packages/RevitTestFramework.1.19.23/tools/RevitTestFrameworkConsole.exe";
 var buildDir = Directory(@"./src/bin");
+var testBuildDir = Directory(@"./src/bin");
+var testAssemblyDllName = "SCaddins.Tests.dll";
 
 // METHODS
 
@@ -20,16 +23,9 @@ public MSBuildSettings GetBuildSettings(string config)
 	return result;
 }
 
-public string TestSettings(string revitVersion)
+public string GetTestAssembly(string revitVersion)
 {
-	var testDir = Directory(@"./tests/bin/x64/Release2019");
-	////return  string.Format(@" -assembly={0}/SCaddins.Tests.dll --dir={0} --results=.{0}/results.xml --revit={1} --continuous --groupByModel", testDir, GetRevitExe(revitVersion));
-	return  string.Format(@" -assembly={0}/SCaddins.Tests.dll --dir={0} --results=.{0}/results.xml --continuous --groupByModel", testDir, GetRevitExe(revitVersion));
-}
-
-public string GetRevitExe(string revitVersion)
-{
-	return @"C:\Program Files\Autodesk\Revit " + revitVersion + @"\Revit.exe";
+	return string.Format(@"tests/bin/x64/Release{0}/{1}",revitVersion, testAssemblyDllName);
 }
 
 public bool APIAvailable(string revitVersion)
@@ -79,8 +75,11 @@ Task("Revit2019")
 .WithCriteria(APIAvailable("2019"))
 .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2019")));
 
-Task("RunTests")
-.Does(() => StartProcess(revitTestFrameworkBin, TestSettings("2019")));
+Task("Test2018")
+.Does(() => StartProcess(new FilePath(revitTestFrameworkGUIBin).FullPath, GetTestAssembly("2018")));
+
+Task("Test2019")
+.Does(() => StartProcess(new FilePath(revitTestFrameworkGUIBin).FullPath, new FilePath(GetTestAssembly("2019")).MakeAbsolute(Context.Environment).FullPath.Replace(@"/",@"\")));
 
 Task("Installer")
 .IsDependentOn("Restore-Installer-NuGet-Packages")
