@@ -56,5 +56,8 @@
     <Setting Name="UseRasterPrinterParameter" Type="System.String" Scope="User">
       <Value Profile="(Default)">Force Raster Print</Value>
     </Setting>
+    <Setting Name="ExportViewportsOnly" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
