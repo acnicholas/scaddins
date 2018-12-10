@@ -27,7 +27,7 @@ namespace SCaddins.Common.ViewModels
         {
         }
 
-        public static string AssemblyCompany {
+        public string AssemblyCompany {
             get
             {
                 object[] attributes = Assembly.GetExecutingAssembly()
@@ -39,7 +39,7 @@ namespace SCaddins.Common.ViewModels
             }
         }
 
-        public static string AssemblyCopyright {
+        public string AssemblyCopyright {
             get
             {
                 object[] attributes = Assembly.GetExecutingAssembly()
@@ -48,7 +48,7 @@ namespace SCaddins.Common.ViewModels
             }
         }
 
-        public static string AssemblyDescription {
+        public string AssemblyDescription {
             get
             {
                 object[] attributes = Assembly.GetExecutingAssembly()
@@ -57,7 +57,7 @@ namespace SCaddins.Common.ViewModels
             }
         }
 
-        public static string AssemblyProduct {
+        public string AssemblyProduct {
             get
             {
                 object[] attributes = Assembly.GetExecutingAssembly()
@@ -66,7 +66,7 @@ namespace SCaddins.Common.ViewModels
             }
         }
 
-        public static string AssemblyTitle {
+        public string AssemblyTitle {
             get
             {
                 object[] attributes = Assembly.GetExecutingAssembly()
@@ -84,7 +84,7 @@ namespace SCaddins.Common.ViewModels
             }
         }
 
-        public static string AssemblyVersion {
+        public string AssemblyVersion {
             get
             {
                 return Assembly.GetExecutingAssembly().GetName()
@@ -92,7 +92,7 @@ namespace SCaddins.Common.ViewModels
             }
         }
 
-        public static string License {
+        public string License {
             get
             {
                 return SCaddins.Constants.License;
