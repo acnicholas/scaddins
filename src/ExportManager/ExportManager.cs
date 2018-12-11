@@ -86,6 +86,14 @@ namespace SCaddins.ExportManager
             get; set;
         }
 
+        public static string ForceRasterPrintParameterName
+        {
+            get
+            {
+                return Settings1.Default.UseRasterPrinterParameter;
+            }
+        }
+
         public ObservableCollection<ExportSheet> AllSheets {
             get { return this.allSheets; }
         }
@@ -134,12 +142,6 @@ namespace SCaddins.ExportManager
             get { return this.fileNameTypes; }
         }
 
-        public static string ForceRasterPrintParameterName {
-            get
-            {
-                return Settings1.Default.UseRasterPrinterParameter;
-            }
-        }
         public bool ForceRevisionToDateString
         {
             get
@@ -402,7 +404,7 @@ namespace SCaddins.ExportManager
         {
             if (log == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(log));
             }
 
             var startTime = log.StartLoggingIndividualItem(null);
@@ -602,6 +604,16 @@ namespace SCaddins.ExportManager
                 "HungAppTimeout",
                 "30000",
                 Microsoft.Win32.RegistryValueKind.String);
+        }
+
+        private static DWGExportOptions GetDefaultDWGExportOptions()
+        {
+            var opts = new DWGExportOptions();
+            opts.MergedViews = true;
+            opts.FileVersion = AcadVersion;
+            opts.HideScopeBox = true;
+            opts.HideUnreferenceViewTags = true;
+            return opts;
         }
 
         private static bool IsViewerMode()
@@ -861,16 +873,6 @@ namespace SCaddins.ExportManager
             }
 
             return true;
-        }
-
-        private DWGExportOptions GetDefaultDWGExportOptions()
-        {
-            var opts = new DWGExportOptions();
-            opts.MergedViews = true;
-            opts.FileVersion = AcadVersion;
-            opts.HideScopeBox = true;
-            opts.HideUnreferenceViewTags = true;
-            return opts;
         }
 
         private bool ImportXMLinfo(string filename)

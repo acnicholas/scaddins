@@ -49,7 +49,7 @@
         public string Text {
             get
             {
-                return string.Format("{0:0.##}%", (double)Value / MaximumValue * 100);
+                return string.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:0.##}%", (double)Value / MaximumValue * 100);
             }
         }
 

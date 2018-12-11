@@ -28,7 +28,7 @@ namespace SCaddins.RoomConvertor
             this.filters = new RoomFilterItem[3];
         }
 
-        public int Size
+        public static int Size
         {
             get { return 3; }
         }

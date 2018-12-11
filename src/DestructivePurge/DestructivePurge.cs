@@ -69,7 +69,7 @@ namespace SCaddins.DestructivePurge
                     if (ii.IsLinked == linked)
                     {
                         s = string.Empty;
-                        s += "View Specific - " + ii.ViewSpecific.ToString() + System.Environment.NewLine;
+                        s += "View Specific - " + ii.ViewSpecific.ToString(System.Globalization.CultureInfo.CurrentCulture) + System.Environment.NewLine;
                         s += "Owner view id - " + ii.OwnerViewId + System.Environment.NewLine;
                         ParameterSet p = ii.Parameters;
                         foreach (Parameter param in p)

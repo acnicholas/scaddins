@@ -47,8 +47,8 @@ namespace SCaddins.RenameUtilities
             renameCandidates = new Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate>();
             renameCommands = new Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCommand>();
             renameCommands.Add(new RenameCommand((a, c, b) => a, "None"));
-            renameCommands.Add(new RenameCommand((a, c, b) => a.ToUpper(), "UpperCase"));
-            renameCommands.Add(new RenameCommand((a, c, b) => a.ToLower(), "Lowercase"));
+            renameCommands.Add(new RenameCommand((a, c, b) => a.ToUpper(System.Globalization.CultureInfo.CurrentCulture), "UpperCase"));
+            renameCommands.Add(new RenameCommand((a, c, b) => a.ToLower(System.Globalization.CultureInfo.CurrentCulture), "Lowercase"));
             renameCommands.Add(new RenameCommand((a, c, b) => a.Replace(' ', '_'), "Spaces to Underscore"));
             renameCommands.Add(new RenameCommand((a, c, b) => a.Replace(' ', '-'), "Spaces to Hyphen"));
             renameCommands.Add(new RenameCommand(RegexReplace, "Custom Replace", string.Empty, string.Empty));
@@ -67,7 +67,7 @@ namespace SCaddins.RenameUtilities
         ////Properties
         #region
 
-        public Caliburn.Micro.BindableCollection<string> AvailableParameterTypes
+        public static Caliburn.Micro.BindableCollection<string> AvailableParameterTypes
         {
             get
             {

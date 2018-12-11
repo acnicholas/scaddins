@@ -131,6 +131,7 @@
         public void EndLoggingIndividualItem(DateTime itemStartTime, string message)
         {
             LastItemElapsedTime = DateTime.Now - itemStartTime;
+            this.AddLogItem(message);
             this.AddLogItem("Export Time: " + LastItemElapsedTime.ToString());
             this.AddLogItem(ItemEndBanner);
         }

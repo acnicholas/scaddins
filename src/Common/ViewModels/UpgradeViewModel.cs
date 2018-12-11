@@ -47,11 +47,6 @@ namespace SCaddins.Common.ViewModels
             }
         }
 
-        public string VerboseInformationText
-        {
-            get; set;
-        }
-
         public string InformationText
         {
             get; set;
@@ -67,14 +62,19 @@ namespace SCaddins.Common.ViewModels
             get; set;
         }
 
-        public void Download()
+        public string VerboseInformationText
         {
-            System.Diagnostics.Process.Start(downloadLink);
+            get; set;
         }
 
         public static void OpenChangeLog()
         {
             System.Diagnostics.Process.Start(SCaddins.Constants.ChangelogLink);
+        }
+
+        public void Download()
+        {
+            System.Diagnostics.Process.Start(downloadLink);
         }
     }
 }

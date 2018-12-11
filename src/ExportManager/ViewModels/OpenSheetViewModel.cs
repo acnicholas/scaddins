@@ -39,7 +39,7 @@ namespace SCaddins.ExportManager.ViewModels
             viewType = ViewType.Undefined;
             SearchResults.Filter  = v => {
                     OpenableView ov = v as OpenableView;
-                    if (searchInput == string.Empty) {
+                    if (string.IsNullOrEmpty(searchInput)) {
                         return false;
                     }
                     return ov == null || ov.IsMatch(searchInput, viewType);
@@ -103,7 +103,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public string StatusText
         {
-            get { return string.Format("Type '?' for help. View Type Filter: {0}", viewType); }
+            get { return string.Format(System.Globalization.CultureInfo.CurrentCulture, "Type '?' for help. View Type Filter: {0}", viewType); }
         }
 
         public void Exit()

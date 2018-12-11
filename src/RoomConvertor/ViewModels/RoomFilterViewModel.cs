@@ -40,6 +40,14 @@ namespace SCaddins.RoomConvertor.ViewModels
             roomParameters = new Autodesk.Revit.DB.Parameter[3];
         }
 
+        public static ObservableCollection<ComparisonOperator> ComparisonOperators
+        {
+            get
+            {
+                return new ObservableCollection<ComparisonOperator>(Enum.GetValues(typeof(ComparisonOperator)).Cast<ComparisonOperator>().ToList());
+            }
+        }
+
         public static dynamic DefaultWindowSettings
         {
             get
@@ -102,14 +110,6 @@ namespace SCaddins.RoomConvertor.ViewModels
                     comparisonFieldOne = value;
                     NotifyOfPropertyChange(() => ComparisonFieldTwo);
                 }
-            }
-        }
-
-        public ObservableCollection<ComparisonOperator> ComparisonOperators
-        {
-            get
-            {
-                return new ObservableCollection<ComparisonOperator>(Enum.GetValues(typeof(ComparisonOperator)).Cast<ComparisonOperator>().ToList());
             }
         }
 

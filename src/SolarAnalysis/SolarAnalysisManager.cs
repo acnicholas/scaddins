@@ -296,7 +296,7 @@ namespace SCaddins.SolarAnalysis
                 Face f = (Face)elem.GetGeometryObjectFromReference(r);
                 var normal = f.ComputeNormal(new UV(0, 0));
                 ////if (normal.Z >= 0) {
-                result.Add(new DirectSunTestFace(r, @"DirectSun(" + n.ToString() + @")", doc));
+                result.Add(new DirectSunTestFace(r, @"DirectSun(" + n.ToString(System.Globalization.CultureInfo.CurrentCulture) + @")", doc));
                 ////}
             }
             ////TaskDialog.Show("Debug", "Faces added: " + result.Count);

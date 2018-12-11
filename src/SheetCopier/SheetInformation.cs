@@ -36,7 +36,7 @@
                     break;
 
                 case StorageType.Integer:
-                    ParameterValue = param.AsInteger().ToString();
+                    ParameterValue = param.AsInteger().ToString(System.Globalization.CultureInfo.CurrentCulture);
                     break;
 
                 case StorageType.None:

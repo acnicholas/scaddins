@@ -29,7 +29,7 @@ namespace SCaddins.DestructivePurge.ViewModels
         public CheckableItem(DeletableItem deletable, CheckableItem parent)
         {
             Deletable = deletable;
-            Children = new ObservableCollection<CheckableItem>();
+            children = new ObservableCollection<CheckableItem>();
             IsChecked = false;
             this.parent = parent;
         }
@@ -37,7 +37,6 @@ namespace SCaddins.DestructivePurge.ViewModels
         public ObservableCollection<CheckableItem> Children
         {
             get { return children; }
-            set { children = value; }
         }
 
         public DeletableItem Deletable

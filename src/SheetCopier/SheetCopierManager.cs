@@ -470,7 +470,7 @@ namespace SCaddins.SheetCopier
             }
             foreach (SheetCopierSheet s in this.sheets)
             {
-                if (s.Number.ToUpper(CultureInfo.InvariantCulture).Equals(number.ToUpper(CultureInfo.InvariantCulture)))
+                if (s.Number.ToUpper(CultureInfo.InvariantCulture).Equals(number.ToUpper(CultureInfo.InvariantCulture), StringComparison.InvariantCulture))
                 {
                     return false;
                 }
@@ -498,7 +498,7 @@ namespace SCaddins.SheetCopier
             {
                 foreach (SheetCopierViewOnSheet v in s.ViewsOnSheet)
                 {
-                    if (v.Title.ToUpper(CultureInfo.InvariantCulture).Equals(title.ToUpper(CultureInfo.InvariantCulture)))
+                    if (v.Title.ToUpper(CultureInfo.InvariantCulture).Equals(title.ToUpper(CultureInfo.InvariantCulture), StringComparison.CurrentCulture))
                     {
                         return false;
                     }
@@ -528,7 +528,7 @@ namespace SCaddins.SheetCopier
                 collector.OfClass(typeof(Level));
                 foreach (Element element in collector)
                 {
-                    this.levels.Add(element.Name.ToString(), element as Level);
+                    this.levels.Add(element.Name.ToString(System.Globalization.CultureInfo.CurrentCulture), element as Level);
                 }
             }
         }

@@ -29,7 +29,7 @@ namespace SCaddins.LineOfSight.ViewModels
             lineOfSight = new LineOfSight(doc);
         }
 
-        public bool CanDraw
+        public static bool CanDraw
         {
             get
             {

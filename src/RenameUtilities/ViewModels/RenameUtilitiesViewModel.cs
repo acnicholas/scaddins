@@ -61,7 +61,7 @@ namespace SCaddins.RenameUtilities.ViewModels
         {
             get
             {
-                return manager.AvailableParameterTypes;
+                return RenameManager.AvailableParameterTypes;
             }
         }
 

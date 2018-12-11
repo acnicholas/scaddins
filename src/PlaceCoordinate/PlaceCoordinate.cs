@@ -85,7 +85,7 @@ namespace SCaddins.PlaceCoordinate
             }
         }
 
-        public static FamilySymbol TryGetDefaultSpotCoordFamily(List<FamilySymbol> familes, Document doc)
+        public static FamilySymbol TryGetDefaultSpotCoordFamily(List<FamilySymbol> familes)
         {
             foreach (FamilySymbol f in familes) {
                 if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture))) {

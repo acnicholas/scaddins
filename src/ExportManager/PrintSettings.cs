@@ -132,14 +132,14 @@ namespace SCaddins.ExportManager
                 var ps2 = doc.GetElement(id) as PrintSetting;
                 if (!forceRaster)
                 {
-                    if (ps2 != null && ps2.Name.ToString().Equals("SCX-" + printSetting))
+                    if (ps2 != null && ps2.Name.ToString(System.Globalization.CultureInfo.CurrentCulture).Equals("SCX-" + printSetting, System.StringComparison.CurrentCulture))
                     {
                         return ps2;
                     }
                 }
                 else
                 {
-                    if (ps2 != null && ps2.Name.ToString().Equals("SCX-" + printSetting + @"(Raster)"))
+                    if (ps2 != null && ps2.Name.ToString(System.Globalization.CultureInfo.CurrentCulture).Equals("SCX-" + printSetting + @"(Raster)", StringComparison.CurrentCulture))
                     {
                         return ps2;
                     }
@@ -157,12 +157,12 @@ namespace SCaddins.ExportManager
                 var ps2 = doc.GetElement(id) as PrintSetting;
                 if (!forceRaster)
                 {
-                    if (ps2 != null && ps2.Name.ToString().Equals("SCX-" + printSetting))
+                    if (ps2 != null && ps2.Name.ToString(System.Globalization.CultureInfo.CurrentCulture).Equals("SCX-" + printSetting, StringComparison.CurrentCulture))
                     {
                         return ps2;
                     }
                 } else {
-                    if (ps2 != null && ps2.Name.ToString().Equals("SCX-" + printSetting + @"(Raster)"))
+                    if (ps2 != null && ps2.Name.ToString(System.Globalization.CultureInfo.CurrentCulture).Equals("SCX-" + printSetting + @"(Raster)", StringComparison.CurrentCulture))
                     {
                         return ps2;
                     }

@@ -7,6 +7,7 @@
         public Bootstrapper() : base(false)
         {
             Initialize();
+            ConventionManager.IncludeStaticProperties = true;
         }
     }
 }

@@ -53,10 +53,10 @@ namespace SCaddins.RevisionUtilities.ViewModels
             eventArgs.RemovedItems.Cast<RevisionItem>().ToList().ForEach(w => selectedRevisions.Remove(w));
         }
 
-        public void RevisionCloudSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
+        public void RevisionCloudSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs changeEventArgs)
         {
-            selectedRevisionClouds.AddRange(obj.AddedItems.Cast<RevisionCloudItem>());
-            obj.RemovedItems.Cast<RevisionCloudItem>().ToList().ForEach(w => selectedRevisionClouds.Remove(w));
+            selectedRevisionClouds.AddRange(changeEventArgs.AddedItems.Cast<RevisionCloudItem>());
+            changeEventArgs.RemovedItems.Cast<RevisionCloudItem>().ToList().ForEach(w => selectedRevisionClouds.Remove(w));
         }
 
         public void ExportExcelSchedule()

@@ -27,7 +27,57 @@ namespace SCaddins.Common.ViewModels
         {
         }
 
-        public string AssemblyCompany {
+        public static string AssemblyCopyright
+        {
+            get
+            {
+                object[] attributes = Assembly.GetExecutingAssembly()
+                    .GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+                return attributes.Length == 0 ? string.Empty : ((AssemblyCopyrightAttribute)attributes[0]).Copyright.Trim();
+            }
+        }
+
+        public static string AssemblyDescription
+        {
+            get
+            {
+                object[] attributes = Assembly.GetExecutingAssembly()
+                    .GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
+                return attributes.Length == 0 ? string.Empty : ((AssemblyDescriptionAttribute)attributes[0]).Description.Trim();
+            }
+        }
+
+        public static string AssemblyTitle
+        {
+            get
+            {
+                object[] attributes = Assembly.GetExecutingAssembly()
+                    .GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+                if (attributes.Length > 0)
+                {
+                    var titleAttribute =
+                        (AssemblyTitleAttribute)attributes[0];
+                    if (!string.IsNullOrEmpty(titleAttribute.Title))
+                    {
+                        return titleAttribute.Title.Trim();
+                    }
+                }
+
+                return System.IO.Path.GetFileNameWithoutExtension(Assembly
+                        .GetExecutingAssembly().CodeBase.Trim());
+            }
+        }
+
+        public static string AssemblyVersion => Assembly.GetExecutingAssembly().GetName()
+                .Version.ToString().Trim();
+
+        public static string License
+        {
+            get { return Constants.License; }
+        }
+
+        public string AssemblyCompany
+        {
             get
             {
                 object[] attributes = Assembly.GetExecutingAssembly()
@@ -39,67 +89,8 @@ namespace SCaddins.Common.ViewModels
             }
         }
 
-        public string AssemblyCopyright {
-            get
-            {
-                object[] attributes = Assembly.GetExecutingAssembly()
-                    .GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-                return attributes.Length == 0 ? string.Empty : ((AssemblyCopyrightAttribute)attributes[0]).Copyright.Trim();
-            }
-        }
-
-        public string AssemblyDescription {
-            get
-            {
-                object[] attributes = Assembly.GetExecutingAssembly()
-                    .GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
-                return attributes.Length == 0 ? string.Empty : ((AssemblyDescriptionAttribute)attributes[0]).Description.Trim();
-            }
-        }
-
-        public string AssemblyProduct {
-            get
-            {
-                object[] attributes = Assembly.GetExecutingAssembly()
-                    .GetCustomAttributes(typeof(AssemblyProductAttribute), false);
-                return attributes.Length == 0 ? string.Empty : ((AssemblyProductAttribute)attributes[0]).Product.Trim();
-            }
-        }
-
-        public string AssemblyTitle {
-            get
-            {
-                object[] attributes = Assembly.GetExecutingAssembly()
-                    .GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
-                if (attributes.Length > 0) {
-                    var titleAttribute =
-                        (AssemblyTitleAttribute)attributes[0];
-                    if (!string.IsNullOrEmpty(titleAttribute.Title)) {
-                        return titleAttribute.Title.Trim();
-                    }
-                }
-
-                return System.IO.Path.GetFileNameWithoutExtension(Assembly
-                        .GetExecutingAssembly().CodeBase.Trim());
-            }
-        }
-
-        public string AssemblyVersion {
-            get
-            {
-                return Assembly.GetExecutingAssembly().GetName()
-                    .Version.ToString().Trim();
-            }
-        }
-
-        public string License {
-            get
-            {
-                return SCaddins.Constants.License;
-            }
-        }
-
-        public string AssemblyInformationalVersion {
+        public string AssemblyInformationalVersion
+        {
             get
             {
                 return GetInformationalVersion(Assembly.GetExecutingAssembly());
@@ -114,19 +105,23 @@ namespace SCaddins.Common.ViewModels
             }
         }
 
+        public static string AssemblyProduct()
+        {
+            object[] attributes = Assembly.GetExecutingAssembly()
+                .GetCustomAttributes(typeof(AssemblyProductAttribute), false);
+            return attributes.Length == 0 ? string.Empty : ((AssemblyProductAttribute)attributes[0]).Product.Trim();
+        }
+
         public static void CheckForUpgrades()
         {
             SCaddinsApp.CheckForUpdates(false);
         }
 
-        public static void NavigateTo(string url)
-        {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(url));
-        }
+        public static string GetInformationalVersion(Assembly assembly) => FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
 
-        public string GetInformationalVersion(Assembly assembly)
+        public static void NavigateTo(System.Uri url)
         {
-            return FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(url.AbsoluteUri));
         }
     }
 }

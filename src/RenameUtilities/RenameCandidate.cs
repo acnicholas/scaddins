@@ -79,7 +79,7 @@ namespace SCaddins.RenameUtilities
 
         public bool ValueChanged
         {
-            get { return !string.Equals(this.oldValue, this.newValue); }
+            get { return !string.Equals(this.oldValue, this.newValue, System.StringComparison.CurrentCulture); }
         }
 
         private Parameter RevitParameter

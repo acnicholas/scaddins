@@ -91,7 +91,7 @@ namespace SCaddins.SheetCopier
 
         public ObservableCollection<string> SheetCategories
         {
-            get; set; 
+            get; 
         }
 
         public string UserCreatedSheetCategory {

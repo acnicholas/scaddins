@@ -113,7 +113,7 @@ namespace SCaddins
             }
         }
 
-        public static PushButtonData LoadSCaos(string dll, int iconSize)
+        public static PushButtonData LoadSCaos(string dll)
         {
             var pbd = new PushButtonData(
                               "SCaos", Resources.AngleOfSun, dll, "SCaddins.SolarAnalysis.Command");
@@ -169,7 +169,7 @@ namespace SCaddins
                 LoadSCulcase(scdll),
                 LoadSCwash(scdll));
             ribbonPanel.AddStackedItems(
-                LoadSCaos(scdll, 16),
+                LoadSCaos(scdll),
                 LoadSCopy(scdll, 16),
                 LoadSCloudShed(scdll));
             ribbonPanel.AddStackedItems(
@@ -200,7 +200,7 @@ namespace SCaddins
             List<RibbonPanel> loadedPanels = application.GetRibbonPanels();
             foreach (RibbonPanel p in loadedPanels)
             {
-                if (p.Name.Equals(name))
+                if (p.Name.Equals(name, StringComparison.InvariantCulture))
                 {
                     return p;
                 }

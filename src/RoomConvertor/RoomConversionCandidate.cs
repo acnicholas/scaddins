@@ -139,7 +139,7 @@ namespace SCaddins.RoomConvertor
 
         public List<RoomParameter> RoomParameters
         {
-            get; set;
+            get;
         }
 
         ////FIXME put ths somewhere more useful.

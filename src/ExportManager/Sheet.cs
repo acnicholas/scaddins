@@ -175,7 +175,7 @@ namespace SCaddins.ExportManager
                     result = "0";
                 }
                 if (!string.IsNullOrEmpty(this.scaleBarScale)) {
-                    flag |= i > 0 && !result.Substring(i + 2).Equals(this.scaleBarScale.Trim());
+                    flag |= i > 0 && !result.Substring(i + 2).Equals(this.scaleBarScale.Trim(), StringComparison.CurrentCultureIgnoreCase);
                 }
                 if (!string.IsNullOrEmpty(this.scaleBarScale.Trim()) && flag) {
                     result += " [**" + this.scaleBarScale + "]";
@@ -431,8 +431,7 @@ namespace SCaddins.ExportManager
 
         public override string ToString()
         {
-            return string.Format(
-                "Sheet information: " + Environment.NewLine +
+            string s = "Sheet information: " + Environment.NewLine +
                 "    SheetRevisionDateTime={0}," + Environment.NewLine +
                 "    Doc={1}," + Environment.NewLine +
                 "    Id={2}," + Environment.NewLine +
@@ -453,7 +452,10 @@ namespace SCaddins.ExportManager
                 "    SheetRevision={17}," + Environment.NewLine +
                 "    SheetRevisionDate={18}," + Environment.NewLine +
                 "    SheetRevisionDescription={19}," + Environment.NewLine +
-                "    ExportDir={20}",
+                "    ExportDir={20}";
+            return string.Format(
+                System.Globalization.CultureInfo.CurrentCulture,
+                s,
                 this.sheetRevisionDateTime,
                 this.doc.PathName,
                 this.id,

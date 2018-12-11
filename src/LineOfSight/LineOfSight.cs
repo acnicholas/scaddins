@@ -272,7 +272,7 @@ namespace SCaddins.LineOfSight
             {
                 t.Start();
 
-                string times = System.DateTime.Now.Ticks.ToString();
+                string times = System.DateTime.Now.Ticks.ToString(System.Globalization.CultureInfo.CurrentCulture);
 
                 this.view = this.CreateLineOfSightDraftingView(
                     "LOS-X" + this.distanceToFirstRowX + "-Y" + this.distanceToFirstRowY + "-T" +
@@ -482,7 +482,7 @@ namespace SCaddins.LineOfSight
             foreach (ElementId styleId in detailLine.GetLineStyleIds())
             {
                 Element style = this.doc.GetElement(styleId);
-                if (style.Name.Equals(styleName))
+                if (style.Name.Equals(styleName, StringComparison.CurrentCulture))
                 {
                     detailLine.LineStyle = style;
                 }

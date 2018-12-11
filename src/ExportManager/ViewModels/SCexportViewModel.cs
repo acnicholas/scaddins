@@ -84,13 +84,7 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public string ExportButtonLabel
-        {
-            get
-            {
-                return @"Export";
-            }
-        }
+        public string ExportButtonLabel => @"Export";
 
         public bool IsSearchTextFocused
         {
@@ -292,7 +286,7 @@ namespace SCaddins.ExportManager.ViewModels
                     {
                         return;
                     }
-                    ExportSheet ss = sheets.Where<ExportSheet>(item => item.SheetNumber.Equals(activeSheetNumber)).First<ExportSheet>();
+                    ExportSheet ss = sheets.Where<ExportSheet>(item => item.SheetNumber.Equals(activeSheetNumber, System.StringComparison.CurrentCulture)).First<ExportSheet>();
                     SelectedSheet = ss;
                     NotifyOfPropertyChange(() => SelectedSheet);
                     break;
@@ -308,7 +302,7 @@ namespace SCaddins.ExportManager.ViewModels
                 default:
                     if (keyArgs.Key >= Key.D0 && keyArgs.Key <= Key.D9)
                     {
-                        FilterByNumber(((int)keyArgs.Key - (int)Key.D0).ToString());
+                        FilterByNumber(((int)keyArgs.Key - (int)Key.D0).ToString(System.Globalization.CultureInfo.CurrentCulture));
                     }
                     break;
             }
@@ -402,7 +396,7 @@ namespace SCaddins.ExportManager.ViewModels
             this.IsNotifying = false;
             try
             {
-                var filter = new System.Predicate<object>(item => ((ExportSheet)item).SheetRevisionDate.Equals(revDate));
+                var filter = new System.Predicate<object>(item => ((ExportSheet)item).SheetRevisionDate.Equals(revDate, System.StringComparison.CurrentCulture));
                 Sheets.Filter = filter;
             }
             catch

@@ -123,6 +123,7 @@ namespace SCaddins.ExportManager
 
                     progressVm.Value++;
                     string niceTime = string.Format(
+                        System.Globalization.CultureInfo.CurrentCulture,
                         "OK  [ time {0:hh\\.mm\\:ss}  total {1:hh\\.mm\\:ss}  ~remaining {2:hh\\.mm\\:ss}]",
                         log.LastItemElapsedTime,
                         log.TimeSinceStart,
