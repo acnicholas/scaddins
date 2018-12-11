@@ -114,7 +114,9 @@ namespace SCaddins.RoomConvertor
                     break;
 
                 case StorageType.String:
-                    return param.AsString().CompareTo(value);
+#pragma warning disable CA1307 // Specify StringComparison
+                return param.AsString().CompareTo(value);
+#pragma warning restore CA1307 // Specify StringComparison
 
                 case StorageType.Integer:
                     int iparse;

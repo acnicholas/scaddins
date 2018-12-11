@@ -76,7 +76,7 @@ namespace SCaddins.Common.ViewModels
             get { return Constants.License; }
         }
 
-        public string AssemblyCompany
+        public static string AssemblyCompany
         {
             get
             {
@@ -89,7 +89,7 @@ namespace SCaddins.Common.ViewModels
             }
         }
 
-        public string AssemblyInformationalVersion
+        public static string AssemblyInformationalVersion
         {
             get
             {
@@ -97,7 +97,7 @@ namespace SCaddins.Common.ViewModels
             }
         }
 
-        public string AssemblyVersionExtended
+        public static string AssemblyVersionExtended
         {
             get
             {

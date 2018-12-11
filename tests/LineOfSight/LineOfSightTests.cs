@@ -16,7 +16,7 @@ namespace SCaddins.LineOfSight.Tests
         {
             var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
             FilteredElementCollector fec;
-            LineOfSight los = new LineOfSight(doc);
+            StadiumSeatingTier los = new StadiumSeatingTier(doc);
             los.Draw();
             fec = new FilteredElementCollector(doc, los.View.Id).OfClass(typeof(CurveElement));
             Assert.IsTrue(fec.ToElements().Count > 0);
@@ -30,7 +30,7 @@ namespace SCaddins.LineOfSight.Tests
             var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
             using (var t = new Transaction(doc)) {
                 if (t.Start("CreateLineOfSightDraftingViewTest") == TransactionStatus.Started) {
-                    LineOfSight los = new LineOfSight(doc);
+                    StadiumSeatingTier los = new StadiumSeatingTier(doc);
                     view = los.CreateLineOfSightDraftingView("LOS test view 01");
                     if (t.Commit() != TransactionStatus.Committed) {
                         t.RollBack();
@@ -47,7 +47,7 @@ namespace SCaddins.LineOfSight.Tests
         public void GetCValueTest(int a, int b)
         {
             var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
-            LineOfSight los = new LineOfSight(doc, 1200, 900, 15, 60, 180, 20, 12000, 1000);
+            StadiumSeatingTier los = new StadiumSeatingTier(doc, 1200, 900, 15, 60, 180, 20, 12000, 1000);
             //Assert.Fail();
             Assert.Pass();
         }

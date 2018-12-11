@@ -47,15 +47,15 @@ namespace SCaddins.ExportManager
                 }
             }
 
-            if (!ExportManager.ConfirmOverwrite) {
+            if (!Manager.ConfirmOverwrite) {
                 return true;
             }
 
             if (File.Exists(fileName)) {
                 var message = fileName + " exists," + Environment.NewLine + "do you want do overwrite the existing file?";
                 bool confirmOverwriteDialog = true;
-                bool? result = SCaddinsApp.WindowManager.ShowConfirmationDialog(message, ExportManager.ConfirmOverwrite, out confirmOverwriteDialog);
-                ExportManager.ConfirmOverwrite = confirmOverwriteDialog;
+                bool? result = SCaddinsApp.WindowManager.ShowConfirmationDialog(message, Manager.ConfirmOverwrite, out confirmOverwriteDialog);
+                Manager.ConfirmOverwrite = confirmOverwriteDialog;
                 bool newBool = result.HasValue ? result.Value : false;
                 if (newBool) {
                     return newBool;
@@ -67,13 +67,13 @@ namespace SCaddins.ExportManager
 
         public static bool ConfigFileExists(Document doc)
         {
-            var config = ExportManager.GetConfigFileName(doc);
+            var config = Manager.GetConfigFileName(doc);
             return File.Exists(config);
         }
 
         public static void CreateConfigFile(Document doc)
         {
-            var config = ExportManager.GetConfigFileName(doc);
+            var config = Manager.GetConfigFileName(doc);
             var overwrite = TaskDialogResult.Yes;
             if (File.Exists(config))
             {
@@ -162,7 +162,7 @@ namespace SCaddins.ExportManager
         [SecurityCritical]
         internal static void EditConfigFile(Document doc)
         {
-            var config = ExportManager.GetConfigFileName(doc);
+            var config = Manager.GetConfigFileName(doc);
             if (File.Exists(config)) {
                 Process.Start(Settings1.Default.TextEditor, config);
             } else {

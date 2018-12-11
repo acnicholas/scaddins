@@ -59,7 +59,7 @@ namespace SCaddins.ExportManager
                 ViewSheet sheet,
                 Document doc,
                 SegmentedSheetName fileNameTemplate,
-                ExportManager scx)
+                Manager scx)
         {
             this.Init(sheet, doc, fileNameTemplate, scx);
             this.UpdateSheetInfo();
@@ -408,7 +408,7 @@ namespace SCaddins.ExportManager
 
         public void ToggleNorthPoint(bool turnOn)
         {
-            var titleBlock = ExportManager.TitleBlockInstanceFromSheetNumber(
+            var titleBlock = Manager.TitleBlockInstanceFromSheetNumber(
                 this.sheetNumber, this.doc);
 
             string northPointVisibility = SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter;
@@ -518,7 +518,7 @@ namespace SCaddins.ExportManager
 
         public void UpdateScaleBarScale()
         {
-            var titleBlock = ExportManager.TitleBlockInstanceFromSheetNumber(
+            var titleBlock = Manager.TitleBlockInstanceFromSheetNumber(
                 this.sheetNumber, this.doc);
             if (titleBlock != null)
             {
@@ -533,7 +533,7 @@ namespace SCaddins.ExportManager
         /// </summary>
         public void UpdateSheetInfo()
         {
-            var titleBlock = ExportManager.TitleBlockInstanceFromSheetNumber(
+            var titleBlock = Manager.TitleBlockInstanceFromSheetNumber(
                 this.sheetNumber, this.doc);
             if (titleBlock != null) {
                 this.scale = titleBlock.get_Parameter(
@@ -556,7 +556,7 @@ namespace SCaddins.ExportManager
                 ViewSheet viewSheet,
                 Document document,
                 SegmentedSheetName sheetName,
-                ExportManager scx)
+                Manager scx)
         {
             this.doc = document;
             this.sheet = viewSheet;
@@ -576,7 +576,7 @@ namespace SCaddins.ExportManager
             this.pageSize = string.Empty;
             this.id = viewSheet.Id;
             this.ForceDate = scx.ForceRevisionToDateString;
-            this.forceRasterPrint = UseRasterPrinting(ExportManager.ForceRasterPrintParameterName);
+            this.forceRasterPrint = UseRasterPrinting(Manager.ForceRasterPrintParameterName);
             this.useDateForEmptyRevisions = scx.UseDateForEmptyRevisions;
             this.UpdateRevision(false);
             this.SetExportName();

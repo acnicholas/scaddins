@@ -22,11 +22,11 @@ namespace SCaddins.LineOfSight.ViewModels
 
     internal class LineOfSightViewModel : PropertyChangedBase
     {
-        private LineOfSight lineOfSight;
+        private StadiumSeatingTier lineOfSight;
 
         public LineOfSightViewModel(Document doc)
         {
-            lineOfSight = new LineOfSight(doc);
+            lineOfSight = new StadiumSeatingTier(doc);
         }
 
         public static bool CanDraw

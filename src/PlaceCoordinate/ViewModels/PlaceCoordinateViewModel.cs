@@ -38,7 +38,7 @@ namespace SCaddins.PlaceCoordinate.ViewModels
             selectedFamilySymbol = Command.TryGetDefaultSpotCoordFamily(familiesInModel);
             if (selectedFamilySymbol == null)
             {
-                selectedFamilySymbol = Command.TryLoadDefaultSpotCoordFamily(familiesInModel, doc);
+                selectedFamilySymbol = Command.TryLoadDefaultSpotCoordFamily(doc);
                 if (selectedFamilySymbol != null)
                 {
                     familiesInModel.Add(selectedFamilySymbol);

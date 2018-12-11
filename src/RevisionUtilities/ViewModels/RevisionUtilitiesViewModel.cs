@@ -39,12 +39,12 @@ namespace SCaddins.RevisionUtilities.ViewModels
 
         public List<RevisionItem> Revisions
         {
-            get { return RevisionUtilities.GetRevisions(doc); }
+            get { return Manager.GetRevisions(doc); }
         }
 
         public List<RevisionCloudItem> RevisionClouds
         {
-            get { return RevisionUtilities.GetRevisionClouds(doc); }
+            get { return Manager.GetRevisionClouds(doc); }
         }
 
         public void RevisionSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs eventArgs)
@@ -63,7 +63,7 @@ namespace SCaddins.RevisionUtilities.ViewModels
         {
             string filePath = string.Empty;
             SCaddinsApp.WindowManager.ShowSaveFileDialog(@"C:\Temp\Clouds.xls", "*.xls", "Excel Workbook (.xls)|*.xls", out filePath);
-            RevisionUtilities.ExportCloudInfo(doc, selectedRevisions, filePath);
+            Manager.ExportCloudInfo(doc, selectedRevisions, filePath);
         }
 
         public void AssignRevision()
@@ -82,7 +82,7 @@ namespace SCaddins.RevisionUtilities.ViewModels
             {
                 if (revisionSelectionViewModel.SelectedRevision != null)
                 {
-                    RevisionUtilities.AssignRevisionToClouds(
+                    Manager.AssignRevisionToClouds(
                         doc, 
                         selectedRevisionClouds, 
                         revisionSelectionViewModel.SelectedRevision.Id);
@@ -93,7 +93,7 @@ namespace SCaddins.RevisionUtilities.ViewModels
 
         public void DeleteClouds()
         {
-            RevisionUtilities.DeleteRevisionClouds(doc, selectedRevisionClouds);
+            Manager.DeleteRevisionClouds(doc, selectedRevisionClouds);
             NotifyOfPropertyChange(() => RevisionClouds);
         }
     }

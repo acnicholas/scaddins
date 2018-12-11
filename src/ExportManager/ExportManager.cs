@@ -33,7 +33,7 @@ namespace SCaddins.ExportManager
     using SCaddins.Common;
     using SCaddins.Properties;
 
-    public class ExportManager
+    public class Manager
     {
         private static string activeDoc;
         private static Dictionary<string, FamilyInstance> titleBlocks;
@@ -47,14 +47,14 @@ namespace SCaddins.ExportManager
         private bool forceDate;
         private Dictionary<string, PostExportHookCommand> postExportHooks;
 
-        public ExportManager(UIDocument uidoc)
+        public Manager(UIDocument uidoc)
         {
             Doc = uidoc.Document;
             UIDoc = uidoc;
             this.fileNameScheme = null;
             this.exportDirectory = Constants.DefaultExportDirectory;
-            ExportManager.ConfirmOverwrite = true;
-            ExportManager.activeDoc = null;
+            Manager.ConfirmOverwrite = true;
+            Manager.activeDoc = null;
             this.allViewSheetSets = new ObservableCollection<ViewSheetSetCombo>();
             this.allSheets = new ObservableCollection<ExportSheet>();
             this.fileNameTypes = new List<SegmentedSheetName>();
@@ -62,9 +62,9 @@ namespace SCaddins.ExportManager
             this.exportFlags = ExportOptions.None;
             this.LoadSettings();
             this.SetDefaultFlags();
-            ExportManager.PopulateViewSheetSets(this.allViewSheetSets, Doc);
+            Manager.PopulateViewSheetSets(this.allViewSheetSets, Doc);
             this.PopulateSheets(this.allSheets);
-            ExportManager.FixAcrotrayHang();
+            Manager.FixAcrotrayHang();
         }
 
         public static ACADVersion AcadVersion {
@@ -767,14 +767,14 @@ namespace SCaddins.ExportManager
 
             List<ElementId> titleBlockHidden;
             titleBlockHidden = new List<ElementId>();
-            var titleBlock = ExportManager.TitleBlockInstanceFromSheetNumber(vs.SheetNumber, Doc);
+            var titleBlock = Manager.TitleBlockInstanceFromSheetNumber(vs.SheetNumber, Doc);
             titleBlockHidden.Add(titleBlock.Id);
 
             if (removeTitle) {
                 if (log != null) {
                     log.AddMessage(Resources.MessageAttemptingToHideTitleBlock);
                 }
-                ExportManager.RemoveTitleBlock(vs, titleBlockHidden, true, Doc);
+                Manager.RemoveTitleBlock(vs, titleBlockHidden, true, Doc);
             }
 
             PrintManager pm = Doc.PrintManager;
@@ -819,7 +819,7 @@ namespace SCaddins.ExportManager
                 if (log != null) {
                     log.AddMessage(Resources.MessageShowingTitleBlock);
                 }
-                ExportManager.RemoveTitleBlock(vs, titleBlockHidden, false, Doc);
+                Manager.RemoveTitleBlock(vs, titleBlockHidden, false, Doc);
             }
         }
 
@@ -884,7 +884,9 @@ namespace SCaddins.ExportManager
                 return false;
             }
 
+#pragma warning disable CA3075 // Insecure DTD processing in XML
             using (var reader = new XmlTextReader(filename)) {
+#pragma warning restore CA3075 // Insecure DTD processing in XML
                 while (reader.Read()) {
                     if (reader.NodeType == XmlNodeType.Element && reader.Name == "PostExportHook") {
                         var hook = new PostExportHookCommand();
@@ -1020,7 +1022,9 @@ namespace SCaddins.ExportManager
 #endif
                 settings.ValidationType = ValidationType.Schema;
                 XmlReader reader = XmlReader.Create(filename, settings);
+#pragma warning disable CA3075 // Insecure DTD processing in XML
                 var document = new XmlDocument();
+#pragma warning restore CA3075 // Insecure DTD processing in XML
                 document.Load(reader);
                 var eventHandler =
                     new ValidationEventHandler(this.ValidationEventHandler);

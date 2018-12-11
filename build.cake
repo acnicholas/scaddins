@@ -4,11 +4,10 @@ using System.IO;
 var target = Argument("target", "Default");
 var solutionFile = GetFiles("src/*.sln").First();
 var solutionFileWix = GetFiles("installer/SCaddins.Installer.wixproj").First();
-var revitTestFrameworkGUIBin = @"../RevitTestFramework/bin/AnyCPU/Debug/RevitTestFrameworkGUI.exe";
-var revitTestFrameworkBin = @"src/packages/RevitTestFramework.1.19.23/tools/RevitTestFrameworkConsole.exe";
 var buildDir = Directory(@"./src/bin");
 var testBuildDir = Directory(@"./src/bin");
 var testAssemblyDllName = "SCaddins.Tests.dll";
+var revitTestFrameworkBin = Argument("RTFBin", @"src/packages/RevitTestFramework.1.19.23/tools/RevitTestFrameworkConsole.exe");
 
 // METHODS
 
@@ -19,7 +18,7 @@ public MSBuildSettings GetBuildSettings(string config)
 		.WithTarget("Clean,Build")
 		.WithProperty("Platform","x64")
 		.SetVerbosity(Verbosity.Minimal);
-	////result.WarningsAsError = true;
+		result.WarningsAsError = true;
 	return result;
 }
 
@@ -31,6 +30,12 @@ public string GetTestAssembly(string revitVersion)
 public bool APIAvailable(string revitVersion)
 {
 	return FileExists(@"C:\Program Files\Autodesk\Revit " + revitVersion + @"\RevitAPI.dll");
+}
+
+public string GetTestArgs(string revitVersion)
+{
+	var path = string.Format(@"tests/bin/x64/Release{0}",revitVersion);
+	return string.Format(@"{0} --dir={1} --result={1}/result.xml --groupByModel --color --continous",GetTestAssembly(revitVersion), path);
 }
 
 // TASKS
@@ -76,10 +81,10 @@ Task("Revit2019")
 .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2019")));
 
 Task("Test2018")
-.Does(() => StartProcess(new FilePath(revitTestFrameworkGUIBin).FullPath, GetTestAssembly("2018")));
+.Does(() => StartProcess(revitTestFrameworkBin, GetTestArgs("2018")));
 
 Task("Test2019")
-.Does(() => StartProcess(new FilePath(revitTestFrameworkGUIBin).FullPath, new FilePath(GetTestAssembly("2019")).MakeAbsolute(Context.Environment).FullPath.Replace(@"/",@"\")));
+.Does(() => StartProcess(revitTestFrameworkBin, GetTestArgs("2019")));
 
 Task("Installer")
 .IsDependentOn("Restore-Installer-NuGet-Packages")

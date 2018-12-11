@@ -20,7 +20,7 @@ namespace SCaddins.ExportManager.Tests
         public void ConfigFileExistsTest()
         {
             var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
-            var config = ExportManager.GetConfigFileName(doc);
+            var config = Manager.GetConfigFileName(doc);
             Assert.IsFalse(File.Exists(config));
         }
 

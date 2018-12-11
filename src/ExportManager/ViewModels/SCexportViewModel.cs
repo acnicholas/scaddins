@@ -29,7 +29,7 @@ namespace SCaddins.ExportManager.ViewModels
 
     internal class SCexportViewModel : Screen
     {
-        private readonly ExportManager exportManager;
+        private readonly Manager exportManager;
         private CloseMode closeMode;
         private bool isClosing;
         private List<string> printTypes;
@@ -39,7 +39,7 @@ namespace SCaddins.ExportManager.ViewModels
         private ObservableCollection<ExportSheet> sheets;
         private ICollectionView sheetsCollection;
 
-        public SCexportViewModel(ExportManager exportManager)
+        public SCexportViewModel(Manager exportManager)
         {
             printTypes = (new string[] { "Print A3", "Print A2", "Print Full Size" }).ToList();
             selectedPrintType = "Print A3";
@@ -76,15 +76,14 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public CloseMode CloseStatus
-        {
+        public static string ExportButtonLabel => @"Export";
+
+        public CloseMode CloseStatus {
             get
             {
                 return closeMode;
             }
         }
-
-        public string ExportButtonLabel => @"Export";
 
         public bool IsSearchTextFocused
         {
@@ -203,7 +202,7 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (revisionSelectionViewModel.SelectedRevision != null)
                 {
-                    ExportManager.AddRevisions(selectedSheets, revisionSelectionViewModel.SelectedRevision.Id, exportManager.Doc);
+                    Manager.AddRevisions(selectedSheets, revisionSelectionViewModel.SelectedRevision.Id, exportManager.Doc);
                     NotifyOfPropertyChange(() => Sheets);
                 }
             }
@@ -236,7 +235,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void FixScaleBars()
         {
-            ExportManager.FixScaleBars(selectedSheets, exportManager.Doc);
+            Manager.FixScaleBars(selectedSheets, exportManager.Doc);
         }
 
         public void KeyPressed(KeyEventArgs keyArgs)
@@ -281,7 +280,7 @@ namespace SCaddins.ExportManager.ViewModels
                     break;
 
                 case Key.S:
-                    var activeSheetNumber = ExportManager.CurrentViewNumber(exportManager.Doc);
+                    var activeSheetNumber = Manager.CurrentViewNumber(exportManager.Doc);
                     if (activeSheetNumber == null)
                     {
                         return;
@@ -392,7 +391,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void ShowLatestRevision()
         {
-            var revDate = ExportManager.LatestRevisionDate(exportManager.Doc);
+            var revDate = Manager.LatestRevisionDate(exportManager.Doc);
             this.IsNotifying = false;
             try
             {
@@ -407,12 +406,12 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void TurnNorthPointsOff()
         {
-            ExportManager.ToggleNorthPoints(selectedSheets, exportManager.Doc, false);
+            Manager.ToggleNorthPoints(selectedSheets, exportManager.Doc, false);
         }
 
         public void TurnNorthPointsOn()
         {
-            ExportManager.ToggleNorthPoints(selectedSheets, exportManager.Doc, true);
+            Manager.ToggleNorthPoints(selectedSheets, exportManager.Doc, true);
         }
 
         public void VerifySheets()
@@ -446,7 +445,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         private void FilterByNumber(string number)
         {
-            var activeSheetName = ExportManager.CurrentViewNumber(exportManager.Doc);
+            var activeSheetName = Manager.CurrentViewNumber(exportManager.Doc);
             try
             {
                 var filter = new System.Predicate<object>(item => Regex.IsMatch(((ExportSheet)item).SheetNumber, @"^\D*" + number));

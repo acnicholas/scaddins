@@ -65,7 +65,7 @@ namespace SCaddins.ExportManager
                 return Autodesk.Revit.UI.Result.Failed;
             }
 
-            var manager = new ExportManager(uidoc);
+            var manager = new Manager(uidoc);
             var log = new ExportLog();
             var vm = new ViewModels.SCexportViewModel(manager);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SCexportViewModel.DefaultWindowSettings);
@@ -141,11 +141,10 @@ namespace SCaddins.ExportManager
                 progressVm.ProcessComplete = true;
             }
 
-            ////if (manager.ShowExportLog && log != null)
-            ////{
-            ////    var logVM = new ViewModels.ExportLogViewModel(log);
-            ////    SCaddinsApp.WindowManager.ShowDialog(logVM, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
-            ////}
+            if (manager.ShowExportLog && log != null) {
+                var logVM = new ViewModels.ExportLogViewModel(log);
+                SCaddinsApp.WindowManager.ShowDialog(logVM, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
+            }
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }

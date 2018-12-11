@@ -46,7 +46,7 @@ namespace SCaddins.ExportManager
             else
             {
                 var vs = currentView as ViewSheet;
-                ExportManager.OpenNextSheet(commandData.Application.ActiveUIDocument, vs);
+                Manager.OpenNextSheet(commandData.Application.ActiveUIDocument, vs);
                 return Autodesk.Revit.UI.Result.Succeeded;
             }
         }

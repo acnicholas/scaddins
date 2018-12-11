@@ -95,7 +95,7 @@ namespace SCaddins.PlaceCoordinate
             return null;
         }
 
-        public static FamilySymbol TryLoadDefaultSpotCoordFamily(List<FamilySymbol> familes, Document doc)
+        public static FamilySymbol TryLoadDefaultSpotCoordFamily(Document doc)
         {
             if (DefaultSpotCoordinateFamilyExists(doc)) {
                 Family fam;

@@ -25,13 +25,21 @@ namespace SCaddins.ExportManager.ViewModels
 
     internal class OptionsViewModel : PropertyChangedBase
     {
-        private ExportManager exportManager;
+        private Manager exportManager;
         private SCexportViewModel exportManagerViewModel;
 
-        public OptionsViewModel(ExportManager exportManager, SCexportViewModel exportManagerViewModel)
+        public OptionsViewModel(Manager exportManager, SCexportViewModel exportManagerViewModel)
         {
             this.exportManager = exportManager;
             this.exportManagerViewModel = exportManagerViewModel;
+        }
+
+        public static List<Autodesk.Revit.DB.ACADVersion> AutoCADExportVersions {
+            get
+            {
+                var versions = Enum.GetValues(typeof(Autodesk.Revit.DB.ACADVersion)).Cast<Autodesk.Revit.DB.ACADVersion>().ToList();
+                return versions;
+            }
         }
 
         public static string ForceRasterPrintParameterName {
@@ -82,6 +90,55 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public static Autodesk.Revit.DB.ACADVersion SelectedAutoCADExportVersion {
+            get
+            {
+                return Manager.AcadVersion;
+            }
+
+            set
+            {
+                if (value == Manager.AcadVersion) {
+                    return;
+                }
+                Manager.AcadVersion = value;
+                Settings1.Default.AcadExportVersion = value;
+                Settings1.Default.Save();
+            }
+        }
+
+        public static bool ShowSummaryLog {
+            get
+            {
+                return SCaddins.ExportManager.Settings1.Default.ShowExportLog;
+            }
+
+            set
+            {
+                if (value == SCaddins.ExportManager.Settings1.Default.ShowExportLog) {
+                    return;
+                }
+                SCaddins.ExportManager.Settings1.Default.ShowExportLog = value;
+                SCaddins.ExportManager.Settings1.Default.Save();
+            }
+        }
+
+        public static string TextEditorBinPath {
+            get
+            {
+                return SCaddins.ExportManager.Settings1.Default.TextEditor;
+            }
+
+            set
+            {
+                if (value == SCaddins.ExportManager.Settings1.Default.TextEditor) {
+                    return;
+                }
+                SCaddins.ExportManager.Settings1.Default.TextEditor = value;
+                SCaddins.ExportManager.Settings1.Default.Save();
+            }
+        }
+
         public string A3PrinterName {
             get
             {
@@ -116,15 +173,6 @@ namespace SCaddins.ExportManager.ViewModels
                 Settings1.Default.AdobePrinterDriver = value;
                 Settings1.Default.Save();
                 NotifyOfPropertyChange(() => AdobePDFPrintDriverName);
-            }
-        }
-
-        public List<Autodesk.Revit.DB.ACADVersion> AutoCADExportVersions
-        {
-            get
-            {
-                var versions = Enum.GetValues(typeof(Autodesk.Revit.DB.ACADVersion)).Cast<Autodesk.Revit.DB.ACADVersion>().ToList();
-                return versions;
             }
         }
 
@@ -348,24 +396,6 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public Autodesk.Revit.DB.ACADVersion SelectedAutoCADExportVersion
-        {
-            get
-            {
-                return ExportManager.AcadVersion;
-            }
-
-            set
-            {
-                if (value == ExportManager.AcadVersion) {
-                    return;
-                }
-                ExportManager.AcadVersion = value;
-                Settings1.Default.AcadExportVersion = value;
-                Settings1.Default.Save();
-            }
-        }
-
         public SegmentedSheetName SelectedFileNamingScheme
         {
             get
@@ -382,38 +412,21 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public bool ShowSummaryLog
+        public static string SelectPrinter(string printerToSelect, string currentPrinter)
         {
-            get
-            {
-                return SCaddins.ExportManager.Settings1.Default.ShowExportLog;
+            dynamic settings = new ExpandoObject();
+            settings.MinHeight = 150;
+            settings.MinWidth = 300;
+            settings.Title = printerToSelect;
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+            settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
+            var printerViewModel = new PrinterSelectionViewModel(currentPrinter);
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(printerViewModel, null, settings);
+            if (result.HasValue) {
+                return result.Value == true ? printerViewModel.SelectedPrinter : currentPrinter;
             }
-
-            set
-            {
-                if (value == SCaddins.ExportManager.Settings1.Default.ShowExportLog) {
-                    return;
-                }
-                SCaddins.ExportManager.Settings1.Default.ShowExportLog = value;
-                SCaddins.ExportManager.Settings1.Default.Save();
-            }
-        }
-
-        public string TextEditorBinPath
-        {
-            get
-            {
-                return SCaddins.ExportManager.Settings1.Default.TextEditor;
-            }
-
-            set
-            {
-                if (value == SCaddins.ExportManager.Settings1.Default.TextEditor) {
-                    return;
-                }
-                SCaddins.ExportManager.Settings1.Default.TextEditor = value;
-                SCaddins.ExportManager.Settings1.Default.Save();
-            }
+            return currentPrinter;
         }
 
         public void CreateProjectConfigFile()
@@ -474,24 +487,6 @@ namespace SCaddins.ExportManager.ViewModels
         public void SelectPostscriptPrinter()
         {
             PostscriptPrintDriverName = SelectPrinter("Select Postscript Printer", PostscriptPrintDriverName);
-        }
-
-        public string SelectPrinter(string printerToSelect, string currentPrinter)
-        {
-            dynamic settings = new ExpandoObject();
-            settings.MinHeight = 150;
-            settings.MinWidth = 300;
-            settings.Title = printerToSelect;
-            settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
-            settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
-            var printerViewModel = new PrinterSelectionViewModel(currentPrinter);
-            bool? result = SCaddinsApp.WindowManager.ShowDialog(printerViewModel, null, settings);
-            if (result.HasValue)
-            {
-                return result.Value == true ? printerViewModel.SelectedPrinter : currentPrinter;
-            }
-            return currentPrinter;
         }
     }
 }

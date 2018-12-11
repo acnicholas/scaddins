@@ -4,7 +4,9 @@
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
 
+#pragma warning disable CA1060 // Move pinvokes to native methods class
     public class WindowManager : Caliburn.Micro.WindowManager
+#pragma warning restore CA1060 // Move pinvokes to native methods class
     {
         private const int GWLSTYLE = -16;
         private IDialogService dialogService;
@@ -108,7 +110,10 @@
         {
             var handle = new System.Windows.Interop.WindowInteropHelper((System.Windows.Window)sender).Handle;
             var value = GetWindowLong(handle, GWLSTYLE);
-            SetWindowLong(handle, GWLSTYLE, (int)(value & -131073 & -65537));
+            var ret = SetWindowLong(handle, GWLSTYLE, value & -131073 & -65537);
+            if (ret == 0) {
+                System.Console.WriteLine("WARNING: could not set window style");
+            }
         }
     }
 }

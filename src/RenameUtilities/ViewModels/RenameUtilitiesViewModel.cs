@@ -57,7 +57,7 @@ namespace SCaddins.RenameUtilities.ViewModels
         #region
         #endregion
 
-        public BindableCollection<string> ParameterCategories
+        public static BindableCollection<string> ParameterCategories
         {
             get
             {

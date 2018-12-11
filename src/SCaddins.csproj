@@ -443,9 +443,9 @@
     <Compile Include="ExportManager\Sheet.cs" />
     <Compile Include="ExportManager\SegmentedSheetName.cs" />
     <Compile Include="ExportManager\ViewSheetSetCombo.cs" />
-    <Compile Include="LineOfSight\LineOfSight.cs" />
+    <Compile Include="LineOfSight\StaduimSeatingTier.cs" />
     <Compile Include="LineOfSight\LineOfSightCommand.cs" />
-    <Compile Include="LineOfSight\LineOfSightRow.cs" />
+    <Compile Include="LineOfSight\StaduimSeatingTread.cs" />
     <Compile Include="ParameterUtilities\Increment.cs" />
     <Compile Include="ParameterUtilities\IncrementSettings.cs" />
     <Compile Include="ParameterUtilities\IncrementSettings.Designer.cs">
