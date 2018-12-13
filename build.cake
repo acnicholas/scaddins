@@ -24,7 +24,7 @@ public MSBuildSettings GetBuildSettings(string config)
 
 public string GetTestAssembly(string revitVersion)
 {
-	return string.Format(@"tests/bin/x64/Release{0}/{1}",revitVersion, testAssemblyDllName);
+	return string.Format(@"tests\bin\x64\Release{0}\{1}",revitVersion, testAssemblyDllName);
 }
 
 public bool APIAvailable(string revitVersion)
@@ -34,8 +34,11 @@ public bool APIAvailable(string revitVersion)
 
 public string GetTestArgs(string revitVersion)
 {
-	var path = string.Format(@"tests/bin/x64/Release{0}",revitVersion);
-	return string.Format(@"{0} --dir={1} --result={1}/result.xml --groupByModel --color --continous",GetTestAssembly(revitVersion), path);
+	var path = string.Format(@"tests\bin\x64\Release{0}",revitVersion);
+	string result = string.Format(@"--assembly={0} --dir={1} --results={1}\result.xml --groupByModel --color --continuous", GetTestAssembly(revitVersion), path);
+	System.Console.WriteLine(result);
+	return result;
+	//return "-h";
 }
 
 // TASKS
