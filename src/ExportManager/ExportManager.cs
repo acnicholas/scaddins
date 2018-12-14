@@ -611,16 +611,6 @@ namespace SCaddins.ExportManager
                 Microsoft.Win32.RegistryValueKind.String);
         }
 
-        private static DWGExportOptions GetDefaultDWGExportOptions()
-        {
-            var opts = new DWGExportOptions();
-            opts.MergedViews = true;
-            opts.FileVersion = AcadVersion;
-            opts.HideScopeBox = true;
-            opts.HideUnreferenceViewTags = true;
-            return opts;
-        }
-
         private static bool IsViewerMode()
         {
             var mainWindowTitle = System.Diagnostics.Process.GetCurrentProcess().MainWindowTitle;
@@ -807,7 +797,7 @@ namespace SCaddins.ExportManager
             if (ExportViewportsOnly)
             {
                 foreach (var viewOnSheet in vs.Sheet.GetAllPlacedViews()) {
-                    View individualViewOnSheet =  Doc.GetElement(viewOnSheet) as View;
+                    View individualViewOnSheet = Doc.GetElement(viewOnSheet) as View;
                     if (individualViewOnSheet.ViewType == ViewType.FloorPlan || individualViewOnSheet.ViewType == ViewType.CeilingPlan)
                     {
                         views.Add(individualViewOnSheet.Id);
@@ -898,8 +888,7 @@ namespace SCaddins.ExportManager
             opts.FileVersion = AcadVersion;
             opts.HideScopeBox = true;
             opts.HideUnreferenceViewTags = true;
-            if(ExportViewportsOnly)
-            {
+            if (ExportViewportsOnly) {
                 opts.SharedCoords = true;
             }
             return opts;
