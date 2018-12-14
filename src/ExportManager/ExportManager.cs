@@ -106,6 +106,11 @@ namespace SCaddins.ExportManager
             get; set;
         }
 
+        public bool ExportViewportsOnly
+        {
+            get; set;
+        }
+
         public string ExportDirectory {
             get
             {
@@ -799,6 +804,17 @@ namespace SCaddins.ExportManager
             views = new List<ElementId>();
             views.Add(vs.Id);
 
+            if (ExportViewportsOnly)
+            {
+                foreach (var viewOnSheet in vs.Sheet.GetAllPlacedViews()) {
+                    View individualViewOnSheet =  Doc.GetElement(viewOnSheet) as View;
+                    if (individualViewOnSheet.ViewType == ViewType.FloorPlan || individualViewOnSheet.ViewType == ViewType.CeilingPlan)
+                    {
+                        views.Add(individualViewOnSheet.Id);
+                    }
+                }
+            }
+
             using (var opts = GetDefaultDWGExportOptions()) {
                 if (log != null) {
                     log.AddMessage(Resources.MessageAssigningExportOptions + opts);
@@ -873,6 +889,20 @@ namespace SCaddins.ExportManager
             }
 
             return true;
+        }
+
+        private DWGExportOptions GetDefaultDWGExportOptions()
+        {
+            var opts = new DWGExportOptions();
+            opts.MergedViews = true;
+            opts.FileVersion = AcadVersion;
+            opts.HideScopeBox = true;
+            opts.HideUnreferenceViewTags = true;
+            if(ExportViewportsOnly)
+            {
+                opts.SharedCoords = true;
+            }
+            return opts;
         }
 
         private bool ImportXMLinfo(string filename)

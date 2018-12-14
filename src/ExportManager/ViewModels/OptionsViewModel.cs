@@ -193,6 +193,24 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public bool ExportViewportsOnly
+        {
+            get
+            {
+                return exportManager.ExportViewportsOnly;
+            }
+
+            set
+            {
+                if (exportManager.ExportViewportsOnly != value)
+                {
+                    exportManager.ExportViewportsOnly = value;
+                    Settings1.Default.ExportViewportsOnly = value;
+                    Settings1.Default.Save();
+                }
+            }
+        }
+
         public bool ExportAdobePDF
         {
             get
