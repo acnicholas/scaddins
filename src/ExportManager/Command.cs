@@ -118,7 +118,7 @@ namespace SCaddins.ExportManager
                             manager.Print(sheet, manager.PrinterNameLargeFormat, 2, log);
                             break;
                         default:
-                            break;
+                            return Autodesk.Revit.UI.Result.Succeeded;
                     }
 
                     progressVm.Value++;
@@ -141,7 +141,8 @@ namespace SCaddins.ExportManager
                 progressVm.ProcessComplete = true;
             }
 
-            if (manager.ShowExportLog && log != null) {
+          
+            if (manager.ShowExportLog || log.Errors > 0) {
                 var logVM = new ViewModels.ExportLogViewModel(log);
                 SCaddinsApp.WindowManager.ShowDialog(logVM, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
             }
