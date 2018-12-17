@@ -161,7 +161,19 @@
                             <Button x:Name="SelectGhostscriptLibLocation" Grid.Column="2" Grid.Row="1" Margin="5" MaxWidth="20">...</Button>
                         </Grid>
                     </GroupBox>
-                    <CheckBox x:Name="ShowSummaryLog" Grid.Row="3" Grid.Column="0" Margin="5">Show Export Log after completion(will always show on an error</CheckBox>
+                    <GroupBox Header="SCexport Start/Close Options" Grid.Row="3" Margin="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <CheckBox x:Name="ShowSummaryLog" Grid.Row="0" Grid.Column="0" Margin="5">Show Export Log after completion(will always show on an error)</CheckBox>
+                            <CheckBox x:Name="VerifyOnStartup" Grid.Row="1" Grid.Column="0" Margin="5">Verify print settings on startup</CheckBox>
+                        </Grid>
+                    </GroupBox>
                 </Grid>
             </TabItem>
         </TabControl>

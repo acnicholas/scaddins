@@ -221,6 +221,11 @@ namespace SCaddins.ExportManager
             }
         }
 
+        public bool VerifyOnStartup
+        {
+            get; set;
+        }
+
         public static void AddRevisions(ICollection<ExportSheet> sheets, ElementId revisionId, Document doc)
         {
             if (sheets == null || revisionId == null || revisionId == null)
@@ -473,6 +478,7 @@ namespace SCaddins.ExportManager
             this.ShowExportLog = SCaddins.ExportManager.Settings1.Default.ShowExportLog;
             this.ForceRevisionToDateString = SCaddins.ExportManager.Settings1.Default.ForceDateRevision;
             this.UseDateForEmptyRevisions = SCaddins.ExportManager.Settings1.Default.UseDateForEmptyRevisions;
+            this.VerifyOnStartup = SCaddins.ExportManager.Settings1.Default.VerifyOnStartup;
         }
 
         public bool PDFSanityCheck()
@@ -984,7 +990,7 @@ namespace SCaddins.ExportManager
                 collector.OfCategory(BuiltInCategory.OST_Sheets);
                 collector.OfClass(typeof(ViewSheet));
                 foreach (ViewSheet v in collector) {
-                    var scxSheet = new ExportSheet(v, Doc, this.fileNameTypes[0], this);
+                    var scxSheet = new ExportSheet(v, Doc, this.fileNameTypes[0], VerifyOnStartup, this);
                     s.Add(scxSheet);
                 }
             }

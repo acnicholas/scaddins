@@ -430,6 +430,26 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public bool VerifyOnStartup
+        {
+            get
+            {
+                return exportManager.VerifyOnStartup;
+            }
+
+            set
+            {
+                if (value == exportManager.VerifyOnStartup)
+                {
+                    return;
+                }
+                exportManager.VerifyOnStartup = value;
+                Settings1.Default.VerifyOnStartup = value;
+                Settings1.Default.Save();
+                NotifyOfPropertyChange(() => VerifyOnStartup);
+            }
+        }
+
         public static string SelectPrinter(string printerToSelect, string currentPrinter)
         {
             dynamic settings = new ExpandoObject();

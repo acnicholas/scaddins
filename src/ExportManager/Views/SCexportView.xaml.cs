@@ -22,7 +22,9 @@
 
         private void Sheets_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Sheets.ScrollIntoView(Sheets.SelectedItem);
+            if (Sheets.SelectedItems.Count == 1) {
+                Sheets.ScrollIntoView(Sheets.SelectedItem);
+            }
         }
     }
 }

@@ -59,10 +59,14 @@ namespace SCaddins.ExportManager
                 ViewSheet sheet,
                 Document doc,
                 SegmentedSheetName fileNameTemplate,
+                bool verifyOnCreation,
                 Manager scx)
         {
             this.Init(sheet, doc, fileNameTemplate, scx);
-            this.UpdateSheetInfo();
+            if (verifyOnCreation)
+            {
+                this.UpdateSheetInfo();
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

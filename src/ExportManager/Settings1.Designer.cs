@@ -25,7 +25,7 @@ namespace SCaddins.ExportManager {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("\\\\SCAPP01\\FollowYouColour")]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\\\SCAPP01\\FollowMeColour")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public string A3PrinterDriver {
             get {
@@ -263,6 +263,18 @@ namespace SCaddins.ExportManager {
             }
             set {
                 this["ExportViewportsOnly"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool VerifyOnStartup {
+            get {
+                return ((bool)(this["VerifyOnStartup"]));
+            }
+            set {
+                this["VerifyOnStartup"] = value;
             }
         }
     }
