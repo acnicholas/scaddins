@@ -21,12 +21,12 @@ namespace SCaddins.ExportManager
 
     public class ViewSetItem
     {
-        public ViewSetItem(int id, string name, int numberOfViews, List<int> viewsIds)
+        public ViewSetItem(int id, string name, List<int> viewsIds)
         {
             Id = id;
             Name = name;
-            NumberOfViews = numberOfViews;
             ViewIds = viewsIds;
+            NumberOfViews = viewsIds.Count;
         }
 
         public int Id { get; set; }
@@ -35,6 +35,6 @@ namespace SCaddins.ExportManager
 
         public int NumberOfViews { get; set; }
 
-        public List<int> ViewIds { get; set; }
+        public List<int> ViewIds { get; }
     }  
 }

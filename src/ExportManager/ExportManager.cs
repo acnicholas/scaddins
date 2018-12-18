@@ -448,6 +448,22 @@ namespace SCaddins.ExportManager
             log.EndLoggingIndividualItem(startTime, null);
         }
 
+        public void SaveViewSet(string name, List<ExportSheet> selectedSheets)
+        {
+            using (Transaction t = new Transaction(Doc)) 
+            {
+                t.Start("test");
+                Doc.PrintManager.PrintRange = PrintRange.Select;
+                Doc.PrintManager.ViewSheetSetting.CurrentViewSheetSet = Doc.PrintManager.ViewSheetSetting.InSession;
+                Doc.PrintManager.ViewSheetSetting.InSession.Views.Clear();
+                foreach (ExportSheet exportSheet in selectedSheets) {
+                    Doc.PrintManager.ViewSheetSetting.InSession.Views.Insert(exportSheet.Sheet);
+                }
+                Doc.PrintManager.ViewSheetSetting.SaveAs(name);
+                t.Commit();
+            }
+        }
+
         public bool GSSanityCheck()
         {
             if (!Directory.Exists(this.GhostscriptBinDirectory) || !Directory.Exists(this.GhostscriptLibDirectory))
@@ -635,8 +651,8 @@ namespace SCaddins.ExportManager
             using (FilteredElementCollector collector = new FilteredElementCollector(doc)) {
                 collector.OfClass(typeof(ViewSheetSet));
                 foreach (ViewSheetSet v in collector) {
-                    var viewIds = v.Views.Cast<View>().Select(v => v.Id).ToList();
-                    result.Add(new ViewSetItem(v.Id.IntegerValue, v.Name, v.Views.Size, viewIds));
+                    var viewIds = v.Views.Cast<View>().Select(vs => vs.Id.IntegerValue).ToList();
+                    result.Add(new ViewSetItem(v.Id.IntegerValue, v.Name, viewIds));
                 }
             }
             return result;

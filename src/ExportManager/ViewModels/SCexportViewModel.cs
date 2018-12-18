@@ -362,9 +362,16 @@ namespace SCaddins.ExportManager.ViewModels
             var viewSetSelectionViewModel = new ViewSetSelectionViewModel(exportManager.AllViewSheetSets);
             bool? result = SCaddinsApp.WindowManager.ShowDialog(viewSetSelectionViewModel, null, ViewSetSelectionViewModel.DefaultWindowSettings);
             bool newBool = result.HasValue ? result.Value : false;
-            if (newBool)
-            {
-                ////todo;
+            if (newBool && viewSetSelectionViewModel.SelectedSet != null) {
+                this.IsNotifying = false;
+                try {
+                    var filter = new System.Predicate<object>(item => viewSetSelectionViewModel
+                            .SelectedSet
+                            .ViewIds.Contains(((ExportSheet)item).Sheet.Id.IntegerValue));
+                    Sheets.Filter = filter;
+                } catch {
+                }
+                this.IsNotifying = true;
             }
         }
 
@@ -393,6 +400,11 @@ namespace SCaddins.ExportManager.ViewModels
                 NotifyOfPropertyChange(() => Sheets);
                 NotifyOfPropertyChange(() => StatusText);
             }
+        }
+
+        public void SaveViewSet()
+        {
+            exportManager.SaveViewSet("test", selectedSheets);
         }
 
         public void SearchButton()
