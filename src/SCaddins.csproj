@@ -296,6 +296,8 @@
     <Compile Include="ExportManager\ViewModels\ProgressMonitorViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\RevisionSelectionViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\SCexportViewModel.cs" />
+    <Compile Include="ExportManager\ViewModels\ViewSetSelectionViewModel.cs" />
+    <Compile Include="ExportManager\ViewSetItem.cs" />
     <Compile Include="ExportManager\Views\ConfirmationDialogView.xaml.cs">
       <DependentUpon>ConfirmationDialogView.xaml</DependentUpon>
     </Compile>
@@ -322,6 +324,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Common\WindowManager.cs" />
+    <Compile Include="ExportManager\Views\ViewSetSelectionView.xaml.cs">
+      <DependentUpon>ViewSetSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LineOfSight\ViewModels\LineOfSightViewModel.cs" />
     <Compile Include="LineOfSight\Views\LineOfSightView.xaml.cs">
@@ -442,7 +447,6 @@
     </Compile>
     <Compile Include="ExportManager\Sheet.cs" />
     <Compile Include="ExportManager\SegmentedSheetName.cs" />
-    <Compile Include="ExportManager\ViewSheetSetCombo.cs" />
     <Compile Include="LineOfSight\StaduimSeatingTier.cs" />
     <Compile Include="LineOfSight\LineOfSightCommand.cs" />
     <Compile Include="LineOfSight\StaduimSeatingTread.cs" />
@@ -538,6 +542,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ExportManager\Views\SCexportView.xaml" />
+    <Page Include="ExportManager\Views\ViewSetSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LineOfSight\Views\LineOfSightView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

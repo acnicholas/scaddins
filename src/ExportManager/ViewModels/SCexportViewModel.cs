@@ -167,7 +167,7 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public ObservableCollection<ViewSheetSetCombo> ViewSheetSets
+        public ObservableCollection<ViewSetItem> ViewSheetSets
         {
             get { return exportManager.AllViewSheetSets; }
         }
@@ -355,6 +355,17 @@ namespace SCaddins.ExportManager.ViewModels
             SearchText = string.Empty;
             NotifyOfPropertyChange(() => Sheets);
             NotifyOfPropertyChange(() => SearchText);
+        }
+
+        public void OpenViewSet()
+        {
+            var viewSetSelectionViewModel = new ViewSetSelectionViewModel(exportManager.AllViewSheetSets);
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(viewSetSelectionViewModel, null, ViewSetSelectionViewModel.DefaultWindowSettings);
+            bool newBool = result.HasValue ? result.Value : false;
+            if (newBool)
+            {
+                ////todo;
+            }
         }
 
         public void RenameSheets()

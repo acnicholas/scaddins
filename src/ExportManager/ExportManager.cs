@@ -1,4 +1,4 @@
-// (C) Copyright 2012-2016 by Andrew Nicholas
+// (C) Copyright 2012-2018 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -38,7 +38,7 @@ namespace SCaddins.ExportManager
         private static string activeDoc;
         private static Dictionary<string, FamilyInstance> titleBlocks;
         private ObservableCollection<ExportSheet> allSheets;
-        private ObservableCollection<ViewSheetSetCombo> allViewSheetSets;
+        private ObservableCollection<ViewSetItem> allViewSheetSets;
         private bool dateForEmptyRevisions;
         private string exportDirectory;
         private ExportOptions exportFlags;
@@ -55,14 +55,13 @@ namespace SCaddins.ExportManager
             this.exportDirectory = Constants.DefaultExportDirectory;
             Manager.ConfirmOverwrite = true;
             Manager.activeDoc = null;
-            this.allViewSheetSets = new ObservableCollection<ViewSheetSetCombo>();
+            this.allViewSheetSets = GetAllViewSheetSets(Doc);
             this.allSheets = new ObservableCollection<ExportSheet>();
             this.fileNameTypes = new List<SegmentedSheetName>();
             this.postExportHooks = new Dictionary<string, PostExportHookCommand>();
             this.exportFlags = ExportOptions.None;
             this.LoadSettings();
             this.SetDefaultFlags();
-            Manager.PopulateViewSheetSets(this.allViewSheetSets, Doc);
             this.PopulateSheets(this.allSheets);
             Manager.FixAcrotrayHang();
         }
@@ -98,7 +97,7 @@ namespace SCaddins.ExportManager
             get { return this.allSheets; }
         }
 
-        public ObservableCollection<ViewSheetSetCombo> AllViewSheetSets {
+        public ObservableCollection<ViewSetItem> AllViewSheetSets {
             get { return this.allViewSheetSets; }
         }
 
@@ -630,16 +629,17 @@ namespace SCaddins.ExportManager
             return result;
         }
 
-        private static void PopulateViewSheetSets(ObservableCollection<ViewSheetSetCombo> vss, Document doc)
+        private static ObservableCollection<ViewSetItem> GetAllViewSheetSets(Document doc)
         {
-            vss.Clear();
-            vss.Add(new ViewSheetSetCombo("<All Sheets in Model>"));
+            var result = new ObservableCollection<ViewSetItem>();
             using (FilteredElementCollector collector = new FilteredElementCollector(doc)) {
                 collector.OfClass(typeof(ViewSheetSet));
                 foreach (ViewSheetSet v in collector) {
-                    vss.Add(new ViewSheetSetCombo(v));
+                    var viewIds = v.Views.Cast<View>().Select(v => v.Id).ToList();
+                    result.Add(new ViewSetItem(v.Id.IntegerValue, v.Name, v.Views.Size, viewIds));
                 }
             }
+            return result;
         }
 
         private static void RemoveTitleBlock(

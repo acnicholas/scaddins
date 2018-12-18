@@ -168,6 +168,13 @@
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
+                    <MenuItem Header="Load Saved View Set" cal:Message.Attach="OpenViewSet">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/open.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
                     <MenuItem Header="Add Revision" cal:Message.Attach="AddRevision">
                         <MenuItem.Icon>
                             <Image
