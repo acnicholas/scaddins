@@ -452,15 +452,25 @@ namespace SCaddins.ExportManager
         {
             using (Transaction t = new Transaction(Doc)) 
             {
-                t.Start("test");
-                Doc.PrintManager.PrintRange = PrintRange.Select;
-                Doc.PrintManager.ViewSheetSetting.CurrentViewSheetSet = Doc.PrintManager.ViewSheetSetting.InSession;
-                Doc.PrintManager.ViewSheetSetting.InSession.Views.Clear();
-                foreach (ExportSheet exportSheet in selectedSheets) {
-                    Doc.PrintManager.ViewSheetSetting.InSession.Views.Insert(exportSheet.Sheet);
+                if (t.Start("test") == TransactionStatus.Started)
+                {
+                    Doc.PrintManager.PrintRange = PrintRange.Select;
+                    var set = new ViewSet();
+                    
+                    foreach (ExportSheet exportSheet in selectedSheets)
+                    {
+                       set.Insert(exportSheet.Sheet);
+                    }
+                    Doc.PrintManager.ViewSheetSetting.CurrentViewSheetSet.Views = set;
+                    Doc.PrintManager.ViewSheetSetting.SaveAs(name);
+                    if (t.Commit() != TransactionStatus.Committed)
+                    {
+                        t.RollBack();
+                    }
+                } else
+                {
+                    t.RollBack();
                 }
-                Doc.PrintManager.ViewSheetSetting.SaveAs(name);
-                t.Commit();
             }
         }
 

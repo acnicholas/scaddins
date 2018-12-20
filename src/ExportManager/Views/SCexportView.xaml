@@ -174,12 +174,12 @@
                                 Source="/SCaddins;component/Assets/open.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <!--<MenuItem Header="Save View Set" cal:Message.Attach="SaveViewSet">
+                    <MenuItem Header="Save View Set" cal:Message.Attach="SaveViewSet">
                         <MenuItem.Icon>
                             <Image
                                 Source="/SCaddins;component/Assets/open.png" />
                         </MenuItem.Icon>
-                    </MenuItem>-->
+                    </MenuItem>
                     <Separator />
                     <MenuItem Header="Add Revision" cal:Message.Attach="AddRevision">
                         <MenuItem.Icon>
