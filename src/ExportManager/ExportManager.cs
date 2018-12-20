@@ -661,7 +661,9 @@ namespace SCaddins.ExportManager
             using (FilteredElementCollector collector = new FilteredElementCollector(doc)) {
                 collector.OfClass(typeof(ViewSheetSet));
                 foreach (ViewSheetSet v in collector) {
-                    var viewIds = v.Views.Cast<View>().Select(vs => vs.Id.IntegerValue).ToList();
+                    var viewIds = v.Views.Cast<View>()
+                        .Where(vs => vs.ViewType == ViewType.DrawingSheet)
+                        .Select(vs => vs.Id.IntegerValue).ToList();
                     result.Add(new ViewSetItem(v.Id.IntegerValue, v.Name, viewIds));
                 }
             }

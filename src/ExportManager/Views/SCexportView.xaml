@@ -164,7 +164,7 @@
                     <MenuItem Header="Open Selected View[s]" cal:Message.Attach="OpenViewsCommand">
                         <MenuItem.Icon>
                             <Image
-                                Source="/SCaddins;component/Assets/open.png" />
+                                Source="/SCaddins;component/Assets/view.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
@@ -177,7 +177,7 @@
                     <MenuItem Header="Save View Set" cal:Message.Attach="SaveViewSet">
                         <MenuItem.Icon>
                             <Image
-                                Source="/SCaddins;component/Assets/open.png" />
+                                Source="/SCaddins;component/Assets/save.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
