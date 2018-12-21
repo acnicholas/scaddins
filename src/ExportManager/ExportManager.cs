@@ -452,7 +452,7 @@ namespace SCaddins.ExportManager
         {
             using (Transaction t = new Transaction(Doc)) 
             {
-                if (t.Start("test") == TransactionStatus.Started)
+                if (t.Start("Save view sheet set") == TransactionStatus.Started)
                 {
                     Doc.PrintManager.PrintRange = PrintRange.Select;
                     var set = new ViewSet();
@@ -461,6 +461,7 @@ namespace SCaddins.ExportManager
                     {
                        set.Insert(exportSheet.Sheet);
                     }
+                    Doc.PrintManager.ViewSheetSetting.CurrentViewSheetSet = Doc.PrintManager.ViewSheetSetting.InSession;
                     Doc.PrintManager.ViewSheetSetting.CurrentViewSheetSet.Views = set;
                     Doc.PrintManager.ViewSheetSetting.SaveAs(name);
                     if (t.Commit() != TransactionStatus.Committed)

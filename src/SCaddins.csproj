@@ -296,6 +296,7 @@
     <Compile Include="ExportManager\ViewModels\ProgressMonitorViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\RevisionSelectionViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\SCexportViewModel.cs" />
+    <Compile Include="ExportManager\ViewModels\ViewSetSaveAsViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\ViewSetSelectionViewModel.cs" />
     <Compile Include="ExportManager\ViewSetItem.cs" />
     <Compile Include="ExportManager\Views\ConfirmationDialogView.xaml.cs">
@@ -324,6 +325,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Common\WindowManager.cs" />
+    <Compile Include="ExportManager\Views\ViewSetSaveAsView.xaml.cs">
+      <DependentUpon>ViewSetSaveAsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExportManager\Views\ViewSetSelectionView.xaml.cs">
       <DependentUpon>ViewSetSelectionView.xaml</DependentUpon>
     </Compile>
@@ -542,6 +546,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ExportManager\Views\SCexportView.xaml" />
+    <Page Include="ExportManager\Views\ViewSetSaveAsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ExportManager\Views\ViewSetSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
