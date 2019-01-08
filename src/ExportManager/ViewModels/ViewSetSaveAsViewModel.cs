@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2018 by Andrew Nicholas
+﻿// (C) Copyright 2018-2019 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-
 namespace SCaddins.ExportManager.ViewModels
 {
     using System.Collections.ObjectModel;
@@ -23,15 +22,15 @@ namespace SCaddins.ExportManager.ViewModels
     using System.Linq;
     using Caliburn.Micro;
 
-    class ViewSetSaveAsViewModel : Screen
+    public class ViewSetSaveAsViewModel : Screen
     {
         private string label;
         private string name;
 
-        public ViewSetSaveAsViewModel(string label, ObservableCollection<ViewSetItem> AllViewSheetSets)
+        public ViewSetSaveAsViewModel(string label, ObservableCollection<ViewSetItem> allViewSheetSets)
         {
             Label = label;
-            this.AllViewSheetSets = AllViewSheetSets;
+            this.AllViewSheetSets = allViewSheetSets;
         }
 
         public static dynamic DefaultWindowSettings
@@ -51,19 +50,21 @@ namespace SCaddins.ExportManager.ViewModels
 
         public ObservableCollection<ViewSetItem> AllViewSheetSets
         {
-            get; set;
+            get;
         }
 
-        public string Label
-        {
+        public bool CanSave {
+            get { return !AllViewSheetSets.Select(n => n.Name).Contains(SaveName) && !string.IsNullOrEmpty(SaveName); }
+        }
+
+        public string Label {
             get
             {
                 if (CanSave) {
                     return label;
                 } else {
-                    return string.IsNullOrEmpty(Name) ? label : "ERROR: Name is in use";
+                    return string.IsNullOrEmpty(SaveName) ? label : "ERROR: Name is in use";
                 }
-
             }
 
             set
@@ -76,7 +77,7 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public string Name
+        public string SaveName
         {
             get
             {
@@ -96,11 +97,6 @@ namespace SCaddins.ExportManager.ViewModels
         public void Cancel()
         {
             TryClose(false);
-        }
-
-        public bool CanSave
-        {
-            get { return !AllViewSheetSets.Select(n => n.Name).Contains(Name) && !string.IsNullOrEmpty(Name); }
         }
 
         public void Save()

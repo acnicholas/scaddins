@@ -408,7 +408,7 @@ namespace SCaddins.ExportManager.ViewModels
             bool? result = SCaddinsApp.WindowManager.ShowDialog(saveAsVM, null, ViewSetSaveAsViewModel.DefaultWindowSettings);
             bool newBool = result.HasValue ? result.Value : false;
             if (newBool) {
-                exportManager.SaveViewSet(saveAsVM.Name, selectedSheets);
+                exportManager.SaveViewSet(saveAsVM.SaveName, selectedSheets);
             }
         }
 

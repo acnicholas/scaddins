@@ -456,7 +456,6 @@ namespace SCaddins.ExportManager
                 {
                     Doc.PrintManager.PrintRange = PrintRange.Select;
                     Doc.PrintManager.Apply();
-                    //Doc.Regenerate();
                     var set = new ViewSet();
 
                     foreach (ExportSheet exportSheet in selectedSheets)
