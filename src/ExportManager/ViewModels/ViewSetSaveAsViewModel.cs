@@ -54,7 +54,7 @@ namespace SCaddins.ExportManager.ViewModels
         }
 
         public bool CanSave {
-            get { return !AllViewSheetSets.Select(n => n.Name).Contains(SaveName) && !string.IsNullOrEmpty(SaveName); }
+            get { return !AllViewSheetSets.Select(n => n.Name).Contains(SaveName.Trim()) && !string.IsNullOrEmpty(SaveName); }
         }
 
         public string Label {
