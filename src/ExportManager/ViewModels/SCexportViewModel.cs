@@ -407,7 +407,9 @@ namespace SCaddins.ExportManager.ViewModels
             var saveAsVM = new ViewSetSaveAsViewModel("Select name for new view sheet set", exportManager.AllViewSheetSets);
             bool? result = SCaddinsApp.WindowManager.ShowDialog(saveAsVM, null, ViewSetSaveAsViewModel.DefaultWindowSettings);
             bool newBool = result.HasValue ? result.Value : false;
-            exportManager.SaveViewSet(saveAsVM.Name, selectedSheets);
+            if (newBool) {
+                exportManager.SaveViewSet(saveAsVM.Name, selectedSheets);
+            }
         }
 
         public void SearchButton()

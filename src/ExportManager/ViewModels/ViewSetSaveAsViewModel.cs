@@ -26,6 +26,7 @@ namespace SCaddins.ExportManager.ViewModels
     class ViewSetSaveAsViewModel : Screen
     {
         private string label;
+        private string name;
 
         public ViewSetSaveAsViewModel(string label, ObservableCollection<ViewSetItem> AllViewSheetSets)
         {
@@ -38,8 +39,8 @@ namespace SCaddins.ExportManager.ViewModels
             get
             {
                 dynamic settings = new ExpandoObject();
-                settings.Height = 164;
-                settings.Width = 640;
+                settings.Height = 144;
+                settings.Width = 320;
                 settings.Title = "Save View Set";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;
@@ -57,7 +58,12 @@ namespace SCaddins.ExportManager.ViewModels
         {
             get
             {
-                return label;
+                if (CanSave) {
+                    return label;
+                } else {
+                    return string.IsNullOrEmpty(Name) ? label : "ERROR: Name is in use";
+                }
+
             }
 
             set
@@ -72,7 +78,19 @@ namespace SCaddins.ExportManager.ViewModels
 
         public string Name
         {
-            get; set;
+            get
+            {
+                return name;
+            }
+
+            set
+            {
+                if (value != name) {
+                    name = value;
+                    NotifyOfPropertyChange(() => CanSave);
+                    NotifyOfPropertyChange(() => Label);
+                }
+            }
         }
 
         public void Cancel()
@@ -80,9 +98,9 @@ namespace SCaddins.ExportManager.ViewModels
             TryClose(false);
         }
 
-        public bool SaveButtonEnabled()
+        public bool CanSave
         {
-            return !AllViewSheetSets.Select(n => n.Name).Contains(Label);
+            get { return !AllViewSheetSets.Select(n => n.Name).Contains(Name) && !string.IsNullOrEmpty(Name); }
         }
 
         public void Save()

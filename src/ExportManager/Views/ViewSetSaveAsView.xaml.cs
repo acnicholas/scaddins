@@ -23,6 +23,7 @@ namespace SCaddins.ExportManager.Views
         public ViewSetSaveAsView()
         {
             InitializeComponent();
+            Name.Focus();
         }
     }
 }
