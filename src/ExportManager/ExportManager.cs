@@ -1,4 +1,4 @@
-// (C) Copyright 2012-2018 by Andrew Nicholas
+// (C) Copyright 2012-2019 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -448,31 +448,45 @@ namespace SCaddins.ExportManager
             log.EndLoggingIndividualItem(startTime, null);
         }
 
-        public void SaveViewSet(string name, List<ExportSheet> selectedSheets)
+        /// <summary>
+        /// Temporarliy save a view set(selection of views) to the manager.
+        /// Use SaveNewViewSets to save to the model after closing all GUI'a that are open. 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="selectedSheets"></param>
+        public void SaveViewSetToManager(string name, List<ExportSheet> selectedSheets)
         {
-            using (Transaction t = new Transaction(Doc)) 
-            {
-                if (t.Start("Save view sheet set") == TransactionStatus.Started)
-                {
-                    Doc.PrintManager.PrintRange = PrintRange.Select;
-                    Doc.PrintManager.Apply();
-                    var set = new ViewSet();
+            var viewSetItem = new ViewSetItem(-1, name, selectedSheets.Select(s => s.Id.IntegerValue).ToList());
+            AllViewSheetSets.Add(viewSetItem);
+        }
 
-                    foreach (ExportSheet exportSheet in selectedSheets)
-                    {
-                       set.Insert(exportSheet.Sheet);
-                    }
-                    Doc.PrintManager.ViewSheetSetting.CurrentViewSheetSet = Doc.PrintManager.ViewSheetSetting.InSession;
-                    Doc.PrintManager.PrintRange = PrintRange.Select;
-                    Doc.PrintManager.ViewSheetSetting.CurrentViewSheetSet.Views = set;
-                    Doc.PrintManager.ViewSheetSetting.SaveAs(name);
-                    if (t.Commit() != TransactionStatus.Committed)
-                    {
+        /// <summary>
+        /// Save any new view sets that have been saved to the manager.
+        /// Do this after closing any GUI's as this accesses the Document.
+        /// </summary>
+        public void SaveNewViewSets()
+        {
+            // view sets that have been created in this session will have an Id of -1.
+            // if there's none of these do noting...
+            if (AllViewSheetSets.Select(v => v.Id).Contains(-1)) {
+                using (Transaction t = new Transaction(Doc)) {
+                    if (t.Start("Save view sheet set[s]") == TransactionStatus.Started) {
+                        foreach (ViewSetItem v in AllViewSheetSets.Where(v => v.Id == -1)) {
+                            var set = new ViewSet();
+                            foreach (var id in v.ViewIds) {
+                                var view = Doc.GetElement(new ElementId(id)) as View;
+                                set.Insert(view);
+                            }
+                            Doc.PrintManager.PrintRange = PrintRange.Select;
+                            Doc.PrintManager.ViewSheetSetting.CurrentViewSheetSet.Views = set;
+                            Doc.PrintManager.ViewSheetSetting.SaveAs(v.Name);
+                        }
+                        if (t.Commit() != TransactionStatus.Committed) {
+                            t.RollBack();
+                        }
+                    } else {
                         t.RollBack();
                     }
-                } else
-                {
-                    t.RollBack();
                 }
             }
         }

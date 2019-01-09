@@ -29,8 +29,8 @@ namespace SCaddins.ExportManager.ViewModels
 
         public ViewSetSaveAsViewModel(string label, ObservableCollection<ViewSetItem> allViewSheetSets)
         {
-            Label = label;
-            this.AllViewSheetSets = allViewSheetSets;
+            this.label = label;
+            ViewSheetSets = allViewSheetSets;
         }
 
         public static dynamic DefaultWindowSettings
@@ -38,7 +38,7 @@ namespace SCaddins.ExportManager.ViewModels
             get
             {
                 dynamic settings = new ExpandoObject();
-                settings.Height = 144;
+                settings.Height = 160;
                 settings.Width = 320;
                 settings.Title = "Save View Set";
                 settings.ShowInTaskbar = false;
@@ -48,13 +48,13 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public ObservableCollection<ViewSetItem> AllViewSheetSets
+        public ObservableCollection<ViewSetItem> ViewSheetSets
         {
-            get;
+            get; private set;
         }
 
         public bool CanSave {
-            get { return !AllViewSheetSets.Select(n => n.Name).Contains(SaveName.Trim()) && !string.IsNullOrEmpty(SaveName); }
+            get { return !ViewSheetSets.Select(n => n.Name).Contains(SaveName) && !string.IsNullOrEmpty(SaveName); }
         }
 
         public string Label {

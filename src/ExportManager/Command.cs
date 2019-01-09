@@ -72,8 +72,11 @@ namespace SCaddins.ExportManager
 
             var closeMode = vm.CloseStatus;
 
+            // Save any new view sets.
+            manager.SaveNewViewSets();
+
             if (vm.CloseStatus != ViewModels.SCexportViewModel.CloseMode.Exit)
-            {
+            {             
                 string exportType = string.Empty;
 
                 switch (vm.CloseStatus)
