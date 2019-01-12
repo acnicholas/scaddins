@@ -41,6 +41,8 @@ namespace SCaddins.ExportManager.ViewModels
                 settings.Height = 160;
                 settings.Width = 320;
                 settings.Title = "Save View Set";
+                settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
+                  new System.Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png"));
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;
                 settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;

@@ -57,6 +57,8 @@ namespace SCaddins.ExportManager.ViewModels
                 settings.Width = 480;
                 settings.MaxHeight = 320;
                 settings.WindowStyle = System.Windows.WindowStyle.None;
+                settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
+                  new System.Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png"));
                 settings.ShowInTaskbar = false;
                 settings.ResizeMode = System.Windows.ResizeMode.NoResize;
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;

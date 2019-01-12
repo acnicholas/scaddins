@@ -468,13 +468,13 @@ namespace SCaddins.ExportManager
                     if (t.Commit() != TransactionStatus.Committed) {
                         t.RollBack();
                     }
-                ////} else {
-                ////    t.RollBack();
-                ////}
+                } else {
+                    t.RollBack();
+                }
             }
         }
 
-    public bool GSSanityCheck()
+        public bool GSSanityCheck()
         {
             if (!Directory.Exists(this.GhostscriptBinDirectory) || !Directory.Exists(this.GhostscriptLibDirectory))
             {

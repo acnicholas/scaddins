@@ -38,6 +38,8 @@ namespace SCaddins.ExportManager.ViewModels
                 settings.Width = 640;
                 settings.MaxHeight = 480;
                 settings.Title = "Export Log";
+                settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
+                  new System.Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png"));
                 settings.ShowInTaskbar = false;
                 return settings;
             }
