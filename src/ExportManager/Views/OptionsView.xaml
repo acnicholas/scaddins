@@ -30,8 +30,8 @@
                             <CheckBox x:Name="ExportAdobePDF" Grid.Column="0" Grid.Row="0" Content="PDF (Adobe Acrobat)" VerticalAlignment="Center" Margin="5"></CheckBox>
                             <CheckBox x:Name="ExportPostscriptPDF" Grid.Column="0" Grid.Row="1" Content="PDF (Ghostscript)" VerticalAlignment="Center" Margin="5"></CheckBox>
                             <CheckBox x:Name="ExportDWG" Grid.Column="1" Grid.Row="0" Content="DWG" VerticalAlignment="Center" Margin="5"></CheckBox>
-                            <CheckBox Grid.Column="1" Grid.Row="1" Content="DGN" VerticalAlignment="Center" Margin="5"></CheckBox>
-                            <CheckBox Grid.Column="1" Grid.Row="2" Content="DWF" VerticalAlignment="Center" Margin="5"></CheckBox>
+                            <CheckBox Grid.Column="1" Grid.Row="1" Content="DGN" VerticalAlignment="Center" Margin="5" IsEnabled="False"></CheckBox>
+                            <CheckBox Grid.Column="1" Grid.Row="2" Content="DWF" VerticalAlignment="Center" Margin="5" IsEnabled="False"></CheckBox>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Export Destination" Grid.Row="1" Margin="5">
@@ -85,8 +85,8 @@
                             <ComboBox x:Name="FileNamingSchemes" DisplayMemberPath="Name" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></ComboBox>
                             <CheckBox x:Name="DateForEmptyRevisions" Grid.Row="2" Grid.ColumnSpan="2" Margin="5" Content="Use today's date for empty revisions" VerticalAlignment="Center"></CheckBox>
                             <CheckBox x:Name="ForceDateForAllRevisions" Grid.Row="3" Grid.ColumnSpan="2" Margin="5" Content="Force all revisions to be today's date [YYYYMMDD]" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox x:Name="HideTitleBlocksForCadExports" Grid.Row="4" Grid.ColumnSpan="2"   Margin="5" Content="Hide title blocks (DWG exportsonly" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox x:Name="ExportViewportsOnly" Grid.Row="5" Grid.ColumnSpan="2"   Margin="5" Content="Export Viewports only(expert)" VerticalAlignment="Center"></CheckBox>
+                            <CheckBox x:Name="HideTitleBlocksForCadExports" Grid.Row="4" Grid.ColumnSpan="2"   Margin="5" Content="Hide title blocks (DWG exports only)" VerticalAlignment="Center"></CheckBox>
+                            <CheckBox x:Name="ExportViewportsOnly" Grid.Row="5" Grid.ColumnSpan="2"   Margin="5" Content="Create Additional Exports for Plan Viewports (Expert)" VerticalAlignment="Center"></CheckBox>
                         </Grid>
                     </GroupBox>
                 </Grid>
