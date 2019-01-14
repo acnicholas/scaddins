@@ -50,6 +50,20 @@
                 VerticalAlignment="Stretch"
                 Margin="5"
             />
+            <Label
+                cal:Message.Attach="[Event MouseEnter] = [SearchLabelMouseEnter()]"
+                TabIndex="2"
+                x:Name="SearchLabel"
+                Visibility="{Binding ShowSearchHint,Converter={StaticResource BoolToVis}}"
+                Height="Auto"
+                Grid.Column="0"
+                Foreground="Gray"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                Margin="5"
+            >
+                Search Avalible Sheets
+            </Label>
             <Button
                 Height="Auto"
                 Width="Auto"
@@ -64,7 +78,7 @@
             </Button>
         </Grid>
         <DataGrid
-            cal:Message.Attach="[Event SelectionChanged] = [SelectionChanged($source,$eventArgs)]"
+            cal:Message.Attach="[Event SelectionChanged] = [SelectionChanged($source,$eventArgs)]; [Event PreviewMouseRightButtonDown] = [PreviewMouseRightButtonDown($source,$eventArgs)]"
             x:Name="Sheets"
             SelectionMode="Extended"
             VirtualizingStackPanel.VirtualizationMode="Standard"
@@ -80,7 +94,7 @@
             Margin="5,0,5,5"
             Grid.ColumnSpan="3"
             GridLinesVisibility="Vertical"
-            IsReadOnly="True">
+            IsReadOnly="True" ContextMenuOpening="Sheets_ContextMenuOpening">
             <DataGrid.Resources>
                 <Style TargetType="DataGridRow">
                     <Setter Property="IsSelected" Value="{Binding IsSelected}" />
@@ -148,6 +162,7 @@
                     <MenuItem
                         Header="Filter">
                         <MenuItem cal:Message.Attach="ShowLatestRevision" Header="Show Latest Revision Only"/>
+                        <MenuItem ItemsSource="{Binding TestList}" Header="TestList"></MenuItem>
                         <MenuItem.Icon>
                             <Image
                                 Source="/SCaddins;component/Assets/filter.png" />
@@ -274,7 +289,7 @@
                 x:Name ="PrintButton"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                IsEnabled="{Binding CanExport}"
+                IsEnabled="{Binding CanPrint}"
                 Content="{Binding SelectedPrintType}">
                 </Button>
             <ComboBox

@@ -49,6 +49,7 @@ namespace SCaddins.ExportManager.ViewModels
             sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
             Sheets = CollectionViewSource.GetDefaultView(this.sheets);
             Sheets.SortDescriptions.Add(new SortDescription("FullExportName", ListSortDirection.Ascending));
+            ShowSearchHint = true;
         }
 
         public enum CloseMode
@@ -79,6 +80,17 @@ namespace SCaddins.ExportManager.ViewModels
         public static string ExportButtonLabel => @"Export";
 
         public bool CanExport {
+            get
+            {
+                return CanPrint &&
+                (exportManager.HasExportOption(ExportOptions.DWG) ||
+                 exportManager.HasExportOption(ExportOptions.PDF) ||
+                 exportManager.HasExportOption(ExportOptions.GhostscriptPDF));
+            }
+        }
+
+        public bool CanPrint
+        {
             get
             {
                 return SelectedSheets.Count > 0;
@@ -121,6 +133,34 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public bool ShowSearchHint
+        {
+            get; set;
+        }
+
+        public List<string> TestList
+        {
+            get
+            {
+                var result = new List<string>();
+                result.Add("test1");
+                result.Add("test2");
+                result.Add("test3");
+                return result;
+            }
+        }
+
+        public void SearchLabelMouseEnter()
+        {
+            ShowSearchHint = false;
+            NotifyOfPropertyChange(() => ShowSearchHint);
+        }
+
+        public void SearchFiledEntered()
+        {
+            return;
+        }
+
         public string SelectedPrintType
         {
             get
@@ -155,6 +195,7 @@ namespace SCaddins.ExportManager.ViewModels
                 selectedSheets = value;
                 NotifyOfPropertyChange(() => Sheets);
                 NotifyOfPropertyChange(() => SelectedSheets);
+                NotifyOfPropertyChange(() => CanPrint);
                 NotifyOfPropertyChange(() => CanExport);
                 NotifyOfPropertyChange(() => StatusText);
             }
@@ -205,6 +246,7 @@ namespace SCaddins.ExportManager.ViewModels
                 {
                     list.Add("DWG");
                 }
+                NotifyOfPropertyChange(() => CanExport);
                 return @"[" + string.Join(",", list.ToArray()) + @"]";
             }
         }
@@ -392,6 +434,7 @@ namespace SCaddins.ExportManager.ViewModels
             SearchText = string.Empty;
             NotifyOfPropertyChange(() => Sheets);
             NotifyOfPropertyChange(() => SearchText);
+            NotifyOfPropertyChange(() => CanPrint);
             NotifyOfPropertyChange(() => CanExport);
         }
 
@@ -419,6 +462,11 @@ namespace SCaddins.ExportManager.ViewModels
                 this.IsNotifying = true;
                 SelectedSheets = list;
             }
+        }
+
+        public void PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs obj)
+        {
+           
         }
 
         public void SaveViewSet()

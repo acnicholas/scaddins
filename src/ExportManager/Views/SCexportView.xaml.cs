@@ -26,5 +26,13 @@
                 Sheets.ScrollIntoView(Sheets.SelectedItem);
             }
         }
+
+        private void Sheets_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            ////var col = ((DataGrid)e.Source).CurrentColumn;
+            ////var header= col.Header.ToString();
+            ////var cell = ((TextBlock)e.OriginalSource).Text;
+            ////Autodesk.Revit.UI.TaskDialog.Show("test", header  + " - " + cell);
+        }
     }
 }
