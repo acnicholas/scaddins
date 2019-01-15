@@ -35,6 +35,7 @@ namespace SCaddins.ExportManager.ViewModels
         private List<string> printTypes;
         private string searchText;
         private string selectedPrintType;
+        private List<string> contextMenuList = new List<string>();
         private List<ExportSheet> selectedSheets = new List<ExportSheet>();
         private ObservableCollection<ExportSheet> sheets;
         private ICollectionView sheetsCollection;
@@ -61,6 +62,16 @@ namespace SCaddins.ExportManager.ViewModels
             Export
         }
 
+        public void ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
+        {
+            var col = ((System.Windows.Controls.DataGrid)e.Source).CurrentColumn;
+            var header = col.Header.ToString();
+            var cell = ((System.Windows.Controls.TextBlock)e.OriginalSource).Text;
+            Autodesk.Revit.UI.TaskDialog.Show("test", header + " - " + cell);
+            //FilterByContext(header, cell);
+            TestList.Add(header + " - " + cell);
+        }
+
         public static dynamic DefaultWindowSettings
         {
             get
@@ -79,14 +90,14 @@ namespace SCaddins.ExportManager.ViewModels
 
         public static string ExportButtonLabel => @"Export";
 
-        public static List<string> TestList {
+        public List<string> TestList {
             get
+            {       
+                return contextMenuList;
+            }
+            set
             {
-                var result = new List<string>();
-                result.Add("test1");
-                result.Add("test2");
-                result.Add("test3");
-                return result;
+                contextMenuList = value;
             }
         }
 
