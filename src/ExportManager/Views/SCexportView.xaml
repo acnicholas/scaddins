@@ -78,7 +78,7 @@
             </Button>
         </Grid>
         <DataGrid
-            cal:Message.Attach="[Event SelectionChanged] = [SelectionChanged($source,$eventArgs)]; [Event PreviewMouseRightButtonDown] = [PreviewMouseRightButtonDown($source,$eventArgs)]"
+            cal:Message.Attach="[Event SelectionChanged] = [SelectionChanged($source,$eventArgs)]"
             x:Name="Sheets"
             SelectionMode="Extended"
             VirtualizingStackPanel.VirtualizationMode="Standard"
@@ -94,7 +94,8 @@
             Margin="5,0,5,5"
             Grid.ColumnSpan="3"
             GridLinesVisibility="Vertical"
-            IsReadOnly="True" ContextMenuOpening="Sheets_ContextMenuOpening">
+            IsReadOnly="True"
+            ContextMenuOpening="Sheets_ContextMenuOpening">
             <DataGrid.Resources>
                 <Style TargetType="DataGridRow">
                     <Setter Property="IsSelected" Value="{Binding IsSelected}" />

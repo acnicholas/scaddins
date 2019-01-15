@@ -153,9 +153,6 @@ namespace SCaddins
         {
             ribbonPanel = TryGetPanel(application, "Scott Carver");
 
-            bootstrapper = null;
-            windowManager = null;
-
             if (ribbonPanel == null)
             {
                 return Result.Failed;

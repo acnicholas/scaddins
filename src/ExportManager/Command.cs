@@ -68,7 +68,8 @@ namespace SCaddins.ExportManager
             var manager = new Manager(uidoc);
             var log = new ExportLog();
             var vm = new ViewModels.SCexportViewModel(manager);
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SCexportViewModel.DefaultWindowSettings);
+            var wm = SCaddinsApp.WindowManager;
+            wm.ShowDialog(vm, null, ViewModels.SCexportViewModel.DefaultWindowSettings);
 
             var closeMode = vm.CloseStatus;
 
