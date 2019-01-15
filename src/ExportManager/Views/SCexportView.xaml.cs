@@ -26,6 +26,5 @@
                 Sheets.ScrollIntoView(Sheets.SelectedItem);
             }
         }
-
     }
 }

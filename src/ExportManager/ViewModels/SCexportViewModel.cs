@@ -31,11 +31,11 @@ namespace SCaddins.ExportManager.ViewModels
     {
         private readonly Manager exportManager;
         private CloseMode closeMode;
+        private List<string> contextMenuList = new List<string>();
         private bool isClosing;
         private List<string> printTypes;
         private string searchText;
         private string selectedPrintType;
-        private List<string> contextMenuList = new List<string>();
         private List<ExportSheet> selectedSheets = new List<ExportSheet>();
         private ObservableCollection<ExportSheet> sheets;
         private ICollectionView sheetsCollection;
@@ -62,16 +62,6 @@ namespace SCaddins.ExportManager.ViewModels
             Export
         }
 
-        public void ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
-        {
-            var col = ((System.Windows.Controls.DataGrid)e.Source).CurrentColumn;
-            var header = col.Header.ToString();
-            var cell = ((System.Windows.Controls.TextBlock)e.OriginalSource).Text;
-            Autodesk.Revit.UI.TaskDialog.Show("test", header + " - " + cell);
-            //FilterByContext(header, cell);
-            TestList.Add(header + " - " + cell);
-        }
-
         public static dynamic DefaultWindowSettings
         {
             get
@@ -90,18 +80,8 @@ namespace SCaddins.ExportManager.ViewModels
 
         public static string ExportButtonLabel => @"Export";
 
-        public List<string> TestList {
-            get
-            {       
-                return contextMenuList;
-            }
-            set
-            {
-                contextMenuList = value;
-            }
-        }
-
-        public bool CanExport {
+        public bool CanExport
+        {
             get
             {
                 return CanPrint &&
@@ -119,7 +99,8 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public CloseMode CloseStatus {
+        public CloseMode CloseStatus
+        {
             get
             {
                 return closeMode;
@@ -155,7 +136,8 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public string SelectedPrintType {
+        public string SelectedPrintType
+        {
             get
             {
                 return selectedPrintType;
@@ -163,18 +145,21 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value != selectedPrintType) {
+                if (value != selectedPrintType)
+                {
                     selectedPrintType = value;
                     NotifyOfPropertyChange(() => SelectedPrintType);
                 }
             }
         }
 
-        public ExportSheet SelectedSheet {
+        public ExportSheet SelectedSheet
+        {
             get; set;
         }
 
-        public List<ExportSheet> SelectedSheets {
+        public List<ExportSheet> SelectedSheets
+        {
             get
             {
                 return selectedSheets;
@@ -191,7 +176,8 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public ICollectionView Sheets {
+        public ICollectionView Sheets
+        {
             get
             {
                 return this.sheetsCollection;
@@ -204,11 +190,13 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public bool ShowSearchHint {
+        public bool ShowSearchHint
+        {
             get; set;
         }
 
-        public string StatusText {
+        public string StatusText
+        {
             get
             {
                 var numberOfSheets = SelectedSheets.Count;
@@ -216,21 +204,39 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public ObservableCollection<ViewSetItem> ViewSheetSets {
+        public List<string> TestList
+        {
+            get
+            {
+                return contextMenuList;
+            }
+
+            set
+            {
+                contextMenuList = value;
+            }
+        }
+
+        public ObservableCollection<ViewSetItem> ViewSheetSets
+        {
             get { return exportManager.AllViewSheetSets; }
         }
 
-        private string SelectedExportTypesAsString {
+        private string SelectedExportTypesAsString
+        {
             get
             {
                 List<string> list = new List<string>();
-                if (exportManager.HasExportOption(ExportOptions.PDF)) {
+                if (exportManager.HasExportOption(ExportOptions.PDF))
+                {
                     list.Add("PDF");
                 }
-                if (exportManager.HasExportOption(ExportOptions.GhostscriptPDF)) {
+                if (exportManager.HasExportOption(ExportOptions.GhostscriptPDF))
+                {
                     list.Add("gPDF");
                 }
-                if (exportManager.HasExportOption(ExportOptions.DWG)) {
+                if (exportManager.HasExportOption(ExportOptions.DWG))
+                {
                     list.Add("DWG");
                 }
                 NotifyOfPropertyChange(() => CanExport);
@@ -243,12 +249,24 @@ namespace SCaddins.ExportManager.ViewModels
             var revisionSelectionViewModel = new RevisionSelectionViewModel(exportManager.Doc);
             bool? result = SCaddinsApp.WindowManager.ShowDialog(revisionSelectionViewModel, null, RevisionSelectionViewModel.DefaultWindowSettings);
             bool newBool = result.HasValue ? result.Value : false;
-            if (newBool) {
-                if (revisionSelectionViewModel.SelectedRevision != null) {
+            if (newBool)
+            {
+                if (revisionSelectionViewModel.SelectedRevision != null)
+                {
                     Manager.AddRevisions(selectedSheets, revisionSelectionViewModel.SelectedRevision.Id, exportManager.Doc);
                     NotifyOfPropertyChange(() => Sheets);
                 }
             }
+        }
+
+        public void ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
+        {
+            var col = ((System.Windows.Controls.DataGrid)e.Source).CurrentColumn;
+            var header = col.Header.ToString();
+            var cell = ((System.Windows.Controls.TextBlock)e.OriginalSource).Text;
+            Autodesk.Revit.UI.TaskDialog.Show("test", header + " - " + cell);
+            //// FilterByContext(header, cell);
+            TestList.Add(header + " - " + cell);
         }
 
         public void CopySheets()
