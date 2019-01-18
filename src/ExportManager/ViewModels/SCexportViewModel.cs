@@ -214,6 +214,8 @@ namespace SCaddins.ExportManager.ViewModels
             set
             {
                 contextMenuList = value;
+                NotifyOfPropertyChange(() => TestList);
+                NotifyOfPropertyChange(() => Sheets);
             }
         }
 
@@ -261,11 +263,18 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
         {
-            var col = ((System.Windows.Controls.DataGrid)e.Source).CurrentColumn;
+            if (e.OriginalSource.GetType() != typeof(System.Windows.Controls.TextBlock))
+            {
+                return;
+            }
+            var menuItem = (System.Windows.Controls.TextBlock)e.OriginalSource;
+            ExportSheet myItem = (ExportSheet)menuItem.DataContext;
+            SelectedSheets.Add(myItem);
+            SelectedSheet = myItem;
+            var grid = (System.Windows.Controls.DataGrid)e.Source;
+            var col = grid.CurrentColumn;
             var header = col.Header.ToString();
             var cell = ((System.Windows.Controls.TextBlock)e.OriginalSource).Text;
-            Autodesk.Revit.UI.TaskDialog.Show("test", header + " - " + cell);
-            //// FilterByContext(header, cell);
             TestList.Add(header + " - " + cell);
         }
 

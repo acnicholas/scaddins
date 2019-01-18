@@ -13,7 +13,7 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
-
+    
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition
@@ -95,6 +95,7 @@
             Grid.ColumnSpan="3"
             GridLinesVisibility="Vertical"
             IsReadOnly="True">
+  
             <DataGrid.Resources>
                 <Style TargetType="DataGridRow">
                     <Setter Property="IsSelected" Value="{Binding IsSelected}" />
@@ -151,7 +152,8 @@
                     Binding="{Binding PrintSettingName}" />
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
-                <ContextMenu>
+                <ContextMenu
+                    DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                     <MenuItem
                         Header="No View Filter" cal:Message.Attach="RemoveViewFilter">
                         <MenuItem.Icon>
@@ -159,13 +161,15 @@
                                 Source="/SCaddins;component/Assets/remove_filter.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem
-                        Header="Filter">
-                        <MenuItem cal:Message.Attach="ShowLatestRevision" Header="Show Latest Revision Only"/>
-                        <MenuItem ItemsSource="{Binding TestList}" Header="TestList"></MenuItem>
+                    <MenuItem cal:Message.Attach="ShowLatestRevision" Header="Show Latest Revision Only">
                         <MenuItem.Icon>
                             <Image
                                 Source="/SCaddins;component/Assets/filter.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Context Filters" ItemsSource="{Binding Path=TestList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <MenuItem.Icon>
+                            <Image Source="/SCaddins;component/Assets/filter.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />

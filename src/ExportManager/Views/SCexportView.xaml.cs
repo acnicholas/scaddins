@@ -1,6 +1,9 @@
 ﻿namespace SCaddins.ExportManager.Views
 {
     using System.Windows.Controls;
+    using System.Windows;
+    using System.Windows.Input;
+    using System.Windows.Media;
 
     public partial class SCexportView : UserControl
     {
@@ -22,7 +25,8 @@
 
         private void Sheets_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Sheets.SelectedItems.Count == 1) {
+            if (Sheets.SelectedItems.Count == 1)
+            {
                 Sheets.ScrollIntoView(Sheets.SelectedItem);
             }
         }
