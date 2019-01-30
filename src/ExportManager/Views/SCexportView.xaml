@@ -167,7 +167,7 @@
                                 Source="/SCaddins;component/Assets/filter.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="Context Filters" ItemsSource="{Binding Path=TestList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <MenuItem cal:Message.Attach="SheetFilterSelected($source, $executionContext)" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Items}" ItemsSource="{Binding Path=SheetFilters, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }">
                         <MenuItem.Icon>
                             <Image Source="/SCaddins;component/Assets/filter.png" />
                         </MenuItem.Icon>

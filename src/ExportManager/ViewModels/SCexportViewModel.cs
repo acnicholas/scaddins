@@ -31,7 +31,7 @@ namespace SCaddins.ExportManager.ViewModels
     {
         private readonly Manager exportManager;
         private CloseMode closeMode;
-        private List<string> contextMenuList = new List<string>();
+        private ObservableCollection<SheetFilter> sheetFilters = new ObservableCollection<SheetFilter>();
         private bool isClosing;
         private List<string> printTypes;
         private string searchText;
@@ -39,6 +39,7 @@ namespace SCaddins.ExportManager.ViewModels
         private List<ExportSheet> selectedSheets = new List<ExportSheet>();
         private ObservableCollection<ExportSheet> sheets;
         private ICollectionView sheetsCollection;
+        public SheetFilter selectedSheetFilter;
 
         public SCexportViewModel(Manager exportManager)
         {
@@ -51,6 +52,7 @@ namespace SCaddins.ExportManager.ViewModels
             Sheets = CollectionViewSource.GetDefaultView(this.sheets);
             Sheets.SortDescriptions.Add(new SortDescription("FullExportName", ListSortDirection.Ascending));
             ShowSearchHint = true;
+            selectedSheetFilter = null;
         }
 
         public enum CloseMode
@@ -204,20 +206,64 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public List<string> TestList
+        public Dictionary<string, SheetFilter> SheetFiltersDictionary { get; set; }
+
+        public ObservableCollection<SheetFilter> SheetFilters
         {
             get
             {
-                return contextMenuList;
+                return sheetFilters;
             }
 
             set
             {
-                contextMenuList = value;
-                NotifyOfPropertyChange(() => TestList);
+                sheetFilters = value;
+                NotifyOfPropertyChange(() => SheetFilters);
                 NotifyOfPropertyChange(() => Sheets);
             }
         }
+
+        public SheetFilter SelectedSheetFilter {
+                get
+            {
+                return selectedSheetFilter;
+            }
+
+            set
+            {
+                if (value != selectedSheetFilter)
+                {
+                    Autodesk.Revit.UI.TaskDialog.Show("test", selectedSheetFilter.ToString());
+                    selectedSheetFilter = value;
+                    NotifyOfPropertyChange(() => SelectedSheetFilter);
+                }       
+            }
+        }
+
+        public void SheetFilterSelected(object source, ActionExecutionContext aec)
+        {
+            var m = (System.Windows.Controls.MenuItem)source;
+            ////var i = m.Items.CurrentPosition;
+            var test = m.DataContext;
+            // var t = sender.Source.
+            //var test = menu.
+            //var test = (SheetFilter)menu;
+            //Autodesk.Revit.UI.TaskDialog.Show("test", t);
+            //m.Items.Refresh();
+            //Autodesk.Revit.UI.TaskDialog.Show("test", (m.Items[i] as SheetFilter).ToString());
+            Autodesk.Revit.UI.TaskDialog.Show("test", test.ToString());
+
+            //var filter = sender as SheetFilter;
+            //Sheets.Filter = filter.GetFilter();
+
+
+
+            //if (SelectedSheetFilter != null)
+            //{
+            //    Sheets.Filter = SelectedSheetFilter.GetFilter();
+            //}
+        }
+
 
         public ObservableCollection<ViewSetItem> ViewSheetSets
         {
@@ -275,7 +321,7 @@ namespace SCaddins.ExportManager.ViewModels
             var col = grid.CurrentColumn;
             var header = col.Header.ToString();
             var cell = ((System.Windows.Controls.TextBlock)e.OriginalSource).Text;
-            TestList.Add(header + " - " + cell);
+            SheetFilters.Add(new SheetFilter(header,cell));
         }
 
         public void CopySheets()
@@ -357,8 +403,16 @@ namespace SCaddins.ExportManager.ViewModels
                 NotifyOfPropertyChange(() => SelectedSheet);
                 break;
 
+                case Key.Q:
+                OpenViewSet();
+                break;
+
                 case Key.V:
                 VerifySheets();
+                break;
+
+                case Key.W:
+                SaveViewSet();
                 break;
 
                 case Key.Escape:

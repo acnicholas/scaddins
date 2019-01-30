@@ -288,6 +288,7 @@
       <DependentUpon>DestructivePurgeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ExportManager\OpenableView.cs" />
+    <Compile Include="ExportManager\SheetFilter.cs" />
     <Compile Include="ExportManager\ViewModels\ConfirmationDialogViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\ExportLogViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\OpenSheetViewModel.cs" />
