@@ -24,21 +24,15 @@ namespace SCaddins.ExportManager
             return @"Filter Similar [" + FilterValue + @"]";
         }
 
-        private int LastNumberInString(string s)
+        private string LastNumberInString(string s)
         {
-            var onlyNumbers = Regex.Replace(s, @"[\D-]", string.Empty);
-            string[] numberParts = onlyNumbers.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-            int lastNumber = -1;
-            if (int.TryParse(numberParts.Last(), out lastNumber))
-            {
-                return lastNumber;
+            var onlyNumbers = Regex.Replace(s, "[^0-9]", @" ");
+            string[] numberParts = onlyNumbers.Split(new string[] { @" " }, StringSplitOptions.RemoveEmptyEntries);
+            var n = numberParts.Where(v => v.Length > 1);
+            if(n.Count() > 0) {
+                return n.Last().Substring(0, 1);
             }
-            return lastNumber;
-        }
-
-        private int RoundDown(int i)
-        {
-            return i / 10 ^ (int)Math.Log10(i);
+            return null;
         }
 
         public Predicate<object> GetFilter()
@@ -50,15 +44,15 @@ namespace SCaddins.ExportManager
                 case "Export Name":
                     properyName = "FullExportName";
                     break;
-                //case "Number":
-                //    //properyName = "SheetNumber";
-                //    //get number only
-                //    int n1 = LastNumberInString(FilterValue);
-                //    return new Predicate<object>(item => (ExportSheet)item.SheetNumber
+                case "Number":
+                    var n = LastNumberInString(FilterValue);
+                    if (n == null) {
+                        return null;
+                    }
+                    return new System.Predicate<object>(item => n == LastNumberInString((item as ExportSheet).SheetNumber));
                 case "Name":
                     properyName = "SheetDescription";
-                    //remove numbers
-                    var noNumbers = Regex.Replace(FilterValue, @"[\d-]", string.Empty);
+                    var noNumbers = Regex.Replace(FilterValue, "[0-9]", @" ");
                     string[] parts = noNumbers.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
                     return new Predicate<object>(item => parts.Any(item.GetType().GetProperty(properyName).GetValue(item, null).ToString().Contains));
                 case "Revision":
