@@ -31,7 +31,6 @@ namespace SCaddins.ExportManager.ViewModels
     {
         private readonly Manager exportManager;
         private CloseMode closeMode;
-        private ObservableCollection<SheetFilter> sheetFilters = new ObservableCollection<SheetFilter>();
         private bool isClosing;
         private List<string> printTypes;
         private string searchText;
@@ -39,7 +38,7 @@ namespace SCaddins.ExportManager.ViewModels
         private List<ExportSheet> selectedSheets = new List<ExportSheet>();
         private ObservableCollection<ExportSheet> sheets;
         private ICollectionView sheetsCollection;
-        public SheetFilter selectedSheetFilter;
+        public SheetFilter sheetFilter;
 
         public SCexportViewModel(Manager exportManager)
         {
@@ -52,7 +51,7 @@ namespace SCaddins.ExportManager.ViewModels
             Sheets = CollectionViewSource.GetDefaultView(this.sheets);
             Sheets.SortDescriptions.Add(new SortDescription("FullExportName", ListSortDirection.Ascending));
             ShowSearchHint = true;
-            selectedSheetFilter = null;
+            sheetFilter = null;
         }
 
         public enum CloseMode
@@ -206,64 +205,28 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public Dictionary<string, SheetFilter> SheetFiltersDictionary { get; set; }
-
-        public ObservableCollection<SheetFilter> SheetFilters
+        public SheetFilter SheetFilter
         {
             get
             {
-                return sheetFilters;
+                return sheetFilter;
             }
 
             set
             {
-                sheetFilters = value;
-                NotifyOfPropertyChange(() => SheetFilters);
+                sheetFilter = value;
+                NotifyOfPropertyChange(() => SheetFilter);
                 NotifyOfPropertyChange(() => Sheets);
             }
         }
 
-        public SheetFilter SelectedSheetFilter {
-                get
-            {
-                return selectedSheetFilter;
-            }
-
-            set
-            {
-                if (value != selectedSheetFilter)
-                {
-                    Autodesk.Revit.UI.TaskDialog.Show("test", selectedSheetFilter.ToString());
-                    selectedSheetFilter = value;
-                    NotifyOfPropertyChange(() => SelectedSheetFilter);
-                }       
-            }
-        }
-
-        public void SheetFilterSelected(object source, ActionExecutionContext aec)
+        public void SheetFilterSelected()
         {
-            var m = (System.Windows.Controls.MenuItem)source;
-            ////var i = m.Items.CurrentPosition;
-            var test = m.DataContext;
-            // var t = sender.Source.
-            //var test = menu.
-            //var test = (SheetFilter)menu;
-            //Autodesk.Revit.UI.TaskDialog.Show("test", t);
-            //m.Items.Refresh();
-            //Autodesk.Revit.UI.TaskDialog.Show("test", (m.Items[i] as SheetFilter).ToString());
-            Autodesk.Revit.UI.TaskDialog.Show("test", test.ToString());
-
-            //var filter = sender as SheetFilter;
-            //Sheets.Filter = filter.GetFilter();
-
-
-
-            //if (SelectedSheetFilter != null)
-            //{
-            //    Sheets.Filter = SelectedSheetFilter.GetFilter();
-            //}
+            if (SheetFilter != null)
+            {
+                Sheets.Filter = SheetFilter.GetFilter();
+            }
         }
-
 
         public ObservableCollection<ViewSetItem> ViewSheetSets
         {
@@ -320,8 +283,9 @@ namespace SCaddins.ExportManager.ViewModels
             var grid = (System.Windows.Controls.DataGrid)e.Source;
             var col = grid.CurrentColumn;
             var header = col.Header.ToString();
+            //var header = col.GetCellContent(myItem).DataContext;
             var cell = ((System.Windows.Controls.TextBlock)e.OriginalSource).Text;
-            SheetFilters.Add(new SheetFilter(header,cell));
+            SheetFilter = new SheetFilter(header,cell);
         }
 
         public void CopySheets()

@@ -167,11 +167,12 @@
                                 Source="/SCaddins;component/Assets/filter.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem cal:Message.Attach="SheetFilterSelected($source, $executionContext)" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Items}" ItemsSource="{Binding Path=SheetFilters, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }">
+                    <MenuItem x:Name="SheetFilter" cal:Message.Attach="SheetFilterSelected()" Header="{Binding SheetFilter}"></MenuItem>
+                    <!--<MenuItem cal:Message.Attach="SheetFilterSelected($source, $executionContext)" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Items}" ItemsSource="{Binding Path=SheetFilters, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }">
                         <MenuItem.Icon>
                             <Image Source="/SCaddins;component/Assets/filter.png" />
                         </MenuItem.Icon>
-                    </MenuItem>
+                    </MenuItem>-->
                     <Separator />
                     <MenuItem Header="Options"  cal:Message.Attach="OptionsButton">
                         <MenuItem.Icon>
