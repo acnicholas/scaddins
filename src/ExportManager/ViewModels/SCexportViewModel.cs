@@ -36,9 +36,9 @@ namespace SCaddins.ExportManager.ViewModels
         private string searchText;
         private string selectedPrintType;
         private List<ExportSheet> selectedSheets = new List<ExportSheet>();
+        private SheetFilter sheetFilter;
         private ObservableCollection<ExportSheet> sheets;
         private ICollectionView sheetsCollection;
-        public SheetFilter sheetFilter;
 
         public SCexportViewModel(Manager exportManager)
         {
@@ -177,6 +177,23 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public SheetFilter SheetFilter
+        {
+            get
+            {
+                return sheetFilter;
+            }
+
+            set
+            {
+                sheetFilter = value;
+                NotifyOfPropertyChange(() => SheetFilter);
+                NotifyOfPropertyChange(() => Sheets);
+            }
+        }
+
+        public bool SheetFilterEnabled { get; set; }
+
         public ICollectionView Sheets
         {
             get
@@ -202,29 +219,6 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 var numberOfSheets = SelectedSheets.Count;
                 return numberOfSheets + @" Sheet[s] Selected To Export/Print " + SelectedExportTypesAsString;
-            }
-        }
-
-        public SheetFilter SheetFilter
-        {
-            get
-            {
-                return sheetFilter;
-            }
-
-            set
-            {
-                sheetFilter = value;
-                NotifyOfPropertyChange(() => SheetFilter);
-                NotifyOfPropertyChange(() => Sheets);
-            }
-        }
-
-        public void SheetFilterSelected()
-        {
-            if (SheetFilter != null)
-            {
-                Sheets.Filter = SheetFilter.GetFilter();
             }
         }
 
@@ -277,15 +271,23 @@ namespace SCaddins.ExportManager.ViewModels
                 return;
             }
             var menuItem = (System.Windows.Controls.TextBlock)e.OriginalSource;
+            if (menuItem.DataContext.GetType() != typeof(ExportSheet))
+            {
+                SheetFilterEnabled = false;
+                return;
+            }
+            SheetFilterEnabled = true;
             ExportSheet myItem = (ExportSheet)menuItem.DataContext;
-            SelectedSheets.Add(myItem);
+            if (!SelectedSheets.Contains(myItem))
+            {
+                SelectedSheets.Add(myItem);
+            }
             SelectedSheet = myItem;
             var grid = (System.Windows.Controls.DataGrid)e.Source;
             var col = grid.CurrentColumn;
             var header = col.Header.ToString();
-            //var header = col.GetCellContent(myItem).DataContext;
             var cell = ((System.Windows.Controls.TextBlock)e.OriginalSource).Text;
-            SheetFilter = new SheetFilter(header,cell);
+            SheetFilter = new SheetFilter(header, cell);
         }
 
         public void CopySheets()
@@ -321,73 +323,78 @@ namespace SCaddins.ExportManager.ViewModels
         public void KeyPressed(KeyEventArgs keyArgs)
         {
             //// only executre search if in the search text box
-            if (keyArgs.OriginalSource.GetType() == typeof(System.Windows.Controls.TextBox)) {
-                if (keyArgs.Key == Key.Enter) {
+            if (keyArgs.OriginalSource.GetType() == typeof(System.Windows.Controls.TextBox))
+            {
+                if (keyArgs.Key == Key.Enter)
+                {
                     ExecuteSearch();
                     NotifyOfPropertyChange(() => Sheets);
                 }
                 return;
             }
 
-            switch (keyArgs.Key) {
+            switch (keyArgs.Key)
+            {
                 case Key.C:
-                RemoveViewFilter();
-                break;
+                    RemoveViewFilter();
+                    break;
 
                 case Key.D:
-                exportManager.ToggleExportOption(ExportOptions.DWG);
-                NotifyOfPropertyChange(() => StatusText);
-                break;
+                    exportManager.ToggleExportOption(ExportOptions.DWG);
+                    NotifyOfPropertyChange(() => StatusText);
+                    break;
 
                 case Key.G:
-                exportManager.ToggleExportOption(ExportOptions.GhostscriptPDF);
-                NotifyOfPropertyChange(() => StatusText);
-                break;
+                    exportManager.ToggleExportOption(ExportOptions.GhostscriptPDF);
+                    NotifyOfPropertyChange(() => StatusText);
+                    break;
 
                 case Key.L:
-                ShowLatestRevision();
-                break;
+                    ShowLatestRevision();
+                    break;
 
                 case Key.O:
-                OpenViewsCommand();
-                break;
+                    OpenViewsCommand();
+                    break;
 
                 case Key.P:
-                exportManager.ToggleExportOption(ExportOptions.PDF);
-                NotifyOfPropertyChange(() => StatusText);
-                break;
+                    exportManager.ToggleExportOption(ExportOptions.PDF);
+                    NotifyOfPropertyChange(() => StatusText);
+                    break;
 
                 case Key.S:
-                var activeSheetNumber = Manager.CurrentViewNumber(exportManager.Doc);
-                if (activeSheetNumber == null) {
-                    return;
-                }
-                ExportSheet ss = sheets.Where<ExportSheet>(item => item.SheetNumber.Equals(activeSheetNumber, System.StringComparison.CurrentCulture)).First<ExportSheet>();
-                SelectedSheet = ss;
-                NotifyOfPropertyChange(() => SelectedSheet);
-                break;
+                    var activeSheetNumber = Manager.CurrentViewNumber(exportManager.Doc);
+                    if (activeSheetNumber == null)
+                    {
+                        return;
+                    }
+                    ExportSheet ss = sheets.Where<ExportSheet>(item => item.SheetNumber.Equals(activeSheetNumber, System.StringComparison.CurrentCulture)).First<ExportSheet>();
+                    SelectedSheet = ss;
+                    NotifyOfPropertyChange(() => SelectedSheet);
+                    break;
 
                 case Key.Q:
-                OpenViewSet();
-                break;
+                    OpenViewSet();
+                    break;
 
                 case Key.V:
-                VerifySheets();
-                break;
+                    VerifySheets();
+                    break;
 
                 case Key.W:
-                SaveViewSet();
-                break;
+                    SaveViewSet();
+                    break;
 
                 case Key.Escape:
-                TryClose();
-                break;
+                    TryClose();
+                    break;
 
                 default:
-                if (keyArgs.Key >= Key.D0 && keyArgs.Key <= Key.D9) {
-                    FilterByNumber(((int)keyArgs.Key - (int)Key.D0).ToString(System.Globalization.CultureInfo.CurrentCulture));
-                }
-                break;
+                    if (keyArgs.Key >= Key.D0 && keyArgs.Key <= Key.D9)
+                    {
+                        FilterByNumber(((int)keyArgs.Key - (int)Key.D0).ToString(System.Globalization.CultureInfo.CurrentCulture));
+                    }
+                    break;
             }
         }
 
@@ -401,14 +408,18 @@ namespace SCaddins.ExportManager.ViewModels
             var viewSetSelectionViewModel = new ViewSetSelectionViewModel(exportManager.AllViewSheetSets);
             bool? result = SCaddinsApp.WindowManager.ShowDialog(viewSetSelectionViewModel, null, ViewSetSelectionViewModel.DefaultWindowSettings);
             bool newBool = result.HasValue ? result.Value : false;
-            if (newBool && viewSetSelectionViewModel.SelectedSet != null) {
+            if (newBool && viewSetSelectionViewModel.SelectedSet != null)
+            {
                 this.IsNotifying = false;
-                try {
+                try
+                {
                     var filter = new System.Predicate<object>(item => viewSetSelectionViewModel
                             .SelectedSet
                             .ViewIds.Contains(((ExportSheet)item).Sheet.Id.IntegerValue));
                     Sheets.Filter = filter;
-                } catch {
+                }
+                catch
+                {
                 }
                 this.IsNotifying = true;
             }
@@ -433,13 +444,16 @@ namespace SCaddins.ExportManager.ViewModels
         public void PrintButton()
         {
             isClosing = true;
-            if (selectedPrintType == "Print A3") {
+            if (selectedPrintType == "Print A3")
+            {
                 closeMode = CloseMode.PrintA3;
             }
-            if (selectedPrintType == "Print A2") {
+            if (selectedPrintType == "Print A2")
+            {
                 closeMode = CloseMode.PrintA2;
             }
-            if (selectedPrintType == "Print Full Size") {
+            if (selectedPrintType == "Print Full Size")
+            {
                 closeMode = CloseMode.Print;
             }
             TryClose(true);
@@ -468,7 +482,8 @@ namespace SCaddins.ExportManager.ViewModels
             var renameSheetModel = new SCaddins.RenameUtilities.ViewModels.RenameUtilitiesViewModel(renameManager);
             renameSheetModel.SelectedParameterCategory = "Sheets";
             SCaddinsApp.WindowManager.ShowDialog(renameSheetModel, null, RenameUtilities.ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings);
-            foreach (ExportSheet exportSheet in selectedSheets) {
+            foreach (ExportSheet exportSheet in selectedSheets)
+            {
                 exportSheet.UpdateName();
                 exportSheet.UpdateNumber();
             }
@@ -480,7 +495,8 @@ namespace SCaddins.ExportManager.ViewModels
             var saveAsVM = new ViewSetSaveAsViewModel("Select name for new view sheet set", exportManager.AllViewSheetSets);
             bool? result = SCaddinsApp.WindowManager.ShowDialog(saveAsVM, null, ViewSetSaveAsViewModel.DefaultWindowSettings);
             bool newBool = result.HasValue ? result.Value : false;
-            if (newBool) {
+            if (newBool)
+            {
                 exportManager.SaveViewSet(saveAsVM.SaveName, selectedSheets);
             }
         }
@@ -504,11 +520,20 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs obj)
         {
-            if (!isClosing) {
+            if (!isClosing)
+            {
                 this.IsNotifying = false;
                 List<ExportSheet> list = ((System.Windows.Controls.DataGrid)sender).SelectedItems.Cast<ExportSheet>().ToList();
                 this.IsNotifying = true;
                 SelectedSheets = list;
+            }
+        }
+
+        public void SheetFilterSelected()
+        {
+            if (SheetFilter != null)
+            {
+                Sheets.Filter = SheetFilter.GetFilter();
             }
         }
 

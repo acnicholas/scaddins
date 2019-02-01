@@ -167,7 +167,7 @@
                                 Source="/SCaddins;component/Assets/filter.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="SheetFilter" cal:Message.Attach="SheetFilterSelected()" Header="{Binding SheetFilter}">
+                    <MenuItem x:Name="SheetFilter"  IsEnabled="{Binding SheetFilterEnabled}"  cal:Message.Attach="SheetFilterSelected()" Header="{Binding SheetFilter}">
                         <MenuItem.Icon>
                             <Image
                                 Source="/SCaddins;component/Assets/filter.png" />
