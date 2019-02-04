@@ -53,11 +53,11 @@
                     properyName = "Scale";
                     break;
                 case "North Point":
-                    properyName = "NorthPointVisible";
+                    properyName = "NorthPointVisibilityString";
                     break;
                 default:
                     return null;
-            }
+            }    
             return new Predicate<object>(item => item.GetType().GetProperty(properyName).GetValue(item, null).ToString().Equals(FilterValue, StringComparison.InvariantCulture));
         }
 

@@ -138,6 +138,15 @@ namespace SCaddins.ExportManager
             {
                 northPointVisible = value;
                 NotifyPropertyChanged(nameof(NorthPointVisible));
+                NotifyPropertyChanged(nameof(NorthPointVisibilityString));
+            }
+        }
+
+        public string NorthPointVisibilityString
+        {
+            get
+            {
+                return (NorthPointVisible.HasValue && NorthPointVisible != null) ? NorthPointVisible.ToString() : @"n/a";
             }
         }
 

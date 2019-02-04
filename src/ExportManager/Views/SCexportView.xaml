@@ -146,7 +146,7 @@
                     Binding="{Binding Scale}" />
                 <DataGridTextColumn
                     Header="North Point"
-                    Binding="{Binding NorthPointVisible}" />
+                    Binding="{Binding NorthPointVisibilityString}" />
                 <DataGridTextColumn
                     Header="Print Setting"
                     Binding="{Binding PrintSettingName}" />

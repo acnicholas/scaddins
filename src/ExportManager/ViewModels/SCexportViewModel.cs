@@ -533,7 +533,10 @@ namespace SCaddins.ExportManager.ViewModels
         {
             if (SheetFilter != null)
             {
-                Sheets.Filter = SheetFilter.GetFilter();
+                var filter = SheetFilter.GetFilter();
+                if (filter != null) {
+                    Sheets.Filter = filter;
+                }
             }
         }
 
