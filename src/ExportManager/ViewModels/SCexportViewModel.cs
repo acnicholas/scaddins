@@ -108,9 +108,25 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public string ExportButtonToolTip
+        {
+            get
+            {
+                return CanExport ? "Export selected drawings. For further settings goto options." : "Select sheets to enable exporting.";
+            }
+        }
+
         public bool IsSearchTextFocused
         {
             get; set;
+        }
+
+        public string PrintButtonToolTip
+        {
+            get
+            {
+                return CanPrint ? "Print selected drawings. For further settings goto options." : "Select sheets to enable printing.";
+            }
         }
 
         public BindableCollection<string> PrintTypes

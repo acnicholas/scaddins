@@ -93,10 +93,13 @@
             VerticalAlignment="Stretch"
             Margin="5,0,5,5"
             Grid.ColumnSpan="3"
-            GridLinesVisibility="Vertical"
+            GridLinesVisibility="None"
             IsReadOnly="True">
-  
+
             <DataGrid.Resources>
+                <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
+                    <Setter Property="Margin" Value="5,0,10,0" />
+                </Style>
                 <Style TargetType="DataGridRow">
                     <Setter Property="IsSelected" Value="{Binding IsSelected}" />
                     <Style.Resources>
@@ -108,46 +111,50 @@
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 </Style>
             </DataGrid.Resources>
-            <DataGrid.VerticalGridLinesBrush>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
-            </DataGrid.VerticalGridLinesBrush>
-            <DataGrid.HorizontalGridLinesBrush>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
-            </DataGrid.HorizontalGridLinesBrush>
             <DataGrid.AlternatingRowBackground>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
             </DataGrid.AlternatingRowBackground>
 
             <DataGrid.Columns>
-                <DataGridTextColumn
+                <DataGridTextColumn 
+                    ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Export Name"
                     Binding="{Binding FullExportName}" />
                 <DataGridTextColumn
+                    ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Number"
                     Binding="{Binding SheetNumber}" />
                 <DataGridTextColumn
+                    ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Name"
                     Binding="{Binding SheetDescription}">
                 </DataGridTextColumn>
                 <DataGridTextColumn
+                    ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Revision"
                     Binding="{Binding SheetRevision}"/>
                 <DataGridTextColumn
+                    ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Revision Description"
                     Binding="{Binding SheetRevisionDescription}" />
                 <DataGridTextColumn
+                    ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Revision Date"
                     Binding="{Binding SheetRevisionDate}" />
                 <DataGridTextColumn
+                    ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Export Directory"
                     Binding="{Binding ExportDirectory}" />
                 <DataGridTextColumn
+                    ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Scale"
                     Binding="{Binding Scale}" />
                 <DataGridTextColumn
+                    ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="North Point"
                     Binding="{Binding NorthPointVisibilityString}" />
                 <DataGridTextColumn
+                    ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Print Setting"
                     Binding="{Binding PrintSettingName}" />
             </DataGrid.Columns>
@@ -277,7 +284,12 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Margin="5,0,5,5"
-            Grid.Column="2" />
+            ToolTipService.ShowOnDisabled="True"
+            Grid.Column="2">
+            <Button.ToolTip>
+                <Label Content="{Binding ExportButtonToolTip}"></Label>
+            </Button.ToolTip>
+        </Button>
         <Border Grid.Column="1" Grid.Row="2" Margin="0,0,0,5" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="1" BorderBrush="#FF707070">
         <Grid Margin="0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
@@ -295,7 +307,11 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 IsEnabled="{Binding CanPrint}"
+                ToolTipService.ShowOnDisabled="True"
                 Content="{Binding SelectedPrintType}">
+                <Button.ToolTip>
+                        <Label Content="{Binding PrintButtonToolTip}"></Label>
+                </Button.ToolTip>
                 </Button>
             <ComboBox
                 HorizontalAlignment="Stretch"
@@ -326,6 +342,9 @@
             BorderBrush="Transparent"
             Grid.Column="2">
             <Image Source="/SCaddins;component/Assets/gear.png" Stretch="None" />
+            <Button.ToolTip>
+                <Label>Click to access more options :P</Label>
+            </Button.ToolTip>
         </Button>
     </Grid>
 </UserControl>
