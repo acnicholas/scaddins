@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="A3PrinterDriver" Roaming="true" Type="System.String" Scope="User">
-      <Value Profile="(Default)">\\SCAPP01\FollowYouColour</Value>
+      <Value Profile="(Default)">\\SCAPP02\FollowMeColour</Value>
     </Setting>
     <Setting Name="AcadExportVersion" Roaming="true" Type="Caliburn.Micro.Screen" Scope="User">
       <Value Profile="(Default)" />
@@ -30,13 +30,13 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="LargeFormatPrinterDriver" Type="System.String" Scope="User">
-      <Value Profile="(Default)">\\SCAPP01\DocuWide3035 (PS)</Value>
+      <Value Profile="(Default)">\\SCAPP02\DocuWide3035 (PS)</Value>
     </Setting>
     <Setting Name="NorthPointVisibilityParameter" Type="System.String" Scope="User">
       <Value Profile="(Default)">North Point</Value>
     </Setting>
     <Setting Name="PSPrinterDriver" Roaming="true" Type="System.String" Scope="User">
-      <Value Profile="(Default)">\\SCAPP01\DocuWide3035 (PS)</Value>
+      <Value Profile="(Default)">\\SCAPP02\DocuWide3035 (PS)</Value>
     </Setting>
     <Setting Name="ScalebarScaleParameter" Type="System.String" Scope="User">
       <Value Profile="(Default)">Scalebar Scale</Value>
