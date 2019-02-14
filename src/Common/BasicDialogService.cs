@@ -43,6 +43,12 @@
             return true;
         }
 
+        public bool? ShowMessageBox(string title, string message)
+        {
+            System.Windows.MessageBox.Show(message, title);
+            return true;
+        }
+
         public bool? ShowSaveAsDialog(string defaultFileName, string defaultExtension, string filter, out string savePath)
         {
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();

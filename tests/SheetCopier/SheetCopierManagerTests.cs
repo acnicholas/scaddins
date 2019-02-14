@@ -11,6 +11,12 @@ namespace SCaddins.SheetCopier.Tests
     [TestFixture()]
     public class SheetCopierManagerTests
     {
+        [SetUp]
+        public void Setup()
+        {
+            SCaddinsApp.WindowManager = new SCaddins.Common.WindowManager(new SCaddins.Common.MockDialogService());
+        }
+
         [Test()]
         public void SheetNumberAvailableTest()
         {

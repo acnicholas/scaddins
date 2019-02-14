@@ -177,14 +177,14 @@ namespace SCaddins.RoomConvertor
             System.Environment.NewLine +
             "Check Revit room geometry if basic masses are bing created";
 
-            Autodesk.Revit.UI.TaskDialog.Show("Rooms To Masses", msg);
+            SCaddinsApp.WindowManager.ShowMessageBox("Rooms to Masses - Summary", msg);
         }
 
         public void CreateViewsAndSheets(List<RoomConversionCandidate> rooms)
         {
             if (rooms == null)
             {
-                Autodesk.Revit.UI.TaskDialog.Show("WARNING", "no rooms selected to covnert");
+                SCaddinsApp.WindowManager.ShowMessageBox("WARNING", "no rooms selected to covnert");
                 return;
             }
             using (Transaction t = new Transaction(doc, "Rooms to Views"))
@@ -233,6 +233,9 @@ namespace SCaddins.RoomConvertor
                 foreach (Element e in collector)
                 {
                     Parameter p = e.LookupParameter("RoomId");
+                    if (p == null) {
+                        continue;
+                    }
                     i++;
                     int intId = p.AsInteger();
                     if (intId > 0)
@@ -246,7 +249,7 @@ namespace SCaddins.RoomConvertor
                     }
                 }
 
-                Autodesk.Revit.UI.TaskDialog.Show("Synchronize Masses to Rooms", i + " masses synchronized");
+                SCaddinsApp.WindowManager.ShowMessageBox("Synchronize Masses to Rooms", i + " masses synchronized");
                 t.Commit();
             }
         }
@@ -505,7 +508,6 @@ namespace SCaddins.RoomConvertor
             }
             catch (Exception ex)
             {
-                // Autodesk.Revit.UI.TaskDialog.Show("test", ex.Message);
                 System.Diagnostics.Debug.WriteLine(ex.Message);
             }
             return false;
