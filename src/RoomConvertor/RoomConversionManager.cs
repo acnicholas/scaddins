@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2016-2018 by Andrew Nicholas
+﻿// (C) Copyright 2016-2019 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -149,20 +149,35 @@ namespace SCaddins.RoomConvertor
         public void CreateRoomMasses(List<RoomConversionCandidate> rooms)
         {
             int errCount = 0;
+            int basicMasses = 0;
             int roomCount = 0;
             if (rooms != null) {
                 using (var t = new Transaction(doc, "Rooms to Masses")) {
                     t.Start();
                     foreach (RoomConversionCandidate c in rooms) {
                         roomCount++;
-                        if (!this.CreateRoomMass(c.Room)) {
+                        if (this.CreateRoomMass(c.Room)) {
+                            continue;
+                        }
+                        if (this.CreateSimpleRoomMassByExtrusion(c.Room)) {
+                            continue;
+                        }
+                        basicMasses++;
+                        if (!this.CreateRoomMassByBoundingBox(c.Room)) {
                             errCount++;
                         }
                     }
                     t.Commit();
                 }
             }
-            Autodesk.Revit.UI.TaskDialog.Show("Rooms To Masses", (roomCount - errCount) + " Room masses created with " + errCount + " errors.");
+            var msg = @"Summary:" + System.Environment.NewLine +
+            @"-   " + (roomCount - errCount) + " Room masses created" + System.Environment.NewLine +
+            @"-   " + basicMasses + " Modeled with basic bounding geometry" + System.Environment.NewLine +
+            @"-   " + errCount + " Errors" + System.Environment.NewLine +
+            System.Environment.NewLine +
+            "Check Revit room geometry if basic masses are bing created";
+
+            Autodesk.Revit.UI.TaskDialog.Show("Rooms To Masses", msg);
         }
 
         public void CreateViewsAndSheets(List<RoomConversionCandidate> rooms)
@@ -399,6 +414,103 @@ namespace SCaddins.RoomConvertor
             return true;
         }
 
+        private bool CreateSimpleRoomMassByExtrusion(Room room)
+        {
+            try
+            {
+                var height = room.LookupParameter("Limit Offset");
+                var curves = new List<CurveLoop>();
+                var spatialBoundaryOptions = new SpatialElementBoundaryOptions();
+                spatialBoundaryOptions.StoreFreeBoundaryFaces = true;
+                var loop = new CurveLoop();
+                var bdySegs = room.GetBoundarySegments(spatialBoundaryOptions);
+                var biggestList = bdySegs.OrderByDescending(item => item.Count).First();
+
+                foreach (var seg in biggestList)
+                {
+                    loop.Append(seg.GetCurve());
+                }
+
+                curves.Add(loop);
+
+                SolidOptions options = new SolidOptions(ElementId.InvalidElementId, ElementId.InvalidElementId);
+                Solid roomSolid = GeometryCreationUtilities.CreateExtrusionGeometry(curves, new XYZ(0, 0, 1), height.AsDouble(), options);
+
+                if (roomSolid == null)
+                {
+                    return false;
+                }
+
+                var eid = new ElementId(BuiltInCategory.OST_Mass);
+                #if REVIT2019 || REVIT2018 || REVIT2017
+                DirectShape roomShape = DirectShape.CreateElement(doc, eid);
+                #else
+                DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
+                #endif
+                roomShape.SetShape(new GeometryObject[] { roomSolid });
+                CopyAllRoomParametersToMasses(room, roomShape);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                return false;
+            }
+            return true;
+        }
+
+        private bool CreateRoomMassByBoundingBox(Room room)
+        {
+            try
+            {
+                var bb = room.get_BoundingBox(null);
+                var eid = new ElementId(BuiltInCategory.OST_Mass);
+
+                if (bb == null) {
+                    return false;
+                }
+
+                    #if REVIT2019 || REVIT2018 || REVIT2017
+                    DirectShape roomShape = DirectShape.CreateElement(doc, eid);
+                    #else
+                    DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
+                    #endif
+
+                    var curves = new List<Curve>();
+
+                    var bl = new XYZ(bb.Min.X, bb.Min.Y, bb.Min.Z);
+                    var br = new XYZ(bb.Max.X, bb.Min.Y, bb.Min.Z);
+                    var tr = new XYZ(bb.Max.X, bb.Max.Y, bb.Min.Z);
+                    var tl = new XYZ(bb.Min.X, bb.Max.Y, bb.Min.Z);
+
+                    var height = bb.Max.Z - bb.Min.Z;
+
+                    curves.Add(Line.CreateBound(bl, br) as Curve);
+                    curves.Add(Line.CreateBound(br, tr) as Curve);
+                    curves.Add(Line.CreateBound(tr, tl) as Curve);
+                    curves.Add(Line.CreateBound(tl, bl) as Curve);
+                    CurveLoop loop = CurveLoop.Create(curves);
+                    SolidOptions options = new SolidOptions(ElementId.InvalidElementId, ElementId.InvalidElementId);
+                    Solid roomSolid = GeometryCreationUtilities.CreateExtrusionGeometry(new CurveLoop[] { loop }, new XYZ(0, 0, 1), height, options);
+
+                    if (roomSolid != null)
+                    {
+                        var geomObj = new GeometryObject[] { roomSolid };
+                        if (geomObj != null && geomObj.Length > 0)
+                        {
+                            roomShape.SetShape(geomObj);
+                            CopyAllRoomParametersToMasses(room, roomShape);
+                            return true;
+                        }
+                    }
+            }
+            catch (Exception ex)
+            {
+                // Autodesk.Revit.UI.TaskDialog.Show("test", ex.Message);
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
         private bool CreateRoomMass(Room room)
         {
             if (!SpatialElementGeometryCalculator.CanCalculateGeometry(room))
@@ -415,11 +527,11 @@ namespace SCaddins.RoomConvertor
                 using (Solid roomSolid = results.GetGeometry())
                 {
                     var eid = new ElementId(BuiltInCategory.OST_Mass);
-#if REVIT2019 || REVIT2018 || REVIT2017
+                    #if REVIT2019 || REVIT2018 || REVIT2017
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid);
-#else
-                                        DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
-#endif
+                    #else
+                    DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
+                    #endif
                     if (roomShape != null && roomSolid.Volume > 0 && roomSolid.Faces.Size > 0)
                     {
                         var geomObj = new GeometryObject[] { roomSolid };
@@ -429,22 +541,14 @@ namespace SCaddins.RoomConvertor
                             CopyAllRoomParametersToMasses(room, roomShape);
                             return true;
                         }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        return false;
                     }
                 }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
-                return false;
             }
+            return false;
         }
 
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
