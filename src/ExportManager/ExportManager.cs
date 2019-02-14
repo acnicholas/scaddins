@@ -527,6 +527,9 @@ namespace SCaddins.ExportManager
         int scale,
         ExportLog log)
         {
+            var startTime = log.StartLoggingIndividualItem(null);
+            log.AddMessage(sheet.ToString());
+
             PrintManager pm = Doc.PrintManager;
             bool printSetttingsValid;
             if (!sheet.Verified)
@@ -559,6 +562,7 @@ namespace SCaddins.ExportManager
             {
                 TaskDialog.Show("test", "print error");
             }
+            log.EndLoggingIndividualItem(startTime, null);
         }
 
         public void RemoveExportOption(ExportOptions exportOptions)
