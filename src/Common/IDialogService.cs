@@ -8,6 +8,8 @@
 
         bool? ShowMessageBox(string message);
 
+        bool? ShowMessageBox(string title, string message);
+
         bool? ShowSaveAsDialog(string defaultFileName, string defaultExtension, string filter, out string savePath);
     }
 }

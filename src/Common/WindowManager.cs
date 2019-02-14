@@ -59,6 +59,11 @@
             return dialogService.ShowMessageBox(message);
         }
 
+        public bool? ShowMessageBox(string title, string message)
+        {
+            return dialogService.ShowMessageBox(title, message);
+        }
+
         public override void ShowPopup(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
             throw new NotImplementedException();
