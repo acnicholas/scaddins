@@ -166,7 +166,7 @@ namespace SCaddins.ExportManager
             if (File.Exists(config)) {
                 Process.Start(Settings1.Default.TextEditor, config);
             } else {
-                TaskDialog.Show("SCexport", "config file does not exist");
+                SCaddinsApp.WindowManager.ShowMessageBox("SCexport", "config file does not exist");
             }
         }
     }

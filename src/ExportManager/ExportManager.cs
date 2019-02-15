@@ -248,7 +248,7 @@ namespace SCaddins.ExportManager
                 }
                 else
                 {
-                    TaskDialog.Show("Error", "SCexport: error adding revisions, could not start transaction.");
+                    SCaddinsApp.WindowManager.ShowMessageBox("Error", "SCexport: error adding revisions, could not start transaction.");
                 }
             }
 
@@ -282,7 +282,7 @@ namespace SCaddins.ExportManager
         {
             if (sheets == null)
             {
-                TaskDialog.Show("Error", "Please select sheets before attempting to add revisions");
+                SCaddinsApp.WindowManager.ShowMessageBox("Error", "Please select sheets before attempting to add revisions");
                 return;
             }
             using (Transaction t = new Autodesk.Revit.DB.Transaction(doc))
@@ -298,7 +298,7 @@ namespace SCaddins.ExportManager
                     }
                     if (t.Commit() != TransactionStatus.Committed)
                     {
-                        TaskDialog.Show("Failure", "Could not fix scale bars");
+                        SCaddinsApp.WindowManager.ShowMessageBox("Failure", "Could not fix scale bars");
                     }
                 }
             }
@@ -396,7 +396,7 @@ namespace SCaddins.ExportManager
                     }
                     if (t.Commit() != TransactionStatus.Committed)
                     {
-                        TaskDialog.Show("Failure", "Could not toggle north points");
+                        SCaddinsApp.WindowManager.ShowMessageBox("Failure", "Could not toggle north points");
                     }
                 }
             }
@@ -560,7 +560,7 @@ namespace SCaddins.ExportManager
             }
             else
             {
-                TaskDialog.Show("test", "print error");
+                SCaddinsApp.WindowManager.ShowMessageBox("test", "print error");
             }
             log.EndLoggingIndividualItem(startTime, null);
         }
@@ -691,7 +691,7 @@ namespace SCaddins.ExportManager
                 }
                 t.Commit();
             } catch (Autodesk.Revit.Exceptions.ArgumentException e) {
-                TaskDialog.Show("Revit", "cannot Hide Title: " + e.Message);
+                SCaddinsApp.WindowManager.ShowMessageBox("Revit", "cannot Hide Title: " + e.Message);
                 t.RollBack();
             }
         }
@@ -1113,11 +1113,11 @@ namespace SCaddins.ExportManager
             switch (e.Severity)
             {
                 case XmlSeverityType.Error:
-                    TaskDialog.Show("Error: {0}", e.Message);
+                    SCaddinsApp.WindowManager.ShowMessageBox("Error: {0}", e.Message);
                     break;
 
                 case XmlSeverityType.Warning:
-                    TaskDialog.Show("Warning {0}", e.Message);
+                    SCaddinsApp.WindowManager.ShowMessageBox("Warning {0}", e.Message);
                     break;
             }
         }

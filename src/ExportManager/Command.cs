@@ -149,18 +149,6 @@ namespace SCaddins.ExportManager
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }
-
-        ////private void TryHideAcrobatProgress()
-        ////{
-        ////    System.IntPtr hWnd = FindWindow(null, @"Creating Adobe PDF");
-        ////    if ((int)hWnd > 0)
-        ////    {
-        ////        ShowWindow(hWnd, 0);
-        ////    } else
-        ////    {
-        ////        ////TaskDialog.Show("TEST", "nope");
-        ////    }
-        ////}
     }
 }
 /* vim: set ts=4 sw=4 nu expandtab: */

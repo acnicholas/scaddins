@@ -34,12 +34,12 @@ namespace SCaddins.RevisionUtilities
         {
             if (doc == null || revisionClouds == null)
             {
-                TaskDialog.Show("ERROR", "Could not assign revisions to clouds");
+                SCaddinsApp.WindowManager.ShowMessageBox("ERROR", "Could not assign revisions to clouds");
                 return;
             }
             if (cloudId == null)
             {
-                TaskDialog.Show("ERROR", "Selected cloud is not valid...for some reason");
+                SCaddinsApp.WindowManager.ShowMessageBox("ERROR", "Selected cloud is not valid...for some reason");
                 return;
             }
             using (var t = new Transaction(doc, "Assign Revisions to Clouds"))
@@ -60,7 +60,7 @@ namespace SCaddins.RevisionUtilities
         {
             if (doc == null || revisionClouds == null)
             {
-                TaskDialog.Show("ERROR", "Could not delete revision clouds");
+                SCaddinsApp.WindowManager.ShowMessageBox("ERROR", "Could not delete revision clouds");
                 return;
             }
             using (var t = new Transaction(doc, "Deleting Revision Clouds"))
@@ -82,7 +82,7 @@ namespace SCaddins.RevisionUtilities
         {
             if (doc == null)
             {
-                TaskDialog.Show("ERROR", "could not export cloud information");
+                SCaddinsApp.WindowManager.ShowMessageBox("ERROR", "could not export cloud information");
                 return;
             }
 
@@ -141,12 +141,12 @@ namespace SCaddins.RevisionUtilities
 
             if (cloudNumber < 1)
             {
-                TaskDialog.Show("WARNING", "no clouds found to export");
+                SCaddinsApp.WindowManager.ShowMessageBox("WARNING", "no clouds found to export");
             }
             else
             {
                 WriteArray(data, cloudNumber, 8, excelWorksheet);
-                TaskDialog.Show("Finished", cloudNumber + @" revision clouds sheduled in the file " + exportFilename);
+                SCaddinsApp.WindowManager.ShowMessageBox("Finished", cloudNumber + @" revision clouds sheduled in the file " + exportFilename);
                 excelWorkbook.SaveAs(exportFilename, XlFileFormat.xlWorkbookNormal);
                 excelWorkbook.Close();
             }

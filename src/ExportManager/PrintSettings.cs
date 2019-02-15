@@ -101,7 +101,7 @@ namespace SCaddins.ExportManager
                     catch (InvalidOperationException ex)
                     {
                         System.Diagnostics.Debug.Print(ex.Message);
-                        TaskDialog.Show(
+                        SCaddinsApp.WindowManager.ShowMessageBox(
                             "SCexport",
                             "Unable to create print setting: " + "SCX-" + isoSheetSize);
                         t.RollBack();
@@ -170,7 +170,7 @@ namespace SCaddins.ExportManager
             }
 
             var msg = "SCX-" + printSetting + " could not be created!";
-            TaskDialog.Show("Creating Papersize", msg);
+            SCaddinsApp.WindowManager.ShowMessageBox("Creating Papersize", msg);
             return null;
         }
 
@@ -309,7 +309,7 @@ namespace SCaddins.ExportManager
                 return true;
             } catch (InvalidOperationException e) {
                 var msg = "Print driver " + name + " not found.  Exiting now. Message: " + e.Message;
-                TaskDialog.Show("SCexport", msg);
+                SCaddinsApp.WindowManager.ShowMessageBox("SCexport", msg);
                 t.RollBack();
                 return false;
             }

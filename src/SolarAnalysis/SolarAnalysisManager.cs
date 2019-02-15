@@ -130,7 +130,6 @@ namespace SCaddins.SolarAnalysis
                                     try {
                                         var solidInt = solid.IntersectWithCurve(line, new SolidCurveIntersectionOptions());
                                         if (solidInt.SegmentCount > 0) {
-                                            ////TaskDialog.Show("Debug", "Collision Found");
                                             hoursOfSun = hoursOfSun - 1;
                                             break;
                                         }
@@ -140,7 +139,6 @@ namespace SCaddins.SolarAnalysis
                                 }
                             } ////ray loop
                             testFace.AddValueAtPoint(uv, hoursOfSun - 1);
-                            ////TaskDialog.Show("RayHits", hoursOfSun.ToString());
                         }
                     }
                 }
@@ -157,7 +155,7 @@ namespace SCaddins.SolarAnalysis
 
             t.Commit();
             stopwatch.Stop();
-            TaskDialog.Show("Time Elapsed", "Time elepsed " + stopwatch.Elapsed.ToString() + @"(hh:mm:ss:uu)");
+            SCaddinsApp.WindowManager.ShowMessageBox("Time Elapsed", "Time elepsed " + stopwatch.Elapsed.ToString() + @"(hh:mm:ss:uu)");
         }
 
         /// <summary>
@@ -295,11 +293,8 @@ namespace SCaddins.SolarAnalysis
                 Element elem = doc.GetElement(r);
                 Face f = (Face)elem.GetGeometryObjectFromReference(r);
                 var normal = f.ComputeNormal(new UV(0, 0));
-                ////if (normal.Z >= 0) {
                 result.Add(new DirectSunTestFace(r, @"DirectSun(" + n.ToString(System.Globalization.CultureInfo.CurrentCulture) + @")", doc));
-                ////}
             }
-            ////TaskDialog.Show("Debug", "Faces added: " + result.Count);
             return result;
         }
 
@@ -352,7 +347,6 @@ namespace SCaddins.SolarAnalysis
                     }
                 }
             }
-            ////TaskDialog.Show("Debug", "Solids added: " + result.Count);
             return result;
         }
         ////[SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
@@ -464,7 +458,7 @@ namespace SCaddins.SolarAnalysis
 
                 var v3d = (View3D)view;
                 if (v3d.IsLocked) {
-                    TaskDialog.Show("ERROR", "View is locked, please unlock before rotating");
+                    SCaddinsApp.WindowManager.ShowMessageBox("ERROR", "View is locked, please unlock before rotating");
                     return;
                 }
 
@@ -486,7 +480,7 @@ namespace SCaddins.SolarAnalysis
             }
             else
             {
-                TaskDialog.Show("ERROR", "Not a 3d view");
+                SCaddinsApp.WindowManager.ShowMessageBox("ERROR", "Not a 3d view");
             }
         }
     }

@@ -40,7 +40,7 @@ namespace SCaddins.ExportManager
             Document doc = commandData.Application.ActiveUIDocument.Document;
             View currentView = doc.ActiveView;
             if (currentView.ViewType != ViewType.DrawingSheet) {
-                TaskDialog.Show("SCexport", "PreviousSheet can only be run if the active view is a sheet");
+                SCaddinsApp.WindowManager.ShowMessageBox("SCexport", "PreviousSheet can only be run if the active view is a sheet");
                 return Autodesk.Revit.UI.Result.Failed;   
             } else {
                 var vs = currentView as ViewSheet;

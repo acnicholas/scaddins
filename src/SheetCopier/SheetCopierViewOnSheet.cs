@@ -191,7 +191,7 @@ namespace SCaddins.SheetCopier
                 }
                 else
                 {
-                    Autodesk.Revit.UI.TaskDialog.Show(
+                    SCaddinsApp.WindowManager.ShowMessageBox(
                         "SCopy - WARNING", value + " exists, you can't use it!.");
                 }
             }

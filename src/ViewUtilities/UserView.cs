@@ -77,7 +77,7 @@ namespace SCaddins.ViewUtilities
                     }
                     else
                     {
-                        TaskDialog.Show("Error", "Could not start user view transaction");
+                        SCaddinsApp.WindowManager.ShowMessageBox("Error", "Could not start user view transaction");
                         return null;
                     }
                 }
@@ -149,14 +149,14 @@ namespace SCaddins.ViewUtilities
 
             if (param.IsReadOnly)
             {
-                TaskDialog.Show("SCuv Error", "SC-View_Category is read only!");
+                SCaddinsApp.WindowManager.ShowMessageBox("SCuv Error", "SC-View_Category is read only!");
                 return null;
             }
             else
             {
                 if (!param.Set("User"))
                 {
-                    TaskDialog.Show("SCuv Error", "Error setting SC-View_Category parameter!");
+                    SCaddinsApp.WindowManager.ShowMessageBox("SCuv Error", "Error setting SC-View_Category parameter!");
                     return null;
                 }
             }

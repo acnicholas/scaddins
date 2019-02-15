@@ -45,7 +45,7 @@ namespace SCaddins.ViewUtilities
                     newUserViews = UserView.Create(view, doc);
                     if (t.Commit() != TransactionStatus.Committed)
                     {
-                        TaskDialog.Show("Failed", "Could not create user view[s]");
+                        SCaddinsApp.WindowManager.ShowMessageBox("Failed", "Could not create user view[s]");
                     }
                 }
             }

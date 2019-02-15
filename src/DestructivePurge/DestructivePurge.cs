@@ -137,14 +137,14 @@ namespace SCaddins.DestructivePurge
                         try {
                                 ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(di.Id);
                         } catch (ArgumentNullException anex) {
-                            Autodesk.Revit.UI.TaskDialog.Show("Failure", di.Id.ToString() + System.Environment.NewLine + anex.Message);
+                            SCaddinsApp.WindowManager.ShowMessageBox("Failure", di.Id.ToString() + System.Environment.NewLine + anex.Message);
                         } catch (ModificationForbiddenException mfex) {
-                            Autodesk.Revit.UI.TaskDialog.Show("Failure", di.Id.ToString() + System.Environment.NewLine + mfex.Message);
+                            SCaddinsApp.WindowManager.ShowMessageBox("Failure", di.Id.ToString() + System.Environment.NewLine + mfex.Message);
                         }
                     }
 
                     if (t.Commit() != TransactionStatus.Committed) {
-                        Autodesk.Revit.UI.TaskDialog.Show("Failure", "Destructive Purge could not be run");
+                        SCaddinsApp.WindowManager.ShowMessageBox("Failure", "Destructive Purge could not be run");
                     } 
                 }
             }

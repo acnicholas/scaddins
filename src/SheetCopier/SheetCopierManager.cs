@@ -358,7 +358,7 @@ namespace SCaddins.SheetCopier
                     }
                     if (TransactionStatus.Committed != t.Commit())
                     {
-                        TaskDialog.Show("Copy Sheets Failure", "Transaction could not be committed");
+                        SCaddinsApp.WindowManager.ShowMessageBox("Copy Sheets Failure", "Transaction could not be committed");
                     }
                     else
                     {
@@ -389,7 +389,7 @@ namespace SCaddins.SheetCopier
             foreach (SheetCopierViewOnSheet view in sheet.ViewsOnSheet) {
                 XYZ sourceViewPortCentre = null;
                 if (!viewPorts.TryGetValue(view.OldId, out sourceViewPortCentre)) {
-                    TaskDialog.Show("SCopy", "Error...");
+                    SCaddinsApp.WindowManager.ShowMessageBox("SCopy", "Error...");
                     continue;
                 }
 
