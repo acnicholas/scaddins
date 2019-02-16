@@ -54,14 +54,24 @@
             return dialogService.ShowDirectorySelectionDialog(defaultDir, out dirPath);
         }
 
-        public bool? ShowMessageBox(string message)
+        public void ShowMessageBox(string message)
         {
-            return dialogService.ShowMessageBox(message);
+            dialogService.ShowMessageBox(message);
         }
 
-        public bool? ShowMessageBox(string title, string message)
+        public void ShowMessageBox(string title, string message)
         {
-            return dialogService.ShowMessageBox(title, message);
+            dialogService.ShowMessageBox(title, message);
+        }
+
+        public void ShowErrorMessageBox(string title, string message)
+        {
+            dialogService.ShowErrorMessageBox(title, message);
+        }
+
+        public void ShowWarningMessageBox(string title, string message)
+        {
+            dialogService.ShowWarningMessageBox(title, message);
         }
 
         public override void ShowPopup(object rootModel, object context = null, IDictionary<string, object> settings = null)

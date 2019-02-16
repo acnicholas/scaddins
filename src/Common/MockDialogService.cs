@@ -18,15 +18,24 @@
             return true;
         }
 
-        public bool? ShowMessageBox(string message)
+        public void ShowMessageBox(string message)
         {
             System.Diagnostics.Debug.WriteLine(message);
-            return true;
         }
 
-        public bool? ShowMessageBox(string title, string message)
+        public void ShowMessageBox(string title, string message)
         {
-            return ShowMessageBox(message);
+            ShowMessageBox(message);
+        }
+
+        public void ShowErrorMessageBox(string title, string message)
+        {
+            ShowMessageBox(@"ERROR: " + message);
+        }
+
+        public void ShowWarningMessageBox(string title, string message)
+        {
+            ShowMessageBox(@"WARNING: " + message);
         }
 
         public bool? ShowSaveAsDialog(string defaultFileName, string defaultExtension, string filter, out string savePath)

@@ -372,13 +372,7 @@ namespace SCaddins.SheetCopier
                 }
             }
 
-            using (var td = new TaskDialog("Copy Sheets - Summary"))
-            {
-                td.MainInstruction = "Copy Sheets - Summary";
-                td.MainContent = summaryText.ToString();
-                td.MainIcon = TaskDialogIcon.TaskDialogIconNone;
-                td.Show();
-            }
+            SCaddinsApp.WindowManager.ShowMessageBox("Copy Sheets - Summary", summaryText.ToString());
         }
 
         public void CreateViewports(SheetCopierSheet sheet)

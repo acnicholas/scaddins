@@ -45,13 +45,7 @@ namespace SCaddins.RoomConvertor
 
             if (roomConversionManager.Candidates.Count == 0)
             {
-                using (TaskDialog td = new TaskDialog("Room Tools - Slight Problem..."))
-                {
-                    td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-                    td.MainInstruction = "No Rooms Found in Model";
-                    td.MainContent = "Room Tools will now exit as there's not much use continuing.";
-                    td.Show();
-                }
+                SCaddinsApp.WindowManager.ShowMessageBox("No Rooms Found in Model", "Room Tools will now exit as there's not much use continuing.");
                 return Result.Failed;
             }
 

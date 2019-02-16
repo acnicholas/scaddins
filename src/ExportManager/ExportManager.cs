@@ -248,7 +248,7 @@ namespace SCaddins.ExportManager
                 }
                 else
                 {
-                    SCaddinsApp.WindowManager.ShowMessageBox("Error", "SCexport: error adding revisions, could not start transaction.");
+                    SCaddinsApp.WindowManager.ShowErrorMessageBox("Error", "SCexport: error adding revisions, could not start transaction.");
                 }
             }
 
@@ -282,7 +282,7 @@ namespace SCaddins.ExportManager
         {
             if (sheets == null)
             {
-                SCaddinsApp.WindowManager.ShowMessageBox("Error", "Please select sheets before attempting to add revisions");
+                SCaddinsApp.WindowManager.ShowErrorMessageBox("Error", "Please select sheets before attempting to fix scalebars");
                 return;
             }
             using (Transaction t = new Autodesk.Revit.DB.Transaction(doc))
@@ -1098,12 +1098,7 @@ namespace SCaddins.ExportManager
             } catch (UriFormatException ex) {
                 errorMessage += "Error reading xml file:" + filename + " - " + ex.Message;
             }
-            using (var td = new TaskDialog("SCexport - XML Config error")) {
-                td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-                td.MainInstruction = "SCexport - XML Config error";
-                td.MainContent = errorMessage;
-                td.Show();
-            }
+            SCaddinsApp.WindowManager.ShowMessageBox("SCexport - XML Config error", errorMessage);
             return false;
         }
 

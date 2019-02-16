@@ -87,11 +87,8 @@ namespace SCaddins.ViewUtilities
 
         public static void ShowSummaryDialog(List<View> newUserViews)
         {
-            using (var td = new TaskDialog(Resources.CreateUserViews))
-            {
                 string message = string.Empty;
-                if (newUserViews == null)
-                {
+                if (newUserViews == null) {
                     message = "No valid views found, User view not created." + System.Environment.NewLine
                     + "\tValid views types are: " + System.Environment.NewLine
                     + System.Environment.NewLine
@@ -101,19 +98,13 @@ namespace SCaddins.ViewUtilities
                     + "\t\tViewType.Section" + System.Environment.NewLine
                     + "\t\tViewType.AreaPlan" + System.Environment.NewLine
                     + "\t\tViewType.ThreeD";
-                }
-                else
-                {
-                    foreach (View view in newUserViews)
-                    {
+                } else {
+                    message += "Summary of users view created:" + System.Environment.NewLine;
+                    foreach (View view in newUserViews) {
                         message += view.Name + System.Environment.NewLine;
                     }
                 }
-                td.MainIcon = TaskDialogIcon.TaskDialogIconNone;
-                td.MainInstruction = "Summary of users view created:";
-                td.MainContent = message;
-                td.Show();
-            }
+                SCaddinsApp.WindowManager.ShowMessageBox(message);
         }
 
         private static List<View> Create(ViewSheet vs, Document doc)

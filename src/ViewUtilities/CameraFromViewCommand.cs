@@ -140,14 +140,11 @@ namespace SCaddins.ViewUtilities
                     break;
 
                 default:
-                    using (TaskDialog td = new TaskDialog("SCam - SC Camera Tool"))
-                    {
-                        td.MainInstruction = "Oops!";
-                        td.MainContent = "Currently cameras can only be created in 3d and Plan views" +
-                            System.Environment.NewLine +
-                            "Please create sections/elevations from an isometric view";
-                        td.Show();
-                    }
+                    var msg = "Currently cameras can only be created in 3d and Plan views" +
+                       System.Environment.NewLine +
+                       "Please create sections/elevations from an isometric view";
+
+                    SCaddinsApp.WindowManager.ShowMessageBox("Opps", msg);
                     break;
             }
 
