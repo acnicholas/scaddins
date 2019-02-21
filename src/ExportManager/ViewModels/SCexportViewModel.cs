@@ -282,6 +282,9 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
         {
+            if (e == null || sender == null) {
+                return;
+            }
             if (e.OriginalSource.GetType() != typeof(System.Windows.Controls.TextBlock))
             {
                 return;

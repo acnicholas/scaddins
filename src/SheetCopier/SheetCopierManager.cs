@@ -135,6 +135,9 @@ namespace SCaddins.SheetCopier
                     var cloud = e as RevisionCloud;
                     var revisionId = cloud.RevisionId;
                     var revision = doc.GetElement(revisionId) as Revision;
+                    if (revision == null) {
+                        continue;
+                    }
                     if (revision.Issued) {
                         revision.Issued = false;
                         issuedClouds.Add(revision);
@@ -299,7 +302,12 @@ namespace SCaddins.SheetCopier
 
             // turn on hidden revisions
             foreach (Revision rev in this.hiddenRevisionClouds) {
-                rev.Visibility = RevisionVisibility.CloudAndTagVisible;
+                try {
+                    rev.Visibility = RevisionVisibility.CloudAndTagVisible;
+                } catch (Autodesk.Revit.Exceptions.ArgumentOutOfRangeException ex) {
+                    SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
+                    continue;    
+                }
             }
 
             sheet.DestinationSheet = this.AddEmptySheetToDocument(
@@ -311,6 +319,7 @@ namespace SCaddins.SheetCopier
                 Debug.WriteLine(sheet.Number + " added to document.");
                 this.CreateViewports(sheet);
             } else {
+                Debug.WriteLine(sheet.Number + " Could not be added added to document.");
                 return false;
             }
 
@@ -415,15 +424,41 @@ namespace SCaddins.SheetCopier
             XYZ sourceViewCentre)
         {
             var d = view.DuplicateWithDetailing == true ? ViewDuplicateOption.WithDetailing : ViewDuplicateOption.Duplicate;
-            ElementId destViewId = view.OldView.Duplicate(d);
-            DeleteRevisionClouds(destViewId, this.doc);
-            string newName = sheet.GetNewViewName(view.OldView.Id);
-            var v = this.doc.GetElement(destViewId) as View;
-            if (newName != null) {
-                v.Name = newName;
-                var dv = this.doc.GetElement(destViewId) as View;
-                this.TryAssignViewTemplate(dv, view.ViewTemplateName);
+
+            ElementId destViewId = ElementId.InvalidElementId;
+            if (view.OldView.CanViewBeDuplicated(d)) {
+                try {
+                    destViewId = view.OldView.Duplicate(d);
+                } catch (Autodesk.Revit.Exceptions.ArgumentOutOfRangeException arx) {
+                    SCaddinsApp.WindowManager.ShowMessageBox(arx.Message);
+                } catch (Autodesk.Revit.Exceptions.InvalidOperationException iox) {
+                    SCaddinsApp.WindowManager.ShowMessageBox(iox.Message);
+                }
             }
+
+            if (destViewId == ElementId.InvalidElementId) {
+                SCaddinsApp.WindowManager.ShowMessageBox("WARNING: could not create copy of view: " + view.OldView.Name);
+                return;
+            }
+
+            DeleteRevisionClouds(destViewId, this.doc);
+       
+            var elem = doc.GetElement(destViewId);
+            if (elem == null) {
+                return;
+            }
+            var v = elem as View;
+
+            string newName = sheet.GetNewViewName(view.OldView.Id);
+
+            if (newName != null) {
+                v.Name = newName; 
+            } else {
+                SCaddinsApp.WindowManager.ShowMessageBox("ERROR", "New view name could not be set to: " + newName);
+            }
+
+            this.TryAssignViewTemplate(v, view.ViewTemplateName);
+
             this.PlaceViewPortOnSheet(sheet.DestinationSheet, destViewId, sourceViewCentre);
         }
 
@@ -459,7 +494,15 @@ namespace SCaddins.SheetCopier
         public void PlaceViewPortOnSheet(
             Element destSheet, ElementId destViewId, XYZ viewCentre)
         {
-            Viewport.Create(this.doc, destSheet.Id, destViewId, viewCentre);
+            try {
+                Viewport.Create(this.doc, destSheet.Id, destViewId, viewCentre);
+            } catch (Autodesk.Revit.Exceptions.ArgumentException ex) {
+                SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
+            } catch (Autodesk.Revit.Exceptions.ForbiddenForDynamicUpdateException fex) {
+                SCaddinsApp.WindowManager.ShowMessageBox(fex.Message);
+            } catch (Autodesk.Revit.Exceptions.ModificationForbiddenException mex) {
+                SCaddinsApp.WindowManager.ShowMessageBox(mex.Message);
+            }
         }
 
         public bool SheetNumberAvailable(string number)
@@ -483,7 +526,13 @@ namespace SCaddins.SheetCopier
             if (templateName != SheetCopierConstants.MenuItemCopy) {
                 View vt = null;
                 if (this.viewTemplates.TryGetValue(templateName, out vt)) {
-                    view.ViewTemplateId = vt.Id;
+                    try {
+                        view.ViewTemplateId = vt.Id;
+                    } catch (Autodesk.Revit.Exceptions.ArgumentException ex) {
+                        SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
+                    }
+                } else {
+                    SCaddinsApp.WindowManager.ShowMessageBox("Warning: could not assign view template to view: " + view.Name);
                 }
             }
         }
