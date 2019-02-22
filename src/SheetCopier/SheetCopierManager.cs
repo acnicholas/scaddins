@@ -433,11 +433,23 @@ namespace SCaddins.SheetCopier
                     SCaddinsApp.WindowManager.ShowMessageBox(arx.Message);
                 } catch (Autodesk.Revit.Exceptions.InvalidOperationException iox) {
                     SCaddinsApp.WindowManager.ShowMessageBox(iox.Message);
-                }
+                } 
+            } else
+            {
+                SCaddinsApp.WindowManager.ShowMessageBox("WARNING: CanViewBeDuplicated is returning false for view: " + view.OldView.Name);
+                return;
             }
 
             if (destViewId == ElementId.InvalidElementId) {
                 SCaddinsApp.WindowManager.ShowMessageBox("WARNING: could not create copy of view: " + view.OldView.Name);
+                //// sometimes view.Duplicate seems to fail if the duplicate option is set to ViewDuplicateOption.WithDetailing
+                //// try again with option set to ViewDuplicateOption.Duplicate
+                if (d == ViewDuplicateOption.WithDetailing)
+                {
+                    SCaddinsApp.WindowManager.ShowMessageBox("Attempting to create view without detailing..." + view.OldView.Name);
+                    view.DuplicateWithDetailing = false;
+                    DuplicateViewOntoSheet(view, sheet, sourceViewCentre);
+                }
                 return;
             }
 
