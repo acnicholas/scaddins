@@ -7,7 +7,7 @@ var solutionFileWix = GetFiles("installer/SCaddins.Installer.wixproj").First();
 var buildDir = Directory(@"./src/bin");
 var testBuildDir = Directory(@"./src/bin");
 var testAssemblyDllName = "SCaddins.Tests.dll";
-var revitTestFrameworkBin = Argument("RTFBin", @"src/packages/RevitTestFramework.1.19.23/tools/RevitTestFrameworkConsole.exe");
+var revitTestFrameworkBin = Argument("RTFBin", @"tools/RevitTestFramework/RevitTestFrameworkConsole.exe");
 
 // METHODS
 
@@ -38,7 +38,6 @@ public string GetTestArgs(string revitVersion)
 	string result = string.Format(@"--assembly={0} --dir={1} --results={1}\result.xml --groupByModel --color --continuous", GetTestAssembly(revitVersion), path);
 	System.Console.WriteLine(result);
 	return result;
-	//return "-h";
 }
 
 // TASKS
