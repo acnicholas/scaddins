@@ -725,9 +725,9 @@ namespace SCaddins.ExportManager
         private static string TimeSpanAsString(TimeSpan time)
         {
             var result = "Elapsed Time: " +
-                MiscUtilities.PadLeftZeros(time.Hours.ToString(CultureInfo.CurrentCulture), 2) + "h:" +
-                MiscUtilities.PadLeftZeros(time.Minutes.ToString(CultureInfo.CurrentCulture), 2) + "m:" +
-                MiscUtilities.PadLeftZeros(time.Seconds.ToString(CultureInfo.CurrentCulture), 2) + "s";
+                time.Hours.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0') + "h:" +
+                time.Minutes.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0') + "m:" +
+                time.Seconds.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0') + "s";
             return result;
         }
 

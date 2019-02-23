@@ -29,8 +29,8 @@ namespace SCaddins.Common
             {
                 DateTime moment = DateTime.Now;
                 string syear = moment.Year.ToString(CultureInfo.CurrentCulture);
-                string smonth = PadLeftZeros(moment.Month.ToString(CultureInfo.CurrentCulture), 2);
-                string sday = PadLeftZeros(moment.Day.ToString(CultureInfo.CurrentCulture), 2);
+                string smonth = moment.Month.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0');
+                string sday = moment.Day.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0');
                 return syear + smonth + sday;
             }
         }
@@ -51,19 +51,6 @@ namespace SCaddins.Common
         public static double MillimetersToFeet(double lengthInMM)
         {
             return lengthInMM / 304.8;
-        }
-
-        public static string PadLeftZeros(string s, int desiredLength)
-        {
-            if (string.IsNullOrEmpty(s))
-            {
-                return string.Empty;
-            }
-            if (desiredLength > 1 && s.Length == desiredLength - 1)
-            {
-                return "0" + s;
-            }
-            return s;
         }
 
         public static DateTime ToDateTime(string dateValue)
