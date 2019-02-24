@@ -5,6 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
+using RTF.Framework;
+using System.IO;
+using RTF.Applications;
+using Autodesk.Revit.DB;
 
 namespace SCaddins.SheetCopier.Tests
 {
@@ -18,15 +23,38 @@ namespace SCaddins.SheetCopier.Tests
         }
 
         [Test()]
+        [TestModel(@"./rac_basic_sample_project.rvt")]
         public void SheetNumberAvailableTest()
         {
-            Assert.Fail();
+            var uidoc = RevitTestExecutive.CommandData.Application.ActiveUIDocument;
+            var manager = new SheetCopier.SheetCopierManager(uidoc);
+            //test some used numbers
+            Assert.IsFalse(manager.SheetNumberAvailable("A01"));
+            Assert.IsFalse(manager.SheetNumberAvailable("A99"));
+            //test some available numbers
+            Assert.IsTrue(manager.SheetNumberAvailable("A100"));
+            //test some badly formatted numbers
+            Assert.IsFalse(manager.SheetNumberAvailable(@"{!@#$%^&*("));
+            Assert.IsFalse(manager.SheetNumberAvailable(string.Empty));
+            Assert.IsFalse(manager.SheetNumberAvailable(null));
+
         }
 
         [Test()]
+        [TestModel(@"./rac_basic_sample_project.rvt")]
         public void ViewNameAvailableTest()
         {
-            Assert.Fail();
+            var uidoc = RevitTestExecutive.CommandData.Application.ActiveUIDocument;
+            var manager = new SheetCopier.SheetCopierManager(uidoc);
+            //test some used view names
+            Assert.IsFalse(manager.ViewNameAvailable("A01"));
+            Assert.IsFalse(manager.ViewNameAvailable("A99"));
+            //test some view names
+            Assert.IsTrue(manager.ViewNameAvailable("A100"));
+            //test some badly view names
+            Assert.IsFalse(manager.ViewNameAvailable(@"{!@#$%^&*("));
+            Assert.IsFalse(manager.ViewNameAvailable(string.Empty));
+            Assert.IsFalse(manager.ViewNameAvailable(null));
         }
 
         [Test()]
