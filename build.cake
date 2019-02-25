@@ -63,6 +63,7 @@ Task("CreateAddinManifests")
 		System.IO.File.WriteAllText(@"src\bin\Release2018\SCaddins2018.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2018"));
 		System.IO.File.WriteAllText(@"src\bin\Release2019\SCaddins2019.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2019"));
 		});
+
 Task("Revit2016") .IsDependentOn("Restore-NuGet-Packages")
 .WithCriteria(APIAvailable("2016"))
 .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2016")));
@@ -82,10 +83,21 @@ Task("Revit2019")
 .WithCriteria(APIAvailable("2019"))
 .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2019")));
 
+Task("SetUpTests")
+.Does(() =>
+	{
+		if (FileExists(@"tests\bin\x64\Release2019\scaddins_test_model.rvt")) {
+			DeleteFile(@"tests\bin\x64\Release2019\scaddins_test_model.rvt");
+		}
+		CopyFile(@"tests\models\scaddins_test_model.rvt", @"tests\bin\x64\Release2019\scaddins_test_model.rvt");
+	});
+
 Task("Test2018")
+.IsDependentOn("SetUpTests")
 .Does(() => StartProcess(revitTestFrameworkBin, GetTestArgs("2018")));
 
 Task("Test2019")
+.IsDependentOn("SetUpTests")
 .Does(() => StartProcess(revitTestFrameworkBin, GetTestArgs("2019")));
 
 Task("Installer")

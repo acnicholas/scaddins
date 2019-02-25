@@ -476,6 +476,9 @@ namespace SCaddins.SheetCopier
 
         public string GetNewSheetNumber(string originalNumber)
         {
+            if (string.IsNullOrEmpty(originalNumber)) {
+                return null;
+            }
             int inc = 0;
             do {
                 inc++;

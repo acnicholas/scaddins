@@ -135,6 +135,7 @@ namespace SCaddins.RoomConvertor
                 foreach (FamilySymbol e in collector) {
                     var s = e.Family.Name + "-" + e.Name;
                     if (!result.ContainsKey(s)) {
+                        //// Autodesk.Revit.UI.TaskDialog.Show("test", "titleblock found:" + s + " - " + e.Id.ToString());
                         result.Add(s, e.Id);
                     }
                 }
@@ -216,6 +217,9 @@ namespace SCaddins.RoomConvertor
 
         public ElementId GetTitleBlockByName(string titleBlockName)
         {
+            if (titleBlockName == null ) {
+                return ElementId.InvalidElementId;
+            }
             ElementId id = ElementId.InvalidElementId;
             bool titleFound = this.titleBlocks.TryGetValue(titleBlockName, out id);
             return titleFound ? id : ElementId.InvalidElementId;
