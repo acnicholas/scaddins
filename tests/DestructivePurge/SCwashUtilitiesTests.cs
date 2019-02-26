@@ -59,6 +59,12 @@ namespace SCaddins.DestructivePurge.Tests
             Assert.Fail();
         }
 
+        [SetUp]
+        public void Setup()
+        {
+            SCaddinsApp.WindowManager = new SCaddins.Common.WindowManager(new SCaddins.Common.MockDialogService());
+        }
+
         [Test()]
         public void ViewsTest()
         {

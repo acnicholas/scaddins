@@ -217,7 +217,7 @@ namespace SCaddins.RoomConvertor
 
         public ElementId GetTitleBlockByName(string titleBlockName)
         {
-            if (titleBlockName == null ) {
+            if (titleBlockName == null) {
                 return ElementId.InvalidElementId;
             }
             ElementId id = ElementId.InvalidElementId;

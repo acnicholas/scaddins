@@ -52,5 +52,11 @@ namespace SCaddins.RevisionUtilities.Tests
             Manager.DeleteRevisionClouds(doc, Manager.GetRevisionClouds(doc));
             Assert.IsTrue(Manager.GetRevisionClouds(doc).Count == 0);
         }
+
+        [SetUp]
+        public void Setup()
+        {
+            SCaddinsApp.WindowManager = new SCaddins.Common.WindowManager(new SCaddins.Common.MockDialogService());
+        }
     }
 }

@@ -1,22 +1,15 @@
-﻿using NUnit.Framework;
-using SCaddins.RoomConvertor;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using SCaddins.RoomConvertor;
 using SCaddins.SheetCopier;
-using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
-using RTF.Framework;
-using System.IO;
-using RTF.Applications;
+using System;
 using Autodesk.Revit.DB;
+using NUnit.Framework;
+using RTF.Applications;
+using RTF.Framework;
 
 namespace SCaddins.RoomConvertor.Tests
 {
@@ -74,6 +67,12 @@ namespace SCaddins.RoomConvertor.Tests
             var fec = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Mass).OfClass(typeof(DirectShape));
             var newMasses = fec.ToElements().Count - origMasses;
             Assert.IsTrue(newMasses == 8);
+        }
+
+        [SetUp]
+        public void Setup()
+        {
+            SCaddinsApp.WindowManager = new SCaddins.Common.WindowManager(new SCaddins.Common.MockDialogService());
         }
 
         [Test()]

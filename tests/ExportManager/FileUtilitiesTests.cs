@@ -9,35 +9,36 @@ namespace SCaddins.ExportManager.Tests
     [TestFixture()]
     public class FileUtilitiesTests
     {
-        [Test()]
-        public void CanOverwriteFileTest()
-        {
-            Assert.Pass();
-        }
+        ////[Test()]
+        ////public void CanOverwriteFileTest()
+        ////{
+        ////    Assert.Pass();
+        ////}
 
-        [Test()]
-        [TestModel(@"./rac_basic_sample_project.rvt")]
-        public void ConfigFileExistsTest()
-        {
-            var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
-            var config = Manager.GetConfigFileName(doc);
-            Assert.IsFalse(File.Exists(config));
-        }
+        ////[Test()]
+        ////[TestModel(@"./scaddins_test_model.rvt")]
+        ////public void ConfigFileExistsTest()
+        ////{
+        ////    var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
+        ////    var config = Manager.GetConfigFileName(doc);
+        ////    Assert.IsFalse(File.Exists(config));
+        ////}
 
-        [Test()]
-        [TestModel(@"./rac_basic_sample_project.rvt")]
-        public void CreateConfigFileTest()
-        {
-            Assert.Fail();
-        }
+        ////[Test()]
+        ////[TestModel(@"./scaddins_test_model.rvt")]
+        ////public void CreateConfigFileTest()
+        ////{
+        ////    var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
+        ////    Manager.CreateSCexportConfig(doc);
+        ////}
 
-        [Test()]
-        [TestModel(@"./rac_basic_sample_project.rvt")]
-        public void GetCentralFileNameTest()
-        {
-            var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
-            Assert.IsEmpty(FileUtilities.GetCentralFileName(doc));
-        }
+        ////[Test()]
+        ////[TestModel(@"./scaddins_test_model.rvt")]
+        ////public void GetCentralFileNameTest()
+        ////{
+        ////    var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
+        ////    Assert.IsEmpty(FileUtilities.GetCentralFileName(doc));
+        ////}
 
         ////[Test()]
         ////public void IsInvalidFileNameTest()

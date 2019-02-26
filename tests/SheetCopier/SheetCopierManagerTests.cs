@@ -1,15 +1,14 @@
-﻿using NUnit.Framework;
-using SCaddins.SheetCopier;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
-using RTF.Framework;
-using System.IO;
-using RTF.Applications;
+using System;
 using Autodesk.Revit.DB;
+using NUnit.Framework;
+using RTF.Applications;
+using RTF.Framework;
+using SCaddins.SheetCopier;
 
 namespace SCaddins.SheetCopier.Tests
 {
@@ -124,7 +123,7 @@ namespace SCaddins.SheetCopier.Tests
         [SetUp]
         public void Setup()
         {
-            ////SCaddinsApp.WindowManager = new SCaddins.Common.WindowManager(new SCaddins.Common.MockDialogService());
+            SCaddinsApp.WindowManager = new SCaddins.Common.WindowManager(new SCaddins.Common.MockDialogService());
         }
 
         [Test()]

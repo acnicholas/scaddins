@@ -124,6 +124,7 @@
     <Compile Include="ExportManager\PostExportHookCommandTests.cs" />
     <Compile Include="ExportManager\PrintSettingsTests.cs" />
     <Compile Include="LineOfSight\LineOfSightTests.cs" />
+    <Compile Include="PlaceCoordinate\CommandTests.cs" />
     <Compile Include="RevisionUtilities\RevisionUtilitiesTests.cs" />
     <Compile Include="RoomConvertor\RoomConversionManagerTests.cs" />
     <Compile Include="SheetCopier\SheetCopierManagerTests.cs" />
