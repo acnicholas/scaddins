@@ -175,7 +175,7 @@ namespace SCaddins.ParameterUtilities
             } else if (e is TextNote) {
                 return GetParameterByName(e, "Text");
             } else {
-                TaskDialog.Show("Error", "Unsupported element");
+                SCaddinsApp.WindowManager.ShowMessageBox("Error", "Unsupported element");
                 return null;
             }
         }

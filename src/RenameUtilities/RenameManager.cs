@@ -184,12 +184,12 @@ namespace SCaddins.RenameUtilities
                         }
                     }
                     t.Commit();
-                    Autodesk.Revit.UI.TaskDialog.Show(
+                    SCaddinsApp.WindowManager.ShowMessageBox(
                         @"Bulk Rename", successes + @" parameters succesfully renames, " + fails + @" errors.");
                 }
                 else
                 {
-                    Autodesk.Revit.UI.TaskDialog.Show("Error", "Failed to start Bulk Rename Revit Transaction...");
+                    SCaddinsApp.WindowManager.ShowMessageBox("Error", "Failed to start Bulk Rename Revit Transaction...");
                 }
             }
         }

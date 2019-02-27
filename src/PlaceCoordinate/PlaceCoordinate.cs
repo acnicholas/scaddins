@@ -113,7 +113,7 @@ namespace SCaddins.PlaceCoordinate
                     }
                 }
             }
-            TaskDialog.Show("SCoord", "Family SC-Survey_Point not found.");
+            SCaddinsApp.WindowManager.ShowMessageBox("Place Coordinate", "Default Family SC-Survey_Point not found.");
             return null;
         }
 

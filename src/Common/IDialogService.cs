@@ -6,9 +6,13 @@
 
         bool? ShowDirectorySelectionDialog(string defaultDir, out string dirPath);
 
-        bool? ShowMessageBox(string message);
+        void ShowMessageBox(string message);
 
-        bool? ShowMessageBox(string title, string message);
+        void ShowMessageBox(string title, string message);
+
+        void ShowErrorMessageBox(string title, string message);
+
+        void ShowWarningMessageBox(string title, string message);
 
         bool? ShowSaveAsDialog(string defaultFileName, string defaultExtension, string filter, out string savePath);
     }

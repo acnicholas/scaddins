@@ -28,12 +28,12 @@ namespace SCaddins.ViewUtilities
         {
             if (doc == null)
             {
-                TaskDialog.Show("Failure", "Could not remove underlays(doc)");
+                SCaddinsApp.WindowManager.ShowMessageBox("Failure", "Could not remove underlays(doc)");
                 return;
             }
             if (sheets == null)
             {
-                TaskDialog.Show("Failure", "Could not remove underlays(sheets)");
+                SCaddinsApp.WindowManager.ShowMessageBox("Failure", "Could not remove underlays(sheets)");
                 return;
             }
             using (Transaction t = new Transaction(doc))
@@ -50,7 +50,7 @@ namespace SCaddins.ViewUtilities
                     }
                     if (t.Commit() != TransactionStatus.Committed)
                     {
-                        TaskDialog.Show("Failure", "Could not remove underlays");
+                        SCaddinsApp.WindowManager.ShowMessageBox("Failure", "Could not remove underlays");
                     }
                 }
             }
@@ -60,7 +60,7 @@ namespace SCaddins.ViewUtilities
         {
             if (uidoc == null)
             {
-                TaskDialog.Show("Failure", "Could not remove underlays");
+                SCaddinsApp.WindowManager.ShowMessageBox("Remove Underlays", "Could not remove underlays");
                 return;
             }
             var selection = uidoc.Selection;
@@ -78,7 +78,7 @@ namespace SCaddins.ViewUtilities
                     }
                     if (t.Commit() != TransactionStatus.Committed)
                     {
-                        TaskDialog.Show("Failure", "Could not remove underlays");
+                        SCaddinsApp.WindowManager.ShowMessageBox("Failure", "Could not remove underlays");
                     }
                 }
             }

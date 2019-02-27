@@ -77,7 +77,7 @@ namespace SCaddins.ViewUtilities
                     }
                     else
                     {
-                        TaskDialog.Show("Error", "Could not start user view transaction");
+                        SCaddinsApp.WindowManager.ShowMessageBox("Error", "Could not start user view transaction");
                         return null;
                     }
                 }
@@ -87,11 +87,8 @@ namespace SCaddins.ViewUtilities
 
         public static void ShowSummaryDialog(List<View> newUserViews)
         {
-            using (var td = new TaskDialog(Resources.CreateUserViews))
-            {
                 string message = string.Empty;
-                if (newUserViews == null)
-                {
+                if (newUserViews == null) {
                     message = "No valid views found, User view not created." + System.Environment.NewLine
                     + "\tValid views types are: " + System.Environment.NewLine
                     + System.Environment.NewLine
@@ -101,19 +98,13 @@ namespace SCaddins.ViewUtilities
                     + "\t\tViewType.Section" + System.Environment.NewLine
                     + "\t\tViewType.AreaPlan" + System.Environment.NewLine
                     + "\t\tViewType.ThreeD";
-                }
-                else
-                {
-                    foreach (View view in newUserViews)
-                    {
+                } else {
+                    message += "Summary of users view created:" + System.Environment.NewLine;
+                    foreach (View view in newUserViews) {
                         message += view.Name + System.Environment.NewLine;
                     }
                 }
-                td.MainIcon = TaskDialogIcon.TaskDialogIconNone;
-                td.MainInstruction = "Summary of users view created:";
-                td.MainContent = message;
-                td.Show();
-            }
+                SCaddinsApp.WindowManager.ShowMessageBox(message);
         }
 
         private static List<View> Create(ViewSheet vs, Document doc)
@@ -149,14 +140,14 @@ namespace SCaddins.ViewUtilities
 
             if (param.IsReadOnly)
             {
-                TaskDialog.Show("SCuv Error", "SC-View_Category is read only!");
+                SCaddinsApp.WindowManager.ShowMessageBox("SCuv Error", "SC-View_Category is read only!");
                 return null;
             }
             else
             {
                 if (!param.Set("User"))
                 {
-                    TaskDialog.Show("SCuv Error", "Error setting SC-View_Category parameter!");
+                    SCaddinsApp.WindowManager.ShowMessageBox("SCuv Error", "Error setting SC-View_Category parameter!");
                     return null;
                 }
             }

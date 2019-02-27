@@ -37,16 +37,24 @@
             }
         }
 
-        public bool? ShowMessageBox(string message)
+        public void ShowMessageBox(string message)
         {
             System.Windows.MessageBox.Show(message);
-            return true;
         }
 
-        public bool? ShowMessageBox(string title, string message)
+        public void ShowMessageBox(string title, string message)
         {
             System.Windows.MessageBox.Show(message, title);
-            return true;
+        }
+
+        public void ShowWarningMessageBox(string title, string message)
+        {
+            System.Windows.MessageBox.Show(message, title, System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+        }
+
+        public void ShowErrorMessageBox(string title, string message)
+        {
+            System.Windows.MessageBox.Show(message, title, System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
         }
 
         public bool? ShowSaveAsDialog(string defaultFileName, string defaultExtension, string filter, out string savePath)

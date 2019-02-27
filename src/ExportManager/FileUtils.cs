@@ -31,16 +31,11 @@ namespace SCaddins.ExportManager
         {
             if (IsFileLocked(new FileInfo(fileName)))
             {
-                using (var td = new TaskDialog("File in use"))
-                {
-                    td.MainContent = "The file: " + fileName + " appears to be in use." +
+                var mainContent = "The file: " + fileName + " appears to be in use." +
                                      Environment.NewLine +
                                      "please close it before continuing...";
-                    td.MainInstruction = "File in use";
-                    td.CommonButtons = TaskDialogCommonButtons.Ok;
-                    td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-                    td.Show();
-                }
+
+                SCaddinsApp.WindowManager.ShowMessageBox("File in use", mainContent);
 
                 if (IsFileLocked(new FileInfo(fileName))) {
                     return false;
@@ -166,7 +161,7 @@ namespace SCaddins.ExportManager
             if (File.Exists(config)) {
                 Process.Start(Settings1.Default.TextEditor, config);
             } else {
-                TaskDialog.Show("SCexport", "config file does not exist");
+                SCaddinsApp.WindowManager.ShowMessageBox("SCexport", "config file does not exist");
             }
         }
     }

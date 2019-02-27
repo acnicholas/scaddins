@@ -604,9 +604,6 @@ namespace SCaddins.ExportManager
                     result = parameters[0].HasValue && parameters[0].StorageType == StorageType.Integer && parameters[0].AsInteger() == 1;
                 }
             }
-            ////if (result) {
-                ////Autodesk.Revit.UI.TaskDialog.Show("test", "Raster Printing Enabled for sheet " + this.SheetNumber);
-            ////}
             return result;
         }
 

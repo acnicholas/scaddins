@@ -17,26 +17,20 @@
 
 namespace SCaddins.ExportManager
 {
-    using System.Runtime.InteropServices;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using static SCaddins.SCaddinsApp;
 
     [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
     {
-        ////[DllImport("user32.dll", SetLastError = true)]
-        ////public static extern System.IntPtr FindWindow(string lpClassName, string lpWindowName);
-
-        ////[DllImport("user32.dll")]
-        ////public static extern bool ShowWindow(System.IntPtr hWnd, int nCmdShow);
-
-        public Autodesk.Revit.UI.Result Execute(
-                    ExternalCommandData commandData,
+        public Result Execute(
+            ExternalCommandData commandData,
             ref string message,
-            Autodesk.Revit.DB.ElementSet elements)
+            ElementSet elements)
         {
             if (commandData == null)
             {
@@ -50,25 +44,20 @@ namespace SCaddins.ExportManager
 
             if (string.IsNullOrEmpty(FileUtilities.GetCentralFileName(commandData.Application.ActiveUIDocument.Document)))
             {
-                using (var fail = new TaskDialog("FAIL"))
-                {
-                    fail.MainContent = "Please save the file before continuing";
-                    fail.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
-                    fail.Show();
-                }
+                WindowManager.ShowMessageBox("FAIL", "Please save the file before continuing");
                 return Result.Failed;
             }
 
             var uidoc = commandData.Application.ActiveUIDocument;
             if (uidoc == null)
             {
-                return Autodesk.Revit.UI.Result.Failed;
+                return Result.Failed;
             }
 
             var manager = new Manager(uidoc);
             var log = new ExportLog();
             var vm = new ViewModels.SCexportViewModel(manager);
-            var wm = SCaddinsApp.WindowManager;
+            var wm = WindowManager;
             wm.ShowDialog(vm, null, ViewModels.SCexportViewModel.DefaultWindowSettings);
 
             var closeMode = vm.CloseStatus;
@@ -98,7 +87,7 @@ namespace SCaddins.ExportManager
                 log.Clear();
                 log.Start(exportType + " Started.");
 
-                SCaddinsApp.WindowManager.ShowWindow(progressVm, null, ViewModels.ProgressMonitorViewModel.DefaultWindowSettings);
+                WindowManager.ShowWindow(progressVm, null, ViewModels.ProgressMonitorViewModel.DefaultWindowSettings);
 
                 foreach (var sheet in vm.SelectedSheets)
                 {
@@ -144,23 +133,11 @@ namespace SCaddins.ExportManager
          
             if (manager.ShowExportLog || log.Errors > 0) {
                 var logVM = new ViewModels.ExportLogViewModel(log);
-                SCaddinsApp.WindowManager.ShowDialog(logVM, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
+                WindowManager.ShowDialog(logVM, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
             }
 
-            return Autodesk.Revit.UI.Result.Succeeded;
+            return Result.Succeeded;
         }
-
-        ////private void TryHideAcrobatProgress()
-        ////{
-        ////    System.IntPtr hWnd = FindWindow(null, @"Creating Adobe PDF");
-        ////    if ((int)hWnd > 0)
-        ////    {
-        ////        ShowWindow(hWnd, 0);
-        ////    } else
-        ////    {
-        ////        ////TaskDialog.Show("TEST", "nope");
-        ////    }
-        ////}
     }
 }
 /* vim: set ts=4 sw=4 nu expandtab: */
