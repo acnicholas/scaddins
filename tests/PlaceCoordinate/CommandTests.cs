@@ -34,5 +34,17 @@ namespace SCaddins.PlaceCoordinate.Tests
         {
             Assert.Fail();
         }
+
+        [Test()]
+        public void TryGetDefaultSpotCoordFamilyTest()
+        {
+            Assert.Fail();
+        }
+
+        [Test()]
+        public void TryLoadDefaultSpotCoordFamilyTest()
+        {
+            Assert.Fail();
+        }
     }
 }
