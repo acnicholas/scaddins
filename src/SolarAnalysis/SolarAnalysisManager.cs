@@ -46,8 +46,8 @@ namespace SCaddins.SolarAnalysis
             doc = udoc.Document;
             this.udoc = udoc;
             position = GetProjectPosition(doc);
-            StartTime = new DateTime(2018, 6, 21, 9, 0, 0);
-            EndTime = new DateTime(2018, 6, 21, 15, 0, 0);
+            StartTime = new DateTime(2018, 6, 21, 9, 0, 0, DateTimeKind.Local);
+            EndTime = new DateTime(2018, 6, 21, 15, 0, 0, DateTimeKind.Local);
             ExportTimeInterval = new TimeSpan(1, 0, 0);
             activeView = doc.ActiveView;
         }
@@ -252,36 +252,40 @@ namespace SCaddins.SolarAnalysis
         // FIXME put this somewhere else.
         public static bool ViewNameIsAvailable(Document doc, string name)
         {
+            if (doc == null || name == null) {
+                return false;
+            }
             using (var c = new FilteredElementCollector(doc)) {
                 c.OfClass(typeof(View));
                 foreach (View view in c) {
                     var v = view;
-#if REVIT2019
-                                        if (v.Name == name) {
-                                            return false;
-                                        }
-#else
+                    #if REVIT2019
+                    if (v.Name == name) {
+                        return false;
+                    }
+                    #else
                     if (v.ViewName == name) {
                         return false;
                     }
-#endif
+                    #endif
                 }
             }
 
             return true;
         }
 
-        public void Go()
+        public bool Go()
         {
             if (RotateCurrentView) {
-                RotateView(activeView);
+                return RotateView(activeView);
             }
             if (Create3dViews) {
-                CreateWinterViews();
+                return CreateWinterViews();
             }
             if (CreateShadowPlans) {
-                CreateShadowPlanViews();
+                return CreateShadowPlanViews();
             }
+            return true;
         }
 
         private static List<DirectSunTestFace> CreateEmptyTestFaces(IList<Reference> faceSelection, Document doc)
@@ -350,12 +354,12 @@ namespace SCaddins.SolarAnalysis
             return result;
         }
         ////[SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        private void CreateShadowPlanViews()
+        private bool CreateShadowPlanViews()
         {
             var id = GetViewFamilyId(doc, ViewFamily.FloorPlan);
             var levelId = GetHighestLevel(doc);
             if (id == null || levelId == null) {
-                return;
+                return false;
             }
 
             while (StartTime <= EndTime) {
@@ -380,16 +384,17 @@ namespace SCaddins.SolarAnalysis
                     }
                 }
             }
+            return true;
         }
 
         ////[SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        private void CreateWinterViews()
+        private bool CreateWinterViews()
         {
             var id = GetViewFamilyId(doc, ViewFamily.ThreeDimensional);
 
             // FIXME add error message here
             if (id == null) {
-                return;
+                return false;
             }
 
             while (StartTime <= EndTime)
@@ -412,11 +417,13 @@ namespace SCaddins.SolarAnalysis
                     sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
                     t.Commit();
 
-                    // FIXME too many transactions here and above...
-                    RotateView(view);
+                    if (!RotateView(view)) {
+                        return false;
+                    }
                     StartTime = StartTime.Add(ExportTimeInterval);
                 }
             }
+            return true;
         }
 
         private string GetViewInfo(View view)
@@ -449,7 +456,7 @@ namespace SCaddins.SolarAnalysis
             return info.ToString();
         }
         ////[SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        private void RotateView(View view)
+        private bool RotateView(View view)
         {
             if (view.ViewType == ViewType.ThreeD) {
                 double azimuth;
@@ -459,7 +466,7 @@ namespace SCaddins.SolarAnalysis
                 var v3d = (View3D)view;
                 if (v3d.IsLocked) {
                     SCaddinsApp.WindowManager.ShowMessageBox("ERROR", "View is locked, please unlock before rotating");
-                    return;
+                    return false;
                 }
 
                 using (var t = new Transaction(doc))
@@ -471,6 +478,7 @@ namespace SCaddins.SolarAnalysis
                             v3d.SaveOrientationAndLock();
                         } catch (InvalidOperationException e) {
                             Debug.WriteLine(e.Message);
+                            return false;
                         }
                     }
 
@@ -481,7 +489,9 @@ namespace SCaddins.SolarAnalysis
             else
             {
                 SCaddinsApp.WindowManager.ShowMessageBox("ERROR", "Not a 3d view");
+                return false;
             }
+            return true;
         }
     }
 }

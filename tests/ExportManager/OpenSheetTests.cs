@@ -22,5 +22,17 @@ namespace SCaddins.ExportManager.Tests
         {
             Assert.Fail();
         }
+
+        [Test()]
+        public void OpenPreviousSheetTest()
+        {
+            Assert.Fail();
+        }
+
+        [Test()]
+        public void OpenNextSheetTest()
+        {
+            Assert.Fail();
+        }
     }
 }
