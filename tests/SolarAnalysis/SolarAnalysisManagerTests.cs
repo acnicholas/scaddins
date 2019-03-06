@@ -1,16 +1,14 @@
-﻿using Autodesk.Revit.DB;
-using NUnit.Framework;
-using NUnit.Framework;
-using RTF.Applications;
-using RTF.Framework;
-using SCaddins.SolarAnalysis;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System;
-using System;
+using Autodesk.Revit.DB;
+using NUnit.Framework;
+using RTF.Applications;
+using RTF.Framework;
+using SCaddins.SolarAnalysis;
+using SCaddins.Tests.Common;
 
 namespace SCaddins.SolarAnalysis.Tests
 {
@@ -77,7 +75,7 @@ namespace SCaddins.SolarAnalysis.Tests
             manager.RotateCurrentView = true;
             var views = new FilteredElementCollector(doc).OfClass(typeof(View)).ToElements().Cast<View>();
             var isoView = views.Where(v => v.ViewName == "3D View 01").First();
-            OpenView(isoView);
+            SCaddins.Tests.Common.TestUtilities.OpenView(isoView);
             Assert.IsTrue(manager.Go());
 
             //create solar analysis views (sun eye views)
@@ -131,17 +129,6 @@ namespace SCaddins.SolarAnalysis.Tests
             Assert.IsFalse(SolarAnalysisManager.ViewNameIsAvailable(doc, "Level 1"));
             // Assert.IsFalse(SolarAnalysisManager.ViewNameIsAvailable(null, "Level 1"));
             // Assert.IsFalse(SolarAnalysisManager.ViewNameIsAvailable(doc, null));
-        }
-
-        private bool OpenView(View view)
-        {
-            var uapp = RevitTestExecutive.CommandData.Application;
-            if (view != null) {
-                uapp.ActiveUIDocument.ActiveView = view;
-                return true;
-            } else {
-                return false;
-            }
         }
     }
 }

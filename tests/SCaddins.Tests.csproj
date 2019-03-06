@@ -117,7 +117,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DestructivePurge\SCwashUtilitiesTests.cs" />
+    <Compile Include="Common\TestUtilities.cs" />
+    <Compile Include="DestructivePurge\DestructivePurgeUtilitilesTests.cs" />
     <Compile Include="ExportManager\FileUtilitiesTests.cs" />
     <Compile Include="ExportManager\OpenableViewTests.cs" />
     <Compile Include="ExportManager\OpenSheetTests.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="SheetCopier\SheetCopierManagerTests.cs" />
     <Compile Include="SolarAnalysis\SolarAnalysisManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewUtilities\UserViewTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

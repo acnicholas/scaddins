@@ -174,16 +174,10 @@ namespace SCaddins.DestructivePurge
             return result;
         }
 
-        public static List<DeletableItem> Sheets(Document doc, bool placedOnSheet)
-        {
-            var result = new List<DeletableItem>();
-            result.AddRange(DestructivePurgeUtilitiles.Views(doc, placedOnSheet, ViewType.DrawingSheet));
-            return result;
-        }
-
         public static System.Windows.Media.Imaging.BitmapImage ToBitmapImage(this System.Drawing.Bitmap bitmap)
         {
-            if (bitmap == null) {
+            if (bitmap == null)
+            {
                 return null;
             }
             var bitmapImage = new System.Windows.Media.Imaging.BitmapImage();
@@ -341,7 +335,8 @@ namespace SCaddins.DestructivePurge
                         tn.Info = s;
                         tn.Id = view.Id;
                         tn.HasParent = s.Contains(@"Parent View");
-                        if (tn.HasParent) {
+                        if (tn.HasParent)
+                        {
                             Parameter parentId = view.GetParameters(@"Parent View")[0];
                             var pId = parentId.AsElementId();
                             tn.ParentId = pId;
@@ -386,6 +381,13 @@ namespace SCaddins.DestructivePurge
                 }
             }
             return s;
+        }
+
+        private static List<DeletableItem> Sheets(Document doc, bool placedOnSheet)
+        {
+            var result = new List<DeletableItem>();
+            result.AddRange(DestructivePurgeUtilitiles.Views(doc, placedOnSheet, ViewType.DrawingSheet));
+            return result;
         }
     }
 }
