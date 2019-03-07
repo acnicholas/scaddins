@@ -25,6 +25,8 @@ namespace SCaddins.RoomConvertor
 
     public class RoomConversionManager
     {
+        #region PROPERTIES
+
         private List<RoomConversionCandidate> allCandidates;
 
         private Dictionary<string, string> departmentsInModel;
@@ -125,6 +127,8 @@ namespace SCaddins.RoomConvertor
         public Dictionary<string, ElementId> ViewTemplates {
             get { return viewTemplates; }
         }
+
+        #endregion
 
         public static Dictionary<string, ElementId> GetAllTitleBlockTypes(Document doc)
         {
