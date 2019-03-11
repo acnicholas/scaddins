@@ -78,7 +78,7 @@
             </Button>
         </Grid>
         <DataGrid
-            cal:Message.Attach="[Event SelectionChanged] = [SelectionChanged($source,$eventArgs)];[Event ContextMenuOpening] = [ContextMenuOpening($source,$eventArgs)]"
+            cal:Message.Attach="[Event SelectionChanged] = [SelectionChanged($source,$eventArgs)]"
             x:Name="Sheets"
             SelectionMode="Extended"
             VirtualizingStackPanel.VirtualizationMode="Standard"
@@ -174,12 +174,12 @@
                                 Source="/SCaddins;component/Assets/filter.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="SheetFilter"  Visibility="{Binding SheetFilterEnabled, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}"  cal:Message.Attach="SheetFilterSelected()" Header="{Binding SheetFilter}">
+                    <!--<MenuItem x:Name="SheetFilter"  Visibility="{Binding SheetFilterEnabled, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}"  cal:Message.Attach="SheetFilterSelected()" Header="{Binding SheetFilter}">
                         <MenuItem.Icon>
                             <Image
                                 Source="/SCaddins;component/Assets/filter.png" />
                         </MenuItem.Icon>
-                    </MenuItem>
+                    </MenuItem>-->
                     <Separator />
                     <MenuItem Header="Options"  cal:Message.Attach="OptionsButton">
                         <MenuItem.Icon>
