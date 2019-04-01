@@ -438,8 +438,16 @@ namespace SCaddins.ExportManager
 
                 if (this.exportFlags.HasFlag(ExportOptions.GhostscriptPDF))
                 {
-                    this.ExportGSPDF(sheet, log);
+                    ////this.ExportGSPDF(sheet, log);
+                    this.PostscriptPrinterName = "Microsoft Print to PDF";
+                    this.PdfPrinterName = "Microsoft Print to PDF";
+                    this.ExportMSPDF(sheet, log);
                 }
+
+                ////if (this.exportFlags.HasFlag(ExportOptions.GhostscriptPDF))
+                ////{
+                ////    this.ExportMSPDF(sheet, log);
+                ////}
             }
             else
             {
@@ -783,6 +791,87 @@ namespace SCaddins.ExportManager
 
             return true;
         }
+
+
+        [SecurityCritical]
+        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+        private bool ExportMSPDF(ExportSheet vs, ExportLog log)
+        {
+            //PORT WAS PORTPROMPT:
+
+            if (log != null) {
+                log.AddMessage(Environment.NewLine + Resources.MessageStartingPDFExport);
+            } else {
+                return false;
+            }
+
+            if (IsViewerMode()) {
+                log.AddError(vs.FullExportName, "Revit is in Viewer mode. Printing is not allowed");
+                return false;
+            }
+
+            PrintManager pm = Doc.PrintManager;
+
+            log.AddMessage(Resources.MessageApplyingPrintSetting + vs.PrintSettingName);
+
+            if (!PrintSettings.PrintToFile(Doc, vs, pm, Resources.FileExtensionPDF, this.PdfPrinterName)) {
+                log.AddError(vs.FullExportName, Resources.ErrorFailedToAssignPrintSetting + vs.PrintSettingName);
+                return false;
+            }
+
+            ////if (!SetAcrobatExportRegistryVal(vs.FullExportPath(Resources.FileExtensionPDF), log)) {
+            ////    log.AddError(vs.FullExportName, "Unable to write to registry");
+            ////    return false;
+            ////}
+
+            if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF))) {
+                if (File.Exists(vs.FullExportPath(Resources.FileExtensionPDF))) {
+                    File.Delete(vs.FullExportPath(Resources.FileExtensionPDF));
+                }
+                log.AddMessage(Resources.MessageSubmittingPrint);
+
+                if (pm.SubmitPrint(vs.Sheet)) {
+                    log.AddMessage(Resources.MessageApparentlyCompletedSuccessfully);
+                } else {
+                    log.AddError(vs.FullExportName, Resources.ErrorFailedToPrint);
+                }
+                FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPDF));
+
+                this.RunExportHooks(Resources.FileExtensionPDF, vs);
+
+                ////SCaddins.Common.SystemUtilities.KillAllProcesses("acrotray");
+            } else {
+                ////log.AddError(vs.FullExportName, Resources.ErrorCantOverwriteFile);
+                return false;
+            }
+
+            return true;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // FIXME this is nasty
         private void ExportDWG(ExportSheet vs, bool removeTitle, ExportLog log)
