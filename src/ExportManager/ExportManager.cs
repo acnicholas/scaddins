@@ -439,8 +439,8 @@ namespace SCaddins.ExportManager
                 if (this.exportFlags.HasFlag(ExportOptions.GhostscriptPDF))
                 {
                     ////this.ExportGSPDF(sheet, log);
-                    this.PostscriptPrinterName = "Microsoft Print to PDF";
-                    this.PdfPrinterName = "Microsoft Print to PDF";
+                    this.PostscriptPrinterName = @"Microsoft Print to PDF - SCexport";
+                    this.PdfPrinterName = @"Microsoft Print to PDF - SCexport";
                     this.ExportMSPDF(sheet, log);
                 }
 
@@ -792,7 +792,6 @@ namespace SCaddins.ExportManager
             return true;
         }
 
-
         [SecurityCritical]
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private bool ExportMSPDF(ExportSheet vs, ExportLog log)
@@ -819,11 +818,6 @@ namespace SCaddins.ExportManager
                 return false;
             }
 
-            ////if (!SetAcrobatExportRegistryVal(vs.FullExportPath(Resources.FileExtensionPDF), log)) {
-            ////    log.AddError(vs.FullExportName, "Unable to write to registry");
-            ////    return false;
-            ////}
-
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF))) {
                 if (File.Exists(vs.FullExportPath(Resources.FileExtensionPDF))) {
                     File.Delete(vs.FullExportPath(Resources.FileExtensionPDF));
@@ -835,6 +829,11 @@ namespace SCaddins.ExportManager
                 } else {
                     log.AddError(vs.FullExportName, Resources.ErrorFailedToPrint);
                 }
+
+                FileUtilities.WaitForFileAccess(@"C:\Temp\SCexport.pdf");
+
+                System.IO.File.Move(@"c:\Temp\SCexport.pdf" , vs.FullExportPath(Resources.FileExtensionPDF));
+
                 FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPDF));
 
                 this.RunExportHooks(Resources.FileExtensionPDF, vs);

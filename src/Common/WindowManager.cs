@@ -31,6 +31,8 @@
             get; private set;
         }
 
+        
+
         public bool? ShowConfirmationDialog(string message, bool? defaultCheckboxValue, out bool checkboxResult)
         {
             return dialogService.ShowConfirmationDialog(message, defaultCheckboxValue, out checkboxResult);

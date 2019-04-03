@@ -145,6 +145,15 @@ namespace SCaddins.ExportManager
         public static void WaitForFileAccess(string file)
         {
             var i = 0;
+            while (!File.Exists(file)) {
+                Thread.Sleep(2000);
+                i++;
+                if (i > 30)
+                {
+                    return;
+                }
+            }
+            i = 0;
             while (IsFileLocked(new FileInfo(file)))
             {
                 Thread.Sleep(2000);
