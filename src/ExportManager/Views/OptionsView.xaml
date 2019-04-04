@@ -29,6 +29,7 @@
                             </Grid.RowDefinitions>
                             <CheckBox x:Name="ExportAdobePDF" Grid.Column="0" Grid.Row="0" Content="PDF (Adobe Acrobat)" VerticalAlignment="Center" Margin="5"></CheckBox>
                             <CheckBox x:Name="ExportPostscriptPDF" Grid.Column="0" Grid.Row="1" Content="PDF (Ghostscript)" VerticalAlignment="Center" Margin="5"></CheckBox>
+                            <CheckBox x:Name="ExportMicrosoftPDF" Grid.Column="0" Grid.Row="2" Content="PDF (Microsoft)" VerticalAlignment="Center" Margin="5"></CheckBox>
                             <CheckBox x:Name="ExportDWG" Grid.Column="1" Grid.Row="0" Content="DWG" VerticalAlignment="Center" Margin="5"></CheckBox>
                             <CheckBox Grid.Column="1" Grid.Row="1" Content="DGN" VerticalAlignment="Center" Margin="5" IsEnabled="False"></CheckBox>
                             <CheckBox Grid.Column="1" Grid.Row="2" Content="DWF" VerticalAlignment="Center" Margin="5" IsEnabled="False"></CheckBox>

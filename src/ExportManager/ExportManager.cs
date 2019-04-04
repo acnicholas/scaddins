@@ -436,18 +436,17 @@ namespace SCaddins.ExportManager
                     this.ExportAdobePDF(sheet, log);
                 }
 
-                if (this.exportFlags.HasFlag(ExportOptions.GhostscriptPDF))
+                if (this.exportFlags.HasFlag(ExportOptions.MSPDF))
                 {
-                    ////this.ExportGSPDF(sheet, log);
                     this.PostscriptPrinterName = @"Microsoft Print to PDF - SCexport";
                     this.PdfPrinterName = @"Microsoft Print to PDF - SCexport";
                     this.ExportMSPDF(sheet, log);
                 }
 
-                ////if (this.exportFlags.HasFlag(ExportOptions.GhostscriptPDF))
-                ////{
-                ////    this.ExportMSPDF(sheet, log);
-                ////}
+                if (this.exportFlags.HasFlag(ExportOptions.GhostscriptPDF))
+                {
+                    this.ExportMSPDF(sheet, log);
+                }
             }
             else
             {
@@ -846,31 +845,6 @@ namespace SCaddins.ExportManager
 
             return true;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         // FIXME this is nasty
         private void ExportDWG(ExportSheet vs, bool removeTitle, ExportLog log)

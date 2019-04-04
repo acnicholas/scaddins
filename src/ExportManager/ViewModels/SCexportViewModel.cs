@@ -88,7 +88,8 @@ namespace SCaddins.ExportManager.ViewModels
                 return CanPrint &&
                 (exportManager.HasExportOption(ExportOptions.DWG) ||
                  exportManager.HasExportOption(ExportOptions.PDF) ||
-                 exportManager.HasExportOption(ExportOptions.GhostscriptPDF));
+                 exportManager.HasExportOption(ExportOptions.GhostscriptPDF) ||
+                 exportManager.HasExportOption(ExportOptions.MSPDF)) ;
             }
         }
 

@@ -228,6 +228,26 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public bool ExportMicrosoftPDF
+        {
+            get
+            {
+                return exportManager.HasExportOption(ExportOptions.MSPDF);
+            }
+
+            set
+            {
+                if (value)
+                {
+                    exportManager.AddExportOption(ExportOptions.MSPDF);
+                }
+                else
+                {
+                    exportManager.RemoveExportOption(ExportOptions.MSPDF);
+                }
+            }
+        }
+
         public bool ExportDGN
         {
             get; set;
