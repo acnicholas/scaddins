@@ -55,7 +55,7 @@ namespace SCaddins.ExportManager
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             collector.OfCategory(BuiltInCategory.OST_Sheets);
             foreach (ViewSheet view in collector) {
-                #if REVIT2019
+                #if REVIT2019 || REVIT2020
                 result.Add(new OpenableView(view.Name, view.SheetNumber, view));
                 #else
                 result.Add(new OpenableView(view.ViewName, view.SheetNumber, view));
