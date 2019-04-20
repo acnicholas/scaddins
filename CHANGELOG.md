@@ -1,5 +1,17 @@
 #SCaddins Revision Log#
 
+#20.0#
+
+####NEW####
+
+- **Revit 2020 support**
+
+####SUMMARY####
+
+First release for Revit 2020
+**Revit 2016-2020 Supported.
+
+
 #19.1#
 
 ####NEW####
