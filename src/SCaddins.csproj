@@ -333,6 +333,11 @@
       <DependentUpon>ViewSetSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="HatchEditor\HatchEditor.cs" />
+    <Compile Include="HatchEditor\ViewModels\HatchEditorViewModel.cs" />
+    <Compile Include="HatchEditor\Views\HatchEditorView.xaml.cs">
+      <DependentUpon>HatchEditorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LineOfSight\ViewModels\LineOfSightViewModel.cs" />
     <Compile Include="LineOfSight\Views\LineOfSightView.xaml.cs">
       <DependentUpon>LineOfSightView.xaml</DependentUpon>
@@ -555,6 +560,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="HatchEditor\Views\HatchEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LineOfSight\Views\LineOfSightView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -686,6 +695,7 @@
   <ItemGroup>
     <Resource Include="Assets\view.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
