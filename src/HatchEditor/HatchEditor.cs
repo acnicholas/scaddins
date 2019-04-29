@@ -11,29 +11,19 @@
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
     {
-        public static List<FillPattern> FillPatterns(Document doc)
+        public static List<Hatch> FillPatterns(Document doc)
         {
-            var result = new List<FillPattern>();
+            var result = new List<Hatch>();
             using (var f = new FilteredElementCollector(doc))
             {
                 f.OfClass(typeof(FillPatternElement));
                 foreach (FillPatternElement e in f)
                 {
-                    result.Add(e.GetFillPattern());
+                    var h = new Hatch(e.GetFillPattern());
+                    result.Add(h);
                 }
             }
             return result;
-        }
-
-        public static string GetPatternDefinition(FillPattern pattern)
-        {
-            StringBuilder s = new StringBuilder();
-            foreach (var p in pattern.GetFillGrids())
-            {
-                s.Append(string.Format("{0},\t{1},\t{2},\t{3},\t{4}", p.Angle.ToDeg(), p.Origin.U.ToMM(), p.Origin.V.ToMM(), p.Offset.ToMM(), p.Shift.ToMM()));
-                s.Append(System.Environment.NewLine);
-            }
-            return s.ToString();
         }
 
         public Autodesk.Revit.UI.Result Execute(

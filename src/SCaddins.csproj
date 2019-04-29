@@ -334,6 +334,7 @@
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HatchEditor\ConversionUtilities.cs" />
+    <Compile Include="HatchEditor\Hatch.cs" />
     <Compile Include="HatchEditor\HatchEditor.cs" />
     <Compile Include="HatchEditor\ViewModels\HatchEditorViewModel.cs" />
     <Compile Include="HatchEditor\Views\HatchCanvas.cs" />

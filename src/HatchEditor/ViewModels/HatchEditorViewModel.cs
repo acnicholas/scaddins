@@ -7,18 +7,18 @@
     internal class HatchEditorViewModel : Screen
     {
         private Document doc;
-        private ObservableCollection<FillPattern> fillPattensInModel;
-        private FillPattern selectedFillPattern;
+        private ObservableCollection<Hatch> fillPattensInModel;
+        private Hatch selectedFillPattern;
         private string currentPatternDefinition;
 
         public HatchEditorViewModel(Autodesk.Revit.DB.Document doc)
         {
             this.doc = doc;
-            FillPatterns = new ObservableCollection<FillPattern>(HatchEditor.Command.FillPatterns(doc));
+            FillPatterns = new ObservableCollection<Hatch>(Command.FillPatterns(doc));
             CurrentPatternDefinition = string.Empty;
         }
 
-        public ObservableCollection<FillPattern> FillPatterns
+        public ObservableCollection<Hatch> FillPatterns
         {
             get
             {
@@ -32,7 +32,7 @@
             }
         }
 
-        public FillPattern SelectedFillPattern
+        public Hatch SelectedFillPattern
         {
             get
             {
@@ -42,7 +42,7 @@
             set
             {
                 selectedFillPattern = value;
-                CurrentPatternDefinition = HatchEditor.Command.GetPatternDefinition(SelectedFillPattern);
+                CurrentPatternDefinition = SelectedFillPattern.ToString();
                 NotifyOfPropertyChange(() => SelectedFillPattern);
                 NotifyOfPropertyChange(() => CurrentPatternType);
             }
@@ -66,7 +66,7 @@
         {
             get
             {
-                return selectedFillPattern.Target;
+                return selectedFillPattern.HatchPattern.Target;
             } 
         }
     }

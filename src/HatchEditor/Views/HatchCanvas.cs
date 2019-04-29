@@ -38,11 +38,6 @@
             h.Update(v);
         }
 
-        public override string ToString()
-        {
-            return "Hello World";
-        }
-
         public void Update(string v)
         {
             if (children == null || string.IsNullOrEmpty(v))
