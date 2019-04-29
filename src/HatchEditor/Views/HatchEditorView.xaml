@@ -20,6 +20,6 @@
         <ComboBox x:Name="FillPatterns"  DisplayMemberPath="Name"></ComboBox>
         <TextBox Grid.Row="1" x:Name="CurrentPatternDefinition" TextWrapping="NoWrap" AcceptsReturn="True" AcceptsTab="True"></TextBox>
         <Label x:Name="CurrentPatternType" Grid.Row="2"></Label>
-        <Canvas Grid.Column="1" Grid.RowSpan="3" Background="BlanchedAlmond" Margin="10"></Canvas>
+        <local:HatchCanvas  Grid.Column="1" Width="300" Height="300" Grid.RowSpan="3" FillPattern="{Binding Path=CurrentPatternDefinition}"></local:HatchCanvas>
     </Grid>
 </UserControl>

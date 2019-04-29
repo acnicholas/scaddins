@@ -1,7 +1,5 @@
 ﻿namespace SCaddins.HatchEditor.ViewModels
 {
-    using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
@@ -17,7 +15,7 @@
         {
             this.doc = doc;
             FillPatterns = new ObservableCollection<FillPattern>(HatchEditor.Command.FillPatterns(doc));
-            CurrentPatternDefinition = "test";
+            CurrentPatternDefinition = string.Empty;
         }
 
         public ObservableCollection<FillPattern> FillPatterns
@@ -71,6 +69,5 @@
                 return selectedFillPattern.Target;
             } 
         }
-
     }
 }
