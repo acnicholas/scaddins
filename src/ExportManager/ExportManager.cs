@@ -173,6 +173,11 @@ namespace SCaddins.ExportManager
             get; set;
         }
 
+        public string MicrosoftPrintToPdfPrinterName
+        {
+            get; set;
+        }
+
         public string PdfPrinterName
         {
             get; set;
@@ -500,6 +505,7 @@ namespace SCaddins.ExportManager
         public void LoadSettings()
         {
             this.GhostscriptBinDirectory = SCaddins.ExportManager.Settings1.Default.GSBinDirectory;
+            this.MicrosoftPrintToPdfPrinterName = SCaddins.ExportManager.Settings1.Default.MSPrintToPdfDriver;
             this.PdfPrinterName = SCaddins.ExportManager.Settings1.Default.AdobePrinterDriver;
             this.PrinterNameA3 = SCaddins.ExportManager.Settings1.Default.A3PrinterDriver;
             this.PrinterNameLargeFormat = SCaddins.ExportManager.Settings1.Default.LargeFormatPrinterDriver;

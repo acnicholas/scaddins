@@ -415,6 +415,24 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public string MicrosoftPrintToPDFDriverName {
+            get
+            {
+                return exportManager.MicrosoftPrintToPdfPrinterName;
+            }
+
+            set
+            {
+                if (value == exportManager.MicrosoftPrintToPdfPrinterName) {
+                    return;
+                }
+                exportManager.MicrosoftPrintToPdfPrinterName = value;
+                SCaddins.ExportManager.Settings1.Default.MSPrintToPdfDriver = value;
+                SCaddins.ExportManager.Settings1.Default.Save();
+                NotifyOfPropertyChange(() => MicrosoftPrintToPDFDriverName);
+            }
+        }
+
         public string PostscriptPrintDriverName
         {
             get
@@ -540,6 +558,11 @@ namespace SCaddins.ExportManager.ViewModels
         public void SelectLargeFormatPrinter()
         {
             LargeFormatPrinterName = SelectPrinter("Select Large Format Printer", LargeFormatPrinterName);
+        }
+
+        public void SelectMicrosoftPrintToPDFPrinter()
+        {
+            MicrosoftPrintToPDFDriverName = SelectPrinter("Select Large Format Printer", MicrosoftPrintToPDFDriverName);
         }
 
         public void SelectPostscriptPrinter()
