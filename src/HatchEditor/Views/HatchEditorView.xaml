@@ -9,17 +9,17 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <ComboBox x:Name="FillPatterns"  DisplayMemberPath="Name"></ComboBox>
         <TextBox Grid.Row="1" x:Name="CurrentPatternDefinition" TextWrapping="NoWrap" AcceptsReturn="True" AcceptsTab="True"></TextBox>
         <Label x:Name="CurrentPatternType" Grid.Row="2"></Label>
-        <local:HatchCanvas  Grid.Column="1" Width="300" Height="300" Grid.RowSpan="3" FillPattern="{Binding Path=CurrentPatternDefinition}"></local:HatchCanvas>
+        <local:HatchCanvas  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto"  Width =" Auto" Grid.RowSpan="3" ActiveHatch="{Binding Path=SelectedFillPattern}"></local:HatchCanvas>
     </Grid>
 </UserControl>

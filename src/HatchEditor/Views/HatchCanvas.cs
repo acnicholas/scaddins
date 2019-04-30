@@ -6,9 +6,12 @@
 
     public class HatchCanvas : FrameworkElement
     {
-        public static readonly DependencyProperty FillPatternProperty = DependencyProperty.Register(
-            "FillPattern",
-            typeof(string),
+        private double width;
+        private double height;
+
+        public static readonly DependencyProperty ActiveHatchProperty = DependencyProperty.Register(
+            "ActiveHatch",
+            typeof(Hatch),
             typeof(HatchCanvas),
             new FrameworkPropertyMetadata(new PropertyChangedCallback(OnPatternChange)));
 
@@ -16,14 +19,21 @@
 
         public HatchCanvas()
         {
-            FillPattern = string.Empty;
+            ActiveHatch = new Hatch();
             children = new VisualCollection(this);
+            this.SizeChanged += HatchCanvas_SizeChanged;
         }
 
-        public string FillPattern
+        private void HatchCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            get { return (string)this.GetValue(FillPatternProperty); }
-            set { this.SetValue(FillPatternProperty, value); }
+            width = e.NewSize.Width;
+            height = e.NewSize.Height;
+        }
+
+        public Hatch ActiveHatch
+        {
+            get { return (Hatch)this.GetValue(ActiveHatchProperty); }
+            set { this.SetValue(ActiveHatchProperty, value); }
         }
 
         protected override int VisualChildrenCount
@@ -33,18 +43,20 @@
 
         public static void OnPatternChange(System.Windows.DependencyObject d, System.Windows.DependencyPropertyChangedEventArgs e)
         {
-            string v = (string)e.NewValue;
+            Hatch v = (Hatch)e.NewValue;
             HatchCanvas h = (HatchCanvas)d;
             h.Update(v);
         }
 
-        public void Update(string v)
+        public void Update(Hatch hatch)
         {
-            if (children == null || string.IsNullOrEmpty(v))
+            if (hatch == null) return;
+            if (children == null || string.IsNullOrEmpty(hatch.Definition))
             {
                 return;
             }
-            children.Add(CreateDrawingVisualHatch(v));
+            children.Clear();
+            children.Add(CreateDrawingVisualHatch(hatch));
         }
 
         protected override Visual GetVisualChild(int index)
@@ -56,12 +68,29 @@
             return children[index];
         }
 
-        private DrawingVisual CreateDrawingVisualHatch(string hatchDefinition)
+        private DrawingVisual CreateDrawingVisualHatch(Hatch hatch)
         {
             DrawingVisual drawingVisual = new DrawingVisual();
+            if (hatch == null)
+            {
+                return drawingVisual;
+            }
+
             DrawingContext drawingContext = drawingVisual.RenderOpen();
-            Rect rect = new Rect(new System.Windows.Point(160, 100), new System.Windows.Size(320, 80));
-            drawingContext.DrawRectangle(System.Windows.Media.Brushes.LightBlue, (System.Windows.Media.Pen)null, rect);
+
+            var p = hatch.HatchPattern;
+
+            var pen = new Pen(Brushes.Black, 1);
+
+            drawingContext.PushTransform(new TranslateTransform(width / 2, height / 2));
+            foreach (var l in p.GetFillGrids())
+            {
+                drawingContext.PushTransform(new RotateTransform(-l.Angle.ToDeg(), l.Origin.U.ToMM(), l.Origin.V.ToMM()));
+                drawingContext.DrawLine(pen, new Point(l.Origin.U.ToMM(), l.Origin.V.ToMM()), new Point(l.Origin.U.ToMM() + width / 2, l.Origin.V.ToMM()));
+                drawingContext.Pop();
+            }
+            drawingContext.Pop();
+
             drawingContext.Close();
             return drawingVisual;
         }

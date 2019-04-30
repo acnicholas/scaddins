@@ -9,35 +9,58 @@ namespace SCaddins.HatchEditor
 {
     public class Hatch
     {
+        private FillPattern fillPattern;
+        private string definition;
+
         public Hatch()
         {
             HatchPattern = null;
+            UpdatePatternDefinition();
             Name = string.Empty;
         }
 
         public Hatch(FillPattern pattern)
         {
             HatchPattern = pattern;
+            UpdatePatternDefinition();
             Name = pattern.Name;
         }
 
         public FillPattern HatchPattern {
-            get; set;
+            get
+            {
+                return fillPattern;
+            }
+            set
+            {
+                fillPattern = value;
+                UpdatePatternDefinition();
+            }
         }
 
         public string Name {
             get; set;
         }
 
-        public override string ToString()
+        public string Definition
         {
-            return GetPatternDefinition();
+            get
+            {
+                return definition;
+            }
+            set
+            {
+                definition = value;
+                string[] lines = definition.Split(new[] { Environment.NewLine },StringSplitOptions.None );
+                TryAssignFillGridsFromStrings(lines);
+            }
         }
 
-        public string GetPatternDefinition()
+        private void UpdatePatternDefinition()
         {
             if (HatchPattern == null) {
-                return "Hatch not defined";
+                definition =  "Hatch not defined";
+                return;
             }
             StringBuilder s = new StringBuilder();
             foreach (var p in HatchPattern.GetFillGrids()) {
@@ -50,7 +73,8 @@ namespace SCaddins.HatchEditor
                 }
                 s.Append(System.Environment.NewLine);
             }
-            return s.ToString();
+            definition = s.ToString();
+            return;
         }
 
         public bool TryAssignFillGridsFromStrings(string[] grids)
@@ -93,14 +117,14 @@ namespace SCaddins.HatchEditor
                 if (!double.TryParse(segs[4], out offset)) {
                     return false;
                 }
-                for (int i = 5; i < segs.Length; i++) {
-                    int dir = i % 2 == 1 ? 1 : -1;
-                    double individualSeg;
-                    if (!double.TryParse(segs[i], out individualSeg)) {
-                        return false;
-                    }
-                    lineSegs.Add(individualSeg * dir);
-                }
+                //for (int i = 5; i < segs.Length; i++) {
+                //    int dir = i % 2 == 1 ? 1 : -1;
+                //    double individualSeg;
+                //    if (!double.TryParse(segs[i], out individualSeg)) {
+                //        return false;
+                //    }
+                //    lineSegs.Add(individualSeg * dir);
+                //}
                 f.Angle = angle;
                 f.Origin = new UV(x, y);
                 f.Shift = shift;

@@ -1,6 +1,7 @@
 ﻿namespace SCaddins.HatchEditor.ViewModels
 {
     using System.Collections.ObjectModel;
+    using System.Linq;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
@@ -9,13 +10,12 @@
         private Document doc;
         private ObservableCollection<Hatch> fillPattensInModel;
         private Hatch selectedFillPattern;
-        private string currentPatternDefinition;
 
         public HatchEditorViewModel(Autodesk.Revit.DB.Document doc)
         {
             this.doc = doc;
             FillPatterns = new ObservableCollection<Hatch>(Command.FillPatterns(doc));
-            CurrentPatternDefinition = string.Empty;
+            SelectedFillPattern = FillPatterns.LastOrDefault();
         }
 
         public ObservableCollection<Hatch> FillPatterns
@@ -42,9 +42,9 @@
             set
             {
                 selectedFillPattern = value;
-                CurrentPatternDefinition = SelectedFillPattern.ToString();
-                NotifyOfPropertyChange(() => SelectedFillPattern);
                 NotifyOfPropertyChange(() => CurrentPatternType);
+                NotifyOfPropertyChange(() => CurrentPatternDefinition);
+                NotifyOfPropertyChange(() => SelectedFillPattern);
             }
         }
 
@@ -52,13 +52,16 @@
         {
             get
             {
-                return currentPatternDefinition;
+                return SelectedFillPattern.Definition != null ? SelectedFillPattern.Definition : string.Empty;
             }
 
             set
             {
-                currentPatternDefinition = value;
-                NotifyOfPropertyChange(() => CurrentPatternDefinition);
+                if (value != null)
+                {
+                    SelectedFillPattern.Definition = value;
+                    NotifyOfPropertyChange(() => CurrentPatternDefinition);
+                }
             }
         }
 
@@ -66,7 +69,7 @@
         {
             get
             {
-                return selectedFillPattern.HatchPattern.Target;
+                return SelectedFillPattern.HatchPattern.Target;
             } 
         }
     }
