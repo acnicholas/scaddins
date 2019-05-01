@@ -10,11 +10,15 @@
         private Document doc;
         private ObservableCollection<Hatch> fillPattensInModel;
         private Hatch selectedFillPattern;
+        private Hatch customFillPattern;
 
         public HatchEditorViewModel(Autodesk.Revit.DB.Document doc)
         {
             this.doc = doc;
             FillPatterns = new ObservableCollection<Hatch>(Command.FillPatterns(doc));
+            customFillPattern = new Hatch(new FillPattern());
+            customFillPattern.Name = @"<Custom>";
+            FillPatterns.Add(customFillPattern);
             SelectedFillPattern = FillPatterns.LastOrDefault();
         }
 
@@ -57,11 +61,16 @@
 
             set
             {
-                if (value != null)
-                {
-                    SelectedFillPattern.Definition = value;
-                    NotifyOfPropertyChange(() => CurrentPatternDefinition);
-                }
+                //if (value != null)
+                //{   
+                SelectedFillPattern = null;
+                customFillPattern.Definition = value;
+                SelectedFillPattern = customFillPattern;
+                //selectedFillPattern = customFillPattern;
+                //NotifyOfPropertyChange(() => CurrentPatternDefinition);
+                //NotifyOfPropertyChange(() => SelectedFillPattern);
+                
+                //}
             }
         }
 

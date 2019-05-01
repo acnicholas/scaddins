@@ -7,9 +7,20 @@
             return System.Math.Round(arg * 180 / System.Math.PI, 8);
         }
 
+        public static double ToRad(this double arg)
+        {
+            return System.Math.Round(arg * System.Math.PI / 180, 8);
+        }
+
         public static double ToMM(this double arg)
         {
             return System.Math.Round(arg * 304.8, 8);
+        }
+
+
+        public static double ToFeet(this double arg)
+        {
+            return System.Math.Round(arg / 304.8, 8);
         }
     }
 }

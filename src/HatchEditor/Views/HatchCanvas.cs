@@ -43,6 +43,7 @@
 
         public static void OnPatternChange(System.Windows.DependencyObject d, System.Windows.DependencyPropertyChangedEventArgs e)
         {
+            //SCaddinsApp.WindowManager.ShowMessageBox("Pattern changed");
             Hatch v = (Hatch)e.NewValue;
             HatchCanvas h = (HatchCanvas)d;
             h.Update(v);
@@ -80,14 +81,29 @@
 
             var p = hatch.HatchPattern;
 
-            var pen = new Pen(Brushes.Black, 1);
+            double dx = 0;
+            double dy = 0;
 
             drawingContext.PushTransform(new TranslateTransform(width / 2, height / 2));
+
             foreach (var l in p.GetFillGrids())
             {
-                drawingContext.PushTransform(new RotateTransform(-l.Angle.ToDeg(), l.Origin.U.ToMM(), l.Origin.V.ToMM()));
-                drawingContext.DrawLine(pen, new Point(l.Origin.U.ToMM(), l.Origin.V.ToMM()), new Point(l.Origin.U.ToMM() + width / 2, l.Origin.V.ToMM()));
-                drawingContext.Pop();
+                while (dx < width / 2 && dy < height)
+                {        
+                    var pen = new Pen(Brushes.Black, 1);
+                    pen.DashStyle = new DashStyle(l.GetSegments(), 0);
+                    drawingContext.PushTransform(new TranslateTransform(dx, -dy));
+                    drawingContext.PushTransform(new RotateTransform(-l.Angle.ToDeg(), l.Origin.U.ToMM(), l.Origin.V.ToMM()));
+                    //drawingContext.PushTransform(new TranslateTransform(width / 2, height / 2));
+                    drawingContext.DrawLine(pen, new Point(l.Origin.U.ToMM(), l.Origin.V.ToMM()), new Point(l.Origin.U.ToMM() + width / 2, l.Origin.V.ToMM()));
+                    //drawingContext.Pop();
+                    drawingContext.Pop();
+                    drawingContext.Pop();
+                    dx += l.Shift.ToMM();
+                    dy += l.Offset.ToMM();
+                }
+                dx = 0;
+                dy = 0;
             }
             drawingContext.Pop();
 
