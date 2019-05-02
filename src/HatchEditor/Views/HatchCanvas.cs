@@ -1,6 +1,8 @@
 ﻿namespace SCaddins.HatchEditor.Views
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Media;
 
@@ -43,7 +45,6 @@
 
         public static void OnPatternChange(System.Windows.DependencyObject d, System.Windows.DependencyPropertyChangedEventArgs e)
         {
-            //SCaddinsApp.WindowManager.ShowMessageBox("Pattern changed");
             Hatch v = (Hatch)e.NewValue;
             HatchCanvas h = (HatchCanvas)d;
             h.Update(v);
@@ -69,6 +70,22 @@
             return children[index];
         }
 
+
+        private double GetDashedLineLength(Autodesk.Revit.DB.FillGrid line, int repetitions)
+        {
+            if (line.GetSegments().Count == 0)
+            {
+                return 0;
+            }
+            double result = 0;
+            foreach (var dash in line.GetSegments())
+            {
+                result += dash;
+            }
+            return result * repetitions;
+        }
+
+  
         private DrawingVisual CreateDrawingVisualHatch(Hatch hatch)
         {
             DrawingVisual drawingVisual = new DrawingVisual();
@@ -84,27 +101,54 @@
             double dx = 0;
             double dy = 0;
 
+            drawingContext.PushClip(new RectangleGeometry(new Rect(0,0, width, height)));
             drawingContext.PushTransform(new TranslateTransform(width / 2, height / 2));
+
+            double maxLength = Math.Sqrt(width * width + height * height);
+            //double maxLength = 0;
 
             foreach (var l in p.GetFillGrids())
             {
-                while (dx < width / 2 && dy < height)
-                {        
+                //push till outside canvas
+                double dl = GetDashedLineLength(l, 1);
+                //double sx = dl > 0 ? Math.Floor(maxLength / dl) * dl : maxLength;
+                //double sx = dl > 0 ? (int)(Math.Floor(maxLength / dl)) * dl : maxLength;
+                double sx = 0;
+
+
+                var segsInMM = new List<double>();
+                foreach (var s in l.GetSegments())
+                {
+                    segsInMM.Add(s.ToMM());
+                }
+
+                if (l.Offset == 0) continue;
+
+                int b = 0;
+
+                while (dx < width && dy < height)
+                {
+                    b++;
+                    if (b > 300) break;
                     var pen = new Pen(Brushes.Black, 1);
-                    pen.DashStyle = new DashStyle(l.GetSegments(), 0);
-                    drawingContext.PushTransform(new TranslateTransform(dx, -dy));
+                    pen.DashStyle = new DashStyle(segsInMM, sx);
+                    //drawingContext.PushTransform(new TranslateTransform(dx, -dy));
+                    //drawingContext.PushTransform(new TranslateTransform(-sx, -0));
                     drawingContext.PushTransform(new RotateTransform(-l.Angle.ToDeg(), l.Origin.U.ToMM(), l.Origin.V.ToMM()));
+                    drawingContext.PushTransform(new TranslateTransform(dx - sx, -dy));
                     //drawingContext.PushTransform(new TranslateTransform(width / 2, height / 2));
-                    drawingContext.DrawLine(pen, new Point(l.Origin.U.ToMM(), l.Origin.V.ToMM()), new Point(l.Origin.U.ToMM() + width / 2, l.Origin.V.ToMM()));
+                    drawingContext.DrawLine(pen, new Point(l.Origin.U.ToMM(), l.Origin.V.ToMM()), new Point(l.Origin.U.ToMM() + maxLength * 2, l.Origin.V.ToMM()));
                     //drawingContext.Pop();
                     drawingContext.Pop();
                     drawingContext.Pop();
+                    //drawingContext.Pop();
                     dx += l.Shift.ToMM();
                     dy += l.Offset.ToMM();
                 }
                 dx = 0;
                 dy = 0;
             }
+            drawingContext.Pop();
             drawingContext.Pop();
 
             drawingContext.Close();

@@ -145,6 +145,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2016|Any'">
     <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2016'">
       <HintPath>C:\Program Files\Autodesk\Revit 2016\AdWindows.dll</HintPath>

@@ -65,7 +65,7 @@ namespace SCaddins.HatchEditor
             }
             StringBuilder s = new StringBuilder();
             foreach (var p in fillPattern.GetFillGrids()) {
-                s.Append(string.Format("{0},\t{1},\t{2},\t{3},\t{4}", p.Angle.ToDeg(), p.Origin.U.ToMM(), p.Origin.V.ToMM(), p.Offset.ToMM(), p.Shift.ToMM()));
+                s.Append(string.Format("{0},\t{1},\t{2},\t{3},\t{4}", p.Angle.ToDeg(), p.Origin.U.ToMM(), p.Origin.V.ToMM(), p.Shift.ToMM(),p.Offset.ToMM()));
                 int i = 0;
                 foreach (var d in p.GetSegments()) {
                     int m = i % 2 == 0 ? 1 : -1;
@@ -140,7 +140,7 @@ namespace SCaddins.HatchEditor
                     {
                         return false;
                     }
-                    lineSegs.Add(individualSeg * dir);
+                    lineSegs.Add(individualSeg.ToFeet() * dir);
                 }
                 f.Angle = angle.ToRad();
                 f.Origin = new UV(x.ToFeet(), y.ToFeet());
