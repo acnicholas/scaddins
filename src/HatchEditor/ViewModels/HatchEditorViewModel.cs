@@ -52,6 +52,23 @@
             }
         }
 
+        public double Scale {
+            get
+            {
+                return selectedFillPattern.Scale;
+            }
+
+            set
+            {
+                selectedFillPattern.Scale = value;
+                NotifyOfPropertyChange(() => Scale);
+                NotifyOfPropertyChange(() => SelectedFillPattern);
+                var tmp = SelectedFillPattern;
+                SelectedFillPattern = null;
+                SelectedFillPattern = tmp;
+            }
+        }
+
         public string CurrentPatternDefinition
         {
             get
@@ -61,16 +78,9 @@
 
             set
             {
-                //if (value != null)
-                //{   
                 SelectedFillPattern = null;
                 customFillPattern.Definition = value;
                 SelectedFillPattern = customFillPattern;
-                //selectedFillPattern = customFillPattern;
-                //NotifyOfPropertyChange(() => CurrentPatternDefinition);
-                //NotifyOfPropertyChange(() => SelectedFillPattern);
-                
-                //}
             }
         }
 
@@ -81,5 +91,7 @@
                 return SelectedFillPattern.HatchPattern.Target;
             } 
         }
+
+        
     }
 }

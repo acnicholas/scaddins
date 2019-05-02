@@ -17,6 +17,7 @@ namespace SCaddins.HatchEditor
             fillPattern = new FillPattern();
             UpdatePatternDefinition();
             Name = string.Empty;
+            Scale = 1;
         }
 
         public Hatch(FillPattern pattern)
@@ -24,6 +25,7 @@ namespace SCaddins.HatchEditor
             fillPattern = pattern;
             UpdatePatternDefinition();
             Name = pattern.Name;
+            Scale = 1;
         }
 
         public FillPattern HatchPattern
@@ -32,11 +34,6 @@ namespace SCaddins.HatchEditor
             {
                 return fillPattern;
             }
-            //set
-            //{
-            //    fillPattern = value;
-            //    UpdatePatternDefinition();
-            //}
         }
 
         public string Name {
@@ -68,7 +65,8 @@ namespace SCaddins.HatchEditor
                 s.Append(string.Format("{0},\t{1},\t{2},\t{3},\t{4}", p.Angle.ToDeg(), p.Origin.U.ToMM(), p.Origin.V.ToMM(), p.Shift.ToMM(),p.Offset.ToMM()));
                 int i = 0;
                 foreach (var d in p.GetSegments()) {
-                    int m = i % 2 == 0 ? 1 : -1;
+                    //int m = i % 2 == 0 ? 1 : -1;
+                    double m = 1;
                     i++;
                     s.Append(string.Format(",\t{0}", d.ToMM() * m));
                 }
@@ -78,23 +76,23 @@ namespace SCaddins.HatchEditor
             return;
         }
 
+        public double Scale
+        {
+            get; set;
+        }
+
         public bool TryAssignFillGridsFromStrings(string[] grids)
         {
             if (AssignFillGridsFromString(grids)) {
-                //SCaddinsApp.WindowManager.ShowMessageBox("TryAssignFillGridsFromStrings - success");
                 return true;
             } else {
-                //HatchPattern = null;
-                //SCaddinsApp.WindowManager.ShowMessageBox("TryAssignFillGridsFromStrings - FAIL");
                 return false;
             }
         }
 
         private bool AssignFillGridsFromString(string[] grids)
         {
-            //HatchPattern = new FillPattern();
             var newFillGrids = new List<FillGrid>();
-            //SCaddinsApp.WindowManager.ShowMessageBox(grids.Length.ToString());
             foreach (string s in grids) {
                 if (string.IsNullOrEmpty(s.Trim()))
                 {

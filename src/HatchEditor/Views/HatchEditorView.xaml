@@ -16,10 +16,12 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <ComboBox x:Name="FillPatterns"  DisplayMemberPath="Name"></ComboBox>
         <TextBox Grid.Row="1" x:Name="CurrentPatternDefinition" TextWrapping="NoWrap" AcceptsReturn="True" AcceptsTab="True"></TextBox>
         <Label x:Name="CurrentPatternType" Grid.Row="2"></Label>
-        <local:HatchCanvas Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto"  Width =" Auto" Grid.RowSpan="3" ActiveHatch="{Binding Path=SelectedFillPattern, Mode=TwoWay}"></local:HatchCanvas>
+        <Slider x:Name="Scale" Grid.Row="3" Minimum="1" Maximum="200" Interval="1"></Slider>
+        <local:HatchCanvas Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto"  Width =" Auto" Grid.RowSpan="4" ActiveHatch="{Binding Path=SelectedFillPattern, Mode=TwoWay}"></local:HatchCanvas>
     </Grid>
 </UserControl>
