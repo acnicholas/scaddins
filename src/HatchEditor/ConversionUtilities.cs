@@ -4,23 +4,23 @@
     {
         public static double ToDeg(this double arg)
         {
-            return System.Math.Round(arg * 180 / System.Math.PI, 15);
+            return arg * 180 / System.Math.PI;
         }
 
         public static double ToRad(this double arg)
         {
-            return System.Math.Round(arg * System.Math.PI / 180, 15);
+            return arg * System.Math.PI / 180;
         }
 
         public static double ToMM(this double arg)
         {
-            return System.Math.Round(arg * 304.8, 15);
+            return arg * 304.8;
         }
 
 
         public static double ToFeet(this double arg)
         {
-            return System.Math.Round(arg / 304.8, 15);
+            return arg / 304.8;
         }
     }
 }

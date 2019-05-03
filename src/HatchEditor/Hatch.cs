@@ -54,7 +54,7 @@ namespace SCaddins.HatchEditor
             }
         }
 
-        private void UpdatePatternDefinition()
+        public void UpdatePatternDefinition()
         {
             if (fillPattern == null) {
                 SCaddinsApp.WindowManager.ShowMessageBox("Null Hatch");
@@ -64,11 +64,13 @@ namespace SCaddins.HatchEditor
             foreach (var p in fillPattern.GetFillGrids()) {
                 s.Append(string.Format("{0},\t{1},\t{2},\t{3},\t{4}", p.Angle.ToDeg(), p.Origin.U.ToMM(), p.Origin.V.ToMM(), p.Shift.ToMM(),p.Offset.ToMM()));
                 int i = 0;
-                foreach (var d in p.GetSegments()) {
+                foreach (double d in p.GetSegments()) {
                     //int m = i % 2 == 0 ? 1 : -1;
-                    double m = 1;
-                    i++;
-                    s.Append(string.Format(",\t{0}", d.ToMM() * m));
+                    //double m = 1;
+                    //i++;
+                    //SCaddinsApp.WindowManager.ShowMessageBox(p.GetHatchingDirection().ToString());
+                    s.Append(string.Format(",\t{0}", d.ToMM()));
+                    //s.Append(d.ToMM().ToString());
                 }
                 s.Append(System.Environment.NewLine);
             }
@@ -132,13 +134,13 @@ namespace SCaddins.HatchEditor
                 }
                 for (int i = 5; i < segs.Length; i++)
                 {
-                    int dir = i % 2 == 1 ? 1 : -1;
+                    //int dir = i % 2 == 0 ? 1 : -1;
                     double individualSeg;
                     if (!double.TryParse(segs[i], out individualSeg))
                     {
                         return false;
                     }
-                    lineSegs.Add(individualSeg.ToFeet() * dir);
+                    lineSegs.Add(individualSeg.ToFeet());
                 }
                 f.Angle = angle.ToRad();
                 f.Origin = new UV(x.ToFeet(), y.ToFeet());

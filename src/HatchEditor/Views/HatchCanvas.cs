@@ -103,15 +103,13 @@
 
             drawingContext.PushClip(new RectangleGeometry(new Rect(0,0, width, height)));
             drawingContext.PushTransform(new TranslateTransform(width / 2, height / 2));
-            //drawingContext.PushTransform(new ScaleTransform(hatch.Scale/10,hatch.Scale/10));
+            drawingContext.PushTransform(new ScaleTransform(hatch.Scale/10,hatch.Scale/10));
             //drawingContext.PushTransform(new ScaleTransform(hatch.Scale / 10, hatch.Scale / 10));
 
             double maxLength = Math.Sqrt(width * width + height * height);
 
             foreach (var l in p.GetFillGrids())
             {
-                //SCaddinsApp.WindowManager.ShowMessageBox(l.ToString());
-
                 double dl = GetDashedLineLength(l, 1);
                 double sx = dl > 0 ? (int)(Math.Floor(maxLength / dl)) * dl : maxLength;
                 var segsInMM = new List<double>();
@@ -130,7 +128,7 @@
                     if (b > 300) break;
                     var pen = new Pen(Brushes.Black, 1);
                     pen.DashStyle = new DashStyle(segsInMM, sx);                   
-                    drawingContext.PushTransform(new RotateTransform(-l.Angle.ToDeg(), l.Origin.U.ToMM(), l.Origin.V.ToMM()));
+                    drawingContext.PushTransform(new RotateTransform(l.Angle.ToDeg(), l.Origin.U.ToMM(), l.Origin.V.ToMM()));
                     drawingContext.PushTransform(new TranslateTransform(dx - sx, -dy));
                     drawingContext.DrawLine(pen, new Point(l.Origin.U.ToMM(), l.Origin.V.ToMM()), new Point(l.Origin.U.ToMM() + maxLength * 2, l.Origin.V.ToMM()));
                     drawingContext.Pop();
@@ -146,7 +144,7 @@
             }
             drawingContext.Pop();
             drawingContext.Pop();
-            //drawingContext.Pop();
+            drawingContext.Pop();
 
             drawingContext.Close();
             return drawingVisual;
