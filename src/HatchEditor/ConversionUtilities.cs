@@ -17,6 +17,11 @@
             return arg * 304.8;
         }
 
+        public static double ToMM(this double arg, double scale)
+        {
+            return arg * 304.8 * scale;
+        }
+
 
         public static double ToFeet(this double arg)
         {

@@ -40,6 +40,21 @@ namespace SCaddins.HatchEditor
             get; set;
         }
 
+        public bool IsDrafting
+        {
+            get
+            {
+                return fillPattern.Target == FillPatternTarget.Drafting;
+            }
+        }
+
+        public bool IsModel {
+            get
+            {
+                return fillPattern.Target == FillPatternTarget.Model;
+            }
+        }
+
         public string Definition
         {
             get
@@ -62,15 +77,11 @@ namespace SCaddins.HatchEditor
             }
             StringBuilder s = new StringBuilder();
             foreach (var p in fillPattern.GetFillGrids()) {
-                s.Append(string.Format("{0},\t{1},\t{2},\t{3},\t{4}", p.Angle.ToDeg(), p.Origin.U.ToMM(), p.Origin.V.ToMM(), p.Shift.ToMM(),p.Offset.ToMM()));
+                double angle = p.Angle.ToDeg();
+                s.Append(string.Format("{0},\t{1},\t{2},\t{3},\t{4}", angle, p.Origin.U.ToMM(), p.Origin.V.ToMM(), p.Shift.ToMM(),p.Offset.ToMM()));
                 int i = 0;
                 foreach (double d in p.GetSegments()) {
-                    //int m = i % 2 == 0 ? 1 : -1;
-                    //double m = 1;
-                    //i++;
-                    //SCaddinsApp.WindowManager.ShowMessageBox(p.GetHatchingDirection().ToString());
                     s.Append(string.Format(",\t{0}", d.ToMM()));
-                    //s.Append(d.ToMM().ToString());
                 }
                 s.Append(System.Environment.NewLine);
             }
@@ -78,8 +89,7 @@ namespace SCaddins.HatchEditor
             return;
         }
 
-        public double Scale
-        {
+        public double Scale {
             get; set;
         }
 
@@ -134,7 +144,6 @@ namespace SCaddins.HatchEditor
                 }
                 for (int i = 5; i < segs.Length; i++)
                 {
-                    //int dir = i % 2 == 0 ? 1 : -1;
                     double individualSeg;
                     if (!double.TryParse(segs[i], out individualSeg))
                     {
@@ -149,7 +158,6 @@ namespace SCaddins.HatchEditor
                 f.SetSegments(lineSegs);
                 newFillGrids.Add(f);              
             }
-            //SCaddinsApp.WindowManager.ShowMessageBox(HatchPattern.IsValidObject.ToString());
             fillPattern.SetFillGrids(newFillGrids);
             return true;
         }

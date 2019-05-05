@@ -49,18 +49,19 @@
                 NotifyOfPropertyChange(() => CurrentPatternType);
                 NotifyOfPropertyChange(() => CurrentPatternDefinition);
                 NotifyOfPropertyChange(() => SelectedFillPattern);
+                NotifyOfPropertyChange(() => Scale);
             }
         }
 
         public double Scale {
             get
             {
-                return selectedFillPattern.Scale;
+                return selectedFillPattern.Scale / 5;
             }
 
             set
             {
-                selectedFillPattern.Scale = value;
+                selectedFillPattern.Scale = value / 5;
                 NotifyOfPropertyChange(() => Scale);
                 NotifyOfPropertyChange(() => SelectedFillPattern);
                 var tmp = SelectedFillPattern;
@@ -78,8 +79,10 @@
 
             set
             {
+                var type = SelectedFillPattern.HatchPattern.Target;
                 SelectedFillPattern = null;
                 customFillPattern.Definition = value;
+                customFillPattern.HatchPattern.Target = type;
                 SelectedFillPattern = customFillPattern;
             }
         }

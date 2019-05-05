@@ -71,7 +71,7 @@
         }
 
 
-        private double GetDashedLineLength(Autodesk.Revit.DB.FillGrid line, int repetitions)
+        private double GetDashedLineLength(Autodesk.Revit.DB.FillGrid line, int repetitions, double scale)
         {
             if (line.GetSegments().Count == 0)
             {
@@ -80,7 +80,7 @@
             double result = 0;
             foreach (var dash in line.GetSegments())
             {
-                result += Math.Abs(dash).ToMM();
+                result += Math.Abs(dash).ToMM(scale);
             }
             return result * repetitions;
         }
@@ -97,54 +97,68 @@
             DrawingContext drawingContext = drawingVisual.RenderOpen();
 
             var p = hatch.HatchPattern;
+            //p.ExpandDots();
 
             double dx = 0;
             double dy = 0;
 
+            var scale = hatch.IsDrafting ? 10 : 1;
+
             drawingContext.PushClip(new RectangleGeometry(new Rect(0,0, width, height)));
             drawingContext.PushTransform(new TranslateTransform(width / 2, height / 2));
-            drawingContext.PushTransform(new ScaleTransform(hatch.Scale/10,hatch.Scale/10));
-            //drawingContext.PushTransform(new ScaleTransform(hatch.Scale / 10, hatch.Scale / 10));
+            drawingContext.DrawEllipse(Brushes.Azure, new Pen(), new Point(0,0), 100,100);
+            drawingContext.PushTransform(new ScaleTransform(hatch.Scale, hatch.Scale));
 
             double maxLength = Math.Sqrt(width * width + height * height);
 
             foreach (var l in p.GetFillGrids())
             {
-                double dl = GetDashedLineLength(l, 1);
-                double sx = dl > 0 ? (int)(Math.Floor(maxLength / dl)) * dl : maxLength;
+                double dl = GetDashedLineLength(l, 1, scale);
+                double sx = dl > 0 ? (int)(Math.Floor(maxLength / dl)) * dl: maxLength;
+
                 var segsInMM = new List<double>();
-                foreach (var s in l.GetSegments())
-                {
-                    segsInMM.Add(s.ToMM());
+                foreach (var s in l.GetSegments()) {
+                    segsInMM.Add(s.ToMM(scale));
                 }
 
                 if (l.Offset == 0) continue;
 
                 int b = 0;
 
+                var pen = new Pen(Brushes.Black, 1);
+                pen.DashStyle = new DashStyle(segsInMM, sx * scale);
+
+                double a = l.Angle.ToDeg();
+                //var uv = l.GetSegmentDirection();
+                //double a = Math.Atan2(uv.V, uv.U).ToDeg();
+                //a = hatch.IsModel ? a : -a;
+                drawingContext.PushTransform(new RotateTransform(-a, l.Origin.U.ToMM(scale) , -l.Origin.V.ToMM(scale)));
+
                 while (dx < width && dy < height)
                 {
                     b++;
                     if (b > 300) break;
-                    var pen = new Pen(Brushes.Black, 1);
-                    pen.DashStyle = new DashStyle(segsInMM, sx);                   
-                    drawingContext.PushTransform(new RotateTransform(l.Angle.ToDeg(), l.Origin.U.ToMM(), l.Origin.V.ToMM()));
-                    drawingContext.PushTransform(new TranslateTransform(dx - sx, -dy));
-                    drawingContext.DrawLine(pen, new Point(l.Origin.U.ToMM(), l.Origin.V.ToMM()), new Point(l.Origin.U.ToMM() + maxLength * 2, l.Origin.V.ToMM()));
+                    double x = l.Origin.U.ToMM(scale) - sx;
+                    double y = -l.Origin.V.ToMM(scale);
+                    //drawingContext.PushTransform(new TranslateTransform(dx - sx, -dy));
+                    drawingContext.PushTransform(new TranslateTransform(x + dx, y - dy));
+                    drawingContext.DrawLine(pen, new Point(0, 0), new Point(maxLength * 2, 0));
                     drawingContext.Pop();
-                    drawingContext.PushTransform(new TranslateTransform(-dx - sx, dy));
-                    drawingContext.DrawLine(pen, new Point(l.Origin.U.ToMM(), l.Origin.V.ToMM()), new Point(l.Origin.U.ToMM() + maxLength * 2, l.Origin.V.ToMM()));
+                    //drawingContext.PushTransform(new TranslateTransform(-dx - sx, dy));
+                    drawingContext.PushTransform(new TranslateTransform(x - dx, y + dy));
+                    drawingContext.DrawLine(pen, new Point(0, 0), new Point(maxLength * 2, 0));
                     drawingContext.Pop();
-                    drawingContext.Pop();
-                    dx += l.Shift.ToMM();
-                    dy += l.Offset.ToMM();
+                    dx += l.Shift.ToMM(scale);
+                    dy += l.Offset.ToMM(scale);
                 }
+                drawingContext.Pop();
                 dx = 0;
                 dy = 0;
             }
             drawingContext.Pop();
             drawingContext.Pop();
             drawingContext.Pop();
+            //drawingContext.Pop();
 
             drawingContext.Close();
             return drawingVisual;
