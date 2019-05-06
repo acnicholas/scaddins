@@ -21,7 +21,6 @@ namespace SCaddins.HatchEditor
             fillPattern = pattern;
             UpdatePatternDefinition();
             Name = pattern.Name;
-            Scale = 1;
         }
 
         public FillPattern HatchPattern
@@ -75,10 +74,6 @@ namespace SCaddins.HatchEditor
             }
             definition = s.ToString();
             return;
-        }
-
-        public double Scale {
-            get; set;
         }
 
         public bool TryAssignFillGridsFromStrings(string[] grids)

@@ -49,24 +49,6 @@
                 NotifyOfPropertyChange(() => CurrentPatternType);
                 NotifyOfPropertyChange(() => CurrentPatternDefinition);
                 NotifyOfPropertyChange(() => SelectedFillPattern);
-                NotifyOfPropertyChange(() => Scale);
-            }
-        }
-
-        public double Scale {
-            get
-            {
-                return selectedFillPattern.Scale / 5;
-            }
-
-            set
-            {
-                selectedFillPattern.Scale = value / 5;
-                NotifyOfPropertyChange(() => Scale);
-                NotifyOfPropertyChange(() => SelectedFillPattern);
-                var tmp = SelectedFillPattern;
-                SelectedFillPattern = null;
-                SelectedFillPattern = tmp;
             }
         }
 

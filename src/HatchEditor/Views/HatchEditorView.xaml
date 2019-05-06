@@ -24,7 +24,6 @@
             <ComboBox x:Name="FillPatterns"  DisplayMemberPath="Name" Margin="5"></ComboBox>
                 <TextBox Grid.Row="1" x:Name="CurrentPatternDefinition" TextWrapping="NoWrap" AcceptsReturn="True" AcceptsTab="True" Margin="5"></TextBox>
                 <Label x:Name="CurrentPatternType" Grid.Row="2" Margin="5"></Label>
-                <Slider x:Name="Scale" Grid.Row="3" Minimum="1" Maximum="25" Interval="1" Margin="5"></Slider>
             </Grid>
         </GroupBox>
         <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Height="Auto"></GridSplitter>

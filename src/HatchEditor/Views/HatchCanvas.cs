@@ -49,9 +49,15 @@
 
         public static void OnPatternChange(System.Windows.DependencyObject d, System.Windows.DependencyPropertyChangedEventArgs e)
         {
-            Hatch v = (Hatch)e.NewValue;
+            Hatch v = (Hatch)e.NewValue;         
             HatchCanvas h = (HatchCanvas)d;
-            h.Update(v);
+            h.Update(v, 1);
+        }
+
+        public void Update(Hatch hatch, double scale)
+        {
+            canvasScale = 1;
+            Update(hatch);
         }
 
         public void Update(Hatch hatch)
@@ -100,8 +106,7 @@
         private DrawingVisual CreateDrawingVisualHatch(Hatch hatch)
         {
             DrawingVisual drawingVisual = new DrawingVisual();
-            if (hatch == null)
-            {
+            if (hatch == null) {
                 return drawingVisual;
             }
 
@@ -118,12 +123,15 @@
             drawingContext.DrawEllipse(Brushes.Azure, new Pen(), new Point(0,0), 100,100);
             drawingContext.PushTransform(new ScaleTransform(canvasScale, canvasScale));
 
-            double maxLength = Math.Sqrt(width / canvasScale * width / canvasScale + height / canvasScale * height / canvasScale);
+            double maxLength = Math.Sqrt(((width / canvasScale) * (width / canvasScale)) + ((height / canvasScale) * (height / canvasScale)));
 
             foreach (var l in hatch.HatchPattern.GetFillGrids())
             {
                 double dl = GetDashedLineLength(l, 1, scale);
                 double sx = dl > 0 ? (int)(Math.Floor(maxLength / dl)) * dl: maxLength;
+                if (dl > maxLength / 4) {
+                    sx = dl * 24;
+                }
 
                 var segsInMM = new List<double>();
                 foreach (var s in l.GetSegments()) {
@@ -140,17 +148,17 @@
                 double a = l.Angle.ToDeg();
                 drawingContext.PushTransform(new RotateTransform(-a, l.Origin.U.ToMM(scale) , -l.Origin.V.ToMM(scale)));
 
-                while (dx < (width / canvasScale) && dy < (height / canvasScale))
+                while (dy < maxLength)
                 {
                     b++;
                     if (b > 300) break;
                     double x = l.Origin.U.ToMM(scale) - sx;
                     double y = -l.Origin.V.ToMM(scale);
                     drawingContext.PushTransform(new TranslateTransform(x + dx, y - dy));
-                    drawingContext.DrawLine(pen, new Point(0, 0), new Point(maxLength * 2, 0));
+                    drawingContext.DrawLine(pen, new Point(0, 0), new Point(sx * 2, 0));
                     drawingContext.Pop();
                     drawingContext.PushTransform(new TranslateTransform(x - dx, y + dy));
-                    drawingContext.DrawLine(pen, new Point(0, 0), new Point(maxLength * 2, 0));
+                    drawingContext.DrawLine(pen, new Point(0, 0), new Point(sx * 2, 0));
                     drawingContext.Pop();
                     dx += l.Shift.ToMM(scale);
                     dy += l.Offset.ToMM(scale);
