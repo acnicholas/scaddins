@@ -12,12 +12,8 @@ namespace SCaddins.HatchEditor
         private FillPattern fillPattern;
         private string definition;
 
-        public Hatch()
+        public Hatch() : this(new FillPattern() { Name = string.Empty})
         {
-            fillPattern = new FillPattern();
-            UpdatePatternDefinition();
-            Name = string.Empty;
-            Scale = 1;
         }
 
         public Hatch(FillPattern pattern)
@@ -48,13 +44,6 @@ namespace SCaddins.HatchEditor
             }
         }
 
-        public bool IsModel {
-            get
-            {
-                return fillPattern.Target == FillPatternTarget.Model;
-            }
-        }
-
         public string Definition
         {
             get
@@ -79,7 +68,6 @@ namespace SCaddins.HatchEditor
             foreach (var p in fillPattern.GetFillGrids()) {
                 double angle = p.Angle.ToDeg();
                 s.Append(string.Format("{0},\t{1},\t{2},\t{3},\t{4}", angle, p.Origin.U.ToMM(), p.Origin.V.ToMM(), p.Shift.ToMM(),p.Offset.ToMM()));
-                int i = 0;
                 foreach (double d in p.GetSegments()) {
                     s.Append(string.Format(",\t{0}", d.ToMM()));
                 }

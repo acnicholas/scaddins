@@ -93,8 +93,6 @@
             {
                 return SelectedFillPattern.HatchPattern.Target;
             } 
-        }
-
-        
+        }        
     }
 }

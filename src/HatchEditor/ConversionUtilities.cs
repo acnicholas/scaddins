@@ -22,7 +22,6 @@
             return arg * 304.8 * scale;
         }
 
-
         public static double ToFeet(this double arg)
         {
             return arg / 304.8;

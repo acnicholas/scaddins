@@ -4,12 +4,14 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Input;
     using System.Windows.Media;
 
     public class HatchCanvas : FrameworkElement
     {
         private double width;
         private double height;
+        private double canvasScale;
 
         public static readonly DependencyProperty ActiveHatchProperty = DependencyProperty.Register(
             "ActiveHatch",
@@ -23,13 +25,15 @@
         {
             ActiveHatch = new Hatch();
             children = new VisualCollection(this);
-            this.SizeChanged += HatchCanvas_SizeChanged;
+            canvasScale = 1;
         }
 
-        private void HatchCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        protected override Size ArrangeOverride(Size finalSize)
         {
-            width = e.NewSize.Width;
-            height = e.NewSize.Height;
+            width = finalSize.Width;
+            height = finalSize.Height;
+            this.Update(this.ActiveHatch);
+            return base.ArrangeOverride(finalSize);
         }
 
         public Hatch ActiveHatch
@@ -59,6 +63,13 @@
             }
             children.Clear();
             children.Add(CreateDrawingVisualHatch(hatch));
+        }
+
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
+        {
+            canvasScale = canvasScale +  ((double)e.Delta / 1800);
+            this.Update(this.ActiveHatch);
+            base.OnMouseWheel(e);
         }
 
         protected override Visual GetVisualChild(int index)
@@ -96,22 +107,20 @@
 
             DrawingContext drawingContext = drawingVisual.RenderOpen();
 
-            var p = hatch.HatchPattern;
-            //p.ExpandDots();
-
             double dx = 0;
             double dy = 0;
 
             var scale = hatch.IsDrafting ? 10 : 1;
 
             drawingContext.PushClip(new RectangleGeometry(new Rect(0,0, width, height)));
-            drawingContext.PushTransform(new TranslateTransform(width / 2, height / 2));
+            drawingContext.DrawRectangle(Brushes.White, null, (new Rect(0, 0, width, height)));
+            drawingContext.PushTransform(new TranslateTransform(width / 2, height / 2));          
             drawingContext.DrawEllipse(Brushes.Azure, new Pen(), new Point(0,0), 100,100);
-            drawingContext.PushTransform(new ScaleTransform(hatch.Scale, hatch.Scale));
+            drawingContext.PushTransform(new ScaleTransform(canvasScale, canvasScale));
 
-            double maxLength = Math.Sqrt(width * width + height * height);
+            double maxLength = Math.Sqrt(width / canvasScale * width / canvasScale + height / canvasScale * height / canvasScale);
 
-            foreach (var l in p.GetFillGrids())
+            foreach (var l in hatch.HatchPattern.GetFillGrids())
             {
                 double dl = GetDashedLineLength(l, 1, scale);
                 double sx = dl > 0 ? (int)(Math.Floor(maxLength / dl)) * dl: maxLength;
@@ -129,22 +138,17 @@
                 pen.DashStyle = new DashStyle(segsInMM, sx * scale);
 
                 double a = l.Angle.ToDeg();
-                //var uv = l.GetSegmentDirection();
-                //double a = Math.Atan2(uv.V, uv.U).ToDeg();
-                //a = hatch.IsModel ? a : -a;
                 drawingContext.PushTransform(new RotateTransform(-a, l.Origin.U.ToMM(scale) , -l.Origin.V.ToMM(scale)));
 
-                while (dx < width && dy < height)
+                while (dx < (width / canvasScale) && dy < (height / canvasScale))
                 {
                     b++;
                     if (b > 300) break;
                     double x = l.Origin.U.ToMM(scale) - sx;
                     double y = -l.Origin.V.ToMM(scale);
-                    //drawingContext.PushTransform(new TranslateTransform(dx - sx, -dy));
                     drawingContext.PushTransform(new TranslateTransform(x + dx, y - dy));
                     drawingContext.DrawLine(pen, new Point(0, 0), new Point(maxLength * 2, 0));
                     drawingContext.Pop();
-                    //drawingContext.PushTransform(new TranslateTransform(-dx - sx, dy));
                     drawingContext.PushTransform(new TranslateTransform(x - dx, y + dy));
                     drawingContext.DrawLine(pen, new Point(0, 0), new Point(maxLength * 2, 0));
                     drawingContext.Pop();
@@ -158,8 +162,6 @@
             drawingContext.Pop();
             drawingContext.Pop();
             drawingContext.Pop();
-            //drawingContext.Pop();
-
             drawingContext.Close();
             return drawingVisual;
         }
