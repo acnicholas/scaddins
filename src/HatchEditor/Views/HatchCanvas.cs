@@ -123,45 +123,53 @@
             drawingContext.DrawEllipse(Brushes.Azure, new Pen(), new Point(0,0), 100,100);
             drawingContext.PushTransform(new ScaleTransform(canvasScale, canvasScale));
 
-            double maxLength = Math.Sqrt(((width / canvasScale) * (width / canvasScale)) + ((height / canvasScale) * (height / canvasScale)));
+            double maxLength = width > height ? width / canvasScale *2: height / canvasScale * 2 ;
 
-            foreach (var l in hatch.HatchPattern.GetFillGrids())
+            foreach (var fillGrid in hatch.HatchPattern.GetFillGrids())
             {
-                double dl = GetDashedLineLength(l, 1, scale);
-                double sx = dl > 0 ? (int)(Math.Floor(maxLength / dl)) * dl: maxLength;
-                if (dl > maxLength / 4) {
-                    sx = dl * 24;
+                double scaledSequenceLength = GetDashedLineLength(fillGrid, 1, scale);
+                double initialShiftOffset = scaledSequenceLength > 0 ? (int)(Math.Floor(maxLength / scaledSequenceLength)) * scaledSequenceLength: maxLength;
+                if (scaledSequenceLength > maxLength / 4) {
+                    initialShiftOffset = scaledSequenceLength * 16;
                 }
 
                 var segsInMM = new List<double>();
-                foreach (var s in l.GetSegments()) {
+                foreach (var s in fillGrid.GetSegments()) {
                     segsInMM.Add(s.ToMM(scale));
                 }
 
-                if (l.Offset == 0) continue;
+                if (fillGrid.Offset == 0) continue;
 
                 int b = 0;
 
                 var pen = new Pen(Brushes.Black, 1);
-                pen.DashStyle = new DashStyle(segsInMM, sx * scale);
+                pen.DashStyle = new DashStyle(segsInMM, initialShiftOffset);
 
-                double a = l.Angle.ToDeg();
-                drawingContext.PushTransform(new RotateTransform(-a, l.Origin.U.ToMM(scale) , -l.Origin.V.ToMM(scale)));
+                double a = fillGrid.Angle.ToDeg();
+                drawingContext.PushTransform(new RotateTransform(-a, fillGrid.Origin.U.ToMM(scale) , -fillGrid.Origin.V.ToMM(scale)));
 
-                while (dy < maxLength)
+                double cumulativeShift = 0;
+
+                while (Math.Abs(dy) < maxLength * 2)
                 {
                     b++;
-                    if (b > 300) break;
-                    double x = l.Origin.U.ToMM(scale) - sx;
-                    double y = -l.Origin.V.ToMM(scale);
+                    if (b > 100) break;
+                    double x = fillGrid.Origin.U.ToMM(scale) - initialShiftOffset;
+                    double y = -fillGrid.Origin.V.ToMM(scale);
                     drawingContext.PushTransform(new TranslateTransform(x + dx, y - dy));
-                    drawingContext.DrawLine(pen, new Point(0, 0), new Point(sx * 2, 0));
+                    drawingContext.DrawLine(pen, new Point(0, 0), new Point(initialShiftOffset * 2, 0));
                     drawingContext.Pop();
                     drawingContext.PushTransform(new TranslateTransform(x - dx, y + dy));
-                    drawingContext.DrawLine(pen, new Point(0, 0), new Point(sx * 2, 0));
+                    drawingContext.DrawLine(pen, new Point(0, 0), new Point(initialShiftOffset * 2, 0));
                     drawingContext.Pop();
-                    dx += l.Shift.ToMM(scale);
-                    dy += l.Offset.ToMM(scale);
+                    dx += fillGrid.Shift.ToMM(scale);
+                    cumulativeShift += fillGrid.Shift.ToMM(scale);
+                    if (Math.Abs(cumulativeShift) > scaledSequenceLength)
+                    {
+                        dx -= scaledSequenceLength;
+                        cumulativeShift = 0;
+                    }
+                    dy += fillGrid.Offset.ToMM(scale);
                 }
                 drawingContext.Pop();
                 dx = 0;
