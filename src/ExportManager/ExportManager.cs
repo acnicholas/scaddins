@@ -792,13 +792,10 @@ namespace SCaddins.ExportManager
             return true;
         }
 
-
         [SecurityCritical]
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private bool ExportMSPDF(ExportSheet vs, ExportLog log)
         {
-            //PORT WAS PORTPROMPT:
-
             if (log != null) {
                 log.AddMessage(Environment.NewLine + Resources.MessageStartingPDFExport);
             } else {
@@ -847,31 +844,6 @@ namespace SCaddins.ExportManager
 
             return true;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         // FIXME this is nasty
         private void ExportDWG(ExportSheet vs, bool removeTitle, ExportLog log)
