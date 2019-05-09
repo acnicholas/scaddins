@@ -20,6 +20,13 @@
             customFillPattern.Name = @"<Custom>";
             FillPatterns.Add(customFillPattern);
             SelectedFillPattern = FillPatterns.LastOrDefault();
+            SelectedFillPattern.HatchPattern.Target = FillPatternTarget.Model;
+            SelectedFillPattern.Definition = 
+                "90,0,0,0,100,50,25" + System.Environment.NewLine +
+                "90,50,0,0,100,50,25" + System.Environment.NewLine +
+                "90,75,0,0,100,50,25" + System.Environment.NewLine +
+                "0,0,0,0,25,25,75" + System.Environment.NewLine +
+                "0,50,25,0,75,25,75";
         }
 
         public ObservableCollection<Hatch> FillPatterns
