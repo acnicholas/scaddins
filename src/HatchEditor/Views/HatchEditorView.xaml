@@ -17,14 +17,26 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
                 </Grid.RowDefinitions>
-            <ComboBox x:Name="FillPatterns"  DisplayMemberPath="Name" Margin="5"></ComboBox>
-                <TextBox Grid.Row="1" x:Name="CurrentPatternDefinition" TextWrapping="NoWrap" AcceptsReturn="True" AcceptsTab="True" Margin="5"></TextBox>
-                <Label x:Name="CurrentPatternType" Grid.Row="2" Margin="5"></Label>
-            </Grid>
+                <StackPanel  Margin="5" Orientation="Horizontal">
+                    <Label>Load Pattern From Model</Label>
+                    <ComboBox x:Name="FillPatterns"  DisplayMemberPath="Name"></ComboBox>
+                </StackPanel>
+                <StackPanel  Margin="5" Orientation="Horizontal" Grid.Row="1">
+                    <Label>Load Pattern From File</Label>
+                    <Button x:Name="LoadPatternsFromFile">...</Button>
+                    <ComboBox x:Name="LoadedFillPatterns"  DisplayMemberPath="Name"></ComboBox>
+                </StackPanel>
+                <TextBox Grid.Row="2" x:Name="CurrentPatternDefinition" TextWrapping="NoWrap" AcceptsReturn="True" AcceptsTab="True" Margin="5"></TextBox>
+                <Label x:Name="CurrentPatternType" Grid.Row="3" Margin="5"></Label>
+                <Button x:Name="SaveToModel" Margin="5" Grid.Row="4">Save to Model</Button>
+                <Button x:Name="SaveToFile" Margin="5" Grid.Row="5">Save to File</Button>
+                </Grid>
         </GroupBox>
         <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Height="Auto"></GridSplitter>
         <GroupBox Header="Preview" Grid.Column="2">

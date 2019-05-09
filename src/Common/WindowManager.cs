@@ -54,6 +54,11 @@
             return dialogService.ShowDirectorySelectionDialog(defaultDir, out dirPath);
         }
 
+        public bool? ShowFileSelectionDialog(string defaultFile, out string filePath)
+        {
+            return dialogService.ShowFileSelectionDialog(defaultFile, out filePath);
+        }
+
         public void ShowMessageBox(string message)
         {
             dialogService.ShowMessageBox(message);

@@ -18,6 +18,12 @@
             return true;
         }
 
+        public bool? ShowFileSelectionDialog(string defaultFile, out string filePath)
+        {
+            filePath = defaultFile;
+            return true;
+        }
+
         public void ShowMessageBox(string message)
         {
             System.Diagnostics.Debug.WriteLine(message);

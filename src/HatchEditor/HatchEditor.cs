@@ -26,6 +26,34 @@
             return result;
         }
 
+        public static bool SaveToModel(Document doc, FillPattern pattern)
+        {
+            using (Transaction t = new Transaction(doc)) {
+                if (t.Start("Save pattern to Model") == TransactionStatus.Started) {
+                    FillPatternElement.Create(doc, pattern);
+                    t.Commit();
+                } else {
+                    t.RollBack();
+                }
+            }
+            return true;
+        }
+
+        public static List<Hatch> ReadAllPatternsFromFile(string file)
+        {
+            if (System.IO.File.Exists(file)) {
+                var result = new List<Hatch>();
+                //foreach (var line in System.IO.File.ReadAllLines(file)) {
+                //    if (line.StartsWith("*")) {
+                //        GetPatternFromFile(int startLine, string)
+                //    }
+                //}
+                return result;
+            } else {
+                return new List<Hatch>();
+            }
+        }
+
         public Autodesk.Revit.UI.Result Execute(
             ExternalCommandData commandData,
             ref string message,

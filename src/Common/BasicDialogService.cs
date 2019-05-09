@@ -37,6 +37,21 @@
             }
         }
 
+        public bool? ShowFileSelectionDialog(string defaultFile, out string filePath)
+        {
+            using (var dialog = new System.Windows.Forms.OpenFileDialog()) {
+                dialog.Multiselect = false;
+                System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK) {
+                    filePath = dialog.FileName;
+                    return true;
+                } else {
+                    filePath = defaultFile;
+                    return false;
+                }
+            }
+        }
+
         public void ShowMessageBox(string message)
         {
             System.Windows.MessageBox.Show(message);

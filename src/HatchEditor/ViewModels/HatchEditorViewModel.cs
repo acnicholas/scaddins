@@ -43,6 +43,12 @@
             }
         }
 
+        public void LoadPatternsFromFile()
+        {
+            string filePath = string.Empty;
+            var result = SCaddinsApp.WindowManager.ShowFileSelectionDialog("C:/Temp", out filePath);
+        }
+
         public Hatch SelectedFillPattern
         {
             get
@@ -82,6 +88,16 @@
             {
                 return SelectedFillPattern.HatchPattern.Target;
             } 
-        }        
+        } 
+        
+        public void SaveToFile()
+        {
+
+        }
+
+        public void SaveToModel()
+        {
+            Command.SaveToModel(doc, SelectedFillPattern.HatchPattern);
+        }
     }
 }
