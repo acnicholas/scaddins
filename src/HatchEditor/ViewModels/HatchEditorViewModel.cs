@@ -9,7 +9,9 @@
     {
         private Document doc;
         private ObservableCollection<Hatch> fillPattensInModel;
+        private ObservableCollection<Hatch> loadedFillPatterns;
         private Hatch selectedFillPattern;
+        private Hatch selectedLoadedFillPattern;
         private Hatch customFillPattern;
 
         public HatchEditorViewModel(Autodesk.Revit.DB.Document doc)
@@ -43,10 +45,45 @@
             }
         }
 
+
+        public ObservableCollection<Hatch> LoadedFillPatterns
+        {
+            get
+            {
+                return loadedFillPatterns;
+            }
+
+            set
+            {
+                loadedFillPatterns = value;
+                NotifyOfPropertyChange(() => LoadedFillPatterns);
+            }
+        }
+
+        public Hatch SelectedLoadedFillPattern
+        {
+            get
+            {
+                return selectedLoadedFillPattern;
+            }
+
+            set
+            {
+                selectedFillPattern = value;
+                NotifyOfPropertyChange(() => CurrentPatternType);
+                NotifyOfPropertyChange(() => CurrentPatternDefinition);
+                NotifyOfPropertyChange(() => SelectedLoadedFillPattern);
+            }
+        }
+
         public void LoadPatternsFromFile()
         {
             string filePath = string.Empty;
             var result = SCaddinsApp.WindowManager.ShowFileSelectionDialog("C:/Temp", out filePath);
+            if (result.HasValue && result.Value == true)
+            {
+                FillPatterns = new ObservableCollection<Hatch>(Command.ReadAllPatternsFromFile(filePath));
+            }
         }
 
         public Hatch SelectedFillPattern

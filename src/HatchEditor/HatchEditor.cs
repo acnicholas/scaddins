@@ -42,16 +42,38 @@
         public static List<Hatch> ReadAllPatternsFromFile(string file)
         {
             if (System.IO.File.Exists(file)) {
-                var result = new List<Hatch>();
-                //foreach (var line in System.IO.File.ReadAllLines(file)) {
-                //    if (line.StartsWith("*")) {
-                //        GetPatternFromFile(int startLine, string)
-                //    }
-                //}
-                return result;
+                var fileLines = System.IO.File.ReadAllLines(file);
+                return GetPatternFromFile(0, fileLines);
             } else {
                 return new List<Hatch>();
             }
+        }
+
+        public static List<Hatch> GetPatternFromFile(int startIndex, string[] array)
+        {
+            var result = new List<Hatch>();
+            for (int i = startIndex; i < array.Length - 2; i++)
+            {
+                if (array[i].Trim().StartsWith(@"*")) {
+                    var name = array[i].Trim();
+                    i++;
+                    var type = array[i].Trim();
+                    var defs = new StringBuilder();
+                    do
+                    {
+                        i++;
+                        if (!array[i].StartsWith(@";")) {
+                            defs.Append(array[i].Trim());
+                            defs.Append(System.Environment.NewLine);
+                        }
+                    } while (i < (array.Length -1) &&!array[i+1].Trim().StartsWith(@"*"));
+                    var hatch = new Hatch();
+                    hatch.Name = name;
+                    hatch.Definition = defs.ToString();
+                    result.Add(hatch);
+                }
+            }
+            return result;
         }
 
         public Autodesk.Revit.UI.Result Execute(
