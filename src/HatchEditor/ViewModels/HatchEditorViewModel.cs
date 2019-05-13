@@ -129,7 +129,11 @@
         
         public void SaveToFile()
         {
-
+            string savePath = string.Empty;
+            var result = SCaddinsApp.WindowManager.ShowSaveFileDialog("CustomHatch.pat", "*.pat", "Pattern Files (*.pat)| *.pat", out savePath);
+            if (result.HasValue && result == true) {
+                Command.SaveToFile(savePath, SelectedFillPattern);
+            }
         }
 
         public void SaveToModel()

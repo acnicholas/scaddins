@@ -57,6 +57,22 @@ namespace SCaddins.HatchEditor
             }
         }
 
+        public string PatFileString {
+            get
+            {
+                StringBuilder s = new StringBuilder();
+                s.AppendLine(@";% VERSION = 3.0");
+                s.AppendLine(@";% UNITS = MM");
+                s.AppendLine();
+                s.Append(@"*");
+                s.AppendLine(Name);
+                var type = IsDrafting ? @";%TYPE=DRAFTING" : @";%TYPE=MODEL";
+                s.Append(type);
+                s.Append(Definition);
+                return s.ToString();
+            }
+        }
+
         public void UpdatePatternDefinition()
         {
             if (fillPattern == null) {

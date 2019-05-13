@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Dynamic;
+    using System.IO;
     using System.Text;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -24,6 +25,16 @@
                 }
             }
             return result;
+        }
+
+        public static bool SaveToFile(string filePath, Hatch hatch)
+        {
+            try {
+                File.WriteAllText(filePath, hatch.PatFileString);
+            } catch {
+                //add proper exceptions here...
+            }
+            return true;
         }
 
         public static bool SaveToModel(Document doc, FillPattern pattern)
