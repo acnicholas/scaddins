@@ -592,6 +592,24 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hatch Editor.
+        /// </summary>
+        internal static string HatchEditor {
+            get {
+                return ResourceManager.GetString("HatchEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create custom fill patterns..
+        /// </summary>
+        internal static string HatchEditorToolTip {
+            get {
+                return ResourceManager.GetString("HatchEditorToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
         internal static string Help {
