@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.DB;
-
-namespace SCaddins.HatchEditor
+﻿namespace SCaddins.HatchEditor
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using Autodesk.Revit.DB;
+
     public class Hatch
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "fillPattern")]
         private FillPattern fillPattern;
         private string definition;
 
-        public Hatch() : this(new FillPattern() { Name = string.Empty})
+        public Hatch() : this(new FillPattern() { Name = string.Empty })
         {
         }
 
@@ -49,10 +49,11 @@ namespace SCaddins.HatchEditor
             {
                 return definition;
             }
+
             set
             {
                 definition = value;
-                string[] lines = definition.Split(new[] { Environment.NewLine },StringSplitOptions.None );
+                string[] lines = definition.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 TryAssignFillGridsFromStrings(lines);
             }
         }
@@ -82,9 +83,9 @@ namespace SCaddins.HatchEditor
             StringBuilder s = new StringBuilder();
             foreach (var p in fillPattern.GetFillGrids()) {
                 double angle = p.Angle.ToDeg();
-                s.Append(string.Format("{0},\t{1},\t{2},\t{3},\t{4}", angle, p.Origin.U.ToMM(), p.Origin.V.ToMM(), p.Shift.ToMM(),p.Offset.ToMM()));
+                s.Append(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0},\t{1},\t{2},\t{3},\t{4}", angle, p.Origin.U.ToMM(), p.Origin.V.ToMM(), p.Shift.ToMM(), p.Offset.ToMM()));
                 foreach (double d in p.GetSegments()) {
-                    s.Append(string.Format(",\t{0}", d.ToMM()));
+                    s.Append(string.Format(System.Globalization.CultureInfo.InvariantCulture, ",\t{0}", d.ToMM()));
                 }
                 s.Append(System.Environment.NewLine);
             }
@@ -120,25 +121,25 @@ namespace SCaddins.HatchEditor
                 double y = 0;
                 double shift = 0;
                 double offset = 0;
-                List<double> lineSegs = new List<Double>();
+                List<double> lineSegs = new List<double>();
                 if (!double.TryParse(segs[0], out angle)) {
-                    //SCaddinsApp.WindowManager.ShowMessageBox("Nope at seg 0");
+                    ////SCaddinsApp.WindowManager.ShowMessageBox("Nope at seg 0");
                     return false;
                 }
                 if (!double.TryParse(segs[1], out x)) {
-                    //SCaddinsApp.WindowManager.ShowMessageBox("Nope at seg 1");
+                    ////SCaddinsApp.WindowManager.ShowMessageBox("Nope at seg 1");
                     return false;
                 }
                 if (!double.TryParse(segs[2], out y)) {
-                    //SCaddinsApp.WindowManager.ShowMessageBox("Nope at seg 2");
+                    ////SCaddinsApp.WindowManager.ShowMessageBox("Nope at seg 2");
                     return false;
                 }
                 if (!double.TryParse(segs[3], out shift)) {
-                    //SCaddinsApp.WindowManager.ShowMessageBox("Nope at seg 3");
+                    ////SCaddinsApp.WindowManager.ShowMessageBox("Nope at seg 3");
                     return false;
                 }
                 if (!double.TryParse(segs[4], out offset)) {
-                    //SCaddinsApp.WindowManager.ShowMessageBox("Nope at seg 4");
+                    ////SCaddinsApp.WindowManager.ShowMessageBox("Nope at seg 4");
                     return false;
                 }
                 for (int i = 5; i < segs.Length; i++)

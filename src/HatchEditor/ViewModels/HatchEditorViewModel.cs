@@ -7,12 +7,13 @@
 
     internal class HatchEditorViewModel : Screen
     {
+        private Hatch customFillPattern;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "doc")]
         private Document doc;
         private ObservableCollection<Hatch> fillPattensInModel;
         private ObservableCollection<Hatch> loadedFillPatterns;
         private Hatch selectedFillPattern;
         private Hatch selectedLoadedFillPattern;
-        private Hatch customFillPattern;
 
         public HatchEditorViewModel(Autodesk.Revit.DB.Document doc)
         {
@@ -31,8 +32,30 @@
                 "0,50,25,0,75,25,75";
         }
 
-        public ObservableCollection<Hatch> FillPatterns
-        {
+        public string CurrentPatternDefinition {
+            get
+            {
+                return SelectedFillPattern.Definition != null ? SelectedFillPattern.Definition : string.Empty;
+            }
+
+            set
+            {
+                var type = SelectedFillPattern.HatchPattern.Target;
+                SelectedFillPattern = null;
+                customFillPattern.Definition = value;
+                customFillPattern.HatchPattern.Target = type;
+                SelectedFillPattern = customFillPattern;
+            }
+        }
+
+        public FillPatternTarget CurrentPatternType {
+            get
+            {
+                return SelectedFillPattern.HatchPattern.Target;
+            }
+        }
+
+        public ObservableCollection<Hatch> FillPatterns {
             get
             {
                 return fillPattensInModel;
@@ -44,7 +67,6 @@
                 NotifyOfPropertyChange(() => FillPatterns);
             }
         }
-
 
         public ObservableCollection<Hatch> LoadedFillPatterns
         {
@@ -60,8 +82,22 @@
             }
         }
 
-        public Hatch SelectedLoadedFillPattern
-        {
+        public Hatch SelectedFillPattern {
+            get
+            {
+                return selectedFillPattern;
+            }
+
+            set
+            {
+                selectedFillPattern = value;
+                NotifyOfPropertyChange(() => CurrentPatternType);
+                NotifyOfPropertyChange(() => CurrentPatternDefinition);
+                NotifyOfPropertyChange(() => SelectedFillPattern);
+            }
+        }
+
+        public Hatch SelectedLoadedFillPattern {
             get
             {
                 return selectedLoadedFillPattern;
@@ -69,7 +105,7 @@
 
             set
             {
-                selectedFillPattern = value;
+                selectedLoadedFillPattern = value;
                 NotifyOfPropertyChange(() => CurrentPatternType);
                 NotifyOfPropertyChange(() => CurrentPatternDefinition);
                 NotifyOfPropertyChange(() => SelectedLoadedFillPattern);
@@ -86,47 +122,6 @@
             }
         }
 
-        public Hatch SelectedFillPattern
-        {
-            get
-            {
-                return selectedFillPattern;
-            }
-
-            set
-            {
-                selectedFillPattern = value;
-                NotifyOfPropertyChange(() => CurrentPatternType);
-                NotifyOfPropertyChange(() => CurrentPatternDefinition);
-                NotifyOfPropertyChange(() => SelectedFillPattern);
-            }
-        }
-
-        public string CurrentPatternDefinition
-        {
-            get
-            {
-                return SelectedFillPattern.Definition != null ? SelectedFillPattern.Definition : string.Empty;
-            }
-
-            set
-            {
-                var type = SelectedFillPattern.HatchPattern.Target;
-                SelectedFillPattern = null;
-                customFillPattern.Definition = value;
-                customFillPattern.HatchPattern.Target = type;
-                SelectedFillPattern = customFillPattern;
-            }
-        }
-
-        public FillPatternTarget CurrentPatternType
-        {
-            get
-            {
-                return SelectedFillPattern.HatchPattern.Target;
-            } 
-        } 
-        
         public void SaveToFile()
         {
             string savePath = string.Empty;

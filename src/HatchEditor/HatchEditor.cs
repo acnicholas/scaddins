@@ -32,7 +32,7 @@
             try {
                 File.WriteAllText(filePath, hatch.PatFileString);
             } catch {
-                //add proper exceptions here...
+                //// add proper exceptions here...
             }
             return true;
         }
@@ -65,7 +65,7 @@
             var result = new List<Hatch>();
             for (int i = startIndex; i < array.Length - 2; i++)
             {
-                if (array[i].Trim().StartsWith(@"*")) {
+                if (array[i].Trim().StartsWith(@"*", System.StringComparison.InvariantCulture)) {
                     var name = array[i].Trim();
                     i++;
                     var type = array[i].Trim();
@@ -73,11 +73,11 @@
                     do
                     {
                         i++;
-                        if (!array[i].StartsWith(@";")) {
+                        if (!array[i].StartsWith(@";", System.StringComparison.InvariantCulture)) {
                             defs.Append(array[i].Trim());
                             defs.Append(System.Environment.NewLine);
                         }
-                    } while (i < (array.Length -1) &&!array[i+1].Trim().StartsWith(@"*"));
+                    } while (i < (array.Length - 1) && !array[i + 1].Trim().StartsWith(@"*", System.StringComparison.InvariantCulture));
                     var hatch = new Hatch();
                     hatch.Name = name;
                     hatch.Definition = defs.ToString();
