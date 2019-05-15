@@ -180,7 +180,8 @@ namespace SCaddins
                 LoadSCuv(scdll));
             ribbonPanel.AddStackedItems(
                 LoadHatchEditor(scdll),
-                LoadSCoord(scdll));
+                LoadSCoord(scdll),
+                LoadAbout(scdll));
 
             ribbonPanel.AddSlideOut();
 
