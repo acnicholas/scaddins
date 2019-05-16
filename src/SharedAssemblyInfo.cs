@@ -20,5 +20,5 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyVersion("19.1.2.0")]
-[assembly: AssemblyInformationalVersion("19.1.2")]
+[assembly: AssemblyVersion("20.0.0.0")]
+[assembly: AssemblyInformationalVersion("20.0.0")]

@@ -816,11 +816,6 @@ namespace SCaddins.ExportManager
                 return false;
             }
 
-            ////if (!SetAcrobatExportRegistryVal(vs.FullExportPath(Resources.FileExtensionPDF), log)) {
-            ////    log.AddError(vs.FullExportName, "Unable to write to registry");
-            ////    return false;
-            ////}
-
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF))) {
                 if (File.Exists(vs.FullExportPath(Resources.FileExtensionPDF))) {
                     File.Delete(vs.FullExportPath(Resources.FileExtensionPDF));

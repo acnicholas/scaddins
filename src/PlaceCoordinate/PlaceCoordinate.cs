@@ -62,7 +62,7 @@ namespace SCaddins.PlaceCoordinate
 
             ProjectLocation currentLocation = doc.ActiveProjectLocation;
             var origin = new XYZ(0, 0, 0);
-            #if REVIT2018 || REVIT2019
+            #if REVIT2018 || REVIT2019 || REVIT2020
                 ProjectPosition projectPosition = currentLocation.GetProjectPosition(origin);
             #else
                         ProjectPosition projectPosition = currentLocation.get_ProjectPosition(origin);
