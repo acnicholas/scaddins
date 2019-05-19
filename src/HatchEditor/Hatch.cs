@@ -68,8 +68,9 @@
                 s.Append(@"*");
                 s.AppendLine(Name);
                 var type = IsDrafting ? @";%TYPE=DRAFTING" : @";%TYPE=MODEL";
-                s.Append(type);
-                s.Append(Definition);
+                s.AppendLine(type);
+                //s.AppendLine();
+                s.AppendLine(Definition);
                 return s.ToString();
             }
         }

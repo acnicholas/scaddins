@@ -181,13 +181,13 @@ namespace SCaddins
             ribbonPanel.AddStackedItems(
                 LoadHatchEditor(scdll),
                 LoadSCoord(scdll),
-                LoadAbout(scdll));
+                LoadAbout(scdll, "SCaddinsAbout"));
 
             ribbonPanel.AddSlideOut();
 
             ribbonPanel.AddStackedItems(
                 LoadSCincrementSettings(scdll),
-                LoadAbout(scdll));
+                LoadAbout(scdll, "SCaddinsAbout2"));
 
             return Result.Succeeded;
         }
@@ -229,10 +229,10 @@ namespace SCaddins
             }
         }
 
-        private static PushButtonData LoadAbout(string dll)
+        private static PushButtonData LoadAbout(string dll, string name)
         {
             var pbd = new PushButtonData(
-                              "SCaddinsAbout", Resources.About, dll, "SCaddins.Common.About");
+                              name, Resources.About, dll, "SCaddins.Common.About");
             AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.help-rvt-16.png", 16, dll);
             pbd.ToolTip = "About SCaddins.";
             return pbd;

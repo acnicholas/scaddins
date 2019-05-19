@@ -48,10 +48,31 @@
             }
         }
 
-        public FillPatternTarget CurrentPatternType {
+        private FillPatternTarget CurrentPatternType {
             get
             {
                 return SelectedFillPattern.HatchPattern.Target;
+            }
+        }
+
+        public bool DraftingPattern {
+            get
+            {
+                return !ModelPattern;
+            }
+        }
+
+        public bool ModelPattern {
+            get
+            {
+                return CurrentPatternType == FillPatternTarget.Model;
+            }
+        }
+
+        public string Name {
+            get
+            {
+                return SelectedFillPattern.Name;
             }
         }
 
@@ -68,19 +89,19 @@
             }
         }
 
-        public ObservableCollection<Hatch> LoadedFillPatterns
-        {
-            get
-            {
-                return loadedFillPatterns;
-            }
+        //public ObservableCollection<Hatch> LoadedFillPatterns
+        //{
+        //    get
+        //    {
+        //        return loadedFillPatterns;
+        //    }
 
-            set
-            {
-                loadedFillPatterns = value;
-                NotifyOfPropertyChange(() => LoadedFillPatterns);
-            }
-        }
+        //    set
+        //    {
+        //        loadedFillPatterns = value;
+        //        NotifyOfPropertyChange(() => LoadedFillPatterns);
+        //    }
+        //}
 
         public Hatch SelectedFillPattern {
             get
@@ -91,26 +112,28 @@
             set
             {
                 selectedFillPattern = value;
-                NotifyOfPropertyChange(() => CurrentPatternType);
+                //NotifyOfPropertyChange(() => CurrentPatternType);
+                NotifyOfPropertyChange(() => DraftingPattern);
+                NotifyOfPropertyChange(() => ModelPattern);
                 NotifyOfPropertyChange(() => CurrentPatternDefinition);
                 NotifyOfPropertyChange(() => SelectedFillPattern);
             }
         }
 
-        public Hatch SelectedLoadedFillPattern {
-            get
-            {
-                return selectedLoadedFillPattern;
-            }
+        //public Hatch SelectedLoadedFillPattern {
+        //    get
+        //    {
+        //        return selectedLoadedFillPattern;
+        //    }
 
-            set
-            {
-                selectedLoadedFillPattern = value;
-                NotifyOfPropertyChange(() => CurrentPatternType);
-                NotifyOfPropertyChange(() => CurrentPatternDefinition);
-                NotifyOfPropertyChange(() => SelectedLoadedFillPattern);
-            }
-        }
+        //    set
+        //    {
+        //        selectedLoadedFillPattern = value;
+        //        NotifyOfPropertyChange(() => CurrentPatternType);
+        //        NotifyOfPropertyChange(() => CurrentPatternDefinition);
+        //        NotifyOfPropertyChange(() => SelectedLoadedFillPattern);
+        //    }
+        //}
 
         public void LoadPatternsFromFile()
         {
@@ -120,6 +143,11 @@
             {
                 FillPatterns = new ObservableCollection<Hatch>(Command.ReadAllPatternsFromFile(filePath));
             }
+        }
+
+        public void LoadPatternsFromModel()
+        {
+             FillPatterns = new ObservableCollection<Hatch>(Command.FillPatterns(doc));
         }
 
         public void SaveToFile()
