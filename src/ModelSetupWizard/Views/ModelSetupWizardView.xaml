@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="SCaddins.ModelSetupWizard.Views.ModelSetupWizardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:SCaddins.ModelSetupWizard.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="480" d:DesignWidth="720">
+  <Grid Height="Auto" Width="Auto">
+    <TabControl>
+      <TabItem Header="Project Information">
+                <DataGrid x:Name="ProjectInformation">
+                </DataGrid>
+      </TabItem>
+      <TabItem Header="Levels">
+                <!--<DataGrid x:Name="Levels">
+                    
+                </DataGrid>-->
+      </TabItem>
+      <TabItem Header="Worksets">
+      </TabItem>
+    </TabControl> 
+  </Grid>
+</UserControl>

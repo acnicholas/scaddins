@@ -123,7 +123,7 @@
     <DelaySign>False</DelaySign>
     <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release2020' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release2020' ">
     <OutputPath>bin\Release2020\</OutputPath>
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
@@ -173,7 +173,7 @@
     <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2019'">
       <HintPath>C:\Program Files\Autodesk\Revit 2019\AdWindows.dll</HintPath>
     </Reference>
-        <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2020'">
+    <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2020'">
       <HintPath>C:\Program Files\Autodesk\Revit 2020\AdWindows.dll</HintPath>
     </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
@@ -217,7 +217,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
     </Reference>
-        <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2020'">
+    <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2020'">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Autodesk\Revit 2020\RevitAPI.dll</HintPath>
     </Reference>
@@ -363,6 +363,10 @@
     <Compile Include="LineOfSight\Views\LineOfSightView.xaml.cs">
       <DependentUpon>LineOfSightView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ModelSetupWizard\Command.cs" />
+    <Compile Include="ModelSetupWizard\ElementCollectors.cs" />
+    <Compile Include="ModelSetupWizard\ProjectInformationParameter.cs" />
+    <Compile Include="ModelSetupWizard\ViewModels\ModelSetupWizardViewModel.cs" />
     <Compile Include="ParameterUtilities\SCincrementSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -711,6 +715,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\view.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="ModelSetupWizard\Views\ModelSetupWizardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
