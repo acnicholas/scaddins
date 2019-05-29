@@ -7,23 +7,47 @@ using Autodesk.Revit.DB;
 
 namespace SCaddins.ModelSetupWizard
 {
-    class ProjectInformationParameter
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    class ProjectInformationParameter : INotifyPropertyChanged
     {
         private string value;
+        private Parameter parameter;
+        private string originalValue;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public ProjectInformationParameter(Autodesk.Revit.DB.Parameter parameter)
         {
-            Parameter = parameter;
-            Name = Parameter.Definition.Name;
-            Value = Parameter.AsString();
-            Type = Parameter.StorageType.ToString();
+            this.parameter = parameter;
+            Name = parameter.Definition.Name;
+            if (parameter.StorageType == StorageType.String)
+            {
+                Value = parameter.AsString();
+            } else
+            {
+                Value = parameter.AsValueString();
+            }
+            originalValue = Value;
+            Type = parameter.StorageType.ToString();
+            IsEditable = !parameter.IsReadOnly;
+            isModified = false;
+        }
+
+        public bool IsEditable
+        {
+            get; private set;
+        }
+
+        public bool isModified
+        {
+            get; private set;
         }
 
         public string Name {
             get; private set;
         }
 
-  
         public string Value {
             get
             {
@@ -34,18 +58,16 @@ namespace SCaddins.ModelSetupWizard
                 if (string.IsNullOrEmpty(value)) {
                     return;
                 }
-                if (Parameter.StorageType == StorageType.String) {
-                    this.value = value;
-                } else if (Parameter.StorageType == StorageType.Integer){
-                    var oldVal = this.value;
-                    int result = -1;
-                    if (int.TryParse(value, out result)) {
-                        this.value = value;
-                    } else {
-                        SCaddinsApp.WindowManager.ShowMessageBox(value + " is not a valid integer...");
-                        this.value = oldVal;
-                    }
+                if (this.value == value) {
+                    return;
+                } 
+                if (value != originalValue) {
+                    isModified = true;
+                } else {
+                    isModified = false;
                 }
+                this.value = value;
+                NotifyPropertyChanged(nameof(isModified));
             }
         }
 
@@ -57,9 +79,12 @@ namespace SCaddins.ModelSetupWizard
             get; set;
         }
 
-
-        private Parameter Parameter {
-            get; set;
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

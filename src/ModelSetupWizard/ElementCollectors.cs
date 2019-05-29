@@ -19,5 +19,13 @@ namespace SCaddins.ModelSetupWizard
                 }
             }
         }
+
+        public static IEnumerable<WorksetParameter> GetWorksetParameters(Document doc)
+        {
+            var worksets = new FilteredWorksetCollector(doc).ToWorksets().Where(w => w.Kind == WorksetKind.UserWorkset);
+            foreach (var workset in worksets) {
+                    yield return new WorksetParameter(workset.Name, workset.IsVisibleByDefault, true);
+            }
+        }
     }
 }

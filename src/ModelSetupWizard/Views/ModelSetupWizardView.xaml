@@ -7,9 +7,25 @@
              mc:Ignorable="d"
              d:DesignHeight="480" d:DesignWidth="720">
   <Grid Height="Auto" Width="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
     <TabControl>
       <TabItem Header="Project Information">
                 <DataGrid x:Name="ProjectInformation">
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding isModified}" Value="False">
+                                    <Setter Property="Foreground" Value="Black"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding isModified}" Value="True">
+                                    <Setter Property="Foreground" Value="Green"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
                 </DataGrid>
       </TabItem>
       <TabItem Header="Levels">
@@ -17,8 +33,21 @@
                     
                 </DataGrid>-->
       </TabItem>
-      <TabItem Header="Worksets">
-      </TabItem>
-    </TabControl> 
+            <TabItem Header="Worksets">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <DataGrid x:Name="Worksets" CanUserAddRows="True" CanUserDeleteRows="True" Margin="5">
+                    </DataGrid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button x:Name="AddWorkset"  HorizontalAlignment="Left" Margin="5">Add</Button>
+                        <Button x:Name="RemoveWorkset" HorizontalAlignment="Right" Margin="5">Remove</Button>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+    </TabControl>
+        <Button Grid.Row="1" x:Name="Options">Options</Button>
   </Grid>
 </UserControl>

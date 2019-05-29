@@ -18,22 +18,76 @@
 
 namespace SCaddins.ModelSetupWizard.ViewModels
 {
+    using System.Dynamic;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
+    using System.Linq;
 
     class ModelSetupWizardViewModel : PropertyChangedBase
     {
         private Document doc;
+        private BindableCollection<ProjectInformationParameter> projectInformation;
+        private ModelSetupWizardOptionsViewModel optionsVm;
 
         public ModelSetupWizardViewModel(Document doc)
         {
             this.doc = doc;
-            ProjectInformation = 
-                new BindableCollection<ProjectInformationParameter>(ElementCollectors.GetProjectInformationParameters(doc));  
+            ProjectInformation = new BindableCollection<ProjectInformationParameter>(ElementCollectors.GetProjectInformationParameters(doc));
+            Worksets = new BindableCollection<WorksetParameter>(ElementCollectors.GetWorksetParameters(doc));
+            optionsVm = new ModelSetupWizardOptionsViewModel();
+            foreach (var pinf in optionsVm.ProjectInformationReplacements)
+            {
+                var match = ProjectInformation.Where(p => p.Name == pinf.ParamaterName);
+                if (match.Count() == 1)
+                {
+                    match.First().Format = pinf.ReplacementFormat;
+                    match.First().Value = pinf.ReplacementValue;
+                }
+            }
         }
 
-        public IObservableCollection<ProjectInformationParameter> ProjectInformation {
+        public BindableCollection<ProjectInformationParameter> ProjectInformation {
+            get
+            {
+                return projectInformation;
+            }
+            set
+            {
+                projectInformation = value;
+                NotifyOfPropertyChange(() => ProjectInformation);
+            }
+        }
+
+        public BindableCollection<WorksetParameter> Worksets
+        {
             get; set;
+        }
+
+        public WorksetParameter SelectedWorkset
+        {
+            get; set;
+        }
+
+        public void Options()
+        {
+            dynamic settings = new ExpandoObject();
+            settings.Height = 480;
+            settings.Width = 360;
+            settings.Title = "Model Setup Wizard Options";
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.Width;
+            //var vm = new ViewModels.ModelSetupWizardOptionsViewModel();
+            SCaddinsApp.WindowManager.ShowDialog(optionsVm, null, settings);
+        }
+
+        public void AddWorkset()
+        {
+            Worksets.Add(new WorksetParameter(string.Empty, false, false));
+        }
+
+        public void RemoveWorkset()
+        {
+            Worksets.Remove(SelectedWorkset);
         }
     }
 }

@@ -365,8 +365,17 @@
     </Compile>
     <Compile Include="ModelSetupWizard\Command.cs" />
     <Compile Include="ModelSetupWizard\ElementCollectors.cs" />
+    <Compile Include="ModelSetupWizard\ModelSetupWizard.cs" />
+    <Compile Include="ModelSetupWizard\ModelSetupWizardSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>ModelSetupWizardSettings.settings</DependentUpon>
+    </Compile>
     <Compile Include="ModelSetupWizard\ProjectInformationParameter.cs" />
+    <Compile Include="ModelSetupWizard\ProjectInformationReplacement.cs" />
+    <Compile Include="ModelSetupWizard\ViewModels\ModelSetupWizardOptionsViewModel.cs" />
     <Compile Include="ModelSetupWizard\ViewModels\ModelSetupWizardViewModel.cs" />
+    <Compile Include="ModelSetupWizard\WorksetParameter.cs" />
     <Compile Include="ParameterUtilities\SCincrementSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -513,6 +522,10 @@
   <ItemGroup>
     <None Include="app.config" />
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+    <None Include="ModelSetupWizard\ModelSetupWizardSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>ModelSetupWizardSettings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
     <None Include="SCaddins.addin" />
     <Resource Include="Assets\gear.png" />
@@ -588,6 +601,10 @@
     <Page Include="LineOfSight\Views\LineOfSightView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ModelSetupWizard\Views\ModelSetupWizardOptionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ParameterUtilities\Views\SCincrementView.xaml">
       <SubType>Designer</SubType>
