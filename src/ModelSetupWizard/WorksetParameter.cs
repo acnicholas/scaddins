@@ -26,6 +26,11 @@
             ExistingName = existingName;
         }
 
+        public override string ToString()
+        {
+            return string.Format("{0};{1};{2}", Name, VisibleInAllViews, ExistingName);
+        }
+
         public string Name
         {
             get

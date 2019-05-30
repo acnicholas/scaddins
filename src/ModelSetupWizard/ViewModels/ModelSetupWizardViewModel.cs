@@ -19,6 +19,7 @@
 namespace SCaddins.ModelSetupWizard.ViewModels
 {
     using System.Dynamic;
+    using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
     using System.Linq;
@@ -34,6 +35,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             this.doc = doc;
             ProjectInformation = new BindableCollection<ProjectInformationParameter>(ElementCollectors.GetProjectInformationParameters(doc));
             Worksets = new BindableCollection<WorksetParameter>(ElementCollectors.GetWorksetParameters(doc));
+            SelectedWorksets = new List<WorksetParameter>();
+            SelectedProjectInformations = new List<ProjectInformationParameter>();
             optionsVm = new ModelSetupWizardOptionsViewModel();
             FileName = doc.PathName;
 
@@ -57,9 +60,9 @@ namespace SCaddins.ModelSetupWizard.ViewModels
                 var match = Worksets.Where(w => w.Name.Trim() == winf.ExistingName.Trim());
                 if (match.Count() == 1)
                 {
-                    SCaddinsApp.WindowManager.ShowMessageBox(match.First().Name + "renamed to " + winf.Name);
+                    //// SCaddinsApp.WindowManager.ShowMessageBox(match.First().Name + "renamed to " + winf.Name);
                     match.First().Name = winf.Name;  
-                    //match.First().Value = pinf.ReplacementValue;
+                    //// match.First().Value = pinf.ReplacementValue;
                 } else
                 {
                     Worksets.Add(winf);
@@ -79,6 +82,15 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             }
         }
 
+        public ProjectInformationParameter SelectedProjectInformation
+        {
+            get; set;
+        }
+
+        public List<ProjectInformationParameter> SelectedProjectInformations {
+            get; set;
+        }
+
         public string FileName
         {
             get; set;
@@ -89,9 +101,20 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             get; set;
         }
 
-        public WorksetParameter SelectedWorkset
+        public WorksetParameter SelectedWorkset {
+            get; set;
+        }
+
+        public List<WorksetParameter> SelectedWorksets
         {
             get; set;
+        }
+
+        public void ResetSelectedProjectInfo()
+        {
+            foreach (var pinf in SelectedProjectInformations) {
+                pinf.Value = pinf.OriginalValue;
+            }       
         }
 
         public void Options()
@@ -111,9 +134,27 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             Worksets.Add(new WorksetParameter(string.Empty, false, false));
         }
 
-        public void RemoveWorkset()
+        public void WorksetsSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs obj)
         {
-            Worksets.Remove(SelectedWorkset);
+            var addedItems = obj.AddedItems.OfType<WorksetParameter>();
+            SelectedWorksets.AddRange(addedItems);
+            var removedItems = obj.RemovedItems.OfType<WorksetParameter>();
+            removedItems.ToList().ForEach(w => SelectedWorksets.Remove(w));
+        }
+
+        public void ProjectInfoSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs obj)
+        {
+            var addedItems = obj.AddedItems.OfType<ProjectInformationParameter>();
+            SelectedProjectInformations.AddRange(addedItems);
+            var removedItems = obj.RemovedItems.OfType<ProjectInformationParameter>();
+            removedItems.ToList().ForEach(p => SelectedProjectInformations.Remove(p));
+        }
+
+        public void RemoveWorksets()
+        {
+            if (SelectedWorksets != null && SelectedWorksets.Count > 0) {
+                Worksets.RemoveRange(SelectedWorksets);
+            }
         }
     }
 }

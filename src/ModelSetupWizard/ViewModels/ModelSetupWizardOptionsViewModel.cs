@@ -15,8 +15,13 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         public ModelSetupWizardOptionsViewModel()
         {
             DefaultWorksets = new BindableCollection<WorksetParameter>();
-            AddDefaultWorksets();
             ProjectInformationReplacements = new BindableCollection<ProjectInformationReplacement>();
+            Init();
+        }
+
+        private void Init()
+        {
+            AddDefaultWorksets();
             AddProjectInformationReplacements();
         }
 
@@ -79,6 +84,30 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         public void RemoveWorksets()
         {
             DefaultWorksets.Remove(SelectedDefaultWorkset);
+        }
+
+        public void Reset()
+        {
+            DefaultWorksets.Clear();
+            ProjectInformationReplacements.Clear();
+            Init();
+        }
+
+        public void Apply()
+        {
+            var sc = new StringCollection();
+            foreach (var s in ProjectInformationReplacements) {
+                sc.Add(s.ToString());
+            }
+            ModelSetupWizardSettings.Default.DefaultProjectInformation = sc;
+
+            var wsc = new StringCollection();
+            foreach (var w in DefaultWorksets) {
+                wsc.Add(w.ToString());
+            }
+            ModelSetupWizardSettings.Default.DefaultWorksets = wsc;
+
+            ModelSetupWizardSettings.Default.Save();
         }
 
         public BindableCollection<ProjectInformationReplacement> ProjectInformationReplacements

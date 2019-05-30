@@ -14,7 +14,7 @@ namespace SCaddins.ModelSetupWizard
     {
         private string value;
         private Parameter parameter;
-        private string originalValue;
+        //private string originalValue;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ProjectInformationParameter(Autodesk.Revit.DB.Parameter parameter)
@@ -28,7 +28,7 @@ namespace SCaddins.ModelSetupWizard
             {
                 Value = parameter.AsValueString();
             }
-            originalValue = Value;
+            OriginalValue = Value;
             Type = parameter.StorageType.ToString();
             IsEditable = !parameter.IsReadOnly;
             IsModified = false;
@@ -48,6 +48,10 @@ namespace SCaddins.ModelSetupWizard
             get; private set;
         }
 
+        public string OriginalValue {
+            get; private set;
+        }
+
         public string Value {
             get
             {
@@ -61,13 +65,14 @@ namespace SCaddins.ModelSetupWizard
                 if (this.value == value) {
                     return;
                 } 
-                if (value != originalValue) {
+                if (value != OriginalValue) {
                     IsModified = true;
                 } else {
                     IsModified = false;
                 }
                 this.value = value;
                 NotifyPropertyChanged(nameof(IsModified));
+                NotifyPropertyChanged(nameof(Value));
             }
         }
 

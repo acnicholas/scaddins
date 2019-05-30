@@ -8,6 +8,10 @@
              mc:Ignorable="d"
              d:DesignHeight="480" d:DesignWidth="720">
     <Grid Height="Auto" Width="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
         <TabControl>
             <TabItem Header="Project Information Autofill Settings">
                 <Grid>
@@ -36,7 +40,19 @@
                         <Button x:Name="RemoveWorkset" HorizontalAlignment="Right" Margin="5">Remove</Button>
                     </StackPanel>
                 </Grid>
+            </TabItem >
+            <TabItem Header="Nominated Architects">
+                
             </TabItem>
         </TabControl>
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="Reset" HorizontalAlignment="Right" Margin="5" MinWidth="30" Grid.Column="1">Reset</Button>
+            <Button x:Name="Apply" HorizontalAlignment="Right" Margin="5" Grid.Column="2">Apply</Button>
+        </Grid>
     </Grid>
 </UserControl>
