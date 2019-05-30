@@ -26,12 +26,19 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             foreach (var newWorksetDef in newWorksets)
             {
                 var segs = newWorksetDef.Split(';');
-                bool b = false;
-                var r = bool.TryParse(segs[1], out b);
+                int b = 0;
+                var r = int.TryParse(segs[1].Trim(), out b);
                 if (!string.IsNullOrEmpty(segs[0]))
                 {
-                    WorksetParameter wp = new WorksetParameter(segs[0], r, false);
-                    DefaultWorksets.Add(wp);
+                    if (segs.Length > 2 && !string.IsNullOrEmpty(segs[2]))
+                    {
+                        WorksetParameter wp = new WorksetParameter(segs[0], b != 0, segs[2]); 
+                        DefaultWorksets.Add(wp);
+                    } else
+                    {
+                        WorksetParameter wp = new WorksetParameter(segs[0], b != 0, false);
+                        DefaultWorksets.Add(wp);
+                    }
                 }
             }
         }

@@ -35,6 +35,14 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             ProjectInformation = new BindableCollection<ProjectInformationParameter>(ElementCollectors.GetProjectInformationParameters(doc));
             Worksets = new BindableCollection<WorksetParameter>(ElementCollectors.GetWorksetParameters(doc));
             optionsVm = new ModelSetupWizardOptionsViewModel();
+            FileName = doc.PathName;
+
+            var fileNameParam = ProjectInformation.Where(p => p.Name == ModelSetupWizardSettings.Default.FileNameParameterName);
+            if (fileNameParam.Count() == 1)
+            {
+                fileNameParam.First().Value = doc.PathName;
+            }
+
             foreach (var pinf in optionsVm.ProjectInformationReplacements)
             {
                 var match = ProjectInformation.Where(p => p.Name == pinf.ParamaterName);
@@ -42,6 +50,19 @@ namespace SCaddins.ModelSetupWizard.ViewModels
                 {
                     match.First().Format = pinf.ReplacementFormat;
                     match.First().Value = pinf.ReplacementValue;
+                }
+            }
+            foreach (var winf in optionsVm.DefaultWorksets)
+            {
+                var match = Worksets.Where(w => w.Name.Trim() == winf.ExistingName.Trim());
+                if (match.Count() == 1)
+                {
+                    SCaddinsApp.WindowManager.ShowMessageBox(match.First().Name + "renamed to " + winf.Name);
+                    match.First().Name = winf.Name;  
+                    //match.First().Value = pinf.ReplacementValue;
+                } else
+                {
+                    Worksets.Add(winf);
                 }
             }
         }
@@ -56,6 +77,11 @@ namespace SCaddins.ModelSetupWizard.ViewModels
                 projectInformation = value;
                 NotifyOfPropertyChange(() => ProjectInformation);
             }
+        }
+
+        public string FileName
+        {
+            get; set;
         }
 
         public BindableCollection<WorksetParameter> Worksets

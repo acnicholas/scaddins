@@ -21,5 +21,16 @@ namespace SCaddins.ModelSetupWizard
         {
 
         }
+
+        public static void SetParameterValue(Parameter param, string value, Document doc)
+        {
+            using (Transaction t = new Transaction(doc))
+            {
+                if (t.Start("Set Parameter Value") == TransactionStatus.Started)
+                {
+                    param.Set(value);
+                }
+            }
+        }
     }
 }

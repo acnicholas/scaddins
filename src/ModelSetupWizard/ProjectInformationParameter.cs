@@ -31,7 +31,7 @@ namespace SCaddins.ModelSetupWizard
             originalValue = Value;
             Type = parameter.StorageType.ToString();
             IsEditable = !parameter.IsReadOnly;
-            isModified = false;
+            IsModified = false;
         }
 
         public bool IsEditable
@@ -39,7 +39,7 @@ namespace SCaddins.ModelSetupWizard
             get; private set;
         }
 
-        public bool isModified
+        public bool IsModified
         {
             get; private set;
         }
@@ -62,12 +62,12 @@ namespace SCaddins.ModelSetupWizard
                     return;
                 } 
                 if (value != originalValue) {
-                    isModified = true;
+                    IsModified = true;
                 } else {
-                    isModified = false;
+                    IsModified = false;
                 }
                 this.value = value;
-                NotifyPropertyChanged(nameof(isModified));
+                NotifyPropertyChanged(nameof(IsModified));
             }
         }
 

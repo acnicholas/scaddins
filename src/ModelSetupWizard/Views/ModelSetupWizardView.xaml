@@ -17,11 +17,13 @@
                     <DataGrid.RowStyle>
                         <Style TargetType="DataGridRow">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding isModified}" Value="False">
+                                <DataTrigger Binding="{Binding IsModified}" Value="False">
                                     <Setter Property="Foreground" Value="Black"></Setter>
+                                    <Setter Property="FontWeight" Value="Regular"></Setter>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding isModified}" Value="True">
-                                    <Setter Property="Foreground" Value="Green"></Setter>
+                                <DataTrigger Binding="{Binding IsModified}" Value="True">
+                                    <Setter Property="Foreground" Value="Black"></Setter>
+                                    <Setter Property="FontWeight" Value="Bold"></Setter>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -33,6 +35,11 @@
                     
                 </DataGrid>-->
       </TabItem>
+            <TabItem Header="General">
+                <StackPanel Orientation="Vertical">
+                    <TextBox x:Name="FileName"></TextBox>
+                </StackPanel>
+            </TabItem>
             <TabItem Header="Worksets">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -40,6 +47,20 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <DataGrid x:Name="Worksets" CanUserAddRows="True" CanUserDeleteRows="True" Margin="5">
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsModified}" Value="False">
+                                        <Setter Property="Foreground" Value="Black"></Setter>
+                                        <Setter Property="FontWeight" Value="Regular"></Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsModified}" Value="True">
+                                        <Setter Property="Foreground" Value="Black"></Setter>
+                                        <Setter Property="FontWeight" Value="Bold"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
                     </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
                         <Button x:Name="AddWorkset"  HorizontalAlignment="Left" Margin="5">Add</Button>

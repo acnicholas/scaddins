@@ -27,6 +27,7 @@ namespace SCaddins.ModelSetupWizard {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>03 - Architecture; 1; Workset1</string>
   <string>03 - Site And Landscape; 1</string>
   <string>04 - SC Structure""; 1</string>
   <string>05 - Internal Layouts;0</string>
@@ -52,6 +53,8 @@ namespace SCaddins.ModelSetupWizard {
   <string>Project Status; Preliminary</string>
   <string>Project Address; Enter Address Here</string>
   <string>Nominated Architect Number;; [0-9]{4,5}</string>
+  <string>Orginization Name; Scott Carver Pty. Ltd.</string>
+  <string>Author; Scott Carver Pty. Ltd.</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection DefaultProjectInformation {
             get {
@@ -98,6 +101,18 @@ namespace SCaddins.ModelSetupWizard {
             }
             set {
                 this["NomArchitectNoumberParamName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Central Filename")]
+        public string FileNameParameterName {
+            get {
+                return ((string)(this["FileNameParameterName"]));
+            }
+            set {
+                this["FileNameParameterName"] = value;
             }
         }
     }
