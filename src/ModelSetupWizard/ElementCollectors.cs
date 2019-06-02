@@ -24,7 +24,7 @@ namespace SCaddins.ModelSetupWizard
         {
             var worksets = new FilteredWorksetCollector(doc).ToWorksets().Where(w => w.Kind == WorksetKind.UserWorkset);
             foreach (var workset in worksets) {
-                    yield return new WorksetParameter(workset.Name, workset.IsVisibleByDefault, true);
+                    yield return new WorksetParameter(workset.Name, workset.IsVisibleByDefault, workset.Id.IntegerValue);
             }
         }
     }

@@ -41,7 +41,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
                         DefaultWorksets.Add(wp);
                     } else
                     {
-                        WorksetParameter wp = new WorksetParameter(segs[0], b != 0, false);
+                        WorksetParameter wp = new WorksetParameter(segs[0], b != 0, -1);
                         DefaultWorksets.Add(wp);
                     }
                 }

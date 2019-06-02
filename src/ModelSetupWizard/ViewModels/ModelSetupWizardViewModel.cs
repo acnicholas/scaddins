@@ -57,15 +57,17 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             }
             foreach (var winf in optionsVm.DefaultWorksets)
             {
-                var match = Worksets.Where(w => w.Name.Trim() == winf.ExistingName.Trim());
-                if (match.Count() == 1)
-                {
-                    //// SCaddinsApp.WindowManager.ShowMessageBox(match.First().Name + "renamed to " + winf.Name);
-                    match.First().Name = winf.Name;  
-                    //// match.First().Value = pinf.ReplacementValue;
-                } else
-                {
+                if (Worksets.Select(w => w.Name.Trim()).Contains(winf.Name.Trim())) {
+                    continue;
+                }
+                if (!Worksets.Select(w => w.Name).Contains(winf.ExistingName.Trim())) {
                     Worksets.Add(winf);
+                }
+
+                //Worksets.Add(winf);
+                var match = Worksets.Where(w => w.Name.Trim() == winf.ExistingName.Trim());
+                if (match.Count() > 0) {
+                    match.First().Name = winf.Name;
                 }
             }
         }
@@ -131,7 +133,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
 
         public void AddWorkset()
         {
-            Worksets.Add(new WorksetParameter(string.Empty, false, false));
+            Worksets.Add(new WorksetParameter(string.Empty, false, -1));
         }
 
         public void WorksetsSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs obj)
@@ -155,6 +157,12 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             if (SelectedWorksets != null && SelectedWorksets.Count > 0) {
                 Worksets.RemoveRange(SelectedWorksets);
             }
+        }
+
+        public void Apply()
+        {
+            ModelSetupWizard.ApplyWorksetModifications(doc, Worksets.ToList());
+            ModelSetupWizard.ApplyProjectInfoModifications(doc, ProjectInformation.ToList());
         }
     }
 }

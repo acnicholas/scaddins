@@ -76,6 +76,11 @@ namespace SCaddins.ModelSetupWizard
             }
         }
 
+        public Parameter GetParameter()
+        {
+            return parameter;
+        }
+
         public string Type {
             get; private set;
         }
