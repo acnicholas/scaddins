@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using Autodesk.Revit.DB;
 
 namespace SCaddins.ModelSetupWizard
@@ -65,6 +66,12 @@ namespace SCaddins.ModelSetupWizard
                 if (this.value == value) {
                     return;
                 } 
+                if (!string.IsNullOrEmpty(Format)) {
+                    if (!Regex.IsMatch(value, Format.Trim())) {
+                        //SCaddinsApp.WindowManager.ShowMessageBox(" No Match");
+                        return;
+                    } 
+                }
                 if (value != OriginalValue) {
                     IsModified = true;
                 } else {

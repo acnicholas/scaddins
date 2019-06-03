@@ -29,6 +29,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         private Document doc;
         private BindableCollection<ProjectInformationParameter> projectInformation;
         private ModelSetupWizardOptionsViewModel optionsVm;
+        private NominatedArchitect selectedNominatedArchitect;
 
         public ModelSetupWizardViewModel(Document doc)
         {
@@ -38,8 +39,9 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             SelectedWorksets = new List<WorksetParameter>();
             SelectedProjectInformations = new List<ProjectInformationParameter>();
             optionsVm = new ModelSetupWizardOptionsViewModel();
+            NominatedArchitects = new BindableCollection<NominatedArchitect>(optionsVm.NominatedArchitects);
+            selectedNominatedArchitect = null;
             FileName = doc.PathName;
-
 
             var fileNameParam = ProjectInformation.Where(p => p.Name == ModelSetupWizardSettings.Default.FileNameParameterName);
             if (fileNameParam.Count() == 1)
@@ -48,10 +50,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
                 {
                     SCaddinsApp.WindowManager.ShowMessageBox("Document not saved... filename cannot be assigned.");
                 }
-                //trim path name
-                var path = doc.PathName;
-                var nicePath = path.Length > 40 ? @"..." + path.Substring(path.Length - 40, path.Length) : path;
-                fileNameParam.First().Value = nicePath;
+                var path = System.IO.Path.GetFileName(doc.PathName);
+                fileNameParam.First().Value = path;
             }
 
             foreach (var pinf in optionsVm.ProjectInformationReplacements)
@@ -88,6 +88,28 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             {
                 projectInformation = value;
                 NotifyOfPropertyChange(() => ProjectInformation);
+            }
+        }
+
+        public BindableCollection<NominatedArchitect> NominatedArchitects {
+            get; set;
+        }
+
+        public NominatedArchitect SelectedNominatedArchitect {
+            get
+            {
+                return selectedNominatedArchitect;
+            }
+            set
+            {
+                selectedNominatedArchitect = value;
+                var name = ProjectInformation.Where(p => p.Name == ModelSetupWizardSettings.Default.NomArchitectParamName).ToList();
+                var id = ProjectInformation.Where(p => p.Name == ModelSetupWizardSettings.Default.NomArchitectNoumberParamName).ToList();
+                if (name.Count == 1 && id.Count == 1) {
+                    name[0].Value = selectedNominatedArchitect.Name;
+                    id[0].Value = selectedNominatedArchitect.Id;
+                    NotifyOfPropertyChange(() => ProjectInformation);
+                }
             }
         }
 

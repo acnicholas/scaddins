@@ -12,7 +12,7 @@ namespace SCaddins.ModelSetupWizard {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
     internal sealed partial class ModelSetupWizardSettings : global::System.Configuration.ApplicationSettingsBase {
         
         private static ModelSetupWizardSettings defaultInstance = ((ModelSetupWizardSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new ModelSetupWizardSettings())));
@@ -27,14 +27,14 @@ namespace SCaddins.ModelSetupWizard {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>03 - Architecture; 1; Workset1</string>
-  <string>03 - Site And Landscape; 1</string>
-  <string>04 - SC Structure""; 1</string>
+  <string>03 - Architecture;1;Workset1</string>
+  <string>03 - Site And Landscape;1</string>
+  <string>04 - SC Structure;1</string>
   <string>05 - Internal Layouts;0</string>
   <string>06 - External Facade;1</string>
-  <string>10 - Links Revit""; 0</string>
-  <string>11 - Links DWG; 0</string>
-  <string>99 - Scope Boxes; 0</string>
+  <string>10 - Links Revit;0</string>
+  <string>11 - Links DWG;0</string>
+  <string>99 - Scope Boxes;0</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection DefaultWorksets {
             get {
@@ -49,11 +49,11 @@ namespace SCaddins.ModelSetupWizard {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>Project Number; YYYYMMDD; [0-9]{8}</string>
-  <string>Project Status; Preliminary</string>
-  <string>Project Address; Enter Address Here</string>
-  <string>Nominated Architect Number;; [0-9]{4,5}</string>
-  <string>Orginization Name; Scott Carver Pty. Ltd.</string>
+  <string>Project Number; YYYYMMDD;^[0-9]{8}$</string>
+  <string>Project Status;Preliminary</string>
+  <string>Project Address;Enter Address Here</string>
+  <string>Nominated Architect Number;;^[0-9]{4,5}$</string>
+  <string>Orginization Name;Scott Carver Pty. Ltd.</string>
   <string>Author; Scott Carver Pty. Ltd.</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection DefaultProjectInformation {

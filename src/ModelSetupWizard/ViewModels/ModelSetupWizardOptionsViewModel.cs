@@ -25,6 +25,9 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             AddDefaultWorksets();
             AddProjectInformationReplacements();
             AddNominatedArchitects();
+            NominatedArchitectParameterName = ModelSetupWizardSettings.Default.NomArchitectParamName;
+            NominatedArchitectNumberParameterName = ModelSetupWizardSettings.Default.NomArchitectNoumberParamName;
+            FileNameParameterName = ModelSetupWizardSettings.Default.FileNameParameterName;
         }
 
         private void AddNominatedArchitects()
@@ -132,6 +135,10 @@ namespace SCaddins.ModelSetupWizard.ViewModels
 
             ModelSetupWizardSettings.Default.DefaultArchitectInformation = arch;
 
+            ModelSetupWizardSettings.Default.NomArchitectParamName = NominatedArchitectParameterName;
+            ModelSetupWizardSettings.Default.NomArchitectNoumberParamName = NominatedArchitectNumberParameterName;
+            ModelSetupWizardSettings.Default.FileNameParameterName = FileNameParameterName;
+
             ModelSetupWizardSettings.Default.Save();
         }
 
@@ -152,6 +159,18 @@ namespace SCaddins.ModelSetupWizard.ViewModels
 
         public NominatedArchitect SelectedNominatedArchitect
         {
+            get; set;
+        }
+
+        public string NominatedArchitectParameterName {
+            get; set;
+        }
+
+        public string NominatedArchitectNumberParameterName {
+            get; set;
+        }
+
+        public string FileNameParameterName {
             get; set;
         }
 

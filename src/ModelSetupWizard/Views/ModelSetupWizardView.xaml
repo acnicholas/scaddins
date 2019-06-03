@@ -39,7 +39,7 @@
                     </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
                         <Button x:Name="ResetSelectedProjectInfo"  HorizontalAlignment="Left" Margin="5">Reset Selected Item</Button>
-                        <Button x:Name="AddNomindatedArchitectFromList"  HorizontalAlignment="Left" Margin="5">Add Architect Info</Button>
+                        <ComboBox x:Name="NominatedArchitects"  DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="5"></ComboBox>
                     </StackPanel>
                 </Grid>
                 
