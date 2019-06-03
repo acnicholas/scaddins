@@ -16,6 +16,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         {
             DefaultWorksets = new BindableCollection<WorksetParameter>();
             ProjectInformationReplacements = new BindableCollection<ProjectInformationReplacement>();
+            NominatedArchitects = new BindableCollection<NominatedArchitect>();
             Init();
         }
 
@@ -23,6 +24,20 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         {
             AddDefaultWorksets();
             AddProjectInformationReplacements();
+            AddNominatedArchitects();
+        }
+
+        private void AddNominatedArchitects()
+        {
+            var architects = ModelSetupWizardSettings.Default.DefaultArchitectInformation;
+            foreach (var architect in architects)
+            {
+                var segs = architect.Split(';');
+                if (segs.Length == 2 && !string.IsNullOrEmpty(segs[0]) && !string.IsNullOrEmpty(segs[1]))
+                {
+                    NominatedArchitects.Add(new NominatedArchitect(segs[0].Trim(), segs[1].Trim()));
+                }
+            }
         }
 
         private void AddDefaultWorksets()
@@ -90,6 +105,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         {
             DefaultWorksets.Clear();
             ProjectInformationReplacements.Clear();
+            NominatedArchitects.Clear();
             Init();
         }
 
@@ -105,7 +121,16 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             foreach (var w in DefaultWorksets) {
                 wsc.Add(w.ToString());
             }
+
             ModelSetupWizardSettings.Default.DefaultWorksets = wsc;
+
+            var arch = new StringCollection();
+            foreach (var a in NominatedArchitects)
+            {
+                arch.Add(a.ToString());
+            }
+
+            ModelSetupWizardSettings.Default.DefaultArchitectInformation = arch;
 
             ModelSetupWizardSettings.Default.Save();
         }
@@ -120,6 +145,16 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             get; set;
         }
 
+        public BindableCollection<NominatedArchitect> NominatedArchitects
+        {
+            get; set;
+        }
+
+        public NominatedArchitect SelectedNominatedArchitect
+        {
+            get; set;
+        }
+
         public void AddReplacement()
         {
             ProjectInformationReplacements.Add(new ProjectInformationReplacement());
@@ -128,6 +163,16 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         public void RemoveReplacement()
         {
             ProjectInformationReplacements.Remove(SelectedProjectInformationReplacement);
+        }
+
+        public void AddArchitect()
+        {
+            NominatedArchitects.Add(new NominatedArchitect(string.Empty, string.Empty));
+        }
+
+        public void RemoveArchitect()
+        {
+            NominatedArchitects.Remove(SelectedNominatedArchitect);
         }
 
     }

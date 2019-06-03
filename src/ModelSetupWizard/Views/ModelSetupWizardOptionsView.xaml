@@ -42,7 +42,25 @@
                 </Grid>
             </TabItem >
             <TabItem Header="Nominated Architects">
-                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <DataGrid x:Name="NominatedArchitects" CanUserAddRows="True" CanUserDeleteRows="True" Margin="5">
+                    </DataGrid>
+                    <!--<StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Lable x:Name=""  HorizontalAlignment="Left" Margin="5">Add</Lable>
+                        <Button x:Name="RemoveArchitect" HorizontalAlignment="Right" Margin="5">Remove</Button>
+                    </StackPanel>-->
+                    <StackPanel Grid.Row="3" Orientation="Horizontal">
+                        <Button x:Name="AddArchitect"  HorizontalAlignment="Left" Margin="5">Add</Button>
+                        <Button x:Name="RemoveArchitect" HorizontalAlignment="Right" Margin="5">Remove</Button>
+                    </StackPanel>
+                </Grid>
+
             </TabItem>
         </TabControl>
         <Grid Grid.Row="1" HorizontalAlignment="Stretch">

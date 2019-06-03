@@ -13,28 +13,36 @@ namespace SCaddins.ModelSetupWizard
         public static void ApplyWorksetModifications
             (Document doc, List<WorksetParameter> worksets)
         {
+            // Enable worsharing if required
             if (doc.IsWorkshared == false) {
                 doc.EnableWorksharing("Shared Levels and Grids", "Workset1");
-                //doc.Regenerate();
             }
 
             using (Transaction t = new Transaction(doc)) {
                 if (t.Start("Add Worksets to Model.") == TransactionStatus.Started) {
                     foreach (var w in worksets) {
                         if (w.IsModified) {
-                            if (w.IsExisting && w.Id >= 0) {
-                                WorksetTable.RenameWorkset(doc, new WorksetId(w.Id), w.Name);
+                            if (w.IsExisting && w.Id >= 0)
+                            {
+                                if (WorksetTable.IsWorksetNameUnique(doc, w.Name))
+                                {
+                                    WorksetTable.RenameWorkset(doc, new WorksetId(w.Id), w.Name);
+                                }
+                                var defaultVisibilitySettings = WorksetDefaultVisibilitySettings.GetWorksetDefaultVisibilitySettings(doc);
+                                defaultVisibilitySettings.SetWorksetVisibility(new WorksetId(w.Id), w.VisibleInAllViews);
                                 continue;
                             }
-                            var newWorkset = Workset.Create(doc, w.Name);                      
-                            //doc.Regenerate();
+                            Workset newWorkset = null;
+                            if (WorksetTable.IsWorksetNameUnique(doc, w.Name))
+                            {
+                                newWorkset = Workset.Create(doc, w.Name);
+                            }
                             if (newWorkset != null) {
                                 var defaultVisibilitySettings = WorksetDefaultVisibilitySettings.GetWorksetDefaultVisibilitySettings(doc);
                                 defaultVisibilitySettings.SetWorksetVisibility(newWorkset.Id, w.VisibleInAllViews);
                             }
                         }
                     }
-                    //doc.Regenerate();
                     t.Commit();
                 }
             }
@@ -57,14 +65,7 @@ namespace SCaddins.ModelSetupWizard
 
         public static void SetParameterValue(Parameter param, string value, Document doc)
         {
-            //sing (Transaction t = new Transaction(doc))
-            //{
-            //if (t.Start("Set Parameter Value") == TransactionStatus.Started)
-            //{
             param.Set(value);
-            //param.SetValueString(value);
-            //}
-            //}
         }
     }
 }

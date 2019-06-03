@@ -40,10 +40,18 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             optionsVm = new ModelSetupWizardOptionsViewModel();
             FileName = doc.PathName;
 
+
             var fileNameParam = ProjectInformation.Where(p => p.Name == ModelSetupWizardSettings.Default.FileNameParameterName);
             if (fileNameParam.Count() == 1)
             {
-                fileNameParam.First().Value = doc.PathName;
+                if (string.IsNullOrEmpty(doc.PathName))
+                {
+                    SCaddinsApp.WindowManager.ShowMessageBox("Document not saved... filename cannot be assigned.");
+                }
+                //trim path name
+                var path = doc.PathName;
+                var nicePath = path.Length > 40 ? @"..." + path.Substring(path.Length - 40, path.Length) : path;
+                fileNameParam.First().Value = nicePath;
             }
 
             foreach (var pinf in optionsVm.ProjectInformationReplacements)
@@ -63,14 +71,13 @@ namespace SCaddins.ModelSetupWizard.ViewModels
                 if (!Worksets.Select(w => w.Name).Contains(winf.ExistingName.Trim())) {
                     Worksets.Add(winf);
                 }
-
-                //Worksets.Add(winf);
                 var match = Worksets.Where(w => w.Name.Trim() == winf.ExistingName.Trim());
                 if (match.Count() > 0) {
                     match.First().Name = winf.Name;
                 }
             }
         }
+
 
         public BindableCollection<ProjectInformationParameter> ProjectInformation {
             get

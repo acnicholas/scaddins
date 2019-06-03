@@ -371,6 +371,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>ModelSetupWizardSettings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ModelSetupWizard\NominatedArchitect.cs" />
     <Compile Include="ModelSetupWizard\ProjectInformationParameter.cs" />
     <Compile Include="ModelSetupWizard\ProjectInformationReplacement.cs" />
     <Compile Include="ModelSetupWizard\ViewModels\ModelSetupWizardOptionsViewModel.cs" />
