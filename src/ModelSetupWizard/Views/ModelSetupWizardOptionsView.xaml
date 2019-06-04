@@ -19,8 +19,11 @@
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
-                <DataGrid x:Name="ProjectInformationReplacements" CanUserAddRows="True" CanUserDeleteRows="True" Margin="5">
-                </DataGrid>
+                    <DataGrid x:Name="ProjectInformationReplacements" CanUserAddRows="True" CanUserDeleteRows="True" Margin="5" GridLinesVisibility="None">
+                        <DataGrid.AlternatingRowBackground>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                        </DataGrid.AlternatingRowBackground>
+                    </DataGrid>
                 <StackPanel Grid.Row="1" Orientation="Horizontal">
                     <Button x:Name="AddReplacement"  HorizontalAlignment="Left" Margin="5">Add</Button>
                     <Button x:Name="RemoveReplacement" HorizontalAlignment="Right" Margin="5">Remove</Button>
@@ -33,7 +36,10 @@
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <DataGrid x:Name="DefaultWorksets" CanUserAddRows="True" CanUserDeleteRows="True" Margin="5">
+                    <DataGrid x:Name="DefaultWorksets" CanUserAddRows="True" CanUserDeleteRows="True" Margin="5" GridLinesVisibility="None">
+                        <DataGrid.AlternatingRowBackground>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                        </DataGrid.AlternatingRowBackground>
                     </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
                         <Button x:Name="AddWorkset"  HorizontalAlignment="Left" Margin="5">Add</Button>
@@ -49,7 +55,10 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <DataGrid x:Name="NominatedArchitects" CanUserAddRows="True" CanUserDeleteRows="True" Margin="5">
+                    <DataGrid x:Name="NominatedArchitects" CanUserAddRows="True" CanUserDeleteRows="True" Margin="5" GridLinesVisibility="None">
+                        <DataGrid.AlternatingRowBackground>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                        </DataGrid.AlternatingRowBackground>
                     </DataGrid>
                     <!--<StackPanel Grid.Row="1" Orientation="Horizontal">
                         <Lable x:Name=""  HorizontalAlignment="Left" Margin="5">Add</Lable>
@@ -73,7 +82,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Label Grid.Column="0" Grid.Row="0">Nominated Architect Parameter Name</Label>
                     <TextBox x:Name="NominatedArchitectParameterName" Grid.Row="0" Grid.Column="1" Margin="5"></TextBox>

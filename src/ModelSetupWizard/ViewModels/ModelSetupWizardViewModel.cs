@@ -156,7 +156,6 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             settings.Title = "Model Setup Wizard Options";
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Width;
-            //var vm = new ViewModels.ModelSetupWizardOptionsViewModel();
             SCaddinsApp.WindowManager.ShowDialog(optionsVm, null, settings);
         }
 

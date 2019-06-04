@@ -114,13 +114,19 @@ namespace SCaddins.ModelSetupWizard.ViewModels
 
         public void ExportConfig()
         {
-            SettingsIO.Export(@"c:\Temp\test.xml");
+            string filePath = string.Empty;
+            SCaddinsApp.WindowManager.ShowSaveFileDialog(@"config.xml", "*.xml", "XML |*.xml", out filePath);
+            SettingsIO.Export(filePath);
         }
 
         public void ImportConfig()
         {
-            SettingsIO.Import(@"c:\Temp\test.xml");
-            Reset();
+            string filePath = string.Empty;
+            bool? result = SCaddinsApp.WindowManager.ShowOpenFileDialog(string.Empty, out filePath);
+            if (result.HasValue && result.Value == true && System.IO.File.Exists(filePath)) {
+                SettingsIO.Import(filePath);
+                Reset();
+            }
         }
 
         public void Apply()

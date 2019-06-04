@@ -43,5 +43,11 @@
             savePath = defaultFileName;
             return true;
         }
+
+        public bool? ShowOpenFileDialog(string defaultFileName, out string fileName)
+        {
+            fileName = defaultFileName;
+            return true;
+        }
     }
 }

@@ -13,14 +13,17 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
     <TabControl>
-      <TabItem Header="Project Information">
+            <TabItem Header="Project Information">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
+
                     <DataGrid 
                         x:Name="ProjectInformation"
+                        GridLinesVisibility="None"
+                        AutoGenerateColumns="false"
                         cal:Message.Attach="[Event SelectionChanged] = [ProjectInfoSelectionChanged($source,$eventArgs)]">
                         <DataGrid.RowStyle>
                             <Style TargetType="DataGridRow">
@@ -33,27 +36,31 @@
                                         <Setter Property="Foreground" Value="Black"></Setter>
                                         <Setter Property="FontWeight" Value="Bold"></Setter>
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsEditable}" Value="False">
+                                        <Setter Property="Foreground" Value="DarkGray"></Setter>
+                                        <Setter Property="FontWeight" Value="Regular"></Setter>
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </DataGrid.RowStyle>
+                        <DataGrid.AlternatingRowBackground>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                        </DataGrid.AlternatingRowBackground>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Parameter Name" Binding="{Binding Name}" MinWidth="100" IsReadOnly="True"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Value" Binding="{Binding Value}" MinWidth="100"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Original Value" Binding="{Binding OriginalValue}" MinWidth="100" IsReadOnly="True"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Format" Binding="{Binding Format}" MinWidth="100"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Type" Binding="{Binding Type}" MinWidth="100" IsReadOnly="True"></DataGridTextColumn>
+                        </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
                         <Button x:Name="ResetSelectedProjectInfo"  HorizontalAlignment="Left" Margin="5">Reset Selected Item</Button>
                         <ComboBox x:Name="NominatedArchitects"  DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="5"></ComboBox>
                     </StackPanel>
                 </Grid>
-                
-      </TabItem>
-      <!--<TabItem Header="Levels">
-                --><!--<DataGrid x:Name="Levels">
-                    
-                </DataGrid>--><!--
-      </TabItem>-->
-            <!--<TabItem Header="General">
-                <StackPanel Orientation="Vertical">
-                    <TextBox x:Name="FileName"></TextBox>
-                </StackPanel>
-            </TabItem>-->
+
+            </TabItem>
             <TabItem Header="Worksets">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -63,8 +70,10 @@
                     <DataGrid 
                         cal:Message.Attach="[Event SelectionChanged] = [WorksetsSelectionChanged($source,$eventArgs)]"
                         x:Name="Worksets" 
+                        AutoGenerateColumns="False"
                         CanUserAddRows="True" 
                         CanUserDeleteRows="True" 
+                        GridLinesVisibility="None"
                         Margin="5">
                         <DataGrid.RowStyle>
                             <Style TargetType="DataGridRow">
@@ -80,6 +89,16 @@
                                 </Style.Triggers>
                             </Style>
                         </DataGrid.RowStyle>
+                        <DataGrid.AlternatingRowBackground>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                        </DataGrid.AlternatingRowBackground>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="New Name" Binding="{Binding Name}" MinWidth="100"></DataGridTextColumn>
+                            <DataGridCheckBoxColumn Header="Visible In All Views" Binding="{Binding VisibleInAllViews}" MinWidth="50"></DataGridCheckBoxColumn>
+                            <DataGridTextColumn Header="Is Existing Workset" Binding="{Binding IsExisting}" MinWidth="50" IsReadOnly="True"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Existing Name" Binding="{Binding ExistingName}" MinWidth="100" IsReadOnly="True"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Workset Id" Binding="{Binding Id}" MinWidth="50" IsReadOnly="True"></DataGridTextColumn>
+                        </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
                         <Button x:Name="AddWorkset"  HorizontalAlignment="Left" Margin="5">Add</Button>

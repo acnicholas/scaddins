@@ -15,5 +15,7 @@
         void ShowWarningMessageBox(string title, string message);
 
         bool? ShowSaveAsDialog(string defaultFileName, string defaultExtension, string filter, out string savePath);
+
+        bool? ShowOpenFileDialog(string defaultFileName, out string fileName);
     }
 }

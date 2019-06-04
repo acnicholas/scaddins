@@ -67,5 +67,14 @@
             savePath = dlg.FileName;
             return result;
         }
+
+        public bool? ShowOpenFileDialog(string defaultFileName, out string fileName)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.Multiselect = false;
+            bool? result = dlg.ShowDialog();
+            fileName = dlg.FileName;
+            return result;
+        }
     }
 }

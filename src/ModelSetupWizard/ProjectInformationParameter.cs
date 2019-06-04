@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Autodesk.Revit.DB;
 
 namespace SCaddins.ModelSetupWizard
@@ -15,7 +10,6 @@ namespace SCaddins.ModelSetupWizard
     {
         private string value;
         private Parameter parameter;
-        //private string originalValue;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ProjectInformationParameter(Autodesk.Revit.DB.Parameter parameter)
@@ -68,7 +62,6 @@ namespace SCaddins.ModelSetupWizard
                 } 
                 if (!string.IsNullOrEmpty(Format)) {
                     if (!Regex.IsMatch(value, Format.Trim())) {
-                        //SCaddinsApp.WindowManager.ShowMessageBox(" No Match");
                         return;
                     } 
                 }
