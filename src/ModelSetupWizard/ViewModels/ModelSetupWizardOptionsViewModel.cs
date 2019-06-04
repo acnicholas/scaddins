@@ -112,6 +112,17 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             Init();
         }
 
+        public void ExportConfig()
+        {
+            SettingsIO.Export(@"c:\Temp\test.xml");
+        }
+
+        public void ImportConfig()
+        {
+            SettingsIO.Import(@"c:\Temp\test.xml");
+            Reset();
+        }
+
         public void Apply()
         {
             var sc = new StringCollection();

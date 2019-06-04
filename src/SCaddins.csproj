@@ -254,6 +254,7 @@
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -374,6 +375,7 @@
     <Compile Include="ModelSetupWizard\NominatedArchitect.cs" />
     <Compile Include="ModelSetupWizard\ProjectInformationParameter.cs" />
     <Compile Include="ModelSetupWizard\ProjectInformationReplacement.cs" />
+    <Compile Include="ModelSetupWizard\SettingsIO.cs" />
     <Compile Include="ModelSetupWizard\ViewModels\ModelSetupWizardOptionsViewModel.cs" />
     <Compile Include="ModelSetupWizard\ViewModels\ModelSetupWizardViewModel.cs" />
     <Compile Include="ModelSetupWizard\WorksetParameter.cs" />

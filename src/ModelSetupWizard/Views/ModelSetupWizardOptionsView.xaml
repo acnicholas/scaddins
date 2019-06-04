@@ -87,12 +87,16 @@
         </TabControl>
         <Grid Grid.Row="1" HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button x:Name="Reset" HorizontalAlignment="Right" Margin="5" MinWidth="30" Grid.Column="1">Reset</Button>
-            <Button x:Name="Apply" HorizontalAlignment="Right" Margin="5" Grid.Column="2">Apply</Button>
+            <Button x:Name="ExportConfig" HorizontalAlignment="Left" Margin="5" MinWidth="30" Grid.Column="0">Export Settings</Button>
+            <Button x:Name="ImportConfig" HorizontalAlignment="Left" Margin="5" Grid.Column="1">Import Settings</Button>
+            <Button x:Name="Reset" HorizontalAlignment="Right" Margin="5" MinWidth="30" Grid.Column="3">Reset</Button>
+            <Button x:Name="Apply" HorizontalAlignment="Right" Margin="5" Grid.Column="4">Apply</Button>
         </Grid>
     </Grid>
 </UserControl>
