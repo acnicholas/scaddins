@@ -1,6 +1,6 @@
 ﻿namespace SCaddins.ModelSetupWizard
 {
-    class ProjectInformationReplacement
+    public class ProjectInformationReplacement
     {
         public ProjectInformationReplacement(string parameterName, string replacement)
         {
@@ -12,12 +12,12 @@
         {
         }
 
-        public override string ToString()
+        public string ParamaterName
         {
-            return string.Format("{0};{1};{2}", ParamaterName, ReplacementValue, ReplacementFormat);
+            get; set;
         }
 
-        public string ParamaterName
+        public string ReplacementFormat
         {
             get; set;
         }
@@ -27,9 +27,9 @@
             get; set;
         }
 
-        public string ReplacementFormat
+        public override string ToString()
         {
-            get; set;
+            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0};{1};{2}", ParamaterName, ReplacementValue, ReplacementFormat);
         }
     }
 }

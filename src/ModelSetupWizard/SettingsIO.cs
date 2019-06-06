@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Configuration;
-using System.IO;
-using System.Xml.Linq;
-using System.Xml.XPath;
-
-namespace SCaddins.ModelSetupWizard
+﻿namespace SCaddins.ModelSetupWizard
 {
+    using System;
+    using System.Configuration;
+    using System.IO;
+    using System.Xml.Linq;
+
     public static class SettingsIO
     {
         internal static void Import(string settingsFilePath)
@@ -20,17 +18,11 @@ namespace SCaddins.ModelSetupWizard
             try
             {
                 var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
-
-                //string appSettingsXmlName = ModelSetupWizardSettings.Default.Context["SCaddins.ModelSetupWizard.ModelSetupWizardSettings"].ToString();
                 string appSettingsXmlName = ModelSetupWizardSettings.Default.Context["GroupName"].ToString();
                 SCaddinsApp.WindowManager.ShowMessageBox(appSettingsXmlName);
-                // returns "MyApplication.Properties.Settings";
 
                 // Open settings file as XML
                 var import = XDocument.Load(settingsFilePath);
-                // Get the whole XML inside the settings node
-                //var settings = import.XPathSelectElements("//" + appSettingsXmlName);
-                //var settings = import.Element("configuration").Element("userSettings").Element(appSettingsXmlName);
                 var settings = import.Element("configuration").Element("userSettings").Element(appSettingsXmlName);
 
                 config.GetSectionGroup("userSettings")
@@ -41,9 +33,8 @@ namespace SCaddins.ModelSetupWizard
                 ConfigurationManager.RefreshSection("userSettings");
                 appSettings.Reload();
             }
-            catch (Exception) // Should make this more specific
+            catch (Exception)
             {
-                // Could not import settings.
                 SCaddinsApp.WindowManager.ShowMessageBox("Could not import settings");
                 appSettings.Reload(); // from last set saved, not defaults
             }
@@ -57,9 +48,3 @@ namespace SCaddins.ModelSetupWizard
         }
     }
 }
-
-
-
-
-
-

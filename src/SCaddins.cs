@@ -178,11 +178,13 @@ namespace SCaddins
                 LoadSCightlines(scdll),
                 LoadSCincrement(scdll),
                 LoadSCuv(scdll));
+            ribbonPanel.AddStackedItems(
+                LoadSCoord(scdll),
+                LoadModelWizard(scdll));
 
             ribbonPanel.AddSlideOut();
 
             ribbonPanel.AddStackedItems(
-                LoadSCoord(scdll),
                 LoadSCincrementSettings(scdll),
                 LoadAbout(scdll));
 
@@ -347,6 +349,15 @@ namespace SCaddins
                               "SCwash", Resources.DestructivePurge, dll, "SCaddins.DestructivePurge.Command");
             AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.scwash-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.DestructivePurgeToolTip;
+            return pbd;
+        }
+
+        private static PushButtonData LoadModelWizard(string dll)
+        {
+            var pbd = new PushButtonData(
+                              "Model Setup Wizard", "Model Setup", dll, "SCaddins.ModelSetupWizard.Command");
+            AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.checkdoc-rvt-16.png", 16, dll);
+            pbd.ToolTip = "Setup up model worksets and parameters";
             return pbd;
         }
     }

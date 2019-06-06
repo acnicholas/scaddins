@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SCaddins.ModelSetupWizard
+﻿namespace SCaddins.ModelSetupWizard
 {
-    class NominatedArchitect
+    public class NominatedArchitect
     {
         public NominatedArchitect(string name, string id)
         {
@@ -24,9 +18,7 @@ namespace SCaddins.ModelSetupWizard
 
         public override string ToString()
         {
-            return string.Format("{0};{1}", Name, Id);
+            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0};{1}", Name, Id);
         }
-
-
     }
 }

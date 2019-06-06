@@ -3,11 +3,12 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    class WorksetParameter : INotifyPropertyChanged
+    public class WorksetParameter : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        private bool visibleInAllViews;
         private string name;
+
+        private bool visibleInAllViews;
+
         private bool visibleInAllViewsInitialValue;
 
         public WorksetParameter(string name, bool visibleInAllViews, int id)
@@ -19,7 +20,9 @@
             ExistingName = IsExisting ? Name : string.Empty;
         }
 
-        public WorksetParameter() : this(string.Empty, false, -1) { }
+        public WorksetParameter() : this(string.Empty, false, -1)
+        {
+        }
 
         public WorksetParameter(string name, bool visibleInAllViews, string existingName)
         {
@@ -30,13 +33,29 @@
             ExistingName = existingName;
         }
 
-        public override string ToString()
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public string ExistingName
         {
-            return string.Format("{0};{1};{2}", Name, VisibleInAllViews, ExistingName);
+            get; private set;
         }
 
-        public int Id {
+        public int Id
+        {
             get; private set;
+        }
+
+        public bool IsExisting
+        {
+            get { return Id > -1; }
+        }
+
+        public bool IsModified
+        {
+            get
+            {
+                return VisibleInAllViews != visibleInAllViewsInitialValue || (IsExisting && Name != ExistingName) || !IsExisting;
+            }
         }
 
         public string Name
@@ -45,6 +64,7 @@
             {
                 return name;
             }
+
             set
             {
                 if (value != name)
@@ -61,9 +81,10 @@
             {
                 return visibleInAllViews;
             }
+
             set
             {
-                if(value != visibleInAllViews)
+                if (value != visibleInAllViews)
                 {
                     visibleInAllViews = value;
                     NotifyPropertyChanged(nameof(IsModified));
@@ -71,22 +92,9 @@
             }
         }
 
-        public bool IsExisting
+        public override string ToString()
         {
-            get { return Id > -1;  }
-        }
-
-        public string ExistingName
-        {
-            get; private set;
-        }
-
-        public bool IsModified
-        {
-            get
-            {
-                return VisibleInAllViews != visibleInAllViewsInitialValue || (IsExisting && Name != ExistingName) || !IsExisting;
-            }
+            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0};{1};{2}", Name, VisibleInAllViews, ExistingName);
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -96,6 +104,5 @@
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-
     }
 }

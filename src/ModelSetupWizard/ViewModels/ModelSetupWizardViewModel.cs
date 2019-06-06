@@ -15,17 +15,17 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-
 namespace SCaddins.ModelSetupWizard.ViewModels
 {
-    using System.Dynamic;
     using System.Collections.Generic;
+    using System.Dynamic;
+    using System.Linq;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
-    using System.Linq;
 
-    class ModelSetupWizardViewModel : PropertyChangedBase
+    public class ModelSetupWizardViewModel : PropertyChangedBase
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;
         private BindableCollection<ProjectInformationParameter> projectInformation;
         private ModelSetupWizardOptionsViewModel optionsVm;
@@ -40,7 +40,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             SelectedProjectInformations = new List<ProjectInformationParameter>();
             optionsVm = new ModelSetupWizardOptionsViewModel();
             NominatedArchitects = new BindableCollection<NominatedArchitect>(optionsVm.NominatedArchitects);
-            selectedNominatedArchitect = null;
+            NominatedArchitects.Insert(0, new NominatedArchitect("Architects Name", "0000"));
+            selectedNominatedArchitect = NominatedArchitects[0];
             FileName = doc.PathName;
 
             var fileNameParam = ProjectInformation.Where(p => p.Name == ModelSetupWizardSettings.Default.FileNameParameterName);
@@ -78,13 +79,13 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             }
         }
 
-
         public BindableCollection<ProjectInformationParameter> ProjectInformation {
             get
             {
                 return projectInformation;
             }
-            set
+
+            private set
             {
                 projectInformation = value;
                 NotifyOfPropertyChange(() => ProjectInformation);
@@ -92,7 +93,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         }
 
         public BindableCollection<NominatedArchitect> NominatedArchitects {
-            get; set;
+            get; private set;
         }
 
         public NominatedArchitect SelectedNominatedArchitect {
@@ -100,6 +101,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             {
                 return selectedNominatedArchitect;
             }
+
             set
             {
                 selectedNominatedArchitect = value;
@@ -119,7 +121,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         }
 
         public List<ProjectInformationParameter> SelectedProjectInformations {
-            get; set;
+            get; private set;
         }
 
         public string FileName
@@ -129,7 +131,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
 
         public BindableCollection<WorksetParameter> Worksets
         {
-            get; set;
+            get; private set;
         }
 
         public WorksetParameter SelectedWorkset {
@@ -138,7 +140,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
 
         public List<WorksetParameter> SelectedWorksets
         {
-            get; set;
+            get; private set;
         }
 
         public void ResetSelectedProjectInfo()
@@ -164,19 +166,19 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             Worksets.Add(new WorksetParameter(string.Empty, false, -1));
         }
 
-        public void WorksetsSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs obj)
+        public void WorksetsSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs args)
         {
-            var addedItems = obj.AddedItems.OfType<WorksetParameter>();
+            var addedItems = args.AddedItems.OfType<WorksetParameter>();
             SelectedWorksets.AddRange(addedItems);
-            var removedItems = obj.RemovedItems.OfType<WorksetParameter>();
+            var removedItems = args.RemovedItems.OfType<WorksetParameter>();
             removedItems.ToList().ForEach(w => SelectedWorksets.Remove(w));
         }
 
-        public void ProjectInfoSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs obj)
+        public void ProjectInfoSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs args)
         {
-            var addedItems = obj.AddedItems.OfType<ProjectInformationParameter>();
+            var addedItems = args.AddedItems.OfType<ProjectInformationParameter>();
             SelectedProjectInformations.AddRange(addedItems);
-            var removedItems = obj.RemovedItems.OfType<ProjectInformationParameter>();
+            var removedItems = args.RemovedItems.OfType<ProjectInformationParameter>();
             removedItems.ToList().ForEach(p => SelectedProjectInformations.Remove(p));
         }
 
@@ -189,8 +191,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
 
         public void Apply()
         {
-            ModelSetupWizard.ApplyWorksetModifications(doc, Worksets.ToList());
-            ModelSetupWizard.ApplyProjectInfoModifications(doc, ProjectInformation.ToList());
+            ModelSetupWizardUtilities.ApplyWorksetModifications(doc, Worksets.ToList());
+            ModelSetupWizardUtilities.ApplyProjectInfoModifications(doc, ProjectInformation.ToList());
         }
     }
 }

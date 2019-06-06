@@ -1,17 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SCaddins.ModelSetupWizard
+﻿namespace SCaddins.ModelSetupWizard
 {
     using System.Collections.Generic;
     using Autodesk.Revit.DB;
 
-    class ModelSetupWizard
+    public static class ModelSetupWizardUtilities
     {
-        public static void ApplyWorksetModifications
-            (Document doc, List<WorksetParameter> worksets)
+        public static void ApplyWorksetModifications(Document doc, List<WorksetParameter> worksets)
         {
             // Enable worsharing if required
             if (doc.IsWorkshared == false) {
@@ -48,14 +42,12 @@ namespace SCaddins.ModelSetupWizard
             }
         }
 
-        public static void ApplyProjectInfoModifications
-            (Document doc, List<ProjectInformationParameter> projectInformationParameters)
-        {
+        public static void ApplyProjectInfoModifications(Document doc, List<ProjectInformationParameter> projectInformationParameters) {
             using (Transaction t = new Transaction(doc)) {
                 if (t.Start("Change Project Information Parameter Values") == TransactionStatus.Started) {
                     foreach (var p in projectInformationParameters) {
                         if (p.IsModified) {
-                            SetParameterValue(p.GetParameter(), p.Value, doc);
+                            SetParameterValue(p.GetParameter(), p.Value);
                         }
                     }
                     t.Commit();
@@ -63,7 +55,7 @@ namespace SCaddins.ModelSetupWizard
             }
         }
 
-        public static void SetParameterValue(Parameter param, string value, Document doc)
+        public static void SetParameterValue(Parameter param, string value)
         {
             param.Set(value);
         }

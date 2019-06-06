@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SCaddins.ModelSetupWizard.ViewModels
+﻿namespace SCaddins.ModelSetupWizard.ViewModels
 {
     using System.Collections.Specialized;
-    using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
-    class ModelSetupWizardOptionsViewModel
+    internal class ModelSetupWizardOptionsViewModel
     {
         public ModelSetupWizardOptionsViewModel()
         {
@@ -20,27 +13,137 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             Init();
         }
 
-        private void Init()
+        public BindableCollection<WorksetParameter> DefaultWorksets
         {
-            AddDefaultWorksets();
-            AddProjectInformationReplacements();
-            AddNominatedArchitects();
-            NominatedArchitectParameterName = ModelSetupWizardSettings.Default.NomArchitectParamName;
-            NominatedArchitectNumberParameterName = ModelSetupWizardSettings.Default.NomArchitectNoumberParamName;
-            FileNameParameterName = ModelSetupWizardSettings.Default.FileNameParameterName;
+            get; private set;
         }
 
-        private void AddNominatedArchitects()
+        public string FileNameParameterName
         {
-            var architects = ModelSetupWizardSettings.Default.DefaultArchitectInformation;
-            foreach (var architect in architects)
+            get; set;
+        }
+
+        public string NominatedArchitectNumberParameterName
+        {
+            get; set;
+        }
+
+        public string NominatedArchitectParameterName
+        {
+            get; set;
+        }
+
+        public BindableCollection<NominatedArchitect> NominatedArchitects
+        {
+            get; private set;
+        }
+
+        public BindableCollection<ProjectInformationReplacement> ProjectInformationReplacements
+        {
+            get; private set;
+        }
+
+        public WorksetParameter SelectedDefaultWorkset
+        {
+            get; set;
+        }
+
+        public NominatedArchitect SelectedNominatedArchitect
+        {
+            get; set;
+        }
+
+        public ProjectInformationReplacement SelectedProjectInformationReplacement
+        {
+            get; set;
+        }
+
+        public void AddArchitect()
+        {
+            NominatedArchitects.Add(new NominatedArchitect(string.Empty, string.Empty));
+        }
+
+        public void AddReplacement()
+        {
+            ProjectInformationReplacements.Add(new ProjectInformationReplacement());
+        }
+
+        public void AddWorksets()
+        {
+            DefaultWorksets.Add(new WorksetParameter());
+        }
+
+        public void Apply()
+        {
+            var sc = new StringCollection();
+            foreach (var s in ProjectInformationReplacements)
             {
-                var segs = architect.Split(';');
-                if (segs.Length == 2 && !string.IsNullOrEmpty(segs[0]) && !string.IsNullOrEmpty(segs[1]))
-                {
-                    NominatedArchitects.Add(new NominatedArchitect(segs[0].Trim(), segs[1].Trim()));
-                }
+                sc.Add(s.ToString());
             }
+            ModelSetupWizardSettings.Default.DefaultProjectInformation = sc;
+
+            var wsc = new StringCollection();
+            foreach (var w in DefaultWorksets)
+            {
+                wsc.Add(w.ToString());
+            }
+
+            ModelSetupWizardSettings.Default.DefaultWorksets = wsc;
+
+            var arch = new StringCollection();
+            foreach (var a in NominatedArchitects)
+            {
+                arch.Add(a.ToString());
+            }
+
+            ModelSetupWizardSettings.Default.DefaultArchitectInformation = arch;
+
+            ModelSetupWizardSettings.Default.NomArchitectParamName = NominatedArchitectParameterName;
+            ModelSetupWizardSettings.Default.NomArchitectNoumberParamName = NominatedArchitectNumberParameterName;
+            ModelSetupWizardSettings.Default.FileNameParameterName = FileNameParameterName;
+
+            ModelSetupWizardSettings.Default.Save();
+        }
+
+        public void ExportConfig()
+        {
+            string filePath = string.Empty;
+            SCaddinsApp.WindowManager.ShowSaveFileDialog(@"config.xml", "*.xml", "XML |*.xml", out filePath);
+            SettingsIO.Export(filePath);
+        }
+
+        public void ImportConfig()
+        {
+            string filePath = string.Empty;
+            bool? result = SCaddinsApp.WindowManager.ShowOpenFileDialog(string.Empty, out filePath);
+            if (result.HasValue && result.Value == true && System.IO.File.Exists(filePath))
+            {
+                SettingsIO.Import(filePath);
+                Reset();
+            }
+        }
+
+        public void RemoveArchitect()
+        {
+            NominatedArchitects.Remove(SelectedNominatedArchitect);
+        }
+
+        public void RemoveReplacement()
+        {
+            ProjectInformationReplacements.Remove(SelectedProjectInformationReplacement);
+        }
+
+        public void RemoveWorksets()
+        {
+            DefaultWorksets.Remove(SelectedDefaultWorkset);
+        }
+
+        public void Reset()
+        {
+            DefaultWorksets.Clear();
+            ProjectInformationReplacements.Clear();
+            NominatedArchitects.Clear();
+            Init();
         }
 
         private void AddDefaultWorksets()
@@ -55,13 +158,27 @@ namespace SCaddins.ModelSetupWizard.ViewModels
                 {
                     if (segs.Length > 2 && !string.IsNullOrEmpty(segs[2]))
                     {
-                        WorksetParameter wp = new WorksetParameter(segs[0], b != 0, segs[2]); 
+                        WorksetParameter wp = new WorksetParameter(segs[0], b != 0, segs[2]);
                         DefaultWorksets.Add(wp);
-                    } else
+                    }
+                    else
                     {
                         WorksetParameter wp = new WorksetParameter(segs[0], b != 0, -1);
                         DefaultWorksets.Add(wp);
                     }
+                }
+            }
+        }
+
+        private void AddNominatedArchitects()
+        {
+            var architects = ModelSetupWizardSettings.Default.DefaultArchitectInformation;
+            foreach (var architect in architects)
+            {
+                var segs = architect.Split(';');
+                if (segs.Length == 2 && !string.IsNullOrEmpty(segs[0]) && !string.IsNullOrEmpty(segs[1]))
+                {
+                    NominatedArchitects.Add(new NominatedArchitect(segs[0].Trim(), segs[1].Trim()));
                 }
             }
         }
@@ -84,132 +201,14 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             }
         }
 
-        public BindableCollection<WorksetParameter> DefaultWorksets
+        private void Init()
         {
-            get; set;
+            AddDefaultWorksets();
+            AddProjectInformationReplacements();
+            AddNominatedArchitects();
+            NominatedArchitectParameterName = ModelSetupWizardSettings.Default.NomArchitectParamName;
+            NominatedArchitectNumberParameterName = ModelSetupWizardSettings.Default.NomArchitectNoumberParamName;
+            FileNameParameterName = ModelSetupWizardSettings.Default.FileNameParameterName;
         }
-
-        public WorksetParameter SelectedDefaultWorkset
-        {
-            get; set;
-        }
-
-        public void AddWorksets()
-        {
-            DefaultWorksets.Add(new WorksetParameter());
-        }
-
-        public void RemoveWorksets()
-        {
-            DefaultWorksets.Remove(SelectedDefaultWorkset);
-        }
-
-        public void Reset()
-        {
-            DefaultWorksets.Clear();
-            ProjectInformationReplacements.Clear();
-            NominatedArchitects.Clear();
-            Init();
-        }
-
-        public void ExportConfig()
-        {
-            string filePath = string.Empty;
-            SCaddinsApp.WindowManager.ShowSaveFileDialog(@"config.xml", "*.xml", "XML |*.xml", out filePath);
-            SettingsIO.Export(filePath);
-        }
-
-        public void ImportConfig()
-        {
-            string filePath = string.Empty;
-            bool? result = SCaddinsApp.WindowManager.ShowOpenFileDialog(string.Empty, out filePath);
-            if (result.HasValue && result.Value == true && System.IO.File.Exists(filePath)) {
-                SettingsIO.Import(filePath);
-                Reset();
-            }
-        }
-
-        public void Apply()
-        {
-            var sc = new StringCollection();
-            foreach (var s in ProjectInformationReplacements) {
-                sc.Add(s.ToString());
-            }
-            ModelSetupWizardSettings.Default.DefaultProjectInformation = sc;
-
-            var wsc = new StringCollection();
-            foreach (var w in DefaultWorksets) {
-                wsc.Add(w.ToString());
-            }
-
-            ModelSetupWizardSettings.Default.DefaultWorksets = wsc;
-
-            var arch = new StringCollection();
-            foreach (var a in NominatedArchitects)
-            {
-                arch.Add(a.ToString());
-            }
-
-            ModelSetupWizardSettings.Default.DefaultArchitectInformation = arch;
-
-            ModelSetupWizardSettings.Default.NomArchitectParamName = NominatedArchitectParameterName;
-            ModelSetupWizardSettings.Default.NomArchitectNoumberParamName = NominatedArchitectNumberParameterName;
-            ModelSetupWizardSettings.Default.FileNameParameterName = FileNameParameterName;
-
-            ModelSetupWizardSettings.Default.Save();
-        }
-
-        public BindableCollection<ProjectInformationReplacement> ProjectInformationReplacements
-        {
-            get; set;
-        }
-
-        public ProjectInformationReplacement SelectedProjectInformationReplacement
-        {
-            get; set;
-        }
-
-        public BindableCollection<NominatedArchitect> NominatedArchitects
-        {
-            get; set;
-        }
-
-        public NominatedArchitect SelectedNominatedArchitect
-        {
-            get; set;
-        }
-
-        public string NominatedArchitectParameterName {
-            get; set;
-        }
-
-        public string NominatedArchitectNumberParameterName {
-            get; set;
-        }
-
-        public string FileNameParameterName {
-            get; set;
-        }
-
-        public void AddReplacement()
-        {
-            ProjectInformationReplacements.Add(new ProjectInformationReplacement());
-        }
-
-        public void RemoveReplacement()
-        {
-            ProjectInformationReplacements.Remove(SelectedProjectInformationReplacement);
-        }
-
-        public void AddArchitect()
-        {
-            NominatedArchitects.Add(new NominatedArchitect(string.Empty, string.Empty));
-        }
-
-        public void RemoveArchitect()
-        {
-            NominatedArchitects.Remove(SelectedNominatedArchitect);
-        }
-
     }
 }

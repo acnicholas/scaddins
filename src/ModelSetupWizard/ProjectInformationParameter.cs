@@ -1,16 +1,15 @@
-﻿using System.Text.RegularExpressions;
-using Autodesk.Revit.DB;
-
-namespace SCaddins.ModelSetupWizard
+﻿namespace SCaddins.ModelSetupWizard
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+    using System.Text.RegularExpressions;
+    using Autodesk.Revit.DB;
 
-    class ProjectInformationParameter : INotifyPropertyChanged
+    public class ProjectInformationParameter : INotifyPropertyChanged
     {
-        private string value;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "parameter")]
         private Parameter parameter;
-        public event PropertyChangedEventHandler PropertyChanged;
+        private string value;
 
         public ProjectInformationParameter(Autodesk.Revit.DB.Parameter parameter)
         {
@@ -19,7 +18,8 @@ namespace SCaddins.ModelSetupWizard
             if (parameter.StorageType == StorageType.String)
             {
                 Value = parameter.AsString();
-            } else
+            }
+            else
             {
                 Value = parameter.AsValueString();
             }
@@ -27,6 +27,13 @@ namespace SCaddins.ModelSetupWizard
             Type = parameter.StorageType.ToString();
             IsEditable = !parameter.IsReadOnly;
             IsModified = false;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public string Format
+        {
+            get; set;
         }
 
         public bool IsEditable
@@ -47,11 +54,18 @@ namespace SCaddins.ModelSetupWizard
             get; private set;
         }
 
-        public string Value {
+        public string Type
+        {
+            get; private set;
+        }
+
+        public string Value
+        {
             get
             {
                 return value;
             }
+
             set
             {
                 if (string.IsNullOrEmpty(value)) {
@@ -62,6 +76,7 @@ namespace SCaddins.ModelSetupWizard
                 } 
                 if (!string.IsNullOrEmpty(Format)) {
                     if (!Regex.IsMatch(value, Format.Trim())) {
+                        SCaddinsApp.WindowManager.ShowWarningMessageBox("Format Error", "Parameter value does not match required format." + System.Environment.NewLine + "Parameter value will not be changed.");
                         return;
                     } 
                 }
@@ -79,14 +94,6 @@ namespace SCaddins.ModelSetupWizard
         public Parameter GetParameter()
         {
             return parameter;
-        }
-
-        public string Type {
-            get; private set;
-        }
-
-        public string Format {
-            get; set;
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

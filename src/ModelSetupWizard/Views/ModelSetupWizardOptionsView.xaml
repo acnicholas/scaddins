@@ -71,7 +71,7 @@
                 </Grid>
 
             </TabItem>
-            <TabItem Header="Paramater Settings">
+            <TabItem Header="Parameter Settings">
                 <GroupBox Margin="5" Header="Parameter Name Mappings">
                 <Grid>
                     <Grid.ColumnDefinitions>
