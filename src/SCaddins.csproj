@@ -123,6 +123,21 @@
     <DelaySign>False</DelaySign>
     <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release2020' ">
+    <OutputPath>bin\Release2020\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE;REVIT2020</DefineConstants>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <StartAction>Project</StartAction>
+    <AssemblyName>SCaddins</AssemblyName>
+    <SignAssembly>False</SignAssembly>
+    <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2017|x64'">
     <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -145,9 +160,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2016|Any'">
     <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2016'">
       <HintPath>C:\Program Files\Autodesk\Revit 2016\AdWindows.dll</HintPath>
@@ -160,6 +172,9 @@
     </Reference>
     <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2019'">
       <HintPath>C:\Program Files\Autodesk\Revit 2019\AdWindows.dll</HintPath>
+    </Reference>
+    <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2020'">
+      <HintPath>C:\Program Files\Autodesk\Revit 2020\AdWindows.dll</HintPath>
     </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net451\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
@@ -202,6 +217,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
     </Reference>
+    <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2020'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2020\RevitAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="RevitAPIUI" Condition="'$(Configuration)'=='Release2020'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2020\RevitAPIUI.dll</HintPath>
+    </Reference>
     <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
@@ -231,6 +254,7 @@
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -340,14 +364,33 @@
     <Compile Include="HatchEditor\Hatch.cs" />
     <Compile Include="HatchEditor\HatchEditor.cs" />
     <Compile Include="HatchEditor\ViewModels\HatchEditorViewModel.cs" />
+    <Compile Include="HatchEditor\ViewModels\SaveToModelViewModel.cs" />
     <Compile Include="HatchEditor\Views\HatchCanvas.cs" />
     <Compile Include="HatchEditor\Views\HatchEditorView.xaml.cs">
       <DependentUpon>HatchEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HatchEditor\Views\SaveToModelView.xaml.cs">
+      <DependentUpon>SaveToModelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LineOfSight\ViewModels\LineOfSightViewModel.cs" />
     <Compile Include="LineOfSight\Views\LineOfSightView.xaml.cs">
       <DependentUpon>LineOfSightView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ModelSetupWizard\Command.cs" />
+    <Compile Include="ModelSetupWizard\ElementCollectors.cs" />
+    <Compile Include="ModelSetupWizard\ModelSetupWizard.cs" />
+    <Compile Include="ModelSetupWizard\ModelSetupWizardSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>ModelSetupWizardSettings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ModelSetupWizard\NominatedArchitect.cs" />
+    <Compile Include="ModelSetupWizard\ProjectInformationParameter.cs" />
+    <Compile Include="ModelSetupWizard\ProjectInformationReplacement.cs" />
+    <Compile Include="ModelSetupWizard\SettingsIO.cs" />
+    <Compile Include="ModelSetupWizard\ViewModels\ModelSetupWizardOptionsViewModel.cs" />
+    <Compile Include="ModelSetupWizard\ViewModels\ModelSetupWizardViewModel.cs" />
+    <Compile Include="ModelSetupWizard\WorksetParameter.cs" />
     <Compile Include="ParameterUtilities\SCincrementSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -494,6 +537,10 @@
   <ItemGroup>
     <None Include="app.config" />
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+    <None Include="ModelSetupWizard\ModelSetupWizardSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>ModelSetupWizardSettings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
     <None Include="SCaddins.addin" />
     <Resource Include="Assets\gear.png" />
@@ -570,9 +617,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="HatchEditor\Views\SaveToModelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LineOfSight\Views\LineOfSightView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ModelSetupWizard\Views\ModelSetupWizardOptionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ParameterUtilities\Views\SCincrementView.xaml">
       <SubType>Designer</SubType>
@@ -700,6 +755,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\view.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="ModelSetupWizard\Views\ModelSetupWizardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Ribbon\checkdoc-rvt-16.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\Ribbon\hatch-rvt-16.png" />

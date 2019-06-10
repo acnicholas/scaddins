@@ -11,9 +11,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "doc")]
         private Document doc;
         private ObservableCollection<Hatch> fillPattensInModel;
-        private ObservableCollection<Hatch> loadedFillPatterns;
         private Hatch selectedFillPattern;
-        private Hatch selectedLoadedFillPattern;
 
         public HatchEditorViewModel(Autodesk.Revit.DB.Document doc)
         {
@@ -48,32 +46,15 @@
             }
         }
 
-        private FillPatternTarget CurrentPatternType {
-            get
-            {
-                return SelectedFillPattern.HatchPattern.Target;
-            }
-        }
-
         public bool DraftingPattern {
             get
             {
                 return !ModelPattern;
             }
-        }
-
-        public bool ModelPattern {
-            get
-            {
-                return CurrentPatternType == FillPatternTarget.Model;
-            }
-        }
-
-        public string Name {
-            get
-            {
-                return SelectedFillPattern.Name;
-            }
+            //set
+            //{
+            //    SelectedFillPattern.HatchPattern.Target = FillPatternTarget.Model;
+            //}
         }
 
         public ObservableCollection<Hatch> FillPatterns {
@@ -89,19 +70,23 @@
             }
         }
 
-        //public ObservableCollection<Hatch> LoadedFillPatterns
-        //{
-        //    get
-        //    {
-        //        return loadedFillPatterns;
-        //    }
+        public bool ModelPattern {
+            get
+            {
+                return CurrentPatternType == FillPatternTarget.Model;
+            }
+        }
 
-        //    set
-        //    {
-        //        loadedFillPatterns = value;
-        //        NotifyOfPropertyChange(() => LoadedFillPatterns);
-        //    }
-        //}
+        public string PatternName {
+            get
+            {
+                return SelectedFillPattern.Name;
+            }
+            set
+            {
+                SelectedFillPattern.Name = value;
+            }
+        }
 
         public Hatch SelectedFillPattern {
             get
@@ -112,28 +97,20 @@
             set
             {
                 selectedFillPattern = value;
-                //NotifyOfPropertyChange(() => CurrentPatternType);
                 NotifyOfPropertyChange(() => DraftingPattern);
                 NotifyOfPropertyChange(() => ModelPattern);
                 NotifyOfPropertyChange(() => CurrentPatternDefinition);
                 NotifyOfPropertyChange(() => SelectedFillPattern);
+                NotifyOfPropertyChange(() => PatternName);
             }
         }
 
-        //public Hatch SelectedLoadedFillPattern {
-        //    get
-        //    {
-        //        return selectedLoadedFillPattern;
-        //    }
-
-        //    set
-        //    {
-        //        selectedLoadedFillPattern = value;
-        //        NotifyOfPropertyChange(() => CurrentPatternType);
-        //        NotifyOfPropertyChange(() => CurrentPatternDefinition);
-        //        NotifyOfPropertyChange(() => SelectedLoadedFillPattern);
-        //    }
-        //}
+        private FillPatternTarget CurrentPatternType {
+            get
+            {
+                return SelectedFillPattern.HatchPattern.Target;
+            }
+        }
 
         public void LoadPatternsFromFile()
         {
@@ -161,7 +138,15 @@
 
         public void SaveToModel()
         {
-            Command.SaveToModel(doc, SelectedFillPattern.HatchPattern);
+            dynamic settings = new System.Dynamic.ExpandoObject();
+            settings.Height = 160;
+            settings.Width = 320;
+            settings.Title = "Fill Pattern Name";
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+            var vm = new SaveToModelViewModel();
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
+            //Command.SaveToModel(doc, SelectedFillPattern.HatchPattern);
         }
     }
 }

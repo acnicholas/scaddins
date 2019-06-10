@@ -179,15 +179,15 @@ namespace SCaddins
                 LoadSCincrement(scdll),
                 LoadSCuv(scdll));
             ribbonPanel.AddStackedItems(
-                LoadHatchEditor(scdll),
                 LoadSCoord(scdll),
-                LoadAbout(scdll, "SCaddinsAbout"));
+                LoadHatchEditor(scdll),
+                LoadModelWizard(scdll));
 
             ribbonPanel.AddSlideOut();
 
             ribbonPanel.AddStackedItems(
                 LoadSCincrementSettings(scdll),
-                LoadAbout(scdll, "SCaddinsAbout2"));
+                LoadAbout(scdll));
 
             return Result.Succeeded;
         }
@@ -229,10 +229,10 @@ namespace SCaddins
             }
         }
 
-        private static PushButtonData LoadAbout(string dll, string name)
+        private static PushButtonData LoadAbout(string dll)
         {
             var pbd = new PushButtonData(
-                              name, Resources.About, dll, "SCaddins.Common.About");
+                              "SCaddinsAbout", Resources.About, dll, "SCaddins.Common.About");
             AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.help-rvt-16.png", 16, dll);
             pbd.ToolTip = "About SCaddins.";
             return pbd;
@@ -359,6 +359,15 @@ namespace SCaddins
                               "SCwash", Resources.DestructivePurge, dll, "SCaddins.DestructivePurge.Command");
             AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.scwash-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.DestructivePurgeToolTip;
+            return pbd;
+        }
+
+        private static PushButtonData LoadModelWizard(string dll)
+        {
+            var pbd = new PushButtonData(
+                              "Model Setup Wizard", "Model Setup", dll, "SCaddins.ModelSetupWizard.Command");
+            AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.checkdoc-rvt-16.png", 16, dll);
+            pbd.ToolTip = "Setup up model worksets and parameters";
             return pbd;
         }
     }

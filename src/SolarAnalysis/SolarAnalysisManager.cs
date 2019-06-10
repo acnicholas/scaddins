@@ -201,10 +201,10 @@ namespace SCaddins.SolarAnalysis
         public static ProjectPosition GetProjectPosition(Document doc)
         {
             var projectLocation = doc.ActiveProjectLocation;
-#if REVIT2018 || REVIT2019
+#if REVIT2018 || REVIT2019 || REVIT2020
             return projectLocation.GetProjectPosition(XYZ.Zero);
 #else
-                return projectLocation.get_ProjectPosition(XYZ.Zero);
+            return projectLocation.get_ProjectPosition(XYZ.Zero);
 #endif
         }
 
@@ -259,7 +259,7 @@ namespace SCaddins.SolarAnalysis
                 c.OfClass(typeof(View));
                 foreach (View view in c) {
                     var v = view;
-                    #if REVIT2019
+                    #if REVIT2019 || REVIT2020
                     if (v.Name == name) {
                         return false;
                     }

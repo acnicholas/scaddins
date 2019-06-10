@@ -42,6 +42,14 @@
 								<File Id="_019.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2019\SC-Survey_Point.rfa" />
 							</Component>
 							<?endif?>
+						<Directory Id="RFAFILES2020" Name="2020">
+							<?if $(env.R2020) = Enabled ?>
+							<Component Id="SCaddinsRFA2020" Guid="983916bd-8a83-4494-b3f4-5f56711b3d3d" Win64="yes" DiskId="1">
+								<CreateFolder />
+								<File Id="_020.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2020\SC-Survey_Point.rfa" />
+							</Component>
+							<?endif?>
+						</Directory>
 						</Directory>
 					</Directory>
 				</Directory>
@@ -101,6 +109,18 @@
 					</Component>
 				</Directory>
 				<?endif?>
+				<?if $(env.R2020) = Enabled ?>
+				<Directory Id="DLLDIR2020" Name="2020">
+					<Component Id="SCaddins2020" Guid="b1c2d4c6-19b0-4c87-8f71-8014f87a55ce" Win64="yes" DiskId="1">
+						<CreateFolder />
+						<File Id="SCaddins2020.dll" Name="SCaddins.dll" Source="..\src\bin\Release2020\SCaddins.dll" />
+						<File Id="Newtonsoft.Json.dll.20" Name="Newtonsoft.Json.dll" Source="..\src\bin\Release2020\Newtonsoft.Json.dll" />
+						<File Id="CM20" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2020\Caliburn.Micro.dll" />
+						<File Id="CMP20" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2020\Caliburn.Micro.Platform.dll" />
+						<File Id="CMPC20" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2020\Caliburn.Micro.Platform.Core.dll" />
+					</Component>
+				</Directory>
+				<?endif?>
 			</Directory>
 		</Directory>
 	</Directory>
@@ -137,6 +157,14 @@
 						<Component Id="SCaddinsAddin2019" Guid="3A73B94B-4C64-4302-954F-07249C27E5E1" DiskId="1">
 							<CreateFolder />
 							<File Id="SCADDINS19.ADDIN" Name="SCaddins19.addin" Source="..\src\bin\Release2019\SCaddins2019.addin" />
+						</Component>
+					</Directory>
+					<?endif?>
+					<?if $(env.R2020) = Enabled ?>
+					<Directory Id="SCaddinsAddin2020Directory" Name="2020">
+						<Component Id="SCaddinsAddin2020" Guid="c6f66526-f851-4d92-a5bd-2b857345828d" DiskId="1">
+							<CreateFolder />
+							<File Id="SCADDINS20.ADDIN" Name="SCaddins20.addin" Source="..\src\bin\Release2020\SCaddins2020.addin" />
 						</Component>
 					</Directory>
 					<?endif?>

@@ -89,6 +89,11 @@
             return dialogService.ShowSaveAsDialog(defaultFileName, defaultExtension, filter, out savePath);
         }
 
+        public bool? ShowOpenFileDialog(string defaultFileName, out string fileName)
+        {
+            return dialogService.ShowOpenFileDialog(defaultFileName, out fileName);
+        }
+
         public override void ShowWindow(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
             System.Windows.Window window = CreateWindow(rootModel, true, context, settings);

@@ -23,6 +23,10 @@
 
         <Menu Grid.Row="0" Grid.ColumnSpan="3" IsMainMenu="True">
             <MenuItem Header="_File">
+                <MenuItem x:Name="NewModelPattern" Header="_New Model Patttern"/>
+                <MenuItem x:Name="NewModelPatternFromTemplate" Header="New Model Patttern from Template"/>
+                <MenuItem x:Name="NewDraftingPattern" Header="New Drafting Pattern"/>
+                <MenuItem x:Name="NewDraftingPatternFromTemplate" Header="New Drafting Pattern from Template"/>
                 <MenuItem x:Name="LoadPatternsFromFile" Header="_Load patterns from file"/>
                 <MenuItem x:Name="LoadPatternsFromModel" Header="_Load patterns from model"/>
                 <MenuItem x:Name="SaveToFile" Header="_Save to file"/>
@@ -48,11 +52,10 @@
                     </Grid.ColumnDefinitions>
                     <Label Margin="5">Available Patterns</Label>
                     <ComboBox x:Name="FillPatterns" DisplayMemberPath="Name" Grid.Column="1" Margin="5"></ComboBox>
-                    <Label Grid.Row="1" Margin="5">Pattern Name</Label>
-                    <TextBox Grid.Column="1" Grid.Row="1" Margin="5" x:Name="Name"></TextBox>
-                    <!--<Label>Type</Label>-->
-                    <RadioButton Grid.Row="2" Margin="5" x:Name="ModelPattern">Model Pattern</RadioButton>
-                    <RadioButton Grid.Row="2" Grid.Column="1" Margin="5" x:Name="DraftingPattern">Drafting Pattern</RadioButton>
+                    <!--<Label Grid.Row="1" Margin="5">Pattern Name</Label>
+                    <TextBox Grid.Column="1" Grid.Row="1" Margin="5" x:Name="PatternName"></TextBox>-->
+                    <RadioButton Grid.Row="2" Margin="5" x:Name="ModelPattern" IsEnabled="False">Model Pattern</RadioButton>
+                    <RadioButton Grid.Row="2" Grid.Column="1" Margin="5" x:Name="DraftingPattern" IsEnabled="False">Drafting Pattern</RadioButton>
                 </Grid>
             <TextBox Grid.Row="1" x:Name="CurrentPatternDefinition" TextWrapping="NoWrap" AcceptsReturn="True" AcceptsTab="True" Margin="5"></TextBox>
             <!--<Label x:Name="CurrentPatternType" Grid.Row="2" Margin="5"></Label>-->

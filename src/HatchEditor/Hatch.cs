@@ -11,6 +11,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "fillPattern")]
         private FillPattern fillPattern;
         private string definition;
+        private string name;
 
         public Hatch() : this(new FillPattern() { Name = string.Empty })
         {
@@ -32,7 +33,15 @@
         }
 
         public string Name {
-            get; set;
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+                HatchPattern.Name = name;
+            }
         }
 
         public bool IsDrafting
@@ -69,7 +78,6 @@
                 s.AppendLine(Name);
                 var type = IsDrafting ? @";%TYPE=DRAFTING" : @";%TYPE=MODEL";
                 s.AppendLine(type);
-                //s.AppendLine();
                 s.AppendLine(Definition);
                 return s.ToString();
             }

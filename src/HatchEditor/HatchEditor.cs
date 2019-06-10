@@ -80,6 +80,7 @@
                     } while (i < (array.Length - 1) && !array[i + 1].Trim().StartsWith(@"*", System.StringComparison.InvariantCulture));
                     var hatch = new Hatch();
                     hatch.Name = name;
+                    hatch.HatchPattern.Target = type.ToUpper().Contains("DRAFTING") ? FillPatternTarget.Drafting : FillPatternTarget.Model;
                     hatch.Definition = defs.ToString();
                     result.Add(hatch);
                 }

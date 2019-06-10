@@ -1,0 +1,46 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SCaddins.ModelSetupWizard" GeneratedClassName="ModelSetupWizardSettings">
+  <Profiles />
+  <Settings>
+    <Setting Name="DefaultWorksets" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;03 - Architecture;1;Workset1&lt;/string&gt;
+  &lt;string&gt;03 - Site And Landscape;1&lt;/string&gt;
+  &lt;string&gt;04 - SC Structure;1&lt;/string&gt;
+  &lt;string&gt;05 - Internal Layouts;0&lt;/string&gt;
+  &lt;string&gt;06 - External Facade;1&lt;/string&gt;
+  &lt;string&gt;10 - Links Revit;0&lt;/string&gt;
+  &lt;string&gt;11 - Links DWG;0&lt;/string&gt;
+  &lt;string&gt;99 - Scope Boxes;0&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="DefaultProjectInformation" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;Project Number; YYYYMMDD;^[0-9]{8}$&lt;/string&gt;
+  &lt;string&gt;Project Status;Preliminary&lt;/string&gt;
+  &lt;string&gt;Project Address;Enter Address Here&lt;/string&gt;
+  &lt;string&gt;Nominated Architect Number;;^[0-9]{4,5}$&lt;/string&gt;
+  &lt;string&gt;Orginization Name;Scott Carver Pty. Ltd.&lt;/string&gt;
+  &lt;string&gt;Author; Scott Carver Pty. Ltd.&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="DefaultArchitectInformation" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;Joe Bloggs; 1111&lt;/string&gt;
+  &lt;string&gt;Mary Lee; 2222&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="NomArchitectParamName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Nominated Architect</Value>
+    </Setting>
+    <Setting Name="NomArchitectNoumberParamName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Nominated Architect Number</Value>
+    </Setting>
+    <Setting Name="FileNameParameterName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Central Filename</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
