@@ -51,10 +51,6 @@
             {
                 return !ModelPattern;
             }
-            //set
-            //{
-            //    SelectedFillPattern.HatchPattern.Target = FillPatternTarget.Model;
-            //}
         }
 
         public ObservableCollection<Hatch> FillPatterns {
@@ -82,6 +78,7 @@
             {
                 return SelectedFillPattern.Name;
             }
+
             set
             {
                 SelectedFillPattern.Name = value;
@@ -146,7 +143,7 @@
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
             var vm = new SaveToModelViewModel();
             SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
-            //Command.SaveToModel(doc, SelectedFillPattern.HatchPattern);
+            //// Command.SaveToModel(doc, SelectedFillPattern.HatchPattern);
         }
     }
 }
