@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <UserControl x:Class="SCaddins.ModelSetupWizard.Views.ModelSetupWizardOptionsView"
+             xmlns:cal="http://www.caliburnproject.org"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -60,10 +61,6 @@
                             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
                         </DataGrid.AlternatingRowBackground>
                     </DataGrid>
-                    <!--<StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Lable x:Name=""  HorizontalAlignment="Left" Margin="5">Add</Lable>
-                        <Button x:Name="RemoveArchitect" HorizontalAlignment="Right" Margin="5">Remove</Button>
-                    </StackPanel>-->
                     <StackPanel Grid.Row="3" Orientation="Horizontal">
                         <Button x:Name="AddArchitect"  HorizontalAlignment="Left" Margin="5">Add</Button>
                         <Button x:Name="RemoveArchitect" HorizontalAlignment="Right" Margin="5">Remove</Button>
@@ -90,6 +87,30 @@
                     <TextBox x:Name="NominatedArchitectNumberParameterName" Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
                     <Label Grid.Row="2" Grid.Column="0">Filename Parameter Name</Label>
                     <TextBox x:Name="FileNameParameterName" Grid.Row="2" Grid.Column="1" Margin="5"></TextBox>
+                    </Grid>
+                </GroupBox>
+            </TabItem>
+            <TabItem Header="Advanced">
+                <GroupBox Margin="5" Header="Advanced config options">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0">System Configuration File</Label>
+                        <TextBox x:Name="SystemConfigFilePath" Grid.Row="0" Grid.Column="1" Margin="5"></TextBox>
+                        <Button x:Name="SelectSytemConfigFile" Grid.Row="0" Grid.Column="2" Margin="5">...</Button>
+                        <!--<Label Grid.Row="1" Grid.Column="0">Nominated Architect Number Parameter Name</Label>
+                        <TextBox x:Name="NominatedArchitectNumberParameterName" Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
+                        <Label Grid.Row="2" Grid.Column="0">Filename Parameter Name</Label>
+                        <TextBox x:Name="FileNameParameterName" Grid.Row="2" Grid.Column="1" Margin="5"></TextBox>-->
                     </Grid>
                 </GroupBox>
             </TabItem>

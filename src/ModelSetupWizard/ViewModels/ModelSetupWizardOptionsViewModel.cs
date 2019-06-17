@@ -3,13 +3,20 @@
     using System.Collections.Specialized;
     using Caliburn.Micro;
 
-    internal class ModelSetupWizardOptionsViewModel
+    internal class ModelSetupWizardOptionsViewModel : Screen
     {
+        private string systemConfigFilePath;
+
         public ModelSetupWizardOptionsViewModel()
         {
             DefaultWorksets = new BindableCollection<WorksetParameter>();
             ProjectInformationReplacements = new BindableCollection<ProjectInformationReplacement>();
             NominatedArchitects = new BindableCollection<NominatedArchitect>();
+
+            //if (!string.IsNullOrEmpty(SystemConfigFilePath) && System.IO.File.Exists(SystemConfigFilePath)) {
+                SettingsIO.Import(SystemConfigFilePath);
+           // }
+
             Init();
         }
 
@@ -51,6 +58,18 @@
         public NominatedArchitect SelectedNominatedArchitect
         {
             get; set;
+        }
+
+        public string SystemConfigFilePath {
+            get
+            {
+                return systemConfigFilePath;
+            }
+            set
+            {
+                systemConfigFilePath = value;
+                NotifyOfPropertyChange(() => SystemConfigFilePath);
+            }
         }
 
         public ProjectInformationReplacement SelectedProjectInformationReplacement
@@ -101,6 +120,7 @@
             ModelSetupWizardSettings.Default.NomArchitectParamName = NominatedArchitectParameterName;
             ModelSetupWizardSettings.Default.NomArchitectNoumberParamName = NominatedArchitectNumberParameterName;
             ModelSetupWizardSettings.Default.FileNameParameterName = FileNameParameterName;
+            ModelSetupWizardSettings.Default.SystemConfigFilePath = SystemConfigFilePath;
 
             ModelSetupWizardSettings.Default.Save();
         }
@@ -144,6 +164,17 @@
             ProjectInformationReplacements.Clear();
             NominatedArchitects.Clear();
             Init();
+        }
+
+        public void SelectSytemConfigFile()
+        {
+            string filePath = string.Empty;
+            bool? result = SCaddinsApp.WindowManager.ShowOpenFileDialog(string.Empty, out filePath);
+            if (result.HasValue && result.Value == true && System.IO.File.Exists(filePath)) {
+                SettingsIO.Import(filePath);
+                Reset();
+            }
+            SystemConfigFilePath = filePath;
         }
 
         private void AddDefaultWorksets()
@@ -209,6 +240,7 @@
             NominatedArchitectParameterName = ModelSetupWizardSettings.Default.NomArchitectParamName;
             NominatedArchitectNumberParameterName = ModelSetupWizardSettings.Default.NomArchitectNoumberParamName;
             FileNameParameterName = ModelSetupWizardSettings.Default.FileNameParameterName;
-        }
+            SystemConfigFilePath = ModelSetupWizardSettings.Default.SystemConfigFilePath;
+         }
     }
 }

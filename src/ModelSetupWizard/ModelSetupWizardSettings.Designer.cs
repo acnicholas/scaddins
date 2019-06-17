@@ -115,5 +115,29 @@ namespace SCaddins.ModelSetupWizard {
                 this["FileNameParameterName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SystemConfigFilePath {
+            get {
+                return ((string)(this["SystemConfigFilePath"]));
+            }
+            set {
+                this["SystemConfigFilePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool LoadSystemConfigOnStartup {
+            get {
+                return ((bool)(this["LoadSystemConfigOnStartup"]));
+            }
+            set {
+                this["LoadSystemConfigOnStartup"] = value;
+            }
+        }
     }
 }

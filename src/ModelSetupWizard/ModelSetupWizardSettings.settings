@@ -42,5 +42,11 @@
     <Setting Name="FileNameParameterName" Type="System.String" Scope="User">
       <Value Profile="(Default)">Central Filename</Value>
     </Setting>
+    <Setting Name="SystemConfigFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LoadSystemConfigOnStartup" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

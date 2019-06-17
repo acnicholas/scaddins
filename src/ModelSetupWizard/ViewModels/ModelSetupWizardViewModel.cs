@@ -43,7 +43,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             NominatedArchitects.Insert(0, new NominatedArchitect("Architects Name", "0000"));
             selectedNominatedArchitect = NominatedArchitects[0];
             FileName = doc.PathName;
-
+            
             var fileNameParam = ProjectInformation.Where(p => p.Name == ModelSetupWizardSettings.Default.FileNameParameterName);
             if (fileNameParam.Count() == 1)
             {
