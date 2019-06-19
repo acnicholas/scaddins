@@ -13,9 +13,9 @@
             ProjectInformationReplacements = new BindableCollection<ProjectInformationReplacement>();
             NominatedArchitects = new BindableCollection<NominatedArchitect>();
 
-            //if (!string.IsNullOrEmpty(SystemConfigFilePath) && System.IO.File.Exists(SystemConfigFilePath)) {
+            if (!string.IsNullOrEmpty(SystemConfigFilePath) && System.IO.File.Exists(SystemConfigFilePath)) {
                 SettingsIO.Import(SystemConfigFilePath);
-           // }
+            }
 
             Init();
         }
@@ -65,6 +65,7 @@
             {
                 return systemConfigFilePath;
             }
+
             set
             {
                 systemConfigFilePath = value;
@@ -183,18 +184,18 @@
             foreach (var newWorksetDef in newWorksets)
             {
                 var segs = newWorksetDef.Split(';');
-                int b = 0;
-                var r = int.TryParse(segs[1].Trim(), out b);
+                bool b = false;
+                var r = bool.TryParse(segs[1].Trim(), out b);
                 if (!string.IsNullOrEmpty(segs[0]))
                 {
                     if (segs.Length > 2 && !string.IsNullOrEmpty(segs[2]))
                     {
-                        WorksetParameter wp = new WorksetParameter(segs[0], b != 0, segs[2]);
+                        WorksetParameter wp = new WorksetParameter(segs[0], b, segs[2]);
                         DefaultWorksets.Add(wp);
                     }
                     else
                     {
-                        WorksetParameter wp = new WorksetParameter(segs[0], b != 0, -1);
+                        WorksetParameter wp = new WorksetParameter(segs[0], b, -1);
                         DefaultWorksets.Add(wp);
                     }
                 }

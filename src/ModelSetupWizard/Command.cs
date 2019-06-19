@@ -36,6 +36,17 @@ namespace SCaddins.ModelSetupWizard
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
+            // Enable worsharing if required
+            // Fix me add this at start
+            if (doc.IsWorkshared == false)
+            {
+                var addWorksets = SCaddinsApp.WindowManager.ShowYesNoDialog("Enable Worksharing", "Worksaring is not yet enabled. Do you want to enable it now?", false);
+                if (addWorksets)
+                {
+                    doc.EnableWorksharing("Shared Levels and Grids", "Workset1");
+                }
+            }
+
             dynamic settings = new ExpandoObject();
             settings.Height = 480;
             settings.Width = 360;

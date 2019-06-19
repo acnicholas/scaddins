@@ -57,6 +57,12 @@
             System.Windows.MessageBox.Show(message, title, System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
         }
 
+        public bool ShowYesNoDialog(string title, string message, bool defaultValue)
+        {
+            var dialogResult = System.Windows.MessageBox.Show(message, title, System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question);
+            return dialogResult == System.Windows.MessageBoxResult.Yes ? true : false;
+        }
+
         public bool? ShowSaveAsDialog(string defaultFileName, string defaultExtension, string filter, out string savePath)
         {
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();

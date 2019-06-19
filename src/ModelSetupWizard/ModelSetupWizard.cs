@@ -7,11 +7,6 @@
     {
         public static void ApplyWorksetModifications(Document doc, List<WorksetParameter> worksets)
         {
-            // Enable worsharing if required
-            if (doc.IsWorkshared == false) {
-                doc.EnableWorksharing("Shared Levels and Grids", "Workset1");
-            }
-
             using (Transaction t = new Transaction(doc)) {
                 if (t.Start("Add Worksets to Model.") == TransactionStatus.Started) {
                     foreach (var w in worksets) {
