@@ -94,9 +94,9 @@
                 <GroupBox Margin="5" Header="Advanced config options">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>
@@ -107,10 +107,7 @@
                         <Label Grid.Column="0" Grid.Row="0">System Configuration File</Label>
                         <TextBox x:Name="SystemConfigFilePath" Grid.Row="0" Grid.Column="1" Margin="5"></TextBox>
                         <Button x:Name="SelectSytemConfigFile" Grid.Row="0" Grid.Column="2" Margin="5">...</Button>
-                        <!--<Label Grid.Row="1" Grid.Column="0">Nominated Architect Number Parameter Name</Label>
-                        <TextBox x:Name="NominatedArchitectNumberParameterName" Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
-                        <Label Grid.Row="2" Grid.Column="0">Filename Parameter Name</Label>
-                        <TextBox x:Name="FileNameParameterName" Grid.Row="2" Grid.Column="1" Margin="5"></TextBox>-->
+                        <CheckBox x:Name="LoadSystemConfigOnInit" Grid.Row="1" Grid.Column="0">Load System Configuration File At Startup</CheckBox>
                     </Grid>
                 </GroupBox>
             </TabItem>

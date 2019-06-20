@@ -12,12 +12,26 @@
             DefaultWorksets = new BindableCollection<WorksetParameter>();
             ProjectInformationReplacements = new BindableCollection<ProjectInformationReplacement>();
             NominatedArchitects = new BindableCollection<NominatedArchitect>();
-
-            if (!string.IsNullOrEmpty(SystemConfigFilePath) && System.IO.File.Exists(SystemConfigFilePath)) {
-                SettingsIO.Import(SystemConfigFilePath);
+            
+            var loadSystemConfig = ModelSetupWizardSettings.Default.LoadSystemConfigOnStartup;
+            if (loadSystemConfig) {
+                systemConfigFilePath = ModelSetupWizardSettings.Default.SystemConfigFilePath;
+                if (!string.IsNullOrEmpty(systemConfigFilePath)) {
+                    if (System.IO.File.Exists(systemConfigFilePath)) {
+                        SettingsIO.Import(systemConfigFilePath);
+                        ModelSetupWizardSettings.Default.SystemConfigFilePath = systemConfigFilePath;
+                        ModelSetupWizardSettings.Default.LoadSystemConfigOnStartup = true;
+                        ModelSetupWizardSettings.Default.Save();
+                    } else {
+                        SCaddinsApp.WindowManager.ShowWarningMessageBox(
+                            "File Not Found",
+                            string.Format("Config file: {0} not found", systemConfigFilePath));
+                    }
+                }
             }
 
             Init();
+            //SCaddinsApp.WindowManager.ShowMessageBox(SystemConfigFilePath);
         }
 
         public BindableCollection<WorksetParameter> DefaultWorksets
@@ -26,6 +40,11 @@
         }
 
         public string FileNameParameterName
+        {
+            get; set;
+        }
+
+        public bool LoadSystemConfigOnInit
         {
             get; set;
         }
@@ -117,12 +136,11 @@
             }
 
             ModelSetupWizardSettings.Default.DefaultArchitectInformation = arch;
-
             ModelSetupWizardSettings.Default.NomArchitectParamName = NominatedArchitectParameterName;
             ModelSetupWizardSettings.Default.NomArchitectNoumberParamName = NominatedArchitectNumberParameterName;
             ModelSetupWizardSettings.Default.FileNameParameterName = FileNameParameterName;
             ModelSetupWizardSettings.Default.SystemConfigFilePath = SystemConfigFilePath;
-
+            ModelSetupWizardSettings.Default.LoadSystemConfigOnStartup = LoadSystemConfigOnInit;
             ModelSetupWizardSettings.Default.Save();
         }
 
@@ -242,6 +260,7 @@
             NominatedArchitectNumberParameterName = ModelSetupWizardSettings.Default.NomArchitectNoumberParamName;
             FileNameParameterName = ModelSetupWizardSettings.Default.FileNameParameterName;
             SystemConfigFilePath = ModelSetupWizardSettings.Default.SystemConfigFilePath;
+            LoadSystemConfigOnInit = ModelSetupWizardSettings.Default.LoadSystemConfigOnStartup;
          }
     }
 }
