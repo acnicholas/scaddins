@@ -1,6 +1,8 @@
 ﻿namespace SCaddins.ModelSetupWizard.ViewModels
 {
+    using System.Collections.Generic;
     using System.Collections.Specialized;
+    using System.Linq;
     using Caliburn.Micro;
 
     internal class ModelSetupWizardOptionsViewModel : Screen
@@ -9,7 +11,8 @@
 
         public ModelSetupWizardOptionsViewModel()
         {
-            DefaultWorksets = new BindableCollection<WorksetParameter>();
+            Worksets = new BindableCollection<WorksetParameter>();
+            SelectedWorksets = new List<WorksetParameter>();
             ProjectInformationReplacements = new BindableCollection<ProjectInformationReplacement>();
             NominatedArchitects = new BindableCollection<NominatedArchitect>();
             
@@ -25,18 +28,12 @@
                     } else {
                         SCaddinsApp.WindowManager.ShowWarningMessageBox(
                             "File Not Found",
-                            string.Format("Config file: {0} not found", systemConfigFilePath));
+                            string.Format(System.Globalization.CultureInfo.InvariantCulture, "Config file: {0} not found", systemConfigFilePath));
                     }
                 }
             }
 
             Init();
-            //SCaddinsApp.WindowManager.ShowMessageBox(SystemConfigFilePath);
-        }
-
-        public BindableCollection<WorksetParameter> DefaultWorksets
-        {
-            get; private set;
         }
 
         public string FileNameParameterName
@@ -69,9 +66,16 @@
             get; private set;
         }
 
-        public WorksetParameter SelectedDefaultWorkset
-        {
+        public BindableCollection<WorksetParameter> Worksets {
+            get; private set;
+        }
+
+        public WorksetParameter SelectedWorkset {
             get; set;
+        }
+
+        public List<WorksetParameter> SelectedWorksets {
+            get; private set;
         }
 
         public NominatedArchitect SelectedNominatedArchitect
@@ -107,13 +111,19 @@
             ProjectInformationReplacements.Add(new ProjectInformationReplacement());
         }
 
-        public void AddWorksets()
+        public void AddWorkset()
         {
-            DefaultWorksets.Add(new WorksetParameter());
+            Worksets.Add(new WorksetParameter());
         }
 
         public void Apply()
         {
+            if (LoadSystemConfigOnInit) {
+                SCaddinsApp.WindowManager.ShowWarningMessageBox(
+                    "System Config Warning",
+                    "Load System Configuration at Start-up(Advanced), is set to true, any changes here will be lost unless you set this option to false");
+            }
+
             var sc = new StringCollection();
             foreach (var s in ProjectInformationReplacements)
             {
@@ -122,7 +132,7 @@
             ModelSetupWizardSettings.Default.DefaultProjectInformation = sc;
 
             var wsc = new StringCollection();
-            foreach (var w in DefaultWorksets)
+            foreach (var w in Worksets)
             {
                 wsc.Add(w.ToString());
             }
@@ -174,12 +184,14 @@
 
         public void RemoveWorksets()
         {
-            DefaultWorksets.Remove(SelectedDefaultWorkset);
+            if (SelectedWorksets != null && SelectedWorksets.Count > 0) {
+                Worksets.RemoveRange(SelectedWorksets);
+            }
         }
 
         public void Reset()
         {
-            DefaultWorksets.Clear();
+            Worksets.Clear();
             ProjectInformationReplacements.Clear();
             NominatedArchitects.Clear();
             Init();
@@ -196,6 +208,14 @@
             SystemConfigFilePath = filePath;
         }
 
+        public void OptionsWorksetsSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs args)
+        {
+            var addedItems = args.AddedItems.OfType<WorksetParameter>();
+            SelectedWorksets.AddRange(addedItems);
+            var removedItems = args.RemovedItems.OfType<WorksetParameter>();
+            removedItems.ToList().ForEach(w => SelectedWorksets.Remove(w));
+        }
+
         private void AddDefaultWorksets()
         {
             var newWorksets = ModelSetupWizardSettings.Default.DefaultWorksets;
@@ -209,12 +229,12 @@
                     if (segs.Length > 2 && !string.IsNullOrEmpty(segs[2]))
                     {
                         WorksetParameter wp = new WorksetParameter(segs[0], b, segs[2]);
-                        DefaultWorksets.Add(wp);
+                        Worksets.Add(wp);
                     }
                     else
                     {
                         WorksetParameter wp = new WorksetParameter(segs[0], b, -1);
-                        DefaultWorksets.Add(wp);
+                        Worksets.Add(wp);
                     }
                 }
             }

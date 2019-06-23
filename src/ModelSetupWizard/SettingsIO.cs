@@ -19,7 +19,7 @@
             {
                 var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
                 string appSettingsXmlName = ModelSetupWizardSettings.Default.Context["GroupName"].ToString();
-                SCaddinsApp.WindowManager.ShowMessageBox(appSettingsXmlName);
+                //// SCaddinsApp.WindowManager.ShowMessageBox(appSettingsXmlName);
 
                 // Open settings file as XML
                 var import = XDocument.Load(settingsFilePath);

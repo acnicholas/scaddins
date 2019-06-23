@@ -18,6 +18,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
 
                     <DataGrid 
@@ -54,7 +55,12 @@
                             <DataGridTextColumn Header="Type" Binding="{Binding Type}" MinWidth="100" IsReadOnly="True"></DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Label Grid.Row="1">
+                        <TextBlock>
+                        <Bold>*Bold</Bold> indicates paramaters that will be changed.
+                        </TextBlock>
+                    </Label>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
                         <Button x:Name="ResetSelectedProjectInfo"  HorizontalAlignment="Left" Margin="5">Reset Selected Item</Button>
                         <ComboBox x:Name="NominatedArchitects"  DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="5"></ComboBox>
                     </StackPanel>
@@ -65,6 +71,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <DataGrid 
@@ -100,7 +107,12 @@
                             <DataGridTextColumn Header="Workset Id" Binding="{Binding Id}" MinWidth="50" IsReadOnly="True"></DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Label Grid.Row="1">
+                        <TextBlock>
+                        <Bold>*Bold</Bold> indicates worksets that will be created or modified.
+                        </TextBlock>
+                    </Label>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
                         <Button x:Name="AddWorkset"  HorizontalAlignment="Left" Margin="5">Add</Button>
                         <Button x:Name="RemoveWorksets" HorizontalAlignment="Right" Margin="5">Remove</Button>
                     </StackPanel>

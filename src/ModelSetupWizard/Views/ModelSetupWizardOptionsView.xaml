@@ -37,14 +37,26 @@
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <DataGrid x:Name="DefaultWorksets" CanUserAddRows="True" CanUserDeleteRows="True" Margin="5" GridLinesVisibility="None">
+                    <DataGrid
+                        cal:Message.Attach="[Event SelectionChanged] = [OptionsWorksetsSelectionChanged($source,$eventArgs)]"
+                        x:Name="Worksets"
+                        CanUserAddRows="True"
+                        CanUserDeleteRows="True"
+                        AutoGenerateColumns="False"
+                        Margin="5"
+                        GridLinesVisibility="None">
                         <DataGrid.AlternatingRowBackground>
                             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
                         </DataGrid.AlternatingRowBackground>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="New Name" Binding="{Binding Name}" MinWidth="100"></DataGridTextColumn>
+                            <DataGridCheckBoxColumn Header="Visible In All Views" Binding="{Binding VisibleInAllViews}" MinWidth="50"></DataGridCheckBoxColumn>
+                            <DataGridTextColumn Header="Existing Name" Binding="{Binding ExistingName}" MinWidth="100" IsReadOnly="True"></DataGridTextColumn>
+                        </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Button x:Name="AddWorkset"  HorizontalAlignment="Left" Margin="5">Add</Button>
-                        <Button x:Name="RemoveWorkset" HorizontalAlignment="Right" Margin="5">Remove</Button>
+                        <Button x:Name="AddWorkset" HorizontalAlignment="Left" Margin="5">Add</Button>
+                        <Button x:Name="RemoveWorksets" HorizontalAlignment="Right" Margin="5">Remove</Button>
                     </StackPanel>
                 </Grid>
             </TabItem >

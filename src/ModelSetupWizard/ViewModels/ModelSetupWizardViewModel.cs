@@ -64,7 +64,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
                     match.First().Value = pinf.ReplacementValue;
                 }
             }
-            foreach (var winf in optionsVm.DefaultWorksets)
+            foreach (var winf in optionsVm.Worksets)
             {
                 if (Worksets.Select(w => w.Name.Trim()).Contains(winf.Name.Trim())) {
                     continue;
