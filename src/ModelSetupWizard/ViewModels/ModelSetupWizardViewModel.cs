@@ -155,6 +155,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             dynamic settings = new ExpandoObject();
             settings.Height = 480;
             settings.Width = 360;
+            settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
+                  new System.Uri("pack://application:,,,/SCaddins;component/Assets/checkdoc.png"));
             settings.Title = "Model Setup Wizard Options";
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Width;

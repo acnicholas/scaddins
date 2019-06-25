@@ -51,6 +51,8 @@ namespace SCaddins.ModelSetupWizard
             settings.Height = 480;
             settings.Width = 360;
             settings.Title = "Model Setup Wizard - By A.Nicholas";
+            settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
+                  new System.Uri("pack://application:,,,/SCaddins;component/Assets/checkdoc.png"));
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Width;
 

@@ -74,6 +74,8 @@ namespace SCaddins.SolarAnalysis.ViewModels
                 dynamic settings = new ExpandoObject();
                 settings.Height = 480;
                 settings.Width = 300;
+                settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
+                    new System.Uri("pack://application:,,,/SCaddins;component/Assets/scaos.png"));
                 settings.Title = "Direct Sun - By Andrew Nicholas";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;

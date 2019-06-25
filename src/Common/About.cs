@@ -34,6 +34,8 @@ namespace SCaddins.Common
             settings.Height = 640;
             settings.Width = 480;
             settings.Title = "About SCaddins";
+            settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
+                    new System.Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png"));
             settings.ShowInTaskbar = false;
             settings.ResizeMode = System.Windows.ResizeMode.NoResize;
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
