@@ -32,6 +32,10 @@
                 <MenuItem x:Name="SaveToFile" Header="_Save to file"/>
                 <MenuItem x:Name="SaveToModel" Header="_Save to current model"/>
             </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem x:Name="ScalePattern" Header="_Scale Pattern by 2"/>
+                <MenuItem x:Name="RotatePattern" Header="_Rotate Pattern by 45 Degrees"/>
+            </MenuItem>
         </Menu>
 
         <GroupBox Header="Settings" Grid.Row="1">

@@ -124,6 +124,12 @@
              FillPatterns = new ObservableCollection<Hatch>(Command.FillPatterns(doc));
         }
 
+        public void RotatePattern()
+        {
+            SelectedFillPattern.Rotate(45);
+            CurrentPatternDefinition = SelectedFillPattern.Definition;
+        }
+
         public void SaveToFile()
         {
             string savePath = string.Empty;
@@ -144,6 +150,12 @@
             var vm = new SaveToModelViewModel();
             SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
             //// Command.SaveToModel(doc, SelectedFillPattern.HatchPattern);
+        }
+
+        public void ScalePattern()
+        {
+            SelectedFillPattern.Scale(2);
+            CurrentPatternDefinition = SelectedFillPattern.Definition;
         }
     }
 }

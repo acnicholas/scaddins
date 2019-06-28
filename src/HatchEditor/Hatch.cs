@@ -64,7 +64,7 @@
             {
                 definition = value;
                 string[] lines = definition.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                TryAssignFillGridsFromStrings(lines);
+                TryAssignFillGridsFromStrings(lines, 1, 0);
             }
         }
 
@@ -103,16 +103,30 @@
             return;
         }
 
-        public bool TryAssignFillGridsFromStrings(string[] grids)
+        public void Rotate(double angle)
         {
-            if (AssignFillGridsFromString(grids)) {
+            string[] lines = definition.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            TryAssignFillGridsFromStrings(lines, 1, angle);
+            UpdatePatternDefinition();
+        }
+
+        public void Scale(double scale)
+        {
+            string[] lines = definition.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            TryAssignFillGridsFromStrings(lines, scale, 0);
+            UpdatePatternDefinition();
+        }
+
+        public bool TryAssignFillGridsFromStrings(string[] grids, double scale, double angle)
+        {
+            if (AssignFillGridsFromString(grids, scale, angle)) {
                 return true;
             } else {
                 return false;
             }
         }
 
-        private bool AssignFillGridsFromString(string[] grids)
+        private bool AssignFillGridsFromString(string[] grids, double scale, double rotationAngle)
         {
             var newFillGrids = new List<FillGrid>();
             foreach (string s in grids) {
@@ -159,8 +173,14 @@
                     {
                         return false;
                     }
+                    individualSeg *= scale;
                     lineSegs.Add(individualSeg.ToFeet());
                 }
+                x *= scale;
+                y *= scale;
+                shift *= scale;
+                offset *= scale;
+                angle += rotationAngle;
                 f.Angle = angle.ToRad();
                 f.Origin = new UV(x.ToFeet(), y.ToFeet());
                 f.Shift = shift.ToFeet();
