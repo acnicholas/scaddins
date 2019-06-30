@@ -5,30 +5,35 @@
 
     public static class ModelSetupWizardUtilities
     {
-        public static void ApplyWorksetModifications(Document doc, List<WorksetParameter> worksets)
+        public static void ApplyWorksetModifications(Document doc, List<WorksetParameter> worksets, ref TransactionLog log)
         {
             using (Transaction t = new Transaction(doc)) {
                 if (t.Start("Add Worksets to Model.") == TransactionStatus.Started) {
                     foreach (var w in worksets) {
                         if (w.IsModified) {
-                            if (w.IsExisting && w.Id >= 0)
-                            {
-                                if (WorksetTable.IsWorksetNameUnique(doc, w.Name))
-                                {
+                            if (w.IsExisting && w.Id >= 0) {
+                                if (WorksetTable.IsWorksetNameUnique(doc, w.Name)) {
                                     WorksetTable.RenameWorkset(doc, new WorksetId(w.Id), w.Name);
                                 }
                                 var defaultVisibilitySettings = WorksetDefaultVisibilitySettings.GetWorksetDefaultVisibilitySettings(doc);
                                 defaultVisibilitySettings.SetWorksetVisibility(new WorksetId(w.Id), w.VisibleInAllViews);
-                                continue;
-                            }
-                            Workset newWorkset = null;
-                            if (WorksetTable.IsWorksetNameUnique(doc, w.Name))
-                            {
-                                newWorkset = Workset.Create(doc, w.Name);
-                            }
-                            if (newWorkset != null) {
-                                var defaultVisibilitySettings = WorksetDefaultVisibilitySettings.GetWorksetDefaultVisibilitySettings(doc);
-                                defaultVisibilitySettings.SetWorksetVisibility(newWorkset.Id, w.VisibleInAllViews);
+                                //FIXME add message
+                                log.AddSuccess(string.Empty);
+                            } else {
+                                Workset newWorkset = null;
+                                if (WorksetTable.IsWorksetNameUnique(doc, w.Name)) {
+                                    newWorkset = Workset.Create(doc, w.Name);
+                                } else {
+                                    //FIXME add message
+                                    log.AddFailure(string.Empty);
+                                    continue;
+                                }
+                                if (newWorkset != null) {
+                                    var defaultVisibilitySettings = WorksetDefaultVisibilitySettings.GetWorksetDefaultVisibilitySettings(doc);
+                                    defaultVisibilitySettings.SetWorksetVisibility(newWorkset.Id, w.VisibleInAllViews);
+                                    //FIXME add message
+                                    log.AddSuccess(string.Empty);
+                                }
                             }
                         }
                     }
@@ -37,12 +42,19 @@
             }
         }
 
-        public static void ApplyProjectInfoModifications(Document doc, List<ProjectInformationParameter> projectInformationParameters) {
+        public static void ApplyProjectInfoModifications(Document doc, List<ProjectInformationParameter> projectInformationParameters, ref TransactionLog log) {
             using (Transaction t = new Transaction(doc)) {
                 if (t.Start("Change Project Information Parameter Values") == TransactionStatus.Started) {
                     foreach (var p in projectInformationParameters) {
                         if (p.IsModified) {
-                            SetParameterValue(p.GetParameter(), p.Value);
+                            if (p.IsEditable) {
+                                SetParameterValue(p.GetParameter(), p.Value);
+                                //FIXME add message
+                                log.AddSuccess(string.Empty);
+                            } else {
+                                //FIXME add message
+                                log.AddFailure(string.Empty);
+                            }
                         }
                     }
                     t.Commit();
@@ -52,6 +64,7 @@
 
         public static void SetParameterValue(Parameter param, string value)
         {
+            //FIXME set not string values properly
             param.Set(value);
         }
     }

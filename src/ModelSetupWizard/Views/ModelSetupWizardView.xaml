@@ -41,6 +41,10 @@
                                         <Setter Property="Foreground" Value="DarkGray"></Setter>
                                         <Setter Property="FontWeight" Value="Regular"></Setter>
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsValid}" Value="False">
+                                        <Setter Property="Foreground" Value="Red"></Setter>
+                                        <!--<Setter Property="FontWeight" Value="Regular"></Setter>-->
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </DataGrid.RowStyle>
@@ -55,13 +59,14 @@
                             <DataGridTextColumn Header="Type" Binding="{Binding Type}" MinWidth="100" IsReadOnly="True"></DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Label Grid.Row="1">
-                        <TextBlock>
-                        <Bold>*Bold</Bold> indicates paramaters that will be changed.
-                        </TextBlock>
-                    </Label>
+                    <TextBlock Grid.Row="1">
+                        <Run FontWeight="Bold">*Bold </Run>
+                        <Run>indicates paramaters that will be changed. </Run>
+                        <Run Foreground="Red">Red indicates an invalid format.</Run>
+                    </TextBlock>
                     <StackPanel Grid.Row="2" Orientation="Horizontal">
                         <Button x:Name="ResetSelectedProjectInfo"  HorizontalAlignment="Left" Margin="5">Reset Selected Item</Button>
+                        <Button x:Name="ConvertSelectedItemsToUpperCase" HorizontalAlignment="Left" Margin="5">Convert Selection To Uppercase</Button>
                         <ComboBox x:Name="NominatedArchitects"  DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="5"></ComboBox>
                     </StackPanel>
                 </Grid>

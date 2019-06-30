@@ -23,7 +23,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
-    public class ModelSetupWizardViewModel : PropertyChangedBase
+    public class ModelSetupWizardViewModel : Screen
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;
@@ -124,6 +124,16 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             get; private set;
         }
 
+        public void ConvertSelectedItemsToUpperCase()
+        {
+            foreach (var p in SelectedProjectInformations) {
+                if (string.IsNullOrEmpty(p.Value)) {
+                    continue;
+                }
+                p.Value = p.Value.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+            }
+        }
+
         public string FileName
         {
             get; set;
@@ -193,8 +203,16 @@ namespace SCaddins.ModelSetupWizard.ViewModels
 
         public void Apply()
         {
-            ModelSetupWizardUtilities.ApplyWorksetModifications(doc, Worksets.ToList());
-            ModelSetupWizardUtilities.ApplyProjectInfoModifications(doc, ProjectInformation.ToList());
+            var worksetLog = new TransactionLog(@"Workset Creation/Modifications");
+            ModelSetupWizardUtilities.ApplyWorksetModifications(doc, Worksets.ToList(), ref worksetLog);
+            var projectInfoLog = new TransactionLog(@"Project Information Modifications");
+            ModelSetupWizardUtilities.ApplyProjectInfoModifications(doc, ProjectInformation.ToList(), ref projectInfoLog);
+            string msg = "Summary" + System.Environment.NewLine +
+                System.Environment.NewLine +
+                worksetLog.ToString() + System.Environment.NewLine +
+                projectInfoLog.ToString();
+            SCaddinsApp.WindowManager.ShowMessageBox("Model Setup Wizard - Summary", msg);
+            TryClose(true);
         }
     }
 }

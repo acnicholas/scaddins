@@ -40,7 +40,7 @@ namespace SCaddins.ModelSetupWizard
             // Fix me add this at start
             if (doc.IsWorkshared == false)
             {
-                var addWorksets = SCaddinsApp.WindowManager.ShowYesNoDialog("Enable Worksharing", "Worksaring is not yet enabled. Do you want to enable it now?", false);
+                var addWorksets = SCaddinsApp.WindowManager.ShowYesNoDialog("Enable Worksharing", "Worksharing is not yet enabled. Do you want to enable it now?", false);
                 if (addWorksets)
                 {
                     doc.EnableWorksharing("Shared Levels and Grids", "Workset1");

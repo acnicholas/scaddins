@@ -376,6 +376,8 @@
     <Compile Include="ModelSetupWizard\ProjectInformationParameter.cs" />
     <Compile Include="ModelSetupWizard\ProjectInformationReplacement.cs" />
     <Compile Include="ModelSetupWizard\SettingsIO.cs" />
+    <Compile Include="ModelSetupWizard\TransactionLog.cs" />
+    <Compile Include="ModelSetupWizard\TranscactionLogItem.cs" />
     <Compile Include="ModelSetupWizard\ViewModels\ModelSetupWizardOptionsViewModel.cs" />
     <Compile Include="ModelSetupWizard\ViewModels\ModelSetupWizardViewModel.cs" />
     <Compile Include="ModelSetupWizard\WorksetParameter.cs" />
