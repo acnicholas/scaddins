@@ -59,8 +59,20 @@
 
         public static void SetParameterValue(Parameter param, string value)
         {
-            //// FIXME set not string values properly
-            param.Set(value);
+            if (param.StorageType == StorageType.Double) {
+                double d = 0;
+                if (double.TryParse(value, out d)) {
+                    param.Set(d);
+                }
+            } else if (param.StorageType == StorageType.Integer) {
+                int i = 0;
+                if (int.TryParse(value, out i))
+                {
+                    param.Set(i);
+                }
+            } else {
+                param.Set(value);
+            }
         }
     }
 }
