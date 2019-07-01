@@ -1,46 +1,36 @@
 ﻿////using System;
-////using System.Collections.Generic;
+
 ////using System.Linq;
 ////using System.Text;
 ////using System.Threading.Tasks;
 
 namespace SCaddins.ModelSetupWizard
 {
+    using System.Collections.Generic;
+
     public class TransactionLog
     {
-        //// private List<TranscactionLogItem> items;
+        private List<TranscactionLogItem> items;
 
         public TransactionLog(string name)
         {
-            //// items = new List<TranscactionLogItem>();
+            items = new List<TranscactionLogItem>();
             Name = name;
             NumberOfErrors = 0;
             NumberOfItems = 0;
         }
 
-        public void AddSuccess(string Message)
-        {
-            NumberOfItems++;
-        }
-
-        public void AddFailure(string Message)
-        {
-            NumberOfItems++;
-            NumberOfErrors++;
-        }
-
-        public int Successes {
-            get
-            {
-                return NumberOfItems - NumberOfErrors;
-            }
-        }
-
         /// <summary>
         /// The name of this log.
         /// </summary>
-        public string Name {
+        public string Name
+        {
             get; set;
+        }
+
+        public int NumberOfErrors
+        {
+            get; private set;
         }
 
         public int NumberOfItems
@@ -48,9 +38,25 @@ namespace SCaddins.ModelSetupWizard
             get; private set;
         }
 
-        public int NumberOfErrors
+        public int Successes
         {
-            get; private set;
+            get
+            {
+                return NumberOfItems - NumberOfErrors;
+            }
+        }
+
+        public void AddFailure(string message)
+        {
+            items.Add(new TranscactionLogItem() { Message = @"ERROR: " + message });
+            NumberOfItems++;
+            NumberOfErrors++;
+        }
+
+        public void AddSuccess(string message)
+        {
+            items.Add(new TranscactionLogItem() { Message = message });
+            NumberOfItems++;
         }
 
         public override string ToString()

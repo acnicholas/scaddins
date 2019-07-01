@@ -17,22 +17,19 @@
                                 }
                                 var defaultVisibilitySettings = WorksetDefaultVisibilitySettings.GetWorksetDefaultVisibilitySettings(doc);
                                 defaultVisibilitySettings.SetWorksetVisibility(new WorksetId(w.Id), w.VisibleInAllViews);
-                                //FIXME add message
-                                log.AddSuccess(string.Empty);
+                                log.AddSuccess(w.ToString());
                             } else {
                                 Workset newWorkset = null;
                                 if (WorksetTable.IsWorksetNameUnique(doc, w.Name)) {
                                     newWorkset = Workset.Create(doc, w.Name);
                                 } else {
-                                    //FIXME add message
-                                    log.AddFailure(string.Empty);
+                                    log.AddFailure(w.ToString());
                                     continue;
                                 }
                                 if (newWorkset != null) {
                                     var defaultVisibilitySettings = WorksetDefaultVisibilitySettings.GetWorksetDefaultVisibilitySettings(doc);
                                     defaultVisibilitySettings.SetWorksetVisibility(newWorkset.Id, w.VisibleInAllViews);
-                                    //FIXME add message
-                                    log.AddSuccess(string.Empty);
+                                    log.AddSuccess(w.ToString());
                                 }
                             }
                         }
@@ -49,11 +46,9 @@
                         if (p.IsModified) {
                             if (p.IsEditable) {
                                 SetParameterValue(p.GetParameter(), p.Value);
-                                //FIXME add message
-                                log.AddSuccess(string.Empty);
+                                log.AddSuccess(p.ToString());
                             } else {
-                                //FIXME add message
-                                log.AddFailure(string.Empty);
+                                log.AddFailure(p.ToString());
                             }
                         }
                     }
@@ -64,7 +59,7 @@
 
         public static void SetParameterValue(Parameter param, string value)
         {
-            //FIXME set not string values properly
+            //// FIXME set not string values properly
             param.Set(value);
         }
     }
