@@ -388,6 +388,8 @@
     <Compile Include="ModelSetupWizard\ProjectInformationParameter.cs" />
     <Compile Include="ModelSetupWizard\ProjectInformationReplacement.cs" />
     <Compile Include="ModelSetupWizard\SettingsIO.cs" />
+    <Compile Include="ModelSetupWizard\TransactionLog.cs" />
+    <Compile Include="ModelSetupWizard\TranscactionLogItem.cs" />
     <Compile Include="ModelSetupWizard\ViewModels\ModelSetupWizardOptionsViewModel.cs" />
     <Compile Include="ModelSetupWizard\ViewModels\ModelSetupWizardViewModel.cs" />
     <Compile Include="ModelSetupWizard\WorksetParameter.cs" />
@@ -766,9 +768,17 @@
     <EmbeddedResource Include="Assets\Ribbon\checkdoc-rvt-16.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\checkdoc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\scightlines.png" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Assets\Ribbon\hatch-rvt-16.png" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Ribbon\hatch-rvt-16.png" />
+  </ItemGroup>  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>

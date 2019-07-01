@@ -54,6 +54,13 @@
             get; private set;
         }
 
+        public bool IsValid {
+            get
+            {
+                return Regex.IsMatch(value, Format.Trim());
+            }
+        }
+
         public string Type
         {
             get; private set;
@@ -74,12 +81,6 @@
                 if (this.value == value) {
                     return;
                 } 
-                if (!string.IsNullOrEmpty(Format)) {
-                    if (!Regex.IsMatch(value, Format.Trim())) {
-                        SCaddinsApp.WindowManager.ShowWarningMessageBox("Format Error", "Parameter value does not match required format." + System.Environment.NewLine + "Parameter value will not be changed.");
-                        return;
-                    } 
-                }
                 if (value != OriginalValue) {
                     IsModified = true;
                 } else {
@@ -88,6 +89,7 @@
                 this.value = value;
                 NotifyPropertyChanged(nameof(IsModified));
                 NotifyPropertyChanged(nameof(Value));
+                NotifyPropertyChanged(nameof(IsValid));
             }
         }
 
@@ -96,12 +98,14 @@
             return parameter;
         }
 
+        public override string ToString()
+        {
+            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "Parameter:{0}, Original Value:{1}, New Value:{2}", Name, OriginalValue, Value);
+        }
+
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

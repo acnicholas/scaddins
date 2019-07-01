@@ -5,13 +5,14 @@
     <Setting Name="DefaultWorksets" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;03 - Architecture;1;Workset1&lt;/string&gt;
+  &lt;string&gt;01 - Architecture;1;Workset1&lt;/string&gt;
+  &lt;string&gt;02 - Shared Levels and Grids;1;Shared Levels and Grids&lt;/string&gt;
   &lt;string&gt;03 - Site And Landscape;1&lt;/string&gt;
   &lt;string&gt;04 - SC Structure;1&lt;/string&gt;
-  &lt;string&gt;05 - Internal Layouts;0&lt;/string&gt;
+  &lt;string&gt;05 - Interiors Layouts;0&lt;/string&gt;
   &lt;string&gt;06 - External Facade;1&lt;/string&gt;
-  &lt;string&gt;10 - Links Revit;0&lt;/string&gt;
-  &lt;string&gt;11 - Links DWG;0&lt;/string&gt;
+  &lt;string&gt;11 - Links Revit;0&lt;/string&gt;
+  &lt;string&gt;10 - Links DWG;0&lt;/string&gt;
   &lt;string&gt;99 - Scope Boxes;0&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
@@ -41,6 +42,12 @@
     </Setting>
     <Setting Name="FileNameParameterName" Type="System.String" Scope="User">
       <Value Profile="(Default)">Central Filename</Value>
+    </Setting>
+    <Setting Name="SystemConfigFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LoadSystemConfigOnStartup" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

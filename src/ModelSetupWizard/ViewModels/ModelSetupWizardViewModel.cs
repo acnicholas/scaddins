@@ -23,12 +23,12 @@ namespace SCaddins.ModelSetupWizard.ViewModels
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
-    public class ModelSetupWizardViewModel : PropertyChangedBase
+    public class ModelSetupWizardViewModel : Screen
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;
-        private BindableCollection<ProjectInformationParameter> projectInformation;
         private ModelSetupWizardOptionsViewModel optionsVm;
+        private BindableCollection<ProjectInformationParameter> projectInformation;
         private NominatedArchitect selectedNominatedArchitect;
 
         public ModelSetupWizardViewModel(Document doc)
@@ -43,7 +43,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             NominatedArchitects.Insert(0, new NominatedArchitect("Architects Name", "0000"));
             selectedNominatedArchitect = NominatedArchitects[0];
             FileName = doc.PathName;
-
+            
             var fileNameParam = ProjectInformation.Where(p => p.Name == ModelSetupWizardSettings.Default.FileNameParameterName);
             if (fileNameParam.Count() == 1)
             {
@@ -64,7 +64,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
                     match.First().Value = pinf.ReplacementValue;
                 }
             }
-            foreach (var winf in optionsVm.DefaultWorksets)
+            foreach (var winf in optionsVm.Worksets)
             {
                 if (Worksets.Select(w => w.Name.Trim()).Contains(winf.Name.Trim())) {
                     continue;
@@ -79,7 +79,18 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             }
         }
 
-        public BindableCollection<ProjectInformationParameter> ProjectInformation {
+        public string FileName
+        {
+            get; set;
+        }
+
+        public BindableCollection<NominatedArchitect> NominatedArchitects
+        {
+            get; private set;
+        }
+
+        public BindableCollection<ProjectInformationParameter> ProjectInformation
+        {
             get
             {
                 return projectInformation;
@@ -90,10 +101,6 @@ namespace SCaddins.ModelSetupWizard.ViewModels
                 projectInformation = value;
                 NotifyOfPropertyChange(() => ProjectInformation);
             }
-        }
-
-        public BindableCollection<NominatedArchitect> NominatedArchitects {
-            get; private set;
         }
 
         public NominatedArchitect SelectedNominatedArchitect {
@@ -124,17 +131,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             get; private set;
         }
 
-        public string FileName
+        public WorksetParameter SelectedWorkset
         {
-            get; set;
-        }
-
-        public BindableCollection<WorksetParameter> Worksets
-        {
-            get; private set;
-        }
-
-        public WorksetParameter SelectedWorkset {
             get; set;
         }
 
@@ -143,22 +141,9 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             get; private set;
         }
 
-        public void ResetSelectedProjectInfo()
+        public BindableCollection<WorksetParameter> Worksets
         {
-            foreach (var pinf in SelectedProjectInformations) {
-                pinf.Value = pinf.OriginalValue;
-            }       
-        }
-
-        public void Options()
-        {
-            dynamic settings = new ExpandoObject();
-            settings.Height = 480;
-            settings.Width = 360;
-            settings.Title = "Model Setup Wizard Options";
-            settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.Width;
-            SCaddinsApp.WindowManager.ShowDialog(optionsVm, null, settings);
+            get; private set;
         }
 
         public void AddWorkset()
@@ -166,12 +151,41 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             Worksets.Add(new WorksetParameter(string.Empty, false, -1));
         }
 
-        public void WorksetsSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs args)
+        public void Apply()
         {
-            var addedItems = args.AddedItems.OfType<WorksetParameter>();
-            SelectedWorksets.AddRange(addedItems);
-            var removedItems = args.RemovedItems.OfType<WorksetParameter>();
-            removedItems.ToList().ForEach(w => SelectedWorksets.Remove(w));
+            var worksetLog = new TransactionLog(@"Workset Creation/Modifications");
+            ModelSetupWizardUtilities.ApplyWorksetModifications(doc, Worksets.ToList(), ref worksetLog);
+            var projectInfoLog = new TransactionLog(@"Project Information Modifications");
+            ModelSetupWizardUtilities.ApplyProjectInfoModifications(doc, ProjectInformation.ToList(), ref projectInfoLog);
+            string msg = "Summary" + System.Environment.NewLine +
+                System.Environment.NewLine +
+                worksetLog.ToString() + System.Environment.NewLine +
+                projectInfoLog.ToString();
+            SCaddinsApp.WindowManager.ShowMessageBox("Model Setup Wizard - Summary", msg);
+            TryClose(true);
+        }
+
+        public void ConvertSelectedItemsToUpperCase()
+        {
+            foreach (var p in SelectedProjectInformations) {
+                if (string.IsNullOrEmpty(p.Value)) {
+                    continue;
+                }
+                p.Value = p.Value.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+            }
+        }
+
+        public void Options()
+        {
+            dynamic settings = new ExpandoObject();
+            settings.Height = 480;
+            settings.Width = 360;
+            settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
+                  new System.Uri("pack://application:,,,/SCaddins;component/Assets/checkdoc.png"));
+            settings.Title = "Model Setup Wizard Options";
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.Width;
+            SCaddinsApp.WindowManager.ShowDialog(optionsVm, null, settings);
         }
 
         public void ProjectInfoSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs args)
@@ -184,15 +198,25 @@ namespace SCaddins.ModelSetupWizard.ViewModels
 
         public void RemoveWorksets()
         {
-            if (SelectedWorksets != null && SelectedWorksets.Count > 0) {
+            if (SelectedWorksets != null && SelectedWorksets.Count > 0)
+            {
                 Worksets.RemoveRange(SelectedWorksets);
             }
         }
 
-        public void Apply()
+        public void ResetSelectedProjectInfo()
         {
-            ModelSetupWizardUtilities.ApplyWorksetModifications(doc, Worksets.ToList());
-            ModelSetupWizardUtilities.ApplyProjectInfoModifications(doc, ProjectInformation.ToList());
+            foreach (var pinf in SelectedProjectInformations) {
+                pinf.Value = pinf.OriginalValue;
+            }       
+        }
+
+        public void WorksetsSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs args)
+        {
+            var addedItems = args.AddedItems.OfType<WorksetParameter>();
+            SelectedWorksets.AddRange(addedItems);
+            var removedItems = args.RemovedItems.OfType<WorksetParameter>();
+            removedItems.ToList().ForEach(w => SelectedWorksets.Remove(w));
         }
     }
 }

@@ -44,6 +44,11 @@
             ShowMessageBox(@"WARNING: " + message);
         }
 
+        public bool ShowYesNoDialog(string title, string message, bool defaultValue)
+        {
+            return defaultValue;
+        }
+
         public bool? ShowSaveAsDialog(string defaultFileName, string defaultExtension, string filter, out string savePath)
         {
             savePath = defaultFileName;

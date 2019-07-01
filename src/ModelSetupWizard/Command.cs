@@ -36,10 +36,23 @@ namespace SCaddins.ModelSetupWizard
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
+            // Enable worsharing if required
+            // Fix me add this at start
+            if (doc.IsWorkshared == false)
+            {
+                var addWorksets = SCaddinsApp.WindowManager.ShowYesNoDialog("Enable Worksharing", "Worksharing is not yet enabled. Do you want to enable it now?", false);
+                if (addWorksets)
+                {
+                    doc.EnableWorksharing("Shared Levels and Grids", "Workset1");
+                }
+            }
+
             dynamic settings = new ExpandoObject();
             settings.Height = 480;
             settings.Width = 360;
             settings.Title = "Model Setup Wizard - By A.Nicholas";
+            settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
+                  new System.Uri("pack://application:,,,/SCaddins;component/Assets/checkdoc.png"));
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Width;
 

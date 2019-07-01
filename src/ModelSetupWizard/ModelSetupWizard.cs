@@ -5,35 +5,32 @@
 
     public static class ModelSetupWizardUtilities
     {
-        public static void ApplyWorksetModifications(Document doc, List<WorksetParameter> worksets)
+        public static void ApplyWorksetModifications(Document doc, List<WorksetParameter> worksets, ref TransactionLog log)
         {
-            // Enable worsharing if required
-            if (doc.IsWorkshared == false) {
-                doc.EnableWorksharing("Shared Levels and Grids", "Workset1");
-            }
-
             using (Transaction t = new Transaction(doc)) {
                 if (t.Start("Add Worksets to Model.") == TransactionStatus.Started) {
                     foreach (var w in worksets) {
                         if (w.IsModified) {
-                            if (w.IsExisting && w.Id >= 0)
-                            {
-                                if (WorksetTable.IsWorksetNameUnique(doc, w.Name))
-                                {
+                            if (w.IsExisting && w.Id >= 0) {
+                                if (WorksetTable.IsWorksetNameUnique(doc, w.Name)) {
                                     WorksetTable.RenameWorkset(doc, new WorksetId(w.Id), w.Name);
                                 }
                                 var defaultVisibilitySettings = WorksetDefaultVisibilitySettings.GetWorksetDefaultVisibilitySettings(doc);
                                 defaultVisibilitySettings.SetWorksetVisibility(new WorksetId(w.Id), w.VisibleInAllViews);
-                                continue;
-                            }
-                            Workset newWorkset = null;
-                            if (WorksetTable.IsWorksetNameUnique(doc, w.Name))
-                            {
-                                newWorkset = Workset.Create(doc, w.Name);
-                            }
-                            if (newWorkset != null) {
-                                var defaultVisibilitySettings = WorksetDefaultVisibilitySettings.GetWorksetDefaultVisibilitySettings(doc);
-                                defaultVisibilitySettings.SetWorksetVisibility(newWorkset.Id, w.VisibleInAllViews);
+                                log.AddSuccess(w.ToString());
+                            } else {
+                                Workset newWorkset = null;
+                                if (WorksetTable.IsWorksetNameUnique(doc, w.Name)) {
+                                    newWorkset = Workset.Create(doc, w.Name);
+                                } else {
+                                    log.AddFailure(w.ToString());
+                                    continue;
+                                }
+                                if (newWorkset != null) {
+                                    var defaultVisibilitySettings = WorksetDefaultVisibilitySettings.GetWorksetDefaultVisibilitySettings(doc);
+                                    defaultVisibilitySettings.SetWorksetVisibility(newWorkset.Id, w.VisibleInAllViews);
+                                    log.AddSuccess(w.ToString());
+                                }
                             }
                         }
                     }
@@ -42,12 +39,17 @@
             }
         }
 
-        public static void ApplyProjectInfoModifications(Document doc, List<ProjectInformationParameter> projectInformationParameters) {
+        public static void ApplyProjectInfoModifications(Document doc, List<ProjectInformationParameter> projectInformationParameters, ref TransactionLog log) {
             using (Transaction t = new Transaction(doc)) {
                 if (t.Start("Change Project Information Parameter Values") == TransactionStatus.Started) {
                     foreach (var p in projectInformationParameters) {
                         if (p.IsModified) {
-                            SetParameterValue(p.GetParameter(), p.Value);
+                            if (p.IsEditable) {
+                                SetParameterValue(p.GetParameter(), p.Value);
+                                log.AddSuccess(p.ToString());
+                            } else {
+                                log.AddFailure(p.ToString());
+                            }
                         }
                     }
                     t.Commit();
@@ -57,7 +59,20 @@
 
         public static void SetParameterValue(Parameter param, string value)
         {
-            param.Set(value);
+            if (param.StorageType == StorageType.Double) {
+                double d = 0;
+                if (double.TryParse(value, out d)) {
+                    param.Set(d);
+                }
+            } else if (param.StorageType == StorageType.Integer) {
+                int i = 0;
+                if (int.TryParse(value, out i))
+                {
+                    param.Set(i);
+                }
+            } else {
+                param.Set(value);
+            }
         }
     }
 }

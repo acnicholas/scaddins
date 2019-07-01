@@ -107,6 +107,11 @@
             window.Show();
         }
 
+        public bool ShowYesNoDialog(string title, string message, bool defaultValue)
+        {
+            return dialogService.ShowYesNoDialog(title, message, defaultValue);
+        }
+
         [DllImport("user32.dll")]
         private static extern int GetWindowLong(IntPtr handle, int index);
 
