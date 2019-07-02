@@ -135,6 +135,20 @@
              FillPatterns = new ObservableCollection<Hatch>(Command.FillPatterns(doc));
         }
 
+        public void NewDraftingPattern()
+        {
+            UserFillPattern = new Hatch(new FillPattern("New Drafting Pattern",FillPatternTarget.Drafting,FillPatternHostOrientation.ToView));
+            UserFillPatternDefinition = (@"0,0,0,0,5");
+            this.Refresh();
+        }
+
+        public void NewModelPattern()
+        {
+            UserFillPattern = new Hatch(new FillPattern("New Drafting Pattern", FillPatternTarget.Model, FillPatternHostOrientation.ToHost));
+            UserFillPatternDefinition = (@"0,0,0,0,50");
+            this.Refresh();
+        }
+
         public void RotatePattern()
         {
             UserFillPattern.Rotate(45);

@@ -113,7 +113,9 @@
             drawingContext.PushClip(new RectangleGeometry(new Rect(0, 0, width, height)));
             drawingContext.DrawRectangle(Brushes.White, null, new Rect(0, 0, width, height));
             drawingContext.PushTransform(new TranslateTransform(width / 2, height / 2));
-            drawingContext.DrawEllipse(Brushes.Azure, new Pen(), new Point(0, 0), 100, 100);
+            drawingContext.DrawEllipse(null, new Pen(Brushes.LightBlue, 1), new Point(0, 0), 10, 10);
+            drawingContext.DrawLine(new Pen(Brushes.LightBlue, 1), new Point(-20, 0), new Point(20, 0));
+            drawingContext.DrawLine(new Pen(Brushes.LightBlue, 1), new Point(0, -20), new Point(0, 20));
             drawingContext.PushTransform(new ScaleTransform(canvasScale, canvasScale));
 
             double maxLength = width > height ? width / canvasScale * 2 : height / canvasScale * 2;
@@ -172,6 +174,18 @@
             drawingContext.Pop();
             drawingContext.Pop();
             drawingContext.Pop();
+
+            drawingContext.DrawText(
+                new FormattedText(
+                    string.Format(System.Globalization.CultureInfo.InvariantCulture, "Scale: {0}", scale * canvasScale),
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    FlowDirection.LeftToRight, new Typeface("arial"),
+                    10,
+                    Brushes.LightBlue,
+                    1),
+                new Point(10, 10)
+            );
+
             drawingContext.Close();
             return drawingVisual;
         }
