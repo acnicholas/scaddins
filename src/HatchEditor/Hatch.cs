@@ -2,11 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
+    using System.ComponentModel;
     using System.Linq;
     using System.Text;
     using Autodesk.Revit.DB;
 
-    public class Hatch
+    public class Hatch : INotifyPropertyChanged
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "fillPattern")]
         private FillPattern fillPattern;
@@ -16,6 +18,8 @@
         public Hatch() : this(new FillPattern() { Name = string.Empty })
         {
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Hatch(FillPattern pattern)
         {
@@ -65,6 +69,7 @@
                 definition = value;
                 string[] lines = definition.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 TryAssignFillGridsFromStrings(lines, 1, 0);
+                NotifyPropertyChanged(nameof(Definition));
             }
         }
 
@@ -190,6 +195,11 @@
             }
             fillPattern.SetFillGrids(newFillGrids);
             return true;
+        }
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

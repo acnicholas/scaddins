@@ -7,42 +7,40 @@
 
     internal class HatchEditorViewModel : Screen
     {
-        private Hatch customFillPattern;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "doc")]
         private Document doc;
         private ObservableCollection<Hatch> fillPattensInModel;
         private Hatch selectedFillPattern;
+        private Hatch userFillPattern;
 
         public HatchEditorViewModel(Autodesk.Revit.DB.Document doc)
         {
             this.doc = doc;
             FillPatterns = new ObservableCollection<Hatch>(Command.FillPatterns(doc));
-            customFillPattern = new Hatch(new FillPattern());
-            customFillPattern.Name = @"<Custom>";
-            FillPatterns.Add(customFillPattern);
-            SelectedFillPattern = FillPatterns.LastOrDefault();
-            SelectedFillPattern.HatchPattern.Target = FillPatternTarget.Model;
-            SelectedFillPattern.Definition = 
+            userFillPattern = new Hatch(new FillPattern());
+            userFillPattern.Name = @"<Custom>";
+            userFillPattern.HatchPattern.Target = FillPatternTarget.Model;
+            userFillPattern.Definition =
                 "90,0,0,0,100,50,25" + System.Environment.NewLine +
                 "90,50,0,0,100,50,25" + System.Environment.NewLine +
                 "90,75,0,0,100,50,25" + System.Environment.NewLine +
                 "0,0,0,0,25,25,75" + System.Environment.NewLine +
                 "0,50,25,0,75,25,75";
+            FillPatterns.Add(userFillPattern);
+            selectedFillPattern = FillPatterns.LastOrDefault();
         }
 
-        public string CurrentPatternDefinition {
+        public string UserFillPatternDefinition {
             get
             {
-                return SelectedFillPattern.Definition != null ? SelectedFillPattern.Definition : string.Empty;
+                return UserFillPattern.Definition != null ? UserFillPattern.Definition : string.Empty;
             }
 
             set
             {
-                var type = SelectedFillPattern.HatchPattern.Target;
-                SelectedFillPattern = null;
-                customFillPattern.Definition = value;
-                customFillPattern.HatchPattern.Target = type;
-                SelectedFillPattern = customFillPattern;
+                UserFillPattern.Definition = value;
+                SelectedFillPattern = UserFillPattern;
+                this.Refresh();
             }
         }
 
@@ -69,22 +67,38 @@
         public bool ModelPattern {
             get
             {
-                return CurrentPatternType == FillPatternTarget.Model;
+                return UserPatternType == FillPatternTarget.Model;
             }
         }
 
         public string PatternName {
             get
             {
-                return SelectedFillPattern.Name;
+                return UserFillPattern.Name;
             }
 
             set
             {
-                SelectedFillPattern.Name = value;
+               UserFillPattern.Name = value;
             }
         }
 
+        public Hatch UserFillPattern
+        {
+            get
+            {
+                return userFillPattern;
+            }
+            set
+            {
+                userFillPattern = value;
+                NotifyOfPropertyChange(() => UserFillPattern);
+            }
+        }
+    
+        /// <summary>
+        /// Hatch selected from combo box.
+        /// </summary>
         public Hatch SelectedFillPattern {
             get
             {
@@ -94,18 +108,15 @@
             set
             {
                 selectedFillPattern = value;
-                NotifyOfPropertyChange(() => DraftingPattern);
-                NotifyOfPropertyChange(() => ModelPattern);
-                NotifyOfPropertyChange(() => CurrentPatternDefinition);
-                NotifyOfPropertyChange(() => SelectedFillPattern);
-                NotifyOfPropertyChange(() => PatternName);
+                UserFillPattern = new Hatch(value.HatchPattern);
+                this.Refresh();
             }
         }
 
-        private FillPatternTarget CurrentPatternType {
+        private FillPatternTarget UserPatternType {
             get
             {
-                return SelectedFillPattern.HatchPattern.Target;
+                return UserFillPattern.HatchPattern.Target;
             }
         }
 
@@ -126,8 +137,8 @@
 
         public void RotatePattern()
         {
-            SelectedFillPattern.Rotate(45);
-            CurrentPatternDefinition = SelectedFillPattern.Definition;
+            UserFillPattern.Rotate(45);
+            UserFillPatternDefinition = UserFillPattern.Definition;
         }
 
         public void SaveToFile()
@@ -154,8 +165,8 @@
 
         public void ScalePattern()
         {
-            SelectedFillPattern.Scale(2);
-            CurrentPatternDefinition = SelectedFillPattern.Definition;
+            UserFillPattern.Scale(2);
+            UserFillPatternDefinition = UserFillPattern.Definition;
         }
     }
 }

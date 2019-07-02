@@ -61,13 +61,14 @@
                     <RadioButton Grid.Row="2" Margin="5" x:Name="ModelPattern" IsEnabled="False">Model Pattern</RadioButton>
                     <RadioButton Grid.Row="2" Grid.Column="1" Margin="5" x:Name="DraftingPattern" IsEnabled="False">Drafting Pattern</RadioButton>
                 </Grid>
-            <TextBox Grid.Row="1" x:Name="CurrentPatternDefinition" TextWrapping="NoWrap" AcceptsReturn="True" AcceptsTab="True" Margin="5"></TextBox>
+                <TextBox Grid.Row="1" x:Name="UserFillPatternDefinition" TextWrapping="NoWrap" AcceptsReturn="True" AcceptsTab="True" Margin="5"></TextBox>
             <!--<Label x:Name="CurrentPatternType" Grid.Row="2" Margin="5"></Label>-->
             </Grid>
         </GroupBox>
         <GridSplitter Grid.Column="1" Grid.Row="1"   VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Height="Auto"></GridSplitter>
         <GroupBox Header="Preview" Grid.Column="2" Grid.Row="1">
-        <local:HatchCanvas Margin="5" HorizontalAlignment="Stretch" Opacity="1"  VerticalAlignment="Stretch" Height="Auto"  Width =" Auto"  ActiveHatch="{Binding Path=SelectedFillPattern, Mode=TwoWay}"></local:HatchCanvas>
+            <local:HatchCanvas Margin="5" HorizontalAlignment="Stretch" Opacity="1"  VerticalAlignment="Stretch" Height="Auto" Width =" Auto" ActiveHatch="{Binding Path=UserFillPattern, Mode=TwoWay}">
+            </local:HatchCanvas>
         </GroupBox>
     </Grid>
 </UserControl>
