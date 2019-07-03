@@ -67,7 +67,7 @@
         </GroupBox>
         <GridSplitter Grid.Column="1" Grid.Row="1"   VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Height="Auto"></GridSplitter>
         <GroupBox Header="Preview" Grid.Column="2" Grid.Row="1">
-            <local:HatchCanvas Margin="5" HorizontalAlignment="Stretch" Opacity="1"  VerticalAlignment="Stretch" Height="Auto" Width =" Auto" ActiveHatch="{Binding Path=UserFillPattern, Mode=TwoWay}">
+            <local:HatchCanvas Margin="5" HorizontalAlignment="Stretch" Opacity="1"  VerticalAlignment="Stretch" Height="Auto" Width =" Auto" ActiveHatch="{Binding Path=DisplayFillPattern, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             </local:HatchCanvas>
         </GroupBox>
     </Grid>

@@ -12,12 +12,14 @@
         private ObservableCollection<Hatch> fillPattensInModel;
         private Hatch selectedFillPattern;
         private Hatch userFillPattern;
+        private Hatch displayFillPattern;
 
         public HatchEditorViewModel(Autodesk.Revit.DB.Document doc)
         {
             this.doc = doc;
             FillPatterns = new ObservableCollection<Hatch>(Command.FillPatterns(doc));
             userFillPattern = new Hatch(new FillPattern());
+            displayFillPattern = new Hatch(new FillPattern());
             userFillPattern.Name = @"<Custom>";
             userFillPattern.HatchPattern.Target = FillPatternTarget.Model;
             userFillPattern.Definition =
@@ -28,6 +30,7 @@
                 "0,50,25,0,75,25,75";
             FillPatterns.Add(userFillPattern);
             selectedFillPattern = FillPatterns.LastOrDefault();
+            UpdateDisplay();
         }
 
         public string UserFillPatternDefinition {
@@ -39,15 +42,14 @@
             set
             {
                 UserFillPattern.Definition = value;
-                SelectedFillPattern = UserFillPattern;
-                this.Refresh();
+                UpdateDisplay();
             }
         }
 
         public bool DraftingPattern {
             get
             {
-                return !ModelPattern;
+                return UserFillPattern.IsDrafting;
             }
         }
 
@@ -67,19 +69,7 @@
         public bool ModelPattern {
             get
             {
-                return UserPatternType == FillPatternTarget.Model;
-            }
-        }
-
-        public string PatternName {
-            get
-            {
-                return UserFillPattern.Name;
-            }
-
-            set
-            {
-               UserFillPattern.Name = value;
+                return !UserFillPattern.IsDrafting;
             }
         }
 
@@ -92,10 +82,23 @@
             set
             {
                 userFillPattern = value;
-                NotifyOfPropertyChange(() => UserFillPattern);
+                NotifyOfPropertyChange(() => UserFillPatternDefinition);
             }
         }
-    
+
+        public Hatch DisplayFillPattern
+        {
+            get
+            {
+                return displayFillPattern;
+            }
+            set
+            {
+                displayFillPattern = value;
+                NotifyOfPropertyChange(() => DisplayFillPattern);
+            }
+        }
+
         /// <summary>
         /// Hatch selected from combo box.
         /// </summary>
@@ -108,15 +111,8 @@
             set
             {
                 selectedFillPattern = value;
-                UserFillPattern = new Hatch(value.HatchPattern);
-                this.Refresh();
-            }
-        }
-
-        private FillPatternTarget UserPatternType {
-            get
-            {
-                return UserFillPattern.HatchPattern.Target;
+                UserFillPattern = selectedFillPattern;
+                UpdateDisplay();
             }
         }
 
@@ -139,20 +135,20 @@
         {
             UserFillPattern = new Hatch(new FillPattern("New Drafting Pattern",FillPatternTarget.Drafting,FillPatternHostOrientation.ToView));
             UserFillPatternDefinition = (@"0,0,0,0,5");
-            this.Refresh();
+            UpdateDisplay();
         }
 
         public void NewModelPattern()
         {
             UserFillPattern = new Hatch(new FillPattern("New Drafting Pattern", FillPatternTarget.Model, FillPatternHostOrientation.ToHost));
             UserFillPatternDefinition = (@"0,0,0,0,50");
-            this.Refresh();
+            UpdateDisplay();
         }
 
         public void RotatePattern()
         {
             UserFillPattern.Rotate(45);
-            UserFillPatternDefinition = UserFillPattern.Definition;
+            UpdateDisplay();
         }
 
         public void SaveToFile()
@@ -162,6 +158,12 @@
             if (result.HasValue && result == true) {
                 Command.SaveToFile(savePath, SelectedFillPattern);
             }
+        }
+
+        public void UpdateDisplay()
+        {
+            DisplayFillPattern = (Hatch)UserFillPattern.Clone();
+            this.Refresh();
         }
 
         public void SaveToModel()
@@ -180,7 +182,7 @@
         public void ScalePattern()
         {
             UserFillPattern.Scale(2);
-            UserFillPatternDefinition = UserFillPattern.Definition;
+            UpdateDisplay();
         }
     }
 }

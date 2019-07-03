@@ -41,12 +41,17 @@
             Hatch v = (Hatch)e.NewValue;
             HatchCanvas h = (HatchCanvas)d;
             h.Update(v, 1);
+            //this.InvalidateVisual();
+            //this.UpdateLayout();
         }
 
         public void Update(Hatch hatch, double scale)
         {
             canvasScale = scale;
             Update(hatch);
+            this.InvalidateVisual();
+            //SCaddinsApp.WindowManager.ShowMessageBox("Hi");
+            //this.UpdateLayout();
         }
 
         public void Update(Hatch hatch)
@@ -59,6 +64,8 @@
             }
             children.Clear();
             children.Add(CreateDrawingVisualHatch(hatch));
+            //this.InvalidateVisual();
+            //this.UpdateLayout();
         }
 
         protected override Size ArrangeOverride(Size finalSize)
