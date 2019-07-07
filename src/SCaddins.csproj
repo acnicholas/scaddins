@@ -365,12 +365,16 @@
     <Compile Include="HatchEditor\HatchEditor.cs" />
     <Compile Include="HatchEditor\ViewModels\HatchEditorViewModel.cs" />
     <Compile Include="HatchEditor\ViewModels\SaveToModelViewModel.cs" />
+    <Compile Include="HatchEditor\ViewModels\SelectHatchViewModel.cs" />
     <Compile Include="HatchEditor\Views\HatchCanvas.cs" />
     <Compile Include="HatchEditor\Views\HatchEditorView.xaml.cs">
       <DependentUpon>HatchEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="HatchEditor\Views\SaveToModelView.xaml.cs">
       <DependentUpon>SaveToModelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HatchEditor\Views\SelectHatchView.xaml.cs">
+      <DependentUpon>SelectHatchView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LineOfSight\ViewModels\LineOfSightViewModel.cs" />
     <Compile Include="LineOfSight\Views\LineOfSightView.xaml.cs">
@@ -620,6 +624,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="HatchEditor\Views\SaveToModelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HatchEditor\Views\SelectHatchView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

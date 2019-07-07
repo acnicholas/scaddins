@@ -12,14 +12,12 @@
         private ObservableCollection<Hatch> fillPattensInModel;
         private Hatch selectedFillPattern;
         private Hatch userFillPattern;
-        private Hatch displayFillPattern;
 
         public HatchEditorViewModel(Autodesk.Revit.DB.Document doc)
         {
             this.doc = doc;
             FillPatterns = new ObservableCollection<Hatch>(Command.FillPatterns(doc));
             userFillPattern = new Hatch(new FillPattern());
-            displayFillPattern = new Hatch(new FillPattern());
             userFillPattern.Name = @"<Custom>";
             userFillPattern.HatchPattern.Target = FillPatternTarget.Model;
             userFillPattern.Definition =
@@ -98,7 +96,7 @@
             set
             {
                 selectedFillPattern = value;
-                UserFillPattern = selectedFillPattern;
+                UserFillPattern = selectedFillPattern.Clone();
             }
         }
 
@@ -112,9 +110,13 @@
             }
         }
 
-        public void LoadPatternsFromModel()
+        public void LoadPatternFromModel()
         {
-             FillPatterns = new ObservableCollection<Hatch>(Command.FillPatterns(doc));
+            var vm = new ViewModels.SelectHatchViewModel(doc);
+            var result = SCaddinsApp.WindowManager.ShowDialog(vm, null, SelectHatchViewModel.DefualtWindowSettings());
+            if (result.HasValue && result.Value == true) {
+                UserFillPattern = vm.SelectedFillPattern.Clone();
+            }
         }
 
         public void NewDraftingPattern()

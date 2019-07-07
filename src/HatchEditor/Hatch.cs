@@ -8,7 +8,7 @@
     using System.Text;
     using Autodesk.Revit.DB;
 
-    public class Hatch : INotifyPropertyChanged, ICloneable
+    public class Hatch : INotifyPropertyChanged
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "fillPattern")]
         private FillPattern fillPattern;
@@ -202,9 +202,13 @@
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public object Clone()
+        public Hatch Clone()
         {
-            return this.MemberwiseClone();
+            var result = new Hatch();
+            result.Definition = this.Definition;
+            result.HatchPattern.Target = this.HatchPattern.Target;
+            result.Name = this.Name;
+            return result;
         }
     }
 }

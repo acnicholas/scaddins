@@ -27,8 +27,8 @@
                 <MenuItem x:Name="NewModelPatternFromTemplate" Header="New Model Patttern from Template"/>
                 <MenuItem x:Name="NewDraftingPattern" Header="New Drafting Pattern"/>
                 <MenuItem x:Name="NewDraftingPatternFromTemplate" Header="New Drafting Pattern from Template"/>
-                <MenuItem x:Name="LoadPatternsFromFile" Header="_Load patterns from file"/>
-                <MenuItem x:Name="LoadPatternsFromModel" Header="_Load patterns from model"/>
+                <MenuItem x:Name="LoadPatternFromFile" Header="_Load pattern from file"/>
+                <MenuItem x:Name="LoadPatternFromModel" Header="_Load pattern from model"/>
                 <MenuItem x:Name="SaveToFile" Header="_Save to file"/>
                 <MenuItem x:Name="SaveToModel" Header="_Save to current model"/>
             </MenuItem>
