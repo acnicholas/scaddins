@@ -8,17 +8,13 @@
     internal class HatchEditorViewModel : Screen
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "doc")]
-        private Document doc;
-        private ObservableCollection<Hatch> fillPattensInModel;
-        private Hatch selectedFillPattern;
+        private readonly Document doc;
         private Hatch userFillPattern;
 
         public HatchEditorViewModel(Autodesk.Revit.DB.Document doc)
         {
             this.doc = doc;
-            FillPatterns = new ObservableCollection<Hatch>(Command.FillPatterns(doc));
             userFillPattern = new Hatch(new FillPattern());
-            userFillPattern.Name = @"<Custom>";
             userFillPattern.HatchPattern.Target = FillPatternTarget.Model;
             userFillPattern.Definition =
                 "90,0,0,0,100,50,25" + System.Environment.NewLine +
@@ -26,8 +22,6 @@
                 "90,75,0,0,100,50,25" + System.Environment.NewLine +
                 "0,0,0,0,25,25,75" + System.Environment.NewLine +
                 "0,50,25,0,75,25,75";
-            FillPatterns.Add(userFillPattern);
-            selectedFillPattern = FillPatterns.LastOrDefault();
         }
 
         public string UserFillPatternDefinition {
@@ -48,19 +42,6 @@
             get
             {
                 return UserFillPattern.IsDrafting;
-            }
-        }
-
-        public ObservableCollection<Hatch> FillPatterns {
-            get
-            {
-                return fillPattensInModel;
-            }
-
-            set
-            {
-                fillPattensInModel = value;
-                NotifyOfPropertyChange(() => FillPatterns);
             }
         }
 
@@ -87,26 +68,18 @@
             }
         }
 
-        public Hatch SelectedFillPattern {
-            get
-            {
-                return selectedFillPattern;
-            }
-
-            set
-            {
-                selectedFillPattern = value;
-                UserFillPattern = selectedFillPattern.Clone();
-            }
-        }
-
-        public void LoadPatternsFromFile()
+        public void LoadPatternFromFile()
         {
             string filePath = string.Empty;
             var result = SCaddinsApp.WindowManager.ShowFileSelectionDialog("C:/Temp", out filePath);
             if (result.HasValue && result.Value == true)
             {
-                FillPatterns = new ObservableCollection<Hatch>(Command.ReadAllPatternsFromFile(filePath));
+                var vm = new ViewModels.SelectHatchViewModel(new ObservableCollection<Hatch>(Command.ReadAllPatternsFromFile(filePath)));
+                var result2 = SCaddinsApp.WindowManager.ShowDialog(vm, null, SelectHatchViewModel.DefualtWindowSettings());
+                if (result2.HasValue && result2.Value == true)
+                {
+                    UserFillPattern = vm.SelectedFillPattern.Clone();
+                }
             }
         }
 
@@ -143,7 +116,7 @@
             string savePath = string.Empty;
             var result = SCaddinsApp.WindowManager.ShowSaveFileDialog("CustomHatch.pat", "*.pat", "Pattern Files (*.pat)| *.pat", out savePath);
             if (result.HasValue && result == true) {
-                Command.SaveToFile(savePath, SelectedFillPattern);
+                Command.SaveToFile(savePath, UserFillPattern);
             }
         }
 
@@ -155,9 +128,17 @@
             settings.Title = "Fill Pattern Name";
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
-            var vm = new SaveToModelViewModel();
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
-            //// Command.SaveToModel(doc, SelectedFillPattern.HatchPattern);
+            var vm = new SaveToModelViewModel(Command.FillPatterns(doc), UserFillPattern.Name);
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
+            if (result.HasValue && result.Value == true)
+            {
+                UserFillPattern.Name = vm.NewPatternName;
+                Command.SaveToModel(doc, UserFillPattern.HatchPattern);
+            } else
+            {
+                SCaddinsApp.WindowManager.ShowWarningMessageBox("Save to Model", "Fill pattern not saved to the current model...");
+            }
+            
         }
 
         public void ScalePattern()

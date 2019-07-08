@@ -16,6 +16,11 @@
             FillPatterns = new ObservableCollection<Hatch>(Command.FillPatterns(doc));
         }
 
+        public SelectHatchViewModel(ObservableCollection<Hatch> fillPatterns)
+        {
+            FillPatterns = fillPatterns;
+        }
+
         public ObservableCollection<Hatch> FillPatterns {
             get
             {

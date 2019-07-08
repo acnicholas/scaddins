@@ -23,15 +23,41 @@
 
         <Menu Grid.Row="0" Grid.ColumnSpan="3" IsMainMenu="True">
             <MenuItem Header="_File">
-                <MenuItem x:Name="NewModelPattern" Header="_New Model Patttern"/>
-                <MenuItem x:Name="NewModelPatternFromTemplate" Header="New Model Patttern from Template"/>
-                <MenuItem x:Name="NewDraftingPattern" Header="New Drafting Pattern"/>
-                <MenuItem x:Name="NewDraftingPatternFromTemplate" Header="New Drafting Pattern from Template"/>
-                <MenuItem x:Name="LoadPatternFromFile" Header="_Load pattern from file"/>
-                <MenuItem x:Name="LoadPatternFromModel" Header="_Load pattern from model"/>
-                <MenuItem x:Name="SaveToFile" Header="_Save to file"/>
-                <MenuItem x:Name="SaveToModel" Header="_Save to current model"/>
-            </MenuItem>
+                <MenuItem x:Name="NewModelPattern" Header="_New Model Patttern">
+                    <MenuItem.Icon>
+                        <Image Source="/SCaddins;component/Assets/doc.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <!--<MenuItem x:Name="NewModelPatternFromTemplate" Header="New Model Patttern from Template"/>-->
+                <MenuItem x:Name="NewDraftingPattern" Header="New Drafting Pattern">
+                    <MenuItem.Icon>
+                        <Image Source="/SCaddins;component/Assets/doc.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <!--<MenuItem x:Name="NewDraftingPatternFromTemplate" Header="New Drafting Pattern from Template"/>-->
+                <Separator></Separator>
+                <MenuItem x:Name="LoadPatternFromFile" Header="_Load pattern from file">
+                    <MenuItem.Icon>
+                        <Image Source="/SCaddins;component/Assets/open.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="LoadPatternFromModel" Header="_Load pattern from model">
+                    <MenuItem.Icon>
+                        <Image Source="/SCaddins;component/Assets/open.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator></Separator>
+                <MenuItem x:Name="SaveToFile" Header="_Save to file">
+                    <MenuItem.Icon>
+                        <Image Source="/SCaddins;component/Assets/save.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="SaveToModel" Header="_Save to current model">
+                    <MenuItem.Icon>
+                        <Image Source="/SCaddins;component/Assets/save.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem x:Name="ScalePattern" Header="_Scale Pattern by 2"/>
                 <MenuItem x:Name="RotatePattern" Header="_Rotate Pattern by 45 Degrees"/>
@@ -48,18 +74,13 @@
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Label Margin="5">Available Patterns</Label>
-                    <ComboBox x:Name="FillPatterns" DisplayMemberPath="Name" Grid.Column="1" Margin="5"></ComboBox>
-                    <!--<Label Grid.Row="1" Margin="5">Pattern Name</Label>
-                    <TextBox Grid.Column="1" Grid.Row="1" Margin="5" x:Name="PatternName"></TextBox>-->
-                    <RadioButton Grid.Row="2" Margin="5" x:Name="ModelPattern" IsEnabled="False">Model Pattern</RadioButton>
-                    <RadioButton Grid.Row="2" Grid.Column="1" Margin="5" x:Name="DraftingPattern" IsEnabled="False">Drafting Pattern</RadioButton>
+                    <RadioButton Grid.Row="0" Margin="5" x:Name="ModelPattern" IsEnabled="False">Model Pattern</RadioButton>
+                    <RadioButton Grid.Row="0" Grid.Column="1" Margin="5" x:Name="DraftingPattern" IsEnabled="False">Drafting Pattern</RadioButton>
                 </Grid>
                 <TextBox Grid.Row="1" x:Name="UserFillPatternDefinition" TextWrapping="NoWrap" AcceptsReturn="True" AcceptsTab="True" Margin="5"></TextBox>
             <!--<Label x:Name="CurrentPatternType" Grid.Row="2" Margin="5"></Label>-->

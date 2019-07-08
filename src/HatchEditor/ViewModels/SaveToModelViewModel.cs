@@ -1,24 +1,40 @@
 ﻿namespace SCaddins.HatchEditor.ViewModels
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Caliburn.Micro;
 
     public class SaveToModelViewModel : Screen
     {
-        public SaveToModelViewModel()
+        private List<Hatch> fillPatternsInModel;
+        private string newPatternName;
+
+        public SaveToModelViewModel(List<Hatch> fillPatternsInModel, string name)
         {
+            this.fillPatternsInModel = fillPatternsInModel;
+            NewPatternName = name;
         }
 
-        public static bool SavingIsEnabled
+        public bool SavingIsEnabled
         {
             get
             {
-                return false;
+                var n = fillPatternsInModel.Select(s => s.Name).ToList().Contains(NewPatternName);
+                return !string.IsNullOrEmpty(NewPatternName) && !n;
             }
         }
 
         public string NewPatternName
         {
-            get; set;
+            get
+            {
+                return newPatternName;
+            }
+            set
+            {
+                newPatternName = value;
+                NotifyOfPropertyChange(() => SavingIsEnabled);
+            }
         }
 
         public void Cancel()
