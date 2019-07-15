@@ -15,13 +15,14 @@
         {
             this.doc = doc;
             userFillPattern = new Hatch(new FillPattern());
-            userFillPattern.HatchPattern.Target = FillPatternTarget.Model;
+            userFillPattern.HatchPattern.Target = FillPatternTarget.Drafting;
             userFillPattern.Definition =
-                "90,0,0,0,100,50,25" + System.Environment.NewLine +
-                "90,50,0,0,100,50,25" + System.Environment.NewLine +
-                "90,75,0,0,100,50,25" + System.Environment.NewLine +
-                "0,0,0,0,25,25,75" + System.Environment.NewLine +
-                "0,50,25,0,75,25,75";
+                "0,0,0,0,6" + System.Environment.NewLine +
+                "0,2,2,0,6,4,-2" + System.Environment.NewLine +
+                "90,0,0,0,6" + System.Environment.NewLine +
+                "90,2,2,0,6,4,-2" + System.Environment.NewLine +
+                "45,0,0,0,8.485281374,2.8284271247, -5.65685424" + System.Environment.NewLine +
+                "45,0,6,0,8.485281374,2.8284271247, -5.65685424";
         }
 
         public string UserFillPatternDefinition {
