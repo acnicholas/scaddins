@@ -53,6 +53,7 @@ namespace SCaddins.ExportManager
         private string sheetRevisionDescription;
         private bool useDateForEmptyRevisions;
         private bool verified;
+        private bool validPrintSettingIsAssigned;
         private double width;
 
         public ExportSheet(
@@ -300,6 +301,19 @@ namespace SCaddins.ExportManager
                 NotifyPropertyChanged(nameof(UseDateForEmptyRevisions));
                 NotifyPropertyChanged(nameof(FullExportName));
                 NotifyPropertyChanged(nameof(SheetRevision));
+            }
+        }
+
+        public bool ValidPrintSettingIsAssigned
+        {
+            get
+            {
+                return validPrintSettingIsAssigned;
+            }
+            private set
+            {
+                validPrintSettingIsAssigned =  value;
+                NotifyPropertyChanged(nameof(ValidPrintSettingIsAssigned));
             }
         }
 
@@ -561,6 +575,7 @@ namespace SCaddins.ExportManager
             this.pageSize = PrintSettings.GetSheetSizeAsString(this);
             this.printSetting = PrintSettings.GetPrintSettingByName(this.doc, this.pageSize, this.forceRasterPrint);
             this.verified = true;
+            ValidPrintSettingIsAssigned = this.printSetting != null;
             NotifyPropertyChanged(nameof(Scale));
             NotifyPropertyChanged(nameof(PrintSettingName));
         }
@@ -575,6 +590,7 @@ namespace SCaddins.ExportManager
             this.sheet = viewSheet;
             this.segmentedFileName = sheetName;
             this.verified = false;
+            this.validPrintSettingIsAssigned = false;
             this.ExportDirectory = scx.ExportDirectory;
             this.sheetNumber = viewSheet.get_Parameter(
                     BuiltInParameter.SHEET_NUMBER).AsString();

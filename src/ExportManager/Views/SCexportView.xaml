@@ -115,6 +115,16 @@
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
             </DataGrid.AlternatingRowBackground>
 
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ValidPrintSettingIsAssigned}" Value="False">
+                            <Setter Property="Foreground" Value="Red"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     ElementStyle="{StaticResource ColumnElementStyle}"
