@@ -675,4 +675,10 @@
   <data name="MessageStartingPDFExport" xml:space="preserve">
     <value>### Starting Adobe PDF Export ###</value>
   </data>
+  <data name="HatchEditor" xml:space="preserve">
+    <value>Hatch Editor</value>
+  </data>
+  <data name="HatchEditorToolTip" xml:space="preserve">
+    <value>Create custom fill patterns.</value>
+  </data>
 </root>

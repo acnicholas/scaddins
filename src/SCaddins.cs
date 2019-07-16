@@ -180,6 +180,7 @@ namespace SCaddins
                 LoadSCuv(scdll));
             ribbonPanel.AddStackedItems(
                 LoadSCoord(scdll),
+                LoadHatchEditor(scdll),
                 LoadModelWizard(scdll));
 
             ribbonPanel.AddSlideOut();
@@ -285,6 +286,15 @@ namespace SCaddins
                               "SCightLines", Resources.LineofSight, dll, "SCaddins.LineOfSight.Command");
             AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.scightlines-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.LineofSightToolTip;
+            return pbd;
+        }
+
+        private static PushButtonData LoadHatchEditor(string dll)
+        {
+            var pbd = new PushButtonData(
+                              "HatchEditor", Resources.HatchEditor, dll, "SCaddins.HatchEditor.Command");
+            AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.hatch-rvt-16.png", 16, dll);
+            pbd.ToolTip = Resources.HatchEditorToolTip;
             return pbd;
         }
 

@@ -6,6 +6,8 @@
 
         bool? ShowDirectorySelectionDialog(string defaultDir, out string dirPath);
 
+        bool? ShowFileSelectionDialog(string defaultFile, out string filePath);
+
         void ShowMessageBox(string message);
 
         void ShowMessageBox(string title, string message);
