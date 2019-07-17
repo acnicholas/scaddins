@@ -2,24 +2,23 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
     using System.ComponentModel;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Text;
     using Autodesk.Revit.DB;
 
     public class Hatch : INotifyPropertyChanged
     {
+        private string definition;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "fillPattern")]
         private FillPattern fillPattern;
-        private string definition;
         private string name;
 
         public Hatch() : this(new FillPattern() { Name = string.Empty })
         {
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public Hatch(FillPattern pattern)
         {
@@ -28,34 +27,7 @@
             Name = pattern.Name;
         }
 
-        public FillPattern HatchPattern
-        {
-            get
-            {
-                return fillPattern;
-            }
-        }
-
-        public string Name {
-            get
-            {
-                return name;
-            }
-
-            set
-            {
-                name = value;
-                HatchPattern.Name = name;
-            }
-        }
-
-        public bool IsDrafting
-        {
-            get
-            {
-                return fillPattern.Target == FillPatternTarget.Drafting;
-            }
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public string Definition
         {
@@ -73,6 +45,36 @@
             }
         }
 
+        public FillPattern HatchPattern
+        {
+            get
+            {
+                return fillPattern;
+            }
+        }
+
+        public bool IsDrafting
+        {
+            get
+            {
+                return fillPattern.Target == FillPatternTarget.Drafting;
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+
+            set
+            {
+                name = value;
+                HatchPattern.Name = name;
+            }
+        }
+
         public string PatFileString {
             get
             {
@@ -86,6 +88,41 @@
                 s.AppendLine(type);
                 s.AppendLine(Definition);
                 return s.ToString();
+            }
+        }
+
+        public Hatch Clone()
+        {
+            var result = new Hatch();
+            result.Definition = this.Definition;
+            result.HatchPattern.Target = this.HatchPattern.Target;
+            result.Name = this.Name;
+            return result;
+        }
+
+        public void Rotate(double angle)
+        {
+            string[] lines = definition.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            TryAssignFillGridsFromStrings(lines, 1, angle);
+            UpdatePatternDefinition();
+        }
+
+        public void Scale(double scale)
+        {
+            string[] lines = definition.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            TryAssignFillGridsFromStrings(lines, scale, 0);
+            UpdatePatternDefinition();
+        }
+
+        public bool TryAssignFillGridsFromStrings(string[] grids, double scale, double angle)
+        {
+            if (AssignFillGridsFromString(grids, scale, angle))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -106,29 +143,6 @@
             }
             definition = s.ToString();
             return;
-        }
-
-        public void Rotate(double angle)
-        {
-            string[] lines = definition.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            TryAssignFillGridsFromStrings(lines, 1, angle);
-            UpdatePatternDefinition();
-        }
-
-        public void Scale(double scale)
-        {
-            string[] lines = definition.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            TryAssignFillGridsFromStrings(lines, scale, 0);
-            UpdatePatternDefinition();
-        }
-
-        public bool TryAssignFillGridsFromStrings(string[] grids, double scale, double angle)
-        {
-            if (AssignFillGridsFromString(grids, scale, angle)) {
-                return true;
-            } else {
-                return false;
-            }
         }
 
         private bool AssignFillGridsFromString(string[] grids, double scale, double rotationAngle)
@@ -200,15 +214,6 @@
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public Hatch Clone()
-        {
-            var result = new Hatch();
-            result.Definition = this.Definition;
-            result.HatchPattern.Target = this.HatchPattern.Target;
-            result.Name = this.Name;
-            return result;
         }
     }
 }

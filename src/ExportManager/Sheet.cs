@@ -310,9 +310,10 @@ namespace SCaddins.ExportManager
             {
                 return validPrintSettingIsAssigned;
             }
+
             private set
             {
-                validPrintSettingIsAssigned =  value;
+                validPrintSettingIsAssigned = value;
                 NotifyPropertyChanged(nameof(ValidPrintSettingIsAssigned));
             }
         }

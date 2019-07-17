@@ -1,10 +1,9 @@
 ﻿namespace SCaddins.HatchEditor.ViewModels
 {
     using System.Collections.ObjectModel;
-    using System.Linq;
+    using System.Dynamic;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
-    using System.Dynamic;
 
     internal class SelectHatchViewModel : Screen
     {
@@ -39,26 +38,23 @@
             {
                 return selectedFillPattern;
             }
+
             set
             {
                 selectedFillPattern = value;
-                ////SCaddinsApp.WindowManager.ShowMessageBox("test");
                 NotifyOfPropertyChange(() => SelectedFillPattern);
-                ////NotifyOfPropertyChange(() => CanSelect);
             }
         }
 
-        //public bool CanSelect {
-        //    get
-        //    {
-        //        return SelectedFillPattern != null;
-        //    }
-        //}
-
-        public void Select()
+        public static ExpandoObject DefualtWindowSettings()
         {
-            ///SCaddinsApp.WindowManager.ShowMessageBox(SelectedFillPattern.Name);
-            TryClose(true);
+            dynamic settings = new ExpandoObject();
+            settings.Height = 480;
+            settings.Width = 768;
+            settings.Title = "Hatch Editor - By Andrew Nicholas";
+            settings.ShowInTaskbar = false;
+            settings.SizeToContent = System.Windows.SizeToContent.Manual;
+            return settings;
         }
 
         public void Cancel()
@@ -66,15 +62,9 @@
             TryClose(false);
         }
 
-        public static ExpandoObject DefualtWindowSettings()
+        public void Select()
         {
-                dynamic settings = new ExpandoObject();
-                settings.Height = 480;
-                settings.Width = 768;
-                settings.Title = "Hatch Editor - By Andrew Nicholas";
-                settings.ShowInTaskbar = false;
-                settings.SizeToContent = System.Windows.SizeToContent.Manual;
-                return settings;
+            TryClose(true);
         }
     }
 }

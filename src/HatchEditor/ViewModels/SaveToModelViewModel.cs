@@ -30,6 +30,7 @@
             {
                 return newPatternName;
             }
+
             set
             {
                 newPatternName = value;

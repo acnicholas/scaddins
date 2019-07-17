@@ -189,12 +189,12 @@
                 new FormattedText(
                     string.Format(System.Globalization.CultureInfo.InvariantCulture, "Scale: {0}", scale * canvasScale),
                     System.Globalization.CultureInfo.InvariantCulture,
-                    FlowDirection.LeftToRight, new Typeface("arial"),
+                    FlowDirection.LeftToRight,
+                    new Typeface("arial"),
                     10,
                     Brushes.LightBlue,
                     1),
-                new Point(10, 10)
-            );
+                new Point(10, 10));
 
             drawingContext.Close();
             return drawingVisual;

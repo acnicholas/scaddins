@@ -59,6 +59,7 @@
             {
                 return userFillPattern;
             }
+
             set
             {
                 userFillPattern = value;
@@ -95,14 +96,14 @@
 
         public void NewDraftingPattern()
         {
-            UserFillPattern = new Hatch(new FillPattern("New Drafting Pattern",FillPatternTarget.Drafting,FillPatternHostOrientation.ToView));
-            UserFillPatternDefinition = (@"0,0,0,0,5");
+            UserFillPattern = new Hatch(new FillPattern("New Drafting Pattern", FillPatternTarget.Drafting, FillPatternHostOrientation.ToView));
+            UserFillPatternDefinition = @"0,0,0,0,5";
         }
 
         public void NewModelPattern()
         {
             UserFillPattern = new Hatch(new FillPattern("New Drafting Pattern", FillPatternTarget.Model, FillPatternHostOrientation.ToHost));
-            UserFillPatternDefinition = (@"0,0,0,0,50");
+            UserFillPatternDefinition = @"0,0,0,0,50";
         }
 
         public void RotatePattern()
@@ -138,8 +139,7 @@
             } else
             {
                 SCaddinsApp.WindowManager.ShowWarningMessageBox("Save to Model", "Fill pattern not saved to the current model...");
-            }
-            
+            }            
         }
 
         public void ScalePattern()
