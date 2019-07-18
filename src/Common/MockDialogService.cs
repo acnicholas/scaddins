@@ -6,6 +6,11 @@
         {
         }
 
+        public bool? ShowColourChooser()
+        {
+            return true;
+        }
+
         public bool? ShowConfirmationDialog(string message, bool? defaultCheckboxValue, out bool checkboxResult)
         {
             checkboxResult = true;

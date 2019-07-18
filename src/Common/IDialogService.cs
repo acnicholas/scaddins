@@ -2,6 +2,8 @@
 {
     public interface IDialogService
     {
+        bool? ShowColourChooser();
+
         bool? ShowConfirmationDialog(string message, bool? defaultCheckboxValue, out bool checkboxResult);
 
         bool? ShowDirectorySelectionDialog(string defaultDir, out string dirPath);

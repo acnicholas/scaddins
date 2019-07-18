@@ -6,6 +6,12 @@
         {
         }
 
+        public bool? ShowColourChooser()
+        {
+            var colourChooser = new System.Windows.Forms.ColorDialog();
+            return true;
+        }
+
         public bool? ShowConfirmationDialog(string message, bool? defaultCheckboxValue, out bool checkboxResult)
         {
             var confirmOverwriteDialog = new ExportManager.ViewModels.ConfirmationDialogViewModel();

@@ -49,6 +49,11 @@
             return window.ShowDialog();
         }
 
+        public bool? ShowColourDialog()
+        {
+            return dialogService.ShowColourChooser();
+        }
+
         public bool? ShowDirectorySelectionDialog(string defaultDir, out string dirPath)
         {
             return dialogService.ShowDirectorySelectionDialog(defaultDir, out dirPath);

@@ -43,7 +43,11 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             NominatedArchitects.Insert(0, new NominatedArchitect("Architects Name", "0000"));
             selectedNominatedArchitect = NominatedArchitects[0];
             FileName = doc.PathName;
-            
+            Colours = new BindableCollection<System.Windows.Media.Brush>();
+            Colours.Add(System.Windows.Media.Brushes.Aqua);
+            Colours.Add(System.Windows.Media.Brushes.Red);
+
+
             var fileNameParam = ProjectInformation.Where(p => p.Name == ModelSetupWizardSettings.Default.FileNameParameterName);
             if (fileNameParam.Count() == 1)
             {
@@ -120,6 +124,16 @@ namespace SCaddins.ModelSetupWizard.ViewModels
                     NotifyOfPropertyChange(() => ProjectInformation);
                 }
             }
+        }
+
+        public BindableCollection<System.Windows.Media.Brush> Colours
+        {
+            get; private set;
+        }
+
+        public void ColourButtonClicked(object o)
+        {
+            SCaddinsApp.WindowManager.ShowMessageBox(((System.Windows.Controls.Button)o).Name);
         }
 
         public ProjectInformationParameter SelectedProjectInformation
