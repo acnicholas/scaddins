@@ -43,9 +43,12 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             NominatedArchitects.Insert(0, new NominatedArchitect("Architects Name", "0000"));
             selectedNominatedArchitect = NominatedArchitects[0];
             FileName = doc.PathName;
-            Colours = new BindableCollection<System.Windows.Media.Brush>();
-            Colours.Add(System.Windows.Media.Brushes.Aqua);
-            Colours.Add(System.Windows.Media.Brushes.Red);
+            Colours = new BindableCollection<System.Windows.Media.Color>();
+            Colours.Add(System.Windows.Media.Colors.Red);
+            Colours.Add(System.Windows.Media.Colors.Black);
+            for (int i = 2; i < 16; i++) {
+                Colours.Add(System.Windows.Media.Colors.Sienna);
+            }
 
 
             var fileNameParam = ProjectInformation.Where(p => p.Name == ModelSetupWizardSettings.Default.FileNameParameterName);
@@ -126,7 +129,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             }
         }
 
-        public BindableCollection<System.Windows.Media.Brush> Colours
+        public BindableCollection<System.Windows.Media.Color> Colours
         {
             get; private set;
         }
@@ -134,6 +137,12 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         public void ColourButtonClicked(object o)
         {
             SCaddinsApp.WindowManager.ShowMessageBox(((System.Windows.Controls.Button)o).Name);
+            SCaddinsApp.WindowManager.ShowColourDialog();
+        }
+
+        private void ClrPcker_Background_SelectedColorChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<System.Drawing.Color> e)
+        {
+            ////TextBox.Text = "#" + ClrPcker_Background.SelectedColor.R.ToString() + ClrPcker_Background.SelectedColor.G.ToString() + ClrPcker_Background.SelectedColor.B.ToString();
         }
 
         public ProjectInformationParameter SelectedProjectInformation
