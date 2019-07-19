@@ -134,17 +134,6 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             get; private set;
         }
 
-        public void ColourButtonClicked(object o)
-        {
-            SCaddinsApp.WindowManager.ShowMessageBox(((System.Windows.Controls.Button)o).Name);
-            SCaddinsApp.WindowManager.ShowColourDialog();
-        }
-
-        private void ClrPcker_Background_SelectedColorChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<System.Drawing.Color> e)
-        {
-            ////TextBox.Text = "#" + ClrPcker_Background.SelectedColor.R.ToString() + ClrPcker_Background.SelectedColor.G.ToString() + ClrPcker_Background.SelectedColor.B.ToString();
-        }
-
         public ProjectInformationParameter SelectedProjectInformation
         {
             get; set;
