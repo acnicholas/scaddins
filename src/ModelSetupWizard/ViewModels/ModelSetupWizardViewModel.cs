@@ -43,12 +43,15 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             NominatedArchitects.Insert(0, new NominatedArchitect("Architects Name", "0000"));
             selectedNominatedArchitect = NominatedArchitects[0];
             FileName = doc.PathName;
-            Colours = new BindableCollection<System.Windows.Media.Color>();
-            Colours.Add(System.Windows.Media.Colors.Red);
-            Colours.Add(System.Windows.Media.Colors.Black);
-            for (int i = 2; i < 16; i++) {
-                Colours.Add(System.Windows.Media.Colors.Sienna);
+
+            var iniFile = IniIO.GetIniFile(doc);
+            if (string.Empty != iniFile) {
+                var colors = IniIO.ReadColours(iniFile);
+                Colours = new BindableCollection<System.Windows.Media.Color>(colors);
+            } else {
+                SCaddinsApp.WindowManager.ShowMessageBox(iniFile + " does not exist");
             }
+
 
 
             var fileNameParam = ProjectInformation.Where(p => p.Name == ModelSetupWizardSettings.Default.FileNameParameterName);
@@ -169,6 +172,16 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             ModelSetupWizardUtilities.ApplyWorksetModifications(doc, Worksets.ToList(), ref worksetLog);
             var projectInfoLog = new TransactionLog(@"Project Information Modifications");
             ModelSetupWizardUtilities.ApplyProjectInfoModifications(doc, ProjectInformation.ToList(), ref projectInfoLog);
+
+            var iniFile = IniIO.GetIniFile(doc);
+            if (string.Empty != iniFile) {
+                //var colors = IniIO.ReadColours(iniFile);
+                //Colours = new BindableCollection<System.Windows.Media.Color>(colors);
+                IniIO.WriteColours(iniFile, Colours.ToList());
+            } else {
+                SCaddinsApp.WindowManager.ShowMessageBox(iniFile + " does not exist");
+            }
+
             string msg = "Summary" + System.Environment.NewLine +
                 System.Environment.NewLine +
                 worksetLog.ToString() + System.Environment.NewLine +

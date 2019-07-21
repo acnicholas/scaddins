@@ -124,7 +124,7 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem>
+            <TabItem Header="Colours">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -139,31 +139,31 @@
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition MinWidth="50"></ColumnDefinition>
-                            <ColumnDefinition MinWidth="50"></ColumnDefinition>
-                            <ColumnDefinition MinWidth="50"></ColumnDefinition>
-                            <ColumnDefinition MinWidth="50"></ColumnDefinition>
-                            <ColumnDefinition MinWidth="50"></ColumnDefinition>
-                            <ColumnDefinition MinWidth="50"></ColumnDefinition>
-                            <ColumnDefinition MinWidth="50"></ColumnDefinition>
-                            <ColumnDefinition MinWidth="50"></ColumnDefinition>
+                            <ColumnDefinition MinWidth="35"></ColumnDefinition>
+                            <ColumnDefinition MinWidth="35"></ColumnDefinition>
+                            <ColumnDefinition MinWidth="35"></ColumnDefinition>
+                            <ColumnDefinition MinWidth="35"></ColumnDefinition>
+                            <ColumnDefinition MinWidth="35"></ColumnDefinition>
+                            <ColumnDefinition MinWidth="35"></ColumnDefinition>
+                            <ColumnDefinition MinWidth="35"></ColumnDefinition>
+                            <ColumnDefinition MinWidth="35"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <xctk:ColorPicker x:Name="Colour01" ShowRecentColors="True" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="0" Margin="5" MinWidth="50" SelectedColor="{Binding Colours[0]}"></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour02" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="1" Margin="5" MinWidth="50" SelectedColor="{Binding Colours[1]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour03" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="2" Margin="5" MinWidth="50" SelectedColor="{Binding Colours[2]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour04" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="3" Margin="5" MinWidth="50" SelectedColor="{Binding Colours[3]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour05" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="4" Margin="5" MinWidth="50" SelectedColor="{Binding Colours[4]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour06" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="5" Margin="5" MinWidth="50" SelectedColor="{Binding Colours[5]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour07" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="6" Margin="5" MinWidth="50" SelectedColor="{Binding Colours[6]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour08" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="7" Margin="5" MinWidth="50" SelectedColor="{Binding Colours[7]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour09" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="0" Margin="5" MinWidth="50" SelectedColor="{Binding Colours[8]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour10" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="1" Margin="5" MinWidth="50" SelectedColor="{Binding Colours[9]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour11" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="2" Margin="5" MinWidth="50" SelectedColor="{Binding Colours[10]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour12" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="3" Margin="5" MinWidth="50" SelectedColor="{Binding Colours[11]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour13" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="4" Margin="5" MinWidth="50" SelectedColor="{Binding Colours[12]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour14" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="5" Margin="5" MinWidth="50" SelectedColor="{Binding Colours[13]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour15" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="6" Margin="5" MinWidth="50" SelectedColor="{Binding Colours[14]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour16" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="7" Margin="5" MinWidth="50" SelectedColor="{Binding Colours[15]}" ></xctk:ColorPicker>
+                        <xctk:ColorPicker x:Name="Colour01" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="0" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[0]}"></xctk:ColorPicker>
+                        <xctk:ColorPicker x:Name="Colour02" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="1" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[1]}" ></xctk:ColorPicker>
+                        <xctk:ColorPicker x:Name="Colour03" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="2" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[2]}" ></xctk:ColorPicker>
+                        <xctk:ColorPicker x:Name="Colour04" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="3" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[3]}" ></xctk:ColorPicker>
+                        <xctk:ColorPicker x:Name="Colour05" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="4" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[4]}" ></xctk:ColorPicker>
+                        <xctk:ColorPicker x:Name="Colour06" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="5" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[5]}" ></xctk:ColorPicker>
+                        <xctk:ColorPicker x:Name="Colour07" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="6" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[6]}" ></xctk:ColorPicker>
+                        <xctk:ColorPicker x:Name="Colour08" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="7" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[7]}" ></xctk:ColorPicker>
+                        <xctk:ColorPicker x:Name="Colour09" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="0" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[8]}" ></xctk:ColorPicker>
+                        <xctk:ColorPicker x:Name="Colour10" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="1" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[9]}" ></xctk:ColorPicker>
+                        <xctk:ColorPicker x:Name="Colour11" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="2" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[10]}" ></xctk:ColorPicker>
+                        <xctk:ColorPicker x:Name="Colour12" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="3" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[11]}" ></xctk:ColorPicker>
+                        <xctk:ColorPicker x:Name="Colour13" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="4" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[12]}" ></xctk:ColorPicker>
+                        <xctk:ColorPicker x:Name="Colour14" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="5" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[13]}" ></xctk:ColorPicker>
+                        <xctk:ColorPicker x:Name="Colour15" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="6" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[14]}" ></xctk:ColorPicker>
+                        <xctk:ColorPicker x:Name="Colour16" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="7" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[15]}" ></xctk:ColorPicker>
                     </Grid>
                     <!--<xctk:ColorPicker
                         Grid.Column="1"
