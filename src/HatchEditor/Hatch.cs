@@ -193,7 +193,7 @@
                         return false;
                     }
                     individualSeg *= scale;
-                    lineSegs.Add(individualSeg.ToFeet());
+                    lineSegs.Add(Math.Abs(individualSeg.ToFeet()));
                 }
                 x *= scale;
                 y *= scale;
