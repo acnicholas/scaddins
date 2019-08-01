@@ -12,14 +12,8 @@
             confirmOverwriteDialog.Message = message;
             confirmOverwriteDialog.Value = defaultCheckboxValue;
             bool? result = SCaddinsApp.WindowManager.ShowDialog(confirmOverwriteDialog, null, ExportManager.ViewModels.ConfirmationDialogViewModel.DefaultWindowSettings);
-            bool newBool = result.HasValue ? result.Value : false;
-            if (newBool)
-            {
-                checkboxResult = confirmOverwriteDialog.ValueAsBool;
-                return confirmOverwriteDialog.ValueAsBool;
-            }
             checkboxResult = confirmOverwriteDialog.ValueAsBool;
-            return false;
+            return result.HasValue ? result.Value : false;
         }
 
         public bool? ShowDirectorySelectionDialog(string defaultDir, out string dirPath)

@@ -42,20 +42,12 @@ namespace SCaddins.ExportManager
                 }
             }
 
-            if (!Manager.ConfirmOverwrite) {
-                return true;
-            }
-
-            if (File.Exists(fileName)) {
+            if (File.Exists(fileName) && Manager.ConfirmOverwrite) {
                 var message = fileName + " exists," + Environment.NewLine + "do you want do overwrite the existing file?";
                 bool confirmOverwriteDialog = true;
                 bool? result = SCaddinsApp.WindowManager.ShowConfirmationDialog(message, Manager.ConfirmOverwrite, out confirmOverwriteDialog);
                 Manager.ConfirmOverwrite = confirmOverwriteDialog;
-                bool newBool = result.HasValue ? result.Value : false;
-                if (newBool) {
-                    return newBool;
-                }
-                return false;
+                return result.HasValue ? result.Value : false;
             }
             return true;
         }
