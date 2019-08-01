@@ -65,8 +65,8 @@
             var result = new List<Hatch>();
             for (int i = startIndex; i < array.Length - 2; i++)
             {
-                if (array[i].Trim().StartsWith(@"*", System.StringComparison.InvariantCulture)) {
-                    var name = array[i].Trim();
+                if (array[i].Length > 1 && array[i].Trim().StartsWith(@"*", System.StringComparison.InvariantCulture)) {
+                    var name = array[i].Substring(1).Trim();
                     i++;
                     var type = array[i].Trim();
                     var defs = new StringBuilder();

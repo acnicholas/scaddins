@@ -115,23 +115,22 @@
 
         public void SaveToFile()
         {
-            string savePath = string.Empty;
-            var result = SCaddinsApp.WindowManager.ShowSaveFileDialog("CustomHatch.pat", "*.pat", "Pattern Files (*.pat)| *.pat", out savePath);
-            if (result.HasValue && result == true) {
-                Command.SaveToFile(savePath, UserFillPattern);
+            var vm = new SaveToModelViewModel(UserFillPattern.Name);
+            bool? nameResult = SCaddinsApp.WindowManager.ShowDialog(vm, null, SaveToModelViewModel.DefaultWindowSettings);
+            if (nameResult.HasValue && nameResult.Value == true) {
+                UserFillPattern.Name = vm.NewPatternName;
+                string savePath = string.Empty;
+                var result = SCaddinsApp.WindowManager.ShowSaveFileDialog("CustomHatch.pat", "*.pat", "Pattern Files (*.pat)| *.pat", out savePath);
+                if (result.HasValue && result == true) {
+                    Command.SaveToFile(savePath, UserFillPattern);
+                }
             }
         }
 
         public void SaveToModel()
         {
-            dynamic settings = new System.Dynamic.ExpandoObject();
-            settings.Height = 160;
-            settings.Width = 320;
-            settings.Title = "Fill Pattern Name";
-            settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.Manual;
             var vm = new SaveToModelViewModel(Command.FillPatterns(doc), UserFillPattern.Name);
-            bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, SaveToModelViewModel.DefaultWindowSettings);
             if (result.HasValue && result.Value == true)
             {
                 UserFillPattern.Name = vm.NewPatternName;

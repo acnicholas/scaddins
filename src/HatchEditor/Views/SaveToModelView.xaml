@@ -16,7 +16,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="5">Name (must be unique)</Label>
+        <Label x:Name="Label" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="5"></Label>
         <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="NewPatternName" Margin="5"></TextBox>
         <Button Grid.Row="2" Grid.Column="0" x:Name="Cancel" Margin="5">Cancel</Button>
         <Button Grid.Row="2" Grid.Column="1" x:Name="Save" Margin="5" IsEnabled="{Binding SavingIsEnabled}">Save</Button>
