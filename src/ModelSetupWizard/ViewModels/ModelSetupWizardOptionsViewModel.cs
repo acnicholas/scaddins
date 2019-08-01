@@ -15,6 +15,8 @@
             SelectedWorksets = new List<WorksetParameter>();
             ProjectInformationReplacements = new BindableCollection<ProjectInformationReplacement>();
             NominatedArchitects = new BindableCollection<NominatedArchitect>();
+
+            ColourSchemes = new BindableCollection<ColourScheme>();
             
             var loadSystemConfig = ModelSetupWizardSettings.Default.LoadSystemConfigOnStartup;
             if (loadSystemConfig) {
@@ -54,6 +56,10 @@
         public string NominatedArchitectParameterName
         {
             get; set;
+        }
+
+        public BindableCollection<ColourScheme> ColourSchemes {
+            get; private set;
         }
 
         public BindableCollection<NominatedArchitect> NominatedArchitects
@@ -253,6 +259,17 @@
             }
         }
 
+        private void AddColourSchemes()
+        {
+            var colourSchemesSettings = ModelSetupWizardSettings.Default.ColourSchemes;
+            foreach (var colourSchemeConfigString in colourSchemesSettings) {
+                if (string.IsNullOrEmpty(colourSchemeConfigString)) {
+                    continue;
+                }
+                ColourSchemes.Add(new ColourScheme(colourSchemeConfigString));
+            }
+        }
+
         private void AddProjectInformationReplacements()
         {
             var pinf = ModelSetupWizardSettings.Default.DefaultProjectInformation;
@@ -276,6 +293,7 @@
             AddDefaultWorksets();
             AddProjectInformationReplacements();
             AddNominatedArchitects();
+            AddColourSchemes();
             NominatedArchitectParameterName = ModelSetupWizardSettings.Default.NomArchitectParamName;
             NominatedArchitectNumberParameterName = ModelSetupWizardSettings.Default.NomArchitectNoumberParamName;
             FileNameParameterName = ModelSetupWizardSettings.Default.FileNameParameterName;

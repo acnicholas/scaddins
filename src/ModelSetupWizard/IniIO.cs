@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Autodesk.Revit.DB;
-
-namespace SCaddins.ModelSetupWizard
+﻿namespace SCaddins.ModelSetupWizard
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using Autodesk.Revit.DB;
     using IniParser;
     using IniParser.Model;
 
-    class IniIO
+    public static class IniIO
     {
         public static List<System.Windows.Media.Color> ReadColours(string iniFilePath)
         {
@@ -59,14 +58,11 @@ namespace SCaddins.ModelSetupWizard
 
         public static string ConvertColorToString(System.Windows.Media.Color color)
         {
-            return String.Format("{0}{1}{2}", color.B.ToString("X2"), color.G.ToString("X2"), color.R.ToString("X2"));
+            return string.Format("{0}{1}{2}", color.B.ToString("X2"), color.G.ToString("X2"), color.R.ToString("X2"));
         }
 
-        public static System.Windows.Media.Color ConvertStringToColor(String hex)
+        public static System.Windows.Media.Color ConvertStringToColor(string hex)
         {
-            //remove the # at the front
-            //hex = hex.Replace("#", "");
-
             byte a = 255;
             byte r = 255;
             byte g = 255;
@@ -74,13 +70,11 @@ namespace SCaddins.ModelSetupWizard
 
             int start = 0;
 
-            //handle ARGB strings (8 characters long)
             if (hex.Length == 8) {
                 a = byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
                 start = 2;
             }
 
-            //convert RGB characters to bytes
             b = byte.Parse(hex.Substring(start, 2), System.Globalization.NumberStyles.HexNumber);
             g = byte.Parse(hex.Substring(start + 2, 2), System.Globalization.NumberStyles.HexNumber);
             r = byte.Parse(hex.Substring(start + 4, 2), System.Globalization.NumberStyles.HexNumber);
@@ -91,12 +85,9 @@ namespace SCaddins.ModelSetupWizard
         public static string GetIniFile(Document doc)
         {
             string version = doc.Application.VersionName;
-            //// string version = doc.Application.VersionNumber;
             string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             string fullPath = System.IO.Path.Combine(path, @"Autodesk\Revit", version, @"Revit.ini");
-            //SCaddinsApp.WindowManager.ShowMessageBox(fullPath);
             return System.IO.File.Exists(fullPath) ? fullPath : string.Empty;
         }
-
     }
 }

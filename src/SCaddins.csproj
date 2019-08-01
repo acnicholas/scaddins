@@ -398,6 +398,7 @@
     <Compile Include="LineOfSight\Views\LineOfSightView.xaml.cs">
       <DependentUpon>LineOfSightView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ModelSetupWizard\ColourScheme.cs" />
     <Compile Include="ModelSetupWizard\Command.cs" />
     <Compile Include="ModelSetupWizard\ElementCollectors.cs" />
     <Compile Include="ModelSetupWizard\IniIO.cs" />

@@ -30,18 +30,21 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         private ModelSetupWizardOptionsViewModel optionsVm;
         private BindableCollection<ProjectInformationParameter> projectInformation;
         private NominatedArchitect selectedNominatedArchitect;
+        private ColourScheme selectedColourScheme;
 
-        public ModelSetupWizardViewModel(Document doc)
+        public ModelSetupWizardViewModel(Autodesk.Revit.UI.UIDocument uidoc)
         {
-            this.doc = doc;
+            this.doc = uidoc.Document;
             ProjectInformation = new BindableCollection<ProjectInformationParameter>(ElementCollectors.GetProjectInformationParameters(doc));
             Worksets = new BindableCollection<WorksetParameter>(ElementCollectors.GetWorksetParameters(doc));
             SelectedWorksets = new List<WorksetParameter>();
             SelectedProjectInformations = new List<ProjectInformationParameter>();
             optionsVm = new ModelSetupWizardOptionsViewModel();
-            NominatedArchitects = new BindableCollection<NominatedArchitect>(optionsVm.NominatedArchitects);
+            NominatedArchitects = optionsVm.NominatedArchitects;
+            ColourSchemes = optionsVm.ColourSchemes;
             NominatedArchitects.Insert(0, new NominatedArchitect("Architects Name", "0000"));
             selectedNominatedArchitect = NominatedArchitects[0];
+            selectedColourScheme = ColourSchemes[0];
             FileName = doc.PathName;
 
             var iniFile = IniIO.GetIniFile(doc);
@@ -51,8 +54,6 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             } else {
                 SCaddinsApp.WindowManager.ShowMessageBox(iniFile + " does not exist");
             }
-
-
 
             var fileNameParam = ProjectInformation.Where(p => p.Name == ModelSetupWizardSettings.Default.FileNameParameterName);
             if (fileNameParam.Count() == 1)
@@ -137,6 +138,28 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             get; private set;
         }
 
+        public BindableCollection<ColourScheme> ColourSchemes {
+            get; private set;
+        }
+
+        public ColourScheme SelectedColourScheme
+        {
+            get
+            {
+                return selectedColourScheme;
+            }
+
+            set
+            {
+                selectedColourScheme = value;
+                for (int i = 0; i < selectedColourScheme.Colors.Count; i++) {
+                    Colours[i] = selectedColourScheme.Colors[i];
+                }
+                NotifyOfPropertyChange(() => SelectedColourScheme);
+                NotifyOfPropertyChange(() => Colours);
+            }
+        }
+
         public ProjectInformationParameter SelectedProjectInformation
         {
             get; set;
@@ -175,8 +198,6 @@ namespace SCaddins.ModelSetupWizard.ViewModels
 
             var iniFile = IniIO.GetIniFile(doc);
             if (string.Empty != iniFile) {
-                //var colors = IniIO.ReadColours(iniFile);
-                //Colours = new BindableCollection<System.Windows.Media.Color>(colors);
                 IniIO.WriteColours(iniFile, Colours.ToList());
             } else {
                 SCaddinsApp.WindowManager.ShowMessageBox(iniFile + " does not exist");
