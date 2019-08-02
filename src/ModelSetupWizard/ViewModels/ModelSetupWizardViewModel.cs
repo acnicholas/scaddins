@@ -48,7 +48,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             FileName = doc.PathName;
 
             var iniFile = IniIO.GetIniFile(doc);
-            if (string.Empty != iniFile) {
+            if (iniFile.Length > 0) {
                 var colors = IniIO.ReadColours(iniFile);
                 Colours = new BindableCollection<System.Windows.Media.Color>(colors);
             } else {
@@ -197,7 +197,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             ModelSetupWizardUtilities.ApplyProjectInfoModifications(doc, ProjectInformation.ToList(), ref projectInfoLog);
 
             var iniFile = IniIO.GetIniFile(doc);
-            if (string.Empty != iniFile) {
+            if (iniFile.Length > 0) {
                 IniIO.WriteColours(iniFile, Colours.ToList());
             } else {
                 SCaddinsApp.WindowManager.ShowMessageBox(iniFile + " does not exist");

@@ -20,7 +20,7 @@
         }
 
         public List<System.Windows.Media.Color> Colors {
-            get; set;
+            get; private set;
         }
     }
 }

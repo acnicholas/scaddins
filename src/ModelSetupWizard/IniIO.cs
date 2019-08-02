@@ -58,7 +58,7 @@
 
         public static string ConvertColorToString(System.Windows.Media.Color color)
         {
-            return string.Format("{0}{1}{2}", color.B.ToString("X2"), color.G.ToString("X2"), color.R.ToString("X2"));
+            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}{2}", color.B.ToString("X2", System.Globalization.CultureInfo.InvariantCulture), color.G.ToString("X2", System.Globalization.CultureInfo.InvariantCulture), color.R.ToString("X2", System.Globalization.CultureInfo.InvariantCulture));
         }
 
         public static System.Windows.Media.Color ConvertStringToColor(string hex)
@@ -71,13 +71,13 @@
             int start = 0;
 
             if (hex.Length == 8) {
-                a = byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
+                a = byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture);
                 start = 2;
             }
 
-            b = byte.Parse(hex.Substring(start, 2), System.Globalization.NumberStyles.HexNumber);
-            g = byte.Parse(hex.Substring(start + 2, 2), System.Globalization.NumberStyles.HexNumber);
-            r = byte.Parse(hex.Substring(start + 4, 2), System.Globalization.NumberStyles.HexNumber);
+            b = byte.Parse(hex.Substring(start, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture);
+            g = byte.Parse(hex.Substring(start + 2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture);
+            r = byte.Parse(hex.Substring(start + 4, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture);
 
             return System.Windows.Media.Color.FromArgb(a, r, g, b);
         }
