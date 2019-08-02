@@ -56,7 +56,7 @@ namespace SCaddins.ModelSetupWizard
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Width;
 
-            var vm = new ViewModels.ModelSetupWizardViewModel(doc);
+            var vm = new ViewModels.ModelSetupWizardViewModel(commandData.Application.ActiveUIDocument);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
 
             return Result.Succeeded;
