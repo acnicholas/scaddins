@@ -274,16 +274,16 @@ namespace SCaddins.SolarAnalysis
             return true;
         }
 
-        public bool Go()
+        public bool Go(ModelSetupWizard.TransactionLog log)
         {
             if (RotateCurrentView) {
                 return RotateView(activeView);
             }
             if (Create3dViews) {
-                return CreateWinterViews();
+                return CreateWinterViews(log);
             }
             if (CreateShadowPlans) {
-                return CreateShadowPlanViews();
+                return CreateShadowPlanViews(log);
             }
             return true;
         }
@@ -354,11 +354,12 @@ namespace SCaddins.SolarAnalysis
             return result;
         }
         ////[SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        private bool CreateShadowPlanViews()
+        private bool CreateShadowPlanViews(ModelSetupWizard.TransactionLog log)
         {
             var id = GetViewFamilyId(doc, ViewFamily.FloorPlan);
             var levelId = GetHighestLevel(doc);
             if (id == null || levelId == null) {
+                log.AddFailure("Could not gererate shadow plans. FamilyId or LevelId not found");
                 return false;
             }
 
@@ -379,6 +380,7 @@ namespace SCaddins.SolarAnalysis
                         sunSettings.StartDateAndTime = StartTime;
                         sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
                         view.SunlightIntensity = 50;
+                        log.AddSuccess("Shadow Plan created: " + vname);
                         t.Commit();
                         StartTime = StartTime.Add(ExportTimeInterval);
                     }
@@ -388,12 +390,13 @@ namespace SCaddins.SolarAnalysis
         }
 
         ////[SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        private bool CreateWinterViews()
+        private bool CreateWinterViews(ModelSetupWizard.TransactionLog log)
         {
             var id = GetViewFamilyId(doc, ViewFamily.ThreeDimensional);
 
             // FIXME add error message here
             if (id == null) {
+                log.AddFailure("Could not gererate 3d view. FamilyId not found");
                 return false;
             }
 
@@ -418,11 +421,13 @@ namespace SCaddins.SolarAnalysis
                     t.Commit();
 
                     if (!RotateView(view)) {
+                        log.AddFailure("Could not rotate view: " + vname);
                         return false;
                     }
+                    log.AddSuccess("View created: " + vname);
                     StartTime = StartTime.Add(ExportTimeInterval);
                 }
-            }
+            } 
             return true;
         }
 

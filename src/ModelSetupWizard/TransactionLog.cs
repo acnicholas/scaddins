@@ -59,6 +59,17 @@ namespace SCaddins.ModelSetupWizard
             NumberOfItems++;
         }
 
+        public string Summary()
+        {
+            string result = this.ToString();
+            result += System.Environment.NewLine;
+            foreach (var item in items) {
+                result += item.Message;
+                result += System.Environment.NewLine;
+            }
+            return result;
+        }
+
         public override string ToString()
         {
             return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}: {1} Successes, {2} Failures", Name, NumberOfItems, NumberOfErrors);

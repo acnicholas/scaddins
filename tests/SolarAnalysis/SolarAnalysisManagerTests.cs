@@ -76,17 +76,17 @@ namespace SCaddins.SolarAnalysis.Tests
             var views = new FilteredElementCollector(doc).OfClass(typeof(View)).ToElements().Cast<View>();
             var isoView = views.Where(v => v.ViewName == "3D View 01").First();
             SCaddins.Tests.Common.TestUtilities.OpenView(isoView);
-            Assert.IsTrue(manager.Go());
+            Assert.IsTrue(manager.Go(new ModelSetupWizard.TransactionLog("test")));
 
             //create solar analysis views (sun eye views)
             manager.RotateCurrentView = false;
             manager.CreateAnalysisView = true;
-            Assert.IsTrue(manager.Go());
+            Assert.IsTrue(manager.Go(new ModelSetupWizard.TransactionLog("test")));
 
             //create shadow plan
             manager.CreateShadowPlans = true;
             manager.CreateAnalysisView = false;
-            Assert.IsTrue(manager.Go());
+            Assert.IsTrue(manager.Go(new ModelSetupWizard.TransactionLog("test")));
 
         }
 

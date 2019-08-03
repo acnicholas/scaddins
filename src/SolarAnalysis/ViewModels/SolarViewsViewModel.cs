@@ -417,10 +417,15 @@ namespace SCaddins.SolarAnalysis.ViewModels
             if (model.CreateAnalysisView) {
                 TryClose(true);
             } else {
+                var log = new ModelSetupWizard.TransactionLog(CurrentModeSummary);
                 model.StartTime = startTime;
                 model.EndTime = endTime;
                 model.ExportTimeInterval = interval;
-                model.Go();
+                model.Go(log);
+                SCaddinsApp.WindowManager.ShowMessageBox(log.Summary());
+                DockablePaneId docablePaneId = DockablePanes.BuiltInDockablePanes.ProjectBrowser;
+                DockablePane dP = new DockablePane(docablePaneId);
+                dP.Show();
             }
         }
 
@@ -433,13 +438,13 @@ namespace SCaddins.SolarAnalysis.ViewModels
         public void SelectAnalysisFaces()
         {
             selectedCloseMode = CloseMode.FaceSelection;
-            TryClose(false);
+            TryClose(true);
         }
 
         public void SelectMasses()
         {
             selectedCloseMode = CloseMode.MassSelection;
-            TryClose(false);
+            TryClose(true);
         }
 
         protected override void OnDeactivate(bool close)
@@ -449,16 +454,23 @@ namespace SCaddins.SolarAnalysis.ViewModels
             Left = SCaddinsApp.WindowManager.Left;
             Top = SCaddinsApp.WindowManager.Top;
 
-            switch (selectedCloseMode) {
-                case CloseMode.Close:
-                base.OnDeactivate(true);
-                break;
+            base.OnDeactivate(true);
 
+            switch (selectedCloseMode) {
                 case CloseMode.FaceSelection:
                 try {
                     FaceSelection = uidoc.Selection.PickObjects(Autodesk.Revit.UI.Selection.ObjectType.Face, "Select Faces");
-                } catch (OperationCanceledException ex) {
+                } catch (Autodesk.Revit.Exceptions.OperationCanceledException ex) {
                     SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
+                    FaceSelection = null;
+                } catch (Autodesk.Revit.Exceptions.ArgumentNullException anex) {
+                    SCaddinsApp.WindowManager.ShowMessageBox(anex.Message);
+                    FaceSelection = null;
+                } catch (Autodesk.Revit.Exceptions.ArgumentOutOfRangeException aoorex) {
+                    SCaddinsApp.WindowManager.ShowMessageBox(aoorex.Message);
+                    FaceSelection = null;
+                } catch (Autodesk.Revit.Exceptions.ForbiddenForDynamicUpdateException ffduex) {
+                    SCaddinsApp.WindowManager.ShowMessageBox(ffduex.Message);
                     FaceSelection = null;
                 }
                 Respawn(this, true);
@@ -467,21 +479,27 @@ namespace SCaddins.SolarAnalysis.ViewModels
                 case CloseMode.MassSelection:
                 try {
                     MassSelection = uidoc.Selection.PickObjects(Autodesk.Revit.UI.Selection.ObjectType.Element, "Select Masses");
-                } catch (OperationCanceledException ex) {
+                } catch (Autodesk.Revit.Exceptions.OperationCanceledException ex) {
                     SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
+                    MassSelection = null;
+                } catch (Autodesk.Revit.Exceptions.ArgumentNullException anex) {
+                    SCaddinsApp.WindowManager.ShowMessageBox(anex.Message);
+                    MassSelection = null;
+                } catch (Autodesk.Revit.Exceptions.ArgumentOutOfRangeException aoorex) {
+                    SCaddinsApp.WindowManager.ShowMessageBox(aoorex.Message);
+                    MassSelection = null;
+                } catch (Autodesk.Revit.Exceptions.ForbiddenForDynamicUpdateException ffduex) {
+                    SCaddinsApp.WindowManager.ShowMessageBox(ffduex.Message);
                     MassSelection = null;
                 }
                 Respawn(this, true);
                 break;
 
+                case CloseMode.Close:
                 case CloseMode.Clear:
                 case CloseMode.Analize:
-                base.OnDeactivate(close);
-                break;
-
                 default:
-                base.OnDeactivate(true);
-                break;
+                    break;
             }
         }
     }
