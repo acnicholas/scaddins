@@ -115,7 +115,27 @@ namespace SCaddins.SolarAnalysis
 
                         if (testFace.Face.IsInside(uv)) {
                             SunAndShadowSettings setting = view.SunAndShadowSettings;
-                            var hoursOfSun = setting.NumberOfFrames;
+                            double hoursOfSun = 0;
+                            double interval = 1;
+                            switch (setting.TimeInterval)
+                            {
+                                case SunStudyTimeInterval.Hour:
+                                    hoursOfSun = setting.NumberOfFrames - 1;
+                                    interval = 1;
+                                    break;
+                                case SunStudyTimeInterval.Minutes30:
+                                    interval = 0.5;
+                                    hoursOfSun = (setting.NumberOfFrames - 1) * interval;
+                                    break;
+                                case SunStudyTimeInterval.Minutes15:
+                                    interval = 0.25;
+                                    hoursOfSun = (setting.NumberOfFrames - 1) * interval;
+                                    break;
+                                case SunStudyTimeInterval.Minutes45:
+                                    interval = 0.75;
+                                    hoursOfSun = (setting.NumberOfFrames - 1) * interval;
+                                    break;
+                            }
                             //// Autodesk makes active frame starts from 1..
                             for (int activeFrame = 1; activeFrame <= setting.NumberOfFrames; activeFrame++) {
                                 setting.ActiveFrame = activeFrame;
@@ -130,7 +150,7 @@ namespace SCaddins.SolarAnalysis
                                     try {
                                         var solidInt = solid.IntersectWithCurve(line, new SolidCurveIntersectionOptions());
                                         if (solidInt.SegmentCount > 0) {
-                                            hoursOfSun = hoursOfSun - 1;
+                                            hoursOfSun = hoursOfSun - interval;
                                             break;
                                         }
                                     } catch {
@@ -138,7 +158,7 @@ namespace SCaddins.SolarAnalysis
                                     }
                                 }
                             } ////ray loop
-                            testFace.AddValueAtPoint(uv, hoursOfSun - 1);
+                            testFace.AddValueAtPoint(uv, hoursOfSun);
                         }
                     }
                 }
@@ -246,7 +266,7 @@ namespace SCaddins.SolarAnalysis
             if (sunSettings == null) {
                 return false;
             }
-            return sunSettings.TimeInterval == SunStudyTimeInterval.Hour && sunSettings.SunAndShadowType == SunAndShadowType.OneDayStudy;
+            return sunSettings.SunAndShadowType == SunAndShadowType.OneDayStudy;
         }
 
         // FIXME put this somewhere else.

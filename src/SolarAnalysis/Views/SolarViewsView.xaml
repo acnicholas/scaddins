@@ -88,7 +88,7 @@
                         ToolTipService.ShowOnDisabled="True"
                         Content="Create Analysis View">
                         <RadioButton.ToolTip>
-                            <Label>Create a coloured Solar Analysis (Direct Sun) View. The active view's Sun Settings must be a single day, with hourly frame intervals</Label>
+                            <Label>Create a coloured Solar Analysis (Direct Sun) View. The active view's Sun Settings must be a single day</Label>
                         </RadioButton.ToolTip>
                     </RadioButton>
                 </Grid>
