@@ -12,7 +12,7 @@ namespace SCaddins.ModelSetupWizard {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
     internal sealed partial class ModelSetupWizardSettings : global::System.Configuration.ApplicationSettingsBase {
         
         private static ModelSetupWizardSettings defaultInstance = ((ModelSetupWizardSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new ModelSetupWizardSettings())));
@@ -145,11 +145,10 @@ namespace SCaddins.ModelSetupWizard {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>Scheme 01;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff</string>
-  <string>Scheme 02;ffffff;000000;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff</string>
-  <string>Scheme 03;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff</string>
-  <string>Scheme 04;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff</string>
-  <string>Scheme 05;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff;ffffff</string>
+  <string>Autumn;595959;59F3FF;63B8F7;7B83E5;A99A73;E6DBA5;B0DCCD;8BA559;999999;99F8FF;9FD3FA;AEB3EF;CAC1A9;EFE9C8;CFEAE0;B8C799</string>
+  <string>Spring;595959;59F3FF;63B8F7;7B83E5;EDC059;E6DBA5;B0DCCE;A5D19B;999999;99F8FF;9FD3FA;AEB3EF;F4D899;EFE9C8;CFEAE1;C8E3C1</string>
+  <string>Summer;595959;AA59EE;59F3FF;63B8F7;7B83E5;E6DBA5;C3C962;B0DCCE;999999;CB99F5;99F8FF;9FD3FA;AEB3EF;EFE9C8;DADE9F;CFEAE1</string>
+  <string>Winter;595959;E6DBA5;B0DCCE;A5D19B;8BA559;94C1E2;7D94CE;8A92B3;999999;EFE9C8;CFEAE1;C8E3C1;B8C799;BDD9ED;AFBDE1;B7BCD1</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection ColourSchemes {
             get {
