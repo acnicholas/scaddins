@@ -162,6 +162,14 @@ namespace SCaddins.ModelSetupWizard.ViewModels
 
             ModelSetupWizardSettings.Default.DefaultWorksets = wsc;
 
+            var colors = new StringCollection();
+            foreach (var color in ColourSchemes)
+            {
+                colors.Add(color.Config);
+            }
+
+            ModelSetupWizardSettings.Default.ColourSchemes = colors;
+
             var arch = new StringCollection();
             foreach (var a in NominatedArchitects)
             {
@@ -179,6 +187,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
 
         public void ExportConfig()
         {
+            Apply();
             string filePath = string.Empty;
             SCaddinsApp.WindowManager.ShowSaveFileDialog(@"config.xml", "*.xml", "XML |*.xml", out filePath);
             SettingsIO.Export(filePath);

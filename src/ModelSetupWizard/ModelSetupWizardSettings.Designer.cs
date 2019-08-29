@@ -119,7 +119,7 @@ namespace SCaddins.ModelSetupWizard {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("J:\\Revit\\Data\\scaddins_modelsetup_config.xml")]
         public string SystemConfigFilePath {
             get {
                 return ((string)(this["SystemConfigFilePath"]));

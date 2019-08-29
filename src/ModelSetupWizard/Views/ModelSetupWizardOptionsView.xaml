@@ -80,6 +80,10 @@
                 </Grid>
 
             </TabItem>
+            <TabItem Header="Colour Schemes">
+                <DataGrid x:Name="ColourSchemes" Margin="5">
+                </DataGrid>
+            </TabItem>
             <TabItem Header="Parameter Settings">
                 <GroupBox Margin="5" Header="Parameter Name Mappings">
                 <Grid>
