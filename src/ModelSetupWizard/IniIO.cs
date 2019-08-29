@@ -26,29 +26,29 @@ namespace SCaddins.ModelSetupWizard
 
     public static class IniIO
     {
-        public static List<System.Windows.Media.Color> ReadColours(string iniFilePath)
-        {
-            var result = new List<System.Windows.Media.Color>(16);
-            var parser = new FileIniDataParser();
-            IniData data = parser.ReadFile(iniFilePath);
-            result.Insert(0, ConvertStringToColor(data["Colors"]["CustomColor1"]));
-            result.Insert(1, ConvertStringToColor(data["Colors"]["CustomColor2"]));
-            result.Insert(2, ConvertStringToColor(data["Colors"]["CustomColor3"]));
-            result.Insert(3, ConvertStringToColor(data["Colors"]["CustomColor4"]));
-            result.Insert(4, ConvertStringToColor(data["Colors"]["CustomColor5"]));
-            result.Insert(5, ConvertStringToColor(data["Colors"]["CustomColor6"]));
-            result.Insert(6, ConvertStringToColor(data["Colors"]["CustomColor7"]));
-            result.Insert(7, ConvertStringToColor(data["Colors"]["CustomColor8"]));
-            result.Insert(8, ConvertStringToColor(data["Colors"]["CustomColor9"]));
-            result.Insert(9, ConvertStringToColor(data["Colors"]["CustomColor10"]));
-            result.Insert(10, ConvertStringToColor(data["Colors"]["CustomColor11"]));
-            result.Insert(11, ConvertStringToColor(data["Colors"]["CustomColor12"]));
-            result.Insert(12, ConvertStringToColor(data["Colors"]["CustomColor13"]));
-            result.Insert(13, ConvertStringToColor(data["Colors"]["CustomColor14"]));
-            result.Insert(14, ConvertStringToColor(data["Colors"]["CustomColor15"]));
-            result.Insert(15, ConvertStringToColor(data["Colors"]["CustomColor16"]));
-            return result;
-        }
+            public static List<System.Windows.Media.Color> ReadColours(string iniFilePath)
+            {
+                    var result = new List<System.Windows.Media.Color>(16);
+                    var parser = new FileIniDataParser();
+                    IniData data = parser.ReadFile(iniFilePath);
+                    TryReadColorAndAddToList(result, data, "CustomColor1", 0);
+                    TryReadColorAndAddToList(result, data, "CustomColor2", 1);
+                    TryReadColorAndAddToList(result, data, "CustomColor3", 2);
+                    TryReadColorAndAddToList(result, data, "CustomColor4", 3);
+                    TryReadColorAndAddToList(result, data, "CustomColor5", 4);
+                    TryReadColorAndAddToList(result, data, "CustomColor6", 5);
+                    TryReadColorAndAddToList(result, data, "CustomColor7", 6);
+                    TryReadColorAndAddToList(result, data, "CustomColor8", 7);
+                    TryReadColorAndAddToList(result, data, "CustomColor9", 8);
+                    TryReadColorAndAddToList(result, data, "CustomColor10", 9);
+                    TryReadColorAndAddToList(result, data, "CustomColor11", 10);
+                    TryReadColorAndAddToList(result, data, "CustomColor12", 11);
+                    TryReadColorAndAddToList(result, data, "CustomColor13", 12);
+                    TryReadColorAndAddToList(result, data, "CustomColor14", 13);
+                    TryReadColorAndAddToList(result, data, "CustomColor15", 14);
+                    TryReadColorAndAddToList(result, data, "CustomColor16", 15);
+                    return result;
+            }
 
         public static void WriteColours(string iniFilePath, List<System.Windows.Media.Color> colours)
         {
@@ -106,5 +106,14 @@ namespace SCaddins.ModelSetupWizard
             string fullPath = System.IO.Path.Combine(path, @"Autodesk\Revit", version, @"Revit.ini");
             return System.IO.File.Exists(fullPath) ? fullPath : string.Empty;
         }
-    }
+
+        private static void TryReadColorAndAddToList(List<System.Windows.Media.Color> colors, IniData data, string key, int index) {
+            string s = string.Empty;
+            if (data.TryGetKey("Colors" + data.SectionKeySeparator + key, out s)) {
+                colors.Insert(index, ConvertStringToColor(s));
+            } else {
+                colors.Insert(index, ConvertStringToColor("FFFFFF"));
+            }
+        }
+   }
 }
