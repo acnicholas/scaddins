@@ -27,6 +27,14 @@ namespace SCaddins.Common.ViewModels
         {
         }
 
+        public static string AssemblyBuildDate
+        {
+            get
+            {
+                return Properties.Resources.BuildDate.TrimEnd(System.Environment.NewLine.ToCharArray());
+            }
+        }
+
         public static string AssemblyCopyright
         {
             get
@@ -101,7 +109,7 @@ namespace SCaddins.Common.ViewModels
         {
             get
             {
-                return AssemblyVersion + @"(" + AssemblyInformationalVersion + @")";
+                return AssemblyVersion + @"(" + AssemblyInformationalVersion + @") - " + AssemblyBuildDate;
             }
         }
 

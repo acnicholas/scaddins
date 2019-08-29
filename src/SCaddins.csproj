@@ -815,6 +815,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Assets\Ribbon\hatch-rvt-16.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BuildDate.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -827,4 +830,7 @@
     <Error Condition="!Exists('packages\Text.Analyzers.2.6.2\build\Text.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Text.Analyzers.2.6.2\build\Text.Analyzers.props'))" />
   </Target>
   <Import Project="packages\StyleCop.MSBuild.5.0.0\build\StyleCop.MSBuild.targets" Condition="Exists('packages\StyleCop.MSBuild.5.0.0\build\StyleCop.MSBuild.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>echo %25date%25 %25time%25 &gt; "$(ProjectDir)\Resources\BuildDate.txt"</PreBuildEvent>
+  </PropertyGroup>
 </Project>
