@@ -831,6 +831,7 @@
   </Target>
   <Import Project="packages\StyleCop.MSBuild.5.0.0\build\StyleCop.MSBuild.targets" Condition="Exists('packages\StyleCop.MSBuild.5.0.0\build\StyleCop.MSBuild.targets')" />
   <PropertyGroup>
-    <PreBuildEvent>echo %25date%25 %25time%25 &gt; "$(ProjectDir)\Resources\BuildDate.txt"</PreBuildEvent>
+    <PreBuildEvent>if not exist $(ProjectDir)\Resources mkdir $(ProjectDir)\Resources
+echo %25date%25 %25time%25 &gt; "$(ProjectDir)\Resources\BuildDate.txt"</PreBuildEvent>
   </PropertyGroup>
 </Project>
