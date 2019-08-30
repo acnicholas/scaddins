@@ -96,8 +96,8 @@ namespace SCaddins.HatchEditor
             get
             {
                 StringBuilder s = new StringBuilder();
-                s.AppendLine(@";% VERSION = 3.0");
-                s.AppendLine(@";% UNITS = MM");
+                s.AppendLine(@";%VERSION=3.0");
+                s.AppendLine(@";%UNITS=MM");
                 s.AppendLine();
                 s.Append(@"*");
                 s.AppendLine(Name);

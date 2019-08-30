@@ -47,7 +47,7 @@ namespace SCaddins.HatchEditor
         public static bool SaveToFile(string filePath, Hatch hatch)
         {
             try {
-                File.WriteAllText(filePath, hatch.PatFileString);
+                File.WriteAllText(filePath, hatch.PatFileString, Encoding.ASCII);
             } catch {
                 //// add proper exceptions here...
             }
