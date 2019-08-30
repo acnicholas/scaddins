@@ -95,6 +95,14 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             get; set;
         }
 
+        public bool IsNonWorkshared
+        {
+            get
+            {
+                return !WorksharingIsEnabled;
+            }
+        }
+
         public BindableCollection<NominatedArchitect> NominatedArchitects
         {
             get; private set;
@@ -184,6 +192,14 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             get; private set;
         }
 
+        public bool WorksharingIsEnabled
+        {
+            get
+            {
+                return doc.IsWorkshared;
+            }
+        }
+
         public void AddWorkset()
         {
             Worksets.Add(new WorksetParameter(string.Empty, false, -1));
@@ -192,7 +208,10 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         public void Apply()
         {
             var worksetLog = new TransactionLog(@"Workset Creation/Modifications");
-            ModelSetupWizardUtilities.ApplyWorksetModifications(doc, Worksets.ToList(), ref worksetLog);
+            if (WorksharingIsEnabled)
+            {
+                ModelSetupWizardUtilities.ApplyWorksetModifications(doc, Worksets.ToList(), ref worksetLog);
+            }
             var projectInfoLog = new TransactionLog(@"Project Information Modifications");
             ModelSetupWizardUtilities.ApplyProjectInfoModifications(doc, ProjectInformation.ToList(), ref projectInfoLog);
 
@@ -218,6 +237,16 @@ namespace SCaddins.ModelSetupWizard.ViewModels
                     continue;
                 }
                 p.Value = p.Value.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+            }
+        }
+
+        public void EnableWorksharing()
+        {
+            if (IsNonWorkshared)
+            {
+                doc.EnableWorksharing("Shared Levels and Grids", "Workset1");
+                NotifyOfPropertyChange(() => WorksharingIsEnabled);
+                NotifyOfPropertyChange(() => IsNonWorkshared);
             }
         }
 

@@ -73,7 +73,7 @@
                 </Grid>
 
             </TabItem>
-            <TabItem Header="Worksets">
+            <TabItem Header="Worksets" IsEnabled="{Binding WorksharingIsEnabled}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
@@ -178,6 +178,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Button
             MinWidth="20"
@@ -193,8 +194,9 @@
                     <Label>Click to access more options :P</Label>
                 </Button.ToolTip>
             </Button>
-            <Button x:Name="Cancel" HorizontalAlignment="Right" Margin="5" MinWidth="30" Grid.Column="2">Cancel</Button>
-            <Button x:Name="Apply" HorizontalAlignment="Right" Margin="5" Grid.Column="3">Apply to Model</Button>
+            <Button x:Name="EnableWorksharing"  IsEnabled="{Binding IsNonWorkshared}"  HorizontalAlignment="Right" Margin="5" MinWidth="30" Grid.Column="2">Enable Worksharing</Button>
+            <Button x:Name="Cancel" HorizontalAlignment="Right" Margin="5" MinWidth="30" Grid.Column="3">Cancel</Button>
+            <Button x:Name="Apply" HorizontalAlignment="Right" Margin="5" Grid.Column="4">Apply to Model</Button>
         </Grid>
     </Grid>
 </UserControl>

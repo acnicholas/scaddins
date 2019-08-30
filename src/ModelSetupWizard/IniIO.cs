@@ -109,10 +109,13 @@ namespace SCaddins.ModelSetupWizard
 
         private static void TryReadColorAndAddToList(List<System.Windows.Media.Color> colors, IniData data, string key, int index) {
             string s = string.Empty;
-            if (data.TryGetKey("Colors" + data.SectionKeySeparator + key, out s)) {
+            if (data.TryGetKey("Colors" + data.SectionKeySeparator + key, out s))
+            {
                 colors.Insert(index, ConvertStringToColor(s));
-            } else {
-                colors.Insert(index, ConvertStringToColor("FFFFFF"));
+            }
+            else
+            {
+                colors.Insert(index, System.Windows.Media.Color.FromRgb(255, 255, 255));
             }
         }
    }
