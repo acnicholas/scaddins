@@ -750,7 +750,7 @@ namespace SCaddins.ExportManager
             }
 
             if (IsViewerMode()) {
-                log.AddError(vs.FullExportName, "Revit is in Viewer mode. Printing is not allowed");
+                log.AddError(vs.FullExportName, "Revit is in Viewer mode. Printing is not allowed.");
                 return false;
             }
 
@@ -764,7 +764,13 @@ namespace SCaddins.ExportManager
             }
 
             if (!SetAcrobatExportRegistryVal(vs.FullExportPath(Resources.FileExtensionPDF), log)) {
-                log.AddError(vs.FullExportName, "Unable to write to registry");
+                log.AddError(vs.FullExportName, "Unable to write to registry.");
+                return false;
+            }
+
+            if (!FileUtilities.IsValidFileName(vs.FullExportName))
+            {
+                log.AddError(vs.FullExportName, "Filename contains invalid characters: " + vs.FullExportName);
                 return false;
             }
 
@@ -851,6 +857,12 @@ namespace SCaddins.ExportManager
 
             if (IsViewerMode()) {
                 log.AddError(vs.FullExportName, "Revit is in Viewer mode. Exporting DWG files is not allowed");
+                return;
+            }
+
+            if (!FileUtilities.IsValidFileName(vs.FullExportName))
+            {
+                log.AddError(vs.FullExportName, "Filename contains invalid characters: " + vs.FullExportName);
                 return;
             }
 

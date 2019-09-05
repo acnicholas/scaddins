@@ -248,7 +248,7 @@ namespace SCaddins.ExportManager
             }
             
             set
-            { 
+            {   
                 this.sheetNumber = value;
                 this.SetExportName();
                 NotifyPropertyChanged();
@@ -315,6 +315,14 @@ namespace SCaddins.ExportManager
             {
                 validPrintSettingIsAssigned = value;
                 NotifyPropertyChanged(nameof(ValidPrintSettingIsAssigned));
+            }
+        }
+
+        public bool ValidExportName
+        {
+            get
+            {
+                return FileUtilities.IsValidFileName(this.FullExportName);
             }
         }
 

@@ -121,6 +121,9 @@
                         <DataTrigger Binding="{Binding ValidPrintSettingIsAssigned}" Value="False">
                             <Setter Property="Foreground" Value="Red"></Setter>
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding ValidExportName}" Value="False">
+                            <Setter Property="Foreground" Value="Magenta"></Setter>
+                        </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </DataGrid.RowStyle>

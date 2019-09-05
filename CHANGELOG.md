@@ -11,6 +11,10 @@
 First release for Revit 2020
 **Revit 2016-2020 Supported.
 
+####NEW####
+
+- New hatch editor tool.
+- New model setup wizard
 
 #19.1#
 
