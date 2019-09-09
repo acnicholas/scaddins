@@ -9,8 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <avalonEdit:TextEditor SyntaxHighlighting="C#" FontFamily="Consolas" FontSize="12">
-            
-        </avalonEdit:TextEditor>
+        <local:MvvmTextEditor Text="{Binding Script, Mode=TwoWay}" SyntaxHighlighting="C#" FontFamily="Consolas" FontSize="12">
+        </local:MvvmTextEditor>
     </Grid>
 </UserControl>

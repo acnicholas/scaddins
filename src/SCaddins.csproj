@@ -593,6 +593,7 @@
     </Compile>
     <Compile Include="RunScript\RunScriptCommand.cs" />
     <Compile Include="RunScript\ViewModels\RunScriptViewModel.cs" />
+    <Compile Include="RunScript\Views\MvvmTextEditor.cs" />
     <Compile Include="RunScript\Views\RunScriptView.xaml.cs">
       <DependentUpon>RunScriptView.xaml</DependentUpon>
     </Compile>
@@ -602,9 +603,6 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Scripting.evaluator.cs" />
-    <Compile Include="Scripting.Extensions.cs" />
-    <Compile Include="Scripting.native.cs" />
     <Compile Include="SharedAssemblyInfo.cs" />
     <Compile Include="SheetCopier\SheetCopierCommand.cs" />
     <Compile Include="SheetCopier\SheetCopierConstants.cs" />

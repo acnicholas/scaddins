@@ -31,10 +31,11 @@ namespace SCaddins.RunScript.ViewModels
         {
             Script =
 @"
+//test
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB; 
 
-public static void Main(Document doc, string script)
+public static void Main(Document doc)
 {
     using (var t = new Transaction(doc)) {
         t.Start(""Run Script"");
