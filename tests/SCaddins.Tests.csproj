@@ -107,11 +107,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
     </Reference>
-        <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Debug'">
+    <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Debug'">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
     </Reference>
-        <Reference Include="RevitAPIUI" Condition="'$(Configuration)'=='Debug'">
+    <Reference Include="RevitAPIUI" Condition="'$(Configuration)'=='Debug'">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
     </Reference>
@@ -142,6 +142,7 @@
     <Compile Include="ViewUtilities\UserViewTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
