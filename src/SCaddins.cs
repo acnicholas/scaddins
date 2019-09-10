@@ -187,6 +187,7 @@ namespace SCaddins
 
             ribbonPanel.AddStackedItems(
                 LoadSCincrementSettings(scdll),
+                LoadRunScript(scdll),
                 LoadAbout(scdll));
 
             return Result.Succeeded;
@@ -295,6 +296,15 @@ namespace SCaddins
                               "HatchEditor", Resources.HatchEditor, dll, "SCaddins.HatchEditor.Command");
             AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.hatch-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.HatchEditorToolTip;
+            return pbd;
+        }
+
+        private static PushButtonData LoadRunScript(string dll)
+        {
+            var pbd = new PushButtonData(
+                              "RunScript", @"Run Script (c#)", dll, "SCaddins.RunScript.RunScriptCommand");
+            AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.script-rvt-16.png", 16, dll);
+            pbd.ToolTip = "Run a c-sharp script (cs-script)";
             return pbd;
         }
 

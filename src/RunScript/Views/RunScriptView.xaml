@@ -7,9 +7,9 @@
              xmlns:local="clr-namespace:SCaddins.RunScript.Views"
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <local:MvvmTextEditor Text="{Binding Script, Mode=TwoWay}" SyntaxHighlighting="C#" FontFamily="Consolas" FontSize="12">
+             d:DesignHeight="640" d:DesignWidth="800">
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MaxHeight="800" MaxWidth="1024">
+        <local:MvvmTextEditor Text="{Binding Script, Mode=TwoWay}" SyntaxHighlighting="C#" FontFamily="Consolas" FontSize="12" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         </local:MvvmTextEditor>
     </Grid>
 </UserControl>

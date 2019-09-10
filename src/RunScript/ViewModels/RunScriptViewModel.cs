@@ -1,5 +1,4 @@
-﻿
-// (C) Copyright 2019 by Andrew Nicholas
+﻿// (C) Copyright 2019 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -31,9 +30,9 @@ namespace SCaddins.RunScript.ViewModels
         {
             Script =
 @"
-//test
 using Autodesk.Revit.UI;
-using Autodesk.Revit.DB; 
+using Autodesk.Revit.DB;
+using SCaddins;
 
 public static void Main(Document doc)
 {
@@ -70,9 +69,9 @@ public static void Main(Document doc)
             get; set;
         }
 
-        //public void Run()
-        //{
-        //    RunScript.
-        //}
+        ////public void Run()
+        ////{
+        ////    RunScript.
+        ////}
     }
 }

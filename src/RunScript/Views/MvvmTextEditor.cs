@@ -1,13 +1,23 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.ComponentModel;
-
-namespace SCaddins.RunScript.Views
+﻿namespace SCaddins.RunScript.Views
 {
-    class MvvmTextEditor : ICSharpCode.AvalonEdit.TextEditor, INotifyPropertyChanged
+    using System;
+    using System.ComponentModel;
+    using System.Windows;
+
+    public class MvvmTextEditor : ICSharpCode.AvalonEdit.TextEditor, INotifyPropertyChanged
     {
+        public static readonly DependencyProperty TextProperty =
+            DependencyProperty.Register(
+                "Text",
+                typeof(string),
+                typeof(MvvmTextEditor),
+                new FrameworkPropertyMetadata
+                {
+                    DefaultValue = default(string),
+                    BindsTwoWayByDefault = true,
+                    PropertyChangedCallback = OnDependencyPropertyChanged
+                });
+
         public MvvmTextEditor()
         {
             ShowLineNumbers = true;
@@ -21,11 +31,15 @@ namespace SCaddins.RunScript.Views
             };
         }
 
-        public new string Text {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public new string Text
+        {
             get
             {
                 return (string)GetValue(TextProperty);
             }
+
             set
             {
                 SetValue(TextProperty, value);
@@ -33,29 +47,26 @@ namespace SCaddins.RunScript.Views
             }
         }
 
-        public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register(
-                "Text",
-                typeof(string),
-                typeof(MvvmTextEditor),
-                new FrameworkPropertyMetadata
-                {
-                    DefaultValue = default(string),
-                    BindsTwoWayByDefault = true,
-                    PropertyChangedCallback = OnDependencyPropertyChanged
-                }
-            );
-
-        protected static void OnDependencyPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+#pragma warning disable CA1030 // Use events where appropriate
+        public void RaisePropertyChanged(string property)
+#pragma warning restore CA1030 // Use events where appropriate
         {
-            var target = (MvvmTextEditor)obj;
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(property));
+            }
+        }
+
+        protected static void OnDependencyPropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs args)
+        {
+            var target = (MvvmTextEditor)dobj;
 
             if (target.Document != null) {
                 var caretOffset = target.CaretOffset;
                 var newValue = args.NewValue;
 
                 if (newValue == null) {
-                    newValue = "";
+                    newValue = string.Empty;
                 }
 
                 target.Document.Text = (string)newValue;
@@ -71,14 +82,5 @@ namespace SCaddins.RunScript.Views
 
             base.OnTextChanged(e);
         }
-
-        public void RaisePropertyChanged(string property)
-        {
-            if (PropertyChanged != null) {
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

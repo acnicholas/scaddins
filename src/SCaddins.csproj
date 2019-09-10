@@ -934,6 +934,9 @@
   <ItemGroup>
     <None Include="Resources\BuildDate.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Ribbon\script-rvt-16.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
