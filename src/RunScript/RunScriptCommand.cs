@@ -1,5 +1,6 @@
 ﻿namespace SCaddins.RunScript
 {
+    using System;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -10,22 +11,35 @@
     [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class RunScriptCommand : IExternalCommand
     {
-        public static void RunScript(Document doc, string script)
+        public static String ClassifyScript(string s)
         {
-            string scdll = new System.Uri(System.Reflection.Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
-            ////SCaddinsApp.WindowManager.ShowMessageBox(scdll);
+            System.Text.StringBuilder sb = new System.Text.StringBuilder(s);
+            sb.Insert(s.IndexOf(@"public static", System.StringComparison.InvariantCulture), @"public class A{");
+            sb.Append(@"}");
+            ////SCaddinsApp.WindowManager.ShowMessageBox(sb.ToString());
+            return sb.ToString();
+        }
 
-            #if REVIT2018
-            string[] assemblies = { @"C:\Program Files\Autodesk\Revit 2018\RevitAPI.dll", @"C:\Program Files\Autodesk\Revit 2018\RevitAPIUI.dll, scdll };
-            #elif REVIT2019
-            string[] assemblies = { @"C:\Program Files\Autodesk\Revit 2019\RevitAPI.dll", @"C:\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll", scdll};
-            #elif REVIT2020
-            string[] assemblies = { @"C:\Program Files\Autodesk\Revit 2020\RevitAPI.dll", @"C:\Program Files\Autodesk\Revit 2020\RevitAPIUI.dll", scdll };
-            #else
-            string[] assemblies = { @"C:\Program Files\Autodesk\Revit 2016\RevitAPI.dll", @"C:\Program Files\Autodesk\Revit 2016\RevitAPIUI.dll", scdll };
-            #endif
-            var runScript = CSScript.LoadMethod(script, assemblies).GetStaticMethod("*.Main", doc);
+        public static void RunScript(Document doc, string script)
+        {     
+            var runScript = CSScript.LoadMethod(script, GetAssemblies()).GetStaticMethod("*.Main", doc);
             runScript(doc);
+        }
+
+        public static bool VerifyScript(string script, out string compileResult)
+        {
+            bool success = false;
+            try
+            {
+                compileResult = CSScript.CompileCode(script, GetAssemblies());
+                success = true;
+            }
+            catch (Exception e)
+            {
+                compileResult = e.Message;
+                success = false;
+            }
+            return success;
         }
 
         public Result Execute(
@@ -41,11 +55,30 @@
             var vm = new ViewModels.RunScriptViewModel();
             bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.RunScriptViewModel.DefaultViewSettings);
 
-            ////if (result.HasValue && result.Value == true) {
-            RunScript(commandData.Application.ActiveUIDocument.Document, vm.Script);
-            ////}
+            if (result.HasValue && result.Value == true)
+            {
+                RunScript(commandData.Application.ActiveUIDocument.Document, vm.Script);
+            }
 
             return Result.Succeeded;
+        }
+
+        private static string[] GetAssemblies()
+        {
+            string scdll = new System.Uri(System.Reflection.Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
+            var revitVersion = "2016";
+            #if REVIT2017
+                        revitVersion = "2017";
+            #elif REVIT2018
+                        revitVersion = "2018";
+            #elif REVIT2019
+                        revitVersion = "2019";
+            #elif REVIT2020
+                        revitVersion = "2020";
+            #endif
+
+            string[] assemblies = { @"C:\Program Files\Autodesk\Revit " + revitVersion + @"\RevitAPI.dll", @"C:\Program Files\Autodesk\Revit " + revitVersion + @"\RevitAPIUI.dll", scdll };
+            return assemblies;
         }
     }
 }

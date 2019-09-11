@@ -9,7 +9,43 @@
              mc:Ignorable="d" 
              d:DesignHeight="640" d:DesignWidth="800">
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MaxHeight="800" MaxWidth="1024">
-        <local:MvvmTextEditor Text="{Binding Script, Mode=TwoWay}" SyntaxHighlighting="C#" FontFamily="Consolas" FontSize="12" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="600*"></RowDefinition>
+            <RowDefinition Height="300*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0" Grid.ColumnSpan="3" IsMainMenu="True">
+            <MenuItem Header="_File">
+                <MenuItem x:Name="LoadScriptFromFile" Header="_Load">
+                    <MenuItem.Icon>
+                        <Image Source="/SCaddins;component/Assets/open.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator></Separator>
+                <MenuItem x:Name="Save" Header="_Save">
+                    <MenuItem.Icon>
+                        <Image Source="/SCaddins;component/Assets/save.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="SaveAs" Header="Save _As">
+                    <MenuItem.Icon>
+                        <Image Source="/SCaddins;component/Assets/save.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Settings">
+                <MenuItem x:Name="Settings" Header="_Settings"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem x:Name="Help" Header="_Help"/>
+            </MenuItem>
+        </Menu>
+
+        <local:MvvmTextEditor Grid.Row="1" Text="{Binding Script, Mode=TwoWay}" SyntaxHighlighting="{Binding SyntaxHighlightingTheme, Mode=TwoWay}" FontFamily="Consolas" FontSize="12" Margin="5" Background="Black" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         </local:MvvmTextEditor>
+        <TextBox Grid.Row="2" x:Name="Output"></TextBox>
+        <Button Grid.Row="3" x:Name="Run">Run</Button>
     </Grid>
 </UserControl>

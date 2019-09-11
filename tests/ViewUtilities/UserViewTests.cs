@@ -32,7 +32,7 @@ namespace SCaddins.ViewUtilities.Tests
                .OfClass(typeof(View))
                .ToElements()
                .Cast<View>()
-               .Where(v => v.ViewName == "Level 1")
+               .Where(v => v.Name == "Level 1")
                .First();
             SCaddins.Tests.Common.TestUtilities.OpenView(view);
             var newUserViewCount = 0;
@@ -61,7 +61,7 @@ namespace SCaddins.ViewUtilities.Tests
                 .OfClass(typeof(View))
                 .ToElements()
                 .Cast<View>()
-                .Where(v => v.ViewName.Contains("Section") && v.ViewType == ViewType.DrawingSheet);
+                .Where(v => v.Name.Contains("Section") && v.ViewType == ViewType.DrawingSheet);
             var manager = new ExportManager.Manager(uidoc);
             var sheet = new ExportManager.ExportSheet(sectionSheets.First() as ViewSheet, doc, manager.FileNameScheme, false, manager);
             var sheetList = new List<ExportManager.ExportSheet>();

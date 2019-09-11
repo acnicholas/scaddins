@@ -20,14 +20,22 @@ namespace SCaddins.RunScript.ViewModels
     using System;
     using System.Collections.Generic;
     using System.Dynamic;
+    using System.IO;
+    using System.Xml;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Caliburn.Micro;
+    using ICSharpCode.AvalonEdit.Highlighting;
 
     internal class RunScriptViewModel : Screen
     {
+        private string output;
+
         public RunScriptViewModel()
         {
+            LoadTheme();
+            //SyntaxHighlightingTheme = "C#";
+            output = string.Empty;
             Script =
 @"
 using Autodesk.Revit.UI;
@@ -69,9 +77,55 @@ public static void Main(Document doc)
             get; set;
         }
 
-        ////public void Run()
-        ////{
-        ////    RunScript.
-        ////}
+        public string Output
+        {
+            get
+            {
+                return output;
+            }
+
+            set
+            {
+                output = value;
+                NotifyOfPropertyChange(() => Output);
+            }
+        }
+
+        public IHighlightingDefinition SyntaxHighlightingTheme
+        {
+            get; set;
+        }
+
+        public void LoadTheme()
+        {
+            string dir = @"C:\Code\cs\scaddins\src\RunScript\Resources\";
+            if (File.Exists(dir + "CSharp-Mode-Molokai.xshd"))
+            {
+                try
+                {
+                    Stream xshd_stream = File.OpenRead(dir + "CSharp-Mode-Molokai.xshd");
+                    XmlTextReader xshd_reader = new XmlTextReader(xshd_stream);
+                    var theme = ICSharpCode.AvalonEdit.Highlighting.Xshd.HighlightingLoader.Load(xshd_reader, ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance);
+                    SyntaxHighlightingTheme = theme;
+                    xshd_reader.Close();
+                    xshd_stream.Close();
+                }
+                catch (Exception e)
+                {
+                    SCaddinsApp.WindowManager.ShowMessageBox(e.Message);
+                }
+            }
+        }
+
+        public void Run()
+        {
+            var compileResults = string.Empty;
+            var result = RunScriptCommand.VerifyScript(RunScriptCommand.ClassifyScript(Script), out compileResults);
+            Output = compileResults;
+            if (result)
+            {
+                TryClose(true);
+            }
+        }
     }
 }

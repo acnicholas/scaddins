@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel;
     using System.Windows;
+    using ICSharpCode.AvalonEdit.Highlighting;
 
     public class MvvmTextEditor : ICSharpCode.AvalonEdit.TextEditor, INotifyPropertyChanged
     {
@@ -17,6 +18,18 @@
                     BindsTwoWayByDefault = true,
                     PropertyChangedCallback = OnDependencyPropertyChanged
                 });
+
+        //public static readonly DependencyProperty ThemeProperty =
+        //    DependencyProperty.Register(
+        //    "SyntaxHighlighting",
+        //    typeof(string),
+        //    typeof(MvvmTextEditor),
+        //    new FrameworkPropertyMetadata
+        //    {
+        //        DefaultValue = default(string),
+        //        BindsTwoWayByDefault = true,
+        //        PropertyChangedCallback = OnDependencyPropertyChanged
+        //    });
 
         public MvvmTextEditor()
         {
@@ -46,6 +59,20 @@
                 RaisePropertyChanged("Text");
             }
         }
+
+        //public new string SyntaxHighlighting
+        //{
+        //    get
+        //    {
+        //        return (string)GetValue(ThemeProperty);
+        //    }
+
+        //    set
+        //    {
+        //        SetValue(ThemeProperty, value);
+        //        RaisePropertyChanged("SyntaxHighlighting");
+        //    }
+        //}
 
 #pragma warning disable CA1030 // Use events where appropriate
         public void RaisePropertyChanged(string property)
