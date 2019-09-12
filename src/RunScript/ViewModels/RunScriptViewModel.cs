@@ -33,7 +33,8 @@ namespace SCaddins.RunScript.ViewModels
 
         public RunScriptViewModel()
         {
-            LoadTheme();
+            //LoadTheme();
+            LightMode();
             //SyntaxHighlightingTheme = "C#";
             output = string.Empty;
             Script =
@@ -96,14 +97,35 @@ public static void Main(Document doc)
             get; set;
         }
 
-        public void LoadTheme()
+        public System.Windows.Media.Brush Background
+        {
+            get;set;
+        }
+
+        public void DarkMode()
+        {
+            LoadTheme("CSharp-Mode-Molokai.xshd");
+            Background = System.Windows.Media.Brushes.Black;
+            NotifyOfPropertyChange(() => SyntaxHighlightingTheme);
+            NotifyOfPropertyChange(() => Background);
+        }
+
+        public void LightMode()
+        {
+            LoadTheme("CSharp-Mode.xshd");
+            Background = System.Windows.Media.Brushes.White;
+            NotifyOfPropertyChange(() => SyntaxHighlightingTheme);
+            NotifyOfPropertyChange(() => Background);
+        }
+
+        public void LoadTheme(string themeFile)
         {
             string dir = @"C:\Code\cs\scaddins\src\RunScript\Resources\";
-            if (File.Exists(dir + "CSharp-Mode-Molokai.xshd"))
+            if (File.Exists(dir + themeFile))
             {
                 try
                 {
-                    Stream xshd_stream = File.OpenRead(dir + "CSharp-Mode-Molokai.xshd");
+                    Stream xshd_stream = File.OpenRead(dir + themeFile);
                     XmlTextReader xshd_reader = new XmlTextReader(xshd_stream);
                     var theme = ICSharpCode.AvalonEdit.Highlighting.Xshd.HighlightingLoader.Load(xshd_reader, ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance);
                     SyntaxHighlightingTheme = theme;

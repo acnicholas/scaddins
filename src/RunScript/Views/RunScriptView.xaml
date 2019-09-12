@@ -36,14 +36,15 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Settings">
-                <MenuItem x:Name="Settings" Header="_Settings"/>
+                <MenuItem x:Name="DarkMode" Header="_Dark Mode"/>
+                <MenuItem x:Name="LightMode" Header="_Light Mode"/>
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem x:Name="Help" Header="_Help"/>
             </MenuItem>
         </Menu>
 
-        <local:MvvmTextEditor Grid.Row="1" Text="{Binding Script, Mode=TwoWay}" SyntaxHighlighting="{Binding SyntaxHighlightingTheme, Mode=TwoWay}" FontFamily="Consolas" FontSize="12" Margin="5" Background="Black" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <local:MvvmTextEditor Grid.Row="1" Text="{Binding Script, Mode=TwoWay}" SyntaxHighlighting="{Binding SyntaxHighlightingTheme, Mode=TwoWay}" FontFamily="Consolas" FontSize="12" Margin="5" Background="{Binding Background}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         </local:MvvmTextEditor>
         <TextBox Grid.Row="2" x:Name="Output"></TextBox>
         <Button Grid.Row="3" x:Name="Run">Run</Button>
