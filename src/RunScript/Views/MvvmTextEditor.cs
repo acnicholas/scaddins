@@ -6,10 +6,18 @@
     using System.Windows;
     using ICSharpCode.AvalonEdit.CodeCompletion;
     using ICSharpCode.AvalonEdit.Highlighting;
+    using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.CSharp;
+    using Microsoft.CodeAnalysis.Host.Mef;
+    using Microsoft.CodeAnalysis.Text;
+    using Microsoft.CodeAnalysis.Completion;
+    using System.Threading.Tasks;
 
     public class MvvmTextEditor : ICSharpCode.AvalonEdit.TextEditor, INotifyPropertyChanged
     {
         private CompletionWindow completionWindow;
+        private MefHostServices host;
+        private AdhocWorkspace workspace;
 
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register(
@@ -23,6 +31,8 @@
                     PropertyChangedCallback = OnDependencyPropertyChanged
                 });
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public MvvmTextEditor()
         {
             ShowLineNumbers = true;
@@ -30,13 +40,22 @@
             this.TextArea.TextEntered += TextArea_TextEntered;
             this.TextArea.TextEntering += TextArea_TextEntering;
 
+            Init();
+          
             Options = new ICSharpCode.AvalonEdit.TextEditorOptions
             {
                 IndentationSize = 4,
                 ConvertTabsToSpaces = true,
                 ShowTabs = true,
-                ShowSpaces = true, 
+                ShowSpaces = true,
             };
+        }
+
+        private async Task Init()
+        {
+             host = MefHostServices.Create(MefHostServices.DefaultAssemblies);
+             workspace = new AdhocWorkspace(host);
+
         }
 
         private void TextArea_TextEntering(object sender, System.Windows.Input.TextCompositionEventArgs e)
@@ -47,22 +66,45 @@
                 {
                     if (e.Text[0] == '\t')
                     {
-                        IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
-                        completionWindow.CompletionList.SelectedItem = data[1];
-                    } else {
+                        // IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
+                        //completionWindow.CompletionList.SelectedItem = data[1];
+                        //} else {
                         completionWindow.CompletionList.RequestInsertion(e);
                     }
                 }
             }
-            // Do not set e.Handled=true.
-            // We still want to insert the character that was typed.
         }
 
+        //private static async Task PrintCompletionResults(Document document, int position)
+        //{
+        //    var completionService = CompletionService.GetService(document);
+        //    var results = await completionService.GetCompletionsAsync(document, position);
+
+        //    foreach (var i in results.Items)
+        //    {
+        //        Console.WriteLine(i.DisplayText);
+
+        //        foreach (var prop in i.Properties)
+        //        {
+        //            Console.Write($"{prop.Key}:{prop.Value}  ");
+        //        }
+
+        //        Console.WriteLine();
+        //        foreach (var tag in i.Tags)
+        //        {
+        //            Console.Write($"{tag}  ");
+        //        }
+
+        //        Console.WriteLine();
+        //        Console.WriteLine();
+        //    }
+        //}
+
         private void TextArea_TextEntered(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    {
+        if (e.Text == ".")
         {
-            if (e.Text == ".")
-            {
-                // Open code completion after the user has pressed dot:
+                TestCompletionOutput();
                 completionWindow = new CompletionWindow(this.TextArea);
                 IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
                 data.Add(new MyCompletionData("Item1"));
@@ -70,13 +112,44 @@
                 data.Add(new MyCompletionData("Item3"));
                 completionWindow.CompletionList.SelectedItem = data[0];
                 completionWindow.Show();
-                completionWindow.Closed += delegate {
+                completionWindow.Closed += delegate
+                {
                     completionWindow = null;
                 };
             }
+    }
+
+        public async void TestCompletionOutput()
+        {
+            var scriptCode = Text;
+
+            var compilationOptions = new CSharpCompilationOptions(
+               OutputKind.DynamicallyLinkedLibrary, usings: new[] { "System" });
+
+            var scriptProjectInfo = ProjectInfo.Create(ProjectId.CreateNewId(), VersionStamp.Create(), "Script", "Script", LanguageNames.CSharp, isSubmission: true)
+               .WithMetadataReferences(new[]
+               {
+                    MetadataReference.CreateFromFile(typeof(object).Assembly.Location)
+               })
+               .WithCompilationOptions(compilationOptions);
+
+            var scriptProject = workspace.AddProject(scriptProjectInfo);
+            var scriptDocumentInfo = DocumentInfo.Create(
+                DocumentId.CreateNewId(scriptProject.Id), "Script",
+                sourceCodeKind: SourceCodeKind.Script,
+                loader: TextLoader.From(TextAndVersion.Create(SourceText.From(scriptCode), VersionStamp.Create())));
+            var scriptDocument = workspace.AddDocument(scriptDocumentInfo);
+
+            //// cursor position is at the end
+            var position = scriptCode.Length - 1;
+
+            var completionService = CompletionService.GetService(scriptDocument);
+
+
+            //var results = await completionService.GetCompletionsAsync(scriptDocument, position);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+
 
         public new string Text
         {
