@@ -33,9 +33,7 @@ namespace SCaddins.RunScript.ViewModels
 
         public RunScriptViewModel()
         {
-            //LoadTheme();
             LightMode();
-            //SyntaxHighlightingTheme = "C#";
             output = string.Empty;
             Script =
 @"

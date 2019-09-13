@@ -1,12 +1,16 @@
 ﻿namespace SCaddins.RunScript.Views
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Windows;
+    using ICSharpCode.AvalonEdit.CodeCompletion;
     using ICSharpCode.AvalonEdit.Highlighting;
 
     public class MvvmTextEditor : ICSharpCode.AvalonEdit.TextEditor, INotifyPropertyChanged
     {
+        private CompletionWindow completionWindow;
+
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register(
                 "Text",
@@ -23,6 +27,9 @@
         {
             ShowLineNumbers = true;
 
+            this.TextArea.TextEntered += TextArea_TextEntered;
+            this.TextArea.TextEntering += TextArea_TextEntering;
+
             Options = new ICSharpCode.AvalonEdit.TextEditorOptions
             {
                 IndentationSize = 4,
@@ -30,6 +37,43 @@
                 ShowTabs = true,
                 ShowSpaces = true, 
             };
+        }
+
+        private void TextArea_TextEntering(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            if (e.Text.Length > 0 && completionWindow != null)
+            {
+                if (!char.IsLetterOrDigit(e.Text[0]))
+                {
+                    if (e.Text[0] == '\t')
+                    {
+                        IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
+                        completionWindow.CompletionList.SelectedItem = data[1];
+                    } else {
+                        completionWindow.CompletionList.RequestInsertion(e);
+                    }
+                }
+            }
+            // Do not set e.Handled=true.
+            // We still want to insert the character that was typed.
+        }
+
+        private void TextArea_TextEntered(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            if (e.Text == ".")
+            {
+                // Open code completion after the user has pressed dot:
+                completionWindow = new CompletionWindow(this.TextArea);
+                IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
+                data.Add(new MyCompletionData("Item1"));
+                data.Add(new MyCompletionData("Item2"));
+                data.Add(new MyCompletionData("Item3"));
+                completionWindow.CompletionList.SelectedItem = data[0];
+                completionWindow.Show();
+                completionWindow.Closed += delegate {
+                    completionWindow = null;
+                };
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
