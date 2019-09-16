@@ -35,23 +35,19 @@ namespace SCaddins.ExportManager {
                 this["A3PrinterDriver"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("R2010")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public Autodesk.Revit.DB.ACADVersion AcadExportVersion
-        {
-            get
-            {
-                return ((Autodesk.Revit.DB.ACADVersion)(this["AcadExportVersion"]));
+        public global::Autodesk.Revit.DB.ACADVersion AcadExportVersion {
+            get {
+                return ((global::Autodesk.Revit.DB.ACADVersion)(this["AcadExportVersion"]));
             }
-            set
-            {
+            set {
                 this["AcadExportVersion"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]

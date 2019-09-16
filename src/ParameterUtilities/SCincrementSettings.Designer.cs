@@ -12,7 +12,7 @@ namespace SCaddins.ParameterUtilities {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
     internal sealed partial class IncrementSettings : global::System.Configuration.ApplicationSettingsBase {
         
         private static IncrementSettings defaultInstance = ((IncrementSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new IncrementSettings())));

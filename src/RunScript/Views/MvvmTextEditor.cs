@@ -8,10 +8,14 @@
     using ICSharpCode.AvalonEdit.Highlighting;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
+    using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Microsoft.CodeAnalysis.Host.Mef;
     using Microsoft.CodeAnalysis.Text;
     using Microsoft.CodeAnalysis.Completion;
     using System.Threading.Tasks;
+    using System.Reflection;
+    using System.Composition.Hosting;
+    using System.Linq;
 
     public class MvvmTextEditor : ICSharpCode.AvalonEdit.TextEditor, INotifyPropertyChanged
     {
@@ -40,8 +44,11 @@
             this.TextArea.TextEntered += TextArea_TextEntered;
             this.TextArea.TextEntering += TextArea_TextEntering;
 
-            Init();
-          
+            SimpleInit();
+            //AdvancedInit();
+
+           
+
             Options = new ICSharpCode.AvalonEdit.TextEditorOptions
             {
                 IndentationSize = 4,
@@ -51,28 +58,50 @@
             };
         }
 
-        private async Task Init()
+        public void SimpleInit()
         {
-             host = MefHostServices.Create(MefHostServices.DefaultAssemblies);
-             workspace = new AdhocWorkspace(host);
+            host = MefHostServices.Create(MefHostServices.DefaultAssemblies);
+            workspace = new AdhocWorkspace(host);
+        }
 
+        public void AdvancedInit()
+        {
+            var assemblies = new[]
+            {
+            Assembly.Load("Microsoft.CodeAnalysis"),
+            Assembly.Load("Microsoft.CodeAnalysis.CSharp"),
+            Assembly.Load("Microsoft.CodeAnalysis.Features"),
+            Assembly.Load("Microsoft.CodeAnalysis.CSharp.Features"),
+            };
+
+            var partTypes = MefHostServices.DefaultAssemblies.Concat(assemblies)
+                    .Distinct()
+                    .SelectMany(x => x.GetTypes())
+                    .ToArray();
+
+            var compositionContext = new ContainerConfiguration()
+                .WithParts(partTypes)
+                .CreateContainer();
+
+            host = MefHostServices.Create(compositionContext);
+            workspace = new AdhocWorkspace(host);
         }
 
         private void TextArea_TextEntering(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            if (e.Text.Length > 0 && completionWindow != null)
-            {
-                if (!char.IsLetterOrDigit(e.Text[0]))
-                {
-                    if (e.Text[0] == '\t')
-                    {
-                        // IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
-                        //completionWindow.CompletionList.SelectedItem = data[1];
-                        //} else {
-                        completionWindow.CompletionList.RequestInsertion(e);
-                    }
-                }
-            }
+            //if (e.Text.Length > 0 && completionWindow != null)
+            //{
+            //    if (!char.IsLetterOrDigit(e.Text[0]))
+            //    {
+            //        if (e.Text[0] == '\t')
+            //        {
+            //            // IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
+            //            //completionWindow.CompletionList.SelectedItem = data[1];
+            //            //} else {
+            //            //completionWindow.CompletionList.RequestInsertion(e);
+            //        }
+            //    }
+            //}
         }
 
         //private static async Task PrintCompletionResults(Document document, int position)
@@ -100,56 +129,54 @@
         //    }
         //}
 
-        private void TextArea_TextEntered(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        private async void TextArea_TextEntered(object sender, System.Windows.Input.TextCompositionEventArgs e)
     {
         if (e.Text == ".")
         {
-                TestCompletionOutput();
-                completionWindow = new CompletionWindow(this.TextArea);
-                IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
-                data.Add(new MyCompletionData("Item1"));
-                data.Add(new MyCompletionData("Item2"));
-                data.Add(new MyCompletionData("Item3"));
-                completionWindow.CompletionList.SelectedItem = data[0];
-                completionWindow.Show();
-                completionWindow.Closed += delegate
-                {
-                    completionWindow = null;
-                };
-            }
+                  TestCompletionOutput();
+        //        completionWindow = new CompletionWindow(this.TextArea);
+        //        IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
+        //        data.Add(new MyCompletionData("Item1"));
+        //        data.Add(new MyCompletionData("Item2"));
+        //        data.Add(new MyCompletionData("Item3"));
+        //        completionWindow.CompletionList.SelectedItem = data[0];
+        //        completionWindow.Show();
+        //        completionWindow.Closed += delegate
+        //        {
+        //            completionWindow = null;
+        //        };
+        }
     }
 
         public async void TestCompletionOutput()
         {
             var scriptCode = Text;
 
-            var compilationOptions = new CSharpCompilationOptions(
-               OutputKind.DynamicallyLinkedLibrary, usings: new[] { "System" });
+            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
+                usings: new[] { "System" });
 
-            var scriptProjectInfo = ProjectInfo.Create(ProjectId.CreateNewId(), VersionStamp.Create(), "Script", "Script", LanguageNames.CSharp, isSubmission: true)
-               .WithMetadataReferences(new[]
-               {
-                    MetadataReference.CreateFromFile(typeof(object).Assembly.Location)
-               })
-               .WithCompilationOptions(compilationOptions);
+            var scriptProjectInfo = ProjectInfo.Create(ProjectId.CreateNewId(), VersionStamp.Create(), "Script", "Script", LanguageNames.CSharp,
+                    isSubmission: true)
+                .WithMetadataReferences(new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) })
+                .WithCompilationOptions(compilationOptions);
 
             var scriptProject = workspace.AddProject(scriptProjectInfo);
             var scriptDocumentInfo = DocumentInfo.Create(
                 DocumentId.CreateNewId(scriptProject.Id), "Script",
                 sourceCodeKind: SourceCodeKind.Script,
                 loader: TextLoader.From(TextAndVersion.Create(SourceText.From(scriptCode), VersionStamp.Create())));
+            //SCaddinsApp.WindowManager.ShowMessageBox(scriptDocumentInfo.SourceCodeKind.ToString());
             var scriptDocument = workspace.AddDocument(scriptDocumentInfo);
-
-            //// cursor position is at the end
-            var position = scriptCode.Length - 1;
-
             var completionService = CompletionService.GetService(scriptDocument);
-
-
-            //var results = await completionService.GetCompletionsAsync(scriptDocument, position);
+            if (completionService == null)
+            {
+                SCaddinsApp.WindowManager.ShowMessageBox("completionService == null");
+                return;
+            }
+            var results = await completionService.GetCompletionsAsync(scriptDocument, this.CaretOffset);
+            
+            //await PrintCompletionResults(scriptDocument, scriptCode.Length - 1);
         }
-
-
 
         public new string Text
         {
