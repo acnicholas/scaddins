@@ -151,7 +151,7 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mon 16/09/2019 16:46:41.71 
+        ///   Looks up a localized string similar to Tue 17/09/2019 13:52:14.81 
         ///.
         /// </summary>
         internal static string BuildDate {

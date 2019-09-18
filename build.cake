@@ -18,7 +18,7 @@ public MSBuildSettings GetBuildSettings(string config)
 		.WithTarget("Clean,Build")
 		.WithProperty("Platform","x64")
 		.SetVerbosity(Verbosity.Minimal);
-		result.WarningsAsError = true;
+	// result.WarningsAsError = true;
 	return result;
 }
 
