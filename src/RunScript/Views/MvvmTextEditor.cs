@@ -104,38 +104,39 @@
         //    workspace = new AdhocWorkspace(host);
         //}
 
-        //public async void TestCompletionOutput()
-        //{
-        //    host = MefHostServices.Create(MefHostServices.DefaultAssemblies);
-        //    workspace = new AdhocWorkspace(host);
+        public async void TestCompletionOutput()
+        {
+            host = MefHostServices.Create(MefHostServices.DefaultAssemblies);
+            workspace = new AdhocWorkspace(host);
 
-        //    var scriptCode = Text;
+            var scriptCode = Text;
 
-        //    var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
-        //        usings: new[] { "System" });
+            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
+                usings: new[] { "System" });
 
-        //    var scriptProjectInfo = ProjectInfo.Create(ProjectId.CreateNewId(), VersionStamp.Create(), "Script", "Script", LanguageNames.CSharp,
-        //            isSubmission: true)
-        //        .WithMetadataReferences(new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) })
-        //        .WithCompilationOptions(compilationOptions);
+            var scriptProjectInfo = ProjectInfo.Create(ProjectId.CreateNewId(), VersionStamp.Create(), "Script", "Script", LanguageNames.CSharp,
+                    isSubmission: true)
+                .WithMetadataReferences(new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) })
+                .WithCompilationOptions(compilationOptions);
 
-        //    var scriptProject = workspace.AddProject(scriptProjectInfo);
-        //    var scriptDocumentInfo = DocumentInfo.Create(
-        //        DocumentId.CreateNewId(scriptProject.Id), "Script",
-        //        sourceCodeKind: SourceCodeKind.Script,
-        //        loader: TextLoader.From(TextAndVersion.Create(SourceText.From(scriptCode), VersionStamp.Create())));
-        //    ////SCaddinsApp.WindowManager.ShowMessageBox(scriptDocumentInfo.SourceCodeKind.ToString());
-        //    var scriptDocument = workspace.AddDocument(scriptDocumentInfo);
-        //    var completionService = CompletionService.GetService(scriptDocument);
-        //    if (completionService == null)
-        //    {
-        //        SCaddinsApp.WindowManager.ShowMessageBox("completionService == null");
-        //        return;
-        //    }
-        //    var results = await completionService.GetCompletionsAsync(scriptDocument, this.CaretOffset,trigger: CompletionTrigger.Default, roles: null,options: null,cancellationToken: System.Threading.CancellationToken.None);
+            var scriptProject = workspace.AddProject(scriptProjectInfo);
+            var scriptDocumentInfo = DocumentInfo.Create(
+                DocumentId.CreateNewId(scriptProject.Id), "Script",
+                sourceCodeKind: SourceCodeKind.Script,
+                loader: TextLoader.From(TextAndVersion.Create(SourceText.From(scriptCode), VersionStamp.Create())));
+            ////SCaddinsApp.WindowManager.ShowMessageBox(scriptDocumentInfo.SourceCodeKind.ToString());
+            var scriptDocument = workspace.AddDocument(scriptDocumentInfo);
+            var completionService = CompletionService.GetService(scriptDocument);
+            if (completionService == null)
+            {
+                SCaddinsApp.WindowManager.ShowMessageBox("completionService == null");
+                return;
+            }
 
-        //    ////await PrintCompletionResults(scriptDocument, scriptCode.Length - 1);
-        //}
+            //var results = await completionService.GetCompletionsAsync(scriptDocument, this.CaretOffset, trigger: CompletionTrigger.Default, roles: null, options: null, cancellationToken: System.Threading.CancellationToken.None);
+
+            await PrintCompletionResults(scriptDocument, this.CaretOffset);
+        }
 
         protected static void OnDependencyPropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs args)
         {
@@ -166,36 +167,38 @@
             base.OnTextChanged(e);
         }
 
-        //private static async Task PrintCompletionResults(Document document, int position)
-        //{
-        //    //var completionService = CompletionService.GetService(document);
-        //    //var results = await completionService.GetCompletionsAsync(document, position);
+        private static async Task PrintCompletionResults(Document document, int position)
+        {
+            var completionService = CompletionService.GetService(document);
+            var results = await completionService.GetCompletionsAsync(document, position);
 
-        //    foreach (var i in results.Items)
-        //    {
-        //        Console.WriteLine(i.DisplayText);
+            SCaddinsApp.WindowManager.ShowMessageBox("YES!!!");
 
-        //        foreach (var prop in i.Properties)
-        //        {
-        //            Console.Write($"{prop.Key}:{prop.Value}  ");
-        //        }
+            //foreach (var i in results.Items)
+            //{
+            //    Console.WriteLine(i.DisplayText);
 
-        //        Console.WriteLine();
-        //        foreach (var tag in i.Tags)
-        //        {
-        //            Console.Write($"{tag}  ");
-        //        }
+            //    foreach (var prop in i.Properties)
+            //    {
+            //        Console.Write($"{prop.Key}:{prop.Value}  ");
+            //    }
 
-        //        Console.WriteLine();
-        //        Console.WriteLine();
-        //    }
-        //}
+            //    Console.WriteLine();
+            //    foreach (var tag in i.Tags)
+            //    {
+            //        Console.Write($"{tag}  ");
+            //    }
+
+            //    Console.WriteLine();
+            //    Console.WriteLine();
+            //}
+        }
 
         private async void TextArea_TextEntered(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             if (e.Text == ".")
             {
-                //TestCompletionOutput();
+                TestCompletionOutput();
                 //        completionWindow = new CompletionWindow(this.TextArea);
                 //        IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
                 //        data.Add(new MyCompletionData("Item1"));
