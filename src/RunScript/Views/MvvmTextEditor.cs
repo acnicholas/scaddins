@@ -1,21 +1,20 @@
 ﻿namespace SCaddins.RunScript.Views
 {
     using ICSharpCode.AvalonEdit.CodeCompletion;
-    using ICSharpCode.AvalonEdit.Highlighting;
     using Microsoft.CodeAnalysis.Completion;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.Host.Mef;
     using Microsoft.CodeAnalysis.Text;
     using Microsoft.CodeAnalysis;
-    using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Composition.Hosting;
-    using System.Linq;
-    using System.Reflection;
     using System.Threading.Tasks;
     using System.Windows;
     using System;
+    using System.Linq;
+    using System.Reflection;
+    //using Autodesk.Revit.DB;
+    //using Autodesk.Revit.UI;
 
     public class MvvmTextEditor : ICSharpCode.AvalonEdit.TextEditor, INotifyPropertyChanged
     {
@@ -65,29 +64,6 @@
             }
         }
 
-        //public void AdvancedInit()
-        //{
-        //    var assemblies = new[]
-        //    {
-        //    Assembly.Load("Microsoft.CodeAnalysis"),
-        //    Assembly.Load("Microsoft.CodeAnalysis.CSharp"),
-        //    Assembly.Load("Microsoft.CodeAnalysis.Features"),
-        //    Assembly.Load("Microsoft.CodeAnalysis.CSharp.Features"),
-        //    };
-
-        //    var partTypes = MefHostServices.DefaultAssemblies.Concat(assemblies)
-        //            .Distinct()
-        //            .SelectMany(x => x.GetTypes())
-        //            .ToArray();
-
-        //    var compositionContext = new ContainerConfiguration()
-        //        .WithParts(partTypes)
-        //        .CreateContainer();
-
-        //    host = MefHostServices.Create(compositionContext);
-        //    workspace = new AdhocWorkspace(host);
-        //}
-
         #pragma warning disable CA1030 // Use events where appropriate
         public void RaisePropertyChanged(string property)
         #pragma warning restore CA1030 // Use events where appropriate
@@ -98,21 +74,21 @@
             }
         }
 
-        //public void SimpleInit()
-        //{
-        //    host = MefHostServices.Create(MefHostServices.DefaultAssemblies);
-        //    workspace = new AdhocWorkspace(host);
-        //}
-
         public async void TestCompletionOutput()
         {
             host = MefHostServices.Create(MefHostServices.DefaultAssemblies);
+
+            ////host = MefHostServices.Create(MefHostServices.DefaultAssemblies.Concat(new[] {
+            ////    Assembly.Load("RevitAPI"),
+            ////    Assembly.Load("RevitAPIUI"),
+            ////}));
+
             workspace = new AdhocWorkspace(host);
 
             var scriptCode = Text;
 
             var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
-                usings: new[] { "System" });
+                usings: new[] { "System", "Autodesk.Revit.DB", "Autodesk.Revit.UI" });
 
             var scriptProjectInfo = ProjectInfo.Create(ProjectId.CreateNewId(), VersionStamp.Create(), "Script", "Script", LanguageNames.CSharp,
                     isSubmission: true)
@@ -135,7 +111,30 @@
 
             //var results = await completionService.GetCompletionsAsync(scriptDocument, this.CaretOffset, trigger: CompletionTrigger.Default, roles: null, options: null, cancellationToken: System.Threading.CancellationToken.None);
 
-            await PrintCompletionResults(scriptDocument, this.CaretOffset);
+            //SCaddinsApp.WindowManager.ShowMessageBox(this.Text);
+            //int idx = this.Text.IndexOf("System.") + 7;
+            //SCaddinsApp.WindowManager.ShowMessageBox(idx.ToString());
+
+            int idx = this.CaretOffset;
+            SCaddinsApp.WindowManager.ShowMessageBox(idx.ToString());
+
+            //return;
+
+            await PrintCompletionResults(scriptDocument, idx);
+
+            //completionWindow = new CompletionWindow(this.TextArea);
+            //IList<ICompletionData> data = results.Items
+            //data.Add(new MyCompletionData("Item1"));
+            //data.Add(new MyCompletionData("Item2"));
+            //data.Add(new MyCompletionData("Item3"));
+            //completionWindow.CompletionList.SelectedItem = data[0];
+            //completionWindow.Show();
+            //completionWindow.Closed += delegate
+            //{
+            //    completionWindow = null;
+            //};
+
+            //await PrintCompletionResults(scriptDocument, 10);
         }
 
         protected static void OnDependencyPropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs args)
@@ -167,31 +166,46 @@
             base.OnTextChanged(e);
         }
 
+
+        ////private static async Task<Microsoft.CodeAnalysis.Completion.CompletionList> GetCompletionResults(Document document, int position)
+        ////{
+        ////    var completionService = CompletionService.GetService(document);
+        ////    Microsoft.CodeAnalysis.Completion.CompletionList list = null;
+        ////    return await completionService.GetCompletionsAsync(document, position, CompletionTrigger.CreateInsertionTrigger('.'));
+        ////}
+
         private static async Task PrintCompletionResults(Document document, int position)
         {
             var completionService = CompletionService.GetService(document);
-            var results = await completionService.GetCompletionsAsync(document, position);
 
-            SCaddinsApp.WindowManager.ShowMessageBox("YES!!!");
+            Microsoft.CodeAnalysis.Completion.CompletionList list = null;
+            //list = completionService.GetCompletionsAsync(document, position).Result;
+            list = completionService.GetCompletionsAsync(document, position, CompletionTrigger.CreateInsertionTrigger('.')).Result;
 
-            //foreach (var i in results.Items)
-            //{
-            //    Console.WriteLine(i.DisplayText);
+            if (list == null)
+            {
+                SCaddinsApp.WindowManager.ShowMessageBox("NULL list!!!");
+                return;
+            }
 
-            //    foreach (var prop in i.Properties)
-            //    {
-            //        Console.Write($"{prop.Key}:{prop.Value}  ");
-            //    }
+            foreach (var i in list.Items)
+            {
+                System.Diagnostics.Debug.WriteLine(i.DisplayText);
 
-            //    Console.WriteLine();
-            //    foreach (var tag in i.Tags)
-            //    {
-            //        Console.Write($"{tag}  ");
-            //    }
+                foreach (var prop in i.Properties)
+                {
+                    System.Diagnostics.Debug.Write($"{prop.Key}:{prop.Value}  ");
+                }
 
-            //    Console.WriteLine();
-            //    Console.WriteLine();
-            //}
+                System.Diagnostics.Debug.WriteLine("");
+                foreach (var tag in i.Tags)
+                {
+                    System.Diagnostics.Debug.Write($"{tag}  ");
+                }
+
+                System.Diagnostics.Debug.WriteLine("");
+                System.Diagnostics.Debug.WriteLine("");
+            }
         }
 
         private async void TextArea_TextEntered(object sender, System.Windows.Input.TextCompositionEventArgs e)
