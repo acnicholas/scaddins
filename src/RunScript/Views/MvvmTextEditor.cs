@@ -13,8 +13,7 @@
     using System;
     using System.Linq;
     using System.Reflection;
-    //using Autodesk.Revit.DB;
-    //using Autodesk.Revit.UI;
+    using System.Collections.Generic;
 
     public class MvvmTextEditor : ICSharpCode.AvalonEdit.TextEditor, INotifyPropertyChanged
     {
@@ -33,6 +32,8 @@
         private CompletionWindow completionWindow;
         private MefHostServices host;
         private AdhocWorkspace workspace;
+
+
         public MvvmTextEditor()
         {
             ShowLineNumbers = true;
@@ -77,64 +78,29 @@
         public async void TestCompletionOutput()
         {
             host = MefHostServices.Create(MefHostServices.DefaultAssemblies);
-
-            ////host = MefHostServices.Create(MefHostServices.DefaultAssemblies.Concat(new[] {
-            ////    Assembly.Load("RevitAPI"),
-            ////    Assembly.Load("RevitAPIUI"),
-            ////}));
-
             workspace = new AdhocWorkspace(host);
-
-            var scriptCode = Text;
+            var code = Text;
 
             var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
                 usings: new[] { "System", "Autodesk.Revit.DB", "Autodesk.Revit.UI" });
 
-            var scriptProjectInfo = ProjectInfo.Create(ProjectId.CreateNewId(), VersionStamp.Create(), "Script", "Script", LanguageNames.CSharp,
-                    isSubmission: true)
-                .WithMetadataReferences(new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) })
-                .WithCompilationOptions(compilationOptions);
-
-            var scriptProject = workspace.AddProject(scriptProjectInfo);
-            var scriptDocumentInfo = DocumentInfo.Create(
-                DocumentId.CreateNewId(scriptProject.Id), "Script",
-                sourceCodeKind: SourceCodeKind.Script,
-                loader: TextLoader.From(TextAndVersion.Create(SourceText.From(scriptCode), VersionStamp.Create())));
-            ////SCaddinsApp.WindowManager.ShowMessageBox(scriptDocumentInfo.SourceCodeKind.ToString());
-            var scriptDocument = workspace.AddDocument(scriptDocumentInfo);
-            var completionService = CompletionService.GetService(scriptDocument);
-            if (completionService == null)
-            {
-                SCaddinsApp.WindowManager.ShowMessageBox("completionService == null");
-                return;
-            }
-
-            //var results = await completionService.GetCompletionsAsync(scriptDocument, this.CaretOffset, trigger: CompletionTrigger.Default, roles: null, options: null, cancellationToken: System.Threading.CancellationToken.None);
-
-            //SCaddinsApp.WindowManager.ShowMessageBox(this.Text);
-            //int idx = this.Text.IndexOf("System.") + 7;
-            //SCaddinsApp.WindowManager.ShowMessageBox(idx.ToString());
-
+            var projectInfo = ProjectInfo.Create(
+                ProjectId.CreateNewId(),
+                VersionStamp.Create(),
+                "MyProject", "MyProject",
+                LanguageNames.CSharp)
+                    .WithMetadataReferences(new[] 
+                        { MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
+                          MetadataReference.CreateFromFile(typeof(Autodesk.Revit.DB.Document).Assembly.Location)
+                        })
+                    .WithCompilationOptions(compilationOptions)
+                    .WithAssemblyName("RevitAIP")
+                    .WithAssemblyName("RevitAPIUI");
+                   
+            var project = workspace.AddProject(projectInfo);
+            var document = workspace.AddDocument(project.Id, "MyFile.cs", SourceText.From(code));
             int idx = this.CaretOffset;
-            SCaddinsApp.WindowManager.ShowMessageBox(idx.ToString());
-
-            //return;
-
-            await PrintCompletionResults(scriptDocument, idx);
-
-            //completionWindow = new CompletionWindow(this.TextArea);
-            //IList<ICompletionData> data = results.Items
-            //data.Add(new MyCompletionData("Item1"));
-            //data.Add(new MyCompletionData("Item2"));
-            //data.Add(new MyCompletionData("Item3"));
-            //completionWindow.CompletionList.SelectedItem = data[0];
-            //completionWindow.Show();
-            //completionWindow.Closed += delegate
-            //{
-            //    completionWindow = null;
-            //};
-
-            //await PrintCompletionResults(scriptDocument, 10);
+            await PrintCompletionResults(document, idx, completionWindow, this.TextArea);
         }
 
         protected static void OnDependencyPropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs args)
@@ -166,21 +132,19 @@
             base.OnTextChanged(e);
         }
 
-
-        ////private static async Task<Microsoft.CodeAnalysis.Completion.CompletionList> GetCompletionResults(Document document, int position)
-        ////{
-        ////    var completionService = CompletionService.GetService(document);
-        ////    Microsoft.CodeAnalysis.Completion.CompletionList list = null;
-        ////    return await completionService.GetCompletionsAsync(document, position, CompletionTrigger.CreateInsertionTrigger('.'));
-        ////}
-
-        private static async Task PrintCompletionResults(Document document, int position)
+        private static async Task PrintCompletionResults(Document document, int position, CompletionWindow cw, ICSharpCode.AvalonEdit.Editing.TextArea ta)
         {
             var completionService = CompletionService.GetService(document);
 
+            if (completionService == null)
+            {
+                SCaddinsApp.WindowManager.ShowMessageBox("completionService == null");
+                return;
+            }
+
             Microsoft.CodeAnalysis.Completion.CompletionList list = null;
-            //list = completionService.GetCompletionsAsync(document, position).Result;
-            list = completionService.GetCompletionsAsync(document, position, CompletionTrigger.CreateInsertionTrigger('.')).Result;
+            list = completionService.GetCompletionsAsync(document, position).Result;
+            //list = completionService.GetCompletionsAsync(document, position, CompletionTrigger.CreateInsertionTrigger('.')).Result;
 
             if (list == null)
             {
@@ -188,60 +152,50 @@
                 return;
             }
 
+            ////SCaddinsApp.WindowManager.ShowMessageBox(list.Items.Count().ToString());
+
+            cw = new CompletionWindow(ta);
+            IList<ICompletionData> data = cw.CompletionList.CompletionData;
             foreach (var i in list.Items)
             {
-                System.Diagnostics.Debug.WriteLine(i.DisplayText);
-
-                foreach (var prop in i.Properties)
-                {
-                    System.Diagnostics.Debug.Write($"{prop.Key}:{prop.Value}  ");
-                }
-
-                System.Diagnostics.Debug.WriteLine("");
-                foreach (var tag in i.Tags)
-                {
-                    System.Diagnostics.Debug.Write($"{tag}  ");
-                }
-
-                System.Diagnostics.Debug.WriteLine("");
-                System.Diagnostics.Debug.WriteLine("");
+                var test = i.
+                data.Add(new MyCompletionData(i.DisplayText));
             }
+            cw.CompletionList.SelectedItem = data[0];
+            cw.Show();
+            cw.Closed += delegate
+            {
+                cw = null;
+            };
         }
 
         private async void TextArea_TextEntered(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            if (e.Text == ".")
+            if (e.Text == "." || completionWindow != null)
             {
                 TestCompletionOutput();
-                //        completionWindow = new CompletionWindow(this.TextArea);
-                //        IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
-                //        data.Add(new MyCompletionData("Item1"));
-                //        data.Add(new MyCompletionData("Item2"));
-                //        data.Add(new MyCompletionData("Item3"));
-                //        completionWindow.CompletionList.SelectedItem = data[0];
-                //        completionWindow.Show();
-                //        completionWindow.Closed += delegate
-                //        {
-                //            completionWindow = null;
-                //        };
             }
+            if (e.Text == "(" || completionWindow != null)
+            {
+                TestCompletionOutput();
+            }
+
         }
 
         private void TextArea_TextEntering(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            ////if (e.Text.Length > 0 && completionWindow != null)
-            ////{
-            ////    if (!char.IsLetterOrDigit(e.Text[0]))
-            ////    {
+            if (e.Text.Length > 0 && completionWindow != null)
+            {
+                if (!char.IsLetterOrDigit(e.Text[0]))
+                {
             ////        if (e.Text[0] == '\t')
             ////        {
             ////            // IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
             ////            //completionWindow.CompletionList.SelectedItem = data[1];
             ////            //} else {
-            ////            //completionWindow.CompletionList.RequestInsertion(e);
-            ////        }
-            ////    }
-            ////}
+                           completionWindow.CompletionList.RequestInsertion(e);
+               }
+            }
         }
     }
 }
