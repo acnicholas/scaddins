@@ -32,11 +32,16 @@
         private CompletionWindow completionWindow;
         private MefHostServices host;
         private AdhocWorkspace workspace;
+        private Project project;
+        private CompletionService completionService;
+        private Microsoft.CodeAnalysis.Document document;
 
 
         public MvvmTextEditor()
         {
             ShowLineNumbers = true;
+
+            Init();
 
             this.TextArea.TextEntered += TextArea_TextEntered;
             this.TextArea.TextEntering += TextArea_TextEntering;
@@ -75,7 +80,7 @@
             }
         }
 
-        public async void TestCompletionOutput()
+        public void Init()
         {
             host = MefHostServices.Create(MefHostServices.DefaultAssemblies);
             workspace = new AdhocWorkspace(host);
@@ -97,10 +102,9 @@
                     .WithAssemblyName("RevitAIP")
                     .WithAssemblyName("RevitAPIUI");
                    
-            var project = workspace.AddProject(projectInfo);
-            var document = workspace.AddDocument(project.Id, "MyFile.cs", SourceText.From(code));
-            int idx = this.CaretOffset;
-            await PrintCompletionResults(document, idx, completionWindow, this.TextArea);
+            project = workspace.AddProject(projectInfo);
+            document = workspace.AddDocument(project.Id, "MyFile.cs", SourceText.From(code));
+            completionService = CompletionService.GetService(document);
         }
 
         protected static void OnDependencyPropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs args)
@@ -132,9 +136,13 @@
             base.OnTextChanged(e);
         }
 
-        private static async Task PrintCompletionResults(Document document, int position, CompletionWindow cw, ICSharpCode.AvalonEdit.Editing.TextArea ta)
+        private async Task UpdateCompletionResults(CompletionWindow cw, ICSharpCode.AvalonEdit.Editing.TextArea ta)
         {
-            var completionService = CompletionService.GetService(document);
+            
+            document = workspace.AddDocument(project.Id, "MyFile.cs", SourceText.From(Text));
+            //document.WithText(SourceText.From(Text));
+
+            //var completionService = CompletionService.GetService(document);
 
             if (completionService == null)
             {
@@ -143,7 +151,7 @@
             }
 
             Microsoft.CodeAnalysis.Completion.CompletionList list = null;
-            list = completionService.GetCompletionsAsync(document, position).Result;
+            list = completionService.GetCompletionsAsync(document, this.CaretOffset).Result;
             //list = completionService.GetCompletionsAsync(document, position, CompletionTrigger.CreateInsertionTrigger('.')).Result;
 
             if (list == null)
@@ -154,32 +162,51 @@
 
             ////SCaddinsApp.WindowManager.ShowMessageBox(list.Items.Count().ToString());
 
-            cw = new CompletionWindow(ta);
-            IList<ICompletionData> data = cw.CompletionList.CompletionData;
-            foreach (var i in list.Items)
+            if (cw == null)
             {
-                var test = i.
-                data.Add(new MyCompletionData(i.DisplayText));
+
+                cw = new CompletionWindow(ta);
+                IList<ICompletionData> data = cw.CompletionList.CompletionData;
+                foreach (var i in list.Items)
+                {
+                    data.Add(new MyCompletionData(i.DisplayText));
+                }
+                cw.CompletionList.SelectedItem = data[0];
+                cw.CloseWhenCaretAtBeginning = false;
+                //cw.StartOffset = 0;
+                cw.CloseAutomatically = false;
+                //cw.Closing += Cw_Closing;
+                cw.Show();
+                cw.Closed += delegate
+                {
+                    cw = null;
+                };
+
             }
-            cw.CompletionList.SelectedItem = data[0];
-            cw.Show();
-            cw.Closed += delegate
-            {
-                cw = null;
-            };
         }
+
+        //private void Cw_Closing(object sender, CancelEventArgs e)
+        //{
+        //    SCaddinsApp.WindowManager.ShowMessageBox("Closing");
+        //}
 
         private async void TextArea_TextEntered(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             if (e.Text == "." || completionWindow != null)
             {
-                TestCompletionOutput();
+                await this.UpdateCompletionResults(completionWindow, this.TextArea);
+                return;
             }
             if (e.Text == "(" || completionWindow != null)
             {
-                TestCompletionOutput();
+                await this.UpdateCompletionResults(completionWindow, this.TextArea);
+                return;
             }
-
+            if (completionWindow != null && completionWindow.IsVisible)
+            {
+                //completionWindow.StartOffset++;
+                await this.UpdateCompletionResults(completionWindow, this.TextArea);
+            }
         }
 
         private void TextArea_TextEntering(object sender, System.Windows.Input.TextCompositionEventArgs e)
@@ -194,7 +221,13 @@
             ////            //completionWindow.CompletionList.SelectedItem = data[1];
             ////            //} else {
                            completionWindow.CompletionList.RequestInsertion(e);
-               }
+               } else
+                {
+                    if (completionWindow != null && completionWindow.IsVisible && e.Text != ".")
+                    {
+                        completionWindow.StartOffset--;
+                    }
+                }
             }
         }
     }
