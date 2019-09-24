@@ -35,6 +35,10 @@
         private Project project;
         private CompletionService completionService;
         private Microsoft.CodeAnalysis.Document document;
+        private int dotIndex;
+        private Microsoft.CodeAnalysis.Completion.CompletionList list;
+        private string filterText;
+        private bool vis;
 
 
         public MvvmTextEditor()
@@ -82,6 +86,9 @@
 
         public void Init()
         {
+            list = null;
+            vis = false;
+            filterText = string.Empty;
             host = MefHostServices.Create(MefHostServices.DefaultAssemblies);
             workspace = new AdhocWorkspace(host);
             var code = Text;
@@ -136,77 +143,66 @@
             base.OnTextChanged(e);
         }
 
-        private async Task UpdateCompletionResults(CompletionWindow cw, ICSharpCode.AvalonEdit.Editing.TextArea ta)
+        private async Task UpdateCompletionResults(ICSharpCode.AvalonEdit.Editing.TextArea ta)
         {
-            
             document = workspace.AddDocument(project.Id, "MyFile.cs", SourceText.From(Text));
-            //document.WithText(SourceText.From(Text));
 
-            //var completionService = CompletionService.GetService(document);
-
-            if (completionService == null)
-            {
-                SCaddinsApp.WindowManager.ShowMessageBox("completionService == null");
+            if (completionService == null) {
                 return;
             }
 
-            Microsoft.CodeAnalysis.Completion.CompletionList list = null;
-            list = completionService.GetCompletionsAsync(document, this.CaretOffset).Result;
-            //list = completionService.GetCompletionsAsync(document, position, CompletionTrigger.CreateInsertionTrigger('.')).Result;
+            //if (!vis)
+            //{
+            list = completionService.GetCompletionsAsync(document, this.CaretOffset, trigger: CompletionTrigger.Invoke).Result;
+            //}
 
-            if (list == null)
-            {
-                SCaddinsApp.WindowManager.ShowMessageBox("NULL list!!!");
+            if (list == null) {
                 return;
             }
 
-            ////SCaddinsApp.WindowManager.ShowMessageBox(list.Items.Count().ToString());
-
-            if (cw == null)
-            {
-
-                cw = new CompletionWindow(ta);
-                IList<ICompletionData> data = cw.CompletionList.CompletionData;
-                foreach (var i in list.Items)
+            //if (completionWindow == null) {
+                completionWindow = new CompletionWindow(ta);
+                completionWindow.Closed += delegate
                 {
+                    vis = false;
+                    completionWindow = null;
+                };
+            //}
+
+            IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
+
+            if (data == null) return;
+
+            foreach (var i in list.Items) {
+                if (string.IsNullOrEmpty(filterText) || i.DisplayText.StartsWith(filterText)) {
                     data.Add(new MyCompletionData(i.DisplayText));
                 }
-                cw.CompletionList.SelectedItem = data[0];
-                cw.CloseWhenCaretAtBeginning = false;
-                //cw.StartOffset = 0;
-                cw.CloseAutomatically = false;
-                //cw.Closing += Cw_Closing;
-                cw.Show();
-                cw.Closed += delegate
-                {
-                    cw = null;
-                };
-
             }
+            completionWindow.CompletionList.SelectedItem = data[0];
+            completionWindow.CloseWhenCaretAtBeginning = false;
+            completionWindow.CloseAutomatically = false;
+            vis = true;
+            completionWindow.Show();
         }
 
-        //private void Cw_Closing(object sender, CancelEventArgs e)
-        //{
-        //    SCaddinsApp.WindowManager.ShowMessageBox("Closing");
-        //}
-
-        private async void TextArea_TextEntered(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        private void TextArea_TextEntered(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            if (e.Text == "." || completionWindow != null)
+            completionWindow = null;
+            if (e.Text != " ")
             {
-                await this.UpdateCompletionResults(completionWindow, this.TextArea);
+                dotIndex = this.CaretOffset;
+                filterText = string.Empty;
+                this.UpdateCompletionResults(this.TextArea);
                 return;
             }
-            if (e.Text == "(" || completionWindow != null)
-            {
-                await this.UpdateCompletionResults(completionWindow, this.TextArea);
-                return;
-            }
-            if (completionWindow != null && completionWindow.IsVisible)
-            {
-                //completionWindow.StartOffset++;
-                await this.UpdateCompletionResults(completionWindow, this.TextArea);
-            }
+            //if (char.IsLetterOrDigit(e.Text[0]) && vis)
+            //{
+            //    this.UpdateCompletionResults(this.TextArea);
+            //    filterText = this.Text.Substring(dotIndex, this.CaretOffset - dotIndex);
+            //    completionWindow.StartOffset = dotIndex;
+            //    completionWindow.EndOffset = this.CaretOffset;
+            //    return;
+            //}
         }
 
         private void TextArea_TextEntering(object sender, System.Windows.Input.TextCompositionEventArgs e)
@@ -215,19 +211,12 @@
             {
                 if (!char.IsLetterOrDigit(e.Text[0]))
                 {
-            ////        if (e.Text[0] == '\t')
-            ////        {
-            ////            // IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
-            ////            //completionWindow.CompletionList.SelectedItem = data[1];
-            ////            //} else {
-                           completionWindow.CompletionList.RequestInsertion(e);
-               } else
-                {
-                    if (completionWindow != null && completionWindow.IsVisible && e.Text != ".")
-                    {
-                        completionWindow.StartOffset--;
-                    }
-                }
+                    filterText = string.Empty;
+                    vis = false;
+                    //completionWindow.CompletionList.RequestInsertion(e);
+                    return;
+               }
+
             }
         }
     }
