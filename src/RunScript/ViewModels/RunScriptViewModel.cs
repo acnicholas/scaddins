@@ -30,6 +30,7 @@ namespace SCaddins.RunScript.ViewModels
     internal class RunScriptViewModel : Screen
     {
         private string output;
+        private string script;
 
         public RunScriptViewModel()
         {
@@ -73,7 +74,15 @@ public static void Main(Document doc)
 
         public string Script
         {
-            get; set;
+            get
+            {
+                return script;
+            }
+            set
+            {
+                script = value;
+                NotifyOfPropertyChange(() => Script);
+            }
         }
 
         public string Output
@@ -116,6 +125,17 @@ public static void Main(Document doc)
             NotifyOfPropertyChange(() => Background);
         }
 
+        public void LoadScriptFromFile()
+        {
+            var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var p = System.IO.Path.Combine(s, "SCaddins", "Script.cs");
+            if (!File.Exists(p))
+            {
+                return;
+            }
+            Script = System.IO.File.ReadAllText(p);
+        }
+
         public void LoadTheme(string themeFile)
         {
             string dir = @"C:\Code\cs\scaddins\src\RunScript\Resources\";
@@ -147,5 +167,21 @@ public static void Main(Document doc)
                 TryClose(true);
             }
         }
+
+        public void SaveAs()
+        {
+            Save();
+        }
+
+        public void Save()
+        {
+            var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var p = System.IO.Path.Combine(s, "SCaddins");
+            if (!Directory.Exists(p)) {
+                Directory.CreateDirectory(p);
+            }
+            System.IO.File.WriteAllText(System.IO.Path.Combine(p, "Script.cs"), Script);
+        }
+
     }
 }
