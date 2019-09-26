@@ -101,6 +101,16 @@ namespace SCaddins.LineOfSight
 
         #region
 
+        public StadiumSeatingTier GetCurrentTier()
+        {
+                return this;
+        }
+
+        public StadiumSeatingTier GetCurrentTierAsProperty
+        {
+            get { return this; }
+        }
+
         public double DistanceToFirstRowX
         {
             get

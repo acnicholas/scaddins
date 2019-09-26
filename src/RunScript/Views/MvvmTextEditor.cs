@@ -40,6 +40,7 @@
         public MvvmTextEditor()
         {
             ShowLineNumbers = true;
+            //SetValue(TextProperty, "Loading...");
 
             //Init();
 

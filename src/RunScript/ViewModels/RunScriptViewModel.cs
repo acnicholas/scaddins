@@ -22,8 +22,6 @@ namespace SCaddins.RunScript.ViewModels
     using System.Dynamic;
     using System.IO;
     using System.Xml;
-    using Autodesk.Revit.DB;
-    using Autodesk.Revit.UI;
     using Caliburn.Micro;
     using ICSharpCode.AvalonEdit.Highlighting;
 
@@ -31,11 +29,14 @@ namespace SCaddins.RunScript.ViewModels
     {
         private string output;
         private string script;
+        private Caliburn.Micro.BindableCollection<String> outputList;
+        private string selectedOutputList;
 
         public RunScriptViewModel()
         {
             LightMode();
             output = string.Empty;
+            outputList = new BindableCollection<string>();
             Script =
 @"
 using Autodesk.Revit.UI;
@@ -85,6 +86,36 @@ public static void Main(Document doc)
             }
         }
 
+        public BindableCollection<String> OutputList
+        {
+            get
+            {
+                outputList.Clear();
+                if (!string.IsNullOrEmpty(output)) {
+                    using (StringReader sr = new StringReader(Output)) {
+                        string line;
+                        while ((line = sr.ReadLine()) != null) {
+                            outputList.Add(line.Substring(line.IndexOf("(")));
+                        }
+                    }
+                }
+                return outputList;
+            }
+        }
+
+        public string SelectedOutputList
+        {
+            get
+            {
+                return selectedOutputList;
+            }
+            set
+            {
+                selectedOutputList = value;
+                SCaddinsApp.WindowManager.ShowMessageBox(selectedOutputList);
+            }
+        }
+
         public string Output
         {
             get
@@ -96,6 +127,7 @@ public static void Main(Document doc)
             {
                 output = value;
                 NotifyOfPropertyChange(() => Output);
+                NotifyOfPropertyChange(() => OutputList);
             }
         }
 
@@ -129,8 +161,7 @@ public static void Main(Document doc)
         {
             var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             var p = System.IO.Path.Combine(s, "SCaddins", "Script.cs");
-            if (!File.Exists(p))
-            {
+            if (!File.Exists(p)) {
                 return;
             }
             Script = System.IO.File.ReadAllText(p);
@@ -139,10 +170,8 @@ public static void Main(Document doc)
         public void LoadTheme(string themeFile)
         {
             string dir = @"C:\Code\cs\scaddins\src\RunScript\Resources\";
-            if (File.Exists(dir + themeFile))
-            {
-                try
-                {
+            if (File.Exists(dir + themeFile)) {
+                try {
                     Stream xshd_stream = File.OpenRead(dir + themeFile);
                     XmlTextReader xshd_reader = new XmlTextReader(xshd_stream);
                     var theme = ICSharpCode.AvalonEdit.Highlighting.Xshd.HighlightingLoader.Load(xshd_reader, ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance);
@@ -150,8 +179,7 @@ public static void Main(Document doc)
                     xshd_reader.Close();
                     xshd_stream.Close();
                 }
-                catch (Exception e)
-                {
+                catch (Exception e) {
                     SCaddinsApp.WindowManager.ShowMessageBox(e.Message);
                 }
             }
@@ -162,8 +190,7 @@ public static void Main(Document doc)
             var compileResults = string.Empty;
             var result = RunScriptCommand.VerifyScript(RunScriptCommand.ClassifyScript(Script), out compileResults);
             Output = compileResults;
-            if (result)
-            {
+            if (result) {
                 TryClose(true);
             }
         }

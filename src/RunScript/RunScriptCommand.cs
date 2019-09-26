@@ -16,7 +16,6 @@
             System.Text.StringBuilder sb = new System.Text.StringBuilder(s);
             sb.Insert(s.IndexOf(@"public static", System.StringComparison.InvariantCulture), @"public class A{");
             sb.Append(@"}");
-            ////SCaddinsApp.WindowManager.ShowMessageBox(sb.ToString());
             return sb.ToString();
         }
 
