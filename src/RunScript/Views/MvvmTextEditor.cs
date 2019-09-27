@@ -98,7 +98,7 @@
             set
             {
                 SetValue(CaretColumnProperty, value);
-                //this.TextArea.Caret.Column = value;
+                this.TextArea.Caret.Column = value;
                 RaisePropertyChanged("CaretColumn");
             }
         }

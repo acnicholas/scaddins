@@ -35,13 +35,12 @@ namespace SCaddins.RunScript.ViewModels
 
         public RunScriptViewModel()
         {
-            caretColumnPosition = 0;
+            caretColumnPosition = 5;
             LightMode();
             output = string.Empty;
             outputList = new BindableCollection<string>();
             Script =
-@"
-using Autodesk.Revit.UI;
+@"using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
 using SCaddins;
 
