@@ -19,11 +19,24 @@
                 "Text",
                 typeof(string),
                 typeof(MvvmTextEditor),
-                new FrameworkPropertyMetadata {
+                new FrameworkPropertyMetadata
+                {
                     DefaultValue = default(string),
                     BindsTwoWayByDefault = true,
                     PropertyChangedCallback = OnDependencyPropertyChanged
                 });
+
+        public static readonly DependencyProperty CaretColumnProperty =
+            DependencyProperty.Register(
+                "CaretColumn",
+                typeof(int),
+                typeof(MvvmTextEditor),
+                new FrameworkPropertyMetadata
+                {
+                    DefaultValue = default(int),
+                    BindsTwoWayByDefault = true,
+                    PropertyChangedCallback = OnDependencyPropertyChanged
+        });
 
         ////private CompletionWindow completionWindow;
         ////private MefHostServices host;
@@ -43,6 +56,10 @@
             //SetValue(TextProperty, "Loading...");
 
             //Init();
+
+            //this.TextArea.Caret.Column = 3;
+            //this.TextArea.Caret.Line = 3;
+            this.TextArea.Caret.Show();
 
             //this.TextArea.TextEntered += TextArea_TextEntered;
             //this.TextArea.TextEntering += TextArea_TextEntering;
@@ -71,7 +88,22 @@
             }
         }
 
-        #pragma warning disable CA1030 // Use events where appropriate
+        public int CaretColumn
+        {
+            get
+            {
+                return (int)GetValue(CaretColumnProperty);
+            }
+
+            set
+            {
+                SetValue(CaretColumnProperty, value);
+                //this.TextArea.Caret.Column = value;
+                RaisePropertyChanged("CaretColumn");
+            }
+        }
+
+#pragma warning disable CA1030 // Use events where appropriate
         public void RaisePropertyChanged(string property)
         #pragma warning restore CA1030 // Use events where appropriate
         {

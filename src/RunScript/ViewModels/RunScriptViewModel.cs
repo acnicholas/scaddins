@@ -31,9 +31,11 @@ namespace SCaddins.RunScript.ViewModels
         private string script;
         private Caliburn.Micro.BindableCollection<String> outputList;
         private string selectedOutputList;
+        private int caretColumnPosition;
 
         public RunScriptViewModel()
         {
+            caretColumnPosition = 0;
             LightMode();
             output = string.Empty;
             outputList = new BindableCollection<string>();
@@ -83,6 +85,19 @@ public static void Main(Document doc)
             {
                 script = value;
                 NotifyOfPropertyChange(() => Script);
+            }
+        }
+
+        public int CaretColumnPosition
+        {
+            get
+            {
+                return caretColumnPosition;
+            }
+            set
+            {
+                caretColumnPosition = value;
+                NotifyOfPropertyChange(() => CaretColumnPosition);
             }
         }
 
