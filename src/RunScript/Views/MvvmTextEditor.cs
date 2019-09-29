@@ -10,9 +10,13 @@
     ////using System.Threading.Tasks;
     using System.Windows;
     using System;
+    using ICSharpCode.AvalonEdit.Rendering;
+    using System.Windows.Media;
+    using ICSharpCode.AvalonEdit.Document;
+
     ////using System.Collections.Generic;
 
-    public class MvvmTextEditor : ICSharpCode.AvalonEdit.TextEditor, INotifyPropertyChanged
+    public class MvvmTextEditor : ICSharpCode.AvalonEdit.TextEditor, INotifyPropertyChanged, ICSharpCode.AvalonEdit.Rendering.IBackgroundRenderer
     {
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register(
@@ -59,7 +63,10 @@
 
             //this.TextArea.Caret.Column = 3;
             //this.TextArea.Caret.Line = 3;
+
+            
             this.TextArea.Caret.Show();
+            this.TextArea.TextView.BackgroundRenderers.Add(this);
 
             //this.TextArea.TextEntered += TextArea_TextEntered;
             //this.TextArea.TextEntering += TextArea_TextEntering;
@@ -98,8 +105,16 @@
             set
             {
                 SetValue(CaretColumnProperty, value);
-                this.TextArea.Caret.Column = value;
+                //this.TextArea.Caret.Location = new ICSharpCode.AvalonEdit.Document.TextLocation(0, value);
+                this.TextArea.Caret.Position = new ICSharpCode.AvalonEdit.TextViewPosition(1, value);
                 RaisePropertyChanged("CaretColumn");
+            }
+        }
+
+        public KnownLayer Layer {
+            get
+            { 
+                return KnownLayer.Caret;
             }
         }
 
@@ -170,6 +185,17 @@
             }
 
             base.OnTextChanged(e);
+        }
+
+        public void Draw(TextView textView, DrawingContext drawingContext)
+        {
+            textView.EnsureVisualLines();
+            var line = this.Document.GetLineByOffset(this.CaretOffset);
+            var segment = new TextSegment { StartOffset = line.Offset, EndOffset = line.EndOffset };
+            foreach (Rect r in BackgroundGeometryBuilder.GetRectsForSegment(textView, segment))
+            {
+                drawingContext.DrawRoundedRectangle(Brushes.AliceBlue, new Pen(Brushes.AliceBlue,1), new Rect(r.Location, new Size(textView.ActualWidth, r.Height)), 3, 3);
+            }
         }
 
         //private async Task UpdateCompletionResults()
