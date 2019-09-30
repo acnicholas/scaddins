@@ -192,9 +192,13 @@
             textView.EnsureVisualLines();
             var line = this.Document.GetLineByOffset(this.CaretOffset);
             var segment = new TextSegment { StartOffset = line.Offset, EndOffset = line.EndOffset };
+
+            SolidColorBrush rectBrush = new SolidColorBrush(Colors.Red);
+            rectBrush.Opacity = 0.3; // or whatever
+
             foreach (Rect r in BackgroundGeometryBuilder.GetRectsForSegment(textView, segment))
             {
-                drawingContext.DrawRoundedRectangle(Brushes.AliceBlue, new Pen(Brushes.AliceBlue,1), new Rect(r.Location, new Size(textView.ActualWidth, r.Height)), 3, 3);
+                drawingContext.DrawRoundedRectangle(rectBrush, new Pen(Brushes.Red,1), new Rect(r.Location, new Size(textView.ActualWidth, r.Height)), 3, 3);
             }
         }
 
