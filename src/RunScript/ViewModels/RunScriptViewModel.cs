@@ -127,6 +127,13 @@ public static void Main(Document doc)
             {
                 selectedOutputList = value;
                 SCaddinsApp.WindowManager.ShowMessageBox(selectedOutputList);
+                var a = selectedOutputList.IndexOf(@"(");
+                var b = selectedOutputList.IndexOf(@",");
+                var s = selectedOutputList.Substring(a + 1, b - a - 1);
+                //SCaddinsApp.WindowManager.ShowMessageBox(selectedOutputList);
+                SCaddinsApp.WindowManager.ShowMessageBox(s);
+                int i = 0;
+                if (int.TryParse(s, out i)) CaretColumnPosition = i;
             }
         }
 

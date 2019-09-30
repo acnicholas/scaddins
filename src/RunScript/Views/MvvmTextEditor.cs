@@ -106,8 +106,9 @@
             {
                 SetValue(CaretColumnProperty, value);
                 //this.TextArea.Caret.Location = new ICSharpCode.AvalonEdit.Document.TextLocation(0, value);
-                this.TextArea.Caret.Position = new ICSharpCode.AvalonEdit.TextViewPosition(1, value);
+                //this.TextArea.Caret.Position = new ICSharpCode.AvalonEdit.TextViewPosition(1, value);
                 RaisePropertyChanged("CaretColumn");
+                this.UpdateLayout();
             }
         }
 
@@ -190,7 +191,9 @@
         public void Draw(TextView textView, DrawingContext drawingContext)
         {
             textView.EnsureVisualLines();
-            var line = this.Document.GetLineByOffset(this.CaretOffset);
+            //var line = this.Document.GetLineByOffset(this.CaretOffset);
+            if (CaretColumn <= 0 || CaretColumn > this.Document.LineCount) return;
+            var line = this.Document.GetLineByNumber(CaretColumn);
             var segment = new TextSegment { StartOffset = line.Offset, EndOffset = line.EndOffset };
 
             SolidColorBrush rectBrush = new SolidColorBrush(Colors.Red);
