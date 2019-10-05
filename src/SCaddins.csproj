@@ -479,7 +479,6 @@
     <Compile Include="RunScript\RunScriptCommand.cs" />
     <Compile Include="RunScript\ViewModels\RunScriptViewModel.cs" />
     <Compile Include="RunScript\Views\MvvmTextEditor.cs" />
-    <Compile Include="RunScript\Views\MyCompletionData.cs" />
     <Compile Include="RunScript\Views\RunScriptView.xaml.cs">
       <DependentUpon>RunScriptView.xaml</DependentUpon>
     </Compile>

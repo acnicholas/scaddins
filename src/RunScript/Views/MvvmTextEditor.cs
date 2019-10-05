@@ -1,9 +1,9 @@
 ﻿namespace SCaddins.RunScript.Views
 {
+    using System;
     using System.ComponentModel;
     using System.Windows;
-    using System;
-
+    
     public class MvvmTextEditor : ICSharpCode.AvalonEdit.TextEditor, INotifyPropertyChanged
     {
         public static readonly DependencyProperty TextProperty =

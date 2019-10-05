@@ -1,9 +1,10 @@
 ﻿namespace SCaddins.RunScript.Views
 {
+    using System;
     using ICSharpCode.AvalonEdit.CodeCompletion;
     using ICSharpCode.AvalonEdit.Document;
     using ICSharpCode.AvalonEdit.Editing;
-    using System;
+
 
     public class MyCompletionData : ICompletionData
     {

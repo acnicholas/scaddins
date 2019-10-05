@@ -98,18 +98,7 @@ namespace SCaddins.LineOfSight
         public event PropertyChangedEventHandler PropertyChanged;
 
         //// Properties
-
         #region
-
-        public StadiumSeatingTier GetCurrentTier()
-        {
-                return this;
-        }
-
-        public StadiumSeatingTier GetCurrentTierAsProperty
-        {
-            get { return this; }
-        }
 
         public double DistanceToFirstRowX
         {

@@ -29,7 +29,7 @@ namespace SCaddins.RunScript.ViewModels
     {
         private string output;
         private string script;
-        private Caliburn.Micro.BindableCollection<String> outputList;
+        private Caliburn.Micro.BindableCollection<string> outputList;
         private string selectedOutputList;
         private int caretColumnPosition;
 
@@ -80,6 +80,7 @@ public static void Main(Document doc)
             {
                 return script;
             }
+            
             set
             {
                 script = value;
@@ -93,6 +94,7 @@ public static void Main(Document doc)
             {
                 return caretColumnPosition;
             }
+            
             set
             {
                 caretColumnPosition = value;
@@ -100,7 +102,7 @@ public static void Main(Document doc)
             }
         }
 
-        public BindableCollection<String> OutputList
+        public BindableCollection<string> OutputList
         {
             get
             {
@@ -123,16 +125,10 @@ public static void Main(Document doc)
             {
                 return selectedOutputList;
             }
+            
             set
             {
                 selectedOutputList = value;
-//                SCaddinsApp.WindowManager.ShowMessageBox(selectedOutputList);
-//                var a = selectedOutputList.IndexOf(@"(");
-//                var b = selectedOutputList.IndexOf(@",");
-//                var s = selectedOutputList.Substring(a + 1, b - a - 1);
-//                SCaddinsApp.WindowManager.ShowMessageBox(s);
-//                int i = 0;
-//                if (int.TryParse(s, out i)) CaretColumnPosition = i;
             }
         }
 
@@ -158,7 +154,7 @@ public static void Main(Document doc)
 
         public System.Windows.Media.Brush Background
         {
-            get;set;
+            get; set;
         }
 
         public void DarkMode()
