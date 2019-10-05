@@ -181,7 +181,7 @@ namespace SCaddins.LineOfSight
 
         public double MinimumCValue
         {
-            get
+            get 
             {
                 return minimumCValue;
             }
