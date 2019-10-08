@@ -32,11 +32,12 @@ namespace SCaddins.RunScript.ViewModels
         private Caliburn.Micro.BindableCollection<string> outputList;
         private string selectedOutputList;
         private int caretColumnPosition;
+        private string currentFileName;
 
         public RunScriptViewModel()
         {
-            caretColumnPosition = 5;
             LightMode();
+            currentFileName = string.Empty;
             output = string.Empty;
             outputList = new BindableCollection<string>();
             Script =
@@ -173,7 +174,7 @@ public static void Main(Document doc)
             NotifyOfPropertyChange(() => Background);
         }
 
-        public void LoadScriptFromFile()
+        public void LoadLastFromFile()
         {
             var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             var p = System.IO.Path.Combine(s, "SCaddins", "Script.cs");
@@ -182,7 +183,15 @@ public static void Main(Document doc)
             }
             Script = System.IO.File.ReadAllText(p);
         }
-
+        
+        public void LoadScriptFromFile()
+        {
+//            var f = SCaddinsApp.WindowManager.ShowFileSelectionDialog(string.Empty, out currentFileName);
+//            if (f.HasValue && f.Value == true) {
+//                Script = System.IO.File.ReadAllText(path);
+//            }
+        }
+        
         public void LoadTheme(string themeFile)
         {
             string dir = @"C:\Code\cs\scaddins\src\RunScript\Resources\";
@@ -215,8 +224,13 @@ public static void Main(Document doc)
         {
             Save();
         }
-
+        
         public void Save()
+        {
+            System.IO.File.WriteAllText(currentFileName, Script);
+        }
+
+        public void SaveScratch()
         {
             var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             var p = System.IO.Path.Combine(s, "SCaddins");

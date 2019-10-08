@@ -23,6 +23,11 @@
                         <Image Source="/SCaddins;component/Assets/open.png" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem x:Name="LoadLastFromFile" Header="Load Last">
+                    <MenuItem.Icon>
+                        <Image Source="/SCaddins;component/Assets/open.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator></Separator>
                 <MenuItem x:Name="Save" Header="_Save">
                     <MenuItem.Icon>
