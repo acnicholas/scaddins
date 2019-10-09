@@ -23,7 +23,7 @@
                         <Image Source="/SCaddins;component/Assets/open.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem x:Name="LoadLastFromFile" Header="Load Last">
+                <MenuItem x:Name="LoadScratch" Header="Load Scratch">
                     <MenuItem.Icon>
                         <Image Source="/SCaddins;component/Assets/open.png" />
                     </MenuItem.Icon>
@@ -34,7 +34,7 @@
                         <Image Source="/SCaddins;component/Assets/save.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem x:Name="SaveAs" Header="Save _As" IsEnabled="False">
+                <MenuItem x:Name="SaveAs" Header="Save _As">
                     <MenuItem.Icon>
                         <Image Source="/SCaddins;component/Assets/save.png" />
                     </MenuItem.Icon>

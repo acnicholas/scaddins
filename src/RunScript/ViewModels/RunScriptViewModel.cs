@@ -148,12 +148,12 @@ public static void Main(Document doc)
             }
         }
 
-        public IHighlightingDefinition SyntaxHighlightingTheme
+        private IHighlightingDefinition SyntaxHighlightingTheme
         {
             get; set;
         }
 
-        public System.Windows.Media.Brush Background
+        private System.Windows.Media.Brush Background
         {
             get; set;
         }
@@ -174,7 +174,7 @@ public static void Main(Document doc)
             NotifyOfPropertyChange(() => Background);
         }
 
-        public void LoadLastFromFile()
+        public void LoadScratch()
         {
             var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             var p = System.IO.Path.Combine(s, "SCaddins", "Script.cs");
@@ -186,10 +186,12 @@ public static void Main(Document doc)
         
         public void LoadScriptFromFile()
         {
-//            var f = SCaddinsApp.WindowManager.ShowFileSelectionDialog(string.Empty, out currentFileName);
-//            if (f.HasValue && f.Value == true) {
-//                Script = System.IO.File.ReadAllText(path);
-//            }
+            var f = SCaddinsApp.WindowManager.ShowFileSelectionDialog(string.Empty, out currentFileName);
+            if (f.HasValue && f.Value == true) {
+                if (File.Exists(currentFileName)) {
+                    Script = System.IO.File.ReadAllText(currentFileName);
+                }
+            }
         }
         
         public void LoadTheme(string themeFile)
@@ -210,6 +212,12 @@ public static void Main(Document doc)
             }
         }
 
+        public override void TryClose(bool? dialogResult = null)
+        {
+            SaveScratch();
+            base.TryClose(dialogResult);
+        }
+
         public void Run()
         {
             var compileResults = string.Empty;
@@ -222,6 +230,13 @@ public static void Main(Document doc)
 
         public void SaveAs()
         {
+            var path = string.Empty;
+            var b = SCaddinsApp.WindowManager.ShowSaveFileDialog("script.cs", "*.cs", ".cs", out path);
+            if (b.HasValue && b.Value == true)
+            {
+                System.IO.File.WriteAllText(path, Script);
+                currentFileName = path;
+            }
             Save();
         }
         
