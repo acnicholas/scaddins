@@ -18,10 +18,8 @@
 namespace SCaddins.RunScript.ViewModels
 {
     using System;
-    using System.Collections.Generic;
     using System.Dynamic;
     using System.IO;
-    using System.Xml;
     using Caliburn.Micro;
     using ICSharpCode.AvalonEdit.Highlighting;
 
@@ -29,14 +27,11 @@ namespace SCaddins.RunScript.ViewModels
     {
         private string output;
         private string script;
-        private Caliburn.Micro.BindableCollection<string> outputList;
-        private string selectedOutputList;
-        private int caretColumnPosition;
+        private BindableCollection<string> outputList;
         private string currentFileName;
 
         public RunScriptViewModel()
         {
-            LightMode();
             currentFileName = string.Empty;
             output = string.Empty;
             outputList = new BindableCollection<string>();
@@ -60,7 +55,7 @@ public static void Main(Document doc)
 }
 ";
         }
-
+        
         public static dynamic DefaultViewSettings
         {
             get
@@ -75,35 +70,28 @@ public static void Main(Document doc)
             }
         }
 
+        private string CurrentFileName
+        {
+            get => currentFileName;
+            set
+            {
+                currentFileName = value;
+                NotifyOfPropertyChange(() => CanSave);
+            }
+        }
+        
         public string Script
         {
-            get
-            {
-                return script;
-            }
-            
-            set
+            get => script;
+
+            private set
             {
                 script = value;
                 NotifyOfPropertyChange(() => Script);
             }
         }
-
-        public int CaretColumnPosition
-        {
-            get
-            {
-                return caretColumnPosition;
-            }
-            
-            set
-            {
-                caretColumnPosition = value;
-                NotifyOfPropertyChange(() => CaretColumnPosition);
-            }
-        }
-
-        public BindableCollection<string> OutputList
+        
+        private BindableCollection<string> OutputList
         {
             get
             {
@@ -120,25 +108,11 @@ public static void Main(Document doc)
             }
         }
 
-        public string SelectedOutputList
-        {
-            get
-            {
-                return selectedOutputList;
-            }
-            
-            set
-            {
-                selectedOutputList = value;
-            }
-        }
+        public string SelectedOutputList { get; set; }
 
-        public string Output
+        private string Output
         {
-            get
-            {
-                return output;
-            }
+            get => output;
 
             set
             {
@@ -147,6 +121,8 @@ public static void Main(Document doc)
                 NotifyOfPropertyChange(() => OutputList);
             }
         }
+        
+        private bool CanSave => !string.IsNullOrEmpty(currentFileName);
 
         private IHighlightingDefinition SyntaxHighlightingTheme
         {
@@ -157,23 +133,7 @@ public static void Main(Document doc)
         {
             get; set;
         }
-
-        public void DarkMode()
-        {
-            LoadTheme("CSharp-Mode-Molokai.xshd");
-            Background = System.Windows.Media.Brushes.Black;
-            NotifyOfPropertyChange(() => SyntaxHighlightingTheme);
-            NotifyOfPropertyChange(() => Background);
-        }
-
-        public void LightMode()
-        {
-            LoadTheme("CSharp-Mode.xshd");
-            Background = System.Windows.Media.Brushes.White;
-            NotifyOfPropertyChange(() => SyntaxHighlightingTheme);
-            NotifyOfPropertyChange(() => Background);
-        }
-
+        
         public void LoadScratch()
         {
             var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
@@ -189,29 +149,12 @@ public static void Main(Document doc)
             var f = SCaddinsApp.WindowManager.ShowFileSelectionDialog(string.Empty, out currentFileName);
             if (f.HasValue && f.Value == true) {
                 if (File.Exists(currentFileName)) {
-                    Script = System.IO.File.ReadAllText(currentFileName);
+                    Script = System.IO.File.ReadAllText(CurrentFileName);
+                    NotifyOfPropertyChange(() => CanSave);
                 }
             }
         }
         
-        public void LoadTheme(string themeFile)
-        {
-            string dir = @"C:\Code\cs\scaddins\src\RunScript\Resources\";
-            if (File.Exists(dir + themeFile)) {
-                try {
-                    Stream xshd_stream = File.OpenRead(dir + themeFile);
-                    XmlTextReader xshd_reader = new XmlTextReader(xshd_stream);
-                    var theme = ICSharpCode.AvalonEdit.Highlighting.Xshd.HighlightingLoader.Load(xshd_reader, ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance);
-                    SyntaxHighlightingTheme = theme;
-                    xshd_reader.Close();
-                    xshd_stream.Close();
-                }
-                catch (Exception e) {
-                    SCaddinsApp.WindowManager.ShowMessageBox(e.Message);
-                }
-            }
-        }
-
         public override void TryClose(bool? dialogResult = null)
         {
             SaveScratch();
@@ -231,28 +174,27 @@ public static void Main(Document doc)
         public void SaveAs()
         {
             var path = string.Empty;
-            var b = SCaddinsApp.WindowManager.ShowSaveFileDialog("script.cs", "*.cs", ".cs", out path);
+            var b = SCaddinsApp.WindowManager.ShowSaveFileDialog("script.cs", "*.cs", "cs-script | *.cs", out path);
             if (b.HasValue && b.Value == true)
             {
-                System.IO.File.WriteAllText(path, Script);
-                currentFileName = path;
+                File.WriteAllText(path, Script);
+                CurrentFileName = path;
             }
-            Save();
         }
         
         public void Save()
         {
-            System.IO.File.WriteAllText(currentFileName, Script);
+            File.WriteAllText(currentFileName, Script);
         }
-
-        public void SaveScratch()
+        
+        private void SaveScratch()
         {
             var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            var p = System.IO.Path.Combine(s, "SCaddins");
+            var p = Path.Combine(s, "SCaddins");
             if (!Directory.Exists(p)) {
                 Directory.CreateDirectory(p);
             }
-            System.IO.File.WriteAllText(System.IO.Path.Combine(p, "Script.cs"), Script);
+            File.WriteAllText(Path.Combine(p, "Script.cs"), Script);
         }
     }
 }

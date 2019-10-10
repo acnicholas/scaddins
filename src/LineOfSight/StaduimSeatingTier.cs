@@ -102,10 +102,7 @@ namespace SCaddins.LineOfSight
 
         public double DistanceToFirstRowX
         {
-            get
-            {
-                return distanceToFirstRowX;
-            }
+            get => distanceToFirstRowX;
 
             set
             {
@@ -124,10 +121,7 @@ namespace SCaddins.LineOfSight
 
         public double DistanceToFirstRowY
         {
-            get
-            {
-                return distanceToFirstRowY;
-            }
+            get => distanceToFirstRowY;
 
             set
             {
@@ -140,10 +134,7 @@ namespace SCaddins.LineOfSight
 
         public double EyeHeight
         {
-            get
-            {
-                return eyeHeight;
-            }
+            get => eyeHeight;
 
             set
             {
@@ -156,10 +147,7 @@ namespace SCaddins.LineOfSight
 
         public string InfoString
         {
-            get
-            {
-                return this.infoString;
-            }
+            get => this.infoString;
 
             private set
             {
@@ -170,10 +158,7 @@ namespace SCaddins.LineOfSight
 
         public double MinimumCValue
         {
-            get 
-            {
-                return minimumCValue;
-            }
+            get => minimumCValue;
 
             set
             {
@@ -184,10 +169,7 @@ namespace SCaddins.LineOfSight
 
         public double MinimumRiserHeight
         {
-            get
-            {
-                return minimumRiserHeight;
-            }
+            get => minimumRiserHeight;
 
             set
             {
@@ -198,10 +180,7 @@ namespace SCaddins.LineOfSight
 
         public int NumberOfRows
         {
-            get
-            {
-                return numberOfRows;
-            }
+            get => numberOfRows;
 
             set
             {
@@ -212,10 +191,7 @@ namespace SCaddins.LineOfSight
 
         public double RiserIncrement
         {
-            get
-            {
-                return riserIncrement;
-            }
+            get => riserIncrement;
 
             set
             {
@@ -226,10 +202,7 @@ namespace SCaddins.LineOfSight
 
         public double TreadSize
         {
-            get
-            {
-                return treadSize;
-            }
+            get => treadSize;
 
             set
             {
@@ -241,10 +214,8 @@ namespace SCaddins.LineOfSight
             }
         }
 
-        public View View
-        {
-            get { return view; }
-        }
+        public View View => view;
+
         #endregion
 
         public ViewDrafting CreateLineOfSightDraftingView(string newViewName)
@@ -451,7 +422,7 @@ namespace SCaddins.LineOfSight
         {
             Application app = this.doc.Application;
             XYZ origin = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x), MiscUtilities.MillimetersToFeet(y), 0);
-            XYZ normal_base = app.Create.NewXYZ(vx, vy, 0);
+            XYZ normalBase = app.Create.NewXYZ(vx, vy, 0);
             XYZ normal_up = app.Create.NewXYZ(0, 1, 0);
             using (TextNoteOptions tno = new TextNoteOptions())
             {
