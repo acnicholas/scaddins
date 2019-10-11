@@ -69,16 +69,6 @@ public static void Main(Document doc)
                 return settings;
             }
         }
-
-        private string CurrentFileName
-        {
-            get => currentFileName;
-            set
-            {
-                currentFileName = value;
-                NotifyOfPropertyChange(() => CanSave);
-            }
-        }
         
         public string Script
         {
@@ -88,6 +78,16 @@ public static void Main(Document doc)
             {
                 script = value;
                 NotifyOfPropertyChange(() => Script);
+            }
+        }
+        
+        private string CurrentFileName
+        {
+            get => currentFileName;
+            set
+            {
+                currentFileName = value;
+                NotifyOfPropertyChange(() => CanSave);
             }
         }
         
@@ -107,9 +107,7 @@ public static void Main(Document doc)
                 return outputList;
             }
         }
-
-        public string SelectedOutputList { get; set; }
-
+        
         private string Output
         {
             get => output;

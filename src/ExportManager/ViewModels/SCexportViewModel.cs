@@ -229,6 +229,34 @@ namespace SCaddins.ExportManager.ViewModels
             get; set;
         }
 
+        public string InvlaidPrintSettingsStatusText
+        {
+            get
+            {
+                var invalidPrintSettings = exportManager.AllSheets.Count(s => s.ValidPrintSettingIsAssigned != true);
+                if (invalidPrintSettings > 0)
+                {
+                    return @" [Invalid print settings: " + invalidPrintSettings + @"]";
+                }
+                
+                return string.Empty;
+            }
+        }
+        
+        public string InvlaidFileNamingStatusText
+        {
+            get
+            {
+                var invalidFileNames = exportManager.AllSheets.Count(s => s.ValidExportName != true);
+                if (invalidFileNames > 0)
+                {
+                    return @" [Invalid file names: " + invalidFileNames + @"]";
+                }
+
+                return string.Empty;
+            }
+        }    
+
         public string StatusText
         {
             get
@@ -507,6 +535,7 @@ namespace SCaddins.ExportManager.ViewModels
                 exportSheet.UpdateNumber();
             }
             NotifyOfPropertyChange(() => Sheets);
+            NotifyOfPropertyChange(() => InvlaidFileNamingStatusText);
         }
 
         public void SaveViewSet()

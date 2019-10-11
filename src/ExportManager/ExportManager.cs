@@ -438,16 +438,10 @@ namespace SCaddins.ExportManager
 
                 if (this.exportFlags.HasFlag(ExportOptions.GhostscriptPDF))
                 {
-                    ////this.ExportGSPDF(sheet, log);
                     this.PostscriptPrinterName = "Microsoft Print to PDF";
                     this.PdfPrinterName = "Microsoft Print to PDF";
                     this.ExportMSPDF(sheet, log);
                 }
-
-                ////if (this.exportFlags.HasFlag(ExportOptions.GhostscriptPDF))
-                ////{
-                ////    this.ExportMSPDF(sheet, log);
-                ////}
             }
             else
             {
@@ -995,6 +989,7 @@ namespace SCaddins.ExportManager
             opts.HideScopeBox = true;
             opts.HideUnreferenceViewTags = true;
             if (ExportViewportsOnly) {
+                opts.TargetUnit = ExportUnit.Meter;
                 opts.SharedCoords = true;
             }
             return opts;

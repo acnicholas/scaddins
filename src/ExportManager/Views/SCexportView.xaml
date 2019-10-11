@@ -287,7 +287,15 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
-        <Label x:Name="StatusText" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Margin="5,0,5,5"></Label>
+        
+        
+        <!-- <Label x:Name="StatusText" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Margin="5,0,5,5"></Label> -->
+        <TextBlock Grid.Column="0" Grid.Row="2" Margin="5,0,5,5" HorizontalAlignment="Left"  VerticalAlignment="Center">
+            <!-- <Run x:Name="StatusText"></Run> -->
+            <Run Text="{Binding StatusText, Mode=OneWay}"></Run>
+            <Run Foreground="Red" Text="{Binding InvlaidPrintSettingsStatusText, Mode=OneWay}"></Run>
+            <Run Foreground="Magenta" Text="{Binding InvlaidFileNamingStatusText, Mode=OneWay}"></Run>
+        </TextBlock>
         <Button
             cal:Message.Attach="Export"
             Content="{Binding ExportButtonLabel}"
