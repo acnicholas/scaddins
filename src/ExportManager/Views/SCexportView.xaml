@@ -78,7 +78,7 @@
             </Button>
         </Grid>
         <DataGrid
-            cal:Message.Attach="[Event SelectionChanged] = [SelectionChanged($source,$eventArgs)]"
+            cal:Message.Attach="[Event SelectionChanged] = [SelectionChanged($source,$eventArgs)];[Event MouseDoubleClick] = [MouseDoubleClick($source,$eventArgs)]"
             x:Name="Sheets"
             SelectionMode="Extended"
             VirtualizingStackPanel.VirtualizationMode="Standard"

@@ -32,9 +32,9 @@ namespace SCaddins.DestructivePurge
                 foreach (Element image in f)
                 {
                     string s = GetParameterList(image.Parameters);
-                    var tn = new DeletableItem(image.Name.ToString());
-                    tn.Info = "Name = " + image.Name.ToString() + System.Environment.NewLine +
-                    "id - " + image.Id.ToString();
+                    var tn = new DeletableItem(image.Name);
+                    tn.Info = "Name = " + image.Name + System.Environment.NewLine +
+                    "id - " + image.Id;
                     tn.Info += System.Environment.NewLine + s;
                     tn.Id = image.Id;
 

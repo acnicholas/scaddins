@@ -522,6 +522,7 @@ namespace SCaddins.ExportManager
             this.SetExportName();
             NotifyPropertyChanged(nameof(SheetDescription));
             NotifyPropertyChanged(nameof(FullExportName));
+            NotifyPropertyChanged(nameof(ValidExportName));
         }
 
         public void UpdateNumber()
@@ -531,6 +532,7 @@ namespace SCaddins.ExportManager
             this.SetExportName();
             NotifyPropertyChanged(nameof(SheetNumber));
             NotifyPropertyChanged(nameof(FullExportName));
+            NotifyPropertyChanged(nameof(ValidExportName));
         }
 
         public void UpdateRevision(bool refreshExportName)

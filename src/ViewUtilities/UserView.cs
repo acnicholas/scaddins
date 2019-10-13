@@ -20,7 +20,7 @@ namespace SCaddins.ViewUtilities
     using System;
     using System.Collections.Generic;
     using Autodesk.Revit.DB;
-    using SCaddins.Common;
+    using Common;
 
     /// <summary>
     /// Copy a view; give it a user name, remove any view templates and
@@ -42,15 +42,14 @@ namespace SCaddins.ViewUtilities
 
             if (ValidViewType(sourceView.ViewType))
             {
-                List<View> result = new List<View>();
-                result.Add(CreateView(sourceView, doc));
+                List<View> result = new List<View> {CreateView(sourceView, doc)};
                 return result;
             }
 
             return null;
         }
 
-        public static List<View> Create(ICollection<SCaddins.ExportManager.ExportSheet> sheets, Document doc)
+        public static List<View> Create(ICollection<ExportManager.ExportSheet> sheets, Document doc)
         {
             List<View> result = new List<View>();
             if (sheets == null || doc == null)
@@ -63,7 +62,7 @@ namespace SCaddins.ViewUtilities
                 {
                     if (t.Start() == TransactionStatus.Started)
                     {
-                        foreach (SCaddins.ExportManager.ExportSheet sheet in sheets)
+                        foreach (ExportManager.ExportSheet sheet in sheets)
                         {
                             var list = Create(sheet.Sheet, doc);
                             foreach (View v in list)
@@ -87,19 +86,19 @@ namespace SCaddins.ViewUtilities
         {
                 string message = string.Empty;
                 if (newUserViews == null) {
-                    message = "No valid views found, User view not created." + System.Environment.NewLine
-                    + "\tValid views types are: " + System.Environment.NewLine
-                    + System.Environment.NewLine
-                    + "\t\tViewType.FloorPlan" + System.Environment.NewLine
-                    + "\t\tViewType.Elevation" + System.Environment.NewLine
-                    + "\t\tViewType.CeilingPlan" + System.Environment.NewLine
-                    + "\t\tViewType.Section" + System.Environment.NewLine
-                    + "\t\tViewType.AreaPlan" + System.Environment.NewLine
+                    message = "No valid views found, User view not created." + Environment.NewLine
+                    + "\tValid views types are: " + Environment.NewLine
+                    + Environment.NewLine
+                    + "\t\tViewType.FloorPlan" + Environment.NewLine
+                    + "\t\tViewType.Elevation" + Environment.NewLine
+                    + "\t\tViewType.CeilingPlan" + Environment.NewLine
+                    + "\t\tViewType.Section" + Environment.NewLine
+                    + "\t\tViewType.AreaPlan" + Environment.NewLine
                     + "\t\tViewType.ThreeD";
                 } else {
-                    message += "Summary of users view created:" + System.Environment.NewLine;
+                    message += "Summary of users view created:" + Environment.NewLine;
                     foreach (View view in newUserViews) {
-                        message += view.Name + System.Environment.NewLine;
+                        message += view.Name + Environment.NewLine;
                     }
                 }
                 SCaddinsApp.WindowManager.ShowMessageBox(message);
@@ -130,7 +129,7 @@ namespace SCaddins.ViewUtilities
             {
                 return newView;
             }
-            Parameter param = p[0];
+            var param = p[0];
             if (param == null)
             {
                 return newView;
@@ -141,15 +140,10 @@ namespace SCaddins.ViewUtilities
                 SCaddinsApp.WindowManager.ShowMessageBox("SCuv Error", "SC-View_Category is read only!");
                 return null;
             }
-            else
-            {
-                if (!param.Set("User"))
-                {
-                    SCaddinsApp.WindowManager.ShowMessageBox("SCuv Error", "Error setting SC-View_Category parameter!");
-                    return null;
-                }
-            }
-            return newView;
+
+            if (param.Set("User")) return newView;
+            SCaddinsApp.WindowManager.ShowMessageBox("SCuv Error", "Error setting SC-View_Category parameter!");
+            return null;
         }
 
         private static string GetNewViewName(Document doc, Element sourceView)

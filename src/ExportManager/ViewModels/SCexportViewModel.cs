@@ -266,10 +266,7 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public ObservableCollection<ViewSetItem> ViewSheetSets
-        {
-            get { return exportManager.AllViewSheetSets; }
-        }
+        public ObservableCollection<ViewSetItem> ViewSheetSets => exportManager.AllViewSheetSets;
 
         private string SelectedExportTypesAsString
         {
@@ -369,7 +366,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void KeyPressed(KeyEventArgs keyArgs)
         {
-            //// only executre search if in the search text box
+            //// only execute search if in the search text box
             if (keyArgs.OriginalSource.GetType() == typeof(System.Windows.Controls.TextBox))
             {
                 if (keyArgs.Key == Key.Enter)
@@ -491,18 +488,19 @@ namespace SCaddins.ExportManager.ViewModels
         public void PrintButton()
         {
             isClosing = true;
-            if (selectedPrintType == "Print A3")
+            switch (selectedPrintType)
             {
-                closeMode = CloseMode.PrintA3;
+                case "Print A3":
+                    closeMode = CloseMode.PrintA3;
+                    break;
+                case "Print A2":
+                    closeMode = CloseMode.PrintA2;
+                    break;
+                case "Print Full Size":
+                    closeMode = CloseMode.Print;
+                    break;
             }
-            if (selectedPrintType == "Print A2")
-            {
-                closeMode = CloseMode.PrintA2;
-            }
-            if (selectedPrintType == "Print Full Size")
-            {
-                closeMode = CloseMode.Print;
-            }
+
             TryClose(true);
         }
 
@@ -536,6 +534,8 @@ namespace SCaddins.ExportManager.ViewModels
             }
             NotifyOfPropertyChange(() => Sheets);
             NotifyOfPropertyChange(() => InvlaidFileNamingStatusText);
+            ////this.Refresh();
+            //// NotifyOfPropertyChange(() => StatusText);
         }
 
         public void SaveViewSet()
@@ -571,23 +571,18 @@ namespace SCaddins.ExportManager.ViewModels
             if (!isClosing)
             {
                 this.IsNotifying = false;
-                List<ExportSheet> list = ((System.Windows.Controls.DataGrid)sender).SelectedItems.Cast<ExportSheet>().ToList();
+                List<ExportSheet> list = ((System.Windows.Controls.DataGrid) sender).SelectedItems.Cast<ExportSheet>()
+                    .ToList();
                 this.IsNotifying = true;
                 SelectedSheets = list;
             }
         }
 
-        public void SheetFilterSelected()
+        public void MouseDoubleClick(object sender, MouseButtonEventArgs args)
         {
-            if (SheetFilter != null)
-            {
-                var filter = SheetFilter.GetFilter();
-                if (filter != null) {
-                    Sheets.Filter = filter;
-                }
-            }
+            OpenSheet.OpenViews(selectedSheets);
         }
-
+        
         public void ShowLatestRevision()
         {
             var revDate = Manager.LatestRevisionDate(exportManager.Doc);

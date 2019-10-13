@@ -31,7 +31,7 @@ namespace SCaddins.ExportManager
             double w = Math.Round(width);
             double h = Math.Round(height);
 
-            // use a tollerance of 2mm.
+            // use a tolerance of 2mm.
             return tw + 2 > w && tw - 2 < w && th + 2 > h && th - 2 < h;
         }
 
@@ -114,7 +114,7 @@ namespace SCaddins.ExportManager
         /// <summary>
         /// Retrieve the print setting for this sheet.
         /// If it is not found, attempt to create a new one.
-        /// ...if this still failes return null.
+        /// ...if this still fails return null.
         /// </summary>
         /// <param name="doc"></param>
         /// <param name="printSetting">The Name of the print setting</param>
@@ -175,7 +175,7 @@ namespace SCaddins.ExportManager
         }
 
         /// <summary>
-        /// Return the name of the papersize of the current sheet
+        /// Return the name of the paper size of the current sheet
         /// FIXME add sizes other that iso A*
         /// </summary>
         public static string GetSheetSizeAsString(ExportSheet sheet)
