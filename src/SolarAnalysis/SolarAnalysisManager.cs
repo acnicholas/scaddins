@@ -72,13 +72,7 @@ namespace SCaddins.SolarAnalysis
 
         public DateTime StartTime { get; set; }
 
-        public UIDocument UIDoc
-        {
-            get
-            {
-                return udoc;
-            }
-        }
+        public UIDocument UIDoc => udoc;
 
         public static void CreateTestFaces(IList<Reference> faceSelection, IList<Reference> massSelection, double analysysGridSize, UIDocument uidoc, View view)
         {
@@ -161,10 +155,10 @@ namespace SCaddins.SolarAnalysis
                 }
             }
 
-            SpatialFieldManager sfm = DirectSunTestFace.GetSpatialFieldManager(uidoc.Document);
+            var sfm = DirectSunTestFace.GetSpatialFieldManager(uidoc.Document);
             sfm.Clear();
 
-            foreach (DirectSunTestFace testFace in testFaces) {
+            foreach (var testFace in testFaces) {
                 testFace.CreateAnalysisSurface(uidoc, sfm);
             }
 
@@ -348,8 +342,8 @@ namespace SCaddins.SolarAnalysis
         private static List<Solid> SolidsFromReferences(IList<Reference> massSelection, Document doc)
         {
             List<Solid> result = new List<Solid>();
-            foreach (Reference solidRef in massSelection) {
-                Element e = doc.GetElement(solidRef);
+            foreach (var solidRef in massSelection) {
+                var e = doc.GetElement(solidRef);
 
                 Options opt = new Options()
                 {
@@ -358,13 +352,15 @@ namespace SCaddins.SolarAnalysis
                     View = doc.ActiveView
                 };
 
-                GeometryElement geoElem = e.get_Geometry(opt);
-                foreach (GeometryObject obj in geoElem) {
-                    if (obj is Solid) {
-                        Solid solid = obj as Solid;
-                        if (solid.IsElementGeometry && solid.Faces.Size > 0) {
-                            result.Add(solid);
-                        }
+                var geoElem = e.get_Geometry(opt);
+                foreach (var obj in geoElem) {
+                    if (!(obj is Solid))
+                    {
+                        continue;
+                    }
+                    var solid = obj as Solid;
+                    if (solid.IsElementGeometry && solid.Faces.Size > 0) {
+                        result.Add(solid);
                     }
                 }
             }
@@ -481,8 +477,7 @@ namespace SCaddins.SolarAnalysis
         private bool RotateView(View view)
         {
             if (view.ViewType == ViewType.ThreeD) {
-                double azimuth;
-                var forward = GetSunDirectionalVector(view, position, out azimuth);
+                var forward = GetSunDirectionalVector(view, position, out var azimuth);
                 var up = forward.CrossProduct(new XYZ(Math.Cos(azimuth), -Math.Sin(azimuth), 0));
 
                 var v3d = (View3D)view;

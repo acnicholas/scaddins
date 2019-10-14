@@ -91,13 +91,13 @@ namespace SCaddins.SheetCopier
             }
         }
 
-        public System.Collections.Generic.List<string> AvailableViewTemplates
+        public List<string> AvailableViewTemplates
         {
             get
             {
                 List<string> list = new List<string>();
                 list.Add(SheetCopierConstants.MenuItemCopy);
-                list.AddRange(this.scopy.ViewTemplates.Select(k => k.Key).ToList<string>());
+                list.AddRange(this.scopy.ViewTemplates.Select(k => k.Key).ToList());
                 return list;
             }
         }
@@ -128,13 +128,13 @@ namespace SCaddins.SheetCopier
             }
         }
 
-        public System.Collections.Generic.List<string> LevelsInModel
+        public List<string> LevelsInModel
         {
             get
             {
                 List<string> list = new List<string>();
                 list.Add(SheetCopierConstants.MenuItemCopy);
-                list.AddRange(this.scopy.Levels.Select(k => k.Key).ToList<string>());
+                list.AddRange(scopy.Levels.Select(k => k.Key).ToList());
                 return list;
             }
         }

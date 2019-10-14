@@ -25,7 +25,7 @@ namespace SCaddins.Common
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class About : IExternalCommand
     {
-        public Autodesk.Revit.UI.Result Execute(
+        public Result Execute(
             ExternalCommandData commandData,
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
@@ -39,10 +39,10 @@ namespace SCaddins.Common
             settings.ShowInTaskbar = false;
             settings.ResizeMode = System.Windows.ResizeMode.NoResize;
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
-            var aboutViewModel = new SCaddins.Common.ViewModels.AboutViewModel();
+            var aboutViewModel = new ViewModels.AboutViewModel();
             SCaddinsApp.WindowManager.ShowDialog(aboutViewModel, null, settings);
 
-            return Autodesk.Revit.UI.Result.Succeeded;
+            return Result.Succeeded;
         }
     }
 }

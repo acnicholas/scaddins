@@ -364,7 +364,7 @@ namespace SCaddins.DestructivePurge
         }
 
         private static Parameter GetParameterByName(
-            Autodesk.Revit.DB.Element view,
+            Element view,
             string parameterName)
         {
             return view.LookupParameter(parameterName);
@@ -386,7 +386,7 @@ namespace SCaddins.DestructivePurge
         private static List<DeletableItem> Sheets(Document doc, bool placedOnSheet)
         {
             var result = new List<DeletableItem>();
-            result.AddRange(DestructivePurgeUtilitiles.Views(doc, placedOnSheet, ViewType.DrawingSheet));
+            result.AddRange(Views(doc, placedOnSheet, ViewType.DrawingSheet));
             return result;
         }
     }

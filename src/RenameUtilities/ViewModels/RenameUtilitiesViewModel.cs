@@ -211,7 +211,7 @@ namespace SCaddins.RenameUtilities.ViewModels
         {
             get
             {
-                return manager.SelectedRenameMode.HasInputParameters == true
+                return manager.SelectedRenameMode.HasInputParameters
                     ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
             }
         }

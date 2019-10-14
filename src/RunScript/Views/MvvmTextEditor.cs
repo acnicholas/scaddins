@@ -46,7 +46,7 @@
             }
         }
         
-#pragma warning disable CA1030 // Use events where appropriate
+        #pragma warning disable CA1030 // Use events where appropriate
         public void RaisePropertyChanged(string property)
         #pragma warning restore CA1030 // Use events where appropriate
         {
@@ -60,19 +60,16 @@
         {
             var target = (MvvmTextEditor)dobj;
 
-            if (target.Document != null)
+            if (target.Document == null)
             {
-                var caretOffset = target.CaretOffset;
-                var newValue = args.NewValue;
-
-                if (newValue == null)
-                {
-                    newValue = string.Empty;
-                }
-
-                target.Document.Text = (string)newValue;
-                target.CaretOffset = Math.Min(caretOffset, newValue.ToString().Length);
+                return;
             }
+            
+            var caretOffset = target.CaretOffset;
+            var newValue = args.NewValue ?? string.Empty;
+
+            target.Document.Text = (string)newValue;
+            target.CaretOffset = Math.Min(caretOffset, newValue.ToString().Length);
         }
 
         protected override void OnTextChanged(EventArgs e)

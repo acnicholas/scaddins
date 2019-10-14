@@ -37,7 +37,7 @@ namespace SCaddins.PlaceCoordinate
         public static string DefaultSpotCoordinateFamilyName(Document doc)
         {
             string version = doc.Application.VersionNumber;
-            return SCaddins.Constants.FamilyDirectory + version + @"\SC-Survey_Point.rfa";
+            return Constants.FamilyDirectory + version + @"\SC-Survey_Point.rfa";
         }
 
         public static List<FamilySymbol> GetAllFamilySymbols(Document doc)

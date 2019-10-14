@@ -25,9 +25,9 @@ namespace SCaddins.RenameUtilities
 
     public class RenameManager
     {
-        private Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate> renameCandidates;
+        private Caliburn.Micro.BindableCollection<RenameCandidate> renameCandidates;
         private RenameCommand renameCommand;
-        private Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCommand> renameCommands;
+        private Caliburn.Micro.BindableCollection<RenameCommand> renameCommands;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;
         private List<ElementId> elements;
@@ -44,8 +44,8 @@ namespace SCaddins.RenameUtilities
         public RenameManager(Document doc)
         {
             this.doc = doc;
-            renameCandidates = new Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate>();
-            renameCommands = new Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCommand>();
+            renameCandidates = new Caliburn.Micro.BindableCollection<RenameCandidate>();
+            renameCommands = new Caliburn.Micro.BindableCollection<RenameCommand>();
             renameCommands.Add(new RenameCommand((a, c, b) => a, "None"));
             renameCommands.Add(new RenameCommand((a, c, b) => a.ToUpper(System.Globalization.CultureInfo.CurrentCulture), "UpperCase"));
             renameCommands.Add(new RenameCommand((a, c, b) => a.ToLower(System.Globalization.CultureInfo.CurrentCulture), "Lowercase"));
@@ -85,7 +85,7 @@ namespace SCaddins.RenameUtilities
             }
         }
 
-        public Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate> RenameCandidates
+        public Caliburn.Micro.BindableCollection<RenameCandidate> RenameCandidates
         {
             get { return renameCandidates; }
         }
@@ -157,7 +157,7 @@ namespace SCaddins.RenameUtilities
 
         public void CommitRename()
         {
-            CommitRenameSelection(renameCandidates.ToList<RenameCandidate>());
+            CommitRenameSelection(renameCandidates.ToList());
         }
 
         public void CommitRenameSelection(List<RenameCandidate> selectedCandiates)

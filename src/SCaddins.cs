@@ -30,23 +30,23 @@ namespace SCaddins
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.UI;
     using Newtonsoft.Json;
-    using SCaddins.Properties;
+    using Properties;
 
-    [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
-    [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
-    public class SCaddinsApp : Autodesk.Revit.UI.IExternalApplication
+    [Transaction(TransactionMode.Manual)]
+    [Regeneration(RegenerationOption.Manual)]
+    [Journaling(JournalingMode.NoCommandData)]
+    public class SCaddinsApp : IExternalApplication
     {
-        private static SCaddins.Common.Bootstrapper bootstrapper;
-        private static SCaddins.Common.WindowManager windowManager;
+        private static Common.Bootstrapper bootstrapper;
+        private static Common.WindowManager windowManager;
         private RibbonPanel ribbonPanel;
 
         public static Version Version
         {
-            get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
+            get { return Assembly.GetExecutingAssembly().GetName().Version; }
         }
 
-        public static SCaddins.Common.WindowManager WindowManager
+        public static Common.WindowManager WindowManager
         {
             get
             {
@@ -153,7 +153,7 @@ namespace SCaddins
             return Result.Succeeded;
         }
 
-        public Autodesk.Revit.UI.Result OnStartup(
+        public Result OnStartup(
                     UIControlledApplication application)
         {
             ribbonPanel = TryGetPanel(application, "Scott Carver");
@@ -193,7 +193,7 @@ namespace SCaddins
             return Result.Succeeded;
         }
 
-        internal static RibbonPanel TryGetPanel(UIControlledApplication application, string name)
+        private static RibbonPanel TryGetPanel(UIControlledApplication application, string name)
         {
             if (application == null || string.IsNullOrEmpty(name))
             {
@@ -377,7 +377,7 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "Model Setup Wizard", "Model Setup", dll, "SCaddins.ModelSetupWizard.Command");
             AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.checkdoc-rvt-16.png", 16, dll);
-            pbd.ToolTip = "Setup up model worksets and parameters";
+            pbd.ToolTip = "Setup up model work sets and parameters";
             return pbd;
         }
     }

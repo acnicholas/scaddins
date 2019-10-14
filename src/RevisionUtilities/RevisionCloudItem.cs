@@ -93,28 +93,28 @@ namespace SCaddins.RevisionUtilities
 
         private void UpdateSheetNameAndNumberStrings(Document doc)
         {
-            this.sheetNumber = "-";
-            this.sheetName = "-";
+            sheetNumber = "-";
+            sheetName = "-";
             if (cloud.GetSheetIds().Count == 1)
             {
-                ElementId id2 = cloud.GetSheetIds().ToList().First<ElementId>();
+                ElementId id2 = cloud.GetSheetIds().ToList().First();
                 if (id2 != null)
                 {
                     Element e2 = doc.GetElement(id2);
                     ViewSheet vs = (ViewSheet)e2;
                     if (vs != null)
                     {
-                        this.sheetNumber = vs.SheetNumber;
-                        this.revision = vs.get_Parameter(BuiltInParameter.SHEET_CURRENT_REVISION).AsString();
-                        this.sheetName = vs.Name;
+                        sheetNumber = vs.SheetNumber;
+                        revision = vs.get_Parameter(BuiltInParameter.SHEET_CURRENT_REVISION).AsString();
+                        sheetName = vs.Name;
                     }
                 }
             }
 
             if (cloud.GetSheetIds().Count > 1)
             {
-                this.sheetNumber = "Multiple";
-                this.sheetName = "Multiple";
+                sheetNumber = "Multiple";
+                sheetName = "Multiple";
             }
         }
     }

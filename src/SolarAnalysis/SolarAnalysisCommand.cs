@@ -17,7 +17,6 @@
 
 namespace SCaddins.SolarAnalysis
 {
-    using System.Dynamic;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
@@ -27,27 +26,26 @@ namespace SCaddins.SolarAnalysis
     public class Command : IExternalCommand
     {
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        public Autodesk.Revit.UI.Result Execute(
+        public Result Execute(
             ExternalCommandData commandData,
             ref string message,
-            Autodesk.Revit.DB.ElementSet elements)
+            ElementSet elements)
         {
             if (commandData == null) {
-                return Autodesk.Revit.UI.Result.Failed;
+                return Result.Failed;
             }
 
             UIDocument udoc = commandData.Application.ActiveUIDocument;
-            Document doc = udoc.Document;
 
             var vm = new ViewModels.SolarViewsViewModel(commandData.Application.ActiveUIDocument);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SolarViewsViewModel.DefaultViewSettings);
 
             if (vm.CreateAnalysisView) {
-                var internalUnitsGridSize = Autodesk.Revit.DB.UnitUtils.ConvertToInternalUnits(vm.AnalysisGridSize, DisplayUnitType.DUT_MILLIMETERS);
+                var internalUnitsGridSize = UnitUtils.ConvertToInternalUnits(vm.AnalysisGridSize, DisplayUnitType.DUT_MILLIMETERS);
                 SolarAnalysisManager.CreateTestFaces(vm.FaceSelection, vm.MassSelection, internalUnitsGridSize, udoc, udoc.ActiveView);
             }
 
-            return Autodesk.Revit.UI.Result.Succeeded;
+            return Result.Succeeded;
         }
     }
 }

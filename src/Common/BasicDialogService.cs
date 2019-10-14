@@ -2,10 +2,6 @@
 {
     internal class BasicDialogService : IDialogService
     {
-        public BasicDialogService()
-        {
-        }
-
         public bool? ShowColourChooser()
         {
             var colourChooser = new System.Windows.Forms.ColorDialog();
@@ -81,7 +77,7 @@
         public bool ShowYesNoDialog(string title, string message, bool defaultValue)
         {
             var dialogResult = System.Windows.MessageBox.Show(message, title, System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question);
-            return dialogResult == System.Windows.MessageBoxResult.Yes ? true : false;
+            return dialogResult == System.Windows.MessageBoxResult.Yes;
         }
 
         public bool? ShowSaveAsDialog(string defaultFileName, string defaultExtension, string filter, out string savePath)

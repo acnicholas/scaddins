@@ -17,9 +17,6 @@
 
 namespace SCaddins
 {
-    /// <summary>
-    /// Description of Conctants.
-    /// </summary>
     public static class Constants
     {
         /// <summary> Web [http] link to changelog. </summary>
@@ -30,8 +27,8 @@ namespace SCaddins
         public const string DownloadLink =
             "https://github.com/acnicholas/scaddins/releases/latest";
 
-        /// <summary> Example project configuration dir. </summary>
-        public const string EtcDirectory = "etc";
+        //// <summary> Example project configuration dir. </summary>
+        //// public const string EtcDirectory = "etc";
 
         /// <summary> Web [http] link to forum. </summary>
         public const string HelpLink =
@@ -40,15 +37,14 @@ namespace SCaddins
         /// <summary> The install dir.</summary>
         public const string InstallDirectory = @"C:\Program Files\SCaddins\SCaddins\";
 
-        /// <summary> Data directory. </summary>
-        public const string OptDirectory = "opt";
+        //// <summary> Data directory. </summary>
+        ////public const string OptDirectory = "opt";
 
         /// <summary> Data directory. </summary>
         public const string ShareDirectory = "share";
 
-        /// <summary> Web [http] link to source code. </summary>
-        public const string SourceLink =
-            "https://github.com/acnicholas/scaddins";
+        //// <summary> Web [http] link to source code. </summary>
+        //// public const string SourceLink = "https://github.com/acnicholas/scaddins";
 
         /// <summary> License to display in about box. </summary>
         public static readonly string License =
@@ -68,21 +64,9 @@ namespace SCaddins
             "Public License along with SCaddins.  " +
             "If not, see <http://www.gnu.org/licenses/>.";
 
-        public static string FamilyDirectory
-        {
-            get
-            {
-                return InstallDirectory + @"\" + ShareDirectory + @"\rfa\";
-            }
-        }
+        public static string FamilyDirectory => InstallDirectory + @"\" + ShareDirectory + @"\rfa\";
 
-        public static string IconDirectory
-        {
-            get
-            {
-                return InstallDirectory + @"\" + ShareDirectory + @"\icons\";
-            }
-        }
+        //// public static string IconDirectory => InstallDirectory + @"\" + ShareDirectory + @"\icons\";
     }
 }
 

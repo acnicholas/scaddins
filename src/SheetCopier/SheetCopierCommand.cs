@@ -25,17 +25,15 @@ namespace SCaddins.SheetCopier
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
     {
-        public Autodesk.Revit.UI.Result Execute(
+        public Result Execute(
             ExternalCommandData commandData,
             ref string message,
-            Autodesk.Revit.DB.ElementSet elements)
+            ElementSet elements)
         {
             if (commandData == null)
             {
                 return Result.Failed;
             }
-
-            Document doc = commandData.Application.ActiveUIDocument.Document;
 
             try
             {
@@ -43,9 +41,9 @@ namespace SCaddins.SheetCopier
                 SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SheetCopierViewModel.DefaultWindowSettings);
             } catch
             {
-                return Autodesk.Revit.UI.Result.Failed;
+                return Result.Failed;
             }
-            return Autodesk.Revit.UI.Result.Succeeded;
+            return Result.Succeeded;
         }
     }
 }

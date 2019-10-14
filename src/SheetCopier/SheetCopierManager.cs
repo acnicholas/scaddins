@@ -619,11 +619,12 @@ namespace SCaddins.SheetCopier
             using (var collector = new FilteredElementCollector(this.doc))
             {
                 collector.OfClass(typeof(ViewFamilyType));
-                foreach (ViewFamilyType vft in collector)
+                foreach (var element in collector)
                 {
+                    var vft = (ViewFamilyType)element;
                     if (vft.ViewFamily == ViewFamily.FloorPlan)
                     {
-                        this.floorPlanViewFamilyTypeId = vft.Id;
+                        floorPlanViewFamilyTypeId = vft.Id;
                     }
                 }
             }
@@ -631,15 +632,15 @@ namespace SCaddins.SheetCopier
 
         private void GetViewTemplates()
         {
-            this.viewTemplates.Clear();
-            using (var c = new FilteredElementCollector(this.doc))
+            viewTemplates.Clear();
+            using (var c = new FilteredElementCollector(doc))
             {
                 c.OfCategory(BuiltInCategory.OST_Views);
                 foreach (View view in c)
                 {
                     if (view.IsTemplate)
                     {
-                        this.viewTemplates.Add(view.Name, view);
+                        viewTemplates.Add(view.Name, view);
                     }
                 }
             }

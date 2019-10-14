@@ -18,8 +18,6 @@
 namespace SCaddins.RenameUtilities
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
@@ -42,7 +40,7 @@ namespace SCaddins.RenameUtilities
                 return Result.Failed;
             }
 
-            IList<ElementId> elems = commandData.Application.ActiveUIDocument.Selection.GetElementIds().ToList<ElementId>();
+            //// IList<ElementId> elems = commandData.Application.ActiveUIDocument.Selection.GetElementIds().ToList<ElementId>();
 
             ////if (elems.Count > 0) {
             ////    using (var t = new TransactionGroup(doc, "Convert selected text to uppercase")) {

@@ -176,9 +176,9 @@ namespace SCaddins.RoomConvertor
                 }
             }
             var msg = @"Summary:" + System.Environment.NewLine +
-            @"-   " + (roomCount - errCount) + " Room masses created" + System.Environment.NewLine +
-            @"-   " + basicMasses + " Modeled with basic bounding geometry" + System.Environment.NewLine +
-            @"-   " + errCount + " Errors" + System.Environment.NewLine +
+            @"-   " + (roomCount - errCount) + " Room masses created" + Environment.NewLine +
+            @"-   " + basicMasses + " Modeled with basic bounding geometry" + Environment.NewLine +
+            @"-   " + errCount + " Errors" + Environment.NewLine +
             System.Environment.NewLine +
             "Check Revit room geometry if basic masses are bing created";
 
@@ -299,7 +299,9 @@ namespace SCaddins.RoomConvertor
             var result = new Dictionary<string, ElementId>();
             using (var c = new FilteredElementCollector(doc)) {
                 c.OfCategory(BuiltInCategory.OST_Views);
-                foreach (View view in c) {
+                foreach (var element in c)
+                {
+                    var view = (View)element;
                     if (view.IsTemplate) {
                         result.Add(view.Name, view.Id);
                     }

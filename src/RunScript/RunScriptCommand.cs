@@ -6,15 +6,15 @@
     using Autodesk.Revit.UI;
     using CSScriptLibrary;
 
-    [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
-    [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
+    [Transaction(TransactionMode.Manual)]
+    [Regeneration(RegenerationOption.Manual)]
+    [Journaling(JournalingMode.NoCommandData)]
     public class RunScriptCommand : IExternalCommand
     {
         public static String ClassifyScript(string s)
         {
             System.Text.StringBuilder sb = new System.Text.StringBuilder(s);
-            sb.Insert(s.IndexOf(@"public static", System.StringComparison.InvariantCulture), @"public class A{");
+            sb.Insert(s.IndexOf(@"public static", StringComparison.InvariantCulture), @"public class A{");
             sb.Append(@"}");
             return sb.ToString();
         }
@@ -27,18 +27,16 @@
 
         public static bool VerifyScript(string script, out string compileResult)
         {
-            bool success = false;
             try
             {
                 compileResult = CSScript.CompileCode(script, GetAssemblies());
-                success = true;
+                return true;
             }
             catch (Exception e)
             {
                 compileResult = e.Message;
-                success = false;
+                return false;
             }
-            return success;
         }
 
         public Result Execute(
@@ -54,7 +52,7 @@
             var vm = new ViewModels.RunScriptViewModel();
             bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.RunScriptViewModel.DefaultViewSettings);
 
-            if (result.HasValue && result.Value == true)
+            if (result.HasValue && result.Value)
             {
                 RunScript(commandData.Application.ActiveUIDocument.Document, vm.Script);
             }
@@ -64,7 +62,7 @@
 
         private static string[] GetAssemblies()
         {
-            string scdll = new System.Uri(System.Reflection.Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
+            string scdll = new Uri(System.Reflection.Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
             var revitVersion = "2016";
             #if REVIT2017
                         revitVersion = "2017";

@@ -26,16 +26,16 @@ namespace SCaddins.RevisionUtilities
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
     {
-        public Autodesk.Revit.UI.Result Execute(
+        public Result Execute(
             ExternalCommandData commandData,
             ref string message,
-            Autodesk.Revit.DB.ElementSet elements)
+            ElementSet elements)
         {
             if (commandData == null)
             {
                 return Result.Failed;
             }
-            Document doc = commandData.Application.ActiveUIDocument.Document;
+            var doc = commandData.Application.ActiveUIDocument.Document;
 
             dynamic settings = new ExpandoObject();
             settings.Height = 480;
@@ -45,7 +45,7 @@ namespace SCaddins.RevisionUtilities
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
             var vm = new ViewModels.RevisionUtilitiesViewModel(doc);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
-            return Autodesk.Revit.UI.Result.Succeeded;
+            return Result.Succeeded;
         }
     }
 }

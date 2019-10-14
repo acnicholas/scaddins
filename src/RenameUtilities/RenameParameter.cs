@@ -24,26 +24,26 @@ namespace SCaddins.RenameUtilities
     {
         public RenameParameter(Parameter parameter, BuiltInCategory category)
         {
-            this.Parameter = parameter;
-            this.Category = category;
-            this.Type = null;
-            this.Name = parameter.Definition.Name;
+            Parameter = parameter;
+            Category = category;
+            Type = null;
+            Name = parameter.Definition.Name;
         }
 
         public RenameParameter(Parameter parameter, Type t)
         {
-            this.Parameter = parameter;
-            this.Type = t;
-            this.Category = BuiltInCategory.INVALID;
-            this.Name = parameter.Definition.Name;
+            Parameter = parameter;
+            Type = t;
+            Category = BuiltInCategory.INVALID;
+            Name = parameter.Definition.Name;
         }
 
         public RenameParameter(BuiltInCategory category)
         {
-            this.Parameter = null;
-            this.Category = category;
-            this.Type = null;
-            this.Name = "Text";
+            Parameter = null;
+            Category = category;
+            Type = null;
+            Name = "Text";
         }
 
         public BuiltInCategory Category

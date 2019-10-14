@@ -15,10 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Reflection;
-using System.Resources;
-using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion("20.0.0.9")]
 [assembly: AssemblyInformationalVersion("20.0.0-alpha.9")]
