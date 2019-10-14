@@ -102,8 +102,6 @@ namespace SCaddins.ExportManager.ViewModels
                     return;
                 }
                 Manager.AcadVersion = value;
-                Settings1.Default.AcadExportVersion = value;
-                Settings1.Default.Save();
             }
         }
 

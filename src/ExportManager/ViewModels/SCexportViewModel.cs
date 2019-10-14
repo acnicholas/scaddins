@@ -571,8 +571,7 @@ namespace SCaddins.ExportManager.ViewModels
             if (!isClosing)
             {
                 this.IsNotifying = false;
-                List<ExportSheet> list = ((System.Windows.Controls.DataGrid) sender).SelectedItems.Cast<ExportSheet>()
-                    .ToList();
+                List<ExportSheet> list = ((System.Windows.Controls.DataGrid)sender).SelectedItems.Cast<ExportSheet>().ToList();
                 this.IsNotifying = true;
                 SelectedSheets = list;
             }

@@ -5,9 +5,6 @@
     <Setting Name="A3PrinterDriver" Roaming="true" Type="System.String" Scope="User">
       <Value Profile="(Default)">\\SCAPP02\FollowMeColour</Value>
     </Setting>
-    <Setting Name="AcadExportVersion" Roaming="true" Type="Caliburn.Micro.Screen" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="AdobePDFMode" Roaming="true" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>

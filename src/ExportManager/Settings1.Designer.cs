@@ -38,18 +38,6 @@ namespace SCaddins.ExportManager {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public global::Autodesk.Revit.DB.ACADVersion AcadExportVersion {
-            get {
-                return ((global::Autodesk.Revit.DB.ACADVersion)(this["AcadExportVersion"]));
-            }
-            set {
-                this["AcadExportVersion"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public bool AdobePDFMode {

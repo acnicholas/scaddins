@@ -42,7 +42,7 @@ namespace SCaddins.ViewUtilities
 
             if (ValidViewType(sourceView.ViewType))
             {
-                List<View> result = new List<View> {CreateView(sourceView, doc)};
+                List<View> result = new List<View> { CreateView(sourceView, doc) };
                 return result;
             }
 
@@ -141,7 +141,10 @@ namespace SCaddins.ViewUtilities
                 return null;
             }
 
-            if (param.Set("User")) return newView;
+            if (param.Set("User"))
+            {
+                return newView;
+            }
             SCaddinsApp.WindowManager.ShowMessageBox("SCuv Error", "Error setting SC-View_Category parameter!");
             return null;
         }

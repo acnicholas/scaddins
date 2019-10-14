@@ -86,7 +86,9 @@ namespace SCaddins.ViewUtilities
 
         private static void RemoveUnderlay(Element element)
         {
-            if (element.Category.Id.IntegerValue != (int) BuiltInCategory.OST_Views) return;
+            if (element.Category.Id.IntegerValue != (int)BuiltInCategory.OST_Views) {
+                return;
+            }
             var param = element.get_Parameter(BuiltInParameter.VIEW_UNDERLAY_BOTTOM_ID);
             param?.Set(ElementId.InvalidElementId);
         }
