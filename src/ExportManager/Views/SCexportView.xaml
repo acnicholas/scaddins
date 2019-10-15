@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    xmlns:local="clr-namespace:SCaddins.ExportManager.ViewModels"
     x:Class="SCaddins.ExportManager.Views.SCexportView"
     cal:Message.Attach="[Event KeyDown] = [KeyPressed($eventArgs)]"
     d:DesignWidth="628" d:DesignHeight="272">

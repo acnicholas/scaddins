@@ -23,9 +23,9 @@ namespace SCaddins.ExportManager
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
-    [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
-    [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
+    [Transaction(TransactionMode.Manual)]
+    [Regeneration(RegenerationOption.Manual)]
+    [Journaling(JournalingMode.NoCommandData)]
     public class OpenSheet : IExternalCommand
     {
         public static void OpenNextSheet(UIDocument udoc, ViewSheet view)
@@ -63,7 +63,7 @@ namespace SCaddins.ExportManager
             }
             if (includeViews) {
                 FilteredElementCollector collector2 = new FilteredElementCollector(doc);
-                var views = collector2.OfCategory(BuiltInCategory.OST_Views).Cast<View>().Where<View>(v => !v.IsTemplate);
+                var views = collector2.OfCategory(BuiltInCategory.OST_Views).Cast<View>().Where(v => !v.IsTemplate);
                 foreach (View view in views) {
                     result.Add(new OpenableView(view.Name, string.Empty, view));
                 }
@@ -72,20 +72,20 @@ namespace SCaddins.ExportManager
         }
 
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        public Autodesk.Revit.UI.Result Execute(
+        public Result Execute(
             ExternalCommandData commandData,
             ref string message,
-            Autodesk.Revit.DB.ElementSet elements)
+            ElementSet elements)
         {
             if (commandData == null)
             {
-                return Autodesk.Revit.UI.Result.Failed;
+                return Result.Failed;
             }
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
             var vm = new ViewModels.OpenSheetViewModel(doc);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.OpenSheetViewModel.DefaultWindowSettings);
-            return Autodesk.Revit.UI.Result.Succeeded;
+            return Result.Succeeded;
         }
 
         private static void OpenSheetByOrder(UIDocument udoc, ViewSheet view, int offset)

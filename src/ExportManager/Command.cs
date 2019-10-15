@@ -60,8 +60,6 @@ namespace SCaddins.ExportManager
             var wm = WindowManager;
             wm.ShowDialog(vm, null, ViewModels.SCexportViewModel.DefaultWindowSettings);
 
-            var closeMode = vm.CloseStatus;
-
             if (vm.CloseStatus != ViewModels.SCexportViewModel.CloseMode.Exit)
             {             
                 string exportType = string.Empty;
@@ -130,8 +128,8 @@ namespace SCaddins.ExportManager
             }
          
             if (manager.ShowExportLog || log.Errors > 0) {
-                var logVM = new ViewModels.ExportLogViewModel(log);
-                WindowManager.ShowDialog(logVM, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
+                var exportLogViewModel = new ViewModels.ExportLogViewModel(log);
+                WindowManager.ShowDialog(exportLogViewModel, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
             }
 
             return Result.Succeeded;

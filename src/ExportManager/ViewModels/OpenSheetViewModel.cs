@@ -32,7 +32,7 @@ namespace SCaddins.ExportManager.ViewModels
         private OpenableView selectedSearchResult;
         private ViewType viewType;
 
-        public OpenSheetViewModel(Autodesk.Revit.DB.Document doc)
+        public OpenSheetViewModel(Document doc)
         {
             searchResults = new CollectionViewSource();
             searchResults.Source = OpenSheet.ViewsInModel(doc, true);
@@ -58,7 +58,7 @@ namespace SCaddins.ExportManager.ViewModels
                 settings.MaxHeight = 320;
                 settings.WindowStyle = System.Windows.WindowStyle.None;
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
-                  new System.Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png"));
+                  new Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png"));
                 settings.ShowInTaskbar = false;
                 settings.ResizeMode = System.Windows.ResizeMode.NoResize;
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;
@@ -89,18 +89,8 @@ namespace SCaddins.ExportManager.ViewModels
 
         public OpenableView SelectedSearchResult
         {
-            get
-            {
-                return selectedSearchResult;
-            }
-
-            set
-            {
-                if (value != selectedSearchResult)
-                {
-                    selectedSearchResult = value;
-                }
-            }
+            get => selectedSearchResult;
+            set => selectedSearchResult = value;
         }
 
         public string StatusText

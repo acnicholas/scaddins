@@ -147,7 +147,7 @@
             var value = GetWindowLong(handle, GWLSTYLE);
             var ret = SetWindowLong(handle, GWLSTYLE, value & -131073 & -65537);
             if (ret == 0) {
-                System.Console.WriteLine("WARNING: could not set window style");
+                Console.WriteLine("WARNING: could not set window style");
             }
         }
     }

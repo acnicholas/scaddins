@@ -62,12 +62,12 @@ namespace SCaddins.ExportManager
         {
             var config = Manager.GetConfigFileName(doc);
             var overwrite = TaskDialogResult.Yes;
+            const string fileExistsMessage = "config exists, do you want to overwrite?";
             if (File.Exists(config))
             {
-                const string FileExistsMessage = "config exists, do you want to overwrite?";
                 overwrite = TaskDialog.Show(
                     "WARNING",
-                    FileExistsMessage,
+                    fileExistsMessage,
                     TaskDialogCommonButtons.No | TaskDialogCommonButtons.Yes);
             }
 

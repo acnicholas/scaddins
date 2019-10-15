@@ -31,7 +31,7 @@ namespace SCaddins.DestructivePurge.ViewModels
         private System.Windows.Media.Imaging.BitmapImage previewImage;
         private CheckableItem selectedItem;
 
-        public DestructivePurgeViewModel(Autodesk.Revit.DB.Document doc)
+        public DestructivePurgeViewModel(Document doc)
         {
             this.doc = doc;
             CheckableItems = GetPurgableItems();
@@ -135,13 +135,7 @@ namespace SCaddins.DestructivePurge.ViewModels
             }
         }
 
-        public string ShowButtonLabel
-        {
-            get
-            {
-                return selectedItem.Deletable.Id == null ? "Select Element" : "Show Element " + selectedItem.Deletable.Id.ToString();
-            }
-        }
+        public string ShowButtonLabel => selectedItem.Deletable.Id == null ? "Select Element" : "Show Element " + selectedItem.Deletable.Id;
 
         public void CollapseAll(object sender)
         {
@@ -269,7 +263,6 @@ namespace SCaddins.DestructivePurge.ViewModels
             if (selectedItem.Deletable.Id != null) {
                 var uiapp = new Autodesk.Revit.UI.UIApplication(doc.Application);
                 Element e = doc.GetElement(selectedItem.Deletable.Id);
-                Type t = e.GetType();
                 if (e is Autodesk.Revit.DB.View) {
                     uiapp.ActiveUIDocument.ActiveView = (Autodesk.Revit.DB.View)e;
                 } else {

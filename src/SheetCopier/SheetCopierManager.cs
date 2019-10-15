@@ -47,8 +47,7 @@ namespace SCaddins.SheetCopier
 
         private ObservableCollection<SheetCopierSheet> sheets;
         private StringBuilder summaryText;
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "uidoc")]
-        private UIDocument uidoc;
+
         private Dictionary<string, View> viewTemplates =
             new Dictionary<string, View>();
 
@@ -57,7 +56,6 @@ namespace SCaddins.SheetCopier
         {
             this.summaryText = new StringBuilder();
             this.doc = uidoc.Document;
-            this.uidoc = uidoc;
             this.sheets = new ObservableCollection<SheetCopierSheet>();
             this.hiddenRevisionClouds = GetAllHiddenRevisions(this.doc);
             this.GetViewTemplates();
@@ -68,58 +66,19 @@ namespace SCaddins.SheetCopier
             this.GetAllSheetCategories();
         }
 
-        public Document Doc
-        {
-            get { return doc; }
-        }
+        public Document Doc => doc;
 
-        public Dictionary<string, View> ExistingViews
-        {
-            get
-            {
-                return this.existingViews;
-            }
-        }
+        public Dictionary<string, View> ExistingViews => existingViews;
 
-        public Dictionary<string, View> ExistingSheets
-        {
-            get
-            {
-                return this.existingSheets;
-            }
-        }
+        public Dictionary<string, View> ExistingSheets => existingSheets;
 
-        public Dictionary<string, Level> Levels
-        {
-            get
-            {
-                return this.levels;
-            }
-        }
+        public Dictionary<string, Level> Levels => levels;
 
-        public ObservableCollection<string> SheetCategories
-        {
-            get
-            {
-                return this.sheetCategories;
-            }
-        }
+        public ObservableCollection<string> SheetCategories => sheetCategories;
 
-        public ObservableCollection<SheetCopierSheet> Sheets
-        {
-            get
-            {
-                return this.sheets;
-            }
-        }
+        public ObservableCollection<SheetCopierSheet> Sheets => sheets;
 
-        public Dictionary<string, View> ViewTemplates
-        {
-            get
-            {
-                return this.viewTemplates;
-            }
-        }
+        public Dictionary<string, View> ViewTemplates => viewTemplates;
 
         public static void DeleteRevisionClouds(ElementId viewId, Document doc)
         {

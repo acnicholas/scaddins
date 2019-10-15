@@ -197,7 +197,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         {
             string filePath = string.Empty;
             bool? result = SCaddinsApp.WindowManager.ShowOpenFileDialog(string.Empty, out filePath);
-            if (result.HasValue && result.Value == true && System.IO.File.Exists(filePath))
+            if (result.HasValue && result.Value && System.IO.File.Exists(filePath))
             {
                 SettingsIO.Import(filePath);
                 Reset();

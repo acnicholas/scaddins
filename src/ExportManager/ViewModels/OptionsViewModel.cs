@@ -45,48 +45,48 @@ namespace SCaddins.ExportManager.ViewModels
         public static string ForceRasterPrintParameterName {
             get
             {
-                return SCaddins.ExportManager.Settings1.Default.UseRasterPrinterParameter;
+                return Settings1.Default.UseRasterPrinterParameter;
             }
 
             set
             {
-                if (value == SCaddins.ExportManager.Settings1.Default.UseRasterPrinterParameter) {
+                if (value == Settings1.Default.UseRasterPrinterParameter) {
                     return;
                 }
-                SCaddins.ExportManager.Settings1.Default.UseRasterPrinterParameter = value;
-                SCaddins.ExportManager.Settings1.Default.Save();
+                Settings1.Default.UseRasterPrinterParameter = value;
+                Settings1.Default.Save();
             }
         }
 
         public static string NorthPointVisibilityParameterName {
             get
             {
-                return SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter;
+                return Settings1.Default.NorthPointVisibilityParameter;
             }
 
             set
             {
-                if (value == SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter) {
+                if (value == Settings1.Default.NorthPointVisibilityParameter) {
                     return;
                 }
-                SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter = value;
-                SCaddins.ExportManager.Settings1.Default.Save();
+                Settings1.Default.NorthPointVisibilityParameter = value;
+                Settings1.Default.Save();
             }
         }
 
         public static string ScaleBarScaleParameterName {
             get
             {
-                return SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter;
+                return Settings1.Default.ScalebarScaleParameter;
             }
 
             set
             {
-                if (value == SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter) {
+                if (value == Settings1.Default.ScalebarScaleParameter) {
                     return;
                 }
-                SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter = value;
-                SCaddins.ExportManager.Settings1.Default.Save();
+                Settings1.Default.ScalebarScaleParameter = value;
+                Settings1.Default.Save();
             }
         }
 
@@ -108,32 +108,32 @@ namespace SCaddins.ExportManager.ViewModels
         public static bool ShowSummaryLog {
             get
             {
-                return SCaddins.ExportManager.Settings1.Default.ShowExportLog;
+                return Settings1.Default.ShowExportLog;
             }
 
             set
             {
-                if (value == SCaddins.ExportManager.Settings1.Default.ShowExportLog) {
+                if (value == Settings1.Default.ShowExportLog) {
                     return;
                 }
-                SCaddins.ExportManager.Settings1.Default.ShowExportLog = value;
-                SCaddins.ExportManager.Settings1.Default.Save();
+                Settings1.Default.ShowExportLog = value;
+                Settings1.Default.Save();
             }
         }
 
         public static string TextEditorBinPath {
             get
             {
-                return SCaddins.ExportManager.Settings1.Default.TextEditor;
+                return Settings1.Default.TextEditor;
             }
 
             set
             {
-                if (value == SCaddins.ExportManager.Settings1.Default.TextEditor) {
+                if (value == Settings1.Default.TextEditor) {
                     return;
                 }
-                SCaddins.ExportManager.Settings1.Default.TextEditor = value;
-                SCaddins.ExportManager.Settings1.Default.Save();
+                Settings1.Default.TextEditor = value;
+                Settings1.Default.Save();
             }
         }
 
@@ -149,8 +149,8 @@ namespace SCaddins.ExportManager.ViewModels
                     return;
                 }
                 exportManager.PrinterNameA3 = value;
-                SCaddins.ExportManager.Settings1.Default.A3PrinterDriver = value;
-                SCaddins.ExportManager.Settings1.Default.Save();
+                Settings1.Default.A3PrinterDriver = value;
+                Settings1.Default.Save();
                 NotifyOfPropertyChange(() => A3PrinterName);
             }
         }
@@ -387,8 +387,8 @@ namespace SCaddins.ExportManager.ViewModels
                     return;
                 }
                 exportManager.PrinterNameLargeFormat = value;
-                SCaddins.ExportManager.Settings1.Default.LargeFormatPrinterDriver = value;
-                SCaddins.ExportManager.Settings1.Default.Save();
+                Settings1.Default.LargeFormatPrinterDriver = value;
+                Settings1.Default.Save();
                 NotifyOfPropertyChange(() => LargeFormatPrinterName);
             }
         }
@@ -406,8 +406,8 @@ namespace SCaddins.ExportManager.ViewModels
                     return;
                 }
                 exportManager.PostscriptPrinterName = value;
-                SCaddins.ExportManager.Settings1.Default.PSPrinterDriver = value;
-                SCaddins.ExportManager.Settings1.Default.Save();
+                Settings1.Default.PSPrinterDriver = value;
+                Settings1.Default.Save();
                 NotifyOfPropertyChange(() => PostscriptPrintDriverName);
             }
         }
@@ -460,7 +460,7 @@ namespace SCaddins.ExportManager.ViewModels
             var printerViewModel = new PrinterSelectionViewModel(currentPrinter);
             bool? result = SCaddinsApp.WindowManager.ShowDialog(printerViewModel, null, settings);
             if (result.HasValue) {
-                return result.Value == true ? printerViewModel.SelectedPrinter : currentPrinter;
+                return result.Value ? printerViewModel.SelectedPrinter : currentPrinter;
             }
             return currentPrinter;
         }
@@ -489,7 +489,7 @@ namespace SCaddins.ExportManager.ViewModels
         {
             string dir;
             var result = SCaddinsApp.WindowManager.ShowDirectorySelectionDialog(GhostscriptLibLocation, out dir);
-            if (result.HasValue && result.Value == true)
+            if (result.HasValue && result.Value)
             {
                 ExportDirectory = dir;
             }
@@ -499,7 +499,7 @@ namespace SCaddins.ExportManager.ViewModels
         {
             string path;
             var result = SCaddinsApp.WindowManager.ShowDirectorySelectionDialog(GhostscriptBinLocation, out path);
-            if (result.HasValue && result.Value == true)
+            if (result.HasValue && result.Value)
             {
                 GhostscriptBinLocation = path;
             }
@@ -509,7 +509,7 @@ namespace SCaddins.ExportManager.ViewModels
         {
             string path;
             var result = SCaddinsApp.WindowManager.ShowDirectorySelectionDialog(GhostscriptLibLocation, out path);
-            if (result.HasValue && result.Value == true)
+            if (result.HasValue && result.Value)
             {
                 GhostscriptLibLocation = path;
             }

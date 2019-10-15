@@ -24,9 +24,9 @@ namespace SCaddins.ExportManager
     public class OpenableView
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "view")]
-        private Autodesk.Revit.DB.View view;
+        private View view;
 
-        public OpenableView(string name, string number, Autodesk.Revit.DB.View view)
+        public OpenableView(string name, string number, View view)
         {
             this.view = view;
             Name = name;
@@ -45,7 +45,7 @@ namespace SCaddins.ExportManager
             get; set;
         }
 
-        public Autodesk.Revit.DB.ViewType RevitViewType {
+        public ViewType RevitViewType {
             get
             {
                 return view.ViewType;

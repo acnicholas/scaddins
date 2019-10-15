@@ -135,19 +135,19 @@ public static void Main(Document doc)
         public void LoadScratch()
         {
             var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            var p = System.IO.Path.Combine(s, "SCaddins", "Script.cs");
+            var p = Path.Combine(s, "SCaddins", "Script.cs");
             if (!File.Exists(p)) {
                 return;
             }
-            Script = System.IO.File.ReadAllText(p);
+            Script = File.ReadAllText(p);
         }
         
         public void LoadScriptFromFile()
         {
             var f = SCaddinsApp.WindowManager.ShowFileSelectionDialog(string.Empty, out currentFileName);
-            if (f.HasValue && f.Value == true) {
+            if (f.HasValue && f.Value) {
                 if (File.Exists(currentFileName)) {
-                    Script = System.IO.File.ReadAllText(CurrentFileName);
+                    Script = File.ReadAllText(CurrentFileName);
                     NotifyOfPropertyChange(() => CanSave);
                 }
             }
@@ -173,7 +173,7 @@ public static void Main(Document doc)
         {
             var path = string.Empty;
             var b = SCaddinsApp.WindowManager.ShowSaveFileDialog("script.cs", "*.cs", "cs-script | *.cs", out path);
-            if (b.HasValue && b.Value == true)
+            if (b.HasValue && b.Value)
             {
                 File.WriteAllText(path, Script);
                 CurrentFileName = path;

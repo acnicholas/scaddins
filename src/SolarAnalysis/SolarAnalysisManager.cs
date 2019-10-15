@@ -129,10 +129,10 @@ namespace SCaddins.SolarAnalysis
                             //// Autodesk makes active frame starts from 1..
                             for (int activeFrame = 1; activeFrame <= setting.NumberOfFrames; activeFrame++) {
                                 setting.ActiveFrame = activeFrame;
-                                XYZ start = testFace.Face.Evaluate(uv);
+                                var start = testFace.Face.Evaluate(uv);
                                 start = start.Add(testFace.Face.ComputeNormal(uv).Normalize() / 16);
-                                XYZ sunDirection = SolarAnalysisManager.GetSunDirectionalVector(uidoc.ActiveView, SolarAnalysisManager.GetProjectPosition(uidoc.Document), out double azimuth);
-                                XYZ end = start.Subtract(sunDirection.Multiply(1000));
+                                var sunDirection = SolarAnalysisManager.GetSunDirectionalVector(uidoc.ActiveView, SolarAnalysisManager.GetProjectPosition(uidoc.Document), out double azimuth);
+                                var end = start.Subtract(sunDirection.Multiply(1000));
                                 ////BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
                                 Line line = Line.CreateBound(start, end);
 
@@ -144,7 +144,6 @@ namespace SCaddins.SolarAnalysis
                                             break;
                                         }
                                     } catch {
-                                        continue;
                                     }
                                 }
                             } ////ray loop

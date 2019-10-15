@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Windows;
     using System.Windows.Input;
     using System.Windows.Media;
@@ -36,14 +35,14 @@
             get { return children.Count; }
         }
 
-        public static void OnPatternChange(System.Windows.DependencyObject d, System.Windows.DependencyPropertyChangedEventArgs e)
+        public static void OnPatternChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             Hatch v = (Hatch)e.NewValue;
             HatchCanvas h = (HatchCanvas)d;
             h.Update(v, 1);
         }
 
-        public static object CoercedCallback(System.Windows.DependencyObject d, object baseValue)
+        public static object CoercedCallback(DependencyObject d, object baseValue)
         {
             if (baseValue != null && (d.GetValue(ActiveHatchProperty) == baseValue)) {
                 d.SetCurrentValue(ActiveHatchProperty, null);

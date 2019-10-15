@@ -20,8 +20,7 @@ namespace SCaddins.ExportManager
     using System;
     using System.Globalization;
     using Autodesk.Revit.DB;
-    using Autodesk.Revit.UI;
-    using SCaddins.Properties;
+    using Properties;
 
     public static class PrintSettings
     {
@@ -132,14 +131,14 @@ namespace SCaddins.ExportManager
                 var ps2 = doc.GetElement(id) as PrintSetting;
                 if (!forceRaster)
                 {
-                    if (ps2 != null && ps2.Name.ToString(System.Globalization.CultureInfo.CurrentCulture).Equals("SCX-" + printSetting, System.StringComparison.CurrentCulture))
+                    if (ps2 != null && ps2.Name.ToString(CultureInfo.CurrentCulture).Equals("SCX-" + printSetting, StringComparison.CurrentCulture))
                     {
                         return ps2;
                     }
                 }
                 else
                 {
-                    if (ps2 != null && ps2.Name.ToString(System.Globalization.CultureInfo.CurrentCulture).Equals("SCX-" + printSetting + @"(Raster)", StringComparison.CurrentCulture))
+                    if (ps2 != null && ps2.Name.ToString(CultureInfo.CurrentCulture).Equals("SCX-" + printSetting + @"(Raster)", StringComparison.CurrentCulture))
                     {
                         return ps2;
                     }
@@ -157,12 +156,12 @@ namespace SCaddins.ExportManager
                 var ps2 = doc.GetElement(id) as PrintSetting;
                 if (!forceRaster)
                 {
-                    if (ps2 != null && ps2.Name.ToString(System.Globalization.CultureInfo.CurrentCulture).Equals("SCX-" + printSetting, StringComparison.CurrentCulture))
+                    if (ps2 != null && ps2.Name.ToString(CultureInfo.CurrentCulture).Equals("SCX-" + printSetting, StringComparison.CurrentCulture))
                     {
                         return ps2;
                     }
                 } else {
-                    if (ps2 != null && ps2.Name.ToString(System.Globalization.CultureInfo.CurrentCulture).Equals("SCX-" + printSetting + @"(Raster)", StringComparison.CurrentCulture))
+                    if (ps2 != null && ps2.Name.ToString(CultureInfo.CurrentCulture).Equals("SCX-" + printSetting + @"(Raster)", StringComparison.CurrentCulture))
                     {
                         return ps2;
                     }
@@ -262,7 +261,7 @@ namespace SCaddins.ExportManager
                 return false;
             }
 
-            if (!PrintSettings.SetPrinterByName(doc, printerName, pm)) {
+            if (!SetPrinterByName(doc, printerName, pm)) {
                 return false;
             }
 

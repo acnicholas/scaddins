@@ -22,7 +22,7 @@ namespace SCaddins.ExportManager
     using System.Globalization;
     using System.Runtime.CompilerServices;
     using Autodesk.Revit.DB;
-    using SCaddins.Common;
+    using Common;
 
     public class ExportSheet : INotifyPropertyChanged
     {
@@ -416,7 +416,7 @@ namespace SCaddins.ExportManager
 
         public void SetScaleBarScale(Element titleBlock)
         {
-            string titleScale = SCaddins.ExportManager.Settings1.Default.ScalebarScaleParameter;
+            string titleScale = Settings1.Default.ScalebarScaleParameter;
             if (string.IsNullOrEmpty(titleScale) || titleBlock == null)
             {
                 return;
@@ -447,7 +447,7 @@ namespace SCaddins.ExportManager
             var titleBlock = Manager.TitleBlockInstanceFromSheetNumber(
                 this.sheetNumber, this.doc);
 
-            string northPointVisibility = SCaddins.ExportManager.Settings1.Default.NorthPointVisibilityParameter;
+            string northPointVisibility = Settings1.Default.NorthPointVisibilityParameter;
 
             var tb = titleBlock.GetParameters(northPointVisibility);
             if (tb == null || tb.Count < 1)
@@ -490,7 +490,7 @@ namespace SCaddins.ExportManager
                 "    SheetRevisionDescription={19}," + Environment.NewLine +
                 "    ExportDir={20}";
             return string.Format(
-                System.Globalization.CultureInfo.CurrentCulture,
+                CultureInfo.CurrentCulture,
                 s,
                 this.sheetRevisionDateTime,
                 this.doc.PathName,
@@ -543,7 +543,7 @@ namespace SCaddins.ExportManager
                     BuiltInParameter.SHEET_CURRENT_REVISION_DESCRIPTION).AsString();
             this.sheetRevisionDate = this.sheet.get_Parameter(
                     BuiltInParameter.SHEET_CURRENT_REVISION_DATE).AsString();
-            this.sheetRevisionDateTime = SCaddins.Common.MiscUtilities.ToDateTime(this.sheetRevisionDate);
+            this.sheetRevisionDateTime = MiscUtilities.ToDateTime(this.sheetRevisionDate);
             if (refreshExportName)
             {
                 this.SetExportName();

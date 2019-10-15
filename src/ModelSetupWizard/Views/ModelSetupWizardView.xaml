@@ -4,7 +4,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:SCaddins.ModelSetupWizard.Views"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d"
              d:DesignHeight="480" d:DesignWidth="720">
@@ -167,8 +166,8 @@
                         <xctk:ColorPicker x:Name="Colour15" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="6" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[14]}" ></xctk:ColorPicker>
                         <xctk:ColorPicker x:Name="Colour16" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="7" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[15]}" ></xctk:ColorPicker>
                     </Grid>
-                    <ComboBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" x:Name="ColourSchemes" DisplayMemberPath="Name"></ComboBox>
-                    <Button Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" x:Name="TestColourDialog"></Button>
+                    <ComboBox Grid.Row="1" Grid.Column="0" x:Name="ColourSchemes" DisplayMemberPath="Name"></ComboBox>
+                    <Button Grid.Row="1" Grid.Column="1" x:Name="TestColourDialog"></Button>
                 </Grid>
             </TabItem>
     </TabControl>

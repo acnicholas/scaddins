@@ -186,7 +186,7 @@ namespace SCaddins.RoomConvertor
                 .Cast<Level>()
                 .Where<Level>(lvl => lvl.Name == test);
 
-            if (collector.Count() > 0)
+            if (collector.Any())
             {
                 double elev = collector.First().Elevation;
                 {

@@ -177,7 +177,7 @@ namespace SCaddins.SheetCopier.ViewModels
         {
             var vm = new SheetSelectionViewModel(copyManager);
             bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, SheetSelectionViewModel.DefaultWindowSettings);
-            if (result.HasValue && result.Value == true) {
+            if (result.HasValue && result.Value) {
                 AddSheets(vm.SelectedSheets);
                 NotifyOfPropertyChange(() => GoLabel);
             }

@@ -84,7 +84,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
                     Worksets.Add(winf);
                 }
                 var match = Worksets.Where(w => w.Name.Trim() == winf.ExistingName.Trim());
-                if (match.Count() > 0) {
+                if (match.Any()) {
                     match.First().Name = winf.Name;
                 }
             }

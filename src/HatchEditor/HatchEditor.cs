@@ -69,8 +69,8 @@ namespace SCaddins.HatchEditor
 
         public static List<Hatch> ReadAllPatternsFromFile(string file)
         {
-            if (System.IO.File.Exists(file)) {
-                var fileLines = System.IO.File.ReadAllLines(file);
+            if (File.Exists(file)) {
+                var fileLines = File.ReadAllLines(file);
                 return GetPatternFromFile(0, fileLines);
             } else {
                 return new List<Hatch>();
@@ -105,10 +105,10 @@ namespace SCaddins.HatchEditor
             return result;
         }
 
-        public Autodesk.Revit.UI.Result Execute(
+        public Result Execute(
             ExternalCommandData commandData,
             ref string message,
-            Autodesk.Revit.DB.ElementSet elements)
+            ElementSet elements)
         {
             if (commandData == null)
             {

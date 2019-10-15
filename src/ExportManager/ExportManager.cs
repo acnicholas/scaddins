@@ -33,8 +33,8 @@ namespace SCaddins.ExportManager
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Microsoft.Win32;
-    using SCaddins.Common;
-    using SCaddins.Properties;
+    using Common;
+    using Properties;
     using ArgumentException = Autodesk.Revit.Exceptions.ArgumentException;
     using PrintRange = Autodesk.Revit.DB.PrintRange;
     

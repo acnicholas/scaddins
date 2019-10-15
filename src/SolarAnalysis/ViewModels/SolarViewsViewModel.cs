@@ -302,17 +302,8 @@ namespace SCaddins.SolarAnalysis.ViewModels
 
         public TimeSpan SelectedInterval
         {
-            get
-            {
-                return interval;
-            }
-
-            set
-            {
-                if (value != interval) {
-                    interval = value;
-                }
-            }
+            get => interval;
+            set => interval = value;
         }
 
         public string SelectedMassInformation

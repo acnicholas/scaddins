@@ -135,7 +135,7 @@ namespace SCaddins.DestructivePurge
                         }
 
                         try {
-                                ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(di.Id);
+                                ICollection<ElementId> deletedIdSet = doc.Delete(di.Id);
                         } catch (ArgumentNullException anex) {
                             SCaddinsApp.WindowManager.ShowMessageBox("Failure", di.Id + System.Environment.NewLine + anex.Message);
                         } catch (ModificationForbiddenException mfex) {
@@ -163,7 +163,7 @@ namespace SCaddins.DestructivePurge
                         revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
                     var tn = new DeletableItem(nodeName);
                     tn.Info = "Name = " + revision.Name + System.Environment.NewLine +
-                    "id - " + revision.Id.ToString();
+                    "id - " + revision.Id;
                     tn.Info += System.Environment.NewLine + s;
                     tn.Id = revision.Id;
                     if (revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger() > 1) {
@@ -218,7 +218,7 @@ namespace SCaddins.DestructivePurge
                     }
                     var tn = new DeletableItem(room.Name);
                     tn.Info = "Name = " + room.Name + System.Environment.NewLine +
-                    "id - " + room.Id.ToString();
+                    "id - " + room.Id;
                     tn.Info += System.Environment.NewLine + s;
                     tn.Id = room.Id;
                     if (!bound)
@@ -235,7 +235,7 @@ namespace SCaddins.DestructivePurge
             Dictionary<ElementId, ElementId> usedFilters = new Dictionary<ElementId, ElementId>();
             using (var viewCollecter = new FilteredElementCollector(doc))
             {
-                viewCollecter.OfClass(typeof(Autodesk.Revit.DB.View));
+                viewCollecter.OfClass(typeof(View));
                 foreach (var element in viewCollecter)
                 {
                     var view = (View)element;
