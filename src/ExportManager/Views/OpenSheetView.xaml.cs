@@ -1,8 +1,6 @@
 ﻿namespace SCaddins.ExportManager.Views
 {
-    using System.Windows.Controls;
-
-    public partial class OpenSheetView : UserControl
+    public partial class OpenSheetView
     {
         public OpenSheetView()
         {

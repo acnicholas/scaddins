@@ -105,7 +105,7 @@ namespace SCaddins.PlaceCoordinate
                     doc.Regenerate();
                     loadFamily.Commit();
                 }
-                System.Collections.Generic.ISet<ElementId> sids = fam.GetFamilySymbolIds();
+                var sids = fam.GetFamilySymbolIds();
                 foreach (ElementId id in sids) {
                     var f = doc.GetElement(id) as FamilySymbol;
                     if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture))) {
@@ -117,10 +117,10 @@ namespace SCaddins.PlaceCoordinate
             return null;
         }
 
-        public Autodesk.Revit.UI.Result Execute(
+        public Result Execute(
             ExternalCommandData commandData,
             ref string message,
-            Autodesk.Revit.DB.ElementSet elements)
+            ElementSet elements)
         {
             if (commandData == null) {
                 return Result.Failed;
@@ -131,7 +131,7 @@ namespace SCaddins.PlaceCoordinate
             ////PlaceMGA(doc,);
 
             var vm = new ViewModels.PlaceCoordinateViewModel(doc);
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, PlaceCoordinate.ViewModels.PlaceCoordinateViewModel.DefaultWindowSettings);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.PlaceCoordinateViewModel.DefaultWindowSettings);
 
             return Result.Succeeded;
         }
@@ -145,10 +145,10 @@ namespace SCaddins.PlaceCoordinate
             double xp, yp;
             double ang = projectPosition.Angle;
             double nx, ny;
-            xp = useSurveyCoords ? ((x / FeetToInches) - projectPosition.EastWest) : (x / FeetToInches) - projectPosition.EastWest;
-            yp = useSurveyCoords ? ((y / FeetToInches) - projectPosition.NorthSouth) : (y / FeetToInches) - projectPosition.NorthSouth;
-            nx = useSurveyCoords ? ((xp * Math.Cos(-ang)) - (yp * Math.Sin(-ang))) : xp;
-            ny = useSurveyCoords ? ((xp * Math.Sin(-ang)) + (yp * Math.Cos(-ang))) : yp;
+            xp = ((x / FeetToInches) - projectPosition.EastWest);
+            yp = ((y / FeetToInches) - projectPosition.NorthSouth);
+            nx = ((xp * Math.Cos(-ang)) - (yp * Math.Sin(-ang)));
+            ny = ((xp * Math.Sin(-ang)) + (yp * Math.Cos(-ang)));
             return new XYZ(nx, ny, (-projectPosition.Elevation + z) / FeetToInches);
         }
     }

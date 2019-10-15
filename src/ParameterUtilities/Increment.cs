@@ -9,7 +9,7 @@
 * "Quick way to renumber doors, grids, and family instances"
 * available here:
 * http://boostyourbim.wordpress.com/2013/01/17/quick-way-to-renumber-doors-grids-and-levels/
-* Available under a Creative Commons Attribution-Noncommercial-Share Alike license. Copyright © 2013  Harry Mattison.
+* Available under a Creative Commons Attribution-Noncommercial-Share Alike license. Copyright Â© 2013  Harry Mattison.
 */
 
 namespace SCaddins.ParameterUtilities
@@ -117,10 +117,10 @@ namespace SCaddins.ParameterUtilities
             }
         }
         
-        public Autodesk.Revit.UI.Result Execute(
+        public Result Execute(
             ExternalCommandData commandData,
             ref string message,
-            Autodesk.Revit.DB.ElementSet elements)
+            ElementSet elements)
         {
             if (commandData == null) {
                 return Result.Failed;
@@ -138,7 +138,7 @@ namespace SCaddins.ParameterUtilities
             } else {
                 RenumberBySpline(elems[0], doc);
             }
-            return Autodesk.Revit.UI.Result.Succeeded;
+            return Result.Succeeded;
         }
 
         private static string GetSourceNumberAsString(string s)

@@ -1,11 +1,9 @@
 ﻿namespace SCaddins.ExportManager.Views
 {
-    using System.Windows.Controls;
-
     /// <summary>
     /// Interaction logic for OptionsView.xaml
     /// </summary>
-    public partial class OptionsView : UserControl
+    public partial class OptionsView
     {
         public OptionsView()
         {

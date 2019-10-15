@@ -175,15 +175,15 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public void AddSheets()
         {
-            var vm = new ViewModels.SheetSelectionViewModel(copyManager);
-            bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SheetSelectionViewModel.DefaultWindowSettings);
+            var vm = new SheetSelectionViewModel(copyManager);
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, SheetSelectionViewModel.DefaultWindowSettings);
             if (result.HasValue && result.Value == true) {
                 AddSheets(vm.SelectedSheets);
                 NotifyOfPropertyChange(() => GoLabel);
             }
         }
 
-        public void AddSheets(List<SCaddins.ExportManager.ExportSheet> selectedSheets)
+        public void AddSheets(List<ExportManager.ExportSheet> selectedSheets)
         {
             foreach (var sheet in selectedSheets) {
                 copyManager.AddSheet(sheet.Sheet);

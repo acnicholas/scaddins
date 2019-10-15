@@ -24,7 +24,7 @@ namespace SCaddins.ViewUtilities
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class RemoveUnderlaysCommand : IExternalCommand
     {
-        public Autodesk.Revit.UI.Result Execute(
+        public Result Execute(
             ExternalCommandData commandData,
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)

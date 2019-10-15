@@ -20,11 +20,11 @@ namespace SCaddins.ExportManager
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using static SCaddins.SCaddinsApp;
+    using static SCaddinsApp;
 
-    [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
-    [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
+    [Transaction(TransactionMode.Manual)]
+    [Regeneration(RegenerationOption.Manual)]
+    [Journaling(JournalingMode.NoCommandData)]
     public class Command : IExternalCommand
     {
         public Result Execute(
@@ -76,8 +76,6 @@ namespace SCaddins.ExportManager
                     case ViewModels.SCexportViewModel.CloseMode.PrintA2:
                         exportType = "Printing";
                         break;
-                    default:
-                        break;
                 }
 
                 var progressVm = new ViewModels.ProgressMonitorViewModel();
@@ -108,7 +106,7 @@ namespace SCaddins.ExportManager
                             manager.Print(sheet, manager.PrinterNameLargeFormat, 2, log);
                             break;
                         default:
-                            return Autodesk.Revit.UI.Result.Succeeded;
+                            return Result.Succeeded;
                     }
 
                     progressVm.Value++;

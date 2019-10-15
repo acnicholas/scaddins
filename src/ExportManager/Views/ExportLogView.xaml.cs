@@ -17,12 +17,10 @@
 
 namespace SCaddins.ExportManager.Views
 {
-    using System.Windows.Controls;
-
     /// <summary>
     /// Interaction logic for ExportLogView.xaml
     /// </summary>
-    public partial class ExportLogView : UserControl
+    public partial class ExportLogView
     {
         public ExportLogView()
         {

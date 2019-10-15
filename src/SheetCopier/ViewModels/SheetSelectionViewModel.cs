@@ -30,7 +30,7 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public SheetSelectionViewModel(SheetCopierManager manager)
         {
-            sheets = manager.ExistingSheets.Values.ToList<Autodesk.Revit.DB.View>().Cast<ViewSheet>().ToList();
+            sheets = manager.ExistingSheets.Values.ToList().Cast<ViewSheet>().ToList();
             selectedSheets = new List<ViewSheet>();
         }
 

@@ -23,10 +23,6 @@ namespace SCaddins.Common.ViewModels
 
     public class AboutViewModel : Screen
     {
-        public AboutViewModel()
-        {
-        }
-
         public static string AssemblyBuildDate
         {
             get
@@ -129,7 +125,7 @@ namespace SCaddins.Common.ViewModels
 
         public static void NavigateTo(System.Uri url)
         {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(url.AbsoluteUri));
+            Process.Start(new ProcessStartInfo(url.AbsoluteUri));
         }
     }
 }

@@ -196,7 +196,7 @@ namespace SCaddins.SheetCopier
                 return;
             }
             using (var collector = new FilteredElementCollector(doc)) {
-                collector.OfClass(typeof(Autodesk.Revit.DB.View));
+                collector.OfClass(typeof(View));
                 foreach (Element element in collector) {
                     var view = element as View;
                     View tmpView;
@@ -336,7 +336,7 @@ namespace SCaddins.SheetCopier
             var oldNumber = sheet.SourceSheet.SheetNumber;
             var msg = " Sheet: " + oldNumber + " copied to: " + sheet.Number;
             if (summary != null) {
-                summary.Append(msg + System.Environment.NewLine);
+                summary.Append(msg + Environment.NewLine);
             }
 
             return true;
@@ -417,7 +417,7 @@ namespace SCaddins.SheetCopier
             SheetCopierSheet sheet,
             XYZ sourceViewCentre)
         {
-            var d = view.DuplicateWithDetailing == true ? ViewDuplicateOption.WithDetailing : ViewDuplicateOption.Duplicate;
+            var d = view.DuplicateWithDetailing ? ViewDuplicateOption.WithDetailing : ViewDuplicateOption.Duplicate;
 
             ElementId destViewId = ElementId.InvalidElementId;
             if (view.OldView.CanViewBeDuplicated(d)) {
@@ -586,7 +586,7 @@ namespace SCaddins.SheetCopier
                 collector.OfClass(typeof(Level));
                 foreach (Element element in collector)
                 {
-                    this.levels.Add(element.Name.ToString(System.Globalization.CultureInfo.CurrentCulture), element as Level);
+                    this.levels.Add(element.Name.ToString(CultureInfo.CurrentCulture), element as Level);
                 }
             }
         }

@@ -156,10 +156,9 @@ namespace SCaddins.HatchEditor
                 foreach (double d in p.GetSegments()) {
                     s.Append(string.Format(System.Globalization.CultureInfo.InvariantCulture, ",\t{0}", d.ToMM()));
                 }
-                s.Append(System.Environment.NewLine);
+                s.Append(Environment.NewLine);
             }
             definition = s.ToString();
-            return;
         }
 
         private bool AssignFillGridsFromString(string[] grids, double scale, double rotationAngle)

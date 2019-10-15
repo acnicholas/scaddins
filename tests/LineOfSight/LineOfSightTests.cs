@@ -55,7 +55,7 @@ namespace SCaddins.LineOfSight.Tests
         [SetUp]
         public void Setup()
         {
-            SCaddinsApp.WindowManager = new SCaddins.Common.WindowManager(new SCaddins.Common.MockDialogService());
+            SCaddinsApp.WindowManager = new Common.WindowManager(new Common.MockDialogService());
         }
 
         private static List<object[]> ManyCValues()

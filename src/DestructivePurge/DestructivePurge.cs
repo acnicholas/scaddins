@@ -137,9 +137,9 @@ namespace SCaddins.DestructivePurge
                         try {
                                 ICollection<Autodesk.Revit.DB.ElementId> deletedIdSet = doc.Delete(di.Id);
                         } catch (ArgumentNullException anex) {
-                            SCaddinsApp.WindowManager.ShowMessageBox("Failure", di.Id.ToString() + System.Environment.NewLine + anex.Message);
+                            SCaddinsApp.WindowManager.ShowMessageBox("Failure", di.Id + System.Environment.NewLine + anex.Message);
                         } catch (ModificationForbiddenException mfex) {
-                            SCaddinsApp.WindowManager.ShowMessageBox("Failure", di.Id.ToString() + System.Environment.NewLine + mfex.Message);
+                            SCaddinsApp.WindowManager.ShowMessageBox("Failure", di.Id + System.Environment.NewLine + mfex.Message);
                         }
                     }
 
@@ -236,8 +236,9 @@ namespace SCaddins.DestructivePurge
             using (var viewCollecter = new FilteredElementCollector(doc))
             {
                 viewCollecter.OfClass(typeof(Autodesk.Revit.DB.View));
-                foreach (Autodesk.Revit.DB.View view in viewCollecter)
+                foreach (var element in viewCollecter)
                 {
+                    var view = (View)element;
                     if (view.AreGraphicsOverridesAllowed())
                     {
                         foreach (ElementId id in view.GetFilters())
@@ -254,7 +255,7 @@ namespace SCaddins.DestructivePurge
             var result = new List<DeletableItem>();
             using (var f = new FilteredElementCollector(doc))
             {
-                f.OfClass(typeof(Autodesk.Revit.DB.FilterElement));
+                f.OfClass(typeof(FilterElement));
                 foreach (Element filter in f)
                 {
                     if (!usedFilters.ContainsKey(filter.Id))
@@ -263,7 +264,7 @@ namespace SCaddins.DestructivePurge
                         var nodeName = filter.Name;
                         var tn = new DeletableItem(nodeName);
                         tn.Info = "Name = " + filter.Name + System.Environment.NewLine +
-                        "id - " + filter.Id.ToString();
+                        "id - " + filter.Id;
                         tn.Info += System.Environment.NewLine + s;
                         tn.Id = filter.Id;
                         result.Add(tn);
@@ -279,9 +280,10 @@ namespace SCaddins.DestructivePurge
             var result = new List<DeletableItem>();
             using (var f = new FilteredElementCollector(doc))
             {
-                f.OfClass(typeof(Autodesk.Revit.DB.View));
-                foreach (Autodesk.Revit.DB.View view in f)
+                f.OfClass(typeof(View));
+                foreach (var element in f)
                 {
+                    var view = (View)element;
                     if (view.ViewType == type && !view.IsTemplate)
                     {
                         string s = string.Empty;
@@ -317,7 +319,7 @@ namespace SCaddins.DestructivePurge
                         {
                             s += @"Sheet Number - N/A" + System.Environment.NewLine;
                         }
-                        s += "Element id - " + view.Id.ToString() + System.Environment.NewLine;
+                        s += "Element id - " + view.Id + System.Environment.NewLine;
                         s += System.Environment.NewLine + "[EXTENDED INFO]" + System.Environment.NewLine;
                         s += GetParameterList(view.Parameters);
 

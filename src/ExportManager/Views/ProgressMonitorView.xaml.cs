@@ -1,8 +1,6 @@
 ﻿namespace SCaddins.ExportManager.Views
 {
-    using System.Windows.Controls;
-
-    public partial class ProgressMonitorView : UserControl
+    public partial class ProgressMonitorView
     {
         public ProgressMonitorView()
         {

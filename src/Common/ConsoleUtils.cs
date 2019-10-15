@@ -34,15 +34,15 @@ namespace SCaddins.Common
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         internal static void StartHiddenConsoleProg(string exePath, string args, int waitTime)
         {
-            var startInfo = new System.Diagnostics.ProcessStartInfo();
+            var startInfo = new ProcessStartInfo();
             startInfo.FileName = exePath;
 
-            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
             if (!string.IsNullOrEmpty(args))
             {
                 startInfo.Arguments = args;
             }
-            Process p = System.Diagnostics.Process.Start(startInfo);
+            Process p = Process.Start(startInfo);
             p.WaitForExit(waitTime);
             p.Dispose();
         }

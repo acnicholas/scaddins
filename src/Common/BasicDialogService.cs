@@ -8,7 +8,7 @@
             colourChooser.AnyColor = true;
             var dialogResult = colourChooser.ShowDialog();
             if (dialogResult == System.Windows.Forms.DialogResult.OK) {
-                var colour = colourChooser.Color;
+                //// var colour = colourChooser.Color;
                 return true;
             }
             return false;

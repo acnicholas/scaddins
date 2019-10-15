@@ -22,7 +22,6 @@ namespace SCaddins.RevisionUtilities
     using System.Globalization;
     using System.Reflection;
     using Autodesk.Revit.DB;
-    using Autodesk.Revit.UI;
     using Microsoft.Office.Interop.Excel;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]

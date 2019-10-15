@@ -28,7 +28,7 @@ namespace SCaddins.ModelSetupWizard
         private Parameter parameter;
         private string value;
 
-        public ProjectInformationParameter(Autodesk.Revit.DB.Parameter parameter)
+        public ProjectInformationParameter(Parameter parameter)
         {
             this.parameter = parameter;
             Name = parameter.Definition.Name;

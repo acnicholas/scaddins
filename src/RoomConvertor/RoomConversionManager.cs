@@ -175,11 +175,11 @@ namespace SCaddins.RoomConvertor
                     t.Commit();
                 }
             }
-            var msg = @"Summary:" + System.Environment.NewLine +
+            var msg = @"Summary:" + Environment.NewLine +
             @"-   " + (roomCount - errCount) + " Room masses created" + Environment.NewLine +
             @"-   " + basicMasses + " Modeled with basic bounding geometry" + Environment.NewLine +
             @"-   " + errCount + " Errors" + Environment.NewLine +
-            System.Environment.NewLine +
+            Environment.NewLine +
             "Check Revit room geometry if basic masses are bing created";
 
             SCaddinsApp.WindowManager.ShowMessageBox("Rooms to Masses - Summary", msg);
@@ -205,9 +205,9 @@ namespace SCaddins.RoomConvertor
             }
         }
 
-        public List<Autodesk.Revit.DB.Parameter> GetRoomParameters()
+        public List<Parameter> GetRoomParameters()
         {
-            var s = new List<Autodesk.Revit.DB.Parameter>();
+            var s = new List<Parameter>();
             foreach (Parameter p in Candidates[0].Room.Parameters)
             {
                 // don't add ElementID values yet (too much effort)
@@ -389,7 +389,7 @@ namespace SCaddins.RoomConvertor
 
         private static BoundingBoxXYZ CreateOffsetBoundingBox(double offset, BoundingBoxXYZ origBox)
         {
-            double offsetInFeet = SCaddins.Common.MiscUtilities.MillimetersToFeet(offset);
+            double offsetInFeet = Common.MiscUtilities.MillimetersToFeet(offset);
             XYZ min = new XYZ(origBox.Min.X - offsetInFeet, origBox.Min.Y - offsetInFeet, origBox.Min.Z);
             XYZ max = new XYZ(origBox.Max.X + offsetInFeet, origBox.Max.Y + offsetInFeet, origBox.Max.Z);
             BoundingBoxXYZ result = new BoundingBoxXYZ();
@@ -497,10 +497,10 @@ namespace SCaddins.RoomConvertor
 
                     var height = bb.Max.Z - bb.Min.Z;
 
-                    curves.Add(Line.CreateBound(bl, br) as Curve);
-                    curves.Add(Line.CreateBound(br, tr) as Curve);
-                    curves.Add(Line.CreateBound(tr, tl) as Curve);
-                    curves.Add(Line.CreateBound(tl, bl) as Curve);
+                    curves.Add(Line.CreateBound(bl, br));
+                    curves.Add(Line.CreateBound(br, tr));
+                    curves.Add(Line.CreateBound(tr, tl));
+                    curves.Add(Line.CreateBound(tl, bl));
                     CurveLoop loop = CurveLoop.Create(curves);
                     SolidOptions options = new SolidOptions(ElementId.InvalidElementId, ElementId.InvalidElementId);
                     Solid roomSolid = GeometryCreationUtilities.CreateExtrusionGeometry(new CurveLoop[] { loop }, new XYZ(0, 0, 1), height, options);

@@ -2,10 +2,6 @@
 {
     public class MockDialogService : IDialogService
     {
-        public MockDialogService()
-        {
-        }
-
         public bool? ShowColourChooser()
         {
             return true;

@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.DB;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using RTF.Applications;
 using RTF.Framework;
-using SCaddins.DestructivePurge;
-
 
 namespace SCaddins.DestructivePurge.Tests
 {
@@ -18,7 +10,7 @@ namespace SCaddins.DestructivePurge.Tests
         [SetUp]
         public void Setup()
         {
-            SCaddinsApp.WindowManager = new SCaddins.Common.WindowManager(new SCaddins.Common.MockDialogService());
+            SCaddinsApp.WindowManager = new Common.WindowManager(new Common.MockDialogService());
         }
 
         [Test()]

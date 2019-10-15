@@ -158,8 +158,8 @@ namespace SCaddins.RoomConvertor.ViewModels
 
         public void AddFilter()
         {
-            var vm = new ViewModels.RoomFilterViewModel(manager, filter);
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.RoomFilterViewModel.DefaultWindowSettings);
+            var vm = new RoomFilterViewModel(manager, filter);
+            SCaddinsApp.WindowManager.ShowDialog(vm, null, RoomFilterViewModel.DefaultWindowSettings);
             NotifyOfPropertyChange(() => Rooms);
             NotifyOfPropertyChange(() => SelectionInformation);
         }
@@ -179,7 +179,7 @@ namespace SCaddins.RoomConvertor.ViewModels
 
         public void RenameSelectedRooms()
         {
-            var renameManager = new SCaddins.RenameUtilities.RenameManager(
+            var renameManager = new RenameUtilities.RenameManager(
               manager.Doc,
               selectedRooms.Select(s => s.Room.Id).ToList());
             var renameSheetModel = new SCaddins.RenameUtilities.ViewModels.RenameUtilitiesViewModel(renameManager);
@@ -209,9 +209,9 @@ namespace SCaddins.RoomConvertor.ViewModels
                 settings.Title = "Sheet Creation Options";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Height;
-                var vm = new ViewModels.RoomToSheetWizardViewModel(manager);
+                var vm = new RoomToSheetWizardViewModel(manager);
                 bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
-                if (result.Value == true)
+                if (result.Value)
                 {
                     manager.CreateViewsAndSheets(selectedRooms);
                 }

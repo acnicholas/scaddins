@@ -25,7 +25,7 @@ namespace SCaddins.PlaceCoordinate.ViewModels
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;
-        private List<Autodesk.Revit.DB.FamilySymbol> familiesInModel;
+        private List<FamilySymbol> familiesInModel;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "selectedFamilySymbol")]
         private FamilySymbol selectedFamilySymbol;
         private bool useSharedCoordinates;
@@ -64,7 +64,7 @@ namespace SCaddins.PlaceCoordinate.ViewModels
             }
         }
 
-        public List<Autodesk.Revit.DB.FamilySymbol> FamilySymbols
+        public List<FamilySymbol> FamilySymbols
         {
             get
             {

@@ -224,8 +224,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
 
             string msg = "Summary" + System.Environment.NewLine +
                 System.Environment.NewLine +
-                worksetLog.ToString() + System.Environment.NewLine +
-                projectInfoLog.ToString();
+                worksetLog + System.Environment.NewLine +
+                projectInfoLog;
             SCaddinsApp.WindowManager.ShowMessageBox("Model Setup Wizard - Summary", msg);
             TryClose(true);
         }

@@ -19,10 +19,6 @@ namespace SCaddins.LineOfSight
 {
     public class StadiumSeatingTread
     {
-        public StadiumSeatingTread()
-        {
-        }
-
         public double CValue
         {
             get; set;

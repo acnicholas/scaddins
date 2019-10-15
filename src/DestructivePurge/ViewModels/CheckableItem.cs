@@ -56,7 +56,7 @@ namespace SCaddins.DestructivePurge.ViewModels
         {
             get
             {
-                return IsChecked.HasValue && IsChecked.Value == true;
+                return IsChecked.HasValue && IsChecked.Value;
             }
         }
 

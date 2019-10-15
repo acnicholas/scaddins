@@ -37,8 +37,8 @@ namespace SCaddins.Common.ViewModels
                 VerboseInformationText = "Remote version information could not be retrieved";
             }
 
-            InstalledVersion = Properties.Resources.InstalledVersion + @": " + installed.ToString();
-            LatestVersion = Properties.Resources.LatestVersion + @": " + remote.ToString();
+            InstalledVersion = Properties.Resources.InstalledVersion + @": " + installed;
+            LatestVersion = Properties.Resources.LatestVersion + @": " + remote;
             VerboseInformationText = body;
             if (installed < remote) {
                 InformationText = Properties.Resources.UpgrateNewVersionAvailableMessage;
@@ -69,7 +69,7 @@ namespace SCaddins.Common.ViewModels
 
         public static void OpenChangeLog()
         {
-            System.Diagnostics.Process.Start(SCaddins.Constants.ChangelogLink);
+            System.Diagnostics.Process.Start(Constants.ChangelogLink);
         }
 
         public void Download()

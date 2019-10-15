@@ -83,10 +83,14 @@
                             <Label Grid.Column="0" Grid.Row="1" Content="File Naming Scheme" VerticalAlignment="Center" Margin="5"></Label>
                             <ComboBox x:Name="AutoCADExportVersions" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5"></ComboBox>
                             <ComboBox x:Name="FileNamingSchemes" DisplayMemberPath="Name" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></ComboBox>
-                            <CheckBox x:Name="DateForEmptyRevisions" Grid.Row="2" Grid.ColumnSpan="2" Margin="5" Content="Use today's date for empty revisions" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox x:Name="ForceDateForAllRevisions" Grid.Row="3" Grid.ColumnSpan="2" Margin="5" Content="Force all revisions to be today's date [YYYYMMDD]" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox x:Name="HideTitleBlocksForCadExports" Grid.Row="4" Grid.ColumnSpan="2"   Margin="5" Content="Hide title blocks (DWG exports only)" VerticalAlignment="Center"></CheckBox>
-                            <CheckBox x:Name="ExportViewportsOnly" Grid.Row="5" Grid.ColumnSpan="2"   Margin="5" Content="Create Additional Exports for Plan Viewports (Expert)" VerticalAlignment="Center"></CheckBox>
+                            <CheckBox x:Name="DateForEmptyRevisions" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0"
+                                      Margin="5" Content="Use today's date for empty revisions" VerticalAlignment="Center"></CheckBox>
+                            <CheckBox x:Name="ForceDateForAllRevisions" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0"
+                                      Margin="5" Content="Force all revisions to be today's date [YYYYMMDD]" VerticalAlignment="Center"></CheckBox>
+                            <CheckBox x:Name="HideTitleBlocksForCadExports" Grid.Row="4" Grid.ColumnSpan="2"
+                                      Grid.Column="0" Margin="5" Content="Hide title blocks (DWG exports only)" VerticalAlignment="Center"></CheckBox>
+                            <CheckBox x:Name="ExportViewportsOnly" Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="0"
+                                      Margin="5" Content="Create Additional Exports for Plan Viewports (Expert)" VerticalAlignment="Center"></CheckBox>
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -111,7 +115,7 @@
                             </Grid.RowDefinitions>
                             <Button x:Name="CreateProjectConfigFile" Margin="5">Create Project Config File</Button>
                             <Button x:Name="EditProjectConfigFile" Grid.Row="0" Grid.Column="1" Margin="5">Edit Config File</Button>
-                            <Label Grid.Row="1" Margin="5">Text Editor (for config)</Label>
+                            <Label Grid.Row="1" Grid.Column="0" Margin="5">Text Editor (for config)</Label>
                             <TextBox x:Name="TextEditorBinPath" Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
                         </Grid>
                     </GroupBox>

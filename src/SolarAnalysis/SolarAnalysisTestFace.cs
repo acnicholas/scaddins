@@ -84,12 +84,11 @@ namespace SCaddins.SolarAnalysis
 
         public void CreateAnalysisSurface(UIDocument uiDoc, SpatialFieldManager sfm)
         {
-            Document doc = uiDoc.Document;
-            int idx = sfm.AddSpatialFieldPrimitive(Reference);
-            FieldDomainPointsByUV pnts = new FieldDomainPointsByUV(pointsUV);
-            FieldValues vals = new FieldValues(valList);
-            AnalysisResultSchema resultSchema = new AnalysisResultSchema(name, name);
-            int schemaIndex = sfm.RegisterResult(resultSchema);
+            var idx = sfm.AddSpatialFieldPrimitive(Reference);
+            var pnts = new FieldDomainPointsByUV(pointsUV);
+            var vals = new FieldValues(valList);
+            var resultSchema = new AnalysisResultSchema(name, name);
+            var schemaIndex = sfm.RegisterResult(resultSchema);
             try {
                 sfm.UpdateSpatialFieldPrimitive(idx, pnts, vals, schemaIndex);
             } catch {

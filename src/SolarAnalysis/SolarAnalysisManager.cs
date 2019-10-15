@@ -24,7 +24,6 @@ namespace SCaddins.SolarAnalysis
     using System.Text;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
-    using Autodesk.Revit.DB.Analysis;
     using Autodesk.Revit.UI;
 
     [Transaction(TransactionMode.Manual)]
@@ -80,9 +79,9 @@ namespace SCaddins.SolarAnalysis
                 return;
             }
 
-            List<DirectSunTestFace> testFaces = CreateEmptyTestFaces(faceSelection, uidoc.Document);
+            var testFaces = CreateEmptyTestFaces(faceSelection, uidoc.Document);
 
-            System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+            var stopwatch = new Stopwatch();
             stopwatch.Start();
 
             var solids = SolidsFromReferences(massSelection, uidoc.Document);
@@ -177,7 +176,7 @@ namespace SCaddins.SolarAnalysis
         public static double GetAtmosphericRefraction(double altitudeRadians)
         {
             var altitudeDegrees = altitudeRadians * 180 / Math.PI;
-            var formula = altitudeDegrees + (7.31 / (altitudeDegrees + 4.4));
+            //// var formula = altitudeDegrees + (7.31 / (altitudeDegrees + 4.4));
             var radians = Math.PI * altitudeDegrees / 180.0;
             return 1 / Math.Tan(radians) * 0.00029088820866572;
         }
@@ -227,7 +226,7 @@ namespace SCaddins.SolarAnalysis
         public static double GetSæmundssonAtmosphericRefraction(double altitudeRadians)
         {
             var altitudeDegrees = altitudeRadians * 180 / Math.PI;
-            var formula = ((1.02 * altitudeDegrees) + 10.3) / (altitudeDegrees + 5.11);
+            //// var formula = ((1.02 * altitudeDegrees) + 10.3) / (altitudeDegrees + 5.11);
             var radians = Math.PI * altitudeDegrees / 180.0;
             return 1 / Math.Tan(radians) * 0.00029088820866572;
         }
@@ -268,7 +267,8 @@ namespace SCaddins.SolarAnalysis
             }
             using (var c = new FilteredElementCollector(doc)) {
                 c.OfClass(typeof(View));
-                foreach (View view in c) {
+                foreach (var element in c) {
+                    var view = (View)element;
                     var v = view;
                     #if REVIT2019 || REVIT2020
                     if (v.Name == name) {
@@ -307,8 +307,8 @@ namespace SCaddins.SolarAnalysis
                 n++;
                 Element elem = doc.GetElement(r);
                 Face f = (Face)elem.GetGeometryObjectFromReference(r);
-                var normal = f.ComputeNormal(new UV(0, 0));
-                result.Add(new DirectSunTestFace(r, @"DirectSun(" + n.ToString(System.Globalization.CultureInfo.CurrentCulture) + @")", doc));
+                f.ComputeNormal(new UV(0, 0));
+                result.Add(new DirectSunTestFace(r, @"DirectSun(" + n.ToString(CultureInfo.CurrentCulture) + @")", doc));
             }
             return result;
         }

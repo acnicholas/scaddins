@@ -1,8 +1,6 @@
 ﻿namespace SCaddins.RunScript.Views
 {
-    using System.Windows.Controls;
-
-    public partial class RunScriptView : UserControl
+    public partial class RunScriptView
     {
         public RunScriptView()
         {

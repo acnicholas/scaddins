@@ -17,8 +17,6 @@
 
 namespace SCaddins.ExportManager
 {
-    using System;
-
     public class ExportLogItem
     {
         public ExportLogItem(string description, string filename)

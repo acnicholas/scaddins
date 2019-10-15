@@ -35,8 +35,6 @@ namespace SCaddins.ModelSetupWizard
                 return Result.Failed;
             }
 
-            Document doc = commandData.Application.ActiveUIDocument.Document;
-
             // Enable worsharing if required
             // Fix me add this at start
             ////if (doc.IsWorkshared == false)

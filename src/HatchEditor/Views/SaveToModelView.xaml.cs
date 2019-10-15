@@ -1,8 +1,6 @@
 ﻿namespace SCaddins.HatchEditor.Views
 {
-    using System.Windows.Controls;
-
-    public partial class SaveToModelView : UserControl
+    public partial class SaveToModelView
     {
         public SaveToModelView()
         {

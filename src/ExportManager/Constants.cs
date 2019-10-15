@@ -17,8 +17,6 @@
 
 namespace SCaddins.ExportManager
 {
-    using System;
-
     public static class Constants
     {
         /// <summary>

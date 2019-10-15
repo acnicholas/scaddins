@@ -17,12 +17,10 @@
 
 namespace SCaddins.ExportManager.Views
 {
-    using System.Windows.Controls;
-
     /// <summary>
     /// Interaction logic for ViewSetSelectionView.xaml
     /// </summary>
-    public partial class ViewSetSelectionView : UserControl
+    public partial class ViewSetSelectionView
     {
         public ViewSetSelectionView()
         {

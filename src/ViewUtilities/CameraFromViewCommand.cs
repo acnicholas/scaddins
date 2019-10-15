@@ -24,9 +24,9 @@ namespace SCaddins.ViewUtilities
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
-    [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
-    [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
+    [Transaction(TransactionMode.Manual)]
+    [Regeneration(RegenerationOption.Manual)]
+    [Journaling(JournalingMode.NoCommandData)]
     public class CameraFromViewCommand : IExternalCommand
     {
         public static UIView ActiveUIView(UIDocument udoc, Element planView)
@@ -109,10 +109,10 @@ namespace SCaddins.ViewUtilities
             return result;
         }
 
-        public Autodesk.Revit.UI.Result Execute(
+        public Result Execute(
                                                     ExternalCommandData commandData,
             ref string message,
-            Autodesk.Revit.DB.ElementSet elements)
+            ElementSet elements)
         {
             if (commandData == null)
             {
@@ -141,26 +141,25 @@ namespace SCaddins.ViewUtilities
 
                 default:
                     var msg = "Currently cameras can only be created in 3d and Plan views" +
-                       System.Environment.NewLine +
+                       Environment.NewLine +
                        "Please create sections/elevations from an isometric view";
 
-                    SCaddinsApp.WindowManager.ShowMessageBox("Opps", msg);
+                    SCaddinsApp.WindowManager.ShowMessageBox("Oops", msg);
                     break;
             }
 
-            return Autodesk.Revit.UI.Result.Succeeded;
+            return Result.Succeeded;
         }
 
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private static void CreatePerspectiveFrom3D(UIDocument udoc, View3D view)
         {
-            ViewOrientation3D v = view.GetOrientation();
-            View3D np;
+            var v = view.GetOrientation();
             using (var t = new Transaction(udoc.Document))
             {
                 if (t.Start("Create perspective view") == TransactionStatus.Started) {
-                XYZ centreOfScreen = GetMiddleOfActiveViewWindow(ActiveUIView(udoc, (View)view));
-                np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
+                var centreOfScreen = GetMiddleOfActiveViewWindow(ActiveUIView(udoc, (View)view));
+                var np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
                 np.SetOrientation(new ViewOrientation3D(new XYZ(centreOfScreen.X, centreOfScreen.Y, v.EyePosition.Z), v.UpDirection, v.ForwardDirection));
                 t.Commit();
                 np.Dispose();
@@ -211,8 +210,9 @@ namespace SCaddins.ViewUtilities
             using (var collector = new FilteredElementCollector(doc))
             {
                 collector.OfClass(typeof(ViewFamilyType));
-                foreach (ViewFamilyType viewFamilyType in collector)
+                foreach (var element in collector)
                 {
+                    var viewFamilyType = (ViewFamilyType)element;
                     if (viewFamilyType.ViewFamily == ViewFamily.ThreeDimensional)
                     {
                         viewFamilyTypes.Add(viewFamilyType);

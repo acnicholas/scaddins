@@ -24,7 +24,7 @@ namespace SCaddins.LineOfSight
     using System.Runtime.CompilerServices;
     using Autodesk.Revit.ApplicationServices;
     using Autodesk.Revit.DB;
-    using SCaddins.Common;
+    using Common;
 
     public class StadiumSeatingTier : INotifyPropertyChanged
     {
@@ -242,7 +242,7 @@ namespace SCaddins.LineOfSight
             {
                 t.Start();
 
-                string times = System.DateTime.Now.Ticks.ToString(System.Globalization.CultureInfo.CurrentCulture);
+                string times = DateTime.Now.Ticks.ToString(CultureInfo.CurrentCulture);
 
                 this.view = this.CreateLineOfSightDraftingView(
                     "LOS-X" + this.distanceToFirstRowX + "-Y" + this.distanceToFirstRowY + "-T" +
@@ -337,7 +337,7 @@ namespace SCaddins.LineOfSight
 
         private void DrawCircle(double x1, double y1, string s)
         {
-            Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
+            var app = this.doc.Application;
             const double Z = 0.0;
             XYZ point1 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x1), MiscUtilities.MillimetersToFeet(y1), MiscUtilities.MillimetersToFeet(Z));
             using (Arc arc = Arc.Create(

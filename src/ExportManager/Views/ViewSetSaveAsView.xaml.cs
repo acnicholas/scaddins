@@ -1,8 +1,6 @@
 ﻿namespace SCaddins.ExportManager.Views
 {
-    using System.Windows.Controls;
-
-    public partial class ViewSetSaveAsView : UserControl
+    public partial class ViewSetSaveAsView
     {
         public ViewSetSaveAsView()
         {

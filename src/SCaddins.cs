@@ -52,7 +52,7 @@ namespace SCaddins
             {
                 if (bootstrapper == null)
                 {
-                    bootstrapper = new SCaddins.Common.Bootstrapper();
+                    bootstrapper = new Common.Bootstrapper();
                 }
                 if (windowManager != null)
                 {
@@ -101,7 +101,7 @@ namespace SCaddins
             string downloadLink = latestVersion.assets.FirstOrDefault().browser_download_url;
             if (string.IsNullOrEmpty(downloadLink))
             {
-                downloadLink = SCaddins.Constants.DownloadLink;
+                downloadLink = Constants.DownloadLink;
             }
 
             if (latestAvailableVersion > installedVersion || !newOnly)
@@ -113,7 +113,7 @@ namespace SCaddins
                 settings.ShowInTaskbar = false;
                 settings.ResizeMode = System.Windows.ResizeMode.NoResize;
                 settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
-                var upgradeViewModel = new SCaddins.Common.ViewModels.UpgradeViewModel(installedVersion, latestAvailableVersion, info, downloadLink);
+                var upgradeViewModel = new Common.ViewModels.UpgradeViewModel(installedVersion, latestAvailableVersion, info, downloadLink);
                 SCaddinsApp.WindowManager.ShowDialog(upgradeViewModel, null, settings);
             }
         }
@@ -246,11 +246,11 @@ namespace SCaddins
         {
             try
             {
-                Assembly m_assembly = Assembly.LoadFrom(Path.Combine(path));
-                Stream m_icon = m_assembly.GetManifestResourceStream(sourceName);
-                PngBitmapDecoder m_decoder = new PngBitmapDecoder(m_icon, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-                ImageSource m_source = m_decoder.Frames[0];
-                return m_source;
+                Assembly assembly = Assembly.LoadFrom(Path.Combine(path));
+                var icon = assembly.GetManifestResourceStream(sourceName);
+                var decoder = new PngBitmapDecoder(icon, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+                ImageSource source = decoder.Frames[0];
+                return source;
             }
             catch (Exception ex)
             {

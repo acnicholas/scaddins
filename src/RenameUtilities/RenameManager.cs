@@ -19,6 +19,7 @@ namespace SCaddins.RenameUtilities
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Text.RegularExpressions;
     using Autodesk.Revit.DB;
@@ -28,7 +29,7 @@ namespace SCaddins.RenameUtilities
         private Caliburn.Micro.BindableCollection<RenameCandidate> renameCandidates;
         private RenameCommand renameCommand;
         private Caliburn.Micro.BindableCollection<RenameCommand> renameCommands;
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
+        [SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;
         private List<ElementId> elements;
 
@@ -282,6 +283,7 @@ namespace SCaddins.RenameUtilities
         ////    return string.Empty;
         ////}
 
+        [SuppressMessage("ReSharper", "UnusedMember.Local", Justification = "Used by Caliburn.Micro")]
         private static bool IsValidRevitName(string s)
         {
             return !(s.Contains("{") || s.Contains("}"));
