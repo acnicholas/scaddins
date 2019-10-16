@@ -1,17 +1,10 @@
-﻿using SCaddins.RoomConvertor;
-using SCaddins.SheetCopier;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System;
-using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.DB;
 using NUnit.Framework;
 using RTF.Applications;
 using RTF.Framework;
+using SCaddins.RoomConvertor;
 
-namespace SCaddins.RoomConvertor.Tests
+namespace SCaddins.Tests.RoomConvertor
 {
     [TestFixture()]
     public class RoomConversionManagerTests

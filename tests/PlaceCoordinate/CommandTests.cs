@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace SCaddins.PlaceCoordinate.Tests
+namespace SCaddins.Tests.PlaceCoordinate
 {
     [TestFixture()]
     public class CommandTests

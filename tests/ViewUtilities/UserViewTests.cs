@@ -4,8 +4,9 @@ using Autodesk.Revit.DB;
 using NUnit.Framework;
 using RTF.Applications;
 using RTF.Framework;
+using SCaddins.ViewUtilities;
 
-namespace SCaddins.ViewUtilities.Tests
+namespace SCaddins.Tests.ViewUtilities
 {
     [TestFixture()]
     public class UserViewTests
@@ -13,7 +14,7 @@ namespace SCaddins.ViewUtilities.Tests
         [SetUp]
         public void Setup()
         {
-            SCaddinsApp.WindowManager = new Common.WindowManager(new Common.MockDialogService());
+            SCaddinsApp.WindowManager = new SCaddins.Common.WindowManager(new SCaddins.Common.MockDialogService());
         }
 
         [Test()]
@@ -55,9 +56,9 @@ namespace SCaddins.ViewUtilities.Tests
                 .ToElements()
                 .Cast<View>()
                 .Where(v => v.Name.Contains("Section") && v.ViewType == ViewType.DrawingSheet);
-            var manager = new ExportManager.Manager(uidoc);
-            var sheet = new ExportManager.ExportSheet(sectionSheets.First() as ViewSheet, doc, manager.FileNameScheme, false, manager);
-            var sheetList = new List<ExportManager.ExportSheet>();
+            var manager = new SCaddins.ExportManager.Manager(uidoc);
+            var sheet = new SCaddins.ExportManager.ExportSheet(sectionSheets.First() as ViewSheet, doc, manager.FileNameScheme, false, manager);
+            var sheetList = new List<SCaddins.ExportManager.ExportSheet>();
             sheetList.Add(sheet);
             ////using (Transaction t = new Transaction(doc, "CreateTestViewSelection"))
             ////{

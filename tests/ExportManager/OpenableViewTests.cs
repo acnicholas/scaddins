@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace SCaddins.ExportManager.Tests
+namespace SCaddins.Tests.ExportManager
 {
     [TestFixture()]
     public class OpenableViewTests

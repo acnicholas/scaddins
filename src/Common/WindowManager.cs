@@ -11,7 +11,7 @@
         private const int GWLSTYLE = -16;
         private IDialogService dialogService;
 
-        public WindowManager(IDialogService dialogService) : base()
+        public WindowManager(IDialogService dialogService)
         { 
             this.dialogService = dialogService;
         }
@@ -42,7 +42,7 @@
             if (window != null) {
                 System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(window);
                 helper.Owner = Autodesk.Windows.ComponentManager.ApplicationWindow;
-                window.SourceInitialized += new EventHandler(Window_SourceInitialized);
+                window.SourceInitialized += Window_SourceInitialized;
                 window.SizeChanged += Window_SizeChanged;
                 window.LocationChanged += Window_LocationChanged;
             }

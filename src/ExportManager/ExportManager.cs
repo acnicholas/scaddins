@@ -32,12 +32,12 @@ namespace SCaddins.ExportManager
     using System.Xml.Schema;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using Microsoft.Win32;
     using Common;
+    using Microsoft.Win32;
     using Properties;
     using ArgumentException = Autodesk.Revit.Exceptions.ArgumentException;
     using PrintRange = Autodesk.Revit.DB.PrintRange;
-    
+
     public class Manager
     {
         private static string activeDoc;

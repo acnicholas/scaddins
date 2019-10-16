@@ -1,11 +1,12 @@
-﻿using Autodesk.Revit.DB;
+﻿using System;
+using System.Collections.Generic;
+using Autodesk.Revit.DB;
 using NUnit.Framework;
 using RTF.Applications;
 using RTF.Framework;
-using System;
-using System.Collections.Generic;
+using SCaddins.LineOfSight;
 
-namespace SCaddins.LineOfSight.Tests
+namespace SCaddins.Tests.LineOfSight
 {
     [TestFixture()]
     public class LineOfSightTests
@@ -55,7 +56,7 @@ namespace SCaddins.LineOfSight.Tests
         [SetUp]
         public void Setup()
         {
-            SCaddinsApp.WindowManager = new Common.WindowManager(new Common.MockDialogService());
+            SCaddinsApp.WindowManager = new SCaddins.Common.WindowManager(new SCaddins.Common.MockDialogService());
         }
 
         private static List<object[]> ManyCValues()

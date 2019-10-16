@@ -1,8 +1,9 @@
 ﻿using NUnit.Framework;
 using RTF.Applications;
 using RTF.Framework;
+using SCaddins.DestructivePurge;
 
-namespace SCaddins.DestructivePurge.Tests
+namespace SCaddins.Tests.DestructivePurge
 {
     [TestFixture()]
     public class DestructivePurgeUtilitilesTests
@@ -10,7 +11,7 @@ namespace SCaddins.DestructivePurge.Tests
         [SetUp]
         public void Setup()
         {
-            SCaddinsApp.WindowManager = new Common.WindowManager(new Common.MockDialogService());
+            SCaddinsApp.WindowManager = new SCaddins.Common.WindowManager(new SCaddins.Common.MockDialogService());
         }
 
         [Test()]

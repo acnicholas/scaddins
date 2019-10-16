@@ -1,16 +1,10 @@
-﻿using Autodesk.Revit.DB;
+﻿using System.Linq;
 using NUnit.Framework;
 using RTF.Applications;
 using RTF.Framework;
 using SCaddins.RevisionUtilities;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System;
 
-namespace SCaddins.RevisionUtilities.Tests
+namespace SCaddins.Tests.RevisionUtilities
 {
     [TestFixture()]
     public class RevisionUtilitiesTests

@@ -1,16 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System;
+﻿using System.Linq;
 using Autodesk.Revit.DB;
 using NUnit.Framework;
 using RTF.Applications;
 using RTF.Framework;
 using SCaddins.SolarAnalysis;
-using SCaddins.Tests.Common;
 
-namespace SCaddins.SolarAnalysis.Tests
+namespace SCaddins.Tests.SolarAnalysis
 {
     [TestFixture()]
     public class SolarAnalysisManagerTests
