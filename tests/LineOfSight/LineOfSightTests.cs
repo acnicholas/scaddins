@@ -43,15 +43,15 @@ namespace SCaddins.Tests.LineOfSight
             Assert.NotNull(view);
         }
 
-        [Test()]
-        [TestCaseSource("ManyCValues")]
-        public void GetCValueTest(int a, int b)
-        {
-            var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
-            StadiumSeatingTier los = new StadiumSeatingTier(doc, 1200, 900, 15, 60, 180, 20, 12000, 1000);
-            //Assert.Fail();
-            Assert.Pass();
-        }
+//        [Test()]
+//        [TestCaseSource("ManyCValues")]
+//        public void GetCValueTest(int a, int b)
+//        {
+//            var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
+//            StadiumSeatingTier los = new StadiumSeatingTier(doc, 1200, 900, 15, 60, 180, 20, 12000, 1000);
+//            //Assert.Fail();
+//            Assert.Pass();
+//        }
 
         [SetUp]
         public void Setup()
