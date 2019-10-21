@@ -139,14 +139,11 @@ namespace SCaddins.ExportManager.ViewModels
 
         public string SearchText
         {
-            get
-            {
-                return searchText;
-            }
+            get => searchText;
 
             set
             {
-                if (value != searchText)
+                if (searchText != null && value != searchText)
                 {
                     searchText = value;
                 }

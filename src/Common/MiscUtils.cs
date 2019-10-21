@@ -61,6 +61,7 @@ namespace SCaddins.Common
             }
 
             var date = dateValue.Trim();
+            // ReSharper disable once InconsistentNaming
             const string DateDelimiters = @"-.\/_ ";
             char[] c = DateDelimiters.ToCharArray();
             int d2 = date.LastIndexOfAny(c);

@@ -673,7 +673,9 @@ namespace SCaddins.ExportManager
             bool hide,
             Document doc)
         {
-            var view = doc.GetElement(vs.Id) as View;
+            if (!(doc.GetElement(vs.Id) is View view)) {
+                return;
+            }
             var t = new Transaction(doc, "Hide Title");
             t.Start();
             try {
@@ -873,9 +875,7 @@ namespace SCaddins.ExportManager
                         pm.Apply();
                         t.Commit();
                     } catch (InvalidOperationException) {
-                        if (log != null) {
-                            log.AddWarning(null, Resources.MessageCouldNotApplyPrintSettings);
-                        }
+                        log.AddWarning(null, Resources.MessageCouldNotApplyPrintSettings);
                         t.RollBack();
                     }
                 }
@@ -897,9 +897,7 @@ namespace SCaddins.ExportManager
             }
 
             using (var opts = GetDefaultDWGExportOptions()) {
-                if (log != null) {
-                    log.AddMessage(Resources.MessageAssigningExportOptions + opts);
-                }
+                log.AddMessage(Resources.MessageAssigningExportOptions + opts);
                 pm.PrintRange = PrintRange.Select;
                 var name = vs.FullExportName + Resources.FileExtensionDWG;
                 if (log != null) {

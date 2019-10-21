@@ -65,7 +65,7 @@ namespace SCaddins.DestructivePurge
                 var s = string.Empty;
                 var name = string.Empty;
                 foreach (var element in f) {
-                    var ii = (ImportInstance) element;
+                    var ii = (ImportInstance)element;
                     if (ii.IsLinked == linked)
                     {
                         s = string.Empty;

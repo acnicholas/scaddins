@@ -12,7 +12,7 @@
             "ActiveHatch",
             typeof(Hatch),
             typeof(HatchCanvas),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnPatternChange), new CoerceValueCallback(CoercedCallback)));
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnPatternChange, CoercedCallback));
 
         private double canvasScale;
         private VisualCollection children;
@@ -141,7 +141,7 @@
                     segsInMM.Add(s.ToMM(scale));
                 }
 
-                if (fillGrid.Offset == 0) {
+                if (Math.Abs(fillGrid.Offset) < 0.001) {
                     continue;
                 }
 
