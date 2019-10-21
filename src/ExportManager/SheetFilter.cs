@@ -27,19 +27,19 @@
                     {
                         return null;
                     }
-                    return new System.Predicate<object>(item => m == FirstDigitOfLastNumberInString((item as ExportSheet).FullExportName));
+                    return item => m == FirstDigitOfLastNumberInString((item as ExportSheet).FullExportName);
                 case "Number":
                     var n = FirstDigitOfLastNumberInString(FilterValue);
                     if (n == null)
                     {
                         return null;
                     }
-                    return new System.Predicate<object>(item => n == FirstDigitOfLastNumberInString((item as ExportSheet).SheetNumber));
+                    return item => n == FirstDigitOfLastNumberInString((item as ExportSheet).SheetNumber);
                 case "Name":
                     properyName = "SheetDescription";
                     var noNumbers = Regex.Replace(FilterValue, "[0-9-]", @" ");
-                    string[] parts = noNumbers.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-                    return new Predicate<object>(item => parts.Any(item.GetType().GetProperty(properyName).GetValue(item, null).ToString().Contains));
+                    string[] parts = noNumbers.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                    return item => parts.Any(item.GetType().GetProperty(properyName).GetValue(item, null).ToString().Contains);
                 case "Revision":
                     properyName = "SheetRevision";
                     break;
@@ -58,7 +58,7 @@
                 default:
                     return null;
             }    
-            return new Predicate<object>(item => item.GetType().GetProperty(properyName).GetValue(item, null).ToString().Equals(FilterValue, StringComparison.InvariantCulture));
+            return item => item.GetType().GetProperty(properyName).GetValue(item, null).ToString().Equals(FilterValue, StringComparison.InvariantCulture);
         }
 
         public override string ToString()
@@ -69,7 +69,7 @@
         private static string FirstDigitOfLastNumberInString(string s)
         {
             var onlyNumbers = Regex.Replace(s, "[^0-9]", @" ");
-            string[] numberParts = onlyNumbers.Split(new string[] { @" " }, StringSplitOptions.RemoveEmptyEntries);
+            string[] numberParts = onlyNumbers.Split(new[] { @" " }, StringSplitOptions.RemoveEmptyEntries);
             var n = numberParts.Where(v => v.Length > 1);
             if (n.Count() > 0) {
                 return n.Last().Substring(0, 1);

@@ -76,7 +76,7 @@ namespace SCaddins.PlaceCoordinate
                         family.Activate();
                         doc.Regenerate();
                     }
-                    FamilyInstance fi = doc.Create.NewFamilyInstance(
+                    doc.Create.NewFamilyInstance(
                         newLocation,
                         family,
                         Autodesk.Revit.DB.Structure.StructuralType.NonStructural);

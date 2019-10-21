@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2013-2018 by Andrew Nicholas
+// (C) Copyright 2013-2018 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -42,10 +42,11 @@ namespace SCaddins.ExportManager
         {
             foreach (var item in views) {
                 var sheet = item as ExportSheet;
-                if (sheet.Sheet != null) {
-                    UIApplication uiapp = new UIApplication(sheet.Sheet.Document.Application);
-                    uiapp.ActiveUIDocument.ActiveView = sheet.Sheet;
+                if (sheet == null || sheet.Sheet == null) {
+                    continue;
                 }
+                var uiapp = new UIApplication(sheet.Sheet.Document.Application);
+                uiapp.ActiveUIDocument.ActiveView = sheet.Sheet;
             }
         }
 

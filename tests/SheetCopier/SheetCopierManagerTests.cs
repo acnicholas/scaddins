@@ -65,7 +65,7 @@ namespace SCaddins.Tests.SheetCopier
         public void DuplicateViewOntoSheetTest()
         {
             var uidoc = RevitTestExecutive.CommandData.Application.ActiveUIDocument;
-            var manager = new SCaddins.SheetCopier.SheetCopierManager(uidoc);
+            var manager = new SheetCopierManager(uidoc);
             Assert.Fail();
         }
 
@@ -82,7 +82,7 @@ namespace SCaddins.Tests.SheetCopier
         public void GetAllViewsInModelTest()
         {
             var uidoc = RevitTestExecutive.CommandData.Application.ActiveUIDocument;
-            var manager = new SCaddins.SheetCopier.SheetCopierManager(uidoc);
+            var manager = new SheetCopierManager(uidoc);
             Assert.AreEqual(manager.ExistingViews.Count, 32);
         }
 
@@ -91,7 +91,7 @@ namespace SCaddins.Tests.SheetCopier
         public void GetNewSheetNumberTest()
         {
             var uidoc = RevitTestExecutive.CommandData.Application.ActiveUIDocument;
-            var manager = new SCaddins.SheetCopier.SheetCopierManager(uidoc);
+            var manager = new SheetCopierManager(uidoc);
             var testNumber = manager.GetNewSheetNumber("A210");
             var testNumber2 = manager.GetNewSheetNumber("A210");
             var testNumber3 = manager.GetNewSheetNumber(null);
@@ -125,7 +125,7 @@ namespace SCaddins.Tests.SheetCopier
         public void SheetNumberAvailableTest()
         {
             var uidoc = RevitTestExecutive.CommandData.Application.ActiveUIDocument;
-            var manager = new SCaddins.SheetCopier.SheetCopierManager(uidoc);
+            var manager = new SheetCopierManager(uidoc);
             //test some used numbers
             Assert.IsFalse(manager.SheetNumberAvailable("A001"));
             Assert.IsFalse(manager.SheetNumberAvailable("A210"));
@@ -143,7 +143,7 @@ namespace SCaddins.Tests.SheetCopier
         public void TryAssignViewTemplateTest()
         {
             var uidoc = RevitTestExecutive.CommandData.Application.ActiveUIDocument;
-            var manager = new SCaddins.SheetCopier.SheetCopierManager(uidoc);
+            var manager = new SheetCopierManager(uidoc);
             var view = manager.ExistingViews.Where(v => v.Key == "Level 1").First().Value;
             manager.TryAssignViewTemplate(view, "Architectural Plan");
             Assert.Pass();
@@ -154,7 +154,7 @@ namespace SCaddins.Tests.SheetCopier
         public void ViewNameAvailableTest()
         {
             var uidoc = RevitTestExecutive.CommandData.Application.ActiveUIDocument;
-            var manager = new SCaddins.SheetCopier.SheetCopierManager(uidoc);
+            var manager = new SheetCopierManager(uidoc);
             //test some used view names
             Assert.IsFalse(manager.ViewNameAvailable("Level 1"));
             Assert.IsFalse(manager.ViewNameAvailable("East"));

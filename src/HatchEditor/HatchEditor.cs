@@ -35,8 +35,9 @@ namespace SCaddins.HatchEditor
             using (var f = new FilteredElementCollector(doc))
             {
                 f.OfClass(typeof(FillPatternElement));
-                foreach (FillPatternElement e in f)
+                foreach (var element in f)
                 {
+                    var e = (FillPatternElement)element;
                     var h = new Hatch(e.GetFillPattern());
                     result.Add(h);
                 }

@@ -46,7 +46,7 @@
             </StackPanel>
         </Grid>
 
-        <FrameworkElement x:Name="dummy" Visibility="Collapsed"/>
+        <FrameworkElement Grid.Row="0" x:Name="dummy" Visibility="Collapsed"/>
 
         <DataGrid
             x:Name="Rooms"

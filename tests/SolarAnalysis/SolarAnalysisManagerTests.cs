@@ -64,13 +64,13 @@ namespace SCaddins.Tests.SolarAnalysis
         public void GoTest()
         {
             var udoc = RevitTestExecutive.CommandData.Application.ActiveUIDocument;
-            var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document; ;
+            var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
             var manager = new SolarAnalysisManager(udoc);
             //rotate an iso view.
             manager.RotateCurrentView = true;
             var views = new FilteredElementCollector(doc).OfClass(typeof(View)).ToElements().Cast<View>();
             var isoView = views.Where(v => v.Name == "3D View 01").First();
-            SCaddins.Tests.Common.TestUtilities.OpenView(isoView);
+            Common.TestUtilities.OpenView(isoView);
             Assert.IsTrue(manager.Go(new ModelSetupWizard.TransactionLog("test")));
 
             //create solar analysis views (sun eye views)

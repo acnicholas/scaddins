@@ -58,7 +58,7 @@
             </Expander>
         </Grid>
         <GridSplitter Grid.Row="0" Grid.Column="1" Height="Auto" Width="Auto"></GridSplitter>
-        <Grid Grid.Column="2">
+        <Grid Grid.Row="0" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="150*"></RowDefinition>
                 <RowDefinition Height="5"></RowDefinition>

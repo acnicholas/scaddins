@@ -25,7 +25,7 @@ namespace SCaddins.ExportManager.ViewModels
     {
         public RevisionSelectionViewModel(Autodesk.Revit.DB.Document doc)
         {
-            Revisions = new ObservableCollection<SCaddins.RevisionUtilities.RevisionItem>(RevisionUtilities.Manager.GetRevisions(doc));
+            Revisions = new ObservableCollection<RevisionUtilities.RevisionItem>(RevisionUtilities.Manager.GetRevisions(doc));
         }
 
         public static dynamic DefaultWindowSettings
@@ -43,7 +43,7 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public ObservableCollection<SCaddins.RevisionUtilities.RevisionItem> Revisions
+        public ObservableCollection<RevisionUtilities.RevisionItem> Revisions
         {
             get; set;
         }

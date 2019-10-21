@@ -82,10 +82,10 @@ namespace SCaddins.RenameUtilities
             get { return !string.Equals(this.oldValue, this.newValue, System.StringComparison.CurrentCulture); }
         }
 
-        private Parameter RevitParameter
-        {
-            get { return parameter; }
-        }
+//        private Parameter RevitParameter
+//        {
+//            get { return parameter; }
+//        }
 
         public bool Rename()
         {

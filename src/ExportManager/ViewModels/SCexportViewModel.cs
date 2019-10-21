@@ -42,7 +42,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public SCexportViewModel(Manager exportManager)
         {
-            printTypes = (new string[] { "Print A3", "Print A2", "Print Full Size" }).ToList();
+            printTypes = (new[] { "Print A3", "Print A2", "Print Full Size" }).ToList();
             selectedPrintType = "Print A3";
             this.exportManager = exportManager;
             isClosing = false;
@@ -412,7 +412,7 @@ namespace SCaddins.ExportManager.ViewModels
                     {
                         return;
                     }
-                    ExportSheet ss = sheets.Where<ExportSheet>(item => item.SheetNumber.Equals(activeSheetNumber, System.StringComparison.CurrentCulture)).First<ExportSheet>();
+                    ExportSheet ss = sheets.Where(item => item.SheetNumber.Equals(activeSheetNumber, System.StringComparison.CurrentCulture)).First();
                     SelectedSheet = ss;
                     NotifyOfPropertyChange(() => SelectedSheet);
                     break;
@@ -521,7 +521,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void RenameSheets()
         {
-            var renameManager = new SCaddins.RenameUtilities.RenameManager(
+            var renameManager = new RenameUtilities.RenameManager(
                 exportManager.Doc,
                 selectedSheets.Select(s => s.Id).ToList());
             var renameSheetModel = new SCaddins.RenameUtilities.ViewModels.RenameUtilitiesViewModel(renameManager);
@@ -639,7 +639,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         private void FilterByNumber(string number)
         {
-            var activeSheetName = Manager.CurrentViewNumber(exportManager.Doc);
+            Manager.CurrentViewNumber(exportManager.Doc);
             try
             {
                 var filter = new System.Predicate<object>(item => Regex.IsMatch(((ExportSheet)item).SheetNumber, @"^\D*" + number));

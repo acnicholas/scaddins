@@ -62,10 +62,10 @@ namespace SCaddins.DestructivePurge
             using (var f = new FilteredElementCollector(doc))
             {
                 f.OfClass(typeof(ImportInstance));
-                string s = string.Empty;
-                string name = string.Empty;
-                foreach (ImportInstance ii in f)
-                {
+                var s = string.Empty;
+                var name = string.Empty;
+                foreach (var element in f) {
+                    var ii = (ImportInstance) element;
                     if (ii.IsLinked == linked)
                     {
                         s = string.Empty;
@@ -134,8 +134,8 @@ namespace SCaddins.DestructivePurge
                             }
                         }
 
-                        try {
-                                ICollection<ElementId> deletedIdSet = doc.Delete(di.Id);
+                        try { 
+                            doc.Delete(di.Id);
                         } catch (ArgumentNullException anex) {
                             SCaddinsApp.WindowManager.ShowMessageBox("Failure", di.Id + System.Environment.NewLine + anex.Message);
                         } catch (ModificationForbiddenException mfex) {
@@ -383,13 +383,6 @@ namespace SCaddins.DestructivePurge
                 }
             }
             return s;
-        }
-
-        private static List<DeletableItem> Sheets(Document doc, bool placedOnSheet)
-        {
-            var result = new List<DeletableItem>();
-            result.AddRange(Views(doc, placedOnSheet, ViewType.DrawingSheet));
-            return result;
         }
     }
 }

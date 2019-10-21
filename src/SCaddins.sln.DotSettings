@@ -1,11 +1,17 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=CAD/@EntryIndexedValue">CAD</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=DGN/@EntryIndexedValue">DGN</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=DWF/@EntryIndexedValue">DWF</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=DWG/@EntryIndexedValue">DWG</s:String>
+	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=MGA/@EntryIndexedValue">MGA</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=MM/@EntryIndexedValue">MM</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=OK/@EntryIndexedValue">OK</s:String>
+	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=PDF/@EntryIndexedValue">PDF</s:String>
+	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=SC/@EntryIndexedValue">SC</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=UI/@EntryIndexedValue">UI</s:String>
+	<s:String x:Key="/Default/CodeStyle/Naming/XamlNaming/Abbreviations/=DWG/@EntryIndexedValue">DWG</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/XamlNaming/Abbreviations/=OK/@EntryIndexedValue">OK</s:String>
+	<s:String x:Key="/Default/CodeStyle/Naming/XamlNaming/Abbreviations/=PDF/@EntryIndexedValue">PDF</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=expandtab/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Ghostscript/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Revit/@EntryIndexedValue">True</s:Boolean>

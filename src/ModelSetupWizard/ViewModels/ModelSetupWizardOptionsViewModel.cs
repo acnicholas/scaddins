@@ -188,20 +188,18 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         public void ExportConfig()
         {
             Apply();
-            string filePath = string.Empty;
-            SCaddinsApp.WindowManager.ShowSaveFileDialog(@"config.xml", "*.xml", "XML |*.xml", out filePath);
+            SCaddinsApp.WindowManager.ShowSaveFileDialog(@"config.xml", "*.xml", "XML |*.xml", out var filePath);
             SettingsIO.Export(filePath);
         }
 
         public void ImportConfig()
         {
-            string filePath = string.Empty;
-            bool? result = SCaddinsApp.WindowManager.ShowOpenFileDialog(string.Empty, out filePath);
-            if (result.HasValue && result.Value && System.IO.File.Exists(filePath))
-            {
-                SettingsIO.Import(filePath);
-                Reset();
+            var result = SCaddinsApp.WindowManager.ShowOpenFileDialog(string.Empty, out var filePath);
+            if (!result.HasValue || !result.Value || !System.IO.File.Exists(filePath)) {
+                return;
             }
+            SettingsIO.Import(filePath);
+            Reset();
         }
 
         public void RemoveArchitect()

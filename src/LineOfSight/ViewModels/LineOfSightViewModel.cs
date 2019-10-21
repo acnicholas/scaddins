@@ -17,12 +17,14 @@
 
 namespace SCaddins.LineOfSight.ViewModels
 {
+    using System;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
     internal class LineOfSightViewModel : PropertyChangedBase
     {
         private StadiumSeatingTier lineOfSight;
+        private double tolerance = 0.001;
 
         public LineOfSightViewModel(Document doc)
         {
@@ -46,7 +48,7 @@ namespace SCaddins.LineOfSight.ViewModels
 
             set
             {
-                if (value != lineOfSight.DistanceToFirstRowX) {
+                if (Math.Abs(value - lineOfSight.DistanceToFirstRowX) > tolerance) {
                     try {
                         lineOfSight.DistanceToFirstRowX = value;
                         NotifyOfPropertyChange(() => DistanceToFirstRowX);
@@ -82,7 +84,7 @@ namespace SCaddins.LineOfSight.ViewModels
 
             set
             {
-                if (value != lineOfSight.EyeHeight) {
+                if (Math.Abs(value - lineOfSight.EyeHeight) > tolerance) {
                     lineOfSight.EyeHeight = value;
                     NotifyOfPropertyChange(() => EyeHeight);
                     NotifyOfPropertyChange(() => InfoString);
@@ -174,7 +176,7 @@ namespace SCaddins.LineOfSight.ViewModels
 
             set
             {
-                if (value != lineOfSight.TreadSize) {
+                if (Math.Abs(value - lineOfSight.TreadSize) > tolerance) {
                     lineOfSight.TreadSize = value;
                     NotifyOfPropertyChange(() => TreadSize);
                     NotifyOfPropertyChange(() => InfoString);

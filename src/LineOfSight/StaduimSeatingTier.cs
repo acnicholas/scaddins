@@ -54,6 +54,8 @@ namespace SCaddins.LineOfSight
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "view")]
         private View view;
 
+        private double tolerance = 0.001;
+
         /// <summary>
         /// A class to create line of sight drafting views in Revit
         /// </summary>
@@ -106,7 +108,7 @@ namespace SCaddins.LineOfSight
 
             set
             {
-                if (distanceToFirstRowX != value) {
+                if (Math.Abs(distanceToFirstRowX - value) > tolerance) {
                     try {
                         distanceToFirstRowX = value;
                         if (distanceToFirstRowX > 1) {
@@ -125,7 +127,7 @@ namespace SCaddins.LineOfSight
 
             set
             {
-                if (distanceToFirstRowY != value) {
+                if (Math.Abs(distanceToFirstRowY - value) > tolerance) {
                     distanceToFirstRowY = value;
                     UpdateRows();
                 }
@@ -138,10 +140,11 @@ namespace SCaddins.LineOfSight
 
             set
             {
-                if (eyeHeight != value) {
-                    eyeHeight = value;
-                    UpdateRows();
+                if (!(Math.Abs(eyeHeight - value) > tolerance)) {
+                    return;
                 }
+                eyeHeight = value;
+                UpdateRows();
             }
         }
 
@@ -206,7 +209,7 @@ namespace SCaddins.LineOfSight
 
             set
             {
-                if (treadSize != value)
+                if (Math.Abs(treadSize - value) > tolerance)
                 {
                     treadSize = value;
                     UpdateRows();
@@ -370,7 +373,7 @@ namespace SCaddins.LineOfSight
 
         private void DrawLine(double x1, double y1, double x2, double y2, string s)
         {
-            Autodesk.Revit.ApplicationServices.Application app = this.doc.Application;
+            var app = this.doc.Application;
             const double Z = 0.0;
             XYZ point1 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x1), MiscUtilities.MillimetersToFeet(y1), MiscUtilities.MillimetersToFeet(Z));
             XYZ point2 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x2), MiscUtilities.MillimetersToFeet(y2), MiscUtilities.MillimetersToFeet(Z));
@@ -422,8 +425,8 @@ namespace SCaddins.LineOfSight
         {
             Application app = this.doc.Application;
             XYZ origin = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x), MiscUtilities.MillimetersToFeet(y), 0);
-            XYZ normalBase = app.Create.NewXYZ(vx, vy, 0);
-            XYZ normal_up = app.Create.NewXYZ(0, 1, 0);
+            //// XYZ normalBase = app.Create.NewXYZ(vx, vy, 0);
+            //// XYZ normal_up = app.Create.NewXYZ(0, 1, 0);
             using (TextNoteOptions tno = new TextNoteOptions())
             {
                 tno.TypeId = doc.GetDefaultElementTypeId(ElementTypeGroup.TextNoteType);

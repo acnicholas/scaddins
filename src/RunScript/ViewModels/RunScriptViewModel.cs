@@ -121,12 +121,7 @@ public static void Main(Document doc)
         }
         
         private bool CanSave => !string.IsNullOrEmpty(currentFileName);
-
-        private IHighlightingDefinition SyntaxHighlightingTheme
-        {
-            get; set;
-        }
-
+        
         private System.Windows.Media.Brush Background
         {
             get; set;

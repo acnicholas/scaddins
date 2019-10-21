@@ -97,7 +97,7 @@ namespace SCaddins.ParameterUtilities
             }
         }
 
-        public static void RenumberBySpline(ElementId id, Document doc)
+/*        public static void RenumberBySpline(ElementId id, Document doc)
         {
             if (doc != null) {
                 using (FilteredElementCollector collector = new FilteredElementCollector(doc, doc.ActiveView.Id)) {
@@ -106,7 +106,7 @@ namespace SCaddins.ParameterUtilities
                     if (spline is CurveElement) {
                         CurveElement ce = spline as CurveElement;
                         foreach (Element e in collector) {
-                            Room room = e as Room;
+                            //// Room room = e as Room;
                             if (ce.CurveElementType == CurveElementType.ModelCurve) {
                                 // IntersectionResultArray results;
                                 // SetComparisonResult result = ce.GeometryCurve.Intersect(room.Geometry, out results );
@@ -115,7 +115,7 @@ namespace SCaddins.ParameterUtilities
                     }
                 }
             }
-        }
+        }*/
         
         public Result Execute(
             ExternalCommandData commandData,
@@ -131,13 +131,13 @@ namespace SCaddins.ParameterUtilities
             UIApplication app = commandData.Application;
             commandData.Application.DialogBoxShowing += DismissDuplicateQuestion;
             
-            IList<ElementId> elems = udoc.Selection.GetElementIds().ToList<ElementId>();
+            IList<ElementId> elems = udoc.Selection.GetElementIds().ToList();
             
             if (elems.Count == 0) {
                 RenumberByPicks(udoc, doc, app);
-            } else {
+            } /*else {
                 RenumberBySpline(elems[0], doc);
-            }
+            }*/
             return Result.Succeeded;
         }
 

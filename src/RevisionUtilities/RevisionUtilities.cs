@@ -105,7 +105,7 @@ namespace SCaddins.RevisionUtilities
 
             excelApp = new Application();
             excelApp.Visible = false;
-            excelWorkbook = (Workbook)excelApp.Workbooks.Add(Missing.Value);
+            excelWorkbook = excelApp.Workbooks.Add(Missing.Value);
             excelWorksheet = (Worksheet)excelWorkbook.ActiveSheet;
 
             int cloudNumber = 0;

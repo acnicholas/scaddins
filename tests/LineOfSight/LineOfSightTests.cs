@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Autodesk.Revit.DB;
 using NUnit.Framework;
 using RTF.Applications;
@@ -59,16 +58,16 @@ namespace SCaddins.Tests.LineOfSight
             SCaddinsApp.WindowManager = new SCaddins.Common.WindowManager(new SCaddins.Common.MockDialogService());
         }
 
-        private static List<object[]> ManyCValues()
-        {
-            var testParams = new List<object[]>
-            {
-                new object[] {1, 60},
-                new object[] {2, 90},
-                new object[] {3, 100}
-            };
-
-            return testParams;
-        }
+//        private static List<object[]> ManyCValues()
+//        {
+//            var testParams = new List<object[]>
+//            {
+//                new object[] {1, 60},
+//                new object[] {2, 90},
+//                new object[] {3, 100}
+//            };
+//
+//            return testParams;
+//        }
     }
 }

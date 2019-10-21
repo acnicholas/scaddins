@@ -94,7 +94,7 @@ namespace SCaddins
 
             LatestVersion latestVersion = JsonConvert.DeserializeObject<LatestVersion>(latestAsJson);
 
-            var installedVersion = SCaddinsApp.Version;
+            var installedVersion = Version;
             Version latestAvailableVersion = new Version(latestVersion.tag_name.Replace("v", string.Empty).Trim());
             string info = latestVersion.body;
 

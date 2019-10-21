@@ -34,7 +34,7 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <Label Grid.Column="0" Margin="5" Content="Horizontal Distance from Focus"/>
-                    <TextBox x:Name="DistanceToFirstRowX" Grid.Column="1" Margin="5"></TextBox>
+                    <TextBox x:Name="DistanceToFirstRowX" Grid.Row="0" Grid.Column="1" Margin="5"></TextBox>
                     <Label Grid.Row="1" Grid.Column="0" Margin="5" Content="Vertical Rise from Focus"/>
                     <TextBox x:Name="DistanceToFirstRowY" Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
                     <Label Grid.Row="2" Grid.Column="0" Margin="5" Content="Number of Rows Required"/>
@@ -53,7 +53,7 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <Label Grid.Column="0" Margin="5" Content="Seat (Tread) Width"/>
-                    <TextBox x:Name="TreadSize" Margin="5" Grid.Column="1"></TextBox>
+                    <TextBox x:Name="TreadSize" Margin="5" Grid.Row="0" Grid.Column="1"></TextBox>
                     <Label Grid.Row="1" Grid.Column="0" Margin="5" Content="Minimum Step Height"/>
                     <TextBox x:Name="MinimumRiserHeight" Margin="5" Grid.Row="1" Grid.Column="1"></TextBox>
                     <Label Grid.Row="2" Grid.Column="0" Margin="5" Content="Minimum Step Increment"/>
@@ -72,7 +72,7 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <Label Grid.Column="0" Margin="5" Content="Persons Eye Height"/>
-                    <TextBox x:Name="EyeHeight" Margin="5" Grid.Column="1"></TextBox>
+                    <TextBox x:Name="EyeHeight" Margin="5" Grid.Row="0" Grid.Column="1"></TextBox>
                     <Label Grid.Row="1" Grid.Column="0" Margin="5" Content="Minimum Clearance 'C' Value"/>
                     <TextBox x:Name="MinimumCValue" Margin="5" Grid.Row="1" Grid.Column="1"></TextBox>
                 </Grid>
@@ -89,8 +89,8 @@
                 </Grid.ColumnDefinitions>
             </Grid>
         </Grid>
-        <GridSplitter Grid.Column="1" Grid.RowSpan="1"  HorizontalAlignment="Stretch" Width="5"></GridSplitter>
-        <Grid Grid.Column="2">
+        <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="1"  HorizontalAlignment="Stretch" Width="5"></GridSplitter>
+        <Grid Grid.Row="0" Grid.Column="2">
             <GroupBox Header="Information" Margin="5">
                 <TextBox x:Name="InfoString" Margin="5" MinWidth="250"></TextBox>
             </GroupBox>

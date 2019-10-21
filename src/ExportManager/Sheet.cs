@@ -401,8 +401,8 @@ namespace SCaddins.ExportManager
 
         public string RevitScaleWithoutFormatting()
         {
-            string result = this.scale.Trim();
-            int i = 0;
+            var result = this.scale.Trim();
+            var i = 0;
             if (result.Contains(":"))
             {
                 i = result.IndexOf(':');
@@ -460,7 +460,7 @@ namespace SCaddins.ExportManager
             {
                 return;
             }
-            b = turnOn == true ? 1 : 0;
+            b = turnOn ? 1 : 0;
             p.Set(b);
             NorthPointVisible = turnOn;
         }

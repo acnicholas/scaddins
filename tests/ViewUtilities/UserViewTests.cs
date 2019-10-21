@@ -26,9 +26,8 @@ namespace SCaddins.Tests.ViewUtilities
                .OfClass(typeof(View))
                .ToElements()
                .Cast<View>()
-               .Where(v => v.Name == "Level 1")
-               .First();
-            SCaddins.Tests.Common.TestUtilities.OpenView(view);
+               .First(v => v.Name == "Level 1");
+            Common.TestUtilities.OpenView(view);
             var newUserViewCount = 0;
             using (Transaction t = new Transaction(doc, "CreateTestViewSelection"))
             {
