@@ -231,7 +231,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         {
             string filePath = string.Empty;
             bool? result = SCaddinsApp.WindowManager.ShowOpenFileDialog(string.Empty, out filePath);
-            if (result.HasValue && result.Value == true && System.IO.File.Exists(filePath)) {
+            if (result.HasValue && result.Value && System.IO.File.Exists(filePath)) {
                 SettingsIO.Import(filePath);
                 Reset();
             }
@@ -252,8 +252,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             foreach (var newWorksetDef in newWorksets)
             {
                 var segs = newWorksetDef.Split(';');
-                bool b = false;
-                var r = bool.TryParse(segs[1].Trim(), out b);
+                var b = false;
+                bool.TryParse(segs[1].Trim(), out b);
                 if (!string.IsNullOrEmpty(segs[0]))
                 {
                     if (segs.Length > 2 && !string.IsNullOrEmpty(segs[2]))

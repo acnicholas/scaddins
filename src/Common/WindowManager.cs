@@ -3,13 +3,15 @@
     using System;
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
+    using Properties;
 
 #pragma warning disable CA1060 // Move pinvokes to native methods class
     public class WindowManager : Caliburn.Micro.WindowManager
 #pragma warning restore CA1060 // Move pinvokes to native methods class
     {
+        // ReSharper disable once InconsistentNaming
         private const int GWLSTYLE = -16;
-        private IDialogService dialogService;
+        private readonly IDialogService dialogService;
 
         public WindowManager(IDialogService dialogService)
         { 
@@ -147,7 +149,7 @@
             var value = GetWindowLong(handle, GWLSTYLE);
             var ret = SetWindowLong(handle, GWLSTYLE, value & -131073 & -65537);
             if (ret == 0) {
-                Console.WriteLine("WARNING: could not set window style");
+                Console.WriteLine(Resources.WindowManager_Window_SourceInitialized_WARNING__could_not_set_window_style);
             }
         }
     }

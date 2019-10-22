@@ -26,12 +26,10 @@ namespace SCaddins.ExportManager.ViewModels
     internal class OptionsViewModel : PropertyChangedBase
     {
         private Manager exportManager;
-        private SCexportViewModel exportManagerViewModel;
 
-        public OptionsViewModel(Manager exportManager, SCexportViewModel exportManagerViewModel)
+        public OptionsViewModel(Manager exportManager)
         {
             this.exportManager = exportManager;
-            this.exportManagerViewModel = exportManagerViewModel;
         }
 
         public static List<Autodesk.Revit.DB.ACADVersion> AutoCADExportVersions {

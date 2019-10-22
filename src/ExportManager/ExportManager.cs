@@ -900,10 +900,8 @@ namespace SCaddins.ExportManager
                 log.AddMessage(Resources.MessageAssigningExportOptions + opts);
                 pm.PrintRange = PrintRange.Select;
                 var name = vs.FullExportName + Resources.FileExtensionDWG;
-                if (log != null) {
-                    log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
-                    log.AddMessage(Resources.MessageExportingToFileName + name);
-                }
+                log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
+                log.AddMessage(Resources.MessageExportingToFileName + name);
                 Doc.Export(vs.ExportDirectory, name, views, opts);
             }
 

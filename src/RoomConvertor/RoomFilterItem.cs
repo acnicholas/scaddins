@@ -17,9 +17,11 @@
 
 namespace SCaddins.RoomConvertor
 {
+    using System;
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
+    using static System.String;
 
     public class RoomFilterItem
     {
@@ -41,7 +43,7 @@ namespace SCaddins.RoomConvertor
 
         public bool IsValid()
         {
-            return !string.IsNullOrEmpty(test);
+            return !IsNullOrEmpty(test);
         }
 
         public bool PassesFilter(Room room)
@@ -98,46 +100,45 @@ namespace SCaddins.RoomConvertor
 
         private static int ParameterComparedToString(Parameter param, string value)
         {
-            const int RESULT = 441976;
-            if (!param.HasValue || string.IsNullOrWhiteSpace(value))
+            // ReSharper disable once InconsistentNaming
+            const int Result = 441976;
+            if (!param.HasValue || IsNullOrWhiteSpace(value))
             {
-                return RESULT;
+                return Result;
             }
             switch (param.StorageType)
             {
                 case StorageType.Double:
-                    double parse;
-                    if (double.TryParse(value, out parse))
+                    if (double.TryParse(value, out var parse))
                     {
                         return param.AsDouble().CompareTo(parse);
                     }
                     break;
 
                 case StorageType.String:
-#pragma warning disable CA1307 // Specify StringComparison
-                return param.AsString().CompareTo(value);
-#pragma warning restore CA1307 // Specify StringComparison
+                #pragma warning disable CA1307 // Specify StringComparison
+                return Compare(param.AsString(), value, StringComparison.Ordinal);
+                #pragma warning restore CA1307 // Specify StringComparison
 
                 case StorageType.Integer:
-                    int iparse;
-                    if (int.TryParse(value, out iparse))
+                    if (int.TryParse(value, out var iparse))
                     {
                         return param.AsInteger().CompareTo(iparse);
                     }
                     break;
 
                 case StorageType.ElementId:
-                    return RESULT;
+                    return Result;
 
                 default:
-                    return RESULT;
+                    return Result;
             }
-            return RESULT;
+            return Result;
         }
 
         private static bool ParameterValueContainsString(Parameter param, string value)
         {
-            if (!param.HasValue || string.IsNullOrWhiteSpace(value))
+            if (!param.HasValue || IsNullOrWhiteSpace(value))
             {
                 return false;
             }
@@ -184,7 +185,7 @@ namespace SCaddins.RoomConvertor
             var collector = new FilteredElementCollector(room.Document)
                 .OfClass(typeof(Level))
                 .Cast<Level>()
-                .Where<Level>(lvl => lvl.Name == test);
+                .Where(lvl => lvl.Name == test);
 
             if (collector.Any())
             {

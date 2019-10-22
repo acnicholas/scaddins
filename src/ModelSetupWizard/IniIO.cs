@@ -81,29 +81,25 @@ namespace SCaddins.ModelSetupWizard
         public static System.Windows.Media.Color ConvertStringToColor(string hex)
         {
             byte a = 255;
-            byte r = 255;
-            byte g = 255;
-            byte b = 255;
-
-            int start = 0;
+            var start = 0;
 
             if (hex.Length == 8) {
                 a = byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture);
                 start = 2;
             }
 
-            b = byte.Parse(hex.Substring(start, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture);
-            g = byte.Parse(hex.Substring(start + 2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture);
-            r = byte.Parse(hex.Substring(start + 4, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture);
+            var b = byte.Parse(hex.Substring(start, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture);
+            var g = byte.Parse(hex.Substring(start + 2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture);
+            var r = byte.Parse(hex.Substring(start + 4, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture);
 
             return System.Windows.Media.Color.FromArgb(a, r, g, b);
         }
 
         public static string GetIniFile(Document doc)
         {
-            string version = doc.Application.VersionName;
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string fullPath = System.IO.Path.Combine(path, @"Autodesk\Revit", version, @"Revit.ini");
+            var version = doc.Application.VersionName;
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var fullPath = System.IO.Path.Combine(path, @"Autodesk\Revit", version, @"Revit.ini");
             return System.IO.File.Exists(fullPath) ? fullPath : string.Empty;
         }
 

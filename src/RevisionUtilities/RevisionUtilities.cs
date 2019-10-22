@@ -160,8 +160,8 @@ namespace SCaddins.RevisionUtilities
                 {
                     a.OfCategory(BuiltInCategory.OST_RevisionClouds);
                     a.OfClass(typeof(RevisionCloud));
-                    foreach (RevisionCloud e in a)
-                    {
+                    foreach (var element in a) {
+                        var e = (RevisionCloud)element;
                         revisionClouds.Add(new RevisionCloudItem(doc, e));
                     }
                 }
@@ -175,8 +175,8 @@ namespace SCaddins.RevisionUtilities
             using (var a = new FilteredElementCollector(doc))
             {
                 a.OfCategory(BuiltInCategory.OST_Revisions);
-                foreach (Revision e in a)
-                {
+                foreach (var element in a) {
+                    var e = (Revision)element;
                     if (e.IsValidObject)
                     {
                         revisions.Add(new RevisionItem(e));
@@ -191,6 +191,7 @@ namespace SCaddins.RevisionUtilities
         /// from here:
         /// http://www.clear-lines.com/blog/post/Write-data-to-an-Excel-worksheet-with-C-fast.aspx
         /// </summary>
+        /// <param name="data"></param>
         /// <param name="rows"></param>
         /// <param name="columns"></param>
         /// <param name="worksheet"></param>

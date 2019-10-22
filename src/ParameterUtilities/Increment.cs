@@ -182,14 +182,25 @@ namespace SCaddins.ParameterUtilities
 
         private static void SetParameterToValue(Parameter p, int i)
         {
-            if (p.StorageType == StorageType.Integer) {
-                p.Set(i);
-            } else if (p.StorageType == StorageType.String) {
-                string s = p.AsString();
-                if (string.IsNullOrEmpty(s)) {
-                    s = "0";
+            switch (p.StorageType) {
+                case StorageType.Integer:
+                    p.Set(i);
+                    break;
+                case StorageType.String: {
+                    var s = p.AsString();
+                    if (!string.IsNullOrEmpty(s)) {
+                        p.Set(GetDestinationNumberAsString(p.AsString(), i));
+                    }
+                    break;
                 }
-                p.Set(GetDestinationNumberAsString(p.AsString(), i));
+                case StorageType.None:
+                    break;
+                case StorageType.Double:
+                    break;
+                case StorageType.ElementId:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }

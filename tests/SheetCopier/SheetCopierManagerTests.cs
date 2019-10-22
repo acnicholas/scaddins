@@ -51,23 +51,23 @@ namespace SCaddins.Tests.SheetCopier
             Assert.Fail();
         }
 
-        [Test()]
-        [TestModel(@"./scaddins_test_model.rvt")]
-        public void DeleteRevisionCloudsTest()
-        {
-            var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
-            // SheetCopierManager.DeleteRevisionClouds()
-            Assert.Fail();
-        }
+//        [Test()]
+//        [TestModel(@"./scaddins_test_model.rvt")]
+//        public void DeleteRevisionCloudsTest()
+//        {
+//            var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
+//            // SheetCopierManager.DeleteRevisionClouds()
+//            Assert.Fail();
+//        }
 
-        [Test()]
-        [TestModel(@"./scaddins_test_model.rvt")]
-        public void DuplicateViewOntoSheetTest()
-        {
-            var uidoc = RevitTestExecutive.CommandData.Application.ActiveUIDocument;
-            var manager = new SheetCopierManager(uidoc);
-            Assert.Fail();
-        }
+//        [Test()]
+//        [TestModel(@"./scaddins_test_model.rvt")]
+//        public void DuplicateViewOntoSheetTest()
+//        {
+//            var uidoc = RevitTestExecutive.CommandData.Application.ActiveUIDocument;
+//            var manager = new SheetCopierManager(uidoc);
+//            Assert.Fail();
+//        }
 
         [Test()]
         [TestModel(@"./scaddins_test_model.rvt")]

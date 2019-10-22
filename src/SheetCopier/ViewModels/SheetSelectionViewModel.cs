@@ -17,6 +17,7 @@
 
 namespace SCaddins.SheetCopier.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Dynamic;
     using System.Linq;
@@ -67,7 +68,14 @@ namespace SCaddins.SheetCopier.ViewModels
             try {
                 selectedSheets.AddRange(eventArgs.AddedItems.Cast<ViewSheet>());
                 eventArgs.RemovedItems.Cast<ViewSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
-            } catch {
+            }
+            catch (ArgumentNullException argumentNullException) {
+                Console.WriteLine(argumentNullException.Message);
+            }
+            catch (InvalidCastException invalidCastException) {
+                Console.WriteLine(invalidCastException.Message);
+            } catch (InvalidOperationException invalidOperationException) {
+                Console.WriteLine(invalidOperationException.Message);
             }
         }
 

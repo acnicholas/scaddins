@@ -46,7 +46,8 @@ namespace SCaddins.PlaceCoordinate
             using (var collector = new FilteredElementCollector(doc)) {
                 collector.OfCategory(BuiltInCategory.OST_GenericModel);
                 collector.OfClass(typeof(FamilySymbol));
-                foreach (FamilySymbol fs in collector) {
+                foreach (var element in collector) {
+                    var fs = (FamilySymbol)element;
                     result.Add(fs);
                 }
             }

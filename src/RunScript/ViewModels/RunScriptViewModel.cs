@@ -21,7 +21,6 @@ namespace SCaddins.RunScript.ViewModels
     using System.Dynamic;
     using System.IO;
     using Caliburn.Micro;
-    using ICSharpCode.AvalonEdit.Highlighting;
 
     internal class RunScriptViewModel : Screen
     {
@@ -100,7 +99,7 @@ public static void Main(Document doc)
                     using (StringReader sr = new StringReader(Output)) {
                         string line;
                         while ((line = sr.ReadLine()) != null) {
-                            outputList.Add(line.Substring(line.IndexOf("(")));
+                            outputList.Add(line.Substring(line.IndexOf("(", StringComparison.Ordinal)));
                         }
                     }
                 }
@@ -121,11 +120,6 @@ public static void Main(Document doc)
         }
         
         private bool CanSave => !string.IsNullOrEmpty(currentFileName);
-        
-        private System.Windows.Media.Brush Background
-        {
-            get; set;
-        }
         
         public void LoadScratch()
         {

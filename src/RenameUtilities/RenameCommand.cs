@@ -17,7 +17,6 @@
             replacementPattern = string.Empty;
             searchPattern = string.Empty;
             HasInputParameters = false;
-            Name = name;
             ReplacementPatternHint = string.Empty;
             SearchPatternHint = string.Empty;
         }
@@ -28,7 +27,6 @@
             ReplacementPattern = replacement;
             SearchPattern = search;
             HasInputParameters = true;
-            Name = name;
             ReplacementPatternHint = "Replacement Pattern";
             SearchPatternHint = "Search Pattern";
         }
@@ -40,28 +38,18 @@
             get; private set;
         }
 
-        public string Name
-        {
-            get;
-        }
-
         public string ReplacementPattern
         {
-            get
-            {
-                return replacementPattern;
-            }
+            get => replacementPattern;
 
             set
             {
-                if (value != replacementPattern)
+                if (replacementPattern != null && value != replacementPattern)
                 {
                     replacementPattern = value;
                 }
-                if (this.PropertyChanged != null)
-                {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(ReplacementPattern)));
-                }
+
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ReplacementPattern)));
             }
         }
 

@@ -19,7 +19,7 @@ namespace SCaddins.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -151,7 +151,7 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tue 17/09/2019 13:52:14.81 
+        ///   Looks up a localized string similar to Tue 22/10/2019 14:41:09.83 
         ///.
         /// </summary>
         internal static string BuildDate {
@@ -1750,6 +1750,15 @@ namespace SCaddins.Properties {
         internal static string Wiki {
             get {
                 return ResourceManager.GetString("Wiki", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WARNING: could not set window style.
+        /// </summary>
+        internal static string WindowManager_Window_SourceInitialized_WARNING__could_not_set_window_style {
+            get {
+                return ResourceManager.GetString("WindowManager_Window_SourceInitialized_WARNING__could_not_set_window_style", resourceCulture);
             }
         }
         

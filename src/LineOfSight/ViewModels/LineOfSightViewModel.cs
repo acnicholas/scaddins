@@ -54,7 +54,7 @@ namespace SCaddins.LineOfSight.ViewModels
                         NotifyOfPropertyChange(() => DistanceToFirstRowX);
                         NotifyOfPropertyChange(() => InfoString);
                     } catch {
-                        ///FIXME somehow....
+                        //// FIXME somehow....
                     }
                 }
             }

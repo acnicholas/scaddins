@@ -136,7 +136,8 @@ namespace SCaddins.RoomConvertor
 
             using (var collector = new FilteredElementCollector(doc)) {
                 collector.OfCategory(BuiltInCategory.OST_TitleBlocks).OfClass(typeof(FamilySymbol));
-                foreach (FamilySymbol e in collector) {
+                foreach (var element in collector) {
+                    var e = (FamilySymbol)element;
                     var s = e.Family.Name + "-" + e.Name;
                     if (!result.ContainsKey(s)) {
                         //// Autodesk.Revit.UI.TaskDialog.Show("test", "titleblock found:" + s + " - " + e.Id.ToString());
@@ -266,7 +267,8 @@ namespace SCaddins.RoomConvertor
         {
             var result = new List<string>();
             var optIds = new List<ElementId>();
-            foreach (DesignOption dopt in new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_DesignOptions)) {
+            foreach (var element in new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_DesignOptions)) {
+                var dopt = (DesignOption)element;
                 ElementId optId = dopt.Id;
                 if (!optIds.Contains(optId)) {
                     optIds.Add(optId);
@@ -402,8 +404,8 @@ namespace SCaddins.RoomConvertor
         {
             using (var collector = new FilteredElementCollector(doc))
             {
-                foreach (ViewFamilyType vft in collector.OfClass(typeof(ViewFamilyType)))
-                {
+                foreach (var element in collector.OfClass(typeof(ViewFamilyType))) {
+                    var vft = (ViewFamilyType)element;
                     if (vft.ViewFamily == ViewFamily.FloorPlan)
                     {
                         return vft.Id;
@@ -501,9 +503,9 @@ namespace SCaddins.RoomConvertor
                     curves.Add(Line.CreateBound(br, tr));
                     curves.Add(Line.CreateBound(tr, tl));
                     curves.Add(Line.CreateBound(tl, bl));
-                    CurveLoop loop = CurveLoop.Create(curves);
-                    SolidOptions options = new SolidOptions(ElementId.InvalidElementId, ElementId.InvalidElementId);
-                    Solid roomSolid = GeometryCreationUtilities.CreateExtrusionGeometry(new CurveLoop[] { loop }, new XYZ(0, 0, 1), height, options);
+                    var loop = CurveLoop.Create(curves);
+                    var options = new SolidOptions(ElementId.InvalidElementId, ElementId.InvalidElementId);
+                    var roomSolid = GeometryCreationUtilities.CreateExtrusionGeometry(new[] { loop }, new XYZ(0, 0, 1), height, options);
 
                     if (roomSolid != null)
                     {

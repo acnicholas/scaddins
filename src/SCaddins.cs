@@ -37,7 +37,9 @@ namespace SCaddins
     [Journaling(JournalingMode.NoCommandData)]
     public class SCaddinsApp : IExternalApplication
     {
+        // ReSharper disable once InconsistentNaming
         private static Common.Bootstrapper bootstrapper;
+        // ReSharper disable once InconsistentNaming
         private static Common.WindowManager windowManager;
         private RibbonPanel ribbonPanel;
 
