@@ -537,12 +537,12 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void SaveViewSet()
         {
-            var saveAsVM = new ViewSetSaveAsViewModel("Select name for new view sheet set", exportManager.AllViewSheetSets);
-            bool? result = SCaddinsApp.WindowManager.ShowDialog(saveAsVM, null, ViewSetSaveAsViewModel.DefaultWindowSettings);
+            var saveAsVm = new ViewSetSaveAsViewModel("Select name for new view sheet set", exportManager.AllViewSheetSets);
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(saveAsVm, null, ViewSetSaveAsViewModel.DefaultWindowSettings);
             bool newBool = result.HasValue ? result.Value : false;
             if (newBool)
             {
-                exportManager.SaveViewSet(saveAsVM.SaveName, selectedSheets);
+                exportManager.SaveViewSet(saveAsVm.SaveName, selectedSheets);
             }
         }
 
@@ -552,9 +552,10 @@ namespace SCaddins.ExportManager.ViewModels
             NotifyOfPropertyChange(() => Sheets);
         }
 
-        public void SearchFiledEntered()
+        public void SearchFieldEntered()
         {
-            return;
+            ShowSearchHint = false;
+            NotifyOfPropertyChange(() => ShowSearchHint);
         }
 
         public void SearchLabelMouseEnter()

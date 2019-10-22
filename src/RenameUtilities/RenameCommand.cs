@@ -5,7 +5,7 @@
 
     public class RenameCommand : INotifyPropertyChanged
     {
-        private Func<string, string, string, string> renameFunction;
+        private readonly Func<string, string, string, string> renameFunction;
 
         private string replacementPattern;
 
@@ -19,6 +19,7 @@
             HasInputParameters = false;
             ReplacementPatternHint = string.Empty;
             SearchPatternHint = string.Empty;
+            Name = name;
         }
 
         public RenameCommand(Func<string, string, string, string> renameFunction, string name, string search, string replacement)
@@ -29,6 +30,7 @@
             HasInputParameters = true;
             ReplacementPatternHint = "Replacement Pattern";
             SearchPatternHint = "Search Pattern";
+            Name = name;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -37,6 +39,8 @@
         {
             get; private set;
         }
+
+        public string Name { get; set; }
 
         public string ReplacementPattern
         {
@@ -60,19 +64,15 @@
 
         public string SearchPattern
         {
-            get
-            {
-                return searchPattern;
-            }
+            get => searchPattern;
 
             set
             {
-                if (value != searchPattern) {
+                if (searchPattern != null && value != searchPattern) {
                     searchPattern = value;
                 }
-                if (this.PropertyChanged != null) {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(SearchPattern)));
-                }
+
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SearchPattern)));
             }
         }
 

@@ -40,10 +40,10 @@
             </DataGrid.Resources>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Seq" Binding="{Binding Sequence}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Description" Binding="{Binding Description}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Date" Binding="{Binding Date}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Issued" Binding="{Binding Issued, Mode=OneWay}"></DataGridTextColumn>
+                <DataGridTextColumn ElementStyle="{StaticResource ColumnElementStyle}" Header="Seq" Binding="{Binding Sequence}"></DataGridTextColumn>
+                <DataGridTextColumn ElementStyle="{StaticResource ColumnElementStyle}" Header="Description" Binding="{Binding Description}"></DataGridTextColumn>
+                <DataGridTextColumn ElementStyle="{StaticResource ColumnElementStyle}" Header="Date" Binding="{Binding Date}"></DataGridTextColumn>
+                <DataGridTextColumn ElementStyle="{StaticResource ColumnElementStyle}" Header="Issued" Binding="{Binding Issued, Mode=OneWay}"></DataGridTextColumn>
                 <!--<DataGridTextColumn Header="Id" Binding="{Binding Id}"></DataGridTextColumn>-->
             </DataGrid.Columns>
             <DataGrid.VerticalGridLinesBrush>

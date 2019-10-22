@@ -37,7 +37,7 @@ namespace SCaddins.SheetCopier
         private Dictionary<string, View> existingViews =
             new Dictionary<string, View>();
 
-        private ElementId floorPlanViewFamilyTypeId = null;
+        private ElementId floorPlanViewFamilyTypeId;
         private List<Revision> hiddenRevisionClouds = new List<Revision>();
         private Dictionary<string, Level> levels =
             new Dictionary<string, Level>();
@@ -265,7 +265,6 @@ namespace SCaddins.SheetCopier
                     rev.Visibility = RevisionVisibility.CloudAndTagVisible;
                 } catch (Autodesk.Revit.Exceptions.ArgumentOutOfRangeException ex) {
                     SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
-                    continue;    
                 }
             }
 
@@ -557,8 +556,9 @@ namespace SCaddins.SheetCopier
             using (var c1 = new FilteredElementCollector(this.doc))
             {
                 c1.OfCategory(BuiltInCategory.OST_Sheets);
-                foreach (View view in c1)
+                foreach (var element in c1)
                 {
+                    var view = (View)element;
                     var viewCategoryParamList = view.GetParameters(SheetCopierConstants.SheetCategory);
                     if (viewCategoryParamList != null && viewCategoryParamList.Count > 0)
                     {
@@ -595,8 +595,9 @@ namespace SCaddins.SheetCopier
             using (var c = new FilteredElementCollector(doc))
             {
                 c.OfCategory(BuiltInCategory.OST_Views);
-                foreach (View view in c)
+                foreach (var element in c)
                 {
+                    var view = (View)element;
                     if (view.IsTemplate)
                     {
                         viewTemplates.Add(view.Name, view);

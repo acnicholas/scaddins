@@ -21,9 +21,6 @@
                         GridLinesVisibility="None"
                         VirtualizingStackPanel.VirtualizationMode="Standard">
                         <DataGrid.Resources>
-                            <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
-                                <Setter Property="Margin" Value="5,0,10,0" />
-                            </Style>
                             <Style TargetType="DataGridRow">
                                 <Setter Property="IsSelected" Value="{Binding IsSelected}" />
                                 <Style.Resources>
@@ -56,9 +53,6 @@
                         VirtualizingStackPanel.VirtualizationMode="Standard">
 
                         <DataGrid.Resources>
-                            <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
-                                <Setter Property="Margin" Value="5,0,10,0" />
-                            </Style>
                             <Style TargetType="DataGridRow">
                                 <Setter Property="IsSelected" Value="{Binding IsSelected}" />
                                 <Style.Resources>

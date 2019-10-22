@@ -51,7 +51,9 @@ namespace SCaddins.ParameterUtilities
                 while (true) {
                     refList.Add(uidoc.Selection.PickObject(ObjectType.Element, "Select elements in order to be renumbered. ESC when finished."));
                 }
-            } catch {
+            } catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
             }
 
             if (refList.Count == 0) {

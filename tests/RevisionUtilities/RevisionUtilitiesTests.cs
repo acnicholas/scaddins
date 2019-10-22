@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using RTF.Applications;
 using RTF.Framework;
 using SCaddins.RevisionUtilities;
@@ -27,16 +26,16 @@ namespace SCaddins.Tests.RevisionUtilities
             Assert.IsTrue(revisions.Count == 5);
         }
 
-        [Test()]
-        [TestModel(@"./scaddins_test_model.rvt")]
-        public void AssignRevisionToCloudsTest()
-        {
-            var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
-            var revision = Manager.GetRevisions(doc).Where(r => r.Description == "DA Issue").First();
-            Manager.AssignRevisionToClouds(doc, Manager.GetRevisionClouds(doc), revision.Id);
-            var count = Manager.GetRevisionClouds(doc).Where(c => c.Revision.Equals(revision)).Count();
-            Assert.IsTrue(count == 5);
-        }
+//        [Test()]
+//        [TestModel(@"./scaddins_test_model.rvt")]
+//        public void AssignRevisionToCloudsTest()
+//        {
+//            var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
+//            var revision = Manager.GetRevisions(doc).Where(r => r.Description == "DA Issue").First();
+//            Manager.AssignRevisionToClouds(doc, Manager.GetRevisionClouds(doc), revision.Id);
+//            var count = Manager.GetRevisionClouds(doc).Where(c => c.Revision.Equals(revision)).Count();
+//            Assert.IsTrue(count == 5);
+//        }
 
         [Test()]
         [TestModel(@"./scaddins_test_model.rvt")]

@@ -40,10 +40,12 @@ namespace SCaddins.ExportManager
 
     public class Manager
     {
+        // ReSharper disable once InconsistentNaming
         private static string activeDoc;
+        // ReSharper disable once InconsistentNaming
         private static Dictionary<string, FamilyInstance> titleBlocks;
-        private ObservableCollection<ExportSheet> allSheets;
-        private ObservableCollection<ViewSetItem> allViewSheetSets;
+        private readonly ObservableCollection<ExportSheet> allSheets;
+        private readonly ObservableCollection<ViewSetItem> allViewSheetSets;
         private bool dateForEmptyRevisions;
         private string exportDirectory;
         private ExportOptions exportFlags;
@@ -221,7 +223,7 @@ namespace SCaddins.ExportManager
 
         public static void AddRevisions(ICollection<ExportSheet> sheets, ElementId revisionId, Document doc)
         {
-            if (sheets == null || revisionId == null || revisionId == null)
+            if (sheets == null || revisionId == null)
             {
                 return;
             }
@@ -426,12 +428,12 @@ namespace SCaddins.ExportManager
                     ExportAdobePDF(sheet, log);
                 }
 
-                if (exportFlags.HasFlag(ExportOptions.GhostscriptPDF))
-                {
-                    PostscriptPrinterName = "Microsoft Print to PDF";
-                    PdfPrinterName = "Microsoft Print to PDF";
-                    ExportMSPDF(sheet, log);
-                }
+//                if (exportFlags.HasFlag(ExportOptions.GhostscriptPDF))
+//                {
+//                    PostscriptPrinterName = "Microsoft Print to PDF";
+//                    PdfPrinterName = "Microsoft Print to PDF";
+//                    ExportMSPDF(sheet, log);
+//                }
             }
             else
             {
@@ -617,8 +619,9 @@ namespace SCaddins.ExportManager
             {
                 collector.OfCategory(BuiltInCategory.OST_TitleBlocks);
                 collector.OfClass(typeof(FamilyInstance));
-                foreach (FamilyInstance e in collector)
+                foreach (var element in collector)
                 {
+                    var e = (FamilyInstance)element;
                     var s = e.get_Parameter(BuiltInParameter.SHEET_NUMBER).AsString();
                     if (!result.ContainsKey(s))
                     {
@@ -645,19 +648,20 @@ namespace SCaddins.ExportManager
             return mainWindowTitle.Contains("VIEWER");
         }
 
-        private static string PercentageSting(int n, int total)
-        {
-            var result = "Exporting " + n + " of " + total +
-                " (" + (int)((n / (double)total) * 100) + @"%)";
-            return result;
-        }
+//        private static string PercentageSting(int n, int total)
+//        {
+//            var result = "Exporting " + n + " of " + total +
+//                " (" + (int)((n / (double)total) * 100) + @"%)";
+//            return result;
+//        }
 
         private static ObservableCollection<ViewSetItem> GetAllViewSheetSets(Document doc)
         {
             var result = new ObservableCollection<ViewSetItem>();
             using (FilteredElementCollector collector = new FilteredElementCollector(doc)) {
                 collector.OfClass(typeof(ViewSheetSet));
-                foreach (ViewSheetSet v in collector) {
+                foreach (var element in collector) {
+                    var v = (ViewSheetSet)element;
                     var viewIds = v.Views.Cast<View>()
                         .Where(vs => vs.ViewType == ViewType.DrawingSheet)
                         .Select(vs => vs.Id.IntegerValue).ToList();
@@ -717,48 +721,52 @@ namespace SCaddins.ExportManager
             }
         }
 
-        private static string TimeSpanAsString(TimeSpan time)
-        {
-            var result = "Elapsed Time: " +
-                time.Hours.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0') + "h:" +
-                time.Minutes.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0') + "m:" +
-                time.Seconds.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0') + "s";
-            return result;
-        }
+//        private static string TimeSpanAsString(TimeSpan time)
+//        {
+//            var result = "Elapsed Time: " +
+//                time.Hours.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0') + "h:" +
+//                time.Minutes.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0') + "m:" +
+//                time.Seconds.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0') + "s";
+//            return result;
+//        }
 
         [SecurityCritical]
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
-        private bool ExportAdobePDF(ExportSheet vs, ExportLog log)
+        private void ExportAdobePDF(ExportSheet vs, ExportLog log)
         {
             if (log != null) {
                 log.AddMessage(Environment.NewLine + Resources.MessageStartingPDFExport);
-            } else {
-                return false;
+            } else
+            {
+                return;
             }
 
-            if (IsViewerMode()) {
+            if (IsViewerMode())
+            {
                 log.AddError(vs.FullExportName, "Revit is in Viewer mode. Printing is not allowed.");
-                return false;
+                return;
             }
 
             PrintManager pm = Doc.PrintManager;
 
             log.AddMessage(Resources.MessageApplyingPrintSetting + vs.PrintSettingName);
 
-            if (!PrintSettings.PrintToFile(Doc, vs, pm, Resources.FileExtensionPDF, PdfPrinterName)) {
+            if (!PrintSettings.PrintToFile(Doc, vs, pm, Resources.FileExtensionPDF, PdfPrinterName))
+            {
                 log.AddError(vs.FullExportName, Resources.ErrorFailedToAssignPrintSetting + vs.PrintSettingName);
-                return false;
+                return;
             }
 
-            if (!SetAcrobatExportRegistryVal(vs.FullExportPath(Resources.FileExtensionPDF), log)) {
+            if (!SetAcrobatExportRegistryVal(vs.FullExportPath(Resources.FileExtensionPDF), log))
+            {
                 log.AddError(vs.FullExportName, "Unable to write to registry.");
-                return false;
+                return;
             }
 
             if (!FileUtilities.IsValidFileName(vs.FullExportName))
             {
                 log.AddError(vs.FullExportName, "Filename contains invalid characters: " + vs.FullExportName);
-                return false;
+                return;
             }
 
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF))) {
@@ -777,15 +785,13 @@ namespace SCaddins.ExportManager
                 RunExportHooks(Resources.FileExtensionPDF, vs);
 
                 SystemUtilities.KillAllProcesses("acrotray");
-            } else {
+            } else
+            {
                 ////log.AddError(vs.FullExportName, Resources.ErrorCantOverwriteFile);
-                return false;
             }
-
-            return true;
         }
 
-        [SecurityCritical]
+/*        [SecurityCritical]
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private bool ExportMSPDF(ExportSheet vs, ExportLog log)
         {
@@ -831,7 +837,7 @@ namespace SCaddins.ExportManager
             }
 
             return true;
-        }
+        }*/
 
         // FIXME this is nasty
         private void ExportDWG(ExportSheet vs, bool removeTitle, ExportLog log)
@@ -870,7 +876,7 @@ namespace SCaddins.ExportManager
             using (var t = new Transaction(Doc, Resources.ApplyPrintSettings)) {
                 if (t.Start() == TransactionStatus.Started) {
                     try {
-                        pm.PrintToFile.Equals(true);
+                        pm.PrintToFile = true;
                         pm.PrintRange = PrintRange.Select;
                         pm.Apply();
                         t.Commit();
@@ -916,7 +922,7 @@ namespace SCaddins.ExportManager
             }
         }
 
-        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", Justification = "Parameter name required by ps2pdf", MessageId = "sPAPERSIZE")]
+/*        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", Justification = "Parameter name required by ps2pdf", MessageId = "sPAPERSIZE")]
         [SecurityCritical]
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private bool ExportGSPDF(ExportSheet vs, ExportLog log)
@@ -966,7 +972,7 @@ namespace SCaddins.ExportManager
             }
 
             return true;
-        }
+        }*/
 
         private DWGExportOptions GetDefaultDWGExportOptions()
         {
@@ -1071,7 +1077,8 @@ namespace SCaddins.ExportManager
             using (var collector = new FilteredElementCollector(Doc)) {
                 collector.OfCategory(BuiltInCategory.OST_Sheets);
                 collector.OfClass(typeof(ViewSheet));
-                foreach (ViewSheet v in collector) {
+                foreach (var element in collector) {
+                    var v = (ViewSheet)element;
                     var scxSheet = new ExportSheet(v, Doc, fileNameTypes[0], VerifyOnStartup, this);
                     s.Add(scxSheet);
                 }

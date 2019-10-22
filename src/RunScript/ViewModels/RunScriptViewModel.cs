@@ -113,6 +113,9 @@ public static void Main(Document doc)
 
             set
             {
+                if (string.IsNullOrEmpty(value)) {
+                    return;
+                }
                 output = value;
                 NotifyOfPropertyChange(() => Output);
                 NotifyOfPropertyChange(() => OutputList);
@@ -150,8 +153,7 @@ public static void Main(Document doc)
 
         public void Run()
         {
-            var compileResults = string.Empty;
-            var result = RunScriptCommand.VerifyScript(RunScriptCommand.ClassifyScript(Script), out compileResults);
+            var result = RunScriptCommand.VerifyScript(RunScriptCommand.ClassifyScript(Script), out var compileResults);
             Output = compileResults;
             if (result) {
                 TryClose(true);

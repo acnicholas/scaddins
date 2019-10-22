@@ -139,6 +139,8 @@ namespace SCaddins.ExportManager.ViewModels
                 NotifyOfPropertyChange(() => StatusText);
             }
             if (ctrlDown && args.Key == System.Windows.Input.Key.E) {
+                // FIXME check Revit api docs to see if this is OK.
+                // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
                 ToggleFilterFlag(ViewType.Elevation | ViewType.Section);
                 NotifyOfPropertyChange(() => StatusText);
             }

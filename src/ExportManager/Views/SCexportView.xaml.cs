@@ -2,7 +2,7 @@
 {
     using System.Windows.Controls;
 
-    public partial class SCexportView : UserControl
+    public partial class SCexportView
     {
         public SCexportView()
         {

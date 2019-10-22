@@ -28,7 +28,6 @@ namespace SCaddins.SheetCopier.ViewModels
     internal class SheetCopierViewModel : Screen
     {
         private SheetCopierManager copyManager;
-        private List<string> levelsInModel = new List<string>();
         private SheetCopierSheet selectedSheet;
         private BindableCollection<SheetInformation> selectedSheetInformation = new BindableCollection<SheetInformation>();
         private List<SheetCopierSheet> selectedSheets = new List<SheetCopierSheet>();
@@ -37,7 +36,6 @@ namespace SCaddins.SheetCopier.ViewModels
         public SheetCopierViewModel(UIDocument uidoc)
         {
             copyManager = new SheetCopierManager(uidoc);
-            levelsInModel = copyManager.Levels.Select(k => k.Key).ToList();
             RunAfterClose = false;
         }
 

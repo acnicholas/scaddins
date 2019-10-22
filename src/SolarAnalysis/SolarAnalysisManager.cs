@@ -108,7 +108,6 @@ namespace SCaddins.SolarAnalysis
 
                         if (testFace.Face.IsInside(uv)) {
                             SunAndShadowSettings setting = view.SunAndShadowSettings;
-                            double hoursOfSun = 0;
                             double interval = 1;
                             switch (setting.TimeInterval)
                             {
@@ -125,13 +124,13 @@ namespace SCaddins.SolarAnalysis
                                     interval = 0.75;
                                     break;
                             }
-                            hoursOfSun = setting.NumberOfFrames - 1;
+                            var hoursOfSun = setting.NumberOfFrames - 1;
                             //// Autodesk makes active frame starts from 1..
                             for (int activeFrame = 1; activeFrame <= setting.NumberOfFrames; activeFrame++) {
                                 setting.ActiveFrame = activeFrame;
                                 var start = testFace.Face.Evaluate(uv);
                                 start = start.Add(testFace.Face.ComputeNormal(uv).Normalize() / 16);
-                                var sunDirection = SolarAnalysisManager.GetSunDirectionalVector(uidoc.ActiveView, SolarAnalysisManager.GetProjectPosition(uidoc.Document), out double azimuth);
+                                var sunDirection = GetSunDirectionalVector(uidoc.ActiveView, GetProjectPosition(uidoc.Document), out double azimuth);
                                 var end = start.Subtract(sunDirection.Multiply(1000));
                                 ////BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
                                 Line line = Line.CreateBound(start, end);
@@ -186,11 +185,12 @@ namespace SCaddins.SolarAnalysis
             ElementId highestId = null;
             using (var collector = new FilteredElementCollector(doc)) {
                 collector.OfClass(typeof(Level));
-                foreach (Level level in collector) {
-                    if (highestLevel < 0 || level.Elevation > highestLevel) {
-                        highestLevel = level.Elevation;
-                        highestId = level.Id;
-                    }
+                foreach (var element in collector)
+                {
+                    var level = (Level)element;
+                    if (!(highestLevel < 0) && !(level.Elevation > highestLevel)) continue;
+                    highestLevel = level.Elevation;
+                    highestId = level.Id;
                 }
             }
 

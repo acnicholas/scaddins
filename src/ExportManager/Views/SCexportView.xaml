@@ -41,6 +41,7 @@
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <TextBox
+                cal:Message.Attach="[Event MouseEnter] = [SearchFieldEntered()]"
                 TabIndex="2"
                 x:Name="SearchText"
                 Height="Auto"
