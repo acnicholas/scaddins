@@ -428,12 +428,12 @@ namespace SCaddins.ExportManager
                     ExportAdobePDF(sheet, log);
                 }
 
-//                if (exportFlags.HasFlag(ExportOptions.GhostscriptPDF))
-//                {
-//                    PostscriptPrinterName = "Microsoft Print to PDF";
-//                    PdfPrinterName = "Microsoft Print to PDF";
-//                    ExportMSPDF(sheet, log);
-//                }
+////                if (exportFlags.HasFlag(ExportOptions.GhostscriptPDF))
+////                {
+////                    PostscriptPrinterName = "Microsoft Print to PDF";
+////                    PdfPrinterName = "Microsoft Print to PDF";
+////                    ExportMSPDF(sheet, log);
+////                }
             }
             else
             {
@@ -648,12 +648,12 @@ namespace SCaddins.ExportManager
             return mainWindowTitle.Contains("VIEWER");
         }
 
-//        private static string PercentageSting(int n, int total)
-//        {
-//            var result = "Exporting " + n + " of " + total +
-//                " (" + (int)((n / (double)total) * 100) + @"%)";
-//            return result;
-//        }
+////        private static string PercentageSting(int n, int total)
+////        {
+////            var result = "Exporting " + n + " of " + total +
+////                " (" + (int)((n / (double)total) * 100) + @"%)";
+////            return result;
+////        }
 
         private static ObservableCollection<ViewSetItem> GetAllViewSheetSets(Document doc)
         {
@@ -720,16 +720,7 @@ namespace SCaddins.ExportManager
                 return false;
             }
         }
-
-//        private static string TimeSpanAsString(TimeSpan time)
-//        {
-//            var result = "Elapsed Time: " +
-//                time.Hours.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0') + "h:" +
-//                time.Minutes.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0') + "m:" +
-//                time.Seconds.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0') + "s";
-//            return result;
-//        }
-
+        
         [SecurityCritical]
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private void ExportAdobePDF(ExportSheet vs, ExportLog log)
@@ -865,9 +856,7 @@ namespace SCaddins.ExportManager
             titleBlockHidden.Add(titleBlock.Id);
 
             if (removeTitle) {
-                if (log != null) {
-                    log.AddMessage(Resources.MessageAttemptingToHideTitleBlock);
-                }
+                log.AddMessage(Resources.MessageAttemptingToHideTitleBlock);
                 RemoveTitleBlock(vs, titleBlockHidden, true, Doc);
             }
 

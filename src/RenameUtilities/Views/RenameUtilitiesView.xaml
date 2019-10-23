@@ -29,6 +29,8 @@
                     <ListBox x:Name="RenameParameters" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Stretch" Margin="5">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
+                                <!-- Seems to work with CM -->
+                                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                                 <TextBlock Text="{Binding Name}"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

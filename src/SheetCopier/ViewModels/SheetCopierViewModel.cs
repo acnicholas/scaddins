@@ -181,16 +181,16 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
-        public void AddSheets(List<ExportManager.ExportSheet> selectedSheets)
+        public void AddSheets(List<ExportManager.ExportSheet> sheetSelection)
         {
-            foreach (var sheet in selectedSheets) {
+            foreach (var sheet in sheetSelection) {
                 copyManager.AddSheet(sheet.Sheet);
             }
         }
 
-        public void AddSheets(List<Autodesk.Revit.DB.ViewSheet> selectedSheets)
+        public void AddSheets(List<Autodesk.Revit.DB.ViewSheet> sheetSelection)
         {
-            foreach (var sheet in selectedSheets) {
+            foreach (var sheet in sheetSelection) {
                 copyManager.AddSheet(sheet);
             }
         }

@@ -46,7 +46,7 @@
             </StackPanel>
         </Grid>
 
-        <FrameworkElement Grid.Row="0" x:Name="dummy" Visibility="Collapsed"/>
+        <FrameworkElement Grid.Row="0" x:Name="Dummy" Visibility="Collapsed"/>
 
         <DataGrid
             x:Name="Rooms"
@@ -90,21 +90,21 @@
                 <DataGridTextColumn
                     Header="New Sheet Number"
                     Binding="{Binding DestinationSheetNumber}"
-                    Visibility="{Binding DataContext.SheetCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference dummy}}">
+                    Visibility="{Binding DataContext.SheetCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference Dummy}}">
                 </DataGridTextColumn>
                 <DataGridTextColumn
                     Header="New View Name"
                     Binding="{Binding DestinationViewName}"
-                    Visibility="{Binding DataContext.SheetCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference dummy}}">
+                    Visibility="{Binding DataContext.SheetCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference Dummy}}">
                 </DataGridTextColumn>
                 <DataGridTextColumn
                     Header="New Sheet Name"
                     Binding="{Binding DestinationSheetName}"
-                    Visibility="{Binding DataContext.SheetCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference dummy}}">
+                    Visibility="{Binding DataContext.SheetCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference Dummy}}">
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Expander Grid.Row="2" ExpandDirection="Up" Header="Room Information" MaxHeight="300" Visibility="{Binding DataContext.RoomInformationIsAvailable,Converter={StaticResource BoolToVis},Source={x:Reference dummy}}">
+        <Expander Grid.Row="2" ExpandDirection="Up" Header="Room Information" MaxHeight="300" Visibility="{Binding DataContext.RoomInformationIsAvailable,Converter={StaticResource BoolToVis},Source={x:Reference Dummy}}">
             <DataGrid x:Name="RoomParameters" Margin="5"/>
         </Expander>
         <Grid Grid.Row="3">

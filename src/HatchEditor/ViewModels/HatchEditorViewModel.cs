@@ -89,7 +89,9 @@ namespace SCaddins.HatchEditor.ViewModels
         public void LoadPatternFromFile()
         {
             var result = SCaddinsApp.WindowManager.ShowFileSelectionDialog("C:/Temp", out var filePath);
-            if (!result.HasValue || !result.Value) return;
+            if (!result.HasValue || !result.Value) {
+                return;
+            }
             var vm = new SelectHatchViewModel(new ObservableCollection<Hatch>(Command.ReadAllPatternsFromFile(filePath)));
             var result2 = SCaddinsApp.WindowManager.ShowDialog(vm, null, SelectHatchViewModel.DefualtWindowSettings());
             if (result2.HasValue && result2.Value)

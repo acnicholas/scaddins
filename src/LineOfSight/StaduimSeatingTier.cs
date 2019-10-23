@@ -66,8 +66,8 @@ namespace SCaddins.LineOfSight
         /// <param name="minimumCValue">The minimum C value.</param>
         /// <param name="minimumRiserHeight">The minimum riser height of each seating plat.</param>
         /// <param name="numberOfRows">The number of row in the stand</param>
-        /// <param name="xDistanceToFirstRow"></param>
-        /// <param name="yDistanceToFirstRow"></param>
+        /// <param name="distanceToFirstRowX"></param>
+        /// <param name="distanceToFirstRowY"></param>
         public StadiumSeatingTier(
             Document doc,
             double eyeHeight = 1200,
@@ -223,19 +223,19 @@ namespace SCaddins.LineOfSight
 
         public ViewDrafting CreateLineOfSightDraftingView(string newViewName)
         {
-            ViewDrafting view = null;
+            ViewDrafting viewDrafting = null;
             ViewFamilyType viewFamilyType =
                 new FilteredElementCollector(this.doc)
                     .OfClass(typeof(ViewFamilyType))
                     .Cast<ViewFamilyType>()
-                    .FirstOrDefault<ViewFamilyType>(x => ViewFamily.Drafting == x.ViewFamily);
-            view = ViewDrafting.Create(this.doc, viewFamilyType.Id);
+                    .FirstOrDefault(x => ViewFamily.Drafting == x.ViewFamily);
+            viewDrafting = ViewDrafting.Create(this.doc, viewFamilyType.Id);
             #if REVIT2019 || REVIT2020
-            view.Name = newViewName;
+            viewDrafting.Name = newViewName;
             #else
             view.ViewName = newViewName;
             #endif
-            return view;
+            return viewDrafting;
         }
 
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.DateTime.ToString")]
@@ -263,16 +263,16 @@ namespace SCaddins.LineOfSight
                         this.DrawText(
                             this.distanceToFirstRowX / 2,
                             0,
-                            1,
-                            0,
                             this.distanceToFirstRowX.ToString(CultureInfo.InvariantCulture),
+                            // FIXME
+                            // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
                             TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_TOP);
                         this.DrawText(
                             this.distanceToFirstRowX,
                             this.distanceToFirstRowY / 2,
-                            0,
-                            1,
                             this.distanceToFirstRowY.ToString(CultureInfo.InvariantCulture),
+                            // FIXME
+                            // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
                             TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_BOTTOM);
                     }
 
@@ -300,8 +300,6 @@ namespace SCaddins.LineOfSight
                     this.DrawText(
                         this.rows[i].EyeToFocusX + 125,
                         this.rows[i].HeightToFocus,
-                        1,
-                        0,
                         "c:" + Math.Round(this.rows[i].CValue, 2).ToString(CultureInfo.InvariantCulture),
                         TextAlignFlags.TEF_ALIGN_LEFT);
 
@@ -309,9 +307,9 @@ namespace SCaddins.LineOfSight
                     this.DrawText(
                         this.rows[i].EyeToFocusX - (this.rows[i].Going / 2),
                         this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
-                        1,
-                        0,
                         "R" + (i + 1).ToString(CultureInfo.InvariantCulture) + " : " + this.TreadSize.ToString(CultureInfo.InvariantCulture),
+                        // FIXME
+                        // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
                         TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_TOP);
 
                     // Draw the riser text)
@@ -320,9 +318,9 @@ namespace SCaddins.LineOfSight
                         this.DrawText(
                             this.rows[i].EyeToFocusX - this.TreadSize,
                             this.rows[i].HeightToFocus - this.rows[i].EyeHeight - (this.rows[i].RiserHeight / 2),
-                            0,
-                            1,
                             this.rows[i].RiserHeight.ToString(CultureInfo.InvariantCulture),
+                            //FIXME 
+                            // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
                             TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_BOTTOM);
                     }
                 }
@@ -341,8 +339,7 @@ namespace SCaddins.LineOfSight
         private void DrawCircle(double x1, double y1, string s)
         {
             var app = this.doc.Application;
-            const double Z = 0.0;
-            XYZ point1 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x1), MiscUtilities.MillimetersToFeet(y1), MiscUtilities.MillimetersToFeet(Z));
+            var point1 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x1), MiscUtilities.MillimetersToFeet(y1), MiscUtilities.MillimetersToFeet(0));
             using (Arc arc = Arc.Create(
                           point1,
                           MiscUtilities.MillimetersToFeet(125),
@@ -374,9 +371,8 @@ namespace SCaddins.LineOfSight
         private void DrawLine(double x1, double y1, double x2, double y2, string s)
         {
             var app = this.doc.Application;
-            const double Z = 0.0;
-            XYZ point1 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x1), MiscUtilities.MillimetersToFeet(y1), MiscUtilities.MillimetersToFeet(Z));
-            XYZ point2 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x2), MiscUtilities.MillimetersToFeet(y2), MiscUtilities.MillimetersToFeet(Z));
+            var point1 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x1), MiscUtilities.MillimetersToFeet(y1), MiscUtilities.MillimetersToFeet(0.0));
+            var point2 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x2), MiscUtilities.MillimetersToFeet(y2), MiscUtilities.MillimetersToFeet(0.0));
             try
             {
                 using (Line line = Line.CreateBound(point1, point2))
@@ -421,12 +417,10 @@ namespace SCaddins.LineOfSight
             }
         }
 
-        private void DrawText(double x, double y, double vx, double vy, string s, TextAlignFlags f)
+        private void DrawText(double x, double y, string s, TextAlignFlags f)
         {
             Application app = this.doc.Application;
             XYZ origin = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x), MiscUtilities.MillimetersToFeet(y), 0);
-            //// XYZ normalBase = app.Create.NewXYZ(vx, vy, 0);
-            //// XYZ normal_up = app.Create.NewXYZ(0, 1, 0);
             using (TextNoteOptions tno = new TextNoteOptions())
             {
                 tno.TypeId = doc.GetDefaultElementTypeId(ElementTypeGroup.TextNoteType);

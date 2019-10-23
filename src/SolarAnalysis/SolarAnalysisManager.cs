@@ -188,7 +188,9 @@ namespace SCaddins.SolarAnalysis
                 foreach (var element in collector)
                 {
                     var level = (Level)element;
-                    if (!(highestLevel < 0) && !(level.Elevation > highestLevel)) continue;
+                    if (!(highestLevel < 0) && !(level.Elevation > highestLevel)) {
+                        continue;
+                    }
                     highestLevel = level.Elevation;
                     highestId = level.Id;
                 }
@@ -197,7 +199,7 @@ namespace SCaddins.SolarAnalysis
             return highestId;
         }
 
-        // FIXME this can go in a utiliy class.
+        // FIXME this can go in a utility class.
         public static string GetNiceViewName(Document doc, string request)
         {
             if (ViewNameIsAvailable(doc, request)) {

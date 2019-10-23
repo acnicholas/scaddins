@@ -14,12 +14,7 @@
         {
             Sheets.SelectAll();
         }
-
-        private void SelectNone_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            Sheets.UnselectAll();
-        }
-
+        
         private void Sheets_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (Sheets.SelectedItems.Count == 1)

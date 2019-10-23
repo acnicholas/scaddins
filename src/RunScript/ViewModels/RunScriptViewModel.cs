@@ -144,8 +144,8 @@ public static void Main(Document doc)
                 }
             }
         }
-        
-        public override void TryClose(bool? dialogResult = null)
+
+        public override void TryClose(bool? dialogResult = false)
         {
             SaveScratch();
             base.TryClose(dialogResult);

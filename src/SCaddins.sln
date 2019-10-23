@@ -69,6 +69,7 @@ Global
 		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Release2019|x64.ActiveCfg = Release2019|x64
 		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Release2020|Any CPU.ActiveCfg = Release2019|x64
 		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Release2020|x64.ActiveCfg = Release2019|x64
+		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Release2019|x64.Build.0 = Release2019|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
