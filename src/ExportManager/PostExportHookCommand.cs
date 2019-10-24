@@ -30,15 +30,15 @@ namespace SCaddins.ExportManager
 
         public PostExportHookCommand()
         {
-            this.cmd = string.Empty;
-            this.args = string.Empty;
-            this.name = string.Empty;
-            this.supportedFilenameExtensions = new Collection<string>();
+            cmd = string.Empty;
+            args = string.Empty;
+            name = string.Empty;
+            supportedFilenameExtensions = new Collection<string>();
         }
 
         public string Name
         {
-            get { return this.name; }
+            get { return name; }
         }
 
         public static string FormatConfigurationString(ExportSheet sheet, string value, string extension)
@@ -69,22 +69,22 @@ namespace SCaddins.ExportManager
 
         public void SetCommand(string command)
         {
-            this.cmd = command;
+            cmd = command;
         }
 
         public void SetArguments(string arguments)
         {
-            this.args = arguments;
+            args = arguments;
         }
 
         public void SetName(string newName)
         {
-            this.name = newName;
+            name = newName;
         }
 
         public void AddSupportedFilenameExtension(string extension)
         {
-            this.supportedFilenameExtensions.Add(extension);
+            supportedFilenameExtensions.Add(extension);
         }
 
         public bool HasExtension(string extension)
@@ -93,17 +93,17 @@ namespace SCaddins.ExportManager
             {
                 return false;
             }
-            if (this.supportedFilenameExtensions == null || this.supportedFilenameExtensions.Count < 1)
+            if (supportedFilenameExtensions == null || supportedFilenameExtensions.Count < 1)
             {
                 return false;
             }
-            return this.supportedFilenameExtensions.Contains(extension);
+            return supportedFilenameExtensions.Contains(extension);
         }
 
         public string ListExtensions()
         {
             string s = string.Empty;
-            foreach (string fne in this.supportedFilenameExtensions)
+            foreach (string fne in supportedFilenameExtensions)
             {
                 s += fne + System.Environment.NewLine;
             }
@@ -112,10 +112,10 @@ namespace SCaddins.ExportManager
 
         internal void Run(ExportSheet sheet, string extension)
         {
-            string a = FormatConfigurationString(sheet, this.args, extension);
+            string a = FormatConfigurationString(sheet, args, extension);
             if (!string.IsNullOrEmpty(a))
             {
-                Common.ConsoleUtilities.StartHiddenConsoleProg(this.cmd, a);
+                Common.ConsoleUtilities.StartHiddenConsoleProg(cmd, a);
             }
         }
     }

@@ -26,8 +26,8 @@ namespace SCaddins.ExportManager
         
         public SegmentedSheetName()
         {
-            this.hooks = new Collection<string>();
-            this.Name = "YYYYMMDD-AD-NNN[R]";
+            hooks = new Collection<string>();
+            Name = "YYYYMMDD-AD-NNN[R]";
         }
         
         public string Name {
@@ -39,17 +39,17 @@ namespace SCaddins.ExportManager
         }
     
         public Collection<string> Hooks {
-            get { return this.hooks; }
+            get { return hooks; }
         }
         
         public void AddHook(string hookName)
         {
-            this.hooks.Add(hookName);
+            hooks.Add(hookName);
         }
         
         public override string ToString()
         {
-            return string.Format(CultureInfo.InvariantCulture, "[SegmentedSheetName Hooks={0}, Name={1}, NameFormat={2}]", this.hooks, this.Name, this.NameFormat);
+            return string.Format(CultureInfo.InvariantCulture, "[SegmentedSheetName Hooks={0}, Name={1}, NameFormat={2}]", hooks, Name, NameFormat);
         }
     }
 }

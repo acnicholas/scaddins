@@ -111,9 +111,9 @@ namespace SCaddins.HatchEditor
         public Hatch Clone()
         {
             var result = new Hatch();
-            result.Definition = this.Definition;
-            result.HatchPattern.Target = this.HatchPattern.Target;
-            result.Name = this.Name;
+            result.Definition = Definition;
+            result.HatchPattern.Target = HatchPattern.Target;
+            result.Name = Name;
             return result;
         }
 

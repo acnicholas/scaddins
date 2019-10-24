@@ -37,48 +37,48 @@ namespace SCaddins.RevisionUtilities
 
         public RevisionCloudItem(Document doc, RevisionCloud revisionCloud) : base(doc, revisionCloud)
         {
-            this.mark = revisionCloud.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString();
-            this.comments = revisionCloud.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS).AsString();
-            this.id = revisionCloud.Id;
-            this.revision = string.Empty;
-            this.cloud = revisionCloud;
-            this.hostViewName = GetHostViewName(doc);
+            mark = revisionCloud.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString();
+            comments = revisionCloud.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS).AsString();
+            id = revisionCloud.Id;
+            revision = string.Empty;
+            cloud = revisionCloud;
+            hostViewName = GetHostViewName(doc);
             UpdateSheetNameAndNumberStrings(doc);
         }
 
         public string Comments
         {
-            get { return this.comments; }
+            get { return comments; }
         }
 
         public string HostViewName
         {
-            get { return this.hostViewName; }
+            get { return hostViewName; }
         }
 
         public override ElementId Id
         {
-            get { return this.id; }
+            get { return id; }
         }
 
         public string Mark
         {
-            get { return this.mark; }
+            get { return mark; }
         }
 
         public string Revision
         {
-            get { return this.revision; }
+            get { return revision; }
         }
 
         public string SheetName
         {
-            get { return this.sheetName; }
+            get { return sheetName; }
         }
 
         public string SheetNumber
         {
-            get { return this.sheetNumber; }
+            get { return sheetNumber; }
         }
 
         public void SetCloudId(ElementId revisionId)

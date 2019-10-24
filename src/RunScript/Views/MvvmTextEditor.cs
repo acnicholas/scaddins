@@ -74,9 +74,9 @@
 
         protected override void OnTextChanged(EventArgs e)
         {
-            if (this.Document != null)
+            if (Document != null)
             {
-                Text = this.Document.Text;
+                Text = Document.Text;
             }
 
             base.OnTextChanged(e);

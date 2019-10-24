@@ -37,29 +37,29 @@
 
         public ExportLog()
         {
-            this.errors = 0;
-            this.warnings = 0;
-            this.fullLog = new StringBuilder();
-            this.startTime = DateTime.Now;
-            this.endTime = DateTime.Now;
-            this.TotalExports = 0;
-            this.errorLog = new List<ExportLogItem>();
-            this.warningLog = new List<ExportLogItem>();
+            errors = 0;
+            warnings = 0;
+            fullLog = new StringBuilder();
+            startTime = DateTime.Now;
+            endTime = DateTime.Now;
+            TotalExports = 0;
+            errorLog = new List<ExportLogItem>();
+            warningLog = new List<ExportLogItem>();
         }
 
         public List<ExportLogItem> ErrorLog
         {
-            get { return this.errorLog; }
+            get { return errorLog; }
         }
 
         public int Errors
         {
-            get { return this.errors; }
+            get { return errors; }
         }
 
         public string FullOutputLog
         {
-            get { return this.fullLog.ToString(); }
+            get { return fullLog.ToString(); }
         }
 
         public TimeSpan LastItemElapsedTime
@@ -79,7 +79,7 @@
 
         public TimeSpan TimeSinceStart
         {
-            get { return DateTime.Now - this.startTime; }
+            get { return DateTime.Now - startTime; }
         }
 
         public int TotalExports
@@ -89,82 +89,82 @@
 
         public TimeSpan TotalExportTime
         {
-            get { return this.endTime - this.startTime; }
+            get { return endTime - startTime; }
         }
 
         public List<ExportLogItem> WarningLog
         {
-            get { return this.warningLog; }
+            get { return warningLog; }
         }
 
         public int Warnings
         {
-            get { return this.warnings; }
+            get { return warnings; }
         }
 
         public void AddError(string fileName, string message)
         {
-            this.AddLogItem(ErrPrefix + message);
-            this.errors++;
-            this.errorLog.Add(new ExportLogItem(message, fileName));
+            AddLogItem(ErrPrefix + message);
+            errors++;
+            errorLog.Add(new ExportLogItem(message, fileName));
         }
 
         public void AddMessage(string message)
         {
-            this.AddLogItem(message);
+            AddLogItem(message);
         }
 
         public void AddWarning(string fileName, string message)
         {
-            this.AddLogItem(WarningPrefix + message);
-            this.warnings++;
-            this.warningLog.Add(new ExportLogItem(message, fileName));
+            AddLogItem(WarningPrefix + message);
+            warnings++;
+            warningLog.Add(new ExportLogItem(message, fileName));
         }
 
         public void Clear()
         {
-            this.errorLog.Clear();
-            this.warningLog.Clear();
-            this.fullLog.Clear();
+            errorLog.Clear();
+            warningLog.Clear();
+            fullLog.Clear();
         }
 
         public void EndLoggingIndividualItem(DateTime itemStartTime, string message)
         {
             LastItemElapsedTime = DateTime.Now - itemStartTime;
-            this.AddLogItem(message);
-            this.AddLogItem("Export Time: " + LastItemElapsedTime.ToString());
-            this.AddLogItem(ItemEndBanner);
+            AddLogItem(message);
+            AddLogItem("Export Time: " + LastItemElapsedTime.ToString());
+            AddLogItem(ItemEndBanner);
         }
 
         public void Start(string message)
         {
-            this.Clear();
-            this.AddLogItem(message);
-            this.startTime = DateTime.Now;
-            StartBanner = "Start Time: " + this.startTime.ToLongTimeString();
-            AddLogItem("Start Time: " + this.startTime.ToLongTimeString());
+            Clear();
+            AddLogItem(message);
+            startTime = DateTime.Now;
+            StartBanner = "Start Time: " + startTime.ToLongTimeString();
+            AddLogItem("Start Time: " + startTime.ToLongTimeString());
         }
 
         public DateTime StartLoggingIndividualItem(string message)
         {
             TotalExports++;
-            this.AddLogItem(ItemStartBanner);
-            this.AddLogItem(message);
+            AddLogItem(ItemStartBanner);
+            AddLogItem(message);
             return DateTime.Now;
         }
 
         public void Stop(string message)
         {
-            this.AddLogItem(message);
-            this.endTime = DateTime.Now;
+            AddLogItem(message);
+            endTime = DateTime.Now;
             SummaryBanner = TotalExports + " exports completed with " + Errors + " errors and " + Warnings + " warnings";
-            this.AddLogItem("End Time: " + this.endTime.ToLongTimeString());
-            this.AddLogItem("Total Export Time: " + this.TotalExportTime.ToString());
+            AddLogItem("End Time: " + endTime.ToLongTimeString());
+            AddLogItem("Total Export Time: " + TotalExportTime.ToString());
         }
         
         private void AddLogItem(string msg)
         {
-            this.fullLog.Append(msg).AppendLine();
+            fullLog.Append(msg).AppendLine();
         }
     }
  }

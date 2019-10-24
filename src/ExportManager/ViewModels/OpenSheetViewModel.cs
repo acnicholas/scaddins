@@ -84,7 +84,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public ICollectionView SearchResults
         {
-            get { return this.searchResults.View; }
+            get { return searchResults.View; }
         }
 
         public OpenableView SelectedSearchResult

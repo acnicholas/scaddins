@@ -38,9 +38,9 @@ namespace SCaddins.RoomConvertor
                 Dictionary<string, View> existingViews)
         {
             this.room = room;
-            this.destSheetName = GetDefaultSheetName();
-            this.destSheetNumber = GetDefaultSheetNumber(existingSheets);
-            this.destViewName = GetDefaultViewName(existingViews);
+            destSheetName = GetDefaultSheetName();
+            destSheetNumber = GetDefaultSheetNumber(existingSheets);
+            destViewName = GetDefaultViewName(existingViews);
             RoomParameters = new List<RoomParameter>();
             foreach (Parameter p in room.Parameters)
             {
@@ -57,15 +57,15 @@ namespace SCaddins.RoomConvertor
         {
             get
             {
-                return this.destSheetName;
+                return destSheetName;
             }
 
             set
             {
-                this.destSheetName = value;
-                if (this.PropertyChanged != null)
+                destSheetName = value;
+                if (PropertyChanged != null)
                 {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(DestinationSheetName)));
+                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(DestinationSheetName)));
                 }
             }
         }
@@ -74,15 +74,15 @@ namespace SCaddins.RoomConvertor
         {
             get
             {
-                return this.destSheetNumber;
+                return destSheetNumber;
             }
 
             set
             {
-                this.destSheetNumber = value;
-                if (this.PropertyChanged != null)
+                destSheetNumber = value;
+                if (PropertyChanged != null)
                 {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(DestinationSheetNumber)));
+                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(DestinationSheetNumber)));
                 }
             }
         }
@@ -91,15 +91,15 @@ namespace SCaddins.RoomConvertor
         {
             get
             {
-                return this.destViewName;
+                return destViewName;
             }
 
             set
             {
-                this.destViewName = value;
-                if (this.PropertyChanged != null)
+                destViewName = value;
+                if (PropertyChanged != null)
                 {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(DestinationViewName)));
+                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(DestinationViewName)));
                 }
             }
         }
@@ -166,18 +166,18 @@ namespace SCaddins.RoomConvertor
 
         public bool PassesFilter(RoomFilter filter)
         {
-            return filter == null ? false : filter.PassesFilter(this.Room);
+            return filter == null ? false : filter.PassesFilter(Room);
         }
 
         private string GetDefaultSheetName()
         {
             // this is OK, sheets can cave duplicate names
-            return this.Number + " - " + this.Name;
+            return Number + " - " + Name;
         }
 
         private string GetDefaultSheetNumber(Dictionary<string, View> existingSheets)
         {
-            string request = this.Number;
+            string request = Number;
             if (existingSheets.ContainsKey(request))
             {
                 return request + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";
@@ -190,7 +190,7 @@ namespace SCaddins.RoomConvertor
 
         private string GetDefaultViewName(Dictionary<string, View> existingViews)
         {
-            string request = this.Number + " - " + this.Name;
+            string request = Number + " - " + Name;
             if (existingViews.ContainsKey(request))
             {
                 return request + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";

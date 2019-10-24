@@ -36,7 +36,7 @@ namespace SCaddins.RoomConvertor
         {
             this.lo = lo;
             this.co = co;
-            this.parameterName = parameter;
+            parameterName = parameter;
             this.parameter = null;
             this.test = test;
         }

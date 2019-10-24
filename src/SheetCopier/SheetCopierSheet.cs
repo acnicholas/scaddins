@@ -44,19 +44,20 @@ namespace SCaddins.SheetCopier
             }
             this.number = number;
             this.title = title;
-            this.SourceSheet = sourceSheet;
-            this.sheetCategory = this.GetSheetCategory(SheetCopierConstants.SheetCategory);
-            this.userCreatedSheetCategory = sheetCategory;
-            this.DestinationSheet = null;
-            this.viewsOnSheet = new ObservableCollection<SheetCopierViewOnSheet>();
-            foreach (ElementId id in sourceSheet.GetAllPlacedViews())
+            SourceSheet = sourceSheet;
+            sheetCategory = GetSheetCategory(SheetCopierConstants.SheetCategory);
+            userCreatedSheetCategory = sheetCategory;
+            DestinationSheet = null;
+            viewsOnSheet = new ObservableCollection<SheetCopierViewOnSheet>();
+            foreach (var id in sourceSheet.GetAllPlacedViews())
             {
                 Element element = sourceSheet.Document.GetElement(id);
-                if (element != null)
+                var v = element as View;
+                if (v == null)
                 {
-                    var v = element as View;
-                    this.viewsOnSheet.Add(new SheetCopierViewOnSheet(v.Name, v, scopy));
+                    continue;
                 }
+                viewsOnSheet.Add(new SheetCopierViewOnSheet(v.Name, v, scopy));
             }
             SheetCategories = new ObservableCollection<string>(scopy.SheetCategories.ToList());
         }
@@ -70,14 +71,14 @@ namespace SCaddins.SheetCopier
         {
             get
             {
-                return this.number;
+                return number;
             }
 
             set
             {
-                if (value != this.number && this.scopy.SheetNumberAvailable(value))
+                if (value != number && scopy.SheetNumberAvailable(value))
                 {
-                    this.number = value;
+                    number = value;
                     NotifyOfPropertyChange(() => Number);
                 }
                 else
@@ -94,10 +95,7 @@ namespace SCaddins.SheetCopier
         }
 
         public string UserCreatedSheetCategory {
-            get
-            {
-                return userCreatedSheetCategory;
-            }
+            get => userCreatedSheetCategory;
 
             set
             {
@@ -138,12 +136,12 @@ public ViewSheet SourceSheet
         {
             get
             {
-                return this.title;
+                return title;
             }
 
             set
             {
-                this.title = value;
+                title = value;
                 NotifyOfPropertyChange(() => Title);
             }
         }
@@ -152,13 +150,13 @@ public ViewSheet SourceSheet
         {
             get
             {
-                return this.viewsOnSheet;
+                return viewsOnSheet;
             }
         }
 
         public string GetNewViewName(ElementId id)
         {
-            foreach (SheetCopierViewOnSheet v in this.viewsOnSheet)
+            foreach (SheetCopierViewOnSheet v in viewsOnSheet)
             {
                 if (id == v.OldId)
                 {
@@ -175,7 +173,7 @@ public ViewSheet SourceSheet
 
         private string GetSheetCategory(string parameterName)
         {
-            var viewCategoryParamList = this.SourceSheet.GetParameters(parameterName);
+            var viewCategoryParamList = SourceSheet.GetParameters(parameterName);
             if (viewCategoryParamList != null && viewCategoryParamList.Count > 0)
             {
                 Parameter viewCategoryParam = viewCategoryParamList.First();

@@ -323,7 +323,7 @@ namespace SCaddins.ExportManager
                 ExportLog log)
         {       
             log.AddMessage(Resources.MessageAttemptingToLoadRevitPrintSettings + size);
-            PrintSetting ps = PrintSettings.GetPrintSettingByName(doc, size, forceRaster);
+            PrintSetting ps = GetPrintSettingByName(doc, size, forceRaster);
 
             if (ps == null) {
                 log.AddError(null, Resources.ErrorRetrievingRevitPrintSettingsFAILED);
@@ -331,7 +331,7 @@ namespace SCaddins.ExportManager
             }
             
             log.AddMessage(Resources.MessageUsingPrinter + printerName);
-            if (!PrintSettings.SetPrinterByName(doc, printerName, pm)) {
+            if (!SetPrinterByName(doc, printerName, pm)) {
                 log.AddError(null, Resources.MessageCannotSetPrinter + printerName);
                 return null;
             } 

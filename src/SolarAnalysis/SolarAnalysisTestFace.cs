@@ -35,7 +35,7 @@ namespace SCaddins.SolarAnalysis
         public DirectSunTestFace(Reference reference, string name, Document doc)
         {
             this.reference = reference;
-            this.face = FaceFromReferences(reference, doc);
+            face = FaceFromReferences(reference, doc);
             pointsUV = new List<UV>();
             valList = new List<ValueAtPoint>();
             this.name = name;

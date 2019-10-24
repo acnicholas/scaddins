@@ -49,7 +49,7 @@ namespace SCaddins.ExportManager.ViewModels
             isClosing = false;
             closeMode = CloseMode.Exit;
             sheets = new ObservableCollection<ExportSheet>(exportManager.AllSheets);
-            Sheets = CollectionViewSource.GetDefaultView(this.sheets);
+            Sheets = CollectionViewSource.GetDefaultView(sheets);
             Sheets.SortDescriptions.Add(new SortDescription("FullExportName", ListSortDirection.Ascending));
             ShowSearchHint = true;
             sheetFilter = null;
@@ -212,12 +212,12 @@ namespace SCaddins.ExportManager.ViewModels
         {
             get
             {
-                return this.sheetsCollection;
+                return sheetsCollection;
             }
 
             set
             {
-                this.sheetsCollection = value;
+                sheetsCollection = value;
                 NotifyOfPropertyChange(() => Sheets);
             }
         }
@@ -336,12 +336,12 @@ namespace SCaddins.ExportManager.ViewModels
         {
             var sheetCopierModel = new SCaddins.SheetCopier.ViewModels.SheetCopierViewModel(exportManager.UIDoc);
             sheetCopierModel.AddSheets(selectedSheets);
-            this.IsNotifying = false;
+            IsNotifying = false;
             SCaddinsApp.WindowManager.ShowDialog(
                 sheetCopierModel,
                 null,
                 SheetCopier.ViewModels.SheetCopierViewModel.DefaultWindowSettings);
-            this.IsNotifying = true;
+            IsNotifying = true;
         }
 
         public void CreateUserViews()
@@ -452,7 +452,7 @@ namespace SCaddins.ExportManager.ViewModels
             bool newBool = result.HasValue ? result.Value : false;
             if (newBool && viewSetSelectionViewModel.SelectedSet != null)
             {
-                this.IsNotifying = false;
+                IsNotifying = false;
                 try
                 {
                     var filter = new Predicate<object>(item => viewSetSelectionViewModel
@@ -464,7 +464,7 @@ namespace SCaddins.ExportManager.ViewModels
                 {
                     Console.WriteLine(exception.Message);
                 }
-                this.IsNotifying = true;
+                IsNotifying = true;
             }
         }
 
@@ -570,9 +570,9 @@ namespace SCaddins.ExportManager.ViewModels
         {
             if (!isClosing)
             {
-                this.IsNotifying = false;
+                IsNotifying = false;
                 List<ExportSheet> list = ((System.Windows.Controls.DataGrid)sender).SelectedItems.Cast<ExportSheet>().ToList();
-                this.IsNotifying = true;
+                IsNotifying = true;
                 SelectedSheets = list;
             }
         }
@@ -585,7 +585,7 @@ namespace SCaddins.ExportManager.ViewModels
         public void ShowLatestRevision()
         {
             var revDate = Manager.LatestRevisionDate(exportManager.Doc);
-            this.IsNotifying = false;
+            IsNotifying = false;
             try
             {
                 var filter = new Predicate<object>(item => ((ExportSheet)item).SheetRevisionDate.Equals(revDate, StringComparison.CurrentCulture));
@@ -596,7 +596,7 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 SCaddinsApp.WindowManager.ShowMessageBox(exception.Message);
             }
-            this.IsNotifying = true;
+            IsNotifying = true;
         }
 
         public void TurnNorthPointsOff()
@@ -622,7 +622,7 @@ namespace SCaddins.ExportManager.ViewModels
                 return;
             }
 
-            this.IsNotifying = false;
+            IsNotifying = false;
             try {
                 var filter = new Predicate<object>(
                     item =>
@@ -639,7 +639,7 @@ namespace SCaddins.ExportManager.ViewModels
                 SCaddinsApp.WindowManager.ShowMessageBox(exception.Message);
             }
 
-            this.IsNotifying = true;      
+            IsNotifying = true;      
         }
 
         private void FilterByNumber(string number)

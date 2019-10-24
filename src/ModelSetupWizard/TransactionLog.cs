@@ -72,7 +72,7 @@ namespace SCaddins.ModelSetupWizard
 
         public string Summary()
         {
-            string result = this.ToString();
+            string result = ToString();
             result += System.Environment.NewLine;
             foreach (var item in items) {
                 result += item.Message;

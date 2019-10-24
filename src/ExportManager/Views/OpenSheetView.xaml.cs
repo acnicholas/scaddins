@@ -5,7 +5,7 @@
         public OpenSheetView()
         {
             InitializeComponent();
-            this.SearchInput.Focus();
+            SearchInput.Focus();
         }
     }
 }

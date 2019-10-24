@@ -49,14 +49,14 @@ namespace SCaddins.RoomConvertor
         public RoomConversionManager(Document doc)
         {
             departmentsInModel = new Dictionary<string, string>();
-            this.allCandidates = new List<RoomConversionCandidate>();
+            allCandidates = new List<RoomConversionCandidate>();
             this.doc = doc;
-            this.titleBlocks = GetAllTitleBlockTypes(this.doc);
-            this.TitleBlockId = ElementId.InvalidElementId;
-            this.viewTemplates = GetViewTemplates(this.doc);
-            this.ViewTemplateId = ElementId.InvalidElementId;
-            this.Scale = 50;
-            this.CropRegionEdgeOffset = 300;
+            titleBlocks = GetAllTitleBlockTypes(this.doc);
+            TitleBlockId = ElementId.InvalidElementId;
+            viewTemplates = GetViewTemplates(this.doc);
+            ViewTemplateId = ElementId.InvalidElementId;
+            Scale = 50;
+            CropRegionEdgeOffset = 300;
             SheetCopier.SheetCopierManager.GetAllSheets(existingSheets, this.doc);
             SheetCopier.SheetCopierManager.GetAllViewsInModel(existingViews, this.doc);
             using (var collector = new FilteredElementCollector(this.doc))
@@ -162,14 +162,14 @@ namespace SCaddins.RoomConvertor
                     t.Start();
                     foreach (RoomConversionCandidate c in rooms) {
                         roomCount++;
-                        if (this.CreateRoomMass(c.Room)) {
+                        if (CreateRoomMass(c.Room)) {
                             continue;
                         }
-                        if (this.CreateSimpleRoomMassByExtrusion(c.Room)) {
+                        if (CreateSimpleRoomMassByExtrusion(c.Room)) {
                             continue;
                         }
                         basicMasses++;
-                        if (!this.CreateRoomMassByBoundingBox(c.Room)) {
+                        if (!CreateRoomMassByBoundingBox(c.Room)) {
                             errCount++;
                         }
                     }
@@ -199,7 +199,7 @@ namespace SCaddins.RoomConvertor
                 {
                     foreach (RoomConversionCandidate c in rooms)
                     {
-                        this.CreateViewAndSheet(c);
+                        CreateViewAndSheet(c);
                     }
                     t.Commit();
                 }
@@ -226,7 +226,7 @@ namespace SCaddins.RoomConvertor
                 return ElementId.InvalidElementId;
             }
             ElementId id = ElementId.InvalidElementId;
-            bool titleFound = this.titleBlocks.TryGetValue(titleBlockName, out id);
+            bool titleFound = titleBlocks.TryGetValue(titleBlockName, out id);
             return titleFound ? id : ElementId.InvalidElementId;
         }
 
@@ -289,7 +289,7 @@ namespace SCaddins.RoomConvertor
         internal List<string> GetAllDepartments()
         {
             var result = new List<string>();
-            foreach (string s in this.departmentsInModel.Values)
+            foreach (string s in departmentsInModel.Values)
             {
                 result.Add(s);
             }
@@ -569,18 +569,18 @@ namespace SCaddins.RoomConvertor
         private void CreateViewAndSheet(RoomConversionCandidate candidate)
         {
             // Create plans
-            ViewSheet sheet = ViewSheet.Create(doc, this.TitleBlockId);
+            ViewSheet sheet = ViewSheet.Create(doc, TitleBlockId);
             sheet.Name = candidate.DestinationSheetName;
             sheet.SheetNumber = candidate.DestinationSheetNumber;
 
             // Get Centre before placing any views
-            XYZ sheetCentre = CentreOfSheet(sheet, this.doc);
+            XYZ sheetCentre = CentreOfSheet(sheet, doc);
 
             // Create plan of room
             ViewPlan plan = ViewPlan.Create(doc, GetFloorPlanViewFamilyTypeId(doc), candidate.Room.Level.Id);
             plan.CropBoxActive = true;
             plan.ViewTemplateId = ElementId.InvalidElementId;
-            plan.Scale = this.Scale;
+            plan.Scale = Scale;
             BoundingBoxXYZ originalBoundingBox = candidate.Room.get_BoundingBox(plan);
 
             // Put them on sheets
@@ -588,17 +588,17 @@ namespace SCaddins.RoomConvertor
             plan.Name = candidate.DestinationViewName;
 
             // Shrink the bounding box now that it is placed
-            Viewport vp = Viewport.Create(this.doc, sheet.Id, plan.Id, sheetCentre);
+            Viewport vp = Viewport.Create(doc, sheet.Id, plan.Id, sheetCentre);
 
             // Shrink the bounding box now that it is placed
-            plan.CropBox = CreateOffsetBoundingBox(this.CropRegionEdgeOffset, originalBoundingBox);
+            plan.CropBox = CreateOffsetBoundingBox(CropRegionEdgeOffset, originalBoundingBox);
 
             // FIXME - To set an empty view title - so far this seems to work with the standard revit template...
             vp.ChangeTypeId(vp.GetValidTypes().Last());
 
             // FIXME Apply a view template
             // NOTE This could cause trouble with view scales
-            plan.ViewTemplateId = this.ViewTemplateId;
+            plan.ViewTemplateId = ViewTemplateId;
         }
     }
 }

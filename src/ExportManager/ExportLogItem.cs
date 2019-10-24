@@ -21,8 +21,8 @@ namespace SCaddins.ExportManager
     {
         public ExportLogItem(string description, string filename)
         {
-            this.Filename = filename;
-            this.Description = description;
+            Filename = filename;
+            Description = description;
         }
 
         public string Filename

@@ -32,17 +32,17 @@ namespace SCaddins.RenameUtilities
         public RenameCandidate(Parameter parameter)
         {
             this.parameter = parameter;
-            this.note = null;
-            this.oldValue = parameter.AsString();
-            this.newValue = parameter.AsString();
+            note = null;
+            oldValue = parameter.AsString();
+            newValue = parameter.AsString();
         }
 
         public RenameCandidate(TextElement note)
         {
-            this.parameter = null;
+            parameter = null;
             this.note = note;
-            this.oldValue = note.Text;
-            this.newValue = note.Text;
+            oldValue = note.Text;
+            newValue = note.Text;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -51,16 +51,16 @@ namespace SCaddins.RenameUtilities
         {
             get
             {
-                return this.newValue;
+                return newValue;
             }
 
             set
             {
-                this.newValue = value;
-                if (this.PropertyChanged != null)
+                newValue = value;
+                if (PropertyChanged != null)
                 {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(NewValue)));
-                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(ValueChanged)));
+                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(NewValue)));
+                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(ValueChanged)));
                 }
             }
         }
@@ -73,13 +73,13 @@ namespace SCaddins.RenameUtilities
                 {
                     return string.Empty;
                 }
-                return this.oldValue;
+                return oldValue;
             }
         }
 
         public bool ValueChanged
         {
-            get { return !string.Equals(this.oldValue, this.newValue, System.StringComparison.CurrentCulture); }
+            get { return !string.Equals(oldValue, newValue, System.StringComparison.CurrentCulture); }
         }
         
         public bool Rename()

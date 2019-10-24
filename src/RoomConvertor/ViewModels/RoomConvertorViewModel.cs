@@ -35,7 +35,7 @@ namespace SCaddins.RoomConvertor.ViewModels
         public RoomConvertorViewModel(RoomConversionManager manager)
         {
             this.manager = manager;
-            this.rooms = new List<RoomConversionCandidate>(manager.Candidates);
+            rooms = new List<RoomConversionCandidate>(manager.Candidates);
             MassCreationMode = true;
             SheetCreationMode = false;
             filter = new RoomFilter();

@@ -35,7 +35,7 @@ namespace SCaddins.HatchEditor.ViewModels
 
         public SaveToModelViewModel(string name)
         {
-            this.fillPatternsInModel = null;
+            fillPatternsInModel = null;
             NewPatternName = name;
             Label = "Pattern Name";
         }
@@ -83,12 +83,12 @@ namespace SCaddins.HatchEditor.ViewModels
 
         public void Cancel()
         {
-            this.TryClose(false);
+            TryClose(false);
         }
 
         public void Save()
         {
-            this.TryClose(true);
+            TryClose(true);
         }
     }
 }

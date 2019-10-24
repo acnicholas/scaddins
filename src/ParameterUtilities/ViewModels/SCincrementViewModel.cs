@@ -64,7 +64,7 @@ namespace SCaddins.ParameterUtilities.ViewModels
         public void ResetSettingsToDefault()
         {
             SCincrementSettings.Default.Reset();
-            this.LoadSettings();
+            LoadSettings();
         }
 
         public void SaveSettings()

@@ -56,11 +56,11 @@ namespace SCaddins.LineOfSight
             double going,
             double eyeHeight)
         {
-            this.EyeToFocusX = eyeToFocusX;
-            this.RiserHeight = riserHeight;
-            this.HeightToFocus = heightToFocus;
-            this.Going = going;
-            this.EyeHeight = eyeHeight;
+            EyeToFocusX = eyeToFocusX;
+            RiserHeight = riserHeight;
+            HeightToFocus = heightToFocus;
+            Going = going;
+            EyeHeight = eyeHeight;
         }
     }
 }

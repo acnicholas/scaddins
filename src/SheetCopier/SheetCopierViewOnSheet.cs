@@ -48,18 +48,18 @@ namespace SCaddins.SheetCopier
             {
                 throw new ArgumentNullException(nameof(view));
             }
-            this.oldView = view;
-            this.oldId = view.Id;
-            this.originalTitle = title;
-            this.SetDefualtCreationMode();
-            this.newTitle =
+            oldView = view;
+            oldId = view.Id;
+            originalTitle = title;
+            SetDefualtCreationMode();
+            newTitle =
                 title + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";
 
             ////remove invalid chars before continuing
-            this.newTitle = string.Join("_", this.newTitle.Split(System.IO.Path.GetInvalidFileNameChars()));
-            this.associatedLevelName = SheetCopierConstants.MenuItemCopy;
-            this.viewTemplateName = SheetCopierConstants.MenuItemCopy;
-            this.duplicateWithDetailing = true;
+            newTitle = string.Join("_", newTitle.Split(System.IO.Path.GetInvalidFileNameChars()));
+            associatedLevelName = SheetCopierConstants.MenuItemCopy;
+            viewTemplateName = SheetCopierConstants.MenuItemCopy;
+            duplicateWithDetailing = true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -68,24 +68,24 @@ namespace SCaddins.SheetCopier
         {
             get
             {
-                return this.associatedLevelName;
+                return associatedLevelName;
             }
 
             set
             {
-                this.associatedLevelName = value;
+                associatedLevelName = value;
                 if (value != SheetCopierConstants.MenuItemCopy)
                 {
-                    this.DuplicateWithDetailing = false;
-                    this.creationMode = ViewPortPlacementMode.New;
+                    DuplicateWithDetailing = false;
+                    creationMode = ViewPortPlacementMode.New;
                 }
                 else
                 {
-                    this.creationMode = ViewPortPlacementMode.Copy;
+                    creationMode = ViewPortPlacementMode.Copy;
                 }
-                if (this.PropertyChanged != null)
+                if (PropertyChanged != null)
                 {
-                    this.PropertyChanged(
+                    PropertyChanged(
                         this, new PropertyChangedEventArgs(nameof(AssociatedLevelName)));
                 }
             }
@@ -97,7 +97,7 @@ namespace SCaddins.SheetCopier
             {
                 List<string> list = new List<string>();
                 list.Add(SheetCopierConstants.MenuItemCopy);
-                list.AddRange(this.scopy.ViewTemplates.Select(k => k.Key).ToList());
+                list.AddRange(scopy.ViewTemplates.Select(k => k.Key).ToList());
                 return list;
             }
         }
@@ -106,7 +106,7 @@ namespace SCaddins.SheetCopier
         {
             get
             {
-                return this.creationMode;
+                return creationMode;
             }
         }
 
@@ -114,15 +114,15 @@ namespace SCaddins.SheetCopier
         {
             get
             {
-                return this.duplicateWithDetailing;
+                return duplicateWithDetailing;
             }
 
             set
             {
-                this.duplicateWithDetailing = value;
-                if (this.PropertyChanged != null)
+                duplicateWithDetailing = value;
+                if (PropertyChanged != null)
                 {
-                    this.PropertyChanged(
+                    PropertyChanged(
                         this, new PropertyChangedEventArgs(nameof(DuplicateWithDetailing)));
                 }
             }
@@ -143,7 +143,7 @@ namespace SCaddins.SheetCopier
         {
             get
             {
-                return this.oldId;
+                return oldId;
             }
         }
 
@@ -151,7 +151,7 @@ namespace SCaddins.SheetCopier
         {
             get
             {
-                return this.oldView;
+                return oldView;
             }
         }
 
@@ -159,7 +159,7 @@ namespace SCaddins.SheetCopier
         {
             get
             {
-                return this.originalTitle;
+                return originalTitle;
             }
         }
 
@@ -167,7 +167,7 @@ namespace SCaddins.SheetCopier
         {
             get
             {
-                return this.oldView.ViewType;
+                return oldView.ViewType;
             }
         }
 
@@ -175,17 +175,17 @@ namespace SCaddins.SheetCopier
         {
             get
             {
-                return this.newTitle;
+                return newTitle;
             }
 
             set
             {
-                if (value != this.newTitle && this.scopy.ViewNameAvailable(value))
+                if (value != newTitle && scopy.ViewNameAvailable(value))
                 {
-                    this.newTitle = value;
-                    if (this.PropertyChanged != null)
+                    newTitle = value;
+                    if (PropertyChanged != null)
                     {
-                        this.PropertyChanged(
+                        PropertyChanged(
                             this, new PropertyChangedEventArgs(nameof(Title)));
                     }
                 }
@@ -201,15 +201,15 @@ namespace SCaddins.SheetCopier
         {
             get
             {
-                return this.viewTemplateName;
+                return viewTemplateName;
             }
 
             set
             {
-                this.viewTemplateName = value;
-                if (this.PropertyChanged != null)
+                viewTemplateName = value;
+                if (PropertyChanged != null)
                 {
-                    this.PropertyChanged(
+                    PropertyChanged(
                         this, new PropertyChangedEventArgs(nameof(ViewTemplateName)));
                 }
             }
@@ -231,12 +231,12 @@ namespace SCaddins.SheetCopier
 
         public bool PlanEnough()
         {
-            return PlanEnough(this.RevitViewType);
+            return PlanEnough(RevitViewType);
         }
 
         private void SetDefualtCreationMode()
         {
-            this.creationMode = this.oldView.ViewType == ViewType.Legend ? ViewPortPlacementMode.Legend : ViewPortPlacementMode.Copy;
+            creationMode = oldView.ViewType == ViewType.Legend ? ViewPortPlacementMode.Legend : ViewPortPlacementMode.Copy;
         }
     }
 }

@@ -48,12 +48,12 @@ namespace SCaddins.RevisionUtilities
 
         public string Date
         {
-            get { return this.date; }
+            get { return date; }
         }
 
         public string Description
         {
-            get { return this.description; }
+            get { return description; }
         }
 
         public bool Export
@@ -69,21 +69,21 @@ namespace SCaddins.RevisionUtilities
 
         public bool Issued
         {
-            get { return this.issued; }
+            get { return issued; }
         }
 
         public int Sequence
         {
-            get { return this.sequence; }
+            get { return sequence; }
         }
 
         private void Init(Element revision)
         {
-            this.Id = revision.Id;
-            this.description = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
-            this.date = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString();
-            this.issued = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_ISSUED).AsInteger() == 1;
-            this.sequence = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger();
+            Id = revision.Id;
+            description = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
+            date = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString();
+            issued = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_ISSUED).AsInteger() == 1;
+            sequence = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger();
         }
     }
 }

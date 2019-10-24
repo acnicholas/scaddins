@@ -27,8 +27,8 @@
         }
 
         public Hatch ActiveHatch {
-            get { return (Hatch)this.GetValue(ActiveHatchProperty); }
-            set { this.SetValue(ActiveHatchProperty, value); }
+            get { return (Hatch)GetValue(ActiveHatchProperty); }
+            set { SetValue(ActiveHatchProperty, value); }
         }
 
         protected override int VisualChildrenCount {
@@ -55,7 +55,7 @@
         {
             canvasScale = scale;
             Update(hatch);
-            this.InvalidateVisual();
+            InvalidateVisual();
         }
 
         public void Update(Hatch hatch)
@@ -74,7 +74,7 @@
         {
             width = finalSize.Width;
             height = finalSize.Height;
-            this.Update(this.ActiveHatch);
+            Update(ActiveHatch);
             return base.ArrangeOverride(finalSize);
         }
 
@@ -89,7 +89,7 @@
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             canvasScale = canvasScale + ((double)e.Delta / 1800);
-            this.Update(this.ActiveHatch);
+            Update(ActiveHatch);
             base.OnMouseWheel(e);
         }
 

@@ -161,9 +161,9 @@ namespace SCaddins.DestructivePurge.ViewModels
                 }
             }
 
-            this.IsNotifying = false;
+            IsNotifying = false;
             DestructivePurgeUtilitiles.RemoveElements(doc, toDelete);
-            this.IsNotifying = true;
+            IsNotifying = true;
             CheckableItems = GetPurgableItems();
         }
 

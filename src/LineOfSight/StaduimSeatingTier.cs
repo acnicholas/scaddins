@@ -15,12 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Diagnostics.CodeAnalysis;
-
 namespace SCaddins.LineOfSight
 {
     using System;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Runtime.CompilerServices;
@@ -81,7 +80,7 @@ namespace SCaddins.LineOfSight
             double distanceToFirstRowX = 12000,
             double distanceToFirstRowY = 1000)
         {
-            this.view = null;
+            view = null;
             this.doc = doc;
             this.eyeHeight = eyeHeight;
             this.treadSize = treadSize;
@@ -91,12 +90,12 @@ namespace SCaddins.LineOfSight
             this.numberOfRows = numberOfRows;
             this.distanceToFirstRowX = distanceToFirstRowX;
             this.distanceToFirstRowY = distanceToFirstRowY;
-            this.rows = new StadiumSeatingTread[100];
+            rows = new StadiumSeatingTread[100];
             for (int i = 0; i < 100; i++)
             {
-                this.rows[i] = new StadiumSeatingTread();
+                rows[i] = new StadiumSeatingTread();
             }
-            this.UpdateRows();
+            UpdateRows();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -152,11 +151,11 @@ namespace SCaddins.LineOfSight
 
         public string InfoString
         {
-            get => this.infoString;
+            get => infoString;
 
             private set
             {
-                this.infoString = value;
+                infoString = value;
                 NotifyPropertyChanged(nameof(InfoString));
             }
         }
@@ -226,14 +225,14 @@ namespace SCaddins.LineOfSight
         public ViewDrafting CreateLineOfSightDraftingView(string newViewName)
         {
             ViewFamilyType viewFamilyType =
-                new FilteredElementCollector(this.doc)
+                new FilteredElementCollector(doc)
                     .OfClass(typeof(ViewFamilyType))
                     .Cast<ViewFamilyType>()
                     .FirstOrDefault(x => ViewFamily.Drafting == x.ViewFamily);
             if (viewFamilyType == null) {
                 return null;
             }
-            var viewDrafting = ViewDrafting.Create(this.doc, viewFamilyType.Id);
+            var viewDrafting = ViewDrafting.Create(doc, viewFamilyType.Id);
             #if REVIT2019 || REVIT2020
             viewDrafting.Name = newViewName;
             #else
@@ -243,7 +242,7 @@ namespace SCaddins.LineOfSight
         }
 
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.DateTime.ToString")]
-        [SuppressMessage("ReSharper", "BitwiseOperatorOnEnumWithoutFlags")]
+        [SuppressMessage("ReSharper", "BitwiseOperatorOnEnumWithoutFlags", Justification = "Revit API...")]
         public void Draw()
         {
             using (var t = new Transaction(doc, "Create sight line view"))
@@ -252,72 +251,72 @@ namespace SCaddins.LineOfSight
 
                 string times = DateTime.Now.Ticks.ToString(CultureInfo.CurrentCulture);
 
-                this.view = this.CreateLineOfSightDraftingView(
-                    "LOS-X" + this.distanceToFirstRowX + "-Y" + this.distanceToFirstRowY + "-T" +
-                    this.TreadSize + "-MinN" + this.MinimumRiserHeight + "-Inc" + this.RiserIncrement +
-                    "-Eye" + this.EyeHeight + "-MinC" + this.MinimumCValue + "_" + times);
+                view = CreateLineOfSightDraftingView(
+                    "LOS-X" + distanceToFirstRowX + "-Y" + distanceToFirstRowY + "-T" +
+                    TreadSize + "-MinN" + MinimumRiserHeight + "-Inc" + RiserIncrement +
+                    "-Eye" + EyeHeight + "-MinC" + MinimumCValue + "_" + times);
 
-                this.view.Scale = 50;
+                view.Scale = 50;
                 int i;
 
-                for (i = 0; i < this.NumberOfRows; i++)
+                for (i = 0; i < NumberOfRows; i++)
                 {
                     if (i == 0)
                     {
-                        this.DrawLine(0, 0, this.distanceToFirstRowX, 0, "Thin Lines");
-                        this.DrawText(
-                            this.distanceToFirstRowX / 2,
+                        DrawLine(0, 0, distanceToFirstRowX, 0, "Thin Lines");
+                        DrawText(
+                            distanceToFirstRowX / 2,
                             0,
-                            this.distanceToFirstRowX.ToString(CultureInfo.InvariantCulture),
+                            distanceToFirstRowX.ToString(CultureInfo.InvariantCulture),
                             TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_TOP);
-                        this.DrawText(
-                            this.distanceToFirstRowX,
-                            this.distanceToFirstRowY / 2,
-                            this.distanceToFirstRowY.ToString(CultureInfo.InvariantCulture),
+                        DrawText(
+                            distanceToFirstRowX,
+                            distanceToFirstRowY / 2,
+                            distanceToFirstRowY.ToString(CultureInfo.InvariantCulture),
                             TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_BOTTOM);
                     }
 
                     // Draw the sight line
-                    this.DrawLine(0, 0, this.rows[i].EyeToFocusX, this.rows[i].HeightToFocus, "Dash - 0.1 pen");
+                    DrawLine(0, 0, rows[i].EyeToFocusX, rows[i].HeightToFocus, "Dash - 0.1 pen");
 
                     // Draw the head
-                    this.DrawCircle(this.rows[i].EyeToFocusX, this.rows[i].HeightToFocus, "Medium Lines");
+                    DrawCircle(rows[i].EyeToFocusX, rows[i].HeightToFocus, "Medium Lines");
 
                     // Draw the body
-                    this.DrawLine(
-                        this.rows[i].EyeToFocusX,
-                        this.rows[i].HeightToFocus,
-                        this.rows[i].EyeToFocusX,
-                        this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
+                    DrawLine(
+                        rows[i].EyeToFocusX,
+                        rows[i].HeightToFocus,
+                        rows[i].EyeToFocusX,
+                        rows[i].HeightToFocus - rows[i].EyeHeight,
                         "Thin Lines");
 
                     // Draw the riser
-                    this.DrawRiser(i);
+                    DrawRiser(i);
 
                     // Draw the going
-                    this.DrawGoing(i);
+                    DrawGoing(i);
 
                     // Draw the c-value text
-                    this.DrawText(
-                        this.rows[i].EyeToFocusX + 125,
-                        this.rows[i].HeightToFocus,
-                        "c:" + Math.Round(this.rows[i].CValue, 2).ToString(CultureInfo.InvariantCulture),
+                    DrawText(
+                        rows[i].EyeToFocusX + 125,
+                        rows[i].HeightToFocus,
+                        "c:" + Math.Round(rows[i].CValue, 2).ToString(CultureInfo.InvariantCulture),
                         TextAlignFlags.TEF_ALIGN_LEFT);
 
                     //// Draw the going text (treadSize)
-                    this.DrawText(
-                        this.rows[i].EyeToFocusX - (this.rows[i].Going / 2),
-                        this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
-                        "R" + (i + 1).ToString(CultureInfo.InvariantCulture) + " : " + this.TreadSize.ToString(CultureInfo.InvariantCulture),
+                    DrawText(
+                        rows[i].EyeToFocusX - (rows[i].Going / 2),
+                        rows[i].HeightToFocus - rows[i].EyeHeight,
+                        "R" + (i + 1).ToString(CultureInfo.InvariantCulture) + " : " + TreadSize.ToString(CultureInfo.InvariantCulture),
                         TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_TOP);
 
                     //// Draw the riser text)
                     if (i > 0)
                     {
-                        this.DrawText(
-                            this.rows[i].EyeToFocusX - this.TreadSize,
-                            this.rows[i].HeightToFocus - this.rows[i].EyeHeight - (this.rows[i].RiserHeight / 2),
-                            this.rows[i].RiserHeight.ToString(CultureInfo.InvariantCulture),
+                        DrawText(
+                            rows[i].EyeToFocusX - TreadSize,
+                            rows[i].HeightToFocus - rows[i].EyeHeight - (rows[i].RiserHeight / 2),
+                            rows[i].RiserHeight.ToString(CultureInfo.InvariantCulture),
                             TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_BOTTOM);
                     }
                 }
@@ -330,12 +329,12 @@ namespace SCaddins.LineOfSight
 
         public double GetCValue(int i, double nextn)
         {
-            return ((this.rows[i].EyeToFocusX * (this.rows[i].HeightToFocus + nextn)) / (this.rows[i].EyeToFocusX + this.TreadSize)) - this.rows[i].HeightToFocus;
+            return ((rows[i].EyeToFocusX * (rows[i].HeightToFocus + nextn)) / (rows[i].EyeToFocusX + TreadSize)) - rows[i].HeightToFocus;
         }
 
         private void DrawCircle(double x1, double y1, string s)
         {
-            var app = this.doc.Application;
+            var app = doc.Application;
             var point1 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x1), MiscUtilities.MillimetersToFeet(y1), MiscUtilities.MillimetersToFeet(0));
             using (Arc arc = Arc.Create(
                           point1,
@@ -345,8 +344,8 @@ namespace SCaddins.LineOfSight
                           app.Create.NewXYZ(1, 0, 0),
                           app.Create.NewXYZ(0, 1, 0)))
             {
-                var detailCurve = this.doc.Create.NewDetailCurve(this.view, arc) as DetailArc;
-                this.SetLineTypeByName(detailCurve, s);
+                var detailCurve = doc.Create.NewDetailCurve(view, arc) as DetailArc;
+                SetLineTypeByName(detailCurve, s);
             }
         }
 
@@ -357,25 +356,25 @@ namespace SCaddins.LineOfSight
             {
                 igo = "Thin Lines";
             }
-            this.DrawLine(
-                this.rows[i].EyeToFocusX,
-                this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
-                this.rows[i].EyeToFocusX - this.rows[i].Going,
-                this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
+            DrawLine(
+                rows[i].EyeToFocusX,
+                rows[i].HeightToFocus - rows[i].EyeHeight,
+                rows[i].EyeToFocusX - rows[i].Going,
+                rows[i].HeightToFocus - rows[i].EyeHeight,
                 igo);
         }
 
         private void DrawLine(double x1, double y1, double x2, double y2, string s)
         {
-            var app = this.doc.Application;
+            var app = doc.Application;
             var point1 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x1), MiscUtilities.MillimetersToFeet(y1), MiscUtilities.MillimetersToFeet(0.0));
             var point2 = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x2), MiscUtilities.MillimetersToFeet(y2), MiscUtilities.MillimetersToFeet(0.0));
             try
             {
                 using (Line line = Line.CreateBound(point1, point2))
                 {
-                    var detailCurve = this.doc.Create.NewDetailCurve(this.view, line) as DetailLine;
-                    this.SetLineTypeByName(detailCurve, s);
+                    var detailCurve = doc.Create.NewDetailCurve(view, line) as DetailLine;
+                    SetLineTypeByName(detailCurve, s);
                 }
             }
             catch (ArgumentNullException e)
@@ -396,27 +395,27 @@ namespace SCaddins.LineOfSight
         {
             if (i == 0)
             {
-                this.DrawLine(
-                    this.rows[i].EyeToFocusX,
-                    this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
-                    this.rows[i].EyeToFocusX,
-                    this.rows[i].HeightToFocus - (this.rows[i].EyeHeight + this.rows[i].RiserHeight),
+                DrawLine(
+                    rows[i].EyeToFocusX,
+                    rows[i].HeightToFocus - rows[i].EyeHeight,
+                    rows[i].EyeToFocusX,
+                    rows[i].HeightToFocus - (rows[i].EyeHeight + rows[i].RiserHeight),
                     "Thin Lines");
             }
             else
             {
-                this.DrawLine(
-                    this.rows[i].EyeToFocusX - this.rows[i].Going,
-                    this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
-                    this.rows[i].EyeToFocusX - this.rows[i].Going,
-                    this.rows[i].HeightToFocus - (this.rows[i].EyeHeight + this.rows[i].RiserHeight),
+                DrawLine(
+                    rows[i].EyeToFocusX - rows[i].Going,
+                    rows[i].HeightToFocus - rows[i].EyeHeight,
+                    rows[i].EyeToFocusX - rows[i].Going,
+                    rows[i].HeightToFocus - (rows[i].EyeHeight + rows[i].RiserHeight),
                     "Wide Lines");
             }
         }
 
         private void DrawText(double x, double y, string s, TextAlignFlags f)
         {
-            Application app = this.doc.Application;
+            Application app = doc.Application;
             XYZ origin = app.Create.NewXYZ(MiscUtilities.MillimetersToFeet(x), MiscUtilities.MillimetersToFeet(y), 0);
             using (TextNoteOptions tno = new TextNoteOptions())
             {
@@ -429,7 +428,7 @@ namespace SCaddins.LineOfSight
                 {
                     tno.HorizontalAlignment = HorizontalTextAlignment.Left;
                 }
-                TextNote.Create(this.doc, this.view.Id, origin, s, tno).Dispose();
+                TextNote.Create(doc, view.Id, origin, s, tno).Dispose();
             }
         }
 
@@ -445,7 +444,7 @@ namespace SCaddins.LineOfSight
         {
             foreach (ElementId styleId in detailLine.GetLineStyleIds())
             {
-                Element style = this.doc.GetElement(styleId);
+                Element style = doc.GetElement(styleId);
                 if (style.Name.Equals(styleName, StringComparison.CurrentCulture))
                 {
                     detailLine.LineStyle = style;
@@ -455,19 +454,18 @@ namespace SCaddins.LineOfSight
 
         private void UpdateInfoString()
         {
-            string s;
             int i;
 
-            s = string.Empty;
+            var s = string.Empty;
             s += "row:\triser:\tdist:\telev:\tc-value:\r\n";
 
-            for (i = 0; i < this.NumberOfRows; i++)
+            for (i = 0; i < NumberOfRows; i++)
             {
-                string c = i > 0 ? Math.Round(this.rows[i - 1].CValue, 2).ToString(CultureInfo.InvariantCulture) : "NA";
-                string r = i > 0 ? Math.Round(this.rows[i].RiserHeight, 2).ToString(CultureInfo.InvariantCulture) : "NA";
+                string c = i > 0 ? Math.Round(rows[i - 1].CValue, 2).ToString(CultureInfo.InvariantCulture) : "NA";
+                string r = i > 0 ? Math.Round(rows[i].RiserHeight, 2).ToString(CultureInfo.InvariantCulture) : "NA";
                 s += i + 1 + "\t" + r + "\t"
-                + Math.Round(this.rows[i].EyeToFocusX, 2) + "\t"
-                + Math.Round(this.rows[i].HeightToFocus - this.EyeHeight, 2) + "\t"
+                + Math.Round(rows[i].EyeToFocusX, 2) + "\t"
+                + Math.Round(rows[i].HeightToFocus - EyeHeight, 2) + "\t"
                 + c + "\r\n";
             }
 
@@ -476,27 +474,27 @@ namespace SCaddins.LineOfSight
 
         private void UpdateRows()
         {
-            for (int i = 0; i < this.NumberOfRows; i++)
+            for (int i = 0; i < NumberOfRows; i++)
             {
-                this.rows[i].Initialize(
-                    this.distanceToFirstRowX + (i * this.TreadSize),
-                    this.distanceToFirstRowY,
-                    this.distanceToFirstRowY + this.EyeHeight,
-                    this.treadSize,
-                    this.eyeHeight);
+                rows[i].Initialize(
+                    distanceToFirstRowX + (i * TreadSize),
+                    distanceToFirstRowY,
+                    distanceToFirstRowY + EyeHeight,
+                    treadSize,
+                    eyeHeight);
                 if (i > 0)
                 {
-                    this.rows[i].RiserHeight = this.MinimumRiserHeight;
-                    this.rows[i].HeightToFocus = this.rows[i - 1].HeightToFocus + this.MinimumRiserHeight;
-                    while (this.GetCValue(i - 1, this.rows[i].RiserHeight) < this.minimumCValue)
+                    rows[i].RiserHeight = MinimumRiserHeight;
+                    rows[i].HeightToFocus = rows[i - 1].HeightToFocus + MinimumRiserHeight;
+                    while (GetCValue(i - 1, rows[i].RiserHeight) < minimumCValue)
                     {
-                        this.rows[i].RiserHeight += this.riserIncrement;
-                        this.rows[i].HeightToFocus += this.riserIncrement;
+                        rows[i].RiserHeight += riserIncrement;
+                        rows[i].HeightToFocus += riserIncrement;
                     }
-                    this.rows[i - 1].CValue = this.GetCValue(i - 1, this.rows[i].RiserHeight);
+                    rows[i - 1].CValue = GetCValue(i - 1, rows[i].RiserHeight);
                 }
             }
-            this.UpdateInfoString();
+            UpdateInfoString();
         }
     }
 }

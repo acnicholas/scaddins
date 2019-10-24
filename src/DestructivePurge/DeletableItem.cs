@@ -24,12 +24,12 @@ namespace SCaddins.DestructivePurge
     {
         public DeletableItem(string name)
         {
-            this.Info = "-";
-            this.Id = null;
-            this.Name = name;
-            this.PreviewImage = null;
-            this.HasParent = false;
-            this.ParentId = ElementId.InvalidElementId;
+            Info = "-";
+            Id = null;
+            Name = name;
+            PreviewImage = null;
+            HasParent = false;
+            ParentId = ElementId.InvalidElementId;
         }
 
         public ElementId Id

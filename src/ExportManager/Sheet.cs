@@ -63,10 +63,10 @@ namespace SCaddins.ExportManager
                 bool verifyOnCreation,
                 Manager scx)
         {
-            this.Init(sheet, doc, fileNameTemplate, scx);
+            Init(sheet, doc, fileNameTemplate, scx);
             if (verifyOnCreation)
             {
-                this.UpdateSheetInfo();
+                UpdateSheetInfo();
             }
         }
 
@@ -92,13 +92,13 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return this.forceDate;
+                return forceDate;
             }
 
             set
             {
-                this.forceDate = value;
-                this.SetExportName();
+                forceDate = value;
+                SetExportName();
                 NotifyPropertyChanged(nameof(ForceDate));
                 NotifyPropertyChanged(nameof(FullExportName));
                 NotifyPropertyChanged(nameof(SheetRevision));
@@ -115,17 +115,17 @@ namespace SCaddins.ExportManager
 
         public string FullExportName
         {
-            get { return this.fullExportName; }
+            get { return fullExportName; }
         }
 
         public double Height
         {
-            get { return this.height * 304.8; }
+            get { return height * 304.8; }
         }
 
         public ElementId Id
         {
-            get { return this.id; }
+            get { return id; }
         }
 
         public bool? NorthPointVisible
@@ -155,7 +155,7 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return this.pageSize;
+                return pageSize;
             }
         }
 
@@ -163,7 +163,7 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return this.printSetting != null ? this.printSetting.Name : string.Empty;
+                return printSetting != null ? printSetting.Name : string.Empty;
             }
         }
 
@@ -171,7 +171,7 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return this.projectNumber;
+                return projectNumber;
             }
         }
 
@@ -179,7 +179,7 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                string result = this.scale.Trim();
+                string result = scale.Trim();
                 int i = 0;
                 if (result.Contains(":")) {
                     i = result.IndexOf(':');
@@ -188,18 +188,18 @@ namespace SCaddins.ExportManager
                 if (string.IsNullOrEmpty(result.Trim())) {
                     result = "0";
                 }
-                if (!string.IsNullOrEmpty(this.scaleBarScale)) {
-                    flag |= i > 0 && !result.Substring(i + 2).Equals(this.scaleBarScale.Trim(), StringComparison.CurrentCultureIgnoreCase);
+                if (!string.IsNullOrEmpty(scaleBarScale)) {
+                    flag |= i > 0 && !result.Substring(i + 2).Equals(scaleBarScale.Trim(), StringComparison.CurrentCultureIgnoreCase);
                 }
-                if (!string.IsNullOrEmpty(this.scaleBarScale.Trim()) && flag) {
-                    result += " [**" + this.scaleBarScale + "]";
+                if (!string.IsNullOrEmpty(scaleBarScale.Trim()) && flag) {
+                    result += " [**" + scaleBarScale + "]";
                 }
                 return result;
             }
 
             set
             {
-                this.scale = value;
+                scale = value;
                 NotifyPropertyChanged(nameof(Scale));
             }
         }
@@ -208,7 +208,7 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return this.printSetting;
+                return printSetting;
             }
         }
 
@@ -216,26 +216,26 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return this.segmentedFileName;
+                return segmentedFileName;
             }     
         }
 
         public ViewSheet Sheet
         {
-            get { return this.sheet; }
+            get { return sheet; }
         }
 
         public string SheetDescription
         {
             get
             { 
-                return this.sheetDescription;
+                return sheetDescription;
             }
             
             set
             { 
-                this.sheetDescription = value;
-                this.SetExportName();
+                sheetDescription = value;
+                SetExportName();
                 NotifyPropertyChanged();
             }
         }
@@ -244,13 +244,13 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return this.sheetNumber;
+                return sheetNumber;
             }
             
             set
             {   
-                this.sheetNumber = value;
-                this.SetExportName();
+                sheetNumber = value;
+                SetExportName();
                 NotifyPropertyChanged();
             }
         }
@@ -259,7 +259,7 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return this.sheetRevision ?? "-";
+                return sheetRevision ?? "-";
             }
         }
 
@@ -267,7 +267,7 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return this.sheetRevisionDate ?? "-";
+                return sheetRevisionDate ?? "-";
             }
         }
 
@@ -275,7 +275,7 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return this.sheetRevisionDateTime;
+                return sheetRevisionDateTime;
             }
         }
 
@@ -283,7 +283,7 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return this.sheetRevisionDescription ?? "-";
+                return sheetRevisionDescription ?? "-";
             }
         }
 
@@ -291,13 +291,13 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return this.useDateForEmptyRevisions;
+                return useDateForEmptyRevisions;
             }
 
             set
             {
-                this.useDateForEmptyRevisions = value;
-                this.SetExportName();
+                useDateForEmptyRevisions = value;
+                SetExportName();
                 NotifyPropertyChanged(nameof(UseDateForEmptyRevisions));
                 NotifyPropertyChanged(nameof(FullExportName));
                 NotifyPropertyChanged(nameof(SheetRevision));
@@ -322,23 +322,23 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return FileUtilities.IsValidFileName(this.FullExportName);
+                return FileUtilities.IsValidFileName(FullExportName);
             }
         }
 
         public bool ValidScaleBar
         {
-            get { return this.RevitScaleWithoutFormatting() == this.scaleBarScale.Trim(); }
+            get { return RevitScaleWithoutFormatting() == scaleBarScale.Trim(); }
         }
 
         public bool Verified
         {
-            get { return this.verified; }
+            get { return verified; }
         }
 
         public double Width
         {
-            get { return this.width * 304.8; }
+            get { return width * 304.8; }
         }
 
         public static bool? GetNorthPointVisibility(Element titleBlock)
@@ -388,20 +388,20 @@ namespace SCaddins.ExportManager
 
         public string FullExportPath(string extension)
         {
-            return this.ExportDirectory + "\\" + this.fullExportName + extension;
+            return ExportDirectory + "\\" + fullExportName + extension;
         }
 
         public Parameter ParamFromString(string name)
         {
-            if (this.Sheet.GetParameters(name).Count > 0) {
-                return this.Sheet.GetParameters(name)[0];
+            if (Sheet.GetParameters(name).Count > 0) {
+                return Sheet.GetParameters(name)[0];
             }
             return null;
         }
 
         public string RevitScaleWithoutFormatting()
         {
-            var result = this.scale.Trim();
+            var result = scale.Trim();
             var i = 0;
             if (result.Contains(":"))
             {
@@ -429,15 +429,15 @@ namespace SCaddins.ExportManager
             }
 
             Parameter p = tb[0];
-            p.SetValueString(this.RevitScaleWithoutFormatting());
-            this.scaleBarScale = this.RevitScaleWithoutFormatting();
+            p.SetValueString(RevitScaleWithoutFormatting());
+            scaleBarScale = RevitScaleWithoutFormatting();
             NotifyPropertyChanged(nameof(Scale));
         }
 
         public void SetSegmentedSheetName(SegmentedSheetName newSegmentedFileName)
         {
-            this.segmentedFileName = newSegmentedFileName;
-            this.SetExportName();
+            segmentedFileName = newSegmentedFileName;
+            SetExportName();
             NotifyPropertyChanged(nameof(SheetNumber));
             NotifyPropertyChanged(nameof(FullExportName));
         }
@@ -445,7 +445,7 @@ namespace SCaddins.ExportManager
         public void ToggleNorthPoint(bool turnOn)
         {
             var titleBlock = Manager.TitleBlockInstanceFromSheetNumber(
-                this.sheetNumber, this.doc);
+                sheetNumber, doc);
 
             string northPointVisibility = Settings1.Default.NorthPointVisibilityParameter;
 
@@ -492,34 +492,34 @@ namespace SCaddins.ExportManager
             return string.Format(
                 CultureInfo.CurrentCulture,
                 s,
-                this.sheetRevisionDateTime,
-                this.doc.PathName,
-                this.id,
-                this.printSetting,
-                this.segmentedFileName,
-                this.sheet,
-                this.forceDate,
-                this.verified,
-                this.height,
-                this.width,
-                this.fullExportName,
-                this.pageSize,
-                this.projectNumber,
+                sheetRevisionDateTime,
+                doc.PathName,
+                id,
+                printSetting,
+                segmentedFileName,
+                sheet,
+                forceDate,
+                verified,
+                height,
+                width,
+                fullExportName,
+                pageSize,
+                projectNumber,
                 Scale,
-                this.scaleBarScale,
-                this.sheetDescription,
-                this.sheetNumber,
-                this.sheetRevision,
-                this.sheetRevisionDate,
-                this.sheetRevisionDescription,
-                this.ExportDirectory);
+                scaleBarScale,
+                sheetDescription,
+                sheetNumber,
+                sheetRevision,
+                sheetRevisionDate,
+                sheetRevisionDescription,
+                ExportDirectory);
         }
 
         public void UpdateName()
         {
-            this.sheetDescription = this.sheet.get_Parameter(
+            sheetDescription = sheet.get_Parameter(
                     BuiltInParameter.SHEET_NAME).AsString();
-            this.SetExportName();
+            SetExportName();
             NotifyPropertyChanged(nameof(SheetDescription));
             NotifyPropertyChanged(nameof(FullExportName));
             NotifyPropertyChanged(nameof(ValidExportName));
@@ -527,9 +527,9 @@ namespace SCaddins.ExportManager
 
         public void UpdateNumber()
         {
-            this.sheetNumber = this.sheet.get_Parameter(
+            sheetNumber = sheet.get_Parameter(
                     BuiltInParameter.SHEET_NUMBER).AsString();
-            this.SetExportName();
+            SetExportName();
             NotifyPropertyChanged(nameof(SheetNumber));
             NotifyPropertyChanged(nameof(FullExportName));
             NotifyPropertyChanged(nameof(ValidExportName));
@@ -537,16 +537,16 @@ namespace SCaddins.ExportManager
 
         public void UpdateRevision(bool refreshExportName)
         {
-            this.sheetRevision = this.sheet.get_Parameter(
+            sheetRevision = sheet.get_Parameter(
                     BuiltInParameter.SHEET_CURRENT_REVISION).AsString();
-            this.sheetRevisionDescription = this.sheet.get_Parameter(
+            sheetRevisionDescription = sheet.get_Parameter(
                     BuiltInParameter.SHEET_CURRENT_REVISION_DESCRIPTION).AsString();
-            this.sheetRevisionDate = this.sheet.get_Parameter(
+            sheetRevisionDate = sheet.get_Parameter(
                     BuiltInParameter.SHEET_CURRENT_REVISION_DATE).AsString();
-            this.sheetRevisionDateTime = MiscUtilities.ToDateTime(this.sheetRevisionDate);
+            sheetRevisionDateTime = MiscUtilities.ToDateTime(sheetRevisionDate);
             if (refreshExportName)
             {
-                this.SetExportName();
+                SetExportName();
             }
             NotifyPropertyChanged(nameof(SheetRevision));
             NotifyPropertyChanged(nameof(SheetRevisionDescription));
@@ -557,10 +557,10 @@ namespace SCaddins.ExportManager
         public void UpdateScaleBarScale()
         {
             var titleBlock = Manager.TitleBlockInstanceFromSheetNumber(
-                this.sheetNumber, this.doc);
+                sheetNumber, doc);
             if (titleBlock != null)
             {
-                this.SetScaleBarScale(titleBlock);
+                SetScaleBarScale(titleBlock);
             }
         }
 
@@ -572,21 +572,21 @@ namespace SCaddins.ExportManager
         public void UpdateSheetInfo()
         {
             var titleBlock = Manager.TitleBlockInstanceFromSheetNumber(
-                this.sheetNumber, this.doc);
+                sheetNumber, doc);
             if (titleBlock != null) {
-                this.scale = titleBlock.get_Parameter(
+                scale = titleBlock.get_Parameter(
                     BuiltInParameter.SHEET_SCALE).AsString();
-                this.scaleBarScale = ExportSheet.GetScaleBarScale(titleBlock);
-                NorthPointVisible = ExportSheet.GetNorthPointVisibility(titleBlock);
-                this.width = titleBlock.get_Parameter(
+                scaleBarScale = GetScaleBarScale(titleBlock);
+                NorthPointVisible = GetNorthPointVisibility(titleBlock);
+                width = titleBlock.get_Parameter(
                         BuiltInParameter.SHEET_WIDTH).AsDouble();
-                this.height = titleBlock.get_Parameter(
+                height = titleBlock.get_Parameter(
                         BuiltInParameter.SHEET_HEIGHT).AsDouble();
             }
-            this.pageSize = PrintSettings.GetSheetSizeAsString(this);
-            this.printSetting = PrintSettings.GetPrintSettingByName(this.doc, this.pageSize, this.forceRasterPrint);
-            this.verified = true;
-            ValidPrintSettingIsAssigned = this.printSetting != null;
+            pageSize = PrintSettings.GetSheetSizeAsString(this);
+            printSetting = PrintSettings.GetPrintSettingByName(doc, pageSize, forceRasterPrint);
+            verified = true;
+            ValidPrintSettingIsAssigned = printSetting != null;
             NotifyPropertyChanged(nameof(Scale));
             NotifyPropertyChanged(nameof(PrintSettingName));
         }
@@ -597,36 +597,36 @@ namespace SCaddins.ExportManager
                 SegmentedSheetName sheetName,
                 Manager scx)
         {
-            this.doc = document;
-            this.sheet = viewSheet;
-            this.segmentedFileName = sheetName;
-            this.verified = false;
-            this.validPrintSettingIsAssigned = false;
-            this.ExportDirectory = scx.ExportDirectory;
-            this.sheetNumber = viewSheet.get_Parameter(
+            doc = document;
+            sheet = viewSheet;
+            segmentedFileName = sheetName;
+            verified = false;
+            validPrintSettingIsAssigned = false;
+            ExportDirectory = scx.ExportDirectory;
+            sheetNumber = viewSheet.get_Parameter(
                     BuiltInParameter.SHEET_NUMBER).AsString();
-            this.sheetDescription = viewSheet.get_Parameter(
+            sheetDescription = viewSheet.get_Parameter(
                     BuiltInParameter.SHEET_NAME).AsString();
-            this.projectNumber = document.ProjectInformation.Number;
-            this.width = 841;
-            this.height = 594;
-            this.scale = string.Empty;
-            this.scaleBarScale = string.Empty;
+            projectNumber = document.ProjectInformation.Number;
+            width = 841;
+            height = 594;
+            scale = string.Empty;
+            scaleBarScale = string.Empty;
             NorthPointVisible = null;
-            this.pageSize = string.Empty;
-            this.id = viewSheet.Id;
-            this.ForceDate = scx.ForceRevisionToDateString;
-            this.forceRasterPrint = UseRasterPrinting(Manager.ForceRasterPrintParameterName);
-            this.useDateForEmptyRevisions = scx.UseDateForEmptyRevisions;
-            this.UpdateRevision(false);
-            this.SetExportName();
+            pageSize = string.Empty;
+            id = viewSheet.Id;
+            ForceDate = scx.ForceRevisionToDateString;
+            forceRasterPrint = UseRasterPrinting(Manager.ForceRasterPrintParameterName);
+            useDateForEmptyRevisions = scx.UseDateForEmptyRevisions;
+            UpdateRevision(false);
+            SetExportName();
         }
 
         private bool UseRasterPrinting(string parameterName)
         {
             bool result = false;
             if (!string.IsNullOrEmpty(parameterName)) {
-                var parameters = this.sheet.GetParameters(parameterName);
+                var parameters = sheet.GetParameters(parameterName);
                 if (parameters.Count == 1) {
                     result = parameters[0].HasValue && parameters[0].StorageType == StorageType.Integer && parameters[0].AsInteger() == 1;
                 }
@@ -644,23 +644,23 @@ namespace SCaddins.ExportManager
 
         private string PopulateSegmentedFileName()
         {
-            return PostExportHookCommand.FormatConfigurationString(this, this.segmentedFileName.NameFormat, string.Empty);
+            return PostExportHookCommand.FormatConfigurationString(this, segmentedFileName.NameFormat, string.Empty);
         }
 
         private void SetExportName()
         {
-            if (this.forceDate) {
-                this.sheetRevision = MiscUtilities.GetDateString;
+            if (forceDate) {
+                sheetRevision = MiscUtilities.GetDateString;
             } else {
-                this.sheetRevision = this.sheet.get_Parameter(
+                sheetRevision = sheet.get_Parameter(
                     BuiltInParameter.SHEET_CURRENT_REVISION).AsString();
             }
 
-            if (this.sheetRevision.Length < 1 && this.useDateForEmptyRevisions) {
-                this.sheetRevision = MiscUtilities.GetDateString;
+            if (sheetRevision.Length < 1 && useDateForEmptyRevisions) {
+                sheetRevision = MiscUtilities.GetDateString;
             }
 
-            this.fullExportName = this.PopulateSegmentedFileName();
+            fullExportName = PopulateSegmentedFileName();
         }
     }
 }

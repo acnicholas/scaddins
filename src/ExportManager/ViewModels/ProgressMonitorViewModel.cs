@@ -112,7 +112,7 @@
                 ProcessComplete = true;
                 ProgressSummary += @"Process Cancelled :(" + System.Environment.NewLine + System.Environment.NewLine;
             } else {
-                if (this.IsActive) {
+                if (IsActive) {
                     TryClose();
                 }
             }

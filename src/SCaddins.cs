@@ -116,7 +116,7 @@ namespace SCaddins
                 settings.ResizeMode = System.Windows.ResizeMode.NoResize;
                 settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
                 var upgradeViewModel = new Common.ViewModels.UpgradeViewModel(installedVersion, latestAvailableVersion, info, downloadLink);
-                SCaddinsApp.WindowManager.ShowDialog(upgradeViewModel, null, settings);
+                WindowManager.ShowDialog(upgradeViewModel, null, settings);
             }
         }
 

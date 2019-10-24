@@ -34,7 +34,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
 
         public ModelSetupWizardViewModel(Autodesk.Revit.UI.UIDocument uidoc)
         {
-            this.doc = uidoc.Document;
+            doc = uidoc.Document;
             ProjectInformation = new BindableCollection<ProjectInformationParameter>(ElementCollectors.GetProjectInformationParameters(doc));
             Worksets = new BindableCollection<WorksetParameter>(ElementCollectors.GetWorksetParameters(doc));
             SelectedWorksets = new List<WorksetParameter>();
