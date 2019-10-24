@@ -62,7 +62,7 @@
 
         private static string[] GetAssemblies()
         {
-            string scdll = new Uri(System.Reflection.Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
+            var scdll = new Uri(System.Reflection.Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
             var revitVersion = "2016";
             #if REVIT2017
                         revitVersion = "2017";
@@ -74,6 +74,7 @@
                         revitVersion = "2020";
             #endif
 
+            // ReSharper disable once StringLiteralTypo
             string[] assemblies = { @"C:\Program Files\Autodesk\Revit " + revitVersion + @"\RevitAPI.dll", @"C:\Program Files\Autodesk\Revit " + revitVersion + @"\RevitAPIUI.dll", scdll };
             return assemblies;
         }

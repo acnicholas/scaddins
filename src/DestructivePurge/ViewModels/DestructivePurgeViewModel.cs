@@ -20,6 +20,7 @@ namespace SCaddins.DestructivePurge.ViewModels
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Windows.Controls;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
@@ -139,10 +140,15 @@ namespace SCaddins.DestructivePurge.ViewModels
 
         public void CollapseAll(object sender)
         {
-            var treeView = sender as System.Windows.Controls.TreeView;
+            if (!(sender is TreeView treeView))
+            {
+                return;
+            }
             foreach (var item in treeView.Items) {
-                var treeViewItem = item as System.Windows.Controls.TreeViewItem;
-                treeViewItem.IsExpanded = false;
+                if (item is TreeViewItem treeViewItem)
+                {
+                    treeViewItem.IsExpanded = false;
+                }
             }
         }
 

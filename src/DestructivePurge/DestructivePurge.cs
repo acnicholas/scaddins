@@ -31,16 +31,22 @@ namespace SCaddins.DestructivePurge
                 f.OfCategory(BuiltInCategory.OST_RasterImages);
                 foreach (Element image in f)
                 {
-                    string s = GetParameterList(image.Parameters);
-                    var tn = new DeletableItem(image.Name);
-                    tn.Info = "Name = " + image.Name + System.Environment.NewLine +
-                    "id - " + image.Id;
+                    var s = GetParameterList(image.Parameters);
+                    var tn = new DeletableItem(image.Name)
+                    {
+                        Info = "Name = " + image.Name + System.Environment.NewLine +
+                               "id - " + image.Id
+                    };
                     tn.Info += System.Environment.NewLine + s;
                     tn.Id = image.Id;
 
-                    ElementId typeId = image.GetTypeId();
+                    var typeId = image.GetTypeId();
                     tn.ParentId = typeId;
-                    ImageType type = doc.GetElement(typeId) as ImageType;
+                    var type = doc.GetElement(typeId) as ImageType;
+                    if (type == null)
+                    {
+                        continue;
+                    }
                     try
                     {
                         tn.PreviewImage = type.GetImage();

@@ -163,11 +163,10 @@ public static void Main(Document doc)
 
         public void SaveAs()
         {
-            var path = string.Empty;
-            var b = SCaddinsApp.WindowManager.ShowSaveFileDialog("script.cs", "*.cs", "cs-script | *.cs", out path);
+            var b = SCaddinsApp.WindowManager.ShowSaveFileDialog(defaultFileName: "script.cs", defaultExtension: "*.cs", filter: "cs-script | *.cs", savePath: out var path);
             if (b.HasValue && b.Value)
             {
-                File.WriteAllText(path, Script);
+                File.WriteAllText(path: path, contents: Script);
                 CurrentFileName = path;
             }
         }

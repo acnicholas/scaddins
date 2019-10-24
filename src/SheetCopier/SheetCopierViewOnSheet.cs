@@ -66,10 +66,7 @@ namespace SCaddins.SheetCopier
 
         public string AssociatedLevelName
         {
-            get
-            {
-                return associatedLevelName;
-            }
+            get => associatedLevelName;
 
             set
             {
@@ -83,11 +80,9 @@ namespace SCaddins.SheetCopier
                 {
                     creationMode = ViewPortPlacementMode.Copy;
                 }
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(
-                        this, new PropertyChangedEventArgs(nameof(AssociatedLevelName)));
-                }
+
+                PropertyChanged?.Invoke(
+                    this, new PropertyChangedEventArgs(nameof(AssociatedLevelName)));
             }
         }
 
@@ -102,20 +97,11 @@ namespace SCaddins.SheetCopier
             }
         }
 
-        public ViewPortPlacementMode CreationMode
-        {
-            get
-            {
-                return creationMode;
-            }
-        }
+        public ViewPortPlacementMode CreationMode => creationMode;
 
         public bool DuplicateWithDetailing
         {
-            get
-            {
-                return duplicateWithDetailing;
-            }
+            get => duplicateWithDetailing;
 
             set
             {
@@ -139,55 +125,24 @@ namespace SCaddins.SheetCopier
             }
         }
 
-        public ElementId OldId
-        {
-            get
-            {
-                return oldId;
-            }
-        }
+        public ElementId OldId => oldId;
 
-        public View OldView
-        {
-            get
-            {
-                return oldView;
-            }
-        }
+        public View OldView => oldView;
 
-        public string OriginalTitle
-        {
-            get
-            {
-                return originalTitle;
-            }
-        }
+        public string OriginalTitle => originalTitle;
 
-        public ViewType RevitViewType
-        {
-            get
-            {
-                return oldView.ViewType;
-            }
-        }
+        public ViewType RevitViewType => oldView.ViewType;
 
         public string Title
         {
-            get
-            {
-                return newTitle;
-            }
+            get => newTitle;
 
             set
             {
                 if (value != newTitle && scopy.ViewNameAvailable(value))
                 {
                     newTitle = value;
-                    if (PropertyChanged != null)
-                    {
-                        PropertyChanged(
-                            this, new PropertyChangedEventArgs(nameof(Title)));
-                    }
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Title)));
                 }
                 else
                 {

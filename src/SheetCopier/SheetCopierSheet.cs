@@ -33,18 +33,10 @@ namespace SCaddins.SheetCopier
 
         public SheetCopierSheet(string number, string title, SheetCopierManager scopy, ViewSheet sourceSheet)
         {
-            if (scopy == null)
-            {
-                throw new ArgumentNullException(nameof(scopy));
-            }
-            this.scopy = scopy;
-            if (sourceSheet == null)
-            {
-                throw new ArgumentNullException(nameof(sourceSheet));
-            }
+            this.scopy = scopy ?? throw new ArgumentNullException(nameof(scopy));
             this.number = number;
             this.title = title;
-            SourceSheet = sourceSheet;
+            SourceSheet = sourceSheet ?? throw new ArgumentNullException(nameof(sourceSheet));
             sheetCategory = GetSheetCategory(SheetCopierConstants.SheetCategory);
             userCreatedSheetCategory = sheetCategory;
             DestinationSheet = null;
@@ -113,10 +105,7 @@ namespace SCaddins.SheetCopier
         }
 
         public string SheetCategory {
-            get
-            {
-                return sheetCategory;
-            }
+            get => sheetCategory;
 
             set
             {
@@ -134,10 +123,7 @@ public ViewSheet SourceSheet
 
         public string Title
         {
-            get
-            {
-                return title;
-            }
+            get => title;
 
             set
             {
@@ -146,24 +132,11 @@ public ViewSheet SourceSheet
             }
         }
 
-        public ObservableCollection<SheetCopierViewOnSheet> ViewsOnSheet
-        {
-            get
-            {
-                return viewsOnSheet;
-            }
-        }
+        public ObservableCollection<SheetCopierViewOnSheet> ViewsOnSheet => viewsOnSheet;
 
         public string GetNewViewName(ElementId id)
         {
-            foreach (SheetCopierViewOnSheet v in viewsOnSheet)
-            {
-                if (id == v.OldId)
-                {
-                    return v.Title;
-                }
-            }
-            return null;
+            return (from v in viewsOnSheet where id == v.OldId select v.Title).FirstOrDefault();
         }
 
         public void RefreshSheetCategories()

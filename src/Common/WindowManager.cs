@@ -41,13 +41,15 @@
         public override bool? ShowDialog(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
             System.Windows.Window window = CreateWindow(rootModel, true, context, settings);
-            if (window != null) {
-                System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(window);
-                helper.Owner = Autodesk.Windows.ComponentManager.ApplicationWindow;
-                window.SourceInitialized += Window_SourceInitialized;
-                window.SizeChanged += Window_SizeChanged;
-                window.LocationChanged += Window_LocationChanged;
+            if (window == null)
+            {
+                return false;
             }
+            System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(window);
+            helper.Owner = Autodesk.Windows.ComponentManager.ApplicationWindow;
+            window.SourceInitialized += Window_SourceInitialized;
+            window.SizeChanged += Window_SizeChanged;
+            window.LocationChanged += Window_LocationChanged;
             return window.ShowDialog();
         }
 
