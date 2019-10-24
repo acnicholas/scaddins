@@ -130,7 +130,7 @@ namespace SCaddins.SolarAnalysis
                                 setting.ActiveFrame = activeFrame;
                                 var start = testFace.Face.Evaluate(uv);
                                 start = start.Add(testFace.Face.ComputeNormal(uv).Normalize() / 16);
-                                var sunDirection = GetSunDirectionalVector(uidoc.ActiveView, GetProjectPosition(uidoc.Document), out double azimuth);
+                                var sunDirection = GetSunDirectionalVector(uidoc.ActiveView, GetProjectPosition(uidoc.Document), out var _);
                                 var end = start.Subtract(sunDirection.Multiply(1000));
                                 ////BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
                                 Line line = Line.CreateBound(start, end);
@@ -142,7 +142,8 @@ namespace SCaddins.SolarAnalysis
                                             hoursOfSun = hoursOfSun - interval;
                                             break;
                                         }
-                                    } catch {
+                                    } catch (Exception exception) {
+                                        Console.WriteLine(exception.Message);
                                     }
                                 }
                             } ////ray loop

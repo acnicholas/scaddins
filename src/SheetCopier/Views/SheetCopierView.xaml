@@ -47,6 +47,7 @@
                             <GroupStyle>
                                 <GroupStyle.HeaderTemplate>
                                     <DataTemplate>
+                                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                                         <TextBlock FontWeight="Bold" Text="{Binding Items[0].IndexTypeDescription}"/>
                                     </DataTemplate>
                                 </GroupStyle.HeaderTemplate>

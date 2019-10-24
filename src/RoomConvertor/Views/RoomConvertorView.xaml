@@ -61,9 +61,9 @@
             HorizontalAlignment="Stretch" Margin="5">
 
             <DataGrid.Resources>
-                <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
+                <!--<Style x:Key="ColumnElementStyle" TargetType="TextBlock">
                     <Setter Property="Margin" Value="5,0,10,0" />
-                </Style>
+                </Style>-->
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 </Style>
@@ -87,16 +87,19 @@
                     Header="Room Name"
                     Binding="{Binding Name}">
                 </DataGridTextColumn>
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                 <DataGridTextColumn
                     Header="New Sheet Number"
                     Binding="{Binding DestinationSheetNumber}"
                     Visibility="{Binding DataContext.SheetCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference Dummy}}">
                 </DataGridTextColumn>
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                 <DataGridTextColumn
                     Header="New View Name"
                     Binding="{Binding DestinationViewName}"
                     Visibility="{Binding DataContext.SheetCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference Dummy}}">
                 </DataGridTextColumn>
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                 <DataGridTextColumn
                     Header="New Sheet Name"
                     Binding="{Binding DestinationSheetName}"
@@ -104,6 +107,7 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
         <Expander Grid.Row="2" ExpandDirection="Up" Header="Room Information" MaxHeight="300" Visibility="{Binding DataContext.RoomInformationIsAvailable,Converter={StaticResource BoolToVis},Source={x:Reference Dummy}}">
             <DataGrid x:Name="RoomParameters" Margin="5"/>
         </Expander>

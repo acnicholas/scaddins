@@ -137,7 +137,8 @@ namespace SCaddins.SheetCopier
             }
             using (var c1 = new FilteredElementCollector(doc)) {
                 c1.OfCategory(BuiltInCategory.OST_Sheets);
-                foreach (View view in c1) {
+                foreach (var element in c1) {
+                    var view = (View)element;
                     var vs = view as ViewSheet;
                     existingSheets.Add(vs.SheetNumber, view);
                 }
@@ -158,8 +159,10 @@ namespace SCaddins.SheetCopier
                 collector.OfClass(typeof(View));
                 foreach (Element element in collector) {
                     var view = element as View;
-                    View tmpView;
-                    if (!existingViews.TryGetValue(view.Name, out tmpView)) {
+                    if (view == null) {
+                        continue;
+                    }
+                    if (!existingViews.TryGetValue(view.Name, out _)) {
                         existingViews.Add(view.Name, view);
                     }
                 }
@@ -345,7 +348,7 @@ namespace SCaddins.SheetCopier
         public void CreateViewports(SheetCopierSheet sheet)
         {
             Dictionary<ElementId, XYZ> viewPorts =
-                SheetCopierManager.GetVPDictionary(sheet.SourceSheet, this.doc);
+                SheetCopierManager.GetViewportDictionary(sheet.SourceSheet, this.doc);
 
             foreach (SheetCopierViewOnSheet view in sheet.ViewsOnSheet) {
                 XYZ sourceViewPortCentre = null;
@@ -523,7 +526,7 @@ namespace SCaddins.SheetCopier
             return !this.existingViews.ContainsKey(title);
         }
 
-        private static Dictionary<ElementId, XYZ> GetVPDictionary(ViewSheet srcSheet, Document doc)
+        private static Dictionary<ElementId, XYZ> GetViewportDictionary(ViewSheet srcSheet, Document doc)
         {
             var result = new Dictionary<ElementId, XYZ>();
             foreach (ElementId viewPortId in srcSheet.GetAllViewports())

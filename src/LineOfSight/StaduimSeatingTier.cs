@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace SCaddins.LineOfSight
 {
     using System;
@@ -32,7 +34,7 @@ namespace SCaddins.LineOfSight
 
         private double distanceToFirstRowY;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
+        [SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;
 
         private double eyeHeight;
@@ -51,7 +53,7 @@ namespace SCaddins.LineOfSight
 
         private double treadSize;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "view")]
+        [SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "view")]
         private View view;
 
         private double tolerance = 0.001;
@@ -223,13 +225,15 @@ namespace SCaddins.LineOfSight
 
         public ViewDrafting CreateLineOfSightDraftingView(string newViewName)
         {
-            ViewDrafting viewDrafting = null;
             ViewFamilyType viewFamilyType =
                 new FilteredElementCollector(this.doc)
                     .OfClass(typeof(ViewFamilyType))
                     .Cast<ViewFamilyType>()
                     .FirstOrDefault(x => ViewFamily.Drafting == x.ViewFamily);
-            viewDrafting = ViewDrafting.Create(this.doc, viewFamilyType.Id);
+            if (viewFamilyType == null) {
+                return null;
+            }
+            var viewDrafting = ViewDrafting.Create(this.doc, viewFamilyType.Id);
             #if REVIT2019 || REVIT2020
             viewDrafting.Name = newViewName;
             #else
@@ -239,6 +243,7 @@ namespace SCaddins.LineOfSight
         }
 
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.DateTime.ToString")]
+        [SuppressMessage("ReSharper", "BitwiseOperatorOnEnumWithoutFlags")]
         public void Draw()
         {
             using (var t = new Transaction(doc, "Create sight line view"))
@@ -264,15 +269,11 @@ namespace SCaddins.LineOfSight
                             this.distanceToFirstRowX / 2,
                             0,
                             this.distanceToFirstRowX.ToString(CultureInfo.InvariantCulture),
-                            // FIXME
-                            // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
                             TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_TOP);
                         this.DrawText(
                             this.distanceToFirstRowX,
                             this.distanceToFirstRowY / 2,
                             this.distanceToFirstRowY.ToString(CultureInfo.InvariantCulture),
-                            // FIXME
-                            // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
                             TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_BOTTOM);
                     }
 
@@ -303,24 +304,20 @@ namespace SCaddins.LineOfSight
                         "c:" + Math.Round(this.rows[i].CValue, 2).ToString(CultureInfo.InvariantCulture),
                         TextAlignFlags.TEF_ALIGN_LEFT);
 
-                    // Draw the going text (treadSize)
+                    //// Draw the going text (treadSize)
                     this.DrawText(
                         this.rows[i].EyeToFocusX - (this.rows[i].Going / 2),
                         this.rows[i].HeightToFocus - this.rows[i].EyeHeight,
                         "R" + (i + 1).ToString(CultureInfo.InvariantCulture) + " : " + this.TreadSize.ToString(CultureInfo.InvariantCulture),
-                        // FIXME
-                        // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
                         TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_TOP);
 
-                    // Draw the riser text)
+                    //// Draw the riser text)
                     if (i > 0)
                     {
                         this.DrawText(
                             this.rows[i].EyeToFocusX - this.TreadSize,
                             this.rows[i].HeightToFocus - this.rows[i].EyeHeight - (this.rows[i].RiserHeight / 2),
                             this.rows[i].RiserHeight.ToString(CultureInfo.InvariantCulture),
-                            //FIXME 
-                            // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
                             TextAlignFlags.TEF_ALIGN_CENTER | TextAlignFlags.TEF_ALIGN_BOTTOM);
                     }
                 }

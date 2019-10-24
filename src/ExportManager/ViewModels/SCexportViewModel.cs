@@ -17,6 +17,7 @@
 
 namespace SCaddins.ExportManager.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
@@ -70,7 +71,7 @@ namespace SCaddins.ExportManager.ViewModels
                 dynamic settings = new ExpandoObject();
                 settings.Height = 480;
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
-                    new System.Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png"));
+                    new Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png"));
                 settings.Width = 768;
                 settings.Title = "SCexport - By Andrew Nicholas";
                 settings.ShowInTaskbar = false;
@@ -409,7 +410,7 @@ namespace SCaddins.ExportManager.ViewModels
                     {
                         return;
                     }
-                    ExportSheet ss = sheets.Where(item => item.SheetNumber.Equals(activeSheetNumber, System.StringComparison.CurrentCulture)).First();
+                    ExportSheet ss = sheets.Where(item => item.SheetNumber.Equals(activeSheetNumber, StringComparison.CurrentCulture)).First();
                     SelectedSheet = ss;
                     NotifyOfPropertyChange(() => SelectedSheet);
                     break;
@@ -454,13 +455,14 @@ namespace SCaddins.ExportManager.ViewModels
                 this.IsNotifying = false;
                 try
                 {
-                    var filter = new System.Predicate<object>(item => viewSetSelectionViewModel
+                    var filter = new Predicate<object>(item => viewSetSelectionViewModel
                             .SelectedSet
                             .ViewIds.Contains(((ExportSheet)item).Sheet.Id.IntegerValue));
                     Sheets.Filter = filter;
                 }
-                catch
+                catch (Exception exception)
                 {
+                    Console.WriteLine(exception.Message);
                 }
                 this.IsNotifying = true;
             }
@@ -473,7 +475,7 @@ namespace SCaddins.ExportManager.ViewModels
             settings.Width = 480;
             settings.Title = "SCexport - Options";
             settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
-                  new System.Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png"));
+                  new Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png"));
             settings.ShowInTaskbar = false;
             settings.ResizeMode = System.Windows.ResizeMode.NoResize;
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
@@ -586,12 +588,13 @@ namespace SCaddins.ExportManager.ViewModels
             this.IsNotifying = false;
             try
             {
-                var filter = new System.Predicate<object>(item => ((ExportSheet)item).SheetRevisionDate.Equals(revDate, System.StringComparison.CurrentCulture));
+                var filter = new Predicate<object>(item => ((ExportSheet)item).SheetRevisionDate.Equals(revDate, StringComparison.CurrentCulture));
                 Sheets.Filter = filter;
                 NotifyOfPropertyChange(() => Sheets);
             }
-            catch
+            catch (Exception exception)
             {
+                SCaddinsApp.WindowManager.ShowMessageBox(exception.Message);
             }
             this.IsNotifying = true;
         }
@@ -621,28 +624,34 @@ namespace SCaddins.ExportManager.ViewModels
 
             this.IsNotifying = false;
             try {
-                var filter = new System.Predicate<object>(
-                     item =>
-                        (((item != null) && (-1 < ((ExportSheet)item).SheetDescription.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)))
-                            ||
-                        ((item != null) && (-1 < ((ExportSheet)item).SheetNumber.IndexOf(SearchText, System.StringComparison.OrdinalIgnoreCase)))));
-                if (Sheets.CanFilter)
-                {
-                    Sheets.Filter = filter;       
+                var filter = new Predicate<object>(
+                    item =>
+                        ((item != null) &&
+                         (-1 < ((ExportSheet)item).SheetDescription.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase)))
+                        ||
+                        (item != null &&
+                         -1 < ((ExportSheet)item).SheetNumber.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase)));
+                if (Sheets.CanFilter) {
+                    Sheets.Filter = filter;
                 }
-            } catch {
             }
+            catch (Exception exception) {
+                SCaddinsApp.WindowManager.ShowMessageBox(exception.Message);
+            }
+
             this.IsNotifying = true;      
         }
 
         private void FilterByNumber(string number)
         {
             Manager.CurrentViewNumber(exportManager.Doc);
-            try
-            {
-                var filter = new System.Predicate<object>(item => Regex.IsMatch(((ExportSheet)item).SheetNumber, @"^\D*" + number));
+            try {
+                var filter = new Predicate<object>(item =>
+                    Regex.IsMatch(((ExportSheet)item).SheetNumber, @"^\D*" + number));
                 Sheets.Filter = filter;
-            } catch {
+            }
+            catch (Exception exception) {
+                SCaddinsApp.WindowManager.ShowMessageBox(exception.Message);
             }
         }
     }

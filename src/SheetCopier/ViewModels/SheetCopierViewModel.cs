@@ -17,6 +17,7 @@
 
 namespace SCaddins.SheetCopier.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Dynamic;
@@ -233,7 +234,8 @@ namespace SCaddins.SheetCopier.ViewModels
             try {
                 selectedSheets.AddRange(obj.AddedItems.Cast<SheetCopierSheet>());
                 obj.RemovedItems.Cast<SheetCopierSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
-            } catch {
+            } catch (Exception exception) {
+                Console.WriteLine(exception.Message);
             }
             NotifyOfPropertyChange(() => GoLabel);
             NotifyOfPropertyChange(() => CopySheetSelectionIsEnabled);
@@ -245,7 +247,8 @@ namespace SCaddins.SheetCopier.ViewModels
             try {
                 selectedViews.AddRange(obj.AddedItems.Cast<SheetCopierViewOnSheet>());
                 obj.RemovedItems.Cast<SheetCopierViewOnSheet>().ToList().ForEach(w => selectedViews.Remove(w));
-            } catch {
+            } catch (Exception exception) {
+                Console.WriteLine(exception.Message);
             }
             NotifyOfPropertyChange(() => RemoveSelectedViewsIsEnabled);
         }

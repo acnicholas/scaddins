@@ -145,6 +145,7 @@ public static void Main(Document doc)
             }
         }
 
+        // ReSharper disable once OptionalParameterHierarchyMismatch
         public override void TryClose(bool? dialogResult = false)
         {
             SaveScratch();

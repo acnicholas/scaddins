@@ -140,10 +140,7 @@ namespace SCaddins.RoomConvertor.ViewModels
 
         public bool SheetCreationMode
         {
-            get
-            {
-                return sheetCreationMode;
-            }
+            get => sheetCreationMode;
 
             set
             {

@@ -172,6 +172,7 @@
                     Binding="{Binding PrintSettingName}" />
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                 <ContextMenu
                     DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                     <MenuItem
