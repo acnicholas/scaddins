@@ -304,6 +304,19 @@ namespace SCaddins.ExportManager
                         Debug.WriteLine("getting config file for " + doc.Title);
                         string s = @"C:\Andrew\code\cs\scaddins\share\SCexport-example-conf.xml";
 #else
+            //// SCaddinsApp.WindowManager.ShowMessageBox("OK");
+            var fec = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_ProjectInformation);
+            foreach (var element in fec) {
+                if (element is ProjectInfo) {
+                    //// SCaddinsApp.WindowManager.ShowMessageBox("OK");
+                    var i = (ProjectInfo)element;
+                    var p = i.LookupParameter("Project Config File");
+                    if (p != null) {
+                        return p.AsString();
+                        //// SCaddinsApp.WindowManager.ShowMessageBox(p.AsString());
+                    }
+                }
+            }
             string central = FileUtilities.GetCentralFileName(doc);
             string s = Path.GetDirectoryName(central) + @"\SCexport.xml";
 #endif
