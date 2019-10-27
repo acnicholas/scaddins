@@ -41,12 +41,11 @@ namespace SCaddins.ExportManager
         public static void OpenViews(System.Collections.IList views)
         {
             foreach (var item in views) {
-                var sheet = item as ExportSheet;
-                if (sheet == null || sheet.Sheet == null) {
+                if (!(item is ExportSheet sheet) || sheet.Sheet == null) {
                     continue;
                 }
-                var uiapp = new UIApplication(sheet.Sheet.Document.Application);
-                uiapp.ActiveUIDocument.ActiveView = sheet.Sheet;
+                var uiApplication = new UIApplication(sheet.Sheet.Document.Application);
+                uiApplication.ActiveUIDocument.ActiveView = sheet.Sheet;
             }
         }
 

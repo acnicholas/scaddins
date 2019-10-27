@@ -68,13 +68,12 @@ namespace SCaddins.DestructivePurge
             using (var f = new FilteredElementCollector(doc))
             {
                 f.OfClass(typeof(ImportInstance));
-                var s = string.Empty;
                 var name = string.Empty;
                 foreach (var element in f) {
                     var ii = (ImportInstance)element;
                     if (ii.IsLinked == linked)
                     {
-                        s = string.Empty;
+                        var s = string.Empty;
                         s += "View Specific - " + ii.ViewSpecific.ToString(System.Globalization.CultureInfo.CurrentCulture) + System.Environment.NewLine;
                         s += "Owner view id - " + ii.OwnerViewId + System.Environment.NewLine;
                         ParameterSet p = ii.Parameters;
@@ -292,17 +291,16 @@ namespace SCaddins.DestructivePurge
                     var view = (View)element;
                     if (view.ViewType == type && !view.IsTemplate)
                     {
-                        string s = string.Empty;
-                        string d = string.Empty;
-                        string num = string.Empty;
-                        bool os = false;
+                        var s = string.Empty;
+                        var num = string.Empty;
+                        var os = false;
 
                         Parameter p = GetParameterByName(view, "Dependency");
 
                         s += "Name - " + view.Name + System.Environment.NewLine;
                         if (p != null)
                         {
-                            d = p.AsString();
+                            var d = p.AsString();
                             if (d == "Primary")
                             {
                                 s += "Dependency - " + d + " [May be safe to delete]" + System.Environment.NewLine;
@@ -314,7 +312,7 @@ namespace SCaddins.DestructivePurge
                             }
                         }
 
-                        Parameter p2 = GetParameterByName(view, "Sheet Number");
+                        var p2 = GetParameterByName(view, "Sheet Number");
                         if (p2 != null)
                         {
                             num = p2.AsString();
@@ -329,7 +327,7 @@ namespace SCaddins.DestructivePurge
                         s += System.Environment.NewLine + "[EXTENDED INFO]" + System.Environment.NewLine;
                         s += GetParameterList(view.Parameters);
 
-                        string n = string.Empty;
+                        string n;
                         if (type == ViewType.DrawingSheet)
                         {
                             n = num + " - " + view.Name;
@@ -339,10 +337,7 @@ namespace SCaddins.DestructivePurge
                             n = view.Name;
                         }
 
-                        var tn = new DeletableItem(n);
-                        tn.Info = s;
-                        tn.Id = view.Id;
-                        tn.HasParent = s.Contains(@"Parent View");
+                        var tn = new DeletableItem(n) { Info = s, Id = view.Id, HasParent = s.Contains(@"Parent View") };
                         if (tn.HasParent)
                         {
                             Parameter parentId = view.GetParameters(@"Parent View")[0];

@@ -175,36 +175,25 @@ namespace SCaddins.HatchEditor
                     return false;
                 }
                 var f = new FillGrid();
-                double angle = 0;
-                double x = 0;
-                double y = 0;
-                double shift = 0;
-                double offset = 0;
                 List<double> lineSegs = new List<double>();
-                if (!double.TryParse(segs[0], out angle)) {
-                    ////SCaddinsApp.WindowManager.ShowMessageBox("Nope at seg 0");
+                if (!double.TryParse(segs[0], out var angle)) {
                     return false;
                 }
-                if (!double.TryParse(segs[1], out x)) {
-                    ////SCaddinsApp.WindowManager.ShowMessageBox("Nope at seg 1");
+                if (!double.TryParse(segs[1], out var x)) {
                     return false;
                 }
-                if (!double.TryParse(segs[2], out y)) {
-                    ////SCaddinsApp.WindowManager.ShowMessageBox("Nope at seg 2");
+                if (!double.TryParse(segs[2], out var y)) {
                     return false;
                 }
-                if (!double.TryParse(segs[3], out shift)) {
-                    ////SCaddinsApp.WindowManager.ShowMessageBox("Nope at seg 3");
+                if (!double.TryParse(segs[3], out var shift)) {
                     return false;
                 }
-                if (!double.TryParse(segs[4], out offset)) {
-                    ////SCaddinsApp.WindowManager.ShowMessageBox("Nope at seg 4");
+                if (!double.TryParse(segs[4], out var offset)) {
                     return false;
                 }
                 for (int i = 5; i < segs.Length; i++)
                 {
-                    double individualSeg;
-                    if (!double.TryParse(segs[i], out individualSeg))
+                    if (!double.TryParse(segs[i], out var individualSeg))
                     {
                         return false;
                     }

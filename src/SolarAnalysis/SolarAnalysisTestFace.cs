@@ -49,48 +49,32 @@ namespace SCaddins.SolarAnalysis
             }
         }
 
-        public Face Face
-        {
-            get
-            {
-                return face;
-            }
-        }
+        public Face Face => face;
 
-        public Reference Reference
-        {
-            get
-            {
-                return reference;
-            }
-        }
+        public Reference Reference => reference;
 
         public static SpatialFieldManager GetSpatialFieldManager(Document doc)
         {
-            SpatialFieldManager sfm = SpatialFieldManager.GetSpatialFieldManager(doc.ActiveView);
-            if (sfm == null) {
-                sfm = SpatialFieldManager.CreateSpatialFieldManager(doc.ActiveView, 1);
-            }
+            var sfm = SpatialFieldManager.GetSpatialFieldManager(doc.ActiveView) ?? SpatialFieldManager.CreateSpatialFieldManager(doc.ActiveView, 1);
             return sfm;
         }
 
         public void AddValueAtPoint(UV uv, double value)
         {
             pointsUV.Add(uv);
-            List<double> doubleList = new List<double>();
-            doubleList.Add(value);
+            var doubleList = new List<double> { value };
             valList.Add(new ValueAtPoint(doubleList));
         }
 
         public void CreateAnalysisSurface(UIDocument uiDoc, SpatialFieldManager sfm)
         {
             var idx = sfm.AddSpatialFieldPrimitive(Reference);
-            var pnts = new FieldDomainPointsByUV(pointsUV);
-            var vals = new FieldValues(valList);
+            var points = new FieldDomainPointsByUV(pointsUV);
+            var fieldValues = new FieldValues(valList);
             var resultSchema = new AnalysisResultSchema(name, name);
             var schemaIndex = sfm.RegisterResult(resultSchema);
             try {
-                sfm.UpdateSpatialFieldPrimitive(idx, pnts, vals, schemaIndex);
+                sfm.UpdateSpatialFieldPrimitive(idx, points, fieldValues, schemaIndex);
             } catch {
                 ////FIXME. don't catch nothing...
             }

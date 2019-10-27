@@ -76,9 +76,10 @@ namespace SCaddins.ExportManager
                         break;
                 }
 
-                var progressVm = new ViewModels.ProgressMonitorViewModel();
-                progressVm.MaximumValue = vm.SelectedSheets.Count;
-                progressVm.Value = 0;
+                var progressVm = new ViewModels.ProgressMonitorViewModel
+                {
+                    MaximumValue = vm.SelectedSheets.Count, Value = 0
+                };
 
                 log.Clear();
                 log.Start(exportType + " Started.");

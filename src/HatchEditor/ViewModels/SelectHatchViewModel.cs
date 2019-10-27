@@ -38,10 +38,7 @@ namespace SCaddins.HatchEditor.ViewModels
         }
 
         public ObservableCollection<Hatch> FillPatterns {
-            get
-            {
-                return fillPattensInModel;
-            }
+            get => fillPattensInModel;
 
             set
             {
@@ -51,10 +48,7 @@ namespace SCaddins.HatchEditor.ViewModels
         }
 
         public Hatch SelectedFillPattern {
-            get
-            {
-                return selectedFillPattern;
-            }
+            get => selectedFillPattern;
 
             set
             {

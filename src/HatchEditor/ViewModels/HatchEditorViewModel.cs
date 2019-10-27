@@ -132,13 +132,14 @@ namespace SCaddins.HatchEditor.ViewModels
         {
             var vm = new SaveToModelViewModel(UserFillPattern.Name);
             bool? nameResult = SCaddinsApp.WindowManager.ShowDialog(vm, null, SaveToModelViewModel.DefaultWindowSettings);
-            if (nameResult.HasValue && nameResult.Value) {
-                UserFillPattern.Name = vm.NewPatternName;
-                string savePath = string.Empty;
-                var result = SCaddinsApp.WindowManager.ShowSaveFileDialog("CustomHatch.pat", "*.pat", "Pattern Files (*.pat)| *.pat", out savePath);
-                if (result.HasValue && result == true) {
-                    Command.SaveToFile(savePath, UserFillPattern);
-                }
+            if (!nameResult.HasValue || !nameResult.Value)
+            {
+                return;
+            }
+            UserFillPattern.Name = vm.NewPatternName;
+            var result = SCaddinsApp.WindowManager.ShowSaveFileDialog("CustomHatch.pat", "*.pat", "Pattern Files (*.pat)| *.pat", out var savePath);
+            if (result.HasValue && result == true) {
+                Command.SaveToFile(savePath, UserFillPattern);
             }
         }
 

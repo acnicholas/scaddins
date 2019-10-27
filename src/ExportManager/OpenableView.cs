@@ -62,18 +62,13 @@ namespace SCaddins.ExportManager
             get; set;
         }
 
-        public string ViewType {
-            get
-            {
-                return view.ViewType.ToString();
-            }
-        }
+        public string ViewType => view.ViewType.ToString();
 
         public void Open()
         {
             if (view != null) {
-                UIApplication uiapp = new UIApplication(view.Document.Application);
-                uiapp.ActiveUIDocument.ActiveView = view;
+                UIApplication uiApplication = new UIApplication(view.Document.Application);
+                uiApplication.ActiveUIDocument.ActiveView = view;
             }
         }
 

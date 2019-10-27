@@ -22,7 +22,7 @@ namespace SCaddins.Common.ViewModels
 
     public class UpgradeViewModel : Screen
     {
-        private string downloadLink;
+        private readonly string downloadLink;
 
         public UpgradeViewModel(Version installed, Version remote, string body, string downloadLink)
         {

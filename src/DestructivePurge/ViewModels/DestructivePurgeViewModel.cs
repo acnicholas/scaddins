@@ -44,10 +44,7 @@ namespace SCaddins.DestructivePurge.ViewModels
 
         public ObservableCollection<CheckableItem> CheckableItems
         {
-            get
-            {
-                return checkableItems;
-            }
+            get => checkableItems;
 
             set
             {
@@ -101,28 +98,13 @@ namespace SCaddins.DestructivePurge.ViewModels
             }
         }
 
-        public int ImageMargin
-        {
-            get
-            {
-                return PreviewImage != null ? 5 : 0;
-            }
-        }
+        public int ImageMargin => PreviewImage != null ? 5 : 0;
 
-        public int ImageWidth
-        {
-            get
-            {
-                return PreviewImage != null ? 196 : 0;
-            }
-        }
+        public int ImageWidth => PreviewImage != null ? 196 : 0;
 
         public System.Windows.Media.Imaging.BitmapImage PreviewImage
         {
-            get
-            {
-                return previewImage;
-            }
+            get => previewImage;
 
             set
             {

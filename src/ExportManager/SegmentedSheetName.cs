@@ -22,11 +22,10 @@ namespace SCaddins.ExportManager
     
     public class SegmentedSheetName
     {
-        private Collection<string> hooks;
-        
         public SegmentedSheetName()
         {
-            hooks = new Collection<string>();
+            Hooks = new Collection<string>();
+            // ReSharper disable once StringLiteralTypo
             Name = "YYYYMMDD-AD-NNN[R]";
         }
         
@@ -38,18 +37,16 @@ namespace SCaddins.ExportManager
             get; set;
         }
     
-        public Collection<string> Hooks {
-            get { return hooks; }
-        }
-        
+        public Collection<string> Hooks { get; }
+
         public void AddHook(string hookName)
         {
-            hooks.Add(hookName);
+            Hooks.Add(hookName);
         }
         
         public override string ToString()
         {
-            return string.Format(CultureInfo.InvariantCulture, "[SegmentedSheetName Hooks={0}, Name={1}, NameFormat={2}]", hooks, Name, NameFormat);
+            return string.Format(CultureInfo.InvariantCulture, "[SegmentedSheetName Hooks={0}, Name={1}, NameFormat={2}]", Hooks, Name, NameFormat);
         }
     }
 }

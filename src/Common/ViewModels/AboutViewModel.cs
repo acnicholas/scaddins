@@ -23,13 +23,8 @@ namespace SCaddins.Common.ViewModels
 
     public class AboutViewModel : Screen
     {
-        public static string AssemblyBuildDate
-        {
-            get
-            {
-                return Properties.Resources.BuildDate.TrimEnd(System.Environment.NewLine.ToCharArray());
-            }
-        }
+        public static string AssemblyBuildDate => 
+            Properties.Resources.BuildDate.TrimEnd(System.Environment.NewLine.ToCharArray());
 
         public static string AssemblyCopyright
         {
@@ -75,10 +70,7 @@ namespace SCaddins.Common.ViewModels
         public static string AssemblyVersion => Assembly.GetExecutingAssembly().GetName()
                 .Version.ToString().Trim();
 
-        public static string License
-        {
-            get { return Constants.License; }
-        }
+        public static string License => Constants.License;
 
         public static string AssemblyCompany
         {
@@ -93,21 +85,9 @@ namespace SCaddins.Common.ViewModels
             }
         }
 
-        public static string AssemblyInformationalVersion
-        {
-            get
-            {
-                return GetInformationalVersion(Assembly.GetExecutingAssembly());
-            }
-        }
+        public static string AssemblyInformationalVersion => GetInformationalVersion(Assembly.GetExecutingAssembly());
 
-        public static string AssemblyVersionExtended
-        {
-            get
-            {
-                return AssemblyVersion + @"(" + AssemblyInformationalVersion + @") - " + AssemblyBuildDate;
-            }
-        }
+        public static string AssemblyVersionExtended => AssemblyVersion + @"(" + AssemblyInformationalVersion + @") - " + AssemblyBuildDate;
 
         public static string AssemblyProduct()
         {

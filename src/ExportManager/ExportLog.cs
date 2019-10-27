@@ -47,20 +47,11 @@
             warningLog = new List<ExportLogItem>();
         }
 
-        public List<ExportLogItem> ErrorLog
-        {
-            get { return errorLog; }
-        }
+        public List<ExportLogItem> ErrorLog => errorLog;
 
-        public int Errors
-        {
-            get { return errors; }
-        }
+        public int Errors => errors;
 
-        public string FullOutputLog
-        {
-            get { return fullLog.ToString(); }
-        }
+        public string FullOutputLog => fullLog.ToString();
 
         public TimeSpan LastItemElapsedTime
         {
@@ -77,30 +68,18 @@
             get; private set;
         }
 
-        public TimeSpan TimeSinceStart
-        {
-            get { return DateTime.Now - startTime; }
-        }
+        public TimeSpan TimeSinceStart => DateTime.Now - startTime;
 
         public int TotalExports
         {
             get; set;
         }
 
-        public TimeSpan TotalExportTime
-        {
-            get { return endTime - startTime; }
-        }
+        public TimeSpan TotalExportTime => endTime - startTime;
 
-        public List<ExportLogItem> WarningLog
-        {
-            get { return warningLog; }
-        }
+        public List<ExportLogItem> WarningLog => warningLog;
 
-        public int Warnings
-        {
-            get { return warnings; }
-        }
+        public int Warnings => warnings;
 
         public void AddError(string fileName, string message)
         {
