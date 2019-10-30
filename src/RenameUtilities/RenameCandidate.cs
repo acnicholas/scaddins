@@ -32,17 +32,17 @@ namespace SCaddins.RenameUtilities
         public RenameCandidate(Parameter parameter)
         {
             this.parameter = parameter;
-            note = null;
-            oldValue = parameter.AsString();
-            newValue = parameter.AsString();
+            this.note = null;
+            this.oldValue = parameter.AsString();
+            this.newValue = parameter.AsString();
         }
 
         public RenameCandidate(TextElement note)
         {
-            parameter = null;
+            this.parameter = null;
             this.note = note;
-            oldValue = note.Text;
-            newValue = note.Text;
+            this.oldValue = note.Text;
+            this.newValue = note.Text;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -51,16 +51,16 @@ namespace SCaddins.RenameUtilities
         {
             get
             {
-                return newValue;
+                return this.newValue;
             }
 
             set
             {
-                newValue = value;
-                if (PropertyChanged != null)
+                this.newValue = value;
+                if (this.PropertyChanged != null)
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(NewValue)));
-                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(ValueChanged)));
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(NewValue)));
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(ValueChanged)));
                 }
             }
         }
@@ -73,15 +73,20 @@ namespace SCaddins.RenameUtilities
                 {
                     return string.Empty;
                 }
-                return oldValue;
+                return this.oldValue;
             }
         }
 
         public bool ValueChanged
         {
-            get { return !string.Equals(oldValue, newValue, System.StringComparison.CurrentCulture); }
+            get { return !string.Equals(this.oldValue, this.newValue, System.StringComparison.CurrentCulture); }
         }
-        
+
+        private Parameter RevitParameter
+        {
+            get { return parameter; }
+        }
+
         public bool Rename()
         {
             if (ValueChanged)

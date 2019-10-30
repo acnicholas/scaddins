@@ -1,7 +1,7 @@
 ﻿namespace SCaddins.RenameUtilities.Views
 {
     using System.Windows.Controls;
-    
+
     /// <summary>
     /// Interaction logic for RenameUtilitiesView.xaml
     /// </summary>

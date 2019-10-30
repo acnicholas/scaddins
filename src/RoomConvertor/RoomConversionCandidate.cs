@@ -26,12 +26,12 @@ namespace SCaddins.RoomConverter
 
     public class RoomConversionCandidate : INotifyPropertyChanged
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "room")]
+        private readonly Room room;
         private string destSheetName;
         private string destSheetNumber;
         private string destViewName;
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "room")]
-        private readonly Room room;
-
+        
         public RoomConversionCandidate(
                 Room room,
                 Dictionary<string, View> existingSheets,

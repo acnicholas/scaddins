@@ -46,14 +46,14 @@ namespace SCaddins.ExportManager
         private static Dictionary<string, FamilyInstance> titleBlocks;
         private readonly ObservableCollection<ExportSheet> allSheets;
         private readonly ObservableCollection<ViewSetItem> allViewSheetSets;
+        private readonly Dictionary<string, PostExportHookCommand> postExportHooks;
         private bool dateForEmptyRevisions;
         private string exportDirectory;
         private ExportOptions exportFlags;
         private SegmentedSheetName fileNameScheme;
         private List<SegmentedSheetName> fileNameTypes;
         private bool forceDate;
-        private readonly Dictionary<string, PostExportHookCommand> postExportHooks;
-
+        
         public Manager(UIDocument uidoc)
         {
             Doc = uidoc.Document;

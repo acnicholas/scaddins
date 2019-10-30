@@ -17,9 +17,9 @@
             replacementPattern = string.Empty;
             searchPattern = string.Empty;
             HasInputParameters = false;
+            Name = name;
             ReplacementPatternHint = string.Empty;
             SearchPatternHint = string.Empty;
-            Name = name;
         }
 
         public RenameCommand(Func<string, string, string, string> renameFunction, string name, string search, string replacement)
@@ -28,9 +28,9 @@
             ReplacementPattern = replacement;
             SearchPattern = search;
             HasInputParameters = true;
+            Name = name;
             ReplacementPatternHint = "Replacement Pattern";
             SearchPatternHint = "Search Pattern";
-            Name = name;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -40,20 +40,28 @@
             get; private set;
         }
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get;
+        }
 
         public string ReplacementPattern
         {
-            get => replacementPattern;
+            get
+            {
+                return replacementPattern;
+            }
 
             set
             {
-                if (replacementPattern != null && value != replacementPattern)
+                if (value != replacementPattern)
                 {
                     replacementPattern = value;
                 }
-
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ReplacementPattern)));
+                if (this.PropertyChanged != null)
+                {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(ReplacementPattern)));
+                }
             }
         }
 
@@ -64,15 +72,19 @@
 
         public string SearchPattern
         {
-            get => searchPattern;
+            get
+            {
+                return searchPattern;
+            }
 
             set
             {
-                if (searchPattern != null && value != searchPattern) {
+                if (value != searchPattern) {
                     searchPattern = value;
                 }
-
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SearchPattern)));
+                if (this.PropertyChanged != null) {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(SearchPattern)));
+                }
             }
         }
 

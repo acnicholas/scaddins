@@ -19,17 +19,16 @@ namespace SCaddins.RenameUtilities
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Text.RegularExpressions;
     using Autodesk.Revit.DB;
 
     public class RenameManager
     {
-        private Caliburn.Micro.BindableCollection<RenameCandidate> renameCandidates;
+        private Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate> renameCandidates;
         private RenameCommand renameCommand;
-        private Caliburn.Micro.BindableCollection<RenameCommand> renameCommands;
-        [SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
+        private Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCommand> renameCommands;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;
         private List<ElementId> elements;
 
@@ -45,8 +44,8 @@ namespace SCaddins.RenameUtilities
         public RenameManager(Document doc)
         {
             this.doc = doc;
-            renameCandidates = new Caliburn.Micro.BindableCollection<RenameCandidate>();
-            renameCommands = new Caliburn.Micro.BindableCollection<RenameCommand>();
+            renameCandidates = new Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate>();
+            renameCommands = new Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCommand>();
             renameCommands.Add(new RenameCommand((a, c, b) => a, "None"));
             renameCommands.Add(new RenameCommand((a, c, b) => a.ToUpper(System.Globalization.CultureInfo.CurrentCulture), "UpperCase"));
             renameCommands.Add(new RenameCommand((a, c, b) => a.ToLower(System.Globalization.CultureInfo.CurrentCulture), "Lowercase"));
@@ -86,7 +85,7 @@ namespace SCaddins.RenameUtilities
             }
         }
 
-        public Caliburn.Micro.BindableCollection<RenameCandidate> RenameCandidates
+        public Caliburn.Micro.BindableCollection<SCaddins.RenameUtilities.RenameCandidate> RenameCandidates
         {
             get { return renameCandidates; }
         }
@@ -133,7 +132,6 @@ namespace SCaddins.RenameUtilities
 
         public static string IncrementLast(string val, string search, string replace)
         {
-            return "todo";
             var match = Regex.Match(val, search);
             if (match.Success)
             {
@@ -154,13 +152,12 @@ namespace SCaddins.RenameUtilities
 
         public static string RegexReplace(string val, string search, string replace)
         {
-            //// return "todo";
             return Regex.Replace(val, search, replace);
         }
 
         public void CommitRename()
         {
-            CommitRenameSelection(renameCandidates.ToList());
+            CommitRenameSelection(renameCandidates.ToList<RenameCandidate>());
         }
 
         public void CommitRenameSelection(List<RenameCandidate> selectedCandiates)
@@ -285,7 +282,6 @@ namespace SCaddins.RenameUtilities
         ////    return string.Empty;
         ////}
 
-        [SuppressMessage("ReSharper", "UnusedMember.Local", Justification = "Used by Caliburn.Micro")]
         private static bool IsValidRevitName(string s)
         {
             return !(s.Contains("{") || s.Contains("}"));
