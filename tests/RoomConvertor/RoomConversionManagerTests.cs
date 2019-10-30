@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using RTF.Applications;
 using RTF.Framework;
-using SCaddins.RoomConvertor;
+using SCaddins.RoomConverter;
 
 namespace SCaddins.Tests.RoomConvertor
 {

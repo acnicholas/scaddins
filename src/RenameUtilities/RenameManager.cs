@@ -133,6 +133,7 @@ namespace SCaddins.RenameUtilities
 
         public static string IncrementLast(string val, string search, string replace)
         {
+            return "todo";
             var match = Regex.Match(val, search);
             if (match.Success)
             {
@@ -153,6 +154,7 @@ namespace SCaddins.RenameUtilities
 
         public static string RegexReplace(string val, string search, string replace)
         {
+            //// return "todo";
             return Regex.Replace(val, search, replace);
         }
 

@@ -1,5 +1,5 @@
 ﻿// ReSharper disable UnusedMember.Global
-namespace SCaddins.RoomConvertor.Views
+namespace SCaddins.RoomConverter.Views
 {
     /// <summary>
     /// Interaction logic for RoomConvertorView.xaml

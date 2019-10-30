@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.RoomConvertor
+namespace SCaddins.RoomConverter
 {
     using System;
     using System.Collections.Generic;
@@ -120,13 +120,9 @@ namespace SCaddins.RoomConvertor
             get; set;
         }
 
-        public Dictionary<string, ElementId> TitleBlocks {
-            get { return titleBlocks; }
-        }
+        public Dictionary<string, ElementId> TitleBlocks => titleBlocks;
 
-        public Dictionary<string, ElementId> ViewTemplates {
-            get { return viewTemplates; }
-        }
+        public Dictionary<string, ElementId> ViewTemplates => viewTemplates;
 
         #endregion
 
@@ -154,9 +150,9 @@ namespace SCaddins.RoomConvertor
 
         public void CreateRoomMasses(List<RoomConversionCandidate> rooms)
         {
-            int errCount = 0;
-            int basicMasses = 0;
-            int roomCount = 0;
+            var errCount = 0;
+            var basicMasses = 0;
+            var roomCount = 0;
             if (rooms != null) {
                 using (var t = new Transaction(doc, "Rooms to Masses")) {
                     t.Start();
@@ -190,19 +186,19 @@ namespace SCaddins.RoomConvertor
         {
             if (rooms == null)
             {
-                SCaddinsApp.WindowManager.ShowMessageBox("WARNING", "no rooms selected to covnert");
+                SCaddinsApp.WindowManager.ShowMessageBox("WARNING", "no rooms selected to convert");
                 return;
             }
-            using (Transaction t = new Transaction(doc, "Rooms to Views"))
+            using (var t = new Transaction(doc, "Rooms to Views"))
             {
-                if (t.Start() == TransactionStatus.Started)
-                {
-                    foreach (RoomConversionCandidate c in rooms)
-                    {
-                        CreateViewAndSheet(c);
-                    }
-                    t.Commit();
+                if (t.Start() != TransactionStatus.Started) {
+                    return;
                 }
+                foreach (var c in rooms)
+                {
+                    CreateViewAndSheet(c);
+                }
+                t.Commit();
             }
         }
 
@@ -225,8 +221,8 @@ namespace SCaddins.RoomConvertor
             if (titleBlockName == null) {
                 return ElementId.InvalidElementId;
             }
-            ElementId id = ElementId.InvalidElementId;
-            bool titleFound = titleBlocks.TryGetValue(titleBlockName, out id);
+            var id = ElementId.InvalidElementId;
+            var titleFound = titleBlocks.TryGetValue(titleBlockName, out id);
             return titleFound ? id : ElementId.InvalidElementId;
         }
 
@@ -238,23 +234,23 @@ namespace SCaddins.RoomConvertor
                 collector.OfCategory(BuiltInCategory.OST_Mass);
                 collector.OfClass(typeof(DirectShape));
                 t.Start();
-                int i = 0;
-                foreach (Element e in collector)
+                var i = 0;
+                foreach (var e in collector)
                 {
-                    Parameter p = e.LookupParameter("RoomId");
+                    var p = e.LookupParameter("RoomId");
                     if (p == null) {
                         continue;
                     }
                     i++;
-                    int intId = p.AsInteger();
-                    if (intId > 0)
+                    var intId = p.AsInteger();
+                    if (intId <= 0) {
+                        continue;
+                    }
+                    var id = new ElementId(intId);
+                    var room = doc.GetElement(id);
+                    if (room != null)
                     {
-                        ElementId id = new ElementId(intId);
-                        Element room = doc.GetElement(id);
-                        if (room != null)
-                        {
-                            CopyAllMassParametersToRooms(e, (Room)room);
-                        }
+                        CopyAllMassParametersToRooms(e, (Room)room);
                     }
                 }
 
@@ -278,7 +274,7 @@ namespace SCaddins.RoomConvertor
             result.Add("Main Model");
 
             foreach (ElementId id in optIds) {
-                Element e = doc.GetElement(id);
+                var e = doc.GetElement(id);
                 var s = doc.GetElement(e.get_Parameter(BuiltInParameter.OPTION_SET_ID).AsElementId()).Name;
                 result.Add(s + @" : " + e.Name.Replace(@"(primary)", string.Empty).Trim());
             }
@@ -289,7 +285,7 @@ namespace SCaddins.RoomConvertor
         internal List<string> GetAllDepartments()
         {
             var result = new List<string>();
-            foreach (string s in departmentsInModel.Values)
+            foreach (var s in departmentsInModel.Values)
             {
                 result.Add(s);
             }
@@ -391,12 +387,10 @@ namespace SCaddins.RoomConvertor
 
         private static BoundingBoxXYZ CreateOffsetBoundingBox(double offset, BoundingBoxXYZ origBox)
         {
-            double offsetInFeet = Common.MiscUtilities.MillimetersToFeet(offset);
-            XYZ min = new XYZ(origBox.Min.X - offsetInFeet, origBox.Min.Y - offsetInFeet, origBox.Min.Z);
-            XYZ max = new XYZ(origBox.Max.X + offsetInFeet, origBox.Max.Y + offsetInFeet, origBox.Max.Z);
-            BoundingBoxXYZ result = new BoundingBoxXYZ();
-            result.Min = min;
-            result.Max = max;
+            var offsetInFeet = Common.MiscUtilities.MillimetersToFeet(offset);
+            var min = new XYZ(origBox.Min.X - offsetInFeet, origBox.Min.Y - offsetInFeet, origBox.Min.Z);
+            var max = new XYZ(origBox.Max.X + offsetInFeet, origBox.Max.Y + offsetInFeet, origBox.Max.Z);
+            var result = new BoundingBoxXYZ { Min = min, Max = max };
             return result;
         }
 
@@ -435,11 +429,10 @@ namespace SCaddins.RoomConvertor
             {
                 var height = room.LookupParameter("Limit Offset");
                 var curves = new List<CurveLoop>();
-                var spatialBoundaryOptions = new SpatialElementBoundaryOptions();
-                spatialBoundaryOptions.StoreFreeBoundaryFaces = true;
+                var spatialBoundaryOptions = new SpatialElementBoundaryOptions { StoreFreeBoundaryFaces = true };
                 var loop = new CurveLoop();
-                var bdySegs = room.GetBoundarySegments(spatialBoundaryOptions);
-                var biggestList = bdySegs.OrderByDescending(item => item.Count).First();
+                var boundarySegments = room.GetBoundarySegments(spatialBoundaryOptions);
+                var biggestList = boundarySegments.OrderByDescending(item => item.Count).First();
 
                 foreach (var seg in biggestList)
                 {
@@ -448,8 +441,8 @@ namespace SCaddins.RoomConvertor
 
                 curves.Add(loop);
 
-                SolidOptions options = new SolidOptions(ElementId.InvalidElementId, ElementId.InvalidElementId);
-                Solid roomSolid = GeometryCreationUtilities.CreateExtrusionGeometry(curves, new XYZ(0, 0, 1), height.AsDouble(), options);
+                var options = new SolidOptions(ElementId.InvalidElementId, ElementId.InvalidElementId);
+                var roomSolid = GeometryCreationUtilities.CreateExtrusionGeometry(curves, new XYZ(0, 0, 1), height.AsDouble(), options);
 
                 if (roomSolid == null)
                 {
@@ -510,7 +503,7 @@ namespace SCaddins.RoomConvertor
                     if (roomSolid != null)
                     {
                         var geomObj = new GeometryObject[] { roomSolid };
-                        if (geomObj != null && geomObj.Length > 0)
+                        if (geomObj.Length > 0)
                         {
                             roomShape.SetShape(geomObj);
                             CopyAllRoomParametersToMasses(room, roomShape);
@@ -525,7 +518,7 @@ namespace SCaddins.RoomConvertor
             return false;
         }
 
-        private bool CreateRoomMass(Room room)
+        private bool CreateRoomMass(SpatialElement room)
         {
             if (!SpatialElementGeometryCalculator.CanCalculateGeometry(room))
             {
@@ -549,7 +542,7 @@ namespace SCaddins.RoomConvertor
                     if (roomShape != null && roomSolid.Volume > 0 && roomSolid.Faces.Size > 0)
                     {
                         var geomObj = new GeometryObject[] { roomSolid };
-                        if (geomObj != null && geomObj.Length > 0)
+                        if (geomObj.Length > 0)
                         {
                             roomShape.SetShape(geomObj);
                             CopyAllRoomParametersToMasses(room, roomShape);
@@ -569,26 +562,26 @@ namespace SCaddins.RoomConvertor
         private void CreateViewAndSheet(RoomConversionCandidate candidate)
         {
             // Create plans
-            ViewSheet sheet = ViewSheet.Create(doc, TitleBlockId);
+            var sheet = ViewSheet.Create(doc, TitleBlockId);
             sheet.Name = candidate.DestinationSheetName;
             sheet.SheetNumber = candidate.DestinationSheetNumber;
 
             // Get Centre before placing any views
-            XYZ sheetCentre = CentreOfSheet(sheet, doc);
+            var sheetCentre = CentreOfSheet(sheet, doc);
 
             // Create plan of room
-            ViewPlan plan = ViewPlan.Create(doc, GetFloorPlanViewFamilyTypeId(doc), candidate.Room.Level.Id);
+            var plan = ViewPlan.Create(doc, GetFloorPlanViewFamilyTypeId(doc), candidate.Room.Level.Id);
             plan.CropBoxActive = true;
             plan.ViewTemplateId = ElementId.InvalidElementId;
             plan.Scale = Scale;
-            BoundingBoxXYZ originalBoundingBox = candidate.Room.get_BoundingBox(plan);
+            var originalBoundingBox = candidate.Room.get_BoundingBox(plan);
 
             // Put them on sheets
             plan.CropBox = CreateOffsetBoundingBox(50000, originalBoundingBox);
             plan.Name = candidate.DestinationViewName;
 
             // Shrink the bounding box now that it is placed
-            Viewport vp = Viewport.Create(doc, sheet.Id, plan.Id, sheetCentre);
+            var vp = Viewport.Create(doc, sheet.Id, plan.Id, sheetCentre);
 
             // Shrink the bounding box now that it is placed
             plan.CropBox = CreateOffsetBoundingBox(CropRegionEdgeOffset, originalBoundingBox);

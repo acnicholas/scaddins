@@ -154,10 +154,7 @@ namespace SCaddins.SheetCopier
 
         public string ViewTemplateName
         {
-            get
-            {
-                return viewTemplateName;
-            }
+            get => viewTemplateName;
 
             set
             {

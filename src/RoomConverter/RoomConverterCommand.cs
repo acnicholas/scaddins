@@ -15,16 +15,16 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.RoomConvertor
-{
+namespace SCaddins.RoomConverter
+{   
     using System;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-
+    
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
-    public class RoomConvertorCommand : IExternalCommand
+    public class RoomConverterCommand : IExternalCommand
     {
         public Result Execute(
             ExternalCommandData commandData, ref string message, ElementSet elements)

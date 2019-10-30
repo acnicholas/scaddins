@@ -43,10 +43,7 @@ namespace SCaddins
         private static Common.WindowManager windowManager;
         private RibbonPanel ribbonPanel;
 
-        public static Version Version
-        {
-            get { return Assembly.GetExecutingAssembly().GetName().Version; }
-        }
+        public static Version Version => Assembly.GetExecutingAssembly().GetName().Version;
 
         public static Common.WindowManager WindowManager
         {
@@ -67,10 +64,7 @@ namespace SCaddins
                 }
             }
 
-            set
-            {
-                windowManager = value;
-            }
+            set => windowManager = value;
         }
 
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
@@ -86,7 +80,7 @@ namespace SCaddins
 
             webRequest.ContentType = "application/json";
             webRequest.UserAgent = "Nothing";
-            string latestAsJson = "nothing to see here";
+            var latestAsJson = "nothing to see here";
 
             using (var s = webRequest.GetResponse().GetResponseStream())
             using (var sr = new StreamReader(s))
@@ -94,30 +88,30 @@ namespace SCaddins
                 latestAsJson = sr.ReadToEnd();
             }
 
-            LatestVersion latestVersion = JsonConvert.DeserializeObject<LatestVersion>(latestAsJson);
+            var latestVersion = JsonConvert.DeserializeObject<LatestVersion>(latestAsJson);
 
             var installedVersion = Version;
-            Version latestAvailableVersion = new Version(latestVersion.tag_name.Replace("v", string.Empty).Trim());
-            string info = latestVersion.body;
+            var latestAvailableVersion = new Version(latestVersion.tag_name.Replace("v", string.Empty).Trim());
+            var info = latestVersion.body;
 
-            string downloadLink = latestVersion.assets.FirstOrDefault().browser_download_url;
+            var downloadLink = latestVersion.assets.FirstOrDefault().browser_download_url;
             if (string.IsNullOrEmpty(downloadLink))
             {
                 downloadLink = Constants.DownloadLink;
             }
 
-            if (latestAvailableVersion > installedVersion || !newOnly)
-            {
-                dynamic settings = new ExpandoObject();
-                settings.Height = 640;
-                settings.Width = 480;
-                settings.Title = "SCaddins Version Information";
-                settings.ShowInTaskbar = false;
-                settings.ResizeMode = System.Windows.ResizeMode.NoResize;
-                settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
-                var upgradeViewModel = new Common.ViewModels.UpgradeViewModel(installedVersion, latestAvailableVersion, info, downloadLink);
-                WindowManager.ShowDialog(upgradeViewModel, null, settings);
+            if (latestAvailableVersion <= installedVersion && newOnly) {
+                return;
             }
+            dynamic settings = new ExpandoObject();
+            settings.Height = 640;
+            settings.Width = 480;
+            settings.Title = "SCaddins Version Information";
+            settings.ShowInTaskbar = false;
+            settings.ResizeMode = System.Windows.ResizeMode.NoResize;
+            settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+            var upgradeViewModel = new Common.ViewModels.UpgradeViewModel(installedVersion, latestAvailableVersion, info, downloadLink);
+            WindowManager.ShowDialog(upgradeViewModel, null, settings);
         }
 
         public static PushButtonData LoadSCaos(string dll)
@@ -165,7 +159,7 @@ namespace SCaddins
                 return Result.Failed;
             }
 
-            string scdll = new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
+            var scdll = new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
 
             ribbonPanel.AddItem(LoadScexport(scdll));
             ribbonPanel.AddStackedItems(
@@ -264,7 +258,7 @@ namespace SCaddins
         private static PushButtonData LoadSCasfar(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCasfar", Resources.RoomTools, dll, "SCaddins.RoomConvertor.RoomConvertorCommand");
+                              "SCasfar", Resources.RoomTools, dll, "SCaddins.RoomConverter.RoomConverterCommand");
             AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.scasfar-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.RoomToolsToolTip;
             return pbd;

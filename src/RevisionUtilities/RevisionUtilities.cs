@@ -44,12 +44,8 @@ namespace SCaddins.RevisionUtilities
             using (var t = new Transaction(doc, "Assign Revisions to Clouds"))
             {
                 t.Start();
-                foreach (RevisionCloudItem rc in revisionClouds)
-                {
-                    if (rc != null)
-                    {
-                        rc.SetCloudId(cloudId);
-                    }
+                foreach (var rc in revisionClouds) {
+                    rc?.SetCloudId(cloudId);
                 }
                 t.Commit();
             }
@@ -99,14 +95,10 @@ namespace SCaddins.RevisionUtilities
             }
 
             exportFilename = string.IsNullOrEmpty(exportFilename) ? @"C:\Temp\SClouds" : exportFilename;
-            Application excelApp;
-            Worksheet excelWorksheet;
-            Workbook excelWorkbook;
 
-            excelApp = new Application();
-            excelApp.Visible = false;
-            excelWorkbook = excelApp.Workbooks.Add(Missing.Value);
-            excelWorksheet = (Worksheet)excelWorkbook.ActiveSheet;
+            var excelApp = new Application { Visible = false };
+            var excelWorkbook = excelApp.Workbooks.Add(Missing.Value);
+            var excelWorksheet = (Worksheet)excelWorkbook.ActiveSheet;
 
             int cloudNumber = 0;
 
@@ -145,7 +137,7 @@ namespace SCaddins.RevisionUtilities
             else
             {
                 WriteArray(data, cloudNumber, 8, excelWorksheet);
-                SCaddinsApp.WindowManager.ShowMessageBox("Finished", cloudNumber + @" revision clouds sheduled in the file " + exportFilename);
+                SCaddinsApp.WindowManager.ShowMessageBox("Finished", cloudNumber + @" revision clouds scheduled in the file " + exportFilename);
                 excelWorkbook.SaveAs(exportFilename, XlFileFormat.xlWorkbookNormal);
                 excelWorkbook.Close();
             }
@@ -198,13 +190,13 @@ namespace SCaddins.RevisionUtilities
         [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", Justification = "Because.")]
         private static void WriteArray(string[,] data, int rows, int columns, Worksheet worksheet)
         {
-            if (worksheet != null)
-            {
-                var startCell = worksheet.Cells[1, 1] as Range;
-                var endCell = worksheet.Cells[rows + 1, columns] as Range;
-                var writeRange = worksheet.Range[startCell, endCell];
-                writeRange.Value2 = data;
+            if (worksheet == null) {
+                return;
             }
+            var startCell = worksheet.Cells[1, 1] as Range;
+            var endCell = worksheet.Cells[rows + 1, columns] as Range;
+            var writeRange = worksheet.Range[startCell, endCell];
+            writeRange.Value2 = data;
         }
     }
 }

@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.RoomConvertor
+namespace SCaddins.RoomConverter
 {
     public class RoomParameter
     {
@@ -30,6 +30,6 @@ namespace SCaddins.RoomConvertor
 
         public string Def { get; set; }
 
-        public string Value { get; set; }
+        private string Value { get; set; }
     }
 }

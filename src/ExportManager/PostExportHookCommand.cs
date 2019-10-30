@@ -63,7 +63,7 @@ namespace SCaddins.ExportManager
             result = Regex.Replace(
                 result,
                 pattern,
-                m => RoomConvertor.RoomConversionCandidate.GetParamValueAsString(sheet.ParamFromString(m.Groups[2].Value)));
+                m => RoomConverter.RoomConversionCandidate.GetParamValueAsString(sheet.ParamFromString(m.Groups[2].Value)));
             return result;
         }
 

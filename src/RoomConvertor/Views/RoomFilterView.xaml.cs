@@ -1,4 +1,4 @@
-﻿namespace SCaddins.RoomConvertor.Views
+﻿namespace SCaddins.RoomConverter.Views
 {
     /// <summary>
     /// Interaction logic for RoomFilterView.xaml

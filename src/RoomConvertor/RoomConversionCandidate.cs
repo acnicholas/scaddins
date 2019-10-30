@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCaddins.RoomConvertor
+namespace SCaddins.RoomConverter
 {
     using System;
     using System.Collections.Generic;
@@ -30,7 +30,7 @@ namespace SCaddins.RoomConvertor
         private string destSheetNumber;
         private string destViewName;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "room")]
-        private Room room;
+        private readonly Room room;
 
         public RoomConversionCandidate(
                 Room room,
@@ -55,10 +55,7 @@ namespace SCaddins.RoomConvertor
 
         public string DestinationSheetName
         {
-            get
-            {
-                return destSheetName;
-            }
+            get => destSheetName;
 
             set
             {
@@ -72,35 +69,23 @@ namespace SCaddins.RoomConvertor
 
         public string DestinationSheetNumber
         {
-            get
-            {
-                return destSheetNumber;
-            }
+            get => destSheetNumber;
 
             set
             {
                 destSheetNumber = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(DestinationSheetNumber)));
-                }
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DestinationSheetNumber)));
             }
         }
 
         public string DestinationViewName
         {
-            get
-            {
-                return destViewName;
-            }
+            get => destViewName;
 
             set
             {
                 destViewName = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(DestinationViewName)));
-                }
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DestinationViewName)));
             }
         }
 
@@ -129,13 +114,7 @@ namespace SCaddins.RoomConvertor
             }
         }
 
-        public Room Room
-        {
-            get
-            {
-                return room;
-            }
-        }
+        public Room Room => room;
 
         public List<RoomParameter> RoomParameters
         {
@@ -166,7 +145,7 @@ namespace SCaddins.RoomConvertor
 
         public bool PassesFilter(RoomFilter filter)
         {
-            return filter == null ? false : filter.PassesFilter(Room);
+            return filter?.PassesFilter(Room) ?? false;
         }
 
         private string GetDefaultSheetName()

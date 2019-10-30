@@ -22,11 +22,6 @@ namespace SCaddins.RevisionUtilities
 
     public class RevisionItem
     {
-        private string date;
-        private string description;
-        private bool issued;
-        private int sequence;
-
         public RevisionItem(Document doc, RevisionCloud revisionCloud)
         {
             if (revisionCloud == null)
@@ -46,15 +41,9 @@ namespace SCaddins.RevisionUtilities
             Init(revision);
         }
 
-        public string Date
-        {
-            get { return date; }
-        }
+        public string Date { get; private set; }
 
-        public string Description
-        {
-            get { return description; }
-        }
+        public string Description { get; private set; }
 
         public bool Export
         {
@@ -67,23 +56,17 @@ namespace SCaddins.RevisionUtilities
             get; private set;
         }
 
-        public bool Issued
-        {
-            get { return issued; }
-        }
+        public bool Issued { get; private set; }
 
-        public int Sequence
-        {
-            get { return sequence; }
-        }
+        public int Sequence { get; private set; }
 
         private void Init(Element revision)
         {
             Id = revision.Id;
-            description = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
-            date = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString();
-            issued = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_ISSUED).AsInteger() == 1;
-            sequence = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger();
+            Description = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DESCRIPTION).AsString();
+            Date = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_DATE).AsString();
+            Issued = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_REVISION_ISSUED).AsInteger() == 1;
+            Sequence = revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger();
         }
     }
 }

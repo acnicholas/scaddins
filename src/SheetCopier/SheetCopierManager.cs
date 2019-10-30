@@ -139,8 +139,11 @@ namespace SCaddins.SheetCopier
                 c1.OfCategory(BuiltInCategory.OST_Sheets);
                 foreach (var element in c1) {
                     var view = (View)element;
-                    var vs = view as ViewSheet;
-                    existingSheets.Add(vs.SheetNumber, view);
+                    var viewSheet = view as ViewSheet;
+                    if (viewSheet == null) {
+                        continue;
+                    }
+                    existingSheets.Add(viewSheet.SheetNumber, view);
                 }
             }
         }
@@ -563,14 +566,14 @@ namespace SCaddins.SheetCopier
                 {
                     var view = (View)element;
                     var viewCategoryParamList = view.GetParameters(SheetCopierConstants.SheetCategory);
-                    if (viewCategoryParamList != null && viewCategoryParamList.Count > 0)
+                    if (viewCategoryParamList == null || viewCategoryParamList.Count <= 0) {
+                        continue;
+                    }
+                    var viewCategoryParam = viewCategoryParamList.First();
+                    var s = viewCategoryParam.AsString();
+                    if (!string.IsNullOrEmpty(s) && !sheetCategories.Contains(s))
                     {
-                        Parameter viewCategoryParam = viewCategoryParamList.First();
-                        string s = viewCategoryParam.AsString();
-                        if (!string.IsNullOrEmpty(s) && !sheetCategories.Contains(s))
-                        {
-                            sheetCategories.Add(s);
-                        }
+                        sheetCategories.Add(s);
                     }
                 }
             }

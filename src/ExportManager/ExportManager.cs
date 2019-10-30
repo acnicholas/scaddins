@@ -52,7 +52,7 @@ namespace SCaddins.ExportManager
         private SegmentedSheetName fileNameScheme;
         private List<SegmentedSheetName> fileNameTypes;
         private bool forceDate;
-        private Dictionary<string, PostExportHookCommand> postExportHooks;
+        private readonly Dictionary<string, PostExportHookCommand> postExportHooks;
 
         public Manager(UIDocument uidoc)
         {
@@ -81,21 +81,11 @@ namespace SCaddins.ExportManager
             get; set;
         }
 
-        public static string ForceRasterPrintParameterName
-        {
-            get
-            {
-                return Settings1.Default.UseRasterPrinterParameter;
-            }
-        }
+        public static string ForceRasterPrintParameterName => Settings1.Default.UseRasterPrinterParameter;
 
-        public ObservableCollection<ExportSheet> AllSheets {
-            get { return allSheets; }
-        }
+        public ObservableCollection<ExportSheet> AllSheets => allSheets;
 
-        public ObservableCollection<ViewSetItem> AllViewSheetSets {
-            get { return allViewSheetSets; }
-        }
+        public ObservableCollection<ViewSetItem> AllViewSheetSets => allViewSheetSets;
 
         public Document Doc {
             get; set;
@@ -107,10 +97,7 @@ namespace SCaddins.ExportManager
         }
 
         public string ExportDirectory {
-            get
-            {
-                return exportDirectory;
-            }
+            get => exportDirectory;
 
             set
             {
@@ -124,10 +111,7 @@ namespace SCaddins.ExportManager
         }
 
         public SegmentedSheetName FileNameScheme {
-            get
-            {
-                return fileNameScheme;
-            }
+            get => fileNameScheme;
 
             set
             {
@@ -256,13 +240,13 @@ namespace SCaddins.ExportManager
 
         public static string CreateSCexportConfig(Document doc)
         {
-            string s = GetConfigFileName(doc);
+            var s = GetConfigFileName(doc);
             return File.Exists(s) ? s : null;
         }
 
         public static string CurrentViewNumber(Document doc)
         {
-            View v = doc.ActiveView;
+            var v = doc.ActiveView;
             if (v.ViewType == ViewType.DrawingSheet)
             {
                 return v.get_Parameter(
@@ -713,7 +697,7 @@ namespace SCaddins.ExportManager
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private static bool SetAcrobatExportRegistryVal(string fileName, ExportLog log)
         {
-            string exe = Process.GetCurrentProcess().MainModule.FileName;
+            var exe = Process.GetCurrentProcess().MainModule.FileName;
             try {
                 log.AddMessage("Attempting to set Acrobat Registry Value with value");
                 log.AddMessage("\t" + Constants.AcrobatPrinterJobControl);
@@ -896,7 +880,7 @@ namespace SCaddins.ExportManager
             if (ExportViewportsOnly)
             {
                 foreach (var viewOnSheet in vs.Sheet.GetAllPlacedViews()) {
-                    View individualViewOnSheet = Doc.GetElement(viewOnSheet) as View;
+                    var individualViewOnSheet = Doc.GetElement(viewOnSheet) as View;
                     if (individualViewOnSheet.ViewType == ViewType.FloorPlan || individualViewOnSheet.ViewType == ViewType.CeilingPlan)
                     {
                         views.Add(individualViewOnSheet.Id);
@@ -917,9 +901,7 @@ namespace SCaddins.ExportManager
             RunExportHooks("dwg", vs);
 
             if (removeTitle) {
-                if (log != null) {
-                    log.AddMessage(Resources.MessageShowingTitleBlock);
-                }
+                log.AddMessage(Resources.MessageShowingTitleBlock);
                 RemoveTitleBlock(vs, titleBlockHidden, false, Doc);
             }
         }

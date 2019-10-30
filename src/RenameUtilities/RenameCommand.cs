@@ -5,7 +5,7 @@
 
     public class RenameCommand : INotifyPropertyChanged
     {
-        private readonly Func<string, string, string, string> renameFunction;
+        private Func<string, string, string, string> renameFunction;
 
         private string replacementPattern;
 
