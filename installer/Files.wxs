@@ -42,6 +42,7 @@
 								<File Id="_019.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2019\SC-Survey_Point.rfa" />
 							</Component>
 							<?endif?>
+						</Directory>
 						<Directory Id="RFAFILES2020" Name="2020">
 							<?if $(env.R2020) = Enabled ?>
 							<Component Id="SCaddinsRFA2020" Guid="983916bd-8a83-4494-b3f4-5f56711b3d3d" Win64="yes" DiskId="1">
@@ -49,7 +50,6 @@
 								<File Id="_020.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2020\SC-Survey_Point.rfa" />
 							</Component>
 							<?endif?>
-						</Directory>
 						</Directory>
 					</Directory>
 				</Directory>
