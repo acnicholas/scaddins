@@ -21,7 +21,7 @@ namespace SCaddins.RoomConverter.ViewModels
     using System.Collections.ObjectModel;
     using System.Linq;
     using Caliburn.Micro;
-
+    
     public class RoomConvertorViewModel : Screen
     {
         private RoomConversionCandidate selectedRoom;

@@ -23,7 +23,7 @@ namespace SCaddins.RoomConverter.ViewModels
     using System.Linq;
     using System.Windows.Data;
     using Caliburn.Micro;
-
+    
     public class RoomFilterViewModel : Screen
     {
         private string comparisonFieldOne = string.Empty;

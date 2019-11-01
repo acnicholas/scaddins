@@ -18,7 +18,7 @@
 namespace SCaddins.RoomConverter
 {
     using Autodesk.Revit.DB.Architecture;
-
+    
     public class RoomFilter
     {
         private RoomFilterItem[] filters;

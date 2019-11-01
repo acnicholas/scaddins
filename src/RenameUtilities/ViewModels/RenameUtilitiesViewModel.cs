@@ -207,14 +207,9 @@ namespace SCaddins.RenameUtilities.ViewModels
             }
         }
 
-        public System.Windows.Visibility ShowRenameParameters
-        {
-            get
-            {
-                return manager.SelectedRenameMode.HasInputParameters == true
-                    ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
-            }
-        }
+        public System.Windows.Visibility ShowRenameParameters =>
+            manager.SelectedRenameMode.HasInputParameters
+                ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
 
         public void RenameAllMatches()
         {

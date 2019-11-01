@@ -22,7 +22,7 @@ namespace SCaddins.RoomConverter
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
-
+    
     public class RoomConversionManager
     {
         #region PROPERTIES

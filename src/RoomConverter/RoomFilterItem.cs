@@ -21,8 +21,7 @@ namespace SCaddins.RoomConverter
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
-    using static System.String;
-
+    
     public class RoomFilterItem
     {
         private ComparisonOperator co;
@@ -43,7 +42,7 @@ namespace SCaddins.RoomConverter
 
         public bool IsValid()
         {
-            return !IsNullOrEmpty(test);
+            return !string.IsNullOrEmpty(test);
         }
 
         public bool PassesFilter(Room room)
@@ -102,7 +101,7 @@ namespace SCaddins.RoomConverter
         {
             // ReSharper disable once InconsistentNaming
             const int Result = 441976;
-            if (!param.HasValue || IsNullOrWhiteSpace(value))
+            if (!param.HasValue || string.IsNullOrWhiteSpace(value))
             {
                 return Result;
             }
@@ -117,7 +116,7 @@ namespace SCaddins.RoomConverter
 
                 case StorageType.String:
                 #pragma warning disable CA1307 // Specify StringComparison
-                return Compare(param.AsString(), value, StringComparison.Ordinal);
+                return string.Compare(param.AsString(), value, StringComparison.Ordinal);
                 #pragma warning restore CA1307 // Specify StringComparison
 
                 case StorageType.Integer:
@@ -138,7 +137,7 @@ namespace SCaddins.RoomConverter
 
         private static bool ParameterValueContainsString(Parameter param, string value)
         {
-            if (!param.HasValue || IsNullOrWhiteSpace(value))
+            if (!param.HasValue || string.IsNullOrWhiteSpace(value))
             {
                 return false;
             }
