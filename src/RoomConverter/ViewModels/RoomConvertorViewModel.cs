@@ -59,10 +59,7 @@ namespace SCaddins.RoomConverter.ViewModels
 
         public bool MassCreationMode
         {
-            get
-            {
-                return massCreationMode;
-            }
+            get => massCreationMode;
 
             set
             {
@@ -74,23 +71,11 @@ namespace SCaddins.RoomConverter.ViewModels
                 }
             }
         }
+        
+        public bool RoomInformationIsAvailable => SelectedRoom != null;
 
-        public bool RoomInformationIsAvailable
-        {
-            get
-            {
-                return SelectedRoom != null;
-            }
-        }
-
-        public List<RoomParameter> RoomParameters
-        {
-            get
-            {
-                return SelectedRoom.RoomParameters;
-            }
-        }
-
+        public List<RoomParameter> RoomParameters => SelectedRoom.RoomParameters;
+        
         public ObservableCollection<RoomConversionCandidate> Rooms
         {
             get { return new ObservableCollection<RoomConversionCandidate>(rooms.Where(r => filter.PassesFilter(r.Room))); }
@@ -113,10 +98,7 @@ namespace SCaddins.RoomConverter.ViewModels
 
         public RoomConversionCandidate SelectedRoom
         {
-            get
-            {
-                return selectedRoom;
-            }
+            get => selectedRoom;
 
             set
             {
@@ -180,8 +162,10 @@ namespace SCaddins.RoomConverter.ViewModels
               manager.Doc,
               selectedRooms.Select(s => s.Room.Id).ToList());
             var renameSheetModel = new SCaddins.RenameUtilities.ViewModels.RenameUtilitiesViewModel(renameManager);
-            renameSheetModel.SelectedParameterCategory = "Sheets";
+            renameSheetModel.SelectedParameterCategory = "Rooms";
+            renameSheetModel.ParameterCategoryEnabled = false;
             SCaddinsApp.WindowManager.ShowDialog(renameSheetModel, null, RenameUtilities.ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings);
+            
             NotifyOfPropertyChange(() => Rooms);
         }
 

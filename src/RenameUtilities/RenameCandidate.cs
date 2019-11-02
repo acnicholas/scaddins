@@ -82,8 +82,10 @@ namespace SCaddins.RenameUtilities
             get { return !string.Equals(this.oldValue, this.newValue, System.StringComparison.CurrentCulture); }
         }
 
-        // ReSharper disable once UnusedMember.Local
-        private Parameter RevitParameter => parameter;
+        private Parameter RevitParameter
+        {
+            get { return parameter; }
+        }
 
         public bool Rename()
         {

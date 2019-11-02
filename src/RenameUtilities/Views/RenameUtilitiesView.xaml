@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:local="clr-namespace:SCaddins.RenameUtilities.Views"
+             xmlns:dgx="urn:tom-englert.de/DataGridExtensions"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="600">
     <Grid Height="Auto" VerticalAlignment="Stretch">
@@ -23,7 +25,7 @@
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0" Header="1. Select Category" Height="Auto" Margin="5">
-                    <ComboBox x:Name="ParameterCategories" Margin="5"></ComboBox>
+                    <ComboBox x:Name="ParameterCategories"  IsEnabled="{Binding ParameterCategoryEnabled}"  Margin="5"></ComboBox>
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="2. Select Parameter" Margin="5" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <ListBox x:Name="RenameParameters" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Stretch" Margin="5">

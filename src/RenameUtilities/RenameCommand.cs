@@ -47,16 +47,21 @@
 
         public string ReplacementPattern
         {
-            get => replacementPattern;
+            get
+            {
+                return replacementPattern;
+            }
 
             set
             {
-                if (replacementPattern != null && value != replacementPattern)
+                if (value != replacementPattern)
                 {
                     replacementPattern = value;
                 }
-
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ReplacementPattern)));
+                if (this.PropertyChanged != null)
+                {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(ReplacementPattern)));
+                }
             }
         }
 

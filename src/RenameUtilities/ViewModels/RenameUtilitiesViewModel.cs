@@ -34,6 +34,7 @@ namespace SCaddins.RenameUtilities.ViewModels
             this.manager = manager;
             selectedParameterCategory = string.Empty;
             selectedParameterCategory = null;
+            ParameterCategoryEnabled = true;
         }
 
         public static dynamic DefaultWindowSettings
@@ -45,7 +46,7 @@ namespace SCaddins.RenameUtilities.ViewModels
                 settings.Width = 768;
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
                     new System.Uri("pack://application:,,,/SCaddins;component/Assets/rename.png"));
-                settings.Title = "Rename Selected Sheet Parameters";
+                settings.Title = "Rename";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;
                 settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
@@ -64,6 +65,8 @@ namespace SCaddins.RenameUtilities.ViewModels
                 return RenameManager.AvailableParameterTypes;
             }
         }
+
+        public bool ParameterCategoryEnabled { get; set; }
 
         public string Pattern
         {
@@ -207,9 +210,14 @@ namespace SCaddins.RenameUtilities.ViewModels
             }
         }
 
-        public System.Windows.Visibility ShowRenameParameters =>
-            manager.SelectedRenameMode.HasInputParameters
-                ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
+        public System.Windows.Visibility ShowRenameParameters
+        {
+            get
+            {
+                return manager.SelectedRenameMode.HasInputParameters == true
+                    ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
+            }
+        }
 
         public void RenameAllMatches()
         {
