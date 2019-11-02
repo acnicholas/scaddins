@@ -40,10 +40,15 @@ namespace SCaddins.ModelSetupWizard
 
                 // Open settings file as XML
                 var import = XDocument.Load(settingsFilePath);
-                var settings = import.Element("configuration").Element("userSettings").Element(appSettingsXmlName);
+                var settings = import.Element("configuration")?.Element("userSettings")?.Element(appSettingsXmlName);
 
+                if (settings == null)
+                {
+                    SCaddinsApp.WindowManager.ShowMessageBox("Could not import settings");
+                    return;
+                }
                 config.GetSectionGroup("userSettings")
-                    .Sections[appSettingsXmlName]
+                    ?.Sections[appSettingsXmlName]
                     .SectionInformation
                     .SetRawXml(settings.ToString());
                 config.Save(ConfigurationSaveMode.Modified);

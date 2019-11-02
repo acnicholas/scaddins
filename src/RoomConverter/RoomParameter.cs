@@ -30,6 +30,7 @@ namespace SCaddins.RoomConverter
 
         public string Def { get; set; }
 
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
         private string Value { get; set; }
     }
 }

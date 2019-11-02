@@ -809,10 +809,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Assets\Ribbon\script-rvt-16.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="RoomConvertor\ViewModels" />
-    <Folder Include="RoomConvertor\Views" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
