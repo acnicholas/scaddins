@@ -144,7 +144,7 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (searchText != null && value != searchText)
+                if (value != searchText)
                 {
                     searchText = value;
                 }
