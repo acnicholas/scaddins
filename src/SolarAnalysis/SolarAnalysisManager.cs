@@ -124,7 +124,8 @@ namespace SCaddins.SolarAnalysis
                                     interval = 0.75;
                                     break;
                             }
-                            var hoursOfSun = setting.NumberOfFrames - 1;
+
+                            var hoursOfSun = (setting.NumberOfFrames - 1) * interval;
                             //// Autodesk makes active frame starts from 1..
                             for (int activeFrame = 1; activeFrame <= setting.NumberOfFrames; activeFrame++) {
                                 setting.ActiveFrame = activeFrame;
@@ -133,9 +134,9 @@ namespace SCaddins.SolarAnalysis
                                 var sunDirection = GetSunDirectionalVector(uidoc.ActiveView, GetProjectPosition(uidoc.Document), out var _);
                                 var end = start.Subtract(sunDirection.Multiply(1000));
                                 ////BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
-                                Line line = Line.CreateBound(start, end);
+                                var line = Line.CreateBound(start, end);
 
-                                foreach (Solid solid in solids) {
+                                foreach (var solid in solids) {
                                     try {
                                         var solidInt = solid.IntersectWithCurve(line, new SolidCurveIntersectionOptions());
                                         if (solidInt.SegmentCount > 0) {
@@ -213,11 +214,11 @@ namespace SCaddins.SolarAnalysis
         public static ProjectPosition GetProjectPosition(Document doc)
         {
             var projectLocation = doc.ActiveProjectLocation;
-#if REVIT2018 || REVIT2019 || REVIT2020
+            #if REVIT2018 || REVIT2019 || REVIT2020
             return projectLocation.GetProjectPosition(XYZ.Zero);
-#else
+            #else
             return projectLocation.get_ProjectPosition(XYZ.Zero);
-#endif
+            #endif
         }
 
         /// <summary>
