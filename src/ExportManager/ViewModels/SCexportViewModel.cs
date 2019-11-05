@@ -160,11 +160,9 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value != selectedPrintType)
-                {
-                    selectedPrintType = value;
-                    NotifyOfPropertyChange(() => SelectedPrintType);
-                }
+                selectedPrintType = value;
+                NotifyOfPropertyChange(() => SelectedPrintType);
+                PrintButton();
             }
         }
 
@@ -175,10 +173,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public List<ExportSheet> SelectedSheets
         {
-            get
-            {
-                return selectedSheets;
-            }
+            get => selectedSheets;
 
             set
             {
@@ -193,10 +188,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public SheetFilter SheetFilter
         {
-            get
-            {
-                return sheetFilter;
-            }
+            get => sheetFilter;
 
             set
             {
@@ -210,10 +202,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public ICollectionView Sheets
         {
-            get
-            {
-                return sheetsCollection;
-            }
+            get => sheetsCollection;
 
             set
             {
