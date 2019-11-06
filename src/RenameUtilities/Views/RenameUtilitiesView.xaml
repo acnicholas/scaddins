@@ -8,6 +8,7 @@
              xmlns:dgx="urn:tom-englert.de/DataGridExtensions"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="600">
+    
     <Grid Height="Auto" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="200*"></RowDefinition>
@@ -46,6 +47,7 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
@@ -78,15 +80,23 @@
                                         <DataTrigger Binding="{Binding ValueChanged}" Value="True">
                                             <Setter Property="Foreground" Value="Red"></Setter>
                                         </DataTrigger>
+                                        <!--<MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding HideIfNonChanged}" Value="True" />
+                                                <Condition Binding="{Binding ValueChanged}" Value="False" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                        </MultiDataTrigger>-->
                                     </Style.Triggers>
                                 </Style>
                             </DataGrid.RowStyle>
-
+                            
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Old Name" Binding="{Binding OldValue}" ></DataGridTextColumn>
                                 <DataGridTextColumn Header="New Name" Binding="{Binding NewValue}"></DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
+                        <CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" x:Name="OnlyDisplayItemsToBeRenamed">Only display items that will be renamed.</CheckBox>
                     </Grid>
                 </GroupBox>
             </Grid>

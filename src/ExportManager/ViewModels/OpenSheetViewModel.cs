@@ -95,7 +95,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public string StatusText
         {
-            get { return string.Format(System.Globalization.CultureInfo.CurrentCulture, "Type '?' for help. View Type Filter: {0}", viewType); }
+            get { return string.Format(System.Globalization.CultureInfo.CurrentCulture, "Type 'ctrl + h' for help. View Type Filter: {0}", viewType); }
         }
 
         public void Exit()
@@ -146,6 +146,20 @@ namespace SCaddins.ExportManager.ViewModels
             }
             if (args.Key == System.Windows.Input.Key.LeftCtrl) {
                 ctrlDown = true;
+            }
+
+            if (ctrlDown && args.Key == System.Windows.Input.Key.H)
+            {
+                var helpMessage = "[Tab]/t-/tSelect Next" + Environment.NewLine +
+                                  "[ctrl + j]/t-/tSelect Next" + Environment.NewLine +
+                                  "[ctrl + k]/t-/tSelectPrevious" + Environment.NewLine +
+                                  "[Esc]/t-/tExit" + Environment.NewLine +
+                                  Environment.NewLine +
+                                  "[ctrl + e]/t-/tOnly Search for Elevations/Sections" + Environment.NewLine +
+                                  "[ctrl + s]/t-/tOnly Search for Sheets" + Environment.NewLine +
+                                  "[ctrl + p]/t-/tOnly Search for Plans";
+                                  
+                SCaddinsApp.WindowManager.ShowMessageBox(helpMessage);
             }
         }
 
