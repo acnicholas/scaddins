@@ -80,13 +80,13 @@
                                         <DataTrigger Binding="{Binding ValueChanged}" Value="True">
                                             <Setter Property="Foreground" Value="Red"></Setter>
                                         </DataTrigger>
-                                        <!--<MultiDataTrigger>
+                                        <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding HideIfNonChanged}" Value="True" />
+                                                <Condition Binding="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:RenameUtilitiesView}}, Path=DataContext.OnlyDisplayItemsToBeRenamed}" Value="True" />
                                                 <Condition Binding="{Binding ValueChanged}" Value="False" />
                                             </MultiDataTrigger.Conditions>
                                             <Setter Property="Visibility" Value="Collapsed"></Setter>
-                                        </MultiDataTrigger>-->
+                                        </MultiDataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </DataGrid.RowStyle>

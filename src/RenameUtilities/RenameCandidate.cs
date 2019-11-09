@@ -77,15 +77,9 @@ namespace SCaddins.RenameUtilities
             }
         }
 
-        public bool ValueChanged
-        {
-            get { return !string.Equals(this.oldValue, this.newValue, System.StringComparison.CurrentCulture); }
-        }
-
-        private Parameter RevitParameter
-        {
-            get { return parameter; }
-        }
+        public bool ValueChanged => !string.Equals(this.oldValue, this.newValue, System.StringComparison.CurrentCulture);
+        
+        private Parameter RevitParameter => parameter;
 
         public bool Rename()
         {

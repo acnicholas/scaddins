@@ -28,6 +28,7 @@ namespace SCaddins.RenameUtilities.ViewModels
         private List<RenameCandidate> selectedCandiates = new List<RenameCandidate>();
         private string selectedParameterCategory;
         private RenameParameter selectedRenameParameter;
+        private bool onlyDisplayItemsToBeRenamed;
 
         public RenameUtilitiesViewModel(RenameManager manager)
         {
@@ -35,6 +36,7 @@ namespace SCaddins.RenameUtilities.ViewModels
             selectedParameterCategory = string.Empty;
             selectedParameterCategory = null;
             ParameterCategoryEnabled = true;
+            OnlyDisplayItemsToBeRenamed = false;
         }
 
         public static dynamic DefaultWindowSettings
@@ -55,25 +57,21 @@ namespace SCaddins.RenameUtilities.ViewModels
         }
 
         ////Constructors
+
         #region
+
         #endregion
 
         public static BindableCollection<string> ParameterCategories
         {
-            get
-            {
-                return RenameManager.AvailableParameterTypes;
-            }
+            get { return RenameManager.AvailableParameterTypes; }
         }
 
         public bool ParameterCategoryEnabled { get; set; }
 
         public string Pattern
         {
-            get
-            {
-                return manager.ActiveRenameCommand.SearchPattern;
-            }
+            get => manager.ActiveRenameCommand.SearchPattern;
 
             set
             {
@@ -93,14 +91,21 @@ namespace SCaddins.RenameUtilities.ViewModels
         {
             get
             {
-                var count = RenameCandidates.Where(m => m.ValueChanged).Count();
+                var count = RenameCandidates.Count(m => m.ValueChanged);
                 return "Rename all " + count + " parameters";
             }
         }
 
-        public BindableCollection<RenameCandidate> RenameCandidates
+        public BindableCollection<RenameCandidate> RenameCandidates => manager.RenameCandidates;
+
+        public bool OnlyDisplayItemsToBeRenamed
         {
-            get { return manager.RenameCandidates; }
+            get => onlyDisplayItemsToBeRenamed;
+            set
+            {
+                onlyDisplayItemsToBeRenamed = value;
+                NotifyOfPropertyChange(() => OnlyDisplayItemsToBeRenamed);
+            }
         }
 
         public BindableCollection<RenameCommand> RenameModes
