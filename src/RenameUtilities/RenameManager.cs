@@ -85,38 +85,19 @@ namespace SCaddins.RenameUtilities
             }
         }
 
-        public Caliburn.Micro.BindableCollection<RenameCandidate> RenameCandidates
-        {
-            get { return renameCandidates; }
-        }
+        public Caliburn.Micro.BindableCollection<RenameCandidate> RenameCandidates => renameCandidates;
 
-        public Caliburn.Micro.BindableCollection<RenameCommand> RenameModes
-        {
-            get
-            {
-                return renameCommands;
-            }
-        }
+        public Caliburn.Micro.BindableCollection<RenameCommand> RenameModes => renameCommands;
 
         public RenameCommand ActiveRenameCommand
         {
-            get
-            {
-                return renameCommand;
-            }
-
-            set
-            {
-                renameCommand = value;
-            }
+            get => renameCommand;
+            set => renameCommand = value;
         }
 
         public RenameCommand SelectedRenameMode
         {
-            get
-            {
-                return renameCommand;
-            }
+            get => renameCommand;
 
             set
             {
@@ -127,7 +108,25 @@ namespace SCaddins.RenameUtilities
 
         public static string Increment(string val, string search, string replace)
         {
-            return "todo";
+            var match = Regex.Match(val, search);
+            if (match.Success)
+            {
+                var matchLength = match.Groups[1].Value.Length;
+                if (int.TryParse(match.Groups[1].Value, out int n) && int.TryParse(replace, out int incVal))
+                {
+                    var i = n + incVal;
+                    var firstPart = val.Substring(0, match.Groups[1].Index);    
+                    var secondPart = val.Substring(match.Groups[1].Index + match.Groups[1].Length);
+                    var pad = string.Empty;
+                    for (var j = (int)Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++)
+                    {
+                        pad += "0";
+                    }
+
+                    return firstPart + pad + i + secondPart;
+                }
+            }
+            return val;
         }
 
         public static string IncrementLast(string val, string search, string replace)
