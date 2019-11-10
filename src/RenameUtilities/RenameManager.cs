@@ -108,6 +108,10 @@ namespace SCaddins.RenameUtilities
 
         public static string Increment(string val, string search, string replace)
         {
+            if (string.IsNullOrEmpty(val) || string.IsNullOrEmpty(search))
+            {
+                return val;
+            }
             var match = Regex.Match(val, search);
             if (match.Success)
             {
@@ -118,11 +122,13 @@ namespace SCaddins.RenameUtilities
                     var firstPart = val.Substring(0, match.Groups[1].Index);    
                     var secondPart = val.Substring(match.Groups[1].Index + match.Groups[1].Length);
                     var pad = string.Empty;
-                    for (var j = (int)Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++)
+                    if (i > 0)
                     {
-                        pad += "0";
+                        for (var j = (int)Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++)
+                        {
+                            pad += "0";
+                        }
                     }
-
                     return firstPart + pad + i + secondPart;
                 }
             }
@@ -139,10 +145,14 @@ namespace SCaddins.RenameUtilities
                 {
                     var i = n + incVal;
                     string pad = string.Empty;
-                    for (int j = (int)Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++)
+                    if (i > 0)
                     {
-                        pad += "0";
+                        for (int j = (int) Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++)
+                        {
+                            pad += "0";
+                        }
                     }
+
                     return Regex.Replace(val, search, m => m.Groups[1].Value + pad + i);
                 }
             }
