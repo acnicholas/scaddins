@@ -532,22 +532,22 @@
     <value>Value</value>
   </data>
   <data name="AngleOfSun" xml:space="preserve">
-    <value>Angle Of Sun</value>
+    <value>Solar Analysis</value>
   </data>
   <data name="AngleOfSunLongDescription" xml:space="preserve">
-    <value>...Or create multiple views for winter(June 21) in one go.</value>
+    <value>Create Single/Multiple "Sun-Eye" Views; Shadow Plans or Solar Analysis Views.</value>
   </data>
   <data name="AngleOfSunToolTip" xml:space="preserve">
-    <value>Rotate a 3d view to the location of the sun.</value>
+    <value>Solar analysis tools.</value>
   </data>
   <data name="AssociatedLevel" xml:space="preserve">
     <value>Associated Level</value>
   </data>
   <data name="RenameLongDescription" xml:space="preserve">
-    <value>Pre-select text/tags to change a selection to uppercase. Run with no selection to rename selected parameter categories with advanced options.</value>
+    <value>Rename selected parameters. Rename modes include ToUpper; ToLower; Regex and Regex with Increment.</value>
   </data>
   <data name="RenameToolTip" xml:space="preserve">
-    <value>Rename paramters.</value>
+    <value>Rename Parameters</value>
   </data>
   <data name="CopyDetailing" xml:space="preserve">
     <value>Copy Detailing</value>

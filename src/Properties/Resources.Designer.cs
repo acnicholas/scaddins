@@ -19,7 +19,7 @@ namespace SCaddins.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -97,7 +97,7 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Angle Of Sun.
+        ///   Looks up a localized string similar to Solar Analysis.
         /// </summary>
         internal static string AngleOfSun {
             get {
@@ -106,7 +106,7 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ...Or create multiple views for winter(June 21) in one go..
+        ///   Looks up a localized string similar to Create Single/Multiple &quot;Sun-Eye&quot; Views; Shadow Plans or Solar Analysis Views..
         /// </summary>
         internal static string AngleOfSunLongDescription {
             get {
@@ -115,7 +115,7 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rotate a 3d view to the location of the sun..
+        ///   Looks up a localized string similar to Solar analysis tools..
         /// </summary>
         internal static string AngleOfSunToolTip {
             get {
@@ -151,7 +151,7 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tue 22/10/2019 14:41:09.83 
+        ///   Looks up a localized string similar to Mon 11/11/2019  9:26:02.65 
         ///.
         /// </summary>
         internal static string BuildDate {
@@ -1178,7 +1178,7 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pre-select text/tags to change a selection to uppercase. Run with no selection to rename selected parameter categories with advanced options..
+        ///   Looks up a localized string similar to Rename selected parameters. Rename modes include ToUpper; ToLower; Regex and Regex with Increment..
         /// </summary>
         internal static string RenameLongDescription {
             get {
@@ -1214,7 +1214,7 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rename paramters..
+        ///   Looks up a localized string similar to Rename Parameters.
         /// </summary>
         internal static string RenameToolTip {
             get {

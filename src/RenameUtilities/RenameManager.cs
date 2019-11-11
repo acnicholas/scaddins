@@ -147,7 +147,7 @@ namespace SCaddins.RenameUtilities
                     string pad = string.Empty;
                     if (i > 0)
                     {
-                        for (int j = (int) Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++)
+                        for (int j = (int)Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++)
                         {
                             pad += "0";
                         }
