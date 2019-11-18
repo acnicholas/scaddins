@@ -52,8 +52,8 @@ namespace SCaddins.RenameUtilities
             renameCommands.Add(new RenameCommand((a, c, b) => a.Replace(' ', '_'), "Spaces to Underscore"));
             renameCommands.Add(new RenameCommand((a, c, b) => a.Replace(' ', '-'), "Spaces to Hyphen"));
             renameCommands.Add(new RenameCommand(RegexReplace, "Custom Replace", string.Empty, string.Empty));
-            renameCommands.Add(new RenameCommand(Increment, "Increment Match", string.Empty, string.Empty) { ReplacementPatternHint = "Increment Ammount"});
-            renameCommands.Add(new RenameCommand(Streetify, "Streetify String", string.Empty, string.Empty) { SearchPatternHint = "Search Filter", ReplacementPatternHint="Char Spacing"});
+            renameCommands.Add(new RenameCommand(Increment, "Increment Match", string.Empty, string.Empty) { ReplacementPatternHint = "Increment Ammount" });
+            renameCommands.Add(new RenameCommand(Streetify, "Streetify String", string.Empty, string.Empty) { SearchPatternHint = "Search Filter", ReplacementPatternHint = "Char Spacing" });
 
             ////inc last
             var lastRenameCommand = new RenameCommand(IncrementLast, "Increment Last", @"(^\D+)(\d+$)", string.Empty);
@@ -114,7 +114,7 @@ namespace SCaddins.RenameUtilities
                 return val;
             }
             var result = string.Empty;
-            foreach(var c in val)
+            foreach (var c in val)
             {
                 result += c + @" ";
                 if (c == ' ')

@@ -118,7 +118,9 @@ namespace SCaddins.DestructivePurge.ViewModels
             }
         }
 
-        public string ShowButtonLabel => selectedItem.Deletable.Id == null ? "Select Element" : "Show Element " + selectedItem.Deletable.Id;
+        public string ShowButtonLabel => ShowButtonIsVisible ? "Select Element" : "Show Element " + selectedItem.Deletable.Id;
+
+        public bool ShowButtonIsVisible => selectedItem.Deletable.Id != null;
 
         public void CollapseAll(object sender)
         {
@@ -236,6 +238,7 @@ namespace SCaddins.DestructivePurge.ViewModels
             selectedItem = item;
             NotifyOfPropertyChange(() => Details);
             NotifyOfPropertyChange(() => ShowButtonLabel);
+            NotifyOfPropertyChange(() => ShowButtonIsVisible);
             NotifyOfPropertyChange(() => EnableShowElemant);
             NotifyOfPropertyChange(() => DeleteButtonLabel);
             PreviewImage = DestructivePurgeUtilitiles.ToBitmapImage(item.Deletable.PreviewImage);
