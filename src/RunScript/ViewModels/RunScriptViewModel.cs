@@ -68,7 +68,9 @@ public static void Main(Document doc)
                 return settings;
             }
         }
-        
+
+        public bool CanSave => !string.IsNullOrEmpty(currentFileName);
+             
         public string Script
         {
             get => script;
@@ -121,9 +123,7 @@ public static void Main(Document doc)
                 NotifyOfPropertyChange(() => OutputList);
             }
         }
-        
-        private bool CanSave => !string.IsNullOrEmpty(currentFileName);
-        
+         
         public void LoadScratch()
         {
             var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
@@ -173,7 +173,14 @@ public static void Main(Document doc)
         
         public void Save()
         {
-            File.WriteAllText(currentFileName, Script);
+            if (CanSave)
+            {
+                File.WriteAllText(currentFileName, Script);
+            }
+            else
+            {
+                SaveAs();
+            }
         }
         
         private void SaveScratch()
