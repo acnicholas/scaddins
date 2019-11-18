@@ -50,7 +50,7 @@ namespace SCaddins.RoomConverter.ViewModels
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
                   new System.Uri("pack://application:,,,/SCaddins;component/Assets/scasfar.png"));
                 settings.Width = 768;
-                settings.Title = "Room Convertor - By Andrew Nicholas";
+                settings.Title = "Room Converter - By Andrew Nicholas";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;
                 return settings;
