@@ -96,6 +96,8 @@ namespace SCaddins.RenameUtilities
             set => renameCommand = value;
         }
 
+        public Document Document => doc;
+
         public RenameCommand SelectedRenameMode
         {
             get => renameCommand;
@@ -222,43 +224,43 @@ namespace SCaddins.RenameUtilities
             }
         }
 
-        public Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByCategoryName(string parameterCategory)
+        public static Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByCategoryName(string parameterCategory, Document doc)
         {
             if (parameterCategory == "Rooms") {
-                return GetParametersByCategory(BuiltInCategory.OST_Rooms);
+                return GetParametersByCategory(BuiltInCategory.OST_Rooms, doc);
             }
             if (parameterCategory == "Views") {
-                return GetParametersByCategory(BuiltInCategory.OST_Views);
+                return GetParametersByCategory(BuiltInCategory.OST_Views, doc);
             }
             if (parameterCategory == "Sheets") {
-                return GetParametersByCategory(BuiltInCategory.OST_Sheets);
+                return GetParametersByCategory(BuiltInCategory.OST_Sheets, doc);
             }
             if (parameterCategory == "Walls") {
-                return GetParametersByCategory(BuiltInCategory.OST_Walls);
+                return GetParametersByCategory(BuiltInCategory.OST_Walls, doc);
             }
             if (parameterCategory == "Doors") {
-                return GetParametersByCategory(BuiltInCategory.OST_Doors);
+                return GetParametersByCategory(BuiltInCategory.OST_Doors, doc);
             }
             if (parameterCategory == "Windows") {
-                return GetParametersByCategory(BuiltInCategory.OST_Windows);
+                return GetParametersByCategory(BuiltInCategory.OST_Windows, doc);
             }
             if (parameterCategory == "Windows") {
-                return GetParametersByCategory(BuiltInCategory.OST_Revisions);
+                return GetParametersByCategory(BuiltInCategory.OST_Revisions, doc);
             }
             if (parameterCategory == "Grids") {
-                return GetParametersByType(typeof(Grid));
+                return GetParametersByType(typeof(Grid), doc);
             }
             if (parameterCategory == "Levels") {
-                return GetParametersByCategory(BuiltInCategory.OST_Levels);
+                return GetParametersByCategory(BuiltInCategory.OST_Levels, doc);
             }
             if (parameterCategory == "Floors") {
-                return GetParametersByCategory(BuiltInCategory.OST_Floors);
+                return GetParametersByCategory(BuiltInCategory.OST_Floors, doc);
             }
             if (parameterCategory == @"Text") {
-                return GetParametersByCategory(BuiltInCategory.OST_TextNotes);
+                return GetParametersByCategory(BuiltInCategory.OST_TextNotes, doc);
             }
             if (parameterCategory == @"Model Groups") {
-                return GetParametersByType(typeof(Autodesk.Revit.DB.Group));
+                return GetParametersByType(typeof(Autodesk.Revit.DB.Group),doc);
             }
             return new Caliburn.Micro.BindableCollection<RenameParameter>();
         }
@@ -317,7 +319,7 @@ namespace SCaddins.RenameUtilities
             return !(s.Contains("{") || s.Contains("}"));
         }
 
-        private Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByCategory(BuiltInCategory category)
+        private static Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByCategory(BuiltInCategory category, Document doc)
         {
             Caliburn.Micro.BindableCollection<RenameParameter> parametersList = new Caliburn.Micro.BindableCollection<RenameParameter>();
             if (category == BuiltInCategory.OST_TextNotes)
@@ -353,7 +355,7 @@ namespace SCaddins.RenameUtilities
             return parametersList;
         }
 
-        private Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByType(Type t)
+        private static Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByType(Type t, Document doc)
         {
             Caliburn.Micro.BindableCollection<RenameParameter> parametersList = new Caliburn.Micro.BindableCollection<RenameParameter>();
 
