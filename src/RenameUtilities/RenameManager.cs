@@ -345,6 +345,7 @@ namespace SCaddins.RenameUtilities
                 return parametersList;
             }
 
+            //get type paramters
             foreach (Parameter param in elem.Parameters)
             {
                 if (param.StorageType == StorageType.String && !param.IsReadOnly)
@@ -352,6 +353,19 @@ namespace SCaddins.RenameUtilities
                     parametersList.Add(new RenameParameter(param, category));
                 }
             }
+            ////get instancee paramters
+            //var faimliyInstance = doc.GetElement(elem.Id);
+            ////SCaddinsApp.WindowManager.ShowMessageBox(faimliyInstance.GetType().ToString());
+            //if (faimliyInstance is FamilyInstance) {
+            //    SCaddinsApp.WindowManager.ShowMessageBox("yep");
+            //    foreach (Parameter param in faimliyInstance.Parameters)
+            //    {
+            //        if (param.StorageType == StorageType.String)
+            //        {
+            //            parametersList.Add(new RenameParameter(param, category));
+            //        }
+            //    }
+            //}
             return parametersList;
         }
 

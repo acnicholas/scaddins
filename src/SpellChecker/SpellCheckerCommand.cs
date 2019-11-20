@@ -6,6 +6,7 @@ namespace SCaddins.SpellChecker
     using System.Dynamic;
     using System.IO;
     using System.Text;
+    using System.Text.RegularExpressions;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using NHunspell;
@@ -20,41 +21,63 @@ namespace SCaddins.SpellChecker
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             var document = commandData.Application.ActiveUIDocument.Document;
-            var p = RenameUtilities.RenameManager.GetParametersByCategoryName("Rooms", document);
-          
-            using (Hunspell hunspell = new Hunspell(
-                @"C:\Code\cs\scaddins\etc\en_AU.aff",
-                @"C:\Code\cs\scaddins\etc\en_AU.dic"))
+
+            string[] toStest = { "Views", "Rooms", "Sheets", "Annotation" };
+
+            foreach (var t in toStest)
             {
 
-                foreach (var pp in p)
-                {
+            var p = RenameUtilities.RenameManager.GetParametersByCategoryName(t, document);
 
-                    var candidates = GetTxtValuesByParameter(pp.Parameter, pp.Category, pp.Type, document);
-                    foreach (var candidate in candidates) {
-                        char[] delimiterChars = { ' ', ',', '.', ':', '\t', '\\', '/' };
-                        var strings = candidate.OldValue.Split(delimiterChars);
-                        bool correctSpelling = true;
-                        foreach (var s in strings)
+                using (Hunspell hunspell = new Hunspell(
+                    @"C:\Code\cs\scaddins\etc\en_AU.aff",
+                    @"C:\Code\cs\scaddins\etc\en_AU.dic"))
+                {
+                    //add some arch specific words
+                    hunspell.Add("approver");
+                    hunspell.Add("&");
+
+                    foreach (var pp in p)
+                    {
+
+                        var candidates = GetTxtValuesByParameter(pp.Parameter, pp.Category, pp.Type, document);
+                        foreach (var candidate in candidates)
                         {
-                            if (!hunspell.Spell(s)) {
-                                SCaddinsApp.WindowManager.ShowMessageBox("Word not found / Incorrect spelling of: " + s);
-                                correctSpelling = false;
+                            char[] delimiterChars = { ' ', ',', '.', ':', '\t', '\\', '/' };
+                            var strings = candidate.OldValue.Split(delimiterChars);
+                            bool correctSpelling = true;
+                            foreach (var s in strings)
+                            {
+                                //Dont check if number and some characters
+                                Regex rgx = new Regex(@"^.*[\d]+.*$");
+                                if (rgx.IsMatch(s)) continue;
+
+                                if (!hunspell.Spell(s))
+                                {
+                                    var suggestionsList = hunspell.Suggest(s);
+                                    var suggestions = string.Empty;
+                                    foreach (var suggestion in suggestionsList)
+                                    {
+                                        suggestions += suggestion + Environment.NewLine;
+                                    }
+                                    SCaddinsApp.WindowManager.ShowMessageBox("Word not found / Incorrect spelling of: " + s +
+                                        Environment.NewLine +
+                                        suggestions);
+
+                                }
                             }
                         }
-                        if (!correctSpelling)
-                        {
-                            //SCaddinsApp.WindowManager.ShowMessageBox("Word not found / Incorrect spelling of: " + candidate.OldValue);
-                        }
-                    }
 
-                    //var suggestions = dictionary.Suggest("teh");
-                    //bool ok = dictionary.Check("the");
+                        //var suggestions = dictionary.Suggest("teh");
+                        //bool ok = dictionary.Check("the");
+                    }
                 }
             }
 
             return Result.Succeeded;
         }
+
+
 
         private List<RenameCandidate> GetTxtValuesByParameter(Parameter parameter, BuiltInCategory category, Type t, Document doc)
         {
