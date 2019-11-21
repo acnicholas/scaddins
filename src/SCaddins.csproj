@@ -533,7 +533,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SolarAnalysis\ViewModels\SolarViewsViewModel.cs" />
+    <Compile Include="SpellChecker\CorrectionCandiate.cs" />
+    <Compile Include="SpellChecker\SpellChecker.cs" />
     <Compile Include="SpellChecker\SpellCheckerCommand.cs" />
+    <Compile Include="SpellChecker\ViewModels\SpellCheckerViewModel.cs" />
+    <Compile Include="SpellChecker\Views\SpellCheckerView.xaml.cs">
+      <DependentUpon>SpellCheckerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewUtilities\CameraFromViewCommand.cs" />
     <Compile Include="ExportManager\Command.cs" />
     <Compile Include="ExportManager\Constants.cs" />
@@ -728,6 +734,10 @@
     <Page Include="SolarAnalysis\Views\SolarViewsView.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SpellChecker\Views\SpellCheckerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\about.bmp" />
@@ -825,10 +835,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Assets\Ribbon\script-rvt-16.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SpellChecker\ViewModels\" />
-    <Folder Include="SpellChecker\Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Hunspellx64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -35,7 +35,8 @@ namespace SCaddins.SpellChecker
                 {
                     //add some arch specific words
                     hunspell.Add("approver");
-                    hunspell.Add("&");
+                    hunspell.Add(@"&");
+                    hunspell.Add(@"-");
 
                     foreach (var pp in p)
                     {
