@@ -857,22 +857,6 @@ namespace SCaddins.ExportManager
                 RemoveTitleBlock(vs, titleBlockHidden, true, Doc);
             }
 
-            //PrintManager pm = Doc.PrintManager;
-
-            //using (var t = new Transaction(Doc, Resources.ApplyPrintSettings)) {
-            //    if (t.Start() == TransactionStatus.Started) {
-            //        try {
-            //            pm.PrintToFile = true;
-            //            pm.PrintRange = PrintRange.Select;
-            //            pm.Apply();
-            //            t.Commit();
-            //        } catch (InvalidOperationException) {
-            //            log.AddWarning(null, Resources.MessageCouldNotApplyPrintSettings);
-            //            t.RollBack();
-            //        }
-            //    }
-            //}
-
             List<ElementId> views;
             views = new List<ElementId>();
             views.Add(vs.Id);
@@ -890,7 +874,6 @@ namespace SCaddins.ExportManager
 
             using (var opts = GetDefaultDWGExportOptions()) {
                 log.AddMessage(Resources.MessageAssigningExportOptions + opts);
-                //pm.PrintRange = PrintRange.Select;
                 var name = vs.FullExportName + Resources.FileExtensionDWG;
                 log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
                 log.AddMessage(Resources.MessageExportingToFileName + name);
