@@ -2,7 +2,7 @@
 {
     using Autodesk.Revit.DB;
 
-    internal class CorrectionCandiate : SCaddins.RenameUtilities.RenameCandidate
+    public class CorrectionCandiate : SCaddins.RenameUtilities.RenameCandidate
     {
         public CorrectionCandiate(Parameter parameter) : base(parameter)
         {

@@ -7,6 +7,44 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <DataGrid x:Name="SpellingErrors"></DataGrid> 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Margin="5">Not in Dictionary</Label>
+            <TextBox Grid.Row="1" Margin="5" IsReadOnly="True" IsEnabled="False">Helllo</TextBox>
+            <Label Grid.Row="2" Margin="5">Change To</Label>
+            <TextBox Grid.Row="3" Margin="5">Helllo</TextBox>
+            <Label Grid.Row="4" Margin="5">Suggestions</Label>
+            <ListBox Grid.Row="5" Margin="5">Helllo</ListBox>
+        </Grid>
+        <StackPanel Grid.Column="1" Orientation="Vertical">
+            <Button Margin="5">Ignore Once</Button>
+            <Button Margin="5">Ignore All</Button>
+            <Button Margin="5">Change</Button>
+            <Button Margin="5">Change All</Button>
+            <Button Margin="5">Add To Dictionary</Button>
+        </StackPanel>
+        <DockPanel Grid.Row="1" Grid.ColumnSpan="2">
+            <Button HorizontalAlignment="Left" Margin="5">Options</Button>
+            <Button HorizontalAlignment="Right" Margin="5">Apply All</Button>
+            <Button HorizontalAlignment="Right" Margin="5">Cancel All</Button>
+        </DockPanel>
     </Grid>
 </UserControl>

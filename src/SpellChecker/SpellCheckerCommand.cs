@@ -3,9 +3,6 @@ namespace SCaddins.SpellChecker
 {
     using System;
     using System.Collections.Generic;
-    using System.Dynamic;
-    using System.IO;
-    using System.Text;
     using System.Text.RegularExpressions;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -22,7 +19,13 @@ namespace SCaddins.SpellChecker
         {
             var document = commandData.Application.ActiveUIDocument.Document;
 
-            string[] toStest = { "Views", "Rooms", "Sheets", "Annotation" };
+            var viewModel = new ViewModels.SpellCheckerViewModel(new SpellChecker(document));
+            var result = SCaddinsApp.WindowManager.ShowDialog(viewModel, null, ViewModels.SpellCheckerViewModel.DefaultWindowSettings);
+
+
+            return Result.Succeeded;
+
+            string[] toStest = { "Views", "Rooms", "Sheets", "Text", @"Project Information"};
 
             foreach (var t in toStest)
             {
@@ -53,9 +56,9 @@ namespace SCaddins.SpellChecker
                                 Regex rgx = new Regex(@"^.*[\d]+.*$");
                                 if (rgx.IsMatch(s)) continue;
 
-                                if (!hunspell.Spell(s))
+                                if (!hunspell.Spell(s.Trim()))
                                 {
-                                    var suggestionsList = hunspell.Suggest(s);
+                                    var suggestionsList = hunspell.Suggest(s.Trim());
                                     var suggestions = string.Empty;
                                     foreach (var suggestion in suggestionsList)
                                     {
@@ -68,9 +71,6 @@ namespace SCaddins.SpellChecker
                                 }
                             }
                         }
-
-                        //var suggestions = dictionary.Suggest("teh");
-                        //bool ok = dictionary.Check("the");
                     }
                 }
             }
@@ -78,27 +78,34 @@ namespace SCaddins.SpellChecker
             return Result.Succeeded;
         }
 
-
+        private List<RenameCandidate> GetTextNoteValues(BuiltInCategory category, Document doc)
+        {
+            var candidates = new List<RenameCandidate>();
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfCategory(category);
+            foreach (Element element in collector)
+            {
+                var textNote = (TextElement)element;
+                if (textNote != null)
+                {
+                    var rc = new RenameCandidate(textNote);
+                    candidates.Add(rc);
+                }
+            }
+            return candidates;
+        }
 
         private List<RenameCandidate> GetTxtValuesByParameter(Parameter parameter, BuiltInCategory category, Type t, Document doc)
         {
-            var candidates = new List<RenameCandidate>(); 
+            var candidates = new List<RenameCandidate>();
 
-            //if (category == BuiltInCategory.OST_TextNotes || category == BuiltInCategory.OST_IOSModelGroups)
-            //{
-            //    GetTextNoteValues(category);
-            //    return;
-            //}
-            //renameCandidates.Clear();
-            //FilteredElementCollector collector;
-            //if (elements == null)
-            //{
+            if (category == BuiltInCategory.OST_TextNotes || category == BuiltInCategory.OST_IOSModelGroups)
+            {
+                return GetTextNoteValues(category, doc);
+            }
+
             var collector = new FilteredElementCollector(doc);
-            //}
-            //else
-            //{
-            //    collector = new FilteredElementCollector(doc, elements);
-            //}
+
             if (t != null)
             {
                 collector.OfClass(t);

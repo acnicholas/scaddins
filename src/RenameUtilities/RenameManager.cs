@@ -81,6 +81,7 @@ namespace SCaddins.RenameUtilities
                 result.Add("Sheets");
                 result.Add("Walls");
                 result.Add("Doors");
+                result.Add(@"Project Information");
                 result.Add(@"Model Groups");
                 return result;
             }
@@ -258,6 +259,10 @@ namespace SCaddins.RenameUtilities
             }
             if (parameterCategory == @"Text") {
                 return GetParametersByCategory(BuiltInCategory.OST_TextNotes, doc);
+            }
+            if (parameterCategory == @"Project Information")
+            {
+                return GetParametersByCategory(BuiltInCategory.OST_ProjectInformation, doc);
             }
             if (parameterCategory == @"Model Groups") {
                 return GetParametersByType(typeof(Autodesk.Revit.DB.Group),doc);
