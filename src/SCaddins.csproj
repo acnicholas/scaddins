@@ -533,10 +533,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SolarAnalysis\ViewModels\SolarViewsViewModel.cs" />
-    <Compile Include="SpellChecker\CorrectionCandiate.cs" />
+    <Compile Include="SpellChecker\CorrectionCandidate.cs" />
     <Compile Include="SpellChecker\SpellChecker.cs" />
     <Compile Include="SpellChecker\SpellCheckerCommand.cs" />
+    <Compile Include="SpellChecker\ViewModels\SpellCheckerOptionsViewModel.cs" />
     <Compile Include="SpellChecker\ViewModels\SpellCheckerViewModel.cs" />
+    <Compile Include="SpellChecker\Views\SpellCheckerOptionsView.xaml.cs">
+      <DependentUpon>SpellCheckerOptionsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SpellChecker\Views\SpellCheckerView.xaml.cs">
       <DependentUpon>SpellCheckerView.xaml</DependentUpon>
     </Compile>
@@ -733,6 +737,10 @@
     </Page>
     <Page Include="SolarAnalysis\Views\SolarViewsView.xaml">
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SpellChecker\Views\SpellCheckerOptionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SpellChecker\Views\SpellCheckerView.xaml">
       <SubType>Designer</SubType>

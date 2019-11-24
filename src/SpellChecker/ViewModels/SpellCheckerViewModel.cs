@@ -11,16 +11,20 @@ namespace SCaddins.SpellChecker.ViewModels
     public class SpellCheckerViewModel : Screen
     {
         private SpellChecker manager;
+        private List<string> suggestions;
+        private string selectedSuggestion;
 
         public SpellCheckerViewModel(SpellChecker manager)
         {
             this.manager = manager;
+            CurrentCanditate = manager.GetNextSpellingError();
+            BadSpelling = CurrentCanditate.OldValue;
+            ChangeTo = CurrentCanditate.Suggestions.Count > 0
+                ? CurrentCanditate.Suggestions.First()
+                : string.Empty;
         }
 
-        public BindableCollection<CorrectionCandiate> SpellingErrors => manager.SpellingErrors;
-
-        public static dynamic DefaultWindowSettings
-        {
+        public static dynamic DefaultWindowSettings {
             get
             {
                 dynamic settings = new ExpandoObject();
@@ -36,19 +40,53 @@ namespace SCaddins.SpellChecker.ViewModels
             }
         }
 
+        public CorrectionCandidate CurrentCanditate {
+            get; set;
+        }
+
+        public List<String> Suggestions {
+            get
+            {
+                return CurrentCanditate != null ? CurrentCanditate.Suggestions : null;
+            }
+        }
+
+        public string SelectedSuggestion {
+            get
+            {
+                return selectedSuggestion;
+            }
+            set
+            {
+                selectedSuggestion = value;
+                NotifyOfPropertyChange(() => SelectedSuggestion);
+                ChangeTo = selectedSuggestion;
+                NotifyOfPropertyChange(() => ChangeTo);
+            }
+        }
+
         public void AddToDictionary()
         {
-
         }
 
-        public void  Change()
-        {
-
-        }
+        //public void  Change()
+        //{
+        //    CurrentCanditate.NewValue = SelectedSuggestion;
+        //}
 
         public void ChangeAll()
         {
+            manager.AddToIgnoreList(ChangeTo);
+        }
 
+        public string BadSpelling
+        {
+            get; set;
+        }
+
+        public string ChangeTo
+        {
+            get; set;
         }
 
         public void IgnoreAll()
@@ -58,12 +96,22 @@ namespace SCaddins.SpellChecker.ViewModels
 
         public void IgnoreOnce()
         {
-
+           
+            CurrentCanditate = manager.GetNextSpellingError();
+            SCaddinsApp.WindowManager.ShowMessageBox(CurrentCanditate.OldValue);
+            NotifyOfPropertyChange(() => SelectedSuggestion);
+            ChangeTo = selectedSuggestion;
+            NotifyOfPropertyChange(() => ChangeTo);
+            BadSpelling = CurrentCanditate.OldValue;
+            NotifyOfPropertyChange(() => BadSpelling);
         }
 
         public void Options()
         {
-
+            var viewModel = new ViewModels.SpellCheckerOptionsViewModel();
+            var result = SCaddinsApp.WindowManager.ShowDialog(viewModel,
+                null,
+                ViewModels.SpellCheckerOptionsViewModel.DefaultWindowSettings);
         }
 
 
