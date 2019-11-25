@@ -17,11 +17,12 @@ namespace SCaddins.SpellChecker.ViewModels
         public SpellCheckerViewModel(SpellChecker manager)
         {
             this.manager = manager;
-            CurrentCanditate = manager.GetNextSpellingError();
-            BadSpelling = CurrentCanditate.OldValue;
-            ChangeTo = CurrentCanditate.Suggestions.Count > 0
-                ? CurrentCanditate.Suggestions.First()
-                : string.Empty;
+            //CurrentCanditate = manager.GetNextSpellingError();
+            BadSpelling = manager.GetNextSpellingError();
+            //BadSpellingContext = manager.GetSuggestions(BadSpelling);
+            //ChangeTo = CurrentCanditate.Suggestions.Count > 0
+            //    ? CurrentCanditate.Suggestions.First()
+            //    : string.Empty;
         }
 
         public static dynamic DefaultWindowSettings {
@@ -40,14 +41,14 @@ namespace SCaddins.SpellChecker.ViewModels
             }
         }
 
-        public CorrectionCandidate CurrentCanditate {
-            get; set;
-        }
+        //public CorrectionCandidate CurrentCanditate {
+        //    get; set;
+        //}
 
         public List<String> Suggestions {
             get
             {
-                return CurrentCanditate != null ? CurrentCanditate.Suggestions : null;
+                return manager.GetSuggestions(BadSpelling);
             }
         }
 
@@ -84,6 +85,11 @@ namespace SCaddins.SpellChecker.ViewModels
             get; set;
         }
 
+        public string BadSpellingContext
+        {
+            get; set;
+        }
+
         public string ChangeTo
         {
             get; set;
@@ -97,13 +103,17 @@ namespace SCaddins.SpellChecker.ViewModels
         public void IgnoreOnce()
         {
            
-            CurrentCanditate = manager.GetNextSpellingError();
-            SCaddinsApp.WindowManager.ShowMessageBox(CurrentCanditate.OldValue);
-            NotifyOfPropertyChange(() => SelectedSuggestion);
-            ChangeTo = selectedSuggestion;
-            NotifyOfPropertyChange(() => ChangeTo);
-            BadSpelling = CurrentCanditate.OldValue;
-            NotifyOfPropertyChange(() => BadSpelling);
+            //CurrentCanditate = manager.GetNextSpellingError();
+            //NotifyOfPropertyChange(() => Suggestions);
+            //NotifyOfPropertyChange(() => SelectedSuggestion);
+            //if (Suggestions.Count > 0)
+            //{
+            //    SelectedSuggestion = Suggestions.First();
+            //}
+            //ChangeTo = SelectedSuggestion;
+            //NotifyOfPropertyChange(() => ChangeTo);
+            //BadSpelling = CurrentCanditate.OldValue;
+            //NotifyOfPropertyChange(() => BadSpelling);
         }
 
         public void Options()

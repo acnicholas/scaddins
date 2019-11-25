@@ -23,16 +23,17 @@ namespace SCaddins.SpellChecker
             this.document = document;
 
             hunspell = new Hunspell(
-                            @"C:\code\scaddins\etc\en_AU.aff",
-                            @"C:\code\scaddins\etc\en_AU.dic");
+                            @"C:\Code\cs\scaddins\etc\en_AU.aff",
+                            @"C:\Code\cs\scaddins\etc\en_AU.dic");
 
             //add some arch specific words
             hunspell.Add("approver");
             hunspell.Add(@"&");
             hunspell.Add(@"-");
+            hunspell.Add(@"Autodesk");
 
             allTextParameters = GetAllTextParameters(document);
-            currentIndex = -1;
+            currentIndex = 0;
         }
 
         ~SpellChecker()
@@ -45,37 +46,61 @@ namespace SCaddins.SpellChecker
             hunspell.Add(ignore);
         }
 
-        public CorrectionCandidate GetNextSpellingError()
+        /// <summary>
+        /// Get the next spelling error.
+        /// May be another word in the current candiate so only step candidates once the current one is complete.
+        /// </summary>
+        /// <returns></returns>
+        public string GetNextSpellingError()
         {
             while (currentIndex < allTextParameters.Count) {
-                currentIndex++;
-                if (HasIncorrectSpelling(allTextParameters[currentIndex])) {  
-                    return allTextParameters[currentIndex];
+
+                if (allTextParameters[currentIndex].GetNextError(out string nextError, hunspell)) {
+                    return nextError;
+                } else {
+                    currentIndex++;
                 }
                 
             }
-            return null;
+            return string.Empty;
+        }
+
+        public List<string> GetSuggestions(string word)
+        {
+            return hunspell.Suggest(word);
         }
 
         // Fixme. check for multiple errors.
-        private bool HasIncorrectSpelling(CorrectionCandidate candidate)
-        {
-            char[] delimiterChars = { ' ', ',', '.', ':', '\t', '\\', '/' };
-            var strings = candidate.OldValue.Split(delimiterChars);
-            foreach (var s in strings) {
-                //Dont check if number and some characters
-                Regex rgx = new Regex(@"^.*[\d]+.*$");
-                if (rgx.IsMatch(s)) continue;
+        //private bool HasIncorrectSpelling(CorrectionCandidate candidate)
+        //{
+        //    var testString = candidate.GetNextError();
+        //    if (testString == string.Empty)
+        //    {
+        //        return false;
+        //    }
 
-                if (!hunspell.Spell(s.Trim())) {
-                    var suggestionsList = hunspell.Suggest(s.Trim());
-                    candidate.Suggestions = new List<string>(suggestionsList);
-                    return true;
-                }
-            }
-            return false;
-        }
 
+        //    foreach (var s in strings) {
+        //        //Dont check if number and some characters
+        //        Regex rgx = new Regex(@"^.*[\d]+.*$");
+        //        if (rgx.IsMatch(s)) continue;
+
+        //        if (!hunspell.Spell(s.Trim())) {
+        //            var suggestionsList = hunspell.Suggest(s.Trim());
+        //            candidate.Suggestions = new List<string>(suggestionsList);
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
+
+        /// <summary>
+        /// Get all user modifiable parameters in the revit doc.
+        /// Only get parameters of string storage types, as there's not much point spell cheking numbers.
+        /// 
+        /// </summary>
+        /// <param name="doc">Revit doc to spell check</param>
+        /// <returns>parmaeters</returns>
         private List<CorrectionCandidate> GetAllTextParameters(Document doc)
         {
             var candidates = new List<CorrectionCandidate>();
@@ -89,8 +114,7 @@ namespace SCaddins.SpellChecker
                         var p = (Autodesk.Revit.DB.Parameter)parameter;
                         if (p.StorageType == StorageType.String) {
                             var rc = new CorrectionCandidate(p);
-                            if (!string.IsNullOrEmpty(rc.OldValue)) {
-                                rc.NewValue = rc.OldValue;
+                            if (!string.IsNullOrEmpty(rc.OriginalText)) {
                                 candidates.Add(rc);
                             }
                         }
