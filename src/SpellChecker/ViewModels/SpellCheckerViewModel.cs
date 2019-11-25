@@ -17,12 +17,10 @@ namespace SCaddins.SpellChecker.ViewModels
         public SpellCheckerViewModel(SpellChecker manager)
         {
             this.manager = manager;
-            //CurrentCanditate = manager.GetNextSpellingError();
-            BadSpelling = manager.GetNextSpellingError();
-            //BadSpellingContext = manager.GetSuggestions(BadSpelling);
-            //ChangeTo = CurrentCanditate.Suggestions.Count > 0
-            //    ? CurrentCanditate.Suggestions.First()
-            //    : string.Empty;
+            if (manager.MoveNext()) {
+                BadSpelling = ((CorrectionCandidate)manager.Current).Current as string;
+                SCaddinsApp.WindowManager.ShowMessageBox(BadSpelling);
+            }
         }
 
         public static dynamic DefaultWindowSettings {
@@ -41,14 +39,10 @@ namespace SCaddins.SpellChecker.ViewModels
             }
         }
 
-        //public CorrectionCandidate CurrentCanditate {
-        //    get; set;
-        //}
-
         public List<String> Suggestions {
             get
             {
-                return manager.GetSuggestions(BadSpelling);
+                return manager.GetCurrentSuggestions();
             }
         }
 
@@ -102,18 +96,21 @@ namespace SCaddins.SpellChecker.ViewModels
 
         public void IgnoreOnce()
         {
-           
-            //CurrentCanditate = manager.GetNextSpellingError();
-            //NotifyOfPropertyChange(() => Suggestions);
-            //NotifyOfPropertyChange(() => SelectedSuggestion);
-            //if (Suggestions.Count > 0)
-            //{
-            //    SelectedSuggestion = Suggestions.First();
-            //}
-            //ChangeTo = SelectedSuggestion;
-            //NotifyOfPropertyChange(() => ChangeTo);
-            //BadSpelling = CurrentCanditate.OldValue;
-            //NotifyOfPropertyChange(() => BadSpelling);
+
+            if (manager.MoveNext()) {
+                NotifyOfPropertyChange(() => Suggestions);
+                //NotifyOfPropertyChange(() => SelectedSuggestion);
+                if (Suggestions.Count > 0) {
+                    SelectedSuggestion = Suggestions.First();
+                    ChangeTo = SelectedSuggestion;
+                    NotifyOfPropertyChange(() => ChangeTo);
+                }
+                //ChangeTo = SelectedSuggestion;
+                //NotifyOfPropertyChange(() => ChangeTo);
+                BadSpelling = ((CorrectionCandidate)manager.Current).Current as string;
+                NotifyOfPropertyChange(() => BadSpelling);
+                SCaddinsApp.WindowManager.ShowMessageBox(BadSpelling);
+            }
         }
 
         public void Options()

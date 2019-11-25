@@ -2,20 +2,32 @@
 {
     using Autodesk.Revit.DB;
     using NHunspell;
-    using System.Collections.Generic;
+    using System.Collections;
     using System.Text.RegularExpressions;
 
-    public class CorrectionCandidate
+    public class CorrectionCandidate : IEnumerator
     {
         private Parameter parameter;
+        private Hunspell hunspell;
+        private int currentIndex;
+        private string[] originalWords;
+        private Regex rgx;
 
-        public CorrectionCandidate(Parameter parameter)
+        public CorrectionCandidate(Parameter parameter, Hunspell hunspell)
         {
             this.parameter = parameter;
-            OriginalText = parameter.AsString();
+            this.hunspell = hunspell;
+            OriginalText = parameter.AsString().Trim();
             char[] delimiterChars = { ' ', ',', '.', ':', '\t', '\\', '/', '(', ')' };
-            //OriginalWords = new List<string>(OriginalText.Split(delimiterChars));
-            NewText = OriginalText;
+            //if (!string.IsNullOrEmpty(OriginalText)) {
+            //    originalWords = OriginalText.Split(delimiterChars);
+            //    NewText = OriginalText;
+            //} else {
+            //    originalWords = null;
+            //    NewText = OriginalText;
+            //}
+            currentIndex = -1;
+            rgx = new Regex(@"^.*[\d]+.*$");
         }
 
         public string OriginalText
@@ -25,70 +37,45 @@
 
         public string NewText
         {
-            get; set;
+            get; private set;
         }
 
-        public List<string> OriginalWords
+        public void ReplaceCurrent(string word)
         {
-            get; set;
+            ReplaceFirst(NewText, (string)Current, word);
         }
 
-        public bool AllWordsChecked
+        private string ReplaceFirst(string text, string search, string replace)
         {
-            get; set;
-        }
-
-
-        public int CurrentWordIndex
-        {
-            get; set;
-        }
-
-        public bool ValueChanged
-        {
-            get
-            {
-                return NewText != OriginalText;
+            int pos = text.IndexOf(search);
+            if (pos < 0) {
+                return text;
             }
+            return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
         }
 
+        public bool IsModified => NewText != OriginalText;
 
-        private int NumberOfWords
+        public object Current => originalWords[currentIndex].Trim();
+
+        public bool MoveNext()
         {
-            get
-            {
-                return OriginalWords != null ? OriginalWords.Count : -1;
+            while (originalWords != null && currentIndex < originalWords.Length) {
+                currentIndex++;
+
+                //continue if a number is found...
+                if (rgx.IsMatch(originalWords[currentIndex])) continue;
+
+                if (!hunspell.Spell(originalWords[currentIndex].Trim())) {
+                    return true;
+                }
             }
+            return false;
         }
 
-
-        //public List<string> CurrentSuggestions {
-        //   get; set;
-        //}
-
-        /// <summary>
-        /// Get the next error in this string.
-        /// </summary>
-        /// <returns>The Next error, if any are found, or string.Empty if no errors are found</returns>
-        public bool GetNextError(out string nextError, Hunspell hunspell)
+        public void Reset()
         {
-            nextError = string.Empty;
-            //return false;
-
-            //for (int i CurrentWordIndex =  in strings) { }
-            //    Regex rgx = new Regex(@"^.*[\d]+.*$");
-            //        if (rgx.IsMatch(s)) continue;
-
-            //        if (!hunspell.Spell(s.Trim())) {
-            //            var suggestionsList = hunspell.Suggest(s.Trim());
-            //            candidate.Suggestions = new List<string>(suggestionsList);
-            //            return true;
-            //        }
-             //}
-
-             return false;
+            currentIndex = -1;
         }
-
-
     }
 }
