@@ -24,8 +24,8 @@ namespace SCaddins.SpellChecker
             this.document = document;
 
             hunspell = new Hunspell(
-                            @"C:\Code\scaddins\etc\en_AU.aff",
-                            @"C:\Code\scaddins\etc\en_AU.dic");
+                            @"C:\Code\cs\scaddins\etc\en_AU.aff",
+                            @"C:\Code\\cs\scaddins\etc\en_AU.dic");
 
             //add some arch specific words
             hunspell.Add("approver");
@@ -58,24 +58,31 @@ namespace SCaddins.SpellChecker
         /// <returns></returns>
         public List<string> GetCurrentSuggestions()
         {
-            return hunspell.Suggest(allTextParameters[currentIndex].Current as string);
+            if (currentIndex < 0) return new List<string>();
+            if (hunspell != null && allTextParameters.Count > 0 && currentIndex < allTextParameters.Count)
+            {
+                return hunspell.Suggest(allTextParameters[currentIndex].Current as string);
+            }
+            return new List<string>();
         }
 
         public bool MoveNext()
         {
-            if (allTextParameters == null || allTextParameters.Count == 0) return false;
+            if (allTextParameters == null || allTextParameters.Count <= 0) return false;
             while (currentIndex < allTextParameters.Count) {
                 if (currentIndex == -1) currentIndex = 0;
-                if (allTextParameters[currentIndex].MoveNext()) {
+                if (allTextParameters[currentIndex].MoveNext())
+                {
                     return true;
-                } else {
-                    if (currentIndex < (allTextParameters.Count - 1)) {
-                        currentIndex++;
-                        if (allTextParameters[currentIndex].MoveNext()) {
-                            return true;
-                        }
-                    }
                 }
+            //    } else {
+            //        if (currentIndex < (allTextParameters.Count - 1)) {
+                          currentIndex++;
+            //            if (allTextParameters[currentIndex].MoveNext()) {
+            //                return true;
+            //            }
+            //        }
+            //    }
             }
             return false;
         }
@@ -99,15 +106,20 @@ namespace SCaddins.SpellChecker
 
             foreach (Element element in collector) {
                 var parameterSet = element.Parameters;
+                if (parameterSet == null || parameterSet.IsEmpty) continue;
                 foreach (var parameter in parameterSet) {
-
                     if (parameter is Autodesk.Revit.DB.Parameter) {
-                        var p = (Autodesk.Revit.DB.Parameter)parameter;
-                        if (p != null && p.StorageType == StorageType.String) {
-                            var rc = new CorrectionCandidate(p, hunspell);
-                            if (!string.IsNullOrEmpty(rc.OriginalText)) {
-                                candidates.Add(rc);
-                            }
+                          Autodesk.Revit.DB.Parameter p = (Autodesk.Revit.DB.Parameter)parameter ;
+                          if (p == null || !p.HasValue) continue;
+                          if (p.StorageType == StorageType.String) {
+                              var rc = new CorrectionCandidate(p, hunspell);
+                            try
+                            {
+                                if (!string.IsNullOrEmpty(rc.OriginalText))
+                                {
+                                    candidates.Add(rc);
+                                }
+                            } catch { }
                         }
                     }
                 }

@@ -17,9 +17,10 @@ namespace SCaddins.SpellChecker.ViewModels
         public SpellCheckerViewModel(SpellChecker manager)
         {
             this.manager = manager;
-            if (manager.MoveNext()) {
+            if (manager.MoveNext())
+            {
                 BadSpelling = ((CorrectionCandidate)manager.Current).Current as string;
-                SCaddinsApp.WindowManager.ShowMessageBox(BadSpelling);
+                //// SCaddinsApp.WindowManager.ShowMessageBox(BadSpelling);
             }
         }
 
@@ -99,17 +100,20 @@ namespace SCaddins.SpellChecker.ViewModels
 
             if (manager.MoveNext()) {
                 NotifyOfPropertyChange(() => Suggestions);
-                //NotifyOfPropertyChange(() => SelectedSuggestion);
-                if (Suggestions.Count > 0) {
+                NotifyOfPropertyChange(() => SelectedSuggestion);
+                if (Suggestions.Count > 0)
+                {
                     SelectedSuggestion = Suggestions.First();
                     ChangeTo = SelectedSuggestion;
                     NotifyOfPropertyChange(() => ChangeTo);
                 }
-                //ChangeTo = SelectedSuggestion;
-                //NotifyOfPropertyChange(() => ChangeTo);
-                BadSpelling = ((CorrectionCandidate)manager.Current).Current as string;
+                var cc = (CorrectionCandidate)manager.Current;
+                BadSpelling = cc.Current as string;
                 NotifyOfPropertyChange(() => BadSpelling);
-                SCaddinsApp.WindowManager.ShowMessageBox(BadSpelling);
+                SCaddinsApp.WindowManager.ShowMessageBox(cc.TypeString);
+            } else
+            {
+                SCaddinsApp.WindowManager.ShowMessageBox("Finished");
             }
         }
 

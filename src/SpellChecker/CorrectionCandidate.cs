@@ -17,15 +17,18 @@
         {
             this.parameter = parameter;
             this.hunspell = hunspell;
-            OriginalText = parameter.AsString().Trim();
+            OriginalText = parameter.AsString();
             char[] delimiterChars = { ' ', ',', '.', ':', '\t', '\\', '/', '(', ')' };
-            //if (!string.IsNullOrEmpty(OriginalText)) {
-            //    originalWords = OriginalText.Split(delimiterChars);
-            //    NewText = OriginalText;
-            //} else {
-            //    originalWords = null;
-            //    NewText = OriginalText;
-            //}
+            if (!string.IsNullOrEmpty(OriginalText))
+            {
+                originalWords = OriginalText.Split(delimiterChars);
+                NewText = OriginalText;
+            }
+            else
+            {
+                originalWords = null;
+                NewText = OriginalText;
+            }
             currentIndex = -1;
             rgx = new Regex(@"^.*[\d]+.*$");
         }
@@ -38,6 +41,16 @@
         public string NewText
         {
             get; private set;
+        }
+
+        public string TypeString
+        {
+            get
+            {
+                //SCaddinsApp.WindowManager.ShowMessageBox(parameter.Element.GetType().ToString());
+                return parameter.Element.GetType().ToString();
+                
+            }
         }
 
         public void ReplaceCurrent(string word)
@@ -60,7 +73,7 @@
 
         public bool MoveNext()
         {
-            while (originalWords != null && currentIndex < originalWords.Length) {
+            while (originalWords != null && currentIndex < (originalWords.Length - 1)) {
                 currentIndex++;
 
                 //continue if a number is found...
