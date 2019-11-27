@@ -19,13 +19,10 @@
             this.hunspell = hunspell;
             OriginalText = parameter.AsString();
             char[] delimiterChars = { ' ', ',', '.', ':', '\t', '\\', '/', '(', ')' };
-            if (!string.IsNullOrEmpty(OriginalText))
-            {
+            if (!string.IsNullOrEmpty(OriginalText)) {
                 originalWords = OriginalText.Split(delimiterChars);
                 NewText = OriginalText;
-            }
-            else
-            {
+            } else {
                 originalWords = null;
                 NewText = OriginalText;
             }
@@ -43,19 +40,12 @@
             get; private set;
         }
 
-        public string TypeString
-        {
-            get
-            {
-                //SCaddinsApp.WindowManager.ShowMessageBox(parameter.Element.GetType().ToString());
-                return parameter.Element.GetType().ToString();
-                
-            }
-        }
+        public string TypeString => parameter.Element.GetType().ToString();
 
         public void ReplaceCurrent(string word)
         {
-            ReplaceFirst(NewText, (string)Current, word);
+            NewText = ReplaceFirst(NewText, (string)Current, word);
+            //SCaddinsApp.WindowManager.ShowMessageBox(NewText);
         }
 
         private string ReplaceFirst(string text, string search, string replace)
@@ -67,7 +57,7 @@
             return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
         }
 
-        public bool IsModified => NewText != OriginalText;
+        public bool IsModified => !string.Equals(this.OriginalText, this.NewText, System.StringComparison.CurrentCulture);
 
         public object Current => originalWords[currentIndex].Trim();
 
@@ -90,5 +80,33 @@
         {
             currentIndex = -1;
         }
+
+        public bool Rename()
+        {
+            if (IsModified)
+            {
+                //if (note == null)
+                //{
+                    if (!parameter.IsReadOnly)
+                    {
+                        return parameter.Set(NewText);
+                    }
+                //}
+                //else
+                //{
+                //    try
+                //    {
+                //        note.Text = NewValue;
+                //    }
+                //    catch
+                //    {
+                //        return false;
+                //    }
+                //    return true;
+                //}
+            }
+            return false;
+        }
+
     }
 }

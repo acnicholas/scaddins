@@ -19,10 +19,17 @@ namespace SCaddins.SpellChecker
         {
             var document = commandData.Application.ActiveUIDocument.Document;
 
-            var viewModel = new ViewModels.SpellCheckerViewModel(new SpellChecker(document));
-            var result = SCaddinsApp.WindowManager.ShowDialog(viewModel,
+            var spellChecker = new SpellChecker(document);
+            var viewModel = new ViewModels.SpellCheckerViewModel(spellChecker);
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(viewModel,
                 null,
                 ViewModels.SpellCheckerViewModel.DefaultWindowSettings);
+
+            //if (result.HasValue && result.Value == true)
+            //{
+                //// SCaddinsApp.WindowManager.ShowMessageBox("About to rename");
+            //    spellChecker.CommitSpellingChangesToModel();
+            //}
 
             return Result.Succeeded;
         }

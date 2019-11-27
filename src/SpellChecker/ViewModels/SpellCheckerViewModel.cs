@@ -13,13 +13,15 @@ namespace SCaddins.SpellChecker.ViewModels
         private SpellChecker manager;
         private List<string> suggestions;
         private string selectedSuggestion;
+        private string replacementText;
+        private string unknownWord;
 
         public SpellCheckerViewModel(SpellChecker manager)
         {
             this.manager = manager;
             if (manager.MoveNext())
             {
-                BadSpelling = ((CorrectionCandidate)manager.Current).Current as string;
+                unknownWord = ((CorrectionCandidate)manager.Current).Current as string;
                 //// SCaddinsApp.WindowManager.ShowMessageBox(BadSpelling);
             }
         }
@@ -56,65 +58,97 @@ namespace SCaddins.SpellChecker.ViewModels
             {
                 selectedSuggestion = value;
                 NotifyOfPropertyChange(() => SelectedSuggestion);
-                ChangeTo = selectedSuggestion;
-                NotifyOfPropertyChange(() => ChangeTo);
+                ReplacementText = selectedSuggestion;
+                NotifyOfPropertyChange(() => ReplacementText);
             }
         }
 
         public void AddToDictionary()
         {
+            //manager.AddWordToDictionary(UnknownWord);
         }
 
-        //public void  Change()
-        //{
-        //    CurrentCanditate.NewValue = SelectedSuggestion;
-        //}
+        public void Apply()
+        {
+            // FIXME put this in command.
+            manager.CommitSpellingChangesToModel();
+            //TryClose(true);
+        }
+
+        public bool AddToDictionaryEnabled
+        {
+            get; set;
+        }
+
+        public void Change()
+        {
+            manager.CurrentCandidate.ReplaceCurrent(ReplacementText);
+            Next();
+        }
+
+        public bool CanChange => !string.IsNullOrEmpty(ReplacementText);
 
         public void ChangeAll()
         {
-            manager.AddToIgnoreList(ChangeTo);
+            //TODO
         }
 
-        public string BadSpelling
+        public bool CanChangeAll => !string.IsNullOrEmpty(ReplacementText);
+
+        public string UnknownWord => manager.CurrentUnknownWord;
+
+        public string UnknownWordContext
         {
             get; set;
         }
 
-        public string BadSpellingContext
+        public string ReplacementText
         {
-            get; set;
+            get
+            {
+                return replacementText;
+            }
+            set
+            {
+                replacementText = value;
+                NotifyOfPropertyChange(() => ReplacementText);
+                NotifyOfPropertyChange(() => CanChangeAll);
+                NotifyOfPropertyChange(() => CanChange);
+            }
         }
 
-        public string ChangeTo
+        public void Cancel()
         {
-            get; set;
+            TryClose(false);
         }
 
         public void IgnoreAll()
         {
+            manager.IgnoreAll();
+            Next();
+        }
 
+        private void Next()
+        {
+            if (manager.MoveNext())
+            {
+                NotifyOfPropertyChange(() => UnknownWord);
+                NotifyOfPropertyChange(() => Suggestions);
+                if (Suggestions.Count > 0)
+                {
+                    SelectedSuggestion = Suggestions.First();
+                    ReplacementText = SelectedSuggestion;
+                }
+            }
+            else
+            {
+                SCaddinsApp.WindowManager.ShowMessageBox("Finished");
+            }
         }
 
         public void IgnoreOnce()
         {
-
-            if (manager.MoveNext()) {
-                NotifyOfPropertyChange(() => Suggestions);
-                NotifyOfPropertyChange(() => SelectedSuggestion);
-                if (Suggestions.Count > 0)
-                {
-                    SelectedSuggestion = Suggestions.First();
-                    ChangeTo = SelectedSuggestion;
-                    NotifyOfPropertyChange(() => ChangeTo);
-                }
-                var cc = (CorrectionCandidate)manager.Current;
-                BadSpelling = cc.Current as string;
-                NotifyOfPropertyChange(() => BadSpelling);
-                SCaddinsApp.WindowManager.ShowMessageBox(cc.TypeString);
-            } else
-            {
-                SCaddinsApp.WindowManager.ShowMessageBox("Finished");
-            }
+            Next();
         }
 
         public void Options()

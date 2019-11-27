@@ -28,23 +28,23 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Label Margin="5">Not in Dictionary</Label>
-            <TextBox x:Name="BadSpelling" Grid.Row="1" Margin="5" IsReadOnly="True" IsEnabled="False"></TextBox>
+            <TextBox x:Name="UnknownWord" Grid.Row="1" Margin="5" IsReadOnly="True" IsEnabled="False"></TextBox>
             <Label Grid.Row="2" Margin="5">Change To</Label>
-            <TextBox x:Name="ChangeTo" Grid.Row="3" Margin="5"></TextBox>
+            <TextBox x:Name="ReplacementText" Grid.Row="3" Margin="5"></TextBox>
             <Label Grid.Row="4" Margin="5">Suggestions</Label>
             <ListBox x:Name="Suggestions" Grid.Row="5" Margin="5"></ListBox>
         </Grid>
         <StackPanel Grid.Column="1" Orientation="Vertical">
             <Button x:Name="IgnoreOnce" Margin="5">Ignore Once</Button>
-            <Button Margin="5">Ignore All</Button>
-            <Button Margin="5">Change</Button>
-            <Button Margin="5">Change All</Button>
+            <Button x:Name="IgnoreAll"   Margin="5">Ignore All</Button>
+            <Button x:Name="Change" Margin="5">Change</Button>
+            <Button x:Name="ChangeAll"  Margin="5">Change All</Button>
             <Button Margin="5">Add To Dictionary</Button>
         </StackPanel>
         <DockPanel Grid.Row="1" Grid.ColumnSpan="2">
             <Button x:Name="Options" HorizontalAlignment="Left" Margin="5">Options</Button>
-            <Button HorizontalAlignment="Right" Margin="5">Apply All</Button>
-            <Button HorizontalAlignment="Right" Margin="5">Cancel All</Button>
+            <Button x:Name="Apply"  HorizontalAlignment="Right" Margin="5">Apply All Changes</Button>
+            <Button x:Name="Cancel" HorizontalAlignment="Right" Margin="5">Cancel</Button>
         </DockPanel>
     </Grid>
 </UserControl>

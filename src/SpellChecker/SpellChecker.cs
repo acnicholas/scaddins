@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.DB;
-using NHunspell;
-using Caliburn.Micro;
-using System.Text.RegularExpressions;
-using System.Collections;
-
-namespace SCaddins.SpellChecker
+﻿namespace SCaddins.SpellChecker
 {
+    using System.Collections.Generic;
+    using Autodesk.Revit.DB;
+    using NHunspell;
+    using System.Collections;
+
     public class SpellChecker : IEnumerator
     {
         private Document document;
@@ -43,13 +37,28 @@ namespace SCaddins.SpellChecker
         }
 
         /// <summary>
-        /// Return the current CorrectionCandidate
+        /// Return the current CorrectionCandidate object
         /// </summary>
         public object Current => allTextParameters[currentIndex];
 
-        public void AddToIgnoreList(string ignore)
+        /// <summary>
+        /// Returns the curent CorrectionCandiate
+        /// </summary>
+        public CorrectionCandidate CurrentCandidate => (CorrectionCandidate)Current;
+
+        /// <summary>
+        /// Returns the current unknown word.
+        /// </summary>
+        public string CurrentUnknownWord => CurrentCandidate.Current as string;
+
+        public string CurrentElementType => CurrentCandidate.TypeString;
+
+        /// <summary>
+        /// Ingnore all future instances of the CurrentUnknownWord
+        /// </summary>
+        public void IgnoreAll()
         {
-            hunspell.Add(ignore);
+            hunspell.Add(CurrentUnknownWord);
         }
 
         /// <summary>
@@ -70,26 +79,55 @@ namespace SCaddins.SpellChecker
         {
             if (allTextParameters == null || allTextParameters.Count <= 0) return false;
             while (currentIndex < allTextParameters.Count) {
-                if (currentIndex == -1) currentIndex = 0;
-                if (allTextParameters[currentIndex].MoveNext())
+                if (currentIndex == -1)
                 {
+                    currentIndex = 0;
+                }
+                if (allTextParameters[currentIndex].MoveNext()) {
                     return true;
                 }
-            //    } else {
-            //        if (currentIndex < (allTextParameters.Count - 1)) {
-                          currentIndex++;
-            //            if (allTextParameters[currentIndex].MoveNext()) {
-            //                return true;
-            //            }
-            //        }
-            //    }
+                currentIndex++;
             }
             return false;
         }
 
         public void Reset()
         {
-            throw new NotImplementedException();
+            currentIndex = -1;
+        }
+
+        public void CommitSpellingChangesToModel()
+        {
+            int fails = 0;
+            int successes = 0;
+
+            using (var t = new Transaction(document))
+            {
+                if (t.Start("Bulk Rename") == TransactionStatus.Started)
+                {
+                    foreach (CorrectionCandidate candidate in allTextParameters)
+                    {
+                        if (candidate.IsModified)
+                        {
+                            if (candidate.Rename())
+                            {
+                                successes++;
+                            }
+                            else
+                            {
+                                fails++;
+                            }
+                        }
+                    }
+                    t.Commit();
+                    SCaddinsApp.WindowManager.ShowMessageBox(
+                        @"Spelling", successes + @" parameters succesfully renamed, " + fails + @" errors.");
+                }
+                else
+                {
+                    SCaddinsApp.WindowManager.ShowMessageBox("Error", "Failed to start Spelling Transaction...");
+                }
+            }
         }
 
         /// <summary>
@@ -111,6 +149,7 @@ namespace SCaddins.SpellChecker
                     if (parameter is Autodesk.Revit.DB.Parameter) {
                           Autodesk.Revit.DB.Parameter p = (Autodesk.Revit.DB.Parameter)parameter ;
                           if (p == null || !p.HasValue) continue;
+                          if(p.IsReadOnly) continue;
                           if (p.StorageType == StorageType.String) {
                               var rc = new CorrectionCandidate(p, hunspell);
                             try
