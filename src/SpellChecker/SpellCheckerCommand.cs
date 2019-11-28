@@ -1,5 +1,4 @@
-﻿
-namespace SCaddins.SpellChecker
+﻿namespace SCaddins.SpellChecker
 {
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -16,13 +15,9 @@ namespace SCaddins.SpellChecker
 
             var spellChecker = new SpellChecker(document);
             var viewModel = new ViewModels.SpellCheckerViewModel(spellChecker);
-            bool? result = SCaddinsApp.WindowManager.ShowDialog(viewModel,
-                null,
-                ViewModels.SpellCheckerViewModel.DefaultWindowSettings);
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(viewModel, null, ViewModels.SpellCheckerViewModel.DefaultWindowSettings);
 
             return Result.Succeeded;
-        }
-
-     
+        }    
     }
 }

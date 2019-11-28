@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Caliburn.Micro;
-
-namespace SCaddins.SpellChecker.ViewModels
+﻿namespace SCaddins.SpellChecker.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Dynamic;
+    using System.Linq;
+    using Caliburn.Micro;
+
     public class SpellCheckerViewModel : Screen
     {
         private SpellChecker manager;
-        private List<string> suggestions;
-        private string selectedSuggestion;
         private string replacementText;
+        private string selectedSuggestion;
         private string unknownWord;
 
         public SpellCheckerViewModel(SpellChecker manager)
@@ -42,76 +39,22 @@ namespace SCaddins.SpellChecker.ViewModels
             }
         }
 
-        public List<String> Suggestions {
-            get
-            {
-                return manager.GetCurrentSuggestions();
-            }
-        }
-
-        public string SelectedSuggestion {
-            get
-            {
-                return selectedSuggestion;
-            }
-            set
-            {
-                selectedSuggestion = value;
-                NotifyOfPropertyChange(() => SelectedSuggestion);
-                ReplacementText = selectedSuggestion;
-                NotifyOfPropertyChange(() => ReplacementText);
-            }
-        }
-
-        public void AddToDictionary()
-        {
-            //manager.AddWordToDictionary(UnknownWord);
-        }
-
-        public void Apply()
-        {
-            // FIXME put this in command.
-            manager.CommitSpellingChangesToModel();
-            TryClose(true);
-        }
-
-        public bool AddToDictionaryEnabled
-        {
+        public bool AddToDictionaryEnabled {
             get; set;
-        }
-
-        public void Change()
-        {
-            manager.CurrentCandidate.ReplaceCurrent(ReplacementText);
-            Next();
         }
 
         public bool CanChange => !string.IsNullOrEmpty(ReplacementText);
 
-        public void ChangeAll()
-        {
-            manager.CurrentCandidate.ReplaceCurrent(ReplacementText);
-            manager.AddToAutoReplacementList(UnknownWord, ReplacementText);
-            Next();
-        }
+        public bool CanChangeAll => !string.IsNullOrEmpty(ReplacementText);
 
         public string NotInDictionary => @"Not In Dictionary [" + manager.CurrentElementType + @"]";
 
-        public bool CanChangeAll => !string.IsNullOrEmpty(ReplacementText);
-
-        public string UnknownWord => manager.CurrentUnknownWord;
-
-        public string UnknownWordContext
-        {
-            get; set;
-        }
-
-        public string ReplacementText
-        {
+        public string ReplacementText {
             get
             {
                 return replacementText;
             }
+
             set
             {
                 replacementText = value;
@@ -121,15 +64,79 @@ namespace SCaddins.SpellChecker.ViewModels
             }
         }
 
+        public string SelectedSuggestion {
+            get
+            {
+                return selectedSuggestion;
+            }
+
+            set
+            {
+                selectedSuggestion = value;
+                NotifyOfPropertyChange(() => SelectedSuggestion);
+                ReplacementText = selectedSuggestion;
+                NotifyOfPropertyChange(() => ReplacementText);
+            }
+        }
+
+        public List<string> Suggestions {
+            get
+            {
+                return manager.GetCurrentSuggestions();
+            }
+        }
+
+        public string UnknownWord => manager.CurrentUnknownWord;
+
+        public string UnknownWordContext {
+            get; set;
+        }
+
+        public void AddToDictionary()
+        {
+            // manager.AddWordToDictionary(UnknownWord);
+        }
+
+        public void Apply()
+        {
+            // FIXME put this in command.
+            manager.CommitSpellingChangesToModel();
+            TryClose(true);
+        }
+
         public void Cancel()
         {
             TryClose(false);
+        }
+
+        public void Change()
+        {
+            manager.CurrentCandidate.ReplaceCurrent(ReplacementText);
+            Next();
+        }
+
+        public void ChangeAll()
+        {
+            manager.CurrentCandidate.ReplaceCurrent(ReplacementText);
+            manager.AddToAutoReplacementList(UnknownWord, ReplacementText);
+            Next();
         }
 
         public void IgnoreAll()
         {
             manager.IgnoreAll();
             Next();
+        }
+
+        public void IgnoreOnce()
+        {
+            Next();
+        }
+
+        public void Options()
+        {
+            var viewModel = new SpellCheckerOptionsViewModel();
+            var result = SCaddinsApp.WindowManager.ShowDialog(viewModel, null, SpellCheckerOptionsViewModel.DefaultWindowSettings);
         }
 
         private void Next()
@@ -147,23 +154,8 @@ namespace SCaddins.SpellChecker.ViewModels
             }
             else
             {
-                SCaddinsApp.WindowManager.ShowMessageBox("Finished");
+                SCaddinsApp.WindowManager.ShowMessageBox("Spelling Check Complete");
             }
         }
-
-        public void IgnoreOnce()
-        {
-            Next();
-        }
-
-        public void Options()
-        {
-            var viewModel = new ViewModels.SpellCheckerOptionsViewModel();
-            var result = SCaddinsApp.WindowManager.ShowDialog(viewModel,
-                null,
-                ViewModels.SpellCheckerOptionsViewModel.DefaultWindowSettings);
-        }
-
-
     }
 }

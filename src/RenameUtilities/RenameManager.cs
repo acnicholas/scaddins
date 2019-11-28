@@ -25,13 +25,13 @@ namespace SCaddins.RenameUtilities
 
     public class RenameManager
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
+        private Document doc;
+
+        private List<ElementId> elements;
         private Caliburn.Micro.BindableCollection<RenameCandidate> renameCandidates;
         private RenameCommand renameCommand;
         private Caliburn.Micro.BindableCollection<RenameCommand> renameCommands;
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
-        private Document doc;
-        private List<ElementId> elements;
-
         ////Constructors
         #region
 
@@ -87,17 +87,16 @@ namespace SCaddins.RenameUtilities
             }
         }
 
-        public Caliburn.Micro.BindableCollection<RenameCandidate> RenameCandidates => renameCandidates;
-
-        public Caliburn.Micro.BindableCollection<RenameCommand> RenameModes => renameCommands;
-
-        public RenameCommand ActiveRenameCommand
-        {
+        public RenameCommand ActiveRenameCommand {
             get => renameCommand;
             set => renameCommand = value;
         }
 
         public Document Document => doc;
+
+        public Caliburn.Micro.BindableCollection<RenameCandidate> RenameCandidates => renameCandidates;
+
+        public Caliburn.Micro.BindableCollection<RenameCommand> RenameModes => renameCommands;
 
         public RenameCommand SelectedRenameMode
         {
@@ -108,6 +107,99 @@ namespace SCaddins.RenameUtilities
                 renameCommand = value;
                 Rename();
             }
+        }
+
+        public static Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByCategoryName(string parameterCategory, Document doc)
+        {
+            if (parameterCategory == "Rooms") {
+                return GetParametersByCategory(BuiltInCategory.OST_Rooms, doc);
+            }
+            if (parameterCategory == "Views") {
+                return GetParametersByCategory(BuiltInCategory.OST_Views, doc);
+            }
+            if (parameterCategory == "Sheets") {
+                return GetParametersByCategory(BuiltInCategory.OST_Sheets, doc);
+            }
+            if (parameterCategory == "Walls") {
+                return GetParametersByCategory(BuiltInCategory.OST_Walls, doc);
+            }
+            if (parameterCategory == "Doors") {
+                return GetParametersByCategory(BuiltInCategory.OST_Doors, doc);
+            }
+            if (parameterCategory == "Windows") {
+                return GetParametersByCategory(BuiltInCategory.OST_Windows, doc);
+            }
+            if (parameterCategory == "Windows") {
+                return GetParametersByCategory(BuiltInCategory.OST_Revisions, doc);
+            }
+            if (parameterCategory == "Grids") {
+                return GetParametersByType(typeof(Grid), doc);
+            }
+            if (parameterCategory == "Levels") {
+                return GetParametersByCategory(BuiltInCategory.OST_Levels, doc);
+            }
+            if (parameterCategory == "Floors") {
+                return GetParametersByCategory(BuiltInCategory.OST_Floors, doc);
+            }
+            if (parameterCategory == @"Text") {
+                return GetParametersByCategory(BuiltInCategory.OST_TextNotes, doc);
+            }
+            if (parameterCategory == @"Project Information") {
+                return GetParametersByCategory(BuiltInCategory.OST_ProjectInformation, doc);
+            }
+            if (parameterCategory == @"Model Groups") {
+                return GetParametersByType(typeof(Autodesk.Revit.DB.Group), doc);
+            }
+            return new Caliburn.Micro.BindableCollection<RenameParameter>();
+        }
+
+        public static string Increment(string val, string search, string replace)
+        {
+            if (string.IsNullOrEmpty(val) || string.IsNullOrEmpty(search)) {
+                return val;
+            }
+            var match = Regex.Match(val, search);
+            if (match.Success) {
+                var matchLength = match.Groups[1].Value.Length;
+                if (int.TryParse(match.Groups[1].Value, out int n) && int.TryParse(replace, out int incVal)) {
+                    var i = n + incVal;
+                    var firstPart = val.Substring(0, match.Groups[1].Index);
+                    var secondPart = val.Substring(match.Groups[1].Index + match.Groups[1].Length);
+                    var pad = string.Empty;
+                    if (i > 0) {
+                        for (var j = (int)Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++) {
+                            pad += "0";
+                        }
+                    }
+                    return firstPart + pad + i + secondPart;
+                }
+            }
+            return val;
+        }
+
+        public static string IncrementLast(string val, string search, string replace)
+        {
+            var match = Regex.Match(val, search);
+            if (match.Success) {
+                var matchLength = match.Groups[2].Value.Length;
+                if (int.TryParse(match.Groups[2].Value, out int n) && int.TryParse(replace, out int incVal)) {
+                    var i = n + incVal;
+                    string pad = string.Empty;
+                    if (i > 0) {
+                        for (int j = (int)Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++) {
+                            pad += "0";
+                        }
+                    }
+
+                    return Regex.Replace(val, search, m => m.Groups[1].Value + pad + i);
+                }
+            }
+            return val;
+        }
+
+        public static string RegexReplace(string val, string search, string replace)
+        {
+            return Regex.Replace(val, search, replace);
         }
 
         public static string Streetify(string val, string search, string replace)
@@ -126,64 +218,6 @@ namespace SCaddins.RenameUtilities
                 }
             }
             return result;
-        }
-
-        public static string Increment(string val, string search, string replace)
-        {
-            if (string.IsNullOrEmpty(val) || string.IsNullOrEmpty(search))
-            {
-                return val;
-            }
-            var match = Regex.Match(val, search);
-            if (match.Success)
-            {
-                var matchLength = match.Groups[1].Value.Length;
-                if (int.TryParse(match.Groups[1].Value, out int n) && int.TryParse(replace, out int incVal))
-                {
-                    var i = n + incVal;
-                    var firstPart = val.Substring(0, match.Groups[1].Index);    
-                    var secondPart = val.Substring(match.Groups[1].Index + match.Groups[1].Length);
-                    var pad = string.Empty;
-                    if (i > 0)
-                    {
-                        for (var j = (int)Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++)
-                        {
-                            pad += "0";
-                        }
-                    }
-                    return firstPart + pad + i + secondPart;
-                }
-            }
-            return val;
-        }
-
-        public static string IncrementLast(string val, string search, string replace)
-        {
-            var match = Regex.Match(val, search);
-            if (match.Success)
-            {
-                var matchLength = match.Groups[2].Value.Length;
-                if (int.TryParse(match.Groups[2].Value, out int n) && int.TryParse(replace, out int incVal))
-                {
-                    var i = n + incVal;
-                    string pad = string.Empty;
-                    if (i > 0)
-                    {
-                        for (int j = (int)Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++)
-                        {
-                            pad += "0";
-                        }
-                    }
-
-                    return Regex.Replace(val, search, m => m.Groups[1].Value + pad + i);
-                }
-            }
-            return val;
-        }
-
-        public static string RegexReplace(string val, string search, string replace)
-        {
-            return Regex.Replace(val, search, replace);
         }
 
         public void CommitRename()
@@ -223,51 +257,6 @@ namespace SCaddins.RenameUtilities
                     SCaddinsApp.WindowManager.ShowMessageBox("Error", "Failed to start Bulk Rename Revit Transaction...");
                 }
             }
-        }
-
-        public static Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByCategoryName(string parameterCategory, Document doc)
-        {
-            if (parameterCategory == "Rooms") {
-                return GetParametersByCategory(BuiltInCategory.OST_Rooms, doc);
-            }
-            if (parameterCategory == "Views") {
-                return GetParametersByCategory(BuiltInCategory.OST_Views, doc);
-            }
-            if (parameterCategory == "Sheets") {
-                return GetParametersByCategory(BuiltInCategory.OST_Sheets, doc);
-            }
-            if (parameterCategory == "Walls") {
-                return GetParametersByCategory(BuiltInCategory.OST_Walls, doc);
-            }
-            if (parameterCategory == "Doors") {
-                return GetParametersByCategory(BuiltInCategory.OST_Doors, doc);
-            }
-            if (parameterCategory == "Windows") {
-                return GetParametersByCategory(BuiltInCategory.OST_Windows, doc);
-            }
-            if (parameterCategory == "Windows") {
-                return GetParametersByCategory(BuiltInCategory.OST_Revisions, doc);
-            }
-            if (parameterCategory == "Grids") {
-                return GetParametersByType(typeof(Grid), doc);
-            }
-            if (parameterCategory == "Levels") {
-                return GetParametersByCategory(BuiltInCategory.OST_Levels, doc);
-            }
-            if (parameterCategory == "Floors") {
-                return GetParametersByCategory(BuiltInCategory.OST_Floors, doc);
-            }
-            if (parameterCategory == @"Text") {
-                return GetParametersByCategory(BuiltInCategory.OST_TextNotes, doc);
-            }
-            if (parameterCategory == @"Project Information")
-            {
-                return GetParametersByCategory(BuiltInCategory.OST_ProjectInformation, doc);
-            }
-            if (parameterCategory == @"Model Groups") {
-                return GetParametersByType(typeof(Autodesk.Revit.DB.Group),doc);
-            }
-            return new Caliburn.Micro.BindableCollection<RenameParameter>();
         }
 
         /// <summary>
@@ -317,18 +306,10 @@ namespace SCaddins.RenameUtilities
         ////    return string.Empty;
         ////}
 
-        // Possibly used by CM... TODO check this
-        // ReSharper disable once UnusedMember.Local
-        private static bool IsValidRevitName(string s)
-        {
-            return !(s.Contains("{") || s.Contains("}"));
-        }
-
         private static Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByCategory(BuiltInCategory category, Document doc)
         {
             Caliburn.Micro.BindableCollection<RenameParameter> parametersList = new Caliburn.Micro.BindableCollection<RenameParameter>();
-            if (category == BuiltInCategory.OST_TextNotes)
-            {
+            if (category == BuiltInCategory.OST_TextNotes) {
                 parametersList.Add(new RenameParameter(category));
                 return parametersList;
             }
@@ -337,40 +318,22 @@ namespace SCaddins.RenameUtilities
             collector.OfCategory(category);
             var elem = collector.FirstElement();
             var elem2 = collector.ToElements()[collector.GetElementCount() - 1];
-            if (elem2.Parameters.Size > elem.Parameters.Size)
-            {
+            if (elem2.Parameters.Size > elem.Parameters.Size) {
                 elem = elem2;
             }
 
-            if (category == BuiltInCategory.OST_Levels || category == BuiltInCategory.OST_Grids)
-            {
+            if (category == BuiltInCategory.OST_Levels || category == BuiltInCategory.OST_Grids) {
                 ////Parameter param = elem.GetParameters("Name").FirstOrDefault();
                 Parameter param = elem.LookupParameter("Name");
                 parametersList.Add(new RenameParameter(param, category));
                 return parametersList;
             }
 
-            //get type paramters
-            foreach (Parameter param in elem.Parameters)
-            {
-                if (param.StorageType == StorageType.String && !param.IsReadOnly)
-                {
+            foreach (Parameter param in elem.Parameters) {
+                if (param.StorageType == StorageType.String && !param.IsReadOnly) {
                     parametersList.Add(new RenameParameter(param, category));
                 }
             }
-            ////get instancee paramters
-            //var faimliyInstance = doc.GetElement(elem.Id);
-            ////SCaddinsApp.WindowManager.ShowMessageBox(faimliyInstance.GetType().ToString());
-            //if (faimliyInstance is FamilyInstance) {
-            //    SCaddinsApp.WindowManager.ShowMessageBox("yep");
-            //    foreach (Parameter param in faimliyInstance.Parameters)
-            //    {
-            //        if (param.StorageType == StorageType.String)
-            //        {
-            //            parametersList.Add(new RenameParameter(param, category));
-            //        }
-            //    }
-            //}
             return parametersList;
         }
 
@@ -382,13 +345,19 @@ namespace SCaddins.RenameUtilities
             collector.OfClass(t);
             var elem = collector.FirstElement();
             var elem2 = collector.ToElements()[collector.GetElementCount() - 1];
-            if (elem2.Parameters.Size > elem.Parameters.Size)
-            {
+            if (elem2.Parameters.Size > elem.Parameters.Size) {
                 elem = elem2;
             }
             Parameter param = elem.LookupParameter("Name");
             parametersList.Add(new RenameParameter(param, t));
             return parametersList;
+        }
+
+        // Possibly used by CM... TODO check this
+        // ReSharper disable once UnusedMember.Local
+        private static bool IsValidRevitName(string s)
+        {
+            return !(s.Contains("{") || s.Contains("}"));
         }
         #endregion
         private void GetTextNoteValues(BuiltInCategory category)

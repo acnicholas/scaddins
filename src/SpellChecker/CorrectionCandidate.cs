@@ -1,18 +1,18 @@
 ﻿namespace SCaddins.SpellChecker
 {
-    using Autodesk.Revit.DB;
-    using NHunspell;
     using System.Collections;
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
+    using Autodesk.Revit.DB;
+    using NHunspell;
 
     public class CorrectionCandidate : IEnumerator
     {
-        private Parameter parameter;
-        private Hunspell hunspell;
-        private int currentIndex;
-        private string[] originalWords;
         private Dictionary<string, string> autoReplacementList;
+        private int currentIndex;
+        private Hunspell hunspell;
+        private string[] originalWords;
+        private Parameter parameter;
         private Regex rgx;
 
         public CorrectionCandidate(Parameter parameter, Hunspell hunspell, ref Dictionary<string, string> autoReplacementList)
@@ -33,35 +33,19 @@
             rgx = new Regex(@"^.*[\d]+.*$");
         }
 
-        public string OriginalText
-        {
+        public object Current => originalWords[currentIndex].Trim();
+
+        public bool IsModified => !string.Equals(this.OriginalText, this.NewText, System.StringComparison.CurrentCulture);
+
+        public string NewText {
             get; private set;
         }
 
-        public string NewText
-        {
+        public string OriginalText {
             get; private set;
         }
 
         public string TypeString => parameter.Element.GetType().ToString();
-
-        public void ReplaceCurrent(string word)
-        {
-            NewText = ReplaceFirst(NewText, (string)Current, word);
-        }
-
-        private string ReplaceFirst(string text, string search, string replace)
-        {
-            int pos = text.IndexOf(search);
-            if (pos < 0) {
-                return text;
-            }
-            return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
-        }
-
-        public bool IsModified => !string.Equals(this.OriginalText, this.NewText, System.StringComparison.CurrentCulture);
-
-        public object Current => originalWords[currentIndex].Trim();
 
         private string CurrentAsString => (string)Current;
 
@@ -70,10 +54,12 @@
             while (originalWords != null && currentIndex < (originalWords.Length - 1)) {
                 currentIndex++;
 
-                //continue if a number is found...
-                if (rgx.IsMatch(CurrentAsString)) continue;
-    
-                if (autoReplacementList.ContainsKey(CurrentAsString)){
+                // continue if a number is found...
+                if (rgx.IsMatch(CurrentAsString)) {
+                    continue;
+                }
+
+                if (autoReplacementList.ContainsKey(CurrentAsString)) {
                     string replacement;
                     if (autoReplacementList.TryGetValue(CurrentAsString, out replacement)) {
                         ReplaceCurrent(replacement);
@@ -89,11 +75,6 @@
             return false;
         }
 
-        public void Reset()
-        {
-            currentIndex = -1;
-        }
-
         public bool Rename()
         {
             if (IsModified) {
@@ -104,5 +85,23 @@
             return false;
         }
 
+        public void ReplaceCurrent(string word)
+        {
+            NewText = ReplaceFirst(NewText, (string)Current, word);
+        }
+
+        public void Reset()
+        {
+            currentIndex = -1;
+        }
+
+        private string ReplaceFirst(string text, string search, string replace)
+        {
+            int pos = text.IndexOf(search);
+            if (pos < 0) {
+                return text;
+            }
+            return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
+        }
     }
 }

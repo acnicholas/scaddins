@@ -852,7 +852,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Assets\Ribbon\script-rvt-16.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Ribbon\spelling-rvt-16.png" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Hunspellx64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

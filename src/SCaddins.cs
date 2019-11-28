@@ -144,23 +144,6 @@ namespace SCaddins
             return pbd;
         }
 
-        //public static PushButtonData LoadSpellingChecker(string dll, int iconSize)
-        //{
-        //    var pbd = new PushButtonData(
-        //                      "Spelling Checker", "Check Spelling", dll, "SCaddins.SpellChecker.Command");
-        //    if (iconSize == 16)
-        //    {
-        //        AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.scopy-rvt-16.png", 16, dll);
-        //    }
-        //    else
-        //    {
-        //        AssignPushButtonImage(pbd, "SheetCopier.Assets.scopy-rvt.png", 32, dll);
-        //    }
-        //    pbd.SetContextualHelp(new ContextualHelp(ContextualHelpType.Url, Constants.HelpLink));
-        //    pbd.ToolTip = Resources.CopySheetsToolTip;
-        //    return pbd;
-        //}
-
         public Result OnShutdown(UIControlledApplication application)
         {
             return Result.Succeeded;
@@ -189,7 +172,7 @@ namespace SCaddins
                 LoadSCloudShed(scdll));
             ribbonPanel.AddStackedItems(
                 LoadSCightlines(scdll),
-                LoadSCincrement(scdll),
+                LoadSpellingChecker(scdll),
                 LoadSCuv(scdll));
             ribbonPanel.AddStackedItems(
                 LoadSCoord(scdll),
@@ -199,9 +182,11 @@ namespace SCaddins
             ribbonPanel.AddSlideOut();
 
             ribbonPanel.AddStackedItems(
+                LoadSCincrement(scdll),
                 LoadSCincrementSettings(scdll),
-                LoadRunScript(scdll),
-                LoadAbout(scdll));
+                LoadRunScript(scdll));
+
+            ribbonPanel.AddItem(LoadAbout(scdll));
 
             return Result.Succeeded;
         }
@@ -382,6 +367,14 @@ namespace SCaddins
                               "SCwash", Resources.DestructivePurge, dll, "SCaddins.DestructivePurge.Command");
             AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.scwash-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.DestructivePurgeToolTip;
+            return pbd;
+        }
+
+        private static PushButtonData LoadSpellingChecker(string dll)
+        {
+            var pbd = new PushButtonData(
+                              "Spelling Checker", "Check Spelling", dll, "SCaddins.SpellChecker.Command");
+            AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.spelling-rvt-16.png", 16, dll);
             return pbd;
         }
 

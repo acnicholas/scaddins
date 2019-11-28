@@ -82,7 +82,6 @@ namespace SCaddins.RenameUtilities.ViewModels
             }
         }
 
-
         public string PatternLabel
         {
             get { return manager.SelectedRenameMode.SearchPatternHint; }

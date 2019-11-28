@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Caliburn.Micro;
-
-namespace SCaddins.SpellChecker.ViewModels
+﻿namespace SCaddins.SpellChecker.ViewModels
 {
-    class SpellCheckerOptionsViewModel : Screen
+    using System;
+    using System.Collections.Specialized;
+    using System.Dynamic;
+    using Caliburn.Micro;
+
+    public class SpellCheckerOptionsViewModel : Screen
     {
         private StringCollection stringCollection;
 
@@ -20,8 +16,7 @@ namespace SCaddins.SpellChecker.ViewModels
             {
                 ElementsToIgnore += item;
                 ElementsToIgnore += Environment.NewLine;
-            }
-            
+            }     
         }
 
         public static dynamic DefaultWindowSettings {
@@ -45,10 +40,11 @@ namespace SCaddins.SpellChecker.ViewModels
         public void Apply()
         {
             var collecton = new StringCollection();
-            string[] lines = ElementsToIgnore.Split(new[] { Environment.NewLine },StringSplitOptions.None);
-            foreach (var line in lines)
-            {
-                if (!string.IsNullOrEmpty(line)) collecton.Add(line);
+            string[] lines = ElementsToIgnore.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            foreach (var line in lines) {
+                if (!string.IsNullOrEmpty(line)) {
+                    collecton.Add(line);
+                }
             }
 
             SpellCheckerSettings.Default.ElementIgnoreList = collecton;
