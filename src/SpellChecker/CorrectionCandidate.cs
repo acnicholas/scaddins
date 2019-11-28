@@ -3,6 +3,7 @@
     using Autodesk.Revit.DB;
     using NHunspell;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Text.RegularExpressions;
 
     public class CorrectionCandidate : IEnumerator
@@ -11,14 +12,16 @@
         private Hunspell hunspell;
         private int currentIndex;
         private string[] originalWords;
+        private Dictionary<string, string> autoReplacementList;
         private Regex rgx;
 
-        public CorrectionCandidate(Parameter parameter, Hunspell hunspell)
+        public CorrectionCandidate(Parameter parameter, Hunspell hunspell, ref Dictionary<string, string> autoReplacementList)
         {
             this.parameter = parameter;
             this.hunspell = hunspell;
+            this.autoReplacementList = autoReplacementList;
             OriginalText = parameter.AsString();
-            char[] delimiterChars = { ' ', ',', '.', ':', '\t', '\\', '/', '(', ')' };
+            char[] delimiterChars = { ' ', ',', '.', ':', '\t', '\\', '/', '(', ')', '<', '>' };
             if (!string.IsNullOrEmpty(OriginalText)) {
                 originalWords = OriginalText.Split(delimiterChars);
                 NewText = OriginalText;
@@ -45,7 +48,6 @@
         public void ReplaceCurrent(string word)
         {
             NewText = ReplaceFirst(NewText, (string)Current, word);
-            //SCaddinsApp.WindowManager.ShowMessageBox(NewText);
         }
 
         private string ReplaceFirst(string text, string search, string replace)
@@ -61,13 +63,24 @@
 
         public object Current => originalWords[currentIndex].Trim();
 
+        private string CurrentAsString => (string)Current;
+
         public bool MoveNext()
         {
             while (originalWords != null && currentIndex < (originalWords.Length - 1)) {
                 currentIndex++;
 
                 //continue if a number is found...
-                if (rgx.IsMatch(originalWords[currentIndex])) continue;
+                if (rgx.IsMatch(CurrentAsString)) continue;
+    
+                if (autoReplacementList.ContainsKey(CurrentAsString)){
+                    string replacement;
+                    if (autoReplacementList.TryGetValue(CurrentAsString, out replacement)) {
+                        ReplaceCurrent(replacement);
+                        currentIndex++;
+                        continue;
+                    }
+                }
 
                 if (!hunspell.Spell(originalWords[currentIndex].Trim())) {
                     return true;
@@ -83,27 +96,10 @@
 
         public bool Rename()
         {
-            if (IsModified)
-            {
-                //if (note == null)
-                //{
-                    if (!parameter.IsReadOnly)
-                    {
-                        return parameter.Set(NewText);
-                    }
-                //}
-                //else
-                //{
-                //    try
-                //    {
-                //        note.Text = NewValue;
-                //    }
-                //    catch
-                //    {
-                //        return false;
-                //    }
-                //    return true;
-                //}
+            if (IsModified) {
+                if (!parameter.IsReadOnly) {
+                    return parameter.Set(NewText);
+                }
             }
             return false;
         }

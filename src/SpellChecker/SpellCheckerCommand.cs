@@ -1,14 +1,9 @@
 ﻿
 namespace SCaddins.SpellChecker
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text.RegularExpressions;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using NHunspell;
     using SCaddins;
-    using SCaddins.RenameUtilities;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -24,12 +19,6 @@ namespace SCaddins.SpellChecker
             bool? result = SCaddinsApp.WindowManager.ShowDialog(viewModel,
                 null,
                 ViewModels.SpellCheckerViewModel.DefaultWindowSettings);
-
-            //if (result.HasValue && result.Value == true)
-            //{
-                //// SCaddinsApp.WindowManager.ShowMessageBox("About to rename");
-            //    spellChecker.CommitSpellingChangesToModel();
-            //}
 
             return Result.Succeeded;
         }

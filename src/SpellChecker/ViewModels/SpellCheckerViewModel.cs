@@ -72,7 +72,7 @@ namespace SCaddins.SpellChecker.ViewModels
         {
             // FIXME put this in command.
             manager.CommitSpellingChangesToModel();
-            //TryClose(true);
+            TryClose(true);
         }
 
         public bool AddToDictionaryEnabled
@@ -90,8 +90,12 @@ namespace SCaddins.SpellChecker.ViewModels
 
         public void ChangeAll()
         {
-            //TODO
+            manager.CurrentCandidate.ReplaceCurrent(ReplacementText);
+            manager.AddToAutoReplacementList(UnknownWord, ReplacementText);
+            Next();
         }
+
+        public string NotInDictionary => @"Not In Dictionary [" + manager.CurrentElementType + @"]";
 
         public bool CanChangeAll => !string.IsNullOrEmpty(ReplacementText);
 
@@ -134,6 +138,7 @@ namespace SCaddins.SpellChecker.ViewModels
             {
                 NotifyOfPropertyChange(() => UnknownWord);
                 NotifyOfPropertyChange(() => Suggestions);
+                NotifyOfPropertyChange(() => NotInDictionary);
                 if (Suggestions.Count > 0)
                 {
                     SelectedSuggestion = Suggestions.First();

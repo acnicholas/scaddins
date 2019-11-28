@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,19 @@ namespace SCaddins.SpellChecker.ViewModels
 {
     class SpellCheckerOptionsViewModel : Screen
     {
+        private StringCollection stringCollection;
+
+        public SpellCheckerOptionsViewModel()
+        {
+            stringCollection = SpellCheckerSettings.Default.ElementIgnoreList;
+            foreach (var item in stringCollection)
+            {
+                ElementsToIgnore += item;
+                ElementsToIgnore += Environment.NewLine;
+            }
+            
+        }
+
         public static dynamic DefaultWindowSettings {
             get
             {
@@ -24,6 +38,21 @@ namespace SCaddins.SpellChecker.ViewModels
                 settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
                 return settings;
             }
+        }
+
+        public string ElementsToIgnore { get; set; }
+
+        public void Apply()
+        {
+            var collecton = new StringCollection();
+            string[] lines = ElementsToIgnore.Split(new[] { Environment.NewLine },StringSplitOptions.None);
+            foreach (var line in lines)
+            {
+                if (!string.IsNullOrEmpty(line)) collecton.Add(line);
+            }
+
+            SpellCheckerSettings.Default.ElementIgnoreList = collecton;
+            SpellCheckerSettings.Default.Save();
         }
     }
 }

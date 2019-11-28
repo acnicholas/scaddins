@@ -27,7 +27,7 @@
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Label Margin="5">Not in Dictionary</Label>
+            <Label x:Name="NotInDictionary" Margin="5"></Label>
             <TextBox x:Name="UnknownWord" Grid.Row="1" Margin="5" IsReadOnly="True" IsEnabled="False"></TextBox>
             <Label Grid.Row="2" Margin="5">Change To</Label>
             <TextBox x:Name="ReplacementText" Grid.Row="3" Margin="5"></TextBox>
@@ -39,12 +39,18 @@
             <Button x:Name="IgnoreAll"   Margin="5">Ignore All</Button>
             <Button x:Name="Change" Margin="5">Change</Button>
             <Button x:Name="ChangeAll"  Margin="5">Change All</Button>
-            <Button Margin="5">Add To Dictionary</Button>
+            <Button Margin="5" IsEnabled="False">Add To Dictionary</Button>
         </StackPanel>
-        <DockPanel Grid.Row="1" Grid.ColumnSpan="2">
-            <Button x:Name="Options" HorizontalAlignment="Left" Margin="5">Options</Button>
-            <Button x:Name="Apply"  HorizontalAlignment="Right" Margin="5">Apply All Changes</Button>
-            <Button x:Name="Cancel" HorizontalAlignment="Right" Margin="5">Cancel</Button>
-        </DockPanel>
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="Options" MinWidth="64" Grid.Column="0" HorizontalAlignment="Left" Margin="5">Options</Button>
+            <Button x:Name="Apply"  MinWidth="64" Grid.Column="2" HorizontalAlignment="Right" Margin="5">Apply All Changes</Button>
+            <Button x:Name="Cancel" MinWidth="64" Grid.Column="3" HorizontalAlignment="Right" Margin="5">Cancel</Button>
+        </Grid>
     </Grid>
 </UserControl>

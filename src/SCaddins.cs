@@ -144,6 +144,23 @@ namespace SCaddins
             return pbd;
         }
 
+        //public static PushButtonData LoadSpellingChecker(string dll, int iconSize)
+        //{
+        //    var pbd = new PushButtonData(
+        //                      "Spelling Checker", "Check Spelling", dll, "SCaddins.SpellChecker.Command");
+        //    if (iconSize == 16)
+        //    {
+        //        AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.scopy-rvt-16.png", 16, dll);
+        //    }
+        //    else
+        //    {
+        //        AssignPushButtonImage(pbd, "SheetCopier.Assets.scopy-rvt.png", 32, dll);
+        //    }
+        //    pbd.SetContextualHelp(new ContextualHelp(ContextualHelpType.Url, Constants.HelpLink));
+        //    pbd.ToolTip = Resources.CopySheetsToolTip;
+        //    return pbd;
+        //}
+
         public Result OnShutdown(UIControlledApplication application)
         {
             return Result.Succeeded;

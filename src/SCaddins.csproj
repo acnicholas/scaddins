@@ -536,6 +536,11 @@
     <Compile Include="SpellChecker\CorrectionCandidate.cs" />
     <Compile Include="SpellChecker\SpellChecker.cs" />
     <Compile Include="SpellChecker\SpellCheckerCommand.cs" />
+    <Compile Include="SpellChecker\SpellCheckerSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>SpellCheckerSettings.settings</DependentUpon>
+    </Compile>
     <Compile Include="SpellChecker\ViewModels\SpellCheckerOptionsViewModel.cs" />
     <Compile Include="SpellChecker\ViewModels\SpellCheckerViewModel.cs" />
     <Compile Include="SpellChecker\Views\SpellCheckerOptionsView.xaml.cs">
@@ -601,6 +606,10 @@
     </None>
     <None Include="packages.config" />
     <None Include="SCaddins.addin" />
+    <None Include="SpellChecker\SpellCheckerSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>SpellCheckerSettings.Designer.cs</LastGenOutput>
+    </None>
     <Resource Include="Assets\gear.png" />
     <Resource Include="Assets\help.png" />
     <Resource Include="Assets\user.png" />

@@ -9,23 +9,16 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Vertical">
-            <Label>Items to spell check.</Label>
-            <CheckBox Content="Areas" IsEnabled="False"></CheckBox>
-            <CheckBox Content="Family Parameters" IsEnabled="False"></CheckBox>
-            <CheckBox Content="General Annotation"></CheckBox>
-            <CheckBox Content="Project Information"></CheckBox>
-            <CheckBox Content="Revisions" IsEnabled="False"></CheckBox>
-            <CheckBox Content="Room Names"></CheckBox>
-            <CheckBox Content="SheetNames"></CheckBox>
-            <CheckBox Content="View Names"></CheckBox>
-        </StackPanel>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" FlowDirection="RightToLeft">
-            <Button HorizontalAlignment="Right" MinWidth="48" Margin="5">Cancel</Button>
-            <Button HorizontalAlignment="Right" MinWidth="48" Margin="5">OK</Button>
+        <Label Grid.Row="0" Margin="5">List of element types to ignore:</Label>
+        <TextBox x:Name="ElementsToIgnore" Grid.Row="1" AcceptsReturn="True" Margin="5" VerticalScrollBarVisibility="Visible" MinHeight="480">
+        </TextBox>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <Button x:Name="Cancel" HorizontalAlignment="Right" MinWidth="48" Margin="5">Cancel</Button>
+            <Button x:Name="Apply" HorizontalAlignment="Right" MinWidth="48" Margin="5">OK</Button>
         </StackPanel>
     </Grid>
 </UserControl>

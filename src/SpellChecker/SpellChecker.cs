@@ -10,8 +10,8 @@
         private Document document;
         private Hunspell hunspell;
         private List<CorrectionCandidate> allTextParameters;
+        private Dictionary<string, string> autoReplacementList = new Dictionary<string, string>();
         private int currentIndex;
-        private CorrectionCandidate current;
 
         public SpellChecker(Document document)
         {
@@ -19,7 +19,7 @@
 
             hunspell = new Hunspell(
                             @"C:\Code\cs\scaddins\etc\en_AU.aff",
-                            @"C:\Code\\cs\scaddins\etc\en_AU.dic");
+                            @"C:\Code\cs\scaddins\etc\en_AU.dic");
 
             //add some arch specific words
             hunspell.Add("approver");
@@ -36,10 +36,12 @@
             hunspell.Dispose();
         }
 
+        private int SafeCurrentIndex => currentIndex < allTextParameters.Count ? currentIndex : allTextParameters.Count - 1;
+
         /// <summary>
         /// Return the current CorrectionCandidate object
         /// </summary>
-        public object Current => allTextParameters[currentIndex];
+        public object Current => allTextParameters[SafeCurrentIndex];
 
         /// <summary>
         /// Returns the curent CorrectionCandiate
@@ -96,6 +98,12 @@
             currentIndex = -1;
         }
 
+        public void AddToAutoReplacementList(string word, string replacement)
+        {
+            if (autoReplacementList.ContainsKey(word)) return;
+            autoReplacementList.Add(word, replacement);
+        }
+
         public void CommitSpellingChangesToModel()
         {
             int fails = 0;
@@ -103,7 +111,7 @@
 
             using (var t = new Transaction(document))
             {
-                if (t.Start("Bulk Rename") == TransactionStatus.Started)
+                if (t.Start("Spelling") == TransactionStatus.Started)
                 {
                     foreach (CorrectionCandidate candidate in allTextParameters)
                     {
@@ -151,7 +159,7 @@
                           if (p == null || !p.HasValue) continue;
                           if(p.IsReadOnly) continue;
                           if (p.StorageType == StorageType.String) {
-                              var rc = new CorrectionCandidate(p, hunspell);
+                              var rc = new CorrectionCandidate(p, hunspell, ref autoReplacementList);
                             try
                             {
                                 if (!string.IsNullOrEmpty(rc.OriginalText))
