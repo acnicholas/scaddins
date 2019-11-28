@@ -150,24 +150,31 @@
             var candidates = new List<CorrectionCandidate>();
             var collector = new FilteredElementCollector(doc).WhereElementIsNotElementType();
 
-            foreach (Element element in collector) {
+            foreach (Element element in collector)
+            {
                 var parameterSet = element.Parameters;
                 if (parameterSet == null || parameterSet.IsEmpty) continue;
-                foreach (var parameter in parameterSet) {
-                    if (parameter is Autodesk.Revit.DB.Parameter) {
-                          Autodesk.Revit.DB.Parameter p = (Autodesk.Revit.DB.Parameter)parameter ;
-                          if (p == null || !p.HasValue) continue;
-                          if(p.IsReadOnly) continue;
-                          if (p.StorageType == StorageType.String) {
-                              var rc = new CorrectionCandidate(p, hunspell, ref autoReplacementList);
-                            try
+                foreach (var parameter in parameterSet)
+                {
+                    if (parameter is Autodesk.Revit.DB.Parameter)
+                    {
+                        Autodesk.Revit.DB.Parameter p = (Autodesk.Revit.DB.Parameter)parameter;
+                        if (p == null || !p.HasValue) continue;
+                        if (p.IsReadOnly) continue;
+                        try
+                        {
+                            if (p.StorageType == StorageType.String)
                             {
+                                var rc = new CorrectionCandidate(p, hunspell, ref autoReplacementList);
+
                                 if (!string.IsNullOrEmpty(rc.OriginalText))
                                 {
                                     candidates.Add(rc);
                                 }
-                            } catch { }
+                            }
+
                         }
+                        catch { }
                     }
                 }
             }
