@@ -149,8 +149,7 @@ namespace SCaddins
             return Result.Succeeded;
         }
 
-        public Result OnStartup(
-                    UIControlledApplication application)
+        public Result OnStartup(UIControlledApplication application)
         {
             ribbonPanel = TryGetPanel(application, "Scott Carver");
 

@@ -1,7 +1,10 @@
 ﻿namespace SCaddins.SpellChecker
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
     using Autodesk.Revit.DB;
     using NHunspell;
     using SCaddins;
@@ -18,15 +21,9 @@
         {
             this.document = document;
 
-#if DEBUG
             hunspell = new Hunspell(
-                            @"C:\Code\scaddins\etc\en_AU.aff",
-                            @"C:\Code\scaddins\etc\en_AU.dic");
-#else
-             hunspell = new Hunspell(
-                            System.IO.Path.Combine(Constants.InstallDirectory, @"etc\en_AU.aff"),
-                            System.IO.Path.Combine(Constants.InstallDirectory, @"etc\en_AU.dic"));
-#endif
+                            @"C:\Code\cs\scaddins\etc\en_AU.aff",
+                            @"C:\Code\cs\scaddins\etc\en_AU.dic");
 
             // add some arch specific words
             hunspell.Add("approver");
