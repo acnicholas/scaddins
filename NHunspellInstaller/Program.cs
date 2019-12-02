@@ -12,11 +12,11 @@ namespace NHunspellInstaller
         static void Main(string[] args)
         {
             var HunspellLib = "Hunspellx64.dll";
-            var Revit2016dir = @"C:\Program Files\Autodesk\Revit 2019";
-            var Revit2017dir = @"C:\Program Files\Autodesk\Revit 2019";
-            var Revit2018dir = @"C:\Program Files\Autodesk\Revit 2019";
+            var Revit2016dir = @"C:\Program Files\Autodesk\Revit 2016";
+            var Revit2017dir = @"C:\Program Files\Autodesk\Revit 2017";
+            var Revit2018dir = @"C:\Program Files\Autodesk\Revit 2018";
             var Revit2019dir = @"C:\Program Files\Autodesk\Revit 2019";
-            var Revit2020dir = @"C:\Program Files\Autodesk\Revit 2019";
+            var Revit2020dir = @"C:\Program Files\Autodesk\Revit 2020";
             var HunspellLibDir = @"C:\Program Files\SCaddins\SCaddins\lib\Hunspellx64.dll";
 
             if (!File.Exists(HunspellLibDir))

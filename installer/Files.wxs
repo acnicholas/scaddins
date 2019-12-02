@@ -5,10 +5,22 @@
 	<Directory Id="ProgramFiles64Folder" Name="ProgramFiles64Folder">
 		<Directory Name="SCaddins" Id="SCADDINS">
 			<Directory Name="SCaddins" Id="INSTALLDIR">
+				<Directory Name="lib" Id="LIBDIR">
+					    <Component Id="SCaddinsLib" Win64="yes" Guid="74861DF8-9C19-4B76-90F5-D5E8C7696760">
+						<CreateFolder />
+						<File Id="Hunspellx64.dll" Name="Hunspellx64.dll" Source="..\src\packages\NHunspell.1.2.5554.16953\content\Hunspellx64.dll"/>
+						</Component>
+					</Directory>
+				<Directory Name="bin" Id="BINDIR">
+					    <Component Id="SCaddinsBin" Win64="yes" Guid="6BB44DFD-05F3-4C81-83B1-688FEC0BB73D">
+						<CreateFolder />
+						<File Id="NHunspellInstaller.exe" Name="NHunspellInstaller.exe" Source="..\NHunspellInstaller\bin\Release\NHunspellInstaller.exe"/>
+						</Component>
+					</Directory>
 				<Directory Name="share" Id="SHAREDIR">
 					<Component Id="SCexportConfigProto" Guid="E467582F-2BA7-4FC3-8DA9-3773449DD236" Win64="yes">
-						<File Id="SCEXPORT_EXAMPLE_CONF.XML" Name="SCexport-example-conf.xml" Source="..\share\SCexport-example-conf.xml" />
-						<CreateFolder />
+					<CreateFolder />
+					<File Id="SCEXPORT_EXAMPLE_CONF.XML" Name="SCexport-example-conf.xml" Source="..\share\SCexport-example-conf.xml" />
 					</Component>
 					<Directory Id="RFADIR" Name="rfa">
 						<Directory Id="RFAFILES2016" Name="2016">
@@ -57,8 +69,8 @@
 					<Component Id="SCaddinsEtc" Win64="yes" Guid="433296A6-F7CC-40A2-9826-33A16437BED0">
 						<CreateFolder />
 						<File Id="SCEXPORT.XSD" Name="SCexport.xsd" Source="..\etc\SCexport.xsd" />
-            <File Id="en_AU.aff" Name="en_AU.aff" Source="..\etc\en_AU.aff" />
-            <File Id="en_AU.dic" Name="en_AU.dic" Source="..\etc\en_AU.dic" />
+						<File Id="en_AU.aff" Name="en_AU.aff" Source="..\etc\en_AU.aff" />
+						<File Id="en_AU.dic" Name="en_AU.dic" Source="..\etc\en_AU.dic" />
 					</Component>
 				</Directory>
 				<?if $(env.R2016) = Enabled ?>
