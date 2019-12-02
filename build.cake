@@ -94,18 +94,6 @@ Task("Revit2020")
 .WithCriteria(APIAvailable("2020"))
 .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2020")));
 
-Task("Setup")
-.IsDependentOn("Restore-Installer-NuGet-Packages")
-.Does(() =>
-    {
-	    if (!FileExists(@"src\Hunspellx64.dll")) {
-	        CopyFile(@"src\packages\NHunspell.1.2.5554.16953\content\Hunspellx64.dll", @"src\Hunspellx64.dll");
-		}
-		if (!FileExists(@"src\Hunspellx86.dll")) {
-		    CopyFile(@"src\packages\NHunspell.1.2.5554.16953\content\Hunspellx86.dll", @"src\Hunspellx86.dll");
-		}
-	});
-
 Task("SetUpTests")
 .Does(() =>
 	{
@@ -150,7 +138,6 @@ Task("Dist")
 
 Task("Default")
 .IsDependentOn("Clean")
-.IsDependentOn("Setup")
 .IsDependentOn("Revit2016")
 .IsDependentOn("Revit2017")
 .IsDependentOn("Revit2018")

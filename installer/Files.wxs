@@ -5,18 +5,6 @@
 	<Directory Id="ProgramFiles64Folder" Name="ProgramFiles64Folder">
 		<Directory Name="SCaddins" Id="SCADDINS">
 			<Directory Name="SCaddins" Id="INSTALLDIR">
-				<Directory Name="lib" Id="LIBDIR">
-					    <Component Id="SCaddinsLib" Win64="yes" Guid="74861DF8-9C19-4B76-90F5-D5E8C7696760">
-						<CreateFolder />
-						<File Id="Hunspellx64.dll" Name="Hunspellx64.dll" Source="..\src\packages\NHunspell.1.2.5554.16953\content\Hunspellx64.dll"/>
-						</Component>
-					</Directory>
-				<Directory Name="bin" Id="BINDIR">
-					    <Component Id="SCaddinsBin" Win64="yes" Guid="6BB44DFD-05F3-4C81-83B1-688FEC0BB73D">
-						<CreateFolder />
-						<File Id="NHunspellInstaller.exe" Name="NHunspellInstaller.exe" Source="..\NHunspellInstaller\bin\Release\NHunspellInstaller.exe"/>
-						</Component>
-					</Directory>
 				<Directory Name="share" Id="SHAREDIR">
 					<Component Id="SCexportConfigProto" Guid="E467582F-2BA7-4FC3-8DA9-3773449DD236" Win64="yes">
 					<CreateFolder />
@@ -84,6 +72,7 @@
 						<File Id="CMPC16" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2016\Caliburn.Micro.Platform.Core.dll" />
 						<File Id="CSSL16" Name="CSScriptLibrary.dll" Source="..\src\bin\Release2016\CSScriptLibrary.dll" />
             			<File Id="HUN16" Name="NHunspell.dll" Source="..\src\bin\Release2016\NHunspell.dll" />
+            			<File Id="HUN16N" Name="Hunspellx64.dll" Source="..\src\bin\Release2016\Hunspellx64.dll" />
             			<File Id="SWI16" Name="System.Windows.Interactivity.dll" Source="..\src\bin\Release2016\System.Windows.Interactivity.dll" />
             			<File Id="IFP16" Name="INIFileParser.dll" Source="..\src\bin\Release2016\INIFileParser.dll" />
             			<File Id="XTK16" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2016\Xceed.Wpf.Toolkit.dll" />
@@ -104,6 +93,7 @@
             			<File Id="CSSL17" Name="CSScriptLibrary.dll" Source="..\src\bin\Release2017\CSScriptLibrary.dll" />
             			<File Id="IFP17" Name="INIFileParser.dll" Source="..\src\bin\Release2017\INIFileParser.dll" />
             			<File Id="HUN17" Name="NHunspell.dll" Source="..\src\bin\Release2017\NHunspell.dll" />
+            			<File Id="HUN17N" Name="Hunspellx64.dll" Source="..\src\bin\Release2017\Hunspellx64.dll" />
             			<File Id="XTK17" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2017\Xceed.Wpf.Toolkit.dll" />
             			<File Id="AE17" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2017\ICSharpCode.AvalonEdit.dll" />
 					</Component>
@@ -121,6 +111,7 @@
 						<File Id="CSSL18" Name="CSScriptLibrary.dll" Source="..\src\bin\Release2018\CSScriptLibrary.dll" />
             			<File Id="AE18" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2018\ICSharpCode.AvalonEdit.dll" />
             			<File Id="HUN18" Name="NHunspell.dll" Source="..\src\bin\Release2018\NHunspell.dll" />
+            			<File Id="HUN18N" Name="Hunspellx64.dll" Source="..\src\bin\Release2018\Hunspellx64.dll" />
             			<File Id="IFP18" Name="INIFileParser.dll" Source="..\src\bin\Release2018\INIFileParser.dll" />
             			<File Id="XTK18" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2018\Xceed.Wpf.Toolkit.dll" />
 					</Component>
@@ -139,6 +130,7 @@
             			<File Id="AE19" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2019\ICSharpCode.AvalonEdit.dll" />
             			<File Id="IFP19" Name="INIFileParser.dll" Source="..\src\bin\Release2019\INIFileParser.dll" />
             			<File Id="HUN19" Name="NHunspell.dll" Source="..\src\bin\Release2019\NHunspell.dll" />
+            			<File Id="HUN19N" Name="Hunspellx64.dll" Source="..\src\bin\Release2019\Hunspellx64.dll" />
             			<File Id="XTK19" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2019\Xceed.Wpf.Toolkit.dll" />
 					</Component>
 				</Directory>
@@ -156,6 +148,7 @@
             			<File Id="IFP20" Name="INIFileParser.dll" Source="..\src\bin\Release2020\INIFileParser.dll" />
             			<File Id="XTK20" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2020\Xceed.Wpf.Toolkit.dll" />
             			<File Id="HUN20" Name="NHunspell.dll" Source="..\src\bin\Release2020\NHunspell.dll" />
+            			<File Id="HUN20N" Name="Hunspellx64.dll" Source="..\src\bin\Release2020\Hunspellx64.dll" />
             			<File Id="AE20" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2020\ICSharpCode.AvalonEdit.dll" />
 					</Component>
 				</Directory>

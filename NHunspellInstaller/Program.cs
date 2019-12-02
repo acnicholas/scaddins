@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NHunspellInstaller
+﻿namespace NHunspellInstaller
 {
+    using System.IO;
+
     class Program
     {
         static void Main(string[] args)
