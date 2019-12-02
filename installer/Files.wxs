@@ -71,7 +71,7 @@
 						<File Id="CMP16" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2016\Caliburn.Micro.Platform.dll" />
 						<File Id="CMPC16" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2016\Caliburn.Micro.Platform.Core.dll" />
 						<File Id="CSSL16" Name="CSScriptLibrary.dll" Source="..\src\bin\Release2016\CSScriptLibrary.dll" />
-            <File Id="HUN16" Name="Hunspellx64.dll" Source="..\src\bin\Release2016\Hunspellx64.dll" />
+            			<File Id="HUN16" Name="NHunspell.dll" Source="..\src\bin\Release2016\NHunspell.dll" />
             			<File Id="SWI16" Name="System.Windows.Interactivity.dll" Source="..\src\bin\Release2016\System.Windows.Interactivity.dll" />
             			<File Id="IFP16" Name="INIFileParser.dll" Source="..\src\bin\Release2016\INIFileParser.dll" />
             			<File Id="XTK16" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2016\Xceed.Wpf.Toolkit.dll" />
@@ -91,7 +91,7 @@
             			<File Id="SWI17" Name="System.Windows.Interactivity.dll" Source="..\src\bin\Release2017\System.Windows.Interactivity.dll" />
             			<File Id="CSSL17" Name="CSScriptLibrary.dll" Source="..\src\bin\Release2017\CSScriptLibrary.dll" />
             			<File Id="IFP17" Name="INIFileParser.dll" Source="..\src\bin\Release2017\INIFileParser.dll" />
-            <File Id="HUN17" Name="Hunspellx64.dll" Source="..\src\bin\Release2017\Hunspellx64.dll" />
+            			<File Id="HUN17" Name="NHunspell.dll" Source="..\src\bin\Release2017\NHunspell.dll" />
             			<File Id="XTK17" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2017\Xceed.Wpf.Toolkit.dll" />
             			<File Id="AE17" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2017\ICSharpCode.AvalonEdit.dll" />
 					</Component>
@@ -107,8 +107,8 @@
 						<File Id="CMP18" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2018\Caliburn.Micro.Platform.dll" />
 						<File Id="CMPC18" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2018\Caliburn.Micro.Platform.Core.dll" />
 						<File Id="CSSL18" Name="CSScriptLibrary.dll" Source="..\src\bin\Release2018\CSScriptLibrary.dll" />
-            <File Id="AE18" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2018\ICSharpCode.AvalonEdit.dll" />
-            <File Id="HUN18" Name="Hunspellx64.dll" Source="..\src\bin\Release2018\Hunspellx64.dll" />
+            			<File Id="AE18" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2018\ICSharpCode.AvalonEdit.dll" />
+            			<File Id="HUN18" Name="NHunspell.dll" Source="..\src\bin\Release2018\NHunspell.dll" />
             			<File Id="IFP18" Name="INIFileParser.dll" Source="..\src\bin\Release2018\INIFileParser.dll" />
             			<File Id="XTK18" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2018\Xceed.Wpf.Toolkit.dll" />
 					</Component>
@@ -124,10 +124,10 @@
 						<File Id="CMP19" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2019\Caliburn.Micro.Platform.dll" />
 						<File Id="CMPC19" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2019\Caliburn.Micro.Platform.Core.dll" />
 						<File Id="CSSL19" Name="CSScriptLibrary.dll" Source="..\src\bin\Release2019\CSScriptLibrary.dll" />
-            <File Id="AE19" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2019\ICSharpCode.AvalonEdit.dll" />
-            <File Id="IFP19" Name="INIFileParser.dll" Source="..\src\bin\Release2019\INIFileParser.dll" />
-            <File Id="HUN19" Name="Hunspellx64.dll" Source="..\src\bin\Release2019\Hunspellx64.dll" />
-            <File Id="XTK19" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2019\Xceed.Wpf.Toolkit.dll" />
+            			<File Id="AE19" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2019\ICSharpCode.AvalonEdit.dll" />
+            			<File Id="IFP19" Name="INIFileParser.dll" Source="..\src\bin\Release2019\INIFileParser.dll" />
+            			<File Id="HUN19" Name="NHunspell.dll" Source="..\src\bin\Release2019\NHunspell.dll" />
+            			<File Id="XTK19" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2019\Xceed.Wpf.Toolkit.dll" />
 					</Component>
 				</Directory>
 				<?endif?>
@@ -141,10 +141,10 @@
 						<File Id="CMP20" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2020\Caliburn.Micro.Platform.dll" />
 						<File Id="CMPC20" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2020\Caliburn.Micro.Platform.Core.dll" />
 						<File Id="CSSL20" Name="CSScriptLibrary.dll" Source="..\src\bin\Release2020\CSScriptLibrary.dll" />
-            <File Id="IFP20" Name="INIFileParser.dll" Source="..\src\bin\Release2020\INIFileParser.dll" />
-            <File Id="XTK20" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2020\Xceed.Wpf.Toolkit.dll" />
-            <File Id="HUN20" Name="Hunspellx64.dll" Source="..\src\bin\Release2020\Hunspellx64.dll" />
-            <File Id="AE20" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2020\ICSharpCode.AvalonEdit.dll" />
+            			<File Id="IFP20" Name="INIFileParser.dll" Source="..\src\bin\Release2020\INIFileParser.dll" />
+            			<File Id="XTK20" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2020\Xceed.Wpf.Toolkit.dll" />
+            			<File Id="HUN20" Name="NHunspell.dll" Source="..\src\bin\Release2020\NHunspell.dll" />
+            			<File Id="AE20" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2020\ICSharpCode.AvalonEdit.dll" />
 					</Component>
 				</Directory>
 				<?endif?>
