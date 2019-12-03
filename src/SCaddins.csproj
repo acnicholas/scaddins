@@ -598,14 +598,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\etc\en_AU.aff">
+    <Content Include="..\etc\en_AU.aff">
       <Link>Assets\en_AU.aff</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\etc\en_AU.dic">
+    </Content>
+    <Content Include="..\etc\en_AU.dic">
       <Link>Assets\en_AU.dic</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="app.config" />
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
     <None Include="ModelSetupWizard\ModelSetupWizardSettings.settings">

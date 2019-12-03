@@ -16,17 +16,32 @@
 
         public SpellChecker(Document document)
         {
+            if (hunspell != null)
+            {
+                hunspell.Dispose();
+            }
+
             this.document = document;
 
             string dll = System.IO.Path.GetDirectoryName(
                 System.Reflection.Assembly.GetExecutingAssembly().Location);
 
-            Hunspell.NativeDllPath = dll;
+            try
+            {
+                if (Hunspell.NativeDllPath != dll)
+                {
+                    Hunspell.NativeDllPath = dll;
+                }
+            } catch (System.Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
 
             #if DEBUG
+            //// SCaddinsApp.WindowManager.ShowMessageBox(System.IO.Path.Combine(dll, "Assets"));
             hunspell = new Hunspell(
-                            @"en_AU.aff",
-                            @"en_AU.dic");
+                            System.IO.Path.Combine(dll, @"Assets/en_AU.aff"),
+                            System.IO.Path.Combine(dll, @"Assets/en_AU.dic"));
             #else
             hunspell = new Hunspell(
                             System.IO.Path.Combine(Constants.InstallDirectory, "etc", "en_AU.aff"),

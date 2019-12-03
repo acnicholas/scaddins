@@ -182,10 +182,11 @@ namespace SCaddins
 
             ribbonPanel.AddStackedItems(
                 LoadSCincrement(scdll),
-                LoadSCincrementSettings(scdll),
-                LoadRunScript(scdll));
+                LoadSCincrementSettings(scdll));
 
-            ribbonPanel.AddItem(LoadAbout(scdll));
+            ribbonPanel.AddStackedItems(
+                LoadRunScript(scdll),
+                LoadAbout(scdll));
 
             return Result.Succeeded;
         }
