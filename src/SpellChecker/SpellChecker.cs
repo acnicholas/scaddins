@@ -161,6 +161,23 @@
             currentIndex = -1;
         }
 
+        private List<CorrectionCandidate> GetTextNoteElements(Document doc)
+        {
+            var candidates = new List<CorrectionCandidate>();
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfCategory(BuiltInCategory.OST_TextNotes);
+            foreach (Element element in collector)
+            {
+                var note = (TextElement)element;
+                if (note != null)
+                {
+                    var cc = new CorrectionCandidate(note, hunspell, ref autoReplacementList);
+                    candidates.Add(cc);
+                }
+            }
+            return candidates;
+        }
+
         /// <summary>
         /// Get all user modifiable parameters in the revit doc.
         /// Only get parameters of string storage types, as there's not much point spell cheking numbers.
@@ -172,6 +189,10 @@
         {
             var candidates = new List<CorrectionCandidate>();
             var collector = new FilteredElementCollector(doc).WhereElementIsNotElementType();
+            var noteCollector = new FilteredElementCollector(doc).WhereElementIsNotElementType();
+
+            // Get TextNote Elements
+            candidates.AddRange(GetTextNoteElements(doc));
 
             foreach (Element element in collector)
             {

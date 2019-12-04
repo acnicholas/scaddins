@@ -37,8 +37,8 @@
         <StackPanel Grid.Column="1" Orientation="Vertical">
             <Button x:Name="IgnoreOnce" Margin="5">Ignore Once</Button>
             <Button x:Name="IgnoreAll"   Margin="5">Ignore All</Button>
-            <Button x:Name="Change" Margin="5">Change</Button>
-            <Button x:Name="ChangeAll"  Margin="5">Change All</Button>
+            <Button x:Name="Change" Margin="5">Replace</Button>
+            <Button x:Name="ChangeAll"  Margin="5">Replace All</Button>
             <Button Margin="5" IsEnabled="False">Add To Dictionary</Button>
         </StackPanel>
         <Grid Grid.Row="1" Grid.ColumnSpan="2">

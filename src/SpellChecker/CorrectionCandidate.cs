@@ -13,11 +13,13 @@
         private Hunspell hunspell;
         private string[] originalWords;
         private Parameter parameter;
+        private TextElement textElement;
         private Regex rgx;
 
         public CorrectionCandidate(Parameter parameter, Hunspell hunspell, ref Dictionary<string, string> autoReplacementList)
         {
             this.parameter = parameter;
+            this.textElement = null;
             this.hunspell = hunspell;
             this.autoReplacementList = autoReplacementList;
             OriginalText = parameter.AsString();
@@ -26,6 +28,28 @@
                 originalWords = OriginalText.Split(delimiterChars);
                 NewText = OriginalText;
             } else {
+                originalWords = null;
+                NewText = OriginalText;
+            }
+            currentIndex = -1;
+            rgx = new Regex(@"^.*[\d]+.*$");
+        }
+
+        public CorrectionCandidate(TextElement textElement, Hunspell hunspell, ref Dictionary<string, string> autoReplacementList)
+        {
+            this.parameter = null;
+            this.textElement = textElement;
+            this.hunspell = hunspell;
+            this.autoReplacementList = autoReplacementList;
+            OriginalText = textElement.Text;
+            char[] delimiterChars = { ' ', ',', '.', ':', '\t', '\\', '/', '(', ')', '<', '>' };
+            if (!string.IsNullOrEmpty(OriginalText))
+            {
+                originalWords = OriginalText.Split(delimiterChars);
+                NewText = OriginalText;
+            }
+            else
+            {
                 originalWords = null;
                 NewText = OriginalText;
             }
@@ -45,7 +69,20 @@
             get; private set;
         }
 
-        public string TypeString => parameter.Element.GetType().ToString();
+        public string TypeString
+        {
+            get
+            {
+                if (parameter != null)
+                {
+                    return parameter.Element.GetType().ToString();
+                }
+                else
+                {
+                    return textElement.GetType().ToString();
+                }
+            }
+        }
 
         private string CurrentAsString => (string)Current;
 
@@ -78,8 +115,20 @@
         public bool Rename()
         {
             if (IsModified) {
-                if (!parameter.IsReadOnly) {
+                if (parameter != null && !parameter.IsReadOnly) {
                     return parameter.Set(NewText);
+                }
+                else
+                {
+                    try
+                    {
+                        textElement.Text = NewText;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                    return true;
                 }
             }
             return false;
