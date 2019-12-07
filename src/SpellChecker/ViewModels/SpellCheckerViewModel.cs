@@ -1,6 +1,22 @@
-﻿namespace SCaddins.SpellChecker.ViewModels
+﻿// (C) Copyright 2019 by Andrew Nicholas (andrewnicholas@iinet.net.au)
+//
+// This file is part of SCaddins.
+//
+// SCaddins is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// SCaddins is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
+
+namespace SCaddins.SpellChecker.ViewModels
 {
-    using System;
     using System.Collections.Generic;
     using System.Dynamic;
     using System.Linq;
@@ -100,6 +116,7 @@
         public void Apply()
         {
             // FIXME put this in command.
+            manager.ProcessAllAutoReplacements();
             manager.CommitSpellingChangesToModel();
             TryClose(true);
         }
@@ -112,6 +129,8 @@
         public void Change()
         {
             manager.CurrentCandidate.ReplaceCurrent(ReplacementText);
+
+            // Find the next spelling error
             Next();
         }
 
@@ -119,17 +138,22 @@
         {
             manager.CurrentCandidate.ReplaceCurrent(ReplacementText);
             manager.AddToAutoReplacementList(UnknownWord, ReplacementText);
+
+            // Find the next spelling error
             Next();
         }
 
         public void IgnoreAll()
         {
             manager.IgnoreAll();
+
+            // Find the next spelling error
             Next();
         }
 
         public void IgnoreOnce()
         {
+            // Find the next spelling error
             Next();
         }
 
@@ -139,9 +163,10 @@
             var result = SCaddinsApp.WindowManager.ShowDialog(viewModel, null, SpellCheckerOptionsViewModel.DefaultWindowSettings);
         }
 
+        // Find the next spelling error
         private void Next()
         {
-            if (manager.MoveNext())
+            if (!manager.MoveNext())
             {
                 NotifyOfPropertyChange(() => UnknownWord);
                 NotifyOfPropertyChange(() => Suggestions);

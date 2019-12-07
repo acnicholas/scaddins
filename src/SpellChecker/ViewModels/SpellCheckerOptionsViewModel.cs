@@ -49,6 +49,13 @@
 
             SpellCheckerSettings.Default.ElementIgnoreList = collecton;
             SpellCheckerSettings.Default.Save();
+
+            TryClose(true);
+        }
+
+        public void Cancel()
+        {
+            TryClose(false);
         }
     }
 }

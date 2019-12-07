@@ -1,4 +1,21 @@
-﻿namespace SCaddins.SpellChecker
+﻿// (C) Copyright 2019 by Andrew Nicholas (andrewnicholas@iinet.net.au)
+//
+// This file is part of SCaddins.
+//
+// SCaddins is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// SCaddins is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
+
+namespace SCaddins.SpellChecker
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -90,6 +107,9 @@
             autoReplacementList.Add(word, replacement);
         }
 
+        /// <summary>
+        /// Commit text changes to the the current mode.
+        /// </summary>
         public void CommitSpellingChangesToModel()
         {
             int fails = 0;
@@ -125,7 +145,7 @@
                 return new List<string>();
             }
             if (hunspell != null && allTextParameters.Count > 0 && currentIndex < allTextParameters.Count) {
-                return hunspell.Suggest(allTextParameters[currentIndex].Current as string);
+                return hunspell.Suggest(allTextParameters[currentIndex].CurrentAsString);
             }
             return new List<string>();
         }
@@ -138,22 +158,49 @@
             hunspell.Add(CurrentUnknownWord);
         }
 
+        /// <summary>
+        /// Attempt to move to the next word.
+        /// 
+        /// </summary>
+        /// <returns>
+        /// return false if a spelling error is found. true to move to the next string.
+        /// </returns>
         public bool MoveNext()
         {
+            // No point running if there are no elements to check.
             if (allTextParameters == null || allTextParameters.Count <= 0) {
                 return false;
             }
+
+            // Run till a spelling error is found.
             while (currentIndex < allTextParameters.Count) {
                 if (currentIndex == -1)
                 {
                     currentIndex = 0;
                 }
-                if (allTextParameters[currentIndex].MoveNext()) {
+
+                // Skip if type is in the ignore list.
+                if (SpellCheckerSettings.Default.ElementIgnoreList.Contains(CurrentCandidate.TypeString)) {
+                    currentIndex++;
                     return true;
+                }
+
+                if (!allTextParameters[currentIndex].MoveNext()) {
+                    return false;
                 }
                 currentIndex++;
             }
-            return false;
+
+            // A move to the next candiate is possible.
+            return true;
+        }
+
+        public void ProcessAllAutoReplacements()
+        {
+            Reset();
+            while (currentIndex < allTextParameters.Count) {
+                MoveNext();
+            }
         }
 
         public void Reset()
