@@ -40,6 +40,7 @@
             <Button x:Name="Change" Margin="5">Replace</Button>
             <Button x:Name="ChangeAll"  Margin="5">Replace All</Button>
             <Button Margin="5" IsEnabled="False">Add To Dictionary</Button>
+            <Button x:Name="Show" Margin="5" >Show Element</Button>
         </StackPanel>
         <Grid Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>

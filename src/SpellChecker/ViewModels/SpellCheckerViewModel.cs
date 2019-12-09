@@ -163,6 +163,23 @@ namespace SCaddins.SpellChecker.ViewModels
             var result = SCaddinsApp.WindowManager.ShowDialog(viewModel, null, SpellCheckerOptionsViewModel.DefaultWindowSettings);
         }
 
+        public void Show()
+        {
+            if (manager.CurrentCandidate != null)
+            {
+                var uiapp = new Autodesk.Revit.UI.UIApplication(manager.Document.Application);
+                Autodesk.Revit.DB.Element e = manager.Document.GetElement(manager.CurrentCandidate.ParentElementId);
+                if (e is Autodesk.Revit.DB.View)
+                {
+                    uiapp.ActiveUIDocument.ActiveView = (Autodesk.Revit.DB.View)e;
+                }
+                else
+                {
+                    uiapp.ActiveUIDocument.ShowElements(e.Id);
+                }
+            }
+        }
+
         // Find the next spelling error
         private void Next()
         {

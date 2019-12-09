@@ -97,6 +97,8 @@ namespace SCaddins.SpellChecker
         /// </summary>
         public string CurrentUnknownWord => CurrentCandidate.Current as string;
 
+        public Autodesk.Revit.DB.Document Document => document;
+
         private int SafeCurrentIndex => currentIndex < allTextParameters.Count ? currentIndex : allTextParameters.Count - 1;
 
         public void AddToAutoReplacementList(string word, string replacement)
@@ -182,7 +184,7 @@ namespace SCaddins.SpellChecker
                 // Skip if type is in the ignore list.
                 if (SpellCheckerSettings.Default.ElementIgnoreList.Contains(CurrentCandidate.TypeString)) {
                     currentIndex++;
-                    return true;
+                    continue;
                 }
 
                 if (!allTextParameters[currentIndex].MoveNext()) {
@@ -236,7 +238,7 @@ namespace SCaddins.SpellChecker
         {
             var candidates = new List<CorrectionCandidate>();
             var collector = new FilteredElementCollector(doc).WhereElementIsNotElementType();
-            var noteCollector = new FilteredElementCollector(doc).WhereElementIsNotElementType();
+            //// var noteCollector = new FilteredElementCollector(doc).WhereElementIsNotElementType();
 
             // Get TextNote Elements
             candidates.AddRange(GetTextNoteElements(doc));

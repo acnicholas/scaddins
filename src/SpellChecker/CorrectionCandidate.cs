@@ -78,6 +78,13 @@ namespace SCaddins.SpellChecker
 
         public string CurrentAsString => (string)Current;
 
+        public ElementId ParentElementId {
+            get
+            {
+                return parameter != null ? parameter.Element.Id : textElement.Id;
+            }
+        }
+
         public bool IsModified => !string.Equals(this.OriginalText, this.NewText, System.StringComparison.CurrentCulture);
 
         public string NewText {
