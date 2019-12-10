@@ -35,7 +35,6 @@ namespace SCaddins.SpellChecker.ViewModels
             if (manager.MoveNext())
             {
                 unknownWord = ((CorrectionCandidate)manager.Current).Current as string;
-                //// SCaddinsApp.WindowManager.ShowMessageBox(BadSpelling);
             }
         }
 
@@ -160,7 +159,11 @@ namespace SCaddins.SpellChecker.ViewModels
         public void Options()
         {
             var viewModel = new SpellCheckerOptionsViewModel();
-            var result = SCaddinsApp.WindowManager.ShowDialog(viewModel, null, SpellCheckerOptionsViewModel.DefaultWindowSettings);
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(viewModel, null, SpellCheckerOptionsViewModel.DefaultWindowSettings);
+            if (result.HasValue && result.Value)
+            {
+                manager.UpdateIgnoreList();
+            }
         }
 
         public void Show()

@@ -30,6 +30,7 @@ namespace SCaddins.SpellChecker
         private int currentIndex;
         private Document document;
         private Hunspell hunspell;
+        private List<string> ignoreList;
 
         public SpellChecker(Document document)
         {
@@ -39,6 +40,9 @@ namespace SCaddins.SpellChecker
             }
 
             this.document = document;
+
+            ignoreList = new List<string>();
+            UpdateIgnoreList();
 
             string dll = System.IO.Path.GetDirectoryName(
                 System.Reflection.Assembly.GetExecutingAssembly().Location);
@@ -182,7 +186,7 @@ namespace SCaddins.SpellChecker
                 }
 
                 // Skip if type is in the ignore list.
-                if (SpellCheckerSettings.Default.ElementIgnoreList.Contains(CurrentCandidate.TypeString)) {
+                if (ignoreList.Contains(CurrentCandidate.TypeString)) {
                     currentIndex++;
                     continue;
                 }
@@ -208,6 +212,18 @@ namespace SCaddins.SpellChecker
         public void Reset()
         {
             currentIndex = -1;
+        }
+
+        public void UpdateIgnoreList()
+        {
+            ignoreList.Clear();
+            foreach (var ignore in SpellCheckerSettings.Default.ElementIgnoreList)
+            {
+                if (!ignore.Trim().StartsWith(@"#"))
+                {
+                    ignoreList.Add(ignore);
+                }
+            }
         }
 
         private List<CorrectionCandidate> GetTextNoteElements(Document doc)
