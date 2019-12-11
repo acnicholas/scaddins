@@ -59,7 +59,7 @@ namespace SCaddins.SpellChecker
             this.hunspell = hunspell;
             this.autoReplacementList = autoReplacementList;
             OriginalText = textElement.Text;
-            char[] delimiterChars = { ' ', ',', '.', ':', '\t', '\\', '/', '(', ')', '<', '>' };
+            char[] delimiterChars = { ' ', ',', '.', ':', '\t', '\\', '/', '(', ')', '<', '>', '\r' };
             if (!string.IsNullOrEmpty(OriginalText))
             {
                 originalWords = OriginalText.Split(delimiterChars);
