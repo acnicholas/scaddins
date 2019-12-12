@@ -74,9 +74,21 @@ namespace SCaddins.SpellChecker
             rgx = new Regex(@"^.*[\d]+.*$");
         }
 
-        public object Current => originalWords[currentIndex].Trim();
+        public object Current
+        {
+            get
+            {
+                return currentIndex < originalWords.Length && currentIndex != -1 ? originalWords[currentIndex].Trim() : null;
+            }
+        }
 
-        public string CurrentAsString => (string)Current;
+        public string CurrentAsString
+        {
+            get
+            {
+                return Current != null ? (string)Current : string.Empty;
+            }
+        }
 
         public ElementId ParentElementId {
             get

@@ -36,6 +36,10 @@ namespace SCaddins.SpellChecker.ViewModels
             {
                 unknownWord = ((CorrectionCandidate)manager.Current).Current as string;
             }
+            if (manager.GetCurrentSuggestions().Count > 0)
+            {
+                ReplacementText = manager.GetCurrentSuggestions().First();
+            }
         }
 
         public static dynamic DefaultWindowSettings {
