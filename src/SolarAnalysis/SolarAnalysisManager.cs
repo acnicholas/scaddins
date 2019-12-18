@@ -21,6 +21,7 @@ namespace SCaddins.SolarAnalysis
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
+    using System.Linq;
     using System.Text;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
@@ -84,7 +85,12 @@ namespace SCaddins.SolarAnalysis
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
+            // not required when using ReferenceIntersector 
             var solids = SolidsFromReferences(massSelection, uidoc.Document);
+
+            // create a ReferenceIntersection
+            var ids = massSelection.Select(s => s.ElementId).ToList();
+            var referenceIntersector = new ReferenceIntersector(ids, FindReferenceTarget.All, view as View3D);
 
             Transaction t = new Transaction(uidoc.Document);
             t.Start("testSolarVectorLines");
@@ -133,21 +139,37 @@ namespace SCaddins.SolarAnalysis
                                 start = start.Add(testFace.Face.ComputeNormal(uv).Normalize() / 16);
                                 var sunDirection = GetSunDirectionalVector(uidoc.ActiveView, GetProjectPosition(uidoc.Document), out var _);
                                 var end = start.Subtract(sunDirection.Multiply(1000));
-                                ////BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
+
+                                //// use this only for testing.
+                                //// BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
+                                
                                 var line = Line.CreateBound(start, end);
 
-                                foreach (var solid in solids) {
-                                    try {
+                                ////var ri = referenceIntersector.Find(start, -sunDirection);
+                                ////if (ri.Count > 0)
+                                ////{
+                                ////    hoursOfSun = hoursOfSun - interval;
+                                ////}
+
+                                // Brute Force
+                                // remove if ReferenceIntersector is faster...
+                                foreach (var solid in solids)
+                                {
+                                    try
+                                    {
                                         var solidInt = solid.IntersectWithCurve(line, new SolidCurveIntersectionOptions());
-                                        if (solidInt.SegmentCount > 0) {
+                                        if (solidInt.SegmentCount > 0)
+                                        {
                                             hoursOfSun = hoursOfSun - interval;
                                             break;
                                         }
-                                    } catch (Exception exception) {
+                                    }
+                                    catch (Exception exception)
+                                    {
                                         Console.WriteLine(exception.Message);
                                     }
                                 }
-                            } ////ray loop
+                            }
                             testFace.AddValueAtPoint(uv, hoursOfSun);
                         }
                     }

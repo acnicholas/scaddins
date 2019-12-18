@@ -15,6 +15,8 @@ First release for Revit 2020
 
 - New hatch editor tool.
 - New model setup wizard
+- New cs-script runner (BETA)
+- New spell checker (BETA)
 
 #19.1#
 
