@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2016-2018 by Andrew Nicholas
+﻿// (C) Copyright 2016-2020 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -49,7 +49,7 @@ namespace SCaddins.RoomConverter
         {
             parameter = ParamFromString(room, parameterName);
 
-            // FIXME add OR oprion one day.
+            // FIXME add OR option one day.
             if (lo != LogicalOperator.And)
             {
                 return false;

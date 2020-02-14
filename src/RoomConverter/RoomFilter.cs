@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2016 by Andrew Nicholas
+﻿// (C) Copyright 2016-2020 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -54,12 +54,10 @@ namespace SCaddins.RoomConverter
         {
             foreach (RoomFilterItem item in filters)
             {
-                ////if (item.IsValid()) {
                 if (item != null && !item.PassesFilter(room))
                 {
                     return false;
                 }
-                ////}
             }
             return true;
         }

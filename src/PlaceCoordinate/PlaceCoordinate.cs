@@ -1,4 +1,4 @@
-// (C) Copyright 2014 by Andrew Nicholas (andrewnicholas@iinet.net.au)
+// (C) Copyright 2014-2020 by Andrew Nicholas (andrewnicholas@iinet.net.au)
 //
 // This file is part of SCaddins.
 // SCaddins is free software: you can redistribute it and/or modify

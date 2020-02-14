@@ -522,8 +522,6 @@ namespace SCaddins.ExportManager.ViewModels
             }
             NotifyOfPropertyChange(() => Sheets);
             NotifyOfPropertyChange(() => InvlaidFileNamingStatusText);
-            ////this.Refresh();
-            //// NotifyOfPropertyChange(() => StatusText);
         }
 
         public void SaveViewSet()

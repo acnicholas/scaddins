@@ -136,7 +136,6 @@ namespace SCaddins.RoomConverter
                     var e = (FamilySymbol)element;
                     var s = e.Family.Name + "-" + e.Name;
                     if (!result.ContainsKey(s)) {
-                        //// Autodesk.Revit.UI.TaskDialog.Show("test", "titleblock found:" + s + " - " + e.Id.ToString());
                         result.Add(s, e.Id);
                     }
                 }

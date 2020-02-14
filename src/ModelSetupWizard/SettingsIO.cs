@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2019 by Andrew Nicholas
+﻿// (C) Copyright 2019-2020 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -36,7 +36,6 @@ namespace SCaddins.ModelSetupWizard
             {
                 var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
                 string appSettingsXmlName = ModelSetupWizardSettings.Default.Context["GroupName"].ToString();
-                //// SCaddinsApp.WindowManager.ShowMessageBox(appSettingsXmlName);
 
                 // Open settings file as XML
                 var import = XDocument.Load(settingsFilePath);

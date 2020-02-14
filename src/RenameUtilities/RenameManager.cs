@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2017-2018 by Andrew Nicholas
+﻿// (C) Copyright 2017-2020 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -300,11 +300,6 @@ namespace SCaddins.RenameUtilities
                 }
             }
         }
-
-        ////private static string GetIncrementedValue(string val, string search, string replace)
-        ////{
-        ////    return string.Empty;
-        ////}
 
         private static Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByCategory(BuiltInCategory category, Document doc)
         {

@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2018 by Andrew Nicholas
+﻿// (C) Copyright 2018-2020 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -27,7 +27,6 @@ namespace SCaddins.RoomConverter.ViewModels
     public class RoomFilterViewModel : Screen
     {
         private string comparisonFieldOne = string.Empty;
-        ////private string comparisonFieldThree = string.Empty;
         private string comparisonFieldTwo = string.Empty;
         private RoomFilter filter;
         private RoomConversionManager manager;

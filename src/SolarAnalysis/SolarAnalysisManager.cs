@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2013-2018 by Andrew Nicholas
+﻿// (C) Copyright 2013-2020 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -144,12 +144,6 @@ namespace SCaddins.SolarAnalysis
                                 //// BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
                                 
                                 var line = Line.CreateBound(start, end);
-
-                                ////var ri = referenceIntersector.Find(start, -sunDirection);
-                                ////if (ri.Count > 0)
-                                ////{
-                                ////    hoursOfSun = hoursOfSun - interval;
-                                ////}
 
                                 // Brute Force
                                 // remove if ReferenceIntersector is faster...

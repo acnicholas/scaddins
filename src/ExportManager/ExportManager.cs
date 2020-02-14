@@ -1,4 +1,4 @@
-// (C) Copyright 2012-2019 by Andrew Nicholas
+// (C) Copyright 2012-2020 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -644,13 +644,6 @@ namespace SCaddins.ExportManager
             var mainWindowTitle = Process.GetCurrentProcess().MainWindowTitle;
             return mainWindowTitle.Contains("VIEWER");
         }
-
-////        private static string PercentageSting(int n, int total)
-////        {
-////            var result = "Exporting " + n + " of " + total +
-////                " (" + (int)((n / (double)total) * 100) + @"%)";
-////            return result;
-////        }
 
         private static ObservableCollection<ViewSetItem> GetAllViewSheetSets(Document doc)
         {

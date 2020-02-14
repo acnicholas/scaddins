@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2019 by Andrew Nicholas
+﻿// (C) Copyright 2019-2020 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -34,17 +34,6 @@ namespace SCaddins.ModelSetupWizard
             if (commandData == null) {
                 return Result.Failed;
             }
-
-            // Enable worsharing if required
-            // Fix me add this at start
-            ////if (doc.IsWorkshared == false)
-            ////{
-            ////    var addWorksets = SCaddinsApp.WindowManager.ShowYesNoDialog("Enable Worksharing", "Worksharing is not yet enabled. Do you want to enable it now?", false);
-            ////    if (addWorksets)
-            ////    {
-            ////        doc.EnableWorksharing("Shared Levels and Grids", "Workset1");
-            ////    }
-            ////}
 
             dynamic settings = new ExpandoObject();
             settings.Height = 480;

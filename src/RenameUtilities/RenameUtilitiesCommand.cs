@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2017 by Andrew Nicholas
+﻿// (C) Copyright 2017-2020 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -39,17 +39,6 @@ namespace SCaddins.RenameUtilities
             {
                 return Result.Failed;
             }
-
-            //// IList<ElementId> elems = commandData.Application.ActiveUIDocument.Selection.GetElementIds().ToList<ElementId>();
-
-            ////if (elems.Count > 0) {
-            ////    using (var t = new TransactionGroup(doc, "Convert selected text to uppercase")) {
-            ////        t.Start();
-            ////        RenameManager.ConvertSelectionToUppercase(doc, elems);
-            ////        t.Commit();
-            ////    }
-            ////     return Result.Succeeded;
-            ////}
 
             RenameManager manager = new RenameManager(doc);
             var vm = new ViewModels.RenameUtilitiesViewModel(manager);

@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2019 by Andrew Nicholas (andrewnicholas@iinet.net.au)
+﻿// (C) Copyright 2019-2020 by Andrew Nicholas (andrewnicholas@iinet.net.au)
 //
 // This file is part of SCaddins.
 //
@@ -254,7 +254,6 @@ namespace SCaddins.SpellChecker
         {
             var candidates = new List<CorrectionCandidate>();
             var collector = new FilteredElementCollector(doc).WhereElementIsNotElementType();
-            //// var noteCollector = new FilteredElementCollector(doc).WhereElementIsNotElementType();
 
             // Get TextNote Elements
             candidates.AddRange(GetTextNoteElements(doc));
