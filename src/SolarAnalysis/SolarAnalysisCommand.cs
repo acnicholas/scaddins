@@ -41,7 +41,11 @@ namespace SCaddins.SolarAnalysis
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SolarViewsViewModel.DefaultViewSettings);
 
             if (vm.CreateAnalysisView) {
+                #if REVIT2021
+                var internalUnitsGridSize = UnitUtils.ConvertToInternalUnits(vm.AnalysisGridSize, UnitTypeId.Millimeters);
+                #else
                 var internalUnitsGridSize = UnitUtils.ConvertToInternalUnits(vm.AnalysisGridSize, DisplayUnitType.DUT_MILLIMETERS);
+                #endif
                 SolarAnalysisManager.CreateTestFaces(vm.FaceSelection, vm.MassSelection, internalUnitsGridSize, udoc, udoc.ActiveView);
             }
 

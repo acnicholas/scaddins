@@ -169,14 +169,20 @@ namespace SCaddins.SolarAnalysis
                                 }
                             }
                             totalUVPoints++;
-                            if (hoursOfSun >= 2) totalUVPointsWith2PlusHours++;
+
+                            if (hoursOfSun >= 2)
+                            {
+                                totalUVPointsWith2PlusHours++;
+                            }
+
                             testFace.AddValueAtPoint(uv, hoursOfSun);
-                            //dump to file
-                            //string path = @"c:\temp\UVHours.txt";
-                            //using (StreamWriter sw = File.AppendText(path))
-                            //{
-                            //    sw.WriteLine(uv.U + "," + uv.V + "," + hoursOfSun);
-                            //}
+
+                            ////dump to file
+                            ////string path = @"c:\temp\UVHours.txt";
+                            ////using (StreamWriter sw = File.AppendText(path))
+                            ////{
+                            ////    sw.WriteLine(uv.U + "," + uv.V + "," + hoursOfSun);
+                            ////}
                         }
                     }
                 }
@@ -244,7 +250,7 @@ namespace SCaddins.SolarAnalysis
         public static ProjectPosition GetProjectPosition(Document doc)
         {
             var projectLocation = doc.ActiveProjectLocation;
-            #if REVIT2018 || REVIT2019 || REVIT2020
+            #if REVIT2018 || REVIT2019 || REVIT2020 || REVIT2021
             return projectLocation.GetProjectPosition(XYZ.Zero);
             #else
             return projectLocation.get_ProjectPosition(XYZ.Zero);
@@ -303,7 +309,7 @@ namespace SCaddins.SolarAnalysis
                 foreach (var element in c) {
                     var view = (View)element;
                     var v = view;
-                    #if REVIT2019 || REVIT2020
+                    #if REVIT2019 || REVIT2020 || REVIT2021
                     if (v.Name == name) {
                         return false;
                     }

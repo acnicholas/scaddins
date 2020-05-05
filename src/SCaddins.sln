@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2041
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCaddins", "SCaddins.csproj", "{AD62F888-78A1-4E0B-9820-5989630FC8C6}"
 EndProject
@@ -23,6 +23,8 @@ Global
 		Release2019|x64 = Release2019|x64
 		Release2020|Any CPU = Release2020|Any CPU
 		Release2020|x64 = Release2020|x64
+		Release2021|Any CPU = Release2021|Any CPU
+		Release2021|x64 = Release2021|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Debug|Any CPU.ActiveCfg = Debug|x64
@@ -53,6 +55,10 @@ Global
 		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2020|Any CPU.Build.0 = Release2020|x64
 		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2020|x64.ActiveCfg = Release2020|x64
 		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2020|x64.Build.0 = Release2020|x64
+		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2021|Any CPU.ActiveCfg = Release2021|Any
+		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2021|Any CPU.Build.0 = Release2021|Any
+		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2021|x64.ActiveCfg = Release2021|x64
+		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2021|x64.Build.0 = Release2021|x64
 		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Debug|x64.ActiveCfg = Debug|x64
 		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Debug|x64.Build.0 = Debug|x64
@@ -70,6 +76,8 @@ Global
 		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Release2019|x64.Build.0 = Release2019|x64
 		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Release2020|Any CPU.ActiveCfg = Release2019|x64
 		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Release2020|x64.ActiveCfg = Release2019|x64
+		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Release2021|Any CPU.ActiveCfg = Release2021|Any CPU
+		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Release2021|x64.ActiveCfg = Release2021|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

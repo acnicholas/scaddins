@@ -449,7 +449,7 @@ namespace SCaddins.RoomConverter
                 }
 
                 var eid = new ElementId(BuiltInCategory.OST_Mass);
-                #if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020
+                #if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020 || REVIT2021
                 DirectShape roomShape = DirectShape.CreateElement(doc, eid);
                 #else
                 DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
@@ -476,7 +476,7 @@ namespace SCaddins.RoomConverter
                     return false;
                 }
 
-                    #if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020
+                    #if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020 || REVIT2021
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid);
                     #else
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
@@ -533,7 +533,7 @@ namespace SCaddins.RoomConverter
                 using (Solid roomSolid = results.GetGeometry())
                 {
                     var eid = new ElementId(BuiltInCategory.OST_Mass);
-                    #if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020
+                    #if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020 || REVIT2021
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid);
                     #else
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
