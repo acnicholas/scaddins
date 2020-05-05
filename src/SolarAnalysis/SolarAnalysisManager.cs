@@ -21,6 +21,7 @@ namespace SCaddins.SolarAnalysis
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
     using System.Text;
     using Autodesk.Revit.Attributes;
@@ -76,6 +77,9 @@ namespace SCaddins.SolarAnalysis
 
         public static void CreateTestFaces(IList<Reference> faceSelection, IList<Reference> massSelection, double analysysGridSize, UIDocument uidoc, View view)
         {
+            double totalUVPoints = 0;
+            double totalUVPointsWith2PlusHours = 0;
+
             if (faceSelection == null) {
                 return;
             }
@@ -164,7 +168,15 @@ namespace SCaddins.SolarAnalysis
                                     }
                                 }
                             }
+                            totalUVPoints++;
+                            if (hoursOfSun >= 2) totalUVPointsWith2PlusHours++;
                             testFace.AddValueAtPoint(uv, hoursOfSun);
+                            //dump to file
+                            //string path = @"c:\temp\UVHours.txt";
+                            //using (StreamWriter sw = File.AppendText(path))
+                            //{
+                            //    sw.WriteLine(uv.U + "," + uv.V + "," + hoursOfSun);
+                            //}
                         }
                     }
                 }
@@ -181,7 +193,9 @@ namespace SCaddins.SolarAnalysis
 
             t.Commit();
             stopwatch.Stop();
-            SCaddinsApp.WindowManager.ShowMessageBox("Time Elapsed", "Time elepsed " + stopwatch.Elapsed.ToString() + @"(hh:mm:ss:uu)");
+            var percent = totalUVPointsWith2PlusHours / totalUVPoints * 100;
+            var percentString = percent.ToString();
+            SCaddinsApp.WindowManager.ShowMessageBox("Summary", "Time elepsed " + stopwatch.Elapsed.ToString() + @"(hh:mm:ss:uu), Percent above 2hrs: " + percentString);
         }
 
         /// <summary>
