@@ -607,6 +607,7 @@
     <Compile Include="DestructivePurge\DestructivePurge.cs" />
     <Compile Include="DestructivePurge\DestructivePurgeCommand.cs" />
     <Compile Include="DestructivePurge\DeletableItem.cs" />
+    <Compile Include="ViewUtilities\Pin.cs" />
     <Compile Include="ViewUtilities\ViewUnderlays.cs" />
     <Compile Include="ViewUtilities\RemoveUnderlaysCommand.cs" />
     <Compile Include="ViewUtilities\UserView.cs" />
