@@ -18,6 +18,7 @@
 namespace SCaddins.ViewUtilities
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Autodesk.Revit.DB;
     using SCaddins.ExportManager;
 
@@ -31,9 +32,7 @@ namespace SCaddins.ViewUtilities
                 {
                     foreach (var sheet in sheets)
                     {
-                        PinTitle(sheet, doc);
-                        PinViewsOnSheet(sheet.Sheet, doc);
-                        ////PinSheetAnnotations(sheet.Sheet, doc);
+                        PinAll(sheet.Sheet, doc);
                     }
                     t.Commit();
                 }
@@ -45,24 +44,23 @@ namespace SCaddins.ViewUtilities
             }
         }
 
-        private static void PinViewsOnSheet(ViewSheet sheet, Document doc)
+        private static void PinAll(ViewSheet sheet, Document doc)
         {
-            var views = sheet.GetAllPlacedViews();
-            foreach (var viewId in views)
+            var filter = new FilteredElementCollector(doc, sheet.Id);
+            //// SCaddinsApp.WindowManager.ShowMessageBox("Pinning: " + filter.Count()+ " elements");
+            var pinnedCount = 0;
+            foreach (var elem in filter)
             {
-                var view = doc.GetElement(viewId);
-                view.Pinned = true;
+                if (elem is ScheduleSheetInstance)
+                {
+                    continue;
+                }
+                pinnedCount++;
+                //// SCaddinsApp.WindowManager.ShowMessageBox(elem.Name + "-" + elem.GetType());
+                elem.Pinned = true;
             }
-        }
+            //// SCaddinsApp.WindowManager.ShowMessageBox("Pinned: " + pinnedCount + " elements");
 
-        ////private static void PinSheetAnnotations(ViewSheet sheet, Document doc)
-        ////{
-        ////   //todo
-        ////}
-
-        private static void PinTitle(ExportSheet sheet, Document doc)
-        {
-            Manager.TitleBlockInstanceFromSheetNumber(sheet.SheetNumber, doc).Pinned = true;
         }
     }
 }
