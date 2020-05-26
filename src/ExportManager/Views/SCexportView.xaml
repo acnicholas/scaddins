@@ -235,10 +235,10 @@
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Pin Sheet Contents" cal:Message.Attach="PinSheetContents">
-                        <!--<MenuItem.Icon>
+                        <MenuItem.Icon>
                             <Image
-                                Source="/SCaddins;component/Assets/underlay.png" />
-                        </MenuItem.Icon>-->
+                                Source="/SCaddins;component/Assets/pin.png" />
+                        </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Remove Underlays From View" cal:Message.Attach="RemoveUnderlays">
                         <MenuItem.Icon>
