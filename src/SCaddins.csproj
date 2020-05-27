@@ -629,6 +629,7 @@
       <Link>Assets\en_AU.dic</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Assets\filter.png" />
     <Resource Include="Assets\pin.png" />
     <None Include="app.config" />
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
