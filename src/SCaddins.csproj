@@ -607,6 +607,7 @@
     <Compile Include="DestructivePurge\DestructivePurge.cs" />
     <Compile Include="DestructivePurge\DestructivePurgeCommand.cs" />
     <Compile Include="DestructivePurge\DeletableItem.cs" />
+    <Compile Include="ViewUtilities\Pin.cs" />
     <Compile Include="ViewUtilities\ViewUnderlays.cs" />
     <Compile Include="ViewUtilities\RemoveUnderlaysCommand.cs" />
     <Compile Include="ViewUtilities\UserView.cs" />
@@ -628,6 +629,8 @@
       <Link>Assets\en_AU.dic</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Assets\filter.png" />
+    <Resource Include="Assets\pin.png" />
     <None Include="app.config" />
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
     <None Include="ModelSetupWizard\ModelSetupWizardSettings.settings">
@@ -807,7 +810,6 @@
     <Resource Include="Assets\config.png" />
     <Resource Include="Assets\doc.png" />
     <Resource Include="Assets\edit.png" />
-    <Resource Include="Assets\filter.png" />
     <Resource Include="Assets\find.png" />
     <Resource Include="Assets\keyboard.png" />
     <Resource Include="Assets\remove_filter.png" />

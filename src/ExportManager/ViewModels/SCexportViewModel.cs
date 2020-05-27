@@ -473,6 +473,13 @@ namespace SCaddins.ExportManager.ViewModels
             NotifyOfPropertyChange(() => StatusText);
         }
 
+        public void PinSheetContents()
+        {
+            ////ViewUtilities.UserView.ShowSummaryDialog(
+            ViewUtilities.Pin.PinSheetContents(selectedSheets, exportManager.Doc);
+            ////);
+        }
+
         public void PrintButton()
         {
             isClosing = true;
