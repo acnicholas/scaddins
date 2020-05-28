@@ -12,7 +12,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <OutputType>Library</OutputType>
     <RootNamespace>SCaddins</RootNamespace>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <TargetFrameworkProfile />
     <NoWin32Manifest>True</NoWin32Manifest>
@@ -161,6 +161,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2016|Any'">
     <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2021|x64'">
+    <OutputPath>bin\Release2021\</OutputPath>
+    <DefineConstants>TRACE;REVIT2021</DefineConstants>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <DebugType>None</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2021|Any'">
+    <OutputPath>bin\Any\Release2021\</OutputPath>
+    <DefineConstants>TRACE;REVIT2020</DefineConstants>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <DebugType>None</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2016'">
       <HintPath>C:\Program Files\Autodesk\Revit 2016\AdWindows.dll</HintPath>
@@ -180,6 +200,9 @@
     </Reference>
     <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2020'">
       <HintPath>C:\Program Files\Autodesk\Revit 2020\AdWindows.dll</HintPath>
+    </Reference>
+    <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2021'">
+      <HintPath>C:\Program Files\Autodesk\Revit 2021\AdWindows.dll</HintPath>
     </Reference>
     <Reference Include="CSScriptLibrary, Version=3.29.0.0, Culture=neutral, PublicKeyToken=70fcc3d18c749033, processorArchitecture=MSIL">
       <HintPath>packages\CS-Script.bin.3.29.0\lib\net46\CSScriptLibrary.dll</HintPath>
@@ -250,6 +273,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Autodesk\Revit 2020\RevitAPIUI.dll</HintPath>
     </Reference>
+    <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2021'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2021\RevitAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="RevitAPIUI" Condition="'$(Configuration)'=='Release2021'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2021\RevitAPIUI.dll</HintPath>
+    </Reference>
     <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
@@ -273,9 +304,6 @@
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
-    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
@@ -292,12 +320,6 @@
     </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml">
@@ -585,6 +607,7 @@
     <Compile Include="DestructivePurge\DestructivePurge.cs" />
     <Compile Include="DestructivePurge\DestructivePurgeCommand.cs" />
     <Compile Include="DestructivePurge\DeletableItem.cs" />
+    <Compile Include="ViewUtilities\Pin.cs" />
     <Compile Include="ViewUtilities\ViewUnderlays.cs" />
     <Compile Include="ViewUtilities\RemoveUnderlaysCommand.cs" />
     <Compile Include="ViewUtilities\UserView.cs" />
@@ -606,6 +629,8 @@
       <Link>Assets\en_AU.dic</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Assets\filter.png" />
+    <Resource Include="Assets\pin.png" />
     <None Include="app.config" />
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
     <None Include="ModelSetupWizard\ModelSetupWizardSettings.settings">
@@ -785,7 +810,6 @@
     <Resource Include="Assets\config.png" />
     <Resource Include="Assets\doc.png" />
     <Resource Include="Assets\edit.png" />
-    <Resource Include="Assets\filter.png" />
     <Resource Include="Assets\find.png" />
     <Resource Include="Assets\keyboard.png" />
     <Resource Include="Assets\remove_filter.png" />

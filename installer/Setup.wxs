@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0"?>
-<?define Version = "!(bind.fileVersion.SCaddins2019.dll)" ?>
+<?define Version = "!(bind.fileVersion.SCaddins2021.dll)" ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
     <Product Id="*"
         Name="SCaddins - SC Revit Addins (64 bit)"
@@ -69,6 +69,16 @@
                     <ComponentRef Id="SCaddinsEtc" />
                     <ComponentRef Id="SCexportConfigProto" />
                     <ComponentRef Id="SCaddinsRFA2020" />
+                </Feature>
+                <?endif?>
+				
+				<?if $(env.R2021) = Enabled ?> 
+                <Feature Id="Revit2021" Level="1" Title="SCaddins for Revit 2021">
+                    <ComponentRef Id="SCaddins2021" />
+                    <ComponentRef Id="SCaddinsAddin2021" />
+                    <ComponentRef Id="SCaddinsEtc" />
+                    <ComponentRef Id="SCexportConfigProto" />
+                    <ComponentRef Id="SCaddinsRFA2021" />
                 </Feature>
                 <?endif?>
 

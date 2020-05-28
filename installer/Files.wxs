@@ -51,6 +51,14 @@
 							</Component>
 							<?endif?>
 						</Directory>
+						<Directory Id="RFAFILES2021" Name="2021">
+							<?if $(env.R2021) = Enabled ?>
+							<Component Id="SCaddinsRFA2021" Guid="51edd854-7d41-4913-bf33-3062674db7b9" Win64="yes" DiskId="1">
+								<CreateFolder />
+								<File Id="_021.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2021\SC-Survey_Point.rfa" />
+							</Component>
+							<?endif?>
+						</Directory>
 					</Directory>
 				</Directory>
 				<Directory Name="etc" Id="ETCDIR">
@@ -153,6 +161,24 @@
 					</Component>
 				</Directory>
 				<?endif?>
+				<?if $(env.R2021) = Enabled ?>
+				<Directory Id="DLLDIR2021" Name="2021">
+					<Component Id="SCaddins2021" Guid="a82f26a7-ea65-4d81-8ae4-785c4921eb0d" Win64="yes" DiskId="1">
+						<CreateFolder />
+						<File Id="SCaddins2021.dll" Name="SCaddins.dll" Source="..\src\bin\Release2021\SCaddins.dll" />
+						<File Id="Newtonsoft.Json.dll.21" Name="Newtonsoft.Json.dll" Source="..\src\bin\Release2021\Newtonsoft.Json.dll" />
+						<File Id="CM21" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2021\Caliburn.Micro.dll" />
+						<File Id="CMP21" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2021\Caliburn.Micro.Platform.dll" />
+						<File Id="CMPC21" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2021\Caliburn.Micro.Platform.Core.dll" />
+						<File Id="CSSL21" Name="CSScriptLibrary.dll" Source="..\src\bin\Release2021\CSScriptLibrary.dll" />
+            			<File Id="IFP21" Name="INIFileParser.dll" Source="..\src\bin\Release2021\INIFileParser.dll" />
+            			<File Id="XTK21" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2021\Xceed.Wpf.Toolkit.dll" />
+            			<File Id="HUN21" Name="NHunspell.dll" Source="..\src\bin\Release2021\NHunspell.dll" />
+            			<File Id="HUN21N" Name="Hunspellx64.dll" Source="..\src\bin\Release2021\Hunspellx64.dll" />
+            			<File Id="AE21" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2021\ICSharpCode.AvalonEdit.dll" />
+					</Component>
+				</Directory>
+				<?endif?>
 			</Directory>
 		</Directory>
 	</Directory>
@@ -197,6 +223,14 @@
 						<Component Id="SCaddinsAddin2020" Guid="c6f66526-f851-4d92-a5bd-2b857345828d" DiskId="1">
 							<CreateFolder />
 							<File Id="SCADDINS20.ADDIN" Name="SCaddins20.addin" Source="..\src\bin\Release2020\SCaddins2020.addin" />
+						</Component>
+					</Directory>
+					<?endif?>
+					<?if $(env.R2020) = Enabled ?>
+					<Directory Id="SCaddinsAddin2021Directory" Name="2021">
+						<Component Id="SCaddinsAddin2021" Guid="4886bb0d-d060-49de-865c-2ddbe2107389" DiskId="1">
+							<CreateFolder />
+							<File Id="SCADDINS21.ADDIN" Name="SCaddins21.addin" Source="..\src\bin\Release2021\SCaddins2021.addin" />
 						</Component>
 					</Directory>
 					<?endif?>

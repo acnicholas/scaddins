@@ -20,6 +20,7 @@ namespace SCaddins.ExportManager
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using System.Collections.Generic;
     using static SCaddinsApp;
 
     [Transaction(TransactionMode.Manual)]
@@ -53,6 +54,9 @@ namespace SCaddins.ExportManager
             {
                 return Result.Failed;
             }
+
+            // Deselect all elements before continuing so they don't appear incorrectly
+            uidoc.Selection.SetElementIds(new List<ElementId>());
 
             var manager = new Manager(uidoc);
             var log = new ExportLog();
