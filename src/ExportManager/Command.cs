@@ -17,10 +17,10 @@
 
 namespace SCaddins.ExportManager
 {
+    using System.Collections.Generic;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using System.Collections.Generic;
     using static SCaddinsApp;
 
     [Transaction(TransactionMode.Manual)]

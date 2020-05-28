@@ -47,20 +47,14 @@ namespace SCaddins.ViewUtilities
         private static void PinAll(ViewSheet sheet, Document doc)
         {
             var filter = new FilteredElementCollector(doc, sheet.Id);
-            //// SCaddinsApp.WindowManager.ShowMessageBox("Pinning: " + filter.Count()+ " elements");
-            var pinnedCount = 0;
             foreach (var elem in filter)
             {
                 if (elem is ScheduleSheetInstance)
                 {
                     continue;
                 }
-                pinnedCount++;
-                //// SCaddinsApp.WindowManager.ShowMessageBox(elem.Name + "-" + elem.GetType());
                 elem.Pinned = true;
             }
-            //// SCaddinsApp.WindowManager.ShowMessageBox("Pinned: " + pinnedCount + " elements");
-
         }
     }
 }
