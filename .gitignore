@@ -45,6 +45,8 @@ _ReSharper*/
 
 #Project files
 [Bb]uild/
+Hunspellx86.dll
+Hunspellx64.dll
 
 #Subversion files
 .svn
