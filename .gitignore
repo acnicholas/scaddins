@@ -29,6 +29,8 @@ obj/
 [Bb]in
 [Dd]ebug*/
 [Rr]elease*/
+scaddins.wiki/
+BuildDate.txt
 Ankh.NoLoad
 
 #MonoDevelop
