@@ -1,6 +1,6 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <?define Version = "!(bind.fileVersion.SCaddins2021.dll)" ?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
     <Product Id="*"
         Name="SCaddins - SC Revit Addins (64 bit)"
         Language="1033"
@@ -18,6 +18,11 @@
                 <Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
         
                 <util:CloseApplication Id="CloseRevit" RebootPrompt="no" EndSessionMessage="yes" Target="revit.exe" />
+
+                <PropertyRef Id='WIXNETFX4RELEASEINSTALLED'/>
+                <Condition Message='This setup requires the .NET Framework 4.8 (or greater) to be installed.'>
+                    <![CDATA[Installed OR (WIXNETFX4RELEASEINSTALLED >= "#528040")]]>
+                </Condition>
 
                 <!-- Installation directory and files are defined in Files.wxs -->
                 <Directory Id="TARGETDIR" Name="SourceDir"/>	
