@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
-  <Import Project="packages\WiX.3.10.3\build\wix.props" Condition="Exists('packages\WiX.3.10.3\build\wix.props')" />
+  <Import Project="packages\WiX.3.11.2\build\wix.props" Condition="Exists('packages\WiX.3.11.2\build\wix.props')" />
   <PropertyGroup>
     <ProjectGuid>{FC00A9A2-1FAF-4809-9223-2D361F60B767}</ProjectGuid>
     <!--<ProjectTypeGuids>{CFEE4113-1246-4D54-95CB-156813CB8593}</ProjectTypeGuids>-->
@@ -16,6 +16,8 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x64' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -32,20 +34,6 @@
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
   </PropertyGroup>
-  <ItemGroup>
-    <WixExtension Include="WixNetFxExtension">
-      <HintPath>$(WixExtDir)\WixNetFxExtension.dll</HintPath>
-      <Name>WixNetFxExtension</Name>
-    </WixExtension>
-    <WixExtension Include="WixUtilExtension">
-      <HintPath>packages\WiX.3.10.3\tools\WixUtilExtension.dll</HintPath>
-      <Name>WixUtilExtension</Name>
-    </WixExtension>
-    <WixExtension Include="WixUIExtension.dll">
-      <HintPath>WixUIExtension.dll</HintPath>
-      <Name>WixUIExtension.dll</Name>
-    </WixExtension>
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="Files.wxs" />
     <Compile Include="Setup.wxs" />
@@ -96,13 +84,33 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>packages\WiX.3.11.2\tools\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>packages\WiX.3.11.2\tools\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixNetFxExtension">
+      <HintPath>packages\WiX.3.11.2\tools\WixNetFxExtension.dll</HintPath>
+      <Name>WixNetFxExtension</Name>
+    </WixExtension>
+  </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
-<Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
   <Target Name="AfterBuild">
     <GetAssemblyIdentity AssemblyFiles="..\src\bin\Release2019\SCaddins.dll">
       <Output TaskParameter="Assemblies" ItemName="AssemblyVersion" />
     </GetAssemblyIdentity>
     <Copy SourceFiles=".\bin\$(Configuration)\$(OutputName).msi" DestinationFiles=".\bin\$(Configuration)\SCaddins-win64-%(AssemblyVersion.Version).msi" />
     <Delete Files=".\bin\$(Configuration)\$(OutputName).msi" />
+  </Target>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\WiX.3.11.2\build\wix.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\WiX.3.11.2\build\wix.props'))" />
   </Target>
 </Project>
