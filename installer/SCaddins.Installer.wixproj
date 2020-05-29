@@ -35,8 +35,18 @@
     <Optimize>True</Optimize>
   </PropertyGroup>
   <ItemGroup>
-    <WixExtension Include="packages\WiX.3.10.3\tools\WixUtilExtension.dll" />
-    <WixExtension Include="WixUIExtension.dll" />
+    <WixExtension Include="WixNetFxExtension">
+      <HintPath>$(WixExtDir)\WixNetFxExtension.dll</HintPath>
+      <Name>WixNetFxExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>packages\WiX.3.10.3\tools\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUIExtension.dll">
+      <HintPath>WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension.dll</Name>
+    </WixExtension>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Files.wxs" />

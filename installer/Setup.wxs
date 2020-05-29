@@ -20,7 +20,7 @@
                 <util:CloseApplication Id="CloseRevit" RebootPrompt="no" EndSessionMessage="yes" Target="revit.exe" />
 
                 <PropertyRef Id='WIXNETFX4RELEASEINSTALLED'/>
-                <Condition Message='This setup requires the .NET Framework 4.8 (or greater) to be installed.'>
+                <Condition Message='SCaddins requires .NET Framework 4.8 (or greater) to be installed.'>
                     <![CDATA[Installed OR (WIXNETFX4RELEASEINSTALLED >= "#528040")]]>
                 </Condition>
 
