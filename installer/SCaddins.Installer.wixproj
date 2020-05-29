@@ -9,8 +9,6 @@
     <OutputType>Package</OutputType>
     <RootNamespace>SCaddins.Installer</RootNamespace>
     <OutputName>SCaddins</OutputName>
-    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
-    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <SupressIces>ICE45</SupressIces>
     <SuppressIces>ICE61</SuppressIces>
     <DefineSolutionProperties>false</DefineSolutionProperties>
@@ -98,7 +96,8 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
-  <Import Project="$(WixTargetsPath)" />
+  <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
+<Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
   <Target Name="AfterBuild">
     <GetAssemblyIdentity AssemblyFiles="..\src\bin\Release2019\SCaddins.dll">
       <Output TaskParameter="Assemblies" ItemName="AssemblyVersion" />
