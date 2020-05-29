@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2018-2020 by Andrew Nicholas
+// (C) Copyright 2018-2020 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -51,7 +51,7 @@ namespace SCaddins.LineOfSight.ViewModels
                 if (Math.Abs(value - lineOfSight.DistanceToFirstRowX) > tolerance) {
                     try {
                         lineOfSight.DistanceToFirstRowX = value;
-                        //NotifyOfPropertyChange(() => DistanceToFirstRowX);
+                        //// NotifyOfPropertyChange(() => DistanceToFirstRowX);
                         NotifyOfPropertyChange(() => InfoString);
                     } catch {
                         //// FIXME somehow....
@@ -70,7 +70,7 @@ namespace SCaddins.LineOfSight.ViewModels
             set
             {
                 lineOfSight.DistanceToFirstRowY = value;
-                //NotifyOfPropertyChange(() => DistanceToFirstRowY);
+                //// NotifyOfPropertyChange(() => DistanceToFirstRowY);
                 NotifyOfPropertyChange(() => InfoString);
             }
         }
