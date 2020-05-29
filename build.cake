@@ -138,7 +138,7 @@ Task("Installer")
 		Environment.SetEnvironmentVariable("R2021", APIAvailable("2021") ? "Enabled" : "Disabled");
 		var settings = new MSBuildSettings();
 		settings.SetConfiguration("Release");
-		settings.WithTarget("Clean,Build");
+		settings.WithTarget("Rebuild");
 		settings.SetVerbosity(Verbosity.Minimal);
 		settings.WorkingDirectory = new DirectoryPath(Environment.CurrentDirectory + @"\installer");
 		MSBuild(solutionFileWix, settings);  
