@@ -147,7 +147,8 @@ namespace SCaddins.ExportManager
         {
             var config = Manager.GetConfigFileName(doc);
             if (File.Exists(config)) {
-                Process.Start(Settings1.Default.TextEditor, config);
+                var process = Process.Start(Settings1.Default.TextEditor, config);
+                process.Dispose();
             } else {
                 SCaddinsApp.WindowManager.ShowMessageBox("SCexport", "config file does not exist");
             }

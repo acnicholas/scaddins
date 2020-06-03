@@ -19,6 +19,7 @@ namespace SCaddins.ExportManager.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Dynamic;
     using System.Linq;
     using Caliburn.Micro;
@@ -287,13 +288,7 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public List<SegmentedSheetName> FileNamingSchemes
-        {
-            get
-            {
-                return exportManager.FileNameTypes;
-            }
-        }
+        public ObservableCollection<SegmentedSheetName> FileNamingSchemes => exportManager.FileNameTypes;
 
         public bool ForceDateForAllRevisions
         {
@@ -471,6 +466,12 @@ namespace SCaddins.ExportManager.ViewModels
         public void EditProjectConfigFile()
         {
             FileUtilities.EditConfigFile(exportManager.Doc);
+
+            //// Apply any new config settings now.
+            exportManager.PopulateSheets(exportManager.AllSheets);
+            NotifyOfPropertyChange(() => FileNamingSchemes);
+            NotifyOfPropertyChange(() => SelectedFileNamingScheme);
+            //this.Refresh();
         }
 
         public void SelectA3Printer()
