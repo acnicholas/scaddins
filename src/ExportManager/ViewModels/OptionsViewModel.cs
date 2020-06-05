@@ -19,6 +19,7 @@ namespace SCaddins.ExportManager.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Dynamic;
     using System.Linq;
     using Caliburn.Micro;
@@ -26,10 +27,18 @@ namespace SCaddins.ExportManager.ViewModels
     internal class OptionsViewModel : PropertyChangedBase
     {
         private Manager exportManager;
+        private BindableCollection<string> fileNamingSchemes;
+        private string selectedFileNamingScheme;
 
         public OptionsViewModel(Manager exportManager)
         {
             this.exportManager = exportManager;
+            fileNamingSchemes = new BindableCollection<string>();
+            foreach (var s in exportManager.FileNameTypes)
+            {
+                FileNamingSchemes.Add(s.Name);
+            }
+            selectedFileNamingScheme = exportManager.FileNameScheme.Name;
         }
 
         public static List<Autodesk.Revit.DB.ACADVersion> AutoCADExportVersions {
@@ -287,11 +296,18 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public List<SegmentedSheetName> FileNamingSchemes
+        public BindableCollection<string> FileNamingSchemes
         {
             get
             {
-                return exportManager.FileNameTypes;
+                return fileNamingSchemes;
+            }
+
+            set
+            {
+                fileNamingSchemes = value;
+                NotifyOfPropertyChange(() => FileNamingSchemes);
+                NotifyOfPropertyChange(() => SelectedFileNamingScheme);
             }
         }
 
@@ -410,19 +426,25 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public SegmentedSheetName SelectedFileNamingScheme
+        public string SelectedFileNamingScheme
         {
             get
             {
-                return exportManager.FileNameScheme;
+                return selectedFileNamingScheme;
             }
 
             set
             {
-                if (value == exportManager.FileNameScheme) {
+                if (value == selectedFileNamingScheme) {
                     return;
                 }
-                exportManager.FileNameScheme = value;
+                if (value == null)
+                {
+                    return;
+                }
+                selectedFileNamingScheme = value;
+                exportManager.SetFileNameScheme(value);
+                NotifyOfPropertyChange(() => SelectedFileNamingScheme);
             }
         }
 
@@ -470,7 +492,14 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void EditProjectConfigFile()
         {
-            FileUtilities.EditConfigFile(exportManager.Doc);
+            FileUtilities.EditConfigFileModal(exportManager.Doc);
+            exportManager.LoadConfigFile();
+            FileNamingSchemes.Clear();
+            foreach (var s in exportManager.FileNameTypes)
+            {
+                FileNamingSchemes.Add(s.Name);
+            }
+            SelectedFileNamingScheme = exportManager.FileNameScheme.Name;
         }
 
         public void SelectA3Printer()

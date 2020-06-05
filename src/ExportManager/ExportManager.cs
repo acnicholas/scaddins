@@ -44,14 +44,11 @@ namespace SCaddins.ExportManager
         private static string activeDoc;
         // ReSharper disable once InconsistentNaming
         private static Dictionary<string, FamilyInstance> titleBlocks;
-        private readonly ObservableCollection<ExportSheet> allSheets;
-        private readonly ObservableCollection<ViewSetItem> allViewSheetSets;
         private readonly Dictionary<string, PostExportHookCommand> postExportHooks;
         private bool dateForEmptyRevisions;
         private string exportDirectory;
         private ExportOptions exportFlags;
         private SegmentedSheetName fileNameScheme;
-        private List<SegmentedSheetName> fileNameTypes;
         private bool forceDate;
         
         public Manager(UIDocument uidoc)
@@ -62,14 +59,15 @@ namespace SCaddins.ExportManager
             exportDirectory = Constants.DefaultExportDirectory;
             ConfirmOverwrite = true;
             activeDoc = null;
-            allViewSheetSets = GetAllViewSheetSets(Doc);
-            allSheets = new ObservableCollection<ExportSheet>();
-            fileNameTypes = new List<SegmentedSheetName>();
+            AllViewSheetSets = GetAllViewSheetSets(Doc);
+            AllSheets = new ObservableCollection<ExportSheet>();
+            FileNameTypes = new ObservableCollection<SegmentedSheetName>();
             postExportHooks = new Dictionary<string, PostExportHookCommand>();
             exportFlags = ExportOptions.None;
             LoadSettings();
             SetDefaultFlags();
-            PopulateSheets(allSheets);
+            LoadConfigFile();
+            PopulateSheets(AllSheets);
             FixAcrotrayHang();
         }
 
@@ -83,9 +81,9 @@ namespace SCaddins.ExportManager
 
         public static string ForceRasterPrintParameterName => Settings1.Default.UseRasterPrinterParameter;
 
-        public ObservableCollection<ExportSheet> AllSheets => allSheets;
+        public ObservableCollection<ExportSheet> AllSheets { get; }
 
-        public ObservableCollection<ViewSetItem> AllViewSheetSets => allViewSheetSets;
+        public ObservableCollection<ViewSetItem> AllViewSheetSets { get; }
 
         public Document Doc {
             get; set;
@@ -103,7 +101,7 @@ namespace SCaddins.ExportManager
             {
                 if (value != null) {
                     exportDirectory = value;
-                    foreach (ExportSheet sheet in allSheets) {
+                    foreach (ExportSheet sheet in AllSheets) {
                         sheet.ExportDirectory = value;
                     }
                 }
@@ -116,15 +114,13 @@ namespace SCaddins.ExportManager
             set
             {
                 fileNameScheme = value;
-                foreach (ExportSheet sheet in allSheets) {
+                foreach (ExportSheet sheet in AllSheets) {
                     sheet.SetSegmentedSheetName(fileNameScheme);
                 }
             }
         }
 
-        public List<SegmentedSheetName> FileNameTypes {
-            get { return fileNameTypes; }
-        }
+        public ObservableCollection<SegmentedSheetName> FileNameTypes { get; }
 
         public bool ForceRevisionToDateString
         {
@@ -136,7 +132,7 @@ namespace SCaddins.ExportManager
             set
             {
                 forceDate = value;
-                foreach (ExportSheet sheet in allSheets)
+                foreach (ExportSheet sheet in AllSheets)
                 {
                     sheet.ForceDate = value;
                 }
@@ -193,7 +189,7 @@ namespace SCaddins.ExportManager
             set
             {
                 dateForEmptyRevisions = value;
-                foreach (ExportSheet sheet in allSheets)
+                foreach (ExportSheet sheet in AllSheets)
                 {
                     sheet.UseDateForEmptyRevisions = value;
                 }
@@ -564,14 +560,14 @@ namespace SCaddins.ExportManager
         [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Caliburn.Micro")]
         public void SetFileNameScheme(string newScheme)
         {
-            foreach (SegmentedSheetName scheme in fileNameTypes)
+            foreach (SegmentedSheetName scheme in FileNameTypes)
             {
                 if (newScheme == scheme.Name)
                 {
-                    fileNameScheme = scheme;
-                    foreach (ExportSheet sheet in allSheets)
+                    FileNameScheme = scheme;
+                    foreach (ExportSheet sheet in AllSheets)
                     {
-                        sheet.SetSegmentedSheetName(fileNameScheme);
+                        sheet.SetSegmentedSheetName(FileNameScheme);
                     }
                 }
             }
@@ -596,7 +592,7 @@ namespace SCaddins.ExportManager
                     return;
                 }
                 if (PrintSettings.SetPrinterByName(Doc, PdfPrinterName, pm)) {
-                    foreach (ExportSheet sc in allSheets) {
+                    foreach (ExportSheet sc in AllSheets) {
                         if (!sc.Verified) {
                             sc.UpdateSheetInfo();
                         }
@@ -605,6 +601,37 @@ namespace SCaddins.ExportManager
             }
             catch {
                 Debug.WriteLine("Update error in ExportManager.");
+            }
+        }
+
+        internal void LoadConfigFile()
+        {
+            FileNameTypes.Clear();
+            var config = GetConfigFileName(Doc);
+            var b = ImportXMLinfo(config);
+            if (!b || FileNameTypes.Count <= 0)
+            {
+                var name = new SegmentedSheetName();
+                name.Name = "YYYYMMDD-AD-NNN";
+                name.NameFormat = "$projectNumber-$sheetNumber[$sheetRevision]";
+                FileNameTypes.Add(name);
+                FileNameScheme = name;
+            }
+        }
+
+        internal void PopulateSheets(ObservableCollection<ExportSheet> s)
+        {
+            s.Clear();
+            using (var collector = new FilteredElementCollector(Doc))
+            {
+                collector.OfCategory(BuiltInCategory.OST_Sheets);
+                collector.OfClass(typeof(ViewSheet));
+                foreach (var element in collector)
+                {
+                    var v = (ViewSheet)element;
+                    var scxSheet = new ExportSheet(v, Doc, FileNameTypes[0], VerifyOnStartup, this);
+                    s.Add(scxSheet);
+                }
             }
         }
 
@@ -953,9 +980,12 @@ namespace SCaddins.ExportManager
             if (!File.Exists(filename)) {
                 return false;
             }
+            ////return true;
             if (!ValidateXML(filename)) {
                 return false;
             }
+
+            postExportHooks.Clear();
 
 #pragma warning disable CA3075 // Insecure DTD processing in XML
             using (var reader = new XmlTextReader(filename)) {
@@ -1007,42 +1037,18 @@ namespace SCaddins.ExportManager
                                 }
                             }
                         } while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == "FilenameScheme"));
-                        fileNameTypes.Add(name);
+                        FileNameTypes.Add(name);
                     }
                 }
 
-                if (fileNameTypes.Count > 0) {
-                    fileNameScheme = fileNameTypes[0];
-                    foreach (ExportSheet sheet in allSheets) {
-                        sheet.SetSegmentedSheetName(fileNameScheme);
+                if (FileNameTypes.Count > 0) {
+                    FileNameScheme = FileNameTypes[0];
+                    foreach (ExportSheet sheet in AllSheets) {
+                        sheet.SetSegmentedSheetName(FileNameScheme);
                     }
                 }
             }
             return true;
-        }
-
-        private void PopulateSheets(ObservableCollection<ExportSheet> s)
-        {
-            var config = GetConfigFileName(Doc);
-            var b = ImportXMLinfo(config);
-            if (!b || fileNameTypes.Count <= 0) {
-                var name = new SegmentedSheetName();
-                name.Name = "YYYYMMDD-AD-NNN";
-                name.NameFormat = "$projectNumber-$sheetNumber[$sheetRevision]";
-                fileNameTypes.Add(name);
-                fileNameScheme = name;
-            }
-
-            s.Clear();
-            using (var collector = new FilteredElementCollector(Doc)) {
-                collector.OfCategory(BuiltInCategory.OST_Sheets);
-                collector.OfClass(typeof(ViewSheet));
-                foreach (var element in collector) {
-                    var v = (ViewSheet)element;
-                    var scxSheet = new ExportSheet(v, Doc, fileNameTypes[0], VerifyOnStartup, this);
-                    s.Add(scxSheet);
-                }
-            }
         }
 
         private void RunExportHooks(string extension, ExportSheet vs)
@@ -1050,11 +1056,11 @@ namespace SCaddins.ExportManager
             for (int i = 0; i < postExportHooks.Count; i++) {
                 if (postExportHooks.ElementAt(i).Value.HasExtension(extension))
                 {
-                    if (fileNameScheme.Hooks.Count < 1) {
+                    if (FileNameScheme.Hooks.Count < 1) {
                         return;
                     }
 
-                    if (fileNameScheme.Hooks.Contains(postExportHooks.ElementAt(i).Key)) {
+                    if (FileNameScheme.Hooks.Contains(postExportHooks.ElementAt(i).Key)) {
                         postExportHooks.ElementAt(i).Value.Run(vs, extension);
                     }
                 }
@@ -1096,14 +1102,16 @@ namespace SCaddins.ExportManager
                                 settings.Schemas.Add(null, @"C:\Andrew\code\cs\scaddins\etc\SCexport.xsd");
 #endif
                 settings.ValidationType = ValidationType.Schema;
-                XmlReader reader = XmlReader.Create(filename, settings);
+                using (XmlReader reader = XmlReader.Create(filename, settings))
+                {
 #pragma warning disable CA3075 // Insecure DTD processing in XML
-                var document = new XmlDocument();
+                    var document = new XmlDocument();
 #pragma warning restore CA3075 // Insecure DTD processing in XML
-                document.Load(reader);
-                var eventHandler =
-                    new ValidationEventHandler(ValidationEventHandler);
-                document.Validate(eventHandler);
+                    document.Load(reader);
+                    var eventHandler =
+                        new ValidationEventHandler(ValidationEventHandler);
+                    document.Validate(eventHandler);
+                }
                 return true;
             } catch (XmlSchemaValidationException ex) {
                 errorMessage += "Error reading xml file:" + filename + " - " + ex.Message;
