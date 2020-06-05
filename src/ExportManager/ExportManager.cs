@@ -44,9 +44,6 @@ namespace SCaddins.ExportManager
         private static string activeDoc;
         // ReSharper disable once InconsistentNaming
         private static Dictionary<string, FamilyInstance> titleBlocks;
-        private readonly ObservableCollection<ExportSheet> allSheets;
-        private readonly ObservableCollection<ViewSetItem> allViewSheetSets;
-        private ObservableCollection<SegmentedSheetName> fileNameTypes;
         private readonly Dictionary<string, PostExportHookCommand> postExportHooks;
         private bool dateForEmptyRevisions;
         private string exportDirectory;
@@ -62,14 +59,15 @@ namespace SCaddins.ExportManager
             exportDirectory = Constants.DefaultExportDirectory;
             ConfirmOverwrite = true;
             activeDoc = null;
-            allViewSheetSets = GetAllViewSheetSets(Doc);
-            allSheets = new ObservableCollection<ExportSheet>();
-            fileNameTypes = new ObservableCollection<SegmentedSheetName>();
+            AllViewSheetSets = GetAllViewSheetSets(Doc);
+            AllSheets = new ObservableCollection<ExportSheet>();
+            FileNameTypes = new ObservableCollection<SegmentedSheetName>();
             postExportHooks = new Dictionary<string, PostExportHookCommand>();
             exportFlags = ExportOptions.None;
             LoadSettings();
             SetDefaultFlags();
-            PopulateSheets(allSheets);
+            LoadConfigFile();
+            PopulateSheets(AllSheets);
             FixAcrotrayHang();
         }
 
@@ -83,9 +81,9 @@ namespace SCaddins.ExportManager
 
         public static string ForceRasterPrintParameterName => Settings1.Default.UseRasterPrinterParameter;
 
-        public ObservableCollection<ExportSheet> AllSheets => allSheets;
+        public ObservableCollection<ExportSheet> AllSheets { get; }
 
-        public ObservableCollection<ViewSetItem> AllViewSheetSets => allViewSheetSets;
+        public ObservableCollection<ViewSetItem> AllViewSheetSets { get; }
 
         public Document Doc {
             get; set;
@@ -103,7 +101,7 @@ namespace SCaddins.ExportManager
             {
                 if (value != null) {
                     exportDirectory = value;
-                    foreach (ExportSheet sheet in allSheets) {
+                    foreach (ExportSheet sheet in AllSheets) {
                         sheet.ExportDirectory = value;
                     }
                 }
@@ -116,14 +114,13 @@ namespace SCaddins.ExportManager
             set
             {
                 fileNameScheme = value;
-                foreach (ExportSheet sheet in allSheets) {
+                foreach (ExportSheet sheet in AllSheets) {
                     sheet.SetSegmentedSheetName(fileNameScheme);
                 }
             }
         }
 
-        public ObservableCollection<SegmentedSheetName> FileNameTypes => fileNameTypes;
-
+        public ObservableCollection<SegmentedSheetName> FileNameTypes { get; }
 
         public bool ForceRevisionToDateString
         {
@@ -135,7 +132,7 @@ namespace SCaddins.ExportManager
             set
             {
                 forceDate = value;
-                foreach (ExportSheet sheet in allSheets)
+                foreach (ExportSheet sheet in AllSheets)
                 {
                     sheet.ForceDate = value;
                 }
@@ -192,7 +189,7 @@ namespace SCaddins.ExportManager
             set
             {
                 dateForEmptyRevisions = value;
-                foreach (ExportSheet sheet in allSheets)
+                foreach (ExportSheet sheet in AllSheets)
                 {
                     sheet.UseDateForEmptyRevisions = value;
                 }
@@ -568,7 +565,7 @@ namespace SCaddins.ExportManager
                 if (newScheme == scheme.Name)
                 {
                     FileNameScheme = scheme;
-                    foreach (ExportSheet sheet in allSheets)
+                    foreach (ExportSheet sheet in AllSheets)
                     {
                         sheet.SetSegmentedSheetName(FileNameScheme);
                     }
@@ -595,7 +592,7 @@ namespace SCaddins.ExportManager
                     return;
                 }
                 if (PrintSettings.SetPrinterByName(Doc, PdfPrinterName, pm)) {
-                    foreach (ExportSheet sc in allSheets) {
+                    foreach (ExportSheet sc in AllSheets) {
                         if (!sc.Verified) {
                             sc.UpdateSheetInfo();
                         }
@@ -607,7 +604,7 @@ namespace SCaddins.ExportManager
             }
         }
 
-        internal void PopulateSheets(ObservableCollection<ExportSheet> s)
+        internal void LoadConfigFile()
         {
             FileNameTypes.Clear();
             var config = GetConfigFileName(Doc);
@@ -620,7 +617,10 @@ namespace SCaddins.ExportManager
                 FileNameTypes.Add(name);
                 FileNameScheme = name;
             }
+        }
 
+        internal void PopulateSheets(ObservableCollection<ExportSheet> s)
+        {
             s.Clear();
             using (var collector = new FilteredElementCollector(Doc))
             {
@@ -1039,13 +1039,11 @@ namespace SCaddins.ExportManager
                         } while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == "FilenameScheme"));
                         FileNameTypes.Add(name);
                     }
-                    //// reader.Close();
-                    //// reader.Dispose();
                 }
 
                 if (FileNameTypes.Count > 0) {
                     FileNameScheme = FileNameTypes[0];
-                    foreach (ExportSheet sheet in allSheets) {
+                    foreach (ExportSheet sheet in AllSheets) {
                         sheet.SetSegmentedSheetName(FileNameScheme);
                     }
                 }

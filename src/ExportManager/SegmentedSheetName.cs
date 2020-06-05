@@ -18,25 +18,52 @@
 namespace SCaddins.ExportManager
 {
     using System.Collections.ObjectModel;
+    using System.ComponentModel;
     using System.Globalization;
-    
-    public class SegmentedSheetName
+    using System.Runtime.CompilerServices;
+
+    public class SegmentedSheetName : INotifyPropertyChanged
     {
+        private string name;
+        private string nameFormat;
+
         public SegmentedSheetName()
         {
             Hooks = new Collection<string>();
             // ReSharper disable once StringLiteralTypo
             Name = "YYYYMMDD-AD-NNN[R]";
         }
-        
-        public string Name {
-            get; set;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+
+            set
+            {
+                name = value;
+                NotifyPropertyChanged(nameof(Name));
+            }
         }
-        
-        public string NameFormat {
-            get; set;
+
+        public string NameFormat
+        {
+            get
+            {
+                return nameFormat;
+            }
+
+            set
+            {
+                nameFormat = value;
+                NotifyPropertyChanged(nameof(NameFormat));
+            }
         }
-    
+
         public Collection<string> Hooks { get; }
 
         public void AddHook(string hookName)
@@ -47,6 +74,14 @@ namespace SCaddins.ExportManager
         public override string ToString()
         {
             return string.Format(CultureInfo.InvariantCulture, "[SegmentedSheetName Hooks={0}, Name={1}, NameFormat={2}]", Hooks, Name, NameFormat);
+        }
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

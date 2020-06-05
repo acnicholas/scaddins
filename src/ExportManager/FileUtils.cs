@@ -153,6 +153,22 @@ namespace SCaddins.ExportManager
                 SCaddinsApp.WindowManager.ShowMessageBox("SCexport", "config file does not exist");
             }
         }
+
+        [SecurityCritical]
+        internal static void EditConfigFileModal(Document doc)
+        {
+            var config = Manager.GetConfigFileName(doc);
+            if (File.Exists(config))
+            {
+                var process = Process.Start(Settings1.Default.TextEditor, config);
+                process.WaitForExit();
+                process.Dispose();
+            }
+            else
+            {
+                SCaddinsApp.WindowManager.ShowMessageBox("SCexport", "config file does not exist");
+            }
+        }
     }
 }
 /* vim: set ts=4 sw=4 nu expandtab: */
