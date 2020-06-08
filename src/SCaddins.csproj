@@ -353,8 +353,13 @@
     <Compile Include="Common\Bootstrapper.cs" />
     <Compile Include="Common\IDialogService.cs" />
     <Compile Include="Common\MockDialogService.cs" />
+    <Compile Include="Common\Settings.cs" />
     <Compile Include="Common\ViewModels\AboutViewModel.cs" />
+    <Compile Include="Common\ViewModels\SettingsViewModel.cs" />
     <Compile Include="Common\ViewModels\UpgradeViewModel.cs" />
+    <Compile Include="Common\Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
@@ -660,6 +665,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Common\Views\SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Common\Views\AboutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
