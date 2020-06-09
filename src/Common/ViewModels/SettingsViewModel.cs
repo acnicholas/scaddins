@@ -1,25 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace SCaddins.Common.ViewModels
 {
 
     using Caliburn.Micro;
-    using System.ComponentModel.Composition;
-    using System.Diagnostics;
-    using System.Reflection;
     using ParameterUtilities.ViewModels;
+    using SCaddins.SheetCopier.ViewModels;
+    using SCaddins.ViewUtilities.ViewModels;
+    using SpellChecker.ViewModels;
 
-    class SettingsViewModel : PropertyChangedBase
+    class SettingsViewModel : Screen
     {
         private SCincrementViewModel incrementViewModel;
+        private RoomConverter.ViewModels.SettingsViewModel roomConverterViewModel;
+        private SheetCopierSettingsViewModel sheetCopierViewModel;
+        private ViewUtilitiesSettingsViewModel viewUtilitiesViewModel;
+        private SpellCheckerOptionsViewModel spellCheckerOptionsViewModel;
 
-        public SettingsViewModel(SCincrementViewModel svm)
+        public SettingsViewModel(
+            SCincrementViewModel svm,
+            RoomConverter.ViewModels.SettingsViewModel roomConverterViewModel,
+            SheetCopierSettingsViewModel sheetCopierViewModel,
+            ViewUtilitiesSettingsViewModel viewUtilitiesViewModel,
+            SpellCheckerOptionsViewModel spellCheckerOptionsViewModel
+            )
         {
             IncrementViewModel = svm;
+            RoomConverterViewModel = roomConverterViewModel;
+            SheetCopierViewModel = sheetCopierViewModel;
+            ViewUtilitiesViewModel = viewUtilitiesViewModel;
+            SpellCheckerOptionsViewModel = spellCheckerOptionsViewModel;
+        }
+
+        public RoomConverter.ViewModels.SettingsViewModel RoomConverterViewModel
+        {
+            get { return roomConverterViewModel; }
+            set
+            {
+                roomConverterViewModel = value;
+                NotifyOfPropertyChange(() => RoomConverterViewModel);
+            }
+
         }
 
         public SCincrementViewModel IncrementViewModel
@@ -29,6 +50,38 @@ namespace SCaddins.Common.ViewModels
             {
                 incrementViewModel = value;
                 NotifyOfPropertyChange(() => IncrementViewModel);
+            }
+        }
+
+        public SheetCopierSettingsViewModel SheetCopierViewModel
+        {
+            get { return sheetCopierViewModel; }
+            set
+            {
+                sheetCopierViewModel = value;
+                NotifyOfPropertyChange(() => SheetCopierViewModel); 
+                    
+            }
+        }
+
+        public SpellCheckerOptionsViewModel SpellCheckerOptionsViewModel
+        {
+            get { return spellCheckerOptionsViewModel; }
+            set
+            {
+                spellCheckerOptionsViewModel = value;
+                NotifyOfPropertyChange(() => SpellCheckerOptionsViewModel);
+            }
+        }
+
+        public ViewUtilitiesSettingsViewModel ViewUtilitiesViewModel
+        {
+            get { return viewUtilitiesViewModel; }
+            set
+            {
+                viewUtilitiesViewModel = value;
+                NotifyOfPropertyChange(() => ViewUtilitiesViewModel);
+
             }
         }
 

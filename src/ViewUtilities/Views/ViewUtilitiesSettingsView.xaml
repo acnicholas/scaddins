@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="SCaddins.ViewUtilities.Views.ViewUtilitiesSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SCaddins.ViewUtilities.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel Orientation="Vertical">
+        <GroupBox Header="Name Replacements">
+            <StackPanel Orientation="Vertical">
+                <TextBlock>
+                    Replacement strings: <LineBreak />
+                    $viewName <LineBreak />
+                    $date <LineBreak />
+                    $type <LineBreak />
+                    <LineBreak />
+                    for example: <LineBreak />
+                    AndrewN-$viewName-$date<LineBreak />
+                </TextBlock>
+                <TextBox>value goes here</TextBox>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Parameter Replacements">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0">
+                    View parameter settings.
+                </TextBlock>
+                <Label Grid.Row="1" Grid.Column="0" Margin="5">Param</Label>
+                <Label Grid.Row="1" Grid.Column="1" Margin="5">Value</Label>
+                <TextBox Grid.Row="2" Grid.Column="0" Margin="5">SC-View-Category</TextBox>
+                <TextBox Grid.Row="2" Grid.Column="1" Margin="5">User</TextBox>
+                <TextBox Grid.Row="3" Grid.Column="0" Margin="5">SC-View-Category</TextBox>
+                <TextBox Grid.Row="3" Grid.Column="1" Margin="5">User</TextBox>
+                <TextBox Grid.Row="4" Grid.Column="0" Margin="5">SC-View-Category</TextBox>
+                <TextBox Grid.Row="4" Grid.Column="1" Margin="5">User</TextBox>
+            </Grid>
+        </GroupBox>
+    </StackPanel>
+</UserControl>

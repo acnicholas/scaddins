@@ -10,10 +10,19 @@
             <TabItem Header="Increment Settings">
                 <ContentControl x:Name="IncrementViewModel"></ContentControl>
             </TabItem>
-            <TabItem Header="User View"></TabItem>
-            <TabItem Header="Copy Sheets"></TabItem>
-            <TabItem Header="SCexport"></TabItem>
-            <TabItem Header="Room Tools"></TabItem>
+            <TabItem Header="User View">
+                <ContentControl x:Name="ViewUtilitiesViewModel"></ContentControl>
+            </TabItem>
+            <TabItem Header="Copy Sheets">
+                <ContentControl x:Name="SheetCopierViewModel"></ContentControl>
+            </TabItem>
+            <!--<TabItem Header="SCexport"></TabItem>-->
+            <TabItem Header="Room Tools">
+                <ContentControl x:Name="RoomConverterViewModel"></ContentControl>
+            </TabItem>
+            <TabItem Header="Spelling">
+                <ContentControl x:Name="SpellCheckerOptionsViewModel"></ContentControl>
+            </TabItem>
         </TabControl>
     </Grid>
 </UserControl>
