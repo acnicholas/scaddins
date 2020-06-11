@@ -19,6 +19,7 @@ namespace SCaddins.ViewUtilities
 {
     using System;
     using System.Collections.Generic;
+    using System.Text.RegularExpressions;
     using Autodesk.Revit.DB;
     using Common;
 
@@ -149,17 +150,48 @@ namespace SCaddins.ViewUtilities
             return null;
         }
 
+        ////private static string GetNewViewName(Document doc, Element sourceView)
+        ////{
+        ////    if (doc == null || sourceView == null)
+        ////    {
+        ////        return string.Empty;
+        ////    }
+        ////    string name = sourceView.Name;
+
+        ////    // Revit wont allow { or } so replace them if they exist
+        ////    name = name.Replace(@"{", string.Empty).Replace(@"}", string.Empty);
+        ////    name = Environment.UserName + "-" + name + "-" + MiscUtilities.GetDateString;
+        ////    if (SolarAnalysis.SolarAnalysisManager.ViewNameIsAvailable(doc, name))
+        ////    {
+        ////        return name;
+        ////    }
+        ////    else
+        ////    {
+        ////        return SolarAnalysis.SolarAnalysisManager.GetNiceViewName(doc, name);
+        ////    }
+        ////}
+
         private static string GetNewViewName(Document doc, Element sourceView)
         {
             if (doc == null || sourceView == null)
             {
                 return string.Empty;
             }
-            string name = sourceView.Name;
+
+            string userName = Environment.UserName;
+            string date = MiscUtilities.GetDateString;
+            string name = ViewUtilitiesSettings.Default.UserViewNameFormat;
+
+            string pattern = @"(<<)(.*?)(>>)";
+            name = Regex.Replace(
+                name,
+                pattern,
+                m => RoomConverter.RoomConversionCandidate.GetParamValueAsString(ParamFromString(m.Groups[2].Value)));
 
             // Revit wont allow { or } so replace them if they exist
             name = name.Replace(@"{", string.Empty).Replace(@"}", string.Empty);
-            name = Environment.UserName + "-" + name + "-" + MiscUtilities.GetDateString;
+
+            // FIXME move the below method somewhere else
             if (SolarAnalysis.SolarAnalysisManager.ViewNameIsAvailable(doc, name))
             {
                 return name;
@@ -168,6 +200,15 @@ namespace SCaddins.ViewUtilities
             {
                 return SolarAnalysis.SolarAnalysisManager.GetNiceViewName(doc, name);
             }
+        }
+
+        public static Parameter ParamFromString(string name, Element element)
+        {
+            if (element.GetParameters(name).Count > 0)
+            {
+                return element.GetParameters(name)[0];
+            }
+            return null;
         }
 
         private static bool ValidViewType(ViewType viewType)

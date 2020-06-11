@@ -626,6 +626,11 @@
     <Compile Include="ViewUtilities\RemoveUnderlaysCommand.cs" />
     <Compile Include="ViewUtilities\UserView.cs" />
     <Compile Include="ViewUtilities\CreateUserViewCommand.cs" />
+    <Compile Include="ViewUtilities\ViewUtilitiesSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>ViewUtilitiesSettings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -643,6 +648,10 @@
       <Link>Assets\en_AU.dic</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="ViewUtilities\ViewUtilitiesSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>ViewUtilitiesSettings.Designer.cs</LastGenOutput>
+    </None>
     <Resource Include="Assets\filter.png" />
     <Resource Include="Assets\pin.png" />
     <None Include="app.config" />

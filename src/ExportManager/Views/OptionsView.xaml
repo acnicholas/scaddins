@@ -3,11 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="400">
     <Grid>
-        <TabControl x:Name="TabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <TabItem Header="General">
+        <TabControl cal:Bind.ModelWithoutContext="{Binding}" x:Name="TabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TabItem cal:Bind.ModelWithoutContext="{Binding}" Header="General">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
@@ -81,7 +82,19 @@
                             <Label Grid.Column="0" Grid.Row="0" Content="AutoCAD Version" VerticalAlignment="Center" Margin="5"></Label>
                             <Label Grid.Column="0" Grid.Row="1" Content="File Naming Scheme" VerticalAlignment="Center" Margin="5"></Label>
                             <ComboBox x:Name="AutoCADExportVersions" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5"></ComboBox>
+<<<<<<< Updated upstream
                             <ComboBox x:Name="FileNamingSchemes"  Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></ComboBox>
+=======
+                            <ComboBox
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Margin="5"
+                                ItemsSource="{Binding FileNamingSchemes}"
+                                SelectedValue="{Binding SelectedFileNamingScheme}"
+                                DisplayMemberPath="Name">
+                            </ComboBox>
+>>>>>>> Stashed changes
                             <CheckBox x:Name="DateForEmptyRevisions" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0"
                                       Margin="5" Content="Use today's date for empty revisions" VerticalAlignment="Center"></CheckBox>
                             <CheckBox x:Name="ForceDateForAllRevisions" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0"
