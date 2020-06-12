@@ -33,16 +33,12 @@ namespace SCaddins.ExportManager.ViewModels
         public OptionsViewModel(Manager exportManager)
         {
             this.exportManager = exportManager;
-<<<<<<< Updated upstream
             fileNamingSchemes = new BindableCollection<string>();
             foreach (var s in exportManager.FileNameTypes)
             {
                 FileNamingSchemes.Add(s.Name);
             }
             selectedFileNamingScheme = exportManager.FileNameScheme.Name;
-=======
-            FileNamingSchemes =    new ObservableCollection<SegmentedSheetName>(exportManager.FileNameTypes);
->>>>>>> Stashed changes
         }
 
         public static List<Autodesk.Revit.DB.ACADVersion> AutoCADExportVersions {
@@ -300,7 +296,6 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-<<<<<<< Updated upstream
         public BindableCollection<string> FileNamingSchemes
         {
             get
@@ -315,9 +310,6 @@ namespace SCaddins.ExportManager.ViewModels
                 NotifyOfPropertyChange(() => SelectedFileNamingScheme);
             }
         }
-=======
-        public ObservableCollection<SegmentedSheetName> FileNamingSchemes { get; }
->>>>>>> Stashed changes
 
         public bool ForceDateForAllRevisions
         {
@@ -500,7 +492,6 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void EditProjectConfigFile()
         {
-<<<<<<< Updated upstream
             FileUtilities.EditConfigFileModal(exportManager.Doc);
             exportManager.LoadConfigFile();
             FileNamingSchemes.Clear();
@@ -509,15 +500,6 @@ namespace SCaddins.ExportManager.ViewModels
                 FileNamingSchemes.Add(s.Name);
             }
             SelectedFileNamingScheme = exportManager.FileNameScheme.Name;
-=======
-            FileUtilities.EditConfigFile(exportManager.Doc);
-
-            //// Apply any new config settings now.
-            exportManager.PopulateSheets(exportManager.AllSheets);
-            NotifyOfPropertyChange(() => FileNamingSchemes);
-            NotifyOfPropertyChange(() => SelectedFileNamingScheme);
-            this.Refresh();
->>>>>>> Stashed changes
         }
 
         public void SelectA3Printer()

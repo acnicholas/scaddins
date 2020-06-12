@@ -186,7 +186,7 @@ namespace SCaddins.ViewUtilities
             name = Regex.Replace(
                 name,
                 pattern,
-                m => RoomConverter.RoomConversionCandidate.GetParamValueAsString(ParamFromString(m.Groups[2].Value)));
+                m => RoomConverter.RoomConversionCandidate.GetParamValueAsString(ParamFromString(m.Groups[2].Value, sourceView)));
 
             // Revit wont allow { or } so replace them if they exist
             name = name.Replace(@"{", string.Empty).Replace(@"}", string.Empty);

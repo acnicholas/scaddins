@@ -44,11 +44,6 @@ namespace SCaddins.ExportManager
         private static string activeDoc;
         // ReSharper disable once InconsistentNaming
         private static Dictionary<string, FamilyInstance> titleBlocks;
-<<<<<<< Updated upstream
-=======
-        private readonly ObservableCollection<ExportSheet> allSheets;
-        private readonly ObservableCollection<ViewSetItem> allViewSheetSets;
->>>>>>> Stashed changes
         private readonly Dictionary<string, PostExportHookCommand> postExportHooks;
         private bool dateForEmptyRevisions;
         private string exportDirectory;
@@ -64,13 +59,8 @@ namespace SCaddins.ExportManager
             exportDirectory = Constants.DefaultExportDirectory;
             ConfirmOverwrite = true;
             activeDoc = null;
-<<<<<<< Updated upstream
             AllViewSheetSets = GetAllViewSheetSets(Doc);
             AllSheets = new ObservableCollection<ExportSheet>();
-=======
-            allViewSheetSets = GetAllViewSheetSets(Doc);
-            allSheets = new ObservableCollection<ExportSheet>();
->>>>>>> Stashed changes
             FileNameTypes = new ObservableCollection<SegmentedSheetName>();
             postExportHooks = new Dictionary<string, PostExportHookCommand>();
             exportFlags = ExportOptions.None;
@@ -131,10 +121,6 @@ namespace SCaddins.ExportManager
         }
 
         public ObservableCollection<SegmentedSheetName> FileNameTypes { get; }
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 
         public bool ForceRevisionToDateString
         {

@@ -82,9 +82,7 @@
                             <Label Grid.Column="0" Grid.Row="0" Content="AutoCAD Version" VerticalAlignment="Center" Margin="5"></Label>
                             <Label Grid.Column="0" Grid.Row="1" Content="File Naming Scheme" VerticalAlignment="Center" Margin="5"></Label>
                             <ComboBox x:Name="AutoCADExportVersions" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5"></ComboBox>
-<<<<<<< Updated upstream
                             <ComboBox x:Name="FileNamingSchemes"  Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></ComboBox>
-=======
                             <ComboBox
                                 Grid.Row="1"
                                 Grid.Column="1"
