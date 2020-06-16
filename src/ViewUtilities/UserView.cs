@@ -178,9 +178,12 @@ namespace SCaddins.ViewUtilities
                 return string.Empty;
             }
 
-            string userName = Environment.UserName;
+            string user = Environment.UserName;
             string date = MiscUtilities.GetDateString;
             string name = ViewUtilitiesSettings.Default.UserViewNameFormat;
+
+            name = name.Replace(@"$user", user);
+            name = name.Replace(@"$date", date);
 
             string pattern = @"(<<)(.*?)(>>)";
             name = Regex.Replace(

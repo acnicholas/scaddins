@@ -11,14 +11,15 @@
             <StackPanel Orientation="Vertical">
                 <TextBlock>
                     Replacement strings: <LineBreak />
-                    $viewName <LineBreak />
-                    $date <LineBreak />
-                    $type <LineBreak />
+                    $user (Windows user name)<LineBreak />
+                    $date (Date in the format YYYYMMDD)<LineBreak />
+                    $type (Revit View Type)<LineBreak />
+                    &lt;&lt;REVIT_PARAM_VALUE&gt;&gt;<LineBreak />
                     <LineBreak />
                     for example: <LineBreak />
                     AndrewN-$viewName-$date<LineBreak />
                 </TextBlock>
-                <TextBox>value goes here</TextBox>
+                <TextBox x:Name="UserViewNameFormat">value goes here</TextBox>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Parameter Replacements">

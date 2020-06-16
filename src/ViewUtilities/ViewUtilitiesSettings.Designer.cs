@@ -25,7 +25,7 @@ namespace SCaddins.ViewUtilities {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("$userName-<<View Name>>-$date")]
+        [global::System.Configuration.DefaultSettingValueAttribute("$user-<<View Name>>-$date<<Associated Level>>")]
         public string UserViewNameFormat {
             get {
                 return ((string)(this["UserViewNameFormat"]));
