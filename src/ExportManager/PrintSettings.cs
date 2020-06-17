@@ -230,8 +230,14 @@ namespace SCaddins.ExportManager
                     }
                 }
                 pm.PrintRange = PrintRange.Current;
-                pm.PrintSetup.CurrentPrintSetting.PrintParameters.MarginType = MarginType.NoMargin;
-                pm.PrintSetup.InSession.PrintParameters.MarginType = MarginType.NoMargin;
+                pm.PrintSetup.CurrentPrintSetting.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
+                pm.PrintSetup.InSession.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
+                pm.PrintSetup.CurrentPrintSetting.PrintParameters.MarginType = MarginType.UserDefined;
+                pm.PrintSetup.InSession.PrintParameters.MarginType = MarginType.UserDefined;
+                pm.PrintSetup.CurrentPrintSetting.PrintParameters.UserDefinedMarginX = 0;
+                pm.PrintSetup.InSession.PrintParameters.UserDefinedMarginX = 0;
+                pm.PrintSetup.CurrentPrintSetting.PrintParameters.UserDefinedMarginY = 0;
+                pm.PrintSetup.InSession.PrintParameters.UserDefinedMarginY = 0;
                 pm.PrintToFile = false;
                 pm.Apply();
                 t.Commit();
