@@ -2,7 +2,7 @@
 {
     using Caliburn.Micro;
 
-    class SheetCopierSettingsViewModel : PropertyChangedBase
+    public class SheetCopierSettingsViewModel : PropertyChangedBase
     {
     }
 }

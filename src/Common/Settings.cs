@@ -12,7 +12,6 @@
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-
             var vms = new ParameterUtilities.ViewModels.SCincrementViewModel();
             var roomConverterViewModel = new RoomConverter.ViewModels.SettingsViewModel();
             var sheetCopierViewModel = new SheetCopier.ViewModels.SheetCopierSettingsViewModel();

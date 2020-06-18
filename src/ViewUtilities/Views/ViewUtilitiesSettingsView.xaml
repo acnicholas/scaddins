@@ -40,12 +40,12 @@
                 </TextBlock>
                 <Label Grid.Row="1" Grid.Column="0" Margin="5">Param</Label>
                 <Label Grid.Row="1" Grid.Column="1" Margin="5">Value</Label>
-                <TextBox Grid.Row="2" Grid.Column="0" Margin="5">SC-View-Category</TextBox>
-                <TextBox Grid.Row="2" Grid.Column="1" Margin="5">User</TextBox>
-                <TextBox Grid.Row="3" Grid.Column="0" Margin="5">SC-View-Category</TextBox>
-                <TextBox Grid.Row="3" Grid.Column="1" Margin="5">User</TextBox>
-                <TextBox Grid.Row="4" Grid.Column="0" Margin="5">SC-View-Category</TextBox>
-                <TextBox Grid.Row="4" Grid.Column="1" Margin="5">User</TextBox>
+                <TextBox x:Name="FirstParamName" Grid.Row="2" Grid.Column="0" Margin="5"></TextBox>
+                <TextBox x:Name="FirstParamValue" Grid.Row="2" Grid.Column="1" Margin="5"></TextBox>
+                <TextBox x:Name="SecondParamName" Grid.Row="3" Grid.Column="0" Margin="5"></TextBox>
+                <TextBox x:Name="SecondParamValue" Grid.Row="3" Grid.Column="1" Margin="5"></TextBox>
+                <TextBox x:Name="ThirdParamName" Grid.Row="4" Grid.Column="0" Margin="5"></TextBox>
+                <TextBox x:Name="ThirdParamValue" Grid.Row="4" Grid.Column="1" Margin="5"></TextBox>
             </Grid>
         </GroupBox>
     </StackPanel>

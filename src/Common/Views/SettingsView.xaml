@@ -13,11 +13,11 @@
             <TabItem Header="User View">
                 <ContentControl x:Name="ViewUtilitiesViewModel"></ContentControl>
             </TabItem>
-            <TabItem Header="Copy Sheets">
+            <TabItem Header="Copy Sheets" IsEnabled="False">
                 <ContentControl x:Name="SheetCopierViewModel"></ContentControl>
             </TabItem>
             <!--<TabItem Header="SCexport"></TabItem>-->
-            <TabItem Header="Room Tools">
+            <TabItem Header="Room Tools" IsEnabled="False">
                 <ContentControl x:Name="RoomConverterViewModel"></ContentControl>
             </TabItem>
             <TabItem Header="Spelling">

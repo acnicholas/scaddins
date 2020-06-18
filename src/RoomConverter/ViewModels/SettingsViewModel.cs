@@ -9,7 +9,7 @@ namespace SCaddins.RoomConverter.ViewModels
     using System.Collections.Generic;
     using Caliburn.Micro;
 
-    class SettingsViewModel : Screen
+    public class SettingsViewModel : Screen
     {
     }
 }

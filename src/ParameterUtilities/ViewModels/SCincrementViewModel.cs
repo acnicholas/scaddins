@@ -19,7 +19,7 @@ namespace SCaddins.ParameterUtilities.ViewModels
 {
     using Caliburn.Micro;
 
-    internal class SCincrementViewModel : Screen
+    public class SCincrementViewModel : Screen
     {
         public SCincrementViewModel()
         {

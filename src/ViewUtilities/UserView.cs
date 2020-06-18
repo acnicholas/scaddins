@@ -125,51 +125,9 @@ namespace SCaddins.ViewUtilities
             var newView = doc.GetElement(destViewId) as View;
             newView.Name = GetNewViewName(doc, srcView);
             newView.ViewTemplateId = ElementId.InvalidElementId;
-            var p = newView.GetParameters("SC-View_Category");
-            if (p.Count < 1)
-            {
-                return newView;
-            }
-            var param = p[0];
-            if (param == null)
-            {
-                return newView;
-            }
-
-            if (param.IsReadOnly)
-            {
-                SCaddinsApp.WindowManager.ShowMessageBox("SCuv Error", "SC-View_Category is read only!");
-                return null;
-            }
-
-            if (param.Set("User"))
-            {
-                return newView;
-            }
-            SCaddinsApp.WindowManager.ShowMessageBox("SCuv Error", "Error setting SC-View_Category parameter!");
-            return null;
+            ReplaceParameterValues(newView);
+            return newView;
         }
-
-        ////private static string GetNewViewName(Document doc, Element sourceView)
-        ////{
-        ////    if (doc == null || sourceView == null)
-        ////    {
-        ////        return string.Empty;
-        ////    }
-        ////    string name = sourceView.Name;
-
-        ////    // Revit wont allow { or } so replace them if they exist
-        ////    name = name.Replace(@"{", string.Empty).Replace(@"}", string.Empty);
-        ////    name = Environment.UserName + "-" + name + "-" + MiscUtilities.GetDateString;
-        ////    if (SolarAnalysis.SolarAnalysisManager.ViewNameIsAvailable(doc, name))
-        ////    {
-        ////        return name;
-        ////    }
-        ////    else
-        ////    {
-        ////        return SolarAnalysis.SolarAnalysisManager.GetNiceViewName(doc, name);
-        ////    }
-        ////}
 
         private static string GetNewViewName(Document doc, Element sourceView)
         {
@@ -212,6 +170,28 @@ namespace SCaddins.ViewUtilities
                 return element.GetParameters(name)[0];
             }
             return null;
+        }
+
+        private static void ReplaceParameterValues(Element element)
+        {
+            var p1 = ViewUtilitiesSettings.Default.FirstParamName;
+            var p2 = ViewUtilitiesSettings.Default.SecondParamName;
+            var p3 = ViewUtilitiesSettings.Default.ThirdParamName;
+            var v1 = ViewUtilitiesSettings.Default.FirstParamValue;
+            var v2 = ViewUtilitiesSettings.Default.SecondParamValue;
+            var v3 = ViewUtilitiesSettings.Default.ThirdParamValue;
+            ReplaceParameterValue(p1, v1, element);
+            ReplaceParameterValue(p2, v2, element);
+            ReplaceParameterValue(p3, v3, element);
+        }
+
+        private static void ReplaceParameterValue(string paramName, string value, Element element)
+        {
+            var param = ParamFromString(paramName, element);
+            if (param != null && !string.IsNullOrEmpty(value))
+            {
+                if(!param.IsReadOnly) param.Set(value);
+            }
         }
 
         private static bool ValidViewType(ViewType viewType)

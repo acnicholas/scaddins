@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-namespace SCaddins.Common.ViewModels
+﻿namespace SCaddins.Common.ViewModels
 {
-
     using Caliburn.Micro;
     using ParameterUtilities.ViewModels;
     using SCaddins.SheetCopier.ViewModels;
     using SCaddins.ViewUtilities.ViewModels;
     using SpellChecker.ViewModels;
 
-    class SettingsViewModel : Screen
+    public class SettingsViewModel : Screen
     {
         private SCincrementViewModel incrementViewModel;
         private RoomConverter.ViewModels.SettingsViewModel roomConverterViewModel;
@@ -34,18 +31,25 @@ namespace SCaddins.Common.ViewModels
 
         public RoomConverter.ViewModels.SettingsViewModel RoomConverterViewModel
         {
-            get { return roomConverterViewModel; }
+            get 
+            { 
+                return roomConverterViewModel;
+            }
+
             set
             {
                 roomConverterViewModel = value;
                 NotifyOfPropertyChange(() => RoomConverterViewModel);
             }
-
         }
 
         public SCincrementViewModel IncrementViewModel
         {
-            get { return incrementViewModel; }
+            get
+            {
+                return incrementViewModel;
+            }
+
             set
             {
                 incrementViewModel = value;
@@ -55,7 +59,11 @@ namespace SCaddins.Common.ViewModels
 
         public SheetCopierSettingsViewModel SheetCopierViewModel
         {
-            get { return sheetCopierViewModel; }
+            get
+            {
+                return sheetCopierViewModel;
+            }
+
             set
             {
                 sheetCopierViewModel = value;
@@ -66,7 +74,11 @@ namespace SCaddins.Common.ViewModels
 
         public SpellCheckerOptionsViewModel SpellCheckerOptionsViewModel
         {
-            get { return spellCheckerOptionsViewModel; }
+            get
+            {
+                return spellCheckerOptionsViewModel;
+            }
+
             set
             {
                 spellCheckerOptionsViewModel = value;
@@ -81,7 +93,6 @@ namespace SCaddins.Common.ViewModels
             {
                 viewUtilitiesViewModel = value;
                 NotifyOfPropertyChange(() => ViewUtilitiesViewModel);
-
             }
         }
 
