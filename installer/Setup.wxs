@@ -34,6 +34,7 @@
                     <ComponentRef Id="SCaddinsEtc" />
                     <ComponentRef Id="SCexportConfigProto" />
                     <ComponentRef Id="SCaddinsRFA2016" />
+					<ComponentRef Id="RunScriptExamples" />
                 </Feature>
                 <?endif?>
                 
@@ -44,6 +45,7 @@
                     <ComponentRef Id="SCaddinsEtc" />
                     <ComponentRef Id="SCexportConfigProto" />
                     <ComponentRef Id="SCaddinsRFA2017" />
+					<ComponentRef Id="RunScriptExamples" />
                 </Feature>
                 <?endif?>
                 
@@ -54,6 +56,7 @@
                     <ComponentRef Id="SCaddinsEtc" />
                     <ComponentRef Id="SCexportConfigProto" />
                     <ComponentRef Id="SCaddinsRFA2018" />
+					<ComponentRef Id="RunScriptExamples" />
                 </Feature>
                 <?endif?>
 				
@@ -64,6 +67,7 @@
                     <ComponentRef Id="SCaddinsEtc" />
                     <ComponentRef Id="SCexportConfigProto" />
                     <ComponentRef Id="SCaddinsRFA2019" />
+					<ComponentRef Id="RunScriptExamples" />
                 </Feature>
                 <?endif?>
 
@@ -74,6 +78,7 @@
                     <ComponentRef Id="SCaddinsEtc" />
                     <ComponentRef Id="SCexportConfigProto" />
                     <ComponentRef Id="SCaddinsRFA2020" />
+					<ComponentRef Id="RunScriptExamples" />
                 </Feature>
                 <?endif?>
 				
@@ -84,6 +89,7 @@
                     <ComponentRef Id="SCaddinsEtc" />
                     <ComponentRef Id="SCexportConfigProto" />
                     <ComponentRef Id="SCaddinsRFA2021" />
+					<ComponentRef Id="RunScriptExamples" />
                 </Feature>
                 <?endif?>
 

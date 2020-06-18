@@ -60,6 +60,14 @@
 							<?endif?>
 						</Directory>
 					</Directory>
+					<Directory Id="RSDIR" Name="RunScript">
+						<Component Id="RunScriptExamples" Guid="23f035a7-e39e-494a-83fc-1b313a179ab9" Win64="yes" DiskId="1">
+							<CreateFolder />
+							<File Id="ADGRoomNames.cs" Name="ADGRoomNames.cs" Source="..\share\RunScript\ADGRoomNames.cs" />
+							<File Id="HelloWorld.cs" Name="HelloWorld.cs" Source="..\share\RunScript\HelloWorld.cs" />
+							<File Id="PurgeImages.cs" Name="PurgeImages.cs" Source="..\share\RunScript\PurgeImages.cs" />
+						</Component>
+					</Directory>
 				</Directory>
 				<Directory Name="etc" Id="ETCDIR">
 					<Component Id="SCaddinsEtc" Win64="yes" Guid="433296A6-F7CC-40A2-9826-33A16437BED0">
