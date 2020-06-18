@@ -130,6 +130,9 @@ namespace SCaddins.ExportManager.ViewModels
             if (ctrlDown && args.Key == System.Windows.Input.Key.K) {
                 SelectPrevious();
             }
+            if (args.Key == System.Windows.Input.Key.LeftCtrl) {
+                ctrlDown = true;
+            }
             if (ctrlDown && args.Key == System.Windows.Input.Key.S) {
                 ToggleFilterFlag(ViewType.DrawingSheet);
                 NotifyOfPropertyChange(() => StatusText);
@@ -139,26 +142,26 @@ namespace SCaddins.ExportManager.ViewModels
                 NotifyOfPropertyChange(() => StatusText);
             }
             if (ctrlDown && args.Key == System.Windows.Input.Key.E) {
-                // FIXME check Revit api docs to see if this is OK.
-                // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
-                ToggleFilterFlag(ViewType.Elevation | ViewType.Section);
+                ToggleFilterFlag(ViewType.Elevation);
                 NotifyOfPropertyChange(() => StatusText);
             }
-            if (args.Key == System.Windows.Input.Key.LeftCtrl) {
-                ctrlDown = true;
+            if (ctrlDown && args.Key == System.Windows.Input.Key.T) {
+                ToggleFilterFlag(ViewType.Section);
+                NotifyOfPropertyChange(() => StatusText);
             }
 
             if (ctrlDown && args.Key == System.Windows.Input.Key.H)
             {
-                var helpMessage = "[Tab]/t-/tSelect Next" + Environment.NewLine +
-                                  "[ctrl + j]/t-/tSelect Next" + Environment.NewLine +
-                                  "[ctrl + k]/t-/tSelectPrevious" + Environment.NewLine +
-                                  "[Esc]/t-/tExit" + Environment.NewLine +
+                var helpMessage = "[Tab]\t-\tSelect Next" + Environment.NewLine +
+                                  "[ctrl + j]\t-\tSelect Next" + Environment.NewLine +
+                                  "[ctrl + k]\t-\tSelectPrevious" + Environment.NewLine +
+                                  "[Esc]\t-\tExit" + Environment.NewLine +
                                   Environment.NewLine +
-                                  "[ctrl + e]/t-/tOnly Search for Elevations/Sections" + Environment.NewLine +
-                                  "[ctrl + s]/t-/tOnly Search for Sheets" + Environment.NewLine +
-                                  "[ctrl + p]/t-/tOnly Search for Plans";
-                                  
+                                  "[ctrl + e]\t-\tOnly Search for Elevations" + Environment.NewLine +
+                                  "[ctrl + p]\t-\tOnly Search for Plans" + Environment.NewLine +
+                                  "[ctrl + s]\t-\tOnly Search for Sheets" + Environment.NewLine +          
+                                  "[ctrl + t]\t-\tOnly Search for Sections";
+
                 SCaddinsApp.WindowManager.ShowMessageBox(helpMessage);
             }
         }
