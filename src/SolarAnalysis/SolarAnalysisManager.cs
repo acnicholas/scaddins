@@ -469,12 +469,22 @@ namespace SCaddins.SolarAnalysis
                     view.Name = GetNiceViewName(doc, vname);
                     var sunSettings = view.SunAndShadowSettings;
                     sunSettings.StartDateAndTime = StartTime;
+
+                    if (StartTime <= sunSettings.GetSunrise(StartTime).ToLocalTime() || StartTime >= sunSettings.GetSunset(EndTime).ToLocalTime())
+                    {
+                        doc.Delete(view.Id);
+                        log.AddFailure("Cannot rotate a view that is not in daylight hours: " + vname);
+                        StartTime = StartTime.Add(ExportTimeInterval);
+                        continue;
+                    }
+
                     sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
                     t.Commit();
 
                     if (!RotateView(view)) {
+                        doc.Delete(view.Id);
                         log.AddFailure("Could not rotate view: " + vname);
-                        return false;
+                        continue;
                     }
                     log.AddSuccess("View created: " + vname);
                     StartTime = StartTime.Add(ExportTimeInterval);
@@ -524,7 +534,7 @@ namespace SCaddins.SolarAnalysis
                     SCaddinsApp.WindowManager.ShowMessageBox("ERROR", "View is locked, please unlock before rotating");
                     return false;
                 }
-
+                
                 using (var t = new Transaction(doc))
                 {
                     t.Start("Rotate View");

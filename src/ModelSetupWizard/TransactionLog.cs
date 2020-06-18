@@ -60,7 +60,6 @@ namespace SCaddins.ModelSetupWizard
         public void AddFailure(string message)
         {
             items.Add(new TranscactionLogItem() { Message = @"ERROR: " + message });
-            NumberOfItems++;
             NumberOfErrors++;
         }
 
