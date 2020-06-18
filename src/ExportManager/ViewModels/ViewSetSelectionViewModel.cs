@@ -23,9 +23,12 @@ namespace SCaddins.ExportManager.ViewModels
 
     internal class ViewSetSelectionViewModel : Screen
     {
+        private ViewSetItem selectedSet;
+
         public ViewSetSelectionViewModel(ObservableCollection<ViewSetItem> sets)
         {
             Sets = sets;
+            SelectedSet= null;
         }
 
         public static dynamic DefaultWindowSettings
@@ -52,7 +55,16 @@ namespace SCaddins.ExportManager.ViewModels
 
         public ViewSetItem SelectedSet
         {
-            get; set;
+            get
+            {
+                return selectedSet;
+            }
+
+            set
+            {
+                selectedSet = value;
+                NotifyOfPropertyChange(() => OKEnabled);
+            }
         }
 
         public void Cancel()
@@ -61,6 +73,19 @@ namespace SCaddins.ExportManager.ViewModels
         }
 
         public void OK()
+        {
+            TryClose(true);
+        }
+
+        public bool OKEnabled
+        {
+            get
+            {
+                return SelectedSet != null;
+            }
+        }
+
+        public void RowDoubleClicked()
         {
             TryClose(true);
         }
