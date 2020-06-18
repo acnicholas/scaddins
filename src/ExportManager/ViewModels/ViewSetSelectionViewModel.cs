@@ -28,7 +28,7 @@ namespace SCaddins.ExportManager.ViewModels
         public ViewSetSelectionViewModel(ObservableCollection<ViewSetItem> sets)
         {
             Sets = sets;
-            SelectedSet= null;
+            SelectedSet = null;
         }
 
         public static dynamic DefaultWindowSettings
@@ -45,6 +45,14 @@ namespace SCaddins.ExportManager.ViewModels
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;
                 settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
                 return settings;
+            }
+        }
+
+        public bool OKEnabled
+        {
+            get
+            {
+                return SelectedSet != null;
             }
         }
 
@@ -75,14 +83,6 @@ namespace SCaddins.ExportManager.ViewModels
         public void OK()
         {
             TryClose(true);
-        }
-
-        public bool OKEnabled
-        {
-            get
-            {
-                return SelectedSet != null;
-            }
         }
 
         public void RowDoubleClicked()
