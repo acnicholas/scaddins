@@ -90,7 +90,7 @@
                 {
                     ViewUtilitiesSettings.Default.SecondParamValue = value;
                     ViewUtilitiesSettings.Default.Save();
-                    NotifyOfPropertyChange(() =>  SecondParamValue);
+                    NotifyOfPropertyChange(() => SecondParamValue);
                 }
             }
         }
@@ -130,8 +130,5 @@
                 }
             }
         }
-
-
-
     }
 }

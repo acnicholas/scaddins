@@ -459,25 +459,16 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void OptionsButton()
         {
-            dynamic settings = new ExpandoObject();
-            settings.Height = 640;
-            settings.Width = 480;
-            settings.Title = "SCexport - Options";
-            settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
-                  new Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png"));
-            settings.ShowInTaskbar = false;
-            settings.ResizeMode = System.Windows.ResizeMode.NoResize;
-            settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+            SCaddinsApp.WindowManager.ShowMessageBox("Options");
             var optionsModel = new OptionsViewModel(exportManager);
-            SCaddinsApp.WindowManager.ShowDialog(optionsModel, null, settings);
+            SCaddinsApp.WindowManager.ShowWindow(optionsModel, null, ViewModels.OptionsViewModel.DefaultWindowSettings);
+            SCaddinsApp.WindowManager.ShowMessageBox("Options Success");
             NotifyOfPropertyChange(() => StatusText);
         }
 
         public void PinSheetContents()
         {
-            ////ViewUtilities.UserView.ShowSummaryDialog(
             ViewUtilities.Pin.PinSheetContents(selectedSheets, exportManager.Doc);
-            ////);
         }
 
         public void PrintButton()

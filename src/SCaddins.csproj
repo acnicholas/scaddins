@@ -648,6 +648,7 @@
       <Link>Assets\en_AU.dic</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Assets\Ribbon\gear-rvt-16.png" />
     <None Include="ViewUtilities\ViewUtilitiesSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>ViewUtilitiesSettings.Designer.cs</LastGenOutput>

@@ -606,7 +606,7 @@ namespace SCaddins.ExportManager
 
         internal void LoadConfigFile()
         {
-            //FileNameTypes.Clear();
+            //// FileNameTypes.Clear();
             var config = GetConfigFileName(Doc);
             var b = ImportXMLinfo(config);
             if (!b || FileNameTypes.Count <= 0)

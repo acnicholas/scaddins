@@ -182,7 +182,7 @@ namespace SCaddins
 
             ribbonPanel.AddStackedItems(
                 LoadSCincrement(scdll),
-                LoadSCincrementSettings(scdll));
+                LoadGlobalSettings(scdll));
 
             ribbonPanel.AddStackedItems(
                 LoadRunScript(scdll),
@@ -315,11 +315,11 @@ namespace SCaddins
             return pbd;
         }
 
-        private static PushButtonData LoadSCincrementSettings(string dll)
+        private static PushButtonData LoadGlobalSettings(string dll)
         {
             var pbd = new PushButtonData(
-                              "SCincrementSettings", Resources.IncrementToolSettings, dll, "SCaddins.ParameterUtilities.SCincrementSettingsCommand");
-            AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.scincrement-rvt-16.png", 16, dll);
+                              "Glabal Settings", "Global Settings", dll, "SCaddins.Common.Settings");
+            AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.gear-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.IncrementToolSettings;
             return pbd;
         }

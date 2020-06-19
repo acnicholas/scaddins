@@ -83,6 +83,15 @@ namespace SCaddins.ViewUtilities
             return result;
         }
 
+        public static Parameter ParamFromString(string name, Element element)
+        {
+            if (element.GetParameters(name).Count > 0)
+            {
+                return element.GetParameters(name)[0];
+            }
+            return null;
+        }
+
         public static void ShowSummaryDialog(List<View> newUserViews)
         {
                 string message = string.Empty;
@@ -163,15 +172,6 @@ namespace SCaddins.ViewUtilities
             }
         }
 
-        public static Parameter ParamFromString(string name, Element element)
-        {
-            if (element.GetParameters(name).Count > 0)
-            {
-                return element.GetParameters(name)[0];
-            }
-            return null;
-        }
-
         private static void ReplaceParameterValues(Element element)
         {
             var p1 = ViewUtilitiesSettings.Default.FirstParamName;
@@ -188,9 +188,10 @@ namespace SCaddins.ViewUtilities
         private static void ReplaceParameterValue(string paramName, string value, Element element)
         {
             var param = ParamFromString(paramName, element);
-            if (param != null && !string.IsNullOrEmpty(value))
-            {
-                if(!param.IsReadOnly) param.Set(value);
+            if (param != null && !string.IsNullOrEmpty(value)) {
+                if (!param.IsReadOnly) {
+                    param.Set(value);
+                }
             }
         }
 
