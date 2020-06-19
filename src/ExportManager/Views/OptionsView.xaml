@@ -92,7 +92,6 @@
                                 SelectedValue="{Binding SelectedFileNamingScheme}"
                                 DisplayMemberPath="Name">
                             </ComboBox>
->>>>>>> Stashed changes
                             <CheckBox x:Name="DateForEmptyRevisions" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0"
                                       Margin="5" Content="Use today's date for empty revisions" VerticalAlignment="Center"></CheckBox>
                             <CheckBox x:Name="ForceDateForAllRevisions" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0"

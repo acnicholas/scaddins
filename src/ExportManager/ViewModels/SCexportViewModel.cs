@@ -459,10 +459,10 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void OptionsButton()
         {
-            SCaddinsApp.WindowManager.ShowMessageBox("Options");
+            //// SCaddinsApp.WindowManager.ShowMessageBox("Options");
             var optionsModel = new OptionsViewModel(exportManager);
             SCaddinsApp.WindowManager.ShowWindow(optionsModel, null, ViewModels.OptionsViewModel.DefaultWindowSettings);
-            SCaddinsApp.WindowManager.ShowMessageBox("Options Success");
+            //// SCaddinsApp.WindowManager.ShowMessageBox("Options Success");
             NotifyOfPropertyChange(() => StatusText);
         }
 
