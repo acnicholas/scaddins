@@ -111,5 +111,24 @@
                 NotifyOfPropertyChange(() => ViewUtilitiesViewModel);
             }
         }
+
+        public void Apply()
+        {
+            IncrementViewModel.Apply();
+            ViewUtilitiesViewModel.Apply();
+            SpellCheckerOptionsViewModel.Apply();
+        }
+
+        public void Cancel()
+        {
+            TryClose(true);
+        }
+
+        public void Reset()
+        {
+            IncrementViewModel.Reset();
+            ViewUtilitiesViewModel.Reset();
+            SpellCheckerOptionsViewModel.Reset();
+        }
     }
 }

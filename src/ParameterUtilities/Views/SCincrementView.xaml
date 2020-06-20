@@ -55,15 +55,5 @@
                 <TextBox x:Name="CustomParameterName" Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
             </Grid>
         </GroupBox>
-        <Grid Grid.Row="3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Button x:Name="ResetSettingsToDefault" Grid.Column="0" HorizontalAlignment="Left" Margin="5" MinHeight="25">Reset</Button>
-            <Button x:Name="Quit" Grid.Column="1" HorizontalAlignment="Right" Margin="5" MinHeight="25">Cancel</Button>
-            <Button x:Name="SaveSettings" Grid.Column="2" HorizontalAlignment="Right" Margin="5" MinHeight="25">OK</Button>
-        </Grid>
     </Grid>
 </UserControl>

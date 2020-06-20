@@ -1,134 +1,56 @@
 ﻿namespace SCaddins.ViewUtilities.ViewModels
 {
-    using System.ComponentModel;
     using Caliburn.Micro;
 
     public class ViewUtilitiesSettingsViewModel : PropertyChangedBase
     {
-        public string UserViewNameFormat
+        public ViewUtilitiesSettingsViewModel()
         {
-            get
-            {
-                return ViewUtilitiesSettings.Default.UserViewNameFormat;
-            }
-
-            set
-            {
-                if (ViewUtilitiesSettings.Default.UserViewNameFormat != value)
-                {
-                    ViewUtilitiesSettings.Default.UserViewNameFormat = value;
-                    ViewUtilitiesSettings.Default.Save();
-                    NotifyOfPropertyChange(() => UserViewNameFormat);
-                }
-            }
+            Reset();
         }
 
-        public string FirstParamName
-        {
-            get
-            {
-                return ViewUtilitiesSettings.Default.FirstParamName;
-            }
+        public string UserViewNameFormat { get; set; }
 
-            set
-            {
-                if (ViewUtilitiesSettings.Default.FirstParamName != value)
-                {
-                    ViewUtilitiesSettings.Default.FirstParamName = value;
-                    ViewUtilitiesSettings.Default.Save();
-                    NotifyOfPropertyChange(() => FirstParamName);
-                }
-            }
+        public string FirstParamName { get; set; }
+
+        public string FirstParamValue { get; set; }
+
+        public string SecondParamName { get; set; }
+
+        public string SecondParamValue { get; set; }
+
+        public string ThirdParamName { get; set; }
+
+        public string ThirdParamValue { get; set; }
+
+        public void Apply()
+        {
+            ViewUtilitiesSettings.Default.UserViewNameFormat = UserViewNameFormat;
+            ViewUtilitiesSettings.Default.FirstParamName = FirstParamName;
+            ViewUtilitiesSettings.Default.SecondParamName = SecondParamName;
+            ViewUtilitiesSettings.Default.ThirdParamName = ThirdParamName;
+            ViewUtilitiesSettings.Default.FirstParamValue = FirstParamValue;
+            ViewUtilitiesSettings.Default.SecondParamValue = SecondParamValue;
+            ViewUtilitiesSettings.Default.ThirdParamValue = ThirdParamValue;
+            ViewUtilitiesSettings.Default.Save();
         }
 
-        public string FirstParamValue
+        public void Reset()
         {
-            get
-            {
-                return ViewUtilitiesSettings.Default.FirstParamValue;
-            }
-
-            set
-            {
-                if (ViewUtilitiesSettings.Default.FirstParamValue != value)
-                {
-                    ViewUtilitiesSettings.Default.FirstParamValue = value;
-                    ViewUtilitiesSettings.Default.Save();
-                    NotifyOfPropertyChange(() => FirstParamValue);
-                }
-            }
-        }
-
-        public string SecondParamName
-        {
-            get
-            {
-                return ViewUtilitiesSettings.Default.SecondParamName;
-            }
-
-            set
-            {
-                if (ViewUtilitiesSettings.Default.SecondParamName != value)
-                {
-                    ViewUtilitiesSettings.Default.SecondParamName = value;
-                    ViewUtilitiesSettings.Default.Save();
-                    NotifyOfPropertyChange(() => SecondParamName);
-                }
-            }
-        }
-
-        public string SecondParamValue
-        {
-            get
-            {
-                return ViewUtilitiesSettings.Default.SecondParamValue;
-            }
-
-            set
-            {
-                if (ViewUtilitiesSettings.Default.SecondParamValue != value)
-                {
-                    ViewUtilitiesSettings.Default.SecondParamValue = value;
-                    ViewUtilitiesSettings.Default.Save();
-                    NotifyOfPropertyChange(() => SecondParamValue);
-                }
-            }
-        }
-
-        public string ThirdParamName
-        {
-            get
-            {
-                return ViewUtilitiesSettings.Default.ThirdParamName;
-            }
-
-            set
-            {
-                if (ViewUtilitiesSettings.Default.ThirdParamName != value)
-                {
-                    ViewUtilitiesSettings.Default.ThirdParamName = value;
-                    ViewUtilitiesSettings.Default.Save();
-                    NotifyOfPropertyChange(() => ThirdParamName);
-                }
-            }
-        }
-
-        public string ThirdParamValue
-        {
-            get
-            {
-                return ViewUtilitiesSettings.Default.ThirdParamValue;
-            }
-
-            set
-            {
-                if (ViewUtilitiesSettings.Default.ThirdParamValue != value)
-                {
-                    ViewUtilitiesSettings.Default.ThirdParamValue = value;
-                    ViewUtilitiesSettings.Default.Save();
-                    NotifyOfPropertyChange(() => ThirdParamValue);
-                }
-            }
+            UserViewNameFormat = ViewUtilitiesSettings.Default.UserViewNameFormat;
+            FirstParamName = ViewUtilitiesSettings.Default.FirstParamName;
+            SecondParamName = ViewUtilitiesSettings.Default.SecondParamName;
+            ThirdParamName = ViewUtilitiesSettings.Default.ThirdParamName;
+            FirstParamValue = ViewUtilitiesSettings.Default.FirstParamValue;
+            SecondParamValue = ViewUtilitiesSettings.Default.SecondParamValue;
+            ThirdParamValue = ViewUtilitiesSettings.Default.ThirdParamValue;
+            NotifyOfPropertyChange(() => UserViewNameFormat);
+            NotifyOfPropertyChange(() => FirstParamName);
+            NotifyOfPropertyChange(() => FirstParamValue);
+            NotifyOfPropertyChange(() => SecondParamName);
+            NotifyOfPropertyChange(() => SecondParamValue);
+            NotifyOfPropertyChange(() => ThirdParamName);
+            NotifyOfPropertyChange(() => ThirdParamValue);
         }
     }
 }

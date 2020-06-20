@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2018 by Andrew Nicholas
+﻿// (C) Copyright 2018-2020 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -19,11 +19,11 @@ namespace SCaddins.ParameterUtilities.ViewModels
 {
     using Caliburn.Micro;
 
-    public class SCincrementViewModel : Screen
+    public class SCincrementViewModel : PropertyChangedBase
     {
         public SCincrementViewModel()
         {
-            LoadSettings();
+            Reset();
         }
 
         public static dynamic DefaultWindowSettings
@@ -56,18 +56,13 @@ namespace SCaddins.ParameterUtilities.ViewModels
 
         public bool UseCustomParameter { get; set; }
 
-        public void Quit()
-        {
-            TryClose(false);
-        }
-
         public void ResetSettingsToDefault()
         {
             SCincrementSettings.Default.Reset();
-            LoadSettings();
+            Reset();
         }
 
-        public void SaveSettings()
+        public void Apply()
         {
             SCincrementSettings.Default.OffsetValue = OffsetValue;
             SCincrementSettings.Default.IncrementValue = IncrementValue;
@@ -78,10 +73,9 @@ namespace SCaddins.ParameterUtilities.ViewModels
             SCincrementSettings.Default.CustomParameterName = CustomParameterName;
             SCincrementSettings.Default.UseCustomParameterName = UseCustomParameter;
             SCincrementSettings.Default.Save();
-            TryClose(true);
         }
 
-        private void LoadSettings()
+        public void Reset()
         {
             OffsetValue = SCincrementSettings.Default.OffsetValue;
             IncrementValue = SCincrementSettings.Default.IncrementValue;

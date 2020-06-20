@@ -6,6 +6,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="600">
     <Grid x:Name="RootVisual">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
         <TabControl TabStripPlacement="Left">
             <TabItem Header="Increment Settings">
                 <ContentControl x:Name="IncrementViewModel"></ContentControl>
@@ -24,5 +28,15 @@
                 <ContentControl x:Name="SpellCheckerOptionsViewModel"></ContentControl>
             </TabItem>
         </TabControl>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="Reset" Grid.Column="0" HorizontalAlignment="Left" Margin="5" MinHeight="25">Reset</Button>
+            <Button x:Name="Cancel" Grid.Column="1" HorizontalAlignment="Right" Margin="5" MinHeight="25">Cancel</Button>
+            <Button x:Name="Apply" Grid.Column="2" HorizontalAlignment="Right" Margin="5" MinHeight="25">Apply</Button>
+        </Grid>
     </Grid>
 </UserControl>

@@ -83,7 +83,7 @@
                             <Label Grid.Column="0" Grid.Row="1" Content="File Naming Scheme" VerticalAlignment="Center" Margin="5"></Label>
                             <ComboBox x:Name="AutoCADExportVersions" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5"></ComboBox>
                             <ComboBox x:Name="FileNamingSchemes"  Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></ComboBox>
-                            <ComboBox
+                            <!--<ComboBox
                                 Grid.Row="1"
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
@@ -91,7 +91,7 @@
                                 ItemsSource="{Binding FileNamingSchemes}"
                                 SelectedValue="{Binding SelectedFileNamingScheme}"
                                 DisplayMemberPath="Name">
-                            </ComboBox>
+                            </ComboBox>-->
                             <CheckBox x:Name="DateForEmptyRevisions" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0"
                                       Margin="5" Content="Use today's date for empty revisions" VerticalAlignment="Center"></CheckBox>
                             <CheckBox x:Name="ForceDateForAllRevisions" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0"
