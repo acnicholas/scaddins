@@ -49,7 +49,6 @@
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button x:Name="Options" MinWidth="64" Grid.Column="0" HorizontalAlignment="Left" Margin="5">Options</Button>
             <Button x:Name="Apply"  MinWidth="64" Grid.Column="2" HorizontalAlignment="Right" Margin="5">Apply All Changes</Button>
             <Button x:Name="Cancel" MinWidth="64" Grid.Column="3" HorizontalAlignment="Right" Margin="5">Cancel</Button>
         </Grid>

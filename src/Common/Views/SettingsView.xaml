@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="SCaddins.Common.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="600">
+    <Grid x:Name="RootVisual">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TabControl TabStripPlacement="Left">
+            <TabItem Header="Increment Settings">
+                <ContentControl x:Name="IncrementViewModel"></ContentControl>
+            </TabItem>
+            <TabItem Header="User View">
+                <ContentControl x:Name="ViewUtilitiesViewModel"></ContentControl>
+            </TabItem>
+            <TabItem Header="Copy Sheets" IsEnabled="False">
+                <ContentControl x:Name="SheetCopierViewModel"></ContentControl>
+            </TabItem>
+            <!--<TabItem Header="SCexport"></TabItem>-->
+            <TabItem Header="Room Tools" IsEnabled="False">
+                <ContentControl x:Name="RoomConverterViewModel"></ContentControl>
+            </TabItem>
+            <TabItem Header="Spelling">
+                <ContentControl x:Name="SpellCheckerOptionsViewModel"></ContentControl>
+            </TabItem>
+        </TabControl>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="Reset" Grid.Column="0" HorizontalAlignment="Left" Margin="5" MinHeight="25">Reset</Button>
+            <Button x:Name="Cancel" Grid.Column="1" HorizontalAlignment="Right" Margin="5" MinHeight="25">Cancel</Button>
+            <Button x:Name="Apply" Grid.Column="2" HorizontalAlignment="Right" Margin="5" MinHeight="25">Apply</Button>
+        </Grid>
+    </Grid>
+</UserControl>

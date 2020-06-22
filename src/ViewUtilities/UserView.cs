@@ -19,6 +19,7 @@ namespace SCaddins.ViewUtilities
 {
     using System;
     using System.Collections.Generic;
+    using System.Text.RegularExpressions;
     using Autodesk.Revit.DB;
     using Common;
 
@@ -82,6 +83,15 @@ namespace SCaddins.ViewUtilities
             return result;
         }
 
+        public static Parameter ParamFromString(string name, Element element)
+        {
+            if (element.GetParameters(name).Count > 0)
+            {
+                return element.GetParameters(name)[0];
+            }
+            return null;
+        }
+
         public static void ShowSummaryDialog(List<View> newUserViews)
         {
                 string message = string.Empty;
@@ -124,29 +134,8 @@ namespace SCaddins.ViewUtilities
             var newView = doc.GetElement(destViewId) as View;
             newView.Name = GetNewViewName(doc, srcView);
             newView.ViewTemplateId = ElementId.InvalidElementId;
-            var p = newView.GetParameters("SC-View_Category");
-            if (p.Count < 1)
-            {
-                return newView;
-            }
-            var param = p[0];
-            if (param == null)
-            {
-                return newView;
-            }
-
-            if (param.IsReadOnly)
-            {
-                SCaddinsApp.WindowManager.ShowMessageBox("SCuv Error", "SC-View_Category is read only!");
-                return null;
-            }
-
-            if (param.Set("User"))
-            {
-                return newView;
-            }
-            SCaddinsApp.WindowManager.ShowMessageBox("SCuv Error", "Error setting SC-View_Category parameter!");
-            return null;
+            ReplaceParameterValues(newView);
+            return newView;
         }
 
         private static string GetNewViewName(Document doc, Element sourceView)
@@ -155,11 +144,11 @@ namespace SCaddins.ViewUtilities
             {
                 return string.Empty;
             }
-            string name = sourceView.Name;
 
-            // Revit wont allow { or } so replace them if they exist
-            name = name.Replace(@"{", string.Empty).Replace(@"}", string.Empty);
-            name = Environment.UserName + "-" + name + "-" + MiscUtilities.GetDateString;
+            string name = ViewUtilitiesSettings.Default.UserViewNameFormat;
+            name = ReplacePatternMatches(sourceView, name);
+
+            // FIXME move the below method somewhere else
             if (SolarAnalysis.SolarAnalysisManager.ViewNameIsAvailable(doc, name))
             {
                 return name;
@@ -167,6 +156,50 @@ namespace SCaddins.ViewUtilities
             else
             {
                 return SolarAnalysis.SolarAnalysisManager.GetNiceViewName(doc, name);
+            }
+        }
+
+        private static void ReplaceParameterValues(Element element)
+        {
+            var p1 = ViewUtilitiesSettings.Default.FirstParamName;
+            var p2 = ViewUtilitiesSettings.Default.SecondParamName;
+            var p3 = ViewUtilitiesSettings.Default.ThirdParamName;
+            var v1 = ViewUtilitiesSettings.Default.FirstParamValue;
+            var v2 = ViewUtilitiesSettings.Default.SecondParamValue;
+            var v3 = ViewUtilitiesSettings.Default.ThirdParamValue;
+            ReplaceParameterValue(p1, v1, element);
+            ReplaceParameterValue(p2, v2, element);
+            ReplaceParameterValue(p3, v3, element);
+        }
+
+        private static string ReplacePatternMatches(Element element, string name)
+        {
+            string user = Environment.UserName;
+            string date = MiscUtilities.GetDateString;
+
+            name = name.Replace(@"$user", user);
+            name = name.Replace(@"$date", date);
+
+            string pattern = @"(<<)(.*?)(>>)";
+            name = Regex.Replace(
+                name,
+                pattern,
+                m => RoomConverter.RoomConversionCandidate.GetParamValueAsString(ParamFromString(m.Groups[2].Value, element)));
+
+            // Revit wont allow { or } so replace them if they exist
+            name = name.Replace(@"{", string.Empty).Replace(@"}", string.Empty);
+
+            return name;
+        }
+
+        private static void ReplaceParameterValue(string paramName, string value, Element element)
+        {
+            var param = ParamFromString(paramName, element);
+            if (param != null && !string.IsNullOrEmpty(value)) {
+                if (!param.IsReadOnly) {
+                    value = ReplacePatternMatches(element, value);
+                    param.Set(value);
+                }
             }
         }
 

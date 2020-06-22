@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SCaddins.ViewUtilities" GeneratedClassName="ViewUtilitiesSettings">
+  <Profiles />
+  <Settings>
+    <Setting Name="UserViewNameFormat" Type="System.String" Scope="User">
+      <Value Profile="(Default)">$user-&lt;&lt;View Name&gt;&gt;-$date</Value>
+    </Setting>
+    <Setting Name="FirstParamName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">SC-View_Category_Primary</Value>
+    </Setting>
+    <Setting Name="FirstParamValue" Type="System.String" Scope="User">
+      <Value Profile="(Default)">USER</Value>
+    </Setting>
+    <Setting Name="SecondParamName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">SC-View_Category_Secondary</Value>
+    </Setting>
+    <Setting Name="SecondParamValue" Type="System.String" Scope="User">
+      <Value Profile="(Default)">$user</Value>
+    </Setting>
+    <Setting Name="ThirdParamName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ThirdParamValue" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

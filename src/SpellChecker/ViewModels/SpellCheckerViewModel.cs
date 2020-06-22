@@ -160,16 +160,6 @@ namespace SCaddins.SpellChecker.ViewModels
             Next();
         }
 
-        public void Options()
-        {
-            var viewModel = new SpellCheckerOptionsViewModel();
-            bool? result = SCaddinsApp.WindowManager.ShowDialog(viewModel, null, SpellCheckerOptionsViewModel.DefaultWindowSettings);
-            if (result.HasValue && result.Value)
-            {
-                manager.UpdateIgnoreList();
-            }
-        }
-
         public void Show()
         {
             if (manager.CurrentCandidate != null)

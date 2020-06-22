@@ -353,8 +353,13 @@
     <Compile Include="Common\Bootstrapper.cs" />
     <Compile Include="Common\IDialogService.cs" />
     <Compile Include="Common\MockDialogService.cs" />
+    <Compile Include="Common\Settings.cs" />
     <Compile Include="Common\ViewModels\AboutViewModel.cs" />
+    <Compile Include="Common\ViewModels\SettingsViewModel.cs" />
     <Compile Include="Common\ViewModels\UpgradeViewModel.cs" />
+    <Compile Include="Common\Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
@@ -506,6 +511,7 @@
     <Compile Include="RoomConverter\ViewModels\RoomConvertorViewModel.cs" />
     <Compile Include="RoomConverter\ViewModels\RoomFilterViewModel.cs" />
     <Compile Include="RoomConverter\ViewModels\RoomToSheetWizardViewModel.cs" />
+    <Compile Include="RoomConverter\ViewModels\SettingsViewModel.cs" />
     <Compile Include="RoomConverter\Views\ListSelectionView.xaml.cs">
       <DependentUpon>ListSelectionView.xaml</DependentUpon>
     </Compile>
@@ -538,6 +544,7 @@
     <Compile Include="SheetCopier\SheetCopierSheet.cs" />
     <Compile Include="SheetCopier\SheetCopierViewOnSheet.cs" />
     <Compile Include="SheetCopier\SheetInformation.cs" />
+    <Compile Include="SheetCopier\ViewModels\SheetCopierSettingsViewModel.cs" />
     <Compile Include="SheetCopier\ViewModels\SheetCopierViewModel.cs" />
     <Compile Include="SheetCopier\ViewModels\SheetSelectionViewModel.cs" />
     <Compile Include="SheetCopier\Views\SheetCopierView.xaml.cs">
@@ -545,6 +552,9 @@
     </Compile>
     <Compile Include="SheetCopier\Views\SheetSelectionView.xaml.cs">
       <DependentUpon>SheetSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SheetCopier\Views\SheetCopierSettingsView.xaml.cs">
+      <DependentUpon>SheetCopierSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SolarAnalysis\SolarAnalysisColourSchemes.cs" />
     <Compile Include="SolarAnalysis\SolarAnalysisTestFace.cs" />
@@ -608,10 +618,19 @@
     <Compile Include="DestructivePurge\DestructivePurgeCommand.cs" />
     <Compile Include="DestructivePurge\DeletableItem.cs" />
     <Compile Include="ViewUtilities\Pin.cs" />
+    <Compile Include="ViewUtilities\ViewModels\ViewUtilitiesSettingsViewModel.cs" />
+    <Compile Include="ViewUtilities\Views\ViewUtilitiesSettingsView.xaml.cs">
+      <DependentUpon>ViewUtilitiesSettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewUtilities\ViewUnderlays.cs" />
     <Compile Include="ViewUtilities\RemoveUnderlaysCommand.cs" />
     <Compile Include="ViewUtilities\UserView.cs" />
     <Compile Include="ViewUtilities\CreateUserViewCommand.cs" />
+    <Compile Include="ViewUtilities\ViewUtilitiesSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>ViewUtilitiesSettings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -629,6 +648,11 @@
       <Link>Assets\en_AU.dic</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Assets\Ribbon\gear-rvt-16.png" />
+    <None Include="ViewUtilities\ViewUtilitiesSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>ViewUtilitiesSettings.Designer.cs</LastGenOutput>
+    </None>
     <Resource Include="Assets\filter.png" />
     <Resource Include="Assets\pin.png" />
     <None Include="app.config" />
@@ -660,6 +684,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Common\Views\SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Common\Views\AboutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -765,6 +793,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="RoomConverter\Views\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RunScript\Views\RunScriptView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -777,6 +809,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SheetCopier\Views\SheetCopierSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SolarAnalysis\Views\SolarViewsView.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -785,6 +821,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SpellChecker\Views\SpellCheckerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewUtilities\Views\ViewUtilitiesSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -895,6 +935,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

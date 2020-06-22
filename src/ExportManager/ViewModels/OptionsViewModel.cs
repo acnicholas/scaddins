@@ -65,6 +65,23 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public static dynamic DefaultWindowSettings
+        {
+            get
+            {
+                dynamic settings = new ExpandoObject();
+                settings.Height = 640;
+                settings.Width = 480;
+                settings.Title = "SCexport - Options";
+                settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
+                      new Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png"));
+                settings.ShowInTaskbar = false;
+                settings.ResizeMode = System.Windows.ResizeMode.NoResize;
+                settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+                return settings;
+            }
+        }
+
         public static string NorthPointVisibilityParameterName {
             get
             {
@@ -340,7 +357,7 @@ namespace SCaddins.ExportManager.ViewModels
                 if (value == exportManager.GhostscriptBinDirectory) {
                     return;
                 }
-                exportManager.GhostscriptBinDirectory = value;
+                exportManager.GhostscriptBinDirectory = value;             
                 Settings1.Default.GSBinDirectory = value;
                 Settings1.Default.Save();
                 NotifyOfPropertyChange(() => GhostscriptBinLocation);
