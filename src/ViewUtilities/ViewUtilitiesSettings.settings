@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="UserViewNameFormat" Type="System.String" Scope="User">
-      <Value Profile="(Default)">$user-&lt;&lt;View Name&gt;&gt;-$date&lt;&lt;Associated Level&gt;&gt;</Value>
+      <Value Profile="(Default)">$user-&lt;&lt;View Name&gt;&gt;-$date</Value>
     </Setting>
     <Setting Name="FirstParamName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

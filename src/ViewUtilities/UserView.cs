@@ -145,21 +145,8 @@ namespace SCaddins.ViewUtilities
                 return string.Empty;
             }
 
-            string user = Environment.UserName;
-            string date = MiscUtilities.GetDateString;
             string name = ViewUtilitiesSettings.Default.UserViewNameFormat;
-
-            name = name.Replace(@"$user", user);
-            name = name.Replace(@"$date", date);
-
-            string pattern = @"(<<)(.*?)(>>)";
-            name = Regex.Replace(
-                name,
-                pattern,
-                m => RoomConverter.RoomConversionCandidate.GetParamValueAsString(ParamFromString(m.Groups[2].Value, sourceView)));
-
-            // Revit wont allow { or } so replace them if they exist
-            name = name.Replace(@"{", string.Empty).Replace(@"}", string.Empty);
+            name = ReplacePatternMatches(sourceView, name);
 
             // FIXME move the below method somewhere else
             if (SolarAnalysis.SolarAnalysisManager.ViewNameIsAvailable(doc, name))
@@ -185,11 +172,32 @@ namespace SCaddins.ViewUtilities
             ReplaceParameterValue(p3, v3, element);
         }
 
+        private static string ReplacePatternMatches(Element element, string name)
+        {
+            string user = Environment.UserName;
+            string date = MiscUtilities.GetDateString;
+
+            name = name.Replace(@"$user", user);
+            name = name.Replace(@"$date", date);
+
+            string pattern = @"(<<)(.*?)(>>)";
+            name = Regex.Replace(
+                name,
+                pattern,
+                m => RoomConverter.RoomConversionCandidate.GetParamValueAsString(ParamFromString(m.Groups[2].Value, element)));
+
+            // Revit wont allow { or } so replace them if they exist
+            name = name.Replace(@"{", string.Empty).Replace(@"}", string.Empty);
+
+            return name;
+        }
+
         private static void ReplaceParameterValue(string paramName, string value, Element element)
         {
             var param = ParamFromString(paramName, element);
             if (param != null && !string.IsNullOrEmpty(value)) {
                 if (!param.IsReadOnly) {
+                    value = ReplacePatternMatches(element, value);
                     param.Set(value);
                 }
             }
