@@ -37,7 +37,7 @@ namespace SCaddins.ViewUtilities {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("SC-View_Category_Primary")]
         public string FirstParamName {
             get {
                 return ((string)(this["FirstParamName"]));
@@ -49,7 +49,7 @@ namespace SCaddins.ViewUtilities {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("USER")]
         public string FirstParamValue {
             get {
                 return ((string)(this["FirstParamValue"]));
@@ -61,7 +61,7 @@ namespace SCaddins.ViewUtilities {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("SC-View_Category_Secondary")]
         public string SecondParamName {
             get {
                 return ((string)(this["SecondParamName"]));
@@ -73,7 +73,7 @@ namespace SCaddins.ViewUtilities {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("$user")]
         public string SecondParamValue {
             get {
                 return ((string)(this["SecondParamValue"]));
