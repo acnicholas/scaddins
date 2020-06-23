@@ -75,14 +75,14 @@ public static void Main(Document doc)
         {
             get => script;
 
-            private set
+            set
             {
                 script = value;
                 NotifyOfPropertyChange(() => Script);
             }
         }
         
-        private string CurrentFileName
+        public string CurrentFileName
         {
             get => currentFileName;
             set
@@ -92,7 +92,7 @@ public static void Main(Document doc)
             }
         }
         
-        private BindableCollection<string> OutputList
+        public BindableCollection<string> OutputList
         {
             get
             {
@@ -109,7 +109,7 @@ public static void Main(Document doc)
             }
         }
         
-        private string Output
+        public string Output
         {
             get => output;
 
@@ -183,7 +183,7 @@ public static void Main(Document doc)
             }
         }
         
-        private void SaveScratch()
+        public void SaveScratch()
         {
             var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             var p = Path.Combine(s, "SCaddins");
