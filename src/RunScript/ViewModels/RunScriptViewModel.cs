@@ -123,6 +123,19 @@ public static void Main(Document doc)
                 NotifyOfPropertyChange(() => OutputList);
             }
         }
+
+        public void LoadSample()
+        {
+            var f = SCaddinsApp.WindowManager.ShowFileSelectionDialog(@"C:\Program Files\SCaddins\SCaddins\share\RunScript\HelloWorld.cs", out currentFileName);
+            if (f.HasValue && f.Value)
+            {
+                if (File.Exists(currentFileName))
+                {
+                    Script = File.ReadAllText(CurrentFileName);
+                    NotifyOfPropertyChange(() => CanSave);
+                }
+            }
+        }
          
         public void LoadScratch()
         {

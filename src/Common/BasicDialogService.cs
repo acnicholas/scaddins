@@ -17,6 +17,8 @@
 
 namespace SCaddins.Common
 {
+    using System.IO;
+
     internal class BasicDialogService : IDialogService
     {
         public bool? ShowColourChooser()
@@ -59,6 +61,10 @@ namespace SCaddins.Common
         public bool? ShowFileSelectionDialog(string defaultFile, out string filePath)
         {
             using (var dialog = new System.Windows.Forms.OpenFileDialog()) {
+                if (File.Exists(defaultFile))
+                {
+                    dialog.InitialDirectory = Path.GetDirectoryName(defaultFile);
+                }
                 dialog.Multiselect = false;
                 System.Windows.Forms.DialogResult result = dialog.ShowDialog();
                 if (result == System.Windows.Forms.DialogResult.OK) {

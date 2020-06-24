@@ -27,6 +27,12 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator></Separator>
+                <MenuItem x:Name="LoadSample" Header="Load Sample">
+                    <MenuItem.Icon>
+                        <Image Source="/SCaddins;component/Assets/open.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator></Separator>
                 <MenuItem x:Name="Save" Header="_Save" IsEnabled="{Binding ElementName=root, Path=DataContext.CanSave}">
                     <MenuItem.Icon>
                         <Image Source="/SCaddins;component/Assets/save.png" />
