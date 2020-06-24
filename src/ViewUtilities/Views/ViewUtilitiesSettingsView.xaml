@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SCaddins.ViewUtilities.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="480" d:DesignWidth="640">
     <StackPanel Orientation="Vertical">
         <GroupBox Header="Name Replacements">
             <StackPanel Orientation="Vertical">
@@ -19,7 +19,7 @@
                     for example: <LineBreak />
                     AndrewN-$viewName-$date<LineBreak />
                 </TextBlock>
-                <TextBox x:Name="UserViewNameFormat">value goes here</TextBox>
+                <TextBox x:Name="UserViewNameFormat" Margin="5">value goes here</TextBox>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Parameter Replacements">
@@ -35,7 +35,7 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0">
+                <TextBlock Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" Margin="5">
                     View parameter settings.
                 </TextBlock>
                 <Label Grid.Row="1" Grid.Column="0" Margin="5">Param</Label>

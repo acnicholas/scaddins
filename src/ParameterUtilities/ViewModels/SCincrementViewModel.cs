@@ -26,20 +26,6 @@ namespace SCaddins.ParameterUtilities.ViewModels
             Reset();
         }
 
-        public static dynamic DefaultWindowSettings
-        {
-            get
-            {
-                dynamic settings = new System.Dynamic.ExpandoObject();
-                settings.Height = 400;
-                settings.Title = "SCincrement Settigns";
-                settings.ShowInTaskbar = false;
-                settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
-                settings.ResizeMode = System.Windows.ResizeMode.CanResize;
-                return settings;
-            }
-        }
-
         public string CustomParameterName { get; set; }
 
         public string DestinationReplacementPattern { get; set; }

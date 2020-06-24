@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="600">
+             d:DesignHeight="480" d:DesignWidth="680">
     <Grid x:Name="RootVisual">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -17,7 +17,7 @@
             <TabItem Header="User View">
                 <ContentControl x:Name="ViewUtilitiesViewModel"></ContentControl>
             </TabItem>
-            <TabItem Header="Copy Sheets" IsEnabled="False">
+            <TabItem Header="Copy Sheets" IsEnabled="True">
                 <ContentControl x:Name="SheetCopierViewModel"></ContentControl>
             </TabItem>
             <!--<TabItem Header="SCexport"></TabItem>-->
@@ -36,7 +36,7 @@
             </Grid.ColumnDefinitions>
             <Button x:Name="Reset" Grid.Column="0" HorizontalAlignment="Left" Margin="5" MinHeight="25">Reset</Button>
             <Button x:Name="Cancel" Grid.Column="1" HorizontalAlignment="Right" Margin="5" MinHeight="25">Cancel</Button>
-            <Button x:Name="Apply" Grid.Column="2" HorizontalAlignment="Right" Margin="5" MinHeight="25">Apply</Button>
+            <Button x:Name="Apply" Grid.Column="2" HorizontalAlignment="Right" Margin="5" MinHeight="25">OK</Button>
         </Grid>
     </Grid>
 </UserControl>

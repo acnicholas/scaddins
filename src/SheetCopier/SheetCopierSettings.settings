@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SCaddins.SheetCopier" GeneratedClassName="SheetCopierSettings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SheetParameterOne" Type="System.String" Scope="User">
+      <Value Profile="(Default)">SC-Sheet_Category_Primary</Value>
+    </Setting>
+    <Setting Name="SheetParameterTwo" Type="System.String" Scope="User">
+      <Value Profile="(Default)">SC-Sheet_Category_Secondary</Value>
+    </Setting>
+    <Setting Name="CopyDetailingByDefault" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

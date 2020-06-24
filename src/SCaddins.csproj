@@ -542,6 +542,11 @@
     <Compile Include="SheetCopier\SheetCopierConstants.cs" />
     <Compile Include="SheetCopier\SheetCopierEnums.cs" />
     <Compile Include="SheetCopier\SheetCopierManager.cs" />
+    <Compile Include="SheetCopier\SheetCopierSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>SheetCopierSettings.settings</DependentUpon>
+    </Compile>
     <Compile Include="SheetCopier\SheetCopierSheet.cs" />
     <Compile Include="SheetCopier\SheetCopierViewOnSheet.cs" />
     <Compile Include="SheetCopier\SheetInformation.cs" />
@@ -606,7 +611,6 @@
     <Compile Include="LineOfSight\LineOfSightCommand.cs" />
     <Compile Include="LineOfSight\StaduimSeatingTread.cs" />
     <Compile Include="ParameterUtilities\Increment.cs" />
-    <Compile Include="ParameterUtilities\IncrementSettings.cs" />
     <Compile Include="ParameterUtilities\IncrementSettings.Designer.cs">
       <DependentUpon>IncrementSettings.settings</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -650,6 +654,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Assets\Ribbon\gear-rvt-16.png" />
+    <None Include="SheetCopier\SheetCopierSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>SheetCopierSettings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="ViewUtilities\ViewUtilitiesSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>ViewUtilitiesSettings.Designer.cs</LastGenOutput>
