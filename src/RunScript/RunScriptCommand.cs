@@ -18,6 +18,7 @@
 namespace SCaddins.RunScript
 {
     using System;
+    using System.IO;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -56,6 +57,27 @@ namespace SCaddins.RunScript
             }
         }
 
+        System.Reflection.Assembly
+        CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+
+            string name = args.Name.Substring(0, args.Name.IndexOf(","));
+            //SCaddinsApp.WindowManager.ShowMessageBox(name);
+
+            string filename = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+            //SCaddinsApp.WindowManager.ShowMessageBox(args.Name);
+
+
+            filename = Path.Combine(filename, name + ".dll");
+            if (File.Exists(filename))
+            {
+                return System.Reflection.Assembly.LoadFrom(filename);
+            }
+
+            return null;
+        }
+
         public Result Execute(
             ExternalCommandData commandData,
             ref string message,
@@ -65,6 +87,8 @@ namespace SCaddins.RunScript
             {
                 return Result.Failed;
             }
+
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             var vm = new ViewModels.RunScriptViewModel();
             bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.RunScriptViewModel.DefaultViewSettings);
