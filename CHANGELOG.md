@@ -1,26 +1,46 @@
-#SCaddins Revision Log#
+# SCaddins Revision Log #
 
-#20.0#
+# 21.0 #
 
-####NEW####
+#### NEW ####
+
+- **Revit 2021 support**
+- Pin sheet contents.
+- Customise user view names
+
+#### SUMMARY ####
+
+First release for Revit 2021
+**Revit 2016-2021 Supported.**
+
+#### FIXES #####
+
+ - Don't create "sun-eye" views at night.
+ - Reload SCexport config changes without needing to restart.
+ - Fixed error where the first print would sometimes fail in SCexport.
+ - Deselect all elements before exporting so they don't appear incorrectly (SCexport)
+
+# 20.0 #
+
+#### NEW ####
 
 - **Revit 2020 support**
 
-####SUMMARY####
+#### SUMMARY ####
 
 First release for Revit 2020
-**Revit 2016-2020 Supported.
+**Revit 2016-2020 Supported.**
 
-####NEW####
+#### NEW ####
 
 - New hatch editor tool.
 - New model setup wizard
 - New cs-script runner (BETA)
 - New spell checker (BETA)
 
-#19.1#
+# 19.1 #
 
-####NEW####
+#### NEW ####
 
 - **Completely new Interface using WPF, *many* minor changes**
 - Option to force raster prints in SCexport.
@@ -30,27 +50,27 @@ First release for Revit 2020
 - New solar analysis view creation tool.
 - Option to bulk select sheets to copy in Sheet Copier.
 
-####SUMMARY####
+#### SUMMARY ####
 
 **Completely** revised interface using Windows Presentation Framework.
 Most add-ins include minor improvements/changes.
 
-####FIXES#####
+v
 
-#19.0#
+# 19.0 #
 
-####NEW####
+#### NEW ####
 
 - **Revit 2019 support**
 
-####SUMMARY####
+#### SUMMARY ####
 
 First release for Revit 2019
-**Revit 2016-2019 Supported.
+**Revit 2016-2019 Supported.**
 
-#18.1#
+# 18.1 #
 
-####NEW####
+#### NEW ####
 
 - **New rename tool**
 - New Open sheet dialog (command only)
@@ -61,14 +81,14 @@ First release for Revit 2019
 - Open newly created user views.
 
 
-#18.0#
+# 18.0 #
 
-####SUMMARY####
+#### SUMMARY ####
 
-**Revit 2014-2015 Support dropped. Further releases(v18*) will support the three latest Revit versions (2016,2017 & 2018).**
+**Revit 2014-2015 Support dropped. Further releases(v18+) will support the three latest Revit versions (2016,2017 & 2018).**
 Updated host page to [github](https://github.com/acnicholas/scaddins) 
 
-####FIXES#####
+#### FIXES #####
 
 - Better tree selection in Destructive Purge.
 - Better room solid creation in Room Tools.
@@ -76,28 +96,28 @@ Updated host page to [github](https://github.com/acnicholas/scaddins)
 - Check for invalid view names when creating user views.
 - Don't set scale bar value in SCexport if parameter is not found.
 
-####NEW####
+#### NEW ####
 
 - Updated host page to [github](https://github.com/acnicholas/scaddins) 
 - Remove views option added to *Copy Sheets*.
 - Upgrade reminder form updated,
 
-####CHANGES####
+#### CHANGES ####
 
 - Unjoin wall tool *removed*
 - Window Manger removed.
 
-#17.0.1#
+# 17.0.1 #
 
-####FIXES#####
+#### FIXES #####
 
 - Wall unjoiner defualt setting set to OFF.
 - Fixed solar view diloag error.
 - Fixed room filters in Room Tools
 
-#17.0#
+# 17.0 #
 
-####NEW####
+#### NEW ####
 
 - **Revit 2017 support**
 - **Room Tools added**
@@ -108,7 +128,7 @@ Updated host page to [github](https://github.com/acnicholas/scaddins)
 - [SCexport] Progress bar added when printing files.
 - [SCexport] North Point column added to GUI.
 
-####FIXES#####
+#### FIXES #####
 
 - **[SCopy] Do not copy revisions.**
 - [SCopy] Fixed error when creating multiple sheet copies from the SCexport context menu.
@@ -116,16 +136,16 @@ Updated host page to [github](https://github.com/acnicholas/scaddins)
 - **[SCexport] Option added to remove revisions when renaming sheets.**
 - [SCexport] Fixed view set drop-down error.
 
-#16.2#
+# 16.2 #
 
-####SUMMARY####
+#### SUMMARY ####
 
 **Configuration file format changed**. The old format will now only work with versions <= 16.1.
 
 For details see the ; [**Wiki Page**](https://bitbucket.org/anicholas/scaddins/wiki/SCexport)
 
 
-####NEW####
+#### NEW ####
 
 - **[SCexport] Configuration file format changed.**
 - **[SCexport] Post export hooks added.**
@@ -133,31 +153,31 @@ For details see the ; [**Wiki Page**](https://bitbucket.org/anicholas/scaddins/w
 - **[SCaos] Create plan views (multi-mode).**
 - **[SCam] Create plan perspective views.**
 
-####FIXES#####
+#### FIXES #####
 
 - [SCopy] Better view placement.
 - [SCexport] Portrait printing now works with Postscript(Ghostscript) option.
 - [SCexport] removed unused/optional binaries from installation package.
 
-#16.1#
+# 16.1 #
 
-####NEW####
+#### NEW ####
 
 - **[SCexport] Large format printer support**
 - **[SCincrement] Custom paramter support**
 
-####FIXES#####
+#### FIXES #####
 
 - [SCaos] Do not lock user views. 
 - [SCexport] Postscript pdf printing "seems to work".
 
-#16.0#
+# 16.0 #
 
-####SUMMARY####
+#### SUMMARY ####
 
 **Initial release for Revit 2016**
 
-**This release(16*) will support Revit 2014,2016 & 2016.**
+**This release(16+) will support Revit 2014,2016 & 2016.**
 
 ####NEW####
 
@@ -166,7 +186,7 @@ For details see the ; [**Wiki Page**](https://bitbucket.org/anicholas/scaddins/w
 - [SCaos] Lock solar access views.
 - [SCaos] Select export date.
 
-####FIXES#####
+#### FIXES #####
 
 - [SCopy] Better / more accurate viewport copying. 
 - [SCopy] Disabled detail line copying (CURRENTLY BROKEN)
@@ -175,27 +195,27 @@ For details see the ; [**Wiki Page**](https://bitbucket.org/anicholas/scaddins/w
 - [SCwash] Properly show on-sheet vs not-on-sheet views.
 - [SCaos] Don't attempt to rotate locked views.
 
-#15.3#
+# 15.3 #
 
-####NEW####
+#### NEW ####
 
 - [SCwash] Revision node added so you can purge revisions.
 - [SCopy] "Copy" Legends.
 - [SCopy] Copy detail items.
 
-####FIXES#####
+#### FIXES #####
 
 - [SCopy] Fixed crash when no Sheet Category parameter is found.
 
-#15.2#
+# 15.2 #
 
-####NEW####
+#### NEW ####
 
 - **[SCaos] Create winter views options added, including start time, end time, and interval.**
 
-#15.1#
+# 15.1 #
 
-####NEW####
+#### NEW ####
 
 - [SCaddins]Check for updates on start-up.
 - [SCaddins]Improved update dialog box, with option to view change log.
@@ -203,7 +223,7 @@ For details see the ; [**Wiki Page**](https://bitbucket.org/anicholas/scaddins/w
 - [SCopy]Copy button added to enable multiple copies of sheets. 
 - [SCopy]Sheet Category field added for new sheets. 
 
-####FIXES#####
+#### FIXES #####
 
 - [SCaddins] better tooltip help added to ribbon.
 - [SCexport] If destination file exists -> check if it's open/available before attempting an export.
@@ -212,9 +232,9 @@ For details see the ; [**Wiki Page**](https://bitbucket.org/anicholas/scaddins/w
 - [SCexport] check for illegal file names and replace invalid chars with a '_'
 - **[SCexport] correctly assign and save AutoCAD export version.**
 
-#15.0#
+# 15.0 #
 
-####SUMMARY####
+#### SUMMARY ####
 
 **Initial release**
 
@@ -231,12 +251,12 @@ Previously released and new add-ins used to create SCaddins.
 - SCopy
 - SCuv
 	
-####NEW####
+#### NEW ####
 
  - [SCexport]Fix scale bars in selected sheets
  - [SCexport]Remove underlays from view on selected sheets
  - [SCexport]turn off dwg titleblocks by default
 
-####FIXES####
+#### FIXES ####
 
  - [SCexport]Rename Sheets option
