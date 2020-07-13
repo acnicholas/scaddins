@@ -230,6 +230,11 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             TryClose(true);
         }
 
+        public void Cancel()
+        {
+            TryClose(true);
+        }
+
         public void ConvertSelectedItemsToUpperCase()
         {
             foreach (var p in SelectedProjectInformations) {
