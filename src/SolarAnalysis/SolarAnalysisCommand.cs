@@ -37,6 +37,11 @@ namespace SCaddins.SolarAnalysis
 
             UIDocument udoc = commandData.Application.ActiveUIDocument;
 
+            if (udoc.Document.IsFamilyDocument) {
+                SCaddinsApp.WindowManager.ShowErrorMessageBox("Families not supported", "Solar analysis tools will not work in a family environment.");
+                return Result.Failed;
+            }
+
             var vm = new ViewModels.SolarViewsViewModel(commandData.Application.ActiveUIDocument);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SolarViewsViewModel.DefaultViewSettings);
 

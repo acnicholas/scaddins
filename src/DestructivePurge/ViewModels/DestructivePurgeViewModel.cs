@@ -31,12 +31,14 @@ namespace SCaddins.DestructivePurge.ViewModels
         private Document doc;
         private System.Windows.Media.Imaging.BitmapImage previewImage;
         private CheckableItem selectedItem;
+        private bool isFamily;
 
         public DestructivePurgeViewModel(Document doc)
         {
             this.doc = doc;
+            isFamily = doc.IsFamilyDocument;
             CheckableItems = GetPurgableItems();
-            selectedItem = null;  
+            selectedItem = null;
             previewImage = null;
             selectedItem = CheckableItems[0];
             NotifyOfPropertyChange(() => ShowButtonLabel);
@@ -203,9 +205,12 @@ namespace SCaddins.DestructivePurge.ViewModels
             var revisions = new CheckableItem(new DeletableItem("Revisions"), null);
             revisions.AddChildren(DestructivePurgeUtilitiles.Revisions(doc));
             result.Add(revisions);
-            var uvf = new CheckableItem(new DeletableItem("Unused View Filters"), null);
-            uvf.AddChildren(DestructivePurgeUtilitiles.UnusedViewFilters(doc));
-            result.Add(uvf);
+            if (!isFamily)
+            {
+                var uvf = new CheckableItem(new DeletableItem("Unused View Filters"), null);
+                uvf.AddChildren(DestructivePurgeUtilitiles.UnusedViewFilters(doc));
+                result.Add(uvf);
+            }
             var ubr = new CheckableItem(new DeletableItem("Unbound Rooms"), null);
             ubr.AddChildren(DestructivePurgeUtilitiles.UnboundRooms(doc));
             result.Add(ubr);
