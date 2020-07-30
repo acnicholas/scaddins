@@ -93,6 +93,8 @@
             VerticalAlignment="Stretch"
             Margin="5,0,5,5"
             Grid.ColumnSpan="3"
+            ContextMenuClosing="Sheets_ContextMenuClosing"
+            KeyDown="Sheets_KeyUp"
             GridLinesVisibility="None"
             IsReadOnly="True">
 
@@ -220,6 +222,16 @@
                             <Image
                                 Source="/SCaddins;component/Assets/save.png" />
                         </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Previous Exports">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/recent.png" />
+                        </MenuItem.Icon>
+                        <MenuItem Header="{Binding PreviousExportOneName}" cal:Message.Attach="SelectPrevious" IsEnabled="{Binding PreviousExportOneIsEnabled}" />
+                        <MenuItem Header="{Binding PreviousExportTwoName}" cal:Message.Attach="SelectPrevious" IsEnabled="{Binding PreviousExportTwoIsEnabled}" />
+                        <MenuItem Header="{Binding PreviousExportThreeName}" cal:Message.Attach="SelectPrevious" IsEnabled="{Binding PreviousExportThreeIsEnabled}" />
                     </MenuItem>
                     <Separator />
                     <MenuItem Header="Add Revision" cal:Message.Attach="AddRevision">

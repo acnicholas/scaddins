@@ -409,9 +409,9 @@ namespace SCaddins.SolarAnalysis.ViewModels
                 TryClose(true);
             } else {
                 var log = new ModelSetupWizard.TransactionLog(CurrentModeSummary);
-                model.StartTime = startTime;
-                model.EndTime = endTime;
-                model.ExportTimeInterval = interval;
+                model.StartTime = SelectedStartTime;
+                model.EndTime = SelectedEndTime;
+                model.ExportTimeInterval = SelectedInterval;
                 model.Go(log);
                 SCaddinsApp.WindowManager.ShowMessageBox(log.Summary());
                 DockablePaneId docablePaneId = DockablePanes.BuiltInDockablePanes.ProjectBrowser;

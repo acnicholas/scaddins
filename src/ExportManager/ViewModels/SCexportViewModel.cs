@@ -434,6 +434,51 @@ namespace SCaddins.ExportManager.ViewModels
             OpenSheet.OpenViews(selectedSheets);
         }
 
+        public bool PreviousExportOneIsEnabled
+        {
+            get { return false; }
+        }
+
+        public string PreviousExportOneName
+        {
+            get { return "Test";  }
+        }
+
+        public void SelectPrevious()
+        {
+            //SCaddinsApp.WindowManager.ShowMessageBox("hello");
+
+            ViewSetItem viewSet;
+            //try
+            //{
+                viewSet = RecentExport.GetOldest(exportManager.AllViewSheetSets);
+            //} catch
+            //{
+                
+            //    return;
+            //}
+
+            //SCaddinsApp.WindowManager.ShowMessageBox(viewSet.Name);
+
+            if (viewSet == null)
+            {
+                SCaddinsApp.WindowManager.ShowMessageBox(@":(");
+                return;
+            }
+
+            IsNotifying = false;
+            try
+            {
+                var filter = new Predicate<object>(item => viewSet.ViewIds.Contains(((ExportSheet)item).Sheet.Id.IntegerValue));
+                Sheets.Filter = filter;
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+            IsNotifying = true;
+        }
+
         public void OpenViewSet()
         {
             var viewSetSelectionViewModel = new ViewSetSelectionViewModel(exportManager.AllViewSheetSets);
@@ -497,12 +542,15 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void RemoveViewFilter()
         {
+            //var selection = SelectedSheets;
             Sheets.Filter = null;
             SearchText = string.Empty;
             NotifyOfPropertyChange(() => Sheets);
             NotifyOfPropertyChange(() => SearchText);
             NotifyOfPropertyChange(() => CanPrint);
             NotifyOfPropertyChange(() => CanExport);
+            //SelectedSheets = selection;
+
         }
 
         public void RenameSheets()

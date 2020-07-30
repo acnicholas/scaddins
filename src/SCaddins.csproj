@@ -376,6 +376,7 @@
       <DependentUpon>DestructivePurgeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ExportManager\OpenableView.cs" />
+    <Compile Include="ExportManager\RecentExport.cs" />
     <Compile Include="ExportManager\SheetFilter.cs" />
     <Compile Include="ExportManager\ViewModels\ConfirmationDialogViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\ExportLogViewModel.cs" />
@@ -649,6 +650,7 @@
       <Link>Assets\en_AU.dic</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Assets\recent.png" />
     <EmbeddedResource Include="Assets\Ribbon\gear-rvt-16.png" />
     <None Include="ViewUtilities\ViewUtilitiesSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
