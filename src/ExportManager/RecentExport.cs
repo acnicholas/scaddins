@@ -72,7 +72,6 @@
         public static string GetName()
         {
             var dateString = Common.MiscUtilities.GetVerboseDateString;
-            SCaddinsApp.WindowManager.ShowMessageBox(GetUserName() + "-" + dateString);
             return GetUserName() + "-" + dateString;
         }
 
