@@ -40,6 +40,7 @@ namespace SCaddins.ExportManager.ViewModels
         private SheetFilter sheetFilter;
         private ObservableCollection<ExportSheet> sheets;
         private ICollectionView sheetsCollection;
+        private List<ViewSetItem> recentExportSets;
 
         public SCexportViewModel(Manager exportManager)
         {
@@ -53,6 +54,8 @@ namespace SCaddins.ExportManager.ViewModels
             Sheets.SortDescriptions.Add(new SortDescription("FullExportName", ListSortDirection.Ascending));
             ShowSearchHint = true;
             sheetFilter = null;
+            recentExportSets = RecentExport.GetAllUserViewSets(exportManager.AllViewSheetSets);
+            recentExportSets = recentExportSets.OrderByDescending(v => v.CreationDate).ToList();
         }
 
         public enum CloseMode
@@ -120,6 +123,45 @@ namespace SCaddins.ExportManager.ViewModels
         public bool IsSearchTextFocused
         {
             get; set;
+        }
+
+        public bool PreviousExportOneIsEnabled
+        {
+            get { return recentExportSets.Count > 0; }
+        }
+
+        public bool PreviousExportTwoIsEnabled
+        {
+            get { return recentExportSets.Count > 1; }
+        }
+
+        public bool PreviousExportThreeIsEnabled
+        {
+            get { return recentExportSets.Count > 2; }
+        }
+
+        public string PreviousExportOneName
+        {
+            get
+            {
+                return PreviousExportOneIsEnabled ? recentExportSets[0].DescriptiveName : "N/A";
+            }
+        }
+
+        public string PreviousExportTwoName
+        {
+            get
+            {
+                return PreviousExportTwoIsEnabled ? recentExportSets[1].DescriptiveName : "N/A";
+            }
+        }
+
+        public string PreviousExportThreeName
+        {
+            get
+            {
+                return PreviousExportThreeIsEnabled ? recentExportSets[2].DescriptiveName : "N/A";
+            }
         }
 
         public string PrintButtonToolTip
@@ -434,35 +476,15 @@ namespace SCaddins.ExportManager.ViewModels
             OpenSheet.OpenViews(selectedSheets);
         }
 
-        public bool PreviousExportOneIsEnabled
+        public void SelectPrevious(int i)
         {
-            get { return false; }
+            SelectPrevious(recentExportSets[i]);
         }
 
-        public string PreviousExportOneName
+        public void SelectPrevious(ViewSetItem viewSet)
         {
-            get { return "Test";  }
-        }
-
-        public void SelectPrevious()
-        {
-            //SCaddinsApp.WindowManager.ShowMessageBox("hello");
-
-            ViewSetItem viewSet;
-            //try
-            //{
-                viewSet = RecentExport.GetOldest(exportManager.AllViewSheetSets);
-            //} catch
-            //{
-                
-            //    return;
-            //}
-
-            //SCaddinsApp.WindowManager.ShowMessageBox(viewSet.Name);
-
             if (viewSet == null)
             {
-                SCaddinsApp.WindowManager.ShowMessageBox(@":(");
                 return;
             }
 
@@ -542,15 +564,12 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void RemoveViewFilter()
         {
-            //var selection = SelectedSheets;
             Sheets.Filter = null;
             SearchText = string.Empty;
             NotifyOfPropertyChange(() => Sheets);
             NotifyOfPropertyChange(() => SearchText);
             NotifyOfPropertyChange(() => CanPrint);
             NotifyOfPropertyChange(() => CanExport);
-            //SelectedSheets = selection;
-
         }
 
         public void RenameSheets()

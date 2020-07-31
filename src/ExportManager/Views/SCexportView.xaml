@@ -229,9 +229,9 @@
                             <Image
                                 Source="/SCaddins;component/Assets/recent.png" />
                         </MenuItem.Icon>
-                        <MenuItem Header="{Binding PreviousExportOneName}" cal:Message.Attach="SelectPrevious" IsEnabled="{Binding PreviousExportOneIsEnabled}" />
-                        <MenuItem Header="{Binding PreviousExportTwoName}" cal:Message.Attach="SelectPrevious" IsEnabled="{Binding PreviousExportTwoIsEnabled}" />
-                        <MenuItem Header="{Binding PreviousExportThreeName}" cal:Message.Attach="SelectPrevious" IsEnabled="{Binding PreviousExportThreeIsEnabled}" />
+                        <MenuItem Header="{Binding PreviousExportOneName}" cal:Message.Attach="SelectPrevious(0)" IsEnabled="{Binding PreviousExportOneIsEnabled}" />
+                        <MenuItem Header="{Binding PreviousExportTwoName}" cal:Message.Attach="SelectPrevious(1)" IsEnabled="{Binding PreviousExportTwoIsEnabled}" />
+                        <MenuItem Header="{Binding PreviousExportThreeName}" cal:Message.Attach="SelectPrevious(2)" IsEnabled="{Binding PreviousExportThreeIsEnabled}" />
                     </MenuItem>
                     <Separator />
                     <MenuItem Header="Add Revision" cal:Message.Attach="AddRevision">
