@@ -1,5 +1,11 @@
 # SCaddins Revision Log #
 
+# 21.1 #
+
+#### NEW ####
+
+- Additional option to create RCP's with Room Tools.
+
 # 21.0 #
 
 #### NEW ####
