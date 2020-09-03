@@ -39,6 +39,40 @@ namespace SCaddins.RoomConverter.ViewModels
             get { return manager.ViewTemplates; }
         }
 
+        public bool CreatePlan
+        {
+            get
+            {
+                return manager.CreatePlan;
+            }
+
+            set
+            {
+                if (value != manager.CreatePlan)
+                {
+                    manager.CreatePlan = value;
+                    NotifyOfPropertyChange(() => CreatePlan);
+                }
+            }
+        }
+
+        public bool CreateRCP
+        {
+            get
+            {
+                return manager.CreateRCP;
+            }
+
+            set
+            {
+                if (value != manager.CreateRCP)
+                {
+                    manager.CreateRCP = value;
+                    NotifyOfPropertyChange(() => CreateRCP);
+                }
+            }
+        }
+
         public ElementId SelectedTitleBlock
         {
             get
