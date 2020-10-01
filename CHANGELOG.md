@@ -5,6 +5,7 @@
 #### NEW ####
 
 - Additional option to create RCP's with Room Tools.
+- Rename familes added to Rename Tool
 
 # 21.0 #
 
