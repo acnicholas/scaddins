@@ -17,6 +17,8 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -26,6 +28,8 @@
                 <Label Grid.Row="1" Grid.Column="0"  Margin="5">Scale (1 : n )</Label>
                 <Label Grid.Row="2" Grid.Column="0"  Margin="5">View Template</Label>
                 <Label Grid.Row="3" Grid.Column="0"  Margin="5">Crop Offset (mm)</Label>
+                <CheckBox Grid.Row="4" Grid.Column="0"  Margin="5" x:Name="CreatePlan">Generate Plan</CheckBox>
+                <CheckBox Grid.Row="5" Grid.Column="0"  Margin="5" x:Name="CreateRCP">Generate RCP</CheckBox>
                 <ComboBox
                     Grid.Row="0"
                     Grid.Column="1"

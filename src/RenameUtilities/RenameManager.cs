@@ -81,6 +81,7 @@ namespace SCaddins.RenameUtilities
                 result.Add("Sheets");
                 result.Add("Walls");
                 result.Add("Doors");
+                result.Add("Families");
                 result.Add(@"Project Information");
                 result.Add(@"Model Groups");
                 return result;
@@ -143,6 +144,10 @@ namespace SCaddins.RenameUtilities
             }
             if (parameterCategory == @"Text") {
                 return GetParametersByCategory(BuiltInCategory.OST_TextNotes, doc);
+            }
+            if (parameterCategory == "Families")
+            {
+                return GetFamilyParameters(doc);
             }
             if (parameterCategory == @"Project Information") {
                 return GetParametersByCategory(BuiltInCategory.OST_ProjectInformation, doc);
@@ -270,11 +275,16 @@ namespace SCaddins.RenameUtilities
             }
         }
 
-        public void SetCandidatesByParameter(Parameter parameter, BuiltInCategory category, Type t)
+        public void SetCandidatesByParameter(Parameter parameter, BuiltInCategory category, Type t, Family family)
         {
             if (category == BuiltInCategory.OST_TextNotes || category == BuiltInCategory.OST_IOSModelGroups)
             {
                 GetTextNoteValues(category);
+                return;
+            }
+            if (family != null)
+            {
+                GetFamilyNames();
                 return;
             }
             renameCandidates.Clear();
@@ -340,11 +350,28 @@ namespace SCaddins.RenameUtilities
             collector.OfClass(t);
             var elem = collector.FirstElement();
             var elem2 = collector.ToElements()[collector.GetElementCount() - 1];
-            if (elem2.Parameters.Size > elem.Parameters.Size) {
+            if (elem2.Parameters.Size > elem.Parameters.Size)
+            {
                 elem = elem2;
             }
             Parameter param = elem.LookupParameter("Name");
             parametersList.Add(new RenameParameter(param, t));
+            return parametersList;
+        }
+
+        private static Caliburn.Micro.BindableCollection<RenameParameter> GetFamilyParameters(Document doc)
+        {
+            Caliburn.Micro.BindableCollection<RenameParameter> parametersList = new Caliburn.Micro.BindableCollection<RenameParameter>();
+
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfClass(typeof(Family));
+            var elem = collector.FirstElement();
+            var elem2 = collector.ToElements()[collector.GetElementCount() - 1];
+            if (elem2.Parameters.Size > elem.Parameters.Size)
+            {
+                elem = elem2;
+            }
+            parametersList.Add(new RenameParameter(elem as Family));
             return parametersList;
         }
 
@@ -366,6 +393,23 @@ namespace SCaddins.RenameUtilities
                 if (textNote != null)
                 {
                     var rc = new RenameCandidate(textNote);
+                    rc.NewValue = renameCommand.Rename(rc.OldValue);
+                    renameCandidates.Add(rc);
+                }
+            }
+        }
+
+        private void GetFamilyNames()
+        {
+            renameCandidates.Clear();
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfClass(typeof(Family));
+            foreach (Element element in collector)
+            {
+                var family = (Family)element;
+                if (family != null)
+                {
+                    var rc = new RenameCandidate(family);
                     rc.NewValue = renameCommand.Rename(rc.OldValue);
                     renameCandidates.Add(rc);
                 }

@@ -25,6 +25,7 @@ namespace SCaddins.RenameUtilities
         private string newValue;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "note")]
         private TextElement note;
+        private Family family;
         private string oldValue;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "parameter")]
         private Parameter parameter;
@@ -33,6 +34,7 @@ namespace SCaddins.RenameUtilities
         {
             this.parameter = parameter;
             this.note = null;
+            this.family = null;
             this.oldValue = parameter.AsString();
             this.newValue = parameter.AsString();
         }
@@ -41,8 +43,18 @@ namespace SCaddins.RenameUtilities
         {
             this.parameter = null;
             this.note = note;
+            this.family = null;
             this.oldValue = note.Text;
             this.newValue = note.Text;
+        }
+
+        public RenameCandidate(Family family)
+        {
+            this.parameter = null;
+            this.note = null;
+            this.family = family;
+            this.oldValue = family.Name;
+            this.newValue = family.Name;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -85,18 +97,30 @@ namespace SCaddins.RenameUtilities
         {
             if (ValueChanged)
             {
-                if (note == null)
+                if (note == null && family == null)
                 {
                     if (!parameter.IsReadOnly)
                     {
                         return parameter.Set(NewValue);
                     }
                 }
-                else
+                else if (family == null)
                 {
                     try
                     {
                         note.Text = NewValue;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                    return true;
+                }
+                else if (note == null)
+                {
+                    try
+                    {
+                        family.Name = NewValue;
                     }
                     catch
                     {
