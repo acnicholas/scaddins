@@ -22,7 +22,7 @@ namespace SCaddins.RoomConverter
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
-    
+
     public class RoomConversionManager
     {
         #region PROPERTIES
@@ -59,6 +59,8 @@ namespace SCaddins.RoomConverter
             CropRegionEdgeOffset = 300;
             SheetCopier.SheetCopierManager.GetAllSheets(existingSheets, this.doc);
             SheetCopier.SheetCopierManager.GetAllViewsInModel(existingViews, this.doc);
+            CreatePlan = true;
+            CreateRCP = false;
             using (var collector = new FilteredElementCollector(this.doc))
             {
                 collector.OfClass(typeof(SpatialElement));
@@ -98,6 +100,16 @@ namespace SCaddins.RoomConverter
         public List<RoomConversionCandidate> Candidates
         {
             get { return allCandidates; }
+        }
+
+        public bool CreatePlan
+        {
+            get; set;
+        }
+
+        public bool CreateRCP
+        {
+            get; set;
         }
 
         public int CropRegionEdgeOffset {
@@ -350,25 +362,25 @@ namespace SCaddins.RoomConverter
                 if (paramDest != null && paramDest.UserModifiable && paramDest.StorageType == param.StorageType) {
                     switch (param.StorageType) {
                         case StorageType.String:
-                        if (!paramDest.IsReadOnly && paramDest.UserModifiable) {
-                            string v = param.AsString();
-                            paramDest.Set(v);
-                        }
-                        break;
+                            if (!paramDest.IsReadOnly && paramDest.UserModifiable) {
+                                string v = param.AsString();
+                                paramDest.Set(v);
+                            }
+                            break;
 
                         case StorageType.Integer:
-                        int b = param.AsInteger();
-                        if (b != -1 && !paramDest.IsReadOnly) {
-                            paramDest.Set(b);
-                        }
-                        break;
+                            int b = param.AsInteger();
+                            if (b != -1 && !paramDest.IsReadOnly) {
+                                paramDest.Set(b);
+                            }
+                            break;
 
                         case StorageType.Double:
-                        double d = param.AsDouble();
-                        if (!paramDest.IsReadOnly) {
-                            paramDest.Set(d);
-                        }
-                        break;
+                            double d = param.AsDouble();
+                            if (!paramDest.IsReadOnly) {
+                                paramDest.Set(d);
+                            }
+                            break;
                     }
                 }
             }
@@ -400,6 +412,22 @@ namespace SCaddins.RoomConverter
                 foreach (var element in collector.OfClass(typeof(ViewFamilyType))) {
                     var vft = (ViewFamilyType)element;
                     if (vft.ViewFamily == ViewFamily.FloorPlan)
+                    {
+                        return vft.Id;
+                    }
+                }
+                return null;
+            }
+        }
+
+        private static ElementId GetRCPViewFamilyTypeId(Document doc)
+        {
+            using (var collector = new FilteredElementCollector(doc))
+            {
+                foreach (var element in collector.OfClass(typeof(ViewFamilyType)))
+                {
+                    var vft = (ViewFamilyType)element;
+                    if (vft.ViewFamily == ViewFamily.CeilingPlan)
                     {
                         return vft.Id;
                     }
@@ -449,11 +477,11 @@ namespace SCaddins.RoomConverter
                 }
 
                 var eid = new ElementId(BuiltInCategory.OST_Mass);
-                #if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020 || REVIT2021
+#if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020 || REVIT2021
                 DirectShape roomShape = DirectShape.CreateElement(doc, eid);
-                #else
+#else
                 DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
-                #endif
+#endif
                 roomShape.SetShape(new GeometryObject[] { roomSolid });
                 CopyAllRoomParametersToMasses(room, roomShape);
             }
@@ -476,39 +504,39 @@ namespace SCaddins.RoomConverter
                     return false;
                 }
 
-                    #if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020 || REVIT2021
-                    DirectShape roomShape = DirectShape.CreateElement(doc, eid);
-                    #else
+#if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020 || REVIT2021
+                DirectShape roomShape = DirectShape.CreateElement(doc, eid);
+#else
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
-                    #endif
+#endif
 
-                    var curves = new List<Curve>();
+                var curves = new List<Curve>();
 
-                    var bl = new XYZ(bb.Min.X, bb.Min.Y, bb.Min.Z);
-                    var br = new XYZ(bb.Max.X, bb.Min.Y, bb.Min.Z);
-                    var tr = new XYZ(bb.Max.X, bb.Max.Y, bb.Min.Z);
-                    var tl = new XYZ(bb.Min.X, bb.Max.Y, bb.Min.Z);
+                var bl = new XYZ(bb.Min.X, bb.Min.Y, bb.Min.Z);
+                var br = new XYZ(bb.Max.X, bb.Min.Y, bb.Min.Z);
+                var tr = new XYZ(bb.Max.X, bb.Max.Y, bb.Min.Z);
+                var tl = new XYZ(bb.Min.X, bb.Max.Y, bb.Min.Z);
 
-                    var height = bb.Max.Z - bb.Min.Z;
+                var height = bb.Max.Z - bb.Min.Z;
 
-                    curves.Add(Line.CreateBound(bl, br));
-                    curves.Add(Line.CreateBound(br, tr));
-                    curves.Add(Line.CreateBound(tr, tl));
-                    curves.Add(Line.CreateBound(tl, bl));
-                    var loop = CurveLoop.Create(curves);
-                    var options = new SolidOptions(ElementId.InvalidElementId, ElementId.InvalidElementId);
-                    var roomSolid = GeometryCreationUtilities.CreateExtrusionGeometry(new[] { loop }, new XYZ(0, 0, 1), height, options);
+                curves.Add(Line.CreateBound(bl, br));
+                curves.Add(Line.CreateBound(br, tr));
+                curves.Add(Line.CreateBound(tr, tl));
+                curves.Add(Line.CreateBound(tl, bl));
+                var loop = CurveLoop.Create(curves);
+                var options = new SolidOptions(ElementId.InvalidElementId, ElementId.InvalidElementId);
+                var roomSolid = GeometryCreationUtilities.CreateExtrusionGeometry(new[] { loop }, new XYZ(0, 0, 1), height, options);
 
-                    if (roomSolid != null)
+                if (roomSolid != null)
+                {
+                    var geomObj = new GeometryObject[] { roomSolid };
+                    if (geomObj.Length > 0)
                     {
-                        var geomObj = new GeometryObject[] { roomSolid };
-                        if (geomObj.Length > 0)
-                        {
-                            roomShape.SetShape(geomObj);
-                            CopyAllRoomParametersToMasses(room, roomShape);
-                            return true;
-                        }
+                        roomShape.SetShape(geomObj);
+                        CopyAllRoomParametersToMasses(room, roomShape);
+                        return true;
                     }
+                }
             }
             catch (Exception ex)
             {
@@ -533,11 +561,11 @@ namespace SCaddins.RoomConverter
                 using (Solid roomSolid = results.GetGeometry())
                 {
                     var eid = new ElementId(BuiltInCategory.OST_Mass);
-                    #if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020 || REVIT2021
+#if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020 || REVIT2021
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid);
-                    #else
+#else
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
-                    #endif
+#endif
                     if (roomShape != null && roomSolid.Volume > 0 && roomSolid.Faces.Size > 0)
                     {
                         var geomObj = new GeometryObject[] { roomSolid };
@@ -560,7 +588,7 @@ namespace SCaddins.RoomConverter
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private void CreateViewAndSheet(RoomConversionCandidate candidate)
         {
-            // Create plans
+            // Create Sheet
             var sheet = ViewSheet.Create(doc, TitleBlockId);
             sheet.Name = candidate.DestinationSheetName;
             sheet.SheetNumber = candidate.DestinationSheetNumber;
@@ -568,29 +596,58 @@ namespace SCaddins.RoomConverter
             // Get Centre before placing any views
             var sheetCentre = CentreOfSheet(sheet, doc);
 
-            // Create plan of room
-            var plan = ViewPlan.Create(doc, GetFloorPlanViewFamilyTypeId(doc), candidate.Room.Level.Id);
-            plan.CropBoxActive = true;
-            plan.ViewTemplateId = ElementId.InvalidElementId;
-            plan.Scale = Scale;
-            var originalBoundingBox = candidate.Room.get_BoundingBox(plan);
+            if (CreatePlan) {
+                // Create plan of room
+                var plan = ViewPlan.Create(doc, GetFloorPlanViewFamilyTypeId(doc), candidate.Room.Level.Id);
+                plan.CropBoxActive = true;
+                plan.ViewTemplateId = ElementId.InvalidElementId;
+                plan.Scale = Scale;
+                var originalBoundingBox = candidate.Room.get_BoundingBox(plan);
 
-            // Put them on sheets
-            plan.CropBox = CreateOffsetBoundingBox(50000, originalBoundingBox);
-            plan.Name = candidate.DestinationViewName;
+                // Put them on sheets
+                plan.CropBox = CreateOffsetBoundingBox(50000, originalBoundingBox);
+                plan.Name = candidate.DestinationViewName;
 
-            // Shrink the bounding box now that it is placed
-            var vp = Viewport.Create(doc, sheet.Id, plan.Id, sheetCentre);
+                // Shrink the bounding box now that it is placed
+                var vp = Viewport.Create(doc, sheet.Id, plan.Id, sheetCentre);
 
-            // Shrink the bounding box now that it is placed
-            plan.CropBox = CreateOffsetBoundingBox(CropRegionEdgeOffset, originalBoundingBox);
+                // Shrink the bounding box now that it is placed
+                plan.CropBox = CreateOffsetBoundingBox(CropRegionEdgeOffset, originalBoundingBox);
 
-            // FIXME - To set an empty view title - so far this seems to work with the standard revit template...
-            vp.ChangeTypeId(vp.GetValidTypes().Last());
+                // FIXME - To set an empty view title - so far this seems to work with the standard revit template...
+                vp.ChangeTypeId(vp.GetValidTypes().Last());
 
-            // FIXME Apply a view template
-            // NOTE This could cause trouble with view scales
-            plan.ViewTemplateId = ViewTemplateId;
+                // FIXME Apply a view template
+                // NOTE This could cause trouble with view scales
+                plan.ViewTemplateId = ViewTemplateId;
+            }
+
+            if (CreateRCP)
+            {
+                // Create rcp of room
+                var rcp = ViewPlan.Create(doc, GetRCPViewFamilyTypeId(doc), candidate.Room.Level.Id);
+                rcp.CropBoxActive = true;
+                rcp.ViewTemplateId = ElementId.InvalidElementId;
+                rcp.Scale = Scale;
+                var originalBoundingBox = candidate.Room.get_BoundingBox(rcp);
+
+                // Put them on sheets
+                rcp.CropBox = CreateOffsetBoundingBox(50000, originalBoundingBox);
+                rcp.Name = candidate.DestinationViewName;
+
+                // Shrink the bounding box now that it is placed
+                var vp = Viewport.Create(doc, sheet.Id, rcp.Id, sheetCentre);
+
+                // Shrink the bounding box now that it is placed
+                rcp.CropBox = CreateOffsetBoundingBox(CropRegionEdgeOffset, originalBoundingBox);
+
+                // FIXME - To set an empty view title - so far this seems to work with the standard revit template...
+                vp.ChangeTypeId(vp.GetValidTypes().Last());
+
+                // FIXME Apply a view template
+                // NOTE This could cause trouble with view scales
+                rcp.ViewTemplateId = ViewTemplateId;
+            }
         }
     }
 }
