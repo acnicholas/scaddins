@@ -140,6 +140,16 @@ namespace SCaddins.ExportManager.ViewModels
             get { return recentExportSets.Count > 2; }
         }
 
+        public bool PreviousExportFourIsEnabled
+        {
+            get { return recentExportSets.Count > 3; }
+        }
+
+        public bool PreviousExportFiveIsEnabled
+        {
+            get { return recentExportSets.Count > 4; }
+        }
+
         public string PreviousExportOneName
         {
             get
@@ -161,6 +171,22 @@ namespace SCaddins.ExportManager.ViewModels
             get
             {
                 return PreviousExportThreeIsEnabled ? recentExportSets[2].DescriptiveName : "N/A";
+            }
+        }
+
+        public string PreviousExportFourName
+        {
+            get
+            {
+                return PreviousExportFourIsEnabled ? recentExportSets[3].DescriptiveName : "N/A";
+            }
+        }
+
+        public string PreviousExportFiveName
+        {
+            get
+            {
+                return PreviousExportFiveIsEnabled ? recentExportSets[4].DescriptiveName : "N/A";
             }
         }
 
@@ -379,6 +405,16 @@ namespace SCaddins.ExportManager.ViewModels
         {
             ViewUtilities.UserView.ShowSummaryDialog(
                 ViewUtilities.UserView.Create(selectedSheets, exportManager.Doc));
+        }
+
+        public void DeleteHistory()
+        {
+            var result = RecentExport.DeleteAll(exportManager.Doc, exportManager.AllViewSheetSets);
+            exportManager.UpdateAllViewSheetSets();
+            recentExportSets = RecentExport.GetAllUserViewSets(exportManager.AllViewSheetSets);
+            if (!result) {
+                SCaddinsApp.WindowManager.ShowErrorMessageBox("Error deleteing history.", "Error deleteing history, maybe try deleting manually?...");
+            }
         }
 
         public void Export()

@@ -59,7 +59,7 @@ namespace SCaddins.ExportManager
             exportDirectory = Constants.DefaultExportDirectory;
             ConfirmOverwrite = true;
             activeDoc = null;
-            AllViewSheetSets = GetAllViewSheetSets(Doc);
+            UpdateAllViewSheetSets();
             AllSheets = new ObservableCollection<ExportSheet>();
             FileNameTypes = new ObservableCollection<SegmentedSheetName>();
             postExportHooks = new Dictionary<string, PostExportHookCommand>();
@@ -83,7 +83,7 @@ namespace SCaddins.ExportManager
 
         public ObservableCollection<ExportSheet> AllSheets { get; }
 
-        public ObservableCollection<ViewSetItem> AllViewSheetSets { get; }
+        public ObservableCollection<ViewSetItem> AllViewSheetSets { get; private set; }
 
         public Document Doc {
             get; set;
@@ -165,6 +165,11 @@ namespace SCaddins.ExportManager
         }
 
         public string PrinterNameLargeFormat
+        {
+            get; set;
+        }
+
+        public bool SaveHistory
         {
             get; set;
         }
@@ -487,6 +492,7 @@ namespace SCaddins.ExportManager
             GhostscriptLibDirectory = Settings1.Default.GSLibDirectory;
             exportDirectory = Settings1.Default.ExportDir;
             AcadVersion = ACADVersion.Default;
+            SaveHistory = Settings1.Default.SaveHistory;
             ShowExportLog = Settings1.Default.ShowExportLog;
             ForceRevisionToDateString = Settings1.Default.ForceDateRevision;
             UseDateForEmptyRevisions = Settings1.Default.UseDateForEmptyRevisions;
@@ -737,7 +743,12 @@ namespace SCaddins.ExportManager
                 return false;
             }
         }
-        
+
+        public void UpdateAllViewSheetSets()
+        {
+            AllViewSheetSets = GetAllViewSheetSets(Doc);
+        }
+
         [SecurityCritical]
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private void ExportAdobePDF(ExportSheet vs, ExportLog log)

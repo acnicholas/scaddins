@@ -9,7 +9,28 @@
 
     public class RecentExport
     {
-        public static void DeleteOldest(Autodesk.Revit.DB.Document doc, ObservableCollection<ViewSetItem> allViewSheetSets)
+        public static bool DeleteAll(Autodesk.Revit.DB.Document doc, ObservableCollection<ViewSetItem> allViewSheetSets)
+        {
+            var viewSetItems = GetAllUserViewSets(allViewSheetSets);
+            using (Transaction transaction = new Transaction(doc))
+            {
+                if (transaction.Start("Delete alluser views") == TransactionStatus.Started)
+                {
+                    foreach (var vsi in viewSetItems) {
+                        doc.Delete(new ElementId(vsi.Id));
+                    }
+                }
+                else
+                {
+                    transaction.RollBack();
+                    return false;
+                }
+                var r = transaction.Commit();
+                return r == TransactionStatus.Committed ? true : false;
+            }
+        }
+
+        public static bool DeleteOldest(Autodesk.Revit.DB.Document doc, ObservableCollection<ViewSetItem> allViewSheetSets)
         {
             var oldest = GetOldest(allViewSheetSets);
             if (oldest != null)
@@ -23,10 +44,13 @@
                     else
                     {
                         transaction.RollBack();
+                        return false;
                     }
-                    transaction.Commit();
+                    var r = transaction.Commit();
+                    return r == TransactionStatus.Committed ? true : false;
                 }
             }
+            return false;
         }
 
         public static List<ViewSetItem> GetAllUserViewSets(ObservableCollection<ViewSetItem> allViewSheetSets)
@@ -40,7 +64,7 @@
                     viewSetItem.DescriptiveName = viewSetItem.CreationDate.ToString("F")  + @"[" + viewSetItem.NumberOfViews + @"]";
                 } else
                 {
-                    SCaddinsApp.WindowManager.ShowMessageBox("noped out");
+                    SCaddinsApp.WindowManager.ShowMessageBox("Could not find user view (There was a probelm parsing the date)");
                 }
             }
             return result;
@@ -77,7 +101,7 @@
 
         public static void Save(Manager manager, List<ExportSheet> selection)
         {
-            if (GetAllUserViewSets(manager.AllViewSheetSets).Count > 2)
+            if (GetAllUserViewSets(manager.AllViewSheetSets).Count > 4)
             {
                 DeleteOldest(manager.Doc, manager.AllViewSheetSets);
             }
