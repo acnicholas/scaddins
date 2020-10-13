@@ -610,6 +610,11 @@ namespace SCaddins.ExportManager
             }
         }
 
+        public void UpdateAllViewSheetSets()
+        {
+            AllViewSheetSets = GetAllViewSheetSets(Doc);
+        }
+
         internal void LoadConfigFile()
         {
             FileNameTypes.Clear();
@@ -742,11 +747,6 @@ namespace SCaddins.ExportManager
                 log.AddError(fileName, ex.Message);
                 return false;
             }
-        }
-
-        public void UpdateAllViewSheetSets()
-        {
-            AllViewSheetSets = GetAllViewSheetSets(Doc);
         }
 
         [SecurityCritical]
