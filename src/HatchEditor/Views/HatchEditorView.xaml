@@ -61,6 +61,9 @@
                 <MenuItem x:Name="ScalePattern" Header="_Scale Pattern by 2"/>
                 <MenuItem x:Name="RotatePattern" Header="_Rotate Pattern by 45 Degrees"/>
             </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem x:Name="Help" Header="_Pattern Format"/>
+            </MenuItem>
         </Menu>
 
         <GroupBox Header="Settings" Grid.Row="1" Grid.Column="0">
