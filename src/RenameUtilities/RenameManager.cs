@@ -153,7 +153,7 @@ namespace SCaddins.RenameUtilities
                 return GetParametersByCategory(BuiltInCategory.OST_ProjectInformation, doc);
             }
             if (parameterCategory == @"Model Groups") {
-                return GetParametersByType(typeof(Autodesk.Revit.DB.Group), doc);
+                return GetModelGroupParameters(doc);
             }
             return new Caliburn.Micro.BindableCollection<RenameParameter>();
         }
@@ -275,7 +275,7 @@ namespace SCaddins.RenameUtilities
             }
         }
 
-        public void SetCandidatesByParameter(Parameter parameter, BuiltInCategory category, Type t, Family family)
+        public void SetCandidatesByParameter(Parameter parameter, BuiltInCategory category, Type t, Family family, Autodesk.Revit.DB.GroupType group)
         {
             if (category == BuiltInCategory.OST_TextNotes || category == BuiltInCategory.OST_IOSModelGroups)
             {
@@ -285,6 +285,11 @@ namespace SCaddins.RenameUtilities
             if (family != null)
             {
                 GetFamilyNames();
+                return;
+            }
+            if (group != null)
+            {
+                GetGroupNames();
                 return;
             }
             renameCandidates.Clear();
@@ -375,6 +380,22 @@ namespace SCaddins.RenameUtilities
             return parametersList;
         }
 
+        private static Caliburn.Micro.BindableCollection<RenameParameter> GetModelGroupParameters(Document doc)
+        {
+            Caliburn.Micro.BindableCollection<RenameParameter> parametersList = new Caliburn.Micro.BindableCollection<RenameParameter>();
+
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfClass(typeof(Autodesk.Revit.DB.GroupType));
+            var elem = collector.FirstElement();
+            var elem2 = collector.ToElements()[collector.GetElementCount() - 1];
+            if (elem2.Parameters.Size > elem.Parameters.Size)
+            {
+                elem = elem2;
+            }
+            parametersList.Add(new RenameParameter(elem as Autodesk.Revit.DB.GroupType));
+            return parametersList;
+        }
+
         // Possibly used by CM... TODO check this
         // ReSharper disable once UnusedMember.Local
         private static bool IsValidRevitName(string s)
@@ -415,5 +436,24 @@ namespace SCaddins.RenameUtilities
                 }
             }
         }
+
+        private void GetGroupNames()
+        {
+            SCaddinsApp.WindowManager.ShowMessageBox("adding groups");
+            renameCandidates.Clear();
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector.OfClass(typeof(Autodesk.Revit.DB.GroupType));
+            foreach (Element element in collector)
+            {
+                var group = (Autodesk.Revit.DB.GroupType)element;
+                if (group != null)
+                {
+                    var rc = new RenameCandidate(group);
+                    rc.NewValue = renameCommand.Rename(rc.OldValue);
+                    renameCandidates.Add(rc);
+                }
+            }
+        }
+
     }
 }

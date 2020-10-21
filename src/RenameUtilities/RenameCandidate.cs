@@ -26,6 +26,7 @@ namespace SCaddins.RenameUtilities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "note")]
         private TextElement note;
         private Family family;
+        private Autodesk.Revit.DB.GroupType group;
         private string oldValue;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "parameter")]
         private Parameter parameter;
@@ -35,6 +36,7 @@ namespace SCaddins.RenameUtilities
             this.parameter = parameter;
             this.note = null;
             this.family = null;
+            this.group = null;
             this.oldValue = parameter.AsString();
             this.newValue = parameter.AsString();
         }
@@ -44,6 +46,7 @@ namespace SCaddins.RenameUtilities
             this.parameter = null;
             this.note = note;
             this.family = null;
+            this.group = null;
             this.oldValue = note.Text;
             this.newValue = note.Text;
         }
@@ -55,6 +58,17 @@ namespace SCaddins.RenameUtilities
             this.family = family;
             this.oldValue = family.Name;
             this.newValue = family.Name;
+            this.group = null;
+        }
+
+        public RenameCandidate(Autodesk.Revit.DB.GroupType group)
+        {
+            this.parameter = null;
+            this.note = null;
+            this.family = null;
+            this.group = group;
+            this.oldValue = group.Name;
+            this.newValue = group.Name;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -93,18 +107,19 @@ namespace SCaddins.RenameUtilities
         
         private Parameter RevitParameter => parameter;
 
+        //FIXME this is a mess :)
         public bool Rename()
         {
             if (ValueChanged)
             {
-                if (note == null && family == null)
+                if (note == null && family == null && group == null)
                 {
                     if (!parameter.IsReadOnly)
                     {
                         return parameter.Set(NewValue);
                     }
                 }
-                else if (family == null)
+                else if (family == null && group == null)
                 {
                     try
                     {
@@ -116,7 +131,7 @@ namespace SCaddins.RenameUtilities
                     }
                     return true;
                 }
-                else if (note == null)
+                else if (note == null && group == null)
                 {
                     try
                     {
@@ -124,6 +139,20 @@ namespace SCaddins.RenameUtilities
                     }
                     catch
                     {
+                        return false;
+                    }
+                    return true;
+                }
+                else if (note == null && family == null)
+                {
+                    //// SCaddinsApp.WindowManager.ShowMessageBox("renaming group");
+                    try
+                    {
+                        group.Name = NewValue;
+                    }
+                    catch (System.Exception ex)
+                    {
+                        //// SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
                         return false;
                     }
                     return true;
