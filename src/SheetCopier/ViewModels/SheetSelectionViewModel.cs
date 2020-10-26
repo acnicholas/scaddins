@@ -26,13 +26,21 @@ namespace SCaddins.SheetCopier.ViewModels
 
      public class SheetSelectionViewModel : Screen
     {
-        private List<ViewSheet> sheets;
-        private List<ViewSheet> selectedSheets;
+        private List<Autodesk.Revit.DB.View> views;
+        private List<Autodesk.Revit.DB.View> selectedViews;
 
         public SheetSelectionViewModel(SheetCopierManager manager)
         {
-            sheets = manager.ExistingSheets.Values.ToList().Cast<ViewSheet>().ToList();
-            selectedSheets = new List<ViewSheet>();
+            views = manager.ExistingSheets.Values.ToList().Cast<Autodesk.Revit.DB.View>().ToList();
+            //// SCaddinsApp.WindowManager.ShowMessageBox(views.Count.ToString());
+            selectedViews = new List<Autodesk.Revit.DB.View>();
+        }
+
+        public SheetSelectionViewModel(IEnumerable<Autodesk.Revit.DB.View> views)
+        {
+            this.views = views.ToList();
+            //// SCaddinsApp.WindowManager.ShowMessageBox(views.Count.ToString());
+            selectedViews = new List<Autodesk.Revit.DB.View>();
         }
 
         public static dynamic DefaultWindowSettings {
@@ -49,25 +57,25 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
-        public List<ViewSheet> Sheets {
+        public List<Autodesk.Revit.DB.View> Views {
             get
             {
-                return sheets;
+                return views;
             }
         }
 
-        public List<ViewSheet> SelectedSheets {
+        public List<Autodesk.Revit.DB.View> SelectedViews {
             get
             {
-                return selectedSheets;
+                return selectedViews;
             }
         }
 
         public void RowSheetSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs eventArgs)
         {
             try {
-                selectedSheets.AddRange(eventArgs.AddedItems.Cast<ViewSheet>());
-                eventArgs.RemovedItems.Cast<ViewSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
+                selectedViews.AddRange(eventArgs.AddedItems.Cast<Autodesk.Revit.DB.View>());
+                eventArgs.RemovedItems.Cast<Autodesk.Revit.DB.View>().ToList().ForEach(w => selectedViews.Remove(w));
             }
             catch (ArgumentNullException argumentNullException) {
                 Console.WriteLine(argumentNullException.Message);

@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <DataGrid 
-            x:Name="Sheets" 
+            x:Name="Views" 
             AutoGenerateColumns="False"
             IsReadOnly="True"
             cal:Message.Attach="[Event SelectionChanged] = [RowSheetSelectionChanged($eventArgs)]"

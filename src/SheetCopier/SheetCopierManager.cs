@@ -31,6 +31,9 @@ namespace SCaddins.SheetCopier
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;
+
+        private SheetCopierSheet nullSheet;
+
         private Dictionary<string, View> existingSheets =
             new Dictionary<string, View>();
 
@@ -64,6 +67,9 @@ namespace SCaddins.SheetCopier
             GetAllViewsInModel(existingViews, doc);
             GetFloorPlanViewFamilyTypeId();
             GetAllSheetCategories();
+            // below is just for views.
+            nullSheet = new SheetCopierSheet(this);
+            sheets.Add(nullSheet);
         }
 
         public Document Doc => doc;
@@ -227,6 +233,22 @@ namespace SCaddins.SheetCopier
             // FIXME add error message,
         }
 
+        public bool AddView(View view)
+        {
+            if (view != null)
+            {
+                ////if (nullSheet.ViewsOnSheet.Count == 0)
+                ////{
+                ////    sheets.Add(nullSheet);
+                ////}
+                nullSheet.ViewsOnSheet.Add(new SheetCopierViewOnSheet(view.Name, view, this));
+                return true;
+            }
+            return false;
+
+            // FIXME add error message,
+        }
+
         public void CopyElementsBetweenSheets(SheetCopierSheet sheet)
         {
             IList<ElementId> list = new List<ElementId>();
@@ -261,8 +283,16 @@ namespace SCaddins.SheetCopier
         // this is where the action happens
         public bool CreateAndPopulateNewSheet(SheetCopierSheet sheet, StringBuilder summary)
         {
+
             if (sheet == null) {
                 return false;
+            }
+
+            // copy views not on sheets first
+            if (nullSheet.ViewsOnSheet.Count > 0)
+            {
+                CreateViews(nullSheet, false);
+                return true;
             }
 
             // turn on hidden revisions
@@ -281,7 +311,7 @@ namespace SCaddins.SheetCopier
 
             if (sheet.DestinationSheet != null) {
                 Debug.WriteLine(sheet.Number + " added to document.");
-                CreateViewports(sheet);
+                CreateViews(sheet, true);
             } else {
                 Debug.WriteLine(sheet.Number + " Could not be added added to document.");
                 return false;
@@ -308,8 +338,11 @@ namespace SCaddins.SheetCopier
 
         public void CreateSheets()
         {
+            SCaddinsApp.WindowManager.ShowMessageBox("Creating Sheets");
+
             if (sheets.Count < 1)
             {
+                SCaddinsApp.WindowManager.ShowMessageBox("No Sheets");
                 return;
             }
 
@@ -321,12 +354,23 @@ namespace SCaddins.SheetCopier
             {
                 if (t.Start() == TransactionStatus.Started)
                 {
+                    SCaddinsApp.WindowManager.ShowMessageBox(sheets.Count.ToString());
                     foreach (SheetCopierSheet sheet in sheets)
                     {
+
+
+                        SCaddinsApp.WindowManager.ShowMessageBox("In Loop");
                         n++;
+
+
+
                         if (CreateAndPopulateNewSheet(sheet, summaryText) && n == 1)
                         {
+                            SCaddinsApp.WindowManager.ShowMessageBox("Populating Sheet");
                             firstSheet = sheet.DestinationSheet;
+                        } else
+                        {
+                            SCaddinsApp.WindowManager.ShowMessageBox("Bugger");
                         }
                     }
                     if (TransactionStatus.Committed != t.Commit())
@@ -348,12 +392,18 @@ namespace SCaddins.SheetCopier
             SCaddinsApp.WindowManager.ShowMessageBox("Copy Sheets - Summary", summaryText.ToString());
         }
 
-        public void CreateViewports(SheetCopierSheet sheet)
+        public void CreateViews(SheetCopierSheet sheet, bool viewIsOnSheet)
         {
             Dictionary<ElementId, XYZ> viewPorts =
                 GetViewportDictionary(sheet.SourceSheet, doc);
 
             foreach (SheetCopierViewOnSheet view in sheet.ViewsOnSheet) {
+                if(!viewIsOnSheet)
+                {
+                    DuplicateView(view);
+                    continue;
+                }
+
                 XYZ sourceViewPortCentre = null;
                 if (!viewPorts.TryGetValue(view.OldId, out sourceViewPortCentre)) {
                     SCaddinsApp.WindowManager.ShowMessageBox("SCopy", "Error...");
@@ -376,40 +426,45 @@ namespace SCaddins.SheetCopier
             }
         }
 
+        public ElementId DuplicateView(SheetCopierViewOnSheet view)
+        {
+            var d = view.DuplicateWithDetailing ? ViewDuplicateOption.WithDetailing : ViewDuplicateOption.Duplicate;
+            if (view.OldView.CanViewBeDuplicated(d)) {
+                try{
+                    return view.OldView.Duplicate(d);
+                } catch (Autodesk.Revit.Exceptions.ArgumentOutOfRangeException arx) {
+                    SCaddinsApp.WindowManager.ShowMessageBox(arx.Message);
+                } catch (Autodesk.Revit.Exceptions.InvalidOperationException iox) {
+                    SCaddinsApp.WindowManager.ShowMessageBox(iox.Message);
+                }
+            }
+            else {
+                SCaddinsApp.WindowManager.ShowMessageBox("WARNING: CanViewBeDuplicated is returning false for view: " + view.OldView.Name);
+                return ElementId.InvalidElementId;
+            }
+            return ElementId.InvalidElementId;
+        }
+
         public void DuplicateViewOntoSheet(
             SheetCopierViewOnSheet view,
             SheetCopierSheet sheet,
             XYZ sourceViewCentre)
         {
-            var d = view.DuplicateWithDetailing ? ViewDuplicateOption.WithDetailing : ViewDuplicateOption.Duplicate;
+            ElementId destViewId = DuplicateView(view);
 
-            ElementId destViewId = ElementId.InvalidElementId;
-            if (view.OldView.CanViewBeDuplicated(d)) {
-                try {
-                    destViewId = view.OldView.Duplicate(d);
-                } catch (Autodesk.Revit.Exceptions.ArgumentOutOfRangeException arx) {
-                    SCaddinsApp.WindowManager.ShowMessageBox(arx.Message);
-                } catch (Autodesk.Revit.Exceptions.InvalidOperationException iox) {
-                    SCaddinsApp.WindowManager.ShowMessageBox(iox.Message);
-                } 
-            } else
-            {
-                SCaddinsApp.WindowManager.ShowMessageBox("WARNING: CanViewBeDuplicated is returning false for view: " + view.OldView.Name);
-                return;
-            }
+            //FIXME add this to method above??
 
-            if (destViewId == ElementId.InvalidElementId) {
-                SCaddinsApp.WindowManager.ShowMessageBox("WARNING: could not create copy of view: " + view.OldView.Name);
-                //// sometimes view.Duplicate seems to fail if the duplicate option is set to ViewDuplicateOption.WithDetailing
-                //// try again with option set to ViewDuplicateOption.Duplicate
-                if (d == ViewDuplicateOption.WithDetailing)
-                {
-                    SCaddinsApp.WindowManager.ShowMessageBox("Attempting to create view without detailing..." + view.OldView.Name);
-                    view.DuplicateWithDetailing = false;
-                    DuplicateViewOntoSheet(view, sheet, sourceViewCentre);
-                }
-                return;
-            }
+            ////if (destViewId == ElementId.InvalidElementId) {
+            ////    SCaddinsApp.WindowManager.ShowMessageBox("WARNING: could not create copy of view: " + view.OldView.Name);
+            ////    //// sometimes view.Duplicate seems to fail if the duplicate option is set to ViewDuplicateOption.WithDetailing
+            ////    //// try again with option set to ViewDuplicateOption.Duplicate
+            ////    if (d == ViewDuplicateOption.WithDetailing) {
+            ////        SCaddinsApp.WindowManager.ShowMessageBox("Attempting to create view without detailing..." + view.OldView.Name);
+            ////        view.DuplicateWithDetailing = false;
+            ////        DuplicateViewOntoSheet(view, sheet, sourceViewCentre);
+            ////    }
+            ////    return;
+            ////}
 
             DeleteRevisionClouds(destViewId, doc);
        

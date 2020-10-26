@@ -177,7 +177,8 @@ namespace SCaddins.SheetCopier.ViewModels
             var vm = new SheetSelectionViewModel(copyManager);
             bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, SheetSelectionViewModel.DefaultWindowSettings);
             if (result.HasValue && result.Value) {
-                AddSheets(vm.SelectedSheets);
+                SCaddinsApp.WindowManager.ShowMessageBox("adding views 1");
+                AddSheets(vm.SelectedViews);
                 NotifyOfPropertyChange(() => GoLabel);
             }
         }
@@ -189,10 +190,34 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
-        public void AddSheets(List<Autodesk.Revit.DB.ViewSheet> sheetSelection)
+        public void AddSheets(List<Autodesk.Revit.DB.View> viewSelection)
         {
-            foreach (var sheet in sheetSelection) {
-                copyManager.AddSheet(sheet);
+            SCaddinsApp.WindowManager.ShowMessageBox(viewSelection.Count.ToString());
+            foreach (var view in viewSelection) {
+                if (view is Autodesk.Revit.DB.ViewSheet)
+                {
+                    SCaddinsApp.WindowManager.ShowMessageBox("xxx");
+                    copyManager.AddSheet(view as Autodesk.Revit.DB.ViewSheet);
+                } else
+                {
+                    SCaddinsApp.WindowManager.ShowMessageBox("yyy");
+                    copyManager.AddView(view as Autodesk.Revit.DB.View);
+                }
+            }
+        }
+
+        public void AddViews()
+        {
+            SCaddinsApp.WindowManager.ShowMessageBox("adding views 1");
+            var collector = new Autodesk.Revit.DB.FilteredElementCollector(copyManager.Doc)
+                .OfClass(typeof(Autodesk.Revit.DB.View));
+
+            var vm = new SheetSelectionViewModel(collector.Cast<Autodesk.Revit.DB.View>());
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, SheetSelectionViewModel.DefaultWindowSettings);
+            if (result.HasValue && result.Value)
+            {
+                AddSheets(vm.SelectedViews);
+                NotifyOfPropertyChange(() => GoLabel);
             }
         }
 

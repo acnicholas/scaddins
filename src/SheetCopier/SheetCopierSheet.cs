@@ -54,6 +54,19 @@ namespace SCaddins.SheetCopier
             SheetCategories = new ObservableCollection<string>(scopy.SheetCategories.ToList());
         }
 
+        public SheetCopierSheet(SheetCopierManager scopy)
+        {
+            this.scopy = scopy ?? throw new ArgumentNullException(nameof(scopy));
+            this.number = @"<Views not on Sheets>";
+            this.title = "-";
+            SourceSheet = null;
+            sheetCategory = null;
+            userCreatedSheetCategory = null;
+            DestinationSheet = null;
+            viewsOnSheet = new ObservableCollection<SheetCopierViewOnSheet>();
+            SheetCategories = new ObservableCollection<string>(scopy.SheetCategories.ToList());
+        }
+
         public ViewSheet DestinationSheet
         {
             get; set;
