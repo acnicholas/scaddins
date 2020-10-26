@@ -25,15 +25,21 @@ namespace SCaddins.ExportManager
         {
             Id = id;
             Name = name;
+            DescriptiveName = name;
             ViewIds = viewsIds;
             NumberOfViews = viewsIds.Count;
+            CreationDate = new System.DateTime();
         }
 
         public int Id { get; set; }
 
         public string Name { get; set; }
 
+        public string DescriptiveName { get; set; }
+
         public int NumberOfViews { get; set; }
+
+        public System.DateTime CreationDate { get; set; }
 
         public List<int> ViewIds { get; }
     }  

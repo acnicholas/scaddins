@@ -93,6 +93,8 @@
             VerticalAlignment="Stretch"
             Margin="5,0,5,5"
             Grid.ColumnSpan="3"
+            ContextMenuClosing="Sheets_ContextMenuClosing"
+            KeyDown="Sheets_KeyUp"
             GridLinesVisibility="None"
             IsReadOnly="True">
 
@@ -220,6 +222,20 @@
                             <Image
                                 Source="/SCaddins;component/Assets/save.png" />
                         </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Previous Exports">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/recent.png" />
+                        </MenuItem.Icon>
+                        <MenuItem Header="{Binding PreviousExportOneName}" cal:Message.Attach="SelectPrevious(0)" IsEnabled="{Binding PreviousExportOneIsEnabled}" />
+                        <MenuItem Header="{Binding PreviousExportTwoName}" cal:Message.Attach="SelectPrevious(1)" IsEnabled="{Binding PreviousExportTwoIsEnabled}" />
+                        <MenuItem Header="{Binding PreviousExportThreeName}" cal:Message.Attach="SelectPrevious(2)" IsEnabled="{Binding PreviousExportThreeIsEnabled}" />
+                        <MenuItem Header="{Binding PreviousExportFourName}" cal:Message.Attach="SelectPrevious(3)" IsEnabled="{Binding PreviousExportFourIsEnabled}" />
+                        <MenuItem Header="{Binding PreviousExportFiveName}" cal:Message.Attach="SelectPrevious(4)" IsEnabled="{Binding PreviousExportFiveIsEnabled}" />
+                        <Separator />
+                        <MenuItem Header="Delete History" cal:Message.Attach="DeleteHistory"/>
                     </MenuItem>
                     <Separator />
                     <MenuItem Header="Add Revision" cal:Message.Attach="AddRevision">

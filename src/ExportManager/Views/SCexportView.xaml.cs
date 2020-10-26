@@ -1,6 +1,7 @@
 ﻿namespace SCaddins.ExportManager.Views
 {
     using System.Windows.Controls;
+    using System.Windows.Input;
 
     public partial class SCexportView
     {
@@ -21,6 +22,16 @@
             {
                 Sheets.ScrollIntoView(Sheets.SelectedItem);
             }
+        }
+
+        private void Sheets_ContextMenuClosing(object sender, ContextMenuEventArgs e)
+        {
+            Sheets.Focus();
+        }
+
+        private void Sheets_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            Sheets.Focus();
         }
     }
 }

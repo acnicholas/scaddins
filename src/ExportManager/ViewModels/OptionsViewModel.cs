@@ -98,6 +98,24 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public static bool SaveHistory
+        {
+            get
+            {
+                return Settings1.Default.SaveHistory;
+            }
+
+            set
+            {
+                if (value == Settings1.Default.SaveHistory)
+                {
+                    return;
+                }
+                Settings1.Default.SaveHistory = value;
+                Settings1.Default.Save();
+            }
+        }
+
         public static string ScaleBarScaleParameterName {
             get
             {

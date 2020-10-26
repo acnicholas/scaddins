@@ -28,6 +28,7 @@ namespace SCaddins.RenameUtilities
             this.Category = category;
             this.Type = null;
             this.Family = null;
+            this.Group = null;
             this.Name = parameter.Definition.Name;
         }
 
@@ -36,6 +37,7 @@ namespace SCaddins.RenameUtilities
             this.Parameter = parameter;
             this.Type = t;
             this.Family = null;
+            this.Group = null;
             this.Category = BuiltInCategory.INVALID;
             this.Name = parameter.Definition.Name;
         }
@@ -45,6 +47,7 @@ namespace SCaddins.RenameUtilities
             this.Parameter = null;
             this.Category = category;
             this.Family = null;
+            this.Group = null;
             this.Type = null;
             this.Name = "Text";
         }
@@ -55,6 +58,17 @@ namespace SCaddins.RenameUtilities
             this.Category = BuiltInCategory.INVALID;
             this.Type = null;
             this.Family = family;
+            this.Group = null;
+            this.Name = "Name";
+        }
+
+        public RenameParameter(Autodesk.Revit.DB.GroupType group)
+        {
+            this.Parameter = null;
+            this.Category = BuiltInCategory.INVALID;
+            this.Type = null;
+            this.Family = null;
+            this.Group = group;
             this.Name = "Name";
         }
 
@@ -71,6 +85,12 @@ namespace SCaddins.RenameUtilities
         }
 
         public Family Family
+        {
+            get;
+            private set;
+        }
+
+        public Autodesk.Revit.DB.GroupType Group
         {
             get;
             private set;

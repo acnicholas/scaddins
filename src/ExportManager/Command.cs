@@ -90,6 +90,11 @@ namespace SCaddins.ExportManager
 
                 WindowManager.ShowWindow(progressVm, null, ViewModels.ProgressMonitorViewModel.DefaultWindowSettings);
 
+                if (manager.SaveHistory)
+                {
+                    RecentExport.Save(manager, vm.SelectedSheets);
+                }
+
                 foreach (var sheet in vm.SelectedSheets)
                 {
                     progressVm.ProgressSummary += @" --> " + exportType + @" " + sheet.FullExportName + "...";

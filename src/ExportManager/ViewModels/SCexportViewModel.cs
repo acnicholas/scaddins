@@ -40,6 +40,7 @@ namespace SCaddins.ExportManager.ViewModels
         private SheetFilter sheetFilter;
         private ObservableCollection<ExportSheet> sheets;
         private ICollectionView sheetsCollection;
+        private List<ViewSetItem> recentExportSets;
 
         public SCexportViewModel(Manager exportManager)
         {
@@ -53,6 +54,8 @@ namespace SCaddins.ExportManager.ViewModels
             Sheets.SortDescriptions.Add(new SortDescription("FullExportName", ListSortDirection.Ascending));
             ShowSearchHint = true;
             sheetFilter = null;
+            recentExportSets = RecentExport.GetAllUserViewSets(exportManager.AllViewSheetSets);
+            recentExportSets = recentExportSets.OrderByDescending(v => v.CreationDate).ToList();
         }
 
         public enum CloseMode
@@ -120,6 +123,71 @@ namespace SCaddins.ExportManager.ViewModels
         public bool IsSearchTextFocused
         {
             get; set;
+        }
+
+        public bool PreviousExportOneIsEnabled
+        {
+            get { return recentExportSets.Count > 0; }
+        }
+
+        public bool PreviousExportTwoIsEnabled
+        {
+            get { return recentExportSets.Count > 1; }
+        }
+
+        public bool PreviousExportThreeIsEnabled
+        {
+            get { return recentExportSets.Count > 2; }
+        }
+
+        public bool PreviousExportFourIsEnabled
+        {
+            get { return recentExportSets.Count > 3; }
+        }
+
+        public bool PreviousExportFiveIsEnabled
+        {
+            get { return recentExportSets.Count > 4; }
+        }
+
+        public string PreviousExportOneName
+        {
+            get
+            {
+                return PreviousExportOneIsEnabled ? recentExportSets[0].DescriptiveName : "N/A";
+            }
+        }
+
+        public string PreviousExportTwoName
+        {
+            get
+            {
+                return PreviousExportTwoIsEnabled ? recentExportSets[1].DescriptiveName : "N/A";
+            }
+        }
+
+        public string PreviousExportThreeName
+        {
+            get
+            {
+                return PreviousExportThreeIsEnabled ? recentExportSets[2].DescriptiveName : "N/A";
+            }
+        }
+
+        public string PreviousExportFourName
+        {
+            get
+            {
+                return PreviousExportFourIsEnabled ? recentExportSets[3].DescriptiveName : "N/A";
+            }
+        }
+
+        public string PreviousExportFiveName
+        {
+            get
+            {
+                return PreviousExportFiveIsEnabled ? recentExportSets[4].DescriptiveName : "N/A";
+            }
         }
 
         public string PrintButtonToolTip
@@ -339,6 +407,16 @@ namespace SCaddins.ExportManager.ViewModels
                 ViewUtilities.UserView.Create(selectedSheets, exportManager.Doc));
         }
 
+        public void DeleteHistory()
+        {
+            var result = RecentExport.DeleteAll(exportManager.Doc, exportManager.AllViewSheetSets);
+            exportManager.UpdateAllViewSheetSets();
+            recentExportSets = RecentExport.GetAllUserViewSets(exportManager.AllViewSheetSets);
+            if (!result) {
+                SCaddinsApp.WindowManager.ShowErrorMessageBox("Error deleteing history.", "Error deleteing history, maybe try deleting manually?...");
+            }
+        }
+
         public void Export()
         {
             isClosing = true;
@@ -432,6 +510,31 @@ namespace SCaddins.ExportManager.ViewModels
         public void OpenViewsCommand()
         {
             OpenSheet.OpenViews(selectedSheets);
+        }
+
+        public void SelectPrevious(int i)
+        {
+            SelectPrevious(recentExportSets[i]);
+        }
+
+        public void SelectPrevious(ViewSetItem viewSet)
+        {
+            if (viewSet == null)
+            {
+                return;
+            }
+
+            IsNotifying = false;
+            try
+            {
+                var filter = new Predicate<object>(item => viewSet.ViewIds.Contains(((ExportSheet)item).Sheet.Id.IntegerValue));
+                Sheets.Filter = filter;
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+            IsNotifying = true;
         }
 
         public void OpenViewSet()
