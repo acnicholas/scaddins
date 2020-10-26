@@ -91,25 +91,36 @@ namespace SCaddins.HatchEditor.ViewModels
             string helpText = "" + System.Environment.NewLine +
             "Line families" + System.Environment.NewLine +
             "" + System.Environment.NewLine +
-            "Each line family is a set of parallel lines that build one 'direction' of a pattern. A complete" +
-            "pattern may be defined by several families each defining part of the final, such as the vertical" + 
-            "points of brick coursing. The lines are described in the two dimensions of a face as follows:" + 
+            "Each line family is a set of parallel lines that build one 'direction' of a pattern. A complete " +
+            "pattern may be defined by several families each defining part of the final, such as the vertical " + 
+            "points of brick coursing. The lines are described in the two dimensions of a face as follows: " + 
             System.Environment.NewLine +
             System.Environment.NewLine +
-            " angle, x - origin, y - origin, shift, offset, dash, space, dash, space..." +
+            " angle, x - origin, y - origin, shift, offset, dash, space, dash, space... " +
             System.Environment.NewLine +
             System.Environment.NewLine +
-            " * Angle specifies the direction, in degrees, of a set of lines relative to the x - axis. The first"+
-            " line in the set starts at the specified x,y - origin.Parallel lines are drawn as specified by" +
-            " Offset and Shift to fill the entire face. Offset defines the distance between parallel lines."+
-            " Zero Offset is not allowed. Shift moves the pattern of dashes and spaces along the length of" +
-            " each new parallel line.Shift is ignored if the line is solid.Distances are expressed as" +
-            " decimal numbers(using peroid as the decimal separator) in the units previously specified." +
-            " The dash-space sequence defines a repeating pattern of dashes and spaces for a line. If it is" +
-            " omitted, the line is solid.Positive numbers define dashes, negative numbers define spaces, and" +
-            " zero specifies a dot. If you begin a pattern with a space, do not alternate dashes and spaces," + 
-            " or do not end with a space, Revit will introduce tiny dashes or spaces to compensate. Revit" + 
-            " expands dots and very short dashes into dashes of a minimum size.";
+            " Angle specifies the direction, in degrees, of a set of lines relative to the x - axis. " +
+            System.Environment.NewLine +
+            System.Environment.NewLine +
+            " The first line in the set starts at the specified x,y - origin. " +
+            System.Environment.NewLine +
+            System.Environment.NewLine +
+            "Parallel lines are drawn as specified by " +
+            "Offset and Shift to fill the entire face. " +
+            System.Environment.NewLine +
+            System.Environment.NewLine +
+            "Offset defines the distance between parallel lines. " + System.Environment.NewLine +
+            "Zero Offset is not allowed. " +
+            System.Environment.NewLine +
+            System.Environment.NewLine +
+            "Shift moves the pattern of dashes and spaces along the length of " +
+            "each new parallel line.Shift is ignored if the line is solid.Distances are expressed as " +
+            "decimal numbers(using peroid as the decimal separator) in the units previously specified. " +
+            "The dash-space sequence defines a repeating pattern of dashes and spaces for a line. If it is " +
+            "omitted, the line is solid.Positive numbers define dashes, negative numbers define spaces, and " +
+            "zero specifies a dot. If you begin a pattern with a space, do not alternate dashes and spaces, " + 
+            "or do not end with a space, Revit will introduce tiny dashes or spaces to compensate. Revit " + 
+            "expands dots and very short dashes into dashes of a minimum size.";
 
             SCaddinsApp.WindowManager.ShowMessageBox(helpText);
         }
