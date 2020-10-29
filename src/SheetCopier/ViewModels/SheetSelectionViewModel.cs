@@ -19,8 +19,10 @@ namespace SCaddins.SheetCopier.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Dynamic;
     using System.Linq;
+    using System.Windows.Data;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
@@ -28,19 +30,34 @@ namespace SCaddins.SheetCopier.ViewModels
     {
         private List<Autodesk.Revit.DB.View> views;
         private List<Autodesk.Revit.DB.View> selectedViews;
+        private CollectionViewSource searchResults;
+        private bool showSheets;
+        private bool showViews;
 
         public SheetSelectionViewModel(SheetCopierManager manager)
         {
-            views = manager.ExistingSheets.Values.ToList().Cast<Autodesk.Revit.DB.View>().ToList();
-            //// SCaddinsApp.WindowManager.ShowMessageBox(views.Count.ToString());
-            selectedViews = new List<Autodesk.Revit.DB.View>();
-        }
+            views = manager.ExistingViews.Values.ToList().Cast<Autodesk.Revit.DB.View>().ToList();
+            searchResults = new CollectionViewSource();
+            searchResults.Source = views.ToList();
+            SearchResults.Filter = vv => {
+                Autodesk.Revit.DB.View fv = vv as Autodesk.Revit.DB.View;
+                if (ShowSheets && !ShowViews) {
+                    return fv.ViewType == ViewType.DrawingSheet;
+                }
+                if (!ShowSheets && ShowViews)
+                {
+                    return fv.ViewType != ViewType.DrawingSheet && fv.ViewType != ViewType.ProjectBrowser;
+                }
+                if (ShowSheets && ShowViews)
+                {
+                    return fv.ViewType != ViewType.ProjectBrowser;
+                }
+                return false;
+            };
 
-        public SheetSelectionViewModel(IEnumerable<Autodesk.Revit.DB.View> views)
-        {
-            this.views = views.ToList();
-            //// SCaddinsApp.WindowManager.ShowMessageBox(views.Count.ToString());
             selectedViews = new List<Autodesk.Revit.DB.View>();
+            ShowSheets = true;
+            ShowViews = false;
         }
 
         public static dynamic DefaultWindowSettings {
@@ -57,17 +74,45 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
-        public List<Autodesk.Revit.DB.View> Views {
-            get
-            {
-                return views;
-            }
+        public ICollectionView SearchResults
+        {
+            get { return searchResults.View; }
         }
 
         public List<Autodesk.Revit.DB.View> SelectedViews {
             get
             {
                 return selectedViews;
+            }
+        }
+
+        public bool ShowSheets
+        {
+            get
+            {
+                return showSheets;
+            }
+
+            set
+            {
+                showSheets = value;
+                SearchResults.Refresh();
+                NotifyOfPropertyChange(() => ShowSheets);
+            }
+        }
+
+        public bool ShowViews
+        {
+            get
+            {
+                return showViews;
+            }
+
+            set
+            {
+                showViews = value;
+                SearchResults.Refresh();
+                NotifyOfPropertyChange(() => ShowViews);
             }
         }
 

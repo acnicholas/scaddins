@@ -83,9 +83,9 @@
                     <Label  Grid.Column="0" Margin="5">New Sheets</Label>
                     <Button x:Name="RemoveSheetSelection" IsEnabled="{Binding RemoveSheetSelectionIsEnabled}" Grid.Column="1" Margin="5">Remove Selection</Button>
                     <Button x:Name="CopySheetSelection" Grid.Column="2" IsEnabled="{Binding CopySheetSelectionIsEnabled}" Margin="5">Copy</Button>
-                    <Button x:Name="AddCurrentSheet" IsEnabled="{Binding AddCurrentSheetIsEnabled}" Grid.Column="3" Margin="5">Add Current Sheet</Button>
-                    <Button x:Name="AddViews" Grid.Column="4" Margin="5">Select Views</Button>
-                    <Button x:Name="AddSheets" Grid.Column="5" Margin="5">Select Sheets</Button>
+                    <Button x:Name="AddCurrentView" IsEnabled="{Binding AddCurrentSheetIsEnabled}" Content="{Binding AddCurrentSheetLabel}"  Grid.Column="3" Margin="5"></Button>
+                    <!--<Button x:Name="AddViews" Grid.Column="4" Margin="5">Select Views</Button>-->
+                    <Button x:Name="AddSheets" Grid.Column="5" Margin="5">Add Views</Button>
                 </Grid>
                 <DataGrid
                     x:Name="Sheets"

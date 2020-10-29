@@ -454,6 +454,5 @@ namespace SCaddins.RenameUtilities
                 }
             }
         }
-
     }
 }

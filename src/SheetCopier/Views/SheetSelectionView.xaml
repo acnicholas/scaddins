@@ -8,11 +8,23 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Height="Auto" Width="Auto">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
+        <GroupBox Header="Selection Type" Margin="5">
+            <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <CheckBox x:Name="ShowSheets" Margin="5">Sheets</CheckBox>
+            <CheckBox x:Name="ShowViews" Grid.Column="2" Margin="5">Views</CheckBox>
+        </Grid>
+        </GroupBox>
         <DataGrid 
-            x:Name="Views" 
+            x:Name="SearchResults"
+            Grid.Row="1"
             AutoGenerateColumns="False"
             IsReadOnly="True"
             cal:Message.Attach="[Event SelectionChanged] = [RowSheetSelectionChanged($eventArgs)]"
@@ -21,10 +33,11 @@
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </DataGrid.AlternatingRowBackground>
             <DataGrid.Columns>
-           <DataGridTextColumn Header="Title" Binding="{Binding Title}" MinWidth="100"></DataGridTextColumn>
-        </DataGrid.Columns>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" MinWidth="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="View Type" Binding="{Binding ViewType}" MinWidth="100"></DataGridTextColumn>
+            </DataGrid.Columns>
         </DataGrid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>

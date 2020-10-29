@@ -29,10 +29,10 @@ namespace SCaddins.SheetCopier.ViewModels
     internal class SheetCopierViewModel : Screen
     {
         private SheetCopierManager copyManager;
-        private SheetCopierSheet selectedSheet;
+        private SheetCopierViewHost selectedSheet;
         private BindableCollection<SheetInformation> selectedSheetInformation = new BindableCollection<SheetInformation>();
-        private List<SheetCopierSheet> selectedSheets = new List<SheetCopierSheet>();
-        private List<SheetCopierViewOnSheet> selectedViews = new List<SheetCopierViewOnSheet>();
+        private List<SheetCopierViewHost> selectedSheets = new List<SheetCopierViewHost>();
+        private List<SheetCopierView> selectedViews = new List<SheetCopierView>();
 
         public SheetCopierViewModel(UIDocument uidoc)
         {
@@ -59,7 +59,24 @@ namespace SCaddins.SheetCopier.ViewModels
         {
             get
             {
-                return copyManager.Doc.ActiveView.ViewType == Autodesk.Revit.DB.ViewType.DrawingSheet;
+                ////return copyManager.ActiveViewType != Autodesk.Revit.DB.ViewType.ProjectBrowser
+                return true;
+            }
+        }
+
+        public string AddCurrentSheetLabel
+        {
+            get
+            {
+                switch (copyManager.ActiveViewType)
+                {
+                    case Autodesk.Revit.DB.ViewType.ProjectBrowser:
+                        return "Add Current Project Browser Selction";
+                    case Autodesk.Revit.DB.ViewType.DrawingSheet:
+                        return "Add Current Sheet";
+                    default:
+                        return "Add Current View";
+                }
             }
         }
 
@@ -67,13 +84,13 @@ namespace SCaddins.SheetCopier.ViewModels
         {
             get
             {
-                return selectedSheet != null;
+                return selectedSheet != null && this.selectedSheet.SourceSheet != null;
             }
         }
 
         public string GoLabel
         {
-            get { return "Copy " + Sheets.Count + " Sheets"; }
+            get { return "Copy " + (Sheets.Count - 1) + " Sheets and " + copyManager.IndepentantViewCount + " Independent Views"; }
         }
 
         public bool RemoveSelectedViewsIsEnabled
@@ -88,7 +105,7 @@ namespace SCaddins.SheetCopier.ViewModels
         {
             get
             {
-                return selectedSheet != null;
+                return selectedSheet != null && this.selectedSheet.SourceSheet != null;
             }
         }
 
@@ -97,7 +114,7 @@ namespace SCaddins.SheetCopier.ViewModels
             get; set;
         }
 
-        public SheetCopierSheet SelectedSheet
+        public SheetCopierViewHost SelectedSheet
         {
             get
             {
@@ -156,19 +173,19 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
-        public ObservableCollection<SheetCopierSheet> Sheets
+        public ObservableCollection<SheetCopierViewHost> Sheets
         {
             get { return copyManager.Sheets; }
         }
 
-        public ObservableCollection<SheetCopierViewOnSheet> ViewsOnSheet
+        public ObservableCollection<SheetCopierView> ViewsOnSheet
         {
             get { return SelectedSheet.ViewsOnSheet; }
         }
 
-        public void AddCurrentSheet()
+        public void AddCurrentView()
         {
-            copyManager.AddCurrentSheet();
+            copyManager.AddCurrentView();
             NotifyOfPropertyChange(() => GoLabel);
         }
 
@@ -177,7 +194,6 @@ namespace SCaddins.SheetCopier.ViewModels
             var vm = new SheetSelectionViewModel(copyManager);
             bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, SheetSelectionViewModel.DefaultWindowSettings);
             if (result.HasValue && result.Value) {
-                SCaddinsApp.WindowManager.ShowMessageBox("adding views 1");
                 AddSheets(vm.SelectedViews);
                 NotifyOfPropertyChange(() => GoLabel);
             }
@@ -192,32 +208,14 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public void AddSheets(List<Autodesk.Revit.DB.View> viewSelection)
         {
-            SCaddinsApp.WindowManager.ShowMessageBox(viewSelection.Count.ToString());
             foreach (var view in viewSelection) {
                 if (view is Autodesk.Revit.DB.ViewSheet)
                 {
-                    SCaddinsApp.WindowManager.ShowMessageBox("xxx");
                     copyManager.AddSheet(view as Autodesk.Revit.DB.ViewSheet);
                 } else
                 {
-                    SCaddinsApp.WindowManager.ShowMessageBox("yyy");
                     copyManager.AddView(view as Autodesk.Revit.DB.View);
                 }
-            }
-        }
-
-        public void AddViews()
-        {
-            SCaddinsApp.WindowManager.ShowMessageBox("adding views 1");
-            var collector = new Autodesk.Revit.DB.FilteredElementCollector(copyManager.Doc)
-                .OfClass(typeof(Autodesk.Revit.DB.View));
-
-            var vm = new SheetSelectionViewModel(collector.Cast<Autodesk.Revit.DB.View>());
-            bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, SheetSelectionViewModel.DefaultWindowSettings);
-            if (result.HasValue && result.Value)
-            {
-                AddSheets(vm.SelectedViews);
-                NotifyOfPropertyChange(() => GoLabel);
             }
         }
 
@@ -237,6 +235,7 @@ namespace SCaddins.SheetCopier.ViewModels
         public void Go()
         {
             copyManager.CreateSheets();
+            TryClose(true);
         }
 
         public void RemoveSelectedViews()
@@ -249,7 +248,10 @@ namespace SCaddins.SheetCopier.ViewModels
         public void RemoveSheetSelection()
         {
             foreach (var s in selectedSheets.ToList()) {
-                Sheets.Remove(s);
+                if (s.SourceSheet != null)
+                {
+                    Sheets.Remove(s);
+                }
             }
             NotifyOfPropertyChange(() => GoLabel);
         }
@@ -257,8 +259,8 @@ namespace SCaddins.SheetCopier.ViewModels
         public void RowSheetSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
         {
             try {
-                selectedSheets.AddRange(obj.AddedItems.Cast<SheetCopierSheet>());
-                obj.RemovedItems.Cast<SheetCopierSheet>().ToList().ForEach(w => selectedSheets.Remove(w));
+                selectedSheets.AddRange(obj.AddedItems.Cast<SheetCopierViewHost>());
+                obj.RemovedItems.Cast<SheetCopierViewHost>().ToList().ForEach(w => selectedSheets.Remove(w));
             } catch (Exception exception) {
                 Console.WriteLine(exception.Message);
             }
@@ -270,8 +272,8 @@ namespace SCaddins.SheetCopier.ViewModels
         public void RowViewsOnSheetSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
         {
             try {
-                selectedViews.AddRange(obj.AddedItems.Cast<SheetCopierViewOnSheet>());
-                obj.RemovedItems.Cast<SheetCopierViewOnSheet>().ToList().ForEach(w => selectedViews.Remove(w));
+                selectedViews.AddRange(obj.AddedItems.Cast<SheetCopierView>());
+                obj.RemovedItems.Cast<SheetCopierView>().ToList().ForEach(w => selectedViews.Remove(w));
             } catch (Exception exception) {
                 Console.WriteLine(exception.Message);
             }

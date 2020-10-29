@@ -88,9 +88,9 @@ namespace SCaddins.HatchEditor.ViewModels
 
         public void Help()
         {
-            string helpText = "" + System.Environment.NewLine +
+            string helpText = System.Environment.NewLine +
             "Line families" + System.Environment.NewLine +
-            "" + System.Environment.NewLine +
+            System.Environment.NewLine +
             "Each line family is a set of parallel lines that build one 'direction' of a pattern. A complete " +
             "pattern may be defined by several families each defining part of the final, such as the vertical " + 
             "points of brick coursing. The lines are described in the two dimensions of a face as follows: " + 

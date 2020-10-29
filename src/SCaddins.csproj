@@ -543,8 +543,8 @@
     <Compile Include="SheetCopier\SheetCopierConstants.cs" />
     <Compile Include="SheetCopier\SheetCopierEnums.cs" />
     <Compile Include="SheetCopier\SheetCopierManager.cs" />
-    <Compile Include="SheetCopier\SheetCopierSheet.cs" />
-    <Compile Include="SheetCopier\SheetCopierViewOnSheet.cs" />
+    <Compile Include="SheetCopier\SheetCopierViewHost.cs" />
+    <Compile Include="SheetCopier\SheetCopierView.cs" />
     <Compile Include="SheetCopier\SheetInformation.cs" />
     <Compile Include="SheetCopier\ViewModels\SheetCopierSettingsViewModel.cs" />
     <Compile Include="SheetCopier\ViewModels\SheetCopierViewModel.cs" />
