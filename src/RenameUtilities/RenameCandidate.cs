@@ -107,7 +107,7 @@ namespace SCaddins.RenameUtilities
         
         private Parameter RevitParameter => parameter;
 
-        //FIXME this is a mess :)
+        //// FIXME this is a mess :)
         public bool Rename()
         {
             if (ValueChanged)
@@ -145,14 +145,12 @@ namespace SCaddins.RenameUtilities
                 }
                 else if (note == null && family == null)
                 {
-                    //// SCaddinsApp.WindowManager.ShowMessageBox("renaming group");
                     try
                     {
                         group.Name = NewValue;
                     }
                     catch (System.Exception ex)
                     {
-                        //// SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
                         return false;
                     }
                     return true;

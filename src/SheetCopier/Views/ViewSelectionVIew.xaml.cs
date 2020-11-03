@@ -3,9 +3,9 @@
     /// <summary>
     /// Interaction logic for SheetSelectionView.xaml
     /// </summary>
-    public partial class SheetSelectionView
+    public partial class ViewSelectionView
     {
-        public SheetSelectionView()
+        public ViewSelectionView()
         {
             InitializeComponent();
         }

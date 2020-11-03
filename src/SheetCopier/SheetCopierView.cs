@@ -24,7 +24,7 @@ namespace SCaddins.SheetCopier
     using System.Linq;
     using Autodesk.Revit.DB;
 
-    public class SheetCopierViewOnSheet : INotifyPropertyChanged
+    public class SheetCopierView : INotifyPropertyChanged
     {
         private string associatedLevelName;
         private ViewPortPlacementMode creationMode;
@@ -37,7 +37,7 @@ namespace SCaddins.SheetCopier
         private SheetCopierManager scopy;
         private string viewTemplateName;
 
-        public SheetCopierViewOnSheet(string title, View view, SheetCopierManager scopy)
+        public SheetCopierView(string title, View view, SheetCopierManager scopy)
         {
             if (scopy == null)
             {

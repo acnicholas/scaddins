@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SCaddins.SheetCopier.Views.SheetSelectionView"
+﻿<UserControl x:Class="SCaddins.SheetCopier.Views.ViewSelectionView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,11 +8,31 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Height="Auto" Width="Auto">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
+        <GroupBox Header="Selection Type" Margin="5">
+            <Grid>
+            <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+            <Label>Search</Label>
+            <TextBox x:Name="SearchText" Grid.ColumnSpan="2" Margin="5" Grid.Column="1"></TextBox>
+            <Label Grid.Row="1">Type Filter</Label>
+            <CheckBox x:Name="ShowSheets" Margin="5" Grid.Row="1" Grid.Column="1">Sheets</CheckBox>
+            <CheckBox x:Name="ShowViews" Grid.Column="2" Margin="5" Grid.Row="1">Views</CheckBox>
+        </Grid>
+        </GroupBox>
         <DataGrid 
-            x:Name="Sheets" 
+            x:Name="SearchResults"
+            Grid.Row="1"
             AutoGenerateColumns="False"
             IsReadOnly="True"
             cal:Message.Attach="[Event SelectionChanged] = [RowSheetSelectionChanged($eventArgs)]"
@@ -21,10 +41,11 @@
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </DataGrid.AlternatingRowBackground>
             <DataGrid.Columns>
-           <DataGridTextColumn Header="Title" Binding="{Binding Title}" MinWidth="100"></DataGridTextColumn>
-        </DataGrid.Columns>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" MinWidth="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="View Type" Binding="{Binding ViewType}" MinWidth="100"></DataGridTextColumn>
+            </DataGrid.Columns>
         </DataGrid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>

@@ -22,16 +22,19 @@ namespace SCaddins.SheetCopier
     using System.Linq;
     using Autodesk.Revit.DB;
 
-    public class SheetCopierSheet : Caliburn.Micro.PropertyChangedBase
+    /// <summary>
+    /// This could be a sheet or a model.
+    /// </summary>
+    public class SheetCopierViewHost : Caliburn.Micro.PropertyChangedBase
     {
         private string number;
         private SheetCopierManager scopy;
         private string sheetCategory;
         private string userCreatedSheetCategory;
         private string title;
-        private ObservableCollection<SheetCopierViewOnSheet> viewsOnSheet;
+        private ObservableCollection<SheetCopierView> childViews;
 
-        public SheetCopierSheet(string number, string title, SheetCopierManager scopy, ViewSheet sourceSheet)
+        public SheetCopierViewHost(string number, string title, SheetCopierManager scopy, ViewSheet sourceSheet)
         {
             this.scopy = scopy ?? throw new ArgumentNullException(nameof(scopy));
             this.number = number;
@@ -40,7 +43,8 @@ namespace SCaddins.SheetCopier
             sheetCategory = GetSheetCategory(SheetCopierConstants.SheetCategory);
             userCreatedSheetCategory = sheetCategory;
             DestinationSheet = null;
-            viewsOnSheet = new ObservableCollection<SheetCopierViewOnSheet>();
+            Type = ViewHostType.Sheet;
+            childViews = new ObservableCollection<SheetCopierView>();
             foreach (var id in sourceSheet.GetAllPlacedViews())
             {
                 Element element = sourceSheet.Document.GetElement(id);
@@ -49,9 +53,28 @@ namespace SCaddins.SheetCopier
                 {
                     continue;
                 }
-                viewsOnSheet.Add(new SheetCopierViewOnSheet(v.Name, v, scopy));
+                childViews.Add(new SheetCopierView(v.Name, v, scopy));
             }
             SheetCategories = new ObservableCollection<string>(scopy.SheetCategories.ToList());
+        }
+
+        public SheetCopierViewHost(SheetCopierManager scopy)
+        {
+            this.scopy = scopy ?? throw new ArgumentNullException(nameof(scopy));
+            this.number = @"<N/A>";
+            this.title = "<Independent Views(no sheet) are itemized here>";
+            SourceSheet = null;
+            Type = ViewHostType.Model;
+            sheetCategory = null;
+            userCreatedSheetCategory = null;
+            DestinationSheet = null;
+            childViews = new ObservableCollection<SheetCopierView>();
+            SheetCategories = new ObservableCollection<string>(scopy.SheetCategories.ToList());
+        }
+
+        public ViewHostType Type
+        {
+            get; set;
         }
 
         public ViewSheet DestinationSheet
@@ -93,7 +116,7 @@ namespace SCaddins.SheetCopier
             {
                 userCreatedSheetCategory = value;
 
-                foreach (var s in scopy.Sheets) {
+                foreach (var s in scopy.ViewHosts) {
                     if (!s.SheetCategories.Contains(userCreatedSheetCategory)) {
                         s.SheetCategories.Add(userCreatedSheetCategory);
                         s.RefreshSheetCategories();
@@ -132,11 +155,11 @@ public ViewSheet SourceSheet
             }
         }
 
-        public ObservableCollection<SheetCopierViewOnSheet> ViewsOnSheet => viewsOnSheet;
+        public ObservableCollection<SheetCopierView> ChildViews => childViews;
 
         public string GetNewViewName(ElementId id)
         {
-            return (from v in viewsOnSheet where id == v.OldId select v.Title).FirstOrDefault();
+            return (from v in childViews where id == v.OldId select v.Title).FirstOrDefault();
         }
 
         public void RefreshSheetCategories()

@@ -618,17 +618,16 @@
     <Compile Include="SheetCopier\SheetCopierConstants.cs" />
     <Compile Include="SheetCopier\SheetCopierEnums.cs" />
     <Compile Include="SheetCopier\SheetCopierManager.cs" />
-    <Compile Include="SheetCopier\SheetCopierSheet.cs" />
-    <Compile Include="SheetCopier\SheetCopierViewOnSheet.cs" />
+    <Compile Include="SheetCopier\SheetCopierViewHost.cs" />
+    <Compile Include="SheetCopier\SheetCopierView.cs" />
     <Compile Include="SheetCopier\SheetInformation.cs" />
-    <Compile Include="SheetCopier\ViewModels\SheetCopierSettingsViewModel.cs" />
     <Compile Include="SheetCopier\ViewModels\SheetCopierViewModel.cs" />
-    <Compile Include="SheetCopier\ViewModels\SheetSelectionViewModel.cs" />
+    <Compile Include="SheetCopier\ViewModels\ViewSelectionViewModel.cs" />
     <Compile Include="SheetCopier\Views\SheetCopierView.xaml.cs">
       <DependentUpon>SheetCopierView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SheetCopier\Views\SheetSelectionView.xaml.cs">
-      <DependentUpon>SheetSelectionView.xaml</DependentUpon>
+    <Compile Include="SheetCopier\Views\ViewSelectionVIew.xaml.cs">
+      <DependentUpon>ViewSelectionVIew.xaml</DependentUpon>
     </Compile>
     <Compile Include="SheetCopier\Views\SheetCopierSettingsView.xaml.cs">
       <DependentUpon>SheetCopierSettingsView.xaml</DependentUpon>
@@ -883,7 +882,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SheetCopier\Views\SheetSelectionView.xaml">
+    <Page Include="SheetCopier\Views\ViewSelectionVIew.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

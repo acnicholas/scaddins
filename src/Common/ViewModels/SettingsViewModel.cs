@@ -11,20 +11,17 @@
     {
         private SCincrementViewModel incrementViewModel;
         private RoomConverter.ViewModels.SettingsViewModel roomConverterViewModel;
-        private SheetCopierSettingsViewModel sheetCopierViewModel;
         private ViewUtilitiesSettingsViewModel viewUtilitiesViewModel;
         private SpellCheckerOptionsViewModel spellCheckerOptionsViewModel;
 
         public SettingsViewModel(
             SCincrementViewModel svm,
             RoomConverter.ViewModels.SettingsViewModel roomConverterViewModel,
-            SheetCopierSettingsViewModel sheetCopierViewModel,
             ViewUtilitiesSettingsViewModel viewUtilitiesViewModel,
             SpellCheckerOptionsViewModel spellCheckerOptionsViewModel)
         {
             IncrementViewModel = svm;
             RoomConverterViewModel = roomConverterViewModel;
-            SheetCopierViewModel = sheetCopierViewModel;
             ViewUtilitiesViewModel = viewUtilitiesViewModel;
             SpellCheckerOptionsViewModel = spellCheckerOptionsViewModel;
         }
@@ -70,20 +67,6 @@
             {
                 incrementViewModel = value;
                 NotifyOfPropertyChange(() => IncrementViewModel);
-            }
-        }
-
-        public SheetCopierSettingsViewModel SheetCopierViewModel
-        {
-            get
-            {
-                return sheetCopierViewModel;
-            }
-
-            set
-            {
-                sheetCopierViewModel = value;
-                NotifyOfPropertyChange(() => SheetCopierViewModel);    
             }
         }
 

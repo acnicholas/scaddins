@@ -23,4 +23,10 @@ namespace SCaddins.SheetCopier
         New,
         Legend
     }
+
+    public enum ViewHostType
+    {
+        Sheet,
+        Model
+    }
 }
