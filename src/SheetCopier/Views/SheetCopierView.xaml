@@ -88,7 +88,7 @@
                     <Button x:Name="AddSheets" Grid.Column="5" Margin="5">Add Views</Button>
                 </Grid>
                 <DataGrid
-                    x:Name="Sheets"
+                    x:Name="ViewHosts"
                     AutoGenerateColumns="False"
                     Grid.Row="1"
                     Margin="5"
@@ -120,7 +120,7 @@
                         </DataGridComboBoxColumn>-->
                         <DataGridTemplateColumn Header="View Category">
                             <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate DataType="sheetCopier:SheetCopierSheet">
+                                <DataTemplate DataType="sheetCopier:SheetCopierViewHost">
                                     <ComboBox  Background="Transparent" IsEditable="True"  Text="{Binding UserCreatedSheetCategory, UpdateSourceTrigger=LostFocus}" ItemsSource="{Binding SheetCategories}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -139,16 +139,16 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Label  Grid.Column="0">Views on New Sheets</Label>
-                    <Button x:Name="RemoveSelectedViews" IsEnabled="{Binding RemoveSelectedViewsIsEnabled}" Grid.Column="1" Margin="5">Remove View[s]</Button>
+                    <Label  x:Name="ChildViewsTitleLabel" Grid.Column="0"></Label>
+                    <Button x:Name="RemoveSelectedViews" IsEnabled="{Binding RemoveSelectedViewsIsEnabled}" Content="{Binding RemoveViewsLabel}" Grid.Column="1" Margin="5"></Button>
                 </Grid>
                 <DataGrid
-                    x:Name="ViewsOnSheet"
+                    x:Name="ChildViews"
                     AutoGenerateColumns="False"
                     Grid.Row="1"
                     VirtualizingStackPanel.VirtualizationMode="Standard"
                     GridLinesVisibility="None"
-                    cal:Message.Attach="[Event SelectionChanged] = [RowViewsOnSheetSelectionChanged($eventArgs)]"
+                    cal:Message.Attach="[Event SelectionChanged] = [ChildViewsRowSelectionChanged($eventArgs)]"
                     Margin="5">
                     <DataGrid.AlternatingRowBackground>
                         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>

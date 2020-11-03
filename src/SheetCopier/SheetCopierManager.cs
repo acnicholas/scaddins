@@ -32,28 +32,9 @@ namespace SCaddins.SheetCopier
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;
         private UIDocument uidoc;
-
-        private SheetCopierViewHost nullSheet;
-
-        private Dictionary<string, View> existingSheets =
-            new Dictionary<string, View>();
-
-        private Dictionary<string, View> existingViews =
-            new Dictionary<string, View>();
-
         private ElementId floorPlanViewFamilyTypeId;
         private List<Revision> hiddenRevisionClouds = new List<Revision>();
-        private Dictionary<string, Level> levels =
-            new Dictionary<string, Level>();
-
-        private ObservableCollection<string> sheetCategories =
-            new ObservableCollection<string>();
-
-        private ObservableCollection<SheetCopierViewHost> viewHosts;
         private StringBuilder summaryText;
-
-        private Dictionary<string, View> viewTemplates =
-            new Dictionary<string, View>();
 
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0")]
         public SheetCopierManager(UIDocument uidoc)
@@ -61,41 +42,53 @@ namespace SCaddins.SheetCopier
             summaryText = new StringBuilder();
             doc = uidoc.Document;
             this.uidoc = uidoc;
-            viewHosts = new ObservableCollection<SheetCopierViewHost>();
+            ViewHosts = new ObservableCollection<SheetCopierViewHost>();
             hiddenRevisionClouds = GetAllHiddenRevisions(doc);
             GetViewTemplates();
-            GetAllSheets(existingSheets, doc);
+            GetAllSheets(ExistingSheets, doc);
             GetAllLevelsInModel();
-            GetAllViewsInModel(existingViews, doc);
+            GetAllViewsInModel(ExistingViews, doc);
             GetFloorPlanViewFamilyTypeId();
             GetAllSheetCategories();
-            nullSheet = new SheetCopierViewHost(this);
-            viewHosts.Add(nullSheet);
         }
 
-        public ViewType ActiveViewType
-        {
-            get
-            {
-                return doc.ActiveView.ViewType;
-            }
-        }
+        public ViewType ActiveViewType => doc.ActiveView.ViewType;
 
         public Document Doc => doc;
 
-        public Dictionary<string, View> ExistingViews => existingViews;
+        public Dictionary<string, View> ExistingViews { get; } = new Dictionary<string, View>();
 
-        public Dictionary<string, View> ExistingSheets => existingSheets;
+        public Dictionary<string, View> ExistingSheets { get; } = new Dictionary<string, View>();
 
-        public int IndepentantViewCount => nullSheet.ViewsOnSheet.Count;
+        public int IndependentViewCount
+        {
+            get
+            {
+                var modelHost = ViewHosts.Where(v => v.Type == ViewHostType.Model);
+                return modelHost.Count() > 0 ? modelHost.First().ChildViews.Count : 0;
+            }
+        }
 
-        public Dictionary<string, Level> Levels => levels;
+        public Dictionary<string, Level> Levels { get; } = new Dictionary<string, Level>();
 
-        public ObservableCollection<string> SheetCategories => sheetCategories;
+        public ObservableCollection<string> SheetCategories { get; } = new ObservableCollection<string>();
 
-        public ObservableCollection<SheetCopierViewHost> Sheets => viewHosts;
+        public ObservableCollection<SheetCopierViewHost> ViewHosts { get; }
 
-        public Dictionary<string, View> ViewTemplates => viewTemplates;
+        public Dictionary<string, View> ViewTemplates { get; } = new Dictionary<string, View>();
+
+        public SheetCopierViewHost GetFirstModelHost()
+        {
+            var modelHost = ViewHosts.Where(s => s.Type == ViewHostType.Model);
+            if (modelHost.Count() > 0)
+            {
+                return modelHost.First();
+            } else {
+                var newModelHost = new SheetCopierViewHost(this);
+                ViewHosts.Add(newModelHost);
+                return newModelHost;
+            }
+        }
 
         public static void DeleteRevisionClouds(ElementId viewId, Document doc)
         {
@@ -196,7 +189,7 @@ namespace SCaddins.SheetCopier
 
         public void AddSheetCategory(string name)
         {
-            sheetCategories.Add(name);
+            SheetCategories.Add(name);
         }
 
         // add an empty sheet to the doc.
@@ -228,7 +221,7 @@ namespace SCaddins.SheetCopier
             {
                 string n = GetNewSheetNumber(sourceSheet.SheetNumber);
                 string t = sourceSheet.Name + SheetCopierConstants.MenuItemCopy;
-                viewHosts.Add(new SheetCopierViewHost(n, t, this, sourceSheet));
+                ViewHosts.Add(new SheetCopierViewHost(n, t, this, sourceSheet));
                 return true;
             }
             return false;
@@ -241,7 +234,6 @@ namespace SCaddins.SheetCopier
             if (view.ViewType == ViewType.ProjectBrowser)
             {
                 var selection = uidoc.Selection.GetElementIds();
-                //// SCaddinsApp.WindowManager.ShowMessageBox(selection.Count.ToString());
                 foreach (var id in selection)
                 {
                     var projectBrowserView = doc.GetElement(id);
@@ -263,13 +255,14 @@ namespace SCaddins.SheetCopier
                     var v = view as ViewSheet;
                     string n = GetNewSheetNumber(v.SheetNumber);
                     string t = v.Name + SheetCopierConstants.MenuItemCopy;
-                    viewHosts.Add(new SheetCopierViewHost(n, t, this, v));
+                    ViewHosts.Add(new SheetCopierViewHost(n, t, this, v));
                     return true;
                 }
                 return false;
             } else {
-                nullSheet.ViewsOnSheet.Add(new SheetCopierView(view.Name, view, this));
-                nullSheet.Title = "<" + nullSheet.ViewsOnSheet.Count.ToString() + " Independent Views>";
+                var modelHost = GetFirstModelHost();
+                modelHost.ChildViews.Add(new SheetCopierView(view.Name, view, this));
+                modelHost.Title = "<" + modelHost.ChildViews.Count.ToString() + " Independent Views>";
                 return true;
             }
         }
@@ -306,7 +299,7 @@ namespace SCaddins.SheetCopier
         }
 
         // this is where the action happens
-        public bool CreateAndPopulateNewSheet(SheetCopierViewHost host, StringBuilder summary)
+        public bool CreateAndPopulateNewSheet(SheetCopierViewHost host, StringBuilder summaryText)
         {
             if (host == null) {
                 return false;
@@ -314,7 +307,7 @@ namespace SCaddins.SheetCopier
 
             if (host.Type == ViewHostType.Model)
             {
-                CreateViews(nullSheet);
+                CreateViews(host, summaryText);
                 return true;
             }
 
@@ -340,7 +333,7 @@ namespace SCaddins.SheetCopier
             }
 
             if (host.DestinationSheet != null) {
-                CreateViews(host);
+                CreateViews(host, summaryText);
             } else {
                 return false;
             }
@@ -357,8 +350,8 @@ namespace SCaddins.SheetCopier
 
             var oldNumber = host.SourceSheet.SheetNumber;
             var msg = " Sheet: " + oldNumber + " copied to: " + host.Number;
-            if (summary != null) {
-                summary.Append(msg + Environment.NewLine);
+            if (summaryText != null) {
+                summaryText.Append(msg + Environment.NewLine);
             }
 
             return true;
@@ -366,7 +359,7 @@ namespace SCaddins.SheetCopier
 
         public void CreateSheets()
         {
-            if (viewHosts.Count < 1)
+            if (ViewHosts.Count < 1)
             {
                 return;
             }
@@ -380,7 +373,7 @@ namespace SCaddins.SheetCopier
             {
                 if (t.Start() == TransactionStatus.Started)
                 {
-                    foreach (SheetCopierViewHost viewHost in viewHosts)
+                    foreach (SheetCopierViewHost viewHost in ViewHosts)
                     {
                         if (viewHost.Type == ViewHostType.Sheet)
                         {
@@ -415,7 +408,7 @@ namespace SCaddins.SheetCopier
             SCaddinsApp.WindowManager.ShowMessageBox("Copy Sheets - Summary", summaryText.ToString());
         }
 
-        public void CreateViews(SheetCopierViewHost host)
+        public void CreateViews(SheetCopierViewHost host, StringBuilder summaryText)
         {
             Dictionary<ElementId, XYZ> viewPorts = null;
             if (host.Type == ViewHostType.Sheet)
@@ -423,7 +416,7 @@ namespace SCaddins.SheetCopier
                 viewPorts = GetViewportDictionary(host.SourceSheet, doc);
             }
 
-            foreach (SheetCopierView view in host.ViewsOnSheet) {
+            foreach (SheetCopierView view in host.ChildViews) {
                 if (host.Type == ViewHostType.Model)
                 {
                     var id = DuplicateView(view);
@@ -435,6 +428,11 @@ namespace SCaddins.SheetCopier
                         if (newName != null)
                         {
                             v.Name = newName;
+                            var msg = " View: " + view.OldView.Name + " copied to: " + newName;
+                            if (summaryText!= null)
+                            {
+                                summaryText.Append(msg + Environment.NewLine);
+                            }
                         }
                         else
                         {
@@ -548,7 +546,7 @@ namespace SCaddins.SheetCopier
             XYZ sourceViewCentre)
         {
             Level level = null;
-            levels.TryGetValue(view.AssociatedLevelName, out level);
+            Levels.TryGetValue(view.AssociatedLevelName, out level);
             if (level != null) {
                 using (ViewPlan vp = ViewPlan.Create(doc, floorPlanViewFamilyTypeId, level.Id)) {
                     vp.CropBox = view.OldView.CropBox;
@@ -582,21 +580,21 @@ namespace SCaddins.SheetCopier
             {
                 return false;
             }
-            foreach (SheetCopierViewHost s in viewHosts)
+            foreach (SheetCopierViewHost s in ViewHosts)
             {
                 if (s.Number.ToUpper(CultureInfo.InvariantCulture).Equals(number.ToUpper(CultureInfo.InvariantCulture), StringComparison.InvariantCulture))
                 {
                     return false;
                 }
             }
-            return !existingSheets.ContainsKey(number);
+            return !ExistingSheets.ContainsKey(number);
         }
 
         public void TryAssignViewTemplate(View view, string templateName)
         {
             if (templateName != SheetCopierConstants.MenuItemCopy) {
                 View vt = null;
-                if (viewTemplates.TryGetValue(templateName, out vt)) {
+                if (ViewTemplates.TryGetValue(templateName, out vt)) {
                     try {
                         view.ViewTemplateId = vt.Id;
                     } catch (Autodesk.Revit.Exceptions.ArgumentException ex) {
@@ -614,9 +612,9 @@ namespace SCaddins.SheetCopier
             {
                 return false;
             }
-            foreach (SheetCopierViewHost s in viewHosts)
+            foreach (SheetCopierViewHost s in ViewHosts)
             {
-                foreach (SheetCopierView v in s.ViewsOnSheet)
+                foreach (SheetCopierView v in s.ChildViews)
                 {
                     if (v.Title.ToUpper(CultureInfo.InvariantCulture).Equals(title.ToUpper(CultureInfo.InvariantCulture), StringComparison.CurrentCulture))
                     {
@@ -624,7 +622,7 @@ namespace SCaddins.SheetCopier
                     }
                 }
             }
-            return !existingViews.ContainsKey(title);
+            return !ExistingViews.ContainsKey(title);
         }
 
         private static Dictionary<ElementId, XYZ> GetViewportDictionary(ViewSheet srcSheet, Document doc)
@@ -642,21 +640,21 @@ namespace SCaddins.SheetCopier
 
         private void GetAllLevelsInModel()
         {
-            levels.Clear();
+            Levels.Clear();
             using (var collector = new FilteredElementCollector(doc))
             {
                 collector.OfClass(typeof(Level));
                 foreach (Element element in collector)
                 {
-                    levels.Add(element.Name.ToString(CultureInfo.CurrentCulture), element as Level);
+                    Levels.Add(element.Name.ToString(CultureInfo.CurrentCulture), element as Level);
                 }
             }
         }
 
         private void GetAllSheetCategories()
         {
-            sheetCategories.Clear();
-            sheetCategories.Add(@"<None>");
+            SheetCategories.Clear();
+            SheetCategories.Add(@"<None>");
             using (var c1 = new FilteredElementCollector(doc))
             {
                 c1.OfCategory(BuiltInCategory.OST_Sheets);
@@ -669,9 +667,9 @@ namespace SCaddins.SheetCopier
                     }
                     var viewCategoryParam = viewCategoryParamList.First();
                     var s = viewCategoryParam.AsString();
-                    if (!string.IsNullOrEmpty(s) && !sheetCategories.Contains(s))
+                    if (!string.IsNullOrEmpty(s) && !SheetCategories.Contains(s))
                     {
-                        sheetCategories.Add(s);
+                        SheetCategories.Add(s);
                     }
                 }
             }
@@ -695,7 +693,7 @@ namespace SCaddins.SheetCopier
 
         private void GetViewTemplates()
         {
-            viewTemplates.Clear();
+            ViewTemplates.Clear();
             using (var c = new FilteredElementCollector(doc))
             {
                 c.OfCategory(BuiltInCategory.OST_Views);
@@ -704,7 +702,7 @@ namespace SCaddins.SheetCopier
                     var view = (View)element;
                     if (view.IsTemplate)
                     {
-                        viewTemplates.Add(view.Name, view);
+                        ViewTemplates.Add(view.Name, view);
                     }
                 }
             }

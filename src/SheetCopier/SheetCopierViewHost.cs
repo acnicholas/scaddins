@@ -32,7 +32,7 @@ namespace SCaddins.SheetCopier
         private string sheetCategory;
         private string userCreatedSheetCategory;
         private string title;
-        private ObservableCollection<SheetCopierView> viewsOnSheet;
+        private ObservableCollection<SheetCopierView> childViews;
 
         public SheetCopierViewHost(string number, string title, SheetCopierManager scopy, ViewSheet sourceSheet)
         {
@@ -44,7 +44,7 @@ namespace SCaddins.SheetCopier
             userCreatedSheetCategory = sheetCategory;
             DestinationSheet = null;
             Type = ViewHostType.Sheet;
-            viewsOnSheet = new ObservableCollection<SheetCopierView>();
+            childViews = new ObservableCollection<SheetCopierView>();
             foreach (var id in sourceSheet.GetAllPlacedViews())
             {
                 Element element = sourceSheet.Document.GetElement(id);
@@ -53,7 +53,7 @@ namespace SCaddins.SheetCopier
                 {
                     continue;
                 }
-                viewsOnSheet.Add(new SheetCopierView(v.Name, v, scopy));
+                childViews.Add(new SheetCopierView(v.Name, v, scopy));
             }
             SheetCategories = new ObservableCollection<string>(scopy.SheetCategories.ToList());
         }
@@ -68,7 +68,7 @@ namespace SCaddins.SheetCopier
             sheetCategory = null;
             userCreatedSheetCategory = null;
             DestinationSheet = null;
-            viewsOnSheet = new ObservableCollection<SheetCopierView>();
+            childViews = new ObservableCollection<SheetCopierView>();
             SheetCategories = new ObservableCollection<string>(scopy.SheetCategories.ToList());
         }
 
@@ -116,7 +116,7 @@ namespace SCaddins.SheetCopier
             {
                 userCreatedSheetCategory = value;
 
-                foreach (var s in scopy.Sheets) {
+                foreach (var s in scopy.ViewHosts) {
                     if (!s.SheetCategories.Contains(userCreatedSheetCategory)) {
                         s.SheetCategories.Add(userCreatedSheetCategory);
                         s.RefreshSheetCategories();
@@ -155,11 +155,11 @@ public ViewSheet SourceSheet
             }
         }
 
-        public ObservableCollection<SheetCopierView> ViewsOnSheet => viewsOnSheet;
+        public ObservableCollection<SheetCopierView> ChildViews => childViews;
 
         public string GetNewViewName(ElementId id)
         {
-            return (from v in viewsOnSheet where id == v.OldId select v.Title).FirstOrDefault();
+            return (from v in childViews where id == v.OldId select v.Title).FirstOrDefault();
         }
 
         public void RefreshSheetCategories()

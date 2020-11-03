@@ -29,7 +29,7 @@ namespace SCaddins.SheetCopier.ViewModels
     internal class SheetCopierViewModel : Screen
     {
         private SheetCopierManager copyManager;
-        private SheetCopierViewHost selectedSheet;
+        private SheetCopierViewHost selectedViewHost;
         private BindableCollection<SheetInformation> selectedSheetInformation = new BindableCollection<SheetInformation>();
         private List<SheetCopierViewHost> selectedSheets = new List<SheetCopierViewHost>();
         private List<SheetCopierView> selectedViews = new List<SheetCopierView>();
@@ -37,7 +37,6 @@ namespace SCaddins.SheetCopier.ViewModels
         public SheetCopierViewModel(UIDocument uidoc)
         {
             copyManager = new SheetCopierManager(uidoc);
-            RunAfterClose = false;
         }
 
         public static dynamic DefaultWindowSettings
@@ -55,14 +54,8 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
-        public bool AddCurrentSheetIsEnabled
-        {
-            get
-            {
-                ////return copyManager.ActiveViewType != Autodesk.Revit.DB.ViewType.ProjectBrowser
-                return true;
-            }
-        }
+        public bool AddCurrentSheetIsEnabled => true;
+
 
         public string AddCurrentSheetLabel
         {
@@ -80,54 +73,57 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
+        public string ChildViewsTitleLabel
+        {
+            get
+            {
+                if (SelectedViewHost != null)
+                {
+                    switch (SelectedViewHost.Type)
+                    {
+                        case ViewHostType.Model:
+                            return "Independent Views (no parent sheet)";
+                        case ViewHostType.Sheet:
+                            return "Views on sheet: " + SelectedViewHost.Number + "-" + SelectedViewHost.Title;
+                    }
+                }
+                return "Views";
+            }
+        }
+
         public bool CopySheetSelectionIsEnabled
         {
             get
             {
-                return selectedSheet != null && this.selectedSheet.SourceSheet != null;
+                return selectedViewHost != null && this.selectedViewHost.SourceSheet != null;
             }
         }
 
         public string GoLabel
         {
-            get { return "Copy " + (Sheets.Count - 1) + " Sheets and " + copyManager.IndepentantViewCount + " Independent Views"; }
+            get { return "Copy " + ViewHosts.Count + " Sheets and " + copyManager.IndependentViewCount + " Independent Views"; }
         }
 
-        public bool RemoveSelectedViewsIsEnabled
+        public bool RemoveSelectedViewsIsEnabled => selectedViews.Count > 0;
+
+        public bool RemoveSheetSelectionIsEnabled => selectedViewHost != null;
+
+        public string RemoveViewsLabel => selectedViews.Count < 2 ? "Remove View" : "Remove Views";
+
+        public SheetCopierViewHost SelectedViewHost
         {
             get
             {
-                return selectedViews.Count > 0;
-            }
-        }
-
-        public bool RemoveSheetSelectionIsEnabled
-        {
-            get
-            {
-                return selectedSheet != null && this.selectedSheet.SourceSheet != null;
-            }
-        }
-
-        public bool RunAfterClose
-        {
-            get; set;
-        }
-
-        public SheetCopierViewHost SelectedSheet
-        {
-            get
-            {
-                return selectedSheet;
+                return selectedViewHost;
             }
 
             set
             {
-                if (value != selectedSheet) {
-                    selectedSheet = value;
+                if (value != selectedViewHost) {
+                    selectedViewHost = value;
                     NotifyOfPropertyChange(() => SelectedSheetInformationView);
-                    NotifyOfPropertyChange(() => ViewsOnSheet);
-                    NotifyOfPropertyChange(() => SelectedSheetName);
+                    NotifyOfPropertyChange(() => ChildViews);
+                    NotifyOfPropertyChange(() => SelectedViewHostName);
                 }
             }
         }
@@ -137,13 +133,13 @@ namespace SCaddins.SheetCopier.ViewModels
             get
             {
                 selectedSheetInformation.Clear();
-                if (selectedSheet != null) {
-                    selectedSheetInformation.Add(new SheetInformation(selectedSheet.SourceSheet));
-                    foreach (Autodesk.Revit.DB.ElementId id in selectedSheet.SourceSheet.GetAllPlacedViews()) {
+                if (selectedViewHost != null && selectedViewHost.Type == ViewHostType.Sheet) {
+                    selectedSheetInformation.Add(new SheetInformation(selectedViewHost.SourceSheet));
+                    foreach (Autodesk.Revit.DB.ElementId id in selectedViewHost.SourceSheet.GetAllPlacedViews()) {
                         Autodesk.Revit.DB.Element element = copyManager.Doc.GetElement(id);
                         selectedSheetInformation.Add(new SheetInformation(element));
                     }
-                    foreach (Autodesk.Revit.DB.Parameter param in selectedSheet.SourceSheet.Parameters) {
+                    foreach (Autodesk.Revit.DB.Parameter param in selectedViewHost.SourceSheet.Parameters) {
                         selectedSheetInformation.Add(new SheetInformation(param));
                     }
                     return selectedSheetInformation;
@@ -165,22 +161,17 @@ namespace SCaddins.SheetCopier.ViewModels
             }
         }
 
-        public string SelectedSheetName
-        {
-            get
-            {
-                return SelectedSheet.Number + " - " + SelectedSheet.Title;
-            }
-        }
+        public string SelectedViewHostName => SelectedViewHost.Number + " - " + SelectedViewHost.Title;
 
-        public ObservableCollection<SheetCopierViewHost> Sheets
-        {
-            get { return copyManager.Sheets; }
-        }
+        public ObservableCollection<SheetCopierViewHost> ViewHosts => copyManager.ViewHosts;
 
-        public ObservableCollection<SheetCopierView> ViewsOnSheet
+
+        /// <summary>
+        /// A child view is a view that is belongs to either a sheet or the model.
+        /// </summary>
+        public ObservableCollection<SheetCopierView> ChildViews
         {
-            get { return SelectedSheet.ViewsOnSheet; }
+            get { return SelectedViewHost.ChildViews; }
         }
 
         public void AddCurrentView()
@@ -191,8 +182,8 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public void AddSheets()
         {
-            var vm = new SheetSelectionViewModel(copyManager);
-            bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, SheetSelectionViewModel.DefaultWindowSettings);
+            var vm = new ViewSelectionViewModel(copyManager);
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewSelectionViewModel.DefaultWindowSettings);
             if (result.HasValue && result.Value) {
                 AddSheets(vm.SelectedViews);
                 NotifyOfPropertyChange(() => GoLabel);
@@ -221,8 +212,8 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public void CopySheetSelection()
         {
-            if (SelectedSheet.SourceSheet != null) {
-                copyManager.AddSheet(SelectedSheet.SourceSheet);
+            if (SelectedViewHost.SourceSheet != null) {
+                copyManager.AddSheet(SelectedViewHost.SourceSheet);
                 NotifyOfPropertyChange(() => GoLabel);
             }
         }
@@ -241,17 +232,21 @@ namespace SCaddins.SheetCopier.ViewModels
         public void RemoveSelectedViews()
         {
             foreach (var s in selectedViews.ToList()) {
-                ViewsOnSheet.Remove(s);
+                ChildViews.Remove(s);
+            }
+            if (SelectedViewHost.Type == ViewHostType.Model) {
+                if (SelectedViewHost.ChildViews.Count == 0) {
+                    ViewHosts.Remove(SelectedViewHost);
+                } else {
+                    SelectedViewHost.Title = "<" + SelectedViewHost.ChildViews.Count.ToString() + " Independent Views>";
+                }
             }
         }
 
         public void RemoveSheetSelection()
         {
             foreach (var s in selectedSheets.ToList()) {
-                if (s.SourceSheet != null)
-                {
-                    Sheets.Remove(s);
-                }
+                    ViewHosts.Remove(s);
             }
             NotifyOfPropertyChange(() => GoLabel);
         }
@@ -265,11 +260,12 @@ namespace SCaddins.SheetCopier.ViewModels
                 Console.WriteLine(exception.Message);
             }
             NotifyOfPropertyChange(() => GoLabel);
+            NotifyOfPropertyChange(() => ChildViewsTitleLabel);
             NotifyOfPropertyChange(() => CopySheetSelectionIsEnabled);
             NotifyOfPropertyChange(() => RemoveSheetSelectionIsEnabled);
         }
 
-        public void RowViewsOnSheetSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
+        public void ChildViewsRowSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
         {
             try {
                 selectedViews.AddRange(obj.AddedItems.Cast<SheetCopierView>());
@@ -278,6 +274,7 @@ namespace SCaddins.SheetCopier.ViewModels
                 Console.WriteLine(exception.Message);
             }
             NotifyOfPropertyChange(() => RemoveSelectedViewsIsEnabled);
+            NotifyOfPropertyChange(() => RemoveViewsLabel);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SCaddins.SheetCopier.Views.SheetSelectionView"
+﻿<UserControl x:Class="SCaddins.SheetCopier.Views.ViewSelectionView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -14,12 +14,20 @@
         </Grid.RowDefinitions>
         <GroupBox Header="Selection Type" Margin="5">
             <Grid>
+            <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <CheckBox x:Name="ShowSheets" Margin="5">Sheets</CheckBox>
-            <CheckBox x:Name="ShowViews" Grid.Column="2" Margin="5">Views</CheckBox>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+            <Label>Search</Label>
+            <TextBox x:Name="SearchText" Grid.ColumnSpan="2" Margin="5" Grid.Column="1"></TextBox>
+            <Label Grid.Row="1">Type Filter</Label>
+            <CheckBox x:Name="ShowSheets" Margin="5" Grid.Row="1" Grid.Column="1">Sheets</CheckBox>
+            <CheckBox x:Name="ShowViews" Grid.Column="2" Margin="5" Grid.Row="1">Views</CheckBox>
         </Grid>
         </GroupBox>
         <DataGrid 

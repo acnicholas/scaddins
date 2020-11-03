@@ -26,36 +26,37 @@ namespace SCaddins.SheetCopier.ViewModels
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
-     public class SheetSelectionViewModel : Screen
+     public class ViewSelectionViewModel : Screen
     {
         private List<Autodesk.Revit.DB.View> views;
-        private List<Autodesk.Revit.DB.View> selectedViews;
         private CollectionViewSource searchResults;
+        private string searchText;
         private bool showSheets;
         private bool showViews;
 
-        public SheetSelectionViewModel(SheetCopierManager manager)
+        public ViewSelectionViewModel(SheetCopierManager manager)
         {
             views = manager.ExistingViews.Values.ToList().Cast<Autodesk.Revit.DB.View>().ToList();
             searchResults = new CollectionViewSource();
             searchResults.Source = views.ToList();
+            searchText = string.Empty;
             SearchResults.Filter = vv => {
                 Autodesk.Revit.DB.View fv = vv as Autodesk.Revit.DB.View;
                 if (ShowSheets && !ShowViews) {
-                    return fv.ViewType == ViewType.DrawingSheet;
+                    return fv.ViewType == ViewType.DrawingSheet && fv.Name.Contains(searchText);
                 }
                 if (!ShowSheets && ShowViews)
                 {
-                    return fv.ViewType != ViewType.DrawingSheet && fv.ViewType != ViewType.ProjectBrowser;
+                    return fv.ViewType != ViewType.DrawingSheet && fv.ViewType != ViewType.ProjectBrowser && fv.Name.Contains(searchText);
                 }
                 if (ShowSheets && ShowViews)
                 {
-                    return fv.ViewType != ViewType.ProjectBrowser;
+                    return fv.ViewType != ViewType.ProjectBrowser && fv.Name.Contains(searchText);
                 }
                 return false;
             };
 
-            selectedViews = new List<Autodesk.Revit.DB.View>();
+            SelectedViews = new List<Autodesk.Revit.DB.View>();
             ShowSheets = true;
             ShowViews = false;
         }
@@ -66,7 +67,7 @@ namespace SCaddins.SheetCopier.ViewModels
                 dynamic settings = new ExpandoObject();
                 settings.Height = 640;
                 settings.Width = 480;
-                settings.Title = "Select Sheets for copying";
+                settings.Title = "Select Sheets/Views for Copying";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;
                 settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
@@ -79,12 +80,20 @@ namespace SCaddins.SheetCopier.ViewModels
             get { return searchResults.View; }
         }
 
-        public List<Autodesk.Revit.DB.View> SelectedViews {
-            get
+        public string SearchText
+        {
+            get{ return searchText; }
+            set
             {
-                return selectedViews;
+                if (value != searchText)
+                {
+                    searchText = value;
+                    SearchResults.Refresh();
+                }
             }
         }
+
+        public List<Autodesk.Revit.DB.View> SelectedViews { get; }
 
         public bool ShowSheets
         {
@@ -119,8 +128,8 @@ namespace SCaddins.SheetCopier.ViewModels
         public void RowSheetSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs eventArgs)
         {
             try {
-                selectedViews.AddRange(eventArgs.AddedItems.Cast<Autodesk.Revit.DB.View>());
-                eventArgs.RemovedItems.Cast<Autodesk.Revit.DB.View>().ToList().ForEach(w => selectedViews.Remove(w));
+                SelectedViews.AddRange(eventArgs.AddedItems.Cast<Autodesk.Revit.DB.View>());
+                eventArgs.RemovedItems.Cast<Autodesk.Revit.DB.View>().ToList().ForEach(w => SelectedViews.Remove(w));
             }
             catch (ArgumentNullException argumentNullException) {
                 Console.WriteLine(argumentNullException.Message);
