@@ -6,7 +6,10 @@
 
 - Additional option to create RCP's with Room Tools.
 - Rename familes added to Rename Tool
+- Rename groups added to Rename Tool
 - Save previous(5) Exports for easier reloading.
+- Copy independent views using Sheet Copier.
+- Add help menu to Hatch Editor
 
 # 21.0 #
 
