@@ -1,10 +1,9 @@
-﻿<Window x:Class="SCaddins.RunScript.Views.RunScriptView"
+﻿<UserControl x:Class="SCaddins.RunScript.Views.RunScriptView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:SCaddins.RunScript.Views"
-             xmlns:rp="clr-namespace:RoslynPad.Editor;assembly=RoslynPad.Editor.Windows"
              mc:Ignorable="d" 
              d:DesignHeight="640" d:DesignWidth="800">
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MaxHeight="800" MaxWidth="1024">
@@ -54,26 +53,9 @@
             </MenuItem>
         </Menu>
 
-        <ItemsControl Name="Items" Grid.Row="1">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <rp:RoslynCodeEditor Loaded="OnItemLoaded"
-                                                 Margin="5"
-                                                 PreviewKeyDown="OnEditorKeyDown"
-                                                 IsReadOnly="{Binding IsReadOnly}"
-                                                 HorizontalScrollBarVisibility="Disabled"
-                                                 VerticalScrollBarVisibility="Disabled"
-                                                 ShowLineNumbers="True" />
-                        <TextBlock Text="{Binding Result}"
-                                   TextWrapping="Wrap" />
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        
-        
+        <local:MvvmTextEditor Grid.Row="1" Text="{Binding Script, Mode=TwoWay}" SyntaxHighlighting="C#" FontFamily="Consolas" FontSize="12" Margin="5" Background="{Binding Background}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        </local:MvvmTextEditor>
         <ListBox Grid.Row="2" x:Name="OutputList"></ListBox>
         <Button Grid.Row="3" x:Name="Run">Run</Button>
     </Grid>
-</Window>
+</UserControl>

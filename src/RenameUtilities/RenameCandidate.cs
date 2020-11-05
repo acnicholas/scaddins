@@ -149,7 +149,7 @@ namespace SCaddins.RenameUtilities
                     {
                         group.Name = NewValue;
                     }
-                    catch (System.Exception ex)
+                    catch
                     {
                         return false;
                     }

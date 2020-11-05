@@ -82,7 +82,11 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public string SearchText
         {
-            get{ return searchText; }
+            get
+            {
+                return searchText;
+            }
+
             set
             {
                 if (value != searchText)

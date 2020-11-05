@@ -4,7 +4,7 @@
     using System.ComponentModel;
     using System.Windows;
     
-    public class MvvmTextEditor : RoslynPad.Editor.RoslynCodeEditor, INotifyPropertyChanged
+    public class MvvmTextEditor : ICSharpCode.AvalonEdit.TextEditor, INotifyPropertyChanged
     {
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register(

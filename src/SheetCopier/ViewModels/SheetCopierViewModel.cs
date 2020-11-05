@@ -56,7 +56,6 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public bool AddCurrentSheetIsEnabled => true;
 
-
         public string AddCurrentSheetLabel
         {
             get
@@ -164,7 +163,6 @@ namespace SCaddins.SheetCopier.ViewModels
         public string SelectedViewHostName => SelectedViewHost.Number + " - " + SelectedViewHost.Title;
 
         public ObservableCollection<SheetCopierViewHost> ViewHosts => copyManager.ViewHosts;
-
 
         /// <summary>
         /// A child view is a view that is belongs to either a sheet or the model.
