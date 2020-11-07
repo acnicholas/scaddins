@@ -103,10 +103,17 @@ namespace SCaddins.SheetCopier.ViewModels
             get
             {
                 var independentViewCount = copyManager.IndependentViewCount;
-                var sheetsCount = independentViewCount > 0 ? ViewHosts.Count - 1 : 0;
-                return "Copy " + sheetsCount + " Sheet(s) and " + independentViewCount + " Independent Views";
+                var sheetsCount = independentViewCount == 0 ? ViewHosts.Count : ViewHosts.Count - 1;
+                if (GoLabelIsEnabled)
+                {
+                    return "Copy " + sheetsCount + " Sheet(s) and " + independentViewCount + " Independent Views";
+                } else {
+                    return "Copy";
+                }
             }
         }
+
+        public bool GoLabelIsEnabled => ViewHosts.Count > 0;
 
         public bool RemoveSelectedViewsIsEnabled => selectedViews.Count > 0;
 
@@ -181,6 +188,7 @@ namespace SCaddins.SheetCopier.ViewModels
         {
             copyManager.AddCurrentView();
             NotifyOfPropertyChange(() => GoLabel);
+            NotifyOfPropertyChange(() => GoLabelIsEnabled);
         }
 
         public void AddSheets()
@@ -190,6 +198,7 @@ namespace SCaddins.SheetCopier.ViewModels
             if (result.HasValue && result.Value) {
                 AddSheets(vm.SelectedViews);
                 NotifyOfPropertyChange(() => GoLabel);
+                NotifyOfPropertyChange(() => GoLabelIsEnabled);
             }
         }
 
@@ -252,6 +261,7 @@ namespace SCaddins.SheetCopier.ViewModels
                     ViewHosts.Remove(s);
             }
             NotifyOfPropertyChange(() => GoLabel);
+            NotifyOfPropertyChange(() => GoLabelIsEnabled);
         }
 
         public void RowSheetSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
@@ -266,6 +276,7 @@ namespace SCaddins.SheetCopier.ViewModels
             NotifyOfPropertyChange(() => ChildViewsTitleLabel);
             NotifyOfPropertyChange(() => CopySheetSelectionIsEnabled);
             NotifyOfPropertyChange(() => RemoveSheetSelectionIsEnabled);
+            NotifyOfPropertyChange(() => GoLabelIsEnabled);
         }
 
         public void ChildViewsRowSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
