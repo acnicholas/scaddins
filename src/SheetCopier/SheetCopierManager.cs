@@ -92,7 +92,7 @@ namespace SCaddins.SheetCopier
                 {
                     var cloud = e as RevisionCloud;
                     var revisionId = cloud.RevisionId;
-                    var revision = doc.GetElement(revisionId) as Revision;
+                    Revision revision = doc.GetElement(revisionId) as Revision;
                     if (revision == null)
                     {
                         continue;
@@ -148,7 +148,7 @@ namespace SCaddins.SheetCopier
                 foreach (var element in c1)
                 {
                     var view = (View)element;
-                    var viewSheet = view as ViewSheet;
+                    ViewSheet viewSheet = view as ViewSheet;
                     if (viewSheet == null)
                     {
                         continue;

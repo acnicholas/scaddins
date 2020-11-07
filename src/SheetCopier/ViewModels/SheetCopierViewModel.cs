@@ -100,7 +100,12 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public string GoLabel
         {
-            get { return "Copy " + ViewHosts.Count + " Sheets and " + copyManager.IndependentViewCount + " Independent Views"; }
+            get
+            {
+                var independentViewCount = copyManager.IndependentViewCount;
+                var sheetsCount = independentViewCount > 0 ? ViewHosts.Count - 1 : 0;
+                return "Copy " + sheetsCount + " Sheet(s) and " + independentViewCount + " Independent Views";
+            }
         }
 
         public bool RemoveSelectedViewsIsEnabled => selectedViews.Count > 0;

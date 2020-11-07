@@ -553,7 +553,7 @@
     <value>Copy Detailing</value>
   </data>
   <data name="CopySheetsToolTip" xml:space="preserve">
-    <value>Copy a view sheet and all its content</value>
+    <value>Copy a view sheet and all its content, or copy independent views.</value>
   </data>
   <data name="CreatePerspective" xml:space="preserve">
     <value>Create Perspective</value>

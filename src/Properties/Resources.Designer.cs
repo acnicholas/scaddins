@@ -151,7 +151,7 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tue 05/05/2020 16:43:10.56 
+        ///   Looks up a localized string similar to Fri 11/06/2020 21:47:14.79 
         ///.
         /// </summary>
         internal static string BuildDate {
@@ -215,7 +215,7 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copy a view sheet and all its content.
+        ///   Looks up a localized string similar to Copy a view sheet and all its content, or copy independent views..
         /// </summary>
         internal static string CopySheetsToolTip {
             get {

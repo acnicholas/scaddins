@@ -7,9 +7,16 @@
 - Additional option to create RCP's with Room Tools.
 - Rename familes added to Rename Tool
 - Rename groups added to Rename Tool
-- Save previous(5) Exports for easier reloading.
+- Save previous(5) [SC]Exports for easier reloading.
+- Option to add the Project Browser selection to Sheet Copier
 - Copy independent views using Sheet Copier.
 - Add help menu to Hatch Editor
+
+#### FIXES ####
+
+- Do not open Solar Analysis tools in a family environment.
+- Don't check for view filters in Destructive Purge when in a family environment.
+- Fix cancel button in ModelSetupWizard.
 
 # 21.0 #
 
