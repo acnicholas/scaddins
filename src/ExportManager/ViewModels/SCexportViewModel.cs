@@ -501,7 +501,16 @@ namespace SCaddins.ExportManager.ViewModels
                 default:
                     if (keyArgs.Key >= Key.D0 && keyArgs.Key <= Key.D9)
                     {
-                        FilterByNumber(((int)keyArgs.Key - (int)Key.D0).ToString(System.Globalization.CultureInfo.CurrentCulture));
+                        int index = (int)keyArgs.Key - (int)Key.D0;
+                        if (keyArgs.KeyboardDevice.IsKeyDown(Key.LeftShift) || keyArgs.KeyboardDevice.IsKeyDown(Key.RightShift))
+                        {
+                            if (index < recentExportSets.Count) {
+                                SelectPrevious(recentExportSets[index]);
+                            }
+                        } else
+                        {
+                            FilterByNumber(index.ToString(System.Globalization.CultureInfo.CurrentCulture));
+                        }
                     }
                     break;
             }
