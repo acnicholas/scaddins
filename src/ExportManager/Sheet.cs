@@ -32,10 +32,9 @@ namespace SCaddins.ExportManager
         private bool forceDate;
         private bool forceRasterPrint;
         private string fullExportName;
-        private double height;
+        //private double height;
         private ElementId id;
         private bool? northPointVisible;
-        private string pageSize;
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PrinterJobControl")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "printSetting")]
         private PrintSetting printSetting;
@@ -54,7 +53,7 @@ namespace SCaddins.ExportManager
         private bool useDateForEmptyRevisions;
         private bool verified;
         private bool validPrintSettingIsAssigned;
-        private double width;
+        //private double width;
 
         public ExportSheet(
                 ViewSheet sheet,
@@ -118,9 +117,12 @@ namespace SCaddins.ExportManager
             get { return fullExportName; }
         }
 
+        /// <summary>
+        /// Height in mm
+        /// </summary>
         public double Height
         {
-            get { return height * 304.8; }
+            get { return PaperSize.Height; }
         }
 
         public ElementId Id
@@ -151,12 +153,9 @@ namespace SCaddins.ExportManager
             }
         }
 
-        public string PageSize
+        public SheetSize PaperSize
         {
-            get
-            {
-                return pageSize;
-            }
+            get; set;
         }
 
         public string PrintSettingName
@@ -336,9 +335,12 @@ namespace SCaddins.ExportManager
             get { return verified; }
         }
 
+        /// <summary>
+        /// Width in ,,
+        /// </summary>
         public double Width
         {
-            get { return width * 304.8; }
+            get { return PaperSize.Width; }
         }
 
         public static bool? GetNorthPointVisibility(Element titleBlock)
@@ -500,10 +502,10 @@ namespace SCaddins.ExportManager
                 sheet,
                 forceDate,
                 verified,
-                height,
-                width,
+                Height,
+                Width,
                 fullExportName,
-                pageSize,
+                PaperSize,
                 projectNumber,
                 Scale,
                 scaleBarScale,
@@ -578,12 +580,12 @@ namespace SCaddins.ExportManager
                     BuiltInParameter.SHEET_SCALE).AsString();
                 scaleBarScale = GetScaleBarScale(titleBlock);
                 NorthPointVisible = GetNorthPointVisibility(titleBlock);
-                width = titleBlock.get_Parameter(
+                PaperSize.Width = titleBlock.get_Parameter(
                         BuiltInParameter.SHEET_WIDTH).AsDouble();
-                height = titleBlock.get_Parameter(
+                PaperSize.Height = titleBlock.get_Parameter(
                         BuiltInParameter.SHEET_HEIGHT).AsDouble();
             }
-            pageSize = PrintSettings.GetSheetSizeAsString(this);
+            //pageSize = PrintSettings.GetSheetSizeAsString(this);
             printSetting = PrintSettings.GetPrintSettingByName(doc, pageSize, forceRasterPrint);
             verified = true;
             ValidPrintSettingIsAssigned = printSetting != null;
@@ -613,7 +615,7 @@ namespace SCaddins.ExportManager
             scale = string.Empty;
             scaleBarScale = string.Empty;
             NorthPointVisible = null;
-            pageSize = string.Empty;
+            pageSize = null;
             id = viewSheet.Id;
             ForceDate = scx.ForceRevisionToDateString;
             forceRasterPrint = UseRasterPrinting(Manager.ForceRasterPrintParameterName);

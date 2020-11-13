@@ -12,7 +12,7 @@ namespace SCaddins.ExportManager {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.6.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.3.0.0")]
     public sealed partial class Settings1 : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings1 defaultInstance = ((Settings1)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings1())));
@@ -271,6 +271,32 @@ namespace SCaddins.ExportManager {
             }
             set {
                 this["SaveHistory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>A0; wwww; hhhhh; </string>
+  <string>A1; wwww; hhhhh; </string>
+  <string>A2; wwww; hhhhh; </string>
+  <string>A3; wwww; hhhhh; </string>
+  <string>A4; wwww; hhhhh; </string>
+  <string>A5; wwww; hhhhh; </string>
+  <string>B1; wwww; hhhhh; </string>
+  <string>B2; wwww; hhhhh; </string>
+  <string>B3; wwww; hhhhh; </string>
+  <string />
+  <string />
+  <string />
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection SheetSizes {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["SheetSizes"]));
+            }
+            set {
+                this["SheetSizes"] = value;
             }
         }
     }

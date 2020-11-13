@@ -62,5 +62,22 @@
     <Setting Name="SaveHistory" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="SheetSizes" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;A0; wwww; hhhhh; &lt;/string&gt;
+  &lt;string&gt;A1; wwww; hhhhh; &lt;/string&gt;
+  &lt;string&gt;A2; wwww; hhhhh; &lt;/string&gt;
+  &lt;string&gt;A3; wwww; hhhhh; &lt;/string&gt;
+  &lt;string&gt;A4; wwww; hhhhh; &lt;/string&gt;
+  &lt;string&gt;A5; wwww; hhhhh; &lt;/string&gt;
+  &lt;string&gt;B1; wwww; hhhhh; &lt;/string&gt;
+  &lt;string&gt;B2; wwww; hhhhh; &lt;/string&gt;
+  &lt;string&gt;B3; wwww; hhhhh; &lt;/string&gt;
+  &lt;string /&gt;
+  &lt;string /&gt;
+  &lt;string /&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -36,79 +36,84 @@ namespace SCaddins.ExportManager
 
         public static bool CreatePrintSetting(Document doc, string isoSheetSize, bool forceRaster)
         {
-            if (doc == null || string.IsNullOrEmpty(isoSheetSize))
-            {
-                return false;
-            }
-            PrintManager pm = doc.PrintManager;
-            bool success = false;
-            foreach (PaperSize paperSize in pm.PaperSizes)
-            {
-                if (paperSize.Name.Substring(0, 2) == isoSheetSize.Substring(0, 2))
-                {
-                    var t = new Transaction(doc, "Apply print settings");
-                    t.Start();
-                    var ips = pm.PrintSetup.CurrentPrintSetting;
-                    if (ips.PrintParameters.IsReadOnly)
-                    {
-                        t.RollBack();
-                        return false;
-                    }
-                    try
-                    {
-                        ips.PrintParameters.PaperSize = paperSize;
-                        ips.PrintParameters.HideCropBoundaries = true;
-                        if (isoSheetSize.Length > 2 && !isoSheetSize.Contains("FIT"))
-                        {
-                            ips.PrintParameters.PageOrientation =
-                            PageOrientationType.Portrait;
-                        }
-                        else
-                        {
-                            ips.PrintParameters.PageOrientation =
-                            PageOrientationType.Landscape;
-                        }
-
-                        ips.PrintParameters.HideScopeBoxes = true;
-                        ips.PrintParameters.HideReforWorkPlanes = true;
-                        ips.PrintParameters.HideUnreferencedViewTags = true;
-                        if (isoSheetSize.Contains("FIT"))
-                        {
-                            ips.PrintParameters.ZoomType = ZoomType.FitToPage;
-                            ips.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
-                            ips.PrintParameters.MarginType = MarginType.NoMargin;
-                        }
-                        else
-                        {
-                            ips.PrintParameters.ZoomType = ZoomType.Zoom;
-                            ips.PrintParameters.Zoom = 100;
-                            ips.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
-                            ips.PrintParameters.MarginType = MarginType.NoMargin;
-                        }
-
-                        if (!forceRaster)
-                        {
-                            pm.PrintSetup.SaveAs("SCX-" + isoSheetSize);
-                        } else {
-                            ips.PrintParameters.HiddenLineViews = HiddenLineViewsType.RasterProcessing;
-                            pm.PrintSetup.SaveAs("SCX-" + isoSheetSize + @"(Raster)");
-                        }
-
-                        t.Commit();
-                        success = true;
-                    }
-                    catch (InvalidOperationException ex)
-                    {
-                        System.Diagnostics.Debug.Print(ex.Message);
-                        SCaddinsApp.WindowManager.ShowMessageBox(
-                            "SCexport",
-                            "Unable to create print setting: " + "SCX-" + isoSheetSize);
-                        t.RollBack();
-                    }
-                }
-            }
-            return success;
+            return false;
         }
+
+        ////public static bool CreatePrintSetting(Document doc, string isoSheetSize, bool forceRaster)
+        ////{
+        ////    if (doc == null || string.IsNullOrEmpty(isoSheetSize))
+        ////    {
+        ////        return false;
+        ////    }
+        ////    PrintManager pm = doc.PrintManager;
+        ////    bool success = false;
+        ////    foreach (PaperSize paperSize in pm.PaperSizes)
+        ////    {
+        ////        if (paperSize.Name.Substring(0, 2) == isoSheetSize.Substring(0, 2))
+        ////        {
+        ////            var t = new Transaction(doc, "Apply print settings");
+        ////            t.Start();
+        ////            var ips = pm.PrintSetup.CurrentPrintSetting;
+        ////            if (ips.PrintParameters.IsReadOnly)
+        ////            {
+        ////                t.RollBack();
+        ////                return false;
+        ////            }
+        ////            try
+        ////            {
+        ////                ips.PrintParameters.PaperSize = paperSize;
+        ////                ips.PrintParameters.HideCropBoundaries = true;
+        ////                if (isoSheetSize.Length > 2 && !isoSheetSize.Contains("FIT"))
+        ////                {
+        ////                    ips.PrintParameters.PageOrientation =
+        ////                    PageOrientationType.Portrait;
+        ////                }
+        ////                else
+        ////                {
+        ////                    ips.PrintParameters.PageOrientation =
+        ////                    PageOrientationType.Landscape;
+        ////                }
+
+        ////                ips.PrintParameters.HideScopeBoxes = true;
+        ////                ips.PrintParameters.HideReforWorkPlanes = true;
+        ////                ips.PrintParameters.HideUnreferencedViewTags = true;
+        ////                if (isoSheetSize.Contains("FIT"))
+        ////                {
+        ////                    ips.PrintParameters.ZoomType = ZoomType.FitToPage;
+        ////                    ips.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
+        ////                    ips.PrintParameters.MarginType = MarginType.NoMargin;
+        ////                }
+        ////                else
+        ////                {
+        ////                    ips.PrintParameters.ZoomType = ZoomType.Zoom;
+        ////                    ips.PrintParameters.Zoom = 100;
+        ////                    ips.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
+        ////                    ips.PrintParameters.MarginType = MarginType.NoMargin;
+        ////                }
+
+        ////                if (!forceRaster)
+        ////                {
+        ////                    pm.PrintSetup.SaveAs("SCX-" + isoSheetSize);
+        ////                } else {
+        ////                    ips.PrintParameters.HiddenLineViews = HiddenLineViewsType.RasterProcessing;
+        ////                    pm.PrintSetup.SaveAs("SCX-" + isoSheetSize + @"(Raster)");
+        ////                }
+
+        ////                t.Commit();
+        ////                success = true;
+        ////            }
+        ////            catch (InvalidOperationException ex)
+        ////            {
+        ////                System.Diagnostics.Debug.Print(ex.Message);
+        ////                SCaddinsApp.WindowManager.ShowMessageBox(
+        ////                    "SCexport",
+        ////                    "Unable to create print setting: " + "SCX-" + isoSheetSize);
+        ////                t.RollBack();
+        ////            }
+        ////        }
+        ////    }
+        ////    return success;
+        ////}
 
         /// <summary>
         /// Retrieve the print setting for this sheet.
@@ -119,9 +124,9 @@ namespace SCaddins.ExportManager
         /// <param name="printSetting">The Name of the print setting</param>
         /// <param name="forceRaster"></param>
         /// <returns></returns>
-        public static PrintSetting GetPrintSettingByName(Document doc, string printSetting, bool forceRaster)
+        public static PrintSetting TryGetPrintSetting(Document doc, ExportSheet sheet)
         {
-            if (doc == null || string.IsNullOrEmpty(printSetting))
+            if (doc == null || sheet.PaperSize == null)
             {
                 return null;
             }
@@ -129,23 +134,23 @@ namespace SCaddins.ExportManager
             foreach (ElementId id in doc.GetPrintSettingIds())
             {
                 var ps2 = doc.GetElement(id) as PrintSetting;
-                if (!forceRaster)
+                if (sheet.ForceRasterPrint)
                 {
-                    if (ps2 != null && ps2.Name.ToString(CultureInfo.CurrentCulture).Equals("SCX-" + printSetting, StringComparison.CurrentCulture))
+                    if (ps2 != null && ps2.Name.ToString(CultureInfo.CurrentCulture).Equals(sheet.RevitPrintSettingName, StringComparison.CurrentCulture))
                     {
                         return ps2;
                     }
                 }
                 else
                 {
-                    if (ps2 != null && ps2.Name.ToString(CultureInfo.CurrentCulture).Equals("SCX-" + printSetting + @"(Raster)", StringComparison.CurrentCulture))
+                    if (ps2 != null && ps2.Name.ToString(CultureInfo.CurrentCulture).Equals((sheet.RevitPrintSettingName, StringComparison.CurrentCulture))
                     {
                         return ps2;
                     }
                 }
             }
 
-            if (!CreatePrintSetting(doc, printSetting, forceRaster))
+            if (!CreatePrintSetting(doc, sheet.RevitPrintSettingName , forceRaster))
             {
                 return null;
             }
