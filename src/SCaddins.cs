@@ -177,16 +177,16 @@ namespace SCaddins
                 LoadSCoord(scdll),
                 LoadHatchEditor(scdll),
                 LoadModelWizard(scdll));
+            ribbonPanel.AddStackedItems(
+                LoadSCincrement(scdll),
+                LoadScheduleExporter(scdll),
+                LoadAbout(scdll));
 
             ribbonPanel.AddSlideOut();
 
             ribbonPanel.AddStackedItems(
-                LoadSCincrement(scdll),
-                LoadGlobalSettings(scdll));
-
-            ribbonPanel.AddStackedItems(
-                LoadRunScript(scdll),
-                LoadAbout(scdll));
+                LoadGlobalSettings(scdll),
+                LoadRunScript(scdll));
 
             return Result.Succeeded;
         }
@@ -330,6 +330,15 @@ namespace SCaddins
                               "SCloudSChed", Resources.ScheduleClouds, dll, "SCaddins.RevisionUtilities.Command");
             AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.scloudsched-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.ScheduleCloudsToolTip;
+            return pbd;
+        }
+
+        private static PushButtonData LoadScheduleExporter(string dll)
+        {
+            var pbd = new PushButtonData(
+                              "Export Schedules", "Export Schedules", dll, "SCaddins.ExportSchedules.Command");
+            AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.table-rvt-16.png", 16, dll);
+            //// pbd.ToolTip = Resources.ScheduleCloudsToolTip;
             return pbd;
         }
 

@@ -427,6 +427,22 @@
     <Compile Include="ExportManager\Views\ViewSetSelectionView.xaml.cs">
       <DependentUpon>ViewSetSelectionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExportSchedules\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ExportSchedules\Utilities.cs" />
+    <Compile Include="ExportSchedules\Command.cs" />
+    <Compile Include="ExportSchedules\Schedule.cs" />
+    <Compile Include="ExportSchedules\ViewModels\ExportSchedulesViewModel.cs" />
+    <Compile Include="ExportSchedules\ViewModels\OptionsViewModel.cs" />
+    <Compile Include="ExportSchedules\Views\ExportSchedulesView.xaml.cs">
+      <DependentUpon>ExportSchedulesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExportSchedules\Views\OptionsView.xaml.cs">
+      <DependentUpon>OptionsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HatchEditor\ConversionUtilities.cs" />
     <Compile Include="HatchEditor\Hatch.cs" />
@@ -655,8 +671,13 @@
       <Link>Assets\en_AU.dic</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Assets\Ribbon\table-rvt-16.png" />
     <Resource Include="Assets\recent.png" />
     <EmbeddedResource Include="Assets\Ribbon\gear-rvt-16.png" />
+    <None Include="ExportSchedules\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="ViewUtilities\ViewUtilitiesSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>ViewUtilitiesSettings.Designer.cs</LastGenOutput>
@@ -746,6 +767,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ExportManager\Views\ViewSetSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportSchedules\Views\ExportSchedulesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportSchedules\Views\OptionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
