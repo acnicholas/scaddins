@@ -15,6 +15,7 @@
         <DataGrid x:Name="Schedules"
                   Margin="5"
                   AutoGenerateColumns="False"
+                  GridLinesVisibility="None"
                   cal:Message.Attach="[Event SelectionChanged] = [RowSelectionChanged($eventArgs)]">
             <DataGrid.VerticalGridLinesBrush>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
