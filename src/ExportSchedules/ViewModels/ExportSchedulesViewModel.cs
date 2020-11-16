@@ -24,7 +24,7 @@
                 settings.Height = 480;
                 settings.Width = 768;
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
-                    new System.Uri("pack://application:,,,/SCaddins;component/Assets/rename.png"));
+                    new System.Uri("pack://application:,,,/SCaddins;component/Assets/table.png"));
                 settings.Title = "Export Schedules";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;

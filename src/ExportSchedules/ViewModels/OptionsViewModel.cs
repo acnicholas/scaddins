@@ -14,6 +14,8 @@
                 settings.Height = 320;
                 settings.Width = 480;
                 settings.Title = "Export Schedules - Options";
+                settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
+                  new System.Uri("pack://application:,,,/SCaddins;component/Assets/table.png"));
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;
                 settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;

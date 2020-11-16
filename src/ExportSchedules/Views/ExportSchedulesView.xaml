@@ -41,18 +41,43 @@
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Margin="5">Export Directory</Label>
-            <Label x:Name="ExportDir" Margin="5" Grid.Column="1"></Label>
-            <Button x:Name="SelectExportDir" Margin="5" Grid.Column="2">...</Button>
-            <Button x:Name="Options" Margin="5" Grid.Row="1">Export Options</Button>
-            <Button x:Name="Export" IsEnabled="{Binding ExportIsEnabled}" Content="{Binding ExportLabel}" Margin="5" Grid.Column="2" Grid.Row="1"></Button>
+            <Button
+            Height="Auto"
+            Width="Auto"
+            MinWidth="20"
+            Margin="5"
+            x:Name="Options"
+            Background="Transparent"
+            BorderBrush="Transparent"
+            Grid.Column="0">
+                <Image Source="/SCaddins;component/Assets/gear.png" Stretch="None" />
+                <Button.ToolTip>
+                    <Label>Click to access more options :P</Label>
+                </Button.ToolTip>
+            </Button>
+            <Button
+            Height="Auto"
+            Width="Auto"
+            MinWidth="20"
+            Margin="5"
+            x:Name="SelectExportDir"
+            Background="Transparent"
+            BorderBrush="Transparent"
+            Grid.Column="1">
+                <Image Source="/SCaddins;component/Assets/folder.png" Stretch="None" />
+                <Button.ToolTip>
+                    <Label>Select export directory</Label>
+                </Button.ToolTip>
+            </Button>
+            <Label x:Name="ExportDir" Margin="5" Grid.Column="2"></Label>
+            <Button x:Name="Export" IsEnabled="{Binding ExportIsEnabled}" Content="{Binding ExportLabel}" Margin="5" Grid.Column="3" Grid.Row="0"></Button>
         </Grid>
     </Grid>
 </UserControl>
