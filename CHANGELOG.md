@@ -1,11 +1,10 @@
 # SCaddins Revision Log #
 
-# 21.2 (Pre-release) #
-
+# 21.2 #
 
 #### NEW ####
 
-- Export Schedules tool added.
+- **Export Schedules tool added.**
 
 # 21.1 #
 
@@ -16,7 +15,7 @@
 - Rename groups added to Rename Tool
 - Save previous(5) [SC]Exports for easier reloading.
 - Option to add the Project Browser selection to Sheet Copier
-- Copy independent views using Sheet Copier.
+- **Copy independent views using Sheet Copier.**
 - Add help menu to Hatch Editor
 
 #### FIXES ####
