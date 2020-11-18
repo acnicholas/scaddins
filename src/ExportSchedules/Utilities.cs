@@ -1,29 +1,74 @@
 ﻿namespace SCaddins.ExportSchedules
 {
     using System.Collections.Generic;
+    using System.IO;
     using Autodesk.Revit.DB;
+    using OfficeOpenXml;        
 
     public class Utilities
     {
-        public static void Export(List<Schedule> schedules, string exportPath)
+        public static void AddDelimitedDataToExcelWorkbook(string excelFileName, string worksheetsName, string csvFileName)
         {
+            bool firstRowIsHeader = false;
+
+            var format = new ExcelTextFormat();
+            format.Delimiter = Settings.Default.FieldDelimiter.ToCharArray()[0];
+            format.EOL = "\r";              // DEFAULT IS "\r\n";
+            //// format.TextQualifier = Settings.Default.TextQualifier.ToCharArray()[0];
+            //// SCaddinsApp.WindowManager.ShowMessageBox(format.TextQualifier.ToString());
+
+            using (ExcelPackage package = new ExcelPackage(new FileInfo(excelFileName)))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(worksheetsName);
+                worksheet.Cells["A1"].LoadFromText(new FileInfo(csvFileName), format, OfficeOpenXml.Table.TableStyles.Medium27, firstRowIsHeader);
+                package.Save();
+            }
+        }
+
+        public static string Export(List<Schedule> schedules, string exportPath)
+        {
+            System.Text.StringBuilder exportMsg = new System.Text.StringBuilder();
             int successes = 0;
             int attempts = 0;
             using (var options = LoadSavedExportOptions())
             {
+                // FIXME - Let user choose export name.
+                var excelFileName = "RevitSchedules_" + Common.MiscUtilities.GetVerboseDateString + ".xlsx";
                 foreach (var schedule in schedules)
                 {
                     attempts++;
-                    if (!System.IO.Directory.Exists(exportPath))
+                    if (!Directory.Exists(exportPath))
                     {
+                        exportMsg.AppendLine("[Error] " + schedule.ExportName + ". Directory not found: " + exportPath);
                         continue;
                     }
                     if (schedule.Export(options, exportPath))
                     {
+                        exportMsg.AppendLine("[Success} " + schedule.ExportName);
                         successes++;
+                        if (Settings.Default.ExportExcel)
+                        {
+                            AddDelimitedDataToExcelWorkbook(
+                                Path.Combine(exportPath, excelFileName),
+                                schedule.ExportName,
+                                Path.Combine(exportPath, schedule.ExportName));
+                        }
+                    } else
+                    {
+                        exportMsg.AppendLine("[Error] " + schedule.ExportName);
                     }
                 }
             }
+            var fails = attempts - successes;
+            var summaryString = string.Format(
+                "Export Summary:" + System.Environment.NewLine +
+                "{0} Export(s) attempted with {1} successe(s) and {2} fail(s))" + System.Environment.NewLine +
+                System.Environment.NewLine, 
+                attempts, 
+                successes, 
+                fails);
+            exportMsg.Insert(0, summaryString);
+            return exportMsg.ToString();
         }
 
         public static List<Schedule> GetAllSchedules(Document doc)
@@ -90,6 +135,13 @@
             }
             options.Title = Settings.Default.ExportTitle;
             return options;
+        }
+
+        private static string SelectExcelFileName()
+        {
+            string filePath = string.Empty;
+            SCaddinsApp.WindowManager.ShowFileSelectionDialog(null, out filePath);
+            return filePath;
         }
     }
 }

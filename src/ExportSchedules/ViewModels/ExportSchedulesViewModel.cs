@@ -55,7 +55,8 @@
 
         public void Export()
         {
-            Utilities.Export(selectedSchedules, ExportDir);
+            var outputMsg = Utilities.Export(selectedSchedules, ExportDir);
+            SCaddinsApp.WindowManager.ShowMessageBox(outputMsg);
         }
 
         public void Options()

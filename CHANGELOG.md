@@ -1,5 +1,12 @@
 # SCaddins Revision Log #
 
+# 21.2 (Pre-release) #
+
+
+#### NEW ####
+
+- Export Schedules tool added.
+
 # 21.1 #
 
 #### NEW ####

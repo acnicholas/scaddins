@@ -94,5 +94,17 @@ namespace SCaddins.ExportSchedules {
                 this["TextQualifier"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ExportExcel {
+            get {
+                return ((bool)(this["ExportExcel"]));
+            }
+            set {
+                this["ExportExcel"] = value;
+            }
+        }
     }
 }

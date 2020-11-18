@@ -20,5 +20,8 @@
     <Setting Name="TextQualifier" Type="System.String" Scope="User">
       <Value Profile="(Default)">"</Value>
     </Setting>
+    <Setting Name="ExportExcel" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

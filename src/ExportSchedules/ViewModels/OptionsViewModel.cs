@@ -17,11 +17,27 @@
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
                   new System.Uri("pack://application:,,,/SCaddins;component/Assets/table.png"));
                 settings.ShowInTaskbar = false;
-                settings.SizeToContent = System.Windows.SizeToContent.Manual;
+                settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
                 settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
                 return settings;
             }
         }
+
+        public bool ExportExcel
+        {
+            get
+            {
+                return Settings.Default.ExportExcel;
+            }
+
+            set
+            {
+                Settings.Default.ExportExcel = value;
+                NotifyOfPropertyChange(() => UseExcelWorksheets);
+            }
+        }
+
+        public bool UseExcelWorksheets => ExportExcel;
 
         public bool ExportTitle
         {

@@ -208,6 +208,9 @@
     <Reference Include="CSScriptLibrary, Version=3.29.0.0, Culture=neutral, PublicKeyToken=70fcc3d18c749033, processorArchitecture=MSIL">
       <HintPath>packages\CS-Script.bin.3.29.0\lib\net46\CSScriptLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=4.5.3.3, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>packages\EPPlus.4.5.3.3\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.AvalonEdit, Version=4.4.2.9744, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
       <HintPath>packages\AvalonEdit.4.4.2.9744\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
       <Private>True</Private>
@@ -318,6 +321,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Threading" />
     <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Windows" />

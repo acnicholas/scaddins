@@ -10,6 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
@@ -63,7 +64,20 @@
                 </ComboBox>
             </Grid>
         </GroupBox>
-        <Grid Grid.Row="3">
+        <GroupBox Grid.Row="2" Grid.Column="0" Header="Excel Export">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <CheckBox x:Name="ExportExcel" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="5">Create Additional Excel Export</CheckBox>
+                <CheckBox x:Name="UseExcelWorksheets" IsEnabled="False" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="5">Combine exports into single excel file (use Workseets)</CheckBox>
+            </Grid>
+        </GroupBox>
+        <Grid Grid.Row="4">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
