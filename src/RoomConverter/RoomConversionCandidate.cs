@@ -124,6 +124,10 @@ namespace SCaddins.RoomConverter
         ////FIXME put ths somewhere more useful.
         public static string GetParamValueAsString(Parameter param)
         {
+            if (param == null)
+            {
+                return string.Empty;
+            }
             switch (param.StorageType)
             {
                 case StorageType.Double:

@@ -21,6 +21,7 @@ namespace SCaddins.ViewUtilities
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
     using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
     using Common;
 
     /// <summary>
@@ -29,22 +30,49 @@ namespace SCaddins.ViewUtilities
     /// </summary>
     public static class UserView
     {
-        public static List<View> Create(View sourceView, Document doc)
+        public static List<View> Create(View sourceView, UIDocument uidoc)
         {
-            if (sourceView == null || doc == null)
+            if (sourceView == null || uidoc == null || uidoc.Document == null)
             {
                 return null;
             }
 
+            if (sourceView.ViewType == ViewType.ProjectBrowser)
+            {
+                var views = new List<View>();
+                var selection = uidoc.Selection.GetElementIds();
+                foreach (var id in selection)
+                {
+                    var projectBrowserView = uidoc.Document.GetElement(id);
+                    if (projectBrowserView is View)
+                    {
+                        var v = (View)projectBrowserView;
+                        if (v.ViewType == ViewType.ProjectBrowser)
+                        {
+                            continue;
+                        }
+                        if (v is ViewSheet)
+                        {
+                            views.AddRange(Create(v as ViewSheet, uidoc.Document));
+                            continue;
+                        }
+                        if (v is View)
+                        {
+                            views.Add(CreateView(v, uidoc.Document));
+                        }
+                    }
+                }
+                return views;
+            }
+
             if (sourceView.ViewType == ViewType.DrawingSheet)
             {
-                return Create(sourceView as ViewSheet, doc);
+                return Create(sourceView as ViewSheet, uidoc.Document);
             }
 
             if (ValidViewType(sourceView.ViewType))
             {
-                List<View> result = new List<View> { CreateView(sourceView, doc) };
-                return result;
+                return new List<View> { CreateView(sourceView, uidoc.Document) };
             }
 
             return null;
@@ -177,14 +205,21 @@ namespace SCaddins.ViewUtilities
             string user = Environment.UserName;
             string date = MiscUtilities.GetDateString;
 
-            name = name.Replace(@"$user", user);
-            name = name.Replace(@"$date", date);
+            try
+            {
+                name = name.Replace(@"$user", user);
+                name = name.Replace(@"$date", date);
+            }
+            catch
+            {
+                //// FIXME
+            }
 
             string pattern = @"(<<)(.*?)(>>)";
             name = Regex.Replace(
-                name,
-                pattern,
-                m => RoomConverter.RoomConversionCandidate.GetParamValueAsString(ParamFromString(m.Groups[2].Value, element)));
+                    name,
+                    pattern,
+                    m => RoomConverter.RoomConversionCandidate.GetParamValueAsString(ParamFromString(m.Groups[2].Value, element)));
 
             // Revit wont allow { or } so replace them if they exist
             name = name.Replace(@"{", string.Empty).Replace(@"}", string.Empty);
