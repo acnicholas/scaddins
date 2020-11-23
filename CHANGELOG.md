@@ -1,5 +1,11 @@
 # SCaddins Revision Log #
 
+# 21.3 (Pre-release)#
+
+#### NEW ####
+
+- Create user views by pre-selecting in Projecdt Browser.
+
 # 21.2 #
 
 #### NEW ####

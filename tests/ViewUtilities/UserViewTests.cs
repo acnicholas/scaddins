@@ -21,6 +21,7 @@ namespace SCaddins.Tests.ViewUtilities
         [TestModel(@"./scaddins_test_model.rvt")]
         public void CreateTestCurrentView()
         {
+            var uidoc = RevitTestExecutive.CommandData.Application.ActiveUIDocument;
             var doc = RevitTestExecutive.CommandData.Application.ActiveUIDocument.Document;
             var view = new FilteredElementCollector(doc)
                .OfClass(typeof(View))
@@ -33,7 +34,7 @@ namespace SCaddins.Tests.ViewUtilities
             {
                 if (t.Start() == TransactionStatus.Started)
                 {
-                    newUserViewCount = UserView.Create(view, doc).Count;
+                    newUserViewCount = UserView.Create(view, uidoc).Count;
            
                 }
                 else
