@@ -696,6 +696,16 @@ namespace SCaddins.ExportManager.ViewModels
             IsNotifying = true;
         }
 
+        public void HideInSheetList()
+        {
+            Manager.HideSheetsInSheetList(selectedSheets, exportManager.Doc);
+        }
+
+        public void ShowInSheetList()
+        {
+            Manager.ShowSheetsInSheetList(selectedSheets, exportManager.Doc);
+        }
+
         public void TurnNorthPointsOff()
         {
             Manager.ToggleNorthPoints(selectedSheets, exportManager.Doc, false);

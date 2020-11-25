@@ -34,7 +34,8 @@ namespace SCaddins.ExportManager
         private string fullExportName;
         private double height;
         private ElementId id;
-        private bool? northPointVisible;
+        private bool? northPointIsVisible;
+        private bool appearsInSheetList;
         private string pageSize;
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PrinterJobControl")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "printSetting")]
@@ -128,16 +129,32 @@ namespace SCaddins.ExportManager
             get { return id; }
         }
 
-        public bool? NorthPointVisible
+        public bool AppearsInSheetList
         {
             get
             {
-                return northPointVisible;
+                return appearsInSheetList;
             }
 
             set
             {
-                northPointVisible = value;
+                appearsInSheetList = value;
+                int i = appearsInSheetList ? 1 : 0; 
+                this.Sheet.get_Parameter(BuiltInParameter.SHEET_SCHEDULED).Set(i);
+                NotifyPropertyChanged(nameof(AppearsInSheetList));
+            }
+        }
+
+        public bool? NorthPointVisible
+        {
+            get
+            {
+                return northPointIsVisible;
+            }
+
+            set
+            {
+                northPointIsVisible = value;
                 NotifyPropertyChanged(nameof(NorthPointVisible));
                 NotifyPropertyChanged(nameof(NorthPointVisibilityString));
             }
@@ -583,6 +600,7 @@ namespace SCaddins.ExportManager
                 height = titleBlock.get_Parameter(
                         BuiltInParameter.SHEET_HEIGHT).AsDouble();
             }
+            appearsInSheetList = this.Sheet.get_Parameter(BuiltInParameter.SHEET_SCHEDULED).AsInteger() == 1;
             pageSize = PrintSettings.GetSheetSizeAsString(this);
             printSetting = PrintSettings.GetPrintSettingByName(doc, pageSize, forceRasterPrint);
             verified = true;

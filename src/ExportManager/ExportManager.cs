@@ -392,6 +392,16 @@ namespace SCaddins.ExportManager
             }
         }
 
+        public static void ShowSheetsInSheetList(ICollection<ExportSheet> sheets, Document doc)
+        {
+            ChangeSheetVisiblityInSchedule(sheets, true, doc);
+        }
+
+        public static void HideSheetsInSheetList(ICollection<ExportSheet> sheets, Document doc)
+        {
+            ChangeSheetVisiblityInSchedule(sheets, false, doc);
+        }
+
         public void AddExportOption(ExportOptions exportOptions)
         {
             exportFlags |= exportOptions;
@@ -642,6 +652,28 @@ namespace SCaddins.ExportManager
                     var v = (ViewSheet)element;
                     var scxSheet = new ExportSheet(v, Doc, FileNameTypes[0], VerifyOnStartup, this);
                     s.Add(scxSheet);
+                }
+            }
+        }
+
+        private static void ChangeSheetVisiblityInSchedule(ICollection<ExportSheet> sheets, bool showInSchedule, Document doc)
+        {
+            if (sheets == null)
+            {
+                return;
+            }
+            using (Transaction t = new Transaction(doc))
+            {
+                if (t.Start("SCexport - Change Sheet Visiblity In Schedules") == TransactionStatus.Started)
+                {
+                    foreach (ExportSheet sheet in sheets)
+                    {
+                        sheet.AppearsInSheetList = showInSchedule;
+                    }
+                    if (t.Commit() != TransactionStatus.Committed)
+                    {
+                        SCaddinsApp.WindowManager.ShowMessageBox("Failure", "Could not Change Sheet Visiblity In Schedules");
+                    }
                 }
             }
         }

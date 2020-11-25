@@ -170,6 +170,10 @@
                     Binding="{Binding NorthPointVisibilityString}" />
                 <DataGridTextColumn
                     ElementStyle="{StaticResource ColumnElementStyle}"
+                    Header="Show In Schedule"
+                    Binding="{Binding AppearsInSheetList}" />
+                <DataGridTextColumn
+                    ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Print Setting"
                     Binding="{Binding PrintSettingName}" />
             </DataGrid.Columns>
@@ -268,6 +272,7 @@
                                 Source="/SCaddins;component/Assets/rename.png" />
                         </MenuItem.Icon>
                     </MenuItem>
+                    <Separator />
                     <MenuItem Header="Fix Scale Bars" cal:Message.Attach="FixScaleBars">
                         <MenuItem.Icon>
                             <Image
@@ -283,9 +288,22 @@
                     <MenuItem Header="North Points Off" cal:Message.Attach="TurnNorthPointsOff">
                         <MenuItem.Icon>
                             <Image
-                                Source="/SCaddins;component/Assets/north.png" />
+                                Source="/SCaddins;component/Assets/north_off.png" />
                         </MenuItem.Icon>
                     </MenuItem>
+                    <MenuItem Header="Show In Sheet List" cal:Message.Attach="ShowInSheetList">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/list.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Hide From Sheet List" cal:Message.Attach="HideInSheetList">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/list_off.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
                     <MenuItem Header="Create User Views" cal:Message.Attach="CreateUserViews">
                         <MenuItem.Icon>
                             <Image

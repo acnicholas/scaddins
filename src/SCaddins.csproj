@@ -675,6 +675,9 @@
       <Link>Assets\en_AU.dic</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Assets\north_off.png" />
+    <Resource Include="Assets\list_off.png" />
+    <Resource Include="Assets\list.png" />
     <Resource Include="Assets\table.png" />
     <EmbeddedResource Include="Assets\Ribbon\table-rvt-16.png" />
     <Resource Include="Assets\recent.png" />
