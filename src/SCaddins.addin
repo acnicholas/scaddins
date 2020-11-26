@@ -11,34 +11,4 @@
     <VendorId>BEER</VendorId>
     <VendorDescription>Andrew Nicholas, andrewn@scottcarver.com.au</VendorDescription>
   </AddIn>
-
-  <AddIn Type="Command">
-    <Assembly>C:\Program Files\SCaddins\SCaddins\_REVIT_VERSION_\SCaddins.dll</Assembly>
-    <AddInId>B268E510-2A02-4CB8-B720-B11E3226955E</AddInId>
-    <FullClassName>SCaddins.ExportManager.NextSheet</FullClassName>
-    <Name>SCexport - Next Sheet Shortcut</Name>
-    <Text>SCexport - Next Sheet Shortcut</Text>
-    <VendorId>BEER</VendorId>
-    <VendorDescription>Andrew Nicholas, andrewn@scottcarver.com.au</VendorDescription>
-  </AddIn>
-
-  <AddIn Type="Command">
-    <Assembly>C:\Program Files\SCaddins\SCaddins\_REVIT_VERSION_\SCaddins.dll</Assembly>
-    <AddInId>FC5041BC-4799-4AA4-B7E8-3993E22C671F</AddInId>
-    <FullClassName>SCaddins.ExportManager.PreviousSheet</FullClassName>
-    <Name>SCexport - Previous Sheet Shortcut</Name>
-    <Text>SCexport - Previous Sheet Shortcut</Text>
-    <VendorId>BEER</VendorId>
-    <VendorDescription>Andrew Nicholas, andrewn@scottcarver.com.au</VendorDescription>
-  </AddIn>
-
-  <AddIn Type="Command">
-    <Assembly>C:\Program Files\SCaddins\SCaddins\_REVIT_VERSION_\SCaddins.dll</Assembly>
-    <AddInId>31852C66-3CD4-4549-AB32-4A6D2656634F</AddInId>
-    <FullClassName>SCaddins.ExportManager.OpenSheet</FullClassName>
-    <Name>SCexport - Open Sheet Shortcut</Name>
-    <Text>SCexport - Open Sheet Shortcut</Text>
-    <VendorId>BEER</VendorId>
-    <VendorDescription>Andrew Nicholas, andrewn@scottcarver.com.au</VendorDescription>
-  </AddIn>
 </RevitAddIns>

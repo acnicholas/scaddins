@@ -162,24 +162,28 @@ namespace SCaddins
 
             ribbonPanel.AddItem(LoadScexport(scdll));
             ribbonPanel.AddStackedItems(
-                LoadSCasfar(scdll),
-                LoadSCulcase(scdll),
-                LoadSCwash(scdll));
+                LoadSCopy(scdll, 16),
+                LoadSCuv(scdll),
+                LoadHatchEditor(scdll));
             ribbonPanel.AddStackedItems(
                 LoadSCaos(scdll),
-                LoadSCopy(scdll, 16),
-                LoadSCloudShed(scdll));
-            ribbonPanel.AddStackedItems(
                 LoadSCightlines(scdll),
-                LoadSpellingChecker(scdll),
-                LoadSCuv(scdll));
+                LoadSCasfar(scdll));
             ribbonPanel.AddStackedItems(
-                LoadSCoord(scdll),
-                LoadHatchEditor(scdll),
-                LoadModelWizard(scdll));
-            ribbonPanel.AddStackedItems(
-                LoadSCincrement(scdll),
                 LoadScheduleExporter(scdll),
+                LoadSCloudShed(scdll),
+                LoadSCoord(scdll));
+            ribbonPanel.AddStackedItems(
+                LoadSCulcase(scdll),
+                LoadSpellingChecker(scdll),
+                LoadSCincrement(scdll));
+            ribbonPanel.AddStackedItems(
+                LoadNextSheet(scdll),
+                LoadPreviousSheet(scdll),
+                LoadOpenSheet(scdll));
+            ribbonPanel.AddStackedItems(
+                LoadSCwash(scdll),
+                LoadModelWizard(scdll),
                 LoadAbout(scdll));
 
             ribbonPanel.AddSlideOut();
@@ -294,6 +298,33 @@ namespace SCaddins
                               "HatchEditor", Resources.HatchEditor, dll, "SCaddins.HatchEditor.Command");
             AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.hatch-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.HatchEditorToolTip;
+            return pbd;
+        }
+
+        private static PushButtonData LoadNextSheet(string dll)
+        {
+            var pbd = new PushButtonData(
+                              "Next Sheet", @"Next Sheet", dll, "SCaddins.ExportManager.NextSheet");
+            AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.forward-rvt-16.png", 16, dll);
+            pbd.ToolTip = "Attempt to open the next sheet";
+            return pbd;
+        }
+
+        private static PushButtonData LoadOpenSheet(string dll)
+        {
+            var pbd = new PushButtonData(
+                              "Quick Open", @"Quick Open", dll, "SCaddins.ExportManager.OpenSheet");
+            AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.find-rvt-16.png", 16, dll);
+            pbd.ToolTip = "Find and open a view/sheet";
+            return pbd;
+        }
+
+        private static PushButtonData LoadPreviousSheet(string dll)
+        {
+            var pbd = new PushButtonData(
+                              "Previous Sheet", @"Previous Sheet", dll, "SCaddins.ExportManager.PreviousSheet");
+            AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.back-rvt-16.png", 16, dll);
+            pbd.ToolTip = "Attempt to open the previous sheet";
             return pbd;
         }
 

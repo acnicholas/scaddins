@@ -4,7 +4,9 @@
 
 #### NEW ####
 
-- Create user views by pre-selecting in Projecdt Browser.
+- Create user views by pre-selecting in Project Browser.
+- Display and edit "View in Sheet List" parameter from SCexport.
+- Add Next Sheet; Previous Sheet and Open Sheet to Revit ribbon.
 
 # 21.2 #
 
