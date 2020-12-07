@@ -1,6 +1,6 @@
 # SCaddins Revision Log #
 
-# 21.3 (Pre-release)#
+# 21.3#
 
 #### NEW ####
 
