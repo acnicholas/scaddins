@@ -1,5 +1,11 @@
 # SCaddins Revision Log #
 
+# 21.3.1#
+
+#### FIXES ####
+
+- Allow incrementing of walls in Increment Tool
+
 # 21.3#
 
 #### NEW ####

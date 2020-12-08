@@ -174,6 +174,11 @@ namespace SCaddins.ParameterUtilities
                     return GetParameterByName(e, SCincrementSettings.Default.CustomParameterName);    
                 }
                 return GetParameterByName(e, "Mark");
+            } else if (e is Wall) {
+                if (SCincrementSettings.Default.UseCustomParameterName) {
+                    return GetParameterByName(e, SCincrementSettings.Default.CustomParameterName);
+                }
+                return GetParameterByName(e, "Mark");
             } else if (e is TextNote) {
                 return GetParameterByName(e, "Text");
             } else {
