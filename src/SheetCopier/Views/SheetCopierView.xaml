@@ -102,26 +102,17 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Sheet Number" Binding="{Binding Number}" MinWidth="100"></DataGridTextColumn>
                         <DataGridTextColumn Header="Sheet Name" Binding="{Binding Title}" Width="*"></DataGridTextColumn>
-                        <!--<DataGridComboBoxColumn
-                            SelectedItemBinding="{Binding SheetCategory}"
-                            Header="View Category"
-                            MinWidth="100">
-                            <DataGridComboBoxColumn.ElementStyle>
-                                <Style TargetType="ComboBox">
-                                    <Setter Property="ItemsSource" Value="{Binding SheetCategories}"/>
-                                    <Setter Property="IsReadOnly" Value="True"/>
-                                </Style>
-                            </DataGridComboBoxColumn.ElementStyle>
-                            <DataGridComboBoxColumn.EditingElementStyle>
-                                <Style TargetType="ComboBox">
-                                    <Setter Property="ItemsSource" Value="{Binding SheetCategories}"/>
-                                </Style>
-                            </DataGridComboBoxColumn.EditingElementStyle>
-                        </DataGridComboBoxColumn>-->
-                        <DataGridTemplateColumn Header="View Category">
+                        <DataGridTemplateColumn Header="CustomSheetParameterOne">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate DataType="sheetCopier:SheetCopierViewHost">
-                                    <ComboBox  Background="Transparent" IsEditable="True"  Text="{Binding UserCreatedSheetCategory, UpdateSourceTrigger=LostFocus}" ItemsSource="{Binding SheetCategories}"/>
+                                    <ComboBox  Background="Transparent" IsEditable="True"  Text="{Binding CustomSheetParameterOne, UpdateSourceTrigger=LostFocus}" ItemsSource="{Binding CustomSheetParametersOne}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="CustomSheetParameterTwo">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="sheetCopier:SheetCopierViewHost">
+                                    <ComboBox  Background="Transparent" IsEditable="True"  Text="{Binding CustomSheetParameterTwo, UpdateSourceTrigger=LostFocus}" ItemsSource="{Binding CustomSheetParametersTwo}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

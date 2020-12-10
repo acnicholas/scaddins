@@ -55,7 +55,6 @@ namespace SCaddins.SheetCopier
                 }
                 childViews.Add(new SheetCopierView(v.Name, v, scopy));
             }
-            SheetCategories = new ObservableCollection<string>(scopy.SheetCategories.ToList());
         }
 
         public SheetCopierViewHost(SheetCopierManager scopy)
@@ -69,7 +68,6 @@ namespace SCaddins.SheetCopier
             userCreatedSheetCategory = null;
             DestinationSheet = null;
             childViews = new ObservableCollection<SheetCopierView>();
-            SheetCategories = new ObservableCollection<string>(scopy.SheetCategories.ToList());
         }
 
         public ViewHostType Type
@@ -109,23 +107,47 @@ namespace SCaddins.SheetCopier
             get; 
         }
 
-        public string UserCreatedSheetCategory {
-            get => userCreatedSheetCategory;
-
+        public ObservableCollection<string> CustomSheetParametersOne
+        {
+            get
+            {
+                return scopy.CustomSheetParametersOne;
+            }
             set
             {
-                userCreatedSheetCategory = value;
-
-                foreach (var s in scopy.ViewHosts) {
-                    if (!s.SheetCategories.Contains(userCreatedSheetCategory)) {
-                        s.SheetCategories.Add(userCreatedSheetCategory);
-                        s.RefreshSheetCategories();
-                    }
-                }
-                SheetCategory = userCreatedSheetCategory;
-                NotifyOfPropertyChange(() => UserCreatedSheetCategory);
+                scopy.CustomSheetParametersOne = value;
             }
         }
+
+        public ObservableCollection<string> CustomSheetParametersTwo
+        {
+            get
+            {
+                return scopy.CustomSheetParametersTwo;
+            }
+            set
+            {
+                scopy.CustomSheetParametersTwo = value;
+            }
+        }
+
+        //public string UserCreatedSheetCategory {
+        //    get => userCreatedSheetCategory;
+
+        //    set
+        //    {
+        //        userCreatedSheetCategory = value;
+
+        //        foreach (var s in scopy.ViewHosts) {
+        //            if (!s.SheetCategories.Contains(userCreatedSheetCategory)) {
+        //                s.SheetCategories.Add(userCreatedSheetCategory);
+        //                s.RefreshSheetCategories();
+        //            }
+        //        }
+        //        SheetCategory = userCreatedSheetCategory;
+        //        NotifyOfPropertyChange(() => UserCreatedSheetCategory);
+        //    }
+        //}
 
         public string SheetCategory {
             get => sheetCategory;

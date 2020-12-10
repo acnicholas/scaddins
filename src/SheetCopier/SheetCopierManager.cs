@@ -48,7 +48,8 @@ namespace SCaddins.SheetCopier
             GetAllLevelsInModel();
             GetAllViewsInModel(ExistingViews, doc);
             GetFloorPlanViewFamilyTypeId();
-            GetAllSheetCategories();
+            CustomSheetParametersOne = new ObservableCollection<string>(GetAllParameterValuesInModel("SC-Sheet_Category_Primary"));
+            CustomSheetParametersTwo = new ObservableCollection<string>(GetAllParameterValuesInModel("SC-Sheet_Category_Secondary"));
         }
 
         public ViewType ActiveViewType => doc.ActiveView.ViewType;
@@ -70,7 +71,9 @@ namespace SCaddins.SheetCopier
 
         public Dictionary<string, Level> Levels { get; } = new Dictionary<string, Level>();
 
-        public ObservableCollection<string> SheetCategories { get; } = new ObservableCollection<string>();
+        public ObservableCollection<string> CustomSheetParametersOne { get; set; }
+
+        public ObservableCollection<string> CustomSheetParametersTwo { get; set; }
 
         public ObservableCollection<SheetCopierViewHost> ViewHosts { get; }
 
@@ -231,10 +234,10 @@ namespace SCaddins.SheetCopier
             // FIXME add error message,
         }
 
-        public void AddSheetCategory(string name)
-        {
-            SheetCategories.Add(name);
-        }
+        //public void AddSheetCategory(string name)
+        //{
+        //    SheetCategories.Add(name);
+        //}
 
         public bool AddView(View view)
         {
@@ -710,29 +713,32 @@ namespace SCaddins.SheetCopier
             }
         }
 
-        private void GetAllSheetCategories()
+        private List<string> GetAllParameterValuesInModel(string parameterName)
         {
-            SheetCategories.Clear();
-            SheetCategories.Add(@"<None>");
-            using (var c1 = new FilteredElementCollector(doc))
+            var result = new List<string>();
+            result.Add(@"<None>");
+            using (var collector = new FilteredElementCollector(doc))
             {
-                c1.OfCategory(BuiltInCategory.OST_Sheets);
-                foreach (var element in c1)
+                collector.OfCategory(BuiltInCategory.OST_Sheets);
+                foreach (var element in collector)
                 {
                     var view = (View)element;
-                    var viewCategoryParamList = view.GetParameters(SheetCopierConstants.SheetCategory);
-                    if (viewCategoryParamList == null || viewCategoryParamList.Count <= 0) {
+                    var sheetParameters = view.GetParameters(parameterName);
+                    if (sheetParameters == null || sheetParameters.Count <= 0)
+                    {
                         continue;
                     }
-                    var viewCategoryParam = viewCategoryParamList.First();
-                    var s = viewCategoryParam.AsString();
-                    if (!string.IsNullOrEmpty(s) && !SheetCategories.Contains(s))
+                    var sheetParameter = sheetParameters.First();
+                    var s = sheetParameter.AsString();
+                    if (!string.IsNullOrEmpty(s) && !result.Contains(s))
                     {
-                        SheetCategories.Add(s);
+                        result.Add(s);
                     }
                 }
             }
+            return result;
         }
+
 
         private void GetFloorPlanViewFamilyTypeId()
         {
