@@ -64,7 +64,7 @@
         public override string ToString()
         {
             ////SCaddinsApp.WindowManager.ShowMessageBox(FilterPropertyName);
-            return @"Filter by "+ FilterPropertyName + @" [" + FilterValue + @"]";
+            return @"Filter by " + FilterPropertyName + @" [" + FilterValue + @"]";
         }
 
         private static string FirstDigitOfLastNumberInString(string s)

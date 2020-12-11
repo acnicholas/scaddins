@@ -421,6 +421,13 @@ namespace SCaddins.ExportManager
                 sheet.UpdateSheetInfo();
             }
 
+            if (!sheet.ValidExportName)
+            {
+                log.AddError(sheet.FullExportName, "Invalid file name, Export cancelled.");
+                log.EndLoggingIndividualItem(startTime, null);
+                return;
+            }
+
             if (sheet.SCPrintSetting != null)
             {
                 if (exportFlags.HasFlag(ExportOptions.DWG))
@@ -432,13 +439,6 @@ namespace SCaddins.ExportManager
                 {
                     ExportAdobePDF(sheet, log);
                 }
-
-////                if (exportFlags.HasFlag(ExportOptions.GhostscriptPDF))
-////                {
-////                    PostscriptPrinterName = "Microsoft Print to PDF";
-////                    PdfPrinterName = "Microsoft Print to PDF";
-////                    ExportMSPDF(sheet, log);
-////                }
             }
             else
             {

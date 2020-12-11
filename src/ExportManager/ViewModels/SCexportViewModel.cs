@@ -35,17 +35,16 @@ namespace SCaddins.ExportManager.ViewModels
     {
         private readonly Manager exportManager;
         private CloseMode closeMode;
+        private string currentColumnHeader;
         private bool isClosing;
-        private bool sheetFilterEnabled;
         private List<string> printTypes;
+        private List<ViewSetItem> recentExportSets;
         private string searchText;
         private string selectedPrintType;
-        private string currentColumnHeader;
         private List<ExportSheet> selectedSheets = new List<ExportSheet>();
         private SheetFilter sheetFilter;
         private ObservableCollection<ExportSheet> sheets;
         private ICollectionView sheetsCollection;
-        private List<ViewSetItem> recentExportSets;
 
         public SCexportViewModel(Manager exportManager)
         {
@@ -125,29 +124,37 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public string InvlaidFileNamingStatusText
+        {
+            get
+            {
+                var invalidFileNames = exportManager.AllSheets.Count(s => s.ValidExportName != true);
+                if (invalidFileNames > 0)
+                {
+                    return @" [Invalid file names: " + invalidFileNames + @"]";
+                }
+
+                return string.Empty;
+            }
+        }
+
+        public string InvlaidPrintSettingsStatusText
+        {
+            get
+            {
+                var invalidPrintSettings = exportManager.AllSheets.Count(s => s.ValidPrintSettingIsAssigned != true);
+                if (invalidPrintSettings > 0)
+                {
+                    return @" [Invalid print settings: " + invalidPrintSettings + @"]";
+                }
+
+                return string.Empty;
+            }
+        }
+
         public bool IsSearchTextFocused
         {
             get; set;
-        }
-
-        public bool PreviousExportOneIsEnabled
-        {
-            get { return recentExportSets.Count > 0; }
-        }
-
-        public bool PreviousExportTwoIsEnabled
-        {
-            get { return recentExportSets.Count > 1; }
-        }
-
-        public bool PreviousExportThreeIsEnabled
-        {
-            get { return recentExportSets.Count > 2; }
-        }
-
-        public bool PreviousExportFourIsEnabled
-        {
-            get { return recentExportSets.Count > 3; }
         }
 
         public bool PreviousExportFiveIsEnabled
@@ -155,28 +162,17 @@ namespace SCaddins.ExportManager.ViewModels
             get { return recentExportSets.Count > 4; }
         }
 
-        public string PreviousExportOneName
+        public string PreviousExportFiveName
         {
             get
             {
-                return PreviousExportOneIsEnabled ? recentExportSets[0].DescriptiveName : "N/A";
+                return PreviousExportFiveIsEnabled ? recentExportSets[4].DescriptiveName : "N/A";
             }
         }
 
-        public string PreviousExportTwoName
+        public bool PreviousExportFourIsEnabled
         {
-            get
-            {
-                return PreviousExportTwoIsEnabled ? recentExportSets[1].DescriptiveName : "N/A";
-            }
-        }
-
-        public string PreviousExportThreeName
-        {
-            get
-            {
-                return PreviousExportThreeIsEnabled ? recentExportSets[2].DescriptiveName : "N/A";
-            }
+            get { return recentExportSets.Count > 3; }
         }
 
         public string PreviousExportFourName
@@ -187,11 +183,42 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public string PreviousExportFiveName
+        public bool PreviousExportOneIsEnabled
+        {
+            get { return recentExportSets.Count > 0; }
+        }
+
+        public string PreviousExportOneName
         {
             get
             {
-                return PreviousExportFiveIsEnabled ? recentExportSets[4].DescriptiveName : "N/A";
+                return PreviousExportOneIsEnabled ? recentExportSets[0].DescriptiveName : "N/A";
+            }
+        }
+
+        public bool PreviousExportThreeIsEnabled
+        {
+            get { return recentExportSets.Count > 2; }
+        }
+
+        public string PreviousExportThreeName
+        {
+            get
+            {
+                return PreviousExportThreeIsEnabled ? recentExportSets[2].DescriptiveName : "N/A";
+            }
+        }
+
+        public bool PreviousExportTwoIsEnabled
+        {
+            get { return recentExportSets.Count > 1; }
+        }
+
+        public string PreviousExportTwoName
+        {
+            get
+            {
+                return PreviousExportTwoIsEnabled ? recentExportSets[1].DescriptiveName : "N/A";
             }
         }
 
@@ -289,34 +316,6 @@ namespace SCaddins.ExportManager.ViewModels
             get; set;
         }
 
-        public string InvlaidPrintSettingsStatusText
-        {
-            get
-            {
-                var invalidPrintSettings = exportManager.AllSheets.Count(s => s.ValidPrintSettingIsAssigned != true);
-                if (invalidPrintSettings > 0)
-                {
-                    return @" [Invalid print settings: " + invalidPrintSettings + @"]";
-                }
-                
-                return string.Empty;
-            }
-        }
-        
-        public string InvlaidFileNamingStatusText
-        {
-            get
-            {
-                var invalidFileNames = exportManager.AllSheets.Count(s => s.ValidExportName != true);
-                if (invalidFileNames > 0)
-                {
-                    return @" [Invalid file names: " + invalidFileNames + @"]";
-                }
-
-                return string.Empty;
-            }
-        }    
-
         public string StatusText
         {
             get
@@ -365,44 +364,10 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        private static T FindVisualParent<T>(DependencyObject dependencyObject) where T : DependencyObject
+        public void ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
         {
-            var parent = VisualTreeHelper.GetParent(dependencyObject);
-
-            if (parent == null) return null;
-
-            var parentT = parent as T;
-            return parentT ?? FindVisualParent<T>(parent);
-        }
-
-
-        public void MouseEnteredDataGrid(object sender, MouseEventArgs e)
-        {
-            try
+            if (e == null || sender == null)
             {
-                if (e == null || sender == null)
-                {
-                    return;
-                }
-                if (e.OriginalSource.GetType() != typeof(TextBlock))
-                {
-                    return;
-                }
-                var menuItem = (TextBlock)e.OriginalSource;
-                DataGridCell cell = FindVisualParent<DataGridCell>(menuItem);
-                DataGridCellsPanel cellPanel = FindVisualParent<DataGridCellsPanel>(menuItem);
-                DataGrid grid = FindVisualParent<DataGrid>(menuItem);
-                int index = cellPanel.Children.IndexOf(cell);
-                currentColumnHeader = grid.Columns[index].Header.ToString();
-            } catch
-            {
-                //SCaddinsApp.WindowManager.ShowMessageBox("doh");
-            }
-        }
-
-            public void ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
-        {
-            if (e == null || sender == null) {
                 return;
             }
             if (e.OriginalSource.GetType() != typeof(System.Windows.Controls.TextBlock))
@@ -411,29 +376,26 @@ namespace SCaddins.ExportManager.ViewModels
             }
             var menuItem = (System.Windows.Controls.TextBlock)e.OriginalSource;
 
-            //// this.IsNotifying = false;
             try
             {
                 if (menuItem.DataContext.GetType() != typeof(ExportSheet))
                 {
-                    //SheetFilterEnabled = false;
                     return;
                 }
-                //SheetFilterEnabled = true;
                 ExportSheet myItem = (ExportSheet)menuItem.DataContext;
                 if (!SelectedSheets.Contains(myItem))
                 {
                     SelectedSheets.Add(myItem);
                 }
                 SelectedSheet = myItem;
-                var element = ((System.Windows.Controls.TextBlock)e.OriginalSource);
+                var element = (System.Windows.Controls.TextBlock)e.OriginalSource;
                 var cell = element.Text;
                 SheetFilter = new SheetFilter(currentColumnHeader, cell);
-            } catch
-            {
-
             }
-            //// this.IsNotifying = true;
+            catch
+            {
+                //// FIXME
+            }
         }
 
         public void CopySheets()
@@ -459,7 +421,8 @@ namespace SCaddins.ExportManager.ViewModels
             var result = RecentExport.DeleteAll(exportManager.Doc, exportManager.AllViewSheetSets);
             exportManager.UpdateAllViewSheetSets();
             recentExportSets = RecentExport.GetAllUserViewSets(exportManager.AllViewSheetSets);
-            if (!result) {
+            if (!result)
+            {
                 SCaddinsApp.WindowManager.ShowErrorMessageBox("Error deleteing history.", "Error deleteing history, maybe try deleting manually?...");
             }
         }
@@ -474,6 +437,11 @@ namespace SCaddins.ExportManager.ViewModels
         public void FixScaleBars()
         {
             Manager.FixScaleBars(selectedSheets, exportManager.Doc);
+        }
+
+        public void HideInSheetList()
+        {
+            Manager.HideSheetsInSheetList(selectedSheets, exportManager.Doc);
         }
 
         public void KeyPressed(KeyEventArgs keyArgs)
@@ -551,10 +519,12 @@ namespace SCaddins.ExportManager.ViewModels
                         int index = (int)keyArgs.Key - (int)Key.D0;
                         if (keyArgs.KeyboardDevice.IsKeyDown(Key.LeftShift) || keyArgs.KeyboardDevice.IsKeyDown(Key.RightShift))
                         {
-                            if (index < recentExportSets.Count) {
+                            if (index < recentExportSets.Count)
+                            {
                                 SelectPrevious(recentExportSets[index]);
                             }
-                        } else
+                        }
+                        else
                         {
                             FilterByNumber(index.ToString(System.Globalization.CultureInfo.CurrentCulture));
                         }
@@ -563,42 +533,39 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public void OpenViewsCommand()
+        public void MouseDoubleClick(object sender, MouseButtonEventArgs args)
         {
             OpenSheet.OpenViews(selectedSheets);
         }
 
-        public void SelectPrevious(int i)
+        public void MouseEnteredDataGrid(object sender, MouseEventArgs e)
         {
-            SelectPrevious(recentExportSets[i]);
-        }
-
-        public void SelectPrevious(ViewSetItem viewSet)
-        {
-            if (viewSet == null)
-            {
-                return;
-            }
-
-            IsNotifying = false;
             try
             {
-                var filter = new Predicate<object>(item => viewSet.ViewIds.Contains(((ExportSheet)item).Sheet.Id.IntegerValue));
-                Sheets.Filter = filter;
+                if (e == null || sender == null)
+                {
+                    return;
+                }
+                if (e.OriginalSource.GetType() != typeof(TextBlock))
+                {
+                    return;
+                }
+                var menuItem = (TextBlock)e.OriginalSource;
+                DataGridCell cell = FindVisualParent<DataGridCell>(menuItem);
+                DataGridCellsPanel cellPanel = FindVisualParent<DataGridCellsPanel>(menuItem);
+                DataGrid grid = FindVisualParent<DataGrid>(menuItem);
+                int index = cellPanel.Children.IndexOf(cell);
+                currentColumnHeader = grid.Columns[index].Header.ToString();
             }
-            catch (Exception exception)
+            catch
             {
-                Console.WriteLine(exception.Message);
+                //// FIXME
             }
-            IsNotifying = true;
         }
 
-        public void SheetFilterSelected()
+        public void OpenViewsCommand()
         {
-            if (SheetFilter != null)
-            {
-                Sheets.Filter = SheetFilter.GetFilter();
-            }
+            OpenSheet.OpenViews(selectedSheets);
         }
 
         public void OpenViewSet()
@@ -727,11 +694,44 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public void MouseDoubleClick(object sender, MouseButtonEventArgs args)
+        public void SelectPrevious(int i)
         {
-            OpenSheet.OpenViews(selectedSheets);
+            SelectPrevious(recentExportSets[i]);
         }
-        
+
+        public void SelectPrevious(ViewSetItem viewSet)
+        {
+            if (viewSet == null)
+            {
+                return;
+            }
+
+            IsNotifying = false;
+            try
+            {
+                var filter = new Predicate<object>(item => viewSet.ViewIds.Contains(((ExportSheet)item).Sheet.Id.IntegerValue));
+                Sheets.Filter = filter;
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+            IsNotifying = true;
+        }
+
+        public void SheetFilterSelected()
+        {
+            if (SheetFilter != null)
+            {
+                Sheets.Filter = SheetFilter.GetFilter();
+            }
+        }
+
+        public void ShowInSheetList()
+        {
+            Manager.ShowSheetsInSheetList(selectedSheets, exportManager.Doc);
+        }
+
         public void ShowLatestRevision()
         {
             var revDate = Manager.LatestRevisionDate(exportManager.Doc);
@@ -749,16 +749,6 @@ namespace SCaddins.ExportManager.ViewModels
             IsNotifying = true;
         }
 
-        public void HideInSheetList()
-        {
-            Manager.HideSheetsInSheetList(selectedSheets, exportManager.Doc);
-        }
-
-        public void ShowInSheetList()
-        {
-            Manager.ShowSheetsInSheetList(selectedSheets, exportManager.Doc);
-        }
-
         public void TurnNorthPointsOff()
         {
             Manager.ToggleNorthPoints(selectedSheets, exportManager.Doc, false);
@@ -773,6 +763,18 @@ namespace SCaddins.ExportManager.ViewModels
         {
             exportManager.Update();
             NotifyOfPropertyChange(() => Sheets);
+        }
+
+        private static T FindVisualParent<T>(DependencyObject dependencyObject) where T : DependencyObject
+        {
+            var parent = VisualTreeHelper.GetParent(dependencyObject);
+            if (parent == null)
+            {
+                return null;
+            }
+
+            var parentT = parent as T;
+            return parentT ?? FindVisualParent<T>(parent);
         }
 
         private void ExecuteSearch()
