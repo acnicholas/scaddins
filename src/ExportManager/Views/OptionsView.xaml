@@ -85,15 +85,6 @@
                             <Label Grid.Column="0" Grid.Row="1" Content="File Naming Scheme" VerticalAlignment="Center" Margin="5"></Label>
                             <ComboBox x:Name="AutoCADExportVersions" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5"></ComboBox>
                             <ComboBox x:Name="FileNamingSchemes"  Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5"></ComboBox>
-                            <!--<ComboBox
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                VerticalAlignment="Center"
-                                Margin="5"
-                                ItemsSource="{Binding FileNamingSchemes}"
-                                SelectedValue="{Binding SelectedFileNamingScheme}"
-                                DisplayMemberPath="Name">
-                            </ComboBox>-->
                             <CheckBox x:Name="DateForEmptyRevisions" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0"
                                       Margin="5" Content="Use today's date for empty revisions" VerticalAlignment="Center"></CheckBox>
                             <CheckBox x:Name="ForceDateForAllRevisions" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0"
@@ -127,11 +118,20 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <Button x:Name="CreateProjectConfigFile" Margin="5">Create Project Config File</Button>
-                            <Button x:Name="EditProjectConfigFile" Grid.Row="0" Grid.Column="1" Margin="5">Edit Config File</Button>
-                            <Label Grid.Row="1" Grid.Column="0" Margin="5">Text Editor (for config)</Label>
-                            <TextBox x:Name="TextEditorBinPath" Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
+                            <TextBlock Grid.ColumnSpan="2">
+                                SCexport uses a xml config file per model for settings.<LineBreak></LineBreak>
+                                There are 2 ways to use this: <LineBreak></LineBreak>
+                                  1. Using a file named "SCexport.xml" in the model directory<LineBreak></LineBreak>
+                                  2. Specifying the full path to the config file in a Project Information Parameter names "Project Config File"<LineBreak></LineBreak>
+                                <LineBreak></LineBreak>
+                                See online help for more info (see about dialog for Wiki link).
+                            </TextBlock>
+                            <Button x:Name="CreateProjectConfigFile" Margin="5"  Grid.Row="1">Create Project Config File</Button>
+                            <Button x:Name="EditProjectConfigFile" Grid.Row="1" Grid.Column="1" Margin="5">Edit Config File</Button>
+                            <Label Grid.Row="2" Grid.Column="0" Margin="5">Text Editor (for config)</Label>
+                            <TextBox x:Name="TextEditorBinPath" Grid.Row="2" Grid.Column="1" Margin="5"></TextBox>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Printer Options" Grid.Row="1" Margin="5">

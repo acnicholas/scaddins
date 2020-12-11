@@ -285,20 +285,17 @@ namespace SCaddins.ExportManager
 
         public static string GetConfigFileName(Document doc)
         {
-#if DEBUG
+            #if DEBUG
                         Debug.WriteLine("getting config file for " + doc.Title);
                         string s = @"C:\Andrew\code\cs\scaddins\share\SCexport-example-conf.xml";
-#else
-            //// SCaddinsApp.WindowManager.ShowMessageBox("OK");
+            #else
             var fec = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_ProjectInformation);
             foreach (var element in fec) {
                 if (element is ProjectInfo) {
-                    //// SCaddinsApp.WindowManager.ShowMessageBox("OK");
                     var i = (ProjectInfo)element;
                     var p = i.LookupParameter("Project Config File");
                     if (p != null) {
                         return p.AsString();
-                        //// SCaddinsApp.WindowManager.ShowMessageBox(p.AsString());
                     }
                 }
             }

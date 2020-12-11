@@ -24,8 +24,11 @@ namespace SCaddins.ExportManager.ViewModels
     using System.Dynamic;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using System.Windows;
+    using System.Windows.Controls;
     using System.Windows.Data;
     using System.Windows.Input;
+    using System.Windows.Media;
     using Caliburn.Micro;
 
     internal class SCexportViewModel : Screen
@@ -33,9 +36,11 @@ namespace SCaddins.ExportManager.ViewModels
         private readonly Manager exportManager;
         private CloseMode closeMode;
         private bool isClosing;
+        private bool sheetFilterEnabled;
         private List<string> printTypes;
         private string searchText;
         private string selectedPrintType;
+        private string currentColumnHeader;
         private List<ExportSheet> selectedSheets = new List<ExportSheet>();
         private SheetFilter sheetFilter;
         private ObservableCollection<ExportSheet> sheets;
@@ -266,7 +271,7 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public bool SheetFilterEnabled { get; set; }
+        public bool SheetFilterEnabled => true;
 
         public ICollectionView Sheets
         {
@@ -360,7 +365,42 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public void ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
+        private static T FindVisualParent<T>(DependencyObject dependencyObject) where T : DependencyObject
+        {
+            var parent = VisualTreeHelper.GetParent(dependencyObject);
+
+            if (parent == null) return null;
+
+            var parentT = parent as T;
+            return parentT ?? FindVisualParent<T>(parent);
+        }
+
+
+        public void MouseEnteredDataGrid(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                if (e == null || sender == null)
+                {
+                    return;
+                }
+                if (e.OriginalSource.GetType() != typeof(TextBlock))
+                {
+                    return;
+                }
+                var menuItem = (TextBlock)e.OriginalSource;
+                DataGridCell cell = FindVisualParent<DataGridCell>(menuItem);
+                DataGridCellsPanel cellPanel = FindVisualParent<DataGridCellsPanel>(menuItem);
+                DataGrid grid = FindVisualParent<DataGrid>(menuItem);
+                int index = cellPanel.Children.IndexOf(cell);
+                currentColumnHeader = grid.Columns[index].Header.ToString();
+            } catch
+            {
+                //SCaddinsApp.WindowManager.ShowMessageBox("doh");
+            }
+        }
+
+            public void ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
         {
             if (e == null || sender == null) {
                 return;
@@ -370,23 +410,30 @@ namespace SCaddins.ExportManager.ViewModels
                 return;
             }
             var menuItem = (System.Windows.Controls.TextBlock)e.OriginalSource;
-            if (menuItem.DataContext.GetType() != typeof(ExportSheet))
+
+            //// this.IsNotifying = false;
+            try
             {
-                SheetFilterEnabled = false;
-                return;
-            }
-            SheetFilterEnabled = true;
-            ExportSheet myItem = (ExportSheet)menuItem.DataContext;
-            if (!SelectedSheets.Contains(myItem))
+                if (menuItem.DataContext.GetType() != typeof(ExportSheet))
+                {
+                    //SheetFilterEnabled = false;
+                    return;
+                }
+                //SheetFilterEnabled = true;
+                ExportSheet myItem = (ExportSheet)menuItem.DataContext;
+                if (!SelectedSheets.Contains(myItem))
+                {
+                    SelectedSheets.Add(myItem);
+                }
+                SelectedSheet = myItem;
+                var element = ((System.Windows.Controls.TextBlock)e.OriginalSource);
+                var cell = element.Text;
+                SheetFilter = new SheetFilter(currentColumnHeader, cell);
+            } catch
             {
-                SelectedSheets.Add(myItem);
+
             }
-            SelectedSheet = myItem;
-            var grid = (System.Windows.Controls.DataGrid)e.Source;
-            var col = grid.CurrentColumn;
-            var header = col.Header.ToString();
-            var cell = ((System.Windows.Controls.TextBlock)e.OriginalSource).Text;
-            SheetFilter = new SheetFilter(header, cell);
+            //// this.IsNotifying = true;
         }
 
         public void CopySheets()
@@ -546,6 +593,14 @@ namespace SCaddins.ExportManager.ViewModels
             IsNotifying = true;
         }
 
+        public void SheetFilterSelected()
+        {
+            if (SheetFilter != null)
+            {
+                Sheets.Filter = SheetFilter.GetFilter();
+            }
+        }
+
         public void OpenViewSet()
         {
             var viewSetSelectionViewModel = new ViewSetSelectionViewModel(exportManager.AllViewSheetSets);
@@ -571,10 +626,8 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void OptionsButton()
         {
-            //// SCaddinsApp.WindowManager.ShowMessageBox("Options");
             var optionsModel = new OptionsViewModel(exportManager);
             SCaddinsApp.WindowManager.ShowWindow(optionsModel, null, ViewModels.OptionsViewModel.DefaultWindowSettings);
-            //// SCaddinsApp.WindowManager.ShowMessageBox("Options Success");
             NotifyOfPropertyChange(() => StatusText);
         }
 
