@@ -631,7 +631,7 @@ namespace SCaddins.ExportManager
             {
                 var name = new SegmentedSheetName();
                 name.Name = "YYYYMMDD-AD-NNN";
-                name.NameFormat = "$projectNumber-$sheetNumber[$sheetRevision]";
+                name.NameFormat = "$projectNumber-$sheetNumber[$sheetRevision] - $sheetDescription";
                 FileNameTypes.Add(name);
                 FileNameScheme = name;
             }
