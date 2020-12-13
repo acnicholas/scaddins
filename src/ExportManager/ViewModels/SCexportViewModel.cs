@@ -762,7 +762,6 @@ namespace SCaddins.ExportManager.ViewModels
         public void VerifySheets()
         {
             exportManager.Update();
-            NotifyOfPropertyChange(() => Sheets);
         }
 
         private static T FindVisualParent<T>(DependencyObject dependencyObject) where T : DependencyObject

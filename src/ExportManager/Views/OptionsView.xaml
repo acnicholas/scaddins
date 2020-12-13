@@ -108,6 +108,7 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <GroupBox Header="Project Configuration" Margin="5">
                         <Grid>
@@ -188,6 +189,16 @@
                             </Grid.RowDefinitions>
                             <CheckBox x:Name="ShowSummaryLog" Grid.Row="0" Grid.Column="0" Margin="5">Show Export Log after completion(will always show on an error)</CheckBox>
                             <CheckBox x:Name="VerifyOnStartup" Grid.Row="1" Grid.Column="0" Margin="5">Verify print settings on startup</CheckBox>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Filename Options" Grid.Row="4" Margin="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Margin="5">Invalid filname characters(additional to invalid system chars)</Label>
+                            <TextBox x:Name="InvalidFileNameCharsAsString" Margin="5" Grid.Column="1"></TextBox>
                         </Grid>
                     </GroupBox>
                 </Grid>

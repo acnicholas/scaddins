@@ -102,10 +102,7 @@
                 <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
                     <Setter Property="Margin" Value="5,0,10,0" />
                 </Style>
-                
-
-                
-                <Style TargetType="DataGridRow">
+                <Style x:Name="DataGridRowStyle" TargetType="DataGridRow" >
                     <Setter Property="IsSelected" Value="{Binding IsSelected}" />
                     <Style.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{x:Static SystemColors.HighlightColor}" />

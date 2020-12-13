@@ -811,7 +811,7 @@ namespace SCaddins.ExportManager
                 return;
             }
 
-            if (!FileUtilities.IsValidFileName(vs.FullExportName))
+            if (!vs.ValidExportName)
             {
                 log.AddError(vs.FullExportName, "Filename contains invalid characters: " + vs.FullExportName);
                 return;
@@ -901,7 +901,7 @@ namespace SCaddins.ExportManager
                 return;
             }
 
-            if (!FileUtilities.IsValidFileName(vs.FullExportName))
+            if (!vs.ValidExportName)
             {
                 log.AddError(vs.FullExportName, "Filename contains invalid characters: " + vs.FullExportName);
                 return;

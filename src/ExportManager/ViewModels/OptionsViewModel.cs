@@ -82,6 +82,28 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public string InvalidFileNameCharsAsString
+        {
+            get
+            {
+                return Settings1.Default.InvalidFilenameChars;
+            }
+
+            set
+            {
+                if (value == Settings1.Default.InvalidFilenameChars)
+                {
+                    return;
+                }
+                Settings1.Default.InvalidFilenameChars = value;
+                Settings1.Default.Save();
+                foreach (var sheet in exportManager.AllSheets)
+                {
+                    sheet.Refresh();
+                }
+            }
+        }
+
         public static string NorthPointVisibilityParameterName {
             get
             {

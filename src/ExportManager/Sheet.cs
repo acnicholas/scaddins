@@ -339,7 +339,7 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return FileUtilities.IsValidFileName(FullExportName);
+                return FileUtilities.IsValidFileName(FullExportName, Settings1.Default.InvalidFilenameChars.ToCharArray());
             }
         }
 
@@ -532,6 +532,11 @@ namespace SCaddins.ExportManager
                 ExportDirectory);
         }
 
+        public void Refresh()
+        {
+            NotifyPropertyChanged(nameof(ValidExportName));
+        }
+
         public void UpdateName()
         {
             sheetDescription = sheet.get_Parameter(
@@ -607,6 +612,7 @@ namespace SCaddins.ExportManager
             ValidPrintSettingIsAssigned = printSetting != null;
             NotifyPropertyChanged(nameof(Scale));
             NotifyPropertyChanged(nameof(PrintSettingName));
+            NotifyPropertyChanged(nameof(ValidExportName));
         }
 
         private void Init(
