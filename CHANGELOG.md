@@ -1,6 +1,6 @@
 # SCaddins Revision Log #
 
-# 21.4#
+# 21.4 #
 
 #### NEW ####
 
@@ -9,13 +9,13 @@
 - Change default naming scheme in SCexport to include sheet number and name.
 
 
-# 21.3.1#
+# 21.3.1 #
 
 #### FIXES ####
 
 - Allow incrementing of walls in Increment Tool
 
-# 21.3#
+# 21.3 #
 
 #### NEW ####
 
