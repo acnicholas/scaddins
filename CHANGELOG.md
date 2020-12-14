@@ -5,8 +5,8 @@
 #### NEW ####
 
 - Add "smart" context filter to SCexport.
-- Add option to assign glabal invalid characters to exported files in SCexport.
-- Change default naming scheme in SCexcport to include sheet number and name.
+- Add option to assign global invalid characters to files exported with SCexport.
+- Change default naming scheme in SCexport to include sheet number and name.
 
 
 # 21.3.1#
