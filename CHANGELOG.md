@@ -1,5 +1,14 @@
 # SCaddins Revision Log #
 
+# 21.4#
+
+#### NEW ####
+
+- Add "smart" context filter to SCexport.
+- Add option to assign glabal invalid characters to exported files in SCexport.
+- Change default naming scheme in SCexcport to include sheet number and name.
+
+
 # 21.3.1#
 
 #### FIXES ####

@@ -49,22 +49,6 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public static string ForceRasterPrintParameterName {
-            get
-            {
-                return Settings1.Default.UseRasterPrinterParameter;
-            }
-
-            set
-            {
-                if (value == Settings1.Default.UseRasterPrinterParameter) {
-                    return;
-                }
-                Settings1.Default.UseRasterPrinterParameter = value;
-                Settings1.Default.Save();
-            }
-        }
-
         public static dynamic DefaultWindowSettings
         {
             get
@@ -82,29 +66,25 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public string InvalidFileNameCharsAsString
+        public static string ForceRasterPrintParameterName
         {
             get
             {
-                return Settings1.Default.InvalidFilenameChars;
+                return Settings1.Default.UseRasterPrinterParameter;
             }
 
             set
             {
-                if (value == Settings1.Default.InvalidFilenameChars)
-                {
+                if (value == Settings1.Default.UseRasterPrinterParameter) {
                     return;
                 }
-                Settings1.Default.InvalidFilenameChars = value;
+                Settings1.Default.UseRasterPrinterParameter = value;
                 Settings1.Default.Save();
-                foreach (var sheet in exportManager.AllSheets)
-                {
-                    sheet.Refresh();
-                }
             }
         }
 
-        public static string NorthPointVisibilityParameterName {
+        public static string NorthPointVisibilityParameterName
+        {
             get
             {
                 return Settings1.Default.NorthPointVisibilityParameter;
@@ -112,7 +92,8 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value == Settings1.Default.NorthPointVisibilityParameter) {
+                if (value == Settings1.Default.NorthPointVisibilityParameter)
+                {
                     return;
                 }
                 Settings1.Default.NorthPointVisibilityParameter = value;
@@ -138,7 +119,8 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public static string ScaleBarScaleParameterName {
+        public static string ScaleBarScaleParameterName
+        {
             get
             {
                 return Settings1.Default.ScalebarScaleParameter;
@@ -146,7 +128,8 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value == Settings1.Default.ScalebarScaleParameter) {
+                if (value == Settings1.Default.ScalebarScaleParameter)
+                {
                     return;
                 }
                 Settings1.Default.ScalebarScaleParameter = value;
@@ -154,7 +137,8 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public static Autodesk.Revit.DB.ACADVersion SelectedAutoCADExportVersion {
+        public static Autodesk.Revit.DB.ACADVersion SelectedAutoCADExportVersion
+        {
             get
             {
                 return Manager.AcadVersion;
@@ -162,14 +146,16 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value == Manager.AcadVersion) {
+                if (value == Manager.AcadVersion)
+                {
                     return;
                 }
                 Manager.AcadVersion = value;
             }
         }
 
-        public static bool ShowSummaryLog {
+        public static bool ShowSummaryLog
+        {
             get
             {
                 return Settings1.Default.ShowExportLog;
@@ -177,7 +163,8 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value == Settings1.Default.ShowExportLog) {
+                if (value == Settings1.Default.ShowExportLog)
+                {
                     return;
                 }
                 Settings1.Default.ShowExportLog = value;
@@ -185,7 +172,8 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public static string TextEditorBinPath {
+        public static string TextEditorBinPath
+        {
             get
             {
                 return Settings1.Default.TextEditor;
@@ -193,7 +181,8 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value == Settings1.Default.TextEditor) {
+                if (value == Settings1.Default.TextEditor)
+                {
                     return;
                 }
                 Settings1.Default.TextEditor = value;
@@ -201,7 +190,8 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public string A3PrinterName {
+        public string A3PrinterName
+        {
             get
             {
                 return exportManager.PrinterNameA3;
@@ -209,7 +199,8 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value == exportManager.PrinterNameA3) {
+                if (value == exportManager.PrinterNameA3)
+                {
                     return;
                 }
                 exportManager.PrinterNameA3 = value;
@@ -228,7 +219,8 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value == exportManager.PdfPrinterName) {
+                if (value == exportManager.PdfPrinterName)
+                {
                     return;
                 }
                 exportManager.PdfPrinterName = value;
@@ -247,27 +239,10 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (exportManager.UseDateForEmptyRevisions != value) {
+                if (exportManager.UseDateForEmptyRevisions != value)
+                {
                     exportManager.UseDateForEmptyRevisions = value;
                     Settings1.Default.UseDateForEmptyRevisions = value;
-                    Settings1.Default.Save();
-                }
-            }
-        }
-
-        public bool ExportViewportsOnly
-        {
-            get
-            {
-                return exportManager.ExportViewportsOnly;
-            }
-
-            set
-            {
-                if (exportManager.ExportViewportsOnly != value)
-                {
-                    exportManager.ExportViewportsOnly = value;
-                    Settings1.Default.ExportViewportsOnly = value;
                     Settings1.Default.Save();
                 }
             }
@@ -282,9 +257,12 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value) {
+                if (value)
+                {
                     exportManager.AddExportOption(ExportOptions.PDF);
-                } else {
+                }
+                else
+                {
                     exportManager.RemoveExportOption(ExportOptions.PDF);
                 }
             }
@@ -304,7 +282,8 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value == exportManager.ExportDirectory) {
+                if (value == exportManager.ExportDirectory)
+                {
                     return;
                 }
                 exportManager.ExportDirectory = value;
@@ -328,9 +307,12 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value) {
+                if (value)
+                {
                     exportManager.AddExportOption(ExportOptions.DWG);
-                } else {
+                }
+                else
+                {
                     exportManager.RemoveExportOption(ExportOptions.DWG);
                 }
             }
@@ -345,10 +327,31 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value) {
+                if (value)
+                {
                     exportManager.AddExportOption(ExportOptions.GhostscriptPDF);
-                } else {
+                }
+                else
+                {
                     exportManager.RemoveExportOption(ExportOptions.GhostscriptPDF);
+                }
+            }
+        }
+
+        public bool ExportViewportsOnly
+        {
+            get
+            {
+                return exportManager.ExportViewportsOnly;
+            }
+
+            set
+            {
+                if (exportManager.ExportViewportsOnly != value)
+                {
+                    exportManager.ExportViewportsOnly = value;
+                    Settings1.Default.ExportViewportsOnly = value;
+                    Settings1.Default.Save();
                 }
             }
         }
@@ -377,7 +380,8 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (exportManager.ForceRevisionToDateString != value) {
+                if (exportManager.ForceRevisionToDateString != value)
+                {
                     exportManager.ForceRevisionToDateString = value;
                     Settings1.Default.ForceDateRevision = value;
                     Settings1.Default.Save();
@@ -394,10 +398,11 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value == exportManager.GhostscriptBinDirectory) {
+                if (value == exportManager.GhostscriptBinDirectory)
+                {
                     return;
                 }
-                exportManager.GhostscriptBinDirectory = value;             
+                exportManager.GhostscriptBinDirectory = value;
                 Settings1.Default.GSBinDirectory = value;
                 Settings1.Default.Save();
                 NotifyOfPropertyChange(() => GhostscriptBinLocation);
@@ -413,7 +418,8 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value == exportManager.GhostscriptLibDirectory) {
+                if (value == exportManager.GhostscriptLibDirectory)
+                {
                     return;
                 }
                 exportManager.GhostscriptLibDirectory = value;
@@ -432,16 +438,42 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value == exportManager.HasExportOption(ExportOptions.NoTitle)) {
+                if (value == exportManager.HasExportOption(ExportOptions.NoTitle))
+                {
                     return;
                 }
-                if (value) {
+                if (value)
+                {
                     exportManager.AddExportOption(ExportOptions.NoTitle);
-                } else {
+                }
+                else
+                {
                     exportManager.RemoveExportOption(ExportOptions.NoTitle);
                 }
                 Settings1.Default.HideTitleBlocks = value;
                 Settings1.Default.Save();
+            }
+        }
+
+        public string InvalidFileNameCharsAsString
+        {
+            get
+            {
+                return Settings1.Default.InvalidFilenameChars;
+            }
+
+            set
+            {
+                if (value == Settings1.Default.InvalidFilenameChars)
+                {
+                    return;
+                }
+                Settings1.Default.InvalidFilenameChars = value;
+                Settings1.Default.Save();
+                foreach (var sheet in exportManager.AllSheets)
+                {
+                    sheet.Refresh();
+                }
             }
         }
 
