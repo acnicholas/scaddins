@@ -45,6 +45,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -53,6 +54,7 @@
                 <CheckBox x:Name="UseCustomParameter" Content="Use Custom Parameter Name" Grid.ColumnSpan="2" Margin="5"></CheckBox>
                 <Label Grid.Column="0" Grid.Row="1" Margin="5">Custom Parameter Name</Label>
                 <TextBox x:Name="CustomParameterName" Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
+                <CheckBox x:Name="KeepLeadingZeros" Content="Keep Leading Zeros" Grid.Row="2" Grid.ColumnSpan="2" Margin="5"></CheckBox>
             </Grid>
         </GroupBox>
     </Grid>
