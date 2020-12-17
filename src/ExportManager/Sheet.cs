@@ -608,6 +608,10 @@ namespace SCaddins.ExportManager
             appearsInSheetList = this.Sheet.get_Parameter(BuiltInParameter.SHEET_SCHEDULED).AsInteger() == 1;
             pageSize = PrintSettings.GetSheetSizeAsString(this);
             printSetting = PrintSettings.GetPrintSettingByName(doc, pageSize, forceRasterPrint);
+            if (printSetting == null)
+            {
+                printSetting = PrintSettings.GetPrintSettingByName(doc, pageSize, forceRasterPrint);
+            }
             verified = true;
             ValidPrintSettingIsAssigned = printSetting != null;
             NotifyPropertyChanged(nameof(Scale));

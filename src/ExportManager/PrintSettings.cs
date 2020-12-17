@@ -88,10 +88,18 @@ namespace SCaddins.ExportManager
 
                         if (!forceRaster)
                         {
-                            pm.PrintSetup.SaveAs("SCX-" + isoSheetSize);
-                        } else {
+                            if (!TrySavePrintSetup(pm, "SCX-" + isoSheetSize, 1)) { 
+                                t.RollBack();
+                                return false;
+                            }
+                        }
+                        else
+                        {
                             ips.PrintParameters.HiddenLineViews = HiddenLineViewsType.RasterProcessing;
-                            pm.PrintSetup.SaveAs("SCX-" + isoSheetSize + @"(Raster)");
+                            if (!TrySavePrintSetup(pm, "SCX-" + @"(Raster)" + isoSheetSize, 1)) {
+                                t.RollBack();
+                                return false;
+                            }
                         }
 
                         t.Commit();
@@ -108,6 +116,23 @@ namespace SCaddins.ExportManager
                 }
             }
             return success;
+        }
+
+        public static bool TrySavePrintSetup(PrintManager pm, string name, int attempts)
+        {
+            try
+            {
+                return pm.PrintSetup.SaveAs(name);
+            }
+            catch
+            {
+                if (attempts > 0)
+                {
+                    //// SCaddinsApp.WindowManager.ShowMessageBox("attempt: " + attempts);
+                    return TrySavePrintSetup(pm, name, --attempts);
+                }
+                return false;
+            }
         }
 
         /// <summary>
