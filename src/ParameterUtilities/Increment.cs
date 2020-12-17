@@ -62,69 +62,51 @@ namespace SCaddins.ParameterUtilities
 
             using (var t = new Transaction(doc, "Renumber")) {
                 t.Start();
-                int ctr = 1;
-                int startValue = 0;
-                foreach (Reference r in refList) {
-                    Parameter p = GetParameterForReference(doc, r);
-                    if (p == null) {
+                int incAmount = IncrementSettings.Default.IncrementValue;
+                string startValue = string.Empty;
+                string startText = string.Empty;
+                Reference firstRef = refList[0];
+                Parameter firstParam = GetParameterForReference(doc, firstRef);
+                if (firstParam == null) {
                         return;
-                    }
-
-                    if (ctr == 1) {
-                        if (p.StorageType == StorageType.Integer) {
-                            startValue = p.AsInteger();
-                        } else if (p.StorageType == StorageType.String) {
-                            string s = p.AsString();
-                            startValue = Convert.ToInt32(GetSourceNumberAsString(s), CultureInfo.InvariantCulture);
-                        }
-                    }
-
-                    if (p.StorageType == StorageType.Integer) {
-                        SetParameterToValue(p, ctr + 12345); // hope this # is unused (could use Failure API to make this more robust
-                    } else if (p.StorageType == StorageType.String) {
-                        var ns = p.AsString() + @"zz" + (ctr + 12345).ToString(CultureInfo.InvariantCulture);
-                        p.Set(ns); 
-                    }
-                    ctr++;
+                } else
+                {
+                    startText = firstParam.AsString();
+                    startValue = GetSourceNumberAsString(startText);
                 }
 
-                ctr = startValue;
-                foreach (Reference r in refList) {
-                    Parameter p = GetParameterForReference(doc, r);
-                    app.DialogBoxShowing += DismissDuplicateQuestion;
-                    SetParameterToValue(p, ctr);
-                    ctr++;
+                if (int.TryParse(startValue, out int StartValueAsInt))
+                {
+                    int aggregateInc = IncrementSettings.Default.OffsetValue;
+                    foreach (Reference r in refList)
+                    {
+                        if (r == null)
+                        {
+                            continue;
+                        }
+                        Parameter param = GetParameterForReference(doc, r);
+                        if (param == null)
+                        {
+                            continue;
+                        }
+                        app.DialogBoxShowing += DismissDuplicateQuestion;
+                        SetParameterToValue(
+                            param, 
+                            GetDestinationNumberAsString(param.AsString(), IncrementString(startValue, aggregateInc, IncrementSettings.Default.KeepLeadingZeros)));
+                        aggregateInc += incAmount;
+                    }
                 }
                 t.Commit();
             }
         }
 
-/*        public static void RenumberBySpline(ElementId id, Document doc)
-        {
-            if (doc != null) {
-                using (FilteredElementCollector collector = new FilteredElementCollector(doc, doc.ActiveView.Id)) {
-                    collector.OfCategory(BuiltInCategory.OST_Rooms);
-                    Element spline = doc.GetElement(id);
-                    if (spline is CurveElement) {
-                        CurveElement ce = spline as CurveElement;
-                        foreach (Element e in collector) {
-                            //// Room room = e as Room;
-                            if (ce.CurveElementType == CurveElementType.ModelCurve) {
-                                // IntersectionResultArray results;
-                                // SetComparisonResult result = ce.GeometryCurve.Intersect(room.Geometry, out results );
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
-        
         public Result Execute(
             ExternalCommandData commandData,
             ref string message,
             ElementSet elements)
         {
-            if (commandData == null) {
+            if (commandData == null)
+            {
                 return Result.Failed;
             }
 
@@ -132,27 +114,24 @@ namespace SCaddins.ParameterUtilities
             Document doc = udoc.Document;
             UIApplication app = commandData.Application;
             commandData.Application.DialogBoxShowing += DismissDuplicateQuestion;
-            
+
             IList<ElementId> elems = udoc.Selection.GetElementIds().ToList();
-            
-            if (elems.Count == 0) {
+
+            if (elems.Count == 0)
+            {
                 RenumberByPicks(udoc, doc, app);
-            } /*else {
-                RenumberBySpline(elems[0], doc);
-            }*/
+            }
             return Result.Succeeded;
         }
 
-        private static string GetSourceNumberAsString(string s)
+        private static string GetDestinationNumberAsString(string s, string i)
         {
-            return Regex.Replace(s, SCincrementSettings.Default.SourceSearchPattern, SCincrementSettings.Default.SourceReplacePattern);  
-        }
-
-        private static string GetDestinationNumberAsString(string s, int i)
-        { 
-            s = Regex.Replace(s, @"(^.*)(zz.*$)", @"$1");
-            s = Regex.Replace(s, SCincrementSettings.Default.DestinationSearchPattern, SCincrementSettings.Default.DestinationReplacePattern);
-            return s.Replace("#VAL#", i.ToString(CultureInfo.InvariantCulture));
+            if (string.IsNullOrEmpty(s))
+            {
+                s = string.Empty;
+            }
+            s = Regex.Replace(s, IncrementSettings.Default.DestinationSearchPattern, IncrementSettings.Default.DestinationReplacePattern);
+            return s.Replace("#VAL#", i);
         }
 
         private static Parameter GetParameterByName(
@@ -165,41 +144,77 @@ namespace SCaddins.ParameterUtilities
         private static Parameter GetParameterForReference(Document doc, Reference r)
         {
             Element e = doc.GetElement(r);
-            if (e is Grid) {
+            if (e is Grid)
+            {
                 return GetParameterByName(e, "Name");
-            } else if (e is Room) {
+            }
+            else if (e is Room)
+            {
                 return GetParameterByName(e, "Number");
-            } else if (e is FamilyInstance) {
-                if (SCincrementSettings.Default.UseCustomParameterName) {
-                    return GetParameterByName(e, SCincrementSettings.Default.CustomParameterName);    
+            }
+            else if (e is FamilyInstance)
+            {
+                if (IncrementSettings.Default.UseCustomParameterName)
+                {
+                    return GetParameterByName(e, IncrementSettings.Default.CustomParameterName);
                 }
                 return GetParameterByName(e, "Mark");
-            } else if (e is Wall) {
-                if (SCincrementSettings.Default.UseCustomParameterName) {
-                    return GetParameterByName(e, SCincrementSettings.Default.CustomParameterName);
+            }
+            else if (e is Wall)
+            {
+                if (IncrementSettings.Default.UseCustomParameterName)
+                {
+                    return GetParameterByName(e, IncrementSettings.Default.CustomParameterName);
                 }
                 return GetParameterByName(e, "Mark");
-            } else if (e is TextNote) {
+            }
+            else if (e is TextNote)
+            {
                 return GetParameterByName(e, "Text");
-            } else {
+            }
+            else
+            {
                 SCaddinsApp.WindowManager.ShowMessageBox("Error", "Unsupported element");
                 return null;
             }
         }
 
-        private static void SetParameterToValue(Parameter p, int i)
+        private static string GetSourceNumberAsString(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                s = string.Empty;
+            }
+            return Regex.Replace(s, IncrementSettings.Default.SourceSearchPattern, IncrementSettings.Default.SourceReplacePattern);
+        }
+
+        private static string IncrementString(string startNumber, int incVal, bool keepLeadingZeros)
+        {
+            var matchLength = startNumber.Length;
+            if (!string.IsNullOrEmpty(startNumber) && int.TryParse(startNumber, out int n)) {
+                var i = n + incVal;
+                var pad = string.Empty;
+                if (i > 0) {
+                    for (var j = (int)Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++) {
+                        pad += "0";
+                    }
+                }
+                return keepLeadingZeros ? pad + i : i.ToString();
+            }
+            return startNumber;
+        }
+
+        private static void SetParameterToValue(Parameter p, string s)
         {
             switch (p.StorageType) {
                 case StorageType.Integer:
-                    p.Set(i);
+                    p.Set(int.Parse(s));
                     break;
-                case StorageType.String: {
-                    var s = p.AsString();
+                case StorageType.String:
                     if (!string.IsNullOrEmpty(s)) {
-                        p.Set(GetDestinationNumberAsString(p.AsString(), i));
+                        p.Set(s);
                     }
                     break;
-                }
                 case StorageType.None:
                     break;
                 case StorageType.Double:

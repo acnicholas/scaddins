@@ -21,7 +21,7 @@ namespace SCaddins.SpellChecker.ViewModels
     using System.Collections.Specialized;
     using Caliburn.Micro;
 
-    public class SpellCheckerOptionsViewModel : PropertyChangedBase
+    public class SpellCheckerOptionsViewModel : PropertyChangedBase, Common.ViewModels.ISettingPanel
     {
         private StringCollection stringCollection;
 
@@ -55,6 +55,11 @@ namespace SCaddins.SpellChecker.ViewModels
                 ElementsToIgnore += Environment.NewLine;
             }
             NotifyOfPropertyChange(() => ElementsToIgnore);
+        }
+
+        public void ResetToDefault()
+        {
+            throw new NotImplementedException();
         }
     }
 }

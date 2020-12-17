@@ -2,7 +2,7 @@
 {
     using Caliburn.Micro;
 
-    public class ViewUtilitiesSettingsViewModel : PropertyChangedBase
+    public class ViewUtilitiesSettingsViewModel : PropertyChangedBase, Common.ViewModels.ISettingPanel
     {
         public ViewUtilitiesSettingsViewModel()
         {
@@ -51,6 +51,11 @@
             NotifyOfPropertyChange(() => SecondParamValue);
             NotifyOfPropertyChange(() => ThirdParamName);
             NotifyOfPropertyChange(() => ThirdParamValue);
+        }
+
+        public void ResetToDefault()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

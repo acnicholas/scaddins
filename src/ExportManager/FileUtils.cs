@@ -124,9 +124,19 @@ namespace SCaddins.ExportManager
             return false;
         }
 
+        /// <summary>
+        /// Check if the file name and path is valid in windows
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public static bool IsValidFileName(string fileName)
         {
             return  !string.IsNullOrEmpty(fileName) && fileName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
+        }
+
+        public static bool IsValidFileName(string fileName, char[] additionalInvalidChars)
+        {
+            return IsValidFileName(fileName) && (fileName.IndexOfAny(additionalInvalidChars) < 0);
         }
 
         ////FIXME - add delay param

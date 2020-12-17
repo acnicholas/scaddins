@@ -78,7 +78,7 @@
             </Button>
         </Grid>
         <DataGrid
-            cal:Message.Attach="[Event SelectionChanged] = [SelectionChanged($source,$eventArgs)];[Event MouseDoubleClick] = [MouseDoubleClick($source,$eventArgs)]"
+            cal:Message.Attach="[Event SelectionChanged] = [SelectionChanged($source,$eventArgs)];[Event MouseDoubleClick] = [MouseDoubleClick($source,$eventArgs)];[Event ContextMenuOpening] = [ContextMenuOpening($source, $eventArgs)];[Event MouseMove] = [MouseEnteredDataGrid($source,$eventArgs)]"
             x:Name="Sheets"
             SelectionMode="Extended"
             VirtualizingStackPanel.VirtualizationMode="Standard"
@@ -102,7 +102,7 @@
                 <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
                     <Setter Property="Margin" Value="5,0,10,0" />
                 </Style>
-                <Style TargetType="DataGridRow">
+                <Style x:Name="DataGridRowStyle" TargetType="DataGridRow" >
                     <Setter Property="IsSelected" Value="{Binding IsSelected}" />
                     <Style.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{x:Static SystemColors.HighlightColor}" />
@@ -132,47 +132,58 @@
 
             <DataGrid.Columns>
                 <DataGridTextColumn 
+                  
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Export Name"
                     Binding="{Binding FullExportName}" />
                 <DataGridTextColumn
+                   
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Number"
                     Binding="{Binding SheetNumber}" />
                 <DataGridTextColumn
+         
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Name"
                     Binding="{Binding SheetDescription}">
                 </DataGridTextColumn>
                 <DataGridTextColumn
+   
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Revision"
                     Binding="{Binding SheetRevision}"/>
                 <DataGridTextColumn
+                    
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Revision Description"
                     Binding="{Binding SheetRevisionDescription}" />
                 <DataGridTextColumn
+                  
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Revision Date"
                     Binding="{Binding SheetRevisionDate}" />
                 <DataGridTextColumn
+                 
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Export Directory"
                     Binding="{Binding ExportDirectory}" />
                 <DataGridTextColumn
+                 
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Scale"
                     Binding="{Binding Scale}" />
                 <DataGridTextColumn
+                
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="North Point"
                     Binding="{Binding NorthPointVisibilityString}" />
                 <DataGridTextColumn
+                  
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Show In Schedule"
                     Binding="{Binding AppearsInSheetList}" />
                 <DataGridTextColumn
+                    
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Print Setting"
                     Binding="{Binding PrintSettingName}" />
@@ -194,12 +205,12 @@
                                 Source="/SCaddins;component/Assets/filter.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <!--<MenuItem x:Name="SheetFilter"  Visibility="{Binding SheetFilterEnabled, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}"  cal:Message.Attach="SheetFilterSelected()" Header="{Binding SheetFilter}">
+                    <MenuItem x:Name="SheetFilter"  Visibility="{Binding SheetFilterEnabled, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}"  cal:Message.Attach="SheetFilterSelected()" Header="{Binding SheetFilter}">
                         <MenuItem.Icon>
                             <Image
                                 Source="/SCaddins;component/Assets/filter.png" />
                         </MenuItem.Icon>
-                    </MenuItem>-->
+                    </MenuItem>
                     <Separator />
                     <MenuItem Header="Options"  cal:Message.Attach="OptionsButton">
                         <MenuItem.Icon>

@@ -3,8 +3,13 @@
      SCexport config file template.
      Andrew Nicholas 20151218
 
-     Place this in the same folder as your Revit Central file and rename it to
-     SCexport.xml
+     There are two ways to user this file:
+        1.  Place this in the same folder as your Revit Central file and rename it to
+            SCexport.xml
+
+        2.  Create a project parameter in your model named "Project Config File". it should be:
+                - Type          = Text
+                - Categories    = Prokect Information
 -->
 
 <!-- 
@@ -31,9 +36,13 @@
 -->
 
 <SCexport>
-
     <!--This is the first scheme. The first is the default-->
     <FilenameScheme name="Architectural">
+        <Format>$projectNumber-$sheetNumber[$sheetRevision] - $sheetDescription</Format>
+    </FilenameScheme>
+
+    <!--The old SC standard scheme-->
+    <FilenameScheme name="Architectural-OLD">
         <Format>$projectNumber-$sheetNumber[$sheetRevision]</Format>
     </FilenameScheme>
     

@@ -339,7 +339,7 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return FileUtilities.IsValidFileName(FullExportName);
+                return FileUtilities.IsValidFileName(FullExportName, Settings1.Default.InvalidFilenameChars.ToCharArray());
             }
         }
 
@@ -532,6 +532,11 @@ namespace SCaddins.ExportManager
                 ExportDirectory);
         }
 
+        public void Refresh()
+        {
+            NotifyPropertyChanged(nameof(ValidExportName));
+        }
+
         public void UpdateName()
         {
             sheetDescription = sheet.get_Parameter(
@@ -603,10 +608,15 @@ namespace SCaddins.ExportManager
             appearsInSheetList = this.Sheet.get_Parameter(BuiltInParameter.SHEET_SCHEDULED).AsInteger() == 1;
             pageSize = PrintSettings.GetSheetSizeAsString(this);
             printSetting = PrintSettings.GetPrintSettingByName(doc, pageSize, forceRasterPrint);
+            if (printSetting == null)
+            {
+                printSetting = PrintSettings.GetPrintSettingByName(doc, pageSize, forceRasterPrint);
+            }
             verified = true;
             ValidPrintSettingIsAssigned = printSetting != null;
             NotifyPropertyChanged(nameof(Scale));
             NotifyPropertyChanged(nameof(PrintSettingName));
+            NotifyPropertyChanged(nameof(ValidExportName));
         }
 
         private void Init(

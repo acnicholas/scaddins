@@ -18,7 +18,7 @@
 
         public Predicate<object> GetFilter()
         {
-            string properyName = "SheetDescription";
+            string properyName = FilterPropertyName;
             switch (FilterPropertyName)
             {
                 case "Export Name":
@@ -63,7 +63,8 @@
 
         public override string ToString()
         {
-            return @"Filter Similar [" + FilterValue + @"]";
+            ////SCaddinsApp.WindowManager.ShowMessageBox(FilterPropertyName);
+            return @"Filter by " + FilterPropertyName + @" [" + FilterValue + @"]";
         }
 
         private static string FirstDigitOfLastNumberInString(string s)

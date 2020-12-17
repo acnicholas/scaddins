@@ -19,7 +19,7 @@ namespace SCaddins.ParameterUtilities.ViewModels
 {
     using Caliburn.Micro;
 
-    public class SCincrementViewModel : PropertyChangedBase
+    public class SCincrementViewModel : PropertyChangedBase, Common.ViewModels.ISettingPanel
     {
         public SCincrementViewModel()
         {
@@ -48,6 +48,8 @@ namespace SCaddins.ParameterUtilities.ViewModels
 
         public int IncrementValue { get; set; }
 
+        public bool KeepLeadingZeros { get; set; }
+
         public int OffsetValue { get; set; }
 
         public string SourceReplacementPattern { get; set; }
@@ -56,35 +58,37 @@ namespace SCaddins.ParameterUtilities.ViewModels
 
         public bool UseCustomParameter { get; set; }
 
-        public void ResetSettingsToDefault()
+        public void ResetToDefault()
         {
-            SCincrementSettings.Default.Reset();
+            IncrementSettings.Default.Reset();
             Reset();
         }
 
         public void Apply()
         {
-            SCincrementSettings.Default.OffsetValue = OffsetValue;
-            SCincrementSettings.Default.IncrementValue = IncrementValue;
-            SCincrementSettings.Default.SourceSearchPattern = SourceSearchPattern;
-            SCincrementSettings.Default.SourceReplacePattern = SourceReplacementPattern;
-            SCincrementSettings.Default.DestinationReplacePattern = DestinationReplacementPattern;
-            SCincrementSettings.Default.DestinationSearchPattern = DestinationSearchPattern;
-            SCincrementSettings.Default.CustomParameterName = CustomParameterName;
-            SCincrementSettings.Default.UseCustomParameterName = UseCustomParameter;
-            SCincrementSettings.Default.Save();
+            IncrementSettings.Default.OffsetValue = OffsetValue;
+            IncrementSettings.Default.IncrementValue = IncrementValue;
+            IncrementSettings.Default.SourceSearchPattern = SourceSearchPattern;
+            IncrementSettings.Default.SourceReplacePattern = SourceReplacementPattern;
+            IncrementSettings.Default.DestinationReplacePattern = DestinationReplacementPattern;
+            IncrementSettings.Default.DestinationSearchPattern = DestinationSearchPattern;
+            IncrementSettings.Default.CustomParameterName = CustomParameterName;
+            IncrementSettings.Default.UseCustomParameterName = UseCustomParameter;
+            IncrementSettings.Default.KeepLeadingZeros = KeepLeadingZeros;
+            IncrementSettings.Default.Save();
         }
 
         public void Reset()
         {
-            OffsetValue = SCincrementSettings.Default.OffsetValue;
-            IncrementValue = SCincrementSettings.Default.IncrementValue;
-            SourceReplacementPattern = SCincrementSettings.Default.SourceReplacePattern;
-            SourceSearchPattern = SCincrementSettings.Default.SourceSearchPattern;
-            DestinationReplacementPattern = SCincrementSettings.Default.DestinationReplacePattern;
-            DestinationSearchPattern = SCincrementSettings.Default.DestinationSearchPattern;
-            CustomParameterName = SCincrementSettings.Default.CustomParameterName;
-            UseCustomParameter = SCincrementSettings.Default.UseCustomParameterName;
+            OffsetValue = IncrementSettings.Default.OffsetValue;
+            IncrementValue = IncrementSettings.Default.IncrementValue;
+            SourceReplacementPattern = IncrementSettings.Default.SourceReplacePattern;
+            SourceSearchPattern = IncrementSettings.Default.SourceSearchPattern;
+            DestinationReplacementPattern = IncrementSettings.Default.DestinationReplacePattern;
+            DestinationSearchPattern = IncrementSettings.Default.DestinationSearchPattern;
+            CustomParameterName = IncrementSettings.Default.CustomParameterName;
+            UseCustomParameter = IncrementSettings.Default.UseCustomParameterName;
+            KeepLeadingZeros = IncrementSettings.Default.KeepLeadingZeros;
             NotifyOfPropertyChange(() => OffsetValue);
             NotifyOfPropertyChange(() => IncrementValue);
             NotifyOfPropertyChange(() => SourceReplacementPattern);
@@ -93,6 +97,7 @@ namespace SCaddins.ParameterUtilities.ViewModels
             NotifyOfPropertyChange(() => DestinationSearchPattern);
             NotifyOfPropertyChange(() => CustomParameterName);
             NotifyOfPropertyChange(() => UseCustomParameter);
+            NotifyOfPropertyChange(() => KeepLeadingZeros);
         }
     }
 }

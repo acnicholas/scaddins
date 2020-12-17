@@ -9,16 +9,16 @@
 
     public class SettingsViewModel : Screen
     {
-        private SCincrementViewModel incrementViewModel;
-        private RoomConverter.ViewModels.SettingsViewModel roomConverterViewModel;
-        private ViewUtilitiesSettingsViewModel viewUtilitiesViewModel;
-        private SpellCheckerOptionsViewModel spellCheckerOptionsViewModel;
+        private ISettingPanel incrementViewModel;
+        private ISettingPanel roomConverterViewModel;
+        private ISettingPanel viewUtilitiesViewModel;
+        private ISettingPanel spellCheckerOptionsViewModel;
 
         public SettingsViewModel(
-            SCincrementViewModel svm,
-            RoomConverter.ViewModels.SettingsViewModel roomConverterViewModel,
-            ViewUtilitiesSettingsViewModel viewUtilitiesViewModel,
-            SpellCheckerOptionsViewModel spellCheckerOptionsViewModel)
+            ISettingPanel svm,
+            ISettingPanel roomConverterViewModel,
+            ISettingPanel viewUtilitiesViewModel,
+            ISettingPanel spellCheckerOptionsViewModel)
         {
             IncrementViewModel = svm;
             RoomConverterViewModel = roomConverterViewModel;
@@ -42,7 +42,7 @@
             }
         }
 
-        public RoomConverter.ViewModels.SettingsViewModel RoomConverterViewModel
+        public ISettingPanel RoomConverterViewModel
         {
             get 
             { 
@@ -56,7 +56,7 @@
             }
         }
 
-        public SCincrementViewModel IncrementViewModel
+        public ISettingPanel IncrementViewModel
         {
             get
             {
@@ -70,7 +70,7 @@
             }
         }
 
-        public SpellCheckerOptionsViewModel SpellCheckerOptionsViewModel
+        public ISettingPanel SpellCheckerOptionsViewModel
         {
             get
             {
@@ -84,7 +84,7 @@
             }
         }
 
-        public ViewUtilitiesSettingsViewModel ViewUtilitiesViewModel
+        public ISettingPanel ViewUtilitiesViewModel
         {
             get 
             {
@@ -102,12 +102,18 @@
         {
             IncrementViewModel.Apply();
             ViewUtilitiesViewModel.Apply();
-            SpellCheckerOptionsViewModel.Apply();
+            SpellCheckerOptionsViewModel.Apply();      
         }
 
         public void Cancel()
         {
             TryClose(true);
+        }
+
+        public void OK()
+        {
+            Apply();
+            this.TryClose(true);
         }
 
         public void Reset()

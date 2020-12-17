@@ -1,12 +1,21 @@
 # SCaddins Revision Log #
 
-# 21.3.1#
+# 21.4 #
+
+#### NEW ####
+
+- Add "smart" context filter to SCexport.
+- Add option to assign global invalid characters to files exported with SCexport.
+- Change default naming scheme in SCexport to include sheet number and name.
+
+
+# 21.3.1 #
 
 #### FIXES ####
 
 - Allow incrementing of walls in Increment Tool
 
-# 21.3#
+# 21.3 #
 
 #### NEW ####
 

@@ -20,7 +20,6 @@
             <TabItem Header="Copy Sheets" IsEnabled="False">
                 <ContentControl x:Name="SheetCopierViewModel"></ContentControl>
             </TabItem>
-            <!--<TabItem Header="SCexport"></TabItem>-->
             <TabItem Header="Room Tools" IsEnabled="False">
                 <ContentControl x:Name="RoomConverterViewModel"></ContentControl>
             </TabItem>
@@ -36,7 +35,7 @@
             </Grid.ColumnDefinitions>
             <Button x:Name="Reset" Grid.Column="0" HorizontalAlignment="Left" Margin="5" MinHeight="25">Reset</Button>
             <Button x:Name="Cancel" Grid.Column="1" HorizontalAlignment="Right" Margin="5" MinHeight="25">Cancel</Button>
-            <Button x:Name="Apply" Grid.Column="2" HorizontalAlignment="Right" Margin="5" MinHeight="25">Apply</Button>
+            <Button x:Name="OK" Grid.Column="2" HorizontalAlignment="Right" Margin="5" MinHeight="25">OK</Button>
         </Grid>
     </Grid>
 </UserControl>

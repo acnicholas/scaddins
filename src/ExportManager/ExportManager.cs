@@ -285,20 +285,17 @@ namespace SCaddins.ExportManager
 
         public static string GetConfigFileName(Document doc)
         {
-#if DEBUG
+            #if DEBUG
                         Debug.WriteLine("getting config file for " + doc.Title);
                         string s = @"C:\Andrew\code\cs\scaddins\share\SCexport-example-conf.xml";
-#else
-            //// SCaddinsApp.WindowManager.ShowMessageBox("OK");
+            #else
             var fec = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_ProjectInformation);
             foreach (var element in fec) {
                 if (element is ProjectInfo) {
-                    //// SCaddinsApp.WindowManager.ShowMessageBox("OK");
                     var i = (ProjectInfo)element;
                     var p = i.LookupParameter("Project Config File");
                     if (p != null) {
                         return p.AsString();
-                        //// SCaddinsApp.WindowManager.ShowMessageBox(p.AsString());
                     }
                 }
             }
@@ -424,6 +421,13 @@ namespace SCaddins.ExportManager
                 sheet.UpdateSheetInfo();
             }
 
+            if (!sheet.ValidExportName)
+            {
+                log.AddError(sheet.FullExportName, "Invalid file name, Export cancelled.");
+                log.EndLoggingIndividualItem(startTime, null);
+                return;
+            }
+
             if (sheet.SCPrintSetting != null)
             {
                 if (exportFlags.HasFlag(ExportOptions.DWG))
@@ -435,13 +439,6 @@ namespace SCaddins.ExportManager
                 {
                     ExportAdobePDF(sheet, log);
                 }
-
-////                if (exportFlags.HasFlag(ExportOptions.GhostscriptPDF))
-////                {
-////                    PostscriptPrinterName = "Microsoft Print to PDF";
-////                    PdfPrinterName = "Microsoft Print to PDF";
-////                    ExportMSPDF(sheet, log);
-////                }
             }
             else
             {
@@ -634,7 +631,7 @@ namespace SCaddins.ExportManager
             {
                 var name = new SegmentedSheetName();
                 name.Name = "YYYYMMDD-AD-NNN";
-                name.NameFormat = "$projectNumber-$sheetNumber[$sheetRevision]";
+                name.NameFormat = "$projectNumber-$sheetNumber[$sheetRevision] - $sheetDescription";
                 FileNameTypes.Add(name);
                 FileNameScheme = name;
             }
@@ -814,7 +811,7 @@ namespace SCaddins.ExportManager
                 return;
             }
 
-            if (!FileUtilities.IsValidFileName(vs.FullExportName))
+            if (!vs.ValidExportName)
             {
                 log.AddError(vs.FullExportName, "Filename contains invalid characters: " + vs.FullExportName);
                 return;
@@ -904,7 +901,7 @@ namespace SCaddins.ExportManager
                 return;
             }
 
-            if (!FileUtilities.IsValidFileName(vs.FullExportName))
+            if (!vs.ValidExportName)
             {
                 log.AddError(vs.FullExportName, "Filename contains invalid characters: " + vs.FullExportName);
                 return;
