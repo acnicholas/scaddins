@@ -246,11 +246,6 @@ namespace SCaddins.SheetCopier
             // FIXME add error message,
         }
 
-        //public void AddSheetCategory(string name)
-        //{
-        //    SheetCategories.Add(name);
-        //}
-
         public bool AddView(View view)
         {
             if (view.ViewType == ViewType.ProjectBrowser)
@@ -751,7 +746,6 @@ namespace SCaddins.SheetCopier
             }
             return result;
         }
-
 
         private void GetFloorPlanViewFamilyTypeId()
         {

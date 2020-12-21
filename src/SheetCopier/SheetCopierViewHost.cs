@@ -27,13 +27,13 @@ namespace SCaddins.SheetCopier
     /// </summary>
     public class SheetCopierViewHost : Caliburn.Micro.PropertyChangedBase
     {
+        private string primaryCustomSheetParameter;
+        private string secondaryCustomSheetParameter;
+        private ObservableCollection<SheetCopierView> childViews;
         private string number;
         private SheetCopierManager scopy;
         private string sheetCategory;
-        public string primaryCustomSheetParameter;
-        public string secondaryCustomSheetParameter;
         private string title;
-        private ObservableCollection<SheetCopierView> childViews;
 
         public SheetCopierViewHost(string number, string title, SheetCopierManager scopy, ViewSheet sourceSheet)
         {
@@ -72,17 +72,14 @@ namespace SCaddins.SheetCopier
             childViews = new ObservableCollection<SheetCopierView>();
         }
 
-        public ViewHostType Type
-        {
-            get; set;
-        }
-
-        public bool IsSheet => Type == ViewHostType.Sheet; 
+        public ObservableCollection<SheetCopierView> ChildViews => childViews;
 
         public ViewSheet DestinationSheet
         {
             get; set;
         }
+
+        public bool IsSheet => Type == ViewHostType.Sheet;
 
         public string Number
         {
@@ -106,43 +103,33 @@ namespace SCaddins.SheetCopier
             }
         }
 
-        public ObservableCollection<string> PrimaryCustomSheetParameters
-        {
-            get
-            {
-                return scopy.CustomSheetParametersOne;
-            }
-            set
-            {
-                scopy.CustomSheetParametersOne = value;
-            }
-        }
-
-        public ObservableCollection<string> SecondaryCustomSheetParameters
-        {
-            get
-            {
-                return scopy.CustomSheetParametersTwo;
-            }
-            set
-            {
-                scopy.CustomSheetParametersTwo = value;
-            }
-        }
-
         public string PrimaryCustomSheetParameter
         {
             get
             {
                 return primaryCustomSheetParameter;
             }
+
             set
             {
                 primaryCustomSheetParameter = value;
                 if (!scopy.CustomSheetParametersOne.Contains(primaryCustomSheetParameter))
                 {
                     scopy.CustomSheetParametersOne.Add(primaryCustomSheetParameter);
-                }      
+                }
+            }
+        }
+
+        public ObservableCollection<string> PrimaryCustomSheetParameters
+        {
+            get
+            {
+                return scopy.CustomSheetParametersOne;
+            }
+
+            set
+            {
+                scopy.CustomSheetParametersOne = value;
             }
         }
 
@@ -152,6 +139,7 @@ namespace SCaddins.SheetCopier
             {
                 return secondaryCustomSheetParameter;
             }
+
             set
             {
                 secondaryCustomSheetParameter = value;
@@ -159,6 +147,19 @@ namespace SCaddins.SheetCopier
                 {
                     scopy.CustomSheetParametersTwo.Add(secondaryCustomSheetParameter);
                 }
+            }
+        }
+
+        public ObservableCollection<string> SecondaryCustomSheetParameters
+        {
+            get
+            {
+                return scopy.CustomSheetParametersTwo;
+            }
+
+            set
+            {
+                scopy.CustomSheetParametersTwo = value;
             }
         }
 
@@ -178,7 +179,10 @@ namespace SCaddins.SheetCopier
             }
         }
 
-        public ObservableCollection<SheetCopierView> ChildViews => childViews;
+        public ViewHostType Type
+        {
+            get; set;
+        }
 
         public string GetNewViewName(ElementId id)
         {

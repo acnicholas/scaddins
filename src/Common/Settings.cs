@@ -17,7 +17,7 @@
             var viewUtilitiesViewModel = new ViewUtilities.ViewModels.ViewUtilitiesSettingsViewModel();
             var spellCheckerOptionsViewModel = new SpellChecker.ViewModels.SpellCheckerOptionsViewModel();
             var sheetCopierViewModel = new SheetCopier.ViewModels.SheetCopierSettingsViewModel();
-            var vm = new ViewModels.SettingsViewModel(vms,roomConverterViewModel, viewUtilitiesViewModel, sheetCopierViewModel, spellCheckerOptionsViewModel);
+            var vm = new ViewModels.SettingsViewModel(vms, roomConverterViewModel, viewUtilitiesViewModel, sheetCopierViewModel, spellCheckerOptionsViewModel);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SettingsViewModel.DefaultWindowSettings);
             return Result.Succeeded;
         }
