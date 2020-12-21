@@ -13,16 +13,19 @@
         private ISettingPanel roomConverterViewModel;
         private ISettingPanel viewUtilitiesViewModel;
         private ISettingPanel spellCheckerOptionsViewModel;
+        private ISettingPanel sheetCopierViewModel;
 
         public SettingsViewModel(
             ISettingPanel svm,
             ISettingPanel roomConverterViewModel,
             ISettingPanel viewUtilitiesViewModel,
+            ISettingPanel sheetCopierViewModel,
             ISettingPanel spellCheckerOptionsViewModel)
         {
             IncrementViewModel = svm;
             RoomConverterViewModel = roomConverterViewModel;
             ViewUtilitiesViewModel = viewUtilitiesViewModel;
+            SheetCopierViewModel = sheetCopierViewModel;
             SpellCheckerOptionsViewModel = spellCheckerOptionsViewModel;
         }
 
@@ -31,12 +34,13 @@
             get
             {
                 dynamic settings = new System.Dynamic.ExpandoObject();
-                settings.Height = 400;
+                settings.Height = 480;
+                settings.Width = 640;
                 settings.Title = "SCaddins Global Settings";
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
                   new Uri("pack://application:,,,/SCaddins;component/Assets/gear.png"));
                 settings.ShowInTaskbar = false;
-                settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+                settings.SizeToContent = System.Windows.SizeToContent.Manual;
                 settings.ResizeMode = System.Windows.ResizeMode.CanResize;
                 return settings;
             }
@@ -67,6 +71,20 @@
             {
                 incrementViewModel = value;
                 NotifyOfPropertyChange(() => IncrementViewModel);
+            }
+        }
+
+        public ISettingPanel SheetCopierViewModel
+        {
+            get
+            {
+                return sheetCopierViewModel;
+            }
+
+            set
+            {
+                sheetCopierViewModel = value;
+                NotifyOfPropertyChange(() => SheetCopierViewModel);
             }
         }
 
@@ -102,7 +120,8 @@
         {
             IncrementViewModel.Apply();
             ViewUtilitiesViewModel.Apply();
-            SpellCheckerOptionsViewModel.Apply();      
+            SpellCheckerOptionsViewModel.Apply();
+            SheetCopierViewModel.Apply();
         }
 
         public void Cancel()
@@ -121,6 +140,7 @@
             IncrementViewModel.Reset();
             ViewUtilitiesViewModel.Reset();
             SpellCheckerOptionsViewModel.Reset();
+            SheetCopierViewModel.Reset();
         }
     }
 }

@@ -17,7 +17,7 @@
             <TabItem Header="User View">
                 <ContentControl x:Name="ViewUtilitiesViewModel"></ContentControl>
             </TabItem>
-            <TabItem Header="Copy Sheets" IsEnabled="False">
+            <TabItem Header="Copy Sheets">
                 <ContentControl x:Name="SheetCopierViewModel"></ContentControl>
             </TabItem>
             <TabItem Header="Room Tools" IsEnabled="False">

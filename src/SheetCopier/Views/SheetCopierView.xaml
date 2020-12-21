@@ -7,6 +7,10 @@
              xmlns:sheetCopier="clr-namespace:SCaddins.SheetCopier"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -34,8 +38,8 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                <Label Grid.Row="0" Margin="5" x:Name="SelectedSheetName"></Label>
-                <ListView x:Name="SelectedSheetInformationView" Grid.Row="1" Margin="5" MaxWidth="300" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Height="Auto">
+                    <Label Grid.Row="0" Margin="5" x:Name="SelectedSheetName"></Label>
+                    <ListView x:Name="SelectedSheetInformationView" Grid.Row="1" Margin="5" MaxWidth="300" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Height="Auto">
                         <ListView.View>
                             <GridView>
                                 <GridView.Columns>
@@ -55,8 +59,8 @@
                             </GroupStyle>
                         </ListView.GroupStyle>
 
-                </ListView>
-            </Grid>
+                    </ListView>
+                </Grid>
             </Expander>
         </Grid>
         <GridSplitter Grid.Row="0" Grid.Column="1" Height="Auto" Width="Auto"></GridSplitter>
@@ -87,6 +91,7 @@
                     <!--<Button x:Name="AddViews" Grid.Column="4" Margin="5">Select Views</Button>-->
                     <Button x:Name="AddSheets" Grid.Column="5" Margin="5">Add Views</Button>
                 </Grid>
+                <FrameworkElement Grid.Row="1" x:Name="Dummy" Visibility="Collapsed"/>
                 <DataGrid
                     x:Name="ViewHosts"
                     AutoGenerateColumns="False"
@@ -102,17 +107,29 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Sheet Number" Binding="{Binding Number}" MinWidth="100"></DataGridTextColumn>
                         <DataGridTextColumn Header="Sheet Name" Binding="{Binding Title}" Width="*"></DataGridTextColumn>
-                        <DataGridTemplateColumn Header="CustomSheetParameterOne">
+                        <DataGridTemplateColumn 
+                                 Header="{Binding DataContext.PrimaryCustomSheetParameterColumnHeader,Source={x:Reference Dummy}}"
+                                 Visibility="{Binding DataContext.CustomSheetParameterOneIsVisible,Converter={StaticResource BoolToVis},Source={x:Reference Dummy}}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate DataType="sheetCopier:SheetCopierViewHost">
-                                    <ComboBox  Background="Transparent" IsEditable="True"  Text="{Binding CustomSheetParameterOne, UpdateSourceTrigger=LostFocus}" ItemsSource="{Binding CustomSheetParametersOne}"/>
+                                    <ComboBox  Background="Transparent"
+                                               IsEditable="True"
+                                               IsEnabled="{Binding IsSheet}"
+                                               Text="{Binding PrimaryCustomSheetParameter, UpdateSourceTrigger=LostFocus}"
+                                               ItemsSource="{Binding PrimaryCustomSheetParameters}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="CustomSheetParameterTwo">
+                        <DataGridTemplateColumn
+                                 Header="{Binding DataContext.SecondaryCustomSheetParameterColumnHeader,Source={x:Reference Dummy}}"
+                                 Visibility="{Binding DataContext.CustomSheetParameterTwoIsVisible,Converter={StaticResource BoolToVis},Source={x:Reference Dummy}}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate DataType="sheetCopier:SheetCopierViewHost">
-                                    <ComboBox  Background="Transparent" IsEditable="True"  Text="{Binding CustomSheetParameterTwo, UpdateSourceTrigger=LostFocus}" ItemsSource="{Binding CustomSheetParametersTwo}"/>
+                                    <ComboBox  Background="Transparent"
+                                               IsEditable="True"
+                                               IsEnabled="{Binding IsSheet}"
+                                               Text="{Binding SecondaryCustomSheetParameter, UpdateSourceTrigger=LostFocus}"
+                                               ItemsSource="{Binding SecondaryCustomSheetParameters}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

@@ -566,6 +566,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SharedAssemblyInfo.cs" />
+    <Compile Include="SheetCopier\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="SheetCopier\SheetCopierCommand.cs" />
     <Compile Include="SheetCopier\SheetCopierConstants.cs" />
     <Compile Include="SheetCopier\SheetCopierEnums.cs" />
@@ -573,6 +578,7 @@
     <Compile Include="SheetCopier\SheetCopierViewHost.cs" />
     <Compile Include="SheetCopier\SheetCopierView.cs" />
     <Compile Include="SheetCopier\SheetInformation.cs" />
+    <Compile Include="SheetCopier\ViewModels\SheetCopierSettingsViewModel.cs" />
     <Compile Include="SheetCopier\ViewModels\SheetCopierViewModel.cs" />
     <Compile Include="SheetCopier\ViewModels\ViewSelectionViewModel.cs" />
     <Compile Include="SheetCopier\Views\SheetCopierView.xaml.cs">
@@ -683,6 +689,10 @@
     <Resource Include="Assets\recent.png" />
     <EmbeddedResource Include="Assets\Ribbon\gear-rvt-16.png" />
     <None Include="ExportSchedules\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="SheetCopier\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>

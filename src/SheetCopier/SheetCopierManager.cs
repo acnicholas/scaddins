@@ -48,8 +48,8 @@ namespace SCaddins.SheetCopier
             GetAllLevelsInModel();
             GetAllViewsInModel(ExistingViews, doc);
             GetFloorPlanViewFamilyTypeId();
-            CustomSheetParametersOne = new ObservableCollection<string>(GetAllParameterValuesInModel("SC-Sheet_Category_Primary"));
-            CustomSheetParametersTwo = new ObservableCollection<string>(GetAllParameterValuesInModel("SC-Sheet_Category_Secondary"));
+            CustomSheetParametersOne = new ObservableCollection<string>(GetAllParameterValuesInModel(Settings.Default.CustomSheetParameterOne));
+            CustomSheetParametersTwo = new ObservableCollection<string>(GetAllParameterValuesInModel(Settings.Default.CustomSheetParameterTwo));
         }
 
         public ViewType ActiveViewType => doc.ActiveView.ViewType;
@@ -76,6 +76,10 @@ namespace SCaddins.SheetCopier
         public ObservableCollection<string> CustomSheetParametersTwo { get; set; }
 
         public ObservableCollection<SheetCopierViewHost> ViewHosts { get; }
+
+        public string PrimaryCustomSheetParameterName => Settings.Default.CustomSheetParameterOne;
+
+        public string SecondaryCustomSheetParameterName => Settings.Default.CustomSheetParameterTwo;
 
         public Dictionary<string, View> ViewTemplates { get; } = new Dictionary<string, View>();
 
@@ -201,7 +205,8 @@ namespace SCaddins.SheetCopier
         public ViewSheet AddEmptySheetToDocument(
             string sheetNumber,
             string sheetTitle,
-            string viewCategory)
+            string param1,
+            string param2)
         {
             var result = ViewSheet.Create(doc, ElementId.InvalidElementId);
             if (result == null)
@@ -211,11 +216,18 @@ namespace SCaddins.SheetCopier
             }
             result.Name = sheetTitle;
             result.SheetNumber = sheetNumber;
-            var viewCategoryParamList = result.GetParameters(SheetCopierConstants.SheetCategory);
+            var viewCategoryParamList = result.GetParameters(Settings.Default.CustomSheetParameterOne);
             if (viewCategoryParamList.Count > 0)
             {
-                Parameter viewCategoryParam = viewCategoryParamList.First();
-                viewCategoryParam.Set(viewCategory);
+                Parameter param = viewCategoryParamList.First();
+                param.Set(param1);
+            }
+            viewCategoryParamList.Clear();
+            viewCategoryParamList = result.GetParameters(Settings.Default.CustomSheetParameterTwo);
+            if (viewCategoryParamList.Count > 0)
+            {
+                Parameter param = viewCategoryParamList.First();
+                param.Set(param2);
             }
             return result;
         }
@@ -350,7 +362,8 @@ namespace SCaddins.SheetCopier
                 host.DestinationSheet = AddEmptySheetToDocument(
                     host.Number,
                     host.Title,
-                    host.SheetCategory);
+                    host.PrimaryCustomSheetParameter,
+                    host.SecondaryCustomSheetParameter);
             }
             catch (Exception ex)
             {

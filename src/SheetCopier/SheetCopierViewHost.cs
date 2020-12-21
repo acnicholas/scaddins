@@ -30,7 +30,8 @@ namespace SCaddins.SheetCopier
         private string number;
         private SheetCopierManager scopy;
         private string sheetCategory;
-        private string userCreatedSheetCategory;
+        public string primaryCustomSheetParameter;
+        public string secondaryCustomSheetParameter;
         private string title;
         private ObservableCollection<SheetCopierView> childViews;
 
@@ -41,7 +42,8 @@ namespace SCaddins.SheetCopier
             this.title = title;
             SourceSheet = sourceSheet ?? throw new ArgumentNullException(nameof(sourceSheet));
             sheetCategory = GetSheetCategory(SheetCopierConstants.SheetCategory);
-            userCreatedSheetCategory = sheetCategory;
+            PrimaryCustomSheetParameter = GetSheetCategory(Settings.Default.CustomSheetParameterOne);
+            SecondaryCustomSheetParameter = GetSheetCategory(Settings.Default.CustomSheetParameterTwo);
             DestinationSheet = null;
             Type = ViewHostType.Sheet;
             childViews = new ObservableCollection<SheetCopierView>();
@@ -64,8 +66,8 @@ namespace SCaddins.SheetCopier
             this.title = "<Independent Views(no sheet) are itemized here>";
             SourceSheet = null;
             Type = ViewHostType.Model;
-            sheetCategory = null;
-            userCreatedSheetCategory = null;
+            PrimaryCustomSheetParameter = null;
+            /////userCreatedSheetCategory = null;
             DestinationSheet = null;
             childViews = new ObservableCollection<SheetCopierView>();
         }
@@ -74,6 +76,8 @@ namespace SCaddins.SheetCopier
         {
             get; set;
         }
+
+        public bool IsSheet => Type == ViewHostType.Sheet; 
 
         public ViewSheet DestinationSheet
         {
@@ -102,12 +106,7 @@ namespace SCaddins.SheetCopier
             }
         }
 
-        public ObservableCollection<string> SheetCategories
-        {
-            get; 
-        }
-
-        public ObservableCollection<string> CustomSheetParametersOne
+        public ObservableCollection<string> PrimaryCustomSheetParameters
         {
             get
             {
@@ -119,7 +118,7 @@ namespace SCaddins.SheetCopier
             }
         }
 
-        public ObservableCollection<string> CustomSheetParametersTwo
+        public ObservableCollection<string> SecondaryCustomSheetParameters
         {
             get
             {
@@ -131,37 +130,39 @@ namespace SCaddins.SheetCopier
             }
         }
 
-        //public string UserCreatedSheetCategory {
-        //    get => userCreatedSheetCategory;
-
-        //    set
-        //    {
-        //        userCreatedSheetCategory = value;
-
-        //        foreach (var s in scopy.ViewHosts) {
-        //            if (!s.SheetCategories.Contains(userCreatedSheetCategory)) {
-        //                s.SheetCategories.Add(userCreatedSheetCategory);
-        //                s.RefreshSheetCategories();
-        //            }
-        //        }
-        //        SheetCategory = userCreatedSheetCategory;
-        //        NotifyOfPropertyChange(() => UserCreatedSheetCategory);
-        //    }
-        //}
-
-        public string SheetCategory {
-            get => sheetCategory;
-
+        public string PrimaryCustomSheetParameter
+        {
+            get
+            {
+                return primaryCustomSheetParameter;
+            }
             set
             {
-                if (sheetCategory != value) {
-                    sheetCategory = value;
-                    NotifyOfPropertyChange(() => SheetCategory);
+                primaryCustomSheetParameter = value;
+                if (!scopy.CustomSheetParametersOne.Contains(primaryCustomSheetParameter))
+                {
+                    scopy.CustomSheetParametersOne.Add(primaryCustomSheetParameter);
+                }      
+            }
+        }
+
+        public string SecondaryCustomSheetParameter
+        {
+            get
+            {
+                return secondaryCustomSheetParameter;
+            }
+            set
+            {
+                secondaryCustomSheetParameter = value;
+                if (!scopy.CustomSheetParametersTwo.Contains(secondaryCustomSheetParameter))
+                {
+                    scopy.CustomSheetParametersTwo.Add(secondaryCustomSheetParameter);
                 }
             }
         }
 
-public ViewSheet SourceSheet
+        public ViewSheet SourceSheet
         {
             get; set;
         }
@@ -184,9 +185,9 @@ public ViewSheet SourceSheet
             return (from v in childViews where id == v.OldId select v.Title).FirstOrDefault();
         }
 
-        public void RefreshSheetCategories()
+        public void RefreshPrimaryCustomSheetParameters()
         {
-            NotifyOfPropertyChange(() => SheetCategories);
+            NotifyOfPropertyChange(() => PrimaryCustomSheetParameters);
         }
 
         private string GetSheetCategory(string parameterName)
