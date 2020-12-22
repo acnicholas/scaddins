@@ -89,8 +89,13 @@ namespace SCaddins.ViewUtilities
             if (element.Category.Id.IntegerValue != (int)BuiltInCategory.OST_Views) {
                 return;
             }
+#if REVIT2016
+            var param = element.get_Parameter(BuiltInParameter.VIEW_UNDERLAY_ID);
+            param?.Set(ElementId.InvalidElementId);
+#else
             var param = element.get_Parameter(BuiltInParameter.VIEW_UNDERLAY_BOTTOM_ID);
             param?.Set(ElementId.InvalidElementId);
+#endif
         }
     }
 }
