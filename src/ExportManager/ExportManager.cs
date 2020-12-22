@@ -817,6 +817,12 @@ namespace SCaddins.ExportManager
                 return;
             }
 
+            if (!Directory.Exists(vs.ExportDirectory))
+            {
+                log.AddError(vs.FullExportName, "Directory does not exist: " + vs.FullExportName);
+                return;
+            }
+
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF))) {
                 if (File.Exists(vs.FullExportPath(Resources.FileExtensionPDF))) {
                     File.Delete(vs.FullExportPath(Resources.FileExtensionPDF));
