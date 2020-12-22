@@ -1,5 +1,18 @@
 # SCaddins Revision Log #
 
+# 21.4.2 #
+
+#### FIXES ####
+
+- Fix "View Category" column in Sheet Copier. (replaced with a parameter that can be defined)
+
+# 21.4.1 #
+
+#### FIXES ####
+
+- Option added to pad leading zeros in Increment Tool
+- Fix crash if print setting cannot be assigned in SCexport.
+
 # 21.4 #
 
 #### NEW ####
@@ -7,7 +20,6 @@
 - Add "smart" context filter to SCexport.
 - Add option to assign global invalid characters to files exported with SCexport.
 - Change default naming scheme in SCexport to include sheet number and name.
-
 
 # 21.3.1 #
 
