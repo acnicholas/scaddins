@@ -339,7 +339,9 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return FileUtilities.IsValidFileName(FullExportName, Settings1.Default.InvalidFilenameChars.ToCharArray());
+                var validName = SheetDescription.IndexOfAny(Settings1.Default.InvalidSheetNameChars.ToCharArray()) < 0;
+                var validNumber = SheetNumber.IndexOfAny(Settings1.Default.InvalidSheetNumberChars.ToCharArray()) < 0;
+                return FileUtilities.IsValidFileName(FullExportName) && validName && validNumber;
             }
         }
 

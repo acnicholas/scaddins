@@ -455,20 +455,42 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public string InvalidFileNameCharsAsString
+        public string InvalidSheetNameCharsAsString
         {
             get
             {
-                return Settings1.Default.InvalidFilenameChars;
+                return Settings1.Default.InvalidSheetNameChars;
             }
 
             set
             {
-                if (value == Settings1.Default.InvalidFilenameChars)
+                if (value == Settings1.Default.InvalidSheetNameChars)
                 {
                     return;
                 }
-                Settings1.Default.InvalidFilenameChars = value;
+                Settings1.Default.InvalidSheetNameChars = value;
+                Settings1.Default.Save();
+                foreach (var sheet in exportManager.AllSheets)
+                {
+                    sheet.Refresh();
+                }
+            }
+        }
+
+        public string InvalidSheetNumberCharsAsString
+        {
+            get
+            {
+                return Settings1.Default.InvalidSheetNumberChars;
+            }
+
+            set
+            {
+                if (value == Settings1.Default.InvalidSheetNumberChars)
+                {
+                    return;
+                }
+                Settings1.Default.InvalidSheetNumberChars = value;
                 Settings1.Default.Save();
                 foreach (var sheet in exportManager.AllSheets)
                 {

@@ -62,8 +62,11 @@
     <Setting Name="SaveHistory" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="InvalidFilenameChars" Type="System.String" Scope="User">
-      <Value Profile="(Default)">()</Value>
+    <Setting Name="InvalidSheetNameChars" Type="System.String" Scope="User">
+      <Value Profile="(Default)">()[]</Value>
+    </Setting>
+    <Setting Name="InvalidSheetNumberChars" Type="System.String" Scope="User">
+      <Value Profile="(Default)">()[]</Value>
     </Setting>
   </Settings>
 </SettingsFile>

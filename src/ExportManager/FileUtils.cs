@@ -134,11 +134,6 @@ namespace SCaddins.ExportManager
             return  !string.IsNullOrEmpty(fileName) && fileName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
         }
 
-        public static bool IsValidFileName(string fileName, char[] additionalInvalidChars)
-        {
-            return IsValidFileName(fileName) && (fileName.IndexOfAny(additionalInvalidChars) < 0);
-        }
-
         ////FIXME - add delay param
         public static void WaitForFileAccess(string file)
         {
