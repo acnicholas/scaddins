@@ -90,7 +90,7 @@ namespace SCaddins.ViewUtilities
                 return;
             }
 #if REVIT2016
-            var param = element.get_Parameter(BuiltInParameter.VIEW_UNDERLAY_ID);
+            var param = element.get_Parameter(BuiltInParameter.VIEW_UNDERLAY_BOTTOM_ID);
             param?.Set(ElementId.InvalidElementId);
 #else
             var param = element.get_Parameter(BuiltInParameter.VIEW_UNDERLAY_BOTTOM_ID);

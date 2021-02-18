@@ -50,7 +50,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
             model = new SolarAnalysisManager(uidoc);
             creationDate = new DateTime(2018, 06, 21);
             startTime = new DateTime(2018, 06, 21, 9, 0, 0, DateTimeKind.Local);
-            endTime = new DateTime(2018, 06, 21, 15, 0, 0);
+            endTime = new DateTime(2018, 06, 21, 15, 0, 0, DateTimeKind.Local);
             interval = new TimeSpan(1, 00, 00);
             RotateCurrentView = CanRotateCurrentView;
             if (!CanRotateCurrentView) {
@@ -409,8 +409,8 @@ namespace SCaddins.SolarAnalysis.ViewModels
                 TryClose(true);
             } else {
                 var log = new ModelSetupWizard.TransactionLog(CurrentModeSummary);
-                model.StartTime = SelectedStartTime;
-                model.EndTime = SelectedEndTime;
+                model.StartTime = SelectedStartTime.ToLocalTime();
+                model.EndTime = SelectedEndTime.ToLocalTime();
                 model.ExportTimeInterval = SelectedInterval;
                 model.Go(log);
                 SCaddinsApp.WindowManager.ShowMessageBox(log.Summary());
