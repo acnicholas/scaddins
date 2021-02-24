@@ -19,6 +19,7 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -30,6 +31,7 @@
                 <Label Grid.Row="3" Grid.Column="0"  Margin="5">Crop Offset (mm)</Label>
                 <CheckBox Grid.Row="4" Grid.Column="0"  Margin="5" x:Name="CreatePlan">Generate Plan</CheckBox>
                 <CheckBox Grid.Row="5" Grid.Column="0"  Margin="5" x:Name="CreateRCP">Generate RCP</CheckBox>
+                <CheckBox Grid.Row="6" Grid.Column="0"  Margin="5" x:Name="CreateAreaPlan">Generate Area Plans</CheckBox>
                 <ComboBox
                     Grid.Row="0"
                     Grid.Column="1"
@@ -48,7 +50,15 @@
                     SelectedValue="{Binding SelectedViewTemplate}"
                     SelectedValuePath="Value"
                     DisplayMemberPath="Key">
-                    
+                </ComboBox>
+                <ComboBox
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Margin="5"
+                    ItemsSource="{Binding AreaPlanTypes}"
+                    SelectedValue="{Binding SelectedAreaPlanType}"
+                    SelectedValuePath="Value"
+                    DisplayMemberPath="Key">
                 </ComboBox>
                 <TextBox x:Name="CropOffset" Grid.Row="3" Grid.Column="1" Margin="5"></TextBox>
             </Grid>

@@ -46,6 +46,9 @@ namespace SCaddins.RoomConverter
         private Dictionary<string, ElementId> viewTemplates =
             new Dictionary<string, ElementId>();
 
+        private Dictionary<string, ElementId> areaPlanTypes =
+            new Dictionary<string, ElementId>();
+
         public RoomConversionManager(Document doc)
         {
             departmentsInModel = new Dictionary<string, string>();
@@ -55,6 +58,8 @@ namespace SCaddins.RoomConverter
             TitleBlockId = ElementId.InvalidElementId;
             viewTemplates = GetViewTemplates(this.doc);
             ViewTemplateId = ElementId.InvalidElementId;
+            areaPlanTypes = GetAreaPlanTypes(this.doc);
+            AreaPlanTypeId = areaPlanTypes.First().Value;
             Scale = 50;
             CropRegionEdgeOffset = 300;
             SheetCopier.SheetCopierManager.GetAllSheets(existingSheets, this.doc);
@@ -107,6 +112,11 @@ namespace SCaddins.RoomConverter
             get; set;
         }
 
+        public bool CreateAreaPlan
+        {
+            get; set;
+        }
+
         public bool CreateRCP
         {
             get; set;
@@ -132,9 +142,16 @@ namespace SCaddins.RoomConverter
             get; set;
         }
 
+        public ElementId AreaPlanTypeId
+        {
+            get; set;
+        }
+
         public Dictionary<string, ElementId> TitleBlocks => titleBlocks;
 
         public Dictionary<string, ElementId> ViewTemplates => viewTemplates;
+
+        public Dictionary<string, ElementId> AreaPlanTypes => areaPlanTypes;
 
         #endregion
 
@@ -314,6 +331,23 @@ namespace SCaddins.RoomConverter
                     if (view.IsTemplate) {
                         result.Add(view.Name, view.Id);
                     }
+                }
+            }
+            return result;
+        }
+
+        private static Dictionary<string, ElementId> GetAreaPlanTypes(Document doc)
+        {
+            var result = new Dictionary<string, ElementId>();
+            using (var collector = new FilteredElementCollector(doc))
+            {
+                foreach (var element in collector.OfClass(typeof(AreaScheme)))
+                {
+                        var vft = (AreaScheme)element;
+                        if (!result.ContainsKey(vft.Name))
+                        {
+                            result.Add(vft.Name, vft.Id);
+                        }
                 }
             }
             return result;
@@ -647,6 +681,35 @@ namespace SCaddins.RoomConverter
                 // FIXME Apply a view template
                 // NOTE This could cause trouble with view scales
                 rcp.ViewTemplateId = ViewTemplateId;
+            }
+
+            if (CreateAreaPlan)
+            {
+                // Create plan of room
+                var plan = ViewPlan.CreateAreaPlan(doc, AreaPlanTypeId, candidate.Room.Level.Id);
+                //// var plan = ViewPlan.Create(doc, GetAreaPlanViewFamilyTypeId(doc), candidate.Room.Level.Id);
+                plan.CropBoxActive = true;
+                plan.ViewTemplateId = ElementId.InvalidElementId;
+                plan.Scale = Scale;
+                var originalBoundingBox = candidate.Room.get_BoundingBox(plan);
+
+                // Put them on sheets
+                plan.CropBox = CreateOffsetBoundingBox(50000, originalBoundingBox);
+                plan.Name = candidate.DestinationViewName;
+
+                // Shrink the bounding box now that it is placed
+                var vp = Viewport.Create(doc, sheet.Id, plan.Id, sheetCentre);
+
+                // Shrink the bounding box now that it is placed
+                plan.CropBox = CreateOffsetBoundingBox(CropRegionEdgeOffset, originalBoundingBox);
+
+                // FIXME - To set an empty view title - so far this seems to work with the standard revit template...
+                vp.ChangeTypeId(vp.GetValidTypes().Last());
+
+                // FIXME Apply a view template
+                // NOTE This could cause trouble with view scales
+                plan.ViewTemplateId = ViewTemplateId;
+                SCaddinsApp.WindowManager.ShowMessageBox("test");
             }
         }
     }

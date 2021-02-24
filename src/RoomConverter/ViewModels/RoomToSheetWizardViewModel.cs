@@ -39,6 +39,11 @@ namespace SCaddins.RoomConverter.ViewModels
             get { return manager.ViewTemplates; }
         }
 
+        public Dictionary<string, ElementId> AreaPlanTypes
+        {
+            get { return manager.AreaPlanTypes; }
+        }
+
         public bool CreatePlan
         {
             get
@@ -73,6 +78,23 @@ namespace SCaddins.RoomConverter.ViewModels
             }
         }
 
+        public bool CreateAreaPlan
+        {
+            get
+            {
+                return manager.CreateAreaPlan;
+            }
+
+            set
+            {
+                if (value != manager.CreateAreaPlan)
+                {
+                    manager.CreateAreaPlan = value;
+                    NotifyOfPropertyChange(() => CreateAreaPlan);
+                }
+            }
+        }
+
         public ElementId SelectedTitleBlock
         {
             get
@@ -101,6 +123,23 @@ namespace SCaddins.RoomConverter.ViewModels
                 if (value != manager.ViewTemplateId) {
                     manager.ViewTemplateId = value;
                     NotifyOfPropertyChange(() => SelectedViewTemplate);
+                }
+            }
+        }
+
+        public ElementId SelectedAreaPlanType
+        {
+            get
+            {
+                return manager.AreaPlanTypeId;
+            }
+
+            set
+            {
+                if (value != manager.AreaPlanTypeId)
+                {
+                    manager.AreaPlanTypeId = value;
+                    NotifyOfPropertyChange(() => SelectedAreaPlanType);
                 }
             }
         }
