@@ -55,6 +55,29 @@ namespace SCaddins.ExportManager
                 return Result.Failed;
             }
 
+            // check if file have been saved just in case.
+            var fileName = FileUtilities.GetCentralFileName(uidoc.Document);
+            var bfi = BasicFileInfo.Extract(fileName);
+
+            var isSaved = bfi.AllLocalChangesSavedToCentral;
+            if (bfi.IsWorkshared && !isSaved)
+            {
+                WindowManager.ShowMessageBox("FAIL", "Please save the file before continuing");
+                return Result.Failed;
+            }
+
+            if (!bfi.IsWorkshared)
+            {
+                var lastSave = System.IO.File.GetLastWriteTime(fileName);
+                var timeSinceLastSave = System.DateTime.Now - lastSave;
+                var secondsSinceLastSave = timeSinceLastSave.TotalSeconds;
+                if (secondsSinceLastSave > 30)
+                {
+                    WindowManager.ShowMessageBox("FAIL", "more than 30 seconds");
+                    return Result.Failed;
+                }
+            }
+
             // Deselect all elements before continuing so they don't appear incorrectly
             uidoc.Selection.SetElementIds(new List<ElementId>());
 
