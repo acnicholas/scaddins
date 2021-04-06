@@ -10,9 +10,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Margin="5">List of element types to ignore:</Label>
-        <TextBox x:Name="ElementsToIgnore" Grid.Row="1" AcceptsReturn="True" Margin="5" VerticalScrollBarVisibility="Visible" MinHeight="200">
-        </TextBox>
+        <TextBox x:Name="ElementsToIgnore" Grid.Row="1" AcceptsReturn="True" Margin="5" VerticalScrollBarVisibility="Visible" MinHeight="200"></TextBox>
+        <Label Grid.Row="2" Margin="5">List of words to ignore:</Label>
+        <TextBox x:Name="WordsToIgnore" Grid.Row="3" AcceptsReturn="True" Margin="5" VerticalScrollBarVisibility="Visible" MinHeight="200"></TextBox>
     </Grid>
 </UserControl>

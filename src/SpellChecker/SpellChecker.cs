@@ -164,6 +164,18 @@ namespace SCaddins.SpellChecker
             hunspell.Add(CurrentUnknownWord);
         }
 
+        public void AddToUserDictionary(string s)
+        {
+            SpellCheckerSettings.Default.WordsIgnoreList.Add(s);
+            SpellCheckerSettings.Default.Save();
+            hunspell.Add(s); 
+        }
+
+        public void RemoveFromUserDictionary(string s)
+        {
+            SpellCheckerSettings.Default.WordsIgnoreList.Remove(s);
+        }
+
         /// <summary>
         /// Attempt to move to the next word.
         /// 
@@ -222,6 +234,10 @@ namespace SCaddins.SpellChecker
                 if (!ignore.Trim().StartsWith(@"#"))
                 {
                     ignoreList.Add(ignore);
+                }
+                foreach (var wordToIgnore in SpellCheckerSettings.Default.WordsIgnoreList)
+                {
+                    ignoreList.Add(wordToIgnore);
                 }
             }
         }

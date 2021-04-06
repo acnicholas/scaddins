@@ -39,7 +39,7 @@
             <Button x:Name="IgnoreAll"   Margin="5">Ignore All</Button>
             <Button x:Name="Change" Margin="5">Replace</Button>
             <Button x:Name="ChangeAll"  Margin="5">Replace All</Button>
-            <Button Margin="5" IsEnabled="False">Add To Dictionary</Button>
+            <Button x:Name="AddToDictionary" Margin="5">Add To Dictionary</Button>
             <Button x:Name="Show" Margin="5" >Show Element</Button>
         </StackPanel>
         <Grid Grid.Row="1" Grid.ColumnSpan="2">
@@ -49,6 +49,24 @@
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
+
+            <Button
+            Height="Auto"
+            Width="Auto"
+            MinWidth="20"
+            Grid.Column="0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Stretch"
+            Margin="5"
+            x:Name="Settings"
+            Background="Transparent"
+            BorderBrush="Transparent">
+                <Image Source="/SCaddins;component/Assets/gear.png" Stretch="None" />
+                <Button.ToolTip>
+                    <Label>Click to access more options :P</Label>
+                </Button.ToolTip>
+            </Button>
+
             <Button x:Name="Apply"  MinWidth="64" Grid.Column="2" HorizontalAlignment="Right" Margin="5">Apply All Changes</Button>
             <Button x:Name="Cancel" MinWidth="64" Grid.Column="3" HorizontalAlignment="Right" Margin="5">Cancel</Button>
         </Grid>

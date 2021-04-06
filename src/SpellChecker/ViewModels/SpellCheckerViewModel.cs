@@ -62,6 +62,12 @@ namespace SCaddins.SpellChecker.ViewModels
             get; set;
         }
 
+        public void Settings()
+        {
+            var spellCheckerOptionsViewModel = new SpellCheckerOptionsViewModel();
+
+        }
+
         public bool CanChange => !string.IsNullOrEmpty(ReplacementText);
 
         public bool CanChangeAll => !string.IsNullOrEmpty(ReplacementText);
@@ -113,7 +119,8 @@ namespace SCaddins.SpellChecker.ViewModels
 
         public void AddToDictionary()
         {
-            // manager.AddWordToDictionary(UnknownWord);
+            manager.AddToUserDictionary(UnknownWord);
+            IgnoreAll();
         }
 
         public void Apply()

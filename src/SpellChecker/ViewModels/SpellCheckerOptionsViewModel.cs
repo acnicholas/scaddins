@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2019-2020 by Andrew Nicholas (andrewnicholas@iinet.net.au)
+﻿// (C) Copyright 2019-2021 by Andrew Nicholas (andrewnicholas@iinet.net.au)
 //
 // This file is part of SCaddins.
 //
@@ -32,6 +32,8 @@ namespace SCaddins.SpellChecker.ViewModels
 
         public string ElementsToIgnore { get; set; }
 
+        public string WordsToIgnore { get; set; }
+
         public void Apply()
         {
             var collecton = new StringCollection();
@@ -41,20 +43,40 @@ namespace SCaddins.SpellChecker.ViewModels
                     collecton.Add(line);
                 }
             }
+
+            var collecton2 = new StringCollection();
+            string[] lines2 = WordsToIgnore.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            foreach (var line in lines2)
+            {
+                if (!string.IsNullOrEmpty(line))
+                {
+                    collecton2.Add(line);
+                }
+            }
+
             SpellCheckerSettings.Default.ElementIgnoreList = collecton;
+            SpellCheckerSettings.Default.WordsIgnoreList = collecton2;
             SpellCheckerSettings.Default.Save();
         }
 
         public void Reset()
         {
             ElementsToIgnore = string.Empty;
-            stringCollection = SpellCheckerSettings.Default.ElementIgnoreList;
-            foreach (var item in stringCollection)
+            foreach (var item in SpellCheckerSettings.Default.ElementIgnoreList)
             {
                 ElementsToIgnore += item;
                 ElementsToIgnore += Environment.NewLine;
             }
             NotifyOfPropertyChange(() => ElementsToIgnore);
+
+            WordsToIgnore = string.Empty;
+            foreach (var item in SpellCheckerSettings.Default.WordsIgnoreList)
+            {
+                WordsToIgnore += item;
+                WordsToIgnore += Environment.NewLine;
+            }
+            NotifyOfPropertyChange(() => WordsToIgnore);
+
         }
 
         public void ResetToDefault()
