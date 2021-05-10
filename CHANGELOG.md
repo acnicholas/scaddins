@@ -1,5 +1,13 @@
 # SCaddins Revision Log #
 
+# 22.0.0 #
+
+- Initial Revit Build 2022.
+- Ghostscript PDF export removed
+- Native Revit PDF Export enabled for Revit 2022.
+- Add Areas to Rename Tool.
+- Add Areas to Increment Tool.
+
 # 21.4.2 #
 
 #### FIXES ####

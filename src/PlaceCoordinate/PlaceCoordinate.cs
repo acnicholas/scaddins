@@ -1,4 +1,4 @@
-// (C) Copyright 2014-2020 by Andrew Nicholas (andrewnicholas@iinet.net.au)
+// (C) Copyright 2014-2021 by Andrew Nicholas (andrewnicholas@iinet.net.au)
 //
 // This file is part of SCaddins.
 // SCaddins is free software: you can redistribute it and/or modify
@@ -63,7 +63,7 @@ namespace SCaddins.PlaceCoordinate
 
             ProjectLocation currentLocation = doc.ActiveProjectLocation;
             var origin = new XYZ(0, 0, 0);
-            #if REVIT2018 || REVIT2019 || REVIT2020|| REVIT2020 || REVIT2021
+            #if REVIT2018 || REVIT2019 || REVIT2020|| REVIT2020 || REVIT2021 || REVIT2022
                 ProjectPosition projectPosition = currentLocation.GetProjectPosition(origin);
             #else
                         ProjectPosition projectPosition = currentLocation.get_ProjectPosition(origin);

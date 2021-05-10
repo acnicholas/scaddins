@@ -17,12 +17,6 @@
     <Setting Name="ForceDateRevision" Roaming="true" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="GSBinDirectory" Roaming="true" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Program Files\gs\gs9.15\bin</Value>
-    </Setting>
-    <Setting Name="GSLibDirectory" Roaming="true" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Program Files\gs\gs9.15\lib</Value>
-    </Setting>
     <Setting Name="HideTitleBlocks" Roaming="true" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>

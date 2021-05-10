@@ -38,9 +38,9 @@ namespace SCaddins.ExportManager
         DWF = 8,
 
         /// <summary>
-        /// Export files using Ghostscript to create pdf's.
+        /// Export files using built in Revit exporter to create pdf's.
         /// </summary>
-        GhostscriptPDF = 16,
+        DirectPDF = 16,
 
         /// <summary>Remove titleblock from sheet before exporting.
         /// </summary>

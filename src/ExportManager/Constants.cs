@@ -41,12 +41,6 @@ namespace SCaddins.ExportManager
                
         /// <summary> Param name of scale bar visibility. </summary>
         public const string TitleScale = "Scale Bar 1 to";
-
-        /// <summary>
-        /// SCexport registry path.
-        /// </summary>
-        public const string RegistryPath = 
-            @"HKEY_CURRENT_USER\Software\SCaddins\SCexport";
     }
 }
 

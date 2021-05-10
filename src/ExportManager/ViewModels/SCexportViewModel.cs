@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2018 by Andrew Nicholas
+﻿// (C) Copyright 2018-2021 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -96,7 +96,7 @@ namespace SCaddins.ExportManager.ViewModels
                 return CanPrint &&
                 (exportManager.HasExportOption(ExportOptions.DWG) ||
                  exportManager.HasExportOption(ExportOptions.PDF) ||
-                 exportManager.HasExportOption(ExportOptions.GhostscriptPDF));
+                 exportManager.HasExportOption(ExportOptions.DirectPDF));
             }
         }
 
@@ -336,9 +336,9 @@ namespace SCaddins.ExportManager.ViewModels
                 {
                     list.Add("PDF");
                 }
-                if (exportManager.HasExportOption(ExportOptions.GhostscriptPDF))
+                if (exportManager.HasExportOption(ExportOptions.DirectPDF))
                 {
-                    list.Add("gPDF");
+                    list.Add("rPDF");
                 }
                 if (exportManager.HasExportOption(ExportOptions.DWG))
                 {
@@ -468,9 +468,11 @@ namespace SCaddins.ExportManager.ViewModels
                     NotifyOfPropertyChange(() => StatusText);
                     break;
 
-                case Key.G:
-                    exportManager.ToggleExportOption(ExportOptions.GhostscriptPDF);
+                case Key.N:
+#if REVIT2022
+                    exportManager.ToggleExportOption(ExportOptions.DirectPDF);
                     NotifyOfPropertyChange(() => StatusText);
+#endif
                     break;
 
                 case Key.L:

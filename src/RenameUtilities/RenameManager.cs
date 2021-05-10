@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2017-2020 by Andrew Nicholas
+﻿// (C) Copyright 2017-2021 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -73,6 +73,7 @@ namespace SCaddins.RenameUtilities
             get
             {
                 Caliburn.Micro.BindableCollection<string> result = new Caliburn.Micro.BindableCollection<string>();
+                result.Add("Areas");
                 result.Add("Rooms");
                 result.Add("Grids");
                 result.Add("Levels");
@@ -112,6 +113,9 @@ namespace SCaddins.RenameUtilities
 
         public static Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByCategoryName(string parameterCategory, Document doc)
         {
+            if (parameterCategory == "Areas") {
+                return GetParametersByCategory(BuiltInCategory.OST_Areas, doc);
+            }
             if (parameterCategory == "Rooms") {
                 return GetParametersByCategory(BuiltInCategory.OST_Rooms, doc);
             }

@@ -59,6 +59,14 @@
 							</Component>
 							<?endif?>
 						</Directory>
+					    <Directory Id="RFAFILES2022" Name="2022">
+							<?if $(env.R2022) = Enabled ?>
+							<Component Id="SCaddinsRFA2022" Guid="8453ff7a-05e4-4ab5-9e1e-78fe416dc021" Win64="yes" DiskId="1">
+								<CreateFolder />
+								<File Id="_022.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2022\SC-Survey_Point.rfa" />
+							</Component>
+							<?endif?>
+						</Directory>
 					</Directory>
 					<Directory Id="RSDIR" Name="RunScript">
 						<Component Id="RunScriptExamples" Guid="23f035a7-e39e-494a-83fc-1b313a179ab9" Win64="yes" DiskId="1">
@@ -193,6 +201,25 @@
 					</Component>
 				</Directory>
 				<?endif?>
+				<?if $(env.R2021) = Enabled ?>
+				<Directory Id="DLLDIR2022" Name="2022">
+					<Component Id="SCaddins2022" Guid="48029ff6-3be9-48ed-be31-083bebfe866b" Win64="yes" DiskId="1">
+						<CreateFolder />
+						<File Id="SCaddins2022.dll" Name="SCaddins.dll" Source="..\src\bin\Release2022\SCaddins.dll" />
+						<File Id="Newtonsoft.Json.dll.22" Name="Newtonsoft.Json.dll" Source="..\src\bin\Release2022\Newtonsoft.Json.dll" />
+						<File Id="CM22" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2022\Caliburn.Micro.dll" />
+						<File Id="CMP22" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2022\Caliburn.Micro.Platform.dll" />
+						<File Id="CMPC22" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2022\Caliburn.Micro.Platform.Core.dll" />
+						<File Id="CSSL22" Name="CSScriptLibrary.dll" Source="..\src\bin\Release2022\CSScriptLibrary.dll" />
+            			<File Id="IFP22" Name="INIFileParser.dll" Source="..\src\bin\Release2022\INIFileParser.dll" />
+            			<File Id="XTK22" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2022\Xceed.Wpf.Toolkit.dll" />
+            			<File Id="HUN22" Name="NHunspell.dll" Source="..\src\bin\Release2022\NHunspell.dll" />
+            			<File Id="HUN22N" Name="Hunspellx64.dll" Source="..\src\bin\Release2022\Hunspellx64.dll" />
+            			<File Id="AE22" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2022\ICSharpCode.AvalonEdit.dll" />
+            			<File Id="EPP22" Name="EPPlus.dll" Source="..\src\bin\Release2022\EPPlus.dll" />
+					</Component>
+				</Directory>
+				<?endif?>
 			</Directory>
 		</Directory>
 	</Directory>
@@ -240,11 +267,19 @@
 						</Component>
 					</Directory>
 					<?endif?>
-					<?if $(env.R2020) = Enabled ?>
+					<?if $(env.R2021) = Enabled ?>
 					<Directory Id="SCaddinsAddin2021Directory" Name="2021">
 						<Component Id="SCaddinsAddin2021" Guid="4886bb0d-d060-49de-865c-2ddbe2107389" DiskId="1">
 							<CreateFolder />
 							<File Id="SCADDINS21.ADDIN" Name="SCaddins21.addin" Source="..\src\bin\Release2021\SCaddins2021.addin" />
+						</Component>
+					</Directory>
+					<?endif?>
+				    <?if $(env.R2022) = Enabled ?>
+					<Directory Id="SCaddinsAddin2022Directory" Name="2022">
+						<Component Id="SCaddinsAddin2022" Guid="191a7996-210f-45ce-82a0-acceb9486553" DiskId="1">
+							<CreateFolder />
+							<File Id="SCADDINS22.ADDIN" Name="SCaddins22.addin" Source="..\src\bin\Release2022\SCaddins2022.addin" />
 						</Component>
 					</Directory>
 					<?endif?>

@@ -93,6 +93,17 @@
                 </Feature>
                 <?endif?>
 
+               <?if $(env.R2022) = Enabled ?> 
+                <Feature Id="Revit2022" Level="1" Title="SCaddins for Revit 2022">
+                    <ComponentRef Id="SCaddins2022" />
+                    <ComponentRef Id="SCaddinsAddin2022" />
+                    <ComponentRef Id="SCaddinsEtc" />
+                    <ComponentRef Id="SCexportConfigProto" />
+                    <ComponentRef Id="SCaddinsRFA2022" />
+					<ComponentRef Id="RunScriptExamples" />
+                </Feature>
+                <?endif?>
+
                 <WixVariable Id="WixUIDialogBmp" Value="wixd.bmp" />
                 <WixVariable Id="WixUIBannerBmp" Value="wixb.bmp" />
                 <Icon Id="sc.ico" SourceFile="..\share\icons\64x64\sc.ico" />

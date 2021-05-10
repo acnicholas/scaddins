@@ -25,6 +25,8 @@ Global
 		Release2020|x64 = Release2020|x64
 		Release2021|Any CPU = Release2021|Any CPU
 		Release2021|x64 = Release2021|x64
+		Release2022|Any CPU = Release2022|Any CPU
+		Release2022|x64 = Release2022|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Debug|Any CPU.ActiveCfg = Debug|x64
@@ -59,6 +61,10 @@ Global
 		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2021|Any CPU.Build.0 = Release2021|Any
 		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2021|x64.ActiveCfg = Release2021|x64
 		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2021|x64.Build.0 = Release2021|x64
+		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2022|Any CPU.ActiveCfg = Release2022|Any
+		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2022|Any CPU.Build.0 = Release2022|Any
+		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2022|x64.ActiveCfg = Release2022|x64
+		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2022|x64.Build.0 = Release2022|x64
 		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Debug|x64.ActiveCfg = Debug|x64
 		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Debug|x64.Build.0 = Debug|x64
@@ -78,6 +84,9 @@ Global
 		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Release2020|x64.ActiveCfg = Release2019|x64
 		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Release2021|Any CPU.ActiveCfg = Release2021|Any CPU
 		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Release2021|x64.ActiveCfg = Release2021|x64
+		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Release2022|Any CPU.ActiveCfg = Release2021|Any CPU
+		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Release2022|Any CPU.Build.0 = Release2021|Any CPU
+		{22A609B0-CB03-4413-AEF8-9171E3BE980A}.Release2022|x64.ActiveCfg = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

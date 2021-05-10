@@ -37,9 +37,6 @@ namespace SCaddins
         /// <summary> The install dir.</summary>
         public const string InstallDirectory = @"C:\Program Files\SCaddins\SCaddins\";
 
-        //// <summary> Data directory. </summary>
-        ////public const string OptDirectory = "opt";
-
         /// <summary> Data directory. </summary>
         public const string ShareDirectory = "share";
 

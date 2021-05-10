@@ -1,4 +1,4 @@
-// (C) Copyright 2012-2020 by Andrew Nicholas
+// (C) Copyright 2012-2021 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -50,7 +50,7 @@ namespace SCaddins.ExportManager
         private ExportOptions exportFlags;
         private SegmentedSheetName fileNameScheme;
         private bool forceDate;
-        
+
         public Manager(UIDocument uidoc)
         {
             Doc = uidoc.Document;
@@ -285,10 +285,10 @@ namespace SCaddins.ExportManager
 
         public static string GetConfigFileName(Document doc)
         {
-            #if DEBUG
+#if DEBUG
                         Debug.WriteLine("getting config file for " + doc.Title);
                         string s = @"C:\Andrew\code\cs\scaddins\share\SCexport-example-conf.xml";
-            #else
+#else
             var fec = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_ProjectInformation);
             foreach (var element in fec) {
                 if (element is ProjectInfo) {
@@ -426,6 +426,11 @@ namespace SCaddins.ExportManager
                 log.AddError(sheet.FullExportName, "Invalid file name, Export cancelled.");
                 log.EndLoggingIndividualItem(startTime, null);
                 return;
+            }
+
+            if (exportFlags.HasFlag(ExportOptions.DirectPDF))
+            {
+                ExportRevitPDF(sheet, log);
             }
 
             if (sheet.SCPrintSetting != null)
@@ -778,6 +783,41 @@ namespace SCaddins.ExportManager
             }
         }
 
+        private void ExportRevitPDF(ExportSheet vs, ExportLog log)
+        {
+#if REVIT2022
+
+            if (log != null)
+            {
+                log.AddMessage(Environment.NewLine + Resources.MessageStartingPDFExport);
+            }
+            else
+            {
+                return;
+            }
+
+            if (IsViewerMode())
+            {
+                log.AddError(vs.FullExportName, "Revit is in Viewer mode. Exporting is not allowed.");
+                return;
+            }
+
+            List<ElementId> views;
+            views = new List<ElementId>();
+            views.Add(vs.Id);
+
+            ////fixme only get these options once.
+            using (var opts = GetDefaultPDFExportOptions())
+            {
+                log.AddMessage(Resources.MessageAssigningExportOptions + opts);
+                var name = vs.FullExportName + Resources.FileExtensionDWG;
+                log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
+                log.AddMessage(Resources.MessageExportingToFileName + name);
+                Doc.Export(vs.ExportDirectory, views, opts);
+            }
+#endif
+        }
+
         [SecurityCritical]
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private void ExportAdobePDF(ExportSheet vs, ExportLog log)
@@ -828,7 +868,7 @@ namespace SCaddins.ExportManager
                     File.Delete(vs.FullExportPath(Resources.FileExtensionPDF));
                 }
                 log.AddMessage(Resources.MessageSubmittingPrint);
-                
+
                 if (pm.SubmitPrint(vs.Sheet)) {
                     log.AddMessage(Resources.MessageApparentlyCompletedSuccessfully);
                 } else {
@@ -844,54 +884,6 @@ namespace SCaddins.ExportManager
                 ////log.AddError(vs.FullExportName, Resources.ErrorCantOverwriteFile);
             }
         }
-
-/*        [SecurityCritical]
-        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
-        private bool ExportMSPDF(ExportSheet vs, ExportLog log)
-        {
-            if (log != null) {
-                log.AddMessage(Environment.NewLine + Resources.MessageStartingPDFExport);
-            } else {
-                return false;
-            }
-
-            if (IsViewerMode()) {
-                log.AddError(vs.FullExportName, "Revit is in Viewer mode. Printing is not allowed");
-                return false;
-            }
-
-            PrintManager pm = Doc.PrintManager;
-
-            log.AddMessage(Resources.MessageApplyingPrintSetting + vs.PrintSettingName);
-
-            if (!PrintSettings.PrintToFile(Doc, vs, pm, Resources.FileExtensionPDF, PdfPrinterName)) {
-                log.AddError(vs.FullExportName, Resources.ErrorFailedToAssignPrintSetting + vs.PrintSettingName);
-                return false;
-            }
-
-            if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF))) {
-                if (File.Exists(vs.FullExportPath(Resources.FileExtensionPDF))) {
-                    File.Delete(vs.FullExportPath(Resources.FileExtensionPDF));
-                }
-                log.AddMessage(Resources.MessageSubmittingPrint);
-
-                if (pm.SubmitPrint(vs.Sheet)) {
-                    log.AddMessage(Resources.MessageApparentlyCompletedSuccessfully);
-                } else {
-                    log.AddError(vs.FullExportName, Resources.ErrorFailedToPrint);
-                }
-                FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPDF));
-
-                RunExportHooks(Resources.FileExtensionPDF, vs);
-
-                ////SCaddins.Common.SystemUtilities.KillAllProcesses("acrotray");
-            } else {
-                ////log.AddError(vs.FullExportName, Resources.ErrorCantOverwriteFile);
-                return false;
-            }
-
-            return true;
-        }*/
 
         // FIXME this is nasty
         private void ExportDWG(ExportSheet vs, bool removeTitle, ExportLog log)
@@ -955,57 +947,187 @@ namespace SCaddins.ExportManager
             }
         }
 
-/*        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", Justification = "Parameter name required by ps2pdf", MessageId = "sPAPERSIZE")]
-        [SecurityCritical]
-        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
-        private bool ExportGSPDF(ExportSheet vs, ExportLog log)
+#if REVIT2022
+        private bool TryGetExportPdfSettingsByName(string name, out PDFExportOptions options)
         {
-            log.AddMessage(Environment.NewLine + Resources.MessageStartingGhostscriptPDFExport);
-            log.AddMessage(vs.ToString());
+            var collector = new FilteredElementCollector(Doc);
+            collector.OfClass(typeof(ExportPDFSettings));
+            foreach (var setting in collector)
+            {
+                if (setting.Name == name)
+                {
+                    var s = setting as ExportPDFSettings;
+                    options = s.GetOptions();
+                    return true;
+                }
+            }
+            options = null;
+            return false;
+        }
+#endif
 
-            PrintManager pm = Doc.PrintManager;
+#if REVIT2022
+        private List<TableCellCombinedParameterData> Test(string filenameScheme)
+        {
+            var fec = new FilteredElementCollector(Doc);
+            fec.OfClass(typeof(ViewSheet));
+            var sheetParam = fec.First() as ViewSheet;
 
-            log.AddMessage(Resources.MessageApplyingPrintSetting + vs.PrintSettingName);
+            string prefix = string.Empty;
 
-            if (!PrintSettings.PrintToFile(Doc, vs, pm, Resources.FileExtensionPS, PostscriptPrinterName)) {
-                log.AddError(vs.FullExportName, Resources.ErrorFailedToAssignPrintSetting + vs.PrintSettingName);
-                return false;
+            string[] slib = {
+                "$height",
+                "$width",
+                "$fullExportName",
+                "$fullExportPath",
+                "$exportDir",
+                "$pageSize",
+                "$projectNumber",
+                "$sheetDescription",
+                "$sheetNumber",
+                "$sheetRevisionDescription",
+                "$sheetRevisionDate",
+                "$sheetRevision"
+             };
+
+            var scheme = new List<TableCellCombinedParameterData>();
+
+            string s = filenameScheme;
+
+            char[] c = s.ToCharArray();
+            for (int i = 0; i < c.Length - 1; i++)
+            {
+                if (c[i] != '_' && c[i] != '$')
+                {
+                    prefix += c[i];
+                }
+
+                if (c[i] == '_') {
+                    i++;
+                    if (c[i] == '_') {
+                        var n = s.Substring(i);
+                        if (n.Contains(@"__"))
+                        {
+                            var ni = n.IndexOf(@"__");
+                            i += ni;
+                            i += 1;
+                            var customParamName = n.Substring(1, ni - 1);
+                            SCaddinsApp.WindowManager.ShowMessageBox(customParamName);
+                            var seg = TableCellCombinedParameterData.Create();
+                            var p = sheetParam.GetParameters(customParamName);
+                            if (p.Count > 0)
+                            {
+                                seg.ParamId = p[0].Id;
+                                seg.Prefix = prefix;
+                                scheme.Add(seg);
+                            }
+                        }
+                        prefix = string.Empty;
+                    }
+                }
+
+                if (c[i] == '$')
+                {
+                    foreach (string t in slib)
+                    {
+                        if (t.Length + i <= s.Length)
+                        {
+                            if (s.Substring(i, t.Length) == t)
+                            {
+                                var seg = TableCellCombinedParameterData.Create();
+                                switch (t) {
+                                    case "$height":
+                                        break;
+                                    case "$width":
+                                        break;
+                                    case "$fullExportName":
+                                        break;
+                                    case "$fullExportPath":
+                                        break;
+                                    case "$exportDir":
+                                        break;
+                                    case "$pageSize":
+                                        break;
+                                    case "$projectNumber":
+                                        i += t.Length - 1;
+                                        seg.ParamId = new ElementId(BuiltInParameter.PROJECT_NUMBER);
+                                        seg.CategoryId = new ElementId(BuiltInCategory.OST_ProjectInformation);
+                                        seg.Prefix = prefix;
+                                        scheme.Add(seg);
+                                        break;
+                                    case "$sheetDescription":
+                                        i += t.Length - 1;
+                                        seg.ParamId = new ElementId(BuiltInParameter.SHEET_NAME);
+                                        seg.Prefix = prefix;
+                                        scheme.Add(seg);
+                                        break;
+                                    case "$sheetNumber":
+                                        i += t.Length - 1;
+                                        seg.ParamId = new ElementId(BuiltInParameter.SHEET_NUMBER);
+                                        seg.Prefix = prefix;
+                                        scheme.Add(seg);
+                                        break;
+                                    case "$sheetRevision":
+                                        i += t.Length - 1;
+                                        seg.ParamId = new ElementId(BuiltInParameter.SHEET_CURRENT_REVISION);
+                                        seg.Prefix = prefix;
+                                        scheme.Add(seg);
+                                        break;
+                                    case "$sheetRevisionDate":
+                                        i += t.Length - 1;
+                                        seg.ParamId = new ElementId(BuiltInParameter.SHEET_CURRENT_REVISION_DATE);
+                                        seg.CategoryId = new ElementId(BuiltInCategory.OST_Revisions);
+                                        seg.Prefix = prefix;
+                                        scheme.Add(seg);
+                                        break;
+                                    case "$sheetRevisionDescription":
+                                        i += t.Length - 1;
+                                        seg.ParamId = new ElementId(BuiltInParameter.SHEET_CURRENT_REVISION_DESCRIPTION);
+                                        seg.Prefix = prefix;
+                                        scheme.Add(seg);
+                                        break;
+                                }
+                                prefix = string.Empty;
+                            }
+                        }
+                    }
+                }
+            }
+            return scheme;
+        }
+#endif
+
+#if REVIT2022
+        private PDFExportOptions GetDefaultPDFExportOptions()
+        {
+            PDFExportOptions savedOptions;
+            if (TryGetExportPdfSettingsByName("SCX", out savedOptions))
+            {
+                return savedOptions;
             }
 
-            log.AddMessage(Resources.MessageSubmittingPrint);
+            var scheme = Test(AllSheets[0].SegmentedFileName.NameFormat);
+            SCaddinsApp.WindowManager.ShowMessageBox(AllSheets[0].SegmentedFileName.NameFormat);
 
-            try {
-                pm.SubmitPrint(vs.Sheet);
-            } catch (InvalidOperationException) {
-                File.Delete(vs.FullExportPath(Resources.FileExtensionPS));
-                pm.SubmitPrint(vs.Sheet);
-            }
+            var opts = new PDFExportOptions();
 
-            log.AddMessage(Resources.StartingPrint + vs.FullExportPath(Resources.FileExtensionPS));
-
-            FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPS));
-
-            log.AddMessage(Resources.OK);
-
-            string prog = "\"" + GhostscriptLibDirectory + @"\ps2pdf" + "\"";
-            string size = vs.PageSize.ToLower(CultureInfo.CurrentCulture);
-            string sizeFix = size.ToLower(CultureInfo.CurrentCulture).Replace("p", string.Empty);
-            string args =
-                "-sPAPERSIZE#" +
-                sizeFix + " \"" + vs.FullExportPath(Resources.FileExtensionPS) +
-                "\" \"" + vs.FullExportPath(Resources.FileExtensionPDF) + "\"";
-
-            if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF))) {
-                log.AddMessage("Converting to PDF with: " + prog + " " + args);
-                ConsoleUtilities.StartHiddenConsoleProg(prog, args);
-                FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPDF));
-                RunExportHooks("pdf", vs);
-            } else {
-                log.AddWarning(vs.FullExportName, Resources.MessageUnableToOverwriteExistingFile + vs.FullExportPath(Resources.FileExtensionPDF));
-            }
-
-            return true;
-        }*/
+            opts.SetNamingRule(scheme);
+            opts.ColorDepth = ColorDepthType.Color;
+            opts.Combine = false;
+            opts.ExportQuality = PDFExportQualityType.DPI1200;
+            opts.HideCropBoundaries = true;
+            opts.HideReferencePlane = true;
+            opts.HideScopeBoxes = true;
+            opts.HideUnreferencedViewTags = true;
+            opts.MaskCoincidentLines = false;
+            opts.OriginOffsetX = 0;
+            opts.OriginOffsetY = 0;
+            opts.PaperFormat = ExportPaperFormat.Default;
+            opts.PaperOrientation = PageOrientationType.Auto;
+            opts.PaperPlacement = PaperPlacementType.Center;
+            return opts;
+        }
+#endif
 
         private DWGExportOptions GetDefaultDWGExportOptions()
         {
@@ -1115,17 +1237,14 @@ namespace SCaddins.ExportManager
 
         private void SetDefaultFlags()
         {
-            if (Settings1.Default.AdobePDFMode && PDFSanityCheck()) {
-                AddExportOption(ExportOptions.PDF);
-            } else if (!Settings1.Default.AdobePDFMode && GSSanityCheck()) {
-                AddExportOption(ExportOptions.GhostscriptPDF);
-            } else {
-                if (PDFSanityCheck()) {
+            #if REVIT2022
+            AddExportOption(ExportOptions.DirectPDF);
+            #else
+             if (PDFSanityCheck()) {
                     AddExportOption(ExportOptions.PDF);
-                }
-                AddExportOption(ExportOptions.DWG);
-            }
-
+             }
+            #endif  
+            //// AddExportOption(ExportOptions.DWG);
             if (Settings1.Default.HideTitleBlocks) {
                 AddExportOption(ExportOptions.NoTitle);
             }

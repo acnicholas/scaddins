@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2016-2020 by Andrew Nicholas
+﻿// (C) Copyright 2016-2021 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -17,5 +17,5 @@
 
 using System.Reflection;
 
-[assembly: AssemblyVersion("21.4.5.0")]
-[assembly: AssemblyInformationalVersion("21.4.5")]
+[assembly: AssemblyVersion("22.0.0.0")]
+[assembly: AssemblyInformationalVersion("22.0.0-alpha.1")]

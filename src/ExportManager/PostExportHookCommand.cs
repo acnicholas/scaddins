@@ -53,8 +53,8 @@ namespace SCaddins.ExportManager
             result = result.Replace(@"$projectNumber", sheet.ProjectNumber);
             result = result.Replace(@"$sheetDescription", sheet.SheetDescription);
             result = result.Replace(@"$sheetNumber", sheet.SheetNumber);
-            result = result.Replace(@"$sheetRevision", sheet.SheetRevision);
             result = result.Replace(@"$sheetRevisionDate", sheet.SheetRevisionDate);
+            result = result.Replace(@"$sheetRevision", sheet.SheetRevision);
             result = result.Replace(@"$sheetRevisionDescription", sheet.SheetRevisionDescription);
             result = result.Replace(@"$fileExtension", extension);
 

@@ -259,10 +259,15 @@ namespace SCaddins.ExportManager
                 pm.PrintSetup.InSession.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
                 pm.PrintSetup.CurrentPrintSetting.PrintParameters.MarginType = MarginType.UserDefined;
                 pm.PrintSetup.InSession.PrintParameters.MarginType = MarginType.UserDefined;
+#if REVIT2022
+                pm.PrintSetup.CurrentPrintSetting.PrintParameters.OriginOffsetX = 0;
+                pm.PrintSetup.InSession.PrintParameters.OriginOffsetY = 0;
+#else
                 pm.PrintSetup.CurrentPrintSetting.PrintParameters.UserDefinedMarginX = 0;
                 pm.PrintSetup.InSession.PrintParameters.UserDefinedMarginX = 0;
                 pm.PrintSetup.CurrentPrintSetting.PrintParameters.UserDefinedMarginY = 0;
                 pm.PrintSetup.InSession.PrintParameters.UserDefinedMarginY = 0;
+#endif
                 pm.PrintToFile = false;
                 pm.Apply();
                 t.Commit();

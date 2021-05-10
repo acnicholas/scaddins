@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2013-2020 by Andrew Nicholas
+﻿// (C) Copyright 2013-2021 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -250,7 +250,7 @@ namespace SCaddins.SolarAnalysis
         public static ProjectPosition GetProjectPosition(Document doc)
         {
             var projectLocation = doc.ActiveProjectLocation;
-            #if REVIT2018 || REVIT2019 || REVIT2020 || REVIT2021
+            #if REVIT2018 || REVIT2019 || REVIT2020 || REVIT2021 || REVIT2022
             return projectLocation.GetProjectPosition(XYZ.Zero);
             #else
             return projectLocation.get_ProjectPosition(XYZ.Zero);
@@ -309,7 +309,7 @@ namespace SCaddins.SolarAnalysis
                 foreach (var element in c) {
                     var view = (View)element;
                     var v = view;
-                    #if REVIT2019 || REVIT2020 || REVIT2021
+                    #if REVIT2019 || REVIT2020 || REVIT2021 || REVIT2022
                     if (v.Name == name) {
                         return false;
                     }

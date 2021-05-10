@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2018-2020 by Andrew Nicholas
+﻿// (C) Copyright 2018-2021 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -318,22 +318,31 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public bool ExportPostscriptPDF
+        public bool ExportRevitPDFEnabled
+        {
+            #if REVIT2022
+            get { return true; }
+            #else
+            get { return false; }
+            #endif
+        }
+
+        public bool ExportRevitPDF
         {
             get
             {
-                return exportManager.HasExportOption(ExportOptions.GhostscriptPDF);
+                return exportManager.HasExportOption(ExportOptions.DirectPDF);
             }
 
             set
             {
                 if (value)
                 {
-                    exportManager.AddExportOption(ExportOptions.GhostscriptPDF);
+                    exportManager.AddExportOption(ExportOptions.DirectPDF);
                 }
                 else
                 {
-                    exportManager.RemoveExportOption(ExportOptions.GhostscriptPDF);
+                    exportManager.RemoveExportOption(ExportOptions.DirectPDF);
                 }
             }
         }
@@ -386,46 +395,6 @@ namespace SCaddins.ExportManager.ViewModels
                     Settings1.Default.ForceDateRevision = value;
                     Settings1.Default.Save();
                 }
-            }
-        }
-
-        public string GhostscriptBinLocation
-        {
-            get
-            {
-                return exportManager.GhostscriptBinDirectory;
-            }
-
-            set
-            {
-                if (value == exportManager.GhostscriptBinDirectory)
-                {
-                    return;
-                }
-                exportManager.GhostscriptBinDirectory = value;
-                Settings1.Default.GSBinDirectory = value;
-                Settings1.Default.Save();
-                NotifyOfPropertyChange(() => GhostscriptBinLocation);
-            }
-        }
-
-        public string GhostscriptLibLocation
-        {
-            get
-            {
-                return exportManager.GhostscriptLibDirectory;
-            }
-
-            set
-            {
-                if (value == exportManager.GhostscriptLibDirectory)
-                {
-                    return;
-                }
-                exportManager.GhostscriptLibDirectory = value;
-                Settings1.Default.GSLibDirectory = value;
-                Settings1.Default.Save();
-                NotifyOfPropertyChange(() => GhostscriptLibLocation);
             }
         }
 
@@ -518,25 +487,6 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public string PostscriptPrintDriverName
-        {
-            get
-            {
-                return exportManager.PostscriptPrinterName;
-            }
-
-            set
-            {
-                if (value == exportManager.PostscriptPrinterName) {
-                    return;
-                }
-                exportManager.PostscriptPrinterName = value;
-                Settings1.Default.PSPrinterDriver = value;
-                Settings1.Default.Save();
-                NotifyOfPropertyChange(() => PostscriptPrintDriverName);
-            }
-        }
-
         public string SelectedFileNamingScheme
         {
             get
@@ -626,41 +576,16 @@ namespace SCaddins.ExportManager.ViewModels
         public void SelectExportDirectory()
         {
             string dir;
-            var result = SCaddinsApp.WindowManager.ShowDirectorySelectionDialog(GhostscriptLibLocation, out dir);
+            var result = SCaddinsApp.WindowManager.ShowDirectorySelectionDialog(ExportDirectory, out dir);
             if (result.HasValue && result.Value)
             {
                 ExportDirectory = dir;
             }
         }
 
-        public void SelectGhostscriptBinLocation()
-        {
-            string path;
-            var result = SCaddinsApp.WindowManager.ShowDirectorySelectionDialog(GhostscriptBinLocation, out path);
-            if (result.HasValue && result.Value)
-            {
-                GhostscriptBinLocation = path;
-            }
-        }
-
-        public void SelectGhostscriptLibLocation()
-        {
-            string path;
-            var result = SCaddinsApp.WindowManager.ShowDirectorySelectionDialog(GhostscriptLibLocation, out path);
-            if (result.HasValue && result.Value)
-            {
-                GhostscriptLibLocation = path;
-            }
-        }
-
         public void SelectLargeFormatPrinter()
         {
             LargeFormatPrinterName = SelectPrinter("Select Large Format Printer", LargeFormatPrinterName);
-        }
-
-        public void SelectPostscriptPrinter()
-        {
-            PostscriptPrintDriverName = SelectPrinter("Select Postscript Printer", PostscriptPrintDriverName);
         }
     }
 }

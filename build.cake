@@ -68,8 +68,10 @@ Task("CreateAddinManifests")
 		    System.IO.File.WriteAllText(@"src\bin\Release2019\SCaddins2019.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2019"));
 		if (DirectoryExists(@"src\bin\Release2020"))
 		    System.IO.File.WriteAllText(@"src\bin\Release2020\SCaddins2020.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2020"));
-		    if (DirectoryExists(@"src\bin\Release2021"))
+		if (DirectoryExists(@"src\bin\Release2021"))
 		    System.IO.File.WriteAllText(@"src\bin\Release2021\SCaddins2021.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2021"));
+		if (DirectoryExists(@"src\bin\Release2022"))
+		    System.IO.File.WriteAllText(@"src\bin\Release2022\SCaddins2022.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2022"));
 		});
 
 Task("Revit2016") .IsDependentOn("Restore-NuGet-Packages")
@@ -101,6 +103,11 @@ Task("Revit2021")
 .WithCriteria(APIAvailable("2021"))
 .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2021")));
 
+Task("Revit2022")
+.IsDependentOn("Restore-NuGet-Packages")
+.WithCriteria(APIAvailable("2022"))
+.Does(() => MSBuild(solutionFile, GetBuildSettings("Release2022")));
+
 Task("SetUpTests")
 .Does(() =>
 	{
@@ -126,6 +133,10 @@ Task("Test2021")
 .IsDependentOn("SetUpTests")
 .Does(() => StartProcess(revitTestFrameworkBin, GetTestArgs("2021")));
 
+Task("Test2022")
+.IsDependentOn("SetUpTests")
+.Does(() => StartProcess(revitTestFrameworkBin, GetTestArgs("2022")));
+
 Task("Installer")
 .IsDependentOn("Restore-Installer-NuGet-Packages")
 .Does(() =>
@@ -136,6 +147,7 @@ Task("Installer")
 		Environment.SetEnvironmentVariable("R2019", APIAvailable("2019") ? "Enabled" : "Disabled");
 		Environment.SetEnvironmentVariable("R2020", APIAvailable("2020") ? "Enabled" : "Disabled");
 		Environment.SetEnvironmentVariable("R2021", APIAvailable("2021") ? "Enabled" : "Disabled");
+		Environment.SetEnvironmentVariable("R2022", APIAvailable("2022") ? "Enabled" : "Disabled");
 		var settings = new MSBuildSettings();
 		settings.SetConfiguration("Release");
 		settings.WithTarget("Rebuild");
@@ -156,6 +168,7 @@ Task("Default")
 .IsDependentOn("Revit2019")
 .IsDependentOn("Revit2020")
 .IsDependentOn("Revit2021")
+.IsDependentOn("Revit2022")
 .IsDependentOn("CreateAddinManifests");
 
 RunTarget(target);

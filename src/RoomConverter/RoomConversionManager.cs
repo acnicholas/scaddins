@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2016-2019 by Andrew Nicholas
+﻿// (C) Copyright 2016-2021 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -511,7 +511,7 @@ namespace SCaddins.RoomConverter
                 }
 
                 var eid = new ElementId(BuiltInCategory.OST_Mass);
-#if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020 || REVIT2021
+#if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020 || REVIT2021 || REVIT2022
                 DirectShape roomShape = DirectShape.CreateElement(doc, eid);
 #else
                 DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
@@ -538,7 +538,7 @@ namespace SCaddins.RoomConverter
                     return false;
                 }
 
-#if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020 || REVIT2021
+#if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020 || REVIT2021 || REVIT2022
                 DirectShape roomShape = DirectShape.CreateElement(doc, eid);
 #else
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
@@ -595,7 +595,7 @@ namespace SCaddins.RoomConverter
                 using (Solid roomSolid = results.GetGeometry())
                 {
                     var eid = new ElementId(BuiltInCategory.OST_Mass);
-#if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020 || REVIT2021
+#if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020 || REVIT2021 || REVIT2022
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid);
 #else
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");

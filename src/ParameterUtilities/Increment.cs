@@ -152,6 +152,10 @@ namespace SCaddins.ParameterUtilities
             {
                 return GetParameterByName(e, "Number");
             }
+            else if (e is Area)
+            {
+                return GetParameterByName(e, "Number");
+            }
             else if (e is FamilyInstance)
             {
                 if (IncrementSettings.Default.UseCustomParameterName)
