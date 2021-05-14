@@ -58,6 +58,8 @@ namespace SCaddins.ParameterUtilities.ViewModels
 
         public bool UseCustomParameter { get; set; }
 
+        public bool UseDestinationSearchPattern { get; set; }
+
         public void ResetToDefault()
         {
             IncrementSettings.Default.Reset();
@@ -75,6 +77,7 @@ namespace SCaddins.ParameterUtilities.ViewModels
             IncrementSettings.Default.CustomParameterName = CustomParameterName;
             IncrementSettings.Default.UseCustomParameterName = UseCustomParameter;
             IncrementSettings.Default.KeepLeadingZeros = KeepLeadingZeros;
+            IncrementSettings.Default.UseDestinationSearchPattern = UseDestinationSearchPattern;
             IncrementSettings.Default.Save();
         }
 
@@ -89,6 +92,7 @@ namespace SCaddins.ParameterUtilities.ViewModels
             CustomParameterName = IncrementSettings.Default.CustomParameterName;
             UseCustomParameter = IncrementSettings.Default.UseCustomParameterName;
             KeepLeadingZeros = IncrementSettings.Default.KeepLeadingZeros;
+            UseDestinationSearchPattern = IncrementSettings.Default.UseDestinationSearchPattern;
             NotifyOfPropertyChange(() => OffsetValue);
             NotifyOfPropertyChange(() => IncrementValue);
             NotifyOfPropertyChange(() => SourceReplacementPattern);
@@ -98,6 +102,7 @@ namespace SCaddins.ParameterUtilities.ViewModels
             NotifyOfPropertyChange(() => CustomParameterName);
             NotifyOfPropertyChange(() => UseCustomParameter);
             NotifyOfPropertyChange(() => KeepLeadingZeros);
+            NotifyOfPropertyChange(() => UseDestinationSearchPattern);
         }
     }
 }

@@ -130,5 +130,17 @@ namespace SCaddins.ParameterUtilities {
                 this["KeepLeadingZeros"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseDestinationSearchPattern {
+            get {
+                return ((bool)(this["UseDestinationSearchPattern"]));
+            }
+            set {
+                this["UseDestinationSearchPattern"] = value;
+            }
+        }
     }
 }

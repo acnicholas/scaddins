@@ -478,17 +478,6 @@ namespace SCaddins.ExportManager
             }
         }
 
-        public bool GSSanityCheck()
-        {
-            if (!Directory.Exists(GhostscriptBinDirectory) || !Directory.Exists(GhostscriptLibDirectory))
-            {
-                return false;
-            }
-            var ps = new PrinterSettings();
-            ps.PrinterName = PostscriptPrinterName;
-            return ps.IsValid;
-        }
-
         public bool HasExportOption(ExportOptions option)
         {
             return exportFlags.HasFlag(option);
@@ -496,12 +485,10 @@ namespace SCaddins.ExportManager
 
         public void LoadSettings()
         {
-            GhostscriptBinDirectory = Settings1.Default.GSBinDirectory;
             PdfPrinterName = Settings1.Default.AdobePrinterDriver;
             PrinterNameA3 = Settings1.Default.A3PrinterDriver;
             PrinterNameLargeFormat = Settings1.Default.LargeFormatPrinterDriver;
             PostscriptPrinterName = Settings1.Default.PSPrinterDriver;
-            GhostscriptLibDirectory = Settings1.Default.GSLibDirectory;
             exportDirectory = Settings1.Default.ExportDir;
             AcadVersion = ACADVersion.Default;
             SaveHistory = Settings1.Default.SaveHistory;
@@ -1107,10 +1094,10 @@ namespace SCaddins.ExportManager
             }
 
             var scheme = Test(AllSheets[0].SegmentedFileName.NameFormat);
-            SCaddinsApp.WindowManager.ShowMessageBox(AllSheets[0].SegmentedFileName.NameFormat);
+
+            //// SCaddinsApp.WindowManager.ShowMessageBox(AllSheets[0].SegmentedFileName.NameFormat);
 
             var opts = new PDFExportOptions();
-
             opts.SetNamingRule(scheme);
             opts.ColorDepth = ColorDepthType.Color;
             opts.Combine = false;
@@ -1120,6 +1107,7 @@ namespace SCaddins.ExportManager
             opts.HideScopeBoxes = true;
             opts.HideUnreferencedViewTags = true;
             opts.MaskCoincidentLines = false;
+            opts.RasterQuality = RasterQualityType.High;
             opts.OriginOffsetX = 0;
             opts.OriginOffsetY = 0;
             opts.PaperFormat = ExportPaperFormat.Default;

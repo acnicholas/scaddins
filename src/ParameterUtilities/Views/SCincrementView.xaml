@@ -28,13 +28,13 @@
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" Margin="5">Source Search Pattern</Label>
                 <Label Grid.Column="0" Grid.Row="1" Margin="5">Source Replacement Pattern</Label>
-                <Label Grid.Column="0" Grid.Row="2" Margin="5">Destination Search Pattern</Label>
+                <Label Grid.Column="0" Grid.Row="2" Margin="5" IsEnabled="{Binding Path=UseDestinationSearchPattern}">Destination Search Pattern</Label>
                 <Label Grid.Column="0" Grid.Row="3" Margin="5">Destination Replacement Pattern</Label>
                 <Label Grid.Column="0" Grid.Row="4" Margin="5">Increment Value</Label>
                 <Label Grid.Column="0" Grid.Row="5" Margin="5">Offset Value</Label>
                 <TextBox x:Name="SourceSearchPattern" Grid.Column="1" Grid.Row="0" Margin="5"></TextBox>
                 <TextBox x:Name="SourceReplacementPattern" Grid.Column="1" Grid.Row="1" Margin="5"></TextBox>
-                <TextBox x:Name="DestinationSearchPattern" Grid.Column="1" Grid.Row="2" Margin="5"></TextBox>
+                <TextBox x:Name="DestinationSearchPattern" IsEnabled="{Binding Path=UseDestinationSearchPattern}"   Grid.Column="1" Grid.Row="2" Margin="5"></TextBox>
                 <TextBox x:Name="DestinationReplacementPattern" Grid.Column="1" Grid.Row="3" Margin="5"></TextBox>
                 <TextBox x:Name="IncrementValue" Grid.Column="1" Grid.Row="4" Margin="5"></TextBox>
                 <TextBox x:Name="OffsetValue" Grid.Column="1" Grid.Row="5" Margin="5"></TextBox>
@@ -43,6 +43,7 @@
         <GroupBox Grid.Row="1" Header="Advanced Settings">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
@@ -55,6 +56,7 @@
                 <Label Grid.Column="0" Grid.Row="1" Margin="5">Custom Parameter Name</Label>
                 <TextBox x:Name="CustomParameterName" Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
                 <CheckBox x:Name="KeepLeadingZeros" Content="Keep Leading Zeros" Grid.Row="2" Grid.ColumnSpan="2" Margin="5"></CheckBox>
+                <CheckBox x:Name="UseDestinationSearchPattern" Content="Use Destination Search Pattern for replacement matching" Grid.Row="3" Grid.ColumnSpan="2" Margin="5"></CheckBox>
             </Grid>
         </GroupBox>
     </Grid>

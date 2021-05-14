@@ -90,9 +90,21 @@ namespace SCaddins.ParameterUtilities
                             continue;
                         }
                         app.DialogBoxShowing += DismissDuplicateQuestion;
-                        SetParameterToValue(
-                            param, 
-                            GetDestinationNumberAsString(param.AsString(), IncrementString(startValue, aggregateInc, IncrementSettings.Default.KeepLeadingZeros)));
+
+                        if (IncrementSettings.Default.UseDestinationSearchPattern)
+                        {
+                            SetParameterToValue(
+                               param,
+                               GetDestinationNumberAsString(param.AsString(), IncrementString(startValue, aggregateInc, IncrementSettings.Default.KeepLeadingZeros)));
+                        }
+                        else
+                        {
+                            SetParameterToValue(
+                                param,
+                                GetDestinationNumberAsString(startText, IncrementString(startValue, aggregateInc, IncrementSettings.Default.KeepLeadingZeros)));
+                        }
+
+
                         aggregateInc += incAmount;
                     }
                 }
@@ -130,7 +142,13 @@ namespace SCaddins.ParameterUtilities
             {
                 s = string.Empty;
             }
-            s = Regex.Replace(s, IncrementSettings.Default.DestinationSearchPattern, IncrementSettings.Default.DestinationReplacePattern);
+            if (IncrementSettings.Default.UseDestinationSearchPattern)
+            {
+                s = Regex.Replace(s, IncrementSettings.Default.DestinationSearchPattern, IncrementSettings.Default.DestinationReplacePattern);
+            } else
+            {
+                s = Regex.Replace(s, IncrementSettings.Default.SourceSearchPattern, IncrementSettings.Default.DestinationReplacePattern);
+            }
             return s.Replace("#VAL#", i);
         }
 
