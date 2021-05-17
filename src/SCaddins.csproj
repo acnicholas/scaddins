@@ -519,6 +519,7 @@
     <Compile Include="ModelSetupWizard\ViewModels\ModelSetupWizardOptionsViewModel.cs" />
     <Compile Include="ModelSetupWizard\ViewModels\ModelSetupWizardViewModel.cs" />
     <Compile Include="ModelSetupWizard\WorksetParameter.cs" />
+    <Compile Include="ParameterUtilities\IncrementConfig.cs" />
     <Compile Include="ParameterUtilities\SCincrementSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

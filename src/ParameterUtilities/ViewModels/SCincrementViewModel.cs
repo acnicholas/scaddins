@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2018-2020 by Andrew Nicholas
+﻿// (C) Copyright 2018-2021 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -18,11 +18,19 @@
 namespace SCaddins.ParameterUtilities.ViewModels
 {
     using Caliburn.Micro;
+    using System.Collections.Generic;
 
     public class SCincrementViewModel : PropertyChangedBase, Common.ViewModels.ISettingPanel
     {
+        private bool useDestinationSearchPattern;
+
         public SCincrementViewModel()
         {
+            Configs = new List<IncrementConfig>();
+            Configs.Add(new IncrementConfig("simple number(NNN)", @"(^.*$)", @"$1", @"(^.*$)", @"#VAL#", 1, 0, true, false));
+            Configs.Add(new IncrementConfig("after .(???.NNN)", @"(^.*$)", @"$1", @"(^.*$)", @"#VAL#", 1, 0, true, false));
+            Configs.Add(new IncrementConfig("after -(???-NNN)", @"(^.*$)", @"$1", @"(^.*$)", @"#VAL#", 1, 0, true, false));
+            Configs.Add(new IncrementConfig("leading number (NNN.???)", @"(^.*$)", @"$1", @"(^.*$)", @"#VAL#", 1, 0, true, false));
             Reset();
         }
 
@@ -39,6 +47,8 @@ namespace SCaddins.ParameterUtilities.ViewModels
                 return settings;
             }
         }
+
+        public List<IncrementConfig> Configs { get; set; }
 
         public string CustomParameterName { get; set; }
 
@@ -58,7 +68,22 @@ namespace SCaddins.ParameterUtilities.ViewModels
 
         public bool UseCustomParameter { get; set; }
 
-        public bool UseDestinationSearchPattern { get; set; }
+        public bool UseDestinationSearchPattern
+        {
+            get
+            {
+                return useDestinationSearchPattern;
+            }
+
+            set
+            {
+                if (value != useDestinationSearchPattern)
+                {
+                    useDestinationSearchPattern = value;
+                    NotifyOfPropertyChange(() => UseDestinationSearchPattern);
+                }
+            }
+        }
 
         public void ResetToDefault()
         {

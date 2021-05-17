@@ -104,7 +104,6 @@ namespace SCaddins.ParameterUtilities
                                 GetDestinationNumberAsString(startText, IncrementString(startValue, aggregateInc, IncrementSettings.Default.KeepLeadingZeros)));
                         }
 
-
                         aggregateInc += incAmount;
                     }
                 }
@@ -156,7 +155,14 @@ namespace SCaddins.ParameterUtilities
             Element e,
             string parameterName)
         {
-            return e.LookupParameter(parameterName);
+            if (IncrementSettings.Default.UseCustomParameterName)
+            {
+                return e.LookupParameter(IncrementSettings.Default.CustomParameterName);
+            }
+            else
+            {
+                return e.LookupParameter(parameterName);
+            }
         }
 
         private static Parameter GetParameterForReference(Document doc, Reference r)
@@ -176,18 +182,10 @@ namespace SCaddins.ParameterUtilities
             }
             else if (e is FamilyInstance)
             {
-                if (IncrementSettings.Default.UseCustomParameterName)
-                {
-                    return GetParameterByName(e, IncrementSettings.Default.CustomParameterName);
-                }
                 return GetParameterByName(e, "Mark");
             }
             else if (e is Wall)
             {
-                if (IncrementSettings.Default.UseCustomParameterName)
-                {
-                    return GetParameterByName(e, IncrementSettings.Default.CustomParameterName);
-                }
                 return GetParameterByName(e, "Mark");
             }
             else if (e is TextNote)
