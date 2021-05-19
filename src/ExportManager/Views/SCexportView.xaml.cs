@@ -1,17 +1,48 @@
 ﻿namespace SCaddins.ExportManager.Views
 {
+    using System.Collections.Generic;
     using System.Windows.Controls;
-    using System.Windows.Input;
+    using SCaddins.ExportManager.ViewModels;
 
     public partial class SCexportView
     {
         public SCexportView()
         {
             InitializeComponent();
-            Sheets.Focus();
+            this.Loaded += SCexportView_Loaded;    
         }
 
-        private void SelectAll_Click(object sender, System.Windows.RoutedEventArgs e)
+        public static void SelectRowByIndex(DataGrid dataGrid, List<Autodesk.Revit.DB.ViewSheet> preSelectedViews)
+        {
+            if (!dataGrid.SelectionUnit.Equals(DataGridSelectionUnit.FullRow))
+            {
+                return;
+            }
+
+            foreach (var datagridRow in dataGrid.Items)
+            {
+                var row = (ExportSheet)datagridRow;
+                foreach (var viewSheet in preSelectedViews)
+                {
+                    if (viewSheet.SheetNumber == row.SheetNumber)
+                    {
+                        dataGrid.SelectedItems.Add(datagridRow);
+                    }
+                }
+            }
+
+            dataGrid.Focus();
+        }
+
+        private void SCexportView_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            SCexportViewModel vm = DataContext as SCexportViewModel;
+            if (vm != null) {
+                SelectRowByIndex(Sheets, vm.PreSelectedViews);
+            }
+        }
+
+    private void SelectAll_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             Sheets.SelectAll();
         }

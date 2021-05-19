@@ -55,12 +55,36 @@ namespace SCaddins.ExportManager
                 return Result.Failed;
             }
 
+            var views = new List<ViewSheet>();
+
+            if (uidoc.Document.ActiveView.ViewType == ViewType.ProjectBrowser)
+            {
+                var s = uidoc.Selection.GetElementIds();
+                foreach (var id in s)
+                {
+                    var projectBrowserView = uidoc.Document.GetElement(id);
+                    if (projectBrowserView is View)
+                    {
+                        var v = (View)projectBrowserView;
+                        if (v.ViewType == ViewType.ProjectBrowser)
+                        {
+                            continue;
+                        }
+                        if (v is ViewSheet)
+                        {
+                            views.Add((ViewSheet)v);
+                            continue;
+                        }
+                    }
+                }
+            }
+
             // Deselect all elements before continuing so they don't appear incorrectly
             uidoc.Selection.SetElementIds(new List<ElementId>());
 
             var manager = new Manager(uidoc);
             var log = new ExportLog();
-            var vm = new ViewModels.SCexportViewModel(manager);
+            var vm = new ViewModels.SCexportViewModel(manager, views);
             var wm = WindowManager;
             wm.ShowDialog(vm, null, ViewModels.SCexportViewModel.DefaultWindowSettings);
 

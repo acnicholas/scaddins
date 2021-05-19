@@ -113,6 +113,7 @@
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 </Style>
             </DataGrid.Resources>
+                 
             <DataGrid.AlternatingRowBackground>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
             </DataGrid.AlternatingRowBackground>
@@ -127,6 +128,9 @@
                             <Setter Property="Foreground" Value="Magenta"></Setter>
                         </DataTrigger>
                     </Style.Triggers>
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{x:Static SystemColors.HighlightColor}"/>
+                    </Style.Resources>
                 </Style>
             </DataGrid.RowStyle>
 

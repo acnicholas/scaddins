@@ -17,8 +17,8 @@
 
 namespace SCaddins.ParameterUtilities.ViewModels
 {
-    using Caliburn.Micro;
     using System.Collections.Generic;
+    using Caliburn.Micro;
 
     public class SCincrementViewModel : PropertyChangedBase, Common.ViewModels.ISettingPanel
     {

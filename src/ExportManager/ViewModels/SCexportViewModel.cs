@@ -46,7 +46,7 @@ namespace SCaddins.ExportManager.ViewModels
         private ObservableCollection<ExportSheet> sheets;
         private ICollectionView sheetsCollection;
 
-        public SCexportViewModel(Manager exportManager)
+        public SCexportViewModel(Manager exportManager, List<Autodesk.Revit.DB.ViewSheet> preSelectedViews)
         {
             printTypes = (new[] { "Print A3", "Print A2", "Print Full Size" }).ToList();
             selectedPrintType = "Print A3";
@@ -60,6 +60,12 @@ namespace SCaddins.ExportManager.ViewModels
             sheetFilter = null;
             recentExportSets = RecentExport.GetAllUserViewSets(exportManager.AllViewSheetSets);
             recentExportSets = recentExportSets.OrderByDescending(v => v.CreationDate).ToList();
+            PreSelectedViews = preSelectedViews;
+
+            foreach (var viewSheet in preSelectedViews)
+            {
+                SelectedSheets.Add(sheets.Where(s => s.SheetNumber == viewSheet.SheetNumber).First());
+            }
         }
 
         public enum CloseMode
@@ -123,6 +129,8 @@ namespace SCaddins.ExportManager.ViewModels
                 return CanExport ? "Export selected drawings. For further settings goto options." : "Select sheets to enable exporting.";
             }
         }
+
+        public List<Autodesk.Revit.DB.ViewSheet> PreSelectedViews { get; private set; }
 
         public string InvlaidFileNamingStatusText
         {
