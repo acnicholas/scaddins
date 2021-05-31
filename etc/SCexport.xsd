@@ -7,6 +7,7 @@
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element name="Format" type="xs:string" />
+                            <xs:element name="NativePDFExportScheme" type="xs:string" minOccurs="0" maxOccurs="1"/>
                             <xs:element minOccurs="0" maxOccurs="unbounded" name="Hook" type="xs:string" />
                         </xs:sequence>
                         <xs:attribute name="name" type="xs:string" use="required" />

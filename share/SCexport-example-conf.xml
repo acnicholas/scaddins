@@ -3,7 +3,7 @@
      SCexport config file template.
      Andrew Nicholas 20151218
 
-     There are two ways to user this file:
+     There are two ways to use this file:
         1.  Place this in the same folder as your Revit Central file and rename it to
             SCexport.xml
 
@@ -38,7 +38,8 @@
 <SCexport>
     <!--This is the first scheme. The first is the default-->
     <FilenameScheme name="Architectural">
-        <Format>$projectNumber-$sheetNumber[$sheetRevision] - $sheetDescription</Format>
+      <Format>$projectNumber-$sheetNumber[$sheetRevision] - $sheetDescription __- test -_ $sheetRevisionDateEND</Format>
+      <NativePDFExportScheme>TestScheme</NativePDFExportScheme>
     </FilenameScheme>
 
     <!--The old SC standard scheme-->

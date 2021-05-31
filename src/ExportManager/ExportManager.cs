@@ -287,7 +287,7 @@ namespace SCaddins.ExportManager
         {
 #if DEBUG
                         Debug.WriteLine("getting config file for " + doc.Title);
-                        string s = @"C:\Andrew\code\cs\scaddins\share\SCexport-example-conf.xml";
+                        string s = @"C:\Code\cs\scaddins\src\bin\Debug\SCexport-example-conf.xml";
 #else
             var fec = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_ProjectInformation);
             foreach (var element in fec) {
@@ -797,7 +797,7 @@ namespace SCaddins.ExportManager
             using (var opts = GetDefaultPDFExportOptions())
             {
                 log.AddMessage(Resources.MessageAssigningExportOptions + opts);
-                var name = vs.FullExportName + Resources.FileExtensionDWG;
+                var name = vs.FullExportName + Resources.FileExtensionPDF;
                 log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
                 log.AddMessage(Resources.MessageExportingToFileName + name);
                 Doc.Export(vs.ExportDirectory, views, opts);
@@ -934,7 +934,7 @@ namespace SCaddins.ExportManager
             }
         }
 
-#if REVIT2022
+#if REVIT2022 || DEBUG
         private bool TryGetExportPdfSettingsByName(string name, out PDFExportOptions options)
         {
             var collector = new FilteredElementCollector(Doc);
@@ -943,6 +943,7 @@ namespace SCaddins.ExportManager
             {
                 if (setting.Name == name)
                 {
+                    //// SCaddinsApp.WindowManager.ShowMessageBox("PDF settings: " + name + " found.");
                     var s = setting as ExportPDFSettings;
                     options = s.GetOptions();
                     return true;
@@ -1084,18 +1085,16 @@ namespace SCaddins.ExportManager
         }
 #endif
 
-#if REVIT2022
+#if REVIT2022 || DEBUG
         private PDFExportOptions GetDefaultPDFExportOptions()
         {
             PDFExportOptions savedOptions;
-            if (TryGetExportPdfSettingsByName("SCX", out savedOptions))
+            if (TryGetExportPdfSettingsByName(AllSheets[0].SegmentedFileName.NativePDFExportScheme, out savedOptions))
             {
                 return savedOptions;
             }
 
             var scheme = Test(AllSheets[0].SegmentedFileName.NameFormat);
-
-            //// SCaddinsApp.WindowManager.ShowMessageBox(AllSheets[0].SegmentedFileName.NameFormat);
 
             var opts = new PDFExportOptions();
             opts.SetNamingRule(scheme);
@@ -1190,6 +1189,10 @@ namespace SCaddins.ExportManager
                                     case "Hook":
                                     name.Hooks.Add(reader.ReadString());
                                     break;
+
+                                    case "NativePDFExportScheme":
+                                    name.NativePDFExportScheme = reader.ReadString();
+                                    break;
                                 }
                             }
                         } while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == "FilenameScheme"));
@@ -1252,7 +1255,7 @@ namespace SCaddins.ExportManager
                 settings.Schemas.Add(
                     null, SCaddins.Constants.InstallDirectory + @"\etc\SCexport.xsd");
 #else
-                                settings.Schemas.Add(null, @"C:\Andrew\code\cs\scaddins\etc\SCexport.xsd");
+                    settings.Schemas.Add(null, @"C:\Code\cs\scaddins\etc\SCexport.xsd");
 #endif
                 settings.ValidationType = ValidationType.Schema;
                 using (XmlReader reader = XmlReader.Create(filename, settings))

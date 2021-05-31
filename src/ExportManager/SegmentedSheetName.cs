@@ -32,6 +32,7 @@ namespace SCaddins.ExportManager
             Hooks = new Collection<string>();
             // ReSharper disable once StringLiteralTypo
             Name = "YYYYMMDD-AD-NNN[R]";
+            NativePDFExportScheme = string.Empty;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -63,6 +64,8 @@ namespace SCaddins.ExportManager
                 NotifyPropertyChanged(nameof(NameFormat));
             }
         }
+
+        public string NativePDFExportScheme { get; set; }
 
         public Collection<string> Hooks { get; }
 
