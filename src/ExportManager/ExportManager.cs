@@ -796,10 +796,26 @@ namespace SCaddins.ExportManager
             ////fixme only get these options once.
             using (var opts = GetDefaultPDFExportOptions())
             {
+                ////test outputname
+                var segs = opts.GetNamingRule();
+                string filenameTest = string.Empty;
+                foreach (var seg in segs)
+                {
+                    filenameTest += seg.Prefix;
+                    var pid = seg.ParamId;
+                    //// var cid = seg.CategoryId;
+                    var param = vs.Sheet.Parameters.Cast<Parameter>().Where(p => p.Id == pid);
+                    var paramValue = param.First().AsValueString();
+                    filenameTest += paramValue;
+                    filenameTest += seg.Suffix;
+                }
+
+                SCaddinsApp.WindowManager.ShowMessageBox("Export name: " + filenameTest);
+
                 log.AddMessage(Resources.MessageAssigningExportOptions + opts);
                 var name = vs.FullExportName + Resources.FileExtensionPDF;
                 log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
-                log.AddMessage(Resources.MessageExportingToFileName + name);
+                log.AddMessage(Resources.MessageExportingToFileName + name);               
                 Doc.Export(vs.ExportDirectory, views, opts);
             }
 #endif
