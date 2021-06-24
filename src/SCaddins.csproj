@@ -417,6 +417,7 @@
     <Compile Include="DestructivePurge\Views\DestructivePurgeView.xaml.cs">
       <DependentUpon>DestructivePurgeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExportManager\NativeNamingRulesUtils.cs" />
     <Compile Include="ExportManager\OpenableView.cs" />
     <Compile Include="ExportManager\RecentExport.cs" />
     <Compile Include="ExportManager\SheetFilter.cs" />

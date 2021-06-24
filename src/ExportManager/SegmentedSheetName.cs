@@ -21,6 +21,7 @@ namespace SCaddins.ExportManager
     using System.ComponentModel;
     using System.Globalization;
     using System.Runtime.CompilerServices;
+    using Autodesk.Revit.DB;
 
     public class SegmentedSheetName : INotifyPropertyChanged
     {
@@ -32,7 +33,10 @@ namespace SCaddins.ExportManager
             Hooks = new Collection<string>();
             // ReSharper disable once StringLiteralTypo
             Name = "YYYYMMDD-AD-NNN[R]";
-            NativePDFExportScheme = string.Empty;
+#if REVIT2022
+            PDFExportOptions = null;
+            DWGExportOptions = null;
+#endif
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -65,7 +69,11 @@ namespace SCaddins.ExportManager
             }
         }
 
-        public string NativePDFExportScheme { get; set; }
+#if REVIT2022
+        public PDFExportOptions PDFExportOptions { get;  set; }
+
+        public PDFExportOptions DWGExportOptions { get;  set; }
+#endif
 
         public Collection<string> Hooks { get; }
 

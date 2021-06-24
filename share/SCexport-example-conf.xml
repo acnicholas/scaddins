@@ -16,6 +16,7 @@
 -->
 
 <!-- 
+  WARNING!!! <Format> is only used for revit verionsion 2021 and older. 
 	<Format> uses the available replacement strings:
     
     $height 
@@ -30,20 +31,15 @@
     $sheetRevision
     $sheetRevisionDate 
     $sheetRevisionDescription
-    
     __customParameter__				-	get the string value of any sheet parameter:
 -->
 
 <SCexport>
     <!--This is the first scheme. The first is the default-->
     <FilenameScheme name="Architectural">
-      <Format>$projectNumber-$sheetNumber[$sheetRevision] - $sheetDescription __- test -_ $sheetRevisionDateEND</Format>
-      <NativePDFExportScheme>TestScheme</NativePDFExportScheme>
-    </FilenameScheme>
-
-    <!--The old SC standard scheme-->
-    <FilenameScheme name="Architectural-OLD">
-        <Format>$projectNumber-$sheetNumber[$sheetRevision]</Format>
+      <Format>$projectNumber-$sheetNumber[$sheetRevision] - $sheetDescription __- test -_ $sheetRevisionDateEND</Format> <!--USE FOR REVIT 2021 AND EARLIER-->
+      <PDFNamingRule>SC-PDF</PDFNamingRule> <!--USE FOR REVIT 2022 AND LATER-->
+      <DWGNamingRule>SC-DWG</DWGNamingRule>  <!--USE FOR REVIT 2022 AND LATER, WILL USE PdfNamingRule IF NOT SET-->
     </FilenameScheme>
     
     <!--Tag pdf's after export-->
@@ -70,23 +66,7 @@
         <Format>$projectNumber-$sheetNumber[$sheetRevision]</Format>
         <Hook>watermark</Hook>
     </FilenameScheme>
-     
-    <FilenameScheme name="Brackets">
-        <Format>$projectNumber-$sheetNumber($sheetRevision)</Format>
-    </FilenameScheme>
-    
-    <FilenameScheme name="CRevisions">
-        <Format>49-FV-SC001-$sheetNumber_$sheetRevision</Format>
-    </FilenameScheme>
-    
-    <FilenameScheme name="Simple">
-        <Format>$sheetNumber_$sheetRevision</Format>
-    </FilenameScheme>
-
-  <FilenameScheme name="Custom Parameter Test">
-    <Format>__SC-Sheet_Category__--$projectNumber-$sheetNumber[$sheetRevision]-</Format>
-  </FilenameScheme>
-    
+            
     <!--
         Tag pdf's after export   
         requirements:
