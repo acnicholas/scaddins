@@ -315,10 +315,6 @@ namespace SCaddins.ExportManager
 
         public static string GetConfigFileName(Document doc)
         {
-#if DEBUG
-                        Debug.WriteLine("getting config file for " + doc.Title);
-                        string s = @"C:\Code\cs\scaddins\src\bin\Debug\SCexport-example-conf.xml";
-#else
             var fec = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_ProjectInformation);
             foreach (var element in fec) {
                 if (element is ProjectInfo) {
@@ -331,7 +327,6 @@ namespace SCaddins.ExportManager
             }
             string central = FileUtilities.GetCentralFileName(doc);
             string s = Path.GetDirectoryName(central) + @"\SCexport.xml";
-#endif
             return s;
         }
 
@@ -463,6 +458,7 @@ namespace SCaddins.ExportManager
                 ExportRevitPDF(sheet, log);
             }
 
+#if !REVIT2022
             if (sheet.SCPrintSetting != null)
             {
                 if (exportFlags.HasFlag(ExportOptions.DWG))
@@ -479,6 +475,17 @@ namespace SCaddins.ExportManager
             {
                 log.AddError(sheet.FullExportName, Resources.MessageNoPrintSettingAssigned);
             }
+#else
+            if (exportFlags.HasFlag(ExportOptions.DWG))
+            {
+                ExportDWG(sheet, exportFlags.HasFlag(ExportOptions.NoTitle), log);
+            }
+
+            if (exportFlags.HasFlag(ExportOptions.PDF))
+            {
+                ExportAdobePDF(sheet, log);
+            }
+#endif
             log.EndLoggingIndividualItem(startTime, null);
         }
 
@@ -666,19 +673,45 @@ namespace SCaddins.ExportManager
         internal void LoadConfigFile()
         {
             FileNameTypes.Clear();
+
+            //// Load config from project if it exists
+            var settingsOne = Doc.ProjectInformation.LookupParameter("Primary SCexport Settings Name");
+            var formatOne = Doc.ProjectInformation.LookupParameter("Primary SCexport Settings Format");
+            var pdfSettingsOne = Doc.ProjectInformation.LookupParameter("Primary SCexport PDF Settings Name");
+            var dwgSettingsOne = Doc.ProjectInformation.LookupParameter("Primary SCexport DWG Settings Name");
+
+            if (settingsOne != null && formatOne != null)
+            {
+                var name = new SegmentedSheetName();
+                name.Name = settingsOne.AsString();
+                name.NameFormat = formatOne.AsString();
+                FileNameTypes.Add(name);
+            }
+            ////} else
+            ////{
+            ////    SCaddinsApp.WindowManager.ShowMessageBox("settings error");
+            ////}
+
+            //// Load config settings from file if available
             var config = GetConfigFileName(Doc);
             var b = ImportXMLinfo(config);
+
+            /// Set a default config if none are found
             if (!b || FileNameTypes.Count <= 0)
             {
                 var name = new SegmentedSheetName();
                 name.Name = "YYYYMMDD-AD-NNN";
                 name.NameFormat = "$projectNumber-$sheetNumber[$sheetRevision] - $sheetDescription";
-                FileNameTypes.Add(name);
-                FileNameScheme = name;
-                #if REVIT2022
+#if REVIT2022
                 name.PDFExportOptions = CreateDefaultPDFExportOptions(name.NameFormat, Doc);
                 name.DWGExportOptions = name.PDFExportOptions;
-                #endif
+#endif
+                FileNameTypes.Add(name);
+                FileNameScheme = name;
+                FileNameScheme = FileNameTypes[0];
+            } else
+            {
+                FileNameScheme = FileNameTypes[0];
             }
         }
 
@@ -858,6 +891,7 @@ namespace SCaddins.ExportManager
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private void ExportAdobePDF(ExportSheet vs, ExportLog log)
         {
+#if !REVIT2022
             if (log != null) {
                 log.AddMessage(Environment.NewLine + Resources.MessageStartingPDFExport);
             } else
@@ -919,6 +953,7 @@ namespace SCaddins.ExportManager
             {
                 ////log.AddError(vs.FullExportName, Resources.ErrorCantOverwriteFile);
             }
+#endif
         }
 
         // FIXME this is nasty
@@ -1056,7 +1091,7 @@ namespace SCaddins.ExportManager
                                     case "Hook":
                                     name.Hooks.Add(reader.ReadString());
                                     break;
-                                    #if REVIT2022
+#if REVIT2022
                                     case "PDFNamingRule":
                                         PDFExportOptions opts;
                                         if (TryGetExportPdfSettingsByName(reader.ReadString(), out opts))
@@ -1073,12 +1108,12 @@ namespace SCaddins.ExportManager
                                             name.DWGExportOptions = opts2;
                                         }
                                         break;
-                                    #endif
+#endif
                                 }
                             }
                         } while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == "FilenameScheme"));
                         FileNameTypes.Add(name);
-                        #if REVIT2022
+#if REVIT2022
                         if (name.PDFExportOptions == null && name.NameFormat != null)
                         {
                             name.PDFExportOptions = CreateDefaultPDFExportOptions(name.NameFormat, Doc);
@@ -1087,7 +1122,7 @@ namespace SCaddins.ExportManager
                         {
                             name.DWGExportOptions = name.PDFExportOptions;
                         }
-                        #endif
+#endif
                     }
                 }
 
@@ -1126,7 +1161,6 @@ namespace SCaddins.ExportManager
                     AddExportOption(ExportOptions.PDF);
              }
 #endif
-            //// AddExportOption(ExportOptions.DWG);
             if (Settings1.Default.HideTitleBlocks) {
                 AddExportOption(ExportOptions.NoTitle);
             }

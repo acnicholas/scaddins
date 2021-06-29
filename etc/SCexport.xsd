@@ -3,18 +3,18 @@
     <xs:element name="SCexport">
         <xs:complexType>
             <xs:sequence>
-                <xs:element maxOccurs="unbounded" name="FilenameScheme">
+                <xs:element minOccurs="1" maxOccurs="unbounded" name="FilenameScheme">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="Format" type="xs:string" />
-                            <xs:element name="PDFNamingRule" type="xs:string" minOccurs="0" maxOccurs="1"/>
-							<xs:element name="DWGNamingRule" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                            <xs:element name="Format" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                            <xs:element name="PDFNamingRule" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element name="DWGNamingRule" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
                             <xs:element minOccurs="0" maxOccurs="unbounded" name="Hook" type="xs:string" />
                         </xs:sequence>
                         <xs:attribute name="name" type="xs:string" use="required" />
                     </xs:complexType>
                 </xs:element>
-                <xs:element maxOccurs="unbounded" name="PostExportHook">
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="PostExportHook">
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element name="Command" type="xs:string" />

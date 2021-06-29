@@ -39,7 +39,9 @@ namespace SCaddins.ExportManager
         private string pageSize;
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PrinterJobControl")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "printSetting")]
+#if !REVIT2022
         private PrintSetting printSetting;
+#endif
         private string projectNumber;
         private string scale;
         private string scaleBarScale;
@@ -180,7 +182,11 @@ namespace SCaddins.ExportManager
         {
             get
             {
+#if REVIT2022
+                return SegmentedFileName.Name;
+#else
                 return printSetting != null ? printSetting.Name : string.Empty;
+#endif
             }
         }
 
@@ -221,6 +227,7 @@ namespace SCaddins.ExportManager
             }
         }
 
+#if !REVIT2022
         public PrintSetting SCPrintSetting
         {
             get
@@ -228,6 +235,7 @@ namespace SCaddins.ExportManager
                 return printSetting;
             }
         }
+#endif
 
         public SegmentedSheetName SegmentedFileName
         {
@@ -486,6 +494,10 @@ namespace SCaddins.ExportManager
 
         public override string ToString()
         {
+#if REVIT2022
+            string printSetting = SegmentedFileName.Name;
+#endif
+
             string s = "Sheet information: " + Environment.NewLine +
                 "    SheetRevisionDateTime={0}," + Environment.NewLine +
                 "    Doc={1}," + Environment.NewLine +
@@ -609,13 +621,19 @@ namespace SCaddins.ExportManager
             }
             appearsInSheetList = this.Sheet.get_Parameter(BuiltInParameter.SHEET_SCHEDULED).AsInteger() == 1;
             pageSize = PrintSettings.GetSheetSizeAsString(this);
+#if !REVIT2022
             printSetting = PrintSettings.GetPrintSettingByName(doc, pageSize, forceRasterPrint);
             if (printSetting == null)
             {
                 printSetting = PrintSettings.GetPrintSettingByName(doc, pageSize, forceRasterPrint);
             }
+#endif
             verified = true;
+#if !REVIT2022
             ValidPrintSettingIsAssigned = printSetting != null;
+#else
+            ValidPrintSettingIsAssigned = true;
+#endif
             NotifyPropertyChanged(nameof(Scale));
             NotifyPropertyChanged(nameof(PrintSettingName));
             NotifyPropertyChanged(nameof(ValidExportName));
@@ -674,6 +692,13 @@ namespace SCaddins.ExportManager
 
         private string PopulateSegmentedFileName()
         {
+#if REVIT2022
+            var opts = this.SegmentedFileName.PDFExportOptions;
+            if (opts != null)
+            {
+                return NativeNamingRulesUtils.GetExportNameFromNamingRule(opts, this);
+            }
+#endif
             return PostExportHookCommand.FormatConfigurationString(this, segmentedFileName.NameFormat, string.Empty);
         }
 

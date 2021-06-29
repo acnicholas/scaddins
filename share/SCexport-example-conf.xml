@@ -37,7 +37,7 @@
 <SCexport>
     <!--This is the first scheme. The first is the default-->
     <FilenameScheme name="Architectural">
-      <Format>$projectNumber-$sheetNumber[$sheetRevision] - $sheetDescription __- test -_ $sheetRevisionDateEND</Format> <!--USE FOR REVIT 2021 AND EARLIER-->
+      <Format>$projectNumber-$sheetNumber[$sheetRevision] - $sheetDescription</Format> <!--USE FOR REVIT 2021 AND EARLIER-->
       <PDFNamingRule>SC-PDF</PDFNamingRule> <!--USE FOR REVIT 2022 AND LATER-->
       <DWGNamingRule>SC-DWG</DWGNamingRule>  <!--USE FOR REVIT 2022 AND LATER, WILL USE PdfNamingRule IF NOT SET-->
     </FilenameScheme>
@@ -105,8 +105,7 @@
         <Args> /C RENAME "$exportDir\$fullExportName.$fileExtension" "$fullExportName_DWG.$fileExtension"</Args>
         <SupportedFileExtension>dwg</SupportedFileExtension>
     </PostExportHook>
-    
-    
+      
     <!--
         add a watermark to pdf's
         requires: https://www.pdflabs.com/tools/pdftk-server/

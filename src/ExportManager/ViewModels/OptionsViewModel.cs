@@ -268,6 +268,15 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public bool ExportAdobePDFEnabled
+        {
+#if REVIT2022
+            get { return false; }
+#else
+            get { return true; }
+#endif
+        }
+
         public bool ExportDGN
         {
             get; set;
@@ -320,11 +329,11 @@ namespace SCaddins.ExportManager.ViewModels
 
         public bool ExportRevitPDFEnabled
         {
-            #if REVIT2022
+#if REVIT2022
             get { return true; }
-            #else
+#else
             get { return false; }
-            #endif
+#endif
         }
 
         public bool ExportRevitPDF

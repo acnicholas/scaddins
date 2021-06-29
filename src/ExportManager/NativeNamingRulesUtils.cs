@@ -1,10 +1,7 @@
 ﻿namespace SCaddins.ExportManager
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Autodesk.Revit.DB;
     using SCaddins.Common;
 
@@ -68,6 +65,7 @@
             var sheetParam = fec.First() as ViewSheet;
 
             string prefix = string.Empty;
+            ////string suffix = string.Empty;
 
             string[] slib = {
                 "$height",
@@ -89,18 +87,20 @@
             string s = filenameScheme;
 
             char[] c = s.ToCharArray();
-            for (int i = 0; i < c.Length - 1; i++)
+            for (int i = 0; i < c.Length; i++)
             {
-                if (c[i] != '_' && c[i] != '$')
+                prefix += c[i];
+
+                if (i  == c.Length - 1)
                 {
-                    prefix += c[i];
+                    if (scheme.Count > 0)
+                    {
+                        scheme[scheme.Count - 1].Suffix = prefix;
+                    }
                 }
 
-                if (c[i] == '_')
+                if (i > 0 && c[i] == '_' && c[i - 1] == '_')
                 {
-                    i++;
-                    if (c[i] == '_')
-                    {
                         var n = s.Substring(i);
                         if (n.Contains(@"__"))
                         {
@@ -113,12 +113,17 @@
                             if (p.Count > 0)
                             {
                                 seg.ParamId = p[0].Id;
-                                seg.Prefix = prefix;
+                                seg.Prefix = prefix.Replace("_", string.Empty);
+                                prefix = string.Empty;
                                 scheme.Add(seg);
                             }
                         }
-                        prefix = string.Empty;
-                    }
+                        else
+                        {
+                            var seg = TableCellCombinedParameterData.Create();
+                            prefix += c[i].ToString();
+                            scheme.Add(seg);
+                        }
                 }
 
                 if (c[i] == '$')
@@ -148,43 +153,48 @@
                                         i += t.Length - 1;
                                         seg.ParamId = new ElementId(BuiltInParameter.PROJECT_NUMBER);
                                         seg.CategoryId = new ElementId(BuiltInCategory.OST_ProjectInformation);
-                                        seg.Prefix = prefix;
+                                        seg.Prefix = prefix.Replace("$", string.Empty);
+                                        prefix = string.Empty;
                                         scheme.Add(seg);
                                         break;
                                     case "$sheetDescription":
                                         i += t.Length - 1;
                                         seg.ParamId = new ElementId(BuiltInParameter.SHEET_NAME);
-                                        seg.Prefix = prefix;
+                                        seg.Prefix = prefix.Replace("$", string.Empty);
+                                        prefix = string.Empty;
                                         scheme.Add(seg);
                                         break;
                                     case "$sheetNumber":
                                         i += t.Length - 1;
                                         seg.ParamId = new ElementId(BuiltInParameter.SHEET_NUMBER);
-                                        seg.Prefix = prefix;
+                                        seg.Prefix = prefix.Replace("$", string.Empty);
+                                        prefix = string.Empty;
                                         scheme.Add(seg);
                                         break;
                                     case "$sheetRevision":
                                         i += t.Length - 1;
                                         seg.ParamId = new ElementId(BuiltInParameter.SHEET_CURRENT_REVISION);
-                                        seg.Prefix = prefix;
+                                        seg.Prefix = prefix.Replace("$", string.Empty);
+                                        prefix = string.Empty;
                                         scheme.Add(seg);
                                         break;
                                     case "$sheetRevisionDate":
                                         i += t.Length - 1;
                                         seg.ParamId = new ElementId(BuiltInParameter.SHEET_CURRENT_REVISION_DATE);
                                         seg.CategoryId = new ElementId(BuiltInCategory.OST_Revisions);
-                                        seg.Prefix = prefix;
+                                        seg.Prefix = prefix.Replace("$", string.Empty);
+                                        prefix = string.Empty;
                                         scheme.Add(seg);
                                         break;
                                     case "$sheetRevisionDescription":
                                         i += t.Length - 1;
                                         seg.ParamId = new ElementId(BuiltInParameter.SHEET_CURRENT_REVISION_DESCRIPTION);
-                                        seg.Prefix = prefix;
+                                        seg.Prefix = prefix.Replace("$", string.Empty);
+                                        prefix = string.Empty;
                                         scheme.Add(seg);
                                         break;
                                 }
-                                prefix = string.Empty;
-                            }
+                            } 
                         }
                     }
                 }
