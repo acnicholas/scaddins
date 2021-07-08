@@ -8,5 +8,8 @@
     <Setting Name="CustomSheetParameterTwo" Type="System.String" Scope="User">
       <Value Profile="(Default)">SC-Sheet_Category_Secondary</Value>
     </Setting>
+    <Setting Name="DeleteRevisionClouds" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

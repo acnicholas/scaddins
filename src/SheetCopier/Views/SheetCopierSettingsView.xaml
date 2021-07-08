@@ -10,6 +10,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <GroupBox Header="Additional Sheet Parameters">
@@ -30,6 +31,17 @@
                 <TextBox x:Name="PrimaryCustomSheetParameter" Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
                 <Label x:Name="SecondParamName" Grid.Row="2" Grid.Column="0" Margin="5">Additional Sheet Parameter(2)</Label>
                 <TextBox x:Name="SecondaryCustomSheetParameter" Grid.Row="2" Grid.Column="1" Margin="5"></TextBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Revisions">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <CheckBox x:Name="DeleteRevisionClouds">Delete Revision Clouds From Source View</CheckBox>
             </Grid>
         </GroupBox>
     </Grid>

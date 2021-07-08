@@ -46,5 +46,17 @@ namespace SCaddins.SheetCopier {
                 this["CustomSheetParameterTwo"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DeleteRevisionClouds {
+            get {
+                return ((bool)(this["DeleteRevisionClouds"]));
+            }
+            set {
+                this["DeleteRevisionClouds"] = value;
+            }
+        }
     }
 }

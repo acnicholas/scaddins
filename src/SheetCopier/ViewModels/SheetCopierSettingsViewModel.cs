@@ -13,6 +13,8 @@
             Reset();
         }
 
+        public bool DeleteRevisionClouds { get; set; }
+
         public string PrimaryCustomSheetParameter { get; set;  }
 
         public string SecondaryCustomSheetParameter { get; set; }
@@ -21,6 +23,7 @@
         {
             Settings.Default.CustomSheetParameterOne = PrimaryCustomSheetParameter;
             Settings.Default.CustomSheetParameterTwo = SecondaryCustomSheetParameter;
+            Settings.Default.DeleteRevisionClouds = DeleteRevisionClouds;
             Settings.Default.Save();
         }
 
@@ -28,6 +31,7 @@
         {
             PrimaryCustomSheetParameter = Settings.Default.CustomSheetParameterOne;
             SecondaryCustomSheetParameter = Settings.Default.CustomSheetParameterTwo;
+            DeleteRevisionClouds = Settings.Default.DeleteRevisionClouds;
         }
 
         public void ResetToDefault()

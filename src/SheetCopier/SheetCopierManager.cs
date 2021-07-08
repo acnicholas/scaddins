@@ -85,6 +85,11 @@ namespace SCaddins.SheetCopier
 
         public static void DeleteRevisionClouds(ElementId viewId, Document doc)
         {
+            if (!Settings.Default.DeleteRevisionClouds)
+            {
+                return;
+            }
+
             if (doc == null || viewId == null)
             {
                 // FIXME add error message;
@@ -122,6 +127,14 @@ namespace SCaddins.SheetCopier
         public static List<Revision> GetAllHiddenRevisions(Document doc)
         {
             var revisions = new List<Revision>();
+
+            //// don't get revision if not needed
+            //// just return an empty list.
+            if (!Settings.Default.DeleteRevisionClouds)
+            {
+                return revisions;
+            }
+
             using (FilteredElementCollector collector = new FilteredElementCollector(doc))
             {
                 collector.OfCategory(BuiltInCategory.OST_Revisions);
@@ -319,7 +332,9 @@ namespace SCaddins.SheetCopier
                     sheet.DestinationSheet,
                     transform = new Transform(ElementTransformUtils.GetTransformFromViewToView(sheet.SourceSheet, sheet.DestinationSheet)),
                     options = new CopyPasteOptions());
-                DeleteRevisionClouds(sheet.DestinationSheet.Id, doc);
+                if (Settings.Default.DeleteRevisionClouds) {
+                    DeleteRevisionClouds(sheet.DestinationSheet.Id, doc);
+                }
                 options.Dispose();
                 transform.Dispose();
             }
@@ -339,16 +354,19 @@ namespace SCaddins.SheetCopier
                 return true;
             }
 
-            // turn on hidden revisions
-            foreach (Revision rev in hiddenRevisionClouds)
+            // turn on hidden revisions, if option set
+            if (Settings.Default.DeleteRevisionClouds)
             {
-                try
+                foreach (Revision rev in hiddenRevisionClouds)
                 {
-                    rev.Visibility = RevisionVisibility.CloudAndTagVisible;
-                }
-                catch (Autodesk.Revit.Exceptions.ArgumentOutOfRangeException ex)
-                {
-                    SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
+                    try
+                    {
+                        rev.Visibility = RevisionVisibility.CloudAndTagVisible;
+                    }
+                    catch (Autodesk.Revit.Exceptions.ArgumentOutOfRangeException ex)
+                    {
+                        SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
+                    }
                 }
             }
 
@@ -384,9 +402,12 @@ namespace SCaddins.SheetCopier
                 Debug.WriteLine(e.Message);
             }
 
-            foreach (Revision rev in hiddenRevisionClouds)
+            if (Settings.Default.DeleteRevisionClouds)
             {
-                rev.Visibility = RevisionVisibility.Hidden;
+                foreach (Revision rev in hiddenRevisionClouds)
+                {
+                    rev.Visibility = RevisionVisibility.Hidden;
+                }
             }
 
             var oldNumber = host.SourceSheet.SheetNumber;
@@ -560,7 +581,10 @@ namespace SCaddins.SheetCopier
         {
             var destViewId = DuplicateView(view);
 
-            DeleteRevisionClouds(destViewId, doc);
+            if (Settings.Default.DeleteRevisionClouds)
+            {
+                DeleteRevisionClouds(destViewId, doc);
+            }
 
             var elem = doc.GetElement(destViewId);
             if (elem == null)

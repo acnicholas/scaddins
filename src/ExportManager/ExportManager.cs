@@ -679,6 +679,10 @@ namespace SCaddins.ExportManager
             var formatOne = Doc.ProjectInformation.LookupParameter("Primary SCexport Settings Format");
             var pdfSettingsOne = Doc.ProjectInformation.LookupParameter("Primary SCexport PDF Settings Name");
             var dwgSettingsOne = Doc.ProjectInformation.LookupParameter("Primary SCexport DWG Settings Name");
+            var settingsTwo = Doc.ProjectInformation.LookupParameter("Secondary SCexport Settings Name");
+            var formatTwo = Doc.ProjectInformation.LookupParameter("Secondary SCexport Settings Format");
+            var pdfSettingsTwo = Doc.ProjectInformation.LookupParameter("Secondary SCexport PDF Settings Name");
+            var dwgSettingsTwo = Doc.ProjectInformation.LookupParameter("Secondary SCexport DWG Settings Name");
 
             if (settingsOne != null && formatOne != null)
             {
@@ -687,10 +691,14 @@ namespace SCaddins.ExportManager
                 name.NameFormat = formatOne.AsString();
                 FileNameTypes.Add(name);
             }
-            ////} else
-            ////{
-            ////    SCaddinsApp.WindowManager.ShowMessageBox("settings error");
-            ////}
+
+            if (settingsTwo != null && formatTwo != null)
+            {
+                var name = new SegmentedSheetName();
+                name.Name = settingsTwo.AsString();
+                name.NameFormat = formatTwo.AsString();
+                FileNameTypes.Add(name);
+            }
 
             //// Load config settings from file if available
             var config = GetConfigFileName(Doc);
