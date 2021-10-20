@@ -22,6 +22,7 @@ namespace SCaddins.ExportManager.ViewModels
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Dynamic;
+    using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows;
@@ -29,6 +30,7 @@ namespace SCaddins.ExportManager.ViewModels
     using System.Windows.Data;
     using System.Windows.Input;
     using System.Windows.Media;
+    using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
     internal class SCexportViewModel : Screen
@@ -606,6 +608,114 @@ namespace SCaddins.ExportManager.ViewModels
             var optionsModel = new OptionsViewModel(exportManager);
             SCaddinsApp.WindowManager.ShowWindow(optionsModel, null, ViewModels.OptionsViewModel.DefaultWindowSettings);
             NotifyOfPropertyChange(() => StatusText);
+        }
+
+        public void HideFamilyOnSheet()
+        {
+            SCaddinsApp.WindowManager.ShowMessageBox("Hide Family On Sheet");
+
+            List<FamilyInstance> familes = new List<FamilyInstance>();
+
+            using (var collector = new FilteredElementCollector(exportManager.Doc, exportManager.Doc.ActiveView.Id))
+            {
+                collector.OfCategory(BuiltInCategory.OST_TitleBlocks);
+                collector.OfClass(typeof(FamilyInstance));
+                foreach (var element in collector)
+                {
+                    var fi = (FamilyInstance)element;
+                    SCaddinsApp.WindowManager.ShowMessageBox(fi.Name);
+                    familes.Add(fi);
+                }
+            }
+
+            if (familes.Count == 0)
+            {
+                return;
+            }
+
+            var list = new List<ElementId>();
+            list.Add(familes[1].Id);
+
+            using (var t = new Transaction(exportManager.Doc, "Hide Family"))
+            {
+                if (t.Start() == TransactionStatus.Started)
+                {
+                    SCaddinsApp.WindowManager.ShowMessageBox("Hiding");
+                    exportManager.Doc.ActiveView.HideElements(list);
+                    exportManager.Doc.Regenerate();
+                    t.Commit();
+                }
+            }
+        }
+
+            public void PlaceFamilyOnSheet()
+        {
+            SCaddinsApp.WindowManager.ShowMessageBox("Place Family On Sheet");
+
+            var family = TryGetDefaultSpotCoordFamily(exportManager.Doc,"RDR");
+            var family2 = TryGetDefaultSpotCoordFamily(exportManager.Doc, "Family1");
+            //// return;
+
+            if (family == null || family2 == null)
+            {
+                return;
+            }
+
+            SCaddinsApp.WindowManager.ShowMessageBox("still going");
+
+            using (var t = new Transaction(exportManager.Doc, "Place Family"))
+            {
+                if (t.Start() == TransactionStatus.Started)
+                {
+                    if (!family.IsActive)
+                    {
+                        family.Activate();
+                        exportManager.Doc.Regenerate();
+                    }
+
+                    var box = family2.get_BoundingBox(exportManager.Doc.ActiveView);
+
+                    XYZ newLocation = new XYZ(box.Min.X, box.Max.Y, 0);
+                    exportManager.Doc.Create.NewFamilyInstance(
+                        newLocation,
+                        family, exportManager.Doc.ActiveView);
+                    t.Commit();
+                }
+            }
+            //ViewUtilities.Pin.PinSheetContents(selectedSheets, exportManager.Doc);
+        }
+
+
+
+
+        //// FIXME move this to utility class
+        public static FamilySymbol TryGetDefaultSpotCoordFamily(Document doc, string name)
+        {
+            List<FamilySymbol> familes = new List<FamilySymbol>();
+
+            using (var collector = new FilteredElementCollector(doc))
+            {
+                collector.OfCategory(BuiltInCategory.OST_TitleBlocks);
+                collector.OfClass(typeof(FamilySymbol));
+                foreach (var element in collector)
+                {
+                    var fs = (FamilySymbol)element;
+                    familes.Add(fs);
+                }
+            }
+
+            SCaddinsApp.WindowManager.ShowMessageBox(familes.Count.ToString());
+
+
+            foreach (FamilySymbol f in familes)
+            {
+                if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains(name.ToUpper(CultureInfo.InvariantCulture)))
+                {
+                    return f;
+                }
+            }
+            SCaddinsApp.WindowManager.ShowMessageBox("Null");
+            return null;
         }
 
         public void PinSheetContents()

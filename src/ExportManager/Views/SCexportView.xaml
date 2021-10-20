@@ -269,6 +269,10 @@
                                 Source="/SCaddins;component/Assets/copy.png" />
                         </MenuItem.Icon>
                     </MenuItem>
+                    <MenuItem Header="Place Stamp Family On Sheet" cal:Message.Attach="PlaceFamilyOnSheet">
+                    </MenuItem>
+                    <MenuItem Header="Hide Stamp Family On Sheet" cal:Message.Attach="HideFamilyOnSheet">
+                    </MenuItem>
                     <MenuItem Header="Pin Sheet Contents" cal:Message.Attach="PinSheetContents">
                         <MenuItem.Icon>
                             <Image

@@ -190,6 +190,24 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public static string TitleBlockStampName
+        {
+            get
+            {
+                return Settings1.Default.TitleBlockStampFamilyName;
+            }
+
+            set
+            {
+                if (value == Settings1.Default.TitleBlockStampFamilyName)
+                {
+                    return;
+                }
+                Settings1.Default.TitleBlockStampFamilyName = value;
+                Settings1.Default.Save();
+            }
+        }
+
         public string A3PrinterName
         {
             get

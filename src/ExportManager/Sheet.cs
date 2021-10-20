@@ -147,6 +147,15 @@ namespace SCaddins.ExportManager
             }
         }
 
+        public bool? TitleBlockStampVisible
+        { get; set; }
+
+        public bool? HasTitleBlockStampVisible
+        { get; set; }
+
+        public string TitleBlockStampName
+        { get; set; }
+
         public bool? NorthPointVisible
         {
             get
@@ -620,7 +629,7 @@ namespace SCaddins.ExportManager
                         BuiltInParameter.SHEET_HEIGHT).AsDouble();
             }
             appearsInSheetList = this.Sheet.get_Parameter(BuiltInParameter.SHEET_SCHEDULED).AsInteger() == 1;
-            pageSize = PrintSettings.GetSheetSizeAsString(this);
+            pageSize = PrintSettings.GetSheewilltSizeAsString(this);
 #if !REVIT2022
             printSetting = PrintSettings.GetPrintSettingByName(doc, pageSize, forceRasterPrint);
             if (printSetting == null)

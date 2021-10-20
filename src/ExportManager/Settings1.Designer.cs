@@ -271,5 +271,17 @@ namespace SCaddins.ExportManager {
                 this["InvalidSheetNumberChars"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("RDR Title")]
+        public string TitleBlockStampFamilyName {
+            get {
+                return ((string)(this["TitleBlockStampFamilyName"]));
+            }
+            set {
+                this["TitleBlockStampFamilyName"] = value;
+            }
+        }
     }
 }
