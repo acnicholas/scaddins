@@ -1,4 +1,4 @@
-// (C) Copyright 2013-2020 by Andrew Nicholas
+// (C) Copyright 2013-2021 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -83,7 +83,40 @@ namespace SCaddins.ExportManager
                 return Result.Failed;
             }
 
-            Document doc = commandData.Application.ActiveUIDocument.Document;
+            var uidoc = commandData.Application.ActiveUIDocument;
+            var doc = uidoc.Document;
+
+            // FIXME. this is used a lot.
+            // add to a utility class.
+            if (doc.ActiveView.ViewType == ViewType.ProjectBrowser)
+            {
+                var views = new List<View>();
+                var s = uidoc.Selection.GetElementIds();
+                foreach (var id in s)
+                {
+                    var projectBrowserView = uidoc.Document.GetElement(id);
+                    if (projectBrowserView is View)
+                    {
+                        var v = (View)projectBrowserView;
+                        if (v.ViewType == ViewType.ProjectBrowser)
+                        {
+                            continue;
+                        }
+                        views.Add(v);
+                    }
+                }
+
+                foreach (var view in views) {
+                if (view != null)
+                    {
+                        UIApplication uiApplication = new UIApplication(view.Document.Application);
+                        uiApplication.ActiveUIDocument.ActiveView = view;
+                    }
+                }
+
+                return Result.Succeeded;
+            }
+
             var vm = new ViewModels.OpenSheetViewModel(doc);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.OpenSheetViewModel.DefaultWindowSettings);
             return Result.Succeeded;

@@ -62,7 +62,7 @@
                 VerticalAlignment="Center"
                 Margin="5"
             >
-                Search Avalible Sheets
+                Search Available Sheets
             </Label>
             <Button
                 Height="Auto"
