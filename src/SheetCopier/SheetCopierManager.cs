@@ -31,7 +31,6 @@ namespace SCaddins.SheetCopier
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;
-        private ElementId floorPlanViewFamilyTypeId;
         private List<Revision> hiddenRevisionClouds = new List<Revision>();
         private StringBuilder summaryText;
         private UIDocument uidoc;
@@ -47,7 +46,6 @@ namespace SCaddins.SheetCopier
             GetAllSheets(ExistingSheets, doc);
             GetAllLevelsInModel();
             GetAllViewsInModel(ExistingViews, doc);
-            GetFloorPlanViewFamilyTypeId();
             CustomSheetParametersOne = new ObservableCollection<string>(GetAllParameterValuesInModel(Settings.Default.CustomSheetParameterOne));
             CustomSheetParametersTwo = new ObservableCollection<string>(GetAllParameterValuesInModel(Settings.Default.CustomSheetParameterTwo));
         }
@@ -206,6 +204,31 @@ namespace SCaddins.SheetCopier
                     }
                 }
             }
+        }
+
+        public static ElementId GetFloorPlanViewFamilyTypeId(Document doc, ViewType viewType)
+        {
+            using (var collector = new FilteredElementCollector(doc))
+            {
+                collector.OfClass(typeof(ViewFamilyType));
+                foreach (var element in collector)
+                {
+                    var vft = (ViewFamilyType)element;
+                    if (viewType == ViewType.FloorPlan && vft.ViewFamily == ViewFamily.FloorPlan)
+                    {
+                        return vft.Id;
+                    }
+                    if (viewType == ViewType.CeilingPlan && vft.ViewFamily == ViewFamily.CeilingPlan)
+                    {
+                        return vft.Id;
+                    }
+                    if (viewType == ViewType.AreaPlan && vft.ViewFamily == ViewFamily.AreaPlan)
+                    {
+                        return vft.Id;
+                    }
+                }
+            }
+            return Autodesk.Revit.DB.ElementId.InvalidElementId;
         }
 
         public bool AddCurrentView()
@@ -642,7 +665,7 @@ namespace SCaddins.SheetCopier
             Level level = null;
             Levels.TryGetValue(view.AssociatedLevelName, out level);
             if (level != null) {
-                using (ViewPlan vp = ViewPlan.Create(doc, floorPlanViewFamilyTypeId, level.Id)) {
+                using (ViewPlan vp = ViewPlan.Create(doc, GetFloorPlanViewFamilyTypeId(Doc, view.OldView.ViewType), level.Id)) {
                     vp.CropBox = view.OldView.CropBox;
                     vp.CropBoxActive = view.OldView.CropBoxActive;
                     vp.CropBoxVisible = view.OldView.CropBoxVisible;
@@ -769,22 +792,6 @@ namespace SCaddins.SheetCopier
                 }
             }
             return result;
-        }
-
-        private void GetFloorPlanViewFamilyTypeId()
-        {
-            using (var collector = new FilteredElementCollector(doc))
-            {
-                collector.OfClass(typeof(ViewFamilyType));
-                foreach (var element in collector)
-                {
-                    var vft = (ViewFamilyType)element;
-                    if (vft.ViewFamily == ViewFamily.FloorPlan)
-                    {
-                        floorPlanViewFamilyTypeId = vft.Id;
-                    }
-                }
-            }
         }
 
         private void GetViewTemplates()

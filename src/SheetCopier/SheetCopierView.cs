@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2014-2020 by Andrew Nicholas
+﻿// (C) Copyright 2014-2021 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -84,6 +84,11 @@ namespace SCaddins.SheetCopier
                 PropertyChanged?.Invoke(
                     this, new PropertyChangedEventArgs(nameof(AssociatedLevelName)));
             }
+        }
+
+        public bool AssociatedLevelNameIsEnabled
+        {
+            get => this.PlanEnough();
         }
 
         public List<string> AvailableViewTemplates

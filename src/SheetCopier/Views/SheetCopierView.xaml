@@ -193,6 +193,7 @@
                             <DataGridComboBoxColumn.EditingElementStyle>
                                 <Style TargetType="ComboBox">
                                     <Setter Property="ItemsSource" Value="{Binding LevelsInModel}"/>
+                                    <Setter Property="IsEnabled" Value="{Binding AssociatedLevelNameIsEnabled}"/>
                                 </Style>
                             </DataGridComboBoxColumn.EditingElementStyle>
                         </DataGridComboBoxColumn>
