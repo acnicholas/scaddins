@@ -367,10 +367,56 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 if (exportManager.ExportViewportsOnly != value)
                 {
+                    if (value)
+                    {
+                        ExportAdditionalViewports = false;
+                    }
                     exportManager.ExportViewportsOnly = value;
                     Settings1.Default.ExportViewportsOnly = value;
                     Settings1.Default.Save();
+                    NotifyOfPropertyChange(() => ExportAdditionalViewportsEnabled);
+                    NotifyOfPropertyChange(() => ExportAdditionalViewports);
                 }
+            }
+        }
+
+        public bool ExportViewportsOnlyEnabled
+        {
+            get
+            {
+                return ExportAdditionalViewports != true;
+            }
+        }
+
+        public bool ExportAdditionalViewports
+        {
+            get
+            {
+                return exportManager.ExportAdditionalViewports;
+            }
+
+            set
+            {
+                if (exportManager.ExportAdditionalViewports != value)
+                {
+                    if (value)
+                    {
+                        ExportViewportsOnly = false;
+                    }
+                    exportManager.ExportAdditionalViewports = value;
+                    Settings1.Default.ExportAdditionalViewports = value;
+                    Settings1.Default.Save();
+                    NotifyOfPropertyChange(() => ExportViewportsOnly);
+                    NotifyOfPropertyChange(() => ExportViewportsOnlyEnabled);
+                }
+            }
+        }
+
+        public bool ExportAdditionalViewportsEnabled
+        {
+            get
+            {
+                return ExportViewportsOnly != true;
             }
         }
 

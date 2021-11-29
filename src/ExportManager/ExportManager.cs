@@ -89,6 +89,11 @@ namespace SCaddins.ExportManager
             get; set;
         }
 
+        public bool ExportAdditionalViewports
+        {
+            get; set;
+        }
+
         public bool ExportViewportsOnly
         {
             get; set;
@@ -414,6 +419,61 @@ namespace SCaddins.ExportManager
             }
         }
 
+        public static void ToggleBooleanParameter(ICollection<ExportSheet> sheets, Document doc, bool turnOn, string paramName)
+        {
+            if (sheets == null)
+            {
+                return;
+            }
+            using (Transaction t = new Transaction(doc))
+            {
+                if (t.Start("SCexport - Toggle Sheet Parameter") == TransactionStatus.Started)
+                {
+                    foreach (ExportSheet sheet in sheets)
+                    {
+                        sheet.ToggleTitleParameterByName(turnOn, paramName);
+                    }
+                    if (t.Commit() != TransactionStatus.Committed)
+                    {
+                        SCaddinsApp.WindowManager.ShowMessageBox("Failure", "Could not toggle north points");
+                    }
+                }
+            }
+        }
+
+        // FIXME. Move this somewhere else and tidy it up.
+        public static List<YesNoParameter> GetYesNoSheetParameters(ICollection<ExportSheet> sheets, Document doc)
+        {
+            var yesNoParameters = new List<YesNoParameter>();
+            foreach (ExportSheet sheet in sheets)
+            {
+                var titleBlock = Manager.TitleBlockInstanceFromSheetNumber(sheet.SheetNumber, doc);
+                var parameters = titleBlock.Parameters;
+                foreach (var parameter in parameters)
+                {
+                    var p = parameter as Parameter;
+#if REVIT2022
+                    if (!yesNoParameters.Select(s => s.Name).Contains(p.Definition.Name)
+                        && !(p.Element is ElementType)
+                        && !p.IsReadOnly
+                        && p.Definition.GetDataType() == SpecTypeId.Boolean.YesNo)
+                    {
+                        yesNoParameters.Add(new YesNoParameter(p.Definition.Name, null));
+                    }     
+#else
+                    if (!yesNoParameters.Select(s => s.Name).Contains(p.Definition.Name)
+                        && !(p.Element is ElementType)
+                        && !p.IsReadOnly
+                        && p.Definition.ParameterType == ParameterType.YesNo)
+                    {
+                        yesNoParameters.Add(new YesNoParameter(p.Definition.Name, null));
+                    }
+#endif
+                }
+            }
+            return yesNoParameters;
+        }
+
         public static void ShowSheetsInSheetList(ICollection<ExportSheet> sheets, Document doc)
         {
             ChangeSheetVisiblityInSchedule(sheets, true, doc);
@@ -533,6 +593,8 @@ namespace SCaddins.ExportManager
             ForceRevisionToDateString = Settings1.Default.ForceDateRevision;
             UseDateForEmptyRevisions = Settings1.Default.UseDateForEmptyRevisions;
             VerifyOnStartup = Settings1.Default.VerifyOnStartup;
+            ExportAdditionalViewports = Settings1.Default.ExportAdditionalViewports;
+            ExportViewportsOnly = Settings1.Default.ExportViewportsOnly;
         }
 
         public bool PDFSanityCheck()
@@ -996,9 +1058,8 @@ namespace SCaddins.ExportManager
 
             List<ElementId> views;
             views = new List<ElementId>();
-            views.Add(vs.Id);
 
-            if (ExportViewportsOnly)
+            if (ExportViewportsOnly || ExportAdditionalViewports)
             {
                 foreach (var viewOnSheet in vs.Sheet.GetAllPlacedViews()) {
                     var individualViewOnSheet = Doc.GetElement(viewOnSheet) as View;
@@ -1009,12 +1070,27 @@ namespace SCaddins.ExportManager
                 }
             }
 
+            if (views.Count == 0 || ExportAdditionalViewports)
+            {
+            views.Add(vs.Id);
+            }
+
             using (var opts = GetDefaultDWGExportOptions()) {
                 log.AddMessage(Resources.MessageAssigningExportOptions + opts);
-                var name = vs.FullExportName + Resources.FileExtensionDWG;
-                log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
-                log.AddMessage(Resources.MessageExportingToFileName + name);
-                Doc.Export(vs.ExportDirectory, name, views, opts);
+                foreach (var view in views)
+                {
+                    List<ElementId> viewList;
+                    viewList = new List<ElementId>();
+                    viewList.Add(view);
+                    var name = vs.FullExportName + Resources.FileExtensionDWG;
+                    if (views.Count > 1 && !(Doc.GetElement(view) is ViewSheet))
+                    {
+                        name += @" - " + ((View)Doc.GetElement(view)).Name;
+                    }
+                    log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
+                    log.AddMessage(Resources.MessageExportingToFileName + name);
+                    Doc.Export(vs.ExportDirectory, name, viewList, opts);
+                }
             }
 
             FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionDWG));
@@ -1033,7 +1109,7 @@ namespace SCaddins.ExportManager
             opts.FileVersion = AcadVersion;
             opts.HideScopeBox = true;
             opts.HideUnreferenceViewTags = true;
-            if (ExportViewportsOnly) {
+            if (ExportViewportsOnly || ExportAdditionalViewports) {
                 opts.TargetUnit = ExportUnit.Meter;
                 opts.SharedCoords = true;
             }

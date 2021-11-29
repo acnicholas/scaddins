@@ -417,6 +417,10 @@
     <Compile Include="DestructivePurge\Views\DestructivePurgeView.xaml.cs">
       <DependentUpon>DestructivePurgeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExportManager\Views\ToggleSelectedSheetParametersVIew.xaml.cs">
+      <DependentUpon>ToggleSelectedSheetParametersVIew.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExportManager\YesNoParameter.cs" />
     <Compile Include="ExportManager\NativeNamingRulesUtils.cs" />
     <Compile Include="ExportManager\OpenableView.cs" />
     <Compile Include="ExportManager\RecentExport.cs" />
@@ -427,6 +431,7 @@
     <Compile Include="ExportManager\ViewModels\OptionsViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\PrinterSelectionViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\ProgressMonitorViewModel.cs" />
+    <Compile Include="ExportManager\ViewModels\ToggleSelectedSheetParametersViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\RevisionSelectionViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\SCexportViewModel.cs" />
     <Compile Include="ExportManager\ViewModels\ViewSetSaveAsViewModel.cs" />
@@ -694,6 +699,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>ViewUtilitiesSettings.settings</DependentUpon>
     </Compile>
+    <Compile Include="WorksharingUtilities\WorksharingUtilitiesCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -715,6 +721,8 @@
       <Link>SCexport-example-conf.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Assets\edit2.png" />
+    <EmbeddedResource Include="Assets\Ribbon\info-rvt-16.png" />
     <EmbeddedResource Include="Assets\Ribbon\back-rvt-16.png" />
     <EmbeddedResource Include="Assets\Ribbon\find-rvt-16.png" />
     <EmbeddedResource Include="Assets\Ribbon\forward-rvt-16.png" />
@@ -811,6 +819,10 @@
     <Page Include="ExportManager\Views\ProgressMonitorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportManager\Views\ToggleSelectedSheetParametersVIew.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="ExportManager\Views\RevisionSelectionView.xaml">
       <SubType>Designer</SubType>

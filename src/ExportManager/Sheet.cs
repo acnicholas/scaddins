@@ -492,6 +492,29 @@ namespace SCaddins.ExportManager
             NorthPointVisible = turnOn;
         }
 
+        public void ToggleTitleParameterByName(bool turnOn, string paramName)
+        {
+            var titleBlock = Manager.TitleBlockInstanceFromSheetNumber(
+                sheetNumber, doc);
+
+            var tb = titleBlock.GetParameters(paramName);
+            if (tb == null || tb.Count < 1)
+            {
+                return;
+            }
+            Parameter p = tb[0];
+            int b = p.AsInteger();
+            if (b == 2)
+            {
+                return;
+            }
+            b = turnOn ? 1 : 0;
+            if (p.IsReadOnly == false)
+            {
+                p.Set(b);
+            }
+        }
+
         public override string ToString()
         {
 #if REVIT2022

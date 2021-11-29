@@ -114,6 +114,19 @@ namespace SCaddins
             WindowManager.ShowDialog(upgradeViewModel, null, settings);
         }
 
+        public static PushButtonData LoadInfo(string dll)
+        {
+            var pbd = new PushButtonData(
+                              "Element Information", "Element Information", dll, "SCaddins.WorksharingUtilities.WorksharingUtilitiesCommand");
+            pbd.SetContextualHelp(
+                new ContextualHelp(
+                    ContextualHelpType.Url, Constants.HelpLink));
+            AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.info-rvt-16.png", 16, dll);
+            pbd.ToolTip = "Display Additional Element Information";
+            pbd.LongDescription = "Display additional element information. Can be used to see the last user who edited an element";
+            return pbd;
+        }
+
         public static PushButtonData LoadSCaos(string dll)
         {
             var pbd = new PushButtonData(
@@ -190,6 +203,7 @@ namespace SCaddins
 
             ribbonPanel.AddStackedItems(
                 LoadGlobalSettings(scdll),
+                LoadInfo(scdll),
                 LoadRunScript(scdll));
 
             return Result.Succeeded;

@@ -271,5 +271,17 @@ namespace SCaddins.ExportManager {
                 this["InvalidSheetNumberChars"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ExportAdditionalViewports {
+            get {
+                return ((bool)(this["ExportAdditionalViewports"]));
+            }
+            set {
+                this["ExportAdditionalViewports"] = value;
+            }
+        }
     }
 }

@@ -306,6 +306,12 @@
                                 Source="/SCaddins;component/Assets/north_off.png" />
                         </MenuItem.Icon>
                     </MenuItem>
+                    <MenuItem Header="Bulk Edit Selected Title Block [Yes/No] Parameters" cal:Message.Attach="ToggleSelectedSheetParameters">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/edit2.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem Header="Show In Sheet List" cal:Message.Attach="ShowInSheetList">
                         <MenuItem.Icon>
                             <Image

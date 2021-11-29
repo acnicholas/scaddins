@@ -759,6 +759,30 @@ namespace SCaddins.ExportManager.ViewModels
             IsNotifying = true;
         }
 
+        public void ToggleSelectedSheetParameters()
+        {
+            var yesNoParameters = Manager.GetYesNoSheetParameters(selectedSheets, exportManager.Doc);
+
+            var toggleSelectedSheetParametersViewModel = new ToggleSelectedSheetParametersViewModel(
+                exportManager.Doc, yesNoParameters);
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(
+                toggleSelectedSheetParametersViewModel, 
+                null,
+                ToggleSelectedSheetParametersViewModel.DefaultWindowSettings);
+            if (result.HasValue && result.Value == true)
+            {
+                //// SCaddinsApp.WindowManager.ShowMessageBox("OK");
+                foreach (var item in toggleSelectedSheetParametersViewModel.YesNoParameters)
+                {
+                    if (item.Value.HasValue)
+                    {
+                        //// SCaddinsApp.WindowManager.ShowMessageBox(item.Name);
+                        Manager.ToggleBooleanParameter(selectedSheets, exportManager.Doc, item.Value.Value, item.Name);
+                    }
+                }
+            }
+        }
+
         public void TurnNorthPointsOff()
         {
             Manager.ToggleNorthPoints(selectedSheets, exportManager.Doc, false);

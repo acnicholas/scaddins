@@ -81,10 +81,12 @@ namespace SCaddins.RenameUtilities
                 result.Add("Views");
                 result.Add("Sheets");
                 result.Add("Walls");
+                result.Add("Windows");
                 result.Add("Doors");
                 result.Add("Families");
                 result.Add(@"Project Information");
                 result.Add(@"Model Groups");
+                result.OrderBy(s => s);
                 return result;
             }
         }
@@ -133,9 +135,6 @@ namespace SCaddins.RenameUtilities
             }
             if (parameterCategory == "Windows") {
                 return GetParametersByCategory(BuiltInCategory.OST_Windows, doc);
-            }
-            if (parameterCategory == "Windows") {
-                return GetParametersByCategory(BuiltInCategory.OST_Revisions, doc);
             }
             if (parameterCategory == "Grids") {
                 return GetParametersByType(typeof(Grid), doc);
