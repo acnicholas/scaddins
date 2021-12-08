@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2018-2020 by Andrew Nicholas
+﻿// (C) Copyright 2021 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -21,14 +21,14 @@ namespace SCaddins.ExportManager.ViewModels
     using System.Dynamic;
     using Caliburn.Micro;
 
-    internal class ViewSetSelectionViewModel : Screen
+    internal class TemplateViewViewModel : Screen
     {
-        private ViewSetItem selectedSet;
+        private ExportSheet selectedSheet;
 
-        public ViewSetSelectionViewModel(ObservableCollection<ViewSetItem> sets)
+        public TemplateViewViewModel(System.Collections.Generic.List<ExportSheet> sheets)
         {
-            Sets = sets;
-            SelectedSet = null;
+            Sheets = new ObservableCollection<ExportSheet>(sheets);
+            SelectedSheet = null;
         }
 
         public static dynamic DefaultWindowSettings
@@ -38,7 +38,7 @@ namespace SCaddins.ExportManager.ViewModels
                 dynamic settings = new ExpandoObject();
                 settings.Height = 640;
                 settings.Width = 480;
-                settings.Title = "Select Template Sheet";
+                settings.Title = "Select Template View (other views will align to this)";
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
                   new System.Uri("pack://application:,,,/SCaddins;component/Assets/scexport.png"));
                 settings.ShowInTaskbar = false;
@@ -52,25 +52,25 @@ namespace SCaddins.ExportManager.ViewModels
         {
             get
             {
-                return SelectedSet != null;
+                return SelectedSheet != null;
             }
         }
 
-        public ObservableCollection<ViewSetItem> Sets
+        public ObservableCollection<ExportSheet> Sheets
         {
             get; set;
         }
 
-        public ViewSetItem SelectedSet
+        public ExportSheet SelectedSheet
         {
             get
             {
-                return selectedSet;
+                return selectedSheet;
             }
 
             set
             {
-                selectedSet = value;
+                selectedSheet = value;
                 NotifyOfPropertyChange(() => OKEnabled);
             }
         }

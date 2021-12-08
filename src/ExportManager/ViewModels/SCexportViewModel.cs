@@ -21,6 +21,7 @@ namespace SCaddins.ExportManager.ViewModels
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Dynamic;
     using System.Linq;
     using System.Text.RegularExpressions;
@@ -29,6 +30,7 @@ namespace SCaddins.ExportManager.ViewModels
     using System.Windows.Data;
     using System.Windows.Input;
     using System.Windows.Media;
+    using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
     internal class SCexportViewModel : Screen
@@ -357,6 +359,11 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public static void NavigateTo(System.Uri url)
+        {
+            Process.Start(new ProcessStartInfo(url.AbsoluteUri));
+        }
+
         public void AddRevision()
         {
             var revisionSelectionViewModel = new RevisionSelectionViewModel(exportManager.Doc);
@@ -368,6 +375,116 @@ namespace SCaddins.ExportManager.ViewModels
                 {
                     Manager.AddRevisions(selectedSheets, revisionSelectionViewModel.SelectedRevision.Id, exportManager.Doc);
                     NotifyOfPropertyChange(() => Sheets);
+                }
+            }
+        }
+
+        public void AlignViews()
+        {
+            var message = "Warning, there are still some bugs in this." + System.Environment.NewLine +
+                "Currently this will only work with views containing one sheet." + System.Environment.NewLine +
+                System.Environment.NewLine +
+                "Just in case, please save your model before use";
+
+            SCaddinsApp.WindowManager.ShowWarningMessageBox("Align", message);
+
+            //// return;
+
+            var viewModel = new TemplateViewViewModel(this.SelectedSheets);
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(viewModel, null, TemplateViewViewModel.DefaultWindowSettings);
+            bool newBool = result.HasValue ? result.Value : false;
+            if (newBool)
+            {
+                var viewPorts = viewModel.SelectedSheet.Sheet.GetAllViewports();
+                if (viewPorts.Count != 1)
+                {
+                    return;
+                }
+
+                /// Save template view crops
+
+                var firstViewportId = viewPorts.First();
+                var firstViewport = exportManager.Doc.GetElement(firstViewportId) as Autodesk.Revit.DB.Viewport;
+                var templateView = exportManager.Doc.GetElement(firstViewport.ViewId) as Autodesk.Revit.DB.View;
+                bool templateViewCropEnabled = templateView.CropBox.Enabled;
+
+                if (!templateViewCropEnabled)
+                {
+                    templateView.CropBox.Enabled = true;
+                    templateView.CropBox = templateView.get_BoundingBox(templateView);
+                    exportManager.Doc.Regenerate();
+                }
+
+                var templateViewOriginalBoxOutline = firstViewport.GetBoxOutline();
+                var templateViewOriginalCenter = firstViewport.GetBoxCenter();
+                var templateViewOriginaCrop = templateView.CropBox;
+
+                var templateViewScopeBoxParam = templateView.LookupParameter("Scope Box");
+                var templateViewScopeBoxID = templateViewScopeBoxParam.AsElementId();
+                bool templateViewHasScopeBox = templateViewScopeBoxID != ElementId.InvalidElementId;
+
+                if (!templateViewCropEnabled)
+                {
+                    templateView.CropBox.Enabled = false;
+                }
+
+                using (var transaction = new Transaction(exportManager.Doc))
+                {
+                    if (transaction.Start("Align Views") == TransactionStatus.Started)
+                    {
+                        foreach (var sheet in SelectedSheets)
+                        {
+                            // Don't align template sheet views
+                            if (sheet != viewModel.SelectedSheet)
+                            {
+                                var vps = sheet.Sheet.GetAllViewports();
+                                if (vps.Count == 1)
+                                {
+                                    var destViewport = exportManager.Doc.GetElement(vps.First()) as Autodesk.Revit.DB.Viewport;
+                                    var destView = exportManager.Doc.GetElement(destViewport.ViewId) as Autodesk.Revit.DB.View;
+                                    var desteViewScopeBoxParam = destView.LookupParameter("Scope Box");
+                                    var destViewScopeBoxID = desteViewScopeBoxParam.AsElementId();
+                                    bool destViewHasScopeBox = destViewScopeBoxID != ElementId.InvalidElementId;
+
+                                    // try to remove the scope box temporarily
+                                    if (!desteViewScopeBoxParam.IsReadOnly)
+                                    {
+                                        desteViewScopeBoxParam.Set(ElementId.InvalidElementId);
+                                    }
+
+                                    // set the crop to match the template view
+                                    var destViewCropManager = destView.GetCropRegionShapeManager();
+                                    bool destViewHasCropShape = destViewCropManager.ShapeSet;
+                                    var oldShape = destViewCropManager.GetCropShape();
+                                    destViewCropManager.RemoveCropRegionShape();
+                                    destView.CropBox = templateViewOriginaCrop;
+                                    destView.CropBox.Enabled = true;
+
+                                    // regenerate just in case
+                                    exportManager.Doc.Regenerate();
+
+                                    var destViewportBoxOutline = destViewport.GetBoxOutline();
+                                    var destViewportOriginalBoxOutline = destViewport.GetBoxOutline();
+                                    destViewportBoxOutline = templateViewOriginalBoxOutline;
+                                    destViewport.SetBoxCenter(templateViewOriginalCenter);
+
+                                    // reset crop and scope
+                                    if (!desteViewScopeBoxParam.IsReadOnly)
+                                    {
+                                        desteViewScopeBoxParam.Set(destViewScopeBoxID);
+                                    }
+                                    destViewportBoxOutline = destViewportOriginalBoxOutline;
+                                    if (destViewHasCropShape) {
+                                        destViewCropManager.SetCropShape(oldShape.First());
+                                    }
+                                }
+                            }
+                        }
+                        transaction.Commit();
+                    } else
+                    {
+                        transaction.RollBack();
+                    }              
                 }
             }
         }
@@ -445,6 +562,11 @@ namespace SCaddins.ExportManager.ViewModels
         public void FixScaleBars()
         {
             Manager.FixScaleBars(selectedSheets, exportManager.Doc);
+        }
+
+        public void Help()
+        {
+            //// Manager.HideSheetsInSheetList(selectedSheets, exportManager.Doc);
         }
 
         public void HideInSheetList()

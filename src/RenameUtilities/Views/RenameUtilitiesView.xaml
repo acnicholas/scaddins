@@ -54,13 +54,26 @@
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0"  Grid.Row="0" Margin="5">Mode</Label>
-                        <ComboBox x:Name="RenameModes" DisplayMemberPath="Name" Grid.Column="1"  Grid.Row="0" Grid.ColumnSpan="3" Margin="5"></ComboBox>
+                        <ComboBox x:Name="RenameModes" DisplayMemberPath="Name" Grid.Column="1"  Grid.Row="0" Grid.ColumnSpan="5" Margin="5"></ComboBox>
                         <Label x:Name="PatternLabel" Visibility="{Binding Path=ShowRenameParameters}" Grid.Column="0" Grid.Row="1" Margin="5"></Label>
                         <TextBox x:Name="Pattern" Visibility="{Binding Path=ShowRenameParameters}" Grid.Column="1"  Grid.Row="1" Margin="5"></TextBox>
                         <Label x:Name="ReplacementLabel" Visibility="{Binding Path=ShowRenameParameters}" Grid.Column="2"  Grid.Row="1" Margin="5"></Label>
                         <TextBox x:Name="Replacement" Visibility="{Binding Path=ShowRenameParameters}" Grid.Column="3"  Grid.Row="1" Margin="5"></TextBox>
+                        <Button 
+                            x:Name="RegexCheatSheet"
+                            Visibility="{Binding Path=ShowRenameParameters}"
+                            Grid.Column="4"
+                            Grid.Row="1"
+                            Margin="5"
+                            HorizontalAlignment="Right"
+                            cal:Message.Attach="[Action NavigateTo('https://github.com/acnicholas/scaddins/wiki/Rename')]"
+                            Background="Transparent"
+                            BorderBrush="Transparent">
+                                <Image Source="/SCaddins;component/Assets/help2.png" Stretch="None"/>
+                        </Button>
                         <DataGrid x:Name="RenameCandidates"
                                   AutoGenerateColumns="False"
                                   VirtualizingStackPanel.VirtualizationMode="Standard"
@@ -68,7 +81,7 @@
                                   SelectionMode="Extended"
                                   cal:Message.Attach="[Event SelectionChanged] = [RenameCandidatesSelectionChanged($eventArgs)]"
                                   Grid.Row="2"
-                                  Grid.ColumnSpan="4"
+                                  Grid.ColumnSpan="5"
                                   Height="Auto" Margin="5"
                                   GridLinesVisibility="None">
                             <DataGrid.RowStyle>
@@ -96,7 +109,7 @@
                                 <DataGridTextColumn Header="New Name" Binding="{Binding NewValue}"></DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" x:Name="OnlyDisplayItemsToBeRenamed">Only display items that will be renamed.</CheckBox>
+                        <CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" x:Name="OnlyDisplayItemsToBeRenamed">Only display items that will be renamed.</CheckBox>
                     </Grid>
                 </GroupBox>
             </Grid>

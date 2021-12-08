@@ -263,6 +263,12 @@
                                 Source="/SCaddins;component/Assets/revision.png" />
                         </MenuItem.Icon>
                     </MenuItem>
+                    <MenuItem Header="Align Views" cal:Message.Attach="AlignViews">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/align.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem Header="Copy Sheets" cal:Message.Attach="CopySheets">
                         <MenuItem.Icon>
                             <Image
@@ -346,6 +352,12 @@
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
+                    <MenuItem Header="Help" cal:Message.Attach="[Action NavigateTo('https://github.com/acnicholas/scaddins/wiki/SCexport')]">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/help2.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

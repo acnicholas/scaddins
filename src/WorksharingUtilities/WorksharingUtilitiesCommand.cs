@@ -43,7 +43,18 @@ namespace SCaddins.WorksharingUtilities
 
             if (selection.GetElementIds().Count == 0)
             {
+                SCaddinsApp.WindowManager.ShowErrorMessageBox(
+                    "No Element Selected",
+                    "No Element Selected. Please select an element before running.");
                 return Result.Failed;
+            }
+
+            if (selection.GetElementIds().Count > 1)
+            {
+                SCaddinsApp.WindowManager.ShowWarningMessageBox(
+                    "Multiple Elements Selected",
+                    "Multiple Elements Selected. Only information for the first element will be displayed.");
+                //// return Result.Failed;
             }
 
             var elem = doc.GetElement(selection.GetElementIds().First());

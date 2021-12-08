@@ -417,6 +417,10 @@
     <Compile Include="DestructivePurge\Views\DestructivePurgeView.xaml.cs">
       <DependentUpon>DestructivePurgeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExportManager\ViewModels\TemplateViewViewModel.cs" />
+    <Compile Include="ExportManager\Views\TemplateViewView.xaml.cs">
+      <DependentUpon>TemplateViewView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExportManager\Views\ToggleSelectedSheetParametersVIew.xaml.cs">
       <DependentUpon>ToggleSelectedSheetParametersVIew.xaml</DependentUpon>
     </Compile>
@@ -721,6 +725,8 @@
       <Link>SCexport-example-conf.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Assets\align.png" />
+    <Resource Include="Assets\help2.png" />
     <Resource Include="Assets\edit2.png" />
     <EmbeddedResource Include="Assets\Ribbon\info-rvt-16.png" />
     <EmbeddedResource Include="Assets\Ribbon\back-rvt-16.png" />
@@ -817,6 +823,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ExportManager\Views\ProgressMonitorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportManager\Views\TemplateViewView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

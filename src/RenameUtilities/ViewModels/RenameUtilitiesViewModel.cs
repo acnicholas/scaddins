@@ -18,6 +18,7 @@
 namespace SCaddins.RenameUtilities.ViewModels
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Dynamic;
     using System.Linq;
     using Caliburn.Micro;
@@ -222,6 +223,11 @@ namespace SCaddins.RenameUtilities.ViewModels
                 return manager.SelectedRenameMode.HasInputParameters == true
                     ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
             }
+        }
+
+        public static void NavigateTo(System.Uri url)
+        {
+            Process.Start(new ProcessStartInfo(url.AbsoluteUri));
         }
 
         public void RenameAllMatches()
