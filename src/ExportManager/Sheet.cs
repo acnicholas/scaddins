@@ -282,10 +282,17 @@ namespace SCaddins.ExportManager
 
         public string SheetRevision
         {
+#if REVIT2022
+            get
+            {
+                return sheetRevision != string.Empty ? sheetRevision : "Current Revision";
+            }
+#else
             get
             {
                 return sheetRevision ?? "-";
             }
+#endif
         }
 
         public string SheetRevisionDate
@@ -727,6 +734,10 @@ namespace SCaddins.ExportManager
 
         private void SetExportName()
         {
+#if REVIT2022
+            sheetRevision = sheet.get_Parameter(
+                    BuiltInParameter.SHEET_CURRENT_REVISION).AsString();
+#else
             if (forceDate) {
                 sheetRevision = MiscUtilities.GetDateString;
             } else {
@@ -737,7 +748,7 @@ namespace SCaddins.ExportManager
             if (sheetRevision.Length < 1 && useDateForEmptyRevisions) {
                 sheetRevision = MiscUtilities.GetDateString;
             }
-
+#endif
             fullExportName = PopulateSegmentedFileName();
         }
     }

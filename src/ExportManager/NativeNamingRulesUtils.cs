@@ -51,14 +51,14 @@ namespace SCaddins.ExportManager
                     {
                         if (param.First().Definition.Name == "Current Revision" && vs.ForceDate)
                         {
-                            filenameTest += MiscUtilities.GetDateString;
+                            filenameTest += "Current Revision";
                         }
                         else
                         {
                             var paramValue = param.First().AsValueString();
                             if (paramValue.Length < 1 && vs.UseDateForEmptyRevisions)
                             {
-                                filenameTest += MiscUtilities.GetDateString;
+                                filenameTest += "Current Revision";
                             }
                             else
                             {
@@ -199,6 +199,13 @@ namespace SCaddins.ExportManager
                                         i += t.Length - 1;
                                         seg.ParamId = new ElementId(BuiltInParameter.SHEET_CURRENT_REVISION_DATE);
                                         seg.CategoryId = new ElementId(BuiltInCategory.OST_Revisions);
+                                        if (Settings1.Default.ForceDateRevision || Settings1.Default.UseDateForEmptyRevisions)
+                                        {
+                                            seg.SampleValue = Common.MiscUtilities.GetDateString;
+                                        } else
+                                        {
+                                            seg.SampleValue = string.Empty;
+                                        }
                                         seg.Prefix = prefix.Replace("$", string.Empty);
                                         prefix = string.Empty;
                                         scheme.Add(seg);

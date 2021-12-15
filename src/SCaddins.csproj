@@ -690,6 +690,7 @@
     <Compile Include="DestructivePurge\DestructivePurgeCommand.cs" />
     <Compile Include="DestructivePurge\DeletableItem.cs" />
     <Compile Include="ViewUtilities\Pin.cs" />
+    <Compile Include="ViewUtilities\ViewAlignmentUtils.cs" />
     <Compile Include="ViewUtilities\ViewModels\ViewUtilitiesSettingsViewModel.cs" />
     <Compile Include="ViewUtilities\Views\ViewUtilitiesSettingsView.xaml.cs">
       <DependentUpon>ViewUtilitiesSettingsView.xaml</DependentUpon>
