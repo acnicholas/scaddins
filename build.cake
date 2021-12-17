@@ -58,10 +58,6 @@ Task("CreateAddinManifests")
 .Does(() =>
 		{
 		string text = System.IO.File.ReadAllText(@"src\SCaddins.addin");
-		if (DirectoryExists(@"src\bin\Release2016"))
-		    System.IO.File.WriteAllText(@"src\bin\Release2016\SCaddins2016.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2016"));
-		if (DirectoryExists(@"src\bin\Release2017"))
-		    System.IO.File.WriteAllText(@"src\bin\Release2017\SCaddins2017.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2017"));
 		if (DirectoryExists(@"src\bin\Release2018"))
 		    System.IO.File.WriteAllText(@"src\bin\Release2018\SCaddins2018.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2018"));
 		if (DirectoryExists(@"src\bin\Release2019"))
@@ -73,15 +69,6 @@ Task("CreateAddinManifests")
 		if (DirectoryExists(@"src\bin\Release2022"))
 		    System.IO.File.WriteAllText(@"src\bin\Release2022\SCaddins2022.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2022"));
 		});
-
-Task("Revit2016") .IsDependentOn("Restore-NuGet-Packages")
-.WithCriteria(APIAvailable("2016"))
-.Does(() => MSBuild(solutionFile, GetBuildSettings("Release2016")));
-
-Task("Revit2017")
-.IsDependentOn("Restore-NuGet-Packages")
-.WithCriteria(APIAvailable("2017"))
-.Does(() => MSBuild(solutionFile, GetBuildSettings("Release2017")));
 
 Task("Revit2018")
 .IsDependentOn("Restore-NuGet-Packages")
@@ -141,8 +128,6 @@ Task("Installer")
 .IsDependentOn("Restore-Installer-NuGet-Packages")
 .Does(() =>
 		{
-		Environment.SetEnvironmentVariable("R2016", APIAvailable("2016") ? "Enabled" : "Disabled");
-		Environment.SetEnvironmentVariable("R2017", APIAvailable("2017") ? "Enabled" : "Disabled");
 		Environment.SetEnvironmentVariable("R2018", APIAvailable("2018") ? "Enabled" : "Disabled");
 		Environment.SetEnvironmentVariable("R2019", APIAvailable("2019") ? "Enabled" : "Disabled");
 		Environment.SetEnvironmentVariable("R2020", APIAvailable("2020") ? "Enabled" : "Disabled");
@@ -162,8 +147,6 @@ Task("Dist")
 
 Task("Default")
 .IsDependentOn("Clean")
-.IsDependentOn("Revit2016")
-.IsDependentOn("Revit2017")
 .IsDependentOn("Revit2018")
 .IsDependentOn("Revit2019")
 .IsDependentOn("Revit2020")

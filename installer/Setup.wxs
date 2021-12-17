@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<?define Version = "!(bind.fileVersion.SCaddins2021.dll)" ?>
+<?define Version = "!(bind.fileVersion.SCaddins2022.dll)" ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
     <Product Id="*"
         Name="SCaddins - SC Revit Addins (64 bit)"
@@ -26,28 +26,6 @@
 
                 <!-- Installation directory and files are defined in Files.wxs -->
                 <Directory Id="TARGETDIR" Name="SourceDir"/>	
-
-                <?if $(env.R2016) = Enabled ?> 
-                <Feature Id="Revit2016" Level="1" Title="SCaddins for Revit 2016">
-                    <ComponentRef Id="SCaddins2016" />
-                    <ComponentRef Id="SCaddinsAddin2016" />
-                    <ComponentRef Id="SCaddinsEtc" />
-                    <ComponentRef Id="SCexportConfigProto" />
-                    <ComponentRef Id="SCaddinsRFA2016" />
-					<ComponentRef Id="RunScriptExamples" />
-                </Feature>
-                <?endif?>
-                
-                <?if $(env.R2017) = Enabled ?> 
-                <Feature Id="Revit2017" Level="1" Title="SCaddins for Revit 2017">
-                    <ComponentRef Id="SCaddins2017" />
-                    <ComponentRef Id="SCaddinsAddin2017" />
-                    <ComponentRef Id="SCaddinsEtc" />
-                    <ComponentRef Id="SCexportConfigProto" />
-                    <ComponentRef Id="SCaddinsRFA2017" />
-					<ComponentRef Id="RunScriptExamples" />
-                </Feature>
-                <?endif?>
                 
                 <?if $(env.R2018) = Enabled ?> 
                 <Feature Id="Revit2018" Level="1" Title="SCaddins for Revit 2018">

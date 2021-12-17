@@ -511,11 +511,7 @@ namespace SCaddins.RoomConverter
                 }
 
                 var eid = new ElementId(BuiltInCategory.OST_Mass);
-#if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020 || REVIT2021 || REVIT2022
                 DirectShape roomShape = DirectShape.CreateElement(doc, eid);
-#else
-                DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
-#endif
                 roomShape.SetShape(new GeometryObject[] { roomSolid });
                 CopyAllRoomParametersToMasses(room, roomShape);
             }
@@ -538,11 +534,7 @@ namespace SCaddins.RoomConverter
                     return false;
                 }
 
-#if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020 || REVIT2021 || REVIT2022
                 DirectShape roomShape = DirectShape.CreateElement(doc, eid);
-#else
-                    DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
-#endif
 
                 var curves = new List<Curve>();
 
@@ -595,11 +587,7 @@ namespace SCaddins.RoomConverter
                 using (Solid roomSolid = results.GetGeometry())
                 {
                     var eid = new ElementId(BuiltInCategory.OST_Mass);
-#if REVIT2019 || REVIT2018 || REVIT2017 || REVIT2020 || REVIT2021 || REVIT2022
                     DirectShape roomShape = DirectShape.CreateElement(doc, eid);
-#else
-                    DirectShape roomShape = DirectShape.CreateElement(doc, eid, "A", "B");
-#endif
                     if (roomShape != null && roomSolid.Volume > 0 && roomSolid.Faces.Size > 0)
                     {
                         var geomObj = new GeometryObject[] { roomSolid };

@@ -64,36 +64,6 @@
     <FileAlignment>512</FileAlignment>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release2016' ">
-    <OutputPath>bin\Release2016\</OutputPath>
-    <DebugSymbols>False</DebugSymbols>
-    <DebugType>None</DebugType>
-    <Optimize>True</Optimize>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <DefineConstants>TRACE;REVIT2016</DefineConstants>
-    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
-    <StartAction>Project</StartAction>
-    <AssemblyName>SCaddins</AssemblyName>
-    <SignAssembly>False</SignAssembly>
-    <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>False</DelaySign>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release2017' ">
-    <OutputPath>bin\Release2017\</OutputPath>
-    <DebugSymbols>False</DebugSymbols>
-    <DebugType>None</DebugType>
-    <Optimize>True</Optimize>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <DefineConstants>TRACE;REVIT2017</DefineConstants>
-    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
-    <StartAction>Project</StartAction>
-    <AssemblyName>SCaddins</AssemblyName>
-    <SignAssembly>False</SignAssembly>
-    <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>False</DelaySign>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2018' ">
     <OutputPath>bin\Release2018\</OutputPath>
     <DebugSymbols>False</DebugSymbols>
@@ -139,10 +109,6 @@
     <DelaySign>False</DelaySign>
     <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2017|x64'">
-    <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
   <PropertyGroup>
     <AssemblyName>SCaddins</AssemblyName>
   </PropertyGroup>
@@ -154,12 +120,6 @@
     <DefineConstants>TRACE;DEBUG;REVIT2022</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2018|Any'">
-    <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2017|Any'">
-    <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2016|Any'">
     <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2021|x64'">
@@ -203,13 +163,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2016'">
-      <HintPath>C:\Program Files\Autodesk\Revit 2016\AdWindows.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2017'">
-      <HintPath>C:\Program Files\Autodesk\Revit 2017\AdWindows.dll</HintPath>
-    </Reference>
     <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2018'">
       <HintPath>C:\Program Files\Autodesk\Revit 2018\AdWindows.dll</HintPath>
     </Reference>
@@ -250,24 +203,6 @@
     </Reference>
     <Reference Include="NHunspell, Version=1.2.5554.16953, Culture=neutral, PublicKeyToken=1ac793ea843b4366, processorArchitecture=MSIL">
       <HintPath>packages\NHunspell.1.2.5554.16953\lib\net\NHunspell.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2016'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2016\RevitAPI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIUI" Condition="'$(Configuration)'=='Release2016'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2016\RevitAPIUI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2017'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2017\RevitAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPIUI" Condition="'$(Configuration)'=='Release2017'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2017\RevitAPIUI.dll</HintPath>
     </Reference>
     <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2018'">
       <SpecificVersion>False</SpecificVersion>
