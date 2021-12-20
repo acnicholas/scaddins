@@ -336,6 +336,11 @@ namespace SCaddins.ExportManager.ViewModels
 #endif
         }
 
+        public bool EnableDateRevisions
+        {
+            get { return !ExportRevitPDFEnabled; }
+        }
+
         public bool ExportRevitPDF
         {
             get

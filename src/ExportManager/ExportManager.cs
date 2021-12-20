@@ -590,8 +590,13 @@ namespace SCaddins.ExportManager
             AcadVersion = ACADVersion.Default;
             SaveHistory = Settings1.Default.SaveHistory;
             ShowExportLog = Settings1.Default.ShowExportLog;
+#if REVIT2022
+            ForceRevisionToDateString = false;
+            UseDateForEmptyRevisions = false;
+#else
             ForceRevisionToDateString = Settings1.Default.ForceDateRevision;
             UseDateForEmptyRevisions = Settings1.Default.UseDateForEmptyRevisions;
+#endif
             VerifyOnStartup = Settings1.Default.VerifyOnStartup;
             ExportAdditionalViewports = Settings1.Default.ExportAdditionalViewports;
             ExportViewportsOnly = Settings1.Default.ExportViewportsOnly;
@@ -952,7 +957,7 @@ namespace SCaddins.ExportManager
             ////log.AddMessage(Resources.MessageAssigningExportOptions + vs.);
             var name = vs.FullExportName + Resources.FileExtensionPDF;
             log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
-            log.AddMessage(Resources.MessageExportingToFileName + name);               
+            log.AddMessage(Resources.MessageExportingToFileName + name);  
             Doc.Export(vs.ExportDirectory, views, vs.SegmentedFileName.PDFExportOptions);
 #endif
         }

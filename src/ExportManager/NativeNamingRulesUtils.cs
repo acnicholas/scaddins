@@ -49,14 +49,14 @@ namespace SCaddins.ExportManager
                     var param = vs.Sheet.Parameters.Cast<Parameter>().Where(p => p.Id == pid);
                     if (param.Count() > 0)
                     {
-                        if (param.First().Definition.Name == "Current Revision" && vs.ForceDate)
-                        {
-                            filenameTest += "Current Revision";
-                        }
-                        else
-                        {
+                        // if (param.First().Definition.Name == "Current Revision" && vs.ForceDate)
+                        // {
+                        //     filenameTest += "Current Revision"; 
+                        // }
+                        // else
+                        // {
                             var paramValue = param.First().AsValueString();
-                            if (paramValue.Length < 1 && vs.UseDateForEmptyRevisions)
+                            if (paramValue.Length < 1)
                             {
                                 filenameTest += "Current Revision";
                             }
@@ -64,7 +64,7 @@ namespace SCaddins.ExportManager
                             {
                                 filenameTest += paramValue;
                             }
-                        }
+                        //// }
                     }
                 }
                 filenameTest += seg.Suffix;
