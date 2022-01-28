@@ -28,11 +28,13 @@ namespace SCaddins.Common.ViewModels
         {
             this.downloadLink = downloadLink;
 
-            if (installed == null) {
+            if (installed == null)
+            {
                 installed = new Version(0, 0, 0);
                 VerboseInformationText = "Installed version could not be retrieved";
             }
-            if (remote == null) {
+            if (remote == null)
+            {
                 remote = new Version(0, 0, 0);
                 VerboseInformationText = "Remote version information could not be retrieved";
             }
@@ -40,9 +42,12 @@ namespace SCaddins.Common.ViewModels
             InstalledVersion = Properties.Resources.InstalledVersion + @": " + installed;
             LatestVersion = Properties.Resources.LatestVersion + @": " + remote;
             VerboseInformationText = body;
-            if (installed < remote) {
+            if (installed < remote)
+            {
                 InformationText = Properties.Resources.UpgrateNewVersionAvailableMessage;
-            } else {
+            }
+            else
+            {
                 InformationText = Properties.Resources.UpgradeUpToDateMessage;
             }
         }

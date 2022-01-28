@@ -41,10 +41,13 @@ namespace SCaddins.SpellChecker
             this.autoReplacementList = autoReplacementList;
             OriginalText = parameter.AsString().Replace(@"\r", string.Empty);
             char[] delimiterChars = { ' ', ',', '.', ':', '\t', '\\', '/', '(', ')', '<', '>' };
-            if (!string.IsNullOrEmpty(OriginalText)) {
+            if (!string.IsNullOrEmpty(OriginalText))
+            {
                 originalWords = OriginalText.Split(delimiterChars);
                 NewText = OriginalText;
-            } else {
+            }
+            else
+            {
                 originalWords = null;
                 NewText = OriginalText;
             }
@@ -90,7 +93,8 @@ namespace SCaddins.SpellChecker
             }
         }
 
-        public ElementId ParentElementId {
+        public ElementId ParentElementId
+        {
             get
             {
                 return parameter != null ? parameter.Element.Id : textElement.Id;
@@ -99,11 +103,13 @@ namespace SCaddins.SpellChecker
 
         public bool IsModified => !string.Equals(this.OriginalText, this.NewText, System.StringComparison.CurrentCulture);
 
-        public string NewText {
+        public string NewText
+        {
             get; private set;
         }
 
-        public string OriginalText {
+        public string OriginalText
+        {
             get; private set;
         }
 
@@ -136,20 +142,24 @@ namespace SCaddins.SpellChecker
                 currentIndex++;
 
                 // Continue if a number is found...
-                if (rgx.IsMatch(CurrentAsString)) {
+                if (rgx.IsMatch(CurrentAsString))
+                {
                     continue;
                 }
 
-                if (autoReplacementList.ContainsKey(CurrentAsString)) {
+                if (autoReplacementList.ContainsKey(CurrentAsString))
+                {
                     string replacement;
-                    if (autoReplacementList.TryGetValue(CurrentAsString, out replacement)) {
+                    if (autoReplacementList.TryGetValue(CurrentAsString, out replacement))
+                    {
                         // FIXME this reaplces the first, not the current.
                         ReplaceCurrent(replacement);
                         continue;
                     }
                 }
 
-                if (!hunspell.Spell(originalWords[currentIndex].Trim())) {
+                if (!hunspell.Spell(originalWords[currentIndex].Trim()))
+                {
                     return false;
                 }
             }
@@ -166,8 +176,10 @@ namespace SCaddins.SpellChecker
         /// <returns></returns>
         public bool Rename()
         {
-            if (IsModified) {
-                if (parameter != null && !parameter.IsReadOnly) {
+            if (IsModified)
+            {
+                if (parameter != null && !parameter.IsReadOnly)
+                {
                     return parameter.Set(NewText);
                 }
                 else
@@ -207,7 +219,8 @@ namespace SCaddins.SpellChecker
         private string ReplaceFirst(string text, string search, string replace)
         {
             int pos = text.IndexOf(search);
-            if (pos < 0) {
+            if (pos < 0)
+            {
                 return text;
             }
             return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);

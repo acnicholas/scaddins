@@ -18,7 +18,7 @@
 namespace SCaddins
 {
     using System.Collections.Generic;
-    
+
     public class Author
     {
         // ReSharper disable once InconsistentNaming
@@ -117,7 +117,7 @@ namespace SCaddins
 
         // ReSharper disable once InconsistentNaming
         public string events_url { get; set; }
-        
+
         // ReSharper disable once InconsistentNaming
         public string received_events_url { get; set; }
 
@@ -190,7 +190,7 @@ namespace SCaddins
 
         // ReSharper disable once InconsistentNaming
         public int id { get; set; }
-        
+
         // ReSharper disable once InconsistentNaming
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public string tag_name { get; set; }

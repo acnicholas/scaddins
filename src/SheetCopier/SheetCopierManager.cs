@@ -355,7 +355,8 @@ namespace SCaddins.SheetCopier
                     sheet.DestinationSheet,
                     transform = new Transform(ElementTransformUtils.GetTransformFromViewToView(sheet.SourceSheet, sheet.DestinationSheet)),
                     options = new CopyPasteOptions());
-                if (Settings.Default.DeleteRevisionClouds) {
+                if (Settings.Default.DeleteRevisionClouds)
+                {
                     DeleteRevisionClouds(sheet.DestinationSheet.Id, doc);
                 }
                 options.Dispose();
@@ -638,7 +639,9 @@ namespace SCaddins.SheetCopier
             if (modelHost.Count() > 0)
             {
                 return modelHost.First();
-            } else {
+            }
+            else
+            {
                 var newModelHost = new SheetCopierViewHost(this);
                 ViewHosts.Add(newModelHost);
                 return newModelHost;
@@ -647,11 +650,13 @@ namespace SCaddins.SheetCopier
 
         public string GetNewSheetNumber(string originalNumber)
         {
-            if (string.IsNullOrEmpty(originalNumber)) {
+            if (string.IsNullOrEmpty(originalNumber))
+            {
                 return null;
             }
             int inc = 0;
-            do {
+            do
+            {
                 inc++;
             } while (!SheetNumberAvailable(originalNumber + "-" + inc.ToString(CultureInfo.InvariantCulture)));
             return originalNumber + "-" + inc.ToString(CultureInfo.InvariantCulture);
@@ -664,8 +669,10 @@ namespace SCaddins.SheetCopier
         {
             Level level = null;
             Levels.TryGetValue(view.AssociatedLevelName, out level);
-            if (level != null) {
-                using (ViewPlan vp = ViewPlan.Create(doc, GetFloorPlanViewFamilyTypeId(Doc, view.OldView.ViewType), level.Id)) {
+            if (level != null)
+            {
+                using (ViewPlan vp = ViewPlan.Create(doc, GetFloorPlanViewFamilyTypeId(Doc, view.OldView.ViewType), level.Id))
+                {
                     vp.CropBox = view.OldView.CropBox;
                     vp.CropBoxActive = view.OldView.CropBoxActive;
                     vp.CropBoxVisible = view.OldView.CropBoxVisible;
@@ -680,13 +687,20 @@ namespace SCaddins.SheetCopier
         public void PlaceViewPortOnSheet(
             Element destSheet, ElementId destViewId, XYZ viewCentre)
         {
-            try {
+            try
+            {
                 Viewport.Create(doc, destSheet.Id, destViewId, viewCentre);
-            } catch (Autodesk.Revit.Exceptions.ArgumentException ex) {
+            }
+            catch (Autodesk.Revit.Exceptions.ArgumentException ex)
+            {
                 SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
-            } catch (Autodesk.Revit.Exceptions.ForbiddenForDynamicUpdateException fex) {
+            }
+            catch (Autodesk.Revit.Exceptions.ForbiddenForDynamicUpdateException fex)
+            {
                 SCaddinsApp.WindowManager.ShowMessageBox(fex.Message);
-            } catch (Autodesk.Revit.Exceptions.ModificationForbiddenException mex) {
+            }
+            catch (Autodesk.Revit.Exceptions.ModificationForbiddenException mex)
+            {
                 SCaddinsApp.WindowManager.ShowMessageBox(mex.Message);
             }
         }
@@ -709,15 +723,22 @@ namespace SCaddins.SheetCopier
 
         public void TryAssignViewTemplate(View view, string templateName)
         {
-            if (templateName != SheetCopierConstants.MenuItemCopy) {
+            if (templateName != SheetCopierConstants.MenuItemCopy)
+            {
                 View vt = null;
-                if (ViewTemplates.TryGetValue(templateName, out vt)) {
-                    try {
+                if (ViewTemplates.TryGetValue(templateName, out vt))
+                {
+                    try
+                    {
                         view.ViewTemplateId = vt.Id;
-                    } catch (Autodesk.Revit.Exceptions.ArgumentException ex) {
+                    }
+                    catch (Autodesk.Revit.Exceptions.ArgumentException ex)
+                    {
                         SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
                     }
-                } else {
+                }
+                else
+                {
                     SCaddinsApp.WindowManager.ShowMessageBox("Warning: could not assign view template to view: " + view.Name);
                 }
             }

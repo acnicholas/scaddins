@@ -70,9 +70,9 @@ namespace SCaddins.ExportManager
         }
 
 #if REVIT2022
-        public PDFExportOptions PDFExportOptions { get;  set; }
+        public PDFExportOptions PDFExportOptions { get; set; }
 
-        public PDFExportOptions DWGExportOptions { get;  set; }
+        public PDFExportOptions DWGExportOptions { get; set; }
 #endif
 
         public Collection<string> Hooks { get; }
@@ -81,7 +81,7 @@ namespace SCaddins.ExportManager
         {
             Hooks.Add(hookName);
         }
-        
+
         public override string ToString()
         {
             return string.Format(CultureInfo.InvariantCulture, "[SegmentedSheetName Hooks={0}, Name={1}, NameFormat={2}]", Hooks, Name, NameFormat);

@@ -42,5 +42,5 @@ namespace SCaddins.ExportManager
         public System.DateTime CreationDate { get; set; }
 
         public List<int> ViewIds { get; }
-    }  
+    }
 }

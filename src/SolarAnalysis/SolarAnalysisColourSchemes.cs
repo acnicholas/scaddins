@@ -59,18 +59,22 @@ namespace SCaddins.SolarAnalysis
             colourSettings.SetIntermediateColors(colours);
             colourSettings.ColorSettingsType = AnalysisDisplayStyleColorSettingsType.GradientColor;
 
-            if (AnalysisDisplayStyle.IsNameUnique(doc, name, null)) {
+            if (AnalysisDisplayStyle.IsNameUnique(doc, name, null))
+            {
                 var ads = AnalysisDisplayStyle.CreateAnalysisDisplayStyle(
                     doc,
                     name,
                     colouredSurfaceSettings,
                     colourSettings,
                     new AnalysisDisplayLegendSettings());
-                if (!showLegend) {
+                if (!showLegend)
+                {
                     ads.GetLegendSettings().ShowLegend = false;
                 }
                 result = ads.Id;
-            } else {
+            }
+            else
+            {
                 result = AnalysisDisplayStyle.FindByName(doc, name);
             }
 

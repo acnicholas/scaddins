@@ -122,24 +122,28 @@ namespace SCaddins.ViewUtilities
 
         public static void ShowSummaryDialog(List<View> newUserViews)
         {
-                string message = string.Empty;
-                if (newUserViews == null) {
-                    message = "No valid views found, User view not created." + Environment.NewLine
-                    + "\tValid views types are: " + Environment.NewLine
-                    + Environment.NewLine
-                    + "\t\tViewType.FloorPlan" + Environment.NewLine
-                    + "\t\tViewType.Elevation" + Environment.NewLine
-                    + "\t\tViewType.CeilingPlan" + Environment.NewLine
-                    + "\t\tViewType.Section" + Environment.NewLine
-                    + "\t\tViewType.AreaPlan" + Environment.NewLine
-                    + "\t\tViewType.ThreeD";
-                } else {
-                    message += "Summary of users view created:" + Environment.NewLine;
-                    foreach (View view in newUserViews) {
-                        message += view.Name + Environment.NewLine;
-                    }
+            string message = string.Empty;
+            if (newUserViews == null)
+            {
+                message = "No valid views found, User view not created." + Environment.NewLine
+                + "\tValid views types are: " + Environment.NewLine
+                + Environment.NewLine
+                + "\t\tViewType.FloorPlan" + Environment.NewLine
+                + "\t\tViewType.Elevation" + Environment.NewLine
+                + "\t\tViewType.CeilingPlan" + Environment.NewLine
+                + "\t\tViewType.Section" + Environment.NewLine
+                + "\t\tViewType.AreaPlan" + Environment.NewLine
+                + "\t\tViewType.ThreeD";
+            }
+            else
+            {
+                message += "Summary of users view created:" + Environment.NewLine;
+                foreach (View view in newUserViews)
+                {
+                    message += view.Name + Environment.NewLine;
                 }
-                SCaddinsApp.WindowManager.ShowMessageBox(message);
+            }
+            SCaddinsApp.WindowManager.ShowMessageBox(message);
         }
 
         private static List<View> Create(ViewSheet vs, Document doc)
@@ -230,8 +234,10 @@ namespace SCaddins.ViewUtilities
         private static void ReplaceParameterValue(string paramName, string value, Element element)
         {
             var param = ParamFromString(paramName, element);
-            if (param != null && !string.IsNullOrEmpty(value)) {
-                if (!param.IsReadOnly) {
+            if (param != null && !string.IsNullOrEmpty(value))
+            {
+                if (!param.IsReadOnly)
+                {
                     value = ReplacePatternMatches(element, value);
                     param.Set(value);
                 }

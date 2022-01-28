@@ -18,7 +18,7 @@
 namespace SCaddins.ExportManager
 {
     using System;
-    
+
     [Flags]
     public enum ExportOptions
     {
@@ -46,7 +46,7 @@ namespace SCaddins.ExportManager
         /// </summary>
         NoTitle = 32,
     }
-        
+
     public enum LogType
     {
         Error,

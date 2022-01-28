@@ -81,11 +81,14 @@ namespace SCaddins.DestructivePurge.ViewModels
             get
             {
                 int n = 0;
-                if (IsYes && Deletable.Id != null) {
+                if (IsYes && Deletable.Id != null)
+                {
                     n++;
                 }
-                if (IsYesOrMaybe) {
-                    foreach (var child in Children) {
+                if (IsYesOrMaybe)
+                {
+                    foreach (var child in Children)
+                    {
                         n += child.CheckedCount;
                     }
                 }
@@ -143,7 +146,8 @@ namespace SCaddins.DestructivePurge.ViewModels
 
         public void AddChild(CheckableItem deletable)
         {
-            if (deletable == null) {
+            if (deletable == null)
+            {
                 return;
             }
             Children.Add(deletable);
@@ -151,7 +155,8 @@ namespace SCaddins.DestructivePurge.ViewModels
 
         public void AddChildren(List<DeletableItem> deletables)
         {
-            if (deletables == null || deletables.Count < 1) {
+            if (deletables == null || deletables.Count < 1)
+            {
                 return;
             }
             foreach (var deletable in deletables)

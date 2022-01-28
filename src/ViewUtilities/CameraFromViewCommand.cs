@@ -157,12 +157,13 @@ namespace SCaddins.ViewUtilities
             var v = view.GetOrientation();
             using (var t = new Transaction(udoc.Document))
             {
-                if (t.Start("Create perspective view") == TransactionStatus.Started) {
-                var centreOfScreen = GetMiddleOfActiveViewWindow(ActiveUIView(udoc, view));
-                var np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
-                np.SetOrientation(new ViewOrientation3D(new XYZ(centreOfScreen.X, centreOfScreen.Y, v.EyePosition.Z), v.UpDirection, v.ForwardDirection));
-                t.Commit();
-                np.Dispose();
+                if (t.Start("Create perspective view") == TransactionStatus.Started)
+                {
+                    var centreOfScreen = GetMiddleOfActiveViewWindow(ActiveUIView(udoc, view));
+                    var np = View3D.CreatePerspective(udoc.Document, Get3DViewFamilyTypes(udoc.Document).First().Id);
+                    np.SetOrientation(new ViewOrientation3D(new XYZ(centreOfScreen.X, centreOfScreen.Y, v.EyePosition.Z), v.UpDirection, v.ForwardDirection));
+                    t.Commit();
+                    np.Dispose();
                 }
             }
             v.Dispose();

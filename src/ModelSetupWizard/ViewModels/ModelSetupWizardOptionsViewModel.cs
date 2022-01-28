@@ -34,17 +34,22 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             NominatedArchitects = new BindableCollection<NominatedArchitect>();
 
             ColourSchemes = new BindableCollection<ColourScheme>();
-            
+
             var loadSystemConfig = ModelSetupWizardSettings.Default.LoadSystemConfigOnStartup;
-            if (loadSystemConfig) {
+            if (loadSystemConfig)
+            {
                 systemConfigFilePath = ModelSetupWizardSettings.Default.SystemConfigFilePath;
-                if (!string.IsNullOrEmpty(systemConfigFilePath)) {
-                    if (System.IO.File.Exists(systemConfigFilePath)) {
+                if (!string.IsNullOrEmpty(systemConfigFilePath))
+                {
+                    if (System.IO.File.Exists(systemConfigFilePath))
+                    {
                         SettingsIO.Import(systemConfigFilePath);
                         ModelSetupWizardSettings.Default.SystemConfigFilePath = systemConfigFilePath;
                         ModelSetupWizardSettings.Default.LoadSystemConfigOnStartup = true;
                         ModelSetupWizardSettings.Default.Save();
-                    } else {
+                    }
+                    else
+                    {
                         SCaddinsApp.WindowManager.ShowWarningMessageBox(
                             "File Not Found",
                             string.Format(System.Globalization.CultureInfo.InvariantCulture, "Config file: {0} not found", systemConfigFilePath));
@@ -75,7 +80,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             get; set;
         }
 
-        public BindableCollection<ColourScheme> ColourSchemes {
+        public BindableCollection<ColourScheme> ColourSchemes
+        {
             get; private set;
         }
 
@@ -89,15 +95,18 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             get; private set;
         }
 
-        public BindableCollection<WorksetParameter> Worksets {
+        public BindableCollection<WorksetParameter> Worksets
+        {
             get; private set;
         }
 
-        public WorksetParameter SelectedWorkset {
+        public WorksetParameter SelectedWorkset
+        {
             get; set;
         }
 
-        public List<WorksetParameter> SelectedWorksets {
+        public List<WorksetParameter> SelectedWorksets
+        {
             get; private set;
         }
 
@@ -106,7 +115,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             get; set;
         }
 
-        public string SystemConfigFilePath {
+        public string SystemConfigFilePath
+        {
             get
             {
                 return systemConfigFilePath;
@@ -141,7 +151,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
 
         public void Apply()
         {
-            if (LoadSystemConfigOnInit) {
+            if (LoadSystemConfigOnInit)
+            {
                 SCaddinsApp.WindowManager.ShowWarningMessageBox(
                     "System Config Warning",
                     "Load System Configuration at Start-up(Advanced), is set to true, any changes here will be lost unless you set this option to false");
@@ -195,7 +206,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         public void ImportConfig()
         {
             var result = SCaddinsApp.WindowManager.ShowOpenFileDialog(string.Empty, out var filePath);
-            if (!result.HasValue || !result.Value || !System.IO.File.Exists(filePath)) {
+            if (!result.HasValue || !result.Value || !System.IO.File.Exists(filePath))
+            {
                 return;
             }
             SettingsIO.Import(filePath);
@@ -214,7 +226,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
 
         public void RemoveWorksets()
         {
-            if (SelectedWorksets != null && SelectedWorksets.Count > 0) {
+            if (SelectedWorksets != null && SelectedWorksets.Count > 0)
+            {
                 Worksets.RemoveRange(SelectedWorksets);
             }
         }
@@ -231,7 +244,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         {
             string filePath = string.Empty;
             bool? result = SCaddinsApp.WindowManager.ShowOpenFileDialog(string.Empty, out filePath);
-            if (result.HasValue && result.Value && System.IO.File.Exists(filePath)) {
+            if (result.HasValue && result.Value && System.IO.File.Exists(filePath))
+            {
                 SettingsIO.Import(filePath);
                 Reset();
             }
@@ -286,8 +300,10 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         private void AddColourSchemes()
         {
             var colourSchemesSettings = ModelSetupWizardSettings.Default.ColourSchemes;
-            foreach (var colourSchemeConfigString in colourSchemesSettings) {
-                if (string.IsNullOrEmpty(colourSchemeConfigString)) {
+            foreach (var colourSchemeConfigString in colourSchemesSettings)
+            {
+                if (string.IsNullOrEmpty(colourSchemeConfigString))
+                {
                     continue;
                 }
                 ColourSchemes.Add(new ColourScheme(colourSchemeConfigString));
@@ -323,6 +339,6 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             FileNameParameterName = ModelSetupWizardSettings.Default.FileNameParameterName;
             SystemConfigFilePath = ModelSetupWizardSettings.Default.SystemConfigFilePath;
             LoadSystemConfigOnInit = ModelSetupWizardSettings.Default.LoadSystemConfigOnStartup;
-         }
+        }
     }
 }

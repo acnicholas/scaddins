@@ -26,8 +26,8 @@ namespace SCaddins.SpellChecker.ViewModels
         private StringCollection stringCollection;
 
         public SpellCheckerOptionsViewModel()
-        {      
-            Reset();  
+        {
+            Reset();
         }
 
         public string ElementsToIgnore { get; set; }
@@ -36,8 +36,10 @@ namespace SCaddins.SpellChecker.ViewModels
         {
             var collecton = new StringCollection();
             string[] lines = ElementsToIgnore.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            foreach (var line in lines) {
-                if (!string.IsNullOrEmpty(line)) {
+            foreach (var line in lines)
+            {
+                if (!string.IsNullOrEmpty(line))
+                {
                     collecton.Add(line);
                 }
             }

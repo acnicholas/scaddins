@@ -41,10 +41,11 @@ namespace SCaddins.HatchEditor.ViewModels
                 "45,0,6,0,8.485281374,2.8284271247, -5.65685424";
         }
 
-        public string UserFillPatternDefinition {
+        public string UserFillPatternDefinition
+        {
             get
             {
-                return UserFillPattern.Definition != null ? UserFillPattern.Definition : string.Empty;
+                return UserFillPattern.Definition ?? string.Empty;
             }
 
             set
@@ -55,14 +56,16 @@ namespace SCaddins.HatchEditor.ViewModels
             }
         }
 
-        public bool DraftingPattern {
+        public bool DraftingPattern
+        {
             get
             {
                 return UserFillPattern.IsDrafting;
             }
         }
 
-        public bool ModelPattern {
+        public bool ModelPattern
+        {
             get
             {
                 return !UserFillPattern.IsDrafting;
@@ -92,8 +95,8 @@ namespace SCaddins.HatchEditor.ViewModels
             "Line families" + System.Environment.NewLine +
             System.Environment.NewLine +
             "Each line family is a set of parallel lines that build one 'direction' of a pattern. A complete " +
-            "pattern may be defined by several families each defining part of the final, such as the vertical " + 
-            "points of brick coursing. The lines are described in the two dimensions of a face as follows: " + 
+            "pattern may be defined by several families each defining part of the final, such as the vertical " +
+            "points of brick coursing. The lines are described in the two dimensions of a face as follows: " +
             System.Environment.NewLine +
             System.Environment.NewLine +
             " angle, x - origin, y - origin, shift, offset, dash, space, dash, space... " +
@@ -118,8 +121,8 @@ namespace SCaddins.HatchEditor.ViewModels
             "decimal numbers(using peroid as the decimal separator) in the units previously specified. " +
             "The dash-space sequence defines a repeating pattern of dashes and spaces for a line. If it is " +
             "omitted, the line is solid.Positive numbers define dashes, negative numbers define spaces, and " +
-            "zero specifies a dot. If you begin a pattern with a space, do not alternate dashes and spaces, " + 
-            "or do not end with a space, Revit will introduce tiny dashes or spaces to compensate. Revit " + 
+            "zero specifies a dot. If you begin a pattern with a space, do not alternate dashes and spaces, " +
+            "or do not end with a space, Revit will introduce tiny dashes or spaces to compensate. Revit " +
             "expands dots and very short dashes into dashes of a minimum size.";
 
             SCaddinsApp.WindowManager.ShowMessageBox(helpText);
@@ -128,7 +131,8 @@ namespace SCaddins.HatchEditor.ViewModels
         public void LoadPatternFromFile()
         {
             var result = SCaddinsApp.WindowManager.ShowFileSelectionDialog("C:/Temp", out var filePath);
-            if (!result.HasValue || !result.Value) {
+            if (!result.HasValue || !result.Value)
+            {
                 return;
             }
             var vm = new SelectHatchViewModel(new ObservableCollection<Hatch>(Command.ReadAllPatternsFromFile(filePath)));
@@ -143,7 +147,8 @@ namespace SCaddins.HatchEditor.ViewModels
         {
             var vm = new SelectHatchViewModel(doc);
             var result = SCaddinsApp.WindowManager.ShowDialog(vm, null, SelectHatchViewModel.DefualtWindowSettings());
-            if (result.HasValue && result.Value) {
+            if (result.HasValue && result.Value)
+            {
                 UserFillPattern = vm.SelectedFillPattern.Clone();
             }
         }
@@ -177,7 +182,8 @@ namespace SCaddins.HatchEditor.ViewModels
             }
             UserFillPattern.Name = vm.NewPatternName;
             var result = SCaddinsApp.WindowManager.ShowSaveFileDialog("CustomHatch.pat", "*.pat", "Pattern Files (*.pat)| *.pat", out var savePath);
-            if (result.HasValue && result == true) {
+            if (result.HasValue && result == true)
+            {
                 Command.SaveToFile(savePath, UserFillPattern);
             }
         }
@@ -190,10 +196,11 @@ namespace SCaddins.HatchEditor.ViewModels
             {
                 UserFillPattern.Name = vm.NewPatternName;
                 Command.SaveToModel(doc, UserFillPattern.HatchPattern);
-            } else
+            }
+            else
             {
                 SCaddinsApp.WindowManager.ShowWarningMessageBox("Save to Model", "Fill pattern not saved to the current model...");
-            }            
+            }
         }
 
         public void ScalePattern()

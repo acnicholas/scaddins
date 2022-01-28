@@ -73,9 +73,12 @@ namespace SCaddins.SolarAnalysis
             var fieldValues = new FieldValues(valList);
             var resultSchema = new AnalysisResultSchema(name, name);
             var schemaIndex = sfm.RegisterResult(resultSchema);
-            try {
+            try
+            {
                 sfm.UpdateSpatialFieldPrimitive(idx, points, fieldValues, schemaIndex);
-            } catch {
+            }
+            catch
+            {
                 ////FIXME. don't catch nothing...
             }
         }

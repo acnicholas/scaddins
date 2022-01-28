@@ -33,7 +33,8 @@ namespace SCaddins.ExportManager
             {
                 if (transaction.Start("Delete alluser views") == TransactionStatus.Started)
                 {
-                    foreach (var vsi in viewSetItems) {
+                    foreach (var vsi in viewSetItems)
+                    {
                         doc.Delete(new ElementId(vsi.Id));
                     }
                 }
@@ -76,10 +77,12 @@ namespace SCaddins.ExportManager
             foreach (var viewSetItem in result)
             {
                 var date = TryParseDateString(viewSetItem);
-                if (!string.IsNullOrEmpty(date)) {
+                if (!string.IsNullOrEmpty(date))
+                {
                     viewSetItem.CreationDate = DateTime.ParseExact(date, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
-                    viewSetItem.DescriptiveName = viewSetItem.CreationDate.ToString("F")  + @"[" + viewSetItem.NumberOfViews + @"]";
-                } else
+                    viewSetItem.DescriptiveName = viewSetItem.CreationDate.ToString("F") + @"[" + viewSetItem.NumberOfViews + @"]";
+                }
+                else
                 {
                     SCaddinsApp.WindowManager.ShowMessageBox("Could not find user view (There was a probelm parsing the date)");
                 }
@@ -161,7 +164,7 @@ namespace SCaddins.ExportManager
             }
 
             var dateString = viewSetItem.Name.Substring(viewSetItem.Name.IndexOf("-") + 1);
-            if (dateString.Length != 14) 
+            if (dateString.Length != 14)
             {
                 return string.Empty;
             }

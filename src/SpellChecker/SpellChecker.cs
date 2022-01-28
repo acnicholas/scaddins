@@ -53,21 +53,22 @@ namespace SCaddins.SpellChecker
                 {
                     Hunspell.NativeDllPath = dll;
                 }
-            } catch (System.Exception ex)
+            }
+            catch (System.Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
             }
 
-            #if DEBUG
+#if DEBUG
             //// SCaddinsApp.WindowManager.ShowMessageBox(System.IO.Path.Combine(dll, "Assets"));
             hunspell = new Hunspell(
                             System.IO.Path.Combine(dll, @"Assets/en_AU.aff"),
                             System.IO.Path.Combine(dll, @"Assets/en_AU.dic"));
-            #else
+#else
             hunspell = new Hunspell(
                             System.IO.Path.Combine(Constants.InstallDirectory, "etc", "en_AU.aff"),
                             System.IO.Path.Combine(Constants.InstallDirectory, "etc", "en_AU.dic"));
-            #endif
+#endif
 
             // add some arch specific words
             hunspell.Add("approver");
@@ -107,7 +108,8 @@ namespace SCaddins.SpellChecker
 
         public void AddToAutoReplacementList(string word, string replacement)
         {
-            if (autoReplacementList.ContainsKey(word)) {
+            if (autoReplacementList.ContainsKey(word))
+            {
                 return;
             }
             autoReplacementList.Add(word, replacement);
@@ -121,13 +123,20 @@ namespace SCaddins.SpellChecker
             int fails = 0;
             int successes = 0;
 
-            using (var t = new Transaction(document)) {
-                if (t.Start("Spelling") == TransactionStatus.Started) {
-                    foreach (CorrectionCandidate candidate in allTextParameters) {
-                        if (candidate.IsModified) {
-                            if (candidate.Rename()) {
+            using (var t = new Transaction(document))
+            {
+                if (t.Start("Spelling") == TransactionStatus.Started)
+                {
+                    foreach (CorrectionCandidate candidate in allTextParameters)
+                    {
+                        if (candidate.IsModified)
+                        {
+                            if (candidate.Rename())
+                            {
                                 successes++;
-                            } else {
+                            }
+                            else
+                            {
                                 fails++;
                             }
                         }
@@ -135,7 +144,9 @@ namespace SCaddins.SpellChecker
                     t.Commit();
                     SCaddinsApp.WindowManager.ShowMessageBox(
                         @"Spelling", successes + @" parameters succesfully renamed, " + fails + @" errors.");
-                } else {
+                }
+                else
+                {
                     SCaddinsApp.WindowManager.ShowMessageBox("Error", "Failed to start Spelling Transaction...");
                 }
             }
@@ -147,10 +158,12 @@ namespace SCaddins.SpellChecker
         /// <returns></returns>
         public List<string> GetCurrentSuggestions()
         {
-            if (currentIndex < 0) {
+            if (currentIndex < 0)
+            {
                 return new List<string>();
             }
-            if (hunspell != null && allTextParameters.Count > 0 && currentIndex < allTextParameters.Count) {
+            if (hunspell != null && allTextParameters.Count > 0 && currentIndex < allTextParameters.Count)
+            {
                 return hunspell.Suggest(allTextParameters[currentIndex].CurrentAsString);
             }
             return new List<string>();
@@ -174,24 +187,28 @@ namespace SCaddins.SpellChecker
         public bool MoveNext()
         {
             // No point running if there are no elements to check.
-            if (allTextParameters == null || allTextParameters.Count <= 0) {
+            if (allTextParameters == null || allTextParameters.Count <= 0)
+            {
                 return false;
             }
 
             // Run till a spelling error is found.
-            while (currentIndex < allTextParameters.Count) {
+            while (currentIndex < allTextParameters.Count)
+            {
                 if (currentIndex == -1)
                 {
                     currentIndex = 0;
                 }
 
                 // Skip if type is in the ignore list.
-                if (ignoreList.Contains(CurrentCandidate.TypeString)) {
+                if (ignoreList.Contains(CurrentCandidate.TypeString))
+                {
                     currentIndex++;
                     continue;
                 }
 
-                if (!allTextParameters[currentIndex].MoveNext()) {
+                if (!allTextParameters[currentIndex].MoveNext())
+                {
                     return false;
                 }
                 currentIndex++;
@@ -204,7 +221,8 @@ namespace SCaddins.SpellChecker
         public void ProcessAllAutoReplacements()
         {
             Reset();
-            while (currentIndex < allTextParameters.Count) {
+            while (currentIndex < allTextParameters.Count)
+            {
                 MoveNext();
             }
         }
@@ -261,7 +279,8 @@ namespace SCaddins.SpellChecker
             foreach (Element element in collector)
             {
                 var parameterSet = element.Parameters;
-                if (parameterSet == null || parameterSet.IsEmpty) {
+                if (parameterSet == null || parameterSet.IsEmpty)
+                {
                     continue;
                 }
                 foreach (var parameter in parameterSet)
@@ -269,10 +288,12 @@ namespace SCaddins.SpellChecker
                     if (parameter is Autodesk.Revit.DB.Parameter)
                     {
                         Autodesk.Revit.DB.Parameter p = (Autodesk.Revit.DB.Parameter)parameter;
-                        if (p == null || !p.HasValue) {
+                        if (p == null || !p.HasValue)
+                        {
                             continue;
                         }
-                        if (p.IsReadOnly) {
+                        if (p.IsReadOnly)
+                        {
                             continue;
                         }
                         try

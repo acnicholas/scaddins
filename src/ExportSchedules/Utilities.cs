@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.IO;
     using Autodesk.Revit.DB;
-    using OfficeOpenXml;        
+    using OfficeOpenXml;
 
     public class Utilities
     {
@@ -53,7 +53,8 @@
                                 schedule.ExportName,
                                 Path.Combine(exportPath, schedule.ExportName));
                         }
-                    } else
+                    }
+                    else
                     {
                         exportMsg.AppendLine("[Error] " + schedule.ExportName);
                     }
@@ -63,9 +64,9 @@
             var summaryString = string.Format(
                 "Export Summary:" + System.Environment.NewLine +
                 "{0} Export(s) attempted with {1} successe(s) and {2} fail(s))" + System.Environment.NewLine +
-                System.Environment.NewLine, 
-                attempts, 
-                successes, 
+                System.Environment.NewLine,
+                attempts,
+                successes,
                 fails);
             exportMsg.Insert(0, summaryString);
             return exportMsg.ToString();

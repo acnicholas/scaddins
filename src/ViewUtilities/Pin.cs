@@ -18,7 +18,6 @@
 namespace SCaddins.ViewUtilities
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Autodesk.Revit.DB;
     using SCaddins.ExportManager;
 

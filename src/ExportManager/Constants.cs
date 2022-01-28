@@ -38,7 +38,7 @@ namespace SCaddins.ExportManager
 
         /// <summary>The export directory.</summary>
         public const string DefaultExportDirectory = @"C:\Temp";
-               
+
         /// <summary> Param name of scale bar visibility. </summary>
         public const string TitleScale = "Scale Bar 1 to";
     }

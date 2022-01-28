@@ -62,7 +62,8 @@
             try
             {
                 RevitViewSchedule.Export(exportPath, ExportName, options);
-            } catch
+            }
+            catch
             {
                 return false;
             }

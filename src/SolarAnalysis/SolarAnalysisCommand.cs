@@ -31,13 +31,15 @@ namespace SCaddins.SolarAnalysis
             ref string message,
             ElementSet elements)
         {
-            if (commandData == null) {
+            if (commandData == null)
+            {
                 return Result.Failed;
             }
 
             UIDocument udoc = commandData.Application.ActiveUIDocument;
 
-            if (udoc.Document.IsFamilyDocument) {
+            if (udoc.Document.IsFamilyDocument)
+            {
                 SCaddinsApp.WindowManager.ShowErrorMessageBox("Families not supported", "Solar analysis tools will not work in a family environment.");
                 return Result.Failed;
             }
@@ -45,12 +47,13 @@ namespace SCaddins.SolarAnalysis
             var vm = new ViewModels.SolarViewsViewModel(commandData.Application.ActiveUIDocument);
             SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SolarViewsViewModel.DefaultViewSettings);
 
-            if (vm.CreateAnalysisView) {
-                #if REVIT2021 || REVIT2022
+            if (vm.CreateAnalysisView)
+            {
+#if REVIT2021 || REVIT2022
                 var internalUnitsGridSize = UnitUtils.ConvertToInternalUnits(vm.AnalysisGridSize, UnitTypeId.Millimeters);
-                #else
+#else
                 var internalUnitsGridSize = UnitUtils.ConvertToInternalUnits(vm.AnalysisGridSize, DisplayUnitType.DUT_MILLIMETERS);
-                #endif
+#endif
                 SolarAnalysisManager.CreateTestFaces(vm.FaceSelection, vm.MassSelection, internalUnitsGridSize, udoc, udoc.ActiveView);
             }
 

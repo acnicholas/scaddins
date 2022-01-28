@@ -17,7 +17,6 @@ namespace SCaddins.ParameterUtilities
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
     using Autodesk.Revit.DB;
@@ -34,42 +33,51 @@ namespace SCaddins.ParameterUtilities
         public static void DismissDuplicateQuestion(object value, DialogBoxShowingEventArgs e)
         {
             var t = e as MessageBoxShowingEventArgs;
-            if (t != null && t.Message == @"Elements have duplicate 'Number' values.") {
+            if (t != null && t.Message == @"Elements have duplicate 'Number' values.")
+            {
                 e.OverrideResult((int)TaskDialogResult.Ok);
             }
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Because this hack only works this way...")]  
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Because this hack only works this way...")]
         public static void RenumberByPicks(UIDocument uidoc, Document doc, UIApplication app)
         {
-            if (uidoc == null || app == null) {
+            if (uidoc == null || app == null)
+            {
                 return;
             }
 
             IList<Reference> refList = new List<Reference>();
-            try {
-                while (true) {
+            try
+            {
+                while (true)
+                {
                     refList.Add(uidoc.Selection.PickObject(ObjectType.Element, "Select elements in order to be renumbered. ESC when finished."));
                 }
-            } catch (Exception exception)
+            }
+            catch (Exception exception)
             {
                 Console.WriteLine(exception.Message);
             }
 
-            if (refList.Count == 0) {
+            if (refList.Count == 0)
+            {
                 return;
             }
 
-            using (var t = new Transaction(doc, "Renumber")) {
+            using (var t = new Transaction(doc, "Renumber"))
+            {
                 t.Start();
                 int incAmount = IncrementSettings.Default.IncrementValue;
                 string startValue = string.Empty;
                 string startText = string.Empty;
                 Reference firstRef = refList[0];
                 Parameter firstParam = GetParameterForReference(doc, firstRef);
-                if (firstParam == null) {
-                        return;
-                } else
+                if (firstParam == null)
+                {
+                    return;
+                }
+                else
                 {
                     startText = firstParam.AsString();
                     startValue = GetSourceNumberAsString(startText);
@@ -144,7 +152,8 @@ namespace SCaddins.ParameterUtilities
             if (IncrementSettings.Default.UseDestinationSearchPattern)
             {
                 s = Regex.Replace(s, IncrementSettings.Default.DestinationSearchPattern, IncrementSettings.Default.DestinationReplacePattern);
-            } else
+            }
+            else
             {
                 s = Regex.Replace(s, IncrementSettings.Default.SourceSearchPattern, IncrementSettings.Default.DestinationReplacePattern);
             }
@@ -211,11 +220,14 @@ namespace SCaddins.ParameterUtilities
         private static string IncrementString(string startNumber, int incVal, bool keepLeadingZeros)
         {
             var matchLength = startNumber.Length;
-            if (!string.IsNullOrEmpty(startNumber) && int.TryParse(startNumber, out int n)) {
+            if (!string.IsNullOrEmpty(startNumber) && int.TryParse(startNumber, out int n))
+            {
                 var i = n + incVal;
                 var pad = string.Empty;
-                if (i > 0) {
-                    for (var j = (int)Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++) {
+                if (i > 0)
+                {
+                    for (var j = (int)Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++)
+                    {
                         pad += "0";
                     }
                 }
@@ -226,12 +238,14 @@ namespace SCaddins.ParameterUtilities
 
         private static void SetParameterToValue(Parameter p, string s)
         {
-            switch (p.StorageType) {
+            switch (p.StorageType)
+            {
                 case StorageType.Integer:
                     p.Set(int.Parse(s));
                     break;
                 case StorageType.String:
-                    if (!string.IsNullOrEmpty(s)) {
+                    if (!string.IsNullOrEmpty(s))
+                    {
                         p.Set(s);
                     }
                     break;

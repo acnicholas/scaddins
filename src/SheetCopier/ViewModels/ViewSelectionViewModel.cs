@@ -26,7 +26,7 @@ namespace SCaddins.SheetCopier.ViewModels
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
-     public class ViewSelectionViewModel : Screen
+    public class ViewSelectionViewModel : Screen
     {
         private List<Autodesk.Revit.DB.View> views;
         private CollectionViewSource searchResults;
@@ -40,9 +40,11 @@ namespace SCaddins.SheetCopier.ViewModels
             searchResults = new CollectionViewSource();
             searchResults.Source = views.ToList();
             searchText = string.Empty;
-            SearchResults.Filter = vv => {
+            SearchResults.Filter = vv =>
+            {
                 Autodesk.Revit.DB.View fv = vv as Autodesk.Revit.DB.View;
-                if (ShowSheets && !ShowViews) {
+                if (ShowSheets && !ShowViews)
+                {
                     return fv.ViewType == ViewType.DrawingSheet && fv.Name.Contains(searchText);
                 }
                 if (!ShowSheets && ShowViews)
@@ -61,7 +63,8 @@ namespace SCaddins.SheetCopier.ViewModels
             ShowViews = false;
         }
 
-        public static dynamic DefaultWindowSettings {
+        public static dynamic DefaultWindowSettings
+        {
             get
             {
                 dynamic settings = new ExpandoObject();
@@ -131,16 +134,21 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public void RowSheetSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs eventArgs)
         {
-            try {
+            try
+            {
                 SelectedViews.AddRange(eventArgs.AddedItems.Cast<Autodesk.Revit.DB.View>());
                 eventArgs.RemovedItems.Cast<Autodesk.Revit.DB.View>().ToList().ForEach(w => SelectedViews.Remove(w));
             }
-            catch (ArgumentNullException argumentNullException) {
+            catch (ArgumentNullException argumentNullException)
+            {
                 Console.WriteLine(argumentNullException.Message);
             }
-            catch (InvalidCastException invalidCastException) {
+            catch (InvalidCastException invalidCastException)
+            {
                 Console.WriteLine(invalidCastException.Message);
-            } catch (InvalidOperationException invalidOperationException) {
+            }
+            catch (InvalidOperationException invalidOperationException)
+            {
                 Console.WriteLine(invalidOperationException.Message);
             }
         }

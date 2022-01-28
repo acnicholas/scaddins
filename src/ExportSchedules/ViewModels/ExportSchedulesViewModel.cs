@@ -86,7 +86,7 @@
                     NotifyOfPropertyChange(() => ExportDir);
                     NotifyOfPropertyChange(() => ExportIsEnabled);
                 }
-            } 
+            }
         }
     }
 }

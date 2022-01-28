@@ -17,11 +17,7 @@
 
 namespace SCaddins.WorksharingUtilities
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
 
@@ -86,7 +82,7 @@ namespace SCaddins.WorksharingUtilities
             message += "\nCurrent Owner : " + tooltipInfo.Owner;
             message += "\nLast Changed by : " + tooltipInfo.LastChangedBy;
 
-           SCaddinsApp.WindowManager.ShowMessageBox("Additional Element Information", message);
+            SCaddinsApp.WindowManager.ShowMessageBox("Additional Element Information", message);
         }
     }
 }

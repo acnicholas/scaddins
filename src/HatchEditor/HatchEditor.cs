@@ -47,9 +47,12 @@ namespace SCaddins.HatchEditor
 
         public static bool SaveToFile(string filePath, Hatch hatch)
         {
-            try {
+            try
+            {
                 File.WriteAllText(filePath, hatch.PatFileString, Encoding.ASCII);
-            } catch {
+            }
+            catch
+            {
                 //// add proper exceptions here...
             }
             return true;
@@ -57,11 +60,15 @@ namespace SCaddins.HatchEditor
 
         public static bool SaveToModel(Document doc, FillPattern pattern)
         {
-            using (Transaction t = new Transaction(doc)) {
-                if (t.Start("Save pattern to Model") == TransactionStatus.Started) {
+            using (Transaction t = new Transaction(doc))
+            {
+                if (t.Start("Save pattern to Model") == TransactionStatus.Started)
+                {
                     FillPatternElement.Create(doc, pattern);
                     t.Commit();
-                } else {
+                }
+                else
+                {
                     t.RollBack();
                 }
             }
@@ -70,10 +77,13 @@ namespace SCaddins.HatchEditor
 
         public static List<Hatch> ReadAllPatternsFromFile(string file)
         {
-            if (File.Exists(file)) {
+            if (File.Exists(file))
+            {
                 var fileLines = File.ReadAllLines(file);
                 return GetPatternFromFile(0, fileLines);
-            } else {
+            }
+            else
+            {
                 return new List<Hatch>();
             }
         }
@@ -83,7 +93,8 @@ namespace SCaddins.HatchEditor
             var result = new List<Hatch>();
             for (int i = startIndex; i < array.Length - 2; i++)
             {
-                if (array[i].Length > 1 && array[i].Trim().StartsWith(@"*", System.StringComparison.InvariantCulture)) {
+                if (array[i].Length > 1 && array[i].Trim().StartsWith(@"*", System.StringComparison.InvariantCulture))
+                {
                     var name = array[i].Substring(1).Trim();
                     i++;
                     var type = array[i].Trim();
@@ -91,7 +102,8 @@ namespace SCaddins.HatchEditor
                     do
                     {
                         i++;
-                        if (!array[i].StartsWith(@";", System.StringComparison.InvariantCulture)) {
+                        if (!array[i].StartsWith(@";", System.StringComparison.InvariantCulture))
+                        {
                             defs.Append(array[i].Trim());
                             defs.Append(System.Environment.NewLine);
                         }

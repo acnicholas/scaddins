@@ -37,12 +37,14 @@ namespace SCaddins.ExportManager.ViewModels
             searchResults = new CollectionViewSource();
             searchResults.Source = OpenSheet.ViewsInModel(doc, true);
             viewType = ViewType.Undefined;
-            SearchResults.Filter  = v => {
-                    OpenableView ov = v as OpenableView;
-                    if (string.IsNullOrEmpty(searchInput)) {
-                        return false;
-                    }
-                    return ov == null || ov.IsMatch(searchInput, viewType);
+            SearchResults.Filter = v =>
+            {
+                OpenableView ov = v as OpenableView;
+                if (string.IsNullOrEmpty(searchInput))
+                {
+                    return false;
+                }
+                return ov == null || ov.IsMatch(searchInput, viewType);
             };
             selectedSearchResult = null;
             ctrlDown = false;
@@ -75,7 +77,8 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value != searchInput) {
+                if (value != searchInput)
+                {
                     searchInput = value;
                     SearchResults.Refresh();
                 }
@@ -105,47 +108,61 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void KeyDown(System.Windows.Input.KeyEventArgs args)
         {
-            if (args.Key == System.Windows.Input.Key.Escape) {
+            if (args.Key == System.Windows.Input.Key.Escape)
+            {
                 TryClose(false);
             }
-            if (args.Key == System.Windows.Input.Key.Enter) {
-                if (SearchResults.IsEmpty) {
+            if (args.Key == System.Windows.Input.Key.Enter)
+            {
+                if (SearchResults.IsEmpty)
+                {
                     return;
                 }
-                if (selectedSearchResult == null) {
+                if (selectedSearchResult == null)
+                {
                     SelectNext();
                     selectedSearchResult.Open();
                     TryClose(true);
-                } else {
+                }
+                else
+                {
                     selectedSearchResult.Open();
                     TryClose(true);
                 }
             }
-            if (args.Key == System.Windows.Input.Key.Tab) {
+            if (args.Key == System.Windows.Input.Key.Tab)
+            {
                 SelectNext();
             }
-            if (ctrlDown && args.Key == System.Windows.Input.Key.J) {
+            if (ctrlDown && args.Key == System.Windows.Input.Key.J)
+            {
                 SelectNext();
             }
-            if (ctrlDown && args.Key == System.Windows.Input.Key.K) {
+            if (ctrlDown && args.Key == System.Windows.Input.Key.K)
+            {
                 SelectPrevious();
             }
-            if (args.Key == System.Windows.Input.Key.LeftCtrl) {
+            if (args.Key == System.Windows.Input.Key.LeftCtrl)
+            {
                 ctrlDown = true;
             }
-            if (ctrlDown && args.Key == System.Windows.Input.Key.S) {
+            if (ctrlDown && args.Key == System.Windows.Input.Key.S)
+            {
                 ToggleFilterFlag(ViewType.DrawingSheet);
                 NotifyOfPropertyChange(() => StatusText);
             }
-            if (ctrlDown && args.Key == System.Windows.Input.Key.P) {
+            if (ctrlDown && args.Key == System.Windows.Input.Key.P)
+            {
                 ToggleFilterFlag(ViewType.FloorPlan);
                 NotifyOfPropertyChange(() => StatusText);
             }
-            if (ctrlDown && args.Key == System.Windows.Input.Key.E) {
+            if (ctrlDown && args.Key == System.Windows.Input.Key.E)
+            {
                 ToggleFilterFlag(ViewType.Elevation);
                 NotifyOfPropertyChange(() => StatusText);
             }
-            if (ctrlDown && args.Key == System.Windows.Input.Key.T) {
+            if (ctrlDown && args.Key == System.Windows.Input.Key.T)
+            {
                 ToggleFilterFlag(ViewType.Section);
                 NotifyOfPropertyChange(() => StatusText);
             }
@@ -159,7 +176,7 @@ namespace SCaddins.ExportManager.ViewModels
                                   Environment.NewLine +
                                   "[ctrl + e]\t-\tOnly Search for Elevations" + Environment.NewLine +
                                   "[ctrl + p]\t-\tOnly Search for Plans" + Environment.NewLine +
-                                  "[ctrl + s]\t-\tOnly Search for Sheets" + Environment.NewLine +          
+                                  "[ctrl + s]\t-\tOnly Search for Sheets" + Environment.NewLine +
                                   "[ctrl + t]\t-\tOnly Search for Sections";
 
                 SCaddinsApp.WindowManager.ShowMessageBox(helpMessage);
@@ -168,7 +185,8 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void KeyUp(System.Windows.Input.KeyEventArgs args)
         {
-            if (args.Key == System.Windows.Input.Key.LeftCtrl) {
+            if (args.Key == System.Windows.Input.Key.LeftCtrl)
+            {
                 ctrlDown = false;
             }
         }
@@ -182,7 +200,8 @@ namespace SCaddins.ExportManager.ViewModels
         public void SelectNext()
         {
             SearchResults.MoveCurrentToNext();
-            if (SearchResults.IsCurrentAfterLast) {
+            if (SearchResults.IsCurrentAfterLast)
+            {
                 SearchResults.MoveCurrentToFirst();
             }
         }
@@ -190,7 +209,8 @@ namespace SCaddins.ExportManager.ViewModels
         public void SelectPrevious()
         {
             SearchResults.MoveCurrentToPrevious();
-            if (SearchResults.IsCurrentBeforeFirst) {
+            if (SearchResults.IsCurrentBeforeFirst)
+            {
                 SearchResults.MoveCurrentToLast();
             }
         }

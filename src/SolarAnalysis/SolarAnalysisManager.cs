@@ -21,7 +21,6 @@ namespace SCaddins.SolarAnalysis
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
-    using System.IO;
     using System.Linq;
     using System.Text;
     using Autodesk.Revit.Attributes;
@@ -80,7 +79,8 @@ namespace SCaddins.SolarAnalysis
             double totalUVPoints = 0;
             double totalUVPointsWith2PlusHours = 0;
 
-            if (faceSelection == null) {
+            if (faceSelection == null)
+            {
                 return;
             }
 
@@ -103,7 +103,8 @@ namespace SCaddins.SolarAnalysis
             SolarAnalysisColourSchemes.CreateAnalysisScheme(SolarAnalysisColourSchemes.DefaultColours, uidoc.Document, "Direct Sunlight Hours", true);
             var schemeId = SolarAnalysisColourSchemes.CreateAnalysisScheme(SolarAnalysisColourSchemes.DefaultColours, uidoc.Document, "Direct Sunlight Hours - No Legend", false);
 
-            foreach (DirectSunTestFace testFace in testFaces) {
+            foreach (DirectSunTestFace testFace in testFaces)
+            {
                 var boundingBox = testFace.Face.GetBoundingBox();
                 double boundingBoxUTotal = boundingBox.Max.U - boundingBox.Min.U;
                 double boundingBoxVTotal = boundingBox.Max.V - boundingBox.Min.V;
@@ -112,11 +113,14 @@ namespace SCaddins.SolarAnalysis
                 double gridSizeU = boundingBoxUTotal / gridDivisionsU;
                 double gridSizeV = boundingBoxVTotal / gridDivisionsV;
 
-                for (double u = boundingBox.Min.U + (gridSizeU / 2); u <= boundingBox.Max.U; u += gridSizeU) {
-                    for (double v = boundingBox.Min.V + (gridSizeV / 2); v <= boundingBox.Max.V; v += gridSizeV) {
+                for (double u = boundingBox.Min.U + (gridSizeU / 2); u <= boundingBox.Max.U; u += gridSizeU)
+                {
+                    for (double v = boundingBox.Min.V + (gridSizeV / 2); v <= boundingBox.Max.V; v += gridSizeV)
+                    {
                         UV uv = new UV(u, v);
 
-                        if (testFace.Face.IsInside(uv)) {
+                        if (testFace.Face.IsInside(uv))
+                        {
                             SunAndShadowSettings setting = view.SunAndShadowSettings;
                             double interval = 1;
                             switch (setting.TimeInterval)
@@ -137,7 +141,8 @@ namespace SCaddins.SolarAnalysis
 
                             var hoursOfSun = (setting.NumberOfFrames - 1) * interval;
                             //// Autodesk makes active frame starts from 1..
-                            for (int activeFrame = 1; activeFrame <= setting.NumberOfFrames; activeFrame++) {
+                            for (int activeFrame = 1; activeFrame <= setting.NumberOfFrames; activeFrame++)
+                            {
                                 setting.ActiveFrame = activeFrame;
                                 var start = testFace.Face.Evaluate(uv);
                                 start = start.Add(testFace.Face.ComputeNormal(uv).Normalize() / 16);
@@ -146,7 +151,7 @@ namespace SCaddins.SolarAnalysis
 
                                 //// use this only for testing.
                                 //// BuildingCoder.Creator.CreateModelLine(uidoc.Document, start, end);
-                                
+
                                 var line = Line.CreateBound(start, end);
 
                                 // Brute Force
@@ -191,7 +196,8 @@ namespace SCaddins.SolarAnalysis
             var sfm = DirectSunTestFace.GetSpatialFieldManager(uidoc.Document);
             sfm.Clear();
 
-            foreach (var testFace in testFaces) {
+            foreach (var testFace in testFaces)
+            {
                 testFace.CreateAnalysisSurface(uidoc, sfm);
             }
 
@@ -221,12 +227,14 @@ namespace SCaddins.SolarAnalysis
         {
             double highestLevel = -1;
             ElementId highestId = null;
-            using (var collector = new FilteredElementCollector(doc)) {
+            using (var collector = new FilteredElementCollector(doc))
+            {
                 collector.OfClass(typeof(Level));
                 foreach (var element in collector)
                 {
                     var level = (Level)element;
-                    if (!(highestLevel < 0) && !(level.Elevation > highestLevel)) {
+                    if (!(highestLevel < 0) && !(level.Elevation > highestLevel))
+                    {
                         continue;
                     }
                     highestLevel = level.Elevation;
@@ -240,7 +248,8 @@ namespace SCaddins.SolarAnalysis
         // FIXME this can go in a utility class.
         public static string GetNiceViewName(Document doc, string request)
         {
-            if (ViewNameIsAvailable(doc, request)) {
+            if (ViewNameIsAvailable(doc, request))
+            {
                 return request;
             }
             return request + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) +
@@ -250,11 +259,11 @@ namespace SCaddins.SolarAnalysis
         public static ProjectPosition GetProjectPosition(Document doc)
         {
             var projectLocation = doc.ActiveProjectLocation;
-            #if REVIT2018 || REVIT2019 || REVIT2020 || REVIT2021 || REVIT2022
+#if REVIT2018 || REVIT2019 || REVIT2020 || REVIT2021 || REVIT2022
             return projectLocation.GetProjectPosition(XYZ.Zero);
-            #else
+#else
             return projectLocation.get_ProjectPosition(XYZ.Zero);
-            #endif
+#endif
         }
 
         /// <summary>
@@ -292,7 +301,8 @@ namespace SCaddins.SolarAnalysis
         public static bool ViewIsSingleDay(View view)
         {
             var sunSettings = view.SunAndShadowSettings;
-            if (sunSettings == null) {
+            if (sunSettings == null)
+            {
                 return false;
             }
             return sunSettings.SunAndShadowType == SunAndShadowType.OneDayStudy;
@@ -301,23 +311,27 @@ namespace SCaddins.SolarAnalysis
         // FIXME put this somewhere else.
         public static bool ViewNameIsAvailable(Document doc, string name)
         {
-            if (doc == null || name == null) {
+            if (doc == null || name == null)
+            {
                 return false;
             }
-            using (var c = new FilteredElementCollector(doc)) {
+            using (var c = new FilteredElementCollector(doc))
+            {
                 c.OfClass(typeof(View));
-                foreach (var element in c) {
+                foreach (var element in c)
+                {
                     var view = (View)element;
                     var v = view;
-                    #if REVIT2019 || REVIT2020 || REVIT2021 || REVIT2022
-                    if (v.Name == name) {
+#if REVIT2019 || REVIT2020 || REVIT2021 || REVIT2022
+                    if (v.Name == name)
+                    {
                         return false;
                     }
-                    #else
+#else
                     if (v.ViewName == name) {
                         return false;
                     }
-                    #endif
+#endif
                 }
             }
 
@@ -326,13 +340,16 @@ namespace SCaddins.SolarAnalysis
 
         public bool Go(ModelSetupWizard.TransactionLog log)
         {
-            if (RotateCurrentView) {
+            if (RotateCurrentView)
+            {
                 return RotateView(activeView);
             }
-            if (Create3dViews) {
+            if (Create3dViews)
+            {
                 return CreateWinterViews(log);
             }
-            if (CreateShadowPlans) {
+            if (CreateShadowPlans)
+            {
                 return CreateShadowPlanViews(log);
             }
             return true;
@@ -342,7 +359,8 @@ namespace SCaddins.SolarAnalysis
         {
             int n = 0;
             List<DirectSunTestFace> result = new List<DirectSunTestFace>();
-            foreach (Reference r in faceSelection) {
+            foreach (Reference r in faceSelection)
+            {
                 n++;
                 Element elem = doc.GetElement(r);
                 Face f = (Face)elem.GetGeometryObjectFromReference(r);
@@ -365,11 +383,14 @@ namespace SCaddins.SolarAnalysis
 
         private static ElementId GetViewFamilyId(Document doc, ViewFamily viewFamilyType)
         {
-            using (var collector = new FilteredElementCollector(doc)) {
+            using (var collector = new FilteredElementCollector(doc))
+            {
                 collector.OfClass(typeof(ViewFamilyType));
-                foreach (var e in collector) {
+                foreach (var e in collector)
+                {
                     var vft = (ViewFamilyType)e;
-                    if (vft.ViewFamily == viewFamilyType) {
+                    if (vft.ViewFamily == viewFamilyType)
+                    {
                         return vft.Id;
                     }
                 }
@@ -381,7 +402,8 @@ namespace SCaddins.SolarAnalysis
         private static List<Solid> SolidsFromReferences(IList<Reference> massSelection, Document doc)
         {
             List<Solid> result = new List<Solid>();
-            foreach (var solidRef in massSelection) {
+            foreach (var solidRef in massSelection)
+            {
                 var e = doc.GetElement(solidRef);
 
                 Options opt = new Options()
@@ -392,13 +414,15 @@ namespace SCaddins.SolarAnalysis
                 };
 
                 var geoElem = e.get_Geometry(opt);
-                foreach (var obj in geoElem) {
+                foreach (var obj in geoElem)
+                {
                     if (!(obj is Solid))
                     {
                         continue;
                     }
                     var solid = obj as Solid;
-                    if (solid.IsElementGeometry && solid.Faces.Size > 0) {
+                    if (solid.IsElementGeometry && solid.Faces.Size > 0)
+                    {
                         result.Add(solid);
                     }
                 }
@@ -410,19 +434,23 @@ namespace SCaddins.SolarAnalysis
         {
             var id = GetViewFamilyId(doc, ViewFamily.FloorPlan);
             var levelId = GetHighestLevel(doc);
-            if (id == null || levelId == null) {
+            if (id == null || levelId == null)
+            {
                 log.AddFailure("Could not gererate shadow plans. FamilyId or LevelId not found");
                 return false;
             }
 
-            while (StartTime <= EndTime) {
+            while (StartTime <= EndTime)
+            {
                 using (var t = new Transaction(doc))
                 {
-                    if (t.Start("Create Shadow Plans") == TransactionStatus.Started) {
+                    if (t.Start("Create Shadow Plans") == TransactionStatus.Started)
+                    {
                         View view = ViewPlan.Create(doc, id, levelId);
                         view.ViewTemplateId = ElementId.InvalidElementId;
                         var niceMinutes = "00";
-                        if (StartTime.Minute > 0) {
+                        if (StartTime.Minute > 0)
+                        {
                             niceMinutes = StartTime.Minute.ToString(CultureInfo.CurrentCulture);
                         }
                         var vname = "SHADOW PLAN - " + StartTime.ToShortDateString() + "-" + StartTime.Hour + "." +
@@ -447,7 +475,8 @@ namespace SCaddins.SolarAnalysis
             var id = GetViewFamilyId(doc, ViewFamily.ThreeDimensional);
 
             // FIXME add error message here
-            if (id == null) {
+            if (id == null)
+            {
                 log.AddFailure("Could not gererate 3d view. FamilyId not found");
                 return false;
             }
@@ -481,7 +510,8 @@ namespace SCaddins.SolarAnalysis
                     sunSettings.SunAndShadowType = SunAndShadowType.StillImage;
                     t.Commit();
 
-                    if (!RotateView(view)) {
+                    if (!RotateView(view))
+                    {
                         doc.Delete(view.Id);
                         log.AddFailure("Could not rotate view: " + vname);
                         continue;
@@ -489,7 +519,7 @@ namespace SCaddins.SolarAnalysis
                     log.AddSuccess("View created: " + vname);
                     StartTime = StartTime.Add(ExportTimeInterval);
                 }
-            } 
+            }
             return true;
         }
 
@@ -525,24 +555,30 @@ namespace SCaddins.SolarAnalysis
         ////[SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private bool RotateView(View view)
         {
-            if (view.ViewType == ViewType.ThreeD) {
+            if (view.ViewType == ViewType.ThreeD)
+            {
                 var forward = GetSunDirectionalVector(view, position, out var azimuth);
                 var up = forward.CrossProduct(new XYZ(Math.Cos(azimuth), -Math.Sin(azimuth), 0));
 
                 var v3d = (View3D)view;
-                if (v3d.IsLocked) {
+                if (v3d.IsLocked)
+                {
                     SCaddinsApp.WindowManager.ShowMessageBox("ERROR", "View is locked, please unlock before rotating");
                     return false;
                 }
-                
+
                 using (var t = new Transaction(doc))
                 {
                     t.Start("Rotate View");
                     v3d.SetOrientation(new ViewOrientation3D(GetEyeLocation(view), up, forward));
-                    if (v3d.CanBeLocked() && !v3d.Name.StartsWith("{", StringComparison.OrdinalIgnoreCase)) {
-                        try {
+                    if (v3d.CanBeLocked() && !v3d.Name.StartsWith("{", StringComparison.OrdinalIgnoreCase))
+                    {
+                        try
+                        {
                             v3d.SaveOrientationAndLock();
-                        } catch (InvalidOperationException e) {
+                        }
+                        catch (InvalidOperationException e)
+                        {
                             Debug.WriteLine(e.Message);
                             return false;
                         }

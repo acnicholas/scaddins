@@ -84,7 +84,8 @@ namespace SCaddins.ExportManager
 
             set
             {
-                if (exportDirectory != value) {
+                if (exportDirectory != value)
+                {
                     exportDirectory = value;
                     NotifyPropertyChanged(nameof(ExportDirectory));
                 }
@@ -141,7 +142,7 @@ namespace SCaddins.ExportManager
             set
             {
                 appearsInSheetList = value;
-                int i = appearsInSheetList ? 1 : 0; 
+                int i = appearsInSheetList ? 1 : 0;
                 this.Sheet.get_Parameter(BuiltInParameter.SHEET_SCHEDULED).Set(i);
                 NotifyPropertyChanged(nameof(AppearsInSheetList));
             }
@@ -204,17 +205,21 @@ namespace SCaddins.ExportManager
             {
                 string result = scale.Trim();
                 int i = 0;
-                if (result.Contains(":")) {
+                if (result.Contains(":"))
+                {
                     i = result.IndexOf(':');
                 }
                 bool flag = false;
-                if (string.IsNullOrEmpty(result.Trim())) {
+                if (string.IsNullOrEmpty(result.Trim()))
+                {
                     result = "0";
                 }
-                if (!string.IsNullOrEmpty(scaleBarScale)) {
+                if (!string.IsNullOrEmpty(scaleBarScale))
+                {
                     flag |= i > 0 && !result.Substring(i + 2).Equals(scaleBarScale.Trim(), StringComparison.CurrentCultureIgnoreCase);
                 }
-                if (!string.IsNullOrEmpty(scaleBarScale.Trim()) && flag) {
+                if (!string.IsNullOrEmpty(scaleBarScale.Trim()) && flag)
+                {
                     result += " [**" + scaleBarScale + "]";
                 }
                 return result;
@@ -242,7 +247,7 @@ namespace SCaddins.ExportManager
             get
             {
                 return segmentedFileName;
-            }     
+            }
         }
 
         public ViewSheet Sheet
@@ -253,12 +258,12 @@ namespace SCaddins.ExportManager
         public string SheetDescription
         {
             get
-            { 
+            {
                 return sheetDescription;
             }
-            
+
             set
-            { 
+            {
                 sheetDescription = value;
                 SetExportName();
                 NotifyPropertyChanged();
@@ -271,9 +276,9 @@ namespace SCaddins.ExportManager
             {
                 return sheetNumber;
             }
-            
+
             set
-            {   
+            {
                 sheetNumber = value;
                 SetExportName();
                 NotifyPropertyChanged();
@@ -377,25 +382,32 @@ namespace SCaddins.ExportManager
 
         public static bool? GetNorthPointVisibility(Element titleBlock)
         {
-            if (titleBlock == null) {
+            if (titleBlock == null)
+            {
                 return null;
             }
-            try {
-                    var p = titleBlock.GetParameters(Settings1.Default.NorthPointVisibilityParameter);
-                    if (p == null || p.Count < 1) {
-                        return null;
-                    }
-                    int d = p[0].AsInteger();
-                    if (d == 0) {
-                        return false;
-                    }
-                    if (d == 1) {
-                        return true;
-                    }
+            try
+            {
+                var p = titleBlock.GetParameters(Settings1.Default.NorthPointVisibilityParameter);
+                if (p == null || p.Count < 1)
+                {
                     return null;
-            } catch (FormatException) {
-                    return null;
-            }    
+                }
+                int d = p[0].AsInteger();
+                if (d == 0)
+                {
+                    return false;
+                }
+                if (d == 1)
+                {
+                    return true;
+                }
+                return null;
+            }
+            catch (FormatException)
+            {
+                return null;
+            }
         }
 
         public static string GetScaleBarScale(Element titleBlock)
@@ -427,7 +439,8 @@ namespace SCaddins.ExportManager
 
         public Parameter ParamFromString(string name)
         {
-            if (Sheet.GetParameters(name).Count > 0) {
+            if (Sheet.GetParameters(name).Count > 0)
+            {
                 return Sheet.GetParameters(name)[0];
             }
             return null;
@@ -639,7 +652,8 @@ namespace SCaddins.ExportManager
         {
             var titleBlock = Manager.TitleBlockInstanceFromSheetNumber(
                 sheetNumber, doc);
-            if (titleBlock != null) {
+            if (titleBlock != null)
+            {
                 scale = titleBlock.get_Parameter(
                     BuiltInParameter.SHEET_SCALE).AsString();
                 scaleBarScale = GetScaleBarScale(titleBlock);
@@ -703,9 +717,11 @@ namespace SCaddins.ExportManager
         private bool UseRasterPrinting(string parameterName)
         {
             bool result = false;
-            if (!string.IsNullOrEmpty(parameterName)) {
+            if (!string.IsNullOrEmpty(parameterName))
+            {
                 var parameters = sheet.GetParameters(parameterName);
-                if (parameters.Count == 1) {
+                if (parameters.Count == 1)
+                {
                     result = parameters[0].HasValue && parameters[0].StorageType == StorageType.Integer && parameters[0].AsInteger() == 1;
                 }
             }

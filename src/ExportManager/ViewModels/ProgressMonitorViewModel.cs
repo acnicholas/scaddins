@@ -16,7 +16,8 @@
             ProcessComplete = false;
         }
 
-        public static dynamic DefaultWindowSettings {
+        public static dynamic DefaultWindowSettings
+        {
             get
             {
                 dynamic settings = new ExpandoObject();
@@ -31,7 +32,8 @@
             }
         }
 
-        public int Value {
+        public int Value
+        {
             get
             {
                 return currentValue;
@@ -46,14 +48,16 @@
             }
         }
 
-        public string Text {
+        public string Text
+        {
             get
             {
                 return string.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:0.##}%", (double)Value / MaximumValue * 100);
             }
         }
 
-        public string ProgressSummary {
+        public string ProgressSummary
+        {
             get
             {
                 return progressSummary;
@@ -67,14 +71,16 @@
             }
         }
 
-        public string ButtonLabel {
+        public string ButtonLabel
+        {
             get
             {
                 return ProcessComplete ? "Done" : "Cancel";
             }
         }
 
-        public int MaximumValue {
+        public int MaximumValue
+        {
             get
             {
                 return maximumValue;
@@ -87,11 +93,13 @@
             }
         }
 
-        public bool CancelPressed {
+        public bool CancelPressed
+        {
             get; set;
         }
 
-        public bool ProcessComplete {
+        public bool ProcessComplete
+        {
             get
             {
                 return processComplete;
@@ -107,12 +115,16 @@
 
         public void Cancel()
         {
-            if (!CancelPressed && !ProcessComplete) {
+            if (!CancelPressed && !ProcessComplete)
+            {
                 CancelPressed = true;
                 ProcessComplete = true;
                 ProgressSummary += @"Process Cancelled :(" + System.Environment.NewLine + System.Environment.NewLine;
-            } else {
-                if (IsActive) {
+            }
+            else
+            {
+                if (IsActive)
+                {
                     TryClose();
                 }
             }

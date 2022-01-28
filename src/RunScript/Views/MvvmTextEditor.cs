@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel;
     using System.Windows;
-    
+
     public class MvvmTextEditor : ICSharpCode.AvalonEdit.TextEditor, INotifyPropertyChanged
     {
         public static readonly DependencyProperty TextProperty =
@@ -17,12 +17,13 @@
                     BindsTwoWayByDefault = true,
                     PropertyChangedCallback = OnDependencyPropertyChanged
                 });
-        
+
         public MvvmTextEditor()
         {
             ShowLineNumbers = true;
 
-            Options = new ICSharpCode.AvalonEdit.TextEditorOptions {
+            Options = new ICSharpCode.AvalonEdit.TextEditorOptions
+            {
                 IndentationSize = 4,
                 ConvertTabsToSpaces = true,
                 ShowTabs = true,
@@ -45,17 +46,17 @@
                 RaisePropertyChanged("Text");
             }
         }
-        
-        #pragma warning disable CA1030 // Use events where appropriate
+
+#pragma warning disable CA1030 // Use events where appropriate
         public void RaisePropertyChanged(string property)
-        #pragma warning restore CA1030 // Use events where appropriate
+#pragma warning restore CA1030 // Use events where appropriate
         {
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
         }
-        
+
         protected static void OnDependencyPropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs args)
         {
             var target = (MvvmTextEditor)dobj;
@@ -64,7 +65,7 @@
             {
                 return;
             }
-            
+
             var caretOffset = target.CaretOffset;
             var newValue = args.NewValue ?? string.Empty;
 

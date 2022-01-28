@@ -73,7 +73,8 @@ namespace SCaddins.PlaceCoordinate.ViewModels
 
             set
             {
-                if (value != familiesInModel) {
+                if (value != familiesInModel)
+                {
                     familiesInModel = value;
                     NotifyOfPropertyChange(() => FamilySymbols);
                 }
@@ -95,7 +96,8 @@ namespace SCaddins.PlaceCoordinate.ViewModels
 
             set
             {
-                if (value != selectedFamilySymbol) {
+                if (value != selectedFamilySymbol)
+                {
                     selectedFamilySymbol = value;
                     NotifyOfPropertyChange(() => SelectedFamilySymbol);
                     NotifyOfPropertyChange(() => PlaceFamilyAtCoordinateIsEnabled);

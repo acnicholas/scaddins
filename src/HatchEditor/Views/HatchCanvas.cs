@@ -43,12 +43,14 @@ namespace SCaddins.HatchEditor.Views
             canvasScale = 1;
         }
 
-        public Hatch ActiveHatch {
+        public Hatch ActiveHatch
+        {
             get { return (Hatch)GetValue(ActiveHatchProperty); }
             set { SetValue(ActiveHatchProperty, value); }
         }
 
-        protected override int VisualChildrenCount {
+        protected override int VisualChildrenCount
+        {
             get { return children.Count; }
         }
 
@@ -61,7 +63,8 @@ namespace SCaddins.HatchEditor.Views
 
         public static object CoercedCallback(DependencyObject d, object baseValue)
         {
-            if (baseValue != null && (d.GetValue(ActiveHatchProperty) == baseValue)) {
+            if (baseValue != null && (d.GetValue(ActiveHatchProperty) == baseValue))
+            {
                 d.SetCurrentValue(ActiveHatchProperty, null);
                 d.SetCurrentValue(ActiveHatchProperty, baseValue);
             }
@@ -77,10 +80,12 @@ namespace SCaddins.HatchEditor.Views
 
         public void Update(Hatch hatch)
         {
-            if (hatch == null) {
+            if (hatch == null)
+            {
                 return;
             }
-            if (children == null || string.IsNullOrEmpty(hatch.Definition)) {
+            if (children == null || string.IsNullOrEmpty(hatch.Definition))
+            {
                 return;
             }
             children.Clear();
@@ -97,7 +102,8 @@ namespace SCaddins.HatchEditor.Views
 
         protected override Visual GetVisualChild(int index)
         {
-            if (index < 0 || index >= children.Count) {
+            if (index < 0 || index >= children.Count)
+            {
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
             return children[index];
@@ -112,11 +118,13 @@ namespace SCaddins.HatchEditor.Views
 
         private static double GetDashedLineLength(Autodesk.Revit.DB.FillGrid line, int repetitions, double scale)
         {
-            if (line.GetSegments().Count == 0) {
+            if (line.GetSegments().Count == 0)
+            {
                 return 0;
             }
             double result = 0;
-            foreach (var dash in line.GetSegments()) {
+            foreach (var dash in line.GetSegments())
+            {
                 result += Math.Abs(dash).ToMM(scale);
             }
             return result * repetitions;
@@ -125,7 +133,8 @@ namespace SCaddins.HatchEditor.Views
         private DrawingVisual CreateDrawingVisualHatch(Hatch hatch)
         {
             DrawingVisual drawingVisual = new DrawingVisual();
-            if (hatch == null) {
+            if (hatch == null)
+            {
                 return drawingVisual;
             }
 
@@ -146,19 +155,23 @@ namespace SCaddins.HatchEditor.Views
 
             double maxLength = width > height ? width / canvasScale * 2 : height / canvasScale * 2;
 
-            foreach (var fillGrid in hatch.HatchPattern.GetFillGrids()) {
+            foreach (var fillGrid in hatch.HatchPattern.GetFillGrids())
+            {
                 double scaledSequenceLength = GetDashedLineLength(fillGrid, 1, scale);
                 double initialShiftOffset = scaledSequenceLength > 0 ? (int)Math.Floor(maxLength / scaledSequenceLength) * scaledSequenceLength : maxLength;
-                if (scaledSequenceLength > maxLength / 4) {
+                if (scaledSequenceLength > maxLength / 4)
+                {
                     initialShiftOffset = scaledSequenceLength * 16;
                 }
 
                 var segsInMM = new List<double>();
-                foreach (var s in fillGrid.GetSegments()) {
+                foreach (var s in fillGrid.GetSegments())
+                {
                     segsInMM.Add(s.ToMM(scale));
                 }
 
-                if (Math.Abs(fillGrid.Offset) < 0.001) {
+                if (Math.Abs(fillGrid.Offset) < 0.001)
+                {
                     continue;
                 }
 
@@ -172,9 +185,11 @@ namespace SCaddins.HatchEditor.Views
 
                 double cumulativeShift = 0;
 
-                while (Math.Abs(dy) < maxLength * 2) {
+                while (Math.Abs(dy) < maxLength * 2)
+                {
                     b++;
-                    if (b > 100) {
+                    if (b > 100)
+                    {
                         break;
                     }
                     double x = fillGrid.Origin.U.ToMM(scale) - initialShiftOffset;
@@ -187,7 +202,8 @@ namespace SCaddins.HatchEditor.Views
                     drawingContext.Pop();
                     dx += fillGrid.Shift.ToMM(scale);
                     cumulativeShift += fillGrid.Shift.ToMM(scale);
-                    if (Math.Abs(cumulativeShift) > scaledSequenceLength) {
+                    if (Math.Abs(cumulativeShift) > scaledSequenceLength)
+                    {
                         dx -= scaledSequenceLength;
                         cumulativeShift = 0;
                     }

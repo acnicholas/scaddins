@@ -42,7 +42,8 @@ namespace SCaddins.SpellChecker.ViewModels
             }
         }
 
-        public static dynamic DefaultWindowSettings {
+        public static dynamic DefaultWindowSettings
+        {
             get
             {
                 dynamic settings = new ExpandoObject();
@@ -58,7 +59,8 @@ namespace SCaddins.SpellChecker.ViewModels
             }
         }
 
-        public bool AddToDictionaryEnabled {
+        public bool AddToDictionaryEnabled
+        {
             get; set;
         }
 
@@ -68,7 +70,8 @@ namespace SCaddins.SpellChecker.ViewModels
 
         public string NotInDictionary => @"Not In Dictionary [" + manager.CurrentElementType + @"]";
 
-        public string ReplacementText {
+        public string ReplacementText
+        {
             get
             {
                 return replacementText;
@@ -83,7 +86,8 @@ namespace SCaddins.SpellChecker.ViewModels
             }
         }
 
-        public string SelectedSuggestion {
+        public string SelectedSuggestion
+        {
             get
             {
                 return selectedSuggestion;
@@ -98,7 +102,8 @@ namespace SCaddins.SpellChecker.ViewModels
             }
         }
 
-        public List<string> Suggestions {
+        public List<string> Suggestions
+        {
             get
             {
                 return manager.GetCurrentSuggestions();
@@ -107,7 +112,8 @@ namespace SCaddins.SpellChecker.ViewModels
 
         public string UnknownWord => manager.CurrentUnknownWord;
 
-        public string UnknownWordContext {
+        public string UnknownWordContext
+        {
             get; set;
         }
 

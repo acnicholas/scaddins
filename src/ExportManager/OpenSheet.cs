@@ -40,8 +40,10 @@ namespace SCaddins.ExportManager
 
         public static void OpenViews(System.Collections.IList views)
         {
-            foreach (var item in views) {
-                if (!(item is ExportSheet sheet) || sheet.Sheet == null) {
+            foreach (var item in views)
+            {
+                if (!(item is ExportSheet sheet) || sheet.Sheet == null)
+                {
                     continue;
                 }
                 var uiApplication = new UIApplication(sheet.Sheet.Document.Application);
@@ -54,18 +56,21 @@ namespace SCaddins.ExportManager
             var result = new List<OpenableView>();
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             collector.OfCategory(BuiltInCategory.OST_Sheets);
-            foreach (var element in collector) {
+            foreach (var element in collector)
+            {
                 var view = (ViewSheet)element;
-                #if REVIT2019 || REVIT2020 || REVIT2021 || REVIT2022
+#if REVIT2019 || REVIT2020 || REVIT2021 || REVIT2022
                 result.Add(new OpenableView(view.Name, view.SheetNumber, view));
-                #else
+#else
                 result.Add(new OpenableView(view.ViewName, view.SheetNumber, view));
-                #endif
+#endif
             }
-            if (includeViews) {
+            if (includeViews)
+            {
                 FilteredElementCollector collector2 = new FilteredElementCollector(doc);
                 var views = collector2.OfCategory(BuiltInCategory.OST_Views).Cast<View>().Where(v => !v.IsTemplate);
-                foreach (View view in views) {
+                foreach (View view in views)
+                {
                     result.Add(new OpenableView(view.Name, string.Empty, view));
                 }
             }
@@ -106,8 +111,9 @@ namespace SCaddins.ExportManager
                     }
                 }
 
-                foreach (var view in views) {
-                if (view != null)
+                foreach (var view in views)
+                {
+                    if (view != null)
                     {
                         UIApplication uiApplication = new UIApplication(view.Document.Application);
                         uiApplication.ActiveUIDocument.ActiveView = view;
@@ -128,10 +134,12 @@ namespace SCaddins.ExportManager
             int index = list.IndexOf(list.Find(ov => ov.SheetNumber == view.SheetNumber));
             if (index > -1)
             {
-                if (offset < 0 && index + offset < 0) {
+                if (offset < 0 && index + offset < 0)
+                {
                     return;
                 }
-                if (offset > 0 && index + offset >= list.Count) {
+                if (offset > 0 && index + offset >= list.Count)
+                {
                     return;
                 }
                 list[index + offset].Open();

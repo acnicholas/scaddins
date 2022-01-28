@@ -89,7 +89,7 @@ namespace SCaddins.ExportManager
             wm.ShowDialog(vm, null, ViewModels.SCexportViewModel.DefaultWindowSettings);
 
             if (vm.CloseStatus != ViewModels.SCexportViewModel.CloseMode.Exit)
-            {             
+            {
                 string exportType = string.Empty;
 
                 switch (vm.CloseStatus)
@@ -106,7 +106,8 @@ namespace SCaddins.ExportManager
 
                 var progressVm = new ViewModels.ProgressMonitorViewModel
                 {
-                    MaximumValue = vm.SelectedSheets.Count, Value = 0
+                    MaximumValue = vm.SelectedSheets.Count,
+                    Value = 0
                 };
 
                 log.Clear();
@@ -160,8 +161,9 @@ namespace SCaddins.ExportManager
                 progressVm.Stop(log);
                 progressVm.ProcessComplete = true;
             }
-         
-            if (manager.ShowExportLog || log.Errors > 0) {
+
+            if (manager.ShowExportLog || log.Errors > 0)
+            {
                 var exportLogViewModel = new ViewModels.ExportLogViewModel(log);
                 WindowManager.ShowDialog(exportLogViewModel, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
             }

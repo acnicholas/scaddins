@@ -21,7 +21,7 @@ namespace SCaddins.ExportManager.ViewModels
     using System.Collections.ObjectModel;
     using System.Dynamic;
     using Caliburn.Micro;
-    
+
     internal class ToggleSelectedSheetParametersViewModel : Screen
     {
         public ToggleSelectedSheetParametersViewModel(Autodesk.Revit.DB.Document doc, List<YesNoParameter> yesNoparameters)

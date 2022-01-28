@@ -69,7 +69,8 @@ namespace SCaddins.DestructivePurge
             {
                 f.OfClass(typeof(ImportInstance));
                 var name = string.Empty;
-                foreach (var element in f) {
+                foreach (var element in f)
+                {
                     var ii = (ImportInstance)element;
                     if (ii.IsLinked == linked)
                     {
@@ -86,9 +87,11 @@ namespace SCaddins.DestructivePurge
                             }
                         }
                         s += "Element id - " + ii.Id;
-                        var tn = new DeletableItem(name);
-                        tn.Id = ii.Id;
-                        tn.Info = s;
+                        var tn = new DeletableItem(name)
+                        {
+                            Id = ii.Id,
+                            Info = s
+                        };
                         result.Add(tn);
                     }
                 }
@@ -98,59 +101,82 @@ namespace SCaddins.DestructivePurge
 
         public static void RemoveElements(Document doc, List<DeletableItem> elements)
         {
-            if (elements == null || doc == null) {
+            if (elements == null || doc == null)
+            {
                 return;
             }
-            if (elements.Count < 1) {
+            if (elements.Count < 1)
+            {
                 return;
             }
 
             using (var t = new Transaction(doc))
             {
-                if (t.Start("Delete Elements") == TransactionStatus.Started) {
-                    foreach (DeletableItem di in elements) {
-                        if (di.Id == null) {
+                if (t.Start("Delete Elements") == TransactionStatus.Started)
+                {
+                    foreach (DeletableItem di in elements)
+                    {
+                        if (di.Id == null)
+                        {
                             continue;
                         }
-                        try {
-                            if (!doc.GetElement(di.Id).IsValidObject) {
+                        try
+                        {
+                            if (!doc.GetElement(di.Id).IsValidObject)
+                            {
                                 continue;
                             }
-                        } catch {
+                        }
+                        catch
+                        {
                             continue;
                         }
 
-                        if (doc.ActiveView.Id == di.Id) {
+                        if (doc.ActiveView.Id == di.Id)
+                        {
                             continue;
                         }
-                        if (di.ParentId == null) {
+                        if (di.ParentId == null)
+                        {
                             continue;
                         }
-                        if (di.HasParent && di.ParentId == ElementId.InvalidElementId) {
+                        if (di.HasParent && di.ParentId == ElementId.InvalidElementId)
+                        {
                             continue;
                         }
-                        if (di.HasParent) {
-                            try {
-                                if (!doc.GetElement(di.ParentId).IsValidObject) {
+                        if (di.HasParent)
+                        {
+                            try
+                            {
+                                if (!doc.GetElement(di.ParentId).IsValidObject)
+                                {
                                     continue;
                                 }
-                            } catch {
+                            }
+                            catch
+                            {
                                 continue;
                             }
                         }
 
-                        try { 
+                        try
+                        {
                             doc.Delete(di.Id);
-                        } catch (ArgumentNullException anex) {
+                        }
+                        catch (ArgumentNullException anex)
+                        {
                             SCaddinsApp.WindowManager.ShowMessageBox("Failure", di.Id + System.Environment.NewLine + anex.Message);
-                        } catch (ModificationForbiddenException mfex) {
+                        }
+                        catch (ModificationForbiddenException mfex)
+                        {
                             SCaddinsApp.WindowManager.ShowMessageBox("Failure", di.Id + System.Environment.NewLine + mfex.Message);
                         }
                     }
 
-                    if (t.Commit() != TransactionStatus.Committed) {
+                    if (t.Commit() != TransactionStatus.Committed)
+                    {
                         SCaddinsApp.WindowManager.ShowMessageBox("Failure", "Destructive Purge could not be run");
-                    } 
+                    }
                 }
             }
         }
@@ -171,7 +197,8 @@ namespace SCaddins.DestructivePurge
                     "id - " + revision.Id;
                     tn.Info += System.Environment.NewLine + s;
                     tn.Id = revision.Id;
-                    if (revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger() > 1) {
+                    if (revision.get_Parameter(BuiltInParameter.PROJECT_REVISION_SEQUENCE_NUM).AsInteger() > 1)
+                    {
                         result.Add(tn);
                     }
                 }
@@ -221,9 +248,10 @@ namespace SCaddins.DestructivePurge
                             bound = true;
                         }
                     }
-                    var tn = new DeletableItem(room.Name);
-                    tn.Info = "Name = " + room.Name + System.Environment.NewLine +
-                    "id - " + room.Id;
+                    var tn = new DeletableItem(room.Name)
+                    {
+                        Info = "Name = " + room.Name + System.Environment.NewLine + "id - " + room.Id
+                    };
                     tn.Info += System.Environment.NewLine + s;
                     tn.Id = room.Id;
                     if (!bound)

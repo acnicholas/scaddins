@@ -20,7 +20,7 @@ namespace SCaddins.ExportManager
     using System;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-        
+
     public class OpenableView
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "view")]
@@ -34,7 +34,7 @@ namespace SCaddins.ExportManager
             Description = Name + "[" + SheetNumber + "]" + "<" + ViewType + ">";
             ShortDescription = Name + "[" + SheetNumber + "]";
         }
-        
+
         public string Name
         {
             get; set;
@@ -45,7 +45,8 @@ namespace SCaddins.ExportManager
             get; set;
         }
 
-        public ViewType RevitViewType {
+        public ViewType RevitViewType
+        {
             get
             {
                 return view.ViewType;
@@ -66,7 +67,8 @@ namespace SCaddins.ExportManager
 
         public void Open()
         {
-            if (view != null) {
+            if (view != null)
+            {
                 UIApplication uiApplication = new UIApplication(view.Document.Application);
                 uiApplication.ActiveUIDocument.ActiveView = view;
             }
@@ -74,12 +76,18 @@ namespace SCaddins.ExportManager
 
         public bool IsMatch(string searchString, ViewType viewType)
         {
-            if (searchString == null) {
+            if (searchString == null)
+            {
                 return false;
-            } else {
-                if (viewType != Autodesk.Revit.DB.ViewType.Undefined) {
+            }
+            else
+            {
+                if (viewType != Autodesk.Revit.DB.ViewType.Undefined)
+                {
                     return ShortDescription.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1 && RevitViewType == viewType;
-                } else {
+                }
+                else
+                {
                     return ShortDescription.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1;
                 }
             }

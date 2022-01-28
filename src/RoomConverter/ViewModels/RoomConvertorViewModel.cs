@@ -21,7 +21,7 @@ namespace SCaddins.RoomConverter.ViewModels
     using System.Collections.ObjectModel;
     using System.Linq;
     using Caliburn.Micro;
-    
+
     public class RoomConvertorViewModel : Screen
     {
         private RoomConversionCandidate selectedRoom;
@@ -71,11 +71,11 @@ namespace SCaddins.RoomConverter.ViewModels
                 }
             }
         }
-        
+
         public bool RoomInformationIsAvailable => SelectedRoom != null;
 
         public List<RoomParameter> RoomParameters => SelectedRoom.RoomParameters;
-        
+
         public ObservableCollection<RoomConversionCandidate> Rooms
         {
             get { return new ObservableCollection<RoomConversionCandidate>(rooms.Where(r => filter.PassesFilter(r.Room))); }
@@ -165,7 +165,7 @@ namespace SCaddins.RoomConverter.ViewModels
             renameSheetModel.SelectedParameterCategory = "Rooms";
             renameSheetModel.ParameterCategoryEnabled = false;
             SCaddinsApp.WindowManager.ShowDialog(renameSheetModel, null, RenameUtilities.ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings);
-            
+
             NotifyOfPropertyChange(() => Rooms);
         }
 

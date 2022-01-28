@@ -83,8 +83,8 @@ namespace SCaddins.RevisionUtilities.ViewModels
                 if (revisionSelectionViewModel.SelectedRevision != null)
                 {
                     Manager.AssignRevisionToClouds(
-                        doc, 
-                        selectedRevisionClouds, 
+                        doc,
+                        selectedRevisionClouds,
                         revisionSelectionViewModel.SelectedRevision.Id);
                 }
             }

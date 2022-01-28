@@ -2,10 +2,6 @@
 {
     using System;
     using Caliburn.Micro;
-    using ParameterUtilities.ViewModels;
-    using SCaddins.SheetCopier.ViewModels;
-    using SCaddins.ViewUtilities.ViewModels;
-    using SpellChecker.ViewModels;
 
     public class SettingsViewModel : Screen
     {
@@ -48,8 +44,8 @@
 
         public ISettingPanel RoomConverterViewModel
         {
-            get 
-            { 
+            get
+            {
                 return roomConverterViewModel;
             }
 
@@ -104,7 +100,7 @@
 
         public ISettingPanel ViewUtilitiesViewModel
         {
-            get 
+            get
             {
                 return viewUtilitiesViewModel;
             }

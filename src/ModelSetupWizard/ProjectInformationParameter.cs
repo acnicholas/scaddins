@@ -63,15 +63,18 @@ namespace SCaddins.ModelSetupWizard
             get; private set;
         }
 
-        public string Name {
+        public string Name
+        {
             get; private set;
         }
 
-        public string OriginalValue {
+        public string OriginalValue
+        {
             get; private set;
         }
 
-        public bool IsValid {
+        public bool IsValid
+        {
             get
             {
                 return Regex.IsMatch(value, Format.Trim());
@@ -92,15 +95,20 @@ namespace SCaddins.ModelSetupWizard
 
             set
             {
-                if (string.IsNullOrEmpty(value)) {
+                if (string.IsNullOrEmpty(value))
+                {
                     return;
                 }
-                if (this.value == value) {
+                if (this.value == value)
+                {
                     return;
-                } 
-                if (value != OriginalValue) {
+                }
+                if (value != OriginalValue)
+                {
                     IsModified = true;
-                } else {
+                }
+                else
+                {
                     IsModified = false;
                 }
                 this.value = value;

@@ -20,11 +20,11 @@ namespace SCaddins.ExportManager
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    
-   [Transaction(TransactionMode.Manual)]
-   [Regeneration(RegenerationOption.Manual)]
-   [Journaling(JournalingMode.NoCommandData)]
-    
+
+    [Transaction(TransactionMode.Manual)]
+    [Regeneration(RegenerationOption.Manual)]
+    [Journaling(JournalingMode.NoCommandData)]
+
     public class PreviousSheet : IExternalCommand
     {
         public Result Execute(
@@ -32,22 +32,26 @@ namespace SCaddins.ExportManager
             ref string message,
             ElementSet elements)
         {
-            if (commandData == null) {
+            if (commandData == null)
+            {
                 return Result.Failed;
             }
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
             View currentView = doc.ActiveView;
-            if (currentView.ViewType != ViewType.DrawingSheet) {
+            if (currentView.ViewType != ViewType.DrawingSheet)
+            {
                 SCaddinsApp.WindowManager.ShowMessageBox("SCexport", "PreviousSheet can only be run if the active view is a sheet");
-                return Result.Failed;   
-            } else {
+                return Result.Failed;
+            }
+            else
+            {
                 var vs = currentView as ViewSheet;
                 Manager.OpenPreviousSheet(commandData.Application.ActiveUIDocument, vs);
                 return Result.Succeeded;
             }
         }
-    }   
+    }
 }
 
 /* vim: set ts=4 sw=4 nu expandtab: */

@@ -26,7 +26,8 @@ namespace SCaddins.Common
             var colourChooser = new System.Windows.Forms.ColorDialog();
             colourChooser.AnyColor = true;
             var dialogResult = colourChooser.ShowDialog();
-            if (dialogResult == System.Windows.Forms.DialogResult.OK) {
+            if (dialogResult == System.Windows.Forms.DialogResult.OK)
+            {
                 //// var colour = colourChooser.Color;
                 return true;
             }
@@ -48,10 +49,13 @@ namespace SCaddins.Common
             using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
             {
                 System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-                if (result == System.Windows.Forms.DialogResult.OK) {
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
                     dirPath = dialog.SelectedPath;
                     return true;
-                } else {
+                }
+                else
+                {
                     dirPath = defaultDir;
                     return false;
                 }
@@ -60,17 +64,21 @@ namespace SCaddins.Common
 
         public bool? ShowFileSelectionDialog(string defaultFile, out string filePath)
         {
-            using (var dialog = new System.Windows.Forms.OpenFileDialog()) {
+            using (var dialog = new System.Windows.Forms.OpenFileDialog())
+            {
                 if (File.Exists(defaultFile))
                 {
                     dialog.InitialDirectory = Path.GetDirectoryName(defaultFile);
                 }
                 dialog.Multiselect = false;
                 System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-                if (result == System.Windows.Forms.DialogResult.OK) {
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
                     filePath = dialog.FileName;
                     return true;
-                } else {
+                }
+                else
+                {
                     filePath = defaultFile;
                     return false;
                 }

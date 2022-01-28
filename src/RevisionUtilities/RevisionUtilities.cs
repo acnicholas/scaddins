@@ -44,7 +44,8 @@ namespace SCaddins.RevisionUtilities
             using (var t = new Transaction(doc, "Assign Revisions to Clouds"))
             {
                 t.Start();
-                foreach (var rc in revisionClouds) {
+                foreach (var rc in revisionClouds)
+                {
                     rc?.SetCloudId(cloudId);
                 }
                 t.Commit();
@@ -152,7 +153,8 @@ namespace SCaddins.RevisionUtilities
                 {
                     a.OfCategory(BuiltInCategory.OST_RevisionClouds);
                     a.OfClass(typeof(RevisionCloud));
-                    foreach (var element in a) {
+                    foreach (var element in a)
+                    {
                         var e = (RevisionCloud)element;
                         revisionClouds.Add(new RevisionCloudItem(doc, e));
                     }
@@ -167,7 +169,8 @@ namespace SCaddins.RevisionUtilities
             using (var a = new FilteredElementCollector(doc))
             {
                 a.OfCategory(BuiltInCategory.OST_Revisions);
-                foreach (var element in a) {
+                foreach (var element in a)
+                {
                     var e = (Revision)element;
                     if (e.IsValidObject)
                     {
@@ -190,7 +193,8 @@ namespace SCaddins.RevisionUtilities
         [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", Justification = "Because.")]
         private static void WriteArray(string[,] data, int rows, int columns, Worksheet worksheet)
         {
-            if (worksheet == null) {
+            if (worksheet == null)
+            {
                 return;
             }
             var startCell = worksheet.Cells[1, 1] as Range;

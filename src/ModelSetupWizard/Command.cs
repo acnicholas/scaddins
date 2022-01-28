@@ -31,7 +31,8 @@ namespace SCaddins.ModelSetupWizard
                 ref string message,
                 ElementSet elements)
         {
-            if (commandData == null) {
+            if (commandData == null)
+            {
                 return Result.Failed;
             }
 

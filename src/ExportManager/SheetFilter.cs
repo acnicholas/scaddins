@@ -57,7 +57,7 @@
                     break;
                 default:
                     return null;
-            }    
+            }
             return item => item.GetType().GetProperty(properyName).GetValue(item, null).ToString().Equals(FilterValue, StringComparison.InvariantCulture);
         }
 
@@ -72,7 +72,8 @@
             var onlyNumbers = Regex.Replace(s, "[^0-9]", @" ");
             string[] numberParts = onlyNumbers.Split(new[] { @" " }, StringSplitOptions.RemoveEmptyEntries);
             var n = numberParts.Where(v => v.Length > 1);
-            if (n.Count() > 0) {
+            if (n.Count() > 0)
+            {
                 return n.Last().Substring(0, 1);
             }
             return null;

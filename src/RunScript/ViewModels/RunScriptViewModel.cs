@@ -54,7 +54,7 @@ public static void Main(Document doc)
 }
 ";
         }
-        
+
         public static dynamic DefaultViewSettings
         {
             get
@@ -70,7 +70,7 @@ public static void Main(Document doc)
         }
 
         public bool CanSave => !string.IsNullOrEmpty(currentFileName);
-             
+
         public string Script
         {
             get => script;
@@ -81,7 +81,7 @@ public static void Main(Document doc)
                 NotifyOfPropertyChange(() => Script);
             }
         }
-        
+
         public string CurrentFileName
         {
             get => currentFileName;
@@ -91,16 +91,19 @@ public static void Main(Document doc)
                 NotifyOfPropertyChange(() => CanSave);
             }
         }
-        
+
         public BindableCollection<string> OutputList
         {
             get
             {
                 outputList.Clear();
-                if (!string.IsNullOrEmpty(output)) {
-                    using (StringReader sr = new StringReader(Output)) {
+                if (!string.IsNullOrEmpty(output))
+                {
+                    using (StringReader sr = new StringReader(Output))
+                    {
                         string line;
-                        while ((line = sr.ReadLine()) != null) {
+                        while ((line = sr.ReadLine()) != null)
+                        {
                             outputList.Add(line.Substring(line.IndexOf("(", StringComparison.Ordinal)));
                         }
                     }
@@ -108,14 +111,15 @@ public static void Main(Document doc)
                 return outputList;
             }
         }
-        
+
         public string Output
         {
             get => output;
 
             set
             {
-                if (string.IsNullOrEmpty(value)) {
+                if (string.IsNullOrEmpty(value))
+                {
                     return;
                 }
                 output = value;
@@ -136,22 +140,25 @@ public static void Main(Document doc)
                 }
             }
         }
-         
+
         public void LoadScratch()
         {
             var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             var p = Path.Combine(s, "SCaddins", "Script.cs");
-            if (!File.Exists(p)) {
+            if (!File.Exists(p))
+            {
                 return;
             }
             Script = File.ReadAllText(p);
         }
-        
+
         public void LoadScriptFromFile()
         {
             var f = SCaddinsApp.WindowManager.ShowFileSelectionDialog(string.Empty, out currentFileName);
-            if (f.HasValue && f.Value) {
-                if (File.Exists(currentFileName)) {
+            if (f.HasValue && f.Value)
+            {
+                if (File.Exists(currentFileName))
+                {
                     Script = File.ReadAllText(CurrentFileName);
                     NotifyOfPropertyChange(() => CanSave);
                 }
@@ -169,7 +176,8 @@ public static void Main(Document doc)
         {
             var result = RunScriptCommand.VerifyScript(RunScriptCommand.ClassifyScript(Script), out var compileResults);
             Output = compileResults;
-            if (result) {
+            if (result)
+            {
                 TryClose(true);
             }
         }
@@ -183,7 +191,7 @@ public static void Main(Document doc)
                 CurrentFileName = path;
             }
         }
-        
+
         public void Save()
         {
             if (CanSave)
@@ -195,12 +203,13 @@ public static void Main(Document doc)
                 SaveAs();
             }
         }
-        
+
         public void SaveScratch()
         {
             var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             var p = Path.Combine(s, "SCaddins");
-            if (!Directory.Exists(p)) {
+            if (!Directory.Exists(p))
+            {
                 Directory.CreateDirectory(p);
             }
             File.WriteAllText(Path.Combine(p, "Script.cs"), Script);

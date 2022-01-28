@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
- namespace SCaddins.ExportManager
- {
+namespace SCaddins.ExportManager
+{
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -140,10 +140,10 @@
             AddLogItem("End Time: " + endTime.ToLongTimeString());
             AddLogItem("Total Export Time: " + TotalExportTime.ToString());
         }
-        
+
         private void AddLogItem(string msg)
         {
             fullLog.Append(msg).AppendLine();
         }
     }
- }
+}

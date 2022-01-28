@@ -30,7 +30,6 @@ namespace SCaddins.ExportManager.ViewModels
     using System.Windows.Data;
     using System.Windows.Input;
     using System.Windows.Media;
-    using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
     internal class SCexportViewModel : Screen
@@ -796,7 +795,7 @@ namespace SCaddins.ExportManager.ViewModels
             var toggleSelectedSheetParametersViewModel = new ToggleSelectedSheetParametersViewModel(
                 exportManager.Doc, yesNoParameters);
             bool? result = SCaddinsApp.WindowManager.ShowDialog(
-                toggleSelectedSheetParametersViewModel, 
+                toggleSelectedSheetParametersViewModel,
                 null,
                 ToggleSelectedSheetParametersViewModel.DefaultWindowSettings);
             if (result.HasValue && result.Value == true)
@@ -848,7 +847,8 @@ namespace SCaddins.ExportManager.ViewModels
             }
 
             IsNotifying = false;
-            try {
+            try
+            {
                 var filter = new Predicate<object>(
                     item =>
                         ((item != null) &&
@@ -856,26 +856,30 @@ namespace SCaddins.ExportManager.ViewModels
                         ||
                         (item != null &&
                          -1 < ((ExportSheet)item).SheetNumber.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase)));
-                if (Sheets.CanFilter) {
+                if (Sheets.CanFilter)
+                {
                     Sheets.Filter = filter;
                 }
             }
-            catch (Exception exception) {
+            catch (Exception exception)
+            {
                 SCaddinsApp.WindowManager.ShowMessageBox(exception.Message);
             }
 
-            IsNotifying = true;      
+            IsNotifying = true;
         }
 
         private void FilterByNumber(string number)
         {
             Manager.CurrentViewNumber(exportManager.Doc);
-            try {
+            try
+            {
                 var filter = new Predicate<object>(item =>
                     Regex.IsMatch(((ExportSheet)item).SheetNumber, @"^\D*" + number));
                 Sheets.Filter = filter;
             }
-            catch (Exception exception) {
+            catch (Exception exception)
+            {
                 SCaddinsApp.WindowManager.ShowMessageBox(exception.Message);
             }
         }

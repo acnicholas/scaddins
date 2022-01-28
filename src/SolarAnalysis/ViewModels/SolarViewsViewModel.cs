@@ -53,7 +53,8 @@ namespace SCaddins.SolarAnalysis.ViewModels
             endTime = new DateTime(2018, 06, 21, 15, 0, 0, DateTimeKind.Local);
             interval = new TimeSpan(1, 00, 00);
             RotateCurrentView = CanRotateCurrentView;
-            if (!CanRotateCurrentView) {
+            if (!CanRotateCurrentView)
+            {
                 Create3dViews = true;
             }
         }
@@ -125,7 +126,8 @@ namespace SCaddins.SolarAnalysis.ViewModels
 
             set
             {
-                if (model.Create3dViews != value) {
+                if (model.Create3dViews != value)
+                {
                     model.Create3dViews = value;
                     NotifyOfPropertyChange(() => CurrentModeSummary);
                     NotifyOfPropertyChange(() => CreateAnalysisView);
@@ -143,7 +145,8 @@ namespace SCaddins.SolarAnalysis.ViewModels
 
             set
             {
-                if (model.CreateAnalysisView != value) {
+                if (model.CreateAnalysisView != value)
+                {
                     model.CreateAnalysisView = value;
                     NotifyOfPropertyChange(() => CurrentModeSummary);
                     NotifyOfPropertyChange(() => CreateAnalysisView);
@@ -161,7 +164,8 @@ namespace SCaddins.SolarAnalysis.ViewModels
 
             set
             {
-                if (model.CreateShadowPlans != value) {
+                if (model.CreateShadowPlans != value)
+                {
                     model.CreateShadowPlans = value;
                     NotifyOfPropertyChange(() => CurrentModeSummary);
                     NotifyOfPropertyChange(() => CreateAnalysisView);
@@ -179,7 +183,8 @@ namespace SCaddins.SolarAnalysis.ViewModels
 
             set
             {
-                if (value != creationDate) {
+                if (value != creationDate)
+                {
                     var oldStartIndex = StartTimes.IndexOf(SelectedStartTime);
                     var oldEndIndex = EndTimes.IndexOf(SelectedEndTime);
                     creationDate = value;
@@ -195,16 +200,20 @@ namespace SCaddins.SolarAnalysis.ViewModels
         {
             get
             {
-                if (RotateCurrentView) {
+                if (RotateCurrentView)
+                {
                     return "Rotate Current View";
                 }
-                if (Create3dViews) {
+                if (Create3dViews)
+                {
                     return "Create View[s]";
                 }
-                if (CreateShadowPlans) {
+                if (CreateShadowPlans)
+                {
                     return "Create Plans";
                 }
-                if (CreateAnalysisView) {
+                if (CreateAnalysisView)
+                {
                     return "Create Analysis View";
                 }
                 return "OK";
@@ -224,7 +233,8 @@ namespace SCaddins.SolarAnalysis.ViewModels
             get
             {
                 var times = new BindableCollection<DateTime>();
-                for (int hour = 9; hour < 18; hour++) {
+                for (int hour = 9; hour < 18; hour++)
+                {
                     times.Add(new DateTime(creationDate.Year, creationDate.Month, creationDate.Day, hour, 0, 0, DateTimeKind.Local));
                 }
                 return times;
@@ -255,7 +265,8 @@ namespace SCaddins.SolarAnalysis.ViewModels
 
             set
             {
-                if (model.RotateCurrentView != value) {
+                if (model.RotateCurrentView != value)
+                {
                     model.RotateCurrentView = value;
                     NotifyOfPropertyChange(() => CurrentModeSummary);
                 }
@@ -284,7 +295,8 @@ namespace SCaddins.SolarAnalysis.ViewModels
 
             set
             {
-                if (value != endTime) {
+                if (value != endTime)
+                {
                     endTime = value;
                     NotifyOfPropertyChange(() => SelectedEndTime);
                 }
@@ -324,7 +336,8 @@ namespace SCaddins.SolarAnalysis.ViewModels
 
             set
             {
-                if (value != startTime) {
+                if (value != startTime)
+                {
                     startTime = value;
                     NotifyOfPropertyChange(() => SelectedStartTime);
                 }
@@ -349,7 +362,8 @@ namespace SCaddins.SolarAnalysis.ViewModels
             get
             {
                 var times = new BindableCollection<DateTime>();
-                for (int hour = 8; hour < 17; hour++) {
+                for (int hour = 8; hour < 17; hour++)
+                {
                     times.Add(new DateTime(creationDate.Year, creationDate.Month, creationDate.Day, hour, 0, 0, DateTimeKind.Local));
                 }
                 return times;
@@ -382,7 +396,8 @@ namespace SCaddins.SolarAnalysis.ViewModels
             var settings = DefaultViewSettings;
 
             // Reopen window with previous position / size
-            if (resize) {
+            if (resize)
+            {
                 settings.Width = viewModel.Size.Width;
                 settings.Height = viewModel.Size.Height;
                 settings.Top = viewModel.Top;
@@ -405,9 +420,12 @@ namespace SCaddins.SolarAnalysis.ViewModels
         /// </summary>
         public void OK()
         {
-            if (model.CreateAnalysisView) {
+            if (model.CreateAnalysisView)
+            {
                 TryClose(true);
-            } else {
+            }
+            else
+            {
                 var log = new ModelSetupWizard.TransactionLog(CurrentModeSummary);
                 model.StartTime = SelectedStartTime.ToLocalTime();
                 model.EndTime = SelectedEndTime.ToLocalTime();
@@ -447,44 +465,63 @@ namespace SCaddins.SolarAnalysis.ViewModels
 
             base.OnDeactivate(true);
 
-            switch (selectedCloseMode) {
+            switch (selectedCloseMode)
+            {
                 case CloseMode.FaceSelection:
-                try {
-                    FaceSelection = uidoc.Selection.PickObjects(Autodesk.Revit.UI.Selection.ObjectType.Face, "Select Faces");
-                } catch (Autodesk.Revit.Exceptions.OperationCanceledException ex) {
-                    SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
-                    FaceSelection = null;
-                } catch (Autodesk.Revit.Exceptions.ArgumentNullException anex) {
-                    SCaddinsApp.WindowManager.ShowMessageBox(anex.Message);
-                    FaceSelection = null;
-                } catch (Autodesk.Revit.Exceptions.ArgumentOutOfRangeException aoorex) {
-                    SCaddinsApp.WindowManager.ShowMessageBox(aoorex.Message);
-                    FaceSelection = null;
-                } catch (Autodesk.Revit.Exceptions.ForbiddenForDynamicUpdateException ffduex) {
-                    SCaddinsApp.WindowManager.ShowMessageBox(ffduex.Message);
-                    FaceSelection = null;
-                }
-                Respawn(this, true);
-                break;
+                    try
+                    {
+                        FaceSelection = uidoc.Selection.PickObjects(Autodesk.Revit.UI.Selection.ObjectType.Face, "Select Faces");
+                    }
+                    catch (Autodesk.Revit.Exceptions.OperationCanceledException ex)
+                    {
+                        SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
+                        FaceSelection = null;
+                    }
+                    catch (Autodesk.Revit.Exceptions.ArgumentNullException anex)
+                    {
+                        SCaddinsApp.WindowManager.ShowMessageBox(anex.Message);
+                        FaceSelection = null;
+                    }
+                    catch (Autodesk.Revit.Exceptions.ArgumentOutOfRangeException aoorex)
+                    {
+                        SCaddinsApp.WindowManager.ShowMessageBox(aoorex.Message);
+                        FaceSelection = null;
+                    }
+                    catch (Autodesk.Revit.Exceptions.ForbiddenForDynamicUpdateException ffduex)
+                    {
+                        SCaddinsApp.WindowManager.ShowMessageBox(ffduex.Message);
+                        FaceSelection = null;
+                    }
+                    Respawn(this, true);
+                    break;
 
                 case CloseMode.MassSelection:
-                try {
-                    MassSelection = uidoc.Selection.PickObjects(Autodesk.Revit.UI.Selection.ObjectType.Element, "Select Masses");
-                } catch (Autodesk.Revit.Exceptions.OperationCanceledException ex) {
-                    SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
-                    MassSelection = null;
-                } catch (Autodesk.Revit.Exceptions.ArgumentNullException anex) {
-                    SCaddinsApp.WindowManager.ShowMessageBox(anex.Message);
-                    MassSelection = null;
-                } catch (Autodesk.Revit.Exceptions.ArgumentOutOfRangeException aoorex) {
-                    SCaddinsApp.WindowManager.ShowMessageBox(aoorex.Message);
-                    MassSelection = null;
-                } catch (Autodesk.Revit.Exceptions.ForbiddenForDynamicUpdateException ffduex) {
-                    SCaddinsApp.WindowManager.ShowMessageBox(ffduex.Message);
-                    MassSelection = null;
-                }
-                Respawn(this, true);
-                break;
+                    try
+                    {
+                        MassSelection = uidoc.Selection.PickObjects(Autodesk.Revit.UI.Selection.ObjectType.Element, "Select Masses");
+                    }
+                    catch (Autodesk.Revit.Exceptions.OperationCanceledException ex)
+                    {
+                        SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
+                        MassSelection = null;
+                    }
+                    catch (Autodesk.Revit.Exceptions.ArgumentNullException anex)
+                    {
+                        SCaddinsApp.WindowManager.ShowMessageBox(anex.Message);
+                        MassSelection = null;
+                    }
+                    catch (Autodesk.Revit.Exceptions.ArgumentOutOfRangeException aoorex)
+                    {
+                        SCaddinsApp.WindowManager.ShowMessageBox(aoorex.Message);
+                        MassSelection = null;
+                    }
+                    catch (Autodesk.Revit.Exceptions.ForbiddenForDynamicUpdateException ffduex)
+                    {
+                        SCaddinsApp.WindowManager.ShowMessageBox(ffduex.Message);
+                        MassSelection = null;
+                    }
+                    Respawn(this, true);
+                    break;
             }
         }
     }

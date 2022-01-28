@@ -124,7 +124,7 @@
                                     var newCenter = new XYZ(
                                         destViewport.GetBoxCenter().X,
                                         templateViewOriginalCenter.Y,
-                                        destViewport.GetBoxCenter().Z);             
+                                        destViewport.GetBoxCenter().Z);
                                     destViewport.SetBoxCenter(newCenter);
                                 }
                                 else

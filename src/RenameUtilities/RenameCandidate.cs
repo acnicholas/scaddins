@@ -104,7 +104,7 @@ namespace SCaddins.RenameUtilities
         }
 
         public bool ValueChanged => !string.Equals(this.oldValue, this.newValue, System.StringComparison.CurrentCulture);
-        
+
         private Parameter RevitParameter => parameter;
 
         //// FIXME this is a mess :)

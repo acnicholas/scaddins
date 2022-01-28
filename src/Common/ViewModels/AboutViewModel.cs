@@ -23,7 +23,7 @@ namespace SCaddins.Common.ViewModels
 
     public class AboutViewModel : Screen
     {
-        public static string AssemblyBuildDate => 
+        public static string AssemblyBuildDate =>
             Properties.Resources.BuildDate.TrimEnd(System.Environment.NewLine.ToCharArray());
 
         public static string AssemblyCopyright
@@ -78,7 +78,8 @@ namespace SCaddins.Common.ViewModels
             {
                 object[] attributes = Assembly.GetExecutingAssembly()
                     .GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
-                if (attributes.Length == 0) {
+                if (attributes.Length == 0)
+                {
                     return string.Empty;
                 }
                 return ((AssemblyCompanyAttribute)attributes[0]).Company.Trim();

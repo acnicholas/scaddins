@@ -37,12 +37,14 @@ namespace SCaddins.ExportManager
 
                 SCaddinsApp.WindowManager.ShowMessageBox("File in use", mainContent);
 
-                if (IsFileLocked(new FileInfo(fileName))) {
+                if (IsFileLocked(new FileInfo(fileName)))
+                {
                     return false;
                 }
             }
 
-            if (File.Exists(fileName) && Manager.ConfirmOverwrite) {
+            if (File.Exists(fileName) && Manager.ConfirmOverwrite)
+            {
                 var message = fileName + " exists," + Environment.NewLine + "do you want do overwrite the existing file?";
                 var result = SCaddinsApp.WindowManager.ShowConfirmationDialog(message, Manager.ConfirmOverwrite, out var confirmOverwriteDialog);
                 Manager.ConfirmOverwrite = confirmOverwriteDialog;
@@ -76,7 +78,8 @@ namespace SCaddins.ExportManager
                               SCaddins.Constants.ShareDirectory +
                               Path.DirectorySeparatorChar +
                               Constants.ExampleConfigFileName;
-                if (File.Exists(example)) {
+                if (File.Exists(example))
+                {
                     File.Copy(example, config, true);
                 }
             }
@@ -84,7 +87,8 @@ namespace SCaddins.ExportManager
 
         public static string GetCentralFileName(Document doc)
         {
-            if (doc == null) {
+            if (doc == null)
+            {
                 return string.Empty;
             }
             if (doc.IsWorkshared)
@@ -100,7 +104,8 @@ namespace SCaddins.ExportManager
         public static bool IsFileLocked(FileInfo file)
         {
             FileStream stream = null;
-            if (file == null || file.Exists == false) {
+            if (file == null || file.Exists == false)
+            {
                 return false;
             }
             try
@@ -116,7 +121,8 @@ namespace SCaddins.ExportManager
             }
             finally
             {
-                if (stream != null) {
+                if (stream != null)
+                {
                     stream.Close();
                 }
             }
@@ -131,7 +137,7 @@ namespace SCaddins.ExportManager
         /// <returns></returns>
         public static bool IsValidFileName(string fileName)
         {
-            return  !string.IsNullOrEmpty(fileName) && fileName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
+            return !string.IsNullOrEmpty(fileName) && fileName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
         }
 
         ////FIXME - add delay param
@@ -142,7 +148,8 @@ namespace SCaddins.ExportManager
             {
                 Thread.Sleep(2000);
                 i++;
-                if (i > 30) {
+                if (i > 30)
+                {
                     return;
                 }
             }
@@ -151,10 +158,13 @@ namespace SCaddins.ExportManager
         internal static void EditConfigFile(Document doc)
         {
             var config = Manager.GetConfigFileName(doc);
-            if (File.Exists(config)) {
+            if (File.Exists(config))
+            {
                 var process = Process.Start(Settings1.Default.TextEditor, config);
                 process.Dispose();
-            } else {
+            }
+            else
+            {
                 SCaddinsApp.WindowManager.ShowMessageBox("SCexport", "config file does not exist");
             }
         }

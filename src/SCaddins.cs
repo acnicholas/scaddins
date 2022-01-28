@@ -100,7 +100,8 @@ namespace SCaddins
                 downloadLink = Constants.DownloadLink;
             }
 
-            if (latestAvailableVersion <= installedVersion && newOnly) {
+            if (latestAvailableVersion <= installedVersion && newOnly)
+            {
                 return;
             }
             dynamic settings = new ExpandoObject();

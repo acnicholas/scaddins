@@ -119,7 +119,9 @@ namespace SCaddins.SheetCopier.ViewModels
                 if (GoLabelIsEnabled)
                 {
                     return "Copy " + sheetsCount + " Sheet(s) and " + independentViewCount + " Independent Views";
-                } else {
+                }
+                else
+                {
                     return "Copy";
                 }
             }
@@ -142,7 +144,8 @@ namespace SCaddins.SheetCopier.ViewModels
 
             set
             {
-                if (value != selectedViewHost) {
+                if (value != selectedViewHost)
+                {
                     selectedViewHost = value;
                     NotifyOfPropertyChange(() => SelectedSheetInformationView);
                     NotifyOfPropertyChange(() => ChildViews);
@@ -156,17 +159,22 @@ namespace SCaddins.SheetCopier.ViewModels
             get
             {
                 selectedSheetInformation.Clear();
-                if (selectedViewHost != null && selectedViewHost.Type == ViewHostType.Sheet) {
+                if (selectedViewHost != null && selectedViewHost.Type == ViewHostType.Sheet)
+                {
                     selectedSheetInformation.Add(new SheetInformation(selectedViewHost.SourceSheet));
-                    foreach (Autodesk.Revit.DB.ElementId id in selectedViewHost.SourceSheet.GetAllPlacedViews()) {
+                    foreach (Autodesk.Revit.DB.ElementId id in selectedViewHost.SourceSheet.GetAllPlacedViews())
+                    {
                         Autodesk.Revit.DB.Element element = copyManager.Doc.GetElement(id);
                         selectedSheetInformation.Add(new SheetInformation(element));
                     }
-                    foreach (Autodesk.Revit.DB.Parameter param in selectedViewHost.SourceSheet.Parameters) {
+                    foreach (Autodesk.Revit.DB.Parameter param in selectedViewHost.SourceSheet.Parameters)
+                    {
                         selectedSheetInformation.Add(new SheetInformation(param));
                     }
                     return selectedSheetInformation;
-                } else {
+                }
+                else
+                {
                     return null;
                 }
             }
@@ -207,7 +215,8 @@ namespace SCaddins.SheetCopier.ViewModels
         {
             var vm = new ViewSelectionViewModel(copyManager);
             bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewSelectionViewModel.DefaultWindowSettings);
-            if (result.HasValue && result.Value) {
+            if (result.HasValue && result.Value)
+            {
                 AddSheets(vm.SelectedViews);
                 NotifyOfPropertyChange(() => GoLabel);
                 NotifyOfPropertyChange(() => GoLabelIsEnabled);
@@ -216,18 +225,21 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public void AddSheets(List<ExportManager.ExportSheet> sheetSelection)
         {
-            foreach (var sheet in sheetSelection) {
+            foreach (var sheet in sheetSelection)
+            {
                 copyManager.AddSheet(sheet.Sheet);
             }
         }
 
         public void AddSheets(List<Autodesk.Revit.DB.View> viewSelection)
         {
-            foreach (var view in viewSelection) {
+            foreach (var view in viewSelection)
+            {
                 if (view is Autodesk.Revit.DB.ViewSheet)
                 {
                     copyManager.AddSheet(view as Autodesk.Revit.DB.ViewSheet);
-                } else
+                }
+                else
                 {
                     copyManager.AddView(view as Autodesk.Revit.DB.View);
                 }
@@ -236,7 +248,8 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public void CopySheetSelection()
         {
-            if (SelectedViewHost.SourceSheet != null) {
+            if (SelectedViewHost.SourceSheet != null)
+            {
                 copyManager.AddSheet(SelectedViewHost.SourceSheet);
                 NotifyOfPropertyChange(() => GoLabel);
             }
@@ -255,13 +268,18 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public void RemoveSelectedViews()
         {
-            foreach (var s in selectedViews.ToList()) {
+            foreach (var s in selectedViews.ToList())
+            {
                 ChildViews.Remove(s);
             }
-            if (SelectedViewHost.Type == ViewHostType.Model) {
-                if (SelectedViewHost.ChildViews.Count == 0) {
+            if (SelectedViewHost.Type == ViewHostType.Model)
+            {
+                if (SelectedViewHost.ChildViews.Count == 0)
+                {
                     ViewHosts.Remove(SelectedViewHost);
-                } else {
+                }
+                else
+                {
                     SelectedViewHost.Title = "<" + SelectedViewHost.ChildViews.Count.ToString() + " Independent Views>";
                 }
             }
@@ -269,8 +287,9 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public void RemoveSheetSelection()
         {
-            foreach (var s in selectedSheets.ToList()) {
-                    ViewHosts.Remove(s);
+            foreach (var s in selectedSheets.ToList())
+            {
+                ViewHosts.Remove(s);
             }
             NotifyOfPropertyChange(() => GoLabel);
             NotifyOfPropertyChange(() => GoLabelIsEnabled);
@@ -278,10 +297,13 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public void RowSheetSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
         {
-            try {
+            try
+            {
                 selectedSheets.AddRange(obj.AddedItems.Cast<SheetCopierViewHost>());
                 obj.RemovedItems.Cast<SheetCopierViewHost>().ToList().ForEach(w => selectedSheets.Remove(w));
-            } catch (Exception exception) {
+            }
+            catch (Exception exception)
+            {
                 Console.WriteLine(exception.Message);
             }
             NotifyOfPropertyChange(() => GoLabel);
@@ -293,10 +315,13 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public void ChildViewsRowSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs obj)
         {
-            try {
+            try
+            {
                 selectedViews.AddRange(obj.AddedItems.Cast<SheetCopierView>());
                 obj.RemovedItems.Cast<SheetCopierView>().ToList().ForEach(w => selectedViews.Remove(w));
-            } catch (Exception exception) {
+            }
+            catch (Exception exception)
+            {
                 Console.WriteLine(exception.Message);
             }
             NotifyOfPropertyChange(() => RemoveSelectedViewsIsEnabled);

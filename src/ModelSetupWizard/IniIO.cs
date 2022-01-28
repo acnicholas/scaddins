@@ -26,29 +26,29 @@ namespace SCaddins.ModelSetupWizard
 
     public static class IniIO
     {
-            public static List<System.Windows.Media.Color> ReadColours(string iniFilePath)
-            {
-                    var result = new List<System.Windows.Media.Color>(16);
-                    var parser = new FileIniDataParser();
-                    IniData data = parser.ReadFile(iniFilePath);
-                    TryReadColorAndAddToList(result, data, "CustomColor1", 0);
-                    TryReadColorAndAddToList(result, data, "CustomColor2", 1);
-                    TryReadColorAndAddToList(result, data, "CustomColor3", 2);
-                    TryReadColorAndAddToList(result, data, "CustomColor4", 3);
-                    TryReadColorAndAddToList(result, data, "CustomColor5", 4);
-                    TryReadColorAndAddToList(result, data, "CustomColor6", 5);
-                    TryReadColorAndAddToList(result, data, "CustomColor7", 6);
-                    TryReadColorAndAddToList(result, data, "CustomColor8", 7);
-                    TryReadColorAndAddToList(result, data, "CustomColor9", 8);
-                    TryReadColorAndAddToList(result, data, "CustomColor10", 9);
-                    TryReadColorAndAddToList(result, data, "CustomColor11", 10);
-                    TryReadColorAndAddToList(result, data, "CustomColor12", 11);
-                    TryReadColorAndAddToList(result, data, "CustomColor13", 12);
-                    TryReadColorAndAddToList(result, data, "CustomColor14", 13);
-                    TryReadColorAndAddToList(result, data, "CustomColor15", 14);
-                    TryReadColorAndAddToList(result, data, "CustomColor16", 15);
-                    return result;
-            }
+        public static List<System.Windows.Media.Color> ReadColours(string iniFilePath)
+        {
+            var result = new List<System.Windows.Media.Color>(16);
+            var parser = new FileIniDataParser();
+            IniData data = parser.ReadFile(iniFilePath);
+            TryReadColorAndAddToList(result, data, "CustomColor1", 0);
+            TryReadColorAndAddToList(result, data, "CustomColor2", 1);
+            TryReadColorAndAddToList(result, data, "CustomColor3", 2);
+            TryReadColorAndAddToList(result, data, "CustomColor4", 3);
+            TryReadColorAndAddToList(result, data, "CustomColor5", 4);
+            TryReadColorAndAddToList(result, data, "CustomColor6", 5);
+            TryReadColorAndAddToList(result, data, "CustomColor7", 6);
+            TryReadColorAndAddToList(result, data, "CustomColor8", 7);
+            TryReadColorAndAddToList(result, data, "CustomColor9", 8);
+            TryReadColorAndAddToList(result, data, "CustomColor10", 9);
+            TryReadColorAndAddToList(result, data, "CustomColor11", 10);
+            TryReadColorAndAddToList(result, data, "CustomColor12", 11);
+            TryReadColorAndAddToList(result, data, "CustomColor13", 12);
+            TryReadColorAndAddToList(result, data, "CustomColor14", 13);
+            TryReadColorAndAddToList(result, data, "CustomColor15", 14);
+            TryReadColorAndAddToList(result, data, "CustomColor16", 15);
+            return result;
+        }
 
         public static void WriteColours(string iniFilePath, List<System.Windows.Media.Color> colours)
         {
@@ -83,7 +83,8 @@ namespace SCaddins.ModelSetupWizard
             byte a = 255;
             var start = 0;
 
-            if (hex.Length == 8) {
+            if (hex.Length == 8)
+            {
                 a = byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture);
                 start = 2;
             }
@@ -103,7 +104,8 @@ namespace SCaddins.ModelSetupWizard
             return System.IO.File.Exists(fullPath) ? fullPath : string.Empty;
         }
 
-        private static void TryReadColorAndAddToList(List<System.Windows.Media.Color> colors, IniData data, string key, int index) {
+        private static void TryReadColorAndAddToList(List<System.Windows.Media.Color> colors, IniData data, string key, int index)
+        {
             string s = string.Empty;
             if (data.TryGetKey("Colors" + data.SectionKeySeparator + key, out s))
             {
@@ -114,5 +116,5 @@ namespace SCaddins.ModelSetupWizard
                 colors.Insert(index, System.Windows.Media.Color.FromRgb(255, 255, 255));
             }
         }
-   }
+    }
 }

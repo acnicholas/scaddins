@@ -20,7 +20,7 @@ namespace SCaddins.RoomConverter.ViewModels
     using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
-    
+
     public class RoomToSheetWizardViewModel : Screen
     {
         private RoomConversionManager manager;
@@ -35,7 +35,8 @@ namespace SCaddins.RoomConverter.ViewModels
             get { return manager.TitleBlocks; }
         }
 
-        public Dictionary<string, ElementId> ViewTemplates {
+        public Dictionary<string, ElementId> ViewTemplates
+        {
             get { return manager.ViewTemplates; }
         }
 
@@ -112,7 +113,8 @@ namespace SCaddins.RoomConverter.ViewModels
             }
         }
 
-        public ElementId SelectedViewTemplate {
+        public ElementId SelectedViewTemplate
+        {
             get
             {
                 return manager.ViewTemplateId;
@@ -120,7 +122,8 @@ namespace SCaddins.RoomConverter.ViewModels
 
             set
             {
-                if (value != manager.ViewTemplateId) {
+                if (value != manager.ViewTemplateId)
+                {
                     manager.ViewTemplateId = value;
                     NotifyOfPropertyChange(() => SelectedViewTemplate);
                 }
@@ -153,7 +156,8 @@ namespace SCaddins.RoomConverter.ViewModels
 
             set
             {
-                if (value != manager.Scale) {
+                if (value != manager.Scale)
+                {
                     manager.Scale = value;
                     NotifyOfPropertyChange(() => Scale);
                 }

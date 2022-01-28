@@ -233,7 +233,8 @@ namespace SCaddins.RenameUtilities.ViewModels
         public void RenameAllMatches()
         {
             manager.CommitRename();
-            if (selectedRenameParameter != null) {
+            if (selectedRenameParameter != null)
+            {
                 manager.SetCandidatesByParameter(selectedRenameParameter.Parameter, selectedRenameParameter.Category, selectedRenameParameter.Type, SelectedRenameParameter.Family, SelectedRenameParameter.Group);
             }
             NotifyOfPropertyChange(() => RenameCandidates);
@@ -250,7 +251,8 @@ namespace SCaddins.RenameUtilities.ViewModels
         public void RenameSelectedMatches()
         {
             manager.CommitRenameSelection(selectedCandiates);
-            if (selectedRenameParameter != null) {
+            if (selectedRenameParameter != null)
+            {
                 manager.SetCandidatesByParameter(selectedRenameParameter.Parameter, selectedRenameParameter.Category, selectedRenameParameter.Type, selectedRenameParameter.Family, SelectedRenameParameter.Group);
             }
             NotifyOfPropertyChange(() => RenameCandidates);

@@ -14,7 +14,7 @@
         private readonly IDialogService dialogService;
 
         public WindowManager(IDialogService dialogService)
-        { 
+        {
             this.dialogService = dialogService;
         }
 
@@ -106,7 +106,8 @@
         public override void ShowWindow(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
             System.Windows.Window window = CreateWindow(rootModel, true, context, settings);
-            if (window != null) {
+            if (window != null)
+            {
                 System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(window);
                 helper.Owner = Autodesk.Windows.ComponentManager.ApplicationWindow;
                 window.SourceInitialized += Window_SourceInitialized;
@@ -130,10 +131,13 @@
         private void Window_LocationChanged(object sender, EventArgs e)
         {
             var window = sender as System.Windows.Window;
-            if (window != null) {
+            if (window != null)
+            {
                 Left = window.Left;
                 Top = window.Top;
-            } else {
+            }
+            else
+            {
                 ShowMessageBox("LocationChanged event handler error...");
                 Left = 20;
                 Top = 20;
@@ -150,7 +154,8 @@
             var handle = new System.Windows.Interop.WindowInteropHelper((System.Windows.Window)sender).Handle;
             var value = GetWindowLong(handle, GWLSTYLE);
             var ret = SetWindowLong(handle, GWLSTYLE, value & -131073 & -65537);
-            if (ret == 0) {
+            if (ret == 0)
+            {
                 Console.WriteLine(Resources.WindowManager_Window_SourceInitialized_WARNING__could_not_set_window_style);
             }
         }

@@ -37,7 +37,7 @@ namespace SCaddins.RunScript
         }
 
         public static void RunScript(Document doc, string script)
-        {     
+        {
             var runScript = CSScript.LoadMethod(script, GetAssemblies()).GetStaticMethod("*.Main", doc);
             runScript(doc);
         }
@@ -90,7 +90,7 @@ namespace SCaddins.RunScript
 #elif REVIT2021
                         revitVersion = "2021";
 #elif REVIT2022
-                        revitVersion = "2022";
+            revitVersion = "2022";
 #endif
 
             // ReSharper disable once StringLiteralTypo

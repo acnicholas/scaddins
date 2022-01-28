@@ -23,7 +23,7 @@ namespace SCaddins.RoomConverter.ViewModels
     using System.Linq;
     using System.Windows.Data;
     using Caliburn.Micro;
-    
+
     public class RoomFilterViewModel : Screen
     {
         private string comparisonFieldOne = string.Empty;
@@ -78,7 +78,8 @@ namespace SCaddins.RoomConverter.ViewModels
 
             set
             {
-                if (value != comparisonFieldOne) {
+                if (value != comparisonFieldOne)
+                {
                     comparisonFieldOne = value;
                     var f = new RoomFilterItem(
                             LogicalOperator.And,
@@ -105,7 +106,8 @@ namespace SCaddins.RoomConverter.ViewModels
 
             set
             {
-                if (value != comparisonFieldTwo) {
+                if (value != comparisonFieldTwo)
+                {
                     comparisonFieldOne = value;
                     NotifyOfPropertyChange(() => ComparisonFieldTwo);
                 }
@@ -144,7 +146,8 @@ namespace SCaddins.RoomConverter.ViewModels
             {
                 roomParameters[0] = value;
                 NotifyOfPropertyChange(() => RoomParameterOne);
-                if (value.Definition.Name == "Department") {
+                if (value.Definition.Name == "Department")
+                {
                     dynamic settings = new System.Dynamic.ExpandoObject();
                     settings.Height = 320;
                     settings.Width = 640;
@@ -154,11 +157,13 @@ namespace SCaddins.RoomConverter.ViewModels
                     var windowManager = SCaddinsApp.WindowManager;
                     var vm = new ListSelectionViewModel(manager.GetAllDepartments());
                     bool? r = windowManager.ShowDialog(vm, null, settings);
-                    if (r.HasValue && r.Value) {
+                    if (r.HasValue && r.Value)
+                    {
                         ComparisonFieldOne = vm.SelectedItem;
                     }
                 }
-                if (value.Definition.Name == "Design Option") {
+                if (value.Definition.Name == "Design Option")
+                {
                     dynamic settings = new System.Dynamic.ExpandoObject();
                     settings.Height = 320;
                     settings.Width = 640;
@@ -168,7 +173,8 @@ namespace SCaddins.RoomConverter.ViewModels
                     var windowManager = SCaddinsApp.WindowManager;
                     var vm = new ListSelectionViewModel(RoomConversionManager.GetAllDesignOptionNames(manager.Doc));
                     bool? r = windowManager.ShowDialog(vm, null, settings);
-                    if (r.HasValue && r.Value) {
+                    if (r.HasValue && r.Value)
+                    {
                         ComparisonFieldOne = vm.SelectedItem;
                     }
                 }

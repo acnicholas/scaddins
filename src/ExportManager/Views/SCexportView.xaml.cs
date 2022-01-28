@@ -9,7 +9,7 @@
         public SCexportView()
         {
             InitializeComponent();
-            this.Loaded += SCexportView_Loaded;    
+            this.Loaded += SCexportView_Loaded;
         }
 
         public static void SelectRowByIndex(DataGrid dataGrid, List<Autodesk.Revit.DB.ViewSheet> preSelectedViews)
@@ -37,16 +37,17 @@
         private void SCexportView_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             SCexportViewModel vm = DataContext as SCexportViewModel;
-            if (vm != null) {
+            if (vm != null)
+            {
                 SelectRowByIndex(Sheets, vm.PreSelectedViews);
             }
         }
 
-    private void SelectAll_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void SelectAll_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             Sheets.SelectAll();
         }
-        
+
         private void Sheets_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (Sheets.SelectedItems.Count == 1)

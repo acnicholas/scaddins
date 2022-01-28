@@ -21,7 +21,7 @@ namespace SCaddins.RoomConverter
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Architecture;
-    
+
     public class RoomFilterItem
     {
         private ComparisonOperator co;
@@ -115,9 +115,9 @@ namespace SCaddins.RoomConverter
                     break;
 
                 case StorageType.String:
-                #pragma warning disable CA1307 // Specify StringComparison
-                return string.Compare(param.AsString(), value, StringComparison.Ordinal);
-                #pragma warning restore CA1307 // Specify StringComparison
+#pragma warning disable CA1307 // Specify StringComparison
+                    return string.Compare(param.AsString(), value, StringComparison.Ordinal);
+#pragma warning restore CA1307 // Specify StringComparison
 
                 case StorageType.Integer:
                     if (int.TryParse(value, out var iparse))

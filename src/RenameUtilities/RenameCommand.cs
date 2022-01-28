@@ -96,7 +96,8 @@ namespace SCaddins.RenameUtilities
 
             set
             {
-                if (value == searchPattern) {
+                if (value == searchPattern)
+                {
                     return;
                 }
                 searchPattern = value;

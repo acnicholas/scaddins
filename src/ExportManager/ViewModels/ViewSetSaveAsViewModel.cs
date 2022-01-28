@@ -55,16 +55,21 @@ namespace SCaddins.ExportManager.ViewModels
             get; private set;
         }
 
-        public bool CanSave {
+        public bool CanSave
+        {
             get { return !ViewSheetSets.Select(n => n.Name).Contains(SaveName) && !string.IsNullOrEmpty(SaveName); }
         }
 
-        public string Label {
+        public string Label
+        {
             get
             {
-                if (CanSave) {
+                if (CanSave)
+                {
                     return label;
-                } else {
+                }
+                else
+                {
                     return string.IsNullOrEmpty(SaveName) ? label : "ERROR: Name is in use";
                 }
             }
@@ -88,7 +93,8 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value != name) {
+                if (value != name)
+                {
                     name = value;
                     NotifyOfPropertyChange(() => CanSave);
                     NotifyOfPropertyChange(() => Label);

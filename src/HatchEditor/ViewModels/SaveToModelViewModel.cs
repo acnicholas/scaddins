@@ -40,7 +40,8 @@ namespace SCaddins.HatchEditor.ViewModels
             Label = "Pattern Name";
         }
 
-        public static System.Dynamic.ExpandoObject DefaultWindowSettings {
+        public static System.Dynamic.ExpandoObject DefaultWindowSettings
+        {
             get
             {
                 dynamic settings = new System.Dynamic.ExpandoObject();
@@ -53,11 +54,13 @@ namespace SCaddins.HatchEditor.ViewModels
             }
         }
 
-        public string Label {
+        public string Label
+        {
             get; private set;
         }
 
-        public string NewPatternName {
+        public string NewPatternName
+        {
             get
             {
                 return newPatternName;
@@ -70,10 +73,12 @@ namespace SCaddins.HatchEditor.ViewModels
             }
         }
 
-        public bool SavingIsEnabled {
+        public bool SavingIsEnabled
+        {
             get
             {
-                if (fillPatternsInModel == null) {
+                if (fillPatternsInModel == null)
+                {
                     return true;
                 }
                 var n = fillPatternsInModel.Select(s => s.Name).ToList().Contains(NewPatternName);

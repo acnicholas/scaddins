@@ -60,8 +60,10 @@ namespace SCaddins.DestructivePurge.ViewModels
             get
             {
                 int n = 0;
-                foreach (CheckableItem ci in CheckableItems) {
-                    if (ci.IsYesOrMaybe) {
+                foreach (CheckableItem ci in CheckableItems)
+                {
+                    if (ci.IsYesOrMaybe)
+                    {
                         n += ci.CheckedCount;
                     }
                 }
@@ -69,19 +71,24 @@ namespace SCaddins.DestructivePurge.ViewModels
             }
         }
 
-        public string DeleteButtonLabel {
+        public string DeleteButtonLabel
+        {
             get
             {
                 return "Delete " + CheckedCount;
             }
         }
 
-        public string Details {
+        public string Details
+        {
             get
             {
-                if (selectedItem.Deletable.Info == "-") {
+                if (selectedItem.Deletable.Info == "-")
+                {
                     return "Select an element to view additional properties";
-                } else {
+                }
+                else
+                {
                     return selectedItem.Deletable.Info;
                 }
             }
@@ -110,7 +117,8 @@ namespace SCaddins.DestructivePurge.ViewModels
 
             set
             {
-                if (previewImage != value) {
+                if (previewImage != value)
+                {
                     previewImage = value;
                     NotifyOfPropertyChange(() => PreviewImage);
                     NotifyOfPropertyChange(() => ImageHeight);
@@ -130,7 +138,8 @@ namespace SCaddins.DestructivePurge.ViewModels
             {
                 return;
             }
-            foreach (var item in treeView.Items) {
+            foreach (var item in treeView.Items)
+            {
                 if (item is TreeViewItem treeViewItem)
                 {
                     treeViewItem.IsExpanded = false;
@@ -141,14 +150,18 @@ namespace SCaddins.DestructivePurge.ViewModels
         public void DeleteElements()
         {
             List<DeletableItem> toDelete = new List<DeletableItem>();
-            foreach (var item in CheckableItems) {
-                if (item.IsYes) {
-                    if (item.Deletable.Id != null && doc.GetElement(item.Deletable.Id).IsValidObject) {
+            foreach (var item in CheckableItems)
+            {
+                if (item.IsYes)
+                {
+                    if (item.Deletable.Id != null && doc.GetElement(item.Deletable.Id).IsValidObject)
+                    {
                         toDelete.Add(item.Deletable);
                     }
                     RecurseItems(toDelete, item);
                 }
-                if (item.IsMaybe) {
+                if (item.IsMaybe)
+                {
                     RecurseItems(toDelete, item);
                 }
             }
@@ -165,12 +178,14 @@ namespace SCaddins.DestructivePurge.ViewModels
             var viewNotOnSheets = new CheckableItem(new DeletableItem("Views NOT On Sheets"), null);
             foreach (ViewType enumValue in Enum.GetValues(typeof(ViewType)))
             {
-                if (enumValue == ViewType.DrawingSheet) {
+                if (enumValue == ViewType.DrawingSheet)
+                {
                     continue;
                 }
                 var i = new CheckableItem(new DeletableItem(enumValue.ToString()), viewNotOnSheets);
                 i.AddChildren(DestructivePurgeUtilitiles.Views(doc, false, enumValue));
-                if (i.Children.Count > 0) {
+                if (i.Children.Count > 0)
+                {
                     viewNotOnSheets.AddChild(i);
                 }
             }
@@ -179,12 +194,14 @@ namespace SCaddins.DestructivePurge.ViewModels
             var viewOnSheets = new CheckableItem(new DeletableItem("Views On Sheets"), null);
             foreach (ViewType enumValue in Enum.GetValues(typeof(ViewType)))
             {
-                if (enumValue == ViewType.DrawingSheet) {
+                if (enumValue == ViewType.DrawingSheet)
+                {
                     continue;
                 }
                 var i = new CheckableItem(new DeletableItem(enumValue.ToString()), viewOnSheets);
                 i.AddChildren(DestructivePurgeUtilitiles.Views(doc, true, enumValue));
-                if (i.Children.Count > 0) {
+                if (i.Children.Count > 0)
+                {
                     viewOnSheets.AddChild(i);
                 }
             }
@@ -221,13 +238,16 @@ namespace SCaddins.DestructivePurge.ViewModels
         {
             foreach (var child in item.Children)
             {
-                if (child.IsYes) {
-                    if (child.Deletable.Id != null && doc.GetElement(child.Deletable.Id).IsValidObject) {
+                if (child.IsYes)
+                {
+                    if (child.Deletable.Id != null && doc.GetElement(child.Deletable.Id).IsValidObject)
+                    {
                         list.Add(child.Deletable);
                     }
                     RecurseItems(list, child);
                 }
-                if (child.IsMaybe) {
+                if (child.IsMaybe)
+                {
                     RecurseItems(list, child);
                 }
             }
@@ -256,12 +276,16 @@ namespace SCaddins.DestructivePurge.ViewModels
 
         public void ShowElement()
         {
-            if (selectedItem.Deletable.Id != null) {
+            if (selectedItem.Deletable.Id != null)
+            {
                 var uiapp = new Autodesk.Revit.UI.UIApplication(doc.Application);
                 Element e = doc.GetElement(selectedItem.Deletable.Id);
-                if (e is Autodesk.Revit.DB.View) {
+                if (e is Autodesk.Revit.DB.View)
+                {
                     uiapp.ActiveUIDocument.ActiveView = (Autodesk.Revit.DB.View)e;
-                } else {
+                }
+                else
+                {
                     uiapp.ActiveUIDocument.ShowElements(selectedItem.Deletable.Id);
                 }
             }
@@ -274,7 +298,8 @@ namespace SCaddins.DestructivePurge.ViewModels
 
         private void SelectAllOrNone(bool selectAll)
         {
-            foreach (var item in CheckableItems) {
+            foreach (var item in CheckableItems)
+            {
                 item.IsChecked = selectAll;
             }
         }

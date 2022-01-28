@@ -48,12 +48,16 @@ namespace SCaddins.LineOfSight.ViewModels
 
             set
             {
-                if (Math.Abs(value - lineOfSight.DistanceToFirstRowX) > tolerance) {
-                    try {
+                if (Math.Abs(value - lineOfSight.DistanceToFirstRowX) > tolerance)
+                {
+                    try
+                    {
                         lineOfSight.DistanceToFirstRowX = value;
                         //// NotifyOfPropertyChange(() => DistanceToFirstRowX);
                         NotifyOfPropertyChange(() => InfoString);
-                    } catch {
+                    }
+                    catch
+                    {
                         //// FIXME somehow....
                     }
                 }
@@ -84,7 +88,8 @@ namespace SCaddins.LineOfSight.ViewModels
 
             set
             {
-                if (Math.Abs(value - lineOfSight.EyeHeight) > tolerance) {
+                if (Math.Abs(value - lineOfSight.EyeHeight) > tolerance)
+                {
                     lineOfSight.EyeHeight = value;
                     NotifyOfPropertyChange(() => EyeHeight);
                     NotifyOfPropertyChange(() => InfoString);
@@ -96,9 +101,12 @@ namespace SCaddins.LineOfSight.ViewModels
         {
             get
             {
-                try {
+                try
+                {
                     return lineOfSight.InfoString;
-                } catch {
+                }
+                catch
+                {
                     return string.Empty;
                 }
             }
@@ -158,7 +166,8 @@ namespace SCaddins.LineOfSight.ViewModels
 
             set
             {
-                if (value < 1) {
+                if (value < 1)
+                {
                     return;
                 }
                 lineOfSight.RiserIncrement = value;
@@ -176,7 +185,8 @@ namespace SCaddins.LineOfSight.ViewModels
 
             set
             {
-                if (Math.Abs(value - lineOfSight.TreadSize) > tolerance) {
+                if (Math.Abs(value - lineOfSight.TreadSize) > tolerance)
+                {
                     lineOfSight.TreadSize = value;
                     NotifyOfPropertyChange(() => TreadSize);
                     NotifyOfPropertyChange(() => InfoString);

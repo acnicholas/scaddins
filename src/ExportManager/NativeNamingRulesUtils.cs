@@ -20,11 +20,10 @@ namespace SCaddins.ExportManager
     using System.Collections.Generic;
     using System.Linq;
     using Autodesk.Revit.DB;
-    using SCaddins.Common;
 
     public class NativeNamingRulesUtils
     {
-        #if REVIT2022
+#if REVIT2022
         public static string GetExportNameFromNamingRule(PDFExportOptions opts, ExportSheet vs)
         {
             var segs = opts.GetNamingRule();
@@ -55,15 +54,15 @@ namespace SCaddins.ExportManager
                         // }
                         // else
                         // {
-                            var paramValue = param.First().AsValueString();
-                            if (paramValue.Length < 1)
-                            {
-                                filenameTest += "Current Revision";
-                            }
-                            else
-                            {
-                                filenameTest += paramValue;
-                            }
+                        var paramValue = param.First().AsValueString();
+                        if (paramValue.Length < 1)
+                        {
+                            filenameTest += "Current Revision";
+                        }
+                        else
+                        {
+                            filenameTest += paramValue;
+                        }
                         //// }
                     }
                 }
@@ -72,9 +71,9 @@ namespace SCaddins.ExportManager
             }
             return filenameTest;
         }
-        #endif
+#endif
 
-        #if REVIT2022
+#if REVIT2022
         public static List<TableCellCombinedParameterData> CreateNamingRuleFromFormatString(string filenameScheme, Document doc)
         {
             var fec = new FilteredElementCollector(doc);
@@ -108,7 +107,7 @@ namespace SCaddins.ExportManager
             {
                 prefix += c[i];
 
-                if (i  == c.Length - 1)
+                if (i == c.Length - 1)
                 {
                     if (scheme.Count > 0)
                     {
@@ -118,29 +117,29 @@ namespace SCaddins.ExportManager
 
                 if (i > 0 && c[i] == '_' && c[i - 1] == '_')
                 {
-                        var n = s.Substring(i);
-                        if (n.Contains(@"__"))
+                    var n = s.Substring(i);
+                    if (n.Contains(@"__"))
+                    {
+                        var ni = n.IndexOf(@"__");
+                        i += ni;
+                        i += 1;
+                        var customParamName = n.Substring(1, ni - 1);
+                        var seg = TableCellCombinedParameterData.Create();
+                        var p = sheetParam.GetParameters(customParamName);
+                        if (p.Count > 0)
                         {
-                            var ni = n.IndexOf(@"__");
-                            i += ni;
-                            i += 1;
-                            var customParamName = n.Substring(1, ni - 1);
-                            var seg = TableCellCombinedParameterData.Create();
-                            var p = sheetParam.GetParameters(customParamName);
-                            if (p.Count > 0)
-                            {
-                                seg.ParamId = p[0].Id;
-                                seg.Prefix = prefix.Replace("_", string.Empty);
-                                prefix = string.Empty;
-                                scheme.Add(seg);
-                            }
-                        }
-                        else
-                        {
-                            var seg = TableCellCombinedParameterData.Create();
-                            prefix += c[i].ToString();
+                            seg.ParamId = p[0].Id;
+                            seg.Prefix = prefix.Replace("_", string.Empty);
+                            prefix = string.Empty;
                             scheme.Add(seg);
                         }
+                    }
+                    else
+                    {
+                        var seg = TableCellCombinedParameterData.Create();
+                        prefix += c[i].ToString();
+                        scheme.Add(seg);
+                    }
                 }
 
                 if (c[i] == '$')
@@ -202,7 +201,8 @@ namespace SCaddins.ExportManager
                                         if (Settings1.Default.ForceDateRevision || Settings1.Default.UseDateForEmptyRevisions)
                                         {
                                             seg.SampleValue = Common.MiscUtilities.GetDateString;
-                                        } else
+                                        }
+                                        else
                                         {
                                             seg.SampleValue = string.Empty;
                                         }
@@ -218,13 +218,13 @@ namespace SCaddins.ExportManager
                                         scheme.Add(seg);
                                         break;
                                 }
-                            } 
+                            }
                         }
                     }
                 }
             }
             return scheme;
         }
-        #endif
+#endif
     }
 }

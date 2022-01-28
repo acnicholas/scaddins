@@ -88,7 +88,8 @@ namespace SCaddins.ExportManager
 
                         if (!forceRaster)
                         {
-                            if (!TrySavePrintSetup(pm, "SCX-" + isoSheetSize, 1)) { 
+                            if (!TrySavePrintSetup(pm, "SCX-" + isoSheetSize, 1))
+                            {
                                 t.RollBack();
                                 return false;
                             }
@@ -96,7 +97,8 @@ namespace SCaddins.ExportManager
                         else
                         {
                             ips.PrintParameters.HiddenLineViews = HiddenLineViewsType.RasterProcessing;
-                            if (!TrySavePrintSetup(pm, "SCX-" + @"(Raster)" + isoSheetSize, 1)) {
+                            if (!TrySavePrintSetup(pm, "SCX-" + @"(Raster)" + isoSheetSize, 1))
+                            {
                                 t.RollBack();
                                 return false;
                             }
@@ -185,7 +187,9 @@ namespace SCaddins.ExportManager
                     {
                         return ps2;
                     }
-                } else {
+                }
+                else
+                {
                     if (ps2 != null && ps2.Name.ToString(CultureInfo.CurrentCulture).Equals("SCX-" + printSetting + @"(Raster)", StringComparison.CurrentCulture))
                     {
                         return ps2;
@@ -204,20 +208,24 @@ namespace SCaddins.ExportManager
         /// </summary>
         public static string GetSheetSizeAsString(ExportSheet sheet)
         {
-            if (sheet == null) {
+            if (sheet == null)
+            {
                 return string.Empty;
             }
 
             double[] p = { 1189, 841, 594, 420, 297, 210, 297, 420, 594, 841, 1189 };
             string[] s = { "A0", "A1", "A2", "A3", "A4", "A4P", "A3P", "A2P", "A1P", "A0P" };
 
-            for (int i = 0; i < s.Length; i++) {
-                if (CheckSheetSize(sheet.Width, sheet.Height, p[i], p[i + 1])) {
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (CheckSheetSize(sheet.Width, sheet.Height, p[i], p[i + 1]))
+                {
                     return s[i];
                 }
             }
 
-            if (CheckSheetSize(sheet.Width, sheet.Height, 1000, 707)) {
+            if (CheckSheetSize(sheet.Width, sheet.Height, 1000, 707))
+            {
                 return "B1";
             }
 
@@ -234,23 +242,30 @@ namespace SCaddins.ExportManager
                 bool forceRaster,
                 ExportLog log)
         {
-            if (pm == null) {
+            if (pm == null)
+            {
                 return false;
             }
 
             PrintSetting ps = LoadRevitPrintSetting(doc, size, pm, printerName, forceRaster, log);
-            
-            if (ps == null) {
+
+            if (ps == null)
+            {
                 return false;
             }
-            
+
             var t = new Transaction(doc, Resources.ApplyPrintSettings);
             t.Start();
-            try {
-                if (ps.IsValidObject) {
+            try
+            {
+                if (ps.IsValidObject)
+                {
                     pm.PrintSetup.CurrentPrintSetting = ps;
-                } else {
-                    if (log != null) {
+                }
+                else
+                {
+                    if (log != null)
+                    {
                         log.AddWarning(null, Resources.WarningPrintSetupReadOnly);
                     }
                 }
@@ -272,9 +287,12 @@ namespace SCaddins.ExportManager
                 pm.Apply();
                 t.Commit();
                 return true;
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 System.Diagnostics.Debug.Print(ex.Message);
-                if (log != null) {
+                if (log != null)
+                {
                     log.AddError(null, ex.ToString());
                 }
                 t.RollBack();
@@ -335,16 +353,20 @@ namespace SCaddins.ExportManager
         public static bool SetPrinterByName(
                 Document doc, string name, PrintManager pm)
         {
-            if (string.IsNullOrEmpty(name) || pm == null) {
+            if (string.IsNullOrEmpty(name) || pm == null)
+            {
                 return false;
             }
             var t = new Transaction(doc, Resources.SetPrinter);
             t.Start();
-            try {
+            try
+            {
                 pm.SelectNewPrintDriver(name);
                 t.Commit();
                 return true;
-            } catch (InvalidOperationException e) {
+            }
+            catch (InvalidOperationException e)
+            {
                 var msg = "Print driver " + name + " not found.  Exiting now. Message: " + e.Message;
                 SCaddinsApp.WindowManager.ShowMessageBox("SCexport", msg);
                 t.RollBack();
@@ -359,21 +381,23 @@ namespace SCaddins.ExportManager
                 string printerName,
                 bool forceRaster,
                 ExportLog log)
-        {       
+        {
             log.AddMessage(Resources.MessageAttemptingToLoadRevitPrintSettings + size);
             PrintSetting ps = GetPrintSettingByName(doc, size, forceRaster);
 
-            if (ps == null) {
+            if (ps == null)
+            {
                 log.AddError(null, Resources.ErrorRetrievingRevitPrintSettingsFAILED);
                 return null;
             }
-            
+
             log.AddMessage(Resources.MessageUsingPrinter + printerName);
-            if (!SetPrinterByName(doc, printerName, pm)) {
+            if (!SetPrinterByName(doc, printerName, pm))
+            {
                 log.AddError(null, Resources.MessageCannotSetPrinter + printerName);
                 return null;
-            } 
-            
+            }
+
             return ps;
         }
     }

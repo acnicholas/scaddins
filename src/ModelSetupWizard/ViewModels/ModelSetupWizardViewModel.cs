@@ -48,10 +48,13 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             FileName = doc.PathName;
 
             var iniFile = IniIO.GetIniFile(doc);
-            if (iniFile.Length > 0) {
+            if (iniFile.Length > 0)
+            {
                 var colors = IniIO.ReadColours(iniFile);
                 Colours = new BindableCollection<System.Windows.Media.Color>(colors);
-            } else {
+            }
+            else
+            {
                 SCaddinsApp.WindowManager.ShowMessageBox(iniFile + " does not exist");
             }
 
@@ -77,14 +80,17 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             }
             foreach (var winf in optionsVm.Worksets)
             {
-                if (Worksets.Select(w => w.Name.Trim()).Contains(winf.Name.Trim())) {
+                if (Worksets.Select(w => w.Name.Trim()).Contains(winf.Name.Trim()))
+                {
                     continue;
                 }
-                if (!Worksets.Select(w => w.Name).Contains(winf.ExistingName.Trim())) {
+                if (!Worksets.Select(w => w.Name).Contains(winf.ExistingName.Trim()))
+                {
                     Worksets.Add(winf);
                 }
                 var match = Worksets.Where(w => w.Name.Trim() == winf.ExistingName.Trim());
-                if (match.Any()) {
+                if (match.Any())
+                {
                     match.First().Name = winf.Name;
                 }
             }
@@ -122,7 +128,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             }
         }
 
-        public NominatedArchitect SelectedNominatedArchitect {
+        public NominatedArchitect SelectedNominatedArchitect
+        {
             get
             {
                 return selectedNominatedArchitect;
@@ -133,7 +140,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
                 selectedNominatedArchitect = value;
                 var name = ProjectInformation.Where(p => p.Name == ModelSetupWizardSettings.Default.NomArchitectParamName).ToList();
                 var id = ProjectInformation.Where(p => p.Name == ModelSetupWizardSettings.Default.NomArchitectNoumberParamName).ToList();
-                if (name.Count == 1 && id.Count == 1) {
+                if (name.Count == 1 && id.Count == 1)
+                {
                     name[0].Value = selectedNominatedArchitect.Name;
                     id[0].Value = selectedNominatedArchitect.Id;
                     NotifyOfPropertyChange(() => ProjectInformation);
@@ -146,7 +154,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             get; private set;
         }
 
-        public BindableCollection<ColourScheme> ColourSchemes {
+        public BindableCollection<ColourScheme> ColourSchemes
+        {
             get; private set;
         }
 
@@ -160,7 +169,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             set
             {
                 selectedColourScheme = value;
-                for (int i = 0; i < selectedColourScheme.Colors.Count; i++) {
+                for (int i = 0; i < selectedColourScheme.Colors.Count; i++)
+                {
                     Colours[i] = selectedColourScheme.Colors[i];
                 }
                 NotifyOfPropertyChange(() => SelectedColourScheme);
@@ -173,7 +183,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             get; set;
         }
 
-        public List<ProjectInformationParameter> SelectedProjectInformations {
+        public List<ProjectInformationParameter> SelectedProjectInformations
+        {
             get; private set;
         }
 
@@ -216,9 +227,12 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             ModelSetupWizardUtilities.ApplyProjectInfoModifications(doc, ProjectInformation.ToList(), ref projectInfoLog);
 
             var iniFile = IniIO.GetIniFile(doc);
-            if (iniFile.Length > 0) {
+            if (iniFile.Length > 0)
+            {
                 IniIO.WriteColours(iniFile, Colours.ToList());
-            } else {
+            }
+            else
+            {
                 SCaddinsApp.WindowManager.ShowMessageBox(iniFile + " does not exist");
             }
 
@@ -237,8 +251,10 @@ namespace SCaddins.ModelSetupWizard.ViewModels
 
         public void ConvertSelectedItemsToUpperCase()
         {
-            foreach (var p in SelectedProjectInformations) {
-                if (string.IsNullOrEmpty(p.Value)) {
+            foreach (var p in SelectedProjectInformations)
+            {
+                if (string.IsNullOrEmpty(p.Value))
+                {
                     continue;
                 }
                 p.Value = p.Value.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
@@ -286,9 +302,10 @@ namespace SCaddins.ModelSetupWizard.ViewModels
 
         public void ResetSelectedProjectInfo()
         {
-            foreach (var pinf in SelectedProjectInformations) {
+            foreach (var pinf in SelectedProjectInformations)
+            {
                 pinf.Value = pinf.OriginalValue;
-            }       
+            }
         }
 
         public void WorksetsSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs args)

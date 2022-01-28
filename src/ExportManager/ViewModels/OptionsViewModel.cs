@@ -19,14 +19,13 @@ namespace SCaddins.ExportManager.ViewModels
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Dynamic;
     using System.Linq;
     using Caliburn.Micro;
 
     internal class OptionsViewModel : PropertyChangedBase
     {
-        private Manager exportManager;
+        private readonly Manager exportManager;
         private BindableCollection<string> fileNamingSchemes;
         private string selectedFileNamingScheme;
 
@@ -41,7 +40,8 @@ namespace SCaddins.ExportManager.ViewModels
             selectedFileNamingScheme = exportManager.FileNameScheme.Name;
         }
 
-        public static List<Autodesk.Revit.DB.ACADVersion> AutoCADExportVersions {
+        public static List<Autodesk.Revit.DB.ACADVersion> AutoCADExportVersions
+        {
             get
             {
                 var versions = Enum.GetValues(typeof(Autodesk.Revit.DB.ACADVersion)).Cast<Autodesk.Revit.DB.ACADVersion>().ToList();
@@ -75,7 +75,8 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value == Settings1.Default.UseRasterPrinterParameter) {
+                if (value == Settings1.Default.UseRasterPrinterParameter)
+                {
                     return;
                 }
                 Settings1.Default.UseRasterPrinterParameter = value;
@@ -537,7 +538,8 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value == exportManager.PrinterNameLargeFormat) {
+                if (value == exportManager.PrinterNameLargeFormat)
+                {
                     return;
                 }
                 exportManager.PrinterNameLargeFormat = value;
@@ -556,7 +558,8 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value == selectedFileNamingScheme) {
+                if (value == selectedFileNamingScheme)
+                {
                     return;
                 }
                 if (value == null)
@@ -600,7 +603,8 @@ namespace SCaddins.ExportManager.ViewModels
             settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
             var printerViewModel = new PrinterSelectionViewModel(currentPrinter);
             bool? result = SCaddinsApp.WindowManager.ShowDialog(printerViewModel, null, settings);
-            if (result.HasValue) {
+            if (result.HasValue)
+            {
                 return result.Value ? printerViewModel.SelectedPrinter : currentPrinter;
             }
             return currentPrinter;
@@ -635,8 +639,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void SelectExportDirectory()
         {
-            string dir;
-            var result = SCaddinsApp.WindowManager.ShowDirectorySelectionDialog(ExportDirectory, out dir);
+            var result = SCaddinsApp.WindowManager.ShowDirectorySelectionDialog(ExportDirectory, out string dir);
             if (result.HasValue && result.Value)
             {
                 ExportDirectory = dir;

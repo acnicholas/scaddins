@@ -35,6 +35,6 @@ namespace SCaddins.SpellChecker
             bool? result = SCaddinsApp.WindowManager.ShowDialog(viewModel, null, ViewModels.SpellCheckerViewModel.DefaultWindowSettings);
 
             return Result.Succeeded;
-        }    
+        }
     }
 }

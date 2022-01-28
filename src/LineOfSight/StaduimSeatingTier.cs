@@ -109,13 +109,18 @@ namespace SCaddins.LineOfSight
 
             set
             {
-                if (Math.Abs(distanceToFirstRowX - value) > tolerance) {
-                    try {
+                if (Math.Abs(distanceToFirstRowX - value) > tolerance)
+                {
+                    try
+                    {
                         distanceToFirstRowX = value;
-                        if (distanceToFirstRowX > 1) {
+                        if (distanceToFirstRowX > 1)
+                        {
                             UpdateRows();
                         }
-                    } catch {
+                    }
+                    catch
+                    {
                         ////FIXME
                     }
                 }
@@ -128,7 +133,8 @@ namespace SCaddins.LineOfSight
 
             set
             {
-                if (Math.Abs(distanceToFirstRowY - value) > tolerance) {
+                if (Math.Abs(distanceToFirstRowY - value) > tolerance)
+                {
                     distanceToFirstRowY = value;
                     UpdateRows();
                 }
@@ -141,7 +147,8 @@ namespace SCaddins.LineOfSight
 
             set
             {
-                if (!(Math.Abs(eyeHeight - value) > tolerance)) {
+                if (!(Math.Abs(eyeHeight - value) > tolerance))
+                {
                     return;
                 }
                 eyeHeight = value;
@@ -229,15 +236,16 @@ namespace SCaddins.LineOfSight
                     .OfClass(typeof(ViewFamilyType))
                     .Cast<ViewFamilyType>()
                     .FirstOrDefault(x => ViewFamily.Drafting == x.ViewFamily);
-            if (viewFamilyType == null) {
+            if (viewFamilyType == null)
+            {
                 return null;
             }
             var viewDrafting = ViewDrafting.Create(doc, viewFamilyType.Id);
-            #if REVIT2019 || REVIT2020 || REVIT2021 || REVIT2022
+#if REVIT2019 || REVIT2020 || REVIT2021 || REVIT2022
             viewDrafting.Name = newViewName;
-            #else
+#else
             view.ViewName = newViewName;
-            #endif
+#endif
             return viewDrafting;
         }
 

@@ -91,7 +91,8 @@ namespace SCaddins.RenameUtilities
             }
         }
 
-        public RenameCommand ActiveRenameCommand {
+        public RenameCommand ActiveRenameCommand
+        {
             get => renameCommand;
             set => renameCommand = value;
         }
@@ -115,47 +116,60 @@ namespace SCaddins.RenameUtilities
 
         public static Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByCategoryName(string parameterCategory, Document doc)
         {
-            if (parameterCategory == "Areas") {
+            if (parameterCategory == "Areas")
+            {
                 return GetParametersByCategory(BuiltInCategory.OST_Areas, doc);
             }
-            if (parameterCategory == "Rooms") {
+            if (parameterCategory == "Rooms")
+            {
                 return GetParametersByCategory(BuiltInCategory.OST_Rooms, doc);
             }
-            if (parameterCategory == "Views") {
+            if (parameterCategory == "Views")
+            {
                 return GetParametersByCategory(BuiltInCategory.OST_Views, doc);
             }
-            if (parameterCategory == "Sheets") {
+            if (parameterCategory == "Sheets")
+            {
                 return GetParametersByCategory(BuiltInCategory.OST_Sheets, doc);
             }
-            if (parameterCategory == "Walls") {
+            if (parameterCategory == "Walls")
+            {
                 return GetParametersByCategory(BuiltInCategory.OST_Walls, doc);
             }
-            if (parameterCategory == "Doors") {
+            if (parameterCategory == "Doors")
+            {
                 return GetParametersByCategory(BuiltInCategory.OST_Doors, doc);
             }
-            if (parameterCategory == "Windows") {
+            if (parameterCategory == "Windows")
+            {
                 return GetParametersByCategory(BuiltInCategory.OST_Windows, doc);
             }
-            if (parameterCategory == "Grids") {
+            if (parameterCategory == "Grids")
+            {
                 return GetParametersByType(typeof(Grid), doc);
             }
-            if (parameterCategory == "Levels") {
+            if (parameterCategory == "Levels")
+            {
                 return GetParametersByCategory(BuiltInCategory.OST_Levels, doc);
             }
-            if (parameterCategory == "Floors") {
+            if (parameterCategory == "Floors")
+            {
                 return GetParametersByCategory(BuiltInCategory.OST_Floors, doc);
             }
-            if (parameterCategory == @"Text") {
+            if (parameterCategory == @"Text")
+            {
                 return GetParametersByCategory(BuiltInCategory.OST_TextNotes, doc);
             }
             if (parameterCategory == "Families")
             {
                 return GetFamilyParameters(doc);
             }
-            if (parameterCategory == @"Project Information") {
+            if (parameterCategory == @"Project Information")
+            {
                 return GetParametersByCategory(BuiltInCategory.OST_ProjectInformation, doc);
             }
-            if (parameterCategory == @"Model Groups") {
+            if (parameterCategory == @"Model Groups")
+            {
                 return GetModelGroupParameters(doc);
             }
             return new Caliburn.Micro.BindableCollection<RenameParameter>();
@@ -163,19 +177,24 @@ namespace SCaddins.RenameUtilities
 
         public static string Increment(string val, string search, string replace)
         {
-            if (string.IsNullOrEmpty(val) || string.IsNullOrEmpty(search)) {
+            if (string.IsNullOrEmpty(val) || string.IsNullOrEmpty(search))
+            {
                 return val;
             }
             var match = Regex.Match(val, search);
-            if (match.Success) {
+            if (match.Success)
+            {
                 var matchLength = match.Groups[1].Value.Length;
-                if (int.TryParse(match.Groups[1].Value, out int n) && int.TryParse(replace, out int incVal)) {
+                if (int.TryParse(match.Groups[1].Value, out int n) && int.TryParse(replace, out int incVal))
+                {
                     var i = n + incVal;
                     var firstPart = val.Substring(0, match.Groups[1].Index);
                     var secondPart = val.Substring(match.Groups[1].Index + match.Groups[1].Length);
                     var pad = string.Empty;
-                    if (i > 0) {
-                        for (var j = (int)Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++) {
+                    if (i > 0)
+                    {
+                        for (var j = (int)Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++)
+                        {
                             pad += "0";
                         }
                     }
@@ -188,13 +207,17 @@ namespace SCaddins.RenameUtilities
         public static string IncrementLast(string val, string search, string replace)
         {
             var match = Regex.Match(val, search);
-            if (match.Success) {
+            if (match.Success)
+            {
                 var matchLength = match.Groups[2].Value.Length;
-                if (int.TryParse(match.Groups[2].Value, out int n) && int.TryParse(replace, out int incVal)) {
+                if (int.TryParse(match.Groups[2].Value, out int n) && int.TryParse(replace, out int incVal))
+                {
                     var i = n + incVal;
                     string pad = string.Empty;
-                    if (i > 0) {
-                        for (int j = (int)Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++) {
+                    if (i > 0)
+                    {
+                        for (int j = (int)Math.Floor(Math.Log10(i)); j < (matchLength - 1); j++)
+                        {
                             pad += "0";
                         }
                     }
@@ -297,21 +320,30 @@ namespace SCaddins.RenameUtilities
             }
             renameCandidates.Clear();
             FilteredElementCollector collector;
-            if (elements == null) {
+            if (elements == null)
+            {
                 collector = new FilteredElementCollector(doc);
-            } else {
+            }
+            else
+            {
                 collector = new FilteredElementCollector(doc, elements);
             }
-            if (t != null) {
+            if (t != null)
+            {
                 collector.OfClass(t);
-            } else {
+            }
+            else
+            {
                 collector.OfCategory(category);
             }
-            foreach (Element element in collector) {
+            foreach (Element element in collector)
+            {
                 var p = element.GetParameters(parameter.Definition.Name);
-                if (p.Count > 0) {
+                if (p.Count > 0)
+                {
                     var rc = new RenameCandidate(p[0]);
-                    if (!string.IsNullOrEmpty(rc.OldValue)) {
+                    if (!string.IsNullOrEmpty(rc.OldValue))
+                    {
                         rc.NewValue = renameCommand.Rename(rc.OldValue);
                         renameCandidates.Add(rc);
                     }
@@ -322,7 +354,8 @@ namespace SCaddins.RenameUtilities
         private static Caliburn.Micro.BindableCollection<RenameParameter> GetParametersByCategory(BuiltInCategory category, Document doc)
         {
             Caliburn.Micro.BindableCollection<RenameParameter> parametersList = new Caliburn.Micro.BindableCollection<RenameParameter>();
-            if (category == BuiltInCategory.OST_TextNotes) {
+            if (category == BuiltInCategory.OST_TextNotes)
+            {
                 parametersList.Add(new RenameParameter(category));
                 return parametersList;
             }
@@ -331,19 +364,23 @@ namespace SCaddins.RenameUtilities
             collector.OfCategory(category);
             var elem = collector.FirstElement();
             var elem2 = collector.ToElements()[collector.GetElementCount() - 1];
-            if (elem2.Parameters.Size > elem.Parameters.Size) {
+            if (elem2.Parameters.Size > elem.Parameters.Size)
+            {
                 elem = elem2;
             }
 
-            if (category == BuiltInCategory.OST_Levels || category == BuiltInCategory.OST_Grids) {
+            if (category == BuiltInCategory.OST_Levels || category == BuiltInCategory.OST_Grids)
+            {
                 ////Parameter param = elem.GetParameters("Name").FirstOrDefault();
                 Parameter param = elem.LookupParameter("Name");
                 parametersList.Add(new RenameParameter(param, category));
                 return parametersList;
             }
 
-            foreach (Parameter param in elem.Parameters) {
-                if (param.StorageType == StorageType.String && !param.IsReadOnly) {
+            foreach (Parameter param in elem.Parameters)
+            {
+                if (param.StorageType == StorageType.String && !param.IsReadOnly)
+                {
                     parametersList.Add(new RenameParameter(param, category));
                 }
             }
