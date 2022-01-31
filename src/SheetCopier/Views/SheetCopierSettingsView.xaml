@@ -13,7 +13,12 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <GroupBox Header="Additional Sheet Parameters">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <GroupBox Header="Additional Sheet Parameters" Grid.Row="0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -33,7 +38,7 @@
                 <TextBox x:Name="SecondaryCustomSheetParameter" Grid.Row="2" Grid.Column="1" Margin="5"></TextBox>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Revisions">
+        <GroupBox Header="Revisions" Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -44,5 +49,6 @@
                 <CheckBox x:Name="DeleteRevisionClouds">Delete Revision Clouds From Source View</CheckBox>
             </Grid>
         </GroupBox>
+        </Grid>
     </Grid>
 </UserControl>
