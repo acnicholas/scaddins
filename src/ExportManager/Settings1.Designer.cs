@@ -283,5 +283,17 @@ namespace SCaddins.ExportManager {
                 this["ExportAdditionalViewports"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Custom Parameter Name")]
+        public string CustomSCExportParameter01 {
+            get {
+                return ((string)(this["CustomSCExportParameter01"]));
+            }
+            set {
+                this["CustomSCExportParameter01"] = value;
+            }
+        }
     }
 }

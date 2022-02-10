@@ -48,6 +48,7 @@ namespace SCaddins.ExportManager
         private SegmentedSheetName segmentedFileName;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "sheet")]
         private ViewSheet sheet;
+        private string customParameter01;
         private string sheetDescription;
         private string sheetNumber;
         private string sheetRevision;
@@ -74,6 +75,23 @@ namespace SCaddins.ExportManager
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public string CustomParameter01
+        {
+            get
+            {
+                return customParameter01;
+            }
+
+            set
+            {
+                if (customParameter01 != value)
+                {
+                    customParameter01 = value;
+                    NotifyPropertyChanged(nameof(CustomParameter01));
+                }
+            }
+        }
 
         public string ExportDirectory
         {
@@ -380,6 +398,16 @@ namespace SCaddins.ExportManager
             get { return width * 304.8; }
         }
 
+        public static string GetCustomParameterValueAsString(ViewSheet sheet)
+        {
+            Parameter p = sheet.LookupParameter(Settings1.Default.CustomSCExportParameter01);
+            if (p != null)
+            {
+                return p.AsValueString();
+            }
+            return @"N\A";
+        }
+
         public static bool? GetNorthPointVisibility(Element titleBlock)
         {
             if (titleBlock == null)
@@ -510,6 +538,27 @@ namespace SCaddins.ExportManager
             b = turnOn ? 1 : 0;
             p.Set(b);
             NorthPointVisible = turnOn;
+        }
+
+        public void ToggleParameterByName(bool turnOn, string paramName)
+        {
+            var sheet = this.Sheet.GetParameters(paramName);
+            if (sheet == null || sheet.Count < 1)
+            {
+                return;
+            }
+            Parameter p = sheet[0];
+            int b = p.AsInteger();
+            if (b == 2)
+            {
+                return;
+            }
+            b = turnOn ? 1 : 0;
+            if (p.IsReadOnly == false)
+            {
+                p.Set(b);
+            }
+            UpdateSheetInfo();
         }
 
         public void ToggleTitleParameterByName(bool turnOn, string paramName)
@@ -657,6 +706,7 @@ namespace SCaddins.ExportManager
                 scale = titleBlock.get_Parameter(
                     BuiltInParameter.SHEET_SCALE).AsString();
                 scaleBarScale = GetScaleBarScale(titleBlock);
+                CustomParameter01 = GetCustomParameterValueAsString(this.Sheet);
                 NorthPointVisible = GetNorthPointVisibility(titleBlock);
                 width = titleBlock.get_Parameter(
                         BuiltInParameter.SHEET_WIDTH).AsDouble();

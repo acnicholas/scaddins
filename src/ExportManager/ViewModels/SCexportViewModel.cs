@@ -107,6 +107,14 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public string CustomParameter01Name
+        {
+            get
+            {
+                return Settings1.Default.CustomSCExportParameter01;
+            }
+        }
+
         public bool CanPrint
         {
             get
@@ -806,7 +814,31 @@ namespace SCaddins.ExportManager.ViewModels
                     if (item.Value.HasValue)
                     {
                         //// SCaddinsApp.WindowManager.ShowMessageBox(item.Name);
-                        Manager.ToggleBooleanParameter(selectedSheets, exportManager.Doc, item.Value.Value, item.Name);
+                        Manager.ToggleBooleanParameter(selectedSheets, exportManager.Doc, item.Value.Value, item.Name, true);
+                    }
+                }
+            }
+        }
+
+        public void ToggleSelectedTitleblockParameters()
+        {
+            var yesNoParameters = Manager.GetYesNoTitleblockParameters(selectedSheets, exportManager.Doc);
+
+            var toggleSelectedSheetParametersViewModel = new ToggleSelectedSheetParametersViewModel(
+                exportManager.Doc, yesNoParameters);
+            bool? result = SCaddinsApp.WindowManager.ShowDialog(
+                toggleSelectedSheetParametersViewModel,
+                null,
+                ToggleSelectedSheetParametersViewModel.DefaultWindowSettings);
+            if (result.HasValue && result.Value == true)
+            {
+                //// SCaddinsApp.WindowManager.ShowMessageBox("OK");
+                foreach (var item in toggleSelectedSheetParametersViewModel.YesNoParameters)
+                {
+                    if (item.Value.HasValue)
+                    {
+                        //// SCaddinsApp.WindowManager.ShowMessageBox(item.Name);
+                        Manager.ToggleBooleanParameter(selectedSheets, exportManager.Doc, item.Value.Value, item.Name, false);
                     }
                 }
             }

@@ -66,6 +66,24 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public static string CustomParameter01Name
+        {
+            get
+            {
+                return Settings1.Default.CustomSCExportParameter01;
+            }
+
+            set
+            {
+                if (value == Settings1.Default.UseRasterPrinterParameter)
+                {
+                    return;
+                }
+                Settings1.Default.CustomSCExportParameter01 = value;
+                Settings1.Default.Save();
+            }
+        }
+
         public static string ForceRasterPrintParameterName
         {
             get

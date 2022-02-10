@@ -431,7 +431,7 @@ namespace SCaddins.ExportManager
             }
         }
 
-        public static void ToggleBooleanParameter(ICollection<ExportSheet> sheets, Document doc, bool turnOn, string paramName)
+        public static void ToggleBooleanParameter(ICollection<ExportSheet> sheets, Document doc, bool turnOn, string paramName, bool isSheet)
         {
             if (sheets == null)
             {
@@ -443,7 +443,14 @@ namespace SCaddins.ExportManager
                 {
                     foreach (ExportSheet sheet in sheets)
                     {
-                        sheet.ToggleTitleParameterByName(turnOn, paramName);
+                        if (isSheet)
+                        {
+                            sheet.ToggleParameterByName(turnOn, paramName);
+                        }
+                        else
+                        {
+                            sheet.ToggleTitleParameterByName(turnOn, paramName);
+                        }
                     }
                     if (t.Commit() != TransactionStatus.Committed)
                     {
@@ -454,13 +461,45 @@ namespace SCaddins.ExportManager
         }
 
         // FIXME. Move this somewhere else and tidy it up.
-        public static List<YesNoParameter> GetYesNoSheetParameters(ICollection<ExportSheet> sheets, Document doc)
+        public static List<YesNoParameter> GetYesNoTitleblockParameters(ICollection<ExportSheet> sheets, Document doc)
         {
             var yesNoParameters = new List<YesNoParameter>();
             foreach (ExportSheet sheet in sheets)
             {
                 var titleBlock = Manager.TitleBlockInstanceFromSheetNumber(sheet.SheetNumber, doc);
                 var parameters = titleBlock.Parameters;
+                foreach (var parameter in parameters)
+                {
+                    var p = parameter as Parameter;
+#if REVIT2022
+                    if (!yesNoParameters.Select(s => s.Name).Contains(p.Definition.Name)
+                        && !(p.Element is ElementType)
+                        && !p.IsReadOnly
+                        && p.Definition.GetDataType() == SpecTypeId.Boolean.YesNo)
+                    {
+                        yesNoParameters.Add(new YesNoParameter(p.Definition.Name, null));
+                    }
+#else
+                    if (!yesNoParameters.Select(s => s.Name).Contains(p.Definition.Name)
+                        && !(p.Element is ElementType)
+                        && !p.IsReadOnly
+                        && p.Definition.ParameterType == ParameterType.YesNo)
+                    {
+                        yesNoParameters.Add(new YesNoParameter(p.Definition.Name, null));
+                    }
+#endif
+                }
+            }
+            return yesNoParameters;
+        }
+
+        // FIXME. Move this somewhere else and tidy it up.
+        public static List<YesNoParameter> GetYesNoSheetParameters(ICollection<ExportSheet> sheets, Document doc)
+        {
+            var yesNoParameters = new List<YesNoParameter>();
+            foreach (ExportSheet sheet in sheets)
+            {
+                var parameters = sheet.Sheet.Parameters;
                 foreach (var parameter in parameters)
                 {
                     var p = parameter as Parameter;

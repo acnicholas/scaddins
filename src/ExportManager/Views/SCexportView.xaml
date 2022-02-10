@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:SCaddins.ExportManager.Views"
     mc:Ignorable="d"
     x:Class="SCaddins.ExportManager.Views.SCexportView"
     cal:Message.Attach="[Event KeyDown] = [KeyPressed($eventArgs)]"
@@ -135,62 +136,60 @@
             </DataGrid.RowStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn 
-                  
+                <DataGridTextColumn                 
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Export Name"
                     Binding="{Binding FullExportName}" />
-                <DataGridTextColumn
-                   
+                <DataGridTextColumn            
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Number"
                     Binding="{Binding SheetNumber}" />
-                <DataGridTextColumn
-         
+                <DataGridTextColumn        
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Name"
                     Binding="{Binding SheetDescription}">
                 </DataGridTextColumn>
                 <DataGridTextColumn
-   
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Revision"
                     Binding="{Binding SheetRevision}"/>
-                <DataGridTextColumn
-                    
+                <DataGridTextColumn                  
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Revision Description"
                     Binding="{Binding SheetRevisionDescription}" />
-                <DataGridTextColumn
-                  
+                <DataGridTextColumn             
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Revision Date"
                     Binding="{Binding SheetRevisionDate}" />
-                <DataGridTextColumn
-                 
+                <DataGridTextColumn               
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Export Directory"
                     Binding="{Binding ExportDirectory}" />
-                <DataGridTextColumn
-                 
+                <DataGridTextColumn               
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Scale"
                     Binding="{Binding Scale}" />
-                <DataGridTextColumn
-                
+                <DataGridTextColumn              
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="North Point"
                     Binding="{Binding NorthPointVisibilityString}" />
-                <DataGridTextColumn
-                  
+                <DataGridTextColumn                 
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Show In Schedule"
                     Binding="{Binding AppearsInSheetList}" />
-                <DataGridTextColumn
-                    
+                <DataGridTextColumn                   
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Print Setting"
                     Binding="{Binding PrintSettingName}" />
+                <DataGridTextColumn           
+                    ElementStyle="{StaticResource ColumnElementStyle}"
+                    Binding="{Binding CustomParameter01}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                        <TextBlock Text="{Binding DataContext.CustomParameter01Name, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type local:SCexportView}}}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
@@ -312,7 +311,13 @@
                                 Source="/SCaddins;component/Assets/north_off.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="Bulk Edit Selected Title Block [Yes/No] Parameters" cal:Message.Attach="ToggleSelectedSheetParameters">
+                    <MenuItem Header="Bulk Edit Selected Sheet [Yes/No] Parameters" cal:Message.Attach="ToggleSelectedSheetParameters">
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/SCaddins;component/Assets/edit2.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Bulk Edit Selected Title Block [Yes/No] Parameters" cal:Message.Attach="ToggleSelectedTitleblockParameters">
                         <MenuItem.Icon>
                             <Image
                                 Source="/SCaddins;component/Assets/edit2.png" />
