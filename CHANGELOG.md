@@ -1,5 +1,10 @@
 # SCaddins Revision Log #
 
+# 22.1.0 #
+
+- Add custom sheet parameter column to SCexport GUI.
+- Add option to bulk assign a value to any Yes/No instance parameter on a sheet (SCexport).
+
 # 22.0.0 #
 
 - Initial Revit Build 2022.
@@ -7,6 +12,14 @@
 - Native Revit PDF Export enabled for Revit 2022.
 - Add Areas to Rename Tool.
 - Add Areas to Increment Tool.
+- Remove Revit 2016-1017 support.
+- Add align tool to SCexport.
+- Add help icon to SCexport context menu.
+- Add help icon to Sheet Copier.
+- Add option not to delete revision clouds to Sheet Copier.
+- Add Separate PDF and DWG naming rule options to config file.
+- Add "element Information" tool.
+- Add option to bulk assign a value to any Yes/No instance parameter on a title-block family (SCexport).
 
 # 21.4.2 #
 
