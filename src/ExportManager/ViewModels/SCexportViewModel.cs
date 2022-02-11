@@ -603,6 +603,11 @@ namespace SCaddins.ExportManager.ViewModels
                 DataGrid grid = FindVisualParent<DataGrid>(menuItem);
                 int index = cellPanel.Children.IndexOf(cell);
                 currentColumnHeader = grid.Columns[index].Header.ToString();
+                if (currentColumnHeader == @"Custom Parameter 01")
+                {
+                    currentColumnHeader = CustomParameter01Name; // FIXME. there's a better way to do this.
+                    // SCaddinsApp.WindowManager.ShowMessageBox(CustomParameter01Name);
+                }
             }
             catch
             {

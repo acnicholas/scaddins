@@ -19,6 +19,12 @@
         public Predicate<object> GetFilter()
         {
             string properyName = FilterPropertyName;
+            if (properyName == Settings1.Default.CustomSCExportParameter01)
+            {
+                properyName = "CustomParameter01";
+                return item => item.GetType().GetProperty(properyName).GetValue(item, null).ToString().Equals(FilterValue, StringComparison.InvariantCulture);
+            }
+
             switch (FilterPropertyName)
             {
                 case "Export Name":

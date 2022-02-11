@@ -183,6 +183,7 @@
                     Binding="{Binding PrintSettingName}" />
                 <DataGridTextColumn           
                     ElementStyle="{StaticResource ColumnElementStyle}"
+                    Header="Custom Parameter 01"
                     Binding="{Binding CustomParameter01}">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>

@@ -80,7 +80,7 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return customParameter01;
+                return customParameter01 != null ? customParameter01 : string.Empty ;
             }
 
             set
