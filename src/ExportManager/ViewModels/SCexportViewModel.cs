@@ -94,7 +94,97 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public static string ExportButtonLabel => @"Export";
+        // FIXME, export and print are confusing as you "print" a pdf.
+        public string ExportButtonLabel
+        {
+                get
+                {
+                        var s = "Export ";  
+                        if (ExportDirectPDF || ExportPDF)
+                        {
+                                s += "PDF";
+                        }
+                        if (ExportDWG)
+                        {
+                                if (s.Length > 7)
+                                {
+                                        s += " & DWG";
+                                } else {
+                                        s += "DWG";
+                                }
+                        }
+                        return s;
+                }
+        }
+
+        public bool ExportDWG
+        {
+            get
+            {
+                return exportManager.HasExportOption(ExportOptions.DWG);
+            }
+
+            set
+            {
+                if (value)
+                {
+                    exportManager.AddExportOption(ExportOptions.DWG);
+                }
+                else
+                {
+                    exportManager.RemoveExportOption(ExportOptions.DWG);
+                }
+                NotifyOfPropertyChange(() => ExportDWG);
+                NotifyOfPropertyChange(() => ExportButtonLabel);
+                NotifyOfPropertyChange(() => StatusText);
+            }
+        }
+
+        public bool ExportDirectPDF
+        {
+            get
+            {
+                return exportManager.HasExportOption(ExportOptions.DirectPDF);
+            }
+
+            set
+            {
+                if (value)
+                {
+                    exportManager.AddExportOption(ExportOptions.DirectPDF);
+                }
+                else
+                {
+                    exportManager.RemoveExportOption(ExportOptions.DirectPDF);
+                }
+                NotifyOfPropertyChange(() => ExportDirectPDF);
+                NotifyOfPropertyChange(() => ExportButtonLabel);
+                NotifyOfPropertyChange(() => StatusText);
+            }
+        }
+
+        public bool ExportPDF
+        {
+            get
+            {
+                return exportManager.HasExportOption(ExportOptions.PDF);
+            }
+
+            set
+            {
+                if (value)
+                {
+                    exportManager.AddExportOption(ExportOptions.PDF);
+                }
+                else
+                {
+                    exportManager.RemoveExportOption(ExportOptions.PDF);
+                }
+                NotifyOfPropertyChange(() => ExportPDF);
+                NotifyOfPropertyChange(() => ExportButtonLabel);
+                NotifyOfPropertyChange(() => StatusText);
+            }
+        }
 
         public bool CanExport
         {
@@ -300,6 +390,7 @@ namespace SCaddins.ExportManager.ViewModels
                 NotifyOfPropertyChange(() => CanPrint);
                 NotifyOfPropertyChange(() => CanExport);
                 NotifyOfPropertyChange(() => StatusText);
+                NotifyOfPropertyChange(() => ExportButtonLabel);
             }
         }
 
@@ -353,11 +444,11 @@ namespace SCaddins.ExportManager.ViewModels
                 {
                     list.Add("PDF");
                 }
-                if (exportManager.HasExportOption(ExportOptions.DirectPDF))
+                if (ExportDirectPDF)
                 {
                     list.Add("rPDF");
                 }
-                if (exportManager.HasExportOption(ExportOptions.DWG))
+                if (ExportDWG)
                 {
                     list.Add("DWG");
                 }
@@ -511,12 +602,14 @@ namespace SCaddins.ExportManager.ViewModels
                 case Key.D:
                     exportManager.ToggleExportOption(ExportOptions.DWG);
                     NotifyOfPropertyChange(() => StatusText);
+                    NotifyOfPropertyChange(() => ExportButtonLabel);
                     break;
 
                 case Key.N:
 #if REVIT2022
                     exportManager.ToggleExportOption(ExportOptions.DirectPDF);
                     NotifyOfPropertyChange(() => StatusText);
+                    NotifyOfPropertyChange(() => ExportButtonLabel);
 #endif
                     break;
 
@@ -531,6 +624,7 @@ namespace SCaddins.ExportManager.ViewModels
                 case Key.P:
                     exportManager.ToggleExportOption(ExportOptions.PDF);
                     NotifyOfPropertyChange(() => StatusText);
+                    NotifyOfPropertyChange(() => ExportButtonLabel);
                     break;
 
                 case Key.S:
@@ -645,9 +739,13 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void OptionsButton()
         {
-            var optionsModel = new OptionsViewModel(exportManager);
+            this.IsNotifying = false;
+            var optionsModel = new OptionsViewModel(exportManager, this);
             SCaddinsApp.WindowManager.ShowWindow(optionsModel, null, ViewModels.OptionsViewModel.DefaultWindowSettings);
+            NotifyOfPropertyChange(() => ExportButtonLabel);
             NotifyOfPropertyChange(() => StatusText);
+            this.IsNotifying = true;
+            this.Refresh();
         }
 
         public void PinSheetContents()
@@ -696,7 +794,10 @@ namespace SCaddins.ExportManager.ViewModels
                 selectedSheets.Select(s => s.Id).ToList());
             var renameSheetModel = new SCaddins.RenameUtilities.ViewModels.RenameUtilitiesViewModel(renameManager);
             renameSheetModel.SelectedParameterCategory = "Sheets";
-            SCaddinsApp.WindowManager.ShowDialog(renameSheetModel, null, RenameUtilities.ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings);
+            renameSheetModel.ParameterCategoryEnabled = false;
+            var settings = RenameUtilities.ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings;
+            settings.Title = "Rename <" + selectedSheets.Count.ToString() + @" Sheets from Selection>";
+            SCaddinsApp.WindowManager.ShowDialog(renameSheetModel, null, settings);
             foreach (ExportSheet exportSheet in selectedSheets)
             {
                 exportSheet.UpdateName();

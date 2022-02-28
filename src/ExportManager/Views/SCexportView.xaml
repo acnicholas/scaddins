@@ -19,9 +19,9 @@
             <ColumnDefinition
                 Width="0.80*" />
             <ColumnDefinition
-                Width="0.10*" />
+                Width="Auto" />
             <ColumnDefinition
-                Width="0.10*" />
+                Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition
@@ -378,11 +378,11 @@
         </TextBlock>
         <Button
             cal:Message.Attach="Export"
-            Content="{Binding ExportButtonLabel}"
-            Width="Auto"
+            Content="{Binding ExportButtonLabel, Mode=OneWay}"
             Height="Auto"
             Grid.Row="2"
-            HorizontalAlignment="Stretch"
+            MinWidth="96"
+            HorizontalAlignment="Center"
             VerticalAlignment="Stretch"
             Margin="5,0,5,5"
             ToolTipService.ShowOnDisabled="True"
@@ -392,7 +392,7 @@
             </Button.ToolTip>
         </Button>
         <Border Grid.Column="1" Grid.Row="2" Margin="0,0,0,5" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="1" BorderBrush="#FF707070">
-        <Grid Margin="0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid Margin="0" Height="Auto" MinWidth="96" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>

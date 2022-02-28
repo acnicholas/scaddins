@@ -28,10 +28,12 @@ namespace SCaddins.ExportManager.ViewModels
         private readonly Manager exportManager;
         private BindableCollection<string> fileNamingSchemes;
         private string selectedFileNamingScheme;
+        private SCaddins.ExportManager.ViewModels.SCexportViewModel exportManagerViewModel;
 
-        public OptionsViewModel(Manager exportManager)
+        public OptionsViewModel(Manager exportManager, SCexportViewModel exportManagerViewModel)
         {
             this.exportManager = exportManager;
+            this.exportManagerViewModel = exportManagerViewModel;
             fileNamingSchemes = new BindableCollection<string>();
             foreach (var s in exportManager.FileNameTypes)
             {
@@ -271,18 +273,18 @@ namespace SCaddins.ExportManager.ViewModels
         {
             get
             {
-                return exportManager.HasExportOption(ExportOptions.PDF);
+                return exportManagerViewModel.ExportPDF;
             }
 
             set
             {
                 if (value)
                 {
-                    exportManager.AddExportOption(ExportOptions.PDF);
+                    exportManagerViewModel.ExportPDF = true;
                 }
                 else
                 {
-                    exportManager.RemoveExportOption(ExportOptions.PDF);
+                    exportManagerViewModel.ExportPDF = false;
                 }
             }
         }
@@ -330,18 +332,18 @@ namespace SCaddins.ExportManager.ViewModels
         {
             get
             {
-                return exportManager.HasExportOption(ExportOptions.DWG);
+                return exportManagerViewModel.ExportDWG;
             }
 
             set
             {
                 if (value)
                 {
-                    exportManager.AddExportOption(ExportOptions.DWG);
+                    exportManagerViewModel.ExportDWG = true;
                 }
                 else
                 {
-                    exportManager.RemoveExportOption(ExportOptions.DWG);
+                    exportManagerViewModel.ExportDWG = false;
                 }
             }
         }
@@ -364,18 +366,18 @@ namespace SCaddins.ExportManager.ViewModels
         {
             get
             {
-                return exportManager.HasExportOption(ExportOptions.DirectPDF);
+                return exportManagerViewModel.ExportDirectPDF;
             }
 
             set
             {
                 if (value)
                 {
-                    exportManager.AddExportOption(ExportOptions.DirectPDF);
+                    exportManagerViewModel.ExportDirectPDF = true;
                 }
                 else
                 {
-                    exportManager.RemoveExportOption(ExportOptions.DirectPDF);
+                    exportManagerViewModel.ExportDirectPDF = false;
                 }
             }
         }
