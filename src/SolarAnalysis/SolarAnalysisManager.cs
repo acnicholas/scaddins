@@ -523,6 +523,14 @@ namespace SCaddins.SolarAnalysis
             return true;
         }
 
+        private string GetDMSfromDegrees(double degrees)
+        {
+                var d = Math.Floor(degrees);
+                var m = (degrees - d) * 60;
+                var s = (m - Math.Floor(m)) * 60;
+                return String.Format("{0}°{1}'{2}\"", (int)d, (int)m, (int)s);
+        }
+
         private string GetViewInfo(View view)
         {
             var info = new StringBuilder();
@@ -539,17 +547,18 @@ namespace SCaddins.SolarAnalysis
             var frame = sunSettings.ActiveFrame;
             var azimuth = sunSettings.GetFrameAzimuth(frame);
             var altitude = sunSettings.GetFrameAltitude(frame);
-            azimuth += position.Angle;
+            // azimuth += position.Angle;
             var azdeg = azimuth * 180 / Math.PI;
+            azdeg = azdeg < 0 ? 360 + azdeg : azdeg;
             var altdeg = altitude * 180 / Math.PI;
-            info.AppendLine("Date - " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongDateString());
-            info.AppendLine("Time - " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongTimeString());
-            info.AppendLine("Sunrise - " +
+            info.AppendLine("Date: " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongDateString());
+            info.AppendLine("Time: " + sunSettings.ActiveFrameTime.ToLocalTime().ToLongTimeString());
+            info.AppendLine("Sunrise: " +
                             sunSettings.GetSunrise(sunSettings.ActiveFrameTime).ToLocalTime().ToLongTimeString());
-            info.AppendLine("Sunset - " +
+            info.AppendLine("Sunset: " +
                             sunSettings.GetSunset(sunSettings.ActiveFrameTime).ToLocalTime().ToLongTimeString());
-            info.AppendLine("Sun Altitude - " + altdeg.ToString(CultureInfo.InvariantCulture));
-            info.AppendLine("Sun Azimuth - " + azdeg.ToString(CultureInfo.InvariantCulture));
+            info.AppendLine("Sun Altitude: " + altdeg.ToString("0.####") + " (" + GetDMSfromDegrees(altdeg) + ")" );
+            info.AppendLine("Sun Azimuth: " + azdeg.ToString("0.####") + " (" + GetDMSfromDegrees(azdeg) + ")" );
             return info.ToString();
         }
         ////[SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
