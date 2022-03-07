@@ -64,6 +64,8 @@ namespace SCaddins.SolarAnalysis
 
         public bool CreateShadowPlans { get; set; }
 
+        public bool DrawSolarRay { get; set; }
+
         public DateTime EndTime { get; set; }
 
         public TimeSpan ExportTimeInterval { get; set; }
@@ -181,13 +183,6 @@ namespace SCaddins.SolarAnalysis
                             }
 
                             testFace.AddValueAtPoint(uv, hoursOfSun);
-
-                            ////dump to file
-                            ////string path = @"c:\temp\UVHours.txt";
-                            ////using (StreamWriter sw = File.AppendText(path))
-                            ////{
-                            ////    sw.WriteLine(uv.U + "," + uv.V + "," + hoursOfSun);
-                            ////}
                         }
                     }
                 }
@@ -259,11 +254,7 @@ namespace SCaddins.SolarAnalysis
         public static ProjectPosition GetProjectPosition(Document doc)
         {
             var projectLocation = doc.ActiveProjectLocation;
-#if REVIT2018 || REVIT2019 || REVIT2020 || REVIT2021 || REVIT2022
             return projectLocation.GetProjectPosition(XYZ.Zero);
-#else
-            return projectLocation.get_ProjectPosition(XYZ.Zero);
-#endif
         }
 
         /// <summary>
@@ -308,6 +299,33 @@ namespace SCaddins.SolarAnalysis
             return sunSettings.SunAndShadowType == SunAndShadowType.OneDayStudy;
         }
 
+        public static bool DrawSolarRayAsModelLine(UIDocument uidoc, double rayLengthMM)
+        {
+                double rayLength = rayLengthMM / 304.8; // 100 meters in plan view
+                var view = uidoc.Document.ActiveView;
+                var sunSettings = view.SunAndShadowSettings;
+                var frame = sunSettings.ActiveFrame;
+                var azimuth = sunSettings.GetFrameAzimuth(frame);
+                var altitude = sunSettings.GetFrameAltitude(frame);
+                var startpoint = uidoc.Selection.PickPoint("Pick point do draw solar ray from"); 
+                using (var t = new Transaction(uidoc.Document))
+                {
+                        if (t.Start("Draw Solar Ray") == TransactionStatus.Started) {
+                                var endpoint = new XYZ(
+                                                startpoint.X + (rayLength * Math.Sin(azimuth)),
+                                                startpoint.Y + (rayLength * Math.Cos(azimuth)),
+                                                startpoint.Z + (rayLength * Math.Tan(altitude)));
+                                var ray = Autodesk.Revit.DB.Line.CreateBound(startpoint, endpoint);
+                                var plane = Autodesk.Revit.DB.Plane.CreateByThreePoints(startpoint, endpoint, new XYZ(endpoint.X, endpoint.Y, endpoint.Z + rayLength));
+                                var doc = uidoc.Document;
+                                var sketchPlane = Autodesk.Revit.DB.SketchPlane.Create(doc, plane);
+                                doc.Create.NewModelCurve(ray, sketchPlane);
+                                t.Commit();
+                    }
+                }
+                return true;
+        }
+
         // FIXME put this somewhere else.
         public static bool ViewNameIsAvailable(Document doc, string name)
         {
@@ -342,7 +360,14 @@ namespace SCaddins.SolarAnalysis
         {
             if (RotateCurrentView)
             {
-                return RotateView(activeView);
+                var result = RotateView(activeView);
+                if (result) {
+                        log.AddSuccess("View rotation successfull");
+                        return true;
+                } else {
+                        log.AddFailure("View rotation unsuccessfull");
+                        return false;
+                } 
             }
             if (Create3dViews)
             {
@@ -352,7 +377,7 @@ namespace SCaddins.SolarAnalysis
             {
                 return CreateShadowPlanViews(log);
             }
-            return true;
+            return false;
         }
 
         private static List<DirectSunTestFace> CreateEmptyTestFaces(IList<Reference> faceSelection, Document doc)
@@ -511,7 +536,7 @@ namespace SCaddins.SolarAnalysis
                     t.Commit();
 
                     if (!RotateView(view))
-                    {
+                    { 
                         doc.Delete(view.Id);
                         log.AddFailure("Could not rotate view: " + vname);
                         continue;
@@ -528,7 +553,7 @@ namespace SCaddins.SolarAnalysis
                 var d = Math.Floor(degrees);
                 var m = (degrees - d) * 60;
                 var s = (m - Math.Floor(m)) * 60;
-                return String.Format("{0}°{1}'{2}\"", (int)d, (int)m, (int)s);
+                return string.Format("{0}°{1}'{2}\"", (int)d, (int)m, (int)s);
         }
 
         private string GetViewInfo(View view)
@@ -547,7 +572,6 @@ namespace SCaddins.SolarAnalysis
             var frame = sunSettings.ActiveFrame;
             var azimuth = sunSettings.GetFrameAzimuth(frame);
             var altitude = sunSettings.GetFrameAltitude(frame);
-            // azimuth += position.Angle;
             var azdeg = azimuth * 180 / Math.PI;
             azdeg = azdeg < 0 ? 360 + azdeg : azdeg;
             var altdeg = altitude * 180 / Math.PI;
@@ -557,8 +581,8 @@ namespace SCaddins.SolarAnalysis
                             sunSettings.GetSunrise(sunSettings.ActiveFrameTime).ToLocalTime().ToLongTimeString());
             info.AppendLine("Sunset: " +
                             sunSettings.GetSunset(sunSettings.ActiveFrameTime).ToLocalTime().ToLongTimeString());
-            info.AppendLine("Sun Altitude: " + altdeg.ToString("0.####") + " (" + GetDMSfromDegrees(altdeg) + ")" );
-            info.AppendLine("Sun Azimuth: " + azdeg.ToString("0.####") + " (" + GetDMSfromDegrees(azdeg) + ")" );
+            info.AppendLine("Sun Altitude: " + altdeg.ToString("0.####") + " (" + GetDMSfromDegrees(altdeg) + ")");
+            info.AppendLine("Sun Azimuth: " + azdeg.ToString("0.####") + " (" + GetDMSfromDegrees(azdeg) + ")");
             return info.ToString();
         }
         ////[SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]

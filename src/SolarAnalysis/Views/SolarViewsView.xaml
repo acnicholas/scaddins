@@ -29,6 +29,8 @@
                     Height="Auto"/>
                 <RowDefinition
                     Height="Auto"/>
+                <RowDefinition
+                    Height="Auto"/>
             </Grid.RowDefinitions>
             <GroupBox
                 Header="View Information"
@@ -61,6 +63,7 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <RadioButton
                         IsEnabled="{Binding CanRotateCurrentView}"
@@ -79,18 +82,64 @@
                         IsChecked="{Binding CreateShadowPlans}"
                         Content="Create Multiple Shadow Plans" />
                     <RadioButton
-                        IsEnabled="{Binding CanCreateAnalysisView}"
-                        x:Name="CreateAnalysisView"
-                        Margin="5"
-                        Grid.Row="3"
-                        ToolTipService.ShowOnDisabled="True"
-                        Content="Create Analysis View">
-                        <RadioButton.ToolTip>
+                            IsEnabled="{Binding CanCreateAnalysisView}"
+                            x:Name="CreateAnalysisView"
+                            Margin="5"
+                            Grid.Row="3"
+                            ToolTipService.ShowOnDisabled="True"
+                            Content="Create Analysis View">
+                    <RadioButton.ToolTip>
                             <Label>Create a coloured Solar Analysis (Direct Sun) View. The active view's Sun Settings must be a single day</Label>
-                        </RadioButton.ToolTip>
+                    </RadioButton.ToolTip>
                     </RadioButton>
+                    <RadioButton
+                        Margin="5"
+                        Grid.Row="4"
+                        IsChecked="{Binding DrawSolarRay}"
+                        Content="Draw Ray Of Sun (From Selected Point)"/>
                 </Grid>
             </GroupBox>
+
+            <GroupBox
+                Header="Options for drawing a solar ray"
+                Width="Auto"
+                Height="Auto"
+                Visibility="{Binding ShowSolarRayOptionsPanel,Converter={StaticResource BoolToVis}}"
+                Grid.Column="0"
+                Grid.Row="4"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Margin="5,0,5,5">
+                <Grid
+                    Width="Auto"
+                    Height="Auto"
+                    MinHeight="100">
+                    <Grid.RowDefinitions>
+			    <RowDefinition Height="Auto"></RowDefinition>
+			    <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        VerticalAlignment="Stretch"
+                        Margin="5,0,5,0"
+                        Content="Solar Ray Length (In Plan)"
+                        HorizontalAlignment="Left" />
+                    <TextBox
+                        x:Name="SolarRayLength"
+                        Width="Auto"
+                        Height="Auto"
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        Grid.ColumnSpan="3"
+                        Margin="5" />
+                </Grid>
+            </GroupBox>
+
             <GroupBox
                 Header="Options for Multi View Creation"
                 Width="Auto"
@@ -208,7 +257,7 @@
                 Width="Auto"
                 Height="23"
                 Grid.Column="0"
-                Grid.Row="4"
+                Grid.Row="5"
                 Content="{Binding CurrentModeSummary}"
                 Margin="5"
                 HorizontalAlignment="Right"

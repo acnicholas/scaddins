@@ -32,7 +32,6 @@ namespace SCaddins.SolarAnalysis.ViewModels
         private SolarAnalysisManager model;
         private CloseMode selectedCloseMode;
         private DateTime startTime;
-        ////private Rectangle windowBounds;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "uidoc")]
         private UIDocument uidoc;
@@ -44,6 +43,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
             MassSelection = null;
             FaceSelection = null;
             AnalysisGridSize = 1000;
+            SolarRayLength = 100000; // this is in mm (so 100m is assigned here)
             Size = SCaddinsApp.WindowManager.Size;
             Left = SCaddinsApp.WindowManager.Left;
             Top = SCaddinsApp.WindowManager.Top;
@@ -65,6 +65,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
             MassSelection,
             FaceSelection,
             Analize,
+            DrawSolarRay,
             Clear
         }
 
@@ -216,7 +217,32 @@ namespace SCaddins.SolarAnalysis.ViewModels
                 {
                     return "Create Analysis View";
                 }
+                if (DrawSolarRay)
+                {
+                    return "Draw Solar Ray";
+                }
                 return "OK";
+            }
+        }
+
+        public bool DrawSolarRay
+        {
+            get
+            {
+                selectedCloseMode = CloseMode.DrawSolarRay;
+                return model.DrawSolarRay;
+            }
+
+            set
+            {
+                if (model.DrawSolarRay != value)
+                {
+                    model.DrawSolarRay = value;
+                    NotifyOfPropertyChange(() => CurrentModeSummary);
+                    NotifyOfPropertyChange(() => CreateAnalysisView);
+                    NotifyOfPropertyChange(() => ShowDateSelectionPanel);
+                    NotifyOfPropertyChange(() => ShowSolarRayOptionsPanel);
+                }
             }
         }
 
@@ -310,6 +336,19 @@ namespace SCaddins.SolarAnalysis.ViewModels
                 int f = FaceSelection != null ? FaceSelection.Count : 0;
                 return $"Selected Faces: {f}";
             }
+        }
+
+        public bool ShowSolarRayOptionsPanel
+        {
+                get
+                {
+                        return DrawSolarRay;
+                }
+        }
+
+        public double SolarRayLength
+        {
+                get; set;
         }
 
         public TimeSpan SelectedInterval
@@ -420,7 +459,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
         /// </summary>
         public void OK()
         {
-            if (model.CreateAnalysisView)
+            if (model.CreateAnalysisView || model.DrawSolarRay)
             {
                 TryClose(true);
             }
