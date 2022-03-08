@@ -2,8 +2,18 @@
 
 # 22.1.0 #
 
+#### NEW ####
+
 - Add custom sheet parameter column to SCexport GUI.
 - Add option to bulk assign a value to any Yes/No instance parameter on a sheet (SCexport).
+- Add customisable column to Scexport GUI.
+- Add better lable to SCexport export and print buttons.
+- Fix azimuth display in SolarAnalysis and add additional DMS display.
+- Add option to draw solar ray with SolarAnalysis.
+
+#### FIXES ####
+
+- Remove overlapping text in Copy Sheets (settings dialog).
 
 # 22.0.0 #
 

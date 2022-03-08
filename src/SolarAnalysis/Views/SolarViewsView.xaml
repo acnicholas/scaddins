@@ -127,7 +127,7 @@
                         Grid.Row="0"
                         VerticalAlignment="Stretch"
                         Margin="5,0,5,0"
-                        Content="Solar Ray Length (In Plan)"
+                        Content="Solar Ray Length (In Plan[mm])"
                         HorizontalAlignment="Left" />
                     <TextBox
                         x:Name="SolarRayLength"
