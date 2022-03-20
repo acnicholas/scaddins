@@ -47,14 +47,9 @@
             }
         }
 
-#pragma warning disable CA1030 // Use events where appropriate
         public void RaisePropertyChanged(string property)
-#pragma warning restore CA1030 // Use events where appropriate
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
         protected static void OnDependencyPropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs args)

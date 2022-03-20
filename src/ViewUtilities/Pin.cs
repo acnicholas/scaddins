@@ -23,6 +23,9 @@ namespace SCaddins.ViewUtilities
 
     public static class Pin
     {
+        /// <summary>
+        /// Pin all items on a sheet
+        /// </summary>
         public static void PinSheetContents(ICollection<ExportSheet> sheets, Document doc)
         {
             using (var t = new Transaction(doc, "Pin Sheet Contents"))

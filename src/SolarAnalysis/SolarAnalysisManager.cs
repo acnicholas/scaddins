@@ -299,6 +299,14 @@ namespace SCaddins.SolarAnalysis
             return sunSettings.SunAndShadowType == SunAndShadowType.OneDayStudy;
         }
 
+        /// <summary>
+        /// Draw a model line in the direction of the sun,
+        /// This will use the Sun Settings of the current(active) Revit view.
+        /// This will also prompt the user for the origin point.
+        /// </summary>
+        /// <param name="uidoc"></param>
+        /// <param name="rayLengthMM"></param>
+        /// <returns></returns>
         public static bool DrawSolarRayAsModelLine(UIDocument uidoc, double rayLengthMM)
         {
                 double rayLength = rayLengthMM / 304.8; // 100 meters in plan view
@@ -326,7 +334,12 @@ namespace SCaddins.SolarAnalysis
                 return true;
         }
 
-        // FIXME put this somewhere else.
+        /// <summary>
+        /// Check if a view name can be used in the active Revit doc.
+        /// </summary>
+        /// <param name="doc">Active Revit document</param>
+        /// <param name="name">Name of view to test</param>
+        /// <returns></returns>
         public static bool ViewNameIsAvailable(Document doc, string name)
         {
             if (doc == null || name == null)
@@ -356,6 +369,15 @@ namespace SCaddins.SolarAnalysis
             return true;
         }
 
+        /// <summary>
+        /// Attemp to excecture the selected option.
+        /// Options that will run with this method are:
+        ///     * RotateVew
+        ///     * Create3dViews
+        ///     * Create Shadow Plan
+        /// </summary>
+        /// <param name="log"> This log will hold warnings/errors if any occur,</param>
+        /// <returns></returns>
         public bool Go(ModelSetupWizard.TransactionLog log)
         {
             if (RotateCurrentView)

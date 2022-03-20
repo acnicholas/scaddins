@@ -20,6 +20,9 @@ namespace SCaddins.RunScript.ViewModels
     using System;
     using System.Dynamic;
     using System.IO;
+    using System.Text;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
     using Caliburn.Micro;
 
     internal class RunScriptViewModel : Screen
@@ -28,31 +31,17 @@ namespace SCaddins.RunScript.ViewModels
         private string script;
         private BindableCollection<string> outputList;
         private string currentFileName;
+        private ExternalCommandData commandData;
+        private ElementSet elements;
 
-        public RunScriptViewModel()
+        public RunScriptViewModel(ExternalCommandData commandData, ElementSet elements)
         {
+            this.commandData = commandData;
+            this.elements = elements;
             currentFileName = string.Empty;
             output = string.Empty;
             outputList = new BindableCollection<string>();
-            Script =
-@"using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
-using SCaddins;
-
-public static void Main(Document doc)
-{
-    using (var t = new Transaction(doc)) {
-        t.Start(""Run Script"");
-        var fec = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Rooms);
-            foreach (var r in fec)
-            {
-                var room = r as Autodesk.Revit.DB.Architecture.Room;
-                room.Name = room.Name.ToUpper();
-            }
-            t.Commit();
-        }
-}
-";
+            LoadScratch();
         }
 
         public static dynamic DefaultViewSettings
@@ -62,7 +51,7 @@ public static void Main(Document doc)
                 dynamic settings = new ExpandoObject();
                 settings.Height = 480;
                 settings.Width = 300;
-                settings.Title = "Run (cs)Script";
+                settings.Title = "Run Lua Script";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
                 return settings;
@@ -104,7 +93,7 @@ public static void Main(Document doc)
                         string line;
                         while ((line = sr.ReadLine()) != null)
                         {
-                            outputList.Add(line.Substring(line.IndexOf("(", StringComparison.Ordinal)));
+                            outputList.Add(line);
                         }
                     }
                 }
@@ -136,6 +125,7 @@ public static void Main(Document doc)
                 if (File.Exists(currentFileName))
                 {
                     Script = File.ReadAllText(CurrentFileName);
+                    SCaddinsApp.WindowManager.LastWindow.Title = CurrentFileName;
                     NotifyOfPropertyChange(() => CanSave);
                 }
             }
@@ -144,7 +134,7 @@ public static void Main(Document doc)
         public void LoadScratch()
         {
             var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            var p = Path.Combine(s, "SCaddins", "Script.cs");
+            var p = Path.Combine(s, "SCaddins", "Script.lua");
             if (!File.Exists(p))
             {
                 return;
@@ -160,6 +150,7 @@ public static void Main(Document doc)
                 if (File.Exists(currentFileName))
                 {
                     Script = File.ReadAllText(CurrentFileName);
+                    SCaddinsApp.WindowManager.LastWindow.Title = currentFileName;
                     NotifyOfPropertyChange(() => CanSave);
                 }
             }
@@ -174,21 +165,30 @@ public static void Main(Document doc)
 
         public void Run()
         {
-            var result = RunScriptCommand.VerifyScript(RunScriptCommand.ClassifyScript(Script), out var compileResults);
-            Output = compileResults;
-            if (result)
+            var r = RunScriptCommand.RunScript(Script, commandData, elements, false);
+
+            var sb = new StringBuilder();
+            foreach (var v in r)
             {
-                TryClose(true);
+                sb.Append(v.ToString());
+                sb.AppendLine();
             }
+            if (sb.Length == 0) {
+                    Output = "No output";
+                    return;
+            }
+            Output = sb.ToString();
+            SaveScratch();
         }
 
         public void SaveAs()
         {
-            var b = SCaddinsApp.WindowManager.ShowSaveFileDialog(defaultFileName: "script.cs", defaultExtension: "*.cs", filter: "cs-script | *.cs", savePath: out var path);
+            var b = SCaddinsApp.WindowManager.ShowSaveFileDialog(defaultFileName: "script.lua", defaultExtension: "*.lua", filter: "lua-script | *.lua", savePath: out var path);
             if (b.HasValue && b.Value)
             {
                 File.WriteAllText(path: path, contents: Script);
                 CurrentFileName = path;
+                SCaddinsApp.WindowManager.LastWindow.Title = CurrentFileName;
             }
         }
 
@@ -196,6 +196,7 @@ public static void Main(Document doc)
         {
             if (CanSave)
             {
+                SCaddinsApp.WindowManager.LastWindow.Title = currentFileName;
                 File.WriteAllText(currentFileName, Script);
             }
             else
@@ -212,7 +213,7 @@ public static void Main(Document doc)
             {
                 Directory.CreateDirectory(p);
             }
-            File.WriteAllText(Path.Combine(p, "Script.cs"), Script);
+            File.WriteAllText(Path.Combine(p, "Script.lua"), Script);
         }
     }
 }

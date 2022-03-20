@@ -55,9 +55,9 @@
 					<Directory Id="RSDIR" Name="RunScript">
 						<Component Id="RunScriptExamples" Guid="23f035a7-e39e-494a-83fc-1b313a179ab9" Win64="yes" DiskId="1">
 							<CreateFolder />
-							<File Id="ADGRoomNames.cs" Name="ADGRoomNames.cs" Source="..\share\RunScript\ADGRoomNames.cs" />
-							<File Id="HelloWorld.cs" Name="HelloWorld.cs" Source="..\share\RunScript\HelloWorld.cs" />
-							<File Id="PurgeImages.cs" Name="PurgeImages.cs" Source="..\share\RunScript\PurgeImages.cs" />
+							<File Id="ADGRoomNames.lua" Name="ADGRoomNames.lua" Source="..\share\RunScript\ADGRoomNames.lua" />
+							<File Id="HelloWorld.lua" Name="HelloWorld.lua" Source="..\share\RunScript\HelloWorld.lua" />
+							<File Id="PurgeImages.lua" Name="PurgeImages.lua" Source="..\share\RunScript\PurgeImages.lua" />
 						</Component>
 					</Directory>
 				</Directory>
@@ -78,7 +78,9 @@
 						<File Id="CM18" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2018\Caliburn.Micro.dll" />
 						<File Id="CMP18" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2018\Caliburn.Micro.Platform.dll" />
 						<File Id="CMPC18" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2018\Caliburn.Micro.Platform.Core.dll" />
-						<File Id="CSSL18" Name="CSScriptLibrary.dll" Source="..\src\bin\Release2018\CSScriptLibrary.dll" />
+						<File Id="LUA18" Name="lua54.dll" Source="..\src\bin\Release2020\lua54.dll"/>
+						<File Id="NLUA18" Name="NLua.dll" Source="..\src\bin\Release2020\NLua.dll"/>
+						<File Id="KLUA18" Name="KeraLua.dll" Source="..\src\bin\Release2020\KeraLua.dll"/>
             			<File Id="AE18" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2018\ICSharpCode.AvalonEdit.dll" />
             			<File Id="HUN18" Name="NHunspell.dll" Source="..\src\bin\Release2018\NHunspell.dll" />
             			<File Id="HUN18N" Name="Hunspellx64.dll" Source="..\src\bin\Release2018\Hunspellx64.dll" />
@@ -97,7 +99,9 @@
 						<File Id="CM19" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2019\Caliburn.Micro.dll" />
 						<File Id="CMP19" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2019\Caliburn.Micro.Platform.dll" />
 						<File Id="CMPC19" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2019\Caliburn.Micro.Platform.Core.dll" />
-						<File Id="CSSL19" Name="CSScriptLibrary.dll" Source="..\src\bin\Release2019\CSScriptLibrary.dll" />
+					    <File Id="LUA19" Name="lua54.dll" Source="..\src\bin\Release2020\lua54.dll"/>
+						<File Id="NLUA19" Name="NLua.dll" Source="..\src\bin\Release2020\NLua.dll"/>
+						<File Id="KLUA19" Name="KeraLua.dll" Source="..\src\bin\Release2020\KeraLua.dll"/>
             			<File Id="AE19" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2019\ICSharpCode.AvalonEdit.dll" />
             			<File Id="IFP19" Name="INIFileParser.dll" Source="..\src\bin\Release2019\INIFileParser.dll" />
             			<File Id="HUN19" Name="NHunspell.dll" Source="..\src\bin\Release2019\NHunspell.dll" />
@@ -116,7 +120,9 @@
 						<File Id="CM20" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2020\Caliburn.Micro.dll" />
 						<File Id="CMP20" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2020\Caliburn.Micro.Platform.dll" />
 						<File Id="CMPC20" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2020\Caliburn.Micro.Platform.Core.dll" />
-						<File Id="CSSL20" Name="CSScriptLibrary.dll" Source="..\src\bin\Release2020\CSScriptLibrary.dll" />
+						<File Id="LUA20" Name="lua54.dll" Source="..\src\bin\Release2020\lua54.dll"/>
+						<File Id="NLUA20" Name="NLua.dll" Source="..\src\bin\Release2020\NLua.dll"/>
+						<File Id="KLUA20" Name="KeraLua.dll" Source="..\src\bin\Release2020\KeraLua.dll"/>
             			<File Id="IFP20" Name="INIFileParser.dll" Source="..\src\bin\Release2020\INIFileParser.dll" />
             			<File Id="XTK20" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2020\Xceed.Wpf.Toolkit.dll" />
             			<File Id="HUN20" Name="NHunspell.dll" Source="..\src\bin\Release2020\NHunspell.dll" />
@@ -135,7 +141,9 @@
 						<File Id="CM21" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2021\Caliburn.Micro.dll" />
 						<File Id="CMP21" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2021\Caliburn.Micro.Platform.dll" />
 						<File Id="CMPC21" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2021\Caliburn.Micro.Platform.Core.dll" />
-						<File Id="CSSL21" Name="CSScriptLibrary.dll" Source="..\src\bin\Release2021\CSScriptLibrary.dll" />
+						<File Id="LUA21" Name="lua54.dll" Source="..\src\bin\Release2020\lua54.dll"/>
+						<File Id="NLUA21" Name="NLua.dll" Source="..\src\bin\Release2020\NLua.dll"/>
+						<File Id="kLUA21" Name="KeraLua.dll" Source="..\src\bin\Release2020\KeraLua.dll"/>
             			<File Id="IFP21" Name="INIFileParser.dll" Source="..\src\bin\Release2021\INIFileParser.dll" />
             			<File Id="XTK21" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2021\Xceed.Wpf.Toolkit.dll" />
             			<File Id="HUN21" Name="NHunspell.dll" Source="..\src\bin\Release2021\NHunspell.dll" />
@@ -154,7 +162,9 @@
 						<File Id="CM22" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2022\Caliburn.Micro.dll" />
 						<File Id="CMP22" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2022\Caliburn.Micro.Platform.dll" />
 						<File Id="CMPC22" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2022\Caliburn.Micro.Platform.Core.dll" />
-						<File Id="CSSL22" Name="CSScriptLibrary.dll" Source="..\src\bin\Release2022\CSScriptLibrary.dll" />
+						<File Id="LUA22" Name="lua54.dll" Source="..\src\bin\Release2020\lua54.dll"/>
+						<File Id="NLUA22" Name="NLua.dll" Source="..\src\bin\Release2020\NLua.dll"/>
+						<File Id="kLUA22" Name="KeraLua.dll" Source="..\src\bin\Release2020\KeraLua.dll"/>
             			<File Id="IFP22" Name="INIFileParser.dll" Source="..\src\bin\Release2022\INIFileParser.dll" />
             			<File Id="XTK22" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2022\Xceed.Wpf.Toolkit.dll" />
             			<File Id="HUN22" Name="NHunspell.dll" Source="..\src\bin\Release2022\NHunspell.dll" />

@@ -18,6 +18,11 @@
             this.dialogService = dialogService;
         }
 
+        public System.Windows.Window LastWindow
+        {
+            get; set;
+        }
+
         public double Left
         {
             get; private set;
@@ -50,6 +55,7 @@
             window.SourceInitialized += Window_SourceInitialized;
             window.SizeChanged += Window_SizeChanged;
             window.LocationChanged += Window_LocationChanged;
+            LastWindow = window;
             return window.ShowDialog();
         }
 
@@ -113,6 +119,7 @@
                 window.SourceInitialized += Window_SourceInitialized;
                 window.SizeChanged += Window_SizeChanged;
                 window.LocationChanged += Window_LocationChanged;
+                LastWindow = window;
             }
             window.Show();
         }
