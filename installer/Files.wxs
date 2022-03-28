@@ -56,7 +56,12 @@
 						<Component Id="RunScriptExamples" Guid="23f035a7-e39e-494a-83fc-1b313a179ab9" Win64="yes" DiskId="1">
 							<CreateFolder />
 							<File Id="ADGRoomNames.lua" Name="ADGRoomNames.lua" Source="..\share\RunScript\ADGRoomNames.lua" />
+							<File Id="CreateRoomMasses.lua" Name="CreateRoomMasses.lua" Source="..\share\RunScript\CreateRoomMasses.lua" />
+							<File Id="CreateSolarViews.lua" Name="CreateSolarViews.lua" Source="..\share\RunScript\CreateSolarViews.lua" />
+							<File Id="DrawLineOfSite.lua" Name="DrawLineOfSite.lua" Source="..\share\RunScript\DrawLineOfSite.lua" />
+							<File Id="HelloSCaddins.lua" Name="HelloSCaddins.lua" Source="..\share\RunScript\HelloSCaddins.lua" />
 							<File Id="HelloWorld.lua" Name="HelloWorld.lua" Source="..\share\RunScript\HelloWorld.lua" />
+							<File Id="PlaceFamilyAtCoordinate.lua" Name="PlaceFamilyAtCoordinate.lua" Source="..\share\RunScript\PlaceFamilyAtCoordinate.lua" />
 							<File Id="PurgeImages.lua" Name="PurgeImages.lua" Source="..\share\RunScript\PurgeImages.lua" />
 						</Component>
 					</Directory>
@@ -81,12 +86,12 @@
 						<File Id="LUA18" Name="lua54.dll" Source="..\src\bin\Release2020\lua54.dll"/>
 						<File Id="NLUA18" Name="NLua.dll" Source="..\src\bin\Release2020\NLua.dll"/>
 						<File Id="KLUA18" Name="KeraLua.dll" Source="..\src\bin\Release2020\KeraLua.dll"/>
-            			<File Id="AE18" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2018\ICSharpCode.AvalonEdit.dll" />
-            			<File Id="HUN18" Name="NHunspell.dll" Source="..\src\bin\Release2018\NHunspell.dll" />
-            			<File Id="HUN18N" Name="Hunspellx64.dll" Source="..\src\bin\Release2018\Hunspellx64.dll" />
-            			<File Id="IFP18" Name="INIFileParser.dll" Source="..\src\bin\Release2018\INIFileParser.dll" />
-            			<File Id="XTK18" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2018\Xceed.Wpf.Toolkit.dll" />
-            			<File Id="EPP18" Name="EPPlus.dll" Source="..\src\bin\Release2018\EPPlus.dll" />
+            					<File Id="FCTB18" Name="FastColoredTextBox.dll" Source="..\tools\FastColoredTextBox\FastColoredTextBox.dll" />
+            					<File Id="HUN18" Name="NHunspell.dll" Source="..\src\bin\Release2018\NHunspell.dll" />
+            					<File Id="HUN18N" Name="Hunspellx64.dll" Source="..\src\bin\Release2018\Hunspellx64.dll" />
+            					<File Id="IFP18" Name="INIFileParser.dll" Source="..\src\bin\Release2018\INIFileParser.dll" />
+            					<File Id="XTK18" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2018\Xceed.Wpf.Toolkit.dll" />
+            					<File Id="EPP18" Name="EPPlus.dll" Source="..\src\bin\Release2018\EPPlus.dll" />
 					</Component>
 				</Directory>
 				<?endif?>
@@ -99,15 +104,15 @@
 						<File Id="CM19" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2019\Caliburn.Micro.dll" />
 						<File Id="CMP19" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2019\Caliburn.Micro.Platform.dll" />
 						<File Id="CMPC19" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2019\Caliburn.Micro.Platform.Core.dll" />
-					    <File Id="LUA19" Name="lua54.dll" Source="..\src\bin\Release2020\lua54.dll"/>
+					    	<File Id="LUA19" Name="lua54.dll" Source="..\src\bin\Release2020\lua54.dll"/>
 						<File Id="NLUA19" Name="NLua.dll" Source="..\src\bin\Release2020\NLua.dll"/>
 						<File Id="KLUA19" Name="KeraLua.dll" Source="..\src\bin\Release2020\KeraLua.dll"/>
-            			<File Id="AE19" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2019\ICSharpCode.AvalonEdit.dll" />
-            			<File Id="IFP19" Name="INIFileParser.dll" Source="..\src\bin\Release2019\INIFileParser.dll" />
-            			<File Id="HUN19" Name="NHunspell.dll" Source="..\src\bin\Release2019\NHunspell.dll" />
-            			<File Id="HUN19N" Name="Hunspellx64.dll" Source="..\src\bin\Release2019\Hunspellx64.dll" />
-            			<File Id="XTK19" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2019\Xceed.Wpf.Toolkit.dll" />
-            			<File Id="EPP19" Name="EPPlus.dll" Source="..\src\bin\Release2019\EPPlus.dll" />
+            					<File Id="FCTB19" Name="FastColoredTextBox.dll" Source="..\tools\FastColoredTextBox\FastColoredTextBox.dll" />
+            					<File Id="IFP19" Name="INIFileParser.dll" Source="..\src\bin\Release2019\INIFileParser.dll" />
+            					<File Id="HUN19" Name="NHunspell.dll" Source="..\src\bin\Release2019\NHunspell.dll" />
+            					<File Id="HUN19N" Name="Hunspellx64.dll" Source="..\src\bin\Release2019\Hunspellx64.dll" />
+            					<File Id="XTK19" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2019\Xceed.Wpf.Toolkit.dll" />
+            					<File Id="EPP19" Name="EPPlus.dll" Source="..\src\bin\Release2019\EPPlus.dll" />
 					</Component>
 				</Directory>
 				<?endif?>
@@ -123,12 +128,12 @@
 						<File Id="LUA20" Name="lua54.dll" Source="..\src\bin\Release2020\lua54.dll"/>
 						<File Id="NLUA20" Name="NLua.dll" Source="..\src\bin\Release2020\NLua.dll"/>
 						<File Id="KLUA20" Name="KeraLua.dll" Source="..\src\bin\Release2020\KeraLua.dll"/>
-            			<File Id="IFP20" Name="INIFileParser.dll" Source="..\src\bin\Release2020\INIFileParser.dll" />
-            			<File Id="XTK20" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2020\Xceed.Wpf.Toolkit.dll" />
-            			<File Id="HUN20" Name="NHunspell.dll" Source="..\src\bin\Release2020\NHunspell.dll" />
-            			<File Id="HUN20N" Name="Hunspellx64.dll" Source="..\src\bin\Release2020\Hunspellx64.dll" />
-            			<File Id="AE20" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2020\ICSharpCode.AvalonEdit.dll" />
-            			<File Id="EPP20" Name="EPPlus.dll" Source="..\src\bin\Release2020\EPPlus.dll" />
+            					<File Id="IFP20" Name="INIFileParser.dll" Source="..\src\bin\Release2020\INIFileParser.dll" />
+            					<File Id="XTK20" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2020\Xceed.Wpf.Toolkit.dll" />
+            					<File Id="HUN20" Name="NHunspell.dll" Source="..\src\bin\Release2020\NHunspell.dll" />
+            					<File Id="HUN20N" Name="Hunspellx64.dll" Source="..\src\bin\Release2020\Hunspellx64.dll" />
+            					<File Id="FCTB20" Name="FastColoredTextBox.dll" Source="..\tools\FastColoredTextBox\FastColoredTextBox.dll" />
+            					<File Id="EPP20" Name="EPPlus.dll" Source="..\src\bin\Release2020\EPPlus.dll" />
 					</Component>
 				</Directory>
 				<?endif?>
@@ -144,12 +149,12 @@
 						<File Id="LUA21" Name="lua54.dll" Source="..\src\bin\Release2020\lua54.dll"/>
 						<File Id="NLUA21" Name="NLua.dll" Source="..\src\bin\Release2020\NLua.dll"/>
 						<File Id="kLUA21" Name="KeraLua.dll" Source="..\src\bin\Release2020\KeraLua.dll"/>
-            			<File Id="IFP21" Name="INIFileParser.dll" Source="..\src\bin\Release2021\INIFileParser.dll" />
-            			<File Id="XTK21" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2021\Xceed.Wpf.Toolkit.dll" />
-            			<File Id="HUN21" Name="NHunspell.dll" Source="..\src\bin\Release2021\NHunspell.dll" />
-            			<File Id="HUN21N" Name="Hunspellx64.dll" Source="..\src\bin\Release2021\Hunspellx64.dll" />
-            			<File Id="AE21" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2021\ICSharpCode.AvalonEdit.dll" />
-            			<File Id="EPP21" Name="EPPlus.dll" Source="..\src\bin\Release2021\EPPlus.dll" />
+            					<File Id="IFP21" Name="INIFileParser.dll" Source="..\src\bin\Release2021\INIFileParser.dll" />
+            					<File Id="XTK21" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2021\Xceed.Wpf.Toolkit.dll" />
+            					<File Id="HUN21" Name="NHunspell.dll" Source="..\src\bin\Release2021\NHunspell.dll" />
+            					<File Id="HUN21N" Name="Hunspellx64.dll" Source="..\src\bin\Release2021\Hunspellx64.dll" />
+            					<File Id="FCTB21" Name="FastColoredTextBox.dll" Source="..\tools\FastColoredTextBox\FastColoredTextBox.dll" />
+            					<File Id="EPP21" Name="EPPlus.dll" Source="..\src\bin\Release2021\EPPlus.dll" />
 					</Component>
 				</Directory>
 				<?endif?>
@@ -165,12 +170,12 @@
 						<File Id="LUA22" Name="lua54.dll" Source="..\src\bin\Release2020\lua54.dll"/>
 						<File Id="NLUA22" Name="NLua.dll" Source="..\src\bin\Release2020\NLua.dll"/>
 						<File Id="kLUA22" Name="KeraLua.dll" Source="..\src\bin\Release2020\KeraLua.dll"/>
-            			<File Id="IFP22" Name="INIFileParser.dll" Source="..\src\bin\Release2022\INIFileParser.dll" />
-            			<File Id="XTK22" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2022\Xceed.Wpf.Toolkit.dll" />
-            			<File Id="HUN22" Name="NHunspell.dll" Source="..\src\bin\Release2022\NHunspell.dll" />
-            			<File Id="HUN22N" Name="Hunspellx64.dll" Source="..\src\bin\Release2022\Hunspellx64.dll" />
-            			<File Id="AE22" Name="ICSharpCode.AvalonEdit.dll" Source="..\src\bin\Release2022\ICSharpCode.AvalonEdit.dll" />
-            			<File Id="EPP22" Name="EPPlus.dll" Source="..\src\bin\Release2022\EPPlus.dll" />
+            					<File Id="IFP22" Name="INIFileParser.dll" Source="..\src\bin\Release2022\INIFileParser.dll" />
+            					<File Id="XTK22" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2022\Xceed.Wpf.Toolkit.dll" />
+            					<File Id="HUN22" Name="NHunspell.dll" Source="..\src\bin\Release2022\NHunspell.dll" />
+            					<File Id="HUN22N" Name="Hunspellx64.dll" Source="..\src\bin\Release2022\Hunspellx64.dll" />
+            					<File Id="FCTB22" Name="FastColoredTextBox.dll.dll" Source="..\tools\FastColoredTextBox\FastColoredTextBox.dll" />
+            					<File Id="EPP22" Name="EPPlus.dll" Source="..\src\bin\Release2022\EPPlus.dll" />
 					</Component>
 				</Directory>
 				<?endif?>

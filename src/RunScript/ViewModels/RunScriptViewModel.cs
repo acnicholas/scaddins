@@ -33,6 +33,7 @@ namespace SCaddins.RunScript.ViewModels
         private string currentFileName;
         private ExternalCommandData commandData;
         private ElementSet elements;
+        private System.Drawing.Color backgroundColour;
 
         public RunScriptViewModel(ExternalCommandData commandData, ElementSet elements)
         {
@@ -42,6 +43,8 @@ namespace SCaddins.RunScript.ViewModels
             output = string.Empty;
             outputList = new BindableCollection<string>();
             LoadScratch();
+            FontSize = 12;
+            backgroundColour = System.Drawing.Color.LightGray;
         }
 
         public static dynamic DefaultViewSettings
@@ -59,6 +62,22 @@ namespace SCaddins.RunScript.ViewModels
         }
 
         public bool CanSave => !string.IsNullOrEmpty(currentFileName);
+
+        public double FontSize
+        {
+            get; set;
+        }
+
+        public System.Drawing.Color Background
+        {   
+            get => backgroundColour;
+
+            set
+            {
+                backgroundColour = value;
+                NotifyOfPropertyChange(() => Background);
+            }
+        }
 
         public string Script
         {
@@ -115,6 +134,28 @@ namespace SCaddins.RunScript.ViewModels
                 NotifyOfPropertyChange(() => Output);
                 NotifyOfPropertyChange(() => OutputList);
             }
+        }
+
+        public void DarkMode()
+        {
+            Background = System.Drawing.Color.Black;
+        }
+
+        public void LightMode()
+        {
+            Background = System.Drawing.Color.LightGray;
+        }
+
+        public void IncreaseFontSize()
+        {
+            FontSize++;
+            NotifyOfPropertyChange(() => FontSize);
+        }
+
+        public void DecreaseFontSize()
+        {
+            FontSize--;
+            NotifyOfPropertyChange(() => FontSize);
         }
 
         public void LoadSample()
@@ -177,6 +218,7 @@ namespace SCaddins.RunScript.ViewModels
                     Output = "No output";
                     return;
             }
+            OutputList.Clear();
             Output = sb.ToString();
             SaveScratch();
         }

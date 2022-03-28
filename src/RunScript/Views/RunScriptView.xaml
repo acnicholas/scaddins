@@ -5,8 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:SCaddins.RunScript.Views"
              mc:Ignorable="d" 
+             MinHeight="480"
+             MinWidth="640"
              d:DesignHeight="640" d:DesignWidth="800">
-    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MaxHeight="800" MaxWidth="1024">
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="600*"></RowDefinition>
@@ -46,16 +48,28 @@
             </MenuItem>
             <MenuItem Header="_Settings">
                 <MenuItem x:Name="DarkMode" Header="_Dark Mode" IsEnabled="False"/>
-                <MenuItem x:Name="LightMode" Header="_Light Mode"/>
+                <MenuItem x:Name="LightMode" Header="_Light Mode" IsEnabled="False"/>
+                <MenuItem x:Name="IncreaseFontSize" Header="_IncreaseFontSize"/>
+                <MenuItem x:Name="DecreaseFontSize" Header="_DecreaseFontSize"/>
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem x:Name="Help" Header="_Help" IsEnabled="False"/>
             </MenuItem>
         </Menu>
 
-        <local:MvvmTextEditor Grid.Row="1" Text="{Binding Script, Mode=TwoWay}" SyntaxHighlighting="lua" FontFamily="FiraCode" FontSize="14" Margin="5" Background="{Binding Background}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <local:MvvmTextEditor 
+            Grid.Row="1"
+            Text="{Binding Script, Mode=TwoWay}"
+            FontFamily="Consolas" 
+            TextSize="{Binding FontSize, Mode=TwoWay}" 
+            Margin="5" 
+            MinWidth="480"
+            MinHeight="240"
+            BackgroundColour="{Binding Background}"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch">
         </local:MvvmTextEditor>
-        <ListBox Grid.Row="2" x:Name="OutputList"></ListBox>
+        <ListBox Grid.Row="2" x:Name="OutputList" MinHeight="100"></ListBox>
         <Button Grid.Row="3" x:Name="Run">Run</Button>
     </Grid>
 </UserControl>

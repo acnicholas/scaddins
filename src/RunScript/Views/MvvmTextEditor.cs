@@ -2,38 +2,74 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Drawing;
     using System.Windows;
+    using System.Windows.Forms.Integration;
+    using FastColoredTextBoxNS;
+    using FontStyle = System.Drawing.FontStyle;
+    using Style = FastColoredTextBoxNS.Style;
 
-    public class MvvmTextEditor : ICSharpCode.AvalonEdit.TextEditor, INotifyPropertyChanged
+    public class MvvmTextEditor : WindowsFormsHost
     {
-        public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register(
-                "Text",
-                typeof(string),
-                typeof(MvvmTextEditor),
-                new FrameworkPropertyMetadata
-                {
-                    DefaultValue = default(string),
-                    BindsTwoWayByDefault = true,
-                    PropertyChangedCallback = OnDependencyPropertyChanged
-                });
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
+            "Text",
+            typeof(string),
+            typeof(MvvmTextEditor),
+            new PropertyMetadata(string.Empty, TextPropertyChangedCallback(), null));
+
+        public static readonly DependencyProperty TextSizeProperty = DependencyProperty.Register(
+            "TextSize",
+             typeof(double),
+             typeof(MvvmTextEditor),
+             new PropertyMetadata((double)12, TextSizePropertyChangedCallback(), null));
+
+        public static readonly DependencyProperty BackgroundColourProperty = DependencyProperty.Register(
+            "BackgroundColour",
+            typeof(System.Drawing.Color),
+            typeof(MvvmTextEditor),
+            new PropertyMetadata(System.Drawing.Color.LightGray, BackgroundColourPropertyChangedCallback(), null));
+
+        private readonly FastColoredTextBox fastColoredTextBox;
 
         public MvvmTextEditor()
         {
-            ShowLineNumbers = true;
-
-            Options = new ICSharpCode.AvalonEdit.TextEditorOptions
-            {
-                IndentationSize = 4,
-                ConvertTabsToSpaces = true,
-                ShowTabs = true,
-                ShowSpaces = true,
-            };
+            string fontName = "Consolas";
+            fastColoredTextBox = new FastColoredTextBox();
+            fastColoredTextBox.Font = new System.Drawing.Font(fontName, Convert.ToSingle(TextSize), System.Drawing.FontStyle.Bold);
+            fastColoredTextBox.ForeColor = System.Drawing.Color.White;
+            fastColoredTextBox.BackColor = System.Drawing.Color.FromArgb(255, 39, 40, 34);
+            fastColoredTextBox.Language = FastColoredTextBoxNS.Language.Lua;
+            Child = fastColoredTextBox;
+            fastColoredTextBox.TextChanged += FastColoredTextBox_TextChanged;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public System.Drawing.Color BackgroundColour
+        {
+            get
+            {
+                return (System.Drawing.Color)GetValue(BackgroundColourProperty);
+            }
 
-        public new string Text
+            set
+            {
+                SetValue(BackgroundColourProperty, value);
+            }
+        }
+
+        public double TextSize
+        {
+            get
+            {
+                return (double)GetValue(TextSizeProperty);
+            }
+
+            set
+            {
+                SetValue(TextSizeProperty, value);
+            }
+        }
+
+        public string Text
         {
             get
             {
@@ -43,39 +79,53 @@
             set
             {
                 SetValue(TextProperty, value);
-                RaisePropertyChanged("Text");
             }
         }
 
-        public void RaisePropertyChanged(string property)
+        private static PropertyChangedCallback BackgroundColourPropertyChangedCallback()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+            return new PropertyChangedCallback(
+                        (d, e) =>
+                        {
+                            var textBoxHost = d as MvvmTextEditor;
+                            if (textBoxHost != null && textBoxHost.fastColoredTextBox != null)
+                            {
+                                textBoxHost.fastColoredTextBox.BackColor = (System.Drawing.Color)textBoxHost.GetValue(e.Property);
+                            }
+                        });
         }
 
-        protected static void OnDependencyPropertyChanged(DependencyObject dobj, DependencyPropertyChangedEventArgs args)
+        private static PropertyChangedCallback TextSizePropertyChangedCallback()
         {
-            var target = (MvvmTextEditor)dobj;
-
-            if (target.Document == null)
-            {
-                return;
-            }
-
-            var caretOffset = target.CaretOffset;
-            var newValue = args.NewValue ?? string.Empty;
-
-            target.Document.Text = (string)newValue;
-            target.CaretOffset = Math.Min(caretOffset, newValue.ToString().Length);
+            return new PropertyChangedCallback(
+                        (d, e) =>
+                        {
+                            var textBoxHost = d as MvvmTextEditor;
+                            if (textBoxHost != null && textBoxHost.fastColoredTextBox != null)
+                            {
+                                var oldName = textBoxHost.fastColoredTextBox.Font.Name;
+                                var size = Convert.ToSingle(textBoxHost.GetValue(e.Property));
+                                textBoxHost.fastColoredTextBox.Font = new System.Drawing.Font(oldName, size, System.Drawing.FontStyle.Bold);
+                            }
+                        });
         }
 
-        protected override void OnTextChanged(EventArgs e)
+        private static PropertyChangedCallback TextPropertyChangedCallback()
         {
-            if (Document != null)
-            {
-                Text = Document.Text;
-            }
+            return new PropertyChangedCallback(
+                    (d, e) =>
+                    {
+                        var textBoxHost = d as MvvmTextEditor;
+                        if (textBoxHost != null && textBoxHost.fastColoredTextBox != null)
+                        {
+                            textBoxHost.fastColoredTextBox.Text = textBoxHost.GetValue(e.Property) as string;
+                        }
+                    });
+        }
 
-            base.OnTextChanged(e);
+        private void FastColoredTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SetValue(TextProperty, fastColoredTextBox.Text);
         }
     }
 }

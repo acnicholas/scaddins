@@ -48,8 +48,9 @@ namespace SCaddins.RunScript
                             }
                             catch (NLua.Exceptions.LuaScriptException lse)
                             {
-                                    object[] obj = new object[1];
+                                    object[] obj = new object[2];
                                     obj[0] = lse.Message;
+                                    obj[1] = lse.StackTrace;
                                     t.RollBack();
                                     return obj;
                             }
@@ -61,17 +62,18 @@ namespace SCaddins.RunScript
                     state.LoadCLRPackage();
                     state["commandData"] = commandData;
                     state["elements"] = elements;
-                    try
-                    {
-                            var r = state.DoString(script);
-                            return r;
-                    }
-                    catch (NLua.Exceptions.LuaScriptException lse)
-                    {
-                            object[] obj = new object[1];
-                            obj[0] = lse.Message;
-                            return obj;
-                    }
+                try
+                {
+                    var r = state.DoString(script);
+                    return r;
+                }
+                catch (NLua.Exceptions.LuaScriptException lse)
+                {
+                    object[] obj = new object[2];
+                    obj[0] = lse.Message;
+                    obj[1] = lse.Source;
+                    return obj;
+                }
             }
         }
 
