@@ -174,7 +174,7 @@
             					<File Id="XTK22" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2022\Xceed.Wpf.Toolkit.dll" />
             					<File Id="HUN22" Name="NHunspell.dll" Source="..\src\bin\Release2022\NHunspell.dll" />
             					<File Id="HUN22N" Name="Hunspellx64.dll" Source="..\src\bin\Release2022\Hunspellx64.dll" />
-            					<File Id="FCTB22" Name="FastColoredTextBox.dll.dll" Source="..\tools\FastColoredTextBox\FastColoredTextBox.dll" />
+            					<File Id="FCTB22" Name="FastColoredTextBox.dll" Source="..\tools\FastColoredTextBox\FastColoredTextBox.dll" />
             					<File Id="EPP22" Name="EPPlus.dll" Source="..\src\bin\Release2022\EPPlus.dll" />
 					</Component>
 				</Directory>

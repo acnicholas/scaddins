@@ -43,6 +43,11 @@
             fastColoredTextBox.TextChanged += FastColoredTextBox_TextChanged;
         }
 
+        ~MvvmTextEditor()
+        {
+            fastColoredTextBox.Dispose();   
+        }
+
         public System.Drawing.Color BackgroundColour
         {
             get

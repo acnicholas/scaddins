@@ -44,6 +44,7 @@ namespace SCaddins.RunScript
                             {
                                     var r = state.DoString(script);
                                     t.Commit();
+                                    state.Dispose();
                                     return r;
                             }
                             catch (NLua.Exceptions.LuaScriptException lse)
@@ -52,6 +53,7 @@ namespace SCaddins.RunScript
                                     obj[0] = lse.Message;
                                     obj[1] = lse.StackTrace;
                                     t.RollBack();
+                                    state.Dispose();
                                     return obj;
                             }
                     }
@@ -65,6 +67,7 @@ namespace SCaddins.RunScript
                 try
                 {
                     var r = state.DoString(script);
+                    state.Dispose();
                     return r;
                 }
                 catch (NLua.Exceptions.LuaScriptException lse)
@@ -72,6 +75,7 @@ namespace SCaddins.RunScript
                     object[] obj = new object[2];
                     obj[0] = lse.Message;
                     obj[1] = lse.Source;
+                    state.Dispose();
                     return obj;
                 }
             }

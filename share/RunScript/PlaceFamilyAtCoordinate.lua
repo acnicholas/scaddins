@@ -1,6 +1,7 @@
 import ('RevitAPI', 'Autodesk.Revit.DB')
 import ('System', 'System.Collections.Generic')
-import ('C:\\Code\\cs\\scaddins\\src\\bin\\Debug\\SCaddins.dll', 'SCaddins.PlaceCoordinate')
+-- import ('C:\\Code\\cs\\scaddins\\src\\bin\\Debug\\SCaddins.dll', 'SCaddins.PlaceCoordinate')
+import ('SCaddins', 'SCaddins.PlaceCoordinate')
 
 doc = commandData.Application.ActiveUIDocument.Document
 
