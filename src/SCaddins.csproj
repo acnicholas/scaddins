@@ -667,6 +667,8 @@
       <Link>SCexport-example-conf.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Assets\Ribbon\lua-rvt-16.png" />
+    <Resource Include="Assets\lua.png" />
     <Resource Include="Assets\align.png" />
     <Resource Include="Assets\help2.png" />
     <Resource Include="Assets\edit2.png" />

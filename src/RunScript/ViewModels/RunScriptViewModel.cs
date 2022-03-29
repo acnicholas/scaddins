@@ -56,6 +56,8 @@ namespace SCaddins.RunScript.ViewModels
                 settings.Width = 300;
                 settings.Title = "Run Lua Script";
                 settings.ShowInTaskbar = false;
+                settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
+                    new Uri("pack://application:,,,/SCaddins;component/Assets/lua.png"));
                 settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
                 return settings;
             }

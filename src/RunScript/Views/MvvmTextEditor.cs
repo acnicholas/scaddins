@@ -34,11 +34,13 @@
         public MvvmTextEditor()
         {
             string fontName = "Consolas";
-            fastColoredTextBox = new FastColoredTextBox();
-            fastColoredTextBox.Font = new System.Drawing.Font(fontName, Convert.ToSingle(TextSize), System.Drawing.FontStyle.Bold);
-            fastColoredTextBox.ForeColor = System.Drawing.Color.White;
-            fastColoredTextBox.BackColor = System.Drawing.Color.FromArgb(255, 39, 40, 34);
-            fastColoredTextBox.Language = FastColoredTextBoxNS.Language.Lua;
+            fastColoredTextBox = new FastColoredTextBox
+            {
+                Font = new System.Drawing.Font(fontName, Convert.ToSingle(TextSize), System.Drawing.FontStyle.Bold),
+                ForeColor = System.Drawing.Color.White,
+                BackColor = System.Drawing.Color.FromArgb(255, 39, 40, 34),
+                Language = FastColoredTextBoxNS.Language.Lua
+            };
             Child = fastColoredTextBox;
             fastColoredTextBox.TextChanged += FastColoredTextBox_TextChanged;
         }
@@ -105,7 +107,7 @@
             return new PropertyChangedCallback(
                         (d, e) =>
                         {
-                            var textBoxHost = d as MvvmTextEditor;
+                            MvvmTextEditor textBoxHost = d as MvvmTextEditor;
                             if (textBoxHost != null && textBoxHost.fastColoredTextBox != null)
                             {
                                 var oldName = textBoxHost.fastColoredTextBox.Font.Name;
@@ -120,7 +122,7 @@
             return new PropertyChangedCallback(
                     (d, e) =>
                     {
-                        var textBoxHost = d as MvvmTextEditor;
+                        MvvmTextEditor textBoxHost = d as MvvmTextEditor;
                         if (textBoxHost != null && textBoxHost.fastColoredTextBox != null)
                         {
                             textBoxHost.fastColoredTextBox.Text = textBoxHost.GetValue(e.Property) as string;

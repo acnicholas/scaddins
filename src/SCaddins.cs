@@ -346,9 +346,9 @@ namespace SCaddins
         private static PushButtonData LoadRunScript(string dll)
         {
             var pbd = new PushButtonData(
-                              "RunScript", @"Run Script (c#)", dll, "SCaddins.RunScript.RunScriptCommand");
-            AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.script-rvt-16.png", 16, dll);
-            pbd.ToolTip = "Run a c-sharp script (cs-script)";
+                              "RunScript", @"Run Script (lua)", dll, "SCaddins.RunScript.RunScriptCommand");
+            AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.lua-rvt-16.png", 16, dll);
+            pbd.ToolTip = "Run a lua script";
             return pbd;
         }
 

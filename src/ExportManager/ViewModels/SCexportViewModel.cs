@@ -466,7 +466,7 @@ namespace SCaddins.ExportManager.ViewModels
         {
             var revisionSelectionViewModel = new RevisionSelectionViewModel(exportManager.Doc);
             bool? result = SCaddinsApp.WindowManager.ShowDialog(revisionSelectionViewModel, null, RevisionSelectionViewModel.DefaultWindowSettings);
-            bool newBool = result.HasValue ? result.Value : false;
+            bool newBool = result ?? false;
             if (newBool)
             {
                 if (revisionSelectionViewModel.SelectedRevision != null)
@@ -488,7 +488,7 @@ namespace SCaddins.ExportManager.ViewModels
 
             var viewModel = new TemplateViewViewModel(this.SelectedSheets);
             bool? result = SCaddinsApp.WindowManager.ShowDialog(viewModel, null, TemplateViewViewModel.DefaultWindowSettings);
-            bool newBool = result.HasValue ? result.Value : false;
+            bool newBool = result ?? false;
             if (newBool)
             {
                 ViewUtilities.ViewAlignmentUtils.AlignViews(exportManager.Doc, this.SelectedSheets, viewModel.SelectedSheet);
@@ -718,7 +718,7 @@ namespace SCaddins.ExportManager.ViewModels
         {
             var viewSetSelectionViewModel = new ViewSetSelectionViewModel(exportManager.AllViewSheetSets);
             bool? result = SCaddinsApp.WindowManager.ShowDialog(viewSetSelectionViewModel, null, ViewSetSelectionViewModel.DefaultWindowSettings);
-            bool newBool = result.HasValue ? result.Value : false;
+            bool newBool = result ?? false;
             if (newBool && viewSetSelectionViewModel.SelectedSet != null)
             {
                 IsNotifying = false;
@@ -792,9 +792,11 @@ namespace SCaddins.ExportManager.ViewModels
             var renameManager = new RenameUtilities.RenameManager(
                 exportManager.Doc,
                 selectedSheets.Select(s => s.Id).ToList());
-            var renameSheetModel = new SCaddins.RenameUtilities.ViewModels.RenameUtilitiesViewModel(renameManager);
-            renameSheetModel.SelectedParameterCategory = "Sheets";
-            renameSheetModel.ParameterCategoryEnabled = false;
+            var renameSheetModel = new SCaddins.RenameUtilities.ViewModels.RenameUtilitiesViewModel(renameManager)
+            {
+                SelectedParameterCategory = "Sheets",
+                ParameterCategoryEnabled = false
+            };
             var settings = RenameUtilities.ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings;
             settings.Title = "Rename <" + selectedSheets.Count.ToString() + @" Sheets from Selection>";
             SCaddinsApp.WindowManager.ShowDialog(renameSheetModel, null, settings);
@@ -811,7 +813,7 @@ namespace SCaddins.ExportManager.ViewModels
         {
             var saveAsVm = new ViewSetSaveAsViewModel("Select name for new view sheet set", exportManager.AllViewSheetSets);
             bool? result = SCaddinsApp.WindowManager.ShowDialog(saveAsVm, null, ViewSetSaveAsViewModel.DefaultWindowSettings);
-            bool newBool = result.HasValue ? result.Value : false;
+            bool newBool = result ?? false;
             if (newBool)
             {
                 exportManager.SaveViewSet(saveAsVm.SaveName, selectedSheets);
