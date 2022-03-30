@@ -42,6 +42,12 @@ namespace SCaddins.Common
             return true;
         }
 
+        public bool? ShowFileSelectionDialog(string defaultFile, out string filePath, string defaultExtension)
+        {
+            filePath = defaultFile;
+            return true;
+        }
+
         public void ShowMessageBox(string message)
         {
             System.Diagnostics.Debug.WriteLine(message);
@@ -77,6 +83,6 @@ namespace SCaddins.Common
         {
             fileName = defaultFileName;
             return true;
-        }
+        }       
     }
 }

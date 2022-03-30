@@ -10,6 +10,8 @@
 
         bool? ShowFileSelectionDialog(string defaultFile, out string filePath);
 
+        bool? ShowFileSelectionDialog(string defaultFile, out string filePath, string defaultExtension);
+
         void ShowMessageBox(string message);
 
         void ShowMessageBox(string title, string message);

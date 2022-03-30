@@ -1,5 +1,6 @@
 ﻿<UserControl x:Class="SCaddins.RunScript.Views.RunScriptView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:cal="http://www.caliburnproject.org"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -53,7 +54,10 @@
                 <MenuItem x:Name="DecreaseFontSize" Header="_DecreaseFontSize"/>
             </MenuItem>
             <MenuItem Header="_Help">
-                <MenuItem x:Name="Help" Header="_Help" IsEnabled="False"/>
+                <MenuItem x:Name="Help"
+                    Header="_Help"
+                    IsEnabled="True"
+                    cal:Message.Attach="[Action NavigateTo('https://www.lua.org/manual/5.4')]"/>
             </MenuItem>
         </Menu>
 

@@ -85,6 +85,30 @@ namespace SCaddins.Common
             }
         }
 
+        public bool? ShowFileSelectionDialog(string defaultFile, out string filePath, string defaultExtension)
+        {
+            using (var dialog = new System.Windows.Forms.OpenFileDialog())
+            {
+                if (File.Exists(defaultFile))
+                {
+                    dialog.InitialDirectory = Path.GetDirectoryName(defaultFile);
+                }
+                dialog.Multiselect = false;
+                dialog.Filter = defaultExtension;
+                System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    filePath = dialog.FileName;
+                    return true;
+                }
+                else
+                {
+                    filePath = defaultFile;
+                    return false;
+                }
+            }
+        }
+
         public void ShowMessageBox(string message)
         {
             System.Windows.MessageBox.Show(message);

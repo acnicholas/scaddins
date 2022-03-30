@@ -18,8 +18,10 @@
 namespace SCaddins.RunScript.ViewModels
 {
     using System;
+    using System.Diagnostics;
     using System.Dynamic;
     using System.IO;
+    using System.Reflection;
     using System.Text;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -162,7 +164,10 @@ namespace SCaddins.RunScript.ViewModels
 
         public void LoadSample()
         {
-            var f = SCaddinsApp.WindowManager.ShowFileSelectionDialog(@"C:\Program Files\SCaddins\SCaddins\share\RunScript\HelloWorld.cs", out currentFileName);
+            var f = SCaddinsApp.WindowManager.ShowFileSelectionDialog(
+                        @"C:\Program Files\SCaddins\SCaddins\share\RunScript\HelloWorld.lua",
+                        out currentFileName,
+                        @"Lua Script (*.lua)|*.lua| All files (*.*)|*.*");
             if (f.HasValue && f.Value)
             {
                 if (File.Exists(currentFileName))
@@ -187,7 +192,10 @@ namespace SCaddins.RunScript.ViewModels
 
         public void LoadScriptFromFile()
         {
-            var f = SCaddinsApp.WindowManager.ShowFileSelectionDialog(string.Empty, out currentFileName);
+            var f = SCaddinsApp.WindowManager.ShowFileSelectionDialog(
+                    string.Empty,
+                    out currentFileName,
+                    @"Lua Script (*.lua)|*.lua| All files (*.*)|*.*");
             if (f.HasValue && f.Value)
             {
                 if (File.Exists(currentFileName))
@@ -197,6 +205,16 @@ namespace SCaddins.RunScript.ViewModels
                     NotifyOfPropertyChange(() => CanSave);
                 }
             }
+        }
+
+        public static void NavigateTo(System.Uri url)
+        {
+            Process.Start(new ProcessStartInfo(url.AbsoluteUri));
+        }
+
+        public void NewFile()
+        {
+            // TODO
         }
 
         // ReSharper disable once OptionalParameterHierarchyMismatch

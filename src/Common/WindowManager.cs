@@ -74,6 +74,11 @@
             return dialogService.ShowFileSelectionDialog(defaultFile, out filePath);
         }
 
+        public bool? ShowFileSelectionDialog(string defaultFile, out string filePath, string defaultExtension)
+        {
+            return dialogService.ShowFileSelectionDialog(defaultFile, out filePath, defaultExtension);
+        }
+
         public void ShowMessageBox(string message)
         {
             dialogService.ShowMessageBox(message);
