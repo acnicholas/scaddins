@@ -59,7 +59,7 @@ namespace SCaddins.ExportManager
             foreach (var element in collector)
             {
                 var view = (ViewSheet)element;
-#if REVIT2019 || REVIT2020 || REVIT2021 || REVIT2022
+#if REVIT2019 || REVIT2020 || REVIT2021 || REVIT2022 || REVIT2023
                 result.Add(new OpenableView(view.Name, view.SheetNumber, view));
 #else
                 result.Add(new OpenableView(view.ViewName, view.SheetNumber, view));

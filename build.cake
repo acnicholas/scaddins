@@ -68,6 +68,8 @@ Task("CreateAddinManifests")
 		    System.IO.File.WriteAllText(@"src\bin\Release2021\SCaddins2021.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2021"));
 		if (DirectoryExists(@"src\bin\Release2022"))
 		    System.IO.File.WriteAllText(@"src\bin\Release2022\SCaddins2022.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2022"));
+		if (DirectoryExists(@"src\bin\Release2023"))
+		    System.IO.File.WriteAllText(@"src\bin\Release2022\SCaddins2023.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2023"));
 		});
 
 Task("Revit2018")
@@ -94,6 +96,11 @@ Task("Revit2022")
 .IsDependentOn("Restore-NuGet-Packages")
 .WithCriteria(APIAvailable("2022"))
 .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2022")));
+
+Task("Revit2023")
+.IsDependentOn("Restore-NuGet-Packages")
+.WithCriteria(APIAvailable("2023"))
+.Does(() => MSBuild(solutionFile, GetBuildSettings("Release2023")));
 
 Task("SetUpTests")
 .Does(() =>
@@ -124,6 +131,10 @@ Task("Test2022")
 .IsDependentOn("SetUpTests")
 .Does(() => StartProcess(revitTestFrameworkBin, GetTestArgs("2022")));
 
+Task("Test2023")
+.IsDependentOn("SetUpTests")
+.Does(() => StartProcess(revitTestFrameworkBin, GetTestArgs("2023")));
+
 Task("Installer")
 .IsDependentOn("Restore-Installer-NuGet-Packages")
 .Does(() =>
@@ -133,6 +144,7 @@ Task("Installer")
 		Environment.SetEnvironmentVariable("R2020", APIAvailable("2020") ? "Enabled" : "Disabled");
 		Environment.SetEnvironmentVariable("R2021", APIAvailable("2021") ? "Enabled" : "Disabled");
 		Environment.SetEnvironmentVariable("R2022", APIAvailable("2022") ? "Enabled" : "Disabled");
+		Environment.SetEnvironmentVariable("R2023", APIAvailable("2023") ? "Enabled" : "Disabled");
 		var settings = new MSBuildSettings();
 		settings.SetConfiguration("Release");
 		settings.WithTarget("Rebuild");
@@ -152,6 +164,7 @@ Task("Default")
 .IsDependentOn("Revit2020")
 .IsDependentOn("Revit2021")
 .IsDependentOn("Revit2022")
+.IsDependentOn("Revit2023")
 .IsDependentOn("CreateAddinManifests");
 
 RunTarget(target);

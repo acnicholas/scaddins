@@ -140,6 +140,11 @@ namespace SCaddins.RunScript.ViewModels
             }
         }
 
+        public static void NavigateTo(System.Uri url)
+        {
+            Process.Start(new ProcessStartInfo(url.AbsoluteUri));
+        }
+
         public void DarkMode()
         {
             Background = System.Drawing.Color.Black;
@@ -205,11 +210,6 @@ namespace SCaddins.RunScript.ViewModels
                     NotifyOfPropertyChange(() => CanSave);
                 }
             }
-        }
-
-        public static void NavigateTo(System.Uri url)
-        {
-            Process.Start(new ProcessStartInfo(url.AbsoluteUri));
         }
 
         public void NewFile()

@@ -241,7 +241,7 @@ namespace SCaddins.LineOfSight
                 return null;
             }
             var viewDrafting = ViewDrafting.Create(doc, viewFamilyType.Id);
-#if REVIT2019 || REVIT2020 || REVIT2021 || REVIT2022
+#if REVIT2019 || REVIT2020 || REVIT2021 || REVIT2022 || REVIT2023
             viewDrafting.Name = newViewName;
 #else
             view.ViewName = newViewName;

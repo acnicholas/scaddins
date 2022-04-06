@@ -82,6 +82,17 @@
                 </Feature>
                 <?endif?>
 
+               <?if $(env.R2023) = Enabled ?> 
+                <Feature Id="Revit2023" Level="1" Title="SCaddins for Revit 2023">
+                    <ComponentRef Id="SCaddins2023" />
+                    <ComponentRef Id="SCaddinsAddin2023" />
+                    <ComponentRef Id="SCaddinsEtc" />
+                    <ComponentRef Id="SCexportConfigProto" />
+                    <ComponentRef Id="SCaddinsRFA2023" />
+					<ComponentRef Id="RunScriptExamples" />
+                </Feature>
+                <?endif?>
+
                 <WixVariable Id="WixUIDialogBmp" Value="wixd.bmp" />
                 <WixVariable Id="WixUIBannerBmp" Value="wixb.bmp" />
                 <Icon Id="sc.ico" SourceFile="..\share\icons\64x64\sc.ico" />

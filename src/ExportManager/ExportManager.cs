@@ -471,7 +471,7 @@ namespace SCaddins.ExportManager
                 foreach (var parameter in parameters)
                 {
                     var p = parameter as Parameter;
-#if REVIT2022
+#if REVIT2022 || REVIT2023
                     if (!yesNoParameters.Select(s => s.Name).Contains(p.Definition.Name)
                         && !(p.Element is ElementType)
                         && !p.IsReadOnly
@@ -503,7 +503,7 @@ namespace SCaddins.ExportManager
                 foreach (var parameter in parameters)
                 {
                     var p = parameter as Parameter;
-#if REVIT2022
+#if REVIT2022 || REVIT2023
                     if (!yesNoParameters.Select(s => s.Name).Contains(p.Definition.Name)
                         && !(p.Element is ElementType)
                         && !p.IsReadOnly
