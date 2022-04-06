@@ -69,7 +69,7 @@ Task("CreateAddinManifests")
 		if (DirectoryExists(@"src\bin\Release2022"))
 		    System.IO.File.WriteAllText(@"src\bin\Release2022\SCaddins2022.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2022"));
 		if (DirectoryExists(@"src\bin\Release2023"))
-		    System.IO.File.WriteAllText(@"src\bin\Release2022\SCaddins2023.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2023"));
+		    System.IO.File.WriteAllText(@"src\bin\Release2023\SCaddins2023.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2023"));
 		});
 
 Task("Revit2018")

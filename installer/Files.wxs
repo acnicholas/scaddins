@@ -58,7 +58,7 @@
 						</Directory>
                         <Directory Id="RFAFILES2023" Name="2023">
                             <?if $(env.R2023) = Enabled ?>
-                            <Component Id="SCaddinsRFA2023" Guid="" Win64="yes" DiskId="1">
+                            <Component Id="SCaddinsRFA2023" Guid="04d937f7-5ec9-4ba8-9351-775816a659f7" Win64="yes" DiskId="1">
                                 <CreateFolder />
                                 <File Id="_023.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2023\SC-Survey_Point.rfa" />
                             </Component>
@@ -201,10 +201,10 @@
 
                 <?if $(env.R2023) = Enabled ?>
                 <Directory Id="DLLDIR2023" Name="2023">
-                    <Component Id="SCaddins2023" Guid="" Win64="yes" DiskId="1">
+                    <Component Id="SCaddins2023" Guid="46d24b31-081e-4a21-b01a-2c7d85019d89" Win64="yes" DiskId="1">
                         <CreateFolder />
                         <File Id="SCaddins2023.dll" Name="SCaddins.dll" Source="..\src\bin\Release2023\SCaddins.dll" />
-                        <File Id="Newtonsoft.Json.dll.22" Name="Newtonsoft.Json.dll" Source="..\src\bin\Release2023\Newtonsoft.Json.dll" />
+                        <File Id="Newtonsoft.Json.dll.23" Name="Newtonsoft.Json.dll" Source="..\src\bin\Release2023\Newtonsoft.Json.dll" />
                         <File Id="CM23" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2023\Caliburn.Micro.dll" />
                         <File Id="CMP23" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2023\Caliburn.Micro.Platform.dll" />
                         <File Id="CMPC23" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2023\Caliburn.Micro.Platform.Core.dll" />
@@ -273,14 +273,14 @@
 					</Directory>
 					<?endif?>
 
-                    <?if $(env.R2023) = Enabled ?>
-                    <Directory Id="SCaddinsAddin2022Directory" Name="2023">
-                        <Component Id="SCaddinsAddin2023" Guid="" DiskId="1">
-                            <CreateFolder />
-                            <File Id="SCADDINS23.ADDIN" Name="SCaddins23.addin" Source="..\src\bin\Release2023\SCaddins2022.addin" />
-                        </Component>
-                    </Directory>
-                    <?endif?>
+					<?if $(env.R2023) = Enabled ?>
+					<Directory Id="SCaddinsAddin2023Directory" Name="2023">
+						<Component Id="SCaddinsAddin2023" Guid="" DiskId="1">
+							<CreateFolder />
+							<File Id="SCADDINS23.ADDIN" Name="SCaddins23.addin" Source="..\src\bin\Release2023\SCaddins2023.addin" />
+						</Component>
+					</Directory>
+					<?endif?>
 
                 </Directory>
 			</Directory>

@@ -167,7 +167,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2023|x64'">
-    <OutputPath>bin\x64\Release2023\</OutputPath>
+    <OutputPath>bin\Release2023\</OutputPath>
     <DefineConstants>TRACE;REVIT2023</DefineConstants>
     <Optimize>true</Optimize>
     <FileAlignment>4096</FileAlignment>
