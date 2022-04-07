@@ -251,7 +251,7 @@ namespace SCaddins.ExportManager
             }
         }
 
-#if REVIT2022
+#if REVIT2022 || REVIT2023
         /// <summary>
         /// Fallback options for pdf export (Revit versions 2022 and greater.
         /// </summary>
@@ -569,7 +569,7 @@ namespace SCaddins.ExportManager
                 ExportRevitPDF(sheet, log);
             }
 
-#if !REVIT2022
+#if !REVIT2022 && !REVIT2023
             if (sheet.SCPrintSetting != null)
             {
                 if (exportFlags.HasFlag(ExportOptions.DWG))
@@ -647,7 +647,7 @@ namespace SCaddins.ExportManager
             AcadVersion = ACADVersion.Default;
             SaveHistory = Settings1.Default.SaveHistory;
             ShowExportLog = Settings1.Default.ShowExportLog;
-#if REVIT2022
+#if REVIT2022 || REVIT2023
             ForceRevisionToDateString = false;
             UseDateForEmptyRevisions = false;
 #else
@@ -751,7 +751,7 @@ namespace SCaddins.ExportManager
             }
         }
 
-#if REVIT2022
+#if REVIT2022 || REVIT2023
         public bool TryGetExportPdfSettingsByName(string name, out PDFExportOptions options)
         {
             var collector = new FilteredElementCollector(Doc);
@@ -842,7 +842,7 @@ namespace SCaddins.ExportManager
                 var name = new SegmentedSheetName();
                 name.Name = "YYYYMMDD-AD-NNN";
                 name.NameFormat = "$projectNumber-$sheetNumber[$sheetRevision] - $sheetDescription";
-#if REVIT2022
+#if REVIT2022 || REVIT2023
                 name.PDFExportOptions = CreateDefaultPDFExportOptions(name.NameFormat, Doc);
                 name.DWGExportOptions = name.PDFExportOptions;
 #endif
@@ -1013,7 +1013,7 @@ namespace SCaddins.ExportManager
 
         private void ExportRevitPDF(ExportSheet vs, ExportLog log)
         {
-#if REVIT2022
+#if REVIT2022 || REVIT2023
 
             if (log != null)
             {
@@ -1046,7 +1046,7 @@ namespace SCaddins.ExportManager
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private void ExportAdobePDF(ExportSheet vs, ExportLog log)
         {
-#if !REVIT2022
+#if !REVIT2022 && !REVIT2023
             if (log != null) {
                 log.AddMessage(Environment.NewLine + Resources.MessageStartingPDFExport);
             } else
@@ -1283,7 +1283,7 @@ namespace SCaddins.ExportManager
                                     case "Hook":
                                         name.Hooks.Add(reader.ReadString());
                                         break;
-#if REVIT2022
+#if REVIT2022 || REVIT2023
                                     case "PDFNamingRule":
                                         PDFExportOptions opts;
                                         if (TryGetExportPdfSettingsByName(reader.ReadString(), out opts))
@@ -1305,7 +1305,7 @@ namespace SCaddins.ExportManager
                             }
                         } while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == "FilenameScheme"));
                         FileNameTypes.Add(name);
-#if REVIT2022
+#if REVIT2022 || REVIT2023
                         if (name.PDFExportOptions == null && name.NameFormat != null)
                         {
                             name.PDFExportOptions = CreateDefaultPDFExportOptions(name.NameFormat, Doc);
@@ -1351,7 +1351,7 @@ namespace SCaddins.ExportManager
 
         private void SetDefaultFlags()
         {
-#if REVIT2022
+#if REVIT2022 || REVIT2023
             AddExportOption(ExportOptions.DirectPDF);
 #else
              if (PDFSanityCheck()) {

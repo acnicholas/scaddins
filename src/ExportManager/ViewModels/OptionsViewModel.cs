@@ -291,7 +291,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public bool ExportAdobePDFEnabled
         {
-#if REVIT2022
+#if REVIT2022 || REVIT2023
             get { return false; }
 #else
             get { return true; }
@@ -350,7 +350,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public bool ExportRevitPDFEnabled
         {
-#if REVIT2022
+#if REVIT2022 || REVIT2023
             get { return true; }
 #else
             get { return false; }

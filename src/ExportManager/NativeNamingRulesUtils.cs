@@ -23,7 +23,7 @@ namespace SCaddins.ExportManager
 
     public class NativeNamingRulesUtils
     {
-#if REVIT2022
+#if REVIT2022 || REVIT2023
         public static string GetExportNameFromNamingRule(PDFExportOptions opts, ExportSheet vs)
         {
             var segs = opts.GetNamingRule();
@@ -73,7 +73,7 @@ namespace SCaddins.ExportManager
         }
 #endif
 
-#if REVIT2022
+#if REVIT2022 || REVIT2023
         public static List<TableCellCombinedParameterData> CreateNamingRuleFromFormatString(string filenameScheme, Document doc)
         {
             var fec = new FilteredElementCollector(doc);
