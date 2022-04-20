@@ -605,6 +605,18 @@ namespace SCaddins.ExportManager.ViewModels
                 {
                     return;
                 }
+                if (value == false)
+                {
+                    SCaddinsApp.WindowManager.ShowWarningMessageBox(
+                        "Warnning", 
+                        "It is best to keep this on as it will give you visual feedback on sheets that may not export correctly." 
+                        + System.Environment.NewLine
+                        + System.Environment.NewLine
+                        + "Turn it off only if SCexport startup times are very slow:"
+                        + System.Environment.NewLine
+                        + System.Environment.NewLine
+                        + "If turned off, you can manually verify sheets after opening SCexport by pressing 'V' or using the option in the context menu");
+                }
                 exportManager.VerifyOnStartup = value;
                 Settings1.Default.VerifyOnStartup = value;
                 Settings1.Default.Save();

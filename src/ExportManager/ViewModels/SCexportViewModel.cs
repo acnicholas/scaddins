@@ -49,8 +49,8 @@ namespace SCaddins.ExportManager.ViewModels
 
         public SCexportViewModel(Manager exportManager, List<Autodesk.Revit.DB.ViewSheet> preSelectedViews)
         {
-            printTypes = (new[] { "Print A3", "Print A2", "Print Full Size" }).ToList();
-            selectedPrintType = "Print A3";
+            printTypes = GetAvailablePrinters();
+            selectedPrintType = printTypes[0];
             this.exportManager = exportManager;
             isClosing = false;
             closeMode = CloseMode.Exit;
@@ -1022,6 +1022,20 @@ namespace SCaddins.ExportManager.ViewModels
             {
                 SCaddinsApp.WindowManager.ShowMessageBox(exception.Message);
             }
+        }
+
+        private List<string> GetAvailablePrinters()
+        {
+            var result = new List<string>();
+            var printers = System.Drawing.Printing.PrinterSettings.InstalledPrinters.Cast<string>();
+            if (printers.Contains(Settings1.Default.A3PrinterDriver)) {
+                result.Add("Print A3");
+            }
+            if (printers.Contains(Settings1.Default.LargeFormatPrinterDriver)) {
+                result.Add("Print A2");
+                result.Add("Print Full Size");
+            }
+            return result;
         }
     }
 }

@@ -422,6 +422,7 @@
                 Margin="0"
                 Height="Auto"
                 Width="Auto"
+                IsEnabled="{Binding CanPrint}"
                 ItemsSource="{Binding PrintTypes}"
                 SelectedItem="{Binding SelectedPrintType}"
                 Text=""
