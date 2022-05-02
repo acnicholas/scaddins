@@ -1,4 +1,4 @@
-// (C) Copyright 2014-2020 by Andrew Nicholas
+// (C) Copyright 2014-2022 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -48,6 +48,7 @@ namespace SCaddins.SheetCopier
             GetAllViewsInModel(ExistingViews, doc);
             CustomSheetParametersOne = new ObservableCollection<string>(GetAllParameterValuesInModel(Settings.Default.CustomSheetParameterOne));
             CustomSheetParametersTwo = new ObservableCollection<string>(GetAllParameterValuesInModel(Settings.Default.CustomSheetParameterTwo));
+            CustomSheetParametersThree = new ObservableCollection<string>(GetAllParameterValuesInModel(Settings.Default.CustomSheetParameterThree));
         }
 
         public ViewType ActiveViewType => doc.ActiveView.ViewType;
@@ -73,11 +74,15 @@ namespace SCaddins.SheetCopier
 
         public ObservableCollection<string> CustomSheetParametersTwo { get; set; }
 
+        public ObservableCollection<string> CustomSheetParametersThree { get; set; }
+
         public ObservableCollection<SheetCopierViewHost> ViewHosts { get; }
 
         public string PrimaryCustomSheetParameterName => Settings.Default.CustomSheetParameterOne;
 
         public string SecondaryCustomSheetParameterName => Settings.Default.CustomSheetParameterTwo;
+
+        public string TertiaryCustomSheetParameterName => Settings.Default.CustomSheetParameterThree;
 
         public Dictionary<string, View> ViewTemplates { get; } = new Dictionary<string, View>();
 
@@ -242,8 +247,11 @@ namespace SCaddins.SheetCopier
             string sheetNumber,
             string sheetTitle,
             string param1,
-            string param2)
+            string param2,
+            string param3)
         {
+            // Make a sheet without a title block, and copy the old titleblock later.
+            // FIXME. make this work if there is more than one title block on a sheet.
             var result = ViewSheet.Create(doc, ElementId.InvalidElementId);
             if (result == null)
             {
@@ -264,6 +272,13 @@ namespace SCaddins.SheetCopier
             {
                 Parameter param = viewCategoryParamList.First();
                 param.Set(param2);
+            }
+            viewCategoryParamList.Clear();
+            viewCategoryParamList = result.GetParameters(Settings.Default.CustomSheetParameterThree);
+            if (viewCategoryParamList.Count > 0)
+            {
+                Parameter param = viewCategoryParamList.First();
+                param.Set(param3);
             }
             return result;
         }
@@ -372,6 +387,8 @@ namespace SCaddins.SheetCopier
                 return false;
             }
 
+            // Run this is there is no host sheet
+            // i.e. individual views are selected.
             if (host.Type == ViewHostType.Model)
             {
                 CreateViews(host, summaryText);
@@ -400,7 +417,8 @@ namespace SCaddins.SheetCopier
                     host.Number,
                     host.Title,
                     host.PrimaryCustomSheetParameter,
-                    host.SecondaryCustomSheetParameter);
+                    host.SecondaryCustomSheetParameter,
+                    host.TertiaryCustomSheetParameter);
             }
             catch (Exception ex)
             {
@@ -628,7 +646,7 @@ namespace SCaddins.SheetCopier
                 SCaddinsApp.WindowManager.ShowMessageBox("ERROR", "New view name could not be set to: " + newName);
             }
 
-            TryAssignViewTemplate(v, view.ViewTemplateName);
+            TryAssignViewTemplate(v, view.ViewTemplateName, view.OldView.ViewTemplateId);
 
             PlaceViewPortOnSheet(sheet.DestinationSheet, destViewId, sourceViewCentre);
         }
@@ -662,25 +680,59 @@ namespace SCaddins.SheetCopier
             return originalNumber + "-" + inc.ToString(CultureInfo.InvariantCulture);
         }
 
+        /// <summary>
+        /// Place a newly created view on a sheet.
+        /// User this when copying a sheet AND assigning a new associated level.
+        /// </summary>
         public void PlaceNewViewOnSheet(
             SheetCopierView view,
             SheetCopierViewHost sheet,
             XYZ sourceViewCentre)
         {
             Level level = null;
-            Levels.TryGetValue(view.AssociatedLevelName, out level);
-            if (level != null)
-            {
-                using (ViewPlan vp = ViewPlan.Create(doc, GetFloorPlanViewFamilyTypeId(Doc, view.OldView.ViewType), level.Id))
+                try
                 {
-                    vp.CropBox = view.OldView.CropBox;
-                    vp.CropBoxActive = view.OldView.CropBoxActive;
-                    vp.CropBoxVisible = view.OldView.CropBoxVisible;
-                    TryAssignViewTemplate(vp, view.ViewTemplateName);
-                    PlaceViewPortOnSheet(sheet.DestinationSheet, vp.Id, sourceViewCentre);
+                    Levels.TryGetValue(view.AssociatedLevelName, out level);
                 }
-            }
-            level.Dispose();
+                catch
+                {
+                    SCaddinsApp.WindowManager.ShowErrorMessageBox("Error", "level not found");
+                    return;
+                }
+
+                if (level != null)
+                {
+                    var floorPlanViewFamilyTypeId = GetFloorPlanViewFamilyTypeId(Doc, view.OldView.ViewType);
+                    if (Autodesk.Revit.DB.ElementId.InvalidElementId == floorPlanViewFamilyTypeId)
+                    {
+                        SCaddinsApp.WindowManager.ShowErrorMessageBox("Error getting viewtype", "Error getting viewtype");
+                        return;
+                    }
+
+                    using (ViewPlan vp = ViewPlan.Create(doc, floorPlanViewFamilyTypeId, level.Id))
+                    {
+                        try
+                        {
+                            vp.CropBox = view.OldView.CropBox;
+                            vp.CropBoxActive = view.OldView.CropBoxActive;
+                            vp.CropBoxVisible = view.OldView.CropBoxVisible;
+                            vp.Name = view.Title;
+                            var oldAnno = view.OldView.AreAnnotationCategoriesHidden;
+                            vp.AreAnnotationCategoriesHidden = true;
+                            TryAssignViewTemplate(vp, view.ViewTemplateName, view.OldView.ViewTemplateId);
+                            PlaceViewPortOnSheet(sheet.DestinationSheet, vp.Id, sourceViewCentre);
+                            vp.AreAnnotationCategoriesHidden = oldAnno;
+                        }
+                        catch (Exception ex)
+                        {
+                            SCaddinsApp.WindowManager.ShowErrorMessageBox("Error in PlaceNewViewOnSheet", ex.Message);
+                        }
+                    }
+                }
+                else
+                {
+                    SCaddinsApp.WindowManager.ShowErrorMessageBox("Error", "level not found");
+                }
         }
 
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
@@ -721,8 +773,23 @@ namespace SCaddins.SheetCopier
             return !ExistingSheets.ContainsKey(number);
         }
 
-        public void TryAssignViewTemplate(View view, string templateName)
+        public void TryAssignViewTemplate(View view, string templateName, ElementId oldViewTemplateId)
         {
+            // Try to copy the view  template, if one is assigned to the host view.
+            if (templateName == SheetCopierConstants.MenuItemCopy && oldViewTemplateId != ElementId.InvalidElementId)              
+            {         
+                try
+                {
+                    view.ViewTemplateId = oldViewTemplateId;
+                }
+                catch (Autodesk.Revit.Exceptions.ArgumentException ex)
+                {
+                    SCaddinsApp.WindowManager.ShowMessageBox(ex.Message);
+                }
+                return;
+            }
+
+            // try to assign a view template to the new view.
             if (templateName != SheetCopierConstants.MenuItemCopy)
             {
                 View vt = null;

@@ -13,10 +13,13 @@
 
         public string SecondaryCustomSheetParameter { get; set; }
 
+        public string TertiaryCustomSheetParameter { get; set; }
+
         public void Apply()
         {
             Settings.Default.CustomSheetParameterOne = PrimaryCustomSheetParameter;
             Settings.Default.CustomSheetParameterTwo = SecondaryCustomSheetParameter;
+            Settings.Default.CustomSheetParameterThree = TertiaryCustomSheetParameter;
             Settings.Default.DeleteRevisionClouds = DeleteRevisionClouds;
             Settings.Default.Save();
         }
@@ -25,6 +28,7 @@
         {
             PrimaryCustomSheetParameter = Settings.Default.CustomSheetParameterOne;
             SecondaryCustomSheetParameter = Settings.Default.CustomSheetParameterTwo;
+            TertiaryCustomSheetParameter = Settings.Default.CustomSheetParameterThree;
             DeleteRevisionClouds = Settings.Default.DeleteRevisionClouds;
         }
 

@@ -31,30 +31,7 @@ namespace SCaddins.RunScript
         {
             if (createTransaction)
             {
-                //using (Transaction t = new Transaction(commandData.Application.ActiveUIDocument.Document))
-                //{
-                //    t.Start("Run Lua Script");
-                //    Lua state = new Lua();
-                //    state.LoadCLRPackage();
-                //    state["commandData"] = commandData;
-                //    state["elements"] = elements;
-                //    try
-                //    {
-                //        var r = state.DoString(script);
-                //        t.Commit();
-                //        state.Dispose();
-                //        return r;
-                //    }
-                //    catch (NLua.Exceptions.LuaScriptException lse)
-                //    {
-                //        object[] obj = new object[2];
-                //        obj[0] = lse.Message;
-                //        obj[1] = lse.StackTrace;
-                //        t.RollBack();
-                //        state.Dispose();
-                //        return obj;
-                //    }
-                //}
+                return null;
             } 
             else
             {
@@ -62,7 +39,6 @@ namespace SCaddins.RunScript
                 state.LoadCLRPackage();
                 state["commandData"] = commandData;
                 state["elements"] = elements;
-                state.Globals['Door'] = typeof(Autodesk.Revit.DB.FamilyInstance);
                 try
                 {
                     var r = state.DoString(script);

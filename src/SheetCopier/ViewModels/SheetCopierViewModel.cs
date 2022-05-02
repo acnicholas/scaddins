@@ -100,15 +100,21 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public bool CustomSheetParameterOneIsVisible => copyManager.CustomSheetParametersOne.Count > 1;
 
+        public bool CustomSheetParameterTwoIsVisible => copyManager.CustomSheetParametersTwo.Count > 1;
+
+        public bool CustomSheetParameterThreeIsVisible => copyManager.CustomSheetParametersThree.Count > 1;
+
         public string PrimaryCustomSheetParameterName => copyManager.PrimaryCustomSheetParameterName;
 
         public string SecondaryCustomSheetParameterName => copyManager.SecondaryCustomSheetParameterName;
+
+        public string TertiaryCustomSheetParameterName => copyManager.TertiaryCustomSheetParameterName;
 
         public string PrimaryCustomSheetParameterColumnHeader => PrimaryCustomSheetParameterName.Replace("_", "__");
 
         public string SecondaryCustomSheetParameterColumnHeader => SecondaryCustomSheetParameterName.Replace("_", "__");
 
-        public bool CustomSheetParameterTwoIsVisible => copyManager.CustomSheetParametersTwo.Count > 1;
+        public string TertiaryCustomSheetParameterColumnHeader => TertiaryCustomSheetParameterName.Replace("_", "__");
 
         public string GoLabel
         {

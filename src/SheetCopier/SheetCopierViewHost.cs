@@ -29,6 +29,7 @@ namespace SCaddins.SheetCopier
     {
         private string primaryCustomSheetParameter;
         private string secondaryCustomSheetParameter;
+        private string tertiaryCustomSheetParameter;
         private ObservableCollection<SheetCopierView> childViews;
         private string number;
         private SheetCopierManager scopy;
@@ -44,6 +45,7 @@ namespace SCaddins.SheetCopier
             sheetCategory = GetSheetCategory(SheetCopierConstants.SheetCategory);
             PrimaryCustomSheetParameter = GetSheetCategory(Settings.Default.CustomSheetParameterOne);
             SecondaryCustomSheetParameter = GetSheetCategory(Settings.Default.CustomSheetParameterTwo);
+            TertiaryCustomSheetParameter = GetSheetCategory(Settings.Default.CustomSheetParameterThree);
             DestinationSheet = null;
             Type = ViewHostType.Sheet;
             childViews = new ObservableCollection<SheetCopierView>();
@@ -160,6 +162,36 @@ namespace SCaddins.SheetCopier
             set
             {
                 scopy.CustomSheetParametersTwo = value;
+            }
+        }
+
+        public string TertiaryCustomSheetParameter
+        {
+            get
+            {
+                return tertiaryCustomSheetParameter;
+            }
+
+            set
+            {
+                tertiaryCustomSheetParameter = value;
+                if (!scopy.CustomSheetParametersThree.Contains(tertiaryCustomSheetParameter))
+                {
+                    scopy.CustomSheetParametersThree.Add(tertiaryCustomSheetParameter);
+                }
+            }
+        }
+
+        public ObservableCollection<string> TertiaryCustomSheetParameters
+        {
+            get
+            {
+                return scopy.CustomSheetParametersThree;
+            }
+
+            set
+            {
+                scopy.CustomSheetParametersThree = value;
             }
         }
 

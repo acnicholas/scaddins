@@ -46,7 +46,19 @@ namespace SCaddins.SheetCopier {
                 this["CustomSheetParameterTwo"] = value;
             }
         }
-        
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("SC-Sheet_Category_Tertiary")]
+        public string CustomSheetParameterThree {
+            get {
+                return ((string)(this["CustomSheetParameterThree"]));
+            }
+            set {
+                this["CustomSheetParameterThree"] = value;
+            }
+        }
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]

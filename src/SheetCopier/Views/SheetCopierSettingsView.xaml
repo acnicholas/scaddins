@@ -28,6 +28,7 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" Margin="5">
                     Additional Sheet paramters to display. 
@@ -36,6 +37,8 @@
                 <TextBox x:Name="PrimaryCustomSheetParameter" Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
                 <Label x:Name="SecondParamName" Grid.Row="2" Grid.Column="0" Margin="5">Additional Sheet Parameter(2)</Label>
                 <TextBox x:Name="SecondaryCustomSheetParameter" Grid.Row="2" Grid.Column="1" Margin="5"></TextBox>
+                <Label x:Name="ThirdParamName" Grid.Row="3" Grid.Column="0" Margin="5">Additional Sheet Parameter(3)</Label>
+                <TextBox x:Name="TertiaryCustomSheetParameter" Grid.Row="3" Grid.Column="1" Margin="5"></TextBox>
             </Grid>
         </GroupBox>
         <GroupBox Header="Revisions" Grid.Row="1">

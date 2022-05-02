@@ -133,6 +133,19 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                                 Header="{Binding DataContext.TertiaryCustomSheetParameterColumnHeader,Source={x:Reference Dummy}}"
+                                 Visibility="{Binding DataContext.CustomSheetParameterThreeIsVisible,Converter={StaticResource BoolToVis},Source={x:Reference Dummy}}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="sheetCopier:SheetCopierViewHost">
+                                    <ComboBox  Background="Transparent"
+                                               IsEditable="True"
+                                               IsEnabled="{Binding IsSheet}"
+                                               Text="{Binding TertiaryCustomSheetParameter, UpdateSourceTrigger=LostFocus}"
+                                               ItemsSource="{Binding TertiaryCustomSheetParameters}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
