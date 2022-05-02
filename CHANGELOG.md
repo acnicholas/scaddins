@@ -1,5 +1,23 @@
 # SCaddins Revision Log #
 
+# 23.0.0 #
+
+#### NEW ####
+
+- Initial Revit Build 2022.
+- Add third (tertiary] custom sheet parameter to SheetCopier.
+- Don't enable printing if printer is not found. [SCexport]
+- Give warning message if user decides to disable sheet verification [SCeport]
+- Change RunScript to use Lua(NLua)
+- Change RunScript to use FastColoredTextBox.
+
+#### FIXES ####
+
+- Fix crash when associating a new level to a view. [SheetCopier].
+- Fix view placement when associating a new level to a view. [SheetCopier].
+- Fix incorrect(broken) view naming when assigning a new name to views with an associated level change [SheetCopier].
+- Properly copy view templates between views when option is selected [ SheetCopier].
+
 # 22.1.0 #
 
 #### NEW ####
