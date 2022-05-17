@@ -14,13 +14,14 @@ Download the latest version from [**here**](https://github.com/acnicholas/scaddi
 
 Run the powershell script `build.ps1` to build the project.
 
-SCaddins will attempt to build for availble Revit versions(2018-2022), by looking for RevitAPI[UI].dll in the following standard locations:
+SCaddins will attempt to build for availble Revit versions(2018-2023), by looking for RevitAPI[UI].dll in the following standard locations:
 
  - C:\Program Files\AutoDesk\Revit 2018
  - C:\Program Files\AutoDesk\Revit 2019
  - C:\Program Files\AutoDesk\Revit 2020
  - C:\Program Files\AutoDesk\Revit 2021
  - C:\Program Files\AutoDesk\Revit 2022
+ - C:\Program Files\AutoDesk\Revit 2023
 
  
 To build the msi installer run:
