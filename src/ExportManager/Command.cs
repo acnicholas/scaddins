@@ -84,6 +84,10 @@ namespace SCaddins.ExportManager
 
             var manager = new Manager(uidoc);
             var log = new ExportLog();
+            if (views == null)
+            {
+                views = new List<ViewSheet>();
+            }
             var vm = new ViewModels.SCexportViewModel(manager, views);
             var wm = WindowManager;
             wm.ShowDialog(vm, null, ViewModels.SCexportViewModel.DefaultWindowSettings);

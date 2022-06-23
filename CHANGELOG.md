@@ -1,5 +1,11 @@
 # SCaddins Revision Log #
 
+# 23.0.1 #
+
+#### FIXES ####
+
+- Fix error opening SCexport (due to non-valid printer settings)
+
 # 23.0.0 #
 
 #### NEW ####

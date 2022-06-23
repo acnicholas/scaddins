@@ -50,7 +50,14 @@ namespace SCaddins.ExportManager.ViewModels
         public SCexportViewModel(Manager exportManager, List<Autodesk.Revit.DB.ViewSheet> preSelectedViews)
         {
             printTypes = GetAvailablePrinters();
-            selectedPrintType = printTypes[0];
+            if (printTypes.Count > 0)
+            {
+                selectedPrintType = printTypes[0];
+            } else
+            {
+                printTypes.Add("No Valid Printers");
+                selectedPrintType = printTypes[0];
+            }
             this.exportManager = exportManager;
             isClosing = false;
             closeMode = CloseMode.Exit;
@@ -209,7 +216,7 @@ namespace SCaddins.ExportManager.ViewModels
         {
             get
             {
-                return SelectedSheets.Count > 0;
+                return SelectedSheets.Count > 0 && SelectedPrintType != "No Valid Printers";
             }
         }
 
