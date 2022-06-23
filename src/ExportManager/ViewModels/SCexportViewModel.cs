@@ -197,7 +197,7 @@ namespace SCaddins.ExportManager.ViewModels
         {
             get
             {
-                return CanPrint &&
+                return (SelectedSheets.Count > 0) &&
                 (exportManager.HasExportOption(ExportOptions.DWG) ||
                  exportManager.HasExportOption(ExportOptions.PDF) ||
                  exportManager.HasExportOption(ExportOptions.DirectPDF));
