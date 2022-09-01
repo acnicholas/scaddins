@@ -300,7 +300,6 @@ namespace SCaddins.ExportManager
             }
         }
 
-#if !REVIT2022
         public static bool PrintToFile(
                 Document doc,
                 ExportSheet vs,
@@ -348,7 +347,6 @@ namespace SCaddins.ExportManager
                 }
             }
         }
-#endif
 
         public static bool SetPrinterByName(
                 Document doc, string name, PrintManager pm)

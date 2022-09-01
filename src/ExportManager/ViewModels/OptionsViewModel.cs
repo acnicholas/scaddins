@@ -251,6 +251,26 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public string PDF24PrintDriverName
+        {
+            get
+            {
+                return exportManager.PDF24PrinterName;
+            }
+
+            set
+            {
+                if (value == exportManager.PDF24PrinterName)
+                {
+                    return;
+                }
+                exportManager.PDF24PrinterName = value;
+                Settings1.Default.PDF24PrinterDriver = value;
+                Settings1.Default.Save();
+                NotifyOfPropertyChange(() => PDF24PrintDriverName);
+            }
+        }
+
         public bool DateForEmptyRevisions
         {
             get
@@ -281,10 +301,38 @@ namespace SCaddins.ExportManager.ViewModels
                 if (value)
                 {
                     exportManagerViewModel.ExportPDF = true;
+                    ExportPDF24 = false;
+                    ExportRevitPDF = false;
+                    NotifyOfPropertyChange(() => ExportAdobePDF);
                 }
                 else
                 {
                     exportManagerViewModel.ExportPDF = false;
+                    NotifyOfPropertyChange(() => ExportAdobePDF);
+                }
+            }
+        }
+
+        public bool ExportPDF24
+        {
+            get
+            {
+                return exportManagerViewModel.ExportPDF24;
+            }
+
+            set
+            {
+                if (value)
+                {
+                    exportManagerViewModel.ExportPDF24 = true;
+                    ExportAdobePDF = false;
+                    ExportRevitPDF = false;
+                    NotifyOfPropertyChange(() => ExportPDF24);
+                }
+                else
+                {
+                    exportManagerViewModel.ExportPDF24 = false;
+                    NotifyOfPropertyChange(() => ExportPDF24);
                 }
             }
         }
@@ -296,6 +344,11 @@ namespace SCaddins.ExportManager.ViewModels
 #else
             get { return true; }
 #endif
+        }
+
+        public bool ExportPDF24Enabled
+        {
+            get { return true; }
         }
 
         public bool ExportDGN
@@ -374,10 +427,14 @@ namespace SCaddins.ExportManager.ViewModels
                 if (value)
                 {
                     exportManagerViewModel.ExportDirectPDF = true;
+                    ExportPDF24 = false;
+                    ExportAdobePDF = false;
+                    NotifyOfPropertyChange(() => ExportRevitPDF);
                 }
                 else
                 {
                     exportManagerViewModel.ExportDirectPDF = false;
+                    NotifyOfPropertyChange(() => ExportRevitPDF);
                 }
             }
         }
@@ -667,6 +724,11 @@ namespace SCaddins.ExportManager.ViewModels
         public void SelectAdobePrinter()
         {
             AdobePDFPrintDriverName = SelectPrinter("Select Adobe Printer", AdobePDFPrintDriverName);
+        }
+
+        public void SelectPDF24Printer()
+        {
+            PDF24PrintDriverName = SelectPrinter("Select PDF24 Printer", PDF24PrintDriverName);
         }
 
         public void SelectExportDirectory()

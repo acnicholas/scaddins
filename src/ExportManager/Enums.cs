@@ -45,6 +45,11 @@ namespace SCaddins.ExportManager
         /// <summary>Remove titleblock from sheet before exporting.
         /// </summary>
         NoTitle = 32,
+
+        /// <summary>
+        /// Export files using PDF24 create pdf's.
+        /// </summary>
+        PDF24 = 64,
     }
 
     public enum LogType

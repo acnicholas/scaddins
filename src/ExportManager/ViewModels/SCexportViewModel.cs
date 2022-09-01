@@ -193,6 +193,29 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public bool ExportPDF24
+        {
+            get
+            {
+                return exportManager.HasExportOption(ExportOptions.PDF24);
+            }
+
+            set
+            {
+                if (value)
+                {
+                    exportManager.AddExportOption(ExportOptions.PDF24);
+                }
+                else
+                {
+                    exportManager.RemoveExportOption(ExportOptions.PDF24);
+                }
+                NotifyOfPropertyChange(() => ExportPDF24);
+                NotifyOfPropertyChange(() => ExportButtonLabel);
+                NotifyOfPropertyChange(() => StatusText);
+            }
+        }
+
         public bool CanExport
         {
             get
@@ -200,6 +223,7 @@ namespace SCaddins.ExportManager.ViewModels
                 return (SelectedSheets.Count > 0) &&
                 (exportManager.HasExportOption(ExportOptions.DWG) ||
                  exportManager.HasExportOption(ExportOptions.PDF) ||
+                 exportManager.HasExportOption(ExportOptions.PDF24) ||
                  exportManager.HasExportOption(ExportOptions.DirectPDF));
             }
         }

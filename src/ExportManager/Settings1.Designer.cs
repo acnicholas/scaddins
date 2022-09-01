@@ -295,5 +295,17 @@ namespace SCaddins.ExportManager {
                 this["CustomSCExportParameter01"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("PDF24")]
+        public string PDF24PrinterDriver {
+            get {
+                return ((string)(this["PDF24PrinterDriver"]));
+            }
+            set {
+                this["PDF24PrinterDriver"] = value;
+            }
+        }
     }
 }

@@ -250,7 +250,6 @@ namespace SCaddins.ExportManager
             }
         }
 
-#if !REVIT2022
         public PrintSetting SCPrintSetting
         {
             get
@@ -258,7 +257,6 @@ namespace SCaddins.ExportManager
                 return printSetting;
             }
         }
-#endif
 
         public SegmentedSheetName SegmentedFileName
         {

@@ -26,6 +26,12 @@ namespace SCaddins.ExportManager
             @"HKEY_CURRENT_USER\Software\Adobe\Acrobat Distiller\PrinterJobControl";
 
         /// <summary>
+        /// The acrobat Printer Job Control Registry setting.
+        /// </summary>
+        public const string PDF24AutoSaveDir =
+            @"HKEY_CURRENT_USER\Software\PDF24\Services\PDF";
+
+        /// <summary>
         /// The hung app timeout.
         /// This is the amount of time that windows waits before exiting
         /// a non-responsive program.

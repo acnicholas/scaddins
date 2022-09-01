@@ -68,5 +68,8 @@
     <Setting Name="CustomSCExportParameter01" Type="System.String" Scope="User">
       <Value Profile="(Default)">Custom Parameter Name</Value>
     </Setting>
+    <Setting Name="PDF24PrinterDriver" Type="System.String" Scope="User">
+      <Value Profile="(Default)">PDF24</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

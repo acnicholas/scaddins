@@ -166,6 +166,11 @@ namespace SCaddins.ExportManager
             get; set;
         }
 
+        public string PDF24PrinterName
+        {
+            get; set;
+        }
+
         public string PostscriptPrinterName
         {
             get; set;
@@ -581,6 +586,11 @@ namespace SCaddins.ExportManager
                 {
                     ExportAdobePDF(sheet, log);
                 }
+
+                if (exportFlags.HasFlag(ExportOptions.PDF24))
+                {
+                    ExportPDF24(sheet, log);
+                }
             }
             else
             {
@@ -595,6 +605,11 @@ namespace SCaddins.ExportManager
             if (exportFlags.HasFlag(ExportOptions.PDF))
             {
                 ExportAdobePDF(sheet, log);
+            }
+
+            if (exportFlags.HasFlag(ExportOptions.PDF24))
+            {
+                ExportPDF24(sheet, log);
             }
 #endif
             log.EndLoggingIndividualItem(startTime, null);
@@ -640,6 +655,7 @@ namespace SCaddins.ExportManager
         public void LoadSettings()
         {
             PdfPrinterName = Settings1.Default.AdobePrinterDriver;
+            PDF24PrinterName = Settings1.Default.PDF24PrinterDriver;
             PrinterNameA3 = Settings1.Default.A3PrinterDriver;
             PrinterNameLargeFormat = Settings1.Default.LargeFormatPrinterDriver;
             PostscriptPrinterName = Settings1.Default.PSPrinterDriver;
@@ -1011,6 +1027,34 @@ namespace SCaddins.ExportManager
             }
         }
 
+        private static bool SetPDF24ExportRegistryVal(string dir, ExportLog log)
+        {
+            var exe = Process.GetCurrentProcess().MainModule.FileName;
+            try
+            {
+                log.AddMessage("Attempting to set PDF24 Value with value");
+                log.AddMessage("\t" + Constants.PDF24AutoSaveDir);
+                log.AddMessage("\t" + exe);
+                log.AddMessage("\t" + dir);
+                Registry.SetValue(
+                    Constants.PDF24AutoSaveDir,
+                    "AutoSaveDir",
+                    dir,
+                    RegistryValueKind.String);
+                return true;
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                log.AddError(dir, ex.Message);
+                return false;
+            }
+            catch (SecurityException ex)
+            {
+                log.AddError(dir, ex.Message);
+                return false;
+            }
+        }
+
         private void ExportRevitPDF(ExportSheet vs, ExportLog log)
         {
 #if REVIT2022 || REVIT2023
@@ -1046,7 +1090,25 @@ namespace SCaddins.ExportManager
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private void ExportAdobePDF(ExportSheet vs, ExportLog log)
         {
-#if !REVIT2022 && !REVIT2023
+            #if !REVIT2022 && !REVIT2023
+                ExportPDF(vs, log);
+            #else
+                log.AddError(vs.FullExportName, "PDF export with Adobe Acrobat is not supported in Revit versions > 2021.");
+                return;
+            #endif
+        }
+
+        [SecurityCritical]
+        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+        private void ExportPDF24(ExportSheet vs, ExportLog log)
+        {
+            ExportPDF(vs, log);
+        }
+
+        [SecurityCritical]
+        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+        private void ExportPDF(ExportSheet vs, ExportLog log)
+        {
             if (log != null) {
                 log.AddMessage(Environment.NewLine + Resources.MessageStartingPDFExport);
             } else
@@ -1064,16 +1126,37 @@ namespace SCaddins.ExportManager
 
             log.AddMessage(Resources.MessageApplyingPrintSetting + vs.PrintSettingName);
 
-            if (!PrintSettings.PrintToFile(Doc, vs, pm, Resources.FileExtensionPDF, PdfPrinterName))
+            var printerName = string.Empty;
+            if (exportFlags.HasFlag(ExportOptions.PDF))
+            {
+                printerName = PdfPrinterName;
+            }
+
+            if (exportFlags.HasFlag(ExportOptions.PDF24))
+            {
+                printerName = PDF24PrinterName;
+            }
+
+            if (!PrintSettings.PrintToFile(Doc, vs, pm, Resources.FileExtensionPDF, printerName))
             {
                 log.AddError(vs.FullExportName, Resources.ErrorFailedToAssignPrintSetting + vs.PrintSettingName);
                 return;
             }
 
-            if (!SetAcrobatExportRegistryVal(vs.FullExportPath(Resources.FileExtensionPDF), log))
-            {
-                log.AddError(vs.FullExportName, "Unable to write to registry.");
-                return;
+            if (exportFlags.HasFlag(ExportOptions.PDF)) {
+                if (!SetAcrobatExportRegistryVal(vs.FullExportPath(Resources.FileExtensionPDF), log))
+                {
+                    log.AddError(vs.FullExportName, "Unable to write to registry.");
+                    return;
+                }
+            }
+
+            if (exportFlags.HasFlag(ExportOptions.PDF24)) {
+                if (!SetPDF24ExportRegistryVal(vs.ExportDirectory, log))
+                {
+                    log.AddError(vs.FullExportName, "Unable to write to registry.");
+                    return;
+                }
             }
 
             if (!vs.ValidExportName)
@@ -1108,7 +1191,6 @@ namespace SCaddins.ExportManager
             {
                 ////log.AddError(vs.FullExportName, Resources.ErrorCantOverwriteFile);
             }
-#endif
         }
 
         // FIXME this is nasty
