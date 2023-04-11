@@ -39,9 +39,7 @@ namespace SCaddins.ExportManager
         private string pageSize;
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PrinterJobControl")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "printSetting")]
-#if !REVIT2022
-        private PrintSetting printSetting;
-#endif
+        private PrintSetting printSetting = null;
         private string projectNumber;
         private string scale;
         private string scaleBarScale;
@@ -254,7 +252,7 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return printSetting;
+                return printSetting != null ? printSetting : null;
             }
         }
 

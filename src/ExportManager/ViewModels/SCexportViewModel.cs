@@ -107,7 +107,7 @@ namespace SCaddins.ExportManager.ViewModels
                 get
                 {
                         var s = "Export ";  
-                        if (ExportDirectPDF || ExportPDF)
+                        if (ExportDirectPDF || ExportPDF || ExportPDF24)
                         {
                                 s += "PDF";
                         }

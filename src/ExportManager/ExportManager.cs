@@ -663,13 +663,13 @@ namespace SCaddins.ExportManager
             AcadVersion = ACADVersion.Default;
             SaveHistory = Settings1.Default.SaveHistory;
             ShowExportLog = Settings1.Default.ShowExportLog;
-#if REVIT2022 || REVIT2023
-            ForceRevisionToDateString = false;
-            UseDateForEmptyRevisions = false;
-#else
-            ForceRevisionToDateString = Settings1.Default.ForceDateRevision;
-            UseDateForEmptyRevisions = Settings1.Default.UseDateForEmptyRevisions;
-#endif
+            #if REVIT2022 || REVIT2023
+                ForceRevisionToDateString = false;
+                UseDateForEmptyRevisions = false;
+            #else
+                ForceRevisionToDateString = Settings1.Default.ForceDateRevision;
+                UseDateForEmptyRevisions = Settings1.Default.UseDateForEmptyRevisions;
+            #endif
             VerifyOnStartup = Settings1.Default.VerifyOnStartup;
             ExportAdditionalViewports = Settings1.Default.ExportAdditionalViewports;
             ExportViewportsOnly = Settings1.Default.ExportViewportsOnly;
@@ -831,6 +831,33 @@ namespace SCaddins.ExportManager
             var formatTwo = Doc.ProjectInformation.LookupParameter("Secondary SCexport Settings Format");
             var pdfSettingsTwo = Doc.ProjectInformation.LookupParameter("Secondary SCexport PDF Settings Name");
             var dwgSettingsTwo = Doc.ProjectInformation.LookupParameter("Secondary SCexport DWG Settings Name");
+
+#if REVIT2022 || REVIT2023 || REVIT2024
+            if (pdfSettingsOne != null)
+            {
+                PDFExportOptions opts;
+                if (TryGetExportPdfSettingsByName(pdfSettingsOne.AsString(), out opts))
+                {
+                    var s = new SegmentedSheetName();
+                    s.PDFExportOptions = opts;
+                    s.Name = pdfSettingsOne.AsString();
+                    FileNameTypes.Add(s);
+                }
+            }
+
+            if (dwgSettingsOne != null)
+            {
+                PDFExportOptions opts;
+                if (TryGetExportPdfSettingsByName(dwgSettingsOne.AsString(), out opts))
+                {
+                    var s = new SegmentedSheetName();
+                    s.DWGExportOptions = opts;
+                    s.Name = dwgSettingsOne.AsString();
+                    FileNameTypes.Add(s);
+                }
+            }
+
+#endif
 
             if (settingsOne != null && formatOne != null)
             {
@@ -1090,12 +1117,12 @@ namespace SCaddins.ExportManager
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private void ExportAdobePDF(ExportSheet vs, ExportLog log)
         {
-            #if !REVIT2022 && !REVIT2023
+#if !REVIT2022 && !REVIT2023
                 ExportPDF(vs, log);
-            #else
+#else
                 log.AddError(vs.FullExportName, "PDF export with Adobe Acrobat is not supported in Revit versions > 2021.");
                 return;
-            #endif
+#endif
         }
 
         [SecurityCritical]

@@ -389,6 +389,7 @@
     <Compile Include="DestructivePurge\Views\DestructivePurgeView.xaml.cs">
       <DependentUpon>DestructivePurgeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExportManager\PDF24.cs" />
     <Compile Include="ExportManager\ViewModels\TemplateViewViewModel.cs" />
     <Compile Include="ExportManager\Views\TemplateViewView.xaml.cs">
       <DependentUpon>TemplateViewView.xaml</DependentUpon>
