@@ -70,6 +70,8 @@ Task("CreateAddinManifests")
 		    System.IO.File.WriteAllText(@"src\bin\Release2022\SCaddins2022.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2022"));
 		if (DirectoryExists(@"src\bin\Release2023"))
 		    System.IO.File.WriteAllText(@"src\bin\Release2023\SCaddins2023.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2023"));
+	    if (DirectoryExists(@"src\bin\Release2024"))
+		    System.IO.File.WriteAllText(@"src\bin\Release2024\SCaddins2024.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2024"));
 		});
 
 Task("Revit2018")
@@ -101,6 +103,11 @@ Task("Revit2023")
 .IsDependentOn("Restore-NuGet-Packages")
 .WithCriteria(APIAvailable("2023"))
 .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2023")));
+
+Task("Revit2024")
+.IsDependentOn("Restore-NuGet-Packages")
+.WithCriteria(APIAvailable("2024"))
+.Does(() => MSBuild(solutionFile, GetBuildSettings("Release2024")));
 
 Task("SetUpTests")
 .Does(() =>
@@ -135,6 +142,10 @@ Task("Test2023")
 .IsDependentOn("SetUpTests")
 .Does(() => StartProcess(revitTestFrameworkBin, GetTestArgs("2023")));
 
+Task("Test2024")
+.IsDependentOn("SetUpTests")
+.Does(() => StartProcess(revitTestFrameworkBin, GetTestArgs("2024")));
+
 Task("Installer")
 .IsDependentOn("Restore-Installer-NuGet-Packages")
 .Does(() =>
@@ -145,6 +156,7 @@ Task("Installer")
 		Environment.SetEnvironmentVariable("R2021", APIAvailable("2021") ? "Enabled" : "Disabled");
 		Environment.SetEnvironmentVariable("R2022", APIAvailable("2022") ? "Enabled" : "Disabled");
 		Environment.SetEnvironmentVariable("R2023", APIAvailable("2023") ? "Enabled" : "Disabled");
+		Environment.SetEnvironmentVariable("R2024", APIAvailable("2024") ? "Enabled" : "Disabled");
 		var settings = new MSBuildSettings();
 		settings.SetConfiguration("Release");
 		settings.WithTarget("Rebuild");
@@ -165,6 +177,7 @@ Task("Default")
 .IsDependentOn("Revit2021")
 .IsDependentOn("Revit2022")
 .IsDependentOn("Revit2023")
+.IsDependentOn("Revit2024")
 .IsDependentOn("CreateAddinManifests");
 
 RunTarget(target);

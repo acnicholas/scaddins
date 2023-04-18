@@ -86,10 +86,17 @@ namespace SCaddins.ViewUtilities
 
         private static void RemoveUnderlay(Element element)
         {
+#if REVIT2024
+            if (element.Category.Id.Value != (long)BuiltInCategory.OST_Views)
+            {
+                return;
+            }
+#else
             if (element.Category.Id.IntegerValue != (int)BuiltInCategory.OST_Views)
             {
                 return;
             }
+#endif
             var param = element.get_Parameter(BuiltInParameter.VIEW_UNDERLAY_BOTTOM_ID);
             param?.Set(ElementId.InvalidElementId);
         }

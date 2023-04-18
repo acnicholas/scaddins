@@ -35,7 +35,11 @@ namespace SCaddins.ExportManager
                 {
                     foreach (var vsi in viewSetItems)
                     {
+#if REVIT2024
+                        doc.Delete(new ElementId((long)vsi.Id));
+#else
                         doc.Delete(new ElementId(vsi.Id));
+#endif
                     }
                 }
                 else
@@ -57,7 +61,11 @@ namespace SCaddins.ExportManager
                 {
                     if (transaction.Start("Delete oldest user export set") == TransactionStatus.Started)
                     {
+#if REVIT2024
+                        doc.Delete(new Autodesk.Revit.DB.ElementId((long)oldest.Id));
+#else
                         doc.Delete(new Autodesk.Revit.DB.ElementId(oldest.Id));
+#endif
                     }
                     else
                     {

@@ -1,5 +1,12 @@
 # SCaddins Revision Log #
 
+# 24.0.0 #
+
+#### NEW ####
+
+- Initial Revit Build 2024.
+- Add PDF24 support
+
 # 23.0.1 #
 
 #### FIXES ####
@@ -10,7 +17,7 @@
 
 #### NEW ####
 
-- Initial Revit Build 2022.
+- Initial Revit Build 2023.
 - Add third (tertiary] custom sheet parameter to SheetCopier.
 - Don't enable printing if printer is not found. [SCexport]
 - Give warning message if user decides to disable sheet verification [SCeport]

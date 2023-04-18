@@ -69,7 +69,7 @@ namespace SCaddins.ExportManager
             }
         }
 
-#if REVIT2022 || REVIT2023
+#if REVIT2022 || REVIT2023 || REVIT2024
         public PDFExportOptions PDFExportOptions { get; set; }
 
         public PDFExportOptions DWGExportOptions { get; set; }

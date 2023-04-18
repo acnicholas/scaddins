@@ -292,7 +292,11 @@ namespace SCaddins.RoomConverter
                     {
                         continue;
                     }
+#if REVIT2024
+                    var id = new ElementId((long)intId);
+#else
                     var id = new ElementId(intId);
+#endif
                     var room = doc.GetElement(id);
                     if (room != null)
                     {
@@ -459,7 +463,11 @@ namespace SCaddins.RoomConverter
             Parameter paramRoomId = dest.LookupParameter("RoomId");
             if (paramRoomId != null && paramRoomId.StorageType == StorageType.Integer)
             {
+#if REVIT2024
+                paramRoomId.Set(host.Id.Value);
+#else
                 paramRoomId.Set(host.Id.IntegerValue);
+#endif
             }
 
             CopyAllParameters(host, dest);

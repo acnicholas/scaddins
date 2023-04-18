@@ -49,7 +49,7 @@ namespace SCaddins.SolarAnalysis
 
             if (vm.CreateAnalysisView)
             {
-#if REVIT2021 || REVIT2022 || REVIT2023
+#if REVIT2021 || REVIT2022 || REVIT2023 || REVIT2024
                 var internalUnitsGridSize = UnitUtils.ConvertToInternalUnits(vm.AnalysisGridSize, UnitTypeId.Millimeters);
 #else
                 var internalUnitsGridSize = UnitUtils.ConvertToInternalUnits(vm.AnalysisGridSize, DisplayUnitType.DUT_MILLIMETERS);

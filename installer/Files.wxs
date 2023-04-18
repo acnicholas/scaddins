@@ -64,6 +64,14 @@
                             </Component>
                             <?endif?>
                         </Directory>
+						<Directory Id="RFAFILES2024" Name="2024">
+                            <?if $(env.R2023) = Enabled ?>
+                            <Component Id="SCaddinsRFA2024" Guid="5dddb696-d8b9-11ed-afa1-0242ac120002" Win64="yes" DiskId="1">
+                                <CreateFolder />
+                                <File Id="_024.SC_Survey_Point.rfa" Name="SC-Survey_Point.rfa" Source="..\share\rfa\2024\SC-Survey_Point.rfa" />
+                            </Component>
+                            <?endif?>
+                        </Directory>
 
 					</Directory>
 					<Directory Id="RSDIR" Name="RunScript">
@@ -220,6 +228,28 @@
                     </Component>
                 </Directory>
                 <?endif?>
+				
+				<?if $(env.R2024) = Enabled ?>
+                <Directory Id="DLLDIR2024" Name="2024">
+                    <Component Id="SCaddins2024" Guid="49e77078-d8b9-11ed-afa1-0242ac120002" Win64="yes" DiskId="1">
+                        <CreateFolder />
+                        <File Id="SCaddins2024.dll" Name="SCaddins.dll" Source="..\src\bin\Release2024\SCaddins.dll" />
+                        <File Id="Newtonsoft.Json.dll.24" Name="Newtonsoft.Json.dll" Source="..\src\bin\Release2024\Newtonsoft.Json.dll" />
+                        <File Id="CM24" Name="Caliburn.Micro.dll" Source="..\src\bin\Release2024\Caliburn.Micro.dll" />
+                        <File Id="CMP24" Name="Caliburn.Micro.Platform.dll" Source="..\src\bin\Release2024\Caliburn.Micro.Platform.dll" />
+                        <File Id="CMPC24" Name="Caliburn.Micro.Platform.Core.dll" Source="..\src\bin\Release2024\Caliburn.Micro.Platform.Core.dll" />
+                        <File Id="LUA24" Name="lua54.dll" Source="..\src\bin\Release2024\lua54.dll"/>
+                        <File Id="NLUA24" Name="NLua.dll" Source="..\src\bin\Release2024\NLua.dll"/>
+                        <File Id="kLUA24" Name="KeraLua.dll" Source="..\src\bin\Release2024\KeraLua.dll"/>
+                        <File Id="IFP24" Name="INIFileParser.dll" Source="..\src\bin\Release2024\INIFileParser.dll" />
+                        <File Id="XTK24" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2024\Xceed.Wpf.Toolkit.dll" />
+                        <File Id="HUN24" Name="NHunspell.dll" Source="..\src\bin\Release2024\NHunspell.dll" />
+                        <File Id="HUN24N" Name="Hunspellx64.dll" Source="..\src\bin\Release2024\Hunspellx64.dll" />
+                        <File Id="FCTB24" Name="FastColoredTextBox.dll" Source="..\tools\FastColoredTextBox\FastColoredTextBox.dll" />
+                        <File Id="EPP24" Name="EPPlus.dll" Source="..\src\bin\Release2024\EPPlus.dll" />
+                    </Component>
+                </Directory>
+                <?endif?>
 
 			</Directory>
 		</Directory>
@@ -278,6 +308,15 @@
 						<Component Id="SCaddinsAddin2023" Guid="" DiskId="1">
 							<CreateFolder />
 							<File Id="SCADDINS23.ADDIN" Name="SCaddins23.addin" Source="..\src\bin\Release2023\SCaddins2023.addin" />
+						</Component>
+					</Directory>
+					<?endif?>
+					
+					<?if $(env.R2023) = Enabled ?>
+					<Directory Id="SCaddinsAddin2024Directory" Name="2024">
+						<Component Id="SCaddinsAddin2024" Guid="553a6278-d8b9-11ed-afa1-0242ac120002" DiskId="1">
+							<CreateFolder />
+							<File Id="SCADDINS24.ADDIN" Name="SCaddins24.addin" Source="..\src\bin\Release2024\SCaddins2024.addin" />
 						</Component>
 					</Directory>
 					<?endif?>

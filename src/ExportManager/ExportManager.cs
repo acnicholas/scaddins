@@ -476,7 +476,7 @@ namespace SCaddins.ExportManager
                 foreach (var parameter in parameters)
                 {
                     var p = parameter as Parameter;
-#if REVIT2022 || REVIT2023
+#if REVIT2022 || REVIT2023 || REVIT2024
                     if (!yesNoParameters.Select(s => s.Name).Contains(p.Definition.Name)
                         && !(p.Element is ElementType)
                         && !p.IsReadOnly
@@ -508,7 +508,7 @@ namespace SCaddins.ExportManager
                 foreach (var parameter in parameters)
                 {
                     var p = parameter as Parameter;
-#if REVIT2022 || REVIT2023
+#if REVIT2022 || REVIT2023 || REVIT2024
                     if (!yesNoParameters.Select(s => s.Name).Contains(p.Definition.Name)
                         && !(p.Element is ElementType)
                         && !p.IsReadOnly
@@ -617,7 +617,11 @@ namespace SCaddins.ExportManager
 
         public void SaveViewSet(string name, List<ExportSheet> selectedSheets)
         {
+#if REVIT2024
+            var viewSetItem = new ViewSetItem(-1, name, selectedSheets.Select(s => s.Id.Value).Cast<int>().ToList());
+#else
             var viewSetItem = new ViewSetItem(-1, name, selectedSheets.Select(s => s.Id.IntegerValue).ToList());
+#endif
             AllViewSheetSets.Add(viewSetItem);
             using (Transaction t = new Transaction(Doc))
             {
@@ -663,13 +667,13 @@ namespace SCaddins.ExportManager
             AcadVersion = ACADVersion.Default;
             SaveHistory = Settings1.Default.SaveHistory;
             ShowExportLog = Settings1.Default.ShowExportLog;
-            #if REVIT2022 || REVIT2023
+#if REVIT2022 || REVIT2023
                 ForceRevisionToDateString = false;
                 UseDateForEmptyRevisions = false;
-            #else
+#else
                 ForceRevisionToDateString = Settings1.Default.ForceDateRevision;
                 UseDateForEmptyRevisions = Settings1.Default.UseDateForEmptyRevisions;
-            #endif
+#endif
             VerifyOnStartup = Settings1.Default.VerifyOnStartup;
             ExportAdditionalViewports = Settings1.Default.ExportAdditionalViewports;
             ExportViewportsOnly = Settings1.Default.ExportViewportsOnly;
@@ -767,7 +771,7 @@ namespace SCaddins.ExportManager
             }
         }
 
-#if REVIT2022 || REVIT2023
+#if REVIT2022 || REVIT2023 || REVIT2024
         public bool TryGetExportPdfSettingsByName(string name, out PDFExportOptions options)
         {
             var collector = new FilteredElementCollector(Doc);
@@ -983,10 +987,17 @@ namespace SCaddins.ExportManager
                 foreach (var element in collector)
                 {
                     var v = (ViewSheetSet)element;
+#if REVIT2024
+                    var viewIds = v.Views.Cast<View>()
+                        .Where(vs => vs.ViewType == ViewType.DrawingSheet)
+                        .Select(vs => vs.Id.Value).Cast<int>().ToList();
+                    result.Add(new ViewSetItem((int)v.Id.Value, v.Name, viewIds));
+#else
                     var viewIds = v.Views.Cast<View>()
                         .Where(vs => vs.ViewType == ViewType.DrawingSheet)
                         .Select(vs => vs.Id.IntegerValue).ToList();
                     result.Add(new ViewSetItem(v.Id.IntegerValue, v.Name, viewIds));
+#endif
                 }
             }
             return result;
@@ -1084,7 +1095,7 @@ namespace SCaddins.ExportManager
 
         private void ExportRevitPDF(ExportSheet vs, ExportLog log)
         {
-#if REVIT2022 || REVIT2023
+#if REVIT2022 || REVIT2023 || REVIT2024
 
             if (log != null)
             {
@@ -1117,7 +1128,7 @@ namespace SCaddins.ExportManager
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         private void ExportAdobePDF(ExportSheet vs, ExportLog log)
         {
-#if !REVIT2022 && !REVIT2023
+#if !REVIT2022 && !REVIT2023 && !REVIT2024
                 ExportPDF(vs, log);
 #else
                 log.AddError(vs.FullExportName, "PDF export with Adobe Acrobat is not supported in Revit versions > 2021.");
@@ -1460,7 +1471,7 @@ namespace SCaddins.ExportManager
 
         private void SetDefaultFlags()
         {
-#if REVIT2022 || REVIT2023
+#if REVIT2022 || REVIT2023 || REVIT2024
             AddExportOption(ExportOptions.DirectPDF);
 #else
              if (PDFSanityCheck()) {

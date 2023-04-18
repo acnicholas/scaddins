@@ -58,6 +58,9 @@
                 case "Scale":
                     properyName = "Scale";
                     break;
+                case "Show In Schedule":
+                    properyName = "AppearsInSheetList";
+                    break;
                 case "North Point":
                     properyName = "NorthPointVisibilityString";
                     break;

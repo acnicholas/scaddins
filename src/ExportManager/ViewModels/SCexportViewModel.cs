@@ -479,6 +479,10 @@ namespace SCaddins.ExportManager.ViewModels
                 {
                     list.Add("rPDF");
                 }
+                if (ExportPDF24)
+                {
+                    list.Add("PDF24");
+                }
                 if (ExportDWG)
                 {
                     list.Add("DWG");
@@ -755,9 +759,15 @@ namespace SCaddins.ExportManager.ViewModels
                 IsNotifying = false;
                 try
                 {
+#if REVIT2024
+                    var filter = new Predicate<object>(item => viewSetSelectionViewModel
+                        .SelectedSet
+                        .ViewIds.Cast<long>().Contains(((ExportSheet)item).Sheet.Id.Value));
+#else
                     var filter = new Predicate<object>(item => viewSetSelectionViewModel
                             .SelectedSet
                             .ViewIds.Contains(((ExportSheet)item).Sheet.Id.IntegerValue));
+#endif
                     Sheets.Filter = filter;
                 }
                 catch (Exception exception)
@@ -895,7 +905,12 @@ namespace SCaddins.ExportManager.ViewModels
             IsNotifying = false;
             try
             {
+#if REVIT2024
+                var filter = new Predicate<object>(item => viewSet.ViewIds.Cast<long>().Contains(((ExportSheet)item).Sheet.Id.Value));
+#else
                 var filter = new Predicate<object>(item => viewSet.ViewIds.Contains(((ExportSheet)item).Sheet.Id.IntegerValue));
+
+#endif
                 Sheets.Filter = filter;
             }
             catch (Exception exception)
