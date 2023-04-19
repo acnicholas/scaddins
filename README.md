@@ -2,7 +2,7 @@
 
 # SCaddins #
 
-SCaddins is a collection of Revit add-ins. Currently Revit versions 2016-2022 are supported.  
+SCaddins is a collection of Revit add-ins. Currently Revit versions 2016-2024 are supported.  
 
 Have a look at the [**wiki**](https://github.com/acnicholas/scaddins/wiki/Home) for more information on each utility.
 
@@ -22,6 +22,7 @@ SCaddins will attempt to build for availble Revit versions(2018-2023), by lookin
  - C:\Program Files\AutoDesk\Revit 2021
  - C:\Program Files\AutoDesk\Revit 2022
  - C:\Program Files\AutoDesk\Revit 2023
+ - C:\Program Files\AutoDesk\Revit 2024
 
  
 To build the msi installer run:

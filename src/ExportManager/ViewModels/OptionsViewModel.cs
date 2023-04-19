@@ -285,6 +285,7 @@ namespace SCaddins.ExportManager.ViewModels
                     exportManager.UseDateForEmptyRevisions = value;
                     Settings1.Default.UseDateForEmptyRevisions = value;
                     Settings1.Default.Save();
+                    NotifyOfPropertyChange(() => DateForEmptyRevisions);
                 }
             }
         }
@@ -304,11 +305,13 @@ namespace SCaddins.ExportManager.ViewModels
                     ExportPDF24 = false;
                     ExportRevitPDF = false;
                     NotifyOfPropertyChange(() => ExportAdobePDF);
+                    NotifyOfPropertyChange(() => EnableDateRevisions);
                 }
                 else
                 {
                     exportManagerViewModel.ExportPDF = false;
                     NotifyOfPropertyChange(() => ExportAdobePDF);
+                    NotifyOfPropertyChange(() => EnableDateRevisions);
                 }
             }
         }
@@ -328,11 +331,13 @@ namespace SCaddins.ExportManager.ViewModels
                     ExportAdobePDF = false;
                     ExportRevitPDF = false;
                     NotifyOfPropertyChange(() => ExportPDF24);
+                    NotifyOfPropertyChange(() => EnableDateRevisions);
                 }
                 else
                 {
                     exportManagerViewModel.ExportPDF24 = false;
                     NotifyOfPropertyChange(() => ExportPDF24);
+                    NotifyOfPropertyChange(() => EnableDateRevisions);
                 }
             }
         }
@@ -412,7 +417,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public bool EnableDateRevisions
         {
-            get { return !ExportRevitPDFEnabled; }
+            get { return !ExportRevitPDF; }
         }
 
         public bool ExportRevitPDF
@@ -429,12 +434,20 @@ namespace SCaddins.ExportManager.ViewModels
                     exportManagerViewModel.ExportDirectPDF = true;
                     ExportPDF24 = false;
                     ExportAdobePDF = false;
+                    ForceDateForAllRevisions = false;
+                    DateForEmptyRevisions = false;
                     NotifyOfPropertyChange(() => ExportRevitPDF);
+                    NotifyOfPropertyChange(() => EnableDateRevisions);
+                    NotifyOfPropertyChange(() => DateForEmptyRevisions);
+                    NotifyOfPropertyChange(() => ForceDateForAllRevisions);
                 }
                 else
                 {
                     exportManagerViewModel.ExportDirectPDF = false;
                     NotifyOfPropertyChange(() => ExportRevitPDF);
+                    NotifyOfPropertyChange(() => EnableDateRevisions);
+                    NotifyOfPropertyChange(() => DateForEmptyRevisions);
+                    NotifyOfPropertyChange(() => ForceDateForAllRevisions);
                 }
             }
         }
@@ -532,6 +545,7 @@ namespace SCaddins.ExportManager.ViewModels
                     exportManager.ForceRevisionToDateString = value;
                     Settings1.Default.ForceDateRevision = value;
                     Settings1.Default.Save();
+                    NotifyOfPropertyChange(() => ForceDateForAllRevisions);
                 }
             }
         }

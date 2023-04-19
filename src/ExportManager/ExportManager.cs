@@ -667,9 +667,11 @@ namespace SCaddins.ExportManager
             AcadVersion = ACADVersion.Default;
             SaveHistory = Settings1.Default.SaveHistory;
             ShowExportLog = Settings1.Default.ShowExportLog;
-#if REVIT2022 || REVIT2023
+#if REVIT2022 || REVIT2023 || REVIT2024
                 ForceRevisionToDateString = false;
                 UseDateForEmptyRevisions = false;
+                Settings1.Default.ForceDateRevision = false;
+                Settings1.Default.UseDateForEmptyRevisions = false;
 #else
                 ForceRevisionToDateString = Settings1.Default.ForceDateRevision;
                 UseDateForEmptyRevisions = Settings1.Default.UseDateForEmptyRevisions;

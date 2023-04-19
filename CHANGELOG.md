@@ -6,6 +6,7 @@
 
 - Initial Revit Build 2024.
 - Add PDF24 support
+- Filter "Appears On Schedule" column in SCexport.
 
 # 23.0.1 #
 
