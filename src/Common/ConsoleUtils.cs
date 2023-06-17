@@ -27,7 +27,14 @@ namespace SCaddins.Common
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         internal static void StartHiddenConsoleProg(string exePath, string args)
         {
-            StartHiddenConsoleProg(exePath, args, 20000);
+            if (args != null)
+            {
+                StartHiddenConsoleProg(exePath, args, 20000);
+            }
+            else
+            {
+                StartHiddenConsoleProg(exePath, null, 20000);
+            }
         }
 
         [SecurityCritical]

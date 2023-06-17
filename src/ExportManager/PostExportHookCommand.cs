@@ -20,6 +20,7 @@ namespace SCaddins.ExportManager
     using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Text.RegularExpressions;
+    using SCaddins;
 
     public class PostExportHookCommand
     {
@@ -93,7 +94,7 @@ namespace SCaddins.ExportManager
             {
                 return false;
             }
-            if (supportedFilenameExtensions == null || supportedFilenameExtensions.Count < 1)
+            if (supportedFilenameExtensions.Count < 1)
             {
                 return false;
             }
@@ -110,12 +111,19 @@ namespace SCaddins.ExportManager
             return s;
         }
 
-        internal void Run(ExportSheet sheet, string extension)
+        public void Run(ExportSheet sheet, string extension, ExportLog log)
         {
+            log.AddMessage("Running hook " + this.Name + System.Environment.NewLine +
+                this.args + System.Environment.NewLine +
+                this.cmd);
             string a = FormatConfigurationString(sheet, args, extension);
+            log.AddMessage(a);
             if (!string.IsNullOrEmpty(a))
             {
                 Common.ConsoleUtilities.StartHiddenConsoleProg(cmd, a);
+            } else
+            {
+                Common.ConsoleUtilities.StartHiddenConsoleProg(cmd, null);
             }
         }
     }

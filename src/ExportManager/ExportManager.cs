@@ -256,7 +256,7 @@ namespace SCaddins.ExportManager
             }
         }
 
-#if REVIT2022 || REVIT2023
+#if REVIT2022 || REVIT2023 || REVIT2024
         /// <summary>
         /// Fallback options for pdf export (Revit versions 2022 and greater.
         /// </summary>
@@ -574,7 +574,7 @@ namespace SCaddins.ExportManager
                 ExportRevitPDF(sheet, log);
             }
 
-#if !REVIT2022 && !REVIT2023
+#if !REVIT2022 && !REVIT2023 && !REVIT2024
             if (sheet.SCPrintSetting != null)
             {
                 if (exportFlags.HasFlag(ExportOptions.DWG))
@@ -829,16 +829,67 @@ namespace SCaddins.ExportManager
             FileNameTypes.Clear();
 
             //// Load config from project if it exists
+            /// settings for xml file
             var settingsOne = Doc.ProjectInformation.LookupParameter("Primary SCexport Settings Name");
             var formatOne = Doc.ProjectInformation.LookupParameter("Primary SCexport Settings Format");
-            var pdfSettingsOne = Doc.ProjectInformation.LookupParameter("Primary SCexport PDF Settings Name");
-            var dwgSettingsOne = Doc.ProjectInformation.LookupParameter("Primary SCexport DWG Settings Name");
             var settingsTwo = Doc.ProjectInformation.LookupParameter("Secondary SCexport Settings Name");
             var formatTwo = Doc.ProjectInformation.LookupParameter("Secondary SCexport Settings Format");
+
+            // If no args are set the script will run anyway without args.
+            // arg will be auto set to the currently exported file. 
+            var exportHookOne = Doc.ProjectInformation.LookupParameter("Primary Post Export Script");
+            var exportHookOneArgs = Doc.ProjectInformation.LookupParameter("Primary Post Export Script Args");
+            var exportHookTwo = Doc.ProjectInformation.LookupParameter("Secondary Post Export Script");
+            var exportHookTwoArgs = Doc.ProjectInformation.LookupParameter("Secondary Post Export Script Args");
+
+            // setting using Revit native naming (PDF export dialog)
+            // naming scheme will be auto generated from these
+            // export hooks above will also be used.
+            var pdfSettingsOne = Doc.ProjectInformation.LookupParameter("Primary SCexport PDF Settings Name");
             var pdfSettingsTwo = Doc.ProjectInformation.LookupParameter("Secondary SCexport PDF Settings Name");
-            var dwgSettingsTwo = Doc.ProjectInformation.LookupParameter("Secondary SCexport DWG Settings Name");
+
+            var hook = new PostExportHookCommand();
+            if (exportHookOne != null)
+            {
+                hook.SetCommand(exportHookOne.AsString());
+                hook.AddSupportedFilenameExtension(".dwg");
+                hook.AddSupportedFilenameExtension(".pdf");
+                hook.SetName("ProjectConfigHookOne");
+                if (exportHookOneArgs != null)
+                {
+                    var args = exportHookOneArgs.AsString();
+                    hook.SetArguments(args);
+                }
+                else
+                {
+                    var args = @"$exportDir\$fullExportName$fileExtension"; // file extension includes the "."
+                    hook.SetArguments(args);
+                }
+                postExportHooks.Add(hook.Name, hook);
+            }
+
+            var hook2 = new PostExportHookCommand();
+            if (exportHookTwo != null)
+            {
+                hook2.SetCommand(exportHookTwo.AsString());
+                hook2.AddSupportedFilenameExtension(".dwg");
+                hook2.AddSupportedFilenameExtension(".pdf");
+                hook2.SetName("ProjectConfigHookTwo");
+                if (exportHookTwoArgs != null)
+                {
+                    var args = exportHookTwoArgs.AsString();
+                    hook2.SetArguments(args);
+                }
+                else
+                {
+                    var args = @"$exportDir\$fullExportName$fileExtension"; // file extension includes the "."
+                    hook2.SetArguments(args);
+                }
+                postExportHooks.Add(hook2.Name, hook2);
+            }
 
 #if REVIT2022 || REVIT2023 || REVIT2024
+            // Don't attempt to do this if not available (Revit < 2022)
             if (pdfSettingsOne != null)
             {
                 PDFExportOptions opts;
@@ -847,18 +898,26 @@ namespace SCaddins.ExportManager
                     var s = new SegmentedSheetName();
                     s.PDFExportOptions = opts;
                     s.Name = pdfSettingsOne.AsString();
+                    if (exportHookOne != null)
+                    {
+                        s.Hooks.Add(hook.Name);
+                    }
                     FileNameTypes.Add(s);
                 }
             }
 
-            if (dwgSettingsOne != null)
+            if (pdfSettingsTwo != null)
             {
                 PDFExportOptions opts;
-                if (TryGetExportPdfSettingsByName(dwgSettingsOne.AsString(), out opts))
+                if (TryGetExportPdfSettingsByName(pdfSettingsTwo.AsString(), out opts))
                 {
                     var s = new SegmentedSheetName();
-                    s.DWGExportOptions = opts;
-                    s.Name = dwgSettingsOne.AsString();
+                    s.PDFExportOptions = opts;
+                    s.Name = pdfSettingsTwo.AsString();
+                    if (exportHookTwo != null)
+                    {
+                        s.Hooks.Add(hook2.Name);
+                    }
                     FileNameTypes.Add(s);
                 }
             }
@@ -870,14 +929,22 @@ namespace SCaddins.ExportManager
                 var name = new SegmentedSheetName();
                 name.Name = settingsOne.AsString();
                 name.NameFormat = formatOne.AsString();
+                if (exportHookOne != null)
+                {
+                    name.Hooks.Add(hook.Name);
+                } 
                 FileNameTypes.Add(name);
-            }
+            } 
 
             if (settingsTwo != null && formatTwo != null)
             {
                 var name = new SegmentedSheetName();
                 name.Name = settingsTwo.AsString();
                 name.NameFormat = formatTwo.AsString();
+                if (exportHookTwo != null)
+                {
+                    name.Hooks.Add(hook2.Name);
+                }
                 FileNameTypes.Add(name);
             }
 
@@ -891,9 +958,8 @@ namespace SCaddins.ExportManager
                 var name = new SegmentedSheetName();
                 name.Name = "YYYYMMDD-AD-NNN";
                 name.NameFormat = "$projectNumber-$sheetNumber[$sheetRevision] - $sheetDescription";
-#if REVIT2022 || REVIT2023
+#if REVIT2022 || REVIT2023 || REVIT2024
                 name.PDFExportOptions = CreateDefaultPDFExportOptions(name.NameFormat, Doc);
-                name.DWGExportOptions = name.PDFExportOptions;
 #endif
                 FileNameTypes.Add(name);
                 FileNameScheme = name;
@@ -992,7 +1058,7 @@ namespace SCaddins.ExportManager
 #if REVIT2024
                     var viewIds = v.Views.Cast<View>()
                         .Where(vs => vs.ViewType == ViewType.DrawingSheet)
-                        .Select(vs => vs.Id.Value).Cast<int>().ToList();
+                        .Select(vs => (int)vs.Id.Value).ToList();
                     result.Add(new ViewSetItem((int)v.Id.Value, v.Name, viewIds));
 #else
                     var viewIds = v.Views.Cast<View>()
@@ -1118,11 +1184,16 @@ namespace SCaddins.ExportManager
             views = new List<ElementId>();
             views.Add(vs.Id);
 
-            ////log.AddMessage(Resources.MessageAssigningExportOptions + vs.);
             var name = vs.FullExportName + Resources.FileExtensionPDF;
             log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
             log.AddMessage(Resources.MessageExportingToFileName + name);
             Doc.Export(vs.ExportDirectory, views, vs.SegmentedFileName.PDFExportOptions);
+
+            if (vs.SegmentedFileName.Hooks.Count > 0)
+            {
+                FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPDF));
+                RunExportHooks(Resources.FileExtensionPDF, vs, log);
+            }
 #endif
         }
 
@@ -1212,6 +1283,7 @@ namespace SCaddins.ExportManager
             }
 
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF))) {
+                SCaddinsApp.WindowManager.ShowMessageBox("Test");
                 if (File.Exists(vs.FullExportPath(Resources.FileExtensionPDF))) {
                     File.Delete(vs.FullExportPath(Resources.FileExtensionPDF));
                 }
@@ -1222,9 +1294,12 @@ namespace SCaddins.ExportManager
                 } else {
                     log.AddError(vs.FullExportName, Resources.ErrorFailedToPrint);
                 }
-                FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPDF));
 
-                RunExportHooks(Resources.FileExtensionPDF, vs);
+                if (vs.SegmentedFileName.Hooks.Count > 0)
+                {
+                    FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPDF));
+                    RunExportHooks(Resources.FileExtensionPDF, vs, log);
+                }
 
                 SCaddins.Common.SystemUtilities.KillAllProcesses("acrotray");
             } else
@@ -1304,11 +1379,17 @@ namespace SCaddins.ExportManager
                     log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
                     log.AddMessage(Resources.MessageExportingToFileName + name);
                     Doc.Export(vs.ExportDirectory, name, viewList, opts);
+
+                    if (vs.SegmentedFileName.Hooks.Count > 0)
+                    {
+                        FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionDWG));
+                        RunExportHooks(Resources.FileExtensionDWG, vs, log);
+                    }
                 }
             }
 
             FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionDWG));
-            RunExportHooks("dwg", vs);
+            RunExportHooks(Resources.FileExtensionDWG, vs, log);
 
             if (removeTitle)
             {
@@ -1338,13 +1419,11 @@ namespace SCaddins.ExportManager
             {
                 return false;
             }
-            ////return true;
+
             if (!ValidateXML(filename))
             {
                 return false;
             }
-
-            postExportHooks.Clear();
 
 #pragma warning disable CA3075 // Insecure DTD processing in XML
             using (var reader = new XmlTextReader(filename))
@@ -1427,7 +1506,7 @@ namespace SCaddins.ExportManager
                             }
                         } while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == "FilenameScheme"));
                         FileNameTypes.Add(name);
-#if REVIT2022 || REVIT2023
+#if REVIT2022 || REVIT2023 || REVIT2024
                         if (name.PDFExportOptions == null && name.NameFormat != null)
                         {
                             name.PDFExportOptions = CreateDefaultPDFExportOptions(name.NameFormat, Doc);
@@ -1452,21 +1531,21 @@ namespace SCaddins.ExportManager
             return true;
         }
 
-        private void RunExportHooks(string extension, ExportSheet vs)
+        private void RunExportHooks(string extension, ExportSheet vs, ExportLog log)
         {
             for (int i = 0; i < postExportHooks.Count; i++)
             {
                 if (postExportHooks.ElementAt(i).Value.HasExtension(extension))
                 {
-                    if (FileNameScheme.Hooks.Count < 1)
+                    if (vs.SegmentedFileName.Hooks.Count < 1)
                     {
                         return;
                     }
 
-                    if (FileNameScheme.Hooks.Contains(postExportHooks.ElementAt(i).Key))
+                    if (vs.SegmentedFileName.Hooks.Contains(postExportHooks.ElementAt(i).Key))
                     {
-                        postExportHooks.ElementAt(i).Value.Run(vs, extension);
-                    }
+                        postExportHooks.ElementAt(i).Value.Run(vs, extension, log);
+                    } 
                 }
             }
         }

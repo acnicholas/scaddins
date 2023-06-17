@@ -784,7 +784,7 @@ namespace SCaddins.ExportManager
 
         private string PopulateSegmentedFileName()
         {
-#if REVIT2022
+#if REVIT2022 || REVIT2023 || REVIT2024
             var opts = this.SegmentedFileName.PDFExportOptions;
             if (opts != null)
             {

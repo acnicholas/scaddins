@@ -23,7 +23,7 @@ namespace SCaddins.ExportManager
 
     public class NativeNamingRulesUtils
     {
-#if REVIT2022 || REVIT2023
+#if REVIT2022 || REVIT2023 || REVIT2024
         public static string GetExportNameFromNamingRule(PDFExportOptions opts, ExportSheet vs)
         {
             var segs = opts.GetNamingRule();
@@ -34,7 +34,7 @@ namespace SCaddins.ExportManager
                 var pid = seg.ParamId;
                 var cid = seg.CategoryId;
                 var cidString = cid.ToString();
-                if (cid.IntegerValue == (int)BuiltInCategory.OST_ProjectInformation)
+                if (GetIntVal(cid) == (int)BuiltInCategory.OST_ProjectInformation)
                 {
                     var param = vs.Sheet.Document.ProjectInformation.Parameters.Cast<Parameter>().Where(p => p.Id == pid);
                     if (param.Count() > 0)
@@ -48,12 +48,6 @@ namespace SCaddins.ExportManager
                     var param = vs.Sheet.Parameters.Cast<Parameter>().Where(p => p.Id == pid);
                     if (param.Count() > 0)
                     {
-                        // if (param.First().Definition.Name == "Current Revision" && vs.ForceDate)
-                        // {
-                        //     filenameTest += "Current Revision"; 
-                        // }
-                        // else
-                        // {
                         var paramValue = param.First().AsValueString();
                         if (paramValue.Length < 1)
                         {
@@ -63,7 +57,6 @@ namespace SCaddins.ExportManager
                         {
                             filenameTest += paramValue;
                         }
-                        //// }
                     }
                 }
                 filenameTest += seg.Suffix;
@@ -73,7 +66,7 @@ namespace SCaddins.ExportManager
         }
 #endif
 
-#if REVIT2022 || REVIT2023
+#if REVIT2022 || REVIT2023 || REVIT2024
         public static List<TableCellCombinedParameterData> CreateNamingRuleFromFormatString(string filenameScheme, Document doc)
         {
             var fec = new FilteredElementCollector(doc);
@@ -81,7 +74,6 @@ namespace SCaddins.ExportManager
             var sheetParam = fec.First() as ViewSheet;
 
             string prefix = string.Empty;
-            ////string suffix = string.Empty;
 
             string[] slib = {
                 "$height",
@@ -226,5 +218,13 @@ namespace SCaddins.ExportManager
             return scheme;
         }
 #endif
+        private static int GetIntVal(ElementId id)
+        {
+#if REVIT2024
+            return (int)id.Value;
+#else
+            return id.IntegerValue;
+#endif
+        }
     }
 }
