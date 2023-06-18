@@ -1,4 +1,4 @@
-// (C) Copyright 2012-2020 by Andrew Nicholas
+// (C) Copyright 2012-2023 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -199,7 +199,7 @@ namespace SCaddins.ExportManager
         {
             get
             {
-#if REVIT2022
+#if REVIT2022 || REVIT2023 || REVIT2024
                 return SegmentedFileName.Name;
 #else
                 return printSetting != null ? printSetting.Name : string.Empty;
@@ -301,7 +301,7 @@ namespace SCaddins.ExportManager
 
         public string SheetRevision
         {
-#if REVIT2022
+#if REVIT2022 || REVIT2023 || REVIT2024
             get
             {
                 return sheetRevision != string.Empty ? sheetRevision : "Current Revision";
@@ -582,7 +582,7 @@ namespace SCaddins.ExportManager
 
         public override string ToString()
         {
-#if REVIT2022
+#if REVIT2022 || REVIT2023 || REVIT2024
             string printSetting = SegmentedFileName.Name;
 #endif
 
@@ -711,7 +711,7 @@ namespace SCaddins.ExportManager
             }
             appearsInSheetList = this.Sheet.get_Parameter(BuiltInParameter.SHEET_SCHEDULED).AsInteger() == 1;
             pageSize = PrintSettings.GetSheetSizeAsString(this);
-#if !REVIT2022
+#if !REVIT2022 && !REVIT2023 && !REVIT2024
             printSetting = PrintSettings.GetPrintSettingByName(doc, pageSize, forceRasterPrint);
             if (printSetting == null)
             {
@@ -719,7 +719,7 @@ namespace SCaddins.ExportManager
             }
 #endif
             verified = true;
-#if !REVIT2022
+#if !REVIT2022 && !REVIT2023 && !REVIT2024
             ValidPrintSettingIsAssigned = printSetting != null;
 #else
             ValidPrintSettingIsAssigned = true;
@@ -796,7 +796,7 @@ namespace SCaddins.ExportManager
 
         private void SetExportName()
         {
-#if REVIT2022
+#if REVIT2022 || REVIT2023 || REVIT2024
             sheetRevision = sheet.get_Parameter(
                     BuiltInParameter.SHEET_CURRENT_REVISION).AsString();
 #else

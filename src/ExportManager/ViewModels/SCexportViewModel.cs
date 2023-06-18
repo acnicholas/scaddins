@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2018-2021 by Andrew Nicholas
+﻿// (C) Copyright 2018-2023 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -641,7 +641,7 @@ namespace SCaddins.ExportManager.ViewModels
                     break;
 
                 case Key.N:
-#if REVIT2022 || REVIT2023
+#if REVIT2022 || REVIT2023 || REVIT2024
                     exportManager.ToggleExportOption(ExportOptions.DirectPDF);
                     NotifyOfPropertyChange(() => StatusText);
                     NotifyOfPropertyChange(() => ExportButtonLabel);

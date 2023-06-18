@@ -839,8 +839,10 @@ namespace SCaddins.ExportManager
             // arg will be auto set to the currently exported file. 
             var exportHookOne = Doc.ProjectInformation.LookupParameter("Primary Post Export Script");
             var exportHookOneArgs = Doc.ProjectInformation.LookupParameter("Primary Post Export Script Args");
+            var exportHookOneFileExtensions = Doc.ProjectInformation.LookupParameter("Primary Post Export Extensions");
             var exportHookTwo = Doc.ProjectInformation.LookupParameter("Secondary Post Export Script");
             var exportHookTwoArgs = Doc.ProjectInformation.LookupParameter("Secondary Post Export Script Args");
+            var exportHookTwoFileExtensions = Doc.ProjectInformation.LookupParameter("Secondary Post Export Extensions");
 
             // setting using Revit native naming (PDF export dialog)
             // naming scheme will be auto generated from these
@@ -852,9 +854,16 @@ namespace SCaddins.ExportManager
             if (exportHookOne != null)
             {
                 hook.SetCommand(exportHookOne.AsString());
-                hook.AddSupportedFilenameExtension(".dwg");
-                hook.AddSupportedFilenameExtension(".pdf");
                 hook.SetName("ProjectConfigHookOne");
+
+                if (exportHookOneFileExtensions != null)
+                {
+                    foreach (string s in exportHookOneFileExtensions.AsString().Split(';'))
+                    {
+                        hook.AddSupportedFilenameExtension(s);
+                    }
+                }
+
                 if (exportHookOneArgs != null)
                 {
                     var args = exportHookOneArgs.AsString();
@@ -872,9 +881,16 @@ namespace SCaddins.ExportManager
             if (exportHookTwo != null)
             {
                 hook2.SetCommand(exportHookTwo.AsString());
-                hook2.AddSupportedFilenameExtension(".dwg");
-                hook2.AddSupportedFilenameExtension(".pdf");
                 hook2.SetName("ProjectConfigHookTwo");
+
+                if (exportHookTwoFileExtensions != null)
+                {
+                    foreach (string s in exportHookTwoFileExtensions.AsString().Split(';'))
+                    {
+                        hook2.AddSupportedFilenameExtension(s);
+                    }
+                }
+
                 if (exportHookTwoArgs != null)
                 {
                     var args = exportHookTwoArgs.AsString();
@@ -1379,17 +1395,14 @@ namespace SCaddins.ExportManager
                     log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
                     log.AddMessage(Resources.MessageExportingToFileName + name);
                     Doc.Export(vs.ExportDirectory, name, viewList, opts);
-
-                    if (vs.SegmentedFileName.Hooks.Count > 0)
-                    {
-                        FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionDWG));
-                        RunExportHooks(Resources.FileExtensionDWG, vs, log);
-                    }
                 }
             }
 
-            FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionDWG));
-            RunExportHooks(Resources.FileExtensionDWG, vs, log);
+            if (vs.SegmentedFileName.Hooks.Count > 0)
+            {
+                FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionDWG));
+                RunExportHooks(Resources.FileExtensionDWG, vs, log);
+            }
 
             if (removeTitle)
             {
@@ -1484,7 +1497,7 @@ namespace SCaddins.ExportManager
                                     case "Hook":
                                         name.Hooks.Add(reader.ReadString());
                                         break;
-#if REVIT2022 || REVIT2023
+#if REVIT2022 || REVIT2023 || REVIT2024
                                     case "PDFNamingRule":
                                         PDFExportOptions opts;
                                         if (TryGetExportPdfSettingsByName(reader.ReadString(), out opts))
