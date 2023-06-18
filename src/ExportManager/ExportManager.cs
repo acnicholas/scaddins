@@ -1504,15 +1504,6 @@ namespace SCaddins.ExportManager
                                         {
                                             name.PDFExportOptions = opts;
                                         }
-
-                                        break;
-
-                                    case "DWGNamingRule":
-                                        PDFExportOptions opts2;
-                                        if (TryGetExportPdfSettingsByName(reader.ReadString(), out opts2))
-                                        {
-                                            name.DWGExportOptions = opts2;
-                                        }
                                         break;
 #endif
                                 }
@@ -1523,10 +1514,6 @@ namespace SCaddins.ExportManager
                         if (name.PDFExportOptions == null && name.NameFormat != null)
                         {
                             name.PDFExportOptions = CreateDefaultPDFExportOptions(name.NameFormat, Doc);
-                        }
-                        if (name.DWGExportOptions == null)
-                        {
-                            name.DWGExportOptions = name.PDFExportOptions;
                         }
 #endif
                     }

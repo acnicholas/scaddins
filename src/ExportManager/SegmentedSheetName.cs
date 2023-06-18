@@ -35,7 +35,6 @@ namespace SCaddins.ExportManager
             Name = "YYYYMMDD-AD-NNN[R]";
 #if REVIT2022 || REVIT2023 || REVIT2024
             PDFExportOptions = null;
-            DWGExportOptions = null;
 #endif
         }
 
@@ -71,8 +70,6 @@ namespace SCaddins.ExportManager
 
 #if REVIT2022 || REVIT2023 || REVIT2024
         public PDFExportOptions PDFExportOptions { get; set; }
-
-        public PDFExportOptions DWGExportOptions { get; set; }
 #endif
 
         public Collection<string> Hooks { get; }

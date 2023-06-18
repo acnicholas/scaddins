@@ -38,8 +38,7 @@
     <!--This is the first scheme. The first is the default-->
     <FilenameScheme name="Architectural">
       <Format>$projectNumber-$sheetNumber[$sheetRevision] - $sheetDescription</Format> <!--USE FOR REVIT 2021 AND EARLIER-->
-      <PDFNamingRule>SC-PDF</PDFNamingRule> <!--USE FOR REVIT 2022 AND LATER-->
-      <DWGNamingRule>SC-DWG</DWGNamingRule>  <!--USE FOR REVIT 2022 AND LATER, WILL USE PdfNamingRule IF NOT SET-->
+      <PDFNamingRule>SC-PDF</PDFNamingRule> <!--USE FOR REVIT 2022 AND LATER, will use PDF export setup of the same name from whithin Revit-->
     </FilenameScheme>
     
     <!--Tag pdf's after export-->
