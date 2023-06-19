@@ -1306,7 +1306,7 @@ namespace SCaddins.ExportManager
             }
 
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF))) {
-                SCaddinsApp.WindowManager.ShowMessageBox("Test");
+                // SCaddinsApp.WindowManager.ShowMessageBox("Test");
                 if (File.Exists(vs.FullExportPath(Resources.FileExtensionPDF))) {
                     File.Delete(vs.FullExportPath(Resources.FileExtensionPDF));
                 }

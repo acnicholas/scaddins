@@ -353,7 +353,11 @@ namespace SCaddins.ExportManager.ViewModels
 
         public bool ExportPDF24Enabled
         {
+#if REVIT2022 || REVIT2023 || REVIT2024
+            get { return false; }
+#else
             get { return exportManager.PDF24SanityCheck(); }
+#endif
         }
 
         public bool ExportDGN
