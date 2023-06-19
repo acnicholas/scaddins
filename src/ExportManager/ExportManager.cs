@@ -688,6 +688,13 @@ namespace SCaddins.ExportManager
             return ps.IsValid;
         }
 
+        public bool PDF24SanityCheck()
+        {
+            var ps = new PrinterSettings();
+            ps.PrinterName = PDF24PrinterName;
+            return ps.IsValid;
+        }
+
         public void Print(
             ExportSheet sheet,
             string printerName,
@@ -1558,6 +1565,10 @@ namespace SCaddins.ExportManager
              if (PDFSanityCheck()) {
                     AddExportOption(ExportOptions.PDF);
              }
+             else if (PDF24SanityCheck())
+             {
+                AddExportOption(ExportOptions.PDF24);
+            }
 #endif
             if (Settings1.Default.HideTitleBlocks)
             {
