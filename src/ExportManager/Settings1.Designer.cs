@@ -25,7 +25,7 @@ namespace SCaddins.ExportManager {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("\\\\SCAPP02\\FollowMeColour")]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\\\SCPRINT01\\FollowME_Colour")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public string A3PrinterDriver {
             get {
@@ -103,7 +103,7 @@ namespace SCaddins.ExportManager {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("\\\\SCAPP02\\DocuWide3035 (PS)")]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\\\SCPRINT01\\DocuWide 3037 PS")]
         public string LargeFormatPrinterDriver {
             get {
                 return ((string)(this["LargeFormatPrinterDriver"]));
@@ -122,19 +122,6 @@ namespace SCaddins.ExportManager {
             }
             set {
                 this["NorthPointVisibilityParameter"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("\\\\SCAPP02\\DocuWide3035 (PS)")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public string PSPrinterDriver {
-            get {
-                return ((string)(this["PSPrinterDriver"]));
-            }
-            set {
-                this["PSPrinterDriver"] = value;
             }
         }
         

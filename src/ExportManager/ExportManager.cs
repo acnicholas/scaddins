@@ -151,27 +151,12 @@ namespace SCaddins.ExportManager
             }
         }
 
-        public string GhostscriptBinDirectory
-        {
-            get; set;
-        }
-
-        public string GhostscriptLibDirectory
-        {
-            get; set;
-        }
-
         public string PdfPrinterName
         {
             get; set;
         }
 
         public string PDF24PrinterName
-        {
-            get; set;
-        }
-
-        public string PostscriptPrinterName
         {
             get; set;
         }
@@ -662,7 +647,6 @@ namespace SCaddins.ExportManager
             PDF24PrinterName = Settings1.Default.PDF24PrinterDriver;
             PrinterNameA3 = Settings1.Default.A3PrinterDriver;
             PrinterNameLargeFormat = Settings1.Default.LargeFormatPrinterDriver;
-            PostscriptPrinterName = Settings1.Default.PSPrinterDriver;
             exportDirectory = Settings1.Default.ExportDir;
             AcadVersion = ACADVersion.Default;
             SaveHistory = Settings1.Default.SaveHistory;
@@ -742,7 +726,7 @@ namespace SCaddins.ExportManager
             }
             else
             {
-                SCaddinsApp.WindowManager.ShowMessageBox("test", "print error");
+                SCaddinsApp.WindowManager.ShowMessageBox("Print Error", "print error");
             }
             log.EndLoggingIndividualItem(startTime, null);
         }
@@ -1306,7 +1290,6 @@ namespace SCaddins.ExportManager
             }
 
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF))) {
-                // SCaddinsApp.WindowManager.ShowMessageBox("Test");
                 if (File.Exists(vs.FullExportPath(Resources.FileExtensionPDF))) {
                     File.Delete(vs.FullExportPath(Resources.FileExtensionPDF));
                 }

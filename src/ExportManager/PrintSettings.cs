@@ -130,7 +130,6 @@ namespace SCaddins.ExportManager
             {
                 if (attempts > 0)
                 {
-                    //// SCaddinsApp.WindowManager.ShowMessageBox("attempt: " + attempts);
                     return TrySavePrintSetup(pm, name, --attempts);
                 }
                 return false;

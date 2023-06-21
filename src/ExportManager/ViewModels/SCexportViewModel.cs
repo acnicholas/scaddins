@@ -735,7 +735,6 @@ namespace SCaddins.ExportManager.ViewModels
                 if (currentColumnHeader == @"Custom Parameter 01")
                 {
                     currentColumnHeader = CustomParameter01Name; // FIXME. there's a better way to do this.
-                    // SCaddinsApp.WindowManager.ShowMessageBox(CustomParameter01Name);
                 }
             }
             catch
@@ -962,12 +961,10 @@ namespace SCaddins.ExportManager.ViewModels
                 ToggleSelectedSheetParametersViewModel.DefaultWindowSettings);
             if (result.HasValue && result.Value == true)
             {
-                //// SCaddinsApp.WindowManager.ShowMessageBox("OK");
                 foreach (var item in toggleSelectedSheetParametersViewModel.YesNoParameters)
                 {
                     if (item.Value.HasValue)
                     {
-                        //// SCaddinsApp.WindowManager.ShowMessageBox(item.Name);
                         Manager.ToggleBooleanParameter(selectedSheets, exportManager.Doc, item.Value.Value, item.Name, true);
                     }
                 }
@@ -986,12 +983,10 @@ namespace SCaddins.ExportManager.ViewModels
                 ToggleSelectedSheetParametersViewModel.DefaultWindowSettings);
             if (result.HasValue && result.Value == true)
             {
-                //// SCaddinsApp.WindowManager.ShowMessageBox("OK");
                 foreach (var item in toggleSelectedSheetParametersViewModel.YesNoParameters)
                 {
                     if (item.Value.HasValue)
                     {
-                        //// SCaddinsApp.WindowManager.ShowMessageBox(item.Name);
                         Manager.ToggleBooleanParameter(selectedSheets, exportManager.Doc, item.Value.Value, item.Name, false);
                     }
                 }

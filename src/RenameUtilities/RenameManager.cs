@@ -479,7 +479,6 @@ namespace SCaddins.RenameUtilities
 
         private void GetGroupNames()
         {
-            SCaddinsApp.WindowManager.ShowMessageBox("adding groups");
             renameCandidates.Clear();
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             collector.OfClass(typeof(Autodesk.Revit.DB.GroupType));

@@ -72,7 +72,6 @@
 
         public override string ToString()
         {
-            ////SCaddinsApp.WindowManager.ShowMessageBox(FilterPropertyName);
             return @"Filter by " + FilterPropertyName + @" [" + FilterValue + @"]";
         }
 
