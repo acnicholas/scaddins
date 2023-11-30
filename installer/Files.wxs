@@ -109,7 +109,7 @@
                         <File Id="LUA18" Name="lua54.dll" Source="..\src\bin\Release2018\lua54.dll"/>
                         <File Id="NLUA18" Name="NLua.dll" Source="..\src\bin\Release2018\NLua.dll"/>
                         <File Id="KLUA18" Name="KeraLua.dll" Source="..\src\bin\Release2018\KeraLua.dll"/>
-                        <File Id="FCTB18" Name="FastColoredTextBox.dll" Source="..\tools\FastColoredTextBox\FastColoredTextBox.dll" />
+                        <File Id="FCTB18" Name="FastColoredTextBox.dll" Source="..\src\bin\Release2018\FastColoredTextBox.dll" />
                         <File Id="HUN18" Name="NHunspell.dll" Source="..\src\bin\Release2018\NHunspell.dll" />
                         <File Id="HUN18N" Name="Hunspellx64.dll" Source="..\src\bin\Release2018\Hunspellx64.dll" />
                         <File Id="IFP18" Name="INIFileParser.dll" Source="..\src\bin\Release2018\INIFileParser.dll" />
@@ -131,7 +131,7 @@
                         <File Id="LUA19" Name="lua54.dll" Source="..\src\bin\Release2020\lua54.dll"/>
                         <File Id="NLUA19" Name="NLua.dll" Source="..\src\bin\Release2020\NLua.dll"/>
                         <File Id="KLUA19" Name="KeraLua.dll" Source="..\src\bin\Release2019\KeraLua.dll"/>
-                        <File Id="FCTB19" Name="FastColoredTextBox.dll" Source="..\tools\FastColoredTextBox\FastColoredTextBox.dll" />
+                        <File Id="FCTB19" Name="FastColoredTextBox.dll" Source="..\src\bin\Release2019\FastColoredTextBox.dll" />
                         <File Id="IFP19" Name="INIFileParser.dll" Source="..\src\bin\Release2019\INIFileParser.dll" />
                         <File Id="HUN19" Name="NHunspell.dll" Source="..\src\bin\Release2019\NHunspell.dll" />
                         <File Id="HUN19N" Name="Hunspellx64.dll" Source="..\src\bin\Release2019\Hunspellx64.dll" />
@@ -157,7 +157,7 @@
                         <File Id="XTK20" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2020\Xceed.Wpf.Toolkit.dll" />
                         <File Id="HUN20" Name="NHunspell.dll" Source="..\src\bin\Release2020\NHunspell.dll" />
                         <File Id="HUN20N" Name="Hunspellx64.dll" Source="..\src\bin\Release2020\Hunspellx64.dll" />
-                        <File Id="FCTB20" Name="FastColoredTextBox.dll" Source="..\tools\FastColoredTextBox\FastColoredTextBox.dll" />
+                        <File Id="FCTB20" Name="FastColoredTextBox.dll" Source="..\src\bin\Release2020\FastColoredTextBox.dll" />
                         <File Id="EPP20" Name="EPPlus.dll" Source="..\src\bin\Release2020\EPPlus.dll" />
                     </Component>
                 </Directory>
@@ -179,7 +179,7 @@
                         <File Id="XTK21" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2021\Xceed.Wpf.Toolkit.dll" />
                         <File Id="HUN21" Name="NHunspell.dll" Source="..\src\bin\Release2021\NHunspell.dll" />
                         <File Id="HUN21N" Name="Hunspellx64.dll" Source="..\src\bin\Release2021\Hunspellx64.dll" />
-                        <File Id="FCTB21" Name="FastColoredTextBox.dll" Source="..\tools\FastColoredTextBox\FastColoredTextBox.dll" />
+                        <File Id="FCTB21" Name="FastColoredTextBox.dll" Source="..\src\bin\Release2021\FastColoredTextBox.dll" />
                         <File Id="EPP21" Name="EPPlus.dll" Source="..\src\bin\Release2021\EPPlus.dll" />
                     </Component>
                 </Directory>
@@ -201,7 +201,7 @@
                         <File Id="XTK22" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2022\Xceed.Wpf.Toolkit.dll" />
                         <File Id="HUN22" Name="NHunspell.dll" Source="..\src\bin\Release2022\NHunspell.dll" />
                         <File Id="HUN22N" Name="Hunspellx64.dll" Source="..\src\bin\Release2022\Hunspellx64.dll" />
-                        <File Id="FCTB22" Name="FastColoredTextBox.dll" Source="..\tools\FastColoredTextBox\FastColoredTextBox.dll" />
+                        <File Id="FCTB22" Name="FastColoredTextBox.dll" Source="..\src\bin\Release2022\FastColoredTextBox.dll" />
                         <File Id="EPP22" Name="EPPlus.dll" Source="..\src\bin\Release2022\EPPlus.dll" />
                     </Component>
                 </Directory>
@@ -223,7 +223,7 @@
                         <File Id="XTK23" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2023\Xceed.Wpf.Toolkit.dll" />
                         <File Id="HUN23" Name="NHunspell.dll" Source="..\src\bin\Release2023\NHunspell.dll" />
                         <File Id="HUN23N" Name="Hunspellx64.dll" Source="..\src\bin\Release2023\Hunspellx64.dll" />
-                        <File Id="FCTB23" Name="FastColoredTextBox.dll" Source="..\tools\FastColoredTextBox\FastColoredTextBox.dll" />
+                        <File Id="FCTB23" Name="FastColoredTextBox.dll" Source="..\src\bin\Release2023\FastColoredTextBox.dll" />
                         <File Id="EPP23" Name="EPPlus.dll" Source="..\src\bin\Release2023\EPPlus.dll" />
                     </Component>
                 </Directory>
@@ -245,7 +245,7 @@
                         <File Id="XTK24" Name="Xceed.Wpf.Toolkit.dll" Source="..\src\bin\Release2024\Xceed.Wpf.Toolkit.dll" />
                         <File Id="HUN24" Name="NHunspell.dll" Source="..\src\bin\Release2024\NHunspell.dll" />
                         <File Id="HUN24N" Name="Hunspellx64.dll" Source="..\src\bin\Release2024\Hunspellx64.dll" />
-                        <File Id="FCTB24" Name="FastColoredTextBox.dll" Source="..\tools\FastColoredTextBox\FastColoredTextBox.dll" />
+                        <File Id="FCTB24" Name="FastColoredTextBox.dll" Source="..\src\bin\Release2024\FastColoredTextBox.dll" />
                         <File Id="EPP24" Name="EPPlus.dll" Source="..\src\bin\Release2024\EPPlus.dll" />
                     </Component>
                 </Directory>

@@ -1,2 +1,2 @@
-powershell -File build.ps1 -Target "Dist"
+powershell -File build.ps1 --Target "Dist"
 pause

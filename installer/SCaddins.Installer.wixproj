@@ -101,7 +101,7 @@
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
 <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
   <Target Name="AfterBuild">
-    <GetAssemblyIdentity AssemblyFiles="..\src\bin\Release2019\SCaddins.dll">
+    <GetAssemblyIdentity AssemblyFiles="..\src\bin\Release2024\SCaddins.dll">
       <Output TaskParameter="Assemblies" ItemName="AssemblyVersion" />
     </GetAssemblyIdentity>
     <Copy SourceFiles=".\bin\$(Configuration)\$(OutputName).msi" DestinationFiles=".\bin\$(Configuration)\SCaddins-win64-%(AssemblyVersion.Version).msi" />
