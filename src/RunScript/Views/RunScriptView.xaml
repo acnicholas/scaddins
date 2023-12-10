@@ -13,6 +13,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="600*"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="300*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
@@ -48,8 +50,8 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Settings">
-                <MenuItem x:Name="DarkMode" Header="_Dark Mode" IsEnabled="False"/>
-                <MenuItem x:Name="LightMode" Header="_Light Mode" IsEnabled="False"/>
+                <MenuItem x:Name="DarkMode" Header="_Dark Mode" IsEnabled="True"/>
+                <MenuItem x:Name="LightMode" Header="_Light Mode" IsEnabled="True"/>
                 <MenuItem x:Name="IncreaseFontSize" Header="_IncreaseFontSize"/>
                 <MenuItem x:Name="DecreaseFontSize" Header="_DecreaseFontSize"/>
             </MenuItem>
@@ -60,7 +62,6 @@
                     cal:Message.Attach="[Action NavigateTo('https://www.lua.org/manual/5.4')]"/>
             </MenuItem>
         </Menu>
-
         <local:MvvmTextEditor 
             Grid.Row="1"
             Text="{Binding Script, Mode=TwoWay}"
@@ -68,12 +69,23 @@
             TextSize="{Binding FontSize, Mode=TwoWay}" 
             Margin="5" 
             MinWidth="480"
-            MinHeight="240"
+            MinHeight="240" 
             BackgroundColour="{Binding Background}"
+            ForegroundColour="{Binding Foreground}"
+            SyntaxColours="{Binding SyntaxColoursList}"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch">
         </local:MvvmTextEditor>
-        <ListBox Grid.Row="2" x:Name="OutputList" MinHeight="100"></ListBox>
-        <Button Grid.Row="3" x:Name="Run">Run</Button>
+        <GridSplitter Grid.Row="2" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Width="Auto"></GridSplitter>
+        <Label Grid.Row="3" HorizontalAlignment="Left" Padding="5">Output:</Label>
+        <ListBox 
+            Grid.Row="4"
+            x:Name="OutputList"
+            MinHeight="100"
+            Padding="20"
+            FontFamily="Consolas"
+            FontSize="{Binding FontSizeOutput, Mode=TwoWay}" >
+        </ListBox>
+        <Button Grid.Row="5" Padding="5" x:Name="Run">Run</Button>
     </Grid>
 </UserControl>

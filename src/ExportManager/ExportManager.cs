@@ -602,11 +602,12 @@ namespace SCaddins.ExportManager
 
         public void SaveViewSet(string name, List<ExportSheet> selectedSheets)
         {
-#if REVIT2024
-            var viewSetItem = new ViewSetItem(-1, name, selectedSheets.Select(s => s.Id.Value).Cast<int>().ToList());
-#else
+//#if REVIT2024
+//            // var viewSetItem = new ViewSetItem(-1, name, selectedSheets.Select(s => s.Id.Value).Cast<int>().ToList());
+//            var viewSetItem = new ViewSetItem(-1, name, selectedSheets.Select(s => s.Id.IntegerValue).ToList());
+//#else
             var viewSetItem = new ViewSetItem(-1, name, selectedSheets.Select(s => s.Id.IntegerValue).ToList());
-#endif
+//#endif
             AllViewSheetSets.Add(viewSetItem);
             using (Transaction t = new Transaction(Doc))
             {

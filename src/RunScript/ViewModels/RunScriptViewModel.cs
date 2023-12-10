@@ -19,6 +19,7 @@ namespace SCaddins.RunScript.ViewModels
 {
     using System;
     using System.Diagnostics;
+    using System.Drawing;
     using System.Dynamic;
     using System.IO;
     using System.Reflection;
@@ -26,6 +27,7 @@ namespace SCaddins.RunScript.ViewModels
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Caliburn.Micro;
+    using FastColoredTextBoxNS;
 
     internal class RunScriptViewModel : Screen
     {
@@ -36,6 +38,8 @@ namespace SCaddins.RunScript.ViewModels
         private ExternalCommandData commandData;
         private ElementSet elements;
         private System.Drawing.Color backgroundColour;
+        private System.Drawing.Color foregroundColour;
+        private SyntaxHighlighter syntaxColours;
 
         public RunScriptViewModel(ExternalCommandData commandData, ElementSet elements)
         {
@@ -46,7 +50,11 @@ namespace SCaddins.RunScript.ViewModels
             outputList = new BindableCollection<string>();
             LoadScratch();
             FontSize = 12;
-            backgroundColour = System.Drawing.Color.LightGray;
+
+            syntaxColours = new FastColoredTextBoxNS.FastColoredTextBox().SyntaxHighlighter;
+     
+            NotifyOfPropertyChange(() => FontSize);
+            NotifyOfPropertyChange(() => FontSizeOutput);
         }
 
         public static dynamic DefaultViewSettings
@@ -72,6 +80,11 @@ namespace SCaddins.RunScript.ViewModels
             get; set;
         }
 
+        public double FontSizeOutput
+        {
+            get => FontSize * 96 / 72;
+        }
+
         public System.Drawing.Color Background
         {   
             get => backgroundColour;
@@ -80,6 +93,17 @@ namespace SCaddins.RunScript.ViewModels
             {
                 backgroundColour = value;
                 NotifyOfPropertyChange(() => Background);
+            }
+        }
+
+        public System.Drawing.Color Foreground
+        {
+            get => foregroundColour;
+
+            set
+            {
+                foregroundColour = value;
+                NotifyOfPropertyChange(() => Foreground);
             }
         }
 
@@ -124,6 +148,18 @@ namespace SCaddins.RunScript.ViewModels
             }
         }
 
+        public SyntaxHighlighter SyntaxColoursList
+        {
+            get => syntaxColours;
+
+            set
+            {
+                syntaxColours = value;
+                SCaddinsApp.WindowManager.ShowMessageBox("rrr");
+                NotifyOfPropertyChange(() => SyntaxColoursList);
+            }
+        }
+
         public string Output
         {
             get => output;
@@ -148,23 +184,31 @@ namespace SCaddins.RunScript.ViewModels
         public void DarkMode()
         {
             Background = System.Drawing.Color.Black;
+            Foreground = System.Drawing.Color.White;
+            syntaxColours.StringStyle = new TextStyle(System.Drawing.Brushes.Red, System.Drawing.Brushes.Black, FontStyle.Bold);
+            NotifyOfPropertyChange(() => SyntaxColoursList);
         }
 
         public void LightMode()
         {
-            Background = System.Drawing.Color.LightGray;
+            Background = System.Drawing.Color.White;
+            Foreground = System.Drawing.Color.Black;
+            syntaxColours.StringStyle = new TextStyle(System.Drawing.Brushes.Green, System.Drawing.Brushes.White, FontStyle.Bold);
+            NotifyOfPropertyChange(() => SyntaxColoursList);
         }
 
         public void IncreaseFontSize()
         {
             FontSize++;
             NotifyOfPropertyChange(() => FontSize);
+            NotifyOfPropertyChange(() => FontSizeOutput);
         }
 
         public void DecreaseFontSize()
         {
             FontSize--;
             NotifyOfPropertyChange(() => FontSize);
+            NotifyOfPropertyChange(() => FontSizeOutput);
         }
 
         public void LoadSample()

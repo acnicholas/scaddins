@@ -758,15 +758,15 @@ namespace SCaddins.ExportManager.ViewModels
                 IsNotifying = false;
                 try
                 {
-#if REVIT2024
-                    var filter = new Predicate<object>(item => viewSetSelectionViewModel
-                        .SelectedSet
-                        .ViewIds.Cast<long>().Contains(((ExportSheet)item).Sheet.Id.Value));
-#else
+//#if REVIT2024
+//                    var filter = new Predicate<object>(item => viewSetSelectionViewModel
+//                        .SelectedSet
+//                        .ViewIds.Cast<long>().Contains(((ExportSheet)item).Sheet.Id.Value));
+//#else
                     var filter = new Predicate<object>(item => viewSetSelectionViewModel
                             .SelectedSet
                             .ViewIds.Contains(((ExportSheet)item).Sheet.Id.IntegerValue));
-#endif
+//#endif
                     Sheets.Filter = filter;
                 }
                 catch (Exception exception)
@@ -856,6 +856,7 @@ namespace SCaddins.ExportManager.ViewModels
             bool newBool = result ?? false;
             if (newBool)
             {
+                // SCaddinsApp.WindowManager.ShowMessageBox("Saving View Set");
                 exportManager.SaveViewSet(saveAsVm.SaveName, selectedSheets);
             }
         }
@@ -904,12 +905,12 @@ namespace SCaddins.ExportManager.ViewModels
             IsNotifying = false;
             try
             {
-#if REVIT2024
-                var filter = new Predicate<object>(item => viewSet.ViewIds.Cast<long>().Contains(((ExportSheet)item).Sheet.Id.Value));
-#else
+//#if REVIT2024
+//                var filter = new Predicate<object>(item => viewSet.ViewIds.Cast<long>().Contains(((ExportSheet)item).Sheet.Id.Value));
+//#else
                 var filter = new Predicate<object>(item => viewSet.ViewIds.Contains(((ExportSheet)item).Sheet.Id.IntegerValue));
 
-#endif
+//#endif
                 Sheets.Filter = filter;
             }
             catch (Exception exception)

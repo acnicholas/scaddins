@@ -22,6 +22,18 @@ namespace SCaddins.RenameUtilities
 
     public class RenameParameter
     {
+        public RenameParameter(Parameter parameter, BuiltInCategory category, bool isViewTemplate)
+        {
+            this.Parameter = parameter;
+            this.Category = category;
+            this.Type = null;
+            this.Family = null;
+            this.Group = null;
+            this.Name = parameter.Definition.Name;
+            this.IsViewTemplate = isViewTemplate;
+            this.ParameterFilterElement = null;
+        }
+
         public RenameParameter(Parameter parameter, BuiltInCategory category)
         {
             this.Parameter = parameter;
@@ -30,6 +42,8 @@ namespace SCaddins.RenameUtilities
             this.Family = null;
             this.Group = null;
             this.Name = parameter.Definition.Name;
+            this.IsViewTemplate = false;
+            this.ParameterFilterElement = null;
         }
 
         public RenameParameter(Parameter parameter, Type t)
@@ -40,6 +54,8 @@ namespace SCaddins.RenameUtilities
             this.Group = null;
             this.Category = BuiltInCategory.INVALID;
             this.Name = parameter.Definition.Name;
+            this.IsViewTemplate = false;
+            this.ParameterFilterElement = null;
         }
 
         public RenameParameter(BuiltInCategory category)
@@ -50,6 +66,8 @@ namespace SCaddins.RenameUtilities
             this.Group = null;
             this.Type = null;
             this.Name = "Text";
+            this.IsViewTemplate = false;
+            this.ParameterFilterElement = null;
         }
 
         public RenameParameter(Family family)
@@ -60,6 +78,20 @@ namespace SCaddins.RenameUtilities
             this.Family = family;
             this.Group = null;
             this.Name = "Name";
+            this.IsViewTemplate = false;
+            this.ParameterFilterElement = null;
+        }
+
+        public RenameParameter(ParameterFilterElement pfe)
+        {
+            this.Parameter = null;
+            this.Category = BuiltInCategory.INVALID;
+            this.Type = null;
+            this.Family = null;
+            this.Group = null;
+            this.Name = "Name";
+            this.IsViewTemplate = false;
+            this.ParameterFilterElement = pfe;
         }
 
         public RenameParameter(Autodesk.Revit.DB.GroupType group)
@@ -70,6 +102,8 @@ namespace SCaddins.RenameUtilities
             this.Family = null;
             this.Group = group;
             this.Name = "Name";
+            this.IsViewTemplate = false;
+            this.ParameterFilterElement = null;
         }
 
         public BuiltInCategory Category
@@ -90,10 +124,22 @@ namespace SCaddins.RenameUtilities
             private set;
         }
 
+        public ParameterFilterElement ParameterFilterElement
+        {
+            get;
+            private set;
+        }
+
         public Autodesk.Revit.DB.GroupType Group
         {
             get;
             private set;
+        }
+
+        public bool IsViewTemplate
+        {  
+            get;
+            private set; 
         }
 
         public Parameter Parameter

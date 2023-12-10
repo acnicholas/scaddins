@@ -208,7 +208,7 @@ namespace SCaddins.RenameUtilities.ViewModels
             set
             {
                 selectedRenameParameter = value;
-                manager.SetCandidatesByParameter(selectedRenameParameter.Parameter, selectedRenameParameter.Category, selectedRenameParameter.Type, selectedRenameParameter.Family, SelectedRenameParameter.Group);
+                manager.SetCandidatesByParameter(selectedRenameParameter);
                 NotifyOfPropertyChange(() => SelectedRenameParameter);
                 NotifyOfPropertyChange(() => RenameCandidates);
                 NotifyOfPropertyChange(() => RenameAllMatchesLabel);
@@ -235,7 +235,11 @@ namespace SCaddins.RenameUtilities.ViewModels
             manager.CommitRename();
             if (selectedRenameParameter != null)
             {
-                manager.SetCandidatesByParameter(selectedRenameParameter.Parameter, selectedRenameParameter.Category, selectedRenameParameter.Type, SelectedRenameParameter.Family, SelectedRenameParameter.Group);
+                manager.SetCandidatesByParameter(selectedRenameParameter);
+            }
+            else
+            {
+                SCaddinsApp.WindowManager.ShowMessageBox("No elements to rename");
             }
             NotifyOfPropertyChange(() => RenameCandidates);
         }
@@ -253,7 +257,7 @@ namespace SCaddins.RenameUtilities.ViewModels
             manager.CommitRenameSelection(selectedCandiates);
             if (selectedRenameParameter != null)
             {
-                manager.SetCandidatesByParameter(selectedRenameParameter.Parameter, selectedRenameParameter.Category, selectedRenameParameter.Type, selectedRenameParameter.Family, SelectedRenameParameter.Group);
+                manager.SetCandidatesByParameter(selectedRenameParameter);
             }
             NotifyOfPropertyChange(() => RenameCandidates);
         }
