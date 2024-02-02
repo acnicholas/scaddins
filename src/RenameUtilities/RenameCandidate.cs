@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2017-2020 by Andrew Nicholas
+﻿// (C) Copyright 2017-2023 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -18,115 +18,16 @@
 namespace SCaddins.RenameUtilities
 {
     using System.ComponentModel;
+    using System.Windows.Markup;
     using Autodesk.Revit.DB;
+    using Caliburn.Micro;
 
-    public class RenameCandidate : INotifyPropertyChanged
+    public abstract class RenameCandidate : IRenameCandidate
     {
         private string newValue;
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "note")]
-        private TextElement note;
-        private Family family;
-        private View view;
-        private Autodesk.Revit.DB.GroupType group;
         private string oldValue;
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "parameter")]
-        private Parameter parameter;
-        private bool isTemplate;
-        private ParameterFilterElement parameterFilterElement;
-
-        public RenameCandidate(View viewTemplate)
-        {
-            //this.parameter = viewTemplate.GetParameters("View Name")[0];
-            this.parameter = null;
-            this.note = null;
-            this.family = null;
-            this.view = viewTemplate;
-            this.group = null;
-            this.oldValue = viewTemplate.Name;
-            this.newValue = viewTemplate.Name;
-            this.isTemplate = true;
-            this.parameterFilterElement = null;
-        }
-
-        public RenameCandidate(Parameter parameter)
-        {
-            this.parameter = parameter;
-            this.note = null;
-            this.family = null;
-            this.group = null;
-            this.view = null;
-            this.oldValue = parameter.AsString();
-            this.newValue = parameter.AsString();
-            this.isTemplate = false;
-            this.parameterFilterElement = null;
-        }
-
-        public RenameCandidate(TextElement note)
-        {
-            this.parameter = null;
-            this.note = note;
-            this.family = null;
-            this.group = null;
-            this.view = null;
-            this.oldValue = note.Text;
-            this.newValue = note.Text;
-            this.isTemplate = false;
-            this.parameterFilterElement = null;
-        }
-
-        public RenameCandidate(Family family)
-        {
-            this.parameter = null;
-            this.note = null;
-            this.family = family;
-            this.view = null;
-            this.oldValue = family.Name;
-            this.newValue = family.Name;
-            this.group = null;
-            this.isTemplate = false;
-            this.parameterFilterElement = null;
-        }
-
-        public RenameCandidate(Autodesk.Revit.DB.GroupType group)
-        {
-            this.parameter = null;
-            this.note = null;
-            this.family = null;
-            this.group = group;
-            this.view = null;
-            this.oldValue = group.Name;
-            this.newValue = group.Name;
-            this.isTemplate = false;
-            this.parameterFilterElement = null;
-        }
-
-        public RenameCandidate(ParameterFilterElement pfe)
-        {
-            this.parameter = null;
-            this.note = null;
-            this.family = null;
-            this.group = null;
-            this.view = null;
-            this.oldValue = pfe.Name;
-            this.newValue = pfe.Name;
-            this.isTemplate = false;
-            this.parameterFilterElement = pfe;
-        }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public bool IsTemplate
-        {
-            get
-            {
-                return isTemplate;
-            }
-
-            set
-            {
-                isTemplate = value;
-            }
-        }
 
         public string NewValue
         {
@@ -156,86 +57,18 @@ namespace SCaddins.RenameUtilities
                 }
                 return this.oldValue;
             }
+
+            set
+            {
+                this.oldValue = value;
+            }
         }
 
         public bool ValueChanged => !string.Equals(this.oldValue, this.newValue, System.StringComparison.CurrentCulture);
 
-        private Parameter RevitParameter => parameter;
-
-        //// FIXME this is a TOTAL mess :)
-        public bool Rename()
+        public virtual bool Rename()
         {
-            if (ValueChanged)
-            {
-                if (note == null && family == null && group == null && view == null && parameterFilterElement == null)
-                {
-                    if (!parameter.IsReadOnly)
-                    {
-                        return parameter.Set(NewValue);
-                    }
-                }
-                else if (family == null && group == null && view == null && parameterFilterElement == null)
-                {
-                    try
-                    {
-                        note.Text = NewValue;
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-                    return true;
-                }
-                else if (IsTemplate)
-                {
-                    try
-                    {
-                        view.Name = NewValue;
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-                    return true;
-                }
-                else if (note == null && group == null && view == null && parameterFilterElement == null)
-                {
-                    try
-                    {
-                        family.Name = NewValue;
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-                    return true;
-                }
-                else if (note == null && family == null && view == null && parameterFilterElement == null)
-                {
-                    try
-                    {
-                        group.Name = NewValue;
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-                    return true;
-                }
-                else if (note == null && family == null && view == null && group == null)
-                {
-                    try
-                    {
-                        parameterFilterElement.Name = NewValue;
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-                    return true;
-                }
-            }
-            return false;
+            throw new System.NotImplementedException();
         }
     }
 }

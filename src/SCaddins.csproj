@@ -575,6 +575,19 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="RenameUtilities\IRenameCandidate.cs" />
+    <Compile Include="RenameUtilities\RenameCategory.cs" />
+    <Compile Include="RenameUtilities\RenameWindows.cs" />
+    <Compile Include="RenameUtilities\RenameDoors.cs" />
+    <Compile Include="RenameUtilities\RenameLevel.cs" />
+    <Compile Include="RenameUtilities\RenameGrids.cs" />
+    <Compile Include="RenameUtilities\RenameGroups.cs" />
+    <Compile Include="RenameUtilities\RenameParameterCollector.cs" />
+    <Compile Include="RenameUtilities\RenameTypes.cs" />
+    <Compile Include="RenameUtilities\RenameViewFilter.cs" />
+    <Compile Include="RenameUtilities\RenameViewTemplate.cs" />
+    <Compile Include="RenameUtilities\RenameFamily.cs" />
+    <Compile Include="RenameUtilities\RenameText.cs" />
     <Compile Include="RenameUtilities\RenameCandidate.cs" />
     <Compile Include="RenameUtilities\RenameCommand.cs" />
     <Compile Include="RenameUtilities\RenameManager.cs" />

@@ -128,6 +128,9 @@
                         <DataTrigger Binding="{Binding ValidExportName}" Value="False">
                             <Setter Property="Foreground" Value="Magenta"></Setter>
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding ScaleBarError}" Value="True">
+                            <Setter Property="Foreground" Value="DarkOrange"></Setter>
+                        </DataTrigger>
                     </Style.Triggers>
                     <Style.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{x:Static SystemColors.HighlightColor}"/>
@@ -375,6 +378,7 @@
             <Run Text="{Binding StatusText, Mode=OneWay}"></Run>
             <Run Foreground="Red" Text="{Binding InvlaidPrintSettingsStatusText, Mode=OneWay}"></Run>
             <Run Foreground="Magenta" Text="{Binding InvlaidFileNamingStatusText, Mode=OneWay}"></Run>
+            <Run Foreground="DarkOrange" Text="{Binding InvlaidScaleBarStatusText, Mode=OneWay}"></Run>
         </TextBlock>
         <Button
             cal:Message.Attach="Export"

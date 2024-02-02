@@ -22,88 +22,31 @@ namespace SCaddins.RenameUtilities
 
     public class RenameParameter
     {
-        public RenameParameter(Parameter parameter, BuiltInCategory category, bool isViewTemplate)
+        public RenameParameter(Parameter parameter, BuiltInCategory category, object obj, RenameTypes renameType)
         {
+            this.RenameType = renameType;
             this.Parameter = parameter;
             this.Category = category;
-            this.Type = null;
-            this.Family = null;
-            this.Group = null;
-            this.Name = parameter.Definition.Name;
-            this.IsViewTemplate = isViewTemplate;
-            this.ParameterFilterElement = null;
+            this.Object = obj;
+            switch (renameType)
+            {
+                case RenameTypes.Doors:
+                case RenameTypes.ByCategory:
+                    this.Name = parameter.Definition.Name;
+                    break;
+                case RenameTypes.Text:
+                    this.Name = "Text";
+                    break;
+                default:
+                    this.Name = "Name";
+                    break;
+            }
         }
 
-        public RenameParameter(Parameter parameter, BuiltInCategory category)
+        public RenameTypes RenameType
         {
-            this.Parameter = parameter;
-            this.Category = category;
-            this.Type = null;
-            this.Family = null;
-            this.Group = null;
-            this.Name = parameter.Definition.Name;
-            this.IsViewTemplate = false;
-            this.ParameterFilterElement = null;
-        }
-
-        public RenameParameter(Parameter parameter, Type t)
-        {
-            this.Parameter = parameter;
-            this.Type = t;
-            this.Family = null;
-            this.Group = null;
-            this.Category = BuiltInCategory.INVALID;
-            this.Name = parameter.Definition.Name;
-            this.IsViewTemplate = false;
-            this.ParameterFilterElement = null;
-        }
-
-        public RenameParameter(BuiltInCategory category)
-        {
-            this.Parameter = null;
-            this.Category = category;
-            this.Family = null;
-            this.Group = null;
-            this.Type = null;
-            this.Name = "Text";
-            this.IsViewTemplate = false;
-            this.ParameterFilterElement = null;
-        }
-
-        public RenameParameter(Family family)
-        {
-            this.Parameter = null;
-            this.Category = BuiltInCategory.INVALID;
-            this.Type = null;
-            this.Family = family;
-            this.Group = null;
-            this.Name = "Name";
-            this.IsViewTemplate = false;
-            this.ParameterFilterElement = null;
-        }
-
-        public RenameParameter(ParameterFilterElement pfe)
-        {
-            this.Parameter = null;
-            this.Category = BuiltInCategory.INVALID;
-            this.Type = null;
-            this.Family = null;
-            this.Group = null;
-            this.Name = "Name";
-            this.IsViewTemplate = false;
-            this.ParameterFilterElement = pfe;
-        }
-
-        public RenameParameter(Autodesk.Revit.DB.GroupType group)
-        {
-            this.Parameter = null;
-            this.Category = BuiltInCategory.INVALID;
-            this.Type = null;
-            this.Family = null;
-            this.Group = group;
-            this.Name = "Name";
-            this.IsViewTemplate = false;
-            this.ParameterFilterElement = null;
+            get;
+            private set;
         }
 
         public BuiltInCategory Category
@@ -118,37 +61,13 @@ namespace SCaddins.RenameUtilities
             set;
         }
 
-        public Family Family
+        public object Object
         {
             get;
             private set;
-        }
-
-        public ParameterFilterElement ParameterFilterElement
-        {
-            get;
-            private set;
-        }
-
-        public Autodesk.Revit.DB.GroupType Group
-        {
-            get;
-            private set;
-        }
-
-        public bool IsViewTemplate
-        {  
-            get;
-            private set; 
         }
 
         public Parameter Parameter
-        {
-            get;
-            private set;
-        }
-
-        public Type Type
         {
             get;
             private set;

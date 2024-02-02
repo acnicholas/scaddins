@@ -304,7 +304,7 @@ namespace SCaddins.ExportManager
 #if REVIT2022 || REVIT2023 || REVIT2024
             get
             {
-                return sheetRevision != string.Empty ? sheetRevision : "Current Revision";
+                return sheetRevision != string.Empty ? sheetRevision : "-";
             }
 #else
             get
@@ -382,6 +382,11 @@ namespace SCaddins.ExportManager
         public bool ValidScaleBar
         {
             get { return RevitScaleWithoutFormatting() == scaleBarScale.Trim(); }
+        }
+
+        public bool ScaleBarError
+        {
+            get { return Scale.Contains(@"*"); }
         }
 
         public bool Verified
@@ -503,6 +508,7 @@ namespace SCaddins.ExportManager
             p.SetValueString(RevitScaleWithoutFormatting());
             scaleBarScale = RevitScaleWithoutFormatting();
             NotifyPropertyChanged(nameof(Scale));
+            NotifyPropertyChanged(nameof(ScaleBarError));
         }
 
         public void SetSegmentedSheetName(SegmentedSheetName newSegmentedFileName)

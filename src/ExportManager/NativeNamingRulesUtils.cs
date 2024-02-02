@@ -48,15 +48,21 @@ namespace SCaddins.ExportManager
                     var param = vs.Sheet.Parameters.Cast<Parameter>().Where(p => p.Id == pid);
                     if (param.Count() > 0)
                     {
-                        var paramValue = param.First().AsValueString();
-                        if (paramValue.Length < 1)
+                        var p = param.First();
+                        string paramValue;
+                        try
                         {
-                            filenameTest += "Current Revision";
-                        }
-                        else
+                            paramValue = p.AsValueString();
+                        } catch
                         {
-                            filenameTest += paramValue;
+                            paramValue = string.Empty;
                         }
+
+                        if (p.Definition.Name == @"Current Revision" && paramValue.Length < 1)
+                        {
+                            paramValue = "Current Revision";
+                        }
+                        filenameTest += paramValue;
                     }
                 }
                 filenameTest += seg.Suffix;

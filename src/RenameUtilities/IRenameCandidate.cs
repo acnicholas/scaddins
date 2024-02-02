@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2016-2023 by Andrew Nicholas
+﻿// (C) Copyright 2023 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -15,7 +15,28 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Reflection;
+namespace SCaddins.RenameUtilities
+{
+    using System.ComponentModel;
 
-[assembly: AssemblyVersion("24.1.0.0")]
-[assembly: AssemblyInformationalVersion("24.1.0")]
+    internal interface IRenameCandidate : INotifyPropertyChanged
+    {
+        string NewValue
+        {
+            get;
+            set;
+        }
+
+        string OldValue
+        {
+            get;
+        }
+
+        bool ValueChanged
+        {
+            get;
+        }
+
+        bool Rename();
+    }
+}

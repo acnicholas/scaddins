@@ -1,5 +1,18 @@
 # SCaddins Revision Log #
 
+# 24.1.0 #
+
+#### NEW ####
+
+- View filters added to Rename.
+- View Templates added to Rename.
+- Highlight invlalid scalebars in SCexport
+
+#### FIXES ####
+
+- Allow empty parameters in SCexport export names(don't crash).
+- Fixed view set creation and loading [SCexport] in Revit 2024
+
 # 24.0.0 #
 
 #### NEW ####

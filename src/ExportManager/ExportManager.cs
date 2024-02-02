@@ -602,12 +602,9 @@ namespace SCaddins.ExportManager
 
         public void SaveViewSet(string name, List<ExportSheet> selectedSheets)
         {
-//#if REVIT2024
-//            // var viewSetItem = new ViewSetItem(-1, name, selectedSheets.Select(s => s.Id.Value).Cast<int>().ToList());
-//            var viewSetItem = new ViewSetItem(-1, name, selectedSheets.Select(s => s.Id.IntegerValue).ToList());
-//#else
+#pragma warning disable CS0618 // Type or member is obsolete
             var viewSetItem = new ViewSetItem(-1, name, selectedSheets.Select(s => s.Id.IntegerValue).ToList());
-//#endif
+#pragma warning restore CS0618 // Type or member is obsolete
             AllViewSheetSets.Add(viewSetItem);
             using (Transaction t = new Transaction(Doc))
             {
@@ -619,11 +616,9 @@ namespace SCaddins.ExportManager
                         set.Insert(s.Sheet);
                     }
                     var pm = Doc.PrintManager;
-                    ////pm.ViewSheetSetting.
                     pm.PrintRange = PrintRange.Select;
                     pm.ViewSheetSetting.CurrentViewSheetSet = pm.ViewSheetSetting.InSession;
                     pm.ViewSheetSetting.InSession.Views = set;
-                    ////pm.Apply();
                     pm.ViewSheetSetting.SaveAs(name);
                     if (t.Commit() != TransactionStatus.Committed)
                     {

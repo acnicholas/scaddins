@@ -290,6 +290,20 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public string InvlaidScaleBarStatusText
+        {
+            get
+            {
+                var invalidScaleBars = exportManager.AllSheets.Count(s => s.ScaleBarError == true);
+                if (invalidScaleBars > 0)
+                {
+                    return @" [Incorrent scalebars: " + invalidScaleBars + @"]";
+                }
+
+                return string.Empty;
+            }
+        }
+
         public bool IsSearchTextFocused
         {
             get; set;
@@ -758,15 +772,11 @@ namespace SCaddins.ExportManager.ViewModels
                 IsNotifying = false;
                 try
                 {
-//#if REVIT2024
-//                    var filter = new Predicate<object>(item => viewSetSelectionViewModel
-//                        .SelectedSet
-//                        .ViewIds.Cast<long>().Contains(((ExportSheet)item).Sheet.Id.Value));
-//#else
+#pragma warning disable CS0618 // Type or member is obsolete
                     var filter = new Predicate<object>(item => viewSetSelectionViewModel
                             .SelectedSet
                             .ViewIds.Contains(((ExportSheet)item).Sheet.Id.IntegerValue));
-//#endif
+#pragma warning restore CS0618 // Type or member is obsolete
                     Sheets.Filter = filter;
                 }
                 catch (Exception exception)
@@ -905,12 +915,10 @@ namespace SCaddins.ExportManager.ViewModels
             IsNotifying = false;
             try
             {
-//#if REVIT2024
-//                var filter = new Predicate<object>(item => viewSet.ViewIds.Cast<long>().Contains(((ExportSheet)item).Sheet.Id.Value));
-//#else
+#pragma warning disable CS0618 // Type or member is obsolete
                 var filter = new Predicate<object>(item => viewSet.ViewIds.Contains(((ExportSheet)item).Sheet.Id.IntegerValue));
+#pragma warning restore CS0618 // Type or member is obsolete
 
-//#endif
                 Sheets.Filter = filter;
             }
             catch (Exception exception)
