@@ -1044,6 +1044,9 @@ namespace SCaddins.ExportManager.ViewModels
                         ((item != null) &&
                          (-1 < ((ExportSheet)item).SheetDescription.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase)))
                         ||
+                         ((item != null) &&
+                         (-1 < ((ExportSheet)item).FullExportName.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase)))
+                        ||
                         (item != null &&
                          -1 < ((ExportSheet)item).SheetNumber.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase)));
                 if (Sheets.CanFilter)

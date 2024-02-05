@@ -76,7 +76,7 @@ namespace SCaddins.RenameUtilities
         {
             get
             {
-                Caliburn.Micro.BindableCollection<string> result = new Caliburn.Micro.BindableCollection<string>();
+                List<string> result = new List<string>();
                 result.Add("Areas");
                 result.Add("Rooms");
                 result.Add("Grids");
@@ -95,8 +95,7 @@ namespace SCaddins.RenameUtilities
                 result.Add(@"Project Information");
 
                 // result.Add(@"Model Groups");
-                result.OrderBy(s => s);
-                return result;
+                return new Caliburn.Micro.BindableCollection<string>(result.OrderBy(s => s));
             }
         }
 
