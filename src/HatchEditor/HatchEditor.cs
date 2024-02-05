@@ -20,6 +20,7 @@ namespace SCaddins.HatchEditor
     using System.Collections.Generic;
     using System.Dynamic;
     using System.IO;
+    using System.Linq;
     using System.Text;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
@@ -42,6 +43,7 @@ namespace SCaddins.HatchEditor
                     result.Add(h);
                 }
             }
+            result = result.OrderBy(l => l.Name).ToList();
             return result;
         }
 

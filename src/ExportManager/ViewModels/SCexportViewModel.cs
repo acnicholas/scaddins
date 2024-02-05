@@ -297,7 +297,7 @@ namespace SCaddins.ExportManager.ViewModels
                 var invalidScaleBars = exportManager.AllSheets.Count(s => s.ScaleBarError == true);
                 if (invalidScaleBars > 0)
                 {
-                    return @" [Incorrent scalebars: " + invalidScaleBars + @"]";
+                    return @" [Incorrect scalebars: " + invalidScaleBars + @"]";
                 }
 
                 return string.Empty;

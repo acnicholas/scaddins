@@ -73,6 +73,11 @@ namespace SCaddins.ExportManager
             cmd = command;
         }
 
+        public string GetCommand()
+        {
+            return cmd;
+        }
+
         public void SetArguments(string arguments)
         {
             args = arguments;

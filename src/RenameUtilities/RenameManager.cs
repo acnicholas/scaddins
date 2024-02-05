@@ -314,7 +314,7 @@ namespace SCaddins.RenameUtilities
                             // SCaddinsApp.WindowManager.ShowMessageBox("Value Change");
                             if (candidate.Rename())
                             {
-                                SCaddinsApp.WindowManager.ShowMessageBox("Success");
+                                // SCaddinsApp.WindowManager.ShowMessageBox("Success");
                                 successes++;
                             }
                             else
@@ -441,6 +441,7 @@ namespace SCaddins.RenameUtilities
             if (category == BuiltInCategory.OST_TextNotes)
             {
                 parametersList.Add(new RenameParameter(null, category, null, RenameTypes.Text));
+                parametersList.OrderBy(p => p.Name);
                 return parametersList;
             }
 
@@ -463,6 +464,7 @@ namespace SCaddins.RenameUtilities
             {
                 Parameter param = elem.LookupParameter("Name");
                 parametersList.Add(new RenameParameter(param, BuiltInCategory.OST_Levels, null, RenameTypes.Level));
+                parametersList.OrderBy(p => p.Name);
                 return parametersList;
             }
 
@@ -470,6 +472,7 @@ namespace SCaddins.RenameUtilities
             {
                 Parameter param = elem.LookupParameter("Name");
                 parametersList.Add(new RenameParameter(param, BuiltInCategory.OST_Grids, null, RenameTypes.Grids));
+                parametersList.OrderBy(p => p.Name);
                 return parametersList;
             }
 
@@ -477,6 +480,7 @@ namespace SCaddins.RenameUtilities
             {
                 Parameter param = elem.LookupParameter("View Name");
                 parametersList.Add(new RenameParameter(param, BuiltInCategory.OST_Views, null, RenameTypes.ViewTemplate));
+                parametersList.OrderBy(p => p.Name);
                 return parametersList;
             }
 
@@ -484,6 +488,7 @@ namespace SCaddins.RenameUtilities
             {
                 Parameter param = elem.LookupParameter("Text");
                 parametersList.Add(new RenameParameter(param, BuiltInCategory.OST_TextNotes, null, RenameTypes.Text));
+                parametersList.OrderBy(p => p.Name);
                 return parametersList;
             }
 
@@ -499,6 +504,8 @@ namespace SCaddins.RenameUtilities
                     parametersList.Add(new RenameParameter(param, category, null, RenameTypes.ByCategory));
                 }
             }
+
+            // parametersList = parametersList.OrderBy(p => p.Name);
             return parametersList;
         }
 

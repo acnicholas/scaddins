@@ -1387,6 +1387,8 @@ namespace SCaddins.ExportManager
             if (vs.SegmentedFileName.Hooks.Count > 0)
             {
                 FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionDWG));
+
+                // SCaddinsApp.WindowManager.ShowMessageBox("Running Export Hook");
                 RunExportHooks(Resources.FileExtensionDWG, vs, log);
             }
 
@@ -1519,17 +1521,21 @@ namespace SCaddins.ExportManager
 
         private void RunExportHooks(string extension, ExportSheet vs, ExportLog log)
         {
+            // SCaddinsApp.WindowManager.ShowMessageBox(postExportHooks.Count.ToString());
+            // SCaddinsApp.WindowManager.ShowMessageBox(postExportHooks.ElementAt(0).Value.GetCommand());
             for (int i = 0; i < postExportHooks.Count; i++)
             {
                 if (postExportHooks.ElementAt(i).Value.HasExtension(extension))
                 {
                     if (vs.SegmentedFileName.Hooks.Count < 1)
                     {
+                        // SCaddinsApp.WindowManager.ShowMessageBox("Hook Extension Not Found");
                         return;
                     }
 
                     if (vs.SegmentedFileName.Hooks.Contains(postExportHooks.ElementAt(i).Key))
                     {
+                        // SCaddinsApp.WindowManager.ShowMessageBox("Running Hook");
                         postExportHooks.ElementAt(i).Value.Run(vs, extension, log);
                     } 
                 }

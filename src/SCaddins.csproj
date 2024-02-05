@@ -246,8 +246,8 @@
     <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
       <HintPath>packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
     </Reference>
-    <Reference Include="KeraLua, Version=1.3.4.0, Culture=neutral, PublicKeyToken=6a194c04b9c89217, processorArchitecture=MSIL">
-      <HintPath>packages\KeraLua.1.3.4\lib\net46\KeraLua.dll</HintPath>
+    <Reference Include="KeraLua, Version=1.4.1.0, Culture=neutral, PublicKeyToken=6a194c04b9c89217, processorArchitecture=MSIL">
+      <HintPath>packages\KeraLua.1.4.1\lib\net46\KeraLua.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -259,8 +259,8 @@
     <Reference Include="NHunspell, Version=1.2.5554.16953, Culture=neutral, PublicKeyToken=1ac793ea843b4366, processorArchitecture=MSIL">
       <HintPath>packages\NHunspell.1.2.5554.16953\lib\net\NHunspell.dll</HintPath>
     </Reference>
-    <Reference Include="NLua, Version=1.6.0.0, Culture=neutral, PublicKeyToken=6a194c04b9c89217, processorArchitecture=MSIL">
-      <HintPath>packages\NLua.1.6.0\lib\net46\NLua.dll</HintPath>
+    <Reference Include="NLua, Version=1.7.2.0, Culture=neutral, PublicKeyToken=6a194c04b9c89217, processorArchitecture=MSIL">
+      <HintPath>packages\NLua.1.7.2\lib\net46\NLua.dll</HintPath>
     </Reference>
     <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2018'">
       <SpecificVersion>False</SpecificVersion>
@@ -1096,7 +1096,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('packages\docfx.console.2.59.0\build\docfx.console.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\docfx.console.2.59.0\build\docfx.console.targets'))" />
-    <Error Condition="!Exists('packages\KeraLua.1.3.4\build\net46\KeraLua.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\KeraLua.1.3.4\build\net46\KeraLua.targets'))" />
+    <Error Condition="!Exists('packages\KeraLua.1.4.1\build\net46\KeraLua.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\KeraLua.1.4.1\build\net46\KeraLua.targets'))" />
   </Target>
   <PropertyGroup>
     <PreBuildEvent>if not exist $(ProjectDir)\Resources mkdir $(ProjectDir)\Resources
@@ -1108,5 +1108,5 @@ copy $(ProjectDir)\packages\NHunspell.1.2.5554.16953\content\Hunspellx86.dll $(P
   </PropertyGroup>
   <Import Project="packages\StyleCop.MSBuild.6.1.0\build\StyleCop.MSBuild.targets" Condition="Exists('packages\StyleCop.MSBuild.6.1.0\build\StyleCop.MSBuild.targets')" />
   <Import Project="packages\docfx.console.2.59.0\build\docfx.console.targets" Condition="Exists('packages\docfx.console.2.59.0\build\docfx.console.targets')" />
-  <Import Project="packages\KeraLua.1.3.4\build\net46\KeraLua.targets" Condition="Exists('packages\KeraLua.1.3.4\build\net46\KeraLua.targets')" />
+  <Import Project="packages\KeraLua.1.4.1\build\net46\KeraLua.targets" Condition="Exists('packages\KeraLua.1.4.1\build\net46\KeraLua.targets')" />
 </Project>

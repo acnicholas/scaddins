@@ -199,7 +199,8 @@
                 {
                     var sh = textBoxHost.GetValue(e.Property) as SyntaxHighlighter;
                     textBoxHost.fastColoredTextBox.SyntaxHighlighter = sh;
-                    SCaddinsApp.WindowManager.ShowMessageBox("yep");
+
+                    // SCaddinsApp.WindowManager.ShowMessageBox("yep");
                 }
             });
         }

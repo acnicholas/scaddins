@@ -121,7 +121,8 @@ namespace SCaddins.RenameUtilities.ViewModels
         {
             get
             {
-                return RenameManager.GetParametersByCategoryName(selectedParameterCategory, manager.Document);
+                var l = RenameManager.GetParametersByCategoryName(selectedParameterCategory, manager.Document);
+                return new BindableCollection<RenameParameter>(l.OrderBy(p => p.Name));
             }
         }
 
