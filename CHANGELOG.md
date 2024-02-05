@@ -12,6 +12,9 @@
 
 - Allow empty parameters in SCexport export names(don't crash).
 - Fixed view set creation and loading [SCexport] in Revit 2024
+- Sort parameters in Rename.
+= Sort hatches in Hatch Editor.
+- Don't enable post export hook if script is not found.
 
 # 24.0.0 #
 
