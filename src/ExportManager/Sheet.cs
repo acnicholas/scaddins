@@ -129,7 +129,13 @@ namespace SCaddins.ExportManager
         {
             get
             {
-                return forceRasterPrint;
+                return forceRasterPrint;         
+            }
+
+            set
+            {
+                forceRasterPrint = value;
+                NotifyPropertyChanged(nameof(ForceRasterPrint));
             }
         }
 
@@ -613,7 +619,8 @@ namespace SCaddins.ExportManager
                 "    SheetRevision={17}," + Environment.NewLine +
                 "    SheetRevisionDate={18}," + Environment.NewLine +
                 "    SheetRevisionDescription={19}," + Environment.NewLine +
-                "    ExportDir={20}";
+                "    ForceRasterPrint={20}," + Environment.NewLine +
+                "    ExportDir={21}";
             return string.Format(
                 CultureInfo.CurrentCulture,
                 s,
@@ -637,6 +644,7 @@ namespace SCaddins.ExportManager
                 sheetRevision,
                 sheetRevisionDate,
                 sheetRevisionDescription,
+                ForceRasterPrint,
                 ExportDirectory);
         }
 
@@ -760,7 +768,7 @@ namespace SCaddins.ExportManager
             pageSize = string.Empty;
             id = viewSheet.Id;
             ForceDate = scx.ForceRevisionToDateString;
-            forceRasterPrint = UseRasterPrinting(Manager.ForceRasterPrintParameterName);
+            ForceRasterPrint = UseRasterPrinting(Settings1.Default.UseRasterPrinterParameter);
             useDateForEmptyRevisions = scx.UseDateForEmptyRevisions;
             UpdateRevision(false);
             SetExportName();
@@ -768,16 +776,15 @@ namespace SCaddins.ExportManager
 
         private bool UseRasterPrinting(string parameterName)
         {
-            bool result = false;
             if (!string.IsNullOrEmpty(parameterName))
             {
-                var parameters = sheet.GetParameters(parameterName);
-                if (parameters.Count == 1)
+                Parameter parameter = this.sheet.LookupParameter(parameterName);
+                if (parameter != null)
                 {
-                    result = parameters[0].HasValue && parameters[0].StorageType == StorageType.Integer && parameters[0].AsInteger() == 1;
+                    return parameter.StorageType == StorageType.Integer && parameter.AsInteger() == 1;
                 }
             }
-            return result;
+            return false;
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

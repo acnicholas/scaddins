@@ -80,8 +80,6 @@ namespace SCaddins.ExportManager
             get; set;
         }
 
-        public static string ForceRasterPrintParameterName => Settings1.Default.UseRasterPrinterParameter;
-
         public ObservableCollection<ExportSheet> AllSheets { get; }
 
         public ObservableCollection<ViewSetItem> AllViewSheetSets { get; private set; }
@@ -1187,10 +1185,16 @@ namespace SCaddins.ExportManager
             views = new List<ElementId>();
             views.Add(vs.Id);
 
+            PDFExportOptions opts = vs.SegmentedFileName.PDFExportOptions;
+            if (vs.ForceRasterPrint == true)
+            {
+                opts.AlwaysUseRaster = true;
+            }
+
             var name = vs.FullExportName + Resources.FileExtensionPDF;
             log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
             log.AddMessage(Resources.MessageExportingToFileName + name);
-            Doc.Export(vs.ExportDirectory, views, vs.SegmentedFileName.PDFExportOptions);
+            Doc.Export(vs.ExportDirectory, views, opts);
 
             if (vs.SegmentedFileName.Hooks.Count > 0)
             {

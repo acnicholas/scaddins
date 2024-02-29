@@ -77,7 +77,7 @@ namespace SCaddins.ExportManager.ViewModels
 
             set
             {
-                if (value == Settings1.Default.UseRasterPrinterParameter)
+                if (value == Settings1.Default.CustomSCExportParameter01)
                 {
                     return;
                 }
