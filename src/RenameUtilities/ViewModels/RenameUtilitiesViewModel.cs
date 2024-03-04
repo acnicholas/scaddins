@@ -171,6 +171,7 @@ namespace SCaddins.RenameUtilities.ViewModels
                 selectedParameterCategory = value;
                 NotifyOfPropertyChange(() => SelectedParameterCategory);
                 NotifyOfPropertyChange(() => RenameParameters);
+                RenameCandidates.Clear();
             }
         }
 
