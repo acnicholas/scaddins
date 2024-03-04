@@ -1,5 +1,13 @@
 # SCaddins Revision Log #
 
+# 24.1.1 #
+
+#### FIXES ####
+
+- Fix force raster print option in SCexport.
+- Update WIX
+- Clear rename candidates in rename tool when catergory is changed.
+
 # 24.1.0 #
 
 #### NEW ####
