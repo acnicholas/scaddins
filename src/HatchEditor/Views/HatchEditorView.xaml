@@ -45,6 +45,11 @@
                         <Image Source="/SCaddins;component/Assets/open.png" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem x:Name="LoadPatternFromTemplate" Header="_load pattern from template">
+                    <MenuItem.Icon>
+                        <Image Source="/SCaddins;component/Assets/open.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator></Separator>
                 <MenuItem x:Name="SaveToFile" Header="_Save to file">
                     <MenuItem.Icon>

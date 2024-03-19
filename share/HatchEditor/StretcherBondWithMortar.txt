@@ -1,0 +1,8 @@
+0,0,0,0,($BrickHeight + $MortarThickness) * 2, $BrickLength, $MortarThickness
+0,($BrickLength + $MortarThickness) / 2, $MortarThickness,0,($BrickHeight + $MortarThickness) * 2,$BrickLength,$MortarThickness
+0,0,$BrickHeight + 2 * $MortarThickness,0,($BrickHeight + $MortarThickness) * 2,$BrickLength, $MortarThickness
+0,($BrickLength + $MortarThickness) / 2,($BrickHeight + $MortarThickness) ,0,($BrickHeight + $MortarThickness) * 2, $BrickLength, $MortarThickness
+90,0, $BrickHeight + 2 * $MortarThickness,0,$BrickLength + $MortarThickness,$BrickHeight,$BrickHeight + 2 * $MortarThickness
+90,$BrickLength, $BrickHeight + 2 * $MortarThickness,0,$BrickLength + $MortarThickness,$BrickHeight,$BrickHeight + 2 * $MortarThickness
+90,($BrickLength - $MortarThickness) / 2,$MortarThickness,0,$BrickLength + $MortarThickness,$BrickHeight,$BrickHeight + 2 * $MortarThickness
+90,($BrickLength + $MortarThickness) / 2,$MortarThickness,0,$BrickLength + $MortarThickness, $BrickHeight, $BrickHeight + 2 * $MortarThickness

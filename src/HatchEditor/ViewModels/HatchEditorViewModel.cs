@@ -20,6 +20,7 @@ namespace SCaddins.HatchEditor.ViewModels
     using System.Collections.ObjectModel;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
+    using Microsoft.Office.Interop.Excel;
 
     internal class HatchEditorViewModel : Screen
     {
@@ -126,6 +127,28 @@ namespace SCaddins.HatchEditor.ViewModels
             "expands dots and very short dashes into dashes of a minimum size.";
 
             SCaddinsApp.WindowManager.ShowMessageBox(helpText);
+        }
+
+        public void LoadPatternFromTemplate()
+        {
+            var result = SCaddinsApp.WindowManager.ShowFileSelectionDialog("C:/Temp", out var filePath);
+            if (!result.HasValue || !result.Value)
+            {
+                return;
+            }
+            var vm = new SetTemplateParametersViewModel(HatchTemplate.GetHatchParameters(filePath));
+            var result2 = SCaddinsApp.WindowManager.ShowDialog(vm, null, SetTemplateParametersViewModel.DefaultWindowSettings);
+            if (result2.HasValue && result2.Value)
+            {
+                var hatch = new Hatch();
+                hatch.Definition = HatchTemplate.GetPatternString(filePath, vm.TemplateParameters);
+                hatch.HatchPattern.Target = FillPatternTarget.Model;
+                hatch.Name = System.IO.Path.GetFileNameWithoutExtension(filePath);
+                UserFillPattern = hatch;
+            } else
+            {
+                SCaddinsApp.WindowManager.ShowMessageBox("No Value");
+            }
         }
 
         public void LoadPatternFromFile()

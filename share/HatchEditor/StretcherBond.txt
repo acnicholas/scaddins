@@ -1,0 +1,2 @@
+0,	0,	0,	0,	$brickheight
+90,	0,	0,	$brickheight,	$brickwidth/2,	$brickheight,	$brickheight
