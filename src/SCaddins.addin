@@ -4,7 +4,7 @@
   <!-- SCexport -->  
     
   <AddIn Type="Application">
-    <Assembly>C:\Program Files\SCaddins\SCaddins\_REVIT_VERSION_\SCaddins.dll</Assembly>
+    <Assembly>C:\Program Files\Studio.SC\SCaddins\_REVIT_VERSION_\SCaddins.dll</Assembly>
     <AddInId>DE9AB48F-CEFB-445F-9FED-408B5980EB0A</AddInId>
     <FullClassName>SCaddins.SCaddinsApp</FullClassName>
     <Name>SCexport - Export Utility</Name>

@@ -35,7 +35,7 @@ namespace SCaddins
             "https://github.com/acnicholas/scaddins/wiki";
 
         /// <summary> The install dir.</summary>
-        public const string InstallDirectory = @"C:\Program Files\SCaddins\SCaddins\";
+        public const string InstallDirectory = @"C:\Program Files\Studio.SC\SCaddins\";
 
         /// <summary> Data directory. </summary>
         public const string ShareDirectory = "share";

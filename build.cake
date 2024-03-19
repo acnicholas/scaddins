@@ -1,13 +1,14 @@
 using Cake.Common.Diagnostics;
 using System.IO;
+using System.Collections.Generic;
+using System.Reflection.Assembly;  
+using System.Diagnostics;
 
 var target = Argument("target", "Default");
 var solutionFile = GetFiles("src/*.sln").First();
-var solutionFileWix = GetFiles("installer/SCaddins.Installer.wixproj").First();
+var assemblyFile = GetFiles("src/bin/Release2024/SCaddins.dll").First();
+var innoSetupFile = GetFiles("setup/*.iss").First();
 var buildDir = Directory(@"./src/bin");
-var testBuildDir = Directory(@"./src/bin");
-var testAssemblyDllName = "SCaddins.Tests.dll";
-var revitTestFrameworkBin = Argument("RTFBin", @"tools/RevitTestFramework/RevitTestFrameworkConsole.exe");
 
 // METHODS
 
@@ -22,22 +23,9 @@ public MSBuildSettings GetBuildSettings(string config)
 	return result;
 }
 
-public string GetTestAssembly(string revitVersion)
-{
-	return string.Format(@"tests\bin\x64\Release{0}\{1}",revitVersion, testAssemblyDllName);
-}
-
 public bool APIAvailable(string revitVersion)
 {
 	return FileExists(@"C:\Program Files\Autodesk\Revit " + revitVersion + @"\RevitAPI.dll");
-}
-
-public string GetTestArgs(string revitVersion)
-{
-	var path = string.Format(@"tests\bin\x64\Release{0}",revitVersion);
-	string result = string.Format(@"--assembly={0} --dir={1} --results={1}\result.xml --groupByModel --color --continuous", GetTestAssembly(revitVersion), path);
-	System.Console.WriteLine(result);
-	return result;
 }
 
 // TASKS
@@ -45,14 +33,6 @@ public string GetTestArgs(string revitVersion)
 Task("Clean").Does(() => CleanDirectory(buildDir));
 
 Task("Restore-NuGet-Packages").Does(() => NuGetRestore(solutionFile));
-
-Task("Restore-Installer-NuGet-Packages").Does(() => 
-		{
-		var settings = new NuGetRestoreSettings();
-		settings.PackagesDirectory = @"installer/packages";
-		settings.WorkingDirectory = @"installer";
-		NuGetRestore(solutionFileWix, settings);
-		});
 
 Task("CreateAddinManifests")
 .Does(() =>
@@ -109,60 +89,23 @@ Task("Revit2024")
 .WithCriteria(APIAvailable("2024"))
 .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2024")));
 
-Task("SetUpTests")
-.Does(() =>
-	{
-		if (FileExists(@"tests\bin\x64\Release2019\scaddins_test_model.rvt")) {
-			DeleteFile(@"tests\bin\x64\Release2019\scaddins_test_model.rvt");
-		}
-		CopyFile(@"tests\models\scaddins_test_model.rvt", @"tests\bin\x64\Release2019\scaddins_test_model.rvt");
-	});
-
-Task("Test2018")
-.IsDependentOn("SetUpTests")
-.Does(() => StartProcess(revitTestFrameworkBin, GetTestArgs("2018")));
-
-Task("Test2019")
-.IsDependentOn("SetUpTests")
-.Does(() => StartProcess(revitTestFrameworkBin, GetTestArgs("2019")));
-
-Task("Test2020")
-.IsDependentOn("SetUpTests")
-.Does(() => StartProcess(revitTestFrameworkBin, GetTestArgs("2020")));
-
-Task("Test2021")
-.IsDependentOn("SetUpTests")
-.Does(() => StartProcess(revitTestFrameworkBin, GetTestArgs("2021")));
-
-Task("Test2022")
-.IsDependentOn("SetUpTests")
-.Does(() => StartProcess(revitTestFrameworkBin, GetTestArgs("2022")));
-
-Task("Test2023")
-.IsDependentOn("SetUpTests")
-.Does(() => StartProcess(revitTestFrameworkBin, GetTestArgs("2023")));
-
-Task("Test2024")
-.IsDependentOn("SetUpTests")
-.Does(() => StartProcess(revitTestFrameworkBin, GetTestArgs("2024")));
-
 Task("Installer")
-.IsDependentOn("Restore-Installer-NuGet-Packages")
 .Does(() =>
 		{
-		Environment.SetEnvironmentVariable("R2018", APIAvailable("2018") ? "Enabled" : "Disabled");
-		Environment.SetEnvironmentVariable("R2019", APIAvailable("2019") ? "Enabled" : "Disabled");
-		Environment.SetEnvironmentVariable("R2020", APIAvailable("2020") ? "Enabled" : "Disabled");
-		Environment.SetEnvironmentVariable("R2021", APIAvailable("2021") ? "Enabled" : "Disabled");
-		Environment.SetEnvironmentVariable("R2022", APIAvailable("2022") ? "Enabled" : "Disabled");
-		Environment.SetEnvironmentVariable("R2023", APIAvailable("2023") ? "Enabled" : "Disabled");
-		Environment.SetEnvironmentVariable("R2024", APIAvailable("2024") ? "Enabled" : "Disabled");
-		var settings = new MSBuildSettings();
-		settings.SetConfiguration("Release");
-		settings.WithTarget("Rebuild");
-		settings.SetVerbosity(Verbosity.Minimal);
-		settings.WorkingDirectory = new DirectoryPath(Environment.CurrentDirectory + @"\installer");
-		MSBuild(solutionFileWix, settings);  
+		var version = FileVersionInfo.GetVersionInfo(assemblyFile.ToString()).ProductVersion;		
+		Dictionary<string, string> dict =  new Dictionary<string, string>();
+		dict.Add("R2018", APIAvailable("2018") ? "Enabled" : "Disabled");
+		dict.Add("R2019", APIAvailable("2019") ? "Enabled" : "Disabled");
+		dict.Add("R2020", APIAvailable("2020") ? "Enabled" : "Disabled");
+		dict.Add("R2021", APIAvailable("2021") ? "Enabled" : "Disabled");
+		dict.Add("R2022", APIAvailable("2022") ? "Enabled" : "Disabled");
+		dict.Add("R2023", APIAvailable("2023") ? "Enabled" : "Disabled");
+		dict.Add("R2024", APIAvailable("2024") ? "Enabled" : "Disabled");
+		dict.Add("MyAppVersion", version); 
+		var settings = new InnoSetupSettings();
+		settings.Defines = dict;
+		settings.WorkingDirectory = new DirectoryPath(Environment.CurrentDirectory + @"\setup");
+		InnoSetup(innoSetupFile, settings);  
 		});
 
 Task("Dist")
