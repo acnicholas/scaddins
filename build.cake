@@ -1,3 +1,5 @@
+#tool nuget:?package=Tools.InnoSetup&version=6.2.2
+
 using Cake.Common.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
@@ -38,10 +40,6 @@ Task("CreateAddinManifests")
 .Does(() =>
 		{
 		string text = System.IO.File.ReadAllText(@"src\SCaddins.addin");
-		if (DirectoryExists(@"src\bin\Release2018"))
-		    System.IO.File.WriteAllText(@"src\bin\Release2018\SCaddins2018.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2018"));
-		if (DirectoryExists(@"src\bin\Release2019"))
-		    System.IO.File.WriteAllText(@"src\bin\Release2019\SCaddins2019.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2019"));
 		if (DirectoryExists(@"src\bin\Release2020"))
 		    System.IO.File.WriteAllText(@"src\bin\Release2020\SCaddins2020.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2020"));
 		if (DirectoryExists(@"src\bin\Release2021"))
@@ -53,16 +51,6 @@ Task("CreateAddinManifests")
 	    if (DirectoryExists(@"src\bin\Release2024"))
 		    System.IO.File.WriteAllText(@"src\bin\Release2024\SCaddins2024.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2024"));
 		});
-
-Task("Revit2018")
-.IsDependentOn("Restore-NuGet-Packages")
-.WithCriteria(APIAvailable("2018"))
-.Does(() => MSBuild(solutionFile, GetBuildSettings("Release2018")));
-
-Task("Revit2019")
-.IsDependentOn("Restore-NuGet-Packages")
-.WithCriteria(APIAvailable("2019"))
-.Does(() => MSBuild(solutionFile, GetBuildSettings("Release2019")));
 
 Task("Revit2020")
 .IsDependentOn("Restore-NuGet-Packages")
@@ -94,8 +82,6 @@ Task("Installer")
 		{
 		var version = FileVersionInfo.GetVersionInfo(assemblyFile.ToString()).ProductVersion;		
 		Dictionary<string, string> dict =  new Dictionary<string, string>();
-		dict.Add("R2018", APIAvailable("2018") ? "Enabled" : "Disabled");
-		dict.Add("R2019", APIAvailable("2019") ? "Enabled" : "Disabled");
 		dict.Add("R2020", APIAvailable("2020") ? "Enabled" : "Disabled");
 		dict.Add("R2021", APIAvailable("2021") ? "Enabled" : "Disabled");
 		dict.Add("R2022", APIAvailable("2022") ? "Enabled" : "Disabled");
@@ -114,8 +100,6 @@ Task("Dist")
 
 Task("Default")
 .IsDependentOn("Clean")
-.IsDependentOn("Revit2018")
-.IsDependentOn("Revit2019")
 .IsDependentOn("Revit2020")
 .IsDependentOn("Revit2021")
 .IsDependentOn("Revit2022")

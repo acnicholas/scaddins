@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29509.3
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCaddins", "SCaddins.csproj", "{AD62F888-78A1-4E0B-9820-5989630FC8C6}"
 EndProject
@@ -11,10 +11,6 @@ Global
 		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
-		Release2018|Any CPU = Release2018|Any CPU
-		Release2018|x64 = Release2018|x64
-		Release2019|Any CPU = Release2019|Any CPU
-		Release2019|x64 = Release2019|x64
 		Release2020|Any CPU = Release2020|Any CPU
 		Release2020|x64 = Release2020|x64
 		Release2021|Any CPU = Release2021|Any CPU
@@ -31,18 +27,10 @@ Global
 		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Debug|Any CPU.Build.0 = Debug|x64
 		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Debug|x64.ActiveCfg = Debug|x64
 		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Debug|x64.Build.0 = Debug|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release|Any CPU.ActiveCfg = Release2019|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release|Any CPU.Build.0 = Release2019|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release|x64.ActiveCfg = Release2019|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release|x64.Build.0 = Release2019|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2018|Any CPU.ActiveCfg = Release2018|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2018|Any CPU.Build.0 = Release2018|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2018|x64.ActiveCfg = Release2018|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2018|x64.Build.0 = Release2018|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2019|Any CPU.ActiveCfg = Release2019|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2019|Any CPU.Build.0 = Release2019|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2019|x64.ActiveCfg = Release2019|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2019|x64.Build.0 = Release2019|x64
+		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release|Any CPU.ActiveCfg = Release2024|x64
+		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release|Any CPU.Build.0 = Release2024|x64
+		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release|x64.ActiveCfg = Release2024|x64
+		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release|x64.Build.0 = Release2024|x64
 		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2020|Any CPU.ActiveCfg = Release2020|x64
 		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2020|Any CPU.Build.0 = Release2020|x64
 		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2020|x64.ActiveCfg = Release2020|x64

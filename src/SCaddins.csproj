@@ -66,36 +66,6 @@
     <FileAlignment>512</FileAlignment>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release2018' ">
-    <OutputPath>bin\Release2018\</OutputPath>
-    <DebugSymbols>False</DebugSymbols>
-    <DebugType>None</DebugType>
-    <Optimize>True</Optimize>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <DefineConstants>TRACE;REVIT2018</DefineConstants>
-    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
-    <StartAction>Project</StartAction>
-    <AssemblyName>SCaddins</AssemblyName>
-    <SignAssembly>False</SignAssembly>
-    <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>False</DelaySign>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release2019' ">
-    <OutputPath>bin\Release2019\</OutputPath>
-    <DebugSymbols>False</DebugSymbols>
-    <DebugType>None</DebugType>
-    <Optimize>True</Optimize>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <DefineConstants>TRACE;REVIT2019</DefineConstants>
-    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
-    <StartAction>Project</StartAction>
-    <AssemblyName>SCaddins</AssemblyName>
-    <SignAssembly>False</SignAssembly>
-    <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>False</DelaySign>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release2020' ">
     <OutputPath>bin\Release2020\</OutputPath>
     <DebugSymbols>False</DebugSymbols>
@@ -114,17 +84,11 @@
   <PropertyGroup>
     <AssemblyName>SCaddins</AssemblyName>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2018|x64'">
-    <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <DefineConstants>TRACE;DEBUG;REVIT2023</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2018|Any'">
-    <CodeAnalysisRuleSet>SCaddins.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2021|x64'">
     <OutputPath>bin\Release2021\</OutputPath>
@@ -207,12 +171,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2018'">
-      <HintPath>C:\Program Files\Autodesk\Revit 2018\AdWindows.dll</HintPath>
-    </Reference>
-    <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2019'">
-      <HintPath>C:\Program Files\Autodesk\Revit 2019\AdWindows.dll</HintPath>
-    </Reference>
     <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Debug'">
       <HintPath>C:\Program Files\Autodesk\Revit 2022\AdWindows.dll</HintPath>
     </Reference>
@@ -261,22 +219,6 @@
     </Reference>
     <Reference Include="NLua, Version=1.7.2.0, Culture=neutral, PublicKeyToken=6a194c04b9c89217, processorArchitecture=MSIL">
       <HintPath>packages\NLua.1.7.2\lib\net46\NLua.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2018'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2018\RevitAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPIUI" Condition="'$(Configuration)'=='Release2018'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2018\RevitAPIUI.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2019'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPIUI" Condition="'$(Configuration)'=='Release2019'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
     </Reference>
     <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Debug'">
       <SpecificVersion>False</SpecificVersion>
