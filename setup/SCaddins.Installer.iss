@@ -76,6 +76,7 @@ Name: revit2024; Description: "Revit 2024 add-in"; Types: full custom
     Source: "..\src\Hunspellx64.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
     Source: "..\src\bin\Release2020\FastColoredTextBox.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
     Source: "..\src\bin\Release2020\EPPlus.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
+	Source: "..\src\bin\Release2020\NCalc.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
 #endif
 	
 #if R2021 == "Enabled"
@@ -94,6 +95,7 @@ Name: revit2024; Description: "Revit 2024 add-in"; Types: full custom
     Source: "..\src\Hunspellx64.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
     Source: "..\src\bin\Release2021\FastColoredTextBox.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
     Source: "..\src\bin\Release2021\EPPlus.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
+	Source: "..\src\bin\Release2021\NCalc.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
 #endif
 	
 #if R2022 == "Enabled"
@@ -111,7 +113,8 @@ Name: revit2024; Description: "Revit 2024 add-in"; Types: full custom
     Source: "..\src\bin\Release2022\NHunspell.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
     Source: "..\src\Hunspellx64.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
     Source: "..\src\bin\Release2022\FastColoredTextBox.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
-    Source: "..\src\bin\Release2022\EPPlus.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
+    Source: "..\src\bin\Release2022\EPPlus.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022
+	Source: "..\src\bin\Release2022\NCalc.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022
 #endif
 	
 #if R2023 == "Enabled"
@@ -130,6 +133,7 @@ Name: revit2024; Description: "Revit 2024 add-in"; Types: full custom
     Source: "..\src\Hunspellx64.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
     Source: "..\src\bin\Release2023\FastColoredTextBox.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
     Source: "..\src\bin\Release2023\EPPlus.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
+	Source: "..\src\bin\Release2023\NCalc.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023
 #endif
 
 #if R2024 == "Enabled"
@@ -148,6 +152,7 @@ Name: revit2024; Description: "Revit 2024 add-in"; Types: full custom
     Source: "..\src\Hunspellx64.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
     Source: "..\src\bin\Release2024\FastColoredTextBox.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
     Source: "..\src\bin\Release2024\EPPlus.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
+	Source: "..\src\bin\Release2024\NCalc.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
 #endif
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
