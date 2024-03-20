@@ -353,16 +353,10 @@ namespace SCaddins.SolarAnalysis
                 {
                     var view = (View)element;
                     var v = view;
-#if REVIT2019 || REVIT2020 || REVIT2021 || REVIT2022 || REVIT2023 || REVIT2024
                     if (v.Name == name)
                     {
                         return false;
                     }
-#else
-                    if (v.ViewName == name) {
-                        return false;
-                    }
-#endif
                 }
             }
 
