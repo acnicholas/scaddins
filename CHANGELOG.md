@@ -1,5 +1,12 @@
 # SCaddins Revision Log #
 
+# 24.2.0 #
+
+#### NEW ####
+
+- Remove Revit 2018 and 2019 support.
+- Add hatch from template option to Hatch Editor.
+
 # 24.1.1 #
 
 #### FIXES ####

@@ -8,7 +8,6 @@ using System.Diagnostics;
 
 var target = Argument("target", "Default");
 var solutionFile = GetFiles("src/*.sln").First();
-var assemblyFile = GetFiles("src/bin/Release2024/SCaddins.dll").First();
 var innoSetupFile = GetFiles("setup/*.iss").First();
 var buildDir = Directory(@"./src/bin");
 
@@ -28,6 +27,11 @@ public MSBuildSettings GetBuildSettings(string config)
 public bool APIAvailable(string revitVersion)
 {
 	return FileExists(@"C:\Program Files\Autodesk\Revit " + revitVersion + @"\RevitAPI.dll");
+}
+
+public bool AssemblyAvailable(string assembly)
+{
+	return FileExists(assembly);
 }
 
 // TASKS
@@ -78,8 +82,10 @@ Task("Revit2024")
 .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2024")));
 
 Task("Installer")
+.WithCriteria(AssemblyAvailable("src/bin/Release2024/SCaddins.dll"))
 .Does(() =>
 		{
+		var assemblyFile = GetFiles("src/bin/Release2024/SCaddins.dll").First();
 		var version = FileVersionInfo.GetVersionInfo(assemblyFile.ToString()).ProductVersion;		
 		Dictionary<string, string> dict =  new Dictionary<string, string>();
 		dict.Add("R2020", APIAvailable("2020") ? "Enabled" : "Disabled");

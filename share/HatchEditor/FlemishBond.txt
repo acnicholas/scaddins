@@ -1,0 +1,6 @@
+0,0,0,0,$BrickHeight
+90,0,0,2*$BrickHeight,$BrickLength * 1.5,$BrickHeight,$BrickHeight
+90,$BrickLength/2,0,2*$BrickHeight,$BrickLength * 1.5,$BrickHeight,$BrickHeight
+90,$BrickLength/4*3,$BrickHeight,2*$BrickHeight,$BrickLength * 1.5,$BrickHeight,$BrickHeight
+90,$BrickLength/4*5,$BrickHeight,2*$BrickHeight,$BrickLength * 1.5,$BrickHeight,$BrickHeight
+

@@ -1,0 +1,2 @@
+45,	0,	0,	$TileWidth,	$TileWidth,	3 * $TileWidth,	$TileWidth
+135,	0.70710678118 * $TileWidth,	0.70710678118 * $TileWidth,	$TileWidth,	-$TileWidth,	3 * $TileWidth,	$TileWidth

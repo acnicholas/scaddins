@@ -1,0 +1,4 @@
+0,	0,	0,	$TileWidth,	$TileWidth
+0,	0,	$TileWidth/2,	$TileWidth,	$TileWidth,	$TileWidth,	$TileWidth
+90,	0,	0,	$TileWidth,	$TileWidth
+90,	$TileWidth/2,	$TileWidth,	$TileWidth,	$TileWidth,	$TileWidth,	$TileWidth

@@ -1,0 +1,4 @@
+0,0,0,0,$BickHeight
+90,0,0,2 * $BickHeight,$BrickLength,$BickHeight,$BickHeight
+90,$BrickLength/4,$BickHeight,2 * $BickHeight,$BrickLength,$BickHeight,$BickHeight
+90,$BrickLength/4*3,$BickHeight,2 * $BickHeight,$BrickLength,$BickHeight,$BickHeight
