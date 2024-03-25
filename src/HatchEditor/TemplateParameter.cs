@@ -9,6 +9,7 @@
         }
 
         public string Name { get; private set; }
+
         public double Value { get; set; }
     }
 }

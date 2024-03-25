@@ -17,6 +17,7 @@
 
 namespace SCaddins.Common
 {
+    using System;
     using System.IO;
 
     internal class BasicDialogService : IDialogService
@@ -69,6 +70,8 @@ namespace SCaddins.Common
                 if (File.Exists(defaultFile))
                 {
                     dialog.InitialDirectory = Path.GetDirectoryName(defaultFile);
+                } else {
+                    dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
                 }
                 dialog.Multiselect = false;
                 System.Windows.Forms.DialogResult result = dialog.ShowDialog();

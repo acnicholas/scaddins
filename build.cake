@@ -3,7 +3,6 @@
 using Cake.Common.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
-using System.Reflection.Assembly;  
 using System.Diagnostics;
 
 var target = Argument("target", "Default");
@@ -29,9 +28,25 @@ public bool APIAvailable(string revitVersion)
 	return FileExists(@"C:\Program Files\Autodesk\Revit " + revitVersion + @"\RevitAPI.dll");
 }
 
-public bool AssemblyAvailable(string assembly)
+public string GetAssemblyFile()
 {
-	return FileExists(assembly);
+    if (APIAvailable("2024")) return  System.IO.Path.GetFullPath(@"src/bin/Release2024/SCaddins.dll");
+	if (APIAvailable("2023")) return  System.IO.Path.GetFullPath(@"src/bin/Release2023/SCaddins.dll");
+	if (APIAvailable("2022")) return  System.IO.Path.GetFullPath(@"src/bin/Release2022/SCaddins.dll");
+	if (APIAvailable("2021")) return  System.IO.Path.GetFullPath(@"src/bin/Release2021/SCaddins.dll");
+	if (APIAvailable("2020")) return  System.IO.Path.GetFullPath(@"src/bin/Release2020/SCaddins.dll");
+	return string.Empty;
+}
+
+public string GetFullVersionNumber()
+{
+    var filePath = GetAssemblyFile();
+	if (string.IsNullOrEmpty(filePath))
+	{
+	    return "99.99.99.99";
+	}
+    var version = FileVersionInfo.GetVersionInfo(filePath);
+	return $"{version.FileMajorPart}.{version.FileMinorPart}.{version.FileBuildPart}.{version.FilePrivatePart}";
 }
 
 // TASKS
@@ -45,15 +60,15 @@ Task("CreateAddinManifests")
 		{
 		string text = System.IO.File.ReadAllText(@"src\SCaddins.addin");
 		if (DirectoryExists(@"src\bin\Release2020"))
-		    System.IO.File.WriteAllText(@"src\bin\Release2020\SCaddins2020.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2020"));
+		    System.IO.File.WriteAllText(@"src\bin\Release2020\SCaddins2020.addin", text.Replace("_REVIT_VERSION_", "2020"));
 		if (DirectoryExists(@"src\bin\Release2021"))
-		    System.IO.File.WriteAllText(@"src\bin\Release2021\SCaddins2021.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2021"));
+		    System.IO.File.WriteAllText(@"src\bin\Release2021\SCaddins2021.addin", text.Replace("_REVIT_VERSION_", "2021"));
 		if (DirectoryExists(@"src\bin\Release2022"))
-		    System.IO.File.WriteAllText(@"src\bin\Release2022\SCaddins2022.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2022"));
+		    System.IO.File.WriteAllText(@"src\bin\Release2022\SCaddins2022.addin", text.Replace("_REVIT_VERSION_", "2022"));
 		if (DirectoryExists(@"src\bin\Release2023"))
-		    System.IO.File.WriteAllText(@"src\bin\Release2023\SCaddins2023.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2023"));
+		    System.IO.File.WriteAllText(@"src\bin\Release2023\SCaddins2023.addin", text.Replace("_REVIT_VERSION_", "2023"));
 	    if (DirectoryExists(@"src\bin\Release2024"))
-		    System.IO.File.WriteAllText(@"src\bin\Release2024\SCaddins2024.addin", String.Copy(text).Replace("_REVIT_VERSION_", "2024"));
+		    System.IO.File.WriteAllText(@"src\bin\Release2024\SCaddins2024.addin", text.Replace("_REVIT_VERSION_", "2024"));
 		});
 
 Task("Revit2020")
@@ -82,11 +97,9 @@ Task("Revit2024")
 .Does(() => MSBuild(solutionFile, GetBuildSettings("Release2024")));
 
 Task("Installer")
-.WithCriteria(AssemblyAvailable("src/bin/Release2024/SCaddins.dll"))
 .Does(() =>
 		{
-		var assemblyFile = GetFiles("src/bin/Release2024/SCaddins.dll").First();
-		var version = FileVersionInfo.GetVersionInfo(assemblyFile.ToString()).ProductVersion;		
+		var version = GetFullVersionNumber();		
 		Dictionary<string, string> dict =  new Dictionary<string, string>();
 		dict.Add("R2020", APIAvailable("2020") ? "Enabled" : "Disabled");
 		dict.Add("R2021", APIAvailable("2021") ? "Enabled" : "Disabled");
@@ -96,6 +109,7 @@ Task("Installer")
 		dict.Add("MyAppVersion", version); 
 		var settings = new InnoSetupSettings();
 		settings.Defines = dict;
+		settings.QuietMode = InnoSetupQuietMode.Quiet;
 		settings.WorkingDirectory = new DirectoryPath(Environment.CurrentDirectory + @"\setup");
 		InnoSetup(innoSetupFile, settings);  
 		});

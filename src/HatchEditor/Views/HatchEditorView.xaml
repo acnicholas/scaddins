@@ -40,12 +40,12 @@
                         <Image Source="/SCaddins;component/Assets/open.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem x:Name="LoadPatternFromModel" Header="_Load pattern from model">
+                <MenuItem x:Name="LoadPatternFromModel" Header="Load pattern from model">
                     <MenuItem.Icon>
                         <Image Source="/SCaddins;component/Assets/open.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem x:Name="LoadPatternFromTemplate" Header="_load pattern from template">
+                <MenuItem x:Name="LoadPatternFromTemplate" Header="Load pattern from template">
                     <MenuItem.Icon>
                         <Image Source="/SCaddins;component/Assets/open.png" />
                     </MenuItem.Icon>

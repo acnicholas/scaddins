@@ -17,7 +17,9 @@
 
 namespace SCaddins.HatchEditor.ViewModels
 {
+    using System;
     using System.Collections.ObjectModel;
+    using System.IO;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
     using Microsoft.Office.Interop.Excel;
@@ -131,7 +133,9 @@ namespace SCaddins.HatchEditor.ViewModels
 
         public void LoadPatternFromTemplate()
         {
-            var result = SCaddinsApp.WindowManager.ShowFileSelectionDialog("C:/Temp", out var filePath);
+            var result = SCaddinsApp.WindowManager.ShowFileSelectionDialog(
+                SCaddins.Constants.InstallDirectory + SCaddins.Constants.ShareDirectory + Path.DirectorySeparatorChar + "HatchEditor" + Path.DirectorySeparatorChar + "StretcherBond.txt",
+                out var filePath);
             if (!result.HasValue || !result.Value)
             {
                 return;
@@ -153,7 +157,9 @@ namespace SCaddins.HatchEditor.ViewModels
 
         public void LoadPatternFromFile()
         {
-            var result = SCaddinsApp.WindowManager.ShowFileSelectionDialog("C:/Temp", out var filePath);
+            var result = SCaddinsApp.WindowManager.ShowFileSelectionDialog(
+                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                out var filePath);
             if (!result.HasValue || !result.Value)
             {
                 return;

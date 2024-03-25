@@ -12,7 +12,7 @@ Download the latest version from [**here**](https://github.com/acnicholas/scaddi
 
 ### Build from Source ###
 
-Run the `build.bat` to build the project and istaller.
+Run the `build.bat` to build the project and installer.
 
 SCaddins will attempt to build for availble Revit versions(2020-2024), by looking for RevitAPI[UI].dll in the following standard locations:
 
