@@ -27,10 +27,9 @@ namespace SCaddins.HatchEditor
 
     public class Hatch : INotifyPropertyChanged
     {
-        private string definition;
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "fillPattern")]
-        private FillPattern fillPattern;
+        private readonly FillPattern fillPattern;
+        private string definition;
         private string name;
 
         public Hatch() : this(new FillPattern() { Name = string.Empty })
@@ -56,34 +55,19 @@ namespace SCaddins.HatchEditor
             set
             {
                 definition = value;
-                string[] lines = definition.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                var lines = definition.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 TryAssignFillGridsFromStrings(lines, 1, 0);
                 NotifyPropertyChanged(nameof(Definition));
             }
         }
 
-        public FillPattern HatchPattern
-        {
-            get
-            {
-                return fillPattern;
-            }
-        }
+        public FillPattern HatchPattern => fillPattern;
 
-        public bool IsDrafting
-        {
-            get
-            {
-                return fillPattern.Target == FillPatternTarget.Drafting;
-            }
-        }
+        public bool IsDrafting => fillPattern.Target == FillPatternTarget.Drafting;
 
         public string Name
         {
-            get
-            {
-                return name;
-            }
+            get => name;
 
             set
             {
@@ -96,7 +80,7 @@ namespace SCaddins.HatchEditor
         {
             get
             {
-                StringBuilder s = new StringBuilder();
+                var s = new StringBuilder();
                 s.AppendLine(@";%VERSION=3.0");
                 s.AppendLine(@";%UNITS=MM");
                 s.AppendLine();
@@ -111,37 +95,35 @@ namespace SCaddins.HatchEditor
 
         public Hatch Clone()
         {
-            var result = new Hatch();
-            result.Definition = Definition;
-            result.HatchPattern.Target = HatchPattern.Target;
-            result.Name = Name;
+            var result = new Hatch
+            {
+                Definition = Definition,
+                HatchPattern =
+                {
+                    Target = HatchPattern.Target
+                },
+                Name = Name
+            };
             return result;
         }
 
         public void Rotate(double angle)
         {
-            string[] lines = definition.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            var lines = definition.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             TryAssignFillGridsFromStrings(lines, 1, angle);
             UpdatePatternDefinition();
         }
 
         public void Scale(double scale)
         {
-            string[] lines = definition.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            var lines = definition.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             TryAssignFillGridsFromStrings(lines, scale, 0);
             UpdatePatternDefinition();
         }
 
         public bool TryAssignFillGridsFromStrings(string[] grids, double scale, double angle)
         {
-            if (AssignFillGridsFromString(grids, scale, angle))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return AssignFillGridsFromString(grids, scale, angle);
         }
 
         public void UpdatePatternDefinition()
@@ -156,7 +138,7 @@ namespace SCaddins.HatchEditor
             {
                 double angle = p.Angle.ToDeg();
                 s.Append(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0},\t{1},\t{2},\t{3},\t{4}", angle, p.Origin.U.ToMM(), p.Origin.V.ToMM(), p.Shift.ToMM(), p.Offset.ToMM()));
-                foreach (double d in p.GetSegments())
+                foreach (var d in p.GetSegments())
                 {
                     s.Append(string.Format(System.Globalization.CultureInfo.InvariantCulture, ",\t{0}", d.ToMM()));
                 }
@@ -168,7 +150,7 @@ namespace SCaddins.HatchEditor
         private bool AssignFillGridsFromString(string[] grids, double scale, double rotationAngle)
         {
             var newFillGrids = new List<FillGrid>();
-            foreach (string s in grids)
+            foreach (var s in grids)
             {
                 if (string.IsNullOrEmpty(s.Trim()))
                 {

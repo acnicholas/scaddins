@@ -9,11 +9,7 @@
     {
         public static string[] GetHatchTemplateLineArray(string fileName)
         {
-            if (System.IO.File.Exists(fileName))
-            {
-                return System.IO.File.ReadAllLines(fileName);
-            }
-            return null;
+            return System.IO.File.Exists(fileName) ? System.IO.File.ReadAllLines(fileName) : null;
         }
 
         public static BindableCollection<TemplateParameter> GetHatchParameters(string fileName)

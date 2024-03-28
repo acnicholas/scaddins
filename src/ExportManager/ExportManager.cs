@@ -34,7 +34,6 @@ namespace SCaddins.ExportManager
     using Autodesk.Revit.UI;
     using Microsoft.Win32;
     using Properties;
-    using ArgumentException = Autodesk.Revit.Exceptions.ArgumentException;
     using PrintRange = Autodesk.Revit.DB.PrintRange;
 
     public class Manager
@@ -562,7 +561,7 @@ namespace SCaddins.ExportManager
             {
                 if (exportFlags.HasFlag(ExportOptions.DWG))
                 {
-                    ExportDWG(sheet, exportFlags.HasFlag(ExportOptions.NoTitle), log);
+                    ExportDWG(sheet, log);
                 }
 
                 if (exportFlags.HasFlag(ExportOptions.PDF))
@@ -582,7 +581,7 @@ namespace SCaddins.ExportManager
 #else
             if (exportFlags.HasFlag(ExportOptions.DWG))
             {
-                ExportDWG(sheet, exportFlags.HasFlag(ExportOptions.NoTitle), log);
+                ExportDWG(sheet, log);
             }
 
             if (exportFlags.HasFlag(ExportOptions.PDF))
@@ -949,11 +948,10 @@ namespace SCaddins.ExportManager
                 FileNameTypes.Add(name);
             }
 
-            //// Load config settings from file if available
+            // Load config settings from file if available
             var config = GetConfigFileName(Doc);
             var b = ImportXMLinfo(config);
-
-            /// Set a default config if none are found
+            
             if (!b || FileNameTypes.Count <= 0)
             {
                 var name = new SegmentedSheetName();
@@ -1072,7 +1070,7 @@ namespace SCaddins.ExportManager
             return result;
         }
 
-        private static void RemoveTitleBlock(
+        /*private static void RemoveTitleBlock(
             ExportSheet vs,
             ICollection<ElementId> title,
             bool hide,
@@ -1101,7 +1099,7 @@ namespace SCaddins.ExportManager
                 SCaddinsApp.WindowManager.ShowMessageBox("Revit", "cannot Hide Title: " + e.Message);
                 t.RollBack();
             }
-        }
+        }*/
 
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PrinterJobControl")]
         [SecurityCritical]
@@ -1186,7 +1184,7 @@ namespace SCaddins.ExportManager
             views.Add(vs.Id);
 
             PDFExportOptions opts = vs.SegmentedFileName.PDFExportOptions;
-            if (vs.ForceRasterPrint == true)
+            if (vs.ForceRasterPrint)
             {
                 opts.AlwaysUseRaster = true;
             }
@@ -1307,7 +1305,7 @@ namespace SCaddins.ExportManager
                     RunExportHooks(Resources.FileExtensionPDF, vs, log);
                 }
 
-                SCaddins.Common.SystemUtilities.KillAllProcesses("acrotray");
+                Common.SystemUtilities.KillAllProcesses("acrotray");
             } else
             {
                 ////log.AddError(vs.FullExportName, Resources.ErrorCantOverwriteFile);
@@ -1315,7 +1313,7 @@ namespace SCaddins.ExportManager
         }
 
         // FIXME this is nasty
-        private void ExportDWG(ExportSheet vs, bool removeTitle, ExportLog log)
+        private void ExportDWG(ExportSheet vs, ExportLog log)
         {
             if (log != null)
             {
@@ -1338,17 +1336,16 @@ namespace SCaddins.ExportManager
                 return;
             }
 
-            List<ElementId> titleBlockHidden;
-            titleBlockHidden = new List<ElementId>();
-            var titleBlock = TitleBlockInstanceFromSheetNumber(vs.SheetNumber, Doc);
-            titleBlockHidden.Add(titleBlock.Id);
+            // List<ElementId> titleBlockHidden;
+            // titleBlockHidden = new List<ElementId>();
+            // var titleBlock = TitleBlockInstanceFromSheetNumber(vs.SheetNumber, Doc);
+            // titleBlockHidden.Add(titleBlock.Id);
 
-            if (removeTitle)
-            {
-                log.AddMessage(Resources.MessageAttemptingToHideTitleBlock);
-                RemoveTitleBlock(vs, titleBlockHidden, true, Doc);
-            }
-
+            // if (removeTitle)
+            // {
+            //     log.AddMessage(Resources.MessageAttemptingToHideTitleBlock);
+            //     RemoveTitleBlock(vs, titleBlockHidden, true, Doc);
+            // }
             List<ElementId> views;
             views = new List<ElementId>();
 
@@ -1396,11 +1393,11 @@ namespace SCaddins.ExportManager
                 RunExportHooks(Resources.FileExtensionDWG, vs, log);
             }
 
-            if (removeTitle)
-            {
-                log.AddMessage(Resources.MessageShowingTitleBlock);
-                RemoveTitleBlock(vs, titleBlockHidden, false, Doc);
-            }
+            // if (removeTitle)
+            // {
+            //     log.AddMessage(Resources.MessageShowingTitleBlock);
+            //     RemoveTitleBlock(vs, titleBlockHidden, false, Doc);
+            // }
         }
 
         private DWGExportOptions GetDefaultDWGExportOptions()

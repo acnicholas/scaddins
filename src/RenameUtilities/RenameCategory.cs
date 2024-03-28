@@ -17,9 +17,6 @@
 
 namespace SCaddins.RenameUtilities
 {
-    using Autodesk.Revit.DB;
-    using Caliburn.Micro;
-
     public class RenameCategory : RenameCandidate
     {
         private Autodesk.Revit.DB.Parameter parameter;

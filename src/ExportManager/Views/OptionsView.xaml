@@ -96,7 +96,7 @@
                             <CheckBox x:Name="ForceDateForAllRevisions" IsEnabled="{Binding EnableDateRevisions}" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0"
                                       Margin="5" Content="Force all revisions to be today's date [YYYYMMDD]" VerticalAlignment="Center"></CheckBox>
                             <CheckBox x:Name="HideTitleBlocksForCadExports" Grid.Row="4" Grid.ColumnSpan="2"
-                                      Grid.Column="0" Margin="5" Content="Hide title blocks (DWG exports only)" VerticalAlignment="Center"></CheckBox>
+                                      Grid.Column="0" Margin="5" Content="Hide title blocks (DWG exports only)" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
                             <CheckBox x:Name="ExportAdditionalViewports" Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="0"
                                       Margin="5" Content="Export Additional Plan Viewports for DWG files (Expert)" VerticalAlignment="Center"></CheckBox>
                             <CheckBox x:Name="ExportViewportsOnly" Grid.Row="6" Grid.ColumnSpan="2" Grid.Column="0"

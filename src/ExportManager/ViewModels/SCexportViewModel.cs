@@ -96,7 +96,7 @@ namespace SCaddins.ExportManager.ViewModels
                 settings.Width = 768;
                 settings.Title = "SCexport - By Andrew Nicholas";
                 settings.ShowInTaskbar = false;
-                settings.SizeToContent = System.Windows.SizeToContent.Manual;
+                settings.SizeToContent = SizeToContent.Manual;
                 return settings;
             }
         }
@@ -294,7 +294,7 @@ namespace SCaddins.ExportManager.ViewModels
         {
             get
             {
-                var invalidScaleBars = exportManager.AllSheets.Count(s => s.ScaleBarError == true);
+                var invalidScaleBars = exportManager.AllSheets.Count(s => s.ScaleBarError);
                 if (invalidScaleBars > 0)
                 {
                     return @" [Incorrect scalebars: " + invalidScaleBars + @"]";
@@ -353,42 +353,15 @@ namespace SCaddins.ExportManager.ViewModels
             get { return recentExportSets.Count > 2; }
         }
 
-        public string PreviousExportThreeName
-        {
-            get
-            {
-                return PreviousExportThreeIsEnabled ? recentExportSets[2].DescriptiveName : "N/A";
-            }
-        }
+        public string PreviousExportThreeName => PreviousExportThreeIsEnabled ? recentExportSets[2].DescriptiveName : "N/A";
 
-        public bool PreviousExportTwoIsEnabled
-        {
-            get { return recentExportSets.Count > 1; }
-        }
+        public bool PreviousExportTwoIsEnabled => recentExportSets.Count > 1;
 
-        public string PreviousExportTwoName
-        {
-            get
-            {
-                return PreviousExportTwoIsEnabled ? recentExportSets[1].DescriptiveName : "N/A";
-            }
-        }
+        public string PreviousExportTwoName => PreviousExportTwoIsEnabled ? recentExportSets[1].DescriptiveName : "N/A";
 
-        public string PrintButtonToolTip
-        {
-            get
-            {
-                return CanPrint ? "Print selected drawings. For further settings goto options." : "Select sheets to enable printing.";
-            }
-        }
+        public string PrintButtonToolTip => CanPrint ? "Print selected drawings. For further settings goto options." : "Select sheets to enable printing.";
 
-        public BindableCollection<string> PrintTypes
-        {
-            get
-            {
-                return new BindableCollection<string>(printTypes);
-            }
-        }
+        public BindableCollection<string> PrintTypes => new BindableCollection<string>(printTypes);
 
         public string SearchText
         {
@@ -506,7 +479,7 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public static void NavigateTo(System.Uri url)
+        public static void NavigateTo(Uri url)
         {
             Process.Start(new ProcessStartInfo(url.AbsoluteUri));
         }
@@ -528,9 +501,9 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void AlignViews()
         {
-            var message = "Warning, there are still some bugs in this." + System.Environment.NewLine +
-                "Currently this will only work with views containing one sheet." + System.Environment.NewLine +
-                System.Environment.NewLine +
+            var message = "Warning, there are still some bugs in this." + Environment.NewLine +
+                "Currently this will only work with views containing one sheet." + Environment.NewLine +
+                Environment.NewLine +
                 "Just in case, please save your model before use";
 
             SCaddinsApp.WindowManager.ShowWarningMessageBox("Align", message);
@@ -544,17 +517,17 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public void ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
+        public void ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             if (e == null || sender == null)
             {
                 return;
             }
-            if (e.OriginalSource.GetType() != typeof(System.Windows.Controls.TextBlock))
+            if (e.OriginalSource.GetType() != typeof(TextBlock))
             {
                 return;
             }
-            var menuItem = (System.Windows.Controls.TextBlock)e.OriginalSource;
+            var menuItem = (TextBlock)e.OriginalSource;
 
             try
             {
@@ -568,7 +541,7 @@ namespace SCaddins.ExportManager.ViewModels
                     SelectedSheets.Add(myItem);
                 }
                 SelectedSheet = myItem;
-                var element = (System.Windows.Controls.TextBlock)e.OriginalSource;
+                var element = (TextBlock)e.OriginalSource;
                 var cell = element.Text;
                 SheetFilter = new SheetFilter(currentColumnHeader, cell);
             }
@@ -632,7 +605,7 @@ namespace SCaddins.ExportManager.ViewModels
         public void KeyPressed(KeyEventArgs keyArgs)
         {
             //// only execute search if in the search text box
-            if (keyArgs.OriginalSource.GetType() == typeof(System.Windows.Controls.TextBox))
+            if (keyArgs.OriginalSource.GetType() == typeof(TextBox))
             {
                 if (keyArgs.Key == Key.Enter)
                 {
@@ -791,7 +764,7 @@ namespace SCaddins.ExportManager.ViewModels
         {
             this.IsNotifying = false;
             var optionsModel = new OptionsViewModel(exportManager, this);
-            SCaddinsApp.WindowManager.ShowWindow(optionsModel, null, ViewModels.OptionsViewModel.DefaultWindowSettings);
+            SCaddinsApp.WindowManager.ShowWindow(optionsModel, null, OptionsViewModel.DefaultWindowSettings);
             NotifyOfPropertyChange(() => ExportButtonLabel);
             NotifyOfPropertyChange(() => StatusText);
             this.IsNotifying = true;
@@ -889,12 +862,12 @@ namespace SCaddins.ExportManager.ViewModels
             NotifyOfPropertyChange(() => ShowSearchHint);
         }
 
-        public void SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs obj)
+        public void SelectionChanged(object sender, SelectionChangedEventArgs obj)
         {
             if (!isClosing)
             {
                 IsNotifying = false;
-                List<ExportSheet> list = ((System.Windows.Controls.DataGrid)sender).SelectedItems.Cast<ExportSheet>().ToList();
+                List<ExportSheet> list = ((DataGrid)sender).SelectedItems.Cast<ExportSheet>().ToList();
                 IsNotifying = true;
                 SelectedSheets = list;
             }
@@ -968,7 +941,7 @@ namespace SCaddins.ExportManager.ViewModels
                 toggleSelectedSheetParametersViewModel,
                 null,
                 ToggleSelectedSheetParametersViewModel.DefaultWindowSettings);
-            if (result.HasValue && result.Value == true)
+            if (result.HasValue && result.Value)
             {
                 foreach (var item in toggleSelectedSheetParametersViewModel.YesNoParameters)
                 {
@@ -990,7 +963,7 @@ namespace SCaddins.ExportManager.ViewModels
                 toggleSelectedSheetParametersViewModel,
                 null,
                 ToggleSelectedSheetParametersViewModel.DefaultWindowSettings);
-            if (result.HasValue && result.Value == true)
+            if (result.HasValue && result.Value)
             {
                 foreach (var item in toggleSelectedSheetParametersViewModel.YesNoParameters)
                 {

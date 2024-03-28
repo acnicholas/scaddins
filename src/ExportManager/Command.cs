@@ -73,7 +73,6 @@ namespace SCaddins.ExportManager
                         if (v is ViewSheet)
                         {
                             views.Add((ViewSheet)v);
-                            continue;
                         }
                     }
                 }

@@ -48,7 +48,7 @@ namespace SCaddins.RenameUtilities
 
         public static BindableCollection<RenameParameter> GetParameters(Document doc)
         {
-            BindableCollection<RenameParameter> parametersList = new Caliburn.Micro.BindableCollection<RenameParameter>();
+            BindableCollection<RenameParameter> parametersList = new BindableCollection<RenameParameter>();
             var collector = GetFilteredElementCollector(doc);
             var elem = collector.FirstElement();
             var elem2 = collector.ToElements()[collector.GetElementCount() - 1];

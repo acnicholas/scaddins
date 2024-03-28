@@ -68,11 +68,11 @@ namespace SCaddins.ParameterUtilities
             using (var t = new Transaction(doc, "Renumber"))
             {
                 t.Start();
-                int incAmount = IncrementSettings.Default.IncrementValue;
-                string startValue = string.Empty;
-                string startText = string.Empty;
-                Reference firstRef = refList[0];
-                Parameter firstParam = GetParameterForReference(doc, firstRef);
+                var incAmount = IncrementSettings.Default.IncrementValue;
+                string startValue;
+                string startText;
+                var firstRef = refList[0];
+                var firstParam = GetParameterForReference(doc, firstRef);
                 if (firstParam == null)
                 {
                     return;
@@ -83,7 +83,7 @@ namespace SCaddins.ParameterUtilities
                     startValue = GetSourceNumberAsString(startText);
                 }
 
-                if (int.TryParse(startValue, out int StartValueAsInt))
+                if (int.TryParse(startValue, out var StartValueAsInt))
                 {
                     int aggregateInc = IncrementSettings.Default.OffsetValue;
                     foreach (Reference r in refList)

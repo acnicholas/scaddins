@@ -50,6 +50,12 @@ namespace SCaddins.SheetCopier
             CustomSheetParametersTwo = new ObservableCollection<string>(GetAllParameterValuesInModel(Settings.Default.CustomSheetParameterTwo));
             CustomSheetParametersThree = new ObservableCollection<string>(GetAllParameterValuesInModel(Settings.Default.CustomSheetParameterThree));
         }
+        
+        public static string PrimaryCustomSheetParameterName => Settings.Default.CustomSheetParameterOne;
+
+        public static string SecondaryCustomSheetParameterName => Settings.Default.CustomSheetParameterTwo;
+
+        public static string TertiaryCustomSheetParameterName => Settings.Default.CustomSheetParameterThree;
 
         public ViewType ActiveViewType => doc.ActiveView.ViewType;
 
@@ -77,13 +83,7 @@ namespace SCaddins.SheetCopier
         public ObservableCollection<string> CustomSheetParametersThree { get; set; }
 
         public ObservableCollection<SheetCopierViewHost> ViewHosts { get; }
-
-        public string PrimaryCustomSheetParameterName => Settings.Default.CustomSheetParameterOne;
-
-        public string SecondaryCustomSheetParameterName => Settings.Default.CustomSheetParameterTwo;
-
-        public string TertiaryCustomSheetParameterName => Settings.Default.CustomSheetParameterThree;
-
+        
         public Dictionary<string, View> ViewTemplates { get; } = new Dictionary<string, View>();
 
         public static void DeleteRevisionClouds(ElementId viewId, Document doc)
@@ -233,7 +233,7 @@ namespace SCaddins.SheetCopier
                     }
                 }
             }
-            return Autodesk.Revit.DB.ElementId.InvalidElementId;
+            return ElementId.InvalidElementId;
         }
 
         public bool AddCurrentView()

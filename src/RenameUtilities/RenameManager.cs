@@ -21,9 +21,6 @@ namespace SCaddins.RenameUtilities
     using System.Collections.Generic;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using System.Windows.Controls;
-    using System.Windows.Media;
-    using System.Xml;
     using Autodesk.Revit.DB;
 
     public class RenameManager
@@ -50,20 +47,29 @@ namespace SCaddins.RenameUtilities
             renameCandidates = new Caliburn.Micro.BindableCollection<RenameCandidate>();
             renameCommands = new Caliburn.Micro.BindableCollection<RenameCommand>();
             renameCommands.Add(new RenameCommand((a, c, b) => a, "None"));
-            renameCommands.Add(new RenameCommand((a, c, b) => a.ToUpper(System.Globalization.CultureInfo.CurrentCulture), "UpperCase"));
-            renameCommands.Add(new RenameCommand((a, c, b) => a.ToLower(System.Globalization.CultureInfo.CurrentCulture), "Lowercase"));
-            renameCommands.Add(new RenameCommand((a, c, b) => a.Replace(' ', '_'), "Spaces to Underscore"));
-            renameCommands.Add(new RenameCommand((a, c, b) => a.Replace(' ', '-'), "Spaces to Hyphen"));
-            renameCommands.Add(new RenameCommand(Reverse, "Reverse"));
             renameCommands.Add(new RenameCommand(RegexReplace, "Custom Replace", string.Empty, string.Empty));
             renameCommands.Add(new RenameCommand(Increment, "Increment Match", string.Empty, string.Empty) { ReplacementPatternHint = "Increment Ammount" });
-            renameCommands.Add(new RenameCommand(Streetify, "Streetify String", string.Empty, string.Empty) { SearchPatternHint = "Search Filter", ReplacementPatternHint = "Char Spacing" });
-
-            ////inc last
+            
             var lastRenameCommand = new RenameCommand(IncrementLast, "Increment Last", @"(^\D+)(\d+$)", string.Empty);
             lastRenameCommand.ReplacementPatternHint = "Increment Amount";
             renameCommands.Add(lastRenameCommand);
-
+            
+            renameCommands.Add(new RenameCommand((a, c, b) => a.ToLower(System.Globalization.CultureInfo.CurrentCulture), "Lowercase"));
+            
+            renameCommands.Add(new RenameCommand(
+                PadMatch,
+                "Pad Leading Zeros(Match)",
+                @"^.*(\d+)$",
+                "6")
+                {
+                    SearchPatternHint = "Search Filter", ReplacementPatternHint = "Length" 
+                });
+            
+            renameCommands.Add(new RenameCommand(Reverse, "Reverse"));
+            renameCommands.Add(new RenameCommand((a, c, b) => a.Replace(' ', '_'), "Spaces to Underscore"));
+            renameCommands.Add(new RenameCommand((a, c, b) => a.Replace(' ', '-'), "Spaces to Hyphen"));
+            renameCommands.Add(new RenameCommand(Streetify, "Streetify String", string.Empty, string.Empty) { SearchPatternHint = "Search Filter", ReplacementPatternHint = "Char Spacing" });
+            renameCommands.Add(new RenameCommand((a, c, b) => a.ToUpper(System.Globalization.CultureInfo.CurrentCulture), "UpperCase"));
             renameCommand = renameCommands[0];
         }
 
@@ -250,7 +256,28 @@ namespace SCaddins.RenameUtilities
             }
             return val;
         }
-
+        
+        public static string PadMatch(string val, string search, string replace)
+        {
+            if (string.IsNullOrEmpty(val) || string.IsNullOrEmpty(search))
+            {
+                return val;
+            }
+            var match = Regex.Match(val, search);
+            if (match.Success)
+            {
+                var matchLength = match.Groups[1].Value.Length;
+                if (int.TryParse(match.Groups[1].Value, out int originalNumber) && int.TryParse(replace, out int outputStringLength))
+                {
+                    var newString = match.Groups[1].Value.PadLeft(outputStringLength, '0');
+                    var firstPart = val.Substring(0, match.Groups[1].Index);
+                    var secondPart = val.Substring(match.Groups[1].Index + match.Groups[1].Length);
+                    return firstPart + newString + secondPart;
+                }
+            }
+            return val;
+        }
+        
         public static string RegexReplace(string val, string search, string replace)
         {
             return Regex.Replace(val, search, replace);
@@ -508,16 +535,16 @@ namespace SCaddins.RenameUtilities
             return parametersList;
         }
 
-        private static bool IsValidRevitName(string s)
-        {
-            return !(s.Contains("{") || s.Contains("}"));
-        }
+        // private static bool IsValidRevitName(string s)
+        // {
+        //     return !(s.Contains("{") || s.Contains("}"));
+        // }
         #endregion
 
-        private void GetViewTemplateNames(RenameParameter renameParameter)
-        {
-            renameCandidates.Clear();
-            renameCandidates = RenameViewTemplate.GetCandidates(doc, renameParameter);
-        }
+        // private void GetViewTemplateNames(RenameParameter renameParameter)
+        // {
+        //     renameCandidates.Clear();
+        //     renameCandidates = RenameViewTemplate.GetCandidates(doc, renameParameter);
+        // }
     }
 }

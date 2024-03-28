@@ -2,7 +2,7 @@
 {
     public class IncrementConfig
     {
-        public IncrementConfig(
+        /*public IncrementConfig(
             string name,
             string sourceSearchPattern,
             string sourceReplacementPattern,
@@ -14,7 +14,7 @@
             bool useDestinationSerachPattern)
         {
             ///TODO
-        }
+        }*/
 
         public string Name { get; set; }
 

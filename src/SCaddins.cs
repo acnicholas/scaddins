@@ -81,6 +81,9 @@ namespace SCaddins
             webRequest.ContentType = "application/json";
             webRequest.UserAgent = "Nothing";
             var latestAsJson = "nothing to see here";
+            if (latestAsJson == null) {
+                throw new ArgumentNullException(nameof(latestAsJson));
+            }
 
             using (var s = webRequest.GetResponse().GetResponseStream())
             using (var sr = new StreamReader(s))

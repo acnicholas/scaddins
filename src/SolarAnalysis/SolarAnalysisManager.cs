@@ -108,22 +108,22 @@ namespace SCaddins.SolarAnalysis
             foreach (DirectSunTestFace testFace in testFaces)
             {
                 var boundingBox = testFace.Face.GetBoundingBox();
-                double boundingBoxUTotal = boundingBox.Max.U - boundingBox.Min.U;
-                double boundingBoxVTotal = boundingBox.Max.V - boundingBox.Min.V;
-                double gridDivisionsU = boundingBoxUTotal > 2 * analysysGridSize ? (boundingBoxUTotal / analysysGridSize) : 2;
-                double gridDivisionsV = boundingBoxVTotal > 2 * analysysGridSize ? (boundingBoxVTotal / analysysGridSize) : 2;
-                double gridSizeU = boundingBoxUTotal / gridDivisionsU;
-                double gridSizeV = boundingBoxVTotal / gridDivisionsV;
+                var boundingBoxUTotal = boundingBox.Max.U - boundingBox.Min.U;
+                var boundingBoxVTotal = boundingBox.Max.V - boundingBox.Min.V;
+                var gridDivisionsU = boundingBoxUTotal > 2 * analysysGridSize ? (boundingBoxUTotal / analysysGridSize) : 2;
+                var gridDivisionsV = boundingBoxVTotal > 2 * analysysGridSize ? (boundingBoxVTotal / analysysGridSize) : 2;
+                var gridSizeU = boundingBoxUTotal / gridDivisionsU;
+                var gridSizeV = boundingBoxVTotal / gridDivisionsV;
 
-                for (double u = boundingBox.Min.U + (gridSizeU / 2); u <= boundingBox.Max.U; u += gridSizeU)
+                for (var u = boundingBox.Min.U + (gridSizeU / 2); u <= boundingBox.Max.U; u += gridSizeU)
                 {
-                    for (double v = boundingBox.Min.V + (gridSizeV / 2); v <= boundingBox.Max.V; v += gridSizeV)
+                    for (var v = boundingBox.Min.V + (gridSizeV / 2); v <= boundingBox.Max.V; v += gridSizeV)
                     {
                         UV uv = new UV(u, v);
 
                         if (testFace.Face.IsInside(uv))
                         {
-                            SunAndShadowSettings setting = view.SunAndShadowSettings;
+                            var setting = view.SunAndShadowSettings;
                             double interval = 1;
                             switch (setting.TimeInterval)
                             {

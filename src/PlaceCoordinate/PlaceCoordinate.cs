@@ -1,4 +1,4 @@
-// (C) Copyright 2014-2021 by Andrew Nicholas (andrewnicholas@iinet.net.au)
+// (C) Copyright 2014-2024 by Andrew Nicholas (andrewcnicholas@gmail.com)
 //
 // This file is part of SCaddins.
 // SCaddins is free software: you can redistribute it and/or modify
@@ -115,7 +115,7 @@ namespace SCaddins.PlaceCoordinate
                 foreach (ElementId id in sids)
                 {
                     var f = doc.GetElement(id) as FamilySymbol;
-                    if (f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture)))
+                    if (f != null && f.Name.ToUpper(CultureInfo.InvariantCulture).Contains("SC-Survey_Point".ToUpper(CultureInfo.InvariantCulture)))
                     {
                         return f;
                     }

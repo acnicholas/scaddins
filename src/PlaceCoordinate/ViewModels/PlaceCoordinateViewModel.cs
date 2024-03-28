@@ -34,6 +34,9 @@ namespace SCaddins.PlaceCoordinate.ViewModels
         {
             this.doc = doc;
             useSharedCoordinates = true;
+            XCoordinate = 0;
+            YCoordinate = 0;
+            ZCoordinate = 0;
             familiesInModel = Command.GetAllFamilySymbols(doc);
             selectedFamilySymbol = Command.TryGetDefaultSpotCoordFamily(familiesInModel);
             if (selectedFamilySymbol == null)

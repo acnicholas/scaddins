@@ -26,12 +26,12 @@ namespace SCaddins.DestructivePurge.ViewModels
 
     internal class DestructivePurgeViewModel : Screen
     {
+        private readonly Document doc;
+        private readonly bool isFamily;
         private ObservableCollection<CheckableItem> checkableItems;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "doc")]
-        private Document doc;
         private System.Windows.Media.Imaging.BitmapImage previewImage;
         private CheckableItem selectedItem;
-        private bool isFamily;
 
         public DestructivePurgeViewModel(Document doc)
         {
@@ -94,18 +94,9 @@ namespace SCaddins.DestructivePurge.ViewModels
             }
         }
 
-        public bool EnableShowElemant
-        {
-            get { return selectedItem.Deletable.Id != null; }
-        }
+        public bool EnableShowElemant => selectedItem.Deletable.Id != null;
 
-        public int ImageHeight
-        {
-            get
-            {
-                return PreviewImage != null ? 196 : 0;
-            }
-        }
+        public int ImageHeight => PreviewImage != null ? 196 : 0;
 
         public int ImageMargin => PreviewImage != null ? 5 : 0;
 
@@ -117,14 +108,15 @@ namespace SCaddins.DestructivePurge.ViewModels
 
             set
             {
-                if (previewImage != value)
+                if (previewImage == value)
                 {
-                    previewImage = value;
-                    NotifyOfPropertyChange(() => PreviewImage);
-                    NotifyOfPropertyChange(() => ImageHeight);
-                    NotifyOfPropertyChange(() => ImageWidth);
-                    NotifyOfPropertyChange(() => ImageMargin);
+                    return;
                 }
+                previewImage = value;
+                NotifyOfPropertyChange(() => PreviewImage);
+                NotifyOfPropertyChange(() => ImageHeight);
+                NotifyOfPropertyChange(() => ImageWidth);
+                NotifyOfPropertyChange(() => ImageMargin);
             }
         }
 

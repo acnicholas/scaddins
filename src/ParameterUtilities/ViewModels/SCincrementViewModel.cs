@@ -26,11 +26,6 @@ namespace SCaddins.ParameterUtilities.ViewModels
 
         public SCincrementViewModel()
         {
-            Configs = new List<IncrementConfig>();
-            Configs.Add(new IncrementConfig("simple number(NNN)", @"(^.*$)", @"$1", @"(^.*$)", @"#VAL#", 1, 0, true, false));
-            Configs.Add(new IncrementConfig("after .(???.NNN)", @"(^.*$)", @"$1", @"(^.*$)", @"#VAL#", 1, 0, true, false));
-            Configs.Add(new IncrementConfig("after -(???-NNN)", @"(^.*$)", @"$1", @"(^.*$)", @"#VAL#", 1, 0, true, false));
-            Configs.Add(new IncrementConfig("leading number (NNN.???)", @"(^.*$)", @"$1", @"(^.*$)", @"#VAL#", 1, 0, true, false));
             Reset();
         }
 

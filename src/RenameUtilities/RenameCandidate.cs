@@ -18,9 +18,6 @@
 namespace SCaddins.RenameUtilities
 {
     using System.ComponentModel;
-    using System.Windows.Markup;
-    using Autodesk.Revit.DB;
-    using Caliburn.Micro;
 
     public abstract class RenameCandidate : IRenameCandidate
     {

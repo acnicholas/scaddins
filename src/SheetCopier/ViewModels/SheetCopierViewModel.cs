@@ -104,11 +104,11 @@ namespace SCaddins.SheetCopier.ViewModels
 
         public bool CustomSheetParameterThreeIsVisible => copyManager.CustomSheetParametersThree.Count > 1;
 
-        public string PrimaryCustomSheetParameterName => copyManager.PrimaryCustomSheetParameterName;
+        public string PrimaryCustomSheetParameterName => SheetCopierManager.PrimaryCustomSheetParameterName;
 
-        public string SecondaryCustomSheetParameterName => copyManager.SecondaryCustomSheetParameterName;
+        public string SecondaryCustomSheetParameterName => SheetCopierManager.SecondaryCustomSheetParameterName;
 
-        public string TertiaryCustomSheetParameterName => copyManager.TertiaryCustomSheetParameterName;
+        public string TertiaryCustomSheetParameterName => SheetCopierManager.TertiaryCustomSheetParameterName;
 
         public string PrimaryCustomSheetParameterColumnHeader => PrimaryCustomSheetParameterName.Replace("_", "__");
 

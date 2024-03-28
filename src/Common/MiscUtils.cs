@@ -40,13 +40,13 @@ namespace SCaddins.Common
             get
             {
                 DateTime moment = DateTime.Now;
-                string syear = moment.Year.ToString(CultureInfo.CurrentCulture);
-                string smonth = moment.Month.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0');
-                string sday = moment.Day.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0');
-                string sminute = moment.Minute.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0');
-                string ssecond = moment.Second.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0');
-                string shour = moment.Hour.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0');
-                return syear + smonth + sday + shour + sminute + ssecond;
+                var year = moment.Year.ToString(CultureInfo.CurrentCulture);
+                var month = moment.Month.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0');
+                var day = moment.Day.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0');
+                var minute = moment.Minute.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0');
+                var second = moment.Second.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0');
+                var hour = moment.Hour.ToString(CultureInfo.CurrentCulture).PadLeft(2, '0');
+                return year + month + day + hour + minute + second;
             }
         }
 

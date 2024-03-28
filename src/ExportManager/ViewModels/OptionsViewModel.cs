@@ -28,7 +28,7 @@ namespace SCaddins.ExportManager.ViewModels
         private readonly Manager exportManager;
         private BindableCollection<string> fileNamingSchemes;
         private string selectedFileNamingScheme;
-        private SCaddins.ExportManager.ViewModels.SCexportViewModel exportManagerViewModel;
+        private SCexportViewModel exportManagerViewModel;
 
         public OptionsViewModel(Manager exportManager, SCexportViewModel exportManagerViewModel)
         {
@@ -554,7 +554,8 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
-        public bool HideTitleBlocksForCadExports
+        public bool HideTitleBlocksForCadExports => false;
+        /*public bool HideTitleBlocksForCadExports
         {
             get
             {
@@ -578,7 +579,7 @@ namespace SCaddins.ExportManager.ViewModels
                 Settings1.Default.HideTitleBlocks = value;
                 Settings1.Default.Save();
             }
-        }
+        }*/
 
         public string InvalidSheetNameCharsAsString
         {
@@ -683,11 +684,11 @@ namespace SCaddins.ExportManager.ViewModels
                 if (value == false)
                 {
                     var msg = "It is best to keep this on as it will give you visual feedback on sheets that may not export correctly."
-                        + System.Environment.NewLine
-                        + System.Environment.NewLine
+                        + Environment.NewLine
+                        + Environment.NewLine
                         + "Turn it off only if SCexport startup times are very slow:"
-                        + System.Environment.NewLine
-                        + System.Environment.NewLine
+                        + Environment.NewLine
+                        + Environment.NewLine
                         + "If turned off, you can manually verify sheets after opening SCexport by pressing 'V' or using the option in the context menu";
 
                     SCaddinsApp.WindowManager.ShowWarningMessageBox("Warnning", msg);

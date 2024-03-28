@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2018 by Andrew Nicholas
+﻿// (C) Copyright 2018-2024 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -19,10 +19,11 @@ namespace SCaddins.RenameUtilities.ViewModels
 {
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Dynamic;
     using System.Linq;
     using Caliburn.Micro;
-
+    
     internal class RenameUtilitiesViewModel : Screen
     {
         private RenameManager manager;
@@ -67,7 +68,8 @@ namespace SCaddins.RenameUtilities.ViewModels
         {
             get { return RenameManager.AvailableParameterTypes; }
         }
-
+        
+        [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global", Justification = "Uses refactoring (Caliburn.Micro")]
         public bool ParameterCategoryEnabled { get; set; }
 
         public string Pattern
@@ -218,14 +220,9 @@ namespace SCaddins.RenameUtilities.ViewModels
             }
         }
 
-        public System.Windows.Visibility ShowRenameParameters
-        {
-            get
-            {
-                return manager.SelectedRenameMode.HasInputParameters == true
-                    ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
-            }
-        }
+        public System.Windows.Visibility ShowRenameParameters =>
+            manager.SelectedRenameMode.HasInputParameters 
+                ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
 
         public static void NavigateTo(System.Uri url)
         {

@@ -37,9 +37,11 @@ namespace SCaddins.Common
 
         public bool? ShowConfirmationDialog(string message, bool? defaultCheckboxValue, out bool checkboxResult)
         {
-            var confirmOverwriteDialog = new ExportManager.ViewModels.ConfirmationDialogViewModel();
-            confirmOverwriteDialog.Message = message;
-            confirmOverwriteDialog.Value = defaultCheckboxValue;
+            var confirmOverwriteDialog = new ExportManager.ViewModels.ConfirmationDialogViewModel
+            {
+                Message = message,
+                Value = defaultCheckboxValue
+            };
             bool? result = SCaddinsApp.WindowManager.ShowDialog(confirmOverwriteDialog, null, ExportManager.ViewModels.ConfirmationDialogViewModel.DefaultWindowSettings);
             checkboxResult = confirmOverwriteDialog.ValueAsBool;
             return result.HasValue ? result.Value : false;
