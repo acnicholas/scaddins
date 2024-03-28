@@ -1,0 +1,19 @@
+0,$Mortar/ 2,$Mortar/ 2,0,$BrickHeight * 2 + $Mortar *2,$BrickLength,$BrickWidth + $Mortar*2
+0,$Mortar/ 2,$BrickHeight + $Mortar / 2,0,$BrickHeight * 2 + $Mortar *2,$BrickLength,$BrickWidth + $Mortar*2
+90,$Mortar/ 2,$Mortar/ 2,0,$BrickLength + $BrickWidth + $Mortar * 2,$BrickHeight,$BrickHeight + $Mortar*2
+90,-$Mortar/ 2,$Mortar/ 2,0,$BrickLength + $BrickWidth + $Mortar * 2,$BrickHeight,$BrickHeight + $Mortar*2
+
+0,-$BrickWidth - $Mortar/ 2,$Mortar/ 2,0,$BrickHeight * 2 + $Mortar *2,$BrickWidth,$BrickLength + $Mortar*2
+0,-$BrickWidth - $Mortar/ 2,$BrickHeight + $Mortar / 2,0,$BrickHeight * 2 + $Mortar *2,$BrickWidth,$BrickLength + $Mortar*2
+90,-$BrickWidth - $Mortar/ 2,$Mortar/ 2,0,$BrickLength + $BrickWidth + $Mortar * 2,$BrickHeight,$BrickHeight + $Mortar*2
+90,-$BrickWidth - $Mortar/ 2 - $Mortar,$Mortar/ 2,0,$BrickLength + $BrickWidth + $Mortar * 2,$BrickHeight,$BrickHeight + $Mortar*2
+
+0,-($BrickLength +  $Mortar + $BrickWidth)/2,$BrickHeight + $Mortar / 2 + $Mortar,0,$BrickHeight * 2 + $Mortar *2,$BrickLength,$BrickWidth + $Mortar*2
+0,-($BrickLength +  $Mortar + $BrickWidth)/2,2 * $BrickHeight +  $Mortar / 2 + $Mortar,0,$BrickHeight * 2 + $Mortar *2,$BrickLength,$BrickWidth + $Mortar*2
+90,-($BrickLength +  $Mortar + $BrickWidth)/2,$BrickHeight + $Mortar / 2 + $Mortar,0,$BrickLength + $BrickWidth + $Mortar * 2,$BrickHeight,$BrickHeight + $Mortar*2
+90,$BrickWidth / 2,$BrickHeight + $Mortar / 2 + $Mortar,0,$BrickLength + $BrickWidth + $Mortar * 2,$BrickHeight,$BrickHeight + $Mortar*2
+
+0,($BrickWidth + 2* $Mortar)/2,$BrickHeight + $Mortar / 2 + $Mortar,0,$BrickHeight * 2 + $Mortar *2,$BrickWidth,$BrickLength + $Mortar*2
+0,($BrickWidth + 2* $Mortar)/2,2 * $BrickHeight +  $Mortar / 2 + $Mortar,0,$BrickHeight * 2 + $Mortar *2,$BrickWidth,$BrickLength + $Mortar*2
+90,($BrickWidth + 2* $Mortar)/2,$BrickHeight + $Mortar / 2 + $Mortar,0,$BrickLength + $BrickWidth + $Mortar * 2,$BrickHeight,$BrickHeight + $Mortar*2
+90,($BrickLength +  $Mortar + $BrickWidth)/2,$BrickHeight + $Mortar / 2 + $Mortar,0,$BrickLength + $BrickWidth + $Mortar * 2,$BrickHeight,$BrickHeight + $Mortar*2
