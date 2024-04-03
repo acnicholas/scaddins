@@ -23,7 +23,7 @@ namespace SCaddins.ExportManager
 
     public class NativeNamingRulesUtils
     {
-#if REVIT2022 || REVIT2023 || REVIT2024
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025
         public static string GetExportNameFromNamingRule(PDFExportOptions opts, ExportSheet vs)
         {
             var segs = opts.GetNamingRule();
@@ -72,7 +72,7 @@ namespace SCaddins.ExportManager
         }
 #endif
 
-#if REVIT2022 || REVIT2023 || REVIT2024
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025
         public static List<TableCellCombinedParameterData> CreateNamingRuleFromFormatString(string filenameScheme, Document doc)
         {
             var fec = new FilteredElementCollector(doc);
@@ -226,7 +226,7 @@ namespace SCaddins.ExportManager
 #endif
         private static int GetIntVal(ElementId id)
         {
-#if REVIT2024
+#if REVIT2024 || REVIT2025
             return (int)id.Value;
 #else
             return id.IntegerValue;

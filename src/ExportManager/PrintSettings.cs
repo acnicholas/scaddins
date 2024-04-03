@@ -273,7 +273,7 @@ namespace SCaddins.ExportManager
                 pm.PrintSetup.InSession.PrintParameters.PaperPlacement = PaperPlacementType.Margins;
                 pm.PrintSetup.CurrentPrintSetting.PrintParameters.MarginType = MarginType.UserDefined;
                 pm.PrintSetup.InSession.PrintParameters.MarginType = MarginType.UserDefined;
-#if REVIT2022 || REVIT2023 || REVIT2024
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025
                 pm.PrintSetup.CurrentPrintSetting.PrintParameters.OriginOffsetX = 0;
                 pm.PrintSetup.InSession.PrintParameters.OriginOffsetY = 0;
 #else

@@ -1,0 +1,69 @@
+<UserControl x:Class="SCaddins.GridManager.Views.GridManagerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SCaddins.GridManager.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="200" Width="450*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <GroupBox Margin="5" Header="Grids">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition> 
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="200" Width="300*"></ColumnDefinition>
+                    <ColumnDefinition MinWidth="200" Width="150*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                
+                <CheckBox x:Name="ShowLeftGridBubbles" Grid.Row="0" Margin="5" Content="{Binding ShowLeftGridBubblesLabel}"></CheckBox>
+                <CheckBox x:Name="ShowRightGridBubbles" Grid.Row="1" Margin="5" Content="{Binding ShowRightGridBubblesLabel}"></CheckBox>
+                <CheckBox x:Name="ShowTopGridBubbles" Grid.Row="2" Margin="5" Content="{Binding ShowTopGridBubblesLabel}"></CheckBox>
+                <CheckBox x:Name="ShowBottomGridBubbles" Grid.Row="3" Margin="5" Content="{Binding ShowBottomGridBubblesLabel}"></CheckBox>
+                
+                <Button x:Name="ShowAllGridBubbles" Grid.Row="0" Grid.Column="1" Margin="5">Show ALl Grid Bubbles</Button>
+                <Button x:Name="HideAllGridBubbles" Grid.Row="1" Grid.Column="1" Margin="5"> Hide All Grid Bubbles</Button>
+                <Button x:Name="SetGridsTo2d" Grid.Row="2" Grid.Column="1" Margin="5">Set All Grids To 2d</Button>
+                <Button x:Name="SetGridsTo3d" Grid.Row="3" Grid.Column="1" Margin="5">Set All Grids To 3d</Button>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Margin="5" Header="Levels">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition> 
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="200" Width="300*"></ColumnDefinition>
+                    <ColumnDefinition MinWidth="200" Width="150*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                
+                <CheckBox x:Name="ShowLeftLevels" Grid.Row="0" Margin="5" Content="{Binding ShowLeftLevelsLabel}"></CheckBox>
+                <CheckBox x:Name="ShowRightLevels" Grid.Row="1" Margin="5" Content="{Binding ShowRightLevelsLabel}"></CheckBox>
+                
+                <Button x:Name="ShowAllLevelEnds" Grid.Row="0" Grid.Column="1" Margin="5">Show ALl Levels</Button>
+                <Button x:Name="HideAllLevelEnds" Grid.Row="1" Grid.Column="1" Margin="5"> Hide All Levels</Button>
+                <Button x:Name="SetLevelsTo2d" Grid.Row="2" Grid.Column="1" Margin="5">Set All Levels To 2d</Button>
+                <Button x:Name="SetLevelsTo3d" Grid.Row="3" Grid.Column="1" Margin="5">Set All Levels To 3d</Button>
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+</UserControl>

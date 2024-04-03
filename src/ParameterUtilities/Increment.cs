@@ -201,6 +201,10 @@ namespace SCaddins.ParameterUtilities
             {
                 return GetParameterByName(e, "Text");
             }
+            else if (e is Viewport)
+            {
+                return GetParameterByName(e, "Detail Number");
+            }
             else
             {
                 SCaddinsApp.WindowManager.ShowMessageBox("Error", "Unsupported element");

@@ -86,7 +86,7 @@ namespace SCaddins.ViewUtilities
 
         private static void RemoveUnderlay(Element element)
         {
-#if REVIT2024
+#if REVIT2024 || REVIT2025
             if (element.Category.Id.Value != (long)BuiltInCategory.OST_Views)
             {
                 return;

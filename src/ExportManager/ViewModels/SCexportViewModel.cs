@@ -628,7 +628,7 @@ namespace SCaddins.ExportManager.ViewModels
                     break;
 
                 case Key.N:
-#if REVIT2022 || REVIT2023 || REVIT2024
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025
                     exportManager.ToggleExportOption(ExportOptions.DirectPDF);
                     NotifyOfPropertyChange(() => StatusText);
                     NotifyOfPropertyChange(() => ExportButtonLabel);

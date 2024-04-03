@@ -6,6 +6,9 @@
 
 - Remove Revit 2018 and 2019 support.
 - Add hatch from template option to Hatch Editor.
+- Add option to increment viewport detail number [Increment Tool]
+- New Grid Manager tool.
+- New Installer
 
 # 24.1.1 #
 

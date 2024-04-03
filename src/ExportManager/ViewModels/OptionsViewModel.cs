@@ -344,7 +344,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public bool ExportAdobePDFEnabled
         {
-#if REVIT2022 || REVIT2023 || REVIT2024
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025
             get { return false; }
 #else
             get { return exportManager.PDFSanityCheck(); }
@@ -353,7 +353,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public bool ExportPDF24Enabled
         {
-#if REVIT2022 || REVIT2023 || REVIT2024
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025
             get { return false; }
 #else
             get { return exportManager.PDF24SanityCheck(); }
@@ -412,7 +412,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public bool ExportRevitPDFEnabled
         {
-#if REVIT2022 || REVIT2023 || REVIT2024
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025
             get { return true; }
 #else
             get { return false; }
