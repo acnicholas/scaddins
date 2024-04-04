@@ -168,13 +168,13 @@ namespace SCaddins.PlaceCoordinate.ViewModels
 
         public void Cancel()
         {
-            TryClose(false);
+            TryCloseAsync(false);
         }
 
         public void PlaceFamilyAtCoordinate()
         {
             Command.PlaceFamilyAtCoordinate(doc, SelectedFamilySymbol, new XYZ(XCoordinate, YCoordinate, ZCoordinate), UseSharedCoordinates);
-            TryClose(true);
+            TryCloseAsync(true);
         }
     }
 }

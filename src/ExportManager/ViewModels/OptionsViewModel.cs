@@ -710,7 +710,7 @@ namespace SCaddins.ExportManager.ViewModels
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
             settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
             var printerViewModel = new PrinterSelectionViewModel(currentPrinter);
-            bool? result = SCaddinsApp.WindowManager.ShowDialog(printerViewModel, null, settings);
+            bool? result = SCaddinsApp.WindowManager.ShowDialogAsync(printerViewModel, null, settings);
             if (result.HasValue)
             {
                 return result.Value ? printerViewModel.SelectedPrinter : currentPrinter;

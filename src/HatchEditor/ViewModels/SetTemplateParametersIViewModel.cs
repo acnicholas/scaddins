@@ -58,12 +58,12 @@ namespace SCaddins.HatchEditor.ViewModels
 
         public void Cancel()
         {
-            TryClose(false);
+            TryCloseAsync(false);
         }
 
         public void OK()
         {
-            TryClose(true);
+            TryCloseAsync(true);
         }
     }
 }

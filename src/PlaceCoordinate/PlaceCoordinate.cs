@@ -140,7 +140,7 @@ namespace SCaddins.PlaceCoordinate
             ////PlaceMGA(doc,);
 
             var vm = new ViewModels.PlaceCoordinateViewModel(doc);
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.PlaceCoordinateViewModel.DefaultWindowSettings);
+            SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewModels.PlaceCoordinateViewModel.DefaultWindowSettings);
 
             return Result.Succeeded;
         }

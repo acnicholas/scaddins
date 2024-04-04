@@ -127,12 +127,12 @@ namespace SCaddins.SpellChecker.ViewModels
             // FIXME put this in command.
             manager.ProcessAllAutoReplacements();
             manager.CommitSpellingChangesToModel();
-            TryClose(true);
+            TryCloseAsync(true);
         }
 
         public void Cancel()
         {
-            TryClose(false);
+            TryCloseAsync(false);
         }
 
         public void Change()

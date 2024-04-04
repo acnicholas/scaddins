@@ -104,12 +104,12 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void Cancel()
         {
-            TryClose(false);
+            TryCloseAsync(false);
         }
 
         public void Save()
         {
-            TryClose(true);
+            TryCloseAsync(true);
         }
     }
 }

@@ -156,7 +156,7 @@ namespace SCaddins.RoomConverter.ViewModels
                     settings.SizeToContent = System.Windows.SizeToContent.Height;
                     var windowManager = SCaddinsApp.WindowManager;
                     var vm = new ListSelectionViewModel(manager.GetAllDepartments());
-                    bool? r = windowManager.ShowDialog(vm, null, settings);
+                    bool? r = windowManager.ShowDialogAsync(vm, null, settings);
                     if (r.HasValue && r.Value)
                     {
                         ComparisonFieldOne = vm.SelectedItem;
@@ -172,7 +172,7 @@ namespace SCaddins.RoomConverter.ViewModels
                     settings.SizeToContent = System.Windows.SizeToContent.Height;
                     var windowManager = SCaddinsApp.WindowManager;
                     var vm = new ListSelectionViewModel(RoomConversionManager.GetAllDesignOptionNames(manager.Doc));
-                    bool? r = windowManager.ShowDialog(vm, null, settings);
+                    bool? r = windowManager.ShowDialogAsync(vm, null, settings);
                     if (r.HasValue && r.Value)
                     {
                         ComparisonFieldOne = vm.SelectedItem;
@@ -205,12 +205,12 @@ namespace SCaddins.RoomConverter.ViewModels
 
         public void Cancel()
         {
-            TryClose(false);
+            TryCloseAsync(false);
         }
 
         public void OK()
         {
-            TryClose(true);
+            TryCloseAsync(true);
         }
     }
 }

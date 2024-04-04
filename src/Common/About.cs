@@ -40,7 +40,7 @@ namespace SCaddins.Common
             settings.ResizeMode = System.Windows.ResizeMode.NoResize;
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
             var aboutViewModel = new ViewModels.AboutViewModel();
-            SCaddinsApp.WindowManager.ShowDialog(aboutViewModel, null, settings);
+            SCaddinsApp.WindowManager.ShowDialogAsync(aboutViewModel, null, settings);
 
             return Result.Succeeded;
         }

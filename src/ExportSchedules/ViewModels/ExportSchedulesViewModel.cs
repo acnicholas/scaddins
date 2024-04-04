@@ -62,7 +62,7 @@
         public void Options()
         {
             var vm = new OptionsViewModel();
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, OptionsViewModel.DefaultWindowSettings);
+            SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, OptionsViewModel.DefaultWindowSettings);
         }
 
         public void RowSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs eventArgs)

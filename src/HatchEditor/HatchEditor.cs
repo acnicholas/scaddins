@@ -145,7 +145,7 @@ namespace SCaddins.HatchEditor
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
 
             var vm = new ViewModels.HatchEditorViewModel(udoc.Document);
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
+            SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, settings);
             return Result.Succeeded;
         }
     }

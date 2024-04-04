@@ -125,7 +125,7 @@
             {
                 if (IsActive)
                 {
-                    TryClose();
+                    TryCloseAsync();
                 }
             }
         }

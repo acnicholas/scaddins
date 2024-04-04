@@ -42,7 +42,7 @@ namespace SCaddins.ExportSchedules
 
             var exportDir = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
             var vm = new ViewModels.ExportSchedulesViewModel(Utilities.GetAllSchedules(doc), exportDir);
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.ExportSchedulesViewModel.DefaultWindowSettings);
+            SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewModels.ExportSchedulesViewModel.DefaultWindowSettings);
             return Result.Succeeded;
         }
     }

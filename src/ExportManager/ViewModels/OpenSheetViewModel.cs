@@ -103,14 +103,14 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void Exit()
         {
-            TryClose();
+            TryCloseAsync();
         }
 
         public void KeyDown(System.Windows.Input.KeyEventArgs args)
         {
             if (args.Key == System.Windows.Input.Key.Escape)
             {
-                TryClose(false);
+                TryCloseAsync(false);
             }
             if (args.Key == System.Windows.Input.Key.Enter)
             {
@@ -122,12 +122,12 @@ namespace SCaddins.ExportManager.ViewModels
                 {
                     SelectNext();
                     selectedSearchResult.Open();
-                    TryClose(true);
+                    TryCloseAsync(true);
                 }
                 else
                 {
                     selectedSearchResult.Open();
-                    TryClose(true);
+                    TryCloseAsync(true);
                 }
             }
             if (args.Key == System.Windows.Input.Key.Tab)
@@ -194,7 +194,7 @@ namespace SCaddins.ExportManager.ViewModels
         public void MouseDoubleClick()
         {
             selectedSearchResult.Open();
-            TryClose();
+            TryCloseAsync();
         }
 
         public void SelectNext()

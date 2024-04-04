@@ -50,7 +50,7 @@ namespace SCaddins.RoomConverter
             }
 
             var vm = new ViewModels.RoomConvertorViewModel(roomConversionManager);
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.RoomConvertorViewModel.DefaultWindowSettings);
+            SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewModels.RoomConvertorViewModel.DefaultWindowSettings);
 
             return Result.Succeeded;
         }

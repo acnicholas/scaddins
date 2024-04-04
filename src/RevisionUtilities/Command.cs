@@ -44,7 +44,7 @@ namespace SCaddins.RevisionUtilities
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
             var vm = new ViewModels.RevisionUtilitiesViewModel(doc);
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
+            SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, settings);
             return Result.Succeeded;
         }
     }

@@ -130,12 +130,12 @@
         public void OK()
         {
             Settings.Default.Save();
-            TryClose(true);
+            TryCloseAsync(true);
         }
 
         public void Cancel()
         {
-            TryClose(false);
+            TryCloseAsync(false);
         }
     }
 }

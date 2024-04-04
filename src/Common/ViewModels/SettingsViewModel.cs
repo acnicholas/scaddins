@@ -122,13 +122,13 @@
 
         public void Cancel()
         {
-            TryClose(true);
+            TryCloseAsync(true);
         }
 
         public void OK()
         {
             Apply();
-            this.TryClose(true);
+            this.TryCloseAsync(true);
         }
 
         public void Reset()

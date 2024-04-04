@@ -183,12 +183,12 @@ namespace SCaddins.RoomConverter.ViewModels
 
         public void OK()
         {
-            TryClose(true);
+            TryCloseAsync(true);
         }
 
         public void Cancel()
         {
-            TryClose(false);
+            TryCloseAsync(false);
         }
     }
 }

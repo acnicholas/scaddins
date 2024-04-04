@@ -76,7 +76,7 @@ namespace SCaddins.RevisionUtilities.ViewModels
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
             settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
             var revisionSelectionViewModel = new ExportManager.ViewModels.RevisionSelectionViewModel(doc);
-            bool? result = SCaddinsApp.WindowManager.ShowDialog(revisionSelectionViewModel, null, settings);
+            bool? result = SCaddinsApp.WindowManager.ShowDialogAsync(revisionSelectionViewModel, null, settings);
             bool newBool = result.HasValue ? result.Value : false;
             if (newBool)
             {

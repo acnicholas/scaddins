@@ -138,7 +138,7 @@ namespace SCaddins.RoomConverter.ViewModels
         public void AddFilter()
         {
             var vm = new RoomFilterViewModel(manager, filter);
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, RoomFilterViewModel.DefaultWindowSettings);
+            SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, RoomFilterViewModel.DefaultWindowSettings);
             NotifyOfPropertyChange(() => Rooms);
             NotifyOfPropertyChange(() => SelectionInformation);
         }
@@ -164,7 +164,7 @@ namespace SCaddins.RoomConverter.ViewModels
             var renameSheetModel = new SCaddins.RenameUtilities.ViewModels.RenameUtilitiesViewModel(renameManager);
             renameSheetModel.SelectedParameterCategory = "Rooms";
             renameSheetModel.ParameterCategoryEnabled = false;
-            SCaddinsApp.WindowManager.ShowDialog(renameSheetModel, null, RenameUtilities.ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings);
+            SCaddinsApp.WindowManager.ShowDialogAsync(renameSheetModel, null, RenameUtilities.ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings);
 
             NotifyOfPropertyChange(() => Rooms);
         }
@@ -191,7 +191,7 @@ namespace SCaddins.RoomConverter.ViewModels
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Height;
                 var vm = new RoomToSheetWizardViewModel(manager);
-                bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
+                bool? result = SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, settings);
                 if (result.Value)
                 {
                     manager.CreateViewsAndSheets(selectedRooms);

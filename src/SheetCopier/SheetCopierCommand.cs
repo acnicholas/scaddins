@@ -38,7 +38,7 @@ namespace SCaddins.SheetCopier
             try
             {
                 var vm = new ViewModels.SheetCopierViewModel(commandData.Application.ActiveUIDocument);
-                SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SheetCopierViewModel.DefaultWindowSettings);
+                SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewModels.SheetCopierViewModel.DefaultWindowSettings);
             }
             catch
             {

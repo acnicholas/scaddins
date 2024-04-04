@@ -115,7 +115,7 @@ namespace SCaddins
             settings.ResizeMode = System.Windows.ResizeMode.NoResize;
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
             var upgradeViewModel = new Common.ViewModels.UpgradeViewModel(installedVersion, latestAvailableVersion, info, downloadLink);
-            WindowManager.ShowDialog(upgradeViewModel, null, settings);
+            WindowManager.ShowDialogAsync(upgradeViewModel, null, settings);
         }
 
         public static PushButtonData LoadInfo(string dll)

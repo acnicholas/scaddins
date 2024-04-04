@@ -42,7 +42,7 @@ namespace SCaddins.Common
                 Message = message,
                 Value = defaultCheckboxValue
             };
-            bool? result = SCaddinsApp.WindowManager.ShowDialog(confirmOverwriteDialog, null, ExportManager.ViewModels.ConfirmationDialogViewModel.DefaultWindowSettings);
+            bool? result = SCaddinsApp.WindowManager.ShowDialogAsync(confirmOverwriteDialog, null, ExportManager.ViewModels.ConfirmationDialogViewModel.DefaultWindowSettings);
             checkboxResult = confirmOverwriteDialog.ValueAsBool;
             return result.HasValue ? result.Value : false;
         }

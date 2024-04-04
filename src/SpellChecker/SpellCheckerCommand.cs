@@ -32,7 +32,7 @@ namespace SCaddins.SpellChecker
 
             var spellChecker = new SpellChecker(document);
             var viewModel = new ViewModels.SpellCheckerViewModel(spellChecker);
-            bool? result = SCaddinsApp.WindowManager.ShowDialog(viewModel, null, ViewModels.SpellCheckerViewModel.DefaultWindowSettings);
+            bool? result = SCaddinsApp.WindowManager.ShowDialogAsync(viewModel, null, ViewModels.SpellCheckerViewModel.DefaultWindowSettings);
 
             return Result.Succeeded;
         }

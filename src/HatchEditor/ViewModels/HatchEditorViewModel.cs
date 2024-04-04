@@ -141,8 +141,8 @@ namespace SCaddins.HatchEditor.ViewModels
                 return;
             }
             var vm = new SetTemplateParametersViewModel(HatchTemplate.GetHatchParameters(filePath));
-            var result2 = SCaddinsApp.WindowManager.ShowDialog(vm, null, SetTemplateParametersViewModel.DefaultWindowSettings);
-            if (result2.HasValue && result2.Value)
+            var result2 = SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, SetTemplateParametersViewModel.DefaultWindowSettings);
+            if (result2.Result.HasValue && result2.Result.Value)
             {
                 var hatch = new Hatch();
                 hatch.Definition = HatchTemplate.GetPatternString(filePath, vm.TemplateParameters);
@@ -165,8 +165,8 @@ namespace SCaddins.HatchEditor.ViewModels
                 return;
             }
             var vm = new SelectHatchViewModel(new ObservableCollection<Hatch>(Command.ReadAllPatternsFromFile(filePath)));
-            var result2 = SCaddinsApp.WindowManager.ShowDialog(vm, null, SelectHatchViewModel.DefualtWindowSettings());
-            if (result2.HasValue && result2.Value)
+            var result2 = SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, SelectHatchViewModel.DefualtWindowSettings());
+            if (result2.Result.HasValue && result2.Result.Value)
             {
                 UserFillPattern = vm.SelectedFillPattern.Clone();
             }
@@ -175,8 +175,8 @@ namespace SCaddins.HatchEditor.ViewModels
         public void LoadPatternFromModel()
         {
             var vm = new SelectHatchViewModel(doc);
-            var result = SCaddinsApp.WindowManager.ShowDialog(vm, null, SelectHatchViewModel.DefualtWindowSettings());
-            if (result.HasValue && result.Value)
+            var result = SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, SelectHatchViewModel.DefualtWindowSettings());
+            if (result.Result.HasValue && result.Result.Value)
             {
                 UserFillPattern = vm.SelectedFillPattern.Clone();
             }
@@ -204,8 +204,8 @@ namespace SCaddins.HatchEditor.ViewModels
         public void SaveToFile()
         {
             var vm = new SaveToModelViewModel(UserFillPattern.Name);
-            bool? nameResult = SCaddinsApp.WindowManager.ShowDialog(vm, null, SaveToModelViewModel.DefaultWindowSettings);
-            if (!nameResult.HasValue || !nameResult.Value)
+            var nameResult = SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, SaveToModelViewModel.DefaultWindowSettings);
+            if (!nameResult.Result.HasValue || !nameResult.Result.Value)
             {
                 return;
             }
@@ -220,8 +220,8 @@ namespace SCaddins.HatchEditor.ViewModels
         public void SaveToModel()
         {
             var vm = new SaveToModelViewModel(Command.FillPatterns(doc), UserFillPattern.Name);
-            bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, SaveToModelViewModel.DefaultWindowSettings);
-            if (result.HasValue && result.Value)
+            var result = SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, SaveToModelViewModel.DefaultWindowSettings);
+            if (result.Result.HasValue && result.Result.Value)
             {
                 UserFillPattern.Name = vm.NewPatternName;
                 Command.SaveToModel(doc, UserFillPattern.HatchPattern);

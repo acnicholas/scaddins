@@ -45,7 +45,7 @@ namespace SCaddins.SolarAnalysis
             }
 
             var vm = new ViewModels.SolarViewsViewModel(commandData.Application.ActiveUIDocument);
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SolarViewsViewModel.DefaultViewSettings);
+            SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewModels.SolarViewsViewModel.DefaultViewSettings);
 
             if (vm.CreateAnalysisView)
             {

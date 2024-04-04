@@ -13,7 +13,7 @@
             Autodesk.Revit.DB.ElementSet elements)
         {
             var vm = new ViewModels.SCincrementViewModel();
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.SCincrementViewModel.DefaultWindowSettings);
+            SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewModels.SCincrementViewModel.DefaultWindowSettings);
             return Result.Succeeded;
         }
     }

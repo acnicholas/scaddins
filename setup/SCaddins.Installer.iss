@@ -64,7 +64,7 @@ Name: revit2024; Description: "Revit 2024 add-in"; Types: full custom
     Source: "..\src\bin\Release2020\SCaddins2020.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2020\"; DestName: "SCaddins20.addin"; Flags: ignoreversion; Components: revit2020 
     Source: "..\src\bin\Release2020\SCaddins.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020  
     Source: "..\src\bin\Release2020\Newtonsoft.Json.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
-    Source: "..\src\bin\Release2020\Caliburn.Micro.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
+    Source: "..\src\bin\Release2020\Caliburn.Micro.Core.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
     Source: "..\src\bin\Release2020\Caliburn.Micro.Platform.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
     Source: "..\src\bin\Release2020\Caliburn.Micro.Platform.Core.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
     Source: "..\src\bin\Release2020\lua54.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
@@ -83,7 +83,7 @@ Name: revit2024; Description: "Revit 2024 add-in"; Types: full custom
     Source: "..\src\bin\Release2021\SCaddins2021.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2021\"; DestName: "SCaddins21.addin"; Flags: ignoreversion; Components: revit2021 
     Source: "..\src\bin\Release2021\SCaddins.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021 
     Source: "..\src\bin\Release2021\Newtonsoft.Json.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
-    Source: "..\src\bin\Release2021\Caliburn.Micro.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
+    Source: "..\src\bin\Release2021\Caliburn.Micro.Core.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
     Source: "..\src\bin\Release2021\Caliburn.Micro.Platform.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
     Source: "..\src\bin\Release2021\Caliburn.Micro.Platform.Core.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
     Source: "..\src\bin\Release2021\lua54.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
@@ -102,7 +102,7 @@ Name: revit2024; Description: "Revit 2024 add-in"; Types: full custom
     Source: "..\src\bin\Release2022\SCaddins2022.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2022\"; DestName: "SCaddins22.addin"; Flags: ignoreversion; Components: revit2022 
     Source: "..\src\bin\Release2022\SCaddins.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022  
     Source: "..\src\bin\Release2022\Newtonsoft.Json.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
-    Source: "..\src\bin\Release2022\Caliburn.Micro.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
+    Source: "..\src\bin\Release2022\Caliburn.Micro.Core.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
     Source: "..\src\bin\Release2022\Caliburn.Micro.Platform.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
     Source: "..\src\bin\Release2022\Caliburn.Micro.Platform.Core.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
     Source: "..\src\bin\Release2022\lua54.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
@@ -121,7 +121,7 @@ Name: revit2024; Description: "Revit 2024 add-in"; Types: full custom
     Source: "..\src\bin\Release2023\SCaddins2023.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2023\"; DestName: "SCaddins23.addin"; Flags: ignoreversion; Components: revit2023  
     Source: "..\src\bin\Release2023\SCaddins.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023  
     Source: "..\src\bin\Release2023\Newtonsoft.Json.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
-    Source: "..\src\bin\Release2023\Caliburn.Micro.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
+    Source: "..\src\bin\Release2023\Caliburn.Micro.Core.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
     Source: "..\src\bin\Release2023\Caliburn.Micro.Platform.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
     Source: "..\src\bin\Release2023\Caliburn.Micro.Platform.Core.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
     Source: "..\src\bin\Release2023\lua54.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
@@ -140,7 +140,7 @@ Name: revit2024; Description: "Revit 2024 add-in"; Types: full custom
     Source: "..\src\bin\Release2024\SCaddins2024.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2024\"; DestName: "SCaddins24.addin"; Flags: ignoreversion; Components: revit2024 
     Source: "..\src\bin\Release2024\SCaddins.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024 
     Source: "..\src\bin\Release2024\Newtonsoft.Json.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
-    Source: "..\src\bin\Release2024\Caliburn.Micro.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
+    Source: "..\src\bin\Release2024\Caliburn.Micro.Core.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
     Source: "..\src\bin\Release2024\Caliburn.Micro.Platform.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
     Source: "..\src\bin\Release2024\Caliburn.Micro.Platform.Core.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
     Source: "..\src\bin\Release2024\lua54.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024

@@ -241,12 +241,12 @@ namespace SCaddins.ModelSetupWizard.ViewModels
                 worksetLog + System.Environment.NewLine +
                 projectInfoLog;
             SCaddinsApp.WindowManager.ShowMessageBox("Model Setup Wizard - Summary", msg);
-            TryClose(true);
+            TryCloseAsync(true);
         }
 
         public void Cancel()
         {
-            TryClose(true);
+            TryCloseAsync(true);
         }
 
         public void ConvertSelectedItemsToUpperCase()
@@ -281,7 +281,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             settings.Title = "Model Setup Wizard Options";
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Width;
-            SCaddinsApp.WindowManager.ShowDialog(optionsVm, null, settings);
+            SCaddinsApp.WindowManager.ShowDialogAsync(optionsVm, null, settings);
         }
 
         public void ProjectInfoSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs args)

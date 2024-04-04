@@ -220,7 +220,7 @@ namespace SCaddins.SheetCopier.ViewModels
         public void AddSheets()
         {
             var vm = new ViewSelectionViewModel(copyManager);
-            bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewSelectionViewModel.DefaultWindowSettings);
+            bool? result = SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewSelectionViewModel.DefaultWindowSettings);
             if (result.HasValue && result.Value)
             {
                 AddSheets(vm.SelectedViews);
@@ -269,7 +269,7 @@ namespace SCaddins.SheetCopier.ViewModels
         public void Go()
         {
             copyManager.CreateSheets();
-            TryClose(true);
+            TryCloseAsync(true);
         }
 
         public void RemoveSelectedViews()

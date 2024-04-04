@@ -73,12 +73,12 @@ namespace SCaddins.HatchEditor.ViewModels
 
         public void Cancel()
         {
-            TryClose(false);
+            TryCloseAsync(false);
         }
 
         public void Select()
         {
-            TryClose(true);
+            TryCloseAsync(true);
         }
     }
 }

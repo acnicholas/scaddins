@@ -1,4 +1,6 @@
-﻿namespace SCaddins.Common
+﻿using System.Threading.Tasks;
+
+namespace SCaddins.Common
 {
     using System;
     using System.Collections.Generic;
@@ -43,9 +45,9 @@
             return dialogService.ShowConfirmationDialog(message, defaultCheckboxValue, out checkboxResult);
         }
 
-        public override bool? ShowDialog(object rootModel, object context = null, IDictionary<string, object> settings = null)
+        public override async Task<bool?> ShowDialogAsync(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
-            System.Windows.Window window = CreateWindow(rootModel, true, context, settings);
+            System.Windows.Window window = await CreateWindowAsync(rootModel, true, context, settings);
             if (window == null)
             {
                 return false;
@@ -99,7 +101,7 @@
             dialogService.ShowWarningMessageBox(title, message);
         }
 
-        public override void ShowPopup(object rootModel, object context = null, IDictionary<string, object> settings = null)
+        public override async Task ShowPopupAsync(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
             throw new NotImplementedException();
         }
@@ -114,9 +116,9 @@
             return dialogService.ShowOpenFileDialog(defaultFileName, out fileName);
         }
 
-        public override void ShowWindow(object rootModel, object context = null, IDictionary<string, object> settings = null)
+        public override async Task ShowWindowAsync(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
-            System.Windows.Window window = CreateWindow(rootModel, true, context, settings);
+            System.Windows.Window window = await CreateWindowAsync(rootModel, true, context, settings);
             if (window != null)
             {
                 System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(window);

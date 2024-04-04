@@ -77,17 +77,17 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void Cancel()
         {
-            TryClose(false);
+            TryCloseAsync(false);
         }
 
         public void OK()
         {
-            TryClose(true);
+            TryCloseAsync(true);
         }
 
         public void RowDoubleClicked()
         {
-            TryClose(true);
+            TryCloseAsync(true);
         }
     }
 }

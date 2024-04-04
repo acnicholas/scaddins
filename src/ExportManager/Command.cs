@@ -89,7 +89,7 @@ namespace SCaddins.ExportManager
             }
             var vm = new ViewModels.SCexportViewModel(manager, views);
             var wm = WindowManager;
-            wm.ShowDialog(vm, null, ViewModels.SCexportViewModel.DefaultWindowSettings);
+            wm.ShowDialogAsync(vm, null, ViewModels.SCexportViewModel.DefaultWindowSettings);
 
             if (vm.CloseStatus != ViewModels.SCexportViewModel.CloseMode.Exit)
             {
@@ -116,7 +116,7 @@ namespace SCaddins.ExportManager
                 log.Clear();
                 log.Start(exportType + " Started.");
 
-                WindowManager.ShowWindow(progressVm, null, ViewModels.ProgressMonitorViewModel.DefaultWindowSettings);
+                WindowManager.ShowWindowAsync(progressVm, null, ViewModels.ProgressMonitorViewModel.DefaultWindowSettings);
 
                 if (manager.SaveHistory)
                 {
@@ -168,7 +168,7 @@ namespace SCaddins.ExportManager
             if (manager.ShowExportLog || log.Errors > 0)
             {
                 var exportLogViewModel = new ViewModels.ExportLogViewModel(log);
-                WindowManager.ShowDialog(exportLogViewModel, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
+                WindowManager.ShowDialogAsync(exportLogViewModel, null, ViewModels.ExportLogViewModel.DefaultWindowSettings);
             }
 
             return Result.Succeeded;

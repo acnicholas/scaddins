@@ -48,7 +48,7 @@ namespace SCaddins.LineOfSight
             settings.SizeToContent = System.Windows.SizeToContent.Width;
 
             var vm = new ViewModels.LineOfSightViewModel(doc);
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
+            SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, settings);
 
             return Result.Succeeded;
         }

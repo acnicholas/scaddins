@@ -46,7 +46,7 @@ namespace SCaddins.ModelSetupWizard
             settings.SizeToContent = System.Windows.SizeToContent.Width;
 
             var vm = new ViewModels.ModelSetupWizardViewModel(commandData.Application.ActiveUIDocument);
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
+            SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, settings);
 
             return Result.Succeeded;
         }

@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.Threading.Tasks;
+
 namespace SCaddins.RunScript.ViewModels
 {
     using System;
@@ -262,10 +264,10 @@ namespace SCaddins.RunScript.ViewModels
         }
 
         // ReSharper disable once OptionalParameterHierarchyMismatch
-        public override void TryClose(bool? dialogResult = false)
+        public override async Task TryCloseAsync(bool? dialogResult = false)
         {
             SaveScratch();
-            base.TryClose(dialogResult);
+            base.TryCloseAsync(dialogResult);
         }
 
         public void Run()

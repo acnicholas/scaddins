@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace SCaddins.SolarAnalysis.ViewModels
 {
     using System;
@@ -430,7 +433,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
         /// </summary>
         /// <param name="viewModel"></param>
         /// <param name="resize">Resize and relocate to previous location.</param>
-        public static void Respawn(SolarViewsViewModel viewModel, bool resize)
+        public static Task Respawn(SolarViewsViewModel viewModel, bool resize)
         {
             var settings = DefaultViewSettings;
 
@@ -445,13 +448,13 @@ namespace SCaddins.SolarAnalysis.ViewModels
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;
             }
             viewModel.SelectedCloseMode = CloseMode.Close;
-            SCaddinsApp.WindowManager.ShowDialog(viewModel, null, settings);
+            return SCaddinsApp.WindowManager.ShowDialogAsync(viewModel, null, settings);
         }
 
         public void Clear()
         {
             selectedCloseMode = CloseMode.Clear;
-            TryClose(true);
+            TryCloseAsync(true);
         }
 
         /// <summary>
@@ -461,7 +464,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
         {
             if (model.CreateAnalysisView || model.DrawSolarRay)
             {
-                TryClose(true);
+                TryCloseAsync(true);
             }
             else
             {
@@ -480,29 +483,30 @@ namespace SCaddins.SolarAnalysis.ViewModels
         public void RunAnalysis()
         {
             selectedCloseMode = CloseMode.Analize;
-            TryClose(true);
+            TryCloseAsync(true);
         }
 
         public void SelectAnalysisFaces()
         {
             selectedCloseMode = CloseMode.FaceSelection;
-            TryClose(true);
+            TryCloseAsync(true);
         }
 
         public void SelectMasses()
         {
             selectedCloseMode = CloseMode.MassSelection;
-            TryClose(true);
+            TryCloseAsync(true);
         }
 
-        protected override void OnDeactivate(bool close)
+        protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
         {
             // Get old size/location for respawning (if required)
             Size = SCaddinsApp.WindowManager.Size;
             Left = SCaddinsApp.WindowManager.Left;
             Top = SCaddinsApp.WindowManager.Top;
+            Task result = null;
 
-            base.OnDeactivate(true);
+            base.OnDeactivateAsync(true, cancellationToken);
 
             switch (selectedCloseMode)
             {
@@ -531,7 +535,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
                         SCaddinsApp.WindowManager.ShowMessageBox(ffduex.Message);
                         FaceSelection = null;
                     }
-                    Respawn(this, true);
+                    result = Respawn(this, true);
                     break;
 
                 case CloseMode.MassSelection:
@@ -559,9 +563,10 @@ namespace SCaddins.SolarAnalysis.ViewModels
                         SCaddinsApp.WindowManager.ShowMessageBox(ffduex.Message);
                         MassSelection = null;
                     }
-                    Respawn(this, true);
+                    result = Respawn(this, true);
                     break;
             }
+            return result;
         }
     }
 }

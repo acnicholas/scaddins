@@ -120,7 +120,7 @@ namespace SCaddins.ExportManager
             }
 
             var vm = new ViewModels.OpenSheetViewModel(doc);
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.OpenSheetViewModel.DefaultWindowSettings);
+            SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewModels.OpenSheetViewModel.DefaultWindowSettings);
             return Result.Succeeded;
         }
 

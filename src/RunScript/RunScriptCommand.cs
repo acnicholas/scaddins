@@ -67,7 +67,7 @@ namespace SCaddins.RunScript
             }
 
             var vm = new ViewModels.RunScriptViewModel(commandData, elements);
-            bool? result = SCaddinsApp.WindowManager.ShowDialog(vm, null, ViewModels.RunScriptViewModel.DefaultViewSettings);
+            bool? result = SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewModels.RunScriptViewModel.DefaultViewSettings);
 
             return Result.Succeeded;
         }
