@@ -1,997 +1,172 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
-  <Import Project="packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.4\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props" Condition="Exists('packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.4\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" />
-  <Import Project="packages\Microsoft.NetFramework.Analyzers.2.9.4\build\Microsoft.NetFramework.Analyzers.props" Condition="Exists('packages\Microsoft.NetFramework.Analyzers.2.9.4\build\Microsoft.NetFramework.Analyzers.props')" />
-  <Import Project="packages\Microsoft.NetCore.Analyzers.2.9.4\build\Microsoft.NetCore.Analyzers.props" Condition="Exists('packages\Microsoft.NetCore.Analyzers.2.9.4\build\Microsoft.NetCore.Analyzers.props')" />
-  <Import Project="packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.4\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props" Condition="Exists('packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.4\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <ProjectGuid>{AD62F888-78A1-4E0B-9820-5989630FC8C6}</ProjectGuid>
-    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <OutputType>Library</OutputType>
-    <RootNamespace>SCaddins</RootNamespace>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <TargetFrameworkProfile />
-    <NoWin32Manifest>True</NoWin32Manifest>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
-    <NoStdLib>False</NoStdLib>
-    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <WarningLevel>4</WarningLevel>
-    <SourceAnalysisOverrideSettingsFile>etc\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
-    <BuildDocFx Condition=" '$(Configuration)'=='Debug' ">false</BuildDocFx>
-    <BuildDocFx>false</BuildDocFx>
-    <AssemblyOriginatorKeyMode>File</AssemblyOriginatorKeyMode>
-    <GenerateFullPaths>True</GenerateFullPaths>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'x64' ">
-    <PlatformTarget>x64</PlatformTarget>
-    <BaseAddress>4194304</BaseAddress>
-    <RegisterForComInterop>False</RegisterForComInterop>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <FileAlignment>4096</FileAlignment>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants);REVIT2025</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <OutputPath>bin\Debug\</OutputPath>
-    <DebugSymbols>True</DebugSymbols>
-    <DebugType>Full</DebugType>
-    <Optimize>False</Optimize>
-    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    <DefineConstants>DEBUG;TRACE;REVIT2023</DefineConstants>
-    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
-    <AssemblyName>SCaddins</AssemblyName>
-    <ReferencePath>C:\Program Files\Autodesk\Revit 2023\</ReferencePath>
-    <SignAssembly>False</SignAssembly>
-    <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>False</DelaySign>
-    <StartAction>Program</StartAction>
-    <StartProgram>C:\Program Files\Autodesk\Revit 2023\Revit.exe</StartProgram>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);REVIT2025</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'Any' ">
-    <BaseAddress>4194304</BaseAddress>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <RegisterForComInterop>False</RegisterForComInterop>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <FileAlignment>4096</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Any'">
-    <ErrorReport>prompt</ErrorReport>
-    <FileAlignment>512</FileAlignment>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release2020' ">
-    <OutputPath>bin\Release2020\</OutputPath>
-    <DebugSymbols>False</DebugSymbols>
-    <DebugType>None</DebugType>
-    <Optimize>True</Optimize>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <DefineConstants>TRACE;REVIT2020</DefineConstants>
-    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
-    <StartAction>Project</StartAction>
-    <AssemblyName>SCaddins</AssemblyName>
-    <SignAssembly>False</SignAssembly>
-    <AssemblyOriginatorKeyFile>SCaddins.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>False</DelaySign>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyName>SCaddins</AssemblyName>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <DefineConstants>TRACE;DEBUG;REVIT2023</DefineConstants>
-    <DocumentationFile>
-    </DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2021|x64'">
-    <OutputPath>bin\Release2021\</OutputPath>
-    <DefineConstants>TRACE;REVIT2021</DefineConstants>
-    <Optimize>true</Optimize>
-    <FileAlignment>4096</FileAlignment>
-    <DebugType>None</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2021|Any'">
-    <OutputPath>bin\Any\Release2021\</OutputPath>
-    <DefineConstants>TRACE;REVIT2020</DefineConstants>
-    <Optimize>true</Optimize>
-    <FileAlignment>4096</FileAlignment>
-    <DebugType>None</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2022|x64'">
-    <OutputPath>bin\Release2022\</OutputPath>
-    <DefineConstants>TRACE;REVIT2022</DefineConstants>
-    <Optimize>true</Optimize>
-    <FileAlignment>4096</FileAlignment>
-    <DebugType>None</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2022|Any'">
-    <OutputPath>bin\Any\Release2022\</OutputPath>
-    <DefineConstants>TRACE;REVIT2020</DefineConstants>
-    <Optimize>true</Optimize>
-    <FileAlignment>4096</FileAlignment>
-    <DebugType>None</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2023|x64'">
-    <OutputPath>bin\Release2023\</OutputPath>
-    <DefineConstants>TRACE;REVIT2023</DefineConstants>
-    <Optimize>true</Optimize>
-    <FileAlignment>4096</FileAlignment>
-    <DebugType>None</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2023|Any'">
-    <OutputPath>bin\Any\Release2023\</OutputPath>
-    <DefineConstants>TRACE;REVIT2020</DefineConstants>
-    <Optimize>true</Optimize>
-    <FileAlignment>4096</FileAlignment>
-    <DebugType>None</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2024|x64'">
-    <OutputPath>bin\Release2024\</OutputPath>
-    <DefineConstants>TRACE;REVIT2024</DefineConstants>
-    <Optimize>true</Optimize>
-    <FileAlignment>4096</FileAlignment>
-    <DebugType>None</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2024|Any'">
-    <OutputPath>bin\Any\Release2024\</OutputPath>
-    <DefineConstants>TRACE;REVIT2020</DefineConstants>
-    <Optimize>true</Optimize>
-    <FileAlignment>4096</FileAlignment>
-    <DebugType>None</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Debug'">
-      <HintPath>C:\Program Files\Autodesk\Revit 2022\AdWindows.dll</HintPath>
-    </Reference>
-    <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2020'">
-      <HintPath>C:\Program Files\Autodesk\Revit 2020\AdWindows.dll</HintPath>
-    </Reference>
-    <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2021'">
-      <HintPath>C:\Program Files\Autodesk\Revit 2021\AdWindows.dll</HintPath>
-    </Reference>
-    <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2022'">
-      <HintPath>C:\Program Files\Autodesk\Revit 2022\AdWindows.dll</HintPath>
-    </Reference>
-    <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2023'">
-      <HintPath>C:\Program Files\Autodesk\Revit 2023\AdWindows.dll</HintPath>
-    </Reference>
-    <Reference Include="AdWindows" Condition="'$(Configuration)'== 'Release2024'">
-      <HintPath>C:\Program Files\Autodesk\Revit 2024\AdWindows.dll</HintPath>
-    </Reference>
-    <Reference Include="Caliburn.Micro.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>packages\Caliburn.Micro.Core.4.0.212\lib\netstandard2.0\Caliburn.Micro.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Caliburn.Micro.Platform, Version=4.0.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>packages\Caliburn.Micro.4.0.212\lib\net462\Caliburn.Micro.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="Caliburn.Micro.Platform.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>packages\Caliburn.Micro.4.0.212\lib\net462\Caliburn.Micro.Platform.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="EPPlus, Version=7.0.2.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
-      <HintPath>packages\EPPlus.7.0.2\lib\net462\EPPlus.dll</HintPath>
-    </Reference>
-    <Reference Include="EPPlus.Interfaces, Version=6.1.1.0, Culture=neutral, PublicKeyToken=a694d7f3b0907a61, processorArchitecture=MSIL">
-      <HintPath>packages\EPPlus.Interfaces.6.1.1\lib\net462\EPPlus.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="EPPlus.System.Drawing, Version=6.1.1.0, Culture=neutral, PublicKeyToken=2308d35469c9bac0, processorArchitecture=MSIL">
-      <HintPath>packages\EPPlus.System.Drawing.6.1.1\lib\net462\EPPlus.System.Drawing.dll</HintPath>
-    </Reference>
-    <Reference Include="FastColoredTextBox, Version=2.16.26.0, Culture=neutral, PublicKeyToken=fb8aa12b994ef61b, processorArchitecture=MSIL">
-      <HintPath>packages\Fk.FCTB.2.16.25.1\lib\net40\FastColoredTextBox.dll</HintPath>
-    </Reference>
-    <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
-      <HintPath>packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
-    </Reference>
-    <Reference Include="KeraLua, Version=1.4.1.0, Culture=neutral, PublicKeyToken=6a194c04b9c89217, processorArchitecture=MSIL">
-      <HintPath>packages\KeraLua.1.4.1\lib\net46\KeraLua.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.IO.RecyclableMemoryStream.3.0.0\lib\netstandard2.0\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>packages\ExcelDna.Interop.15.0.1\lib\net452\Microsoft.Office.Interop.Excel.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Vbe.Interop, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>packages\ExcelDna.Interop.15.0.1\lib\net452\Microsoft.Vbe.Interop.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.DesignTools.Extensibility, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Windows.Design.Extensibility, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Xaml.Behaviors.Wpf.1.1.77\lib\net462\Microsoft.Xaml.Behaviors.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Xaml.Behaviors.Design, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Xaml.Behaviors.Wpf.1.1.77\lib\net462\Design\Microsoft.Xaml.Behaviors.Design.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Xaml.Behaviors.DesignTools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Xaml.Behaviors.Wpf.1.1.77\lib\net462\Design\Microsoft.Xaml.Behaviors.DesignTools.dll</HintPath>
-    </Reference>
-    <Reference Include="mscorlib" />
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="NHunspell, Version=1.2.5554.16953, Culture=neutral, PublicKeyToken=1ac793ea843b4366, processorArchitecture=MSIL">
-      <HintPath>packages\NHunspell.1.2.5554.16953\lib\net\NHunspell.dll</HintPath>
-    </Reference>
-    <Reference Include="NLua, Version=1.7.2.0, Culture=neutral, PublicKeyToken=6a194c04b9c89217, processorArchitecture=MSIL">
-      <HintPath>packages\NLua.1.7.2\lib\net46\NLua.dll</HintPath>
-    </Reference>
-    <Reference Include="office, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>packages\ExcelDna.Interop.15.0.1\lib\net452\Office.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Debug'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2022\RevitAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPIUI" Condition="'$(Configuration)'=='Debug'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2022\RevitAPIUI.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2020'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2020\RevitAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPIUI" Condition="'$(Configuration)'=='Release2020'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2020\RevitAPIUI.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2021'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2021\RevitAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPIUI" Condition="'$(Configuration)'=='Release2021'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2021\RevitAPIUI.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2022'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2022\RevitAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPIUI" Condition="'$(Configuration)'=='Release2022'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2022\RevitAPIUI.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2023'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2023\RevitAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPIUI" Condition="'$(Configuration)'=='Release2023'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2023\RevitAPIUI.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPI" Condition="'$(Configuration)'=='Release2024'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2024\RevitAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPIUI" Condition="'$(Configuration)'=='Release2024'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Revit 2024\RevitAPIUI.dll</HintPath>
-    </Reference>
-    <Reference Include="NCalc, Version=1.3.8.0, Culture=neutral, PublicKeyToken=973cde3f1cafed03, processorArchitecture=MSIL">
-      <HintPath>packages\ncalc.1.3.8\lib\NCalc.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationCore">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Design" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Dynamic" />
-    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Runtime.Serialization.Primitives, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Runtime.Serialization.Primitives.4.3.0\lib\net46\System.Runtime.Serialization.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security" />
-    <Reference Include="System.Threading" />
-    <Reference Include="System.Threading.Tasks" />
-    <Reference Include="System.Windows" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\tools\RoslynPad\System.Xml.ReaderWriter.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.XDocument" />
-    <Reference Include="System.Xml.XmlDocument" />
-    <Reference Include="System.Xml.XPath.XDocument" />
-    <Reference Include="WindowsBase">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="WindowsFormsIntegration" />
-    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.Toolkit, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
-    </Reference>
+    <Compile Remove="ExportSchedules\**" />
+    <Compile Remove="GridManager\**" />
+    <Compile Remove="RunScript\**" />
+    <Compile Remove="SpellChecker\**" />
+    <EmbeddedResource Remove="ExportSchedules\**" />
+    <EmbeddedResource Remove="GridManager\**" />
+    <EmbeddedResource Remove="RunScript\**" />
+    <EmbeddedResource Remove="SpellChecker\**" />
+    <None Remove="ExportSchedules\**" />
+    <None Remove="GridManager\**" />
+    <None Remove="RunScript\**" />
+    <None Remove="SpellChecker\**" />
+    <Page Remove="RunScript\**" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Common\BasicDialogService.cs" />
-    <Compile Include="Common\Bootstrapper.cs" />
-    <Compile Include="Common\IDialogService.cs" />
-    <Compile Include="Common\MockDialogService.cs" />
-    <Compile Include="Common\Settings.cs" />
-    <Compile Include="Common\ViewModels\AboutViewModel.cs" />
-    <Compile Include="Common\ViewModels\ISettingPanel.cs" />
-    <Compile Include="Common\ViewModels\SettingsViewModel.cs" />
-    <Compile Include="Common\ViewModels\UpgradeViewModel.cs" />
-    <Compile Include="Common\Views\SettingsView.xaml.cs">
-      <DependentUpon>SettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Common\Views\AboutView.xaml.cs">
-      <DependentUpon>AboutView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Common\Views\LayoutManagerView.xaml.cs">
-      <DependentUpon>LayoutManagerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Common\Views\UpgradeView.xaml.cs">
-      <DependentUpon>UpgradeView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DestructivePurge\ViewModels\CheckableItem.cs" />
-    <Compile Include="DestructivePurge\ViewModels\DestructivePurgeViewModel.cs" />
-    <Compile Include="DestructivePurge\Views\DestructivePurgeView.xaml.cs">
-      <DependentUpon>DestructivePurgeView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ExportManager\PDF24.cs" />
-    <Compile Include="ExportManager\ViewModels\TemplateViewViewModel.cs" />
-    <Compile Include="ExportManager\Views\TemplateViewView.xaml.cs">
-      <DependentUpon>TemplateViewView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ExportManager\Views\ToggleSelectedSheetParametersVIew.xaml.cs">
-      <DependentUpon>ToggleSelectedSheetParametersVIew.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ExportManager\YesNoParameter.cs" />
-    <Compile Include="ExportManager\NativeNamingRulesUtils.cs" />
-    <Compile Include="ExportManager\OpenableView.cs" />
-    <Compile Include="ExportManager\RecentExport.cs" />
-    <Compile Include="ExportManager\SheetFilter.cs" />
-    <Compile Include="ExportManager\ViewModels\ConfirmationDialogViewModel.cs" />
-    <Compile Include="ExportManager\ViewModels\ExportLogViewModel.cs" />
-    <Compile Include="ExportManager\ViewModels\OpenSheetViewModel.cs" />
-    <Compile Include="ExportManager\ViewModels\OptionsViewModel.cs" />
-    <Compile Include="ExportManager\ViewModels\PrinterSelectionViewModel.cs" />
-    <Compile Include="ExportManager\ViewModels\ProgressMonitorViewModel.cs" />
-    <Compile Include="ExportManager\ViewModels\ToggleSelectedSheetParametersViewModel.cs" />
-    <Compile Include="ExportManager\ViewModels\RevisionSelectionViewModel.cs" />
-    <Compile Include="ExportManager\ViewModels\SCexportViewModel.cs" />
-    <Compile Include="ExportManager\ViewModels\ViewSetSaveAsViewModel.cs" />
-    <Compile Include="ExportManager\ViewModels\ViewSetSelectionViewModel.cs" />
-    <Compile Include="ExportManager\ViewSetItem.cs" />
-    <Compile Include="ExportManager\Views\ConfirmationDialogView.xaml.cs">
-      <DependentUpon>ConfirmationDialogView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ExportManager\Views\ExportLogView.xaml.cs">
-      <DependentUpon>ExportLogView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ExportManager\Views\OpenSheetView.xaml.cs">
-      <DependentUpon>OpenSheetView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ExportManager\Views\OptionsView.xaml.cs">
-      <DependentUpon>OptionsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ExportManager\Views\PrinterSelectionView.xaml.cs">
-      <DependentUpon>PrinterSelectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ExportManager\Views\ProgressMonitorView.xaml.cs">
-      <DependentUpon>ProgressMonitorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ExportManager\Views\RevisionSelectionView.xaml.cs">
-      <DependentUpon>RevisionSelectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ExportManager\Views\SCexportView.xaml.cs">
-      <DependentUpon>SCexportView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Common\WindowManager.cs" />
-    <Compile Include="ExportManager\Views\ViewSetSaveAsView.xaml.cs">
-      <DependentUpon>ViewSetSaveAsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ExportManager\Views\ViewSetSelectionView.xaml.cs">
-      <DependentUpon>ViewSetSelectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ExportSchedules\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="ExportSchedules\Utilities.cs" />
-    <Compile Include="ExportSchedules\Command.cs" />
-    <Compile Include="ExportSchedules\Schedule.cs" />
-    <Compile Include="ExportSchedules\ViewModels\ExportSchedulesViewModel.cs" />
-    <Compile Include="ExportSchedules\ViewModels\OptionsViewModel.cs" />
-    <Compile Include="ExportSchedules\Views\ExportSchedulesView.xaml.cs">
-      <DependentUpon>ExportSchedulesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ExportSchedules\Views\OptionsView.xaml.cs">
-      <DependentUpon>OptionsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="HatchEditor\ConversionUtilities.cs" />
-    <Compile Include="HatchEditor\Hatch.cs" />
-    <Compile Include="HatchEditor\HatchEditor.cs" />
-    <Compile Include="HatchEditor\HatchTemplate.cs" />
-    <Compile Include="HatchEditor\TemplateParameter.cs" />
-    <Compile Include="HatchEditor\ViewModels\HatchEditorViewModel.cs" />
-    <Compile Include="HatchEditor\ViewModels\SetTemplateParametersIViewModel.cs" />
-    <Compile Include="HatchEditor\ViewModels\SaveToModelViewModel.cs" />
-    <Compile Include="HatchEditor\ViewModels\SelectHatchViewModel.cs" />
-    <Compile Include="HatchEditor\Views\HatchCanvas.cs" />
-    <Compile Include="HatchEditor\Views\HatchEditorView.xaml.cs">
-      <DependentUpon>HatchEditorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="HatchEditor\Views\SaveToModelView.xaml.cs">
-      <DependentUpon>SaveToModelView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="HatchEditor\Views\SetTemplateParametersView.xaml.cs">
-      <DependentUpon>SetTemplateParametersView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="HatchEditor\Views\SelectHatchView.xaml.cs">
-      <DependentUpon>SelectHatchView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="LineOfSight\ViewModels\LineOfSightViewModel.cs" />
-    <Compile Include="LineOfSight\Views\LineOfSightView.xaml.cs">
-      <DependentUpon>LineOfSightView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ModelSetupWizard\ColourScheme.cs" />
-    <Compile Include="ModelSetupWizard\Command.cs" />
-    <Compile Include="ModelSetupWizard\ElementCollectors.cs" />
-    <Compile Include="ModelSetupWizard\IniIO.cs" />
-    <Compile Include="ModelSetupWizard\ModelSetupWizard.cs" />
-    <Compile Include="ModelSetupWizard\ModelSetupWizardSettings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>ModelSetupWizardSettings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="ModelSetupWizard\NominatedArchitect.cs" />
-    <Compile Include="ModelSetupWizard\ProjectInformationParameter.cs" />
-    <Compile Include="ModelSetupWizard\ProjectInformationReplacement.cs" />
-    <Compile Include="ModelSetupWizard\SettingsIO.cs" />
-    <Compile Include="ModelSetupWizard\TransactionLog.cs" />
-    <Compile Include="ModelSetupWizard\TranscactionLogItem.cs" />
-    <Compile Include="ModelSetupWizard\ViewModels\ModelSetupWizardOptionsViewModel.cs" />
-    <Compile Include="ModelSetupWizard\ViewModels\ModelSetupWizardViewModel.cs" />
-    <Compile Include="ModelSetupWizard\WorksetParameter.cs" />
-    <Compile Include="ParameterUtilities\IncrementConfig.cs" />
-    <Compile Include="ParameterUtilities\SCincrementSettings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>IncrementSettings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="ParameterUtilities\ViewModels\SCincrementViewModel.cs" />
-    <Compile Include="ParameterUtilities\Views\SCincrementView.xaml.cs">
-      <DependentUpon>SCincrementView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlaceCoordinate\ViewModels\PlaceCoordinateViewModel.cs" />
-    <Compile Include="PlaceCoordinate\Views\PlaceCoordinateView.xaml.cs">
-      <DependentUpon>PlaceCoordinateView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Common\About.cs" />
-    <Compile Include="Common\MiscUtils.cs" />
-    <Compile Include="Common\SystemUtils.cs" />
-    <Compile Include="Common\ConsoleUtils.cs" />
-    <Compile Include="LatestRelease.cs">
-      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Constants.cs" />
-    <Compile Include="RenameUtilities\IRenameCandidate.cs" />
-    <Compile Include="RenameUtilities\RenameCategory.cs" />
-    <Compile Include="RenameUtilities\RenameWindows.cs" />
-    <Compile Include="RenameUtilities\RenameDoors.cs" />
-    <Compile Include="RenameUtilities\RenameLevel.cs" />
-    <Compile Include="RenameUtilities\RenameGrids.cs" />
-    <Compile Include="RenameUtilities\RenameGroups.cs" />
-    <Compile Include="RenameUtilities\RenameParameterCollector.cs" />
-    <Compile Include="RenameUtilities\RenameTypes.cs" />
-    <Compile Include="RenameUtilities\RenameViewFilter.cs" />
-    <Compile Include="RenameUtilities\RenameViewTemplate.cs" />
-    <Compile Include="RenameUtilities\RenameFamily.cs" />
-    <Compile Include="RenameUtilities\RenameText.cs" />
-    <Compile Include="RenameUtilities\RenameCandidate.cs" />
-    <Compile Include="RenameUtilities\RenameCommand.cs" />
-    <Compile Include="RenameUtilities\RenameManager.cs" />
-    <Compile Include="RenameUtilities\RenameParameter.cs" />
-    <Compile Include="RenameUtilities\RenameUtilitiesCommand.cs" />
-    <Compile Include="RenameUtilities\ViewModels\RenameUtilitiesViewModel.cs" />
-    <Compile Include="RenameUtilities\Views\RenameUtilitiesView.xaml.cs">
-      <DependentUpon>RenameUtilitiesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="RevisionUtilities\RevisionItem.cs" />
-    <Compile Include="RevisionUtilities\ViewModels\RevisionUtilitiesViewModel.cs" />
-    <Compile Include="RevisionUtilities\Views\RevisionUtilitiesView.xaml.cs">
-      <DependentUpon>RevisionUtilitiesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="RoomConverter\RoomConversionCandidate.cs" />
-    <Compile Include="RoomConverter\RoomConversionManager.cs" />
-    <Compile Include="RoomConverter\RoomConverterCommand.cs" />
-    <Compile Include="RoomConverter\RoomFilter.cs" />
-    <Compile Include="RoomConverter\RoomFilterEnums.cs" />
-    <Compile Include="RoomConverter\RoomFilterItem.cs" />
-    <Compile Include="RoomConverter\RoomParameter.cs" />
-    <Compile Include="RoomConverter\ViewModels\ListSelectionViewModel.cs" />
-    <Compile Include="RoomConverter\ViewModels\RoomConvertorViewModel.cs" />
-    <Compile Include="RoomConverter\ViewModels\RoomFilterViewModel.cs" />
-    <Compile Include="RoomConverter\ViewModels\RoomToSheetWizardViewModel.cs" />
-    <Compile Include="RoomConverter\ViewModels\SettingsViewModel.cs" />
-    <Compile Include="RoomConverter\Views\ListSelectionView.xaml.cs">
-      <DependentUpon>ListSelectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="RoomConverter\Views\RoomConvertorView.xaml.cs">
-      <DependentUpon>RoomConvertorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="RoomConverter\Views\RoomFilterView.xaml.cs">
-      <DependentUpon>RoomFilterView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="RoomConverter\Views\RoomToSheetWizardView.xaml.cs">
-      <DependentUpon>RoomToSheetWizardView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="RunScript\RunScriptCommand.cs" />
-    <Compile Include="RunScript\ViewModels\RunScriptViewModel.cs" />
-    <Compile Include="RunScript\Views\MvvmTextEditor.cs" />
-    <Compile Include="RunScript\Views\RunScriptView.xaml.cs">
-      <DependentUpon>RunScriptView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SCaddins.cs" />
-    <Compile Include="Scaddins.Designer.cs">
-      <DependentUpon>Scaddins.settings</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SharedAssemblyInfo.cs" />
-    <Compile Include="SheetCopier\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="SheetCopier\SheetCopierCommand.cs" />
-    <Compile Include="SheetCopier\SheetCopierConstants.cs" />
-    <Compile Include="SheetCopier\SheetCopierEnums.cs" />
-    <Compile Include="SheetCopier\SheetCopierManager.cs" />
-    <Compile Include="SheetCopier\SheetCopierViewHost.cs" />
-    <Compile Include="SheetCopier\SheetCopierView.cs" />
-    <Compile Include="SheetCopier\SheetInformation.cs" />
-    <Compile Include="SheetCopier\ViewModels\SheetCopierSettingsViewModel.cs" />
-    <Compile Include="SheetCopier\ViewModels\SheetCopierViewModel.cs" />
-    <Compile Include="SheetCopier\ViewModels\ViewSelectionViewModel.cs" />
-    <Compile Include="SheetCopier\Views\SheetCopierView.xaml.cs">
-      <DependentUpon>SheetCopierView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SheetCopier\Views\ViewSelectionVIew.xaml.cs">
-      <DependentUpon>ViewSelectionVIew.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SheetCopier\Views\SheetCopierSettingsView.xaml.cs">
-      <DependentUpon>SheetCopierSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SolarAnalysis\SolarAnalysisColourSchemes.cs" />
-    <Compile Include="SolarAnalysis\SolarAnalysisTestFace.cs" />
-    <Compile Include="SolarAnalysis\SolarAnalysisManager.cs" />
-    <Compile Include="SolarAnalysis\SolarAnalysisCommand.cs" />
-    <Compile Include="SolarAnalysis\Views\SolarViewsView.xaml.cs">
-      <DependentUpon>SolarViewsView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SolarAnalysis\ViewModels\SolarViewsViewModel.cs" />
-    <Compile Include="SpellChecker\CorrectionCandidate.cs" />
-    <Compile Include="SpellChecker\SpellChecker.cs" />
-    <Compile Include="SpellChecker\SpellCheckerCommand.cs" />
-    <Compile Include="SpellChecker\SpellCheckerSettings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>SpellCheckerSettings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="SpellChecker\ViewModels\SpellCheckerOptionsViewModel.cs" />
-    <Compile Include="SpellChecker\ViewModels\SpellCheckerViewModel.cs" />
-    <Compile Include="SpellChecker\Views\SpellCheckerOptionsView.xaml.cs">
-      <DependentUpon>SpellCheckerOptionsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SpellChecker\Views\SpellCheckerView.xaml.cs">
-      <DependentUpon>SpellCheckerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewUtilities\CameraFromViewCommand.cs" />
-    <Compile Include="ExportManager\Command.cs" />
-    <Compile Include="ExportManager\Constants.cs" />
-    <Compile Include="ExportManager\Enums.cs" />
-    <Compile Include="ExportManager\ExportLog.cs" />
-    <Compile Include="ExportManager\ExportLogItem.cs" />
-    <Compile Include="ExportManager\FileUtils.cs" />
-    <Compile Include="ExportManager\NextSheet.cs" />
-    <Compile Include="ExportManager\OpenSheet.cs" />
-    <Compile Include="ExportManager\PostExportHookCommand.cs" />
-    <Compile Include="ExportManager\PreviousSheet.cs" />
-    <Compile Include="ExportManager\PrintSettings.cs" />
-    <Compile Include="ExportManager\ExportManager.cs" />
-    <Compile Include="ExportManager\Settings1.Designer.cs">
-      <DependentUpon>Settings1.settings</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ExportManager\Sheet.cs" />
-    <Compile Include="ExportManager\SegmentedSheetName.cs" />
-    <Compile Include="LineOfSight\StaduimSeatingTier.cs" />
-    <Compile Include="LineOfSight\LineOfSightCommand.cs" />
-    <Compile Include="LineOfSight\StaduimSeatingTread.cs" />
-    <Compile Include="ParameterUtilities\Increment.cs" />
-    <Compile Include="ParameterUtilities\IncrementSettings.cs" />
-    <Compile Include="RevisionUtilities\RevisionCloudItem.cs" />
-    <Compile Include="RevisionUtilities\RevisionUtilities.cs" />
-    <Compile Include="RevisionUtilities\Command.cs" />
-    <Compile Include="PlaceCoordinate\PlaceCoordinate.cs" />
-    <Compile Include="DestructivePurge\DestructivePurge.cs" />
-    <Compile Include="DestructivePurge\DestructivePurgeCommand.cs" />
-    <Compile Include="DestructivePurge\DeletableItem.cs" />
-    <Compile Include="ViewUtilities\Pin.cs" />
-    <Compile Include="ViewUtilities\ViewAlignmentUtils.cs" />
-    <Compile Include="ViewUtilities\ViewModels\ViewUtilitiesSettingsViewModel.cs" />
-    <Compile Include="ViewUtilities\Views\ViewUtilitiesSettingsView.xaml.cs">
-      <DependentUpon>ViewUtilitiesSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewUtilities\ViewUnderlays.cs" />
-    <Compile Include="ViewUtilities\RemoveUnderlaysCommand.cs" />
-    <Compile Include="ViewUtilities\UserView.cs" />
-    <Compile Include="ViewUtilities\CreateUserViewCommand.cs" />
-    <Compile Include="ViewUtilities\ViewUtilitiesSettings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>ViewUtilitiesSettings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="WorksharingUtilities\WorksharingUtilitiesCommand.cs" />
+    <Compile Remove="SharedAssemblyInfo.cs" />
   </ItemGroup>
+
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <None Remove="Assets\about.bmp" />
+    <None Remove="Assets\add.png" />
+    <None Remove="Assets\align.png" />
+    <None Remove="Assets\check.png" />
+    <None Remove="Assets\checkdoc.png" />
+    <None Remove="Assets\clock.png" />
+    <None Remove="Assets\comment.png" />
+    <None Remove="Assets\config.png" />
+    <None Remove="Assets\config2.png" />
+    <None Remove="Assets\copy.png" />
+    <None Remove="Assets\doc.png" />
+    <None Remove="Assets\edit.png" />
+    <None Remove="Assets\edit2.png" />
+    <None Remove="Assets\filter.png" />
+    <None Remove="Assets\find.png" />
+    <None Remove="Assets\folder.png" />
+    <None Remove="Assets\gear.png" />
+    <None Remove="Assets\hamburger.png" />
+    <None Remove="Assets\help.png" />
+    <None Remove="Assets\help2.png" />
+    <None Remove="Assets\home.png" />
+    <None Remove="Assets\keyboard.png" />
+    <None Remove="Assets\lightbulb.png" />
+    <None Remove="Assets\list.png" />
+    <None Remove="Assets\list_off.png" />
+    <None Remove="Assets\lua.png" />
+    <None Remove="Assets\none.png" />
+    <None Remove="Assets\north.png" />
+    <None Remove="Assets\north_off.png" />
+    <None Remove="Assets\open.png" />
+    <None Remove="Assets\pin.png" />
+    <None Remove="Assets\preoperty.png" />
+    <None Remove="Assets\recent.png" />
+    <None Remove="Assets\refresh.png" />
+    <None Remove="Assets\remove_filter.png" />
+    <None Remove="Assets\rename.png" />
+    <None Remove="Assets\revision.png" />
+    <None Remove="Assets\Ribbon\back-rvt-16.png" />
+    <None Remove="Assets\Ribbon\checkdoc-rvt-16.png" />
+    <None Remove="Assets\Ribbon\find-rvt-16.png" />
+    <None Remove="Assets\Ribbon\forward-rvt-16.png" />
+    <None Remove="Assets\Ribbon\gear-rvt-16.png" />
+    <None Remove="Assets\Ribbon\hatch-rvt-16.png" />
+    <None Remove="Assets\Ribbon\help-rvt-16.png" />
+    <None Remove="Assets\Ribbon\info-rvt-16.png" />
+    <None Remove="Assets\Ribbon\lua-rvt-16.png" />
+    <None Remove="Assets\Ribbon\scam-rvt-16.png" />
+    <None Remove="Assets\Ribbon\scaos-rvt-16.png" />
+    <None Remove="Assets\Ribbon\scasfar-rvt-16.png" />
+    <None Remove="Assets\Ribbon\scexport-rvt-16.png" />
+    <None Remove="Assets\Ribbon\scexport-rvt.png" />
+    <None Remove="Assets\Ribbon\scightlines-rvt-16.png" />
+    <None Remove="Assets\Ribbon\scincrement-rvt-16.png" />
+    <None Remove="Assets\Ribbon\scloudsched-rvt-16.png" />
+    <None Remove="Assets\Ribbon\scoord-rvt-16.png" />
+    <None Remove="Assets\Ribbon\scopy-rvt-16.png" />
+    <None Remove="Assets\Ribbon\script-rvt-16.png" />
+    <None Remove="Assets\Ribbon\sculcase-rvt-16.png" />
+    <None Remove="Assets\Ribbon\scwash-rvt-16.png" />
+    <None Remove="Assets\Ribbon\spelling-rvt-16.png" />
+    <None Remove="Assets\Ribbon\table-rvt-16.png" />
+    <None Remove="Assets\Ribbon\user-rvt-16.png" />
+    <None Remove="Assets\ruler.png" />
+    <None Remove="Assets\save.png" />
+    <None Remove="Assets\scam.png" />
+    <None Remove="Assets\scaos-rvt-16.png" />
+    <None Remove="Assets\scaos.png" />
+    <None Remove="Assets\scasfar.png" />
+    <None Remove="Assets\scexport.png" />
+    <None Remove="Assets\scexport32.png" />
+    <None Remove="Assets\scightlines.png" />
+    <None Remove="Assets\source.png" />
+    <None Remove="Assets\table.png" />
+    <None Remove="Assets\tick.png" />
+    <None Remove="Assets\type.png" />
+    <None Remove="Assets\underlay.png" />
+    <None Remove="Assets\user.png" />
+    <None Remove="Assets\view.png" />
+    <None Remove="Assets\xmlElement.png" />
+    <None Remove="Assets\xmlFile.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\etc\en_AU.aff">
-      <Link>Assets\en_AU.aff</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\etc\en_AU.dic">
-      <Link>Assets\en_AU.dic</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\share\SCexport-example-conf.xml">
-      <Link>SCexport-example-conf.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <EmbeddedResource Include="Assets\Ribbon\lua-rvt-16.png" />
-    <Resource Include="Assets\lua.png" />
-    <Resource Include="Assets\align.png" />
-    <Resource Include="Assets\help2.png" />
-    <Resource Include="Assets\edit2.png" />
-    <EmbeddedResource Include="Assets\Ribbon\info-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\back-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\find-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\forward-rvt-16.png" />
-    <Resource Include="Assets\north_off.png" />
-    <Resource Include="Assets\list_off.png" />
-    <Resource Include="Assets\list.png" />
-    <Resource Include="Assets\table.png" />
-    <EmbeddedResource Include="Assets\Ribbon\table-rvt-16.png" />
-    <Resource Include="Assets\recent.png" />
-    <EmbeddedResource Include="Assets\Ribbon\gear-rvt-16.png" />
-    <None Include="ExportSchedules\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="SheetCopier\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="ViewUtilities\ViewUtilitiesSettings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>ViewUtilitiesSettings.Designer.cs</LastGenOutput>
-    </None>
-    <Resource Include="Assets\filter.png" />
-    <Resource Include="Assets\pin.png" />
-    <None Include="app.config" />
-    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
-    <None Include="ModelSetupWizard\ModelSetupWizardSettings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>ModelSetupWizardSettings.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="packages.config" />
-    <None Include="SCaddins.addin" />
-    <None Include="SpellChecker\SpellCheckerSettings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>SpellCheckerSettings.Designer.cs</LastGenOutput>
-    </None>
-    <Resource Include="Assets\gear.png" />
-    <Resource Include="Assets\help.png" />
-    <Resource Include="Assets\user.png" />
-    <None Include="Scaddins.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Scaddins.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="ExportManager\Settings1.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="ParameterUtilities\IncrementSettings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>SCincrementSettings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Common\Views\SettingsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Common\Views\AboutView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Common\Views\LayoutManagerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Common\Views\UpgradeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DestructivePurge\Views\DestructivePurgeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ExportManager\Views\ConfirmationDialogView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ExportManager\Views\ExportLogView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ExportManager\Views\OpenSheetView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ExportManager\Views\OptionsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ExportManager\Views\PrinterSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ExportManager\Views\ProgressMonitorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ExportManager\Views\TemplateViewView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ExportManager\Views\ToggleSelectedSheetParametersVIew.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ExportManager\Views\RevisionSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ExportManager\Views\SCexportView.xaml" />
-    <Page Include="ExportManager\Views\ViewSetSaveAsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ExportManager\Views\ViewSetSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ExportSchedules\Views\ExportSchedulesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ExportSchedules\Views\OptionsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="HatchEditor\Views\HatchEditorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="HatchEditor\Views\SaveToModelView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="HatchEditor\Views\SetTemplateParametersView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="HatchEditor\Views\SelectHatchView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="LineOfSight\Views\LineOfSightView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ModelSetupWizard\Views\ModelSetupWizardOptionsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ParameterUtilities\Views\SCincrementView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlaceCoordinate\Views\PlaceCoordinateView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="RenameUtilities\Views\RenameUtilitiesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="RevisionUtilities\Views\RevisionUtilitiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="RoomConverter\Views\ListSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="RoomConverter\Views\RoomConvertorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="RoomConverter\Views\RoomFilterView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="RoomConverter\Views\RoomToSheetWizardView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="RoomConverter\Views\SettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="RunScript\Views\RunScriptView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SheetCopier\Views\SheetCopierView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SheetCopier\Views\ViewSelectionVIew.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SheetCopier\Views\SheetCopierSettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SolarAnalysis\Views\SolarViewsView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SpellChecker\Views\SpellCheckerOptionsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SpellChecker\Views\SpellCheckerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ViewUtilities\Views\ViewUtilitiesSettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
+
   <ItemGroup>
     <Resource Include="Assets\about.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\copy.png" />
-    <Resource Include="Assets\open.png" />
-    <Resource Include="Assets\rename.png" />
-    <Resource Include="Assets\revision.png" />
-    <Resource Include="Assets\underlay.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\north.png" />
     <Resource Include="Assets\add.png" />
+    <Resource Include="Assets\align.png" />
     <Resource Include="Assets\check.png" />
+    <Resource Include="Assets\checkdoc.png" />
+    <Resource Include="Assets\clock.png" />
     <Resource Include="Assets\comment.png" />
     <Resource Include="Assets\config.png" />
+    <Resource Include="Assets\config2.png" />
+    <Resource Include="Assets\copy.png" />
     <Resource Include="Assets\doc.png" />
     <Resource Include="Assets\edit.png" />
+    <Resource Include="Assets\edit2.png" />
+    <Resource Include="Assets\filter.png" />
     <Resource Include="Assets\find.png" />
-    <Resource Include="Assets\keyboard.png" />
-    <Resource Include="Assets\remove_filter.png" />
-    <Resource Include="Assets\ruler.png" />
-    <Resource Include="Assets\source.png" />
-    <Resource Include="Assets\xmlElement.png" />
-    <Resource Include="Assets\xmlFile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\hamburger.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\clock.png" />
-    <Resource Include="Assets\config2.png" />
     <Resource Include="Assets\folder.png" />
+    <Resource Include="Assets\gear.png" />
+    <Resource Include="Assets\hamburger.png" />
+    <Resource Include="Assets\help.png" />
+    <Resource Include="Assets\help2.png" />
     <Resource Include="Assets\home.png" />
+    <Resource Include="Assets\keyboard.png" />
+    <Resource Include="Assets\lightbulb.png" />
+    <Resource Include="Assets\list.png" />
+    <Resource Include="Assets\list_off.png" />
+    <Resource Include="Assets\lua.png" />
+    <Resource Include="Assets\none.png" />
+    <Resource Include="Assets\north.png" />
+    <Resource Include="Assets\north_off.png" />
+    <Resource Include="Assets\open.png" />
+    <Resource Include="Assets\pin.png" />
+    <Resource Include="Assets\preoperty.png" />
+    <Resource Include="Assets\recent.png" />
+    <Resource Include="Assets\refresh.png" />
+    <Resource Include="Assets\remove_filter.png" />
+    <Resource Include="Assets\rename.png" />
+    <Resource Include="Assets\revision.png" />
+    <EmbeddedResource Include="Assets\Ribbon\back-rvt-16.png" />
+    <EmbeddedResource Include="Assets\Ribbon\checkdoc-rvt-16.png" />
+    <EmbeddedResource Include="Assets\Ribbon\find-rvt-16.png" />
+    <EmbeddedResource Include="Assets\Ribbon\forward-rvt-16.png" />
+    <EmbeddedResource Include="Assets\Ribbon\gear-rvt-16.png" />
+    <EmbeddedResource Include="Assets\Ribbon\hatch-rvt-16.png" />
+    <EmbeddedResource Include="Assets\Ribbon\help-rvt-16.png" />
+    <EmbeddedResource Include="Assets\Ribbon\info-rvt-16.png" />
+    <EmbeddedResource Include="Assets\Ribbon\lua-rvt-16.png" />
     <EmbeddedResource Include="Assets\Ribbon\scam-rvt-16.png" />
     <EmbeddedResource Include="Assets\Ribbon\scaos-rvt-16.png" />
     <EmbeddedResource Include="Assets\Ribbon\scasfar-rvt-16.png" />
@@ -1002,88 +177,47 @@
     <EmbeddedResource Include="Assets\Ribbon\scloudsched-rvt-16.png" />
     <EmbeddedResource Include="Assets\Ribbon\scoord-rvt-16.png" />
     <EmbeddedResource Include="Assets\Ribbon\scopy-rvt-16.png" />
+    <EmbeddedResource Include="Assets\Ribbon\script-rvt-16.png" />
     <EmbeddedResource Include="Assets\Ribbon\sculcase-rvt-16.png" />
     <EmbeddedResource Include="Assets\Ribbon\scwash-rvt-16.png" />
+    <EmbeddedResource Include="Assets\Ribbon\spelling-rvt-16.png" />
+    <EmbeddedResource Include="Assets\Ribbon\table-rvt-16.png" />
     <EmbeddedResource Include="Assets\Ribbon\user-rvt-16.png" />
-    <Resource Include="Assets\tick.png" />
-    <Resource Include="Assets\type.png" />
-    <Resource Include="Assets\lightbulb.png" />
-    <Resource Include="Assets\none.png" />
-    <Resource Include="Assets\preoperty.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\refresh.png" />
-    <EmbeddedResource Include="Assets\Ribbon\help-rvt-16.png" />
+    <Resource Include="Assets\ruler.png" />
+    <Resource Include="Assets\save.png" />
     <Resource Include="Assets\scam.png" />
+    <Resource Include="Assets\scaos-rvt-16.png" />
     <Resource Include="Assets\scaos.png" />
     <Resource Include="Assets\scasfar.png" />
     <Resource Include="Assets\scexport.png" />
     <Resource Include="Assets\scexport32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\save.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\view.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="ModelSetupWizard\Views\ModelSetupWizardView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Assets\Ribbon\checkdoc-rvt-16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\checkdoc.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\scightlines.png" />
+    <Resource Include="Assets\source.png" />
+    <Resource Include="Assets\table.png" />
+    <Resource Include="Assets\tick.png" />
+    <Resource Include="Assets\type.png" />
+    <Resource Include="Assets\underlay.png" />
+    <Resource Include="Assets\user.png" />
+    <Resource Include="Assets\view.png" />
+    <Resource Include="Assets\xmlElement.png" />
+    <Resource Include="Assets\xmlFile.png" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Assets\Ribbon\hatch-rvt-16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\BuildDate.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Assets\Ribbon\script-rvt-16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Assets\Ribbon\spelling-rvt-16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Hunspellx64.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Hunspellx86.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="packages\Text.Analyzers.3.11.0-beta1.24122.1\analyzers\dotnet\cs\Humanizer.dll" />
-    <Analyzer Include="packages\Text.Analyzers.3.11.0-beta1.24122.1\analyzers\dotnet\cs\Text.Analyzers.dll" />
-    <Analyzer Include="packages\Text.Analyzers.3.11.0-beta1.24122.1\analyzers\dotnet\cs\Text.CSharp.Analyzers.dll" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('packages\KeraLua.1.4.1\build\net46\KeraLua.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\KeraLua.1.4.1\build\net46\KeraLua.targets'))" />
-    <Error Condition="!Exists('packages\StyleCop.MSBuild.6.2.0\build\StyleCop.MSBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\StyleCop.MSBuild.6.2.0\build\StyleCop.MSBuild.targets'))" />
-    <Error Condition="!Exists('packages\ExcelDna.Interop.15.0.1\build\ExcelDna.Interop.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\ExcelDna.Interop.15.0.1\build\ExcelDna.Interop.targets'))" />
-  </Target>
-  <PropertyGroup>
-    <PreBuildEvent>if not exist $(ProjectDir)\Resources mkdir $(ProjectDir)\Resources
-echo %25date%25 %25time%25 &gt; "$(ProjectDir)\Resources\BuildDate.txt"
 
-copy $(ProjectDir)\packages\NHunspell.1.2.5554.16953\content\Hunspellx64.dll $(ProjectDir)\Hunspellx64.dll
+  <ItemGroup>
+    <PackageReference Include="Caliburn.Micro" Version="4.0.212" />
+    <PackageReference Include="CoreCLR-NCalc" Version="3.1.233" />
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.0" />
+    <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
+    <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2025.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.3" />
+  </ItemGroup>
 
-copy $(ProjectDir)\packages\NHunspell.1.2.5554.16953\content\Hunspellx86.dll $(ProjectDir)\Hunspellx86.dll</PreBuildEvent>
-  </PropertyGroup>
-  <Import Project="packages\KeraLua.1.4.1\build\net46\KeraLua.targets" Condition="Exists('packages\KeraLua.1.4.1\build\net46\KeraLua.targets')" />
-  <Import Project="packages\StyleCop.MSBuild.6.2.0\build\StyleCop.MSBuild.targets" Condition="Exists('packages\StyleCop.MSBuild.6.2.0\build\StyleCop.MSBuild.targets')" />
-  <Import Project="packages\ExcelDna.Interop.15.0.1\build\ExcelDna.Interop.targets" Condition="Exists('packages\ExcelDna.Interop.15.0.1\build\ExcelDna.Interop.targets')" />
+  <ItemGroup>
+    <None Update="RevisionUtilities\Views\RevisionUtilitiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
+
 </Project>

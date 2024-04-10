@@ -1,61 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.9.34701.34
+VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCaddins", "SCaddins.csproj", "{AD62F888-78A1-4E0B-9820-5989630FC8C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCaddins", "SCaddins.csproj", "{27F35A98-001A-4309-A488-95632B96BDDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
-		Release|x64 = Release|x64
-		Release2020|Any CPU = Release2020|Any CPU
-		Release2020|x64 = Release2020|x64
-		Release2021|Any CPU = Release2021|Any CPU
-		Release2021|x64 = Release2021|x64
-		Release2022|Any CPU = Release2022|Any CPU
-		Release2022|x64 = Release2022|x64
-		Release2023|Any CPU = Release2023|Any CPU
-		Release2023|x64 = Release2023|x64
-		Release2024|Any CPU = Release2024|Any CPU
-		Release2024|x64 = Release2024|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Debug|Any CPU.Build.0 = Debug|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Debug|x64.ActiveCfg = Debug|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Debug|x64.Build.0 = Debug|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release|Any CPU.ActiveCfg = Release2024|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release|Any CPU.Build.0 = Release2024|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release|x64.ActiveCfg = Release2024|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release|x64.Build.0 = Release2024|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2020|Any CPU.ActiveCfg = Release2020|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2020|Any CPU.Build.0 = Release2020|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2020|x64.ActiveCfg = Release2020|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2020|x64.Build.0 = Release2020|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2021|Any CPU.ActiveCfg = Release2021|Any
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2021|Any CPU.Build.0 = Release2021|Any
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2021|x64.ActiveCfg = Release2021|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2021|x64.Build.0 = Release2021|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2022|Any CPU.ActiveCfg = Release2022|Any
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2022|Any CPU.Build.0 = Release2022|Any
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2022|x64.ActiveCfg = Release2022|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2022|x64.Build.0 = Release2022|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2023|Any CPU.ActiveCfg = Release2023|Any
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2023|Any CPU.Build.0 = Release2023|Any
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2023|x64.ActiveCfg = Release2023|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2023|x64.Build.0 = Release2023|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2024|Any CPU.ActiveCfg = Release2024|Any
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2024|Any CPU.Build.0 = Release2024|Any
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2024|x64.ActiveCfg = Release2024|x64
-		{AD62F888-78A1-4E0B-9820-5989630FC8C6}.Release2024|x64.Build.0 = Release2024|x64
+		{27F35A98-001A-4309-A488-95632B96BDDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27F35A98-001A-4309-A488-95632B96BDDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27F35A98-001A-4309-A488-95632B96BDDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27F35A98-001A-4309-A488-95632B96BDDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {ED1D0C9E-F76E-41DE-B529-6A5E06749E6F}
+		SolutionGuid = {5F957540-0E25-4A39-8B16-D7F53F58891F}
 	EndGlobalSection
 EndGlobal

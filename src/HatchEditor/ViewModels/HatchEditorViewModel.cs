@@ -22,7 +22,6 @@ namespace SCaddins.HatchEditor.ViewModels
     using System.IO;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
-    using Microsoft.Office.Interop.Excel;
 
     internal class HatchEditorViewModel : Screen
     {

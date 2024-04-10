@@ -448,7 +448,8 @@ namespace SCaddins.SolarAnalysis.ViewModels
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;
             }
             viewModel.SelectedCloseMode = CloseMode.Close;
-            return SCaddinsApp.WindowManager.ShowDialogAsync(viewModel, null, settings);
+            SCaddinsApp.WindowManager.ShowDialogAsync(viewModel, null, settings);
+            return Task.FromResult(true);
         }
 
         public void Clear()
@@ -504,9 +505,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
             Size = SCaddinsApp.WindowManager.Size;
             Left = SCaddinsApp.WindowManager.Left;
             Top = SCaddinsApp.WindowManager.Top;
-            Task result = null;
-
-            base.OnDeactivateAsync(true, cancellationToken);
+            
 
             switch (selectedCloseMode)
             {
@@ -535,8 +534,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
                         SCaddinsApp.WindowManager.ShowMessageBox(ffduex.Message);
                         FaceSelection = null;
                     }
-                    result = Respawn(this, true);
-                    break;
+                    return Respawn(this, true);
 
                 case CloseMode.MassSelection:
                     try
@@ -563,10 +561,9 @@ namespace SCaddins.SolarAnalysis.ViewModels
                         SCaddinsApp.WindowManager.ShowMessageBox(ffduex.Message);
                         MassSelection = null;
                     }
-                    result = Respawn(this, true);
-                    break;
+                    return Respawn(this, true);
             }
-            return result;
+            return Task.FromResult(true);
         }
     }
 }
