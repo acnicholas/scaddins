@@ -24,7 +24,7 @@ namespace SCaddins.Common
     internal static class ConsoleUtilities
     {
         [SecurityCritical]
-        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+        //[PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         internal static void StartHiddenConsoleProg(string exePath, string args)
         {
             // SCaddinsApp.WindowManager.ShowMessageBox("XXX " + exePath, args);
@@ -39,7 +39,7 @@ namespace SCaddins.Common
         }
 
         [SecurityCritical]
-        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+        //[PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         internal static void StartHiddenConsoleProg(string exePath, string args, int waitTime)
         {
             if (System.IO.File.Exists(exePath) == false)

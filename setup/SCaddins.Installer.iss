@@ -54,6 +54,9 @@ Name: revit2023; Description: "Revit 2023 add-in"; Types: full custom
 #if R2024 == "Enabled"
 Name: revit2024; Description: "Revit 2024 add-in"; Types: full custom
 #endif
+#if R2025 == "Enabled"
+Name: revit2025; Description: "Revit 2025 add-in"; Types: full custom
+#endif
 
 [Files]
 ; Always install shared files;
@@ -62,97 +65,32 @@ Name: revit2024; Description: "Revit 2024 add-in"; Types: full custom
 	
 #if R2020 == "Enabled"
     Source: "..\src\bin\Release2020\SCaddins2020.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2020\"; DestName: "SCaddins20.addin"; Flags: ignoreversion; Components: revit2020 
-    Source: "..\src\bin\Release2020\SCaddins.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020  
-    Source: "..\src\bin\Release2020\Newtonsoft.Json.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
-    Source: "..\src\bin\Release2020\Caliburn.Micro.Core.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
-    Source: "..\src\bin\Release2020\Caliburn.Micro.Platform.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
-    Source: "..\src\bin\Release2020\Caliburn.Micro.Platform.Core.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
-    Source: "..\src\bin\Release2020\lua54.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
-    Source: "..\src\bin\Release2020\NLua.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
-    Source: "..\src\bin\Release2020\KeraLua.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
-    Source: "..\src\bin\Release2020\INIFileParser.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
-    Source: "..\src\bin\Release2020\Xceed.Wpf.Toolkit.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
-    Source: "..\src\bin\Release2020\NHunspell.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
-    Source: "..\src\Hunspellx64.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
-    Source: "..\src\bin\Release2020\FastColoredTextBox.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
-    Source: "..\src\bin\Release2020\EPPlus.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
-	Source: "..\src\bin\Release2020\NCalc.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020 
+    Source: "..\src\bin\Release2020\*.dll"; Excludes: "Revit*.dll,AdWindows.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020  
 #endif
 	
 #if R2021 == "Enabled"
     Source: "..\src\bin\Release2021\SCaddins2021.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2021\"; DestName: "SCaddins21.addin"; Flags: ignoreversion; Components: revit2021 
-    Source: "..\src\bin\Release2021\SCaddins.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021 
-    Source: "..\src\bin\Release2021\Newtonsoft.Json.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
-    Source: "..\src\bin\Release2021\Caliburn.Micro.Core.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
-    Source: "..\src\bin\Release2021\Caliburn.Micro.Platform.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
-    Source: "..\src\bin\Release2021\Caliburn.Micro.Platform.Core.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
-    Source: "..\src\bin\Release2021\lua54.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
-    Source: "..\src\bin\Release2021\NLua.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
-    Source: "..\src\bin\Release2021\KeraLua.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
-    Source: "..\src\bin\Release2021\INIFileParser.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
-    Source: "..\src\bin\Release2021\Xceed.Wpf.Toolkit.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
-    Source: "..\src\bin\Release2021\NHunspell.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
-    Source: "..\src\Hunspellx64.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
-    Source: "..\src\bin\Release2021\FastColoredTextBox.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
-    Source: "..\src\bin\Release2021\EPPlus.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
-	Source: "..\src\bin\Release2021\NCalc.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021
+    Source: "..\src\bin\Release2021\*.dll"; Excludes: "Revit*.dll,AdWindows.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021 
 #endif
 	
 #if R2022 == "Enabled"
     Source: "..\src\bin\Release2022\SCaddins2022.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2022\"; DestName: "SCaddins22.addin"; Flags: ignoreversion; Components: revit2022 
-    Source: "..\src\bin\Release2022\SCaddins.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022  
-    Source: "..\src\bin\Release2022\Newtonsoft.Json.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
-    Source: "..\src\bin\Release2022\Caliburn.Micro.Core.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
-    Source: "..\src\bin\Release2022\Caliburn.Micro.Platform.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
-    Source: "..\src\bin\Release2022\Caliburn.Micro.Platform.Core.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
-    Source: "..\src\bin\Release2022\lua54.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
-    Source: "..\src\bin\Release2022\NLua.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
-    Source: "..\src\bin\Release2022\KeraLua.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
-    Source: "..\src\bin\Release2022\INIFileParser.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
-    Source: "..\src\bin\Release2022\Xceed.Wpf.Toolkit.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
-    Source: "..\src\bin\Release2022\NHunspell.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
-    Source: "..\src\Hunspellx64.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
-    Source: "..\src\bin\Release2022\FastColoredTextBox.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022 
-    Source: "..\src\bin\Release2022\EPPlus.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022
-	Source: "..\src\bin\Release2022\NCalc.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022
+    Source: "..\src\bin\Release2022\*.dll"; Excludes: "Revit*.dll,AdWindows.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022  
 #endif
 	
 #if R2023 == "Enabled"
     Source: "..\src\bin\Release2023\SCaddins2023.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2023\"; DestName: "SCaddins23.addin"; Flags: ignoreversion; Components: revit2023  
-    Source: "..\src\bin\Release2023\SCaddins.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023  
-    Source: "..\src\bin\Release2023\Newtonsoft.Json.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
-    Source: "..\src\bin\Release2023\Caliburn.Micro.Core.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
-    Source: "..\src\bin\Release2023\Caliburn.Micro.Platform.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
-    Source: "..\src\bin\Release2023\Caliburn.Micro.Platform.Core.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
-    Source: "..\src\bin\Release2023\lua54.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
-    Source: "..\src\bin\Release2023\NLua.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
-    Source: "..\src\bin\Release2023\KeraLua.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
-    Source: "..\src\bin\Release2023\INIFileParser.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
-    Source: "..\src\bin\Release2023\Xceed.Wpf.Toolkit.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
-    Source: "..\src\bin\Release2023\NHunspell.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
-    Source: "..\src\Hunspellx64.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
-    Source: "..\src\bin\Release2023\FastColoredTextBox.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
-    Source: "..\src\bin\Release2023\EPPlus.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023 
-	Source: "..\src\bin\Release2023\NCalc.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023
+    Source: "..\src\bin\Release2023\*.dll"; Excludes: "Revit*.dll,AdWindows.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023  
 #endif
 
 #if R2024 == "Enabled"
     Source: "..\src\bin\Release2024\SCaddins2024.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2024\"; DestName: "SCaddins24.addin"; Flags: ignoreversion; Components: revit2024 
-    Source: "..\src\bin\Release2024\SCaddins.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024 
-    Source: "..\src\bin\Release2024\Newtonsoft.Json.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
-    Source: "..\src\bin\Release2024\Caliburn.Micro.Core.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
-    Source: "..\src\bin\Release2024\Caliburn.Micro.Platform.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
-    Source: "..\src\bin\Release2024\Caliburn.Micro.Platform.Core.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
-    Source: "..\src\bin\Release2024\lua54.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
-    Source: "..\src\bin\Release2024\NLua.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
-    Source: "..\src\bin\Release2024\KeraLua.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
-    Source: "..\src\bin\Release2024\INIFileParser.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
-    Source: "..\src\bin\Release2024\Xceed.Wpf.Toolkit.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
-    Source: "..\src\bin\Release2024\NHunspell.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
-    Source: "..\src\Hunspellx64.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
-    Source: "..\src\bin\Release2024\FastColoredTextBox.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
-    Source: "..\src\bin\Release2024\EPPlus.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
-	Source: "..\src\bin\Release2024\NCalc.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024
+    Source: "..\src\bin\Release2024\*.dll"; Excludes: "Revit*.dll,AdWindows.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024 
+#endif
+
+#if R2025 == "Enabled"
+    Source: "..\src\bin\Release2025\SCaddins2025.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2025\"; DestName: "SCaddins24.addin"; Flags: ignoreversion; Components: revit2025 
+    Source: "..\src\bin\Release2025\*.dll"; Excludes: "Revit*.dll,AdWindows.dll"; DestDir: "{app}\2025\"; Flags: ignoreversion; Components: revit2025 
 #endif
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

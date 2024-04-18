@@ -63,7 +63,7 @@ namespace SCaddins.Common.ViewModels
                 }
 
                 return System.IO.Path.GetFileNameWithoutExtension(Assembly
-                        .GetExecutingAssembly().CodeBase.Trim());
+                        .GetExecutingAssembly().Location.Trim());
             }
         }
 

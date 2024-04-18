@@ -9,49 +9,37 @@ var target = Argument("target", "Default");
 var solutionFile = GetFiles("src/*.sln").First();
 var innoSetupFile = GetFiles("setup/*.iss").First();
 var buildDir = Directory(@"./src/bin");
+var objDir = Directory(@"./src/obj");
 
 // METHODS
 
 public MSBuildSettings GetBuildSettings(string config)
 {
 	var result = new MSBuildSettings()
-		.SetConfiguration(config)
+		.SetConfiguration("Release" + config)
 		.WithTarget("Clean,Build")
-		.WithProperty("Platform","x64")
+		.WithProperty("Platform","Any CPU")
 		.SetVerbosity(Verbosity.Minimal);
 	result.WarningsAsError = false;
+	result.Restore = true;
 	return result;
-}
-
-public bool APIAvailable(string revitVersion)
-{
-	return FileExists(@"C:\Program Files\Autodesk\Revit " + revitVersion + @"\RevitAPI.dll");
 }
 
 public string GetAssemblyFile()
 {
-    if (APIAvailable("2024")) return  System.IO.Path.GetFullPath(@"src/bin/Release2024/SCaddins.dll");
-	if (APIAvailable("2023")) return  System.IO.Path.GetFullPath(@"src/bin/Release2023/SCaddins.dll");
-	if (APIAvailable("2022")) return  System.IO.Path.GetFullPath(@"src/bin/Release2022/SCaddins.dll");
-	if (APIAvailable("2021")) return  System.IO.Path.GetFullPath(@"src/bin/Release2021/SCaddins.dll");
-	if (APIAvailable("2020")) return  System.IO.Path.GetFullPath(@"src/bin/Release2020/SCaddins.dll");
-	return string.Empty;
+    return  System.IO.Path.GetFullPath(@"src/bin/Release2025/SCaddins.dll");
 }
 
 public string GetFullVersionNumber()
 {
     var filePath = GetAssemblyFile();
-	if (string.IsNullOrEmpty(filePath))
-	{
-	    return "99.99.99.99";
-	}
     var version = FileVersionInfo.GetVersionInfo(filePath);
 	return $"{version.FileMajorPart}.{version.FileMinorPart}.{version.FileBuildPart}.{version.FilePrivatePart}";
 }
 
-// TASKS
-
 Task("Clean").Does(() => CleanDirectory(buildDir));
+
+Task("CleanOBJ").Does(() => CleanDirectory(objDir));
 
 Task("Restore-NuGet-Packages").Does(() => NuGetRestore(solutionFile));
 
@@ -67,45 +55,47 @@ Task("CreateAddinManifests")
 		    System.IO.File.WriteAllText(@"src\bin\Release2022\SCaddins2022.addin", text.Replace("_REVIT_VERSION_", "2022"));
 		if (DirectoryExists(@"src\bin\Release2023"))
 		    System.IO.File.WriteAllText(@"src\bin\Release2023\SCaddins2023.addin", text.Replace("_REVIT_VERSION_", "2023"));
-	    if (DirectoryExists(@"src\bin\Release2024"))
+		if (DirectoryExists(@"src\bin\Release2024"))
 		    System.IO.File.WriteAllText(@"src\bin\Release2024\SCaddins2024.addin", text.Replace("_REVIT_VERSION_", "2024"));
+	    if (DirectoryExists(@"src\bin\Release2025"))
+		    System.IO.File.WriteAllText(@"src\bin\Release2025\SCaddins2025.addin", text.Replace("_REVIT_VERSION_", "2025"));
 		});
 
 Task("Revit2020")
-.IsDependentOn("Restore-NuGet-Packages")
-.WithCriteria(APIAvailable("2020"))
-.Does(() => MSBuild(solutionFile, GetBuildSettings("Release2020")));
+.IsDependentOn("CleanOBJ")
+.Does(() => MSBuild(solutionFile, GetBuildSettings("2020")));
 
 Task("Revit2021")
-.IsDependentOn("Restore-NuGet-Packages")
-.WithCriteria(APIAvailable("2021"))
-.Does(() => MSBuild(solutionFile, GetBuildSettings("Release2021")));
+.IsDependentOn("CleanOBJ")
+.Does(() => MSBuild(solutionFile, GetBuildSettings("2021")));
 
 Task("Revit2022")
-.IsDependentOn("Restore-NuGet-Packages")
-.WithCriteria(APIAvailable("2022"))
-.Does(() => MSBuild(solutionFile, GetBuildSettings("Release2022")));
+.IsDependentOn("CleanOBJ")
+.Does(() => MSBuild(solutionFile, GetBuildSettings("2022")));
 
 Task("Revit2023")
-.IsDependentOn("Restore-NuGet-Packages")
-.WithCriteria(APIAvailable("2023"))
-.Does(() => MSBuild(solutionFile, GetBuildSettings("Release2023")));
+.IsDependentOn("CleanOBJ")
+.Does(() => MSBuild(solutionFile, GetBuildSettings("2023")));
 
 Task("Revit2024")
-.IsDependentOn("Restore-NuGet-Packages")
-.WithCriteria(APIAvailable("2024"))
-.Does(() => MSBuild(solutionFile, GetBuildSettings("Release2024")));
+.IsDependentOn("CleanOBJ")
+.Does(() => MSBuild(solutionFile, GetBuildSettings("2024")));
+
+Task("Revit2025")
+.IsDependentOn("CleanOBJ")
+.Does(() => MSBuild(solutionFile, GetBuildSettings("2025")));
 
 Task("Installer")
 .Does(() =>
 		{
 		var version = GetFullVersionNumber();		
 		Dictionary<string, string> dict =  new Dictionary<string, string>();
-		dict.Add("R2020", APIAvailable("2020") ? "Enabled" : "Disabled");
-		dict.Add("R2021", APIAvailable("2021") ? "Enabled" : "Disabled");
-		dict.Add("R2022", APIAvailable("2022") ? "Enabled" : "Disabled");
-		dict.Add("R2023", APIAvailable("2023") ? "Enabled" : "Disabled");
-		dict.Add("R2024", APIAvailable("2024") ? "Enabled" : "Disabled");
+		dict.Add("R2020", "Enabled");
+		dict.Add("R2021", "Enabled");
+		dict.Add("R2022", "Enabled");
+		dict.Add("R2023", "Enabled");
+		dict.Add("R2024", "Enabled");
+		dict.Add("R2025", "Enabled");
 		dict.Add("MyAppVersion", version); 
 		var settings = new InnoSetupSettings();
 		settings.Defines = dict;
@@ -120,11 +110,13 @@ Task("Dist")
 
 Task("Default")
 .IsDependentOn("Clean")
+.IsDependentOn("Restore-NuGet-Packages")
 .IsDependentOn("Revit2020")
 .IsDependentOn("Revit2021")
 .IsDependentOn("Revit2022")
 .IsDependentOn("Revit2023")
 .IsDependentOn("Revit2024")
+.IsDependentOn("Revit2025")
 .IsDependentOn("CreateAddinManifests");
 
 RunTarget(target);

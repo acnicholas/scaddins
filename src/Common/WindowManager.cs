@@ -101,7 +101,9 @@ namespace SCaddins.Common
             dialogService.ShowWarningMessageBox(title, message);
         }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public override async Task ShowPopupAsync(object rootModel, object context = null, IDictionary<string, object> settings = null)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             throw new NotImplementedException();
         }

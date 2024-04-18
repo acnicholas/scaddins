@@ -214,7 +214,7 @@ namespace SCaddins.GridManager
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
             var selection = udoc.Selection.GetElementIds().ToList();
             var vm = new ViewModels.GridManagerViewModel(udoc.ActiveView, selection);
-            SCaddinsApp.WindowManager.ShowDialog(vm, null, settings);
+            SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, settings);
             return Result.Succeeded;
         }
 

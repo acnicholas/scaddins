@@ -4,7 +4,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:SCaddins.RunScript.Views"
              mc:Ignorable="d" 
              MinHeight="480"
              MinWidth="640"
@@ -62,20 +61,17 @@
                     cal:Message.Attach="[Action NavigateTo('https://www.lua.org/manual/5.4')]"/>
             </MenuItem>
         </Menu>
-        <local:MvvmTextEditor 
+        <TextBox
             Grid.Row="1"
             Text="{Binding Script, Mode=TwoWay}"
             FontFamily="Consolas" 
-            TextSize="{Binding FontSize, Mode=TwoWay}" 
+            FontSize="{Binding FontSize, Mode=TwoWay}"
             Margin="5" 
             MinWidth="480"
             MinHeight="240" 
-            BackgroundColour="{Binding Background}"
-            ForegroundColour="{Binding Foreground}"
-            SyntaxColours="{Binding SyntaxColoursList}"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch">
-        </local:MvvmTextEditor>
+        </TextBox>
         <GridSplitter Grid.Row="2" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Width="Auto"></GridSplitter>
         <Label Grid.Row="3" HorizontalAlignment="Left" Padding="5">Output:</Label>
         <ListBox 

@@ -528,7 +528,7 @@ namespace SCaddins.ExportManager
         }
 
         [SecurityCritical]
-        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+        //[PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
         public void ExportSheet(ExportSheet sheet, ExportLog log)
         {
             if (log == null)
@@ -1103,7 +1103,9 @@ namespace SCaddins.ExportManager
 
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PrinterJobControl")]
         [SecurityCritical]
+#if NET48
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+#endif
         private static bool SetAcrobatExportRegistryVal(string fileName, ExportLog log)
         {
             var exe = Process.GetCurrentProcess().MainModule.FileName;
@@ -1203,7 +1205,9 @@ namespace SCaddins.ExportManager
         }
 
         [SecurityCritical]
+#if NET48
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+#endif
         private void ExportAdobePDF(ExportSheet vs, ExportLog log)
         {
 #if !REVIT2022 && !REVIT2023 && !REVIT2024
@@ -1215,14 +1219,18 @@ namespace SCaddins.ExportManager
         }
 
         [SecurityCritical]
+#if NET48
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+#endif
         private void ExportPDF24(ExportSheet vs, ExportLog log)
         {
             ExportPDF(vs, log);
         }
 
         [SecurityCritical]
+#if NET48
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+#endif
         private void ExportPDF(ExportSheet vs, ExportLog log)
         {
             if (log != null) {

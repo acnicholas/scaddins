@@ -24,6 +24,7 @@ namespace SCaddins
     using System.IO;
     using System.Linq;
     using System.Net;
+    using System.Net.Http;
     using System.Reflection;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
@@ -72,7 +73,11 @@ namespace SCaddins
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             var uri = new Uri("https://api.github.com/repos/acnicholas/scaddins/releases/latest");
+#if NET48
             var webRequest = WebRequest.Create(uri) as HttpWebRequest;
+#else
+            var webRequest = WebRequest.Create(uri) as HttpWebRequest;
+#endif
             if (webRequest == null)
             {
                 return;
@@ -175,7 +180,11 @@ namespace SCaddins
                 return Result.Failed;
             }
 
+#if NET48
             var scdll = new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
+#else
+            var scdll = new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).Location).LocalPath;
+#endif
 
             ribbonPanel.AddItem(LoadScexport(scdll));
             ribbonPanel.AddStackedItems(
@@ -387,7 +396,7 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "Export Schedules", "Export Schedules", dll, "SCaddins.ExportSchedules.Command");
             AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.table-rvt-16.png", 16, dll);
-            //// pbd.ToolTip = Resources.ScheduleCloudsToolTip;
+            pbd.ToolTip = Resources.ScheduleCloudsToolTip;
             return pbd;
         }
 

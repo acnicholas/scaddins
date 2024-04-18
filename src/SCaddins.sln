@@ -3,18 +3,33 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCaddins", "SCaddins.csproj", "{27F35A98-001A-4309-A488-95632B96BDDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCaddins", "SCaddins.csproj", "{27F35A98-001A-4309-A488-95632B96BDDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		Release2020|Any CPU = Release2020|Any CPU
+		Release2021|Any CPU = Release2021|Any CPU
+		Release2022|Any CPU = Release2022|Any CPU
+		Release2023|Any CPU = Release2023|Any CPU
+		Release2024|Any CPU = Release2024|Any CPU
+		Release2025|Any CPU = Release2025|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{27F35A98-001A-4309-A488-95632B96BDDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{27F35A98-001A-4309-A488-95632B96BDDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27F35A98-001A-4309-A488-95632B96BDDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27F35A98-001A-4309-A488-95632B96BDDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27F35A98-001A-4309-A488-95632B96BDDA}.Release2020|Any CPU.ActiveCfg = Release2020|Any CPU
+		{27F35A98-001A-4309-A488-95632B96BDDA}.Release2020|Any CPU.Build.0 = Release2020|Any CPU
+		{27F35A98-001A-4309-A488-95632B96BDDA}.Release2021|Any CPU.ActiveCfg = Release2021|Any CPU
+		{27F35A98-001A-4309-A488-95632B96BDDA}.Release2021|Any CPU.Build.0 = Release2021|Any CPU
+		{27F35A98-001A-4309-A488-95632B96BDDA}.Release2022|Any CPU.ActiveCfg = Release2022|Any CPU
+		{27F35A98-001A-4309-A488-95632B96BDDA}.Release2022|Any CPU.Build.0 = Release2022|Any CPU
+		{27F35A98-001A-4309-A488-95632B96BDDA}.Release2023|Any CPU.ActiveCfg = Release2023|Any CPU
+		{27F35A98-001A-4309-A488-95632B96BDDA}.Release2023|Any CPU.Build.0 = Release2023|Any CPU
+		{27F35A98-001A-4309-A488-95632B96BDDA}.Release2024|Any CPU.ActiveCfg = Release2024|Any CPU
+		{27F35A98-001A-4309-A488-95632B96BDDA}.Release2024|Any CPU.Build.0 = Release2024|Any CPU
+		{27F35A98-001A-4309-A488-95632B96BDDA}.Release2025|Any CPU.ActiveCfg = Release2025|Any CPU
+		{27F35A98-001A-4309-A488-95632B96BDDA}.Release2025|Any CPU.Build.0 = Release2025|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,223 +1,157 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <!-- <TargetFrameworks>net8.0-windows; net48</TargetFrameworks> -->
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
 	<UseWPF>true</UseWPF>
+	<PlatformTarget>x64</PlatformTarget>
+	<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <UseWindowsForms>true</UseWindowsForms>
+	<ImplicitUsings>disable</ImplicitUsings>
+	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	<Configurations>Debug;Release2025;Release2024;Release2023;Release2022;Release2021;Release2020</Configurations>
+	<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+	<Authors>Andrew Nicholas</Authors>
+	<Title>SCaddins</Title>
+	<InformationalVersionAttribute>25.0.0.0</InformationalVersionAttribute>
+	<AssemblyVersion>25.0.0.0</AssemblyVersion>
+	<VersionPrefix>25.0.0</VersionPrefix>
+	<AssemblyInformationalVersion>25.0.0</AssemblyInformationalVersion>
+	<AssemblyInformationalVersionAttribute>25.0.0</AssemblyInformationalVersionAttribute>
+	<FileVersion>25.0.0</FileVersion>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>$(DefineConstants);REVIT2025</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>$(DefineConstants);REVIT2025</DefineConstants>
-  </PropertyGroup>
-
+  
+     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	   <DefineConstants>$(DefineConstants);REVIT2025</DefineConstants>
+       <WarningLevel>9999</WarningLevel>
+	   <TargetFramework>net8.0-windows</TargetFramework>
+       <IsPublishable>False</IsPublishable>
+       <Deterministic>False</Deterministic>
+	   <TargetFramework>net8.0-windows</TargetFramework>
+     </PropertyGroup>
+  
+     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2025|AnyCPU'">
+	   <DefineConstants>$(DefineConstants);REVIT2025</DefineConstants>
+       <WarningLevel>4</WarningLevel>
+	   <Optimize>True</Optimize>
+	   <TargetFramework>net8.0-windows</TargetFramework>
+       <IsPublishable>False</IsPublishable>
+       <Deterministic>False</Deterministic>
+     </PropertyGroup>
+  
+     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2024|AnyCPU'">
+	   <DefineConstants>$(DefineConstants);REVIT2024</DefineConstants>
+       <Optimize>True</Optimize>
+       <WarningLevel>4</WarningLevel>
+	   <TargetFramework>net48</TargetFramework>
+       <IsPublishable>False</IsPublishable>
+       <Deterministic>False</Deterministic>
+     </PropertyGroup>
+  
+     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2023|AnyCPU'">
+	   <DefineConstants>$(DefineConstants);REVIT2023</DefineConstants>
+       <Optimize>True</Optimize>
+       <WarningLevel>4</WarningLevel>
+	   <TargetFramework>net48</TargetFramework>
+       <IsPublishable>False</IsPublishable>
+       <Deterministic>False</Deterministic>
+     </PropertyGroup>
+  
+     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2022|AnyCPU'">
+	   <DefineConstants>$(DefineConstants);REVIT2022</DefineConstants>
+       <Optimize>True</Optimize>
+       <WarningLevel>4</WarningLevel>
+	   <TargetFramework>net48</TargetFramework>
+       <IsPublishable>False</IsPublishable>
+       <Deterministic>False</Deterministic>
+     </PropertyGroup>
+  
+     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2021|AnyCPU'">
+	   <DefineConstants>$(DefineConstants);REVIT2021</DefineConstants>
+       <Optimize>True</Optimize>
+       <WarningLevel>4</WarningLevel>
+	   <TargetFramework>net48</TargetFramework>
+       <IsPublishable>False</IsPublishable>
+       <Deterministic>False</Deterministic>
+     </PropertyGroup>
+  
+     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2020|AnyCPU'">
+	   <DefineConstants>$(DefineConstants);REVIT2020</DefineConstants>
+       <Optimize>True</Optimize>
+       <WarningLevel>4</WarningLevel>
+	   <TargetFramework>net48</TargetFramework>
+       <IsPublishable>False</IsPublishable>
+       <Deterministic>False</Deterministic>
+     </PropertyGroup>
+  
   <ItemGroup>
-    <Compile Remove="ExportSchedules\**" />
-    <Compile Remove="GridManager\**" />
-    <Compile Remove="RunScript\**" />
-    <Compile Remove="SpellChecker\**" />
-    <EmbeddedResource Remove="ExportSchedules\**" />
-    <EmbeddedResource Remove="GridManager\**" />
-    <EmbeddedResource Remove="RunScript\**" />
-    <EmbeddedResource Remove="SpellChecker\**" />
-    <None Remove="ExportSchedules\**" />
-    <None Remove="GridManager\**" />
-    <None Remove="RunScript\**" />
-    <None Remove="SpellChecker\**" />
-    <Page Remove="RunScript\**" />
+    <Resource Include="Assets\*.bmp" />
+    <Resource Include="Assets\*.png" />
+    <EmbeddedResource Include="Assets\Ribbon\*.png" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="SharedAssemblyInfo.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Assets\about.bmp" />
-    <None Remove="Assets\add.png" />
-    <None Remove="Assets\align.png" />
-    <None Remove="Assets\check.png" />
-    <None Remove="Assets\checkdoc.png" />
-    <None Remove="Assets\clock.png" />
-    <None Remove="Assets\comment.png" />
-    <None Remove="Assets\config.png" />
-    <None Remove="Assets\config2.png" />
-    <None Remove="Assets\copy.png" />
-    <None Remove="Assets\doc.png" />
-    <None Remove="Assets\edit.png" />
-    <None Remove="Assets\edit2.png" />
-    <None Remove="Assets\filter.png" />
-    <None Remove="Assets\find.png" />
-    <None Remove="Assets\folder.png" />
-    <None Remove="Assets\gear.png" />
-    <None Remove="Assets\hamburger.png" />
-    <None Remove="Assets\help.png" />
-    <None Remove="Assets\help2.png" />
-    <None Remove="Assets\home.png" />
-    <None Remove="Assets\keyboard.png" />
-    <None Remove="Assets\lightbulb.png" />
-    <None Remove="Assets\list.png" />
-    <None Remove="Assets\list_off.png" />
-    <None Remove="Assets\lua.png" />
-    <None Remove="Assets\none.png" />
-    <None Remove="Assets\north.png" />
-    <None Remove="Assets\north_off.png" />
-    <None Remove="Assets\open.png" />
-    <None Remove="Assets\pin.png" />
-    <None Remove="Assets\preoperty.png" />
-    <None Remove="Assets\recent.png" />
-    <None Remove="Assets\refresh.png" />
-    <None Remove="Assets\remove_filter.png" />
-    <None Remove="Assets\rename.png" />
-    <None Remove="Assets\revision.png" />
-    <None Remove="Assets\Ribbon\back-rvt-16.png" />
-    <None Remove="Assets\Ribbon\checkdoc-rvt-16.png" />
-    <None Remove="Assets\Ribbon\find-rvt-16.png" />
-    <None Remove="Assets\Ribbon\forward-rvt-16.png" />
-    <None Remove="Assets\Ribbon\gear-rvt-16.png" />
-    <None Remove="Assets\Ribbon\hatch-rvt-16.png" />
-    <None Remove="Assets\Ribbon\help-rvt-16.png" />
-    <None Remove="Assets\Ribbon\info-rvt-16.png" />
-    <None Remove="Assets\Ribbon\lua-rvt-16.png" />
-    <None Remove="Assets\Ribbon\scam-rvt-16.png" />
-    <None Remove="Assets\Ribbon\scaos-rvt-16.png" />
-    <None Remove="Assets\Ribbon\scasfar-rvt-16.png" />
-    <None Remove="Assets\Ribbon\scexport-rvt-16.png" />
-    <None Remove="Assets\Ribbon\scexport-rvt.png" />
-    <None Remove="Assets\Ribbon\scightlines-rvt-16.png" />
-    <None Remove="Assets\Ribbon\scincrement-rvt-16.png" />
-    <None Remove="Assets\Ribbon\scloudsched-rvt-16.png" />
-    <None Remove="Assets\Ribbon\scoord-rvt-16.png" />
-    <None Remove="Assets\Ribbon\scopy-rvt-16.png" />
-    <None Remove="Assets\Ribbon\script-rvt-16.png" />
-    <None Remove="Assets\Ribbon\sculcase-rvt-16.png" />
-    <None Remove="Assets\Ribbon\scwash-rvt-16.png" />
-    <None Remove="Assets\Ribbon\spelling-rvt-16.png" />
-    <None Remove="Assets\Ribbon\table-rvt-16.png" />
-    <None Remove="Assets\Ribbon\user-rvt-16.png" />
-    <None Remove="Assets\ruler.png" />
-    <None Remove="Assets\save.png" />
-    <None Remove="Assets\scam.png" />
-    <None Remove="Assets\scaos-rvt-16.png" />
-    <None Remove="Assets\scaos.png" />
-    <None Remove="Assets\scasfar.png" />
-    <None Remove="Assets\scexport.png" />
-    <None Remove="Assets\scexport32.png" />
-    <None Remove="Assets\scightlines.png" />
-    <None Remove="Assets\source.png" />
-    <None Remove="Assets\table.png" />
-    <None Remove="Assets\tick.png" />
-    <None Remove="Assets\type.png" />
-    <None Remove="Assets\underlay.png" />
-    <None Remove="Assets\user.png" />
-    <None Remove="Assets\view.png" />
-    <None Remove="Assets\xmlElement.png" />
-    <None Remove="Assets\xmlFile.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Assets\about.bmp" />
-    <Resource Include="Assets\add.png" />
-    <Resource Include="Assets\align.png" />
-    <Resource Include="Assets\check.png" />
-    <Resource Include="Assets\checkdoc.png" />
-    <Resource Include="Assets\clock.png" />
-    <Resource Include="Assets\comment.png" />
-    <Resource Include="Assets\config.png" />
-    <Resource Include="Assets\config2.png" />
-    <Resource Include="Assets\copy.png" />
-    <Resource Include="Assets\doc.png" />
-    <Resource Include="Assets\edit.png" />
-    <Resource Include="Assets\edit2.png" />
-    <Resource Include="Assets\filter.png" />
-    <Resource Include="Assets\find.png" />
-    <Resource Include="Assets\folder.png" />
-    <Resource Include="Assets\gear.png" />
-    <Resource Include="Assets\hamburger.png" />
-    <Resource Include="Assets\help.png" />
-    <Resource Include="Assets\help2.png" />
-    <Resource Include="Assets\home.png" />
-    <Resource Include="Assets\keyboard.png" />
-    <Resource Include="Assets\lightbulb.png" />
-    <Resource Include="Assets\list.png" />
-    <Resource Include="Assets\list_off.png" />
-    <Resource Include="Assets\lua.png" />
-    <Resource Include="Assets\none.png" />
-    <Resource Include="Assets\north.png" />
-    <Resource Include="Assets\north_off.png" />
-    <Resource Include="Assets\open.png" />
-    <Resource Include="Assets\pin.png" />
-    <Resource Include="Assets\preoperty.png" />
-    <Resource Include="Assets\recent.png" />
-    <Resource Include="Assets\refresh.png" />
-    <Resource Include="Assets\remove_filter.png" />
-    <Resource Include="Assets\rename.png" />
-    <Resource Include="Assets\revision.png" />
-    <EmbeddedResource Include="Assets\Ribbon\back-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\checkdoc-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\find-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\forward-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\gear-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\hatch-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\help-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\info-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\lua-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\scam-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\scaos-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\scasfar-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\scexport-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\scexport-rvt.png" />
-    <EmbeddedResource Include="Assets\Ribbon\scightlines-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\scincrement-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\scloudsched-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\scoord-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\scopy-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\script-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\sculcase-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\scwash-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\spelling-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\table-rvt-16.png" />
-    <EmbeddedResource Include="Assets\Ribbon\user-rvt-16.png" />
-    <Resource Include="Assets\ruler.png" />
-    <Resource Include="Assets\save.png" />
-    <Resource Include="Assets\scam.png" />
-    <Resource Include="Assets\scaos-rvt-16.png" />
-    <Resource Include="Assets\scaos.png" />
-    <Resource Include="Assets\scasfar.png" />
-    <Resource Include="Assets\scexport.png" />
-    <Resource Include="Assets\scexport32.png" />
-    <Resource Include="Assets\scightlines.png" />
-    <Resource Include="Assets\source.png" />
-    <Resource Include="Assets\table.png" />
-    <Resource Include="Assets\tick.png" />
-    <Resource Include="Assets\type.png" />
-    <Resource Include="Assets\underlay.png" />
-    <Resource Include="Assets\user.png" />
-    <Resource Include="Assets\view.png" />
-    <Resource Include="Assets\xmlElement.png" />
-    <Resource Include="Assets\xmlFile.png" />
-  </ItemGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Caliburn.Micro" Version="4.0.212" />
     <PackageReference Include="CoreCLR-NCalc" Version="3.1.233" />
-    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.0" />
+    <PackageReference Include="Hunspell.Native" Version="1.2.5359.26130" />
     <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
+    <PackageReference Include="KeraLua" Version="1.4.1" />
     <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2025.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.3" />
+	<PackageReference Include="NLua" Version="1.7.2" />
+	<PackageReference Include="EPPlus" Version="7.0.0" />
+	<PackageReference Include="lua" Version="5.4.6" />
+	<PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.0" />
   </ItemGroup>
-
+  
+ <ItemGroup>
+    <PackageReference Include="NHunspell" Version="1.2.5554.16953" TargetFramework="net48" Condition="$(Configuration.Contains('2020'))" /> 
+	<PackageReference Include="NHunspell" Version="1.2.5554.16953" TargetFramework="net48" Condition="$(Configuration.Contains('2021'))" /> 
+	<PackageReference Include="NHunspell" Version="1.2.5554.16953" TargetFramework="net48" Condition="$(Configuration.Contains('2022'))" /> 
+	<PackageReference Include="NHunspell" Version="1.2.5554.16953" TargetFramework="net48" Condition="$(Configuration.Contains('2023'))" /> 
+	<PackageReference Include="NHunspell" Version="1.2.5554.16953" TargetFramework="net48" Condition="$(Configuration.Contains('2024'))" /> 
+  	<PackageReference Include="Westwind.NHUnspell.NetStandard" Version="1.3.1" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('2025'))" />
+	<PackageReference Include="Westwind.NHUnspell.NetStandard" Version="1.3.1" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('Debug'))" />
+ </ItemGroup>
+  
+ <ItemGroup>
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2020.0.1" allowedVersions="[2020.0.0,2021.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2020'))" />
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2021.1.4" allowedVersions="[2021.0.0,2022.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2021'))" />
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2022.1.0" allowedVersions="[2022.0.0,2023.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2022'))" />
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2023.0.0" allowedVersions="[2023.0.0,2024.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2023'))" />
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2024.0.0" allowedVersions="[2024.0.0,2024.99.99)" TargetFramework="net48" Condition="$(Configuration.Contains('2024'))" />
+	<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2025.0.0" allowedVersions="[2025.0.0,2026.0.0)" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('2025'))" />
+	<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2025.0.0" allowedVersions="[2025.0.0,2026.0.0)" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('Debug'))" />
+ </ItemGroup>
+  
+ <ItemGroup>
+   <Compile Update="Properties\Settings.Designer.cs">
+     <DesignTimeSharedInput>True</DesignTimeSharedInput>
+     <AutoGen>True</AutoGen>
+     <DependentUpon>Settings.settings</DependentUpon>
+   </Compile>
+ </ItemGroup>
+  
   <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Update="RevisionUtilities\Views\RevisionUtilitiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
   </ItemGroup>
+  
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="if not exist &quot;$(PojectDir)\Resources&quot; mkdir &quot;$(ProjectDir)\Resources&quot;&#xD;&#xA;echo %25date%25 %25time%25 &gt; &quot;$(ProjectDir)\Resources\BuildDate.txt&quot;" />
+  </Target>
+  
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(ProjectDir)packages\NHunspell.1.2.5554.16953\content\*.dll&quot; &quot;$(BuildDir)&quot;&#xD;&#xA;copy &quot;$(ProjectDir)packages\KeraLua.1.4.1\runtimes\win-x64\native\lua54.dll&quot; &quot;$(BuildDir)lua54.dll&quot;" />
+  </Target>
 
 </Project>
