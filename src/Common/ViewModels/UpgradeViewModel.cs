@@ -18,7 +18,10 @@
 namespace SCaddins.Common.ViewModels
 {
     using System;
+    using System.Diagnostics;
+    using System.Security.Policy;
     using Caliburn.Micro;
+    using Microsoft.Office.Interop.Excel;
 
     public class UpgradeViewModel : Screen
     {
@@ -74,12 +77,22 @@ namespace SCaddins.Common.ViewModels
 
         public static void OpenChangeLog()
         {
-            System.Diagnostics.Process.Start(Constants.ChangelogLink);
+            var ps = new ProcessStartInfo(SCaddins.Constants.ChangelogLink)
+            {
+                UseShellExecute = true,
+                Verb = "open"
+            };
+            Process.Start(ps);
         }
 
         public void Download()
         {
-            System.Diagnostics.Process.Start(downloadLink);
+            var ps = new ProcessStartInfo(downloadLink)
+            {
+                UseShellExecute = true,
+                Verb = "open"
+            };
+            Process.Start(ps);
         }
     }
 }

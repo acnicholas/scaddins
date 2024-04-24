@@ -1,7 +1,6 @@
-import ('C:\\Code\\cs\\scaddins\\src\\bin\\Debug\\SCaddins.dll', 'SCaddins')
-
-
---colour = SCaddinsApp.WindowManager:ShowFileSelectionDialog('Temp.txt', dir)
-return color
+import ('SCaddins', 'SCaddins')
+local dir = 'this is a file'
+file = SCaddinsApp.WindowManager:ShowFileSelectionDialog('Temp.txt', dir)
+return dir
 
    

@@ -49,7 +49,7 @@ namespace SCaddins.RunScript.ViewModels
             output = string.Empty;
             outputList = new BindableCollection<string>();
             LoadScratch();
-            FontSize = 12;
+            FontSize = 13;
             NotifyOfPropertyChange(() => FontSize);
             // NotifyOfPropertyChange(() => FontSizeOutput);
         }

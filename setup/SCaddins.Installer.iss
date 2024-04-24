@@ -31,6 +31,7 @@ SolidCompression=yes
 WizardStyle=modern
 WizardSmallImageFile=scaddins.bmp,scaddins.bmp
 SetupIconFile=scaddins.ico
+UninstallDisplayIcon={uninstallexe}
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 
@@ -89,7 +90,7 @@ Name: revit2025; Description: "Revit 2025 add-in"; Types: full custom
 #endif
 
 #if R2025 == "Enabled"
-    Source: "..\src\bin\Release2025\SCaddins2025.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2025\"; DestName: "SCaddins24.addin"; Flags: ignoreversion; Components: revit2025 
+    Source: "..\src\bin\Release2025\SCaddins2025.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2025\"; DestName: "SCaddins25.addin"; Flags: ignoreversion; Components: revit2025 
     Source: "..\src\bin\Release2025\*.dll"; Excludes: "Revit*.dll,AdWindows.dll"; DestDir: "{app}\2025\"; Flags: ignoreversion; Components: revit2025 
 #endif
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files

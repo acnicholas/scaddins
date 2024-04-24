@@ -591,7 +591,29 @@ namespace SCaddins.Properties {
                 return ResourceManager.GetString("General", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to GridManager
+        /// </summary>
+        internal static string GridManager
+        {
+            get
+            {
+                return ResourceManager.GetString("GridManager", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to GridManagerToolTip.
+        /// </summary>
+        internal static string GridManagerToolTip
+        {
+            get
+            {
+                return ResourceManager.GetString("GridManagerToolTip", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Go.
         /// </summary>

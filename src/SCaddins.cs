@@ -73,11 +73,9 @@ namespace SCaddins
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             var uri = new Uri("https://api.github.com/repos/acnicholas/scaddins/releases/latest");
+            var latestVersion = new LatestVersion();
 #if NET48
             var webRequest = WebRequest.Create(uri) as HttpWebRequest;
-#else
-            var webRequest = WebRequest.Create(uri) as HttpWebRequest;
-#endif
             if (webRequest == null)
             {
                 return;
@@ -95,9 +93,28 @@ namespace SCaddins
             {
                 latestAsJson = sr.ReadToEnd();
             }
-
-            var latestVersion = JsonConvert.DeserializeObject<LatestVersion>(latestAsJson);
-
+            latestVersion = JsonConvert.DeserializeObject<LatestVersion>(latestAsJson);
+#else
+            var latestAsJson = string.Empty;
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Add("User-Agent", "C# App");
+                var request = new HttpRequestMessage(HttpMethod.Get, "https://api.github.com/repos/acnicholas/scaddins/releases/latest");
+                var response = httpClient.Send(request);
+                using (var reader = new StreamReader(response.Content.ReadAsStream()))
+                {
+                    latestAsJson = reader.ReadToEnd();
+                }
+                try
+                {
+                    latestVersion = System.Text.Json.JsonSerializer.Deserialize<LatestVersion>(latestAsJson);
+                }
+                catch (Exception ex) {
+                    SCaddinsApp.WindowManager.ShowErrorMessageBox("Json Error", ex.Message);
+                    return;           
+                }
+            }
+#endif
             var installedVersion = Version;
             var latestAvailableVersion = new Version(latestVersion.tag_name.Replace("v", string.Empty).Trim());
             var info = latestVersion.body;
@@ -173,7 +190,7 @@ namespace SCaddins
 
         public Result OnStartup(UIControlledApplication application)
         {
-            ribbonPanel = TryGetPanel(application, "Scott Carver");
+            ribbonPanel = TryGetPanel(application, "Studio.SC");
 
             if (ribbonPanel == null)
             {
@@ -204,19 +221,16 @@ namespace SCaddins
                 LoadSpellingChecker(scdll),
                 LoadSCincrement(scdll));
             ribbonPanel.AddStackedItems(
-                LoadNextSheet(scdll),
-                LoadPreviousSheet(scdll),
+                LoadGridManager(scdll),
+                LoadInfo(scdll),
                 LoadOpenSheet(scdll));
             ribbonPanel.AddStackedItems(
                 LoadSCwash(scdll),
                 LoadModelWizard(scdll),
                 LoadAbout(scdll));
-
             ribbonPanel.AddSlideOut();
-
             ribbonPanel.AddStackedItems(
                 LoadGlobalSettings(scdll),
-                LoadInfo(scdll),
                 LoadRunScript(scdll));
 
             return Result.Succeeded;
@@ -316,6 +330,15 @@ namespace SCaddins
                               "SCightLines", Resources.LineofSight, dll, "SCaddins.LineOfSight.Command");
             AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.scightlines-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.LineofSightToolTip;
+            return pbd;
+        }
+
+        private static PushButtonData LoadGridManager(string dll)
+        {
+            var pbd = new PushButtonData(
+                              "GridManager", Resources.GridManager, dll, "SCaddins.GridManager.GridManager");
+            AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.gridman-rvt-16.png", 16, dll);
+            pbd.ToolTip = Resources.GridManagerToolTip;
             return pbd;
         }
 

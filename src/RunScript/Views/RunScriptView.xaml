@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:syntax="clr-namespace:UI.SyntaxBox;assembly=UI.SyntaxBox"
              mc:Ignorable="d" 
              MinHeight="480"
              MinWidth="640"
@@ -62,15 +63,55 @@
             </MenuItem>
         </Menu>
         <TextBox
+            syntax:SyntaxBox.Enable="True"
+            syntax:SyntaxBox.ExpandTabs="True"
+            syntax:SyntaxBox.AutoIndent="True"
+            syntax:SyntaxBox.ShowLineNumbers="True"
+            syntax:SyntaxBox.LineNumbersBackground="LightGray"
+            syntax:SyntaxBox.LineNumbersForeground="SlateGray"     
             Grid.Row="1"
             Text="{Binding Script, Mode=TwoWay}"
             FontFamily="Consolas" 
+            FontWeight="Bold"
             FontSize="{Binding FontSize, Mode=TwoWay}"
             Margin="5" 
             MinWidth="480"
             MinHeight="240" 
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch">
+            
+            <syntax:SyntaxBox.SyntaxDrivers>
+                
+                <syntax:SyntaxConfig>
+                    <!-- Keywords -->
+                    <syntax:KeywordRule
+                        Foreground="Blue"
+                        Keywords="abstract,as,base,bool,break,byte,case,catch,char,checked,class,const,continue,decimal,default,delegate,do,double,else,enum,event,explicit,extern,false,finally,fixed,float,for,foreach,goto,if,implicit,in,int,interface,internal,is,lock,long,namespace,new,null,object,operator,out,override,params,private,protected,public,readonly,ref,return,sbyte,sealed,short,sizeof,stackalloc,static,string,struct,switch,this,throw,true,try,typeof,uint,ulong,unchecked,unsafe,ushort,using,using,static,virtual,void,volatile,while,get,set,yield,var"
+                   />
+
+                    <!-- Operators -->
+                    <syntax:KeywordRule Foreground="Purple"
+                Keywords="!,+,-,/,*,%,=,&amp;,^,|,&lt;,&gt;"
+                WholeWordsOnly="False"
+            />
+                    <!--<syntax:RegexRule Op="Line" Foreground="Purple" Pattern="[\!+-\/\*%=&amp;\^|\?&lt;&gt;]" />-->
+
+                    <!-- Preproc directives -->
+                    <syntax:RegexRule Op="Line" Foreground="Gray" Pattern="^\s*#.*" />
+
+                    <!-- String -->
+                    <syntax:RegexRule Op="Line" Foreground="Gray" Pattern="&apos;.*&apos;" />
+
+                    <!-- Verbatim string -->
+                    <syntax:RegexRule Op="Block" Foreground="Gray" Pattern="&quot;.*&quot;" />
+
+                    <!-- Comment -->
+                    <syntax:RegexRule Op="Line" Foreground="Green" Pattern="--.*$" />
+
+                </syntax:SyntaxConfig>
+                
+            </syntax:SyntaxBox.SyntaxDrivers>
+            
         </TextBox>
         <GridSplitter Grid.Row="2" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Width="Auto"></GridSplitter>
         <Label Grid.Row="3" HorizontalAlignment="Left" Padding="5">Output:</Label>
