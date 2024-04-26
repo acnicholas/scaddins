@@ -691,4 +691,7 @@
   <data name="GridManagerToolTip" xml:space="preserve">
     <value>Edit Location of Grid Bubbles and Levels Heads</value>
   </data>
+  <data name="GridManager" xml:space="preserve">
+    <value>Grid Manager</value>
+  </data>
 </root>

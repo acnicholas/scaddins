@@ -1,8 +1,26 @@
+// (C) Copyright 2024 by Andrew Nicholas
+//
+// This file is part of SCaddins.
+//
+// SCaddins is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// SCaddins is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
+
 namespace SCaddins.GridManager.ViewModels
 {
     using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
+    using FilterTreeControlWPF;
     using View = Autodesk.Revit.DB.View;
     
     public class GridManagerViewModel : Screen
@@ -41,8 +59,18 @@ namespace SCaddins.GridManager.ViewModels
                 NotifyOfPropertyChange(() => ShowBottomGridBubbles);
             }
         }
+
+        public bool LevelsGroupBoxEnabled
+        {
+            get => false;
+        }
         
         public string ShowBottomGridBubblesLabel => "Bottom Grid Bubbles";
+
+        //public bool ShowLeftGridBubblesEnabled
+        //{
+        //    get => false;
+        //}
 
         public bool? ShowLeftGridBubbles
         {
@@ -82,7 +110,6 @@ namespace SCaddins.GridManager.ViewModels
                     GridManager.ShowLeftLevelEndsByView(activeView, true, selection);
                 }
                 
-                // NotifyOfPropertyChange(() => ShowRightGridBubblesLabel);
                 NotifyOfPropertyChange(() => ShowLeftLevels);
             }
         }
@@ -195,8 +222,18 @@ namespace SCaddins.GridManager.ViewModels
         
         public void SetGridsTo3d()
         {
-            SCaddinsApp.WindowManager.ShowMessageBox("Test", "3d");
             GridManager.Toggle2dGridsByView(activeView, false, selection);
+        }
+
+        public void SetLevelsTo2d()
+        {
+            SCaddinsApp.WindowManager.ShowMessageBox("2d");
+            GridManager.Toggle2dLevelsByView(activeView, true, selection);
+        }
+
+        public void SetLevelsTo3d()
+        {
+            GridManager.Toggle2dLevelsByView(activeView, false, selection);
         }
     }
 }

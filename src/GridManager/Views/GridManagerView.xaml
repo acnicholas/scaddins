@@ -41,7 +41,7 @@
                 <Button x:Name="SetGridsTo3d" Grid.Row="3" Grid.Column="1" Margin="5">Set All Grids To 3d</Button>
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Row="1" Margin="5" Header="Levels">
+        <GroupBox Grid.Row="1" Margin="5" Header="Levels" x:Name="LevelsGroupBox">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"></RowDefinition> 

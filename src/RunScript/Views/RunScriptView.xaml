@@ -70,6 +70,7 @@
             syntax:SyntaxBox.LineNumbersBackground="LightGray"
             syntax:SyntaxBox.LineNumbersForeground="SlateGray"     
             Grid.Row="1"
+            AcceptsReturn="True"
             Text="{Binding Script, Mode=TwoWay}"
             FontFamily="Consolas" 
             FontWeight="Bold"

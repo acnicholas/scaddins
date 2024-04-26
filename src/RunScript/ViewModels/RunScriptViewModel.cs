@@ -170,7 +170,12 @@ namespace SCaddins.RunScript.ViewModels
 
         public static void NavigateTo(System.Uri url)
         {
-            Process.Start(new ProcessStartInfo(url.AbsoluteUri));
+            var ps = new ProcessStartInfo(url.ToString())
+            {
+                UseShellExecute = true,
+                Verb = "open"
+            };
+            Process.Start(ps);
         }
 
         public void DarkMode()

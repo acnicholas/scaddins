@@ -93,7 +93,18 @@ namespace SCaddins.GridManager
                 transaction.Start();
                 foreach (var level in GetAllLevelsInView(activeView, selection))
                 {
-                    ToggleLevelEnd(level, enable, DatumEnds.End0, activeView);
+                    {
+                        var levelCurves = level.GetCurvesInView(DatumExtentType.Model, activeView);
+                        var ep = levelCurves.First().GetEndPoint(1);
+                        var sp = levelCurves.First().GetEndPoint(0);
+                        if (ep.X < sp.X || ep.Y < sp.Y) 
+                        {
+                            ToggleLevelEnd(level, enable, DatumEnds.End1, activeView);
+                        } else
+                        {
+                            ToggleLevelEnd(level, enable, DatumEnds.End0, activeView);
+                        }
+                    }
                 }
                 transaction.Commit();
             }
@@ -130,7 +141,19 @@ namespace SCaddins.GridManager
                 transaction.Start();
                 foreach (var level in GetAllLevelsInView(activeView, selection))
                 {
-                        ToggleLevelEnd(level, enable, DatumEnds.End1, activeView);
+                    {
+                        var levelCurves = level.GetCurvesInView(DatumExtentType.Model, activeView);
+                        var ep = levelCurves.First().GetEndPoint(1);
+                        var sp = levelCurves.First().GetEndPoint(0);
+                        if (ep.X < sp.X || ep.Y < sp.Y)
+                        {
+                            ToggleLevelEnd(level, enable, DatumEnds.End0, activeView);
+                        }
+                        else
+                        {
+                            ToggleLevelEnd(level, enable, DatumEnds.End1, activeView);
+                        }
+                    }
                 }
                 transaction.Commit();
             }
@@ -184,16 +207,22 @@ namespace SCaddins.GridManager
             }
         }
 
-        public static void ToggleSelectedGridBubbles(bool left, bool right)
+        public static void Toggle2dLevelsByView(View activeView, bool make2d, List<ElementId> selection)
         {
-            // TODO
+            using (var transaction = new Transaction(activeView.Document, "Make Levels 2d"))
+            {
+                transaction.Start();
+                var datumExtendType = make2d ? DatumExtentType.ViewSpecific : DatumExtentType.Model;
+                foreach (var level in GetAllLevelsInView(activeView, selection))
+                {
+                    level.SetDatumExtentType(DatumEnds.End0, activeView, datumExtendType);
+                    level.SetDatumExtentType(DatumEnds.End1, activeView, datumExtendType);
+                }
+
+                transaction.Commit();
+            }
         }
-        
-        public static void ToggleSelectedLevelHeads(bool left, bool right)
-        {
-            // TODO
-        }
-        
+
         public Result Execute(
             ExternalCommandData commandData,
             ref string message,
@@ -300,28 +329,6 @@ namespace SCaddins.GridManager
             return direction;
         }
         
-        private static XYZ GetLevelDirection(Level level, View view)
-        {
-            var curve = level.GetCurvesInView(DatumExtentType.ViewSpecific, view);
-            Debug.WriteLine(curve.Count);
-            var curve2 = level.GetCurvesInView(DatumExtentType.Model, view);
-            Debug.WriteLine(curve2.Count);
-            var direction = new XYZ();
-            if (curve is Line)
-            {
-                direction = ((Line)curve).Direction;
-            }
-        
-            return direction;
-        }
-        
-        // private XYZ GetViewRotationOnSheet(View activeView)
-        // {
-        //     var rightDirection = activeView.RightDirection;
-        //     var upwardDirection = activeView.UpDirection;
-        //     var test = activeView.ViewDirection; //direction towards viewer.
-        //     return activeView.UpDirection;
-        // }
         private static void ToggleGridEnd(Grid grid, bool show, DatumEnds end, View activeView)
         {
             if (show)
