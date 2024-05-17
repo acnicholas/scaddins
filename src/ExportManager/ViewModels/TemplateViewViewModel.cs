@@ -23,10 +23,13 @@ namespace SCaddins.ExportManager.ViewModels
 
     internal class TemplateViewViewModel : Screen
     {
+        private CloseMode selectedCloseMode;
+
         private ExportSheet selectedSheet;
 
         public TemplateViewViewModel(System.Collections.Generic.List<ExportSheet> sheets)
         {
+            selectedCloseMode = CloseMode.Cancel;
             Sheets = new ObservableCollection<ExportSheet>(sheets);
             SelectedSheet = null;
         }
@@ -48,6 +51,12 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public enum CloseMode
+        {
+            Cancel,
+            OK
+        }
+
         public bool OKEnabled
         {
             get
@@ -59,6 +68,19 @@ namespace SCaddins.ExportManager.ViewModels
         public ObservableCollection<ExportSheet> Sheets
         {
             get; set;
+        }
+
+        public CloseMode SelectedCloseMode
+        {
+            get
+            {
+                return selectedCloseMode;
+            }
+
+            set
+            {
+                selectedCloseMode = value;
+            }
         }
 
         public ExportSheet SelectedSheet
@@ -77,11 +99,13 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void Cancel()
         {
+            selectedCloseMode = CloseMode.Cancel;
             TryCloseAsync(false);
         }
 
         public void OK()
         {
+            selectedCloseMode = CloseMode.OK;
             TryCloseAsync(true);
         }
 

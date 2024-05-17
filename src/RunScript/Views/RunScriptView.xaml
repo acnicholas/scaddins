@@ -4,22 +4,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:syntax="clr-namespace:UI.SyntaxBox;assembly=UI.SyntaxBox"
+             xmlns:views="clr-namespace:SCaddins.RunScript.Views"
              mc:Ignorable="d" 
              MinHeight="480"
              MinWidth="640"
              d:DesignHeight="640" d:DesignWidth="800">
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="600*"></RowDefinition>
-            <RowDefinition Height="5"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="300*"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="480*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Menu Grid.Row="0" Grid.ColumnSpan="3" IsMainMenu="True">
+
+        <Menu Grid.Row="0" IsMainMenu="True">
             <MenuItem Header="_File">
                 <MenuItem x:Name="LoadScriptFromFile" Header="_Load">
                     <MenuItem.Icon>
@@ -62,68 +60,53 @@
                     cal:Message.Attach="[Action NavigateTo('https://www.lua.org/manual/5.4')]"/>
             </MenuItem>
         </Menu>
-        <TextBox
-            syntax:SyntaxBox.Enable="True"
-            syntax:SyntaxBox.ExpandTabs="True"
-            syntax:SyntaxBox.AutoIndent="True"
-            syntax:SyntaxBox.ShowLineNumbers="True"
-            syntax:SyntaxBox.LineNumbersBackground="LightGray"
-            syntax:SyntaxBox.LineNumbersForeground="SlateGray"     
-            Grid.Row="1"
-            AcceptsReturn="True"
+        <!--Text="{Binding Script, Mode=TwoWay}"-->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <views:BindableAvalonEditor 
             Text="{Binding Script, Mode=TwoWay}"
+            Grid.Row="0"
             FontFamily="Consolas" 
+            ShowLineNumbers="True"
+            SyntaxHighlighting="Lua"
             FontWeight="Bold"
             FontSize="{Binding FontSize, Mode=TwoWay}"
             Margin="5" 
             MinWidth="480"
             MinHeight="240" 
+            VerticalScrollBarVisibility="Auto"
+            HorizontalScrollBarVisibility="Auto"
+            x:Name="bindableAvalonEditor"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch">
-            
-            <syntax:SyntaxBox.SyntaxDrivers>
-                
-                <syntax:SyntaxConfig>
-                    <!-- Keywords -->
-                    <syntax:KeywordRule
-                        Foreground="Blue"
-                        Keywords="abstract,as,base,bool,break,byte,case,catch,char,checked,class,const,continue,decimal,default,delegate,do,double,else,enum,event,explicit,extern,false,finally,fixed,float,for,foreach,goto,if,implicit,in,int,interface,internal,is,lock,long,namespace,new,null,object,operator,out,override,params,private,protected,public,readonly,ref,return,sbyte,sealed,short,sizeof,stackalloc,static,string,struct,switch,this,throw,true,try,typeof,uint,ulong,unchecked,unsafe,ushort,using,using,static,virtual,void,volatile,while,get,set,yield,var"
-                   />
+            </views:BindableAvalonEditor>
+            <GridSplitter Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Width="Auto"></GridSplitter>
 
-                    <!-- Operators -->
-                    <syntax:KeywordRule Foreground="Purple"
-                Keywords="!,+,-,/,*,%,=,&amp;,^,|,&lt;,&gt;"
-                WholeWordsOnly="False"
-            />
-                    <!--<syntax:RegexRule Op="Line" Foreground="Purple" Pattern="[\!+-\/\*%=&amp;\^|\?&lt;&gt;]" />-->
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-                    <!-- Preproc directives -->
-                    <syntax:RegexRule Op="Line" Foreground="Gray" Pattern="^\s*#.*" />
-
-                    <!-- String -->
-                    <syntax:RegexRule Op="Line" Foreground="Gray" Pattern="&apos;.*&apos;" />
-
-                    <!-- Verbatim string -->
-                    <syntax:RegexRule Op="Block" Foreground="Gray" Pattern="&quot;.*&quot;" />
-
-                    <!-- Comment -->
-                    <syntax:RegexRule Op="Line" Foreground="Green" Pattern="--.*$" />
-
-                </syntax:SyntaxConfig>
-                
-            </syntax:SyntaxBox.SyntaxDrivers>
-            
-        </TextBox>
-        <GridSplitter Grid.Row="2" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Width="Auto"></GridSplitter>
-        <Label Grid.Row="3" HorizontalAlignment="Left" Padding="5">Output:</Label>
-        <ListBox 
-            Grid.Row="4"
-            x:Name="OutputList"
-            MinHeight="100"
-            Padding="20"
-            FontFamily="Consolas"
-            FontSize="{Binding FontSizeOutput, Mode=TwoWay}" >
-        </ListBox>
-        <Button Grid.Row="5" Padding="5" x:Name="Run">Run</Button>
+                <Label Grid.Row="0" Height="Auto" Padding="5">Output:</Label>
+                <ListBox 
+                    Grid.Row="1"
+                    x:Name="OutputList"
+                    MinHeight="100"
+                    Padding="20"
+                    FontFamily="Consolas"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Height="Auto"
+                    FontSize="{Binding FontSizeOutput, Mode=TwoWay}" >
+                </ListBox>
+            </Grid>
+        </Grid>
+        <Button Grid.Row="2" Padding="5" x:Name="Run">Run</Button>
     </Grid>
 </UserControl>

@@ -1,5 +1,4 @@
 import ('RevitAPI', 'Autodesk.Revit.DB')
--- import ('C:\\Code\\cs\\scaddins\\src\\bin\\Debug\\SCaddins.dll', 'SCaddins.DestructivePurge')
 import ('SCaddins', 'SCaddins.DestructivePurge')
 
 doc = commandData.Application.ActiveUIDocument.Document

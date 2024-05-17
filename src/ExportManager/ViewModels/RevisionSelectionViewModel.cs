@@ -17,50 +17,75 @@
 
 namespace SCaddins.ExportManager.ViewModels
 {
-    using System.Collections.ObjectModel;
-    using System.Dynamic;
-    using Caliburn.Micro;
+  using System.Collections.ObjectModel;
+  using System.Dynamic;
+  using Caliburn.Micro;
 
-    internal class RevisionSelectionViewModel : Screen
+  internal class RevisionSelectionViewModel : Screen
+  {
+
+    private CloseMode selectedCloseMode;
+
+    public RevisionSelectionViewModel(Autodesk.Revit.DB.Document doc)
     {
-        public RevisionSelectionViewModel(Autodesk.Revit.DB.Document doc)
-        {
-            Revisions = new ObservableCollection<RevisionUtilities.RevisionItem>(RevisionUtilities.Manager.GetRevisions(doc));
-        }
-
-        public static dynamic DefaultWindowSettings
-        {
-            get
-            {
-                dynamic settings = new ExpandoObject();
-                settings.Height = 640;
-                settings.Width = 480;
-                settings.Title = "Select Revision to Assign";
-                settings.ShowInTaskbar = false;
-                settings.SizeToContent = System.Windows.SizeToContent.Manual;
-                settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
-                return settings;
-            }
-        }
-
-        public ObservableCollection<RevisionUtilities.RevisionItem> Revisions
-        {
-            get; set;
-        }
-
-        public RevisionUtilities.RevisionItem SelectedRevision
-        {
-            get; set;
-        }
-
-        public void Cancel()
-        {
-            TryCloseAsync(false);
-        }
-
-        public void OK()
-        {
-            TryCloseAsync(true);
-        }
+      selectedCloseMode = CloseMode.Cancel;
+      Revisions = new ObservableCollection<RevisionUtilities.RevisionItem>(RevisionUtilities.Manager.GetRevisions(doc));
     }
+
+    public static dynamic DefaultWindowSettings
+    {
+      get
+      {
+        dynamic settings = new ExpandoObject();
+        settings.Height = 640;
+        settings.Width = 480;
+        settings.Title = "Select Revision to Assign";
+        settings.ShowInTaskbar = false;
+        settings.SizeToContent = System.Windows.SizeToContent.Manual;
+        settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
+        return settings;
+      }
+    }
+
+    public enum CloseMode
+    {
+      Cancel,
+      OK
+    }
+
+    public ObservableCollection<RevisionUtilities.RevisionItem> Revisions
+    {
+      get; set;
+    }
+
+    public RevisionUtilities.RevisionItem SelectedRevision
+    {
+      get; set;
+    }
+
+    public CloseMode SelectedCloseMode
+    {
+      get
+      {
+        return selectedCloseMode;
+      }
+
+      set
+      {
+        selectedCloseMode = value;
+      }
+    }
+
+    public void Cancel()
+    {
+      selectedCloseMode = CloseMode.Cancel;
+      TryCloseAsync(false);
+    }
+
+    public void OK()
+    {
+      selectedCloseMode = CloseMode.OK;
+      TryCloseAsync(true);
+    }
+  }
 }

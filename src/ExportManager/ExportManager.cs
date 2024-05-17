@@ -1164,7 +1164,7 @@ namespace SCaddins.ExportManager
 
         private void ExportRevitPDF(ExportSheet vs, ExportLog log)
         {
-#if REVIT2022 || REVIT2023 || REVIT2024
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025
 
             if (log != null)
             {
@@ -1210,8 +1210,8 @@ namespace SCaddins.ExportManager
 #endif
         private void ExportAdobePDF(ExportSheet vs, ExportLog log)
         {
-#if !REVIT2022 && !REVIT2023 && !REVIT2024
-                ExportPDF(vs, log);
+#if !REVIT2022 && !REVIT2023 && !REVIT2024 && !REVIT2025
+            ExportPDF(vs, log);
 #else
                 log.AddError(vs.FullExportName, "PDF export with Adobe Acrobat is not supported in Revit versions > 2021.");
                 return;
@@ -1494,7 +1494,7 @@ namespace SCaddins.ExportManager
                                     case "Hook":
                                         name.Hooks.Add(reader.ReadString());
                                         break;
-#if REVIT2022 || REVIT2023 || REVIT2024
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025
                                     case "PDFNamingRule":
                                         PDFExportOptions opts;
                                         if (TryGetExportPdfSettingsByName(reader.ReadString(), out opts))
@@ -1507,7 +1507,7 @@ namespace SCaddins.ExportManager
                             }
                         } while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == "FilenameScheme"));
                         FileNameTypes.Add(name);
-#if REVIT2022 || REVIT2023 || REVIT2024
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025
                         if (name.PDFExportOptions == null && name.NameFormat != null)
                         {
                             name.PDFExportOptions = CreateDefaultPDFExportOptions(name.NameFormat, Doc);

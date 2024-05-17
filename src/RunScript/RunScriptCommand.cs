@@ -32,13 +32,14 @@ namespace SCaddins.RunScript
             if (createTransaction)
             {
                 return null;
-            } 
+            }
             else
             {
                 Lua state = new Lua();
                 state.LoadCLRPackage();
                 state["commandData"] = commandData;
-                state["elements"] = elements;
+                state["fecv"] = new FilteredElementCollector(commandData.Application.ActiveUIDocument.Document, commandData.Application.ActiveUIDocument.ActiveView.Id);
+                state["fec"] = new FilteredElementCollector(commandData.Application.ActiveUIDocument.Document);
                 try
                 {
                     var r = state.DoString(script);
@@ -66,7 +67,7 @@ namespace SCaddins.RunScript
                 return Result.Failed;
             }
 
-            SCaddinsApp.WindowManager.ShowMessageBox(elements.Size.ToString());
+            // SCaddinsApp.WindowManager.ShowMessageBox(elements.Size.ToString());
             var vm = new ViewModels.RunScriptViewModel(commandData, elements);
             SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewModels.RunScriptViewModel.DefaultViewSettings);
             return Result.Succeeded;

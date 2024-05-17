@@ -1,5 +1,4 @@
 import ('RevitAPI', 'Autodesk.Revit.DB')
--- import ('C:\\Code\\cs\\scaddins\\src\\bin\\Debug\\SCaddins.dll', 'SCaddins.LineOfSight')
 import ('SCaddins', 'SCaddins.LineOfSight')
 
 doc = commandData.Application.ActiveUIDocument.Document
@@ -10,6 +9,3 @@ sst.NumberOfRows = 6
 sst:Draw()
 
 return sst.InfoString
-
-
-   

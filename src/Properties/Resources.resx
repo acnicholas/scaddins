@@ -694,4 +694,7 @@
   <data name="GridManager" xml:space="preserve">
     <value>Grid Manager</value>
   </data>
+  <data name="Lua" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Lua.xshd;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

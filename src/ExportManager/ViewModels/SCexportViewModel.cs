@@ -25,11 +25,13 @@ namespace SCaddins.ExportManager.ViewModels
     using System.Dynamic;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
     using System.Windows.Input;
     using System.Windows.Media;
+    using Autodesk.Internal.InfoCenter;
     using Caliburn.Micro;
 
     internal class SCexportViewModel : Screen
@@ -487,16 +489,13 @@ namespace SCaddins.ExportManager.ViewModels
         public void AddRevision()
         {
             var revisionSelectionViewModel = new RevisionSelectionViewModel(exportManager.Doc);
-            bool? result = SCaddinsApp.WindowManager.ShowDialogAsync(revisionSelectionViewModel, null, RevisionSelectionViewModel.DefaultWindowSettings);
-            bool newBool = result ?? false;
-            if (newBool)
-            {
-                if (revisionSelectionViewModel.SelectedRevision != null)
+            SCaddinsApp.WindowManager.ShowDialogAsync(revisionSelectionViewModel, null, RevisionSelectionViewModel.DefaultWindowSettings);
+                if (revisionSelectionViewModel.SelectedCloseMode == RevisionSelectionViewModel.CloseMode.OK &&
+                revisionSelectionViewModel.SelectedRevision != null)
                 {
                     Manager.AddRevisions(selectedSheets, revisionSelectionViewModel.SelectedRevision.Id, exportManager.Doc);
                     NotifyOfPropertyChange(() => Sheets);
                 }
-            }
         }
 
         public void AlignViews()
@@ -509,9 +508,8 @@ namespace SCaddins.ExportManager.ViewModels
             SCaddinsApp.WindowManager.ShowWarningMessageBox("Align", message);
 
             var viewModel = new TemplateViewViewModel(this.SelectedSheets);
-            bool? result = SCaddinsApp.WindowManager.ShowDialogAsync(viewModel, null, TemplateViewViewModel.DefaultWindowSettings);
-            bool newBool = result ?? false;
-            if (newBool)
+            SCaddinsApp.WindowManager.ShowDialogAsync(viewModel, null, TemplateViewViewModel.DefaultWindowSettings);
+            if (viewModel.SelectedCloseMode == TemplateViewViewModel.CloseMode.OK)
             {
                 ViewUtilities.ViewAlignmentUtils.AlignViews(exportManager.Doc, this.SelectedSheets, viewModel.SelectedSheet);
             }
@@ -738,8 +736,8 @@ namespace SCaddins.ExportManager.ViewModels
         public void OpenViewSet()
         {
             var viewSetSelectionViewModel = new ViewSetSelectionViewModel(exportManager.AllViewSheetSets);
-            bool? result = SCaddinsApp.WindowManager.ShowDialogAsync(viewSetSelectionViewModel, null, ViewSetSelectionViewModel.DefaultWindowSettings);
-            bool newBool = result ?? false;
+            var task = SCaddinsApp.WindowManager.ShowDialogAsync(viewSetSelectionViewModel, null, ViewSetSelectionViewModel.DefaultWindowSettings);
+            bool newBool = task.Result ?? false;
             if (newBool && viewSetSelectionViewModel.SelectedSet != null)
             {
                 IsNotifying = false;
@@ -835,11 +833,10 @@ namespace SCaddins.ExportManager.ViewModels
         public void SaveViewSet()
         {
             var saveAsVm = new ViewSetSaveAsViewModel("Select name for new view sheet set", exportManager.AllViewSheetSets);
-            bool? result = SCaddinsApp.WindowManager.ShowDialogAsync(saveAsVm, null, ViewSetSaveAsViewModel.DefaultWindowSettings);
-            bool newBool = result ?? false;
+            var task = SCaddinsApp.WindowManager.ShowDialogAsync(saveAsVm, null, ViewSetSaveAsViewModel.DefaultWindowSettings);
+            bool newBool = task.Result ?? false;
             if (newBool)
             {
-                // SCaddinsApp.WindowManager.ShowMessageBox("Saving View Set");
                 exportManager.SaveViewSet(saveAsVm.SaveName, selectedSheets);
             }
         }
@@ -937,11 +934,12 @@ namespace SCaddins.ExportManager.ViewModels
 
             var toggleSelectedSheetParametersViewModel = new ToggleSelectedSheetParametersViewModel(
                 exportManager.Doc, yesNoParameters);
-            bool? result = SCaddinsApp.WindowManager.ShowDialogAsync(
+            var task = SCaddinsApp.WindowManager.ShowDialogAsync(
                 toggleSelectedSheetParametersViewModel,
                 null,
                 ToggleSelectedSheetParametersViewModel.DefaultWindowSettings);
-            if (result.HasValue && result.Value)
+            bool newBool = task.Result ?? false;
+            if (newBool)
             {
                 foreach (var item in toggleSelectedSheetParametersViewModel.YesNoParameters)
                 {
@@ -959,11 +957,12 @@ namespace SCaddins.ExportManager.ViewModels
 
             var toggleSelectedSheetParametersViewModel = new ToggleSelectedSheetParametersViewModel(
                 exportManager.Doc, yesNoParameters);
-            bool? result = SCaddinsApp.WindowManager.ShowDialogAsync(
+            var task = SCaddinsApp.WindowManager.ShowDialogAsync(
                 toggleSelectedSheetParametersViewModel,
                 null,
                 ToggleSelectedSheetParametersViewModel.DefaultWindowSettings);
-            if (result.HasValue && result.Value)
+            bool newBool = task.Result ?? false;
+            if (newBool)
             {
                 foreach (var item in toggleSelectedSheetParametersViewModel.YesNoParameters)
                 {

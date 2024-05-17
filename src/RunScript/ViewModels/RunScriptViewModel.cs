@@ -59,8 +59,8 @@ namespace SCaddins.RunScript.ViewModels
             get
             {
                 dynamic settings = new ExpandoObject();
-                settings.Height = 480;
-                settings.Width = 300;
+                settings.Height = 640;
+                settings.Width = 640;
                 settings.Title = "Run Lua Script";
                 settings.ShowInTaskbar = false;
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(

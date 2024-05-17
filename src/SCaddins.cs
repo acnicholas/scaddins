@@ -109,9 +109,10 @@ namespace SCaddins
                 {
                     latestVersion = System.Text.Json.JsonSerializer.Deserialize<LatestVersion>(latestAsJson);
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     SCaddinsApp.WindowManager.ShowErrorMessageBox("Json Error", ex.Message);
-                    return;           
+                    return;
                 }
             }
 #endif

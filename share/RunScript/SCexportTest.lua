@@ -1,13 +1,13 @@
 import ('RevitAPI', 'Autodesk.Revit.DB')
 import ('SCaddins', 'SCaddins.ExportManager')
 
-local doc   = commandData.Application.ActiveUIDocument.Document
-local uidoc = commandData.Application.ActiveUIDocument
-local log = ExportLog()
+uidoc = commandData.Application.ActiveUIDocument
+log = ExportLog()
 
 manager = Manager(uidoc)
---manager:AddExportOption(ExportOptions.DirectPDF)
-manager:ExportSheet(manager.AllSheets[1], log);
+manager.ExportDirectory = "C:\\Temp"
+manager:AddExportOption(ExportOptions.DirectPDF)
+manager:ExportSheet(manager.AllSheets[0], log);
 
 return log.FullOutputLog
 

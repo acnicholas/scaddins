@@ -1,9 +1,7 @@
 import ('RevitAPI', 'Autodesk.Revit.DB')
 
 local doc = commandData.Application.ActiveUIDocument.Document
-local fec = FilteredElementCollector(doc):OfCategory(BuiltInCategory.OST_Rooms):ToElements()
-
-out = {}
+fec:OfCategory(BuiltInCategory.OST_Rooms):ToElements()
 
 t     = Transaction(doc)
 t:Start('ADG rooms names')

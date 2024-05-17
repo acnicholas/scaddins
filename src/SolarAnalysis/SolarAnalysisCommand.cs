@@ -58,7 +58,7 @@ namespace SCaddins.SolarAnalysis
             }
             if (vm.DrawSolarRay)
             {
-                    SolarAnalysisManager.DrawSolarRayAsModelLine(udoc, vm.SolarRayLength);
+                SolarAnalysisManager.DrawSolarRayAsModelLine(udoc, vm.SolarRayLength);
             }
 
             return Result.Succeeded;

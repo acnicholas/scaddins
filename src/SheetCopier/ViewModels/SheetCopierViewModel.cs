@@ -22,6 +22,7 @@ namespace SCaddins.SheetCopier.ViewModels
     using System.Collections.ObjectModel;
     using System.Dynamic;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Windows.Data;
     using Autodesk.Revit.UI;
     using Caliburn.Micro;
@@ -220,8 +221,9 @@ namespace SCaddins.SheetCopier.ViewModels
         public void AddSheets()
         {
             var vm = new ViewSelectionViewModel(copyManager);
-            bool? result = SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewSelectionViewModel.DefaultWindowSettings);
-            if (result.HasValue && result.Value)
+            var task = SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewSelectionViewModel.DefaultWindowSettings);
+            bool newBool = task.Result ?? false;
+            if (newBool)
             {
                 AddSheets(vm.SelectedViews);
                 NotifyOfPropertyChange(() => GoLabel);
