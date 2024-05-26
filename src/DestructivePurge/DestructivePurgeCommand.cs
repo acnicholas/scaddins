@@ -43,7 +43,7 @@ namespace SCaddins.DestructivePurge
             settings.Title = "Destructive Purge - By Andrew Nicholas";
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
-
+            settings.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             var vm = new ViewModels.DestructivePurgeViewModel(udoc.Document);
             SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, settings);
             return Result.Succeeded;

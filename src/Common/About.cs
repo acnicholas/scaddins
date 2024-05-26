@@ -39,6 +39,7 @@ namespace SCaddins.Common
             settings.ShowInTaskbar = false;
             settings.ResizeMode = System.Windows.ResizeMode.NoResize;
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+            settings.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             var aboutViewModel = new ViewModels.AboutViewModel();
             SCaddinsApp.WindowManager.ShowDialogAsync(aboutViewModel, null, settings);
 

@@ -99,6 +99,7 @@ namespace SCaddins.ExportManager.ViewModels
                 settings.Title = "SCexport - By Andrew Nicholas";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = SizeToContent.Manual;
+                settings.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                 return settings;
             }
         }

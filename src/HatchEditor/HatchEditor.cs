@@ -143,6 +143,7 @@ namespace SCaddins.HatchEditor
             settings.Title = "Hatch Editor - By Andrew Nicholas";
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
+            settings.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
 
             var vm = new ViewModels.HatchEditorViewModel(udoc.Document);
             SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, settings);

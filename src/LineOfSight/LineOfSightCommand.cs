@@ -46,7 +46,7 @@ namespace SCaddins.LineOfSight
             settings.Title = "Stadium Line Of Sight - By A.Nicholas";
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Width;
-
+            settings.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             var vm = new ViewModels.LineOfSightViewModel(doc);
             SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, settings);
 

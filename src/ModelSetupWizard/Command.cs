@@ -44,7 +44,7 @@ namespace SCaddins.ModelSetupWizard
                   new System.Uri("pack://application:,,,/SCaddins;component/Assets/checkdoc.png"));
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Width;
-
+            settings.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             var vm = new ViewModels.ModelSetupWizardViewModel(commandData.Application.ActiveUIDocument);
             SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, settings);
 

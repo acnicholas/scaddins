@@ -94,17 +94,23 @@
                 </Grid.RowDefinitions>
 
                 <Label Grid.Row="0" Height="Auto" Padding="5">Output:</Label>
-                <ListBox 
+                <views:BindableAvalonEditor 
+                    Text="{Binding Output, Mode=TwoWay}"
                     Grid.Row="1"
-                    x:Name="OutputList"
-                    MinHeight="100"
-                    Padding="20"
-                    FontFamily="Consolas"
-                    HorizontalAlignment="Stretch"
+                    FontFamily="Consolas" 
+                    ShowLineNumbers="True"
+                    SyntaxHighlighting="None"
+                    FontWeight="Bold"
+                    FontSize="{Binding FontSize, Mode=TwoWay}"
+                    Margin="5" 
+                    MinWidth="480"
+                    MinHeight="240" 
+                    VerticalScrollBarVisibility="Auto"
+                    HorizontalScrollBarVisibility="Auto"
+                    x:Name="bindableAvalonEditorOutput"
                     VerticalAlignment="Stretch"
-                    Height="Auto"
-                    FontSize="{Binding FontSizeOutput, Mode=TwoWay}" >
-                </ListBox>
+                     HorizontalAlignment="Stretch">
+                </views:BindableAvalonEditor>
             </Grid>
         </Grid>
         <Button Grid.Row="2" Padding="5" x:Name="Run">Run</Button>

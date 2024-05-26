@@ -63,6 +63,7 @@ namespace SCaddins.PlaceCoordinate.ViewModels
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
                 settings.ResizeMode = System.Windows.ResizeMode.CanResize;
+                settings.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                 return settings;
             }
         }

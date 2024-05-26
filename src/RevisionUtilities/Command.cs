@@ -43,6 +43,7 @@ namespace SCaddins.RevisionUtilities
             settings.Title = "Revision Tools - By Andrew Nicholas";
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
+            settings.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             var vm = new ViewModels.RevisionUtilitiesViewModel(doc);
             SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, settings);
             return Result.Succeeded;

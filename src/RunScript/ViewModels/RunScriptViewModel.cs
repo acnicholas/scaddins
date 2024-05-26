@@ -38,8 +38,6 @@ namespace SCaddins.RunScript.ViewModels
         private string currentFileName;
         private ExternalCommandData commandData;
         private ElementSet elements;
-        // private System.Drawing.Color backgroundColour;
-        // private System.Drawing.Color foregroundColour;
 
         public RunScriptViewModel(ExternalCommandData commandData, ElementSet elements)
         {
@@ -77,28 +75,6 @@ namespace SCaddins.RunScript.ViewModels
             get; set;
         }
 
-        //public System.Drawing.Color Background
-        //{   
-        //    get => backgroundColour;
-
-        //    set
-        //    {
-        //        backgroundColour = value;
-        //        NotifyOfPropertyChange(() => Background);
-        //    }
-        //}
-
-        //public System.Drawing.Color Foreground
-        //{
-        //    get => foregroundColour;
-
-        //    set
-        //    {
-        //        foregroundColour = value;
-        //        NotifyOfPropertyChange(() => Foreground);
-        //    }
-        //}
-
         public string Script
         {
             get => script;
@@ -120,38 +96,6 @@ namespace SCaddins.RunScript.ViewModels
             }
         }
 
-        public BindableCollection<string> OutputList
-        {
-            get
-            {
-                outputList.Clear();
-                if (!string.IsNullOrEmpty(output))
-                {
-                    using (StringReader sr = new StringReader(Output))
-                    {
-                        string line;
-                        while ((line = sr.ReadLine()) != null)
-                        {
-                            outputList.Add(line);
-                        }
-                    }
-                }
-                return outputList;
-            }
-        }
-
-        //public SyntaxHighlighter SyntaxColoursList
-        //{
-        //    get => syntaxColours;
-
-        //    set
-        //    {
-        //        syntaxColours = value;
-        //        SCaddinsApp.WindowManager.ShowMessageBox("rrr");
-        //        NotifyOfPropertyChange(() => SyntaxColoursList);
-        //    }
-        //}
-
         public string Output
         {
             get => output;
@@ -164,7 +108,6 @@ namespace SCaddins.RunScript.ViewModels
                 }
                 output = value;
                 NotifyOfPropertyChange(() => Output);
-                NotifyOfPropertyChange(() => OutputList);
             }
         }
 
@@ -180,18 +123,10 @@ namespace SCaddins.RunScript.ViewModels
 
         public void DarkMode()
         {
-            //Background = System.Drawing.Color.Black;
-            //Foreground = System.Drawing.Color.White;
-            // syntaxColours.StringStyle = new TextStyle(System.Drawing.Brushes.Red, System.Drawing.Brushes.Black, FontStyle.Bold);
-            // NotifyOfPropertyChange(() => SyntaxColoursList);
         }
 
         public void LightMode()
         {
-            //Background = System.Drawing.Color.White;
-            //Foreground = System.Drawing.Color.Black;
-            // syntaxColours.StringStyle = new TextStyle(System.Drawing.Brushes.Green, System.Drawing.Brushes.White, FontStyle.Bold);
-            // NotifyOfPropertyChange(() => SyntaxColoursList);
         }
 
         public void IncreaseFontSize()
@@ -277,7 +212,6 @@ namespace SCaddins.RunScript.ViewModels
                     Output = "No output";
                     return;
             }
-            OutputList.Clear();
             Output = sb.ToString();
             SaveScratch();
         }

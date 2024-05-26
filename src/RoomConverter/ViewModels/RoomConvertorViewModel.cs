@@ -53,6 +53,7 @@ namespace SCaddins.RoomConverter.ViewModels
                 settings.Title = "Room Converter - By Andrew Nicholas";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;
+                settings.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                 return settings;
             }
         }

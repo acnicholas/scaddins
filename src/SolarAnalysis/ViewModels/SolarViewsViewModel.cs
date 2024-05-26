@@ -84,6 +84,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
                 settings.Title = "Solar Analysis - By Andrew Nicholas";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+                settings.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                 return settings;
             }
         }

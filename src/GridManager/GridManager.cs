@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with SCaddins.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace SCaddins.GridManager
 {
@@ -46,16 +44,16 @@ namespace SCaddins.GridManager
                         ToggleGridEnd(grid, enable, DatumEnds.End0, activeView);
                         continue;
                     }
-                    
+
                     var direction = GetGridDirection(grid); // get the direction of the current grid.
                     // check if it's within 45 degress(+-) of the left of the screen
                     var upwardDirection = activeView.UpDirection.Negate();
                     var crossProduct = direction.DotProduct(upwardDirection);
-                    
+
                     // .707 is 45 degress
                     if (Math.Abs(crossProduct) >= 0.707)
                     {
-                        var datumEnd = crossProduct < 0 ? DatumEnds.End1 : DatumEnds.End0; 
+                        var datumEnd = crossProduct < 0 ? DatumEnds.End1 : DatumEnds.End0;
                         ToggleGridEnd(grid, enable, datumEnd, activeView);
                     }
                 }
@@ -74,18 +72,18 @@ namespace SCaddins.GridManager
                     // check if it's within 45 degress(+-) of the left of the screen
                     var leftDirection = activeView.RightDirection.Negate();
                     var crossProduct = direction.DotProduct(leftDirection);
-                    
+
                     // .707 is 45 degress
                     if (Math.Abs(crossProduct) >= 0.707)
                     {
-                        var datumEnd = crossProduct < 0 ? DatumEnds.End1 : DatumEnds.End0; 
+                        var datumEnd = crossProduct < 0 ? DatumEnds.End1 : DatumEnds.End0;
                         ToggleGridEnd(grid, enable, datumEnd, activeView);
                     }
                 }
                 transaction.Commit();
             }
         }
-        
+
         public static void ShowLeftLevelEndsByView(View activeView, bool enable, List<ElementId> selection)
         {
             using (var transaction = new Transaction(activeView.Document, "Toggle Left Level Ends"))
@@ -97,10 +95,11 @@ namespace SCaddins.GridManager
                         var levelCurves = level.GetCurvesInView(DatumExtentType.Model, activeView);
                         var ep = levelCurves.First().GetEndPoint(1);
                         var sp = levelCurves.First().GetEndPoint(0);
-                        if (ep.X < sp.X || ep.Y < sp.Y) 
+                        if (ep.X < sp.X || ep.Y < sp.Y)
                         {
                             ToggleLevelEnd(level, enable, DatumEnds.End1, activeView);
-                        } else
+                        }
+                        else
                         {
                             ToggleLevelEnd(level, enable, DatumEnds.End0, activeView);
                         }
@@ -109,7 +108,7 @@ namespace SCaddins.GridManager
                 transaction.Commit();
             }
         }
-        
+
         public static void ShowRightGridBubblesByView(View activeView, bool enable, List<ElementId> selection)
         {
             using (var transaction = new Transaction(activeView.Document, "Toggle Right Grids"))
@@ -118,22 +117,22 @@ namespace SCaddins.GridManager
                 foreach (var grid in GetAllGridsInView(activeView, selection))
                 {
                     var direction = GetGridDirection(grid); // get the direction of the current grid.
-                    
+
                     // check if it's within 45 degress(+-) of the left of the screen
                     var rightDirection = activeView.RightDirection;
                     var crossProduct = direction.DotProduct(rightDirection);
-                    
+
                     // .707 is 45 degress
                     if (Math.Abs(crossProduct) >= 0.707)
                     {
-                        var datumEnd = crossProduct < 0 ? DatumEnds.End1 : DatumEnds.End0; 
+                        var datumEnd = crossProduct < 0 ? DatumEnds.End1 : DatumEnds.End0;
                         ToggleGridEnd(grid, enable, datumEnd, activeView);
                     }
                 }
                 transaction.Commit();
             }
         }
-        
+
         public static void ShowRightLevelEndsByView(View activeView, bool enable, List<ElementId> selection)
         {
             using (var transaction = new Transaction(activeView.Document, "Toggle Right Level Ends"))
@@ -158,7 +157,7 @@ namespace SCaddins.GridManager
                 transaction.Commit();
             }
         }
-        
+
         public static void ShowTopGridBubblesByView(View activeView, bool enable, List<ElementId> selection)
         {
             using (var transaction = new Transaction(activeView.Document, "Toggle Top Grids"))
@@ -173,17 +172,17 @@ namespace SCaddins.GridManager
                         ToggleGridEnd(grid, enable, DatumEnds.End1, activeView);
                         continue;
                     }
-                    
+
                     var direction = GetGridDirection(grid); // get the direction of the current grid.
-                    
+
                     // check if it's within 45 degress(+-) of the left of the screen
                     var upwardDirection = activeView.UpDirection;
                     var crossProduct = direction.DotProduct(upwardDirection);
-                    
+
                     // .707 is 45 degress
                     if (Math.Abs(crossProduct) >= 0.707)
                     {
-                        var datumEnd = crossProduct < 0 ? DatumEnds.End1 : DatumEnds.End0; 
+                        var datumEnd = crossProduct < 0 ? DatumEnds.End1 : DatumEnds.End0;
                         ToggleGridEnd(grid, enable, datumEnd, activeView);
                     }
                 }
@@ -241,6 +240,7 @@ namespace SCaddins.GridManager
             settings.Title = "Grid and Level Tools - By Andrew Nicholas";
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
+            settings.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             var selection = udoc.Selection.GetElementIds().ToList();
             var vm = new ViewModels.GridManagerViewModel(udoc.ActiveView, selection);
             SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, settings);
@@ -268,7 +268,7 @@ namespace SCaddins.GridManager
             {
                 return GetAllGridsInSelection(activeView, selection);
             }
-            
+
             var grids = new List<Grid>();
             using (var fec = new FilteredElementCollector(activeView.Document, activeView.Id))
             {
@@ -281,7 +281,7 @@ namespace SCaddins.GridManager
             }
             return grids;
         }
-        
+
         private static List<Level> GetAllLevelsInSelection(View activeView, List<ElementId> selection)
         {
             var levels = new List<Level>();
@@ -296,14 +296,14 @@ namespace SCaddins.GridManager
             }
             return levels;
         }
-        
+
         private static List<Level> GetAllLevelsInView(View activeView, List<ElementId> selection)
         {
             if (selection != null && selection.Count > 0)
             {
                 return GetAllLevelsInSelection(activeView, selection);
             }
-            
+
             var levels = new List<Level>();
             using (var fec = new FilteredElementCollector(activeView.Document, activeView.Id))
             {
@@ -328,7 +328,7 @@ namespace SCaddins.GridManager
 
             return direction;
         }
-        
+
         private static void ToggleGridEnd(Grid grid, bool show, DatumEnds end, View activeView)
         {
             if (show)
@@ -340,7 +340,7 @@ namespace SCaddins.GridManager
                 grid.HideBubbleInView(end, activeView);
             }
         }
-        
+
         private static void ToggleLevelEnd(Level level, bool show, DatumEnds end, View activeView)
         {
             if (show)

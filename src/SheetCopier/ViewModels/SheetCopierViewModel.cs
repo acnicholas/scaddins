@@ -51,6 +51,7 @@ namespace SCaddins.SheetCopier.ViewModels
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;
                 settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
+                settings.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                 return settings;
             }
         }
