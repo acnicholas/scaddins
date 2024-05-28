@@ -1,9 +1,12 @@
 # SCaddins Revision Log #
 
-# 24.2.0 #
+# 25.0.0 #
 
 #### NEW ####
 
+- Initial Revit Build 2025.
+- Change installer backend.
+- Add lots of examples to Run Script tool.
 - Remove Revit 2018 and 2019 support.
 - Add hatch from template option to Hatch Editor.
 - Add option to increment viewport detail number [Increment Tool]

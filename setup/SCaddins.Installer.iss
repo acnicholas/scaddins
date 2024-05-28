@@ -66,32 +66,32 @@ Name: revit2025; Description: "Revit 2025 add-in"; Types: full custom
 	
 #if R2020 == "Enabled"
     Source: "..\src\bin\Release2020\SCaddins2020.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2020\"; DestName: "SCaddins20.addin"; Flags: ignoreversion; Components: revit2020 
-    Source: "..\src\bin\Release2020\*.dll"; Excludes: "Revit*.dll,AdWindows.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020  
+    Source: "..\src\bin\Release2020\*.dll"; Excludes: "Revit*.dll,AdWindows.dll,UIFramework.dll,ICSharpCode.AvalonEdit.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020  
 #endif
 	
 #if R2021 == "Enabled"
     Source: "..\src\bin\Release2021\SCaddins2021.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2021\"; DestName: "SCaddins21.addin"; Flags: ignoreversion; Components: revit2021 
-    Source: "..\src\bin\Release2021\*.dll"; Excludes: "Revit*.dll,AdWindows.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021 
+    Source: "..\src\bin\Release2021\*.dll"; Excludes: "Revit*.dll,AdWindows.dll,UIFramework.dll,ICSharpCode.AvalonEdit.dll"; DestDir: "{app}\2021\"; Flags: ignoreversion; Components: revit2021 
 #endif
 	
 #if R2022 == "Enabled"
     Source: "..\src\bin\Release2022\SCaddins2022.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2022\"; DestName: "SCaddins22.addin"; Flags: ignoreversion; Components: revit2022 
-    Source: "..\src\bin\Release2022\*.dll"; Excludes: "Revit*.dll,AdWindows.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022  
+    Source: "..\src\bin\Release2022\*.dll"; Excludes: "Revit*.dll,AdWindows.dll,UIFramework.dll,ICSharpCode.AvalonEdit.dll"; DestDir: "{app}\2022\"; Flags: ignoreversion; Components: revit2022  
 #endif
 	
 #if R2023 == "Enabled"
     Source: "..\src\bin\Release2023\SCaddins2023.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2023\"; DestName: "SCaddins23.addin"; Flags: ignoreversion; Components: revit2023  
-    Source: "..\src\bin\Release2023\*.dll"; Excludes: "Revit*.dll,AdWindows.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023  
+    Source: "..\src\bin\Release2023\*.dll"; Excludes: "Revit*.dll,AdWindows.dll,UIFramework.dll,ICSharpCode.AvalonEdit.dll"; DestDir: "{app}\2023\"; Flags: ignoreversion; Components: revit2023  
 #endif
 
 #if R2024 == "Enabled"
     Source: "..\src\bin\Release2024\SCaddins2024.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2024\"; DestName: "SCaddins24.addin"; Flags: ignoreversion; Components: revit2024 
-    Source: "..\src\bin\Release2024\*.dll"; Excludes: "Revit*.dll,AdWindows.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024 
+    Source: "..\src\bin\Release2024\*.dll"; Excludes: "Revit*.dll,AdWindows.dll,UIFramework.dll,ICSharpCode.AvalonEdit.dll"; DestDir: "{app}\2024\"; Flags: ignoreversion; Components: revit2024 
 #endif
 
 #if R2025 == "Enabled"
     Source: "..\src\bin\Release2025\SCaddins2025.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2025\"; DestName: "SCaddins25.addin"; Flags: ignoreversion; Components: revit2025 
-    Source: "..\src\bin\Release2025\*.dll"; Excludes: "Revit*.dll,AdWindows.dll"; DestDir: "{app}\2025\"; Flags: ignoreversion; Components: revit2025 
+    Source: "..\src\bin\Release2025\*.dll"; Excludes: "Revit*.dll,AdWindows.dll,UIFramework.dll,ICSharpCode.AvalonEdit.dll"; DestDir: "{app}\2025\"; Flags: ignoreversion; Components: revit2025 
 #endif
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
