@@ -13,7 +13,7 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <ListView x:Name="Items" Margin="5"></ListView>
+        <ListView x:Name="Items" Margin="5" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"></ListView>
         <Button x:Name="Ok" Grid.Row="1" MinWidth="75" HorizontalAlignment="Right" Margin="5">OK</Button>
         <Button x:Name="Cancel" Grid.Row="1" MinWidth="75" HorizontalAlignment="Left" Margin="5">Cancel</Button>
     </Grid>

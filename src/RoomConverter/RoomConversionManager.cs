@@ -332,7 +332,7 @@ namespace SCaddins.RoomConverter
                 result.Add(s + @" : " + e.Name.Replace(@"(primary)", string.Empty).Trim());
             }
 
-            return result;
+            return result.OrderBy(q => q).ToList();
         }
 
         internal List<string> GetAllDepartments()

@@ -167,9 +167,10 @@ namespace SCaddins.RoomConverter.ViewModels
                     dynamic settings = new System.Dynamic.ExpandoObject();
                     settings.Height = 320;
                     settings.Width = 640;
+                    settings.MaxHeight = 800;
                     settings.Title = "Select Deisgn Option";
                     settings.ShowInTaskbar = false;
-                    settings.SizeToContent = System.Windows.SizeToContent.Height;
+                    settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
                     var windowManager = SCaddinsApp.WindowManager;
                     var vm = new ListSelectionViewModel(RoomConversionManager.GetAllDesignOptionNames(manager.Doc));
                     var task = windowManager.ShowDialogAsync(vm, null, settings);
