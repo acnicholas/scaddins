@@ -1,12 +1,12 @@
 import ('RevitAPI', 'Autodesk.Revit.DB')
 
 local doc = commandData.Application.ActiveUIDocument.Document
-fec:OfCategory(BuiltInCategory.OST_Rooms):ToElements()
+f = fec:OfCategory(BuiltInCategory.OST_Rooms):ToElements()
 
 t     = Transaction(doc)
 t:Start('ADG rooms names')
-for i = 0, fec.Count-1 do
-        room = fec[i]
+for i = 0, f.Count-1 do
+        room = f[i]
         area = room.Area * 0.092903              -- convert sq feet to sqm
         if area < 50 then
               room.Name = "Room"

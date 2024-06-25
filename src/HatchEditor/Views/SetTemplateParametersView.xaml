@@ -16,7 +16,7 @@
             <ColumnDefinition MinWidth="200" Width="300*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <GroupBox Header="Assign Pattern Parameters" Grid.Column="0" Grid.Row="0">
-            <DataGrid x:Name="TemplateParameters">
+            <DataGrid x:Name="TemplateParameters" Padding="5" Margin="5" AlternatingRowBackground="LightGray" GridLinesVisibility="Vertical" BorderThickness="0">
             </DataGrid>
         </GroupBox>
         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Right" Orientation="Horizontal">

@@ -29,11 +29,13 @@ namespace SCaddins.RunScript.ViewModels
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Caliburn.Micro;
+    using ICSharpCode.AvalonEdit.Editing;
 
     internal class RunScriptViewModel : Screen
     {
         private string output;
         private string script;
+        private TextArea selectedText;
         private BindableCollection<string> outputList;
         private string currentFileName;
         private ExternalCommandData commandData;
@@ -46,6 +48,7 @@ namespace SCaddins.RunScript.ViewModels
             currentFileName = string.Empty;
             output = string.Empty;
             outputList = new BindableCollection<string>();
+            //selectedText = new ICSharpCode.AvalonEdit.Editing.TextArea();
             LoadScratch();
             FontSize = 13;
             NotifyOfPropertyChange(() => FontSize);
@@ -59,11 +62,12 @@ namespace SCaddins.RunScript.ViewModels
                 dynamic settings = new ExpandoObject();
                 settings.Height = 640;
                 settings.Width = 640;
+                settings.MaxHeight = 800;
                 settings.Title = "Run Lua Script";
                 settings.ShowInTaskbar = false;
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
                     new Uri("pack://application:,,,/SCaddins;component/Assets/lua.png"));
-                settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+                settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight; 
                 return settings;
             }
         }
@@ -83,6 +87,17 @@ namespace SCaddins.RunScript.ViewModels
             {
                 script = value;
                 NotifyOfPropertyChange(() => Script);
+            }
+        }
+
+        public TextArea SelectedText
+        {
+            get => selectedText;
+
+            set
+            {
+                selectedText = value;
+                NotifyOfPropertyChange(() => SelectedText);
             }
         }
 
@@ -119,6 +134,11 @@ namespace SCaddins.RunScript.ViewModels
                 Verb = "open"
             };
             Process.Start(ps);
+        }
+
+        public void CommentSelection()
+        {
+            SCaddinsApp.WindowManager.ShowMessageBox(SelectedText.Selection.Segments.GetEnumerator().Current.ToString());
         }
 
         public void DarkMode()

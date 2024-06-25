@@ -1,5 +1,7 @@
-﻿using System;
+﻿using ICSharpCode.AvalonEdit.Editing;
+using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace SCaddins.RunScript.Views
@@ -82,7 +84,4 @@ namespace SCaddins.RunScript.Views
 
         public event PropertyChangedEventHandler PropertyChanged;
     }
-
-
-
 }

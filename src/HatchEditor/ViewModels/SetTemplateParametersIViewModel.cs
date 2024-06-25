@@ -41,6 +41,7 @@ namespace SCaddins.HatchEditor.ViewModels
                 settings.Title = "Assign Parameter Vaiues";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;
+                settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
                 return settings;
             }
         }

@@ -241,6 +241,7 @@ namespace SCaddins.GridManager
             settings.ShowInTaskbar = false;
             settings.SizeToContent = System.Windows.SizeToContent.Manual;
             settings.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
             var selection = udoc.Selection.GetElementIds().ToList();
             var vm = new ViewModels.GridManagerViewModel(udoc.ActiveView, selection);
             SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, settings);
