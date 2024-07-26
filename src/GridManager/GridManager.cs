@@ -30,10 +30,12 @@ namespace SCaddins.GridManager
     [Autodesk.Revit.Attributes.Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     public class GridManager : IExternalCommand
     {
-        public static void ShowBottomGridBubblesByView(View activeView, bool enable, List<ElementId> selection)
+        public static int ShowBottomGridBubblesByView(View activeView, bool enable, List<ElementId> selection)
         {
+            int result = 0;
             using (var transaction = new Transaction(activeView.Document, "Toggle Bottom Grids"))
             {
+  
                 transaction.Start();
                 foreach (var grid in GetAllGridsInView(activeView, selection))
                 {
@@ -42,6 +44,7 @@ namespace SCaddins.GridManager
                     if (viewDirection.Z == 0)
                     {
                         ToggleGridEnd(grid, enable, DatumEnds.End0, activeView);
+                        result++;
                         continue;
                     }
 
@@ -55,14 +58,25 @@ namespace SCaddins.GridManager
                     {
                         var datumEnd = crossProduct < 0 ? DatumEnds.End1 : DatumEnds.End0;
                         ToggleGridEnd(grid, enable, datumEnd, activeView);
+                        result++;
                     }
                 }
                 transaction.Commit();
             }
+            return result;
         }
 
-        public static void ShowLeftGridBubblesByView(View activeView, bool enable, List<ElementId> selection)
+        public static string GetViewInformation(View activeView, List<ElementId> selection)
         {
+            var grids = GetAllGridsInView(activeView, selection);
+            var levels = GetAllLevelsInView(activeView, selection);
+            var s = (selection != null && selection.Count > 0) ? "selection" : "view";
+            return "Grids in " + s + ": " + grids.Count + "; Levels in " + s + ": " + levels.Count;
+        }
+
+        public static int ShowLeftGridBubblesByView(View activeView, bool enable, List<ElementId> selection)
+        {
+            int result = 0;
             using (var transaction = new Transaction(activeView.Document, "Toggle Left Grids"))
             {
                 transaction.Start();
@@ -78,10 +92,12 @@ namespace SCaddins.GridManager
                     {
                         var datumEnd = crossProduct < 0 ? DatumEnds.End1 : DatumEnds.End0;
                         ToggleGridEnd(grid, enable, datumEnd, activeView);
+                        result++;
                     }
                 }
                 transaction.Commit();
             }
+            return result;
         }
 
         public static void ShowLeftLevelEndsByView(View activeView, bool enable, List<ElementId> selection)
@@ -109,8 +125,9 @@ namespace SCaddins.GridManager
             }
         }
 
-        public static void ShowRightGridBubblesByView(View activeView, bool enable, List<ElementId> selection)
+        public static int ShowRightGridBubblesByView(View activeView, bool enable, List<ElementId> selection)
         {
+            int result = 0;
             using (var transaction = new Transaction(activeView.Document, "Toggle Right Grids"))
             {
                 transaction.Start();
@@ -127,14 +144,17 @@ namespace SCaddins.GridManager
                     {
                         var datumEnd = crossProduct < 0 ? DatumEnds.End1 : DatumEnds.End0;
                         ToggleGridEnd(grid, enable, datumEnd, activeView);
+                        result++;
                     }
                 }
                 transaction.Commit();
             }
+            return result;
         }
 
-        public static void ShowRightLevelEndsByView(View activeView, bool enable, List<ElementId> selection)
+        public static int ShowRightLevelEndsByView(View activeView, bool enable, List<ElementId> selection)
         {
+            int result = 0;
             using (var transaction = new Transaction(activeView.Document, "Toggle Right Level Ends"))
             {
                 transaction.Start();
@@ -147,19 +167,23 @@ namespace SCaddins.GridManager
                         if (ep.X < sp.X || ep.Y < sp.Y)
                         {
                             ToggleLevelEnd(level, enable, DatumEnds.End0, activeView);
+                            result++;
                         }
                         else
                         {
                             ToggleLevelEnd(level, enable, DatumEnds.End1, activeView);
+                            result++;
                         }
                     }
                 }
                 transaction.Commit();
             }
+            return result;
         }
 
-        public static void ShowTopGridBubblesByView(View activeView, bool enable, List<ElementId> selection)
+        public static int ShowTopGridBubblesByView(View activeView, bool enable, List<ElementId> selection)
         {
+            int result = 0;
             using (var transaction = new Transaction(activeView.Document, "Toggle Top Grids"))
             {
                 transaction.Start();
@@ -170,6 +194,7 @@ namespace SCaddins.GridManager
                     if (viewDirection.Z == 0)
                     {
                         ToggleGridEnd(grid, enable, DatumEnds.End1, activeView);
+                        result++;
                         continue;
                     }
 
@@ -184,10 +209,12 @@ namespace SCaddins.GridManager
                     {
                         var datumEnd = crossProduct < 0 ? DatumEnds.End1 : DatumEnds.End0;
                         ToggleGridEnd(grid, enable, datumEnd, activeView);
+                        result++;
                     }
                 }
                 transaction.Commit();
             }
+            return result;
         }
 
         public static void Toggle2dGridsByView(View activeView, bool make2d, List<ElementId> selection)

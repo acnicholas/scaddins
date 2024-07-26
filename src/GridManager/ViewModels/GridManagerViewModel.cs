@@ -33,11 +33,13 @@ namespace SCaddins.GridManager.ViewModels
         private bool? showTopBubbles;
         private bool? showBottomBubbles;
         private List<ElementId> selection;
-        
+        private string statusBarLabel;
+
         public GridManagerViewModel(View activeView, List<ElementId> selection)
         {
             this.activeView = activeView;
             this.selection = selection;
+            StatusBarLabel = GridManager.GetViewInformation(activeView, selection);
         }
         
         public bool? ShowBottomGridBubbles
@@ -48,12 +50,14 @@ namespace SCaddins.GridManager.ViewModels
                 if (value.HasValue)
                 {
                     showBottomBubbles = value;
-                    GridManager.ShowBottomGridBubblesByView(activeView, showBottomBubbles.Value, selection);
+                    var i = GridManager.ShowBottomGridBubblesByView(activeView, showBottomBubbles.Value, selection);
+                    StatusBarLabel = i + " Grid bubbles edited";
                 }
                 else
                 {
                     showBottomBubbles = true;
-                    GridManager.ShowBottomGridBubblesByView(activeView, true, selection);
+                    var i = GridManager.ShowBottomGridBubblesByView(activeView, true, selection);
+                    StatusBarLabel = i + " Grid bubbles edited";
                 }
                 NotifyOfPropertyChange(() => ShowBottomGridBubblesLabel);
                 NotifyOfPropertyChange(() => ShowBottomGridBubbles);
@@ -80,12 +84,14 @@ namespace SCaddins.GridManager.ViewModels
                 if (value.HasValue)
                 {
                     showLeftBubbles = value;
-                    GridManager.ShowLeftGridBubblesByView(activeView, showLeftBubbles.Value, selection);
+                    var i = GridManager.ShowLeftGridBubblesByView(activeView, showLeftBubbles.Value, selection);
+                    StatusBarLabel = i + " Grid bubbles edited";
                 }
                 else
                 {
                     showLeftBubbles = true;
-                    GridManager.ShowLeftGridBubblesByView(activeView, true, selection);
+                    var i = GridManager.ShowLeftGridBubblesByView(activeView, true, selection);
+                    StatusBarLabel = i + " Grid bubbles edited";
                 }
                 NotifyOfPropertyChange(() => ShowLeftGridBubblesLabel);
                 NotifyOfPropertyChange(() => ShowLeftGridBubbles);
@@ -124,12 +130,14 @@ namespace SCaddins.GridManager.ViewModels
                 if (value.HasValue)
                 {
                     showRightBubbles = value;
-                    GridManager.ShowRightGridBubblesByView(activeView, showRightBubbles.Value, selection);
+                    var count = GridManager.ShowRightGridBubblesByView(activeView, showRightBubbles.Value, selection);
+                    StatusBarLabel = count + " Grid bubbles edited";
                 }
                 else
                 {
                     showRightBubbles = true;
-                    GridManager.ShowRightGridBubblesByView(activeView, true, selection);
+                    var count = GridManager.ShowRightGridBubblesByView(activeView, true, selection);
+                    StatusBarLabel = count + " Grid bubbles edited";
                 }
                 NotifyOfPropertyChange(() => ShowRightGridBubblesLabel);
                 NotifyOfPropertyChange(() => ShowRightGridBubbles);
@@ -173,12 +181,14 @@ namespace SCaddins.GridManager.ViewModels
                 if (value.HasValue)
                 {
                     showTopBubbles = value;
-                    GridManager.ShowTopGridBubblesByView(activeView, showTopBubbles.Value, selection);
+                    var i = GridManager.ShowTopGridBubblesByView(activeView, showTopBubbles.Value, selection);
+                    StatusBarLabel = i + " Grid bubbles edited";
                 }
                 else
                 {
                     showTopBubbles = true;
-                    GridManager.ShowTopGridBubblesByView(activeView, true, selection);
+                    var i = GridManager.ShowTopGridBubblesByView(activeView, true, selection);
+                    StatusBarLabel = i + " Grid bubbles edited";
                 }
                 NotifyOfPropertyChange(() => ShowTopGridBubblesLabel);
                 NotifyOfPropertyChange(() => ShowTopGridBubbles);
@@ -186,7 +196,21 @@ namespace SCaddins.GridManager.ViewModels
         }
         
         public string ShowTopGridBubblesLabel  => "Top Grid Bubbles";
-        
+
+        public string StatusBarLabel
+        {
+            get
+            {
+                return statusBarLabel;
+            }
+            private set
+            {
+                statusBarLabel = value;
+                NotifyOfPropertyChange(() => StatusBarLabel);
+            }
+        }
+
+
         public void ShowAllGridBubbles()
         {
             ShowBottomGridBubbles = true;
