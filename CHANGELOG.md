@@ -6,6 +6,7 @@
 
 - Initial Revit Build 2025.
 - Change installer backend.
+- Add dark mode icons
 - Add lots of examples to Run Script tool.
 - Remove Revit 2018 and 2019 support.
 - Add hatch from template option to Hatch Editor.
