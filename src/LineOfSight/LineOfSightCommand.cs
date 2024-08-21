@@ -39,13 +39,13 @@ namespace SCaddins.LineOfSight
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
             dynamic settings = new ExpandoObject();
-            settings.Height = 480;
+            settings.Height = 640;
             settings.Width = 360;
             settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
                   new System.Uri("pack://application:,,,/SCaddins;component/Assets/scightlines.png"));
             settings.Title = "Stadium Line Of Sight - By A.Nicholas";
             settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.Width;
+            settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
             settings.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             var vm = new ViewModels.LineOfSightViewModel(doc);
             SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, settings);

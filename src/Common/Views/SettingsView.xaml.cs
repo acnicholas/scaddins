@@ -1,4 +1,11 @@
-﻿namespace SCaddins.Common.Views
+﻿using Antlr4.Runtime.Misc;
+using Caliburn.Micro;
+using SCaddins.ParameterUtilities.ViewModels;
+using System.Configuration;
+using System.Windows.Forms.Integration;
+using Wpf.Ui.Controls;
+
+namespace SCaddins.Common.Views
 {
     /// <summary>
     /// Interaction logic for AboutView.xaml

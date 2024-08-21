@@ -1,5 +1,6 @@
 ﻿<UserControl x:Class="SCaddins.RoomConverter.Views.RoomConvertorView"
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -48,7 +49,7 @@
 
         <FrameworkElement Grid.Row="0" x:Name="Dummy" Visibility="Collapsed"/>
 
-        <DataGrid
+        <ui:DataGrid
             x:Name="Rooms"
             cal:Message.Attach="[Event SelectionChanged] = [RowSelectionChanged($eventArgs)]"
             Grid.Row="1"
@@ -60,25 +61,43 @@
             GridLinesVisibility="None"
             HorizontalAlignment="Stretch" Margin="5">
 
-            <DataGrid.Resources>
-                <!--<Style x:Key="ColumnElementStyle" TargetType="TextBlock">
-                    <Setter Property="Margin" Value="5,0,10,0" />
-                </Style>-->
+            <ui:DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{x:Static SystemColors.HighlightColor}"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}"/>
+                <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
+                    <Setter Property="Margin" Value="1,1,1,1" />
+                </Style>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Style.Triggers>
+                        <Trigger Property="DataGridCell.IsSelected" Value="True">
+                            <Setter Property="Background" Value="#333333"/>
+                            <Setter Property="BorderBrush" Value="#333333" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 </Style>
-            </DataGrid.Resources>
+            </ui:DataGrid.Resources>
 
-            <DataGrid.VerticalGridLinesBrush>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
-            </DataGrid.VerticalGridLinesBrush>
-            <DataGrid.HorizontalGridLinesBrush>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
-            </DataGrid.HorizontalGridLinesBrush>
-            <DataGrid.AlternatingRowBackground>
+            <ui:DataGrid.ColumnHeaderStyle>
+                <Style>
+                </Style>
+            </ui:DataGrid.ColumnHeaderStyle>
+
+            <ui:DataGrid.AlternatingRowBackground>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
-            </DataGrid.AlternatingRowBackground>
-            <DataGrid.Columns>
+            </ui:DataGrid.AlternatingRowBackground>
+
+            <ui:DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{x:Static SystemColors.HighlightColor}"/>
+                    </Style.Resources>
+                </Style>
+            </ui:DataGrid.RowStyle>
+
+            <ui:DataGrid.Columns>
                 <DataGridTextColumn 
                     Header="Room Number"
                     Binding="{Binding Number}">
@@ -105,8 +124,8 @@
                     Binding="{Binding DestinationSheetName}"
                     Visibility="{Binding DataContext.SheetCreationMode,Converter={StaticResource BoolToVis},Source={x:Reference Dummy}}">
                 </DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+            </ui:DataGrid.Columns>
+        </ui:DataGrid>
         <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
         <Expander Grid.Row="2" ExpandDirection="Up" Header="Room Information" MaxHeight="300" Visibility="{Binding DataContext.RoomInformationIsAvailable,Converter={StaticResource BoolToVis},Source={x:Reference Dummy}}">
             <DataGrid x:Name="RoomParameters" Margin="5"/>
@@ -119,7 +138,13 @@
             <Label x:Name="SelectionInformation"></Label>
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="PushDataToRooms" Margin="5">Push Mass Data To Rooms</Button>
-                <Button x:Name="Run" Content="{Binding RunButtonText}" Margin="5"></Button>
+                <ui:Button 
+                    x:Name="Run"
+                    Content="{Binding RunButtonText}"
+                    Margin="5"
+                    Appearance="Primary"
+                    Icon="{ui:SymbolIcon Cube20}">
+                </ui:Button>
             </StackPanel>
         </Grid>
     </Grid>

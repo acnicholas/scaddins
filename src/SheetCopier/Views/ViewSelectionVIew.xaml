@@ -37,9 +37,37 @@
             IsReadOnly="True"
             cal:Message.Attach="[Event SelectionChanged] = [RowSheetSelectionChanged($eventArgs)]"
             GridLinesVisibility="None">
+
+            <DataGrid.Resources>
+                <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
+                    <Setter Property="Margin" Value="1,1,1,1" />
+                </Style>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="Margin" Value="1,1,1,1" />
+                    <Style.Triggers>
+                        <Trigger Property="DataGridCell.IsSelected" Value="True">
+                            <Setter Property="Background" Value="#333333" />
+                            <Setter Property="BorderBrush" Value="#333333" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </DataGrid.Resources>
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{x:Static SystemColors.HighlightColor}"/>
+                    </Style.Resources>
+                </Style>
+            </DataGrid.RowStyle>
+
             <DataGrid.AlternatingRowBackground>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </DataGrid.AlternatingRowBackground>
+            
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}" MinWidth="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="View Type" Binding="{Binding ViewType}" MinWidth="100"></DataGridTextColumn>

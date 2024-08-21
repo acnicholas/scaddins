@@ -77,7 +77,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
             get
             {
                 dynamic settings = new ExpandoObject();
-                settings.Height = 480;
+                settings.Height = 620;
                 settings.Width = 300;
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
                     new Uri("pack://application:,,,/SCaddins;component/Assets/scaos.png"));

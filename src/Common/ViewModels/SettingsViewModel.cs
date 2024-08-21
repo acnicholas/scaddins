@@ -5,20 +5,20 @@
 
     public class SettingsViewModel : Screen
     {
-        private ISettingPanel incrementViewModel;
+        private static ISettingPanel incrementViewModel;
         private ISettingPanel roomConverterViewModel;
         private ISettingPanel viewUtilitiesViewModel;
         private ISettingPanel spellCheckerOptionsViewModel;
         private ISettingPanel sheetCopierViewModel;
 
         public SettingsViewModel(
-            ISettingPanel svm,
+            ISettingPanel incrementViewModel,
             ISettingPanel roomConverterViewModel,
             ISettingPanel viewUtilitiesViewModel,
             ISettingPanel sheetCopierViewModel,
             ISettingPanel spellCheckerOptionsViewModel)
         {
-            IncrementViewModel = svm;
+            IncrementViewModel = incrementViewModel;
             RoomConverterViewModel = roomConverterViewModel;
             ViewUtilitiesViewModel = viewUtilitiesViewModel;
             SheetCopierViewModel = sheetCopierViewModel;
@@ -57,7 +57,7 @@
             }
         }
 
-        public ISettingPanel IncrementViewModel
+        public static ISettingPanel IncrementViewModel
         {
             get
             {
@@ -67,7 +67,7 @@
             set
             {
                 incrementViewModel = value;
-                NotifyOfPropertyChange(() => IncrementViewModel);
+                //NotifyOfPropertyChange(() => IncrementViewModel);
             }
         }
 
@@ -115,6 +115,9 @@
 
         public void Apply()
         {
+            if (IncrementViewModel == null) SCaddinsApp.WindowManager.ShowErrorMessageBox("NO","Bummer");
+            ParameterUtilities.ViewModels.SCincrementViewModel svm = IncrementViewModel as ParameterUtilities.ViewModels.SCincrementViewModel; ;
+            SCaddinsApp.WindowManager.ShowMessageBox(svm.SourceSearchPattern);
             IncrementViewModel.Apply();
             ViewUtilitiesViewModel.Apply();
             SpellCheckerOptionsViewModel.Apply();

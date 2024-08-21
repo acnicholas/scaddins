@@ -1,4 +1,6 @@
-﻿namespace SCaddins.RenameUtilities.Views
+﻿using Wpf.Ui.Appearance;
+
+namespace SCaddins.RenameUtilities.Views
 {
     /// <summary>
     /// Interaction logic for RenameUtilitiesView.xaml
@@ -8,6 +10,7 @@
         public RenameUtilitiesView()
         {
             InitializeComponent();
+            ApplicationThemeManager.Apply(this);
         }
     }
 }

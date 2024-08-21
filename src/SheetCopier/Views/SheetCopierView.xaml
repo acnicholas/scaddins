@@ -1,4 +1,6 @@
-﻿<UserControl x:Class="SCaddins.SheetCopier.Views.SheetCopierView"
+﻿<UserControl
+              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+              x:Class="SCaddins.SheetCopier.Views.SheetCopierView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -85,14 +87,14 @@
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Label  Grid.Column="0" Margin="5">New Sheets</Label>
-                    <Button x:Name="RemoveSheetSelection" IsEnabled="{Binding RemoveSheetSelectionIsEnabled}" Grid.Column="1" Margin="5">Remove Selection</Button>
-                    <Button x:Name="CopySheetSelection" Grid.Column="2" IsEnabled="{Binding CopySheetSelectionIsEnabled}" Margin="5">Copy</Button>
-                    <Button x:Name="AddCurrentView" IsEnabled="{Binding AddCurrentSheetIsEnabled}" Content="{Binding AddCurrentSheetLabel}"  Grid.Column="3" Margin="5"></Button>
+                    <ui:Button x:Name="RemoveSheetSelection" IsEnabled="{Binding RemoveSheetSelectionIsEnabled}" Grid.Column="1" Margin="5">Remove Selection</ui:Button>
+                    <ui:Button x:Name="CopySheetSelection" Grid.Column="2" IsEnabled="{Binding CopySheetSelectionIsEnabled}" Margin="5">Copy</ui:Button>
+                    <ui:Button x:Name="AddCurrentView" IsEnabled="{Binding AddCurrentSheetIsEnabled}" Content="{Binding AddCurrentSheetLabel}"  Grid.Column="3" Margin="5"></ui:Button>
                     <!--<Button x:Name="AddViews" Grid.Column="4" Margin="5">Select Views</Button>-->
-                    <Button x:Name="AddSheets" Grid.Column="5" Margin="5">Add Views</Button>
+                    <ui:Button x:Name="AddSheets" Grid.Column="5" Margin="5">Add Views</ui:Button>
                 </Grid>
                 <FrameworkElement Grid.Row="1" x:Name="Dummy" Visibility="Collapsed"/>
-                <DataGrid
+                <ui:DataGrid
                     x:Name="ViewHosts"
                     AutoGenerateColumns="False"
                     Grid.Row="1"
@@ -100,11 +102,41 @@
                     SelectionMode="Single"
                     VirtualizingStackPanel.VirtualizationMode="Standard"
                     cal:Message.Attach="[Event SelectionChanged] = [RowSheetSelectionChanged($eventArgs)]"
-                    GridLinesVisibility="None">
-                    <DataGrid.AlternatingRowBackground>
-                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-                    </DataGrid.AlternatingRowBackground>
-                    <DataGrid.Columns>
+                    GridLinesVisibility="Vertical">
+
+                    <ui:DataGrid.Resources>
+                        <!--<SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{x:Static SystemColors.HighlightColor}"/>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}"/>-->
+                        <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
+                            <Setter Property="Margin" Value="1,1,1,1" />
+                        </Style>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <Trigger Property="DataGridCell.IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#cccccc"/>
+                                    <Setter Property="BorderBrush" Value="#333333" />
+                                    <Setter Property="Foreground" Value="#333333" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ui:DataGrid.Resources>
+
+                    <ui:DataGrid.AlternatingRowBackground>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                    </ui:DataGrid.AlternatingRowBackground>
+
+                    <ui:DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Style.Resources>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{x:Static SystemColors.HighlightColor}"/>
+                            </Style.Resources>
+                        </Style>
+                    </ui:DataGrid.RowStyle>
+
+                    <ui:DataGrid.Columns>
                         <DataGridTextColumn Header="Sheet Number" Binding="{Binding Number}" MinWidth="100"></DataGridTextColumn>
                         <DataGridTextColumn Header="Sheet Name" Binding="{Binding Title}" Width="*"></DataGridTextColumn>
                         <DataGridTemplateColumn 
@@ -146,8 +178,8 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                    </ui:DataGrid.Columns>
+                </ui:DataGrid>
             </Grid>
             <GridSplitter Grid.Row="1" Height="5" Width="Auto"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"></GridSplitter>
             <Grid Grid.Row="2">
@@ -163,7 +195,7 @@
                     <Label  x:Name="ChildViewsTitleLabel" Grid.Column="0"></Label>
                     <Button x:Name="RemoveSelectedViews" IsEnabled="{Binding RemoveSelectedViewsIsEnabled}" Content="{Binding RemoveViewsLabel}" Grid.Column="1" Margin="5"></Button>
                 </Grid>
-                <DataGrid
+                <ui:DataGrid
                     x:Name="ChildViews"
                     AutoGenerateColumns="False"
                     Grid.Row="1"
@@ -174,7 +206,7 @@
                     <DataGrid.AlternatingRowBackground>
                         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                     </DataGrid.AlternatingRowBackground>
-                    <DataGrid.Columns>
+                    <ui:DataGrid.Columns>
                         <DataGridTextColumn Header="Original Title" Binding="{Binding OriginalTitle, Mode=OneWay}"  MinWidth="75"></DataGridTextColumn>
                         <DataGridTextColumn Header="Proposed Title" Binding="{Binding Title}"  MinWidth="75"></DataGridTextColumn>
                         <DataGridComboBoxColumn
@@ -212,10 +244,10 @@
                         </DataGridComboBoxColumn>
                         <DataGridTextColumn Header="View Type" MinWidth="75" Binding="{Binding RevitViewType, Mode=OneWay}"></DataGridTextColumn>
                         <DataGridCheckBoxColumn Header="Copy Detailing" Binding="{Binding DuplicateWithDetailing}" Width="*"></DataGridCheckBoxColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                    </ui:DataGrid.Columns>
+                </ui:DataGrid>
             </Grid>
         </Grid>
-        <Button x:Name="Go" Content="{Binding GoLabel}" IsEnabled="{Binding GoLabelIsEnabled}"   Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" MinWidth="50" Margin="5"></Button>
+        <ui:Button x:Name="Go" Content="{Binding GoLabel}" IsEnabled="{Binding GoLabelIsEnabled}"   Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" MinWidth="50" Margin="5"></ui:Button>
     </Grid>
 </UserControl>

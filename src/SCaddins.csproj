@@ -111,6 +111,7 @@
     <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
     <PackageReference Include="Caliburn.Micro" Version="4.0.212" />
     <PackageReference Include="CoreCLR-NCalc" Version="3.1.233" />
+    <PackageReference Include="FluentIcons.WPF" Version="1.1.250" />
     <PackageReference Include="Hunspell.Native" Version="1.2.5359.26130" />
     <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
     <PackageReference Include="KeraLua" Version="1.4.1" />
@@ -145,6 +146,7 @@
     <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2024.0.0" allowedVersions="[2024.0.0,2024.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2024'))" />
 	<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2025.0.0" allowedVersions="[2025.0.0,2026.0.0)" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('2025'))" />
 	<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2025.0.0" allowedVersions="[2025.0.0,2026.0.0)" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('Debug'))" />
+	<PackageReference Include="WPF-UI" Version="3.0.5" />
  </ItemGroup>
   
  <ItemGroup>
@@ -155,6 +157,11 @@
  </ItemGroup>
   
  <ItemGroup>
+   <Compile Update="ExportManager\Settings1.Designer.cs">
+     <DesignTimeSharedInput>True</DesignTimeSharedInput>
+     <AutoGen>True</AutoGen>
+     <DependentUpon>Settings1.settings</DependentUpon>
+   </Compile>
    <Compile Update="Properties\Resources.Designer.cs">
      <DesignTime>True</DesignTime>
      <AutoGen>True</AutoGen>
@@ -180,6 +187,10 @@
  </ItemGroup>
   
   <ItemGroup>
+    <None Update="ExportManager\Settings1.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
+    </None>
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

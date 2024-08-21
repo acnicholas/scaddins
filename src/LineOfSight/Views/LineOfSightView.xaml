@@ -1,10 +1,54 @@
-﻿<UserControl x:Class="SCaddins.LineOfSight.Views.LineOfSightView"
+﻿<UserControl
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             x:Class="SCaddins.LineOfSight.Views.LineOfSightView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              d:DesignHeight="480" d:DesignWidth="720">
+    <UserControl.Resources>
+        <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
+        <Style x:Key="FixedGroupBox" TargetType="{x:Type GroupBox}">
+            <Setter Property="BorderBrush" Value="#D5DFE5"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GroupBox}">
+                        <Grid SnapsToDevicePixels="true">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="6"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="6"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="6"/>
+                            </Grid.RowDefinitions>
+                            <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="4" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="3" Grid.Row="1"/>
+                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4" Grid.ColumnSpan="4" Grid.RowSpan="3" Grid.Row="1" Grid.Column="0">
+                                <Border.OpacityMask>
+                                    <MultiBinding ConverterParameter="7" Converter="{StaticResource BorderGapMaskConverter}">
+                                        <Binding ElementName="Header" Path="ActualWidth"/>
+                                        <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}"/>
+                                        <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}"/>
+                                    </MultiBinding>
+                                </Border.OpacityMask>
+                            </Border>
+                            <Border x:Name="Header" Grid.Column="1" Padding="3,1,3,0" Grid.RowSpan="2" Grid.Row="0">
+                                <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </Border>
+                            <ContentPresenter Grid.Column="1" Grid.ColumnSpan="2" Margin="{TemplateBinding Padding}" Grid.Row="2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid Height="Auto" Width="Auto">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -13,7 +57,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto" MinHeight="48"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
@@ -21,7 +65,7 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <GroupBox Header="Bounding Dimensions" Grid.Row="0" Name="Test" Margin="5" >
+            <GroupBox Style="{DynamicResource FixedGroupBox}" Header="Bounding Dimensions" Grid.Row="0" Name="Test" Margin="5" BorderThickness="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
@@ -33,14 +77,14 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <Label Grid.Column="0" Margin="5" Content="Horizontal Distance from Focus"/>
-                    <TextBox x:Name="DistanceToFirstRowX" Grid.Row="0" Grid.Column="1" Margin="5" ></TextBox>
+                    <ui:TextBox x:Name="DistanceToFirstRowX" Grid.Row="0" Grid.Column="1" Margin="5" ></ui:TextBox>
                     <Label Grid.Row="1" Grid.Column="0" Margin="5" Content="Vertical Rise from Focus"/>
-                    <TextBox x:Name="DistanceToFirstRowY" Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
+                    <ui:TextBox x:Name="DistanceToFirstRowY" Grid.Row="1" Grid.Column="1" Margin="5"></ui:TextBox>
                     <Label Grid.Row="2" Grid.Column="0" Margin="5" Content="Number of Rows Required"/>
-                    <TextBox x:Name="NumberOfRows" Grid.Row="2" Grid.Column="1" Margin="5"></TextBox>
+                    <ui:TextBox x:Name="NumberOfRows" Grid.Row="2" Grid.Column="1" Margin="5"></ui:TextBox>
                 </Grid>
             </GroupBox>
-            <GroupBox Header="Seat (Tread Details)" Grid.Row="1" Name="Test2" Margin="5" >
+            <GroupBox Header="Seat (Tread Details)" Grid.Row="1" Name="Test2" Margin="5" Style="{DynamicResource FixedGroupBox}" >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
@@ -52,14 +96,14 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <Label Grid.Column="0" Margin="5" Content="Seat (Tread) Width"/>
-                    <TextBox x:Name="TreadSize" Margin="5" Grid.Row="0" Grid.Column="1"></TextBox>
+                    <ui:TextBox x:Name="TreadSize" Margin="5" Grid.Row="0" Grid.Column="1"></ui:TextBox>
                     <Label Grid.Row="1" Grid.Column="0" Margin="5" Content="Minimum Step Height"/>
-                    <TextBox x:Name="MinimumRiserHeight" Margin="5" Grid.Row="1" Grid.Column="1"></TextBox>
+                    <ui:TextBox x:Name="MinimumRiserHeight" Margin="5" Grid.Row="1" Grid.Column="1"></ui:TextBox>
                     <Label Grid.Row="2" Grid.Column="0" Margin="5" Content="Minimum Step Increment"/>
-                    <TextBox x:Name="RiserIncrement" Margin="5" Grid.Row="2" Grid.Column="1"></TextBox>
+                    <ui:TextBox x:Name="RiserIncrement" Margin="5" Grid.Row="2" Grid.Column="1"></ui:TextBox>
                 </Grid>
             </GroupBox>
-            <GroupBox Header="Heights" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="2" Name="Test3" Margin="5">
+            <GroupBox Header="Heights" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="2" Name="Test3" Margin="5" Style="{DynamicResource FixedGroupBox}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
@@ -71,9 +115,9 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <Label Grid.Column="0" Margin="5" Content="Persons Eye Height"/>
-                    <TextBox x:Name="EyeHeight" Margin="5" Grid.Row="0" Grid.Column="1"></TextBox>
+                    <ui:TextBox x:Name="EyeHeight" Margin="5" Grid.Row="0" Grid.Column="1"></ui:TextBox>
                     <Label Grid.Row="1" Grid.Column="0" Margin="5" Content="Minimum Clearance 'C' Value"/>
-                    <TextBox x:Name="MinimumCValue" Margin="5" Grid.Row="1" Grid.Column="1"></TextBox>
+                    <ui:TextBox x:Name="MinimumCValue" Margin="5" Grid.Row="1" Grid.Column="1"></ui:TextBox>
                 </Grid>
             </GroupBox>
             <Grid Height="Auto" Grid.Row="2">
@@ -88,12 +132,12 @@
                 </Grid.ColumnDefinitions>
             </Grid>
         </Grid>
-        <GridSplitter Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Width="5"></GridSplitter>
+        <GridSplitter Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Width="1"></GridSplitter>
         <Grid Grid.Row="0" Grid.Column="2">
-            <GroupBox Header="Information" Margin="5">
-                <TextBox x:Name="InfoString" Margin="5" MinWidth="250"></TextBox>
+            <GroupBox Header="Information" Margin="5" Style="{DynamicResource FixedGroupBox}">
+                <ui:TextBox x:Name="InfoString" Margin="5" MinWidth="250"></ui:TextBox>
             </GroupBox>
         </Grid>
-        <Button x:Name="Draw" Height="25" HorizontalAlignment="Right"  MinWidth="50" Grid.Row ="1" Grid.Column="2" Margin="5">Create Drafting View</Button>
+        <ui:Button x:Name="Draw" Appearance="Primary" Icon="{ui:SymbolIcon DrawShape20}" MinHeight="28" HorizontalAlignment="Right"  MinWidth="50" Grid.Row ="1" Grid.Column="2" Margin="10">Create Drafting View</ui:Button>
     </Grid>
 </UserControl>

@@ -6,6 +6,8 @@ namespace SCaddins.Common
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using Properties;
+    using SCaddins.Common.ViewModels;
+    using Wpf.Ui.Appearance;
 
 #pragma warning disable CA1060 // Move pinvokes to native methods class
     public class WindowManager : Caliburn.Micro.WindowManager
@@ -53,11 +55,19 @@ namespace SCaddins.Common
                 return false;
             }
             System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(window);
+            ApplicationThemeManager.Apply(window);
             helper.Owner = Autodesk.Windows.ComponentManager.ApplicationWindow;
             window.SourceInitialized += Window_SourceInitialized;
             window.SizeChanged += Window_SizeChanged;
             window.LocationChanged += Window_LocationChanged;
             LastWindow = window;
+
+            Wpf.Ui.Appearance.ApplicationThemeManager.Apply(
+                Wpf.Ui.Appearance.ApplicationTheme.Light, // Theme type
+                Wpf.Ui.Controls.WindowBackdropType.Mica,  // Background type
+                true                                      // Whether to change accents automatically
+            );
+
             return window.ShowDialog();
         }
 
@@ -125,6 +135,7 @@ namespace SCaddins.Common
             {
                 System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(window);
                 helper.Owner = Autodesk.Windows.ComponentManager.ApplicationWindow;
+                ApplicationThemeManager.Apply(window);
                 window.SourceInitialized += Window_SourceInitialized;
                 window.SizeChanged += Window_SizeChanged;
                 window.LocationChanged += Window_LocationChanged;

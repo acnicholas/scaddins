@@ -1,4 +1,6 @@
-﻿<UserControl x:Class="SCaddins.RenameUtilities.Views.RenameUtilitiesView"
+﻿<UserControl 
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             x:Class="SCaddins.RenameUtilities.Views.RenameUtilitiesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -59,9 +61,9 @@
                         <Label Grid.Column="0"  Grid.Row="0" Margin="5">Mode</Label>
                         <ComboBox x:Name="RenameModes" DisplayMemberPath="Name" Grid.Column="1"  Grid.Row="0" Grid.ColumnSpan="5" Margin="5"></ComboBox>
                         <Label x:Name="PatternLabel" Visibility="{Binding Path=ShowRenameParameters}" Grid.Column="0" Grid.Row="1" Margin="5"></Label>
-                        <TextBox x:Name="Pattern" Visibility="{Binding Path=ShowRenameParameters}" Grid.Column="1"  Grid.Row="1" Margin="5"></TextBox>
+                        <ui:TextBox x:Name="Pattern" Visibility="{Binding Path=ShowRenameParameters}" Grid.Column="1"  Grid.Row="1" Margin="5"></ui:TextBox>
                         <Label x:Name="ReplacementLabel" Visibility="{Binding Path=ShowRenameParameters}" Grid.Column="2"  Grid.Row="1" Margin="5"></Label>
-                        <TextBox x:Name="Replacement" Visibility="{Binding Path=ShowRenameParameters}" Grid.Column="3"  Grid.Row="1" Margin="5"></TextBox>
+                        <ui:TextBox x:Name="Replacement" Visibility="{Binding Path=ShowRenameParameters}" Grid.Column="3"  Grid.Row="1" Margin="5"></ui:TextBox>
                         <Button 
                             x:Name="RegexCheatSheet"
                             Visibility="{Binding Path=ShowRenameParameters}"
@@ -74,7 +76,7 @@
                             BorderBrush="Transparent">
                                 <Image Source="/SCaddins;component/Assets/help2.png" Stretch="None"/>
                         </Button>
-                        <DataGrid x:Name="RenameCandidates"
+                        <ui:DataGrid x:Name="RenameCandidates"
                                   AutoGenerateColumns="False"
                                   VirtualizingStackPanel.VirtualizationMode="Standard"
                                   Grid.Column="0"
@@ -84,7 +86,7 @@
                                   Grid.ColumnSpan="5"
                                   Height="Auto" Margin="5"
                                   GridLinesVisibility="None">
-                            <DataGrid.RowStyle>
+                            <ui:DataGrid.RowStyle>
                                 <Style TargetType="DataGridRow">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding ValueChanged}" Value="False">
@@ -102,13 +104,35 @@
                                         </MultiDataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </DataGrid.RowStyle>
-                            
+                            </ui:DataGrid.RowStyle>
+
+                            <ui:DataGrid.Resources>
+                                <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
+                                    <Setter Property="Margin" Value="2,2,2,2" />
+                                </Style>
+                                <Style TargetType="{x:Type DataGridCell}">
+                                    <Style.Triggers>
+                                        <Trigger Property="DataGridCell.IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#cccccc"/>
+                                            <Setter Property="BorderBrush" Value="#333333" />
+                                            <Setter Property="Foreground" Value="#333333" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                </Style>
+                            </ui:DataGrid.Resources>
+
+                            <ui:DataGrid.AlternatingRowBackground>
+                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                            </ui:DataGrid.AlternatingRowBackground>
+
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Old Name" Binding="{Binding OldValue}" ></DataGridTextColumn>
                                 <DataGridTextColumn Header="New Name" Binding="{Binding NewValue}"></DataGridTextColumn>
                             </DataGrid.Columns>
-                        </DataGrid>
+                        </ui:DataGrid>
                         <CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" x:Name="OnlyDisplayItemsToBeRenamed">Only display items that will be renamed.</CheckBox>
                     </Grid>
                 </GroupBox>
@@ -120,12 +144,25 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button x:Name="RenameSelectedMatches" MinHeight="25" Grid.Column="1" Margin="5">
-                <Label x:Name="RenameSelectedMatchesLabel"></Label>
-            </Button>
-            <Button x:Name="RenameAllMatches" MinHeight="25" Grid.Column="2" Margin="5">
-                <Label x:Name="RenameAllMatchesLabel"></Label>
-            </Button>
+            <ui:Button
+                x:Name="RenameSelectedMatches"
+                Appearance="Secondary"
+                Icon="{ui:SymbolIcon Rename20}"
+                MinHeight="25"
+                Grid.Column="1"
+                Content="{Binding RenameSelectedMatchesLabel, Mode=OneWay}"
+                Margin="5">
+            </ui:Button>
+            <ui:Button
+                x:Name="RenameAllMatches"
+                 Appearance="Primary"
+                 Icon="{ui:SymbolIcon Rename20}"
+                 MinHeight="25"
+                 Grid.Column="2"
+                 HorizontalAlignment="Right"
+                 Content="{Binding RenameAllMatchesLabel, Mode=OneWay}"
+                 Margin="5">
+            </ui:Button>
         </Grid>
     </Grid>
 </UserControl>

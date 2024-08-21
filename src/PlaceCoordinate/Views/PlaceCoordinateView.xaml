@@ -1,4 +1,5 @@
 ﻿<UserControl x:Class="SCaddins.PlaceCoordinate.Views.PlaceCoordinateView"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -27,11 +28,11 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{Binding XCoordinateLabel}"  Grid.Row="0" Margin="5"></Label>
-                <TextBox x:Name="XCoordinate" Grid.Column="1" Grid.Row="0" Margin="5"></TextBox>
+                <ui:TextBox x:Name="XCoordinate" Grid.Column="1" Grid.Row="0" Margin="5"></ui:TextBox>
                 <Label Grid.Column="0" Content="{Binding YCoordinateLabel}" Grid.Row="1" Margin="5"></Label>
-                <TextBox x:Name="YCoordinate" Grid.Column="1" Grid.Row="1" Margin="5"></TextBox>
+                <ui:TextBox x:Name="YCoordinate" Grid.Column="1" Grid.Row="1" Margin="5"></ui:TextBox>
                 <Label Grid.Column="0" Content="{Binding ZCoordinateLabel}" Grid.Row="2" Margin="5"></Label>
-                <TextBox x:Name="ZCoordinate" Grid.Column="1" Grid.Row="2" Margin="5"></TextBox>
+                <ui:TextBox x:Name="ZCoordinate" Grid.Column="1" Grid.Row="2" Margin="5"></ui:TextBox>
             </Grid>   
         </GroupBox>
         <GroupBox Grid.Row="2" Header="Advanced Settings">
@@ -55,8 +56,8 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button x:Name="Cancel" Grid.Column="0" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Bottom" MinWidth="75" Margin="5">Cancel</Button>
-            <Button x:Name="PlaceFamilyAtCoordinate"  IsEnabled="{Binding PlaceFamilyAtCoordinateIsEnabled}" VerticalAlignment="Bottom" Grid.Column="1" Width="Auto"  HorizontalAlignment="Right" MinWidth="75" Margin="5">Place Family</Button>
+            <ui:Button x:Name="Cancel" Grid.Column="0" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Bottom" MinWidth="75" Margin="5">Cancel</ui:Button>
+            <ui:Button x:Name="PlaceFamilyAtCoordinate" Appearance="Primary" IsEnabled="{Binding PlaceFamilyAtCoordinateIsEnabled}" VerticalAlignment="Bottom" Grid.Column="1" Width="Auto"  HorizontalAlignment="Right" MinWidth="75" Margin="5">Place Family</ui:Button>
         </Grid>
     </Grid>
 </UserControl>

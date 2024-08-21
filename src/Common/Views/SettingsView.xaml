@@ -1,8 +1,12 @@
 ﻿<UserControl x:Class="SCaddins.Common.Views.SettingsView"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:inc="clr-namespace:SCaddins.ParameterUtilities.Views"
+             xmlns:uv="clr-namespace:SCaddins.ViewUtilities.Views"
+             xmlns:rt="clr-namespace:SCaddins.RoomConverter.Views"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="600">
     <Grid x:Name="RootVisual">
@@ -10,32 +14,35 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <TabControl TabStripPlacement="Left">
-            <TabItem Header="Increment Settings">
-                <ContentControl x:Name="IncrementViewModel"></ContentControl>
-            </TabItem>
-            <TabItem Header="User View">
-                <ContentControl x:Name="ViewUtilitiesViewModel"></ContentControl>
-            </TabItem>
-            <TabItem Header="Copy Sheets">
-                <ContentControl x:Name="SheetCopierViewModel"></ContentControl>
-            </TabItem>
-            <TabItem Header="Room Tools" IsEnabled="False">
-                <ContentControl x:Name="RoomConverterViewModel"></ContentControl>
-            </TabItem>
-            <TabItem Header="Spelling">
-                <ContentControl x:Name="SpellCheckerOptionsViewModel"></ContentControl>
-            </TabItem>
-        </TabControl>
+        <ui:NavigationView x:Name="MainNavigation"   PaneDisplayMode="LeftFluent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem
+                    Content="Increment"
+                    Icon="{ui:SymbolIcon TextWordCount20}"
+                    TargetPageType="{x:Type inc:SCincrementView}" />
+                <ui:NavigationViewItem
+                    Content="User Views"
+                    Icon="{ui:SymbolIcon DocumentPerson20}"
+                    TargetPageType="{x:Type uv:ViewUtilitiesSettingsView}" />
+                <ui:NavigationViewItem
+                    Content="Room Tools"
+                    Icon="{ui:SymbolIcon BreakoutRoom20}"
+                    TargetPageType="{x:Type rt:SettingsView}" />
+                <ui:NavigationViewItem
+                    Content="Spelling"
+                    Icon="{ui:SymbolIcon Check20}"
+                    TargetPageType="{x:Type uv:ViewUtilitiesSettingsView}" />
+            </ui:NavigationView.MenuItems>
+        </ui:NavigationView>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button x:Name="Reset" Grid.Column="0" HorizontalAlignment="Left" Margin="5" MinHeight="25">Reset</Button>
-            <Button x:Name="Cancel" Grid.Column="1" HorizontalAlignment="Right" Margin="5" MinHeight="25">Cancel</Button>
-            <Button x:Name="OK" Grid.Column="2" HorizontalAlignment="Right" Margin="5" MinHeight="25">OK</Button>
+            <ui:Button x:Name="Reset" Grid.Column="0" HorizontalAlignment="Left" Margin="5" MinHeight="25">Reset</ui:Button>
+            <ui:Button x:Name="Cancel" Grid.Column="1" HorizontalAlignment="Right" Margin="5" MinHeight="25">Cancel</ui:Button>
+            <ui:Button x:Name="OK" Appearance="Primary"   Grid.Column="2" HorizontalAlignment="Right" Margin="5" MinHeight="25">OK</ui:Button>
         </Grid>
     </Grid>
 </UserControl>

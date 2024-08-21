@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Windows.Controls;
     using SCaddins.ExportManager.ViewModels;
+    using Wpf.Ui.Appearance;
 
     public partial class SCexportView
     {

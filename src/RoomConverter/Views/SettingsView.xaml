@@ -7,17 +7,18 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Label>Room Id Parameter</Label>
-        <TextBox Grid.Column="1"></TextBox>
-        <Button Grid.Row="1" Grid.ColumnSpan="2">Create RoomId Parameter</Button>
-        <Button Grid.Row="2" Grid.ColumnSpan="2">Create Mass Parameters</Button>
+        <Label Margin="5" >Room Id Parameter</Label>
+        <TextBox Grid.Column="1" Margin="5"></TextBox>
+        <Button Grid.Row="1" Grid.ColumnSpan="2" Margin="5">Create RoomId Parameter</Button>
+        <Button Grid.Row="2" Grid.ColumnSpan="2" Margin="5">Create Mass Parameters</Button>
     </Grid>
 </UserControl>

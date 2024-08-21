@@ -290,6 +290,11 @@ namespace SCaddins.ExportManager
             }
         }
 
+        //public override string ToString()
+        //{
+        //    return SheetNumber.ToString() + "-" + SheetDescription;
+        //}
+
         public string SheetNumber
         {
             get

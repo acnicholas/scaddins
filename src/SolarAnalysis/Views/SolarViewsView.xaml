@@ -1,10 +1,11 @@
 <UserControl x:Class="SCaddins.SolarAnalysis.Views.SolarViewsView"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="300">
+             d:DesignHeight="600" d:DesignWidth="300">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
@@ -20,16 +21,17 @@
             Margin="5,5,5,5">
             <Grid.RowDefinitions>
                 <RowDefinition
+                    Height="Auto"/>
+                <RowDefinition
+                    Height="Auto"/>
+                <RowDefinition
+                    Height="Auto"/>
+                <RowDefinition
+                    Height="Auto"/>
+                <RowDefinition
                     Height="*"/>
                 <RowDefinition
-                    Height="Auto"/>
-                <RowDefinition
-                    Height="Auto"/>
-                <RowDefinition
-                    Height="Auto"/>
-                <RowDefinition
-                    Height="Auto"/>
-                <RowDefinition
+                    MinHeight="48"
                     Height="Auto"/>
             </Grid.RowDefinitions>
             <GroupBox
@@ -40,7 +42,7 @@
                 Grid.Row="0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Margin="5">
+                Margin="2">
                 <TextBlock
                     x:Name="ViewInformation"
                     Margin="5"
@@ -56,7 +58,7 @@
                 Grid.Row="1"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Margin="5">
+                Margin="2">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
@@ -68,23 +70,23 @@
                     <RadioButton
                         IsEnabled="{Binding CanRotateCurrentView}"
                         x:Name="RotateCurrentView"
-                        Margin="5"
+                        Margin="2"
                         Grid.Row="0"
                         Content="Rotate Current View" />
                     <RadioButton
-                        Margin="5"
+                        Margin="2"
                         Grid.Row="1"
                         IsChecked="{Binding Create3dViews}"
                         Content="Create Multiple Angle of Sun Views (3d)" />
                     <RadioButton
-                        Margin="5"
+                        Margin="2"
                         Grid.Row="2"
                         IsChecked="{Binding CreateShadowPlans}"
                         Content="Create Multiple Shadow Plans" />
                     <RadioButton
                             IsEnabled="{Binding CanCreateAnalysisView}"
                             x:Name="CreateAnalysisView"
-                            Margin="5"
+                            Margin="2"
                             Grid.Row="3"
                             ToolTipService.ShowOnDisabled="True"
                             Content="Create Analysis View">
@@ -93,7 +95,7 @@
                     </RadioButton.ToolTip>
                     </RadioButton>
                     <RadioButton
-                        Margin="5"
+                        Margin="2"
                         Grid.Row="4"
                         IsChecked="{Binding DrawSolarRay}"
                         Content="Draw Ray Of Sun (From Selected Point)"/>
@@ -109,7 +111,7 @@
                 Grid.Row="4"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Margin="5,0,5,5">
+                Margin="2,0,2,2">
                 <Grid
                     Width="Auto"
                     Height="Auto"
@@ -126,7 +128,7 @@
                         Grid.Column="0"
                         Grid.Row="0"
                         VerticalAlignment="Stretch"
-                        Margin="5,0,5,0"
+                        Margin="2,0,2,0"
                         Content="Solar Ray Length (In Plan[mm])"
                         HorizontalAlignment="Left" />
                     <TextBox
@@ -149,7 +151,7 @@
                 Visibility="{Binding ShowDateSelectionPanel,Converter={StaticResource BoolToVis}}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Margin="5,0,5,5">
+                Margin="2,0,2,2">
                 <Grid
                     Width="Auto"
                     Height="Auto"
@@ -169,7 +171,7 @@
                         Grid.Column="0"
                         Grid.Row="0"
                         VerticalAlignment="Stretch"
-                        Margin="5,0,5,0"
+                        Margin="2,0,2,0"
                         Content="Date"
                         HorizontalAlignment="Left" />
                     <Label
@@ -177,7 +179,7 @@
                         Grid.Column="0"
                         Grid.Row="2"
                         VerticalAlignment="Stretch"
-                        Margin="5,0,5,0"
+                        Margin="2,0,2,0"
                         Content="Start Time"
                         HorizontalAlignment="Left" />
                     <Label
@@ -185,7 +187,7 @@
                         Grid.Column="1"
                         Grid.Row="2"
                         VerticalAlignment="Stretch"
-                        Margin="5,0,5,0"
+                        Margin="2,0,2,0"
                         Content="End Time"
                         HorizontalAlignment="Left" />
                     <Label
@@ -194,7 +196,7 @@
                         Grid.Row="2"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        Margin="5,0,5,0"
+                        Margin="2,0,2,0"
                         Content="Interval" />
                     <DatePicker
                         x:Name="CreationDate"
@@ -204,12 +206,12 @@
                         Grid.ColumnSpan="3"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        Margin="5" />
+                        Margin="2" />
                     <ComboBox
                         Grid.Column="0"
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"
-                        Margin="5"
+                        Margin="2"
                         Grid.Row="3"
                         x:Name="StartTimes" />
                     <ComboBox
@@ -217,14 +219,14 @@
                         Grid.Row="3"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        Margin="5"
+                        Margin="2"
                         x:Name="EndTimes" />
                     <ComboBox
                         Grid.Column="2"
                         Grid.Row="3"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        Margin="5"
+                        Margin="2"
                         x:Name="Intervals" />
                 </Grid>
             </GroupBox>
@@ -244,22 +246,24 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="SelectMasses" Grid.Row="0" Grid.Column="0" Margin="5">Select Solids (To Cast Shadows)</Button>
-                    <Button x:Name="SelectAnalysisFaces" Grid.Row="1" Grid.Column="0" Margin="5">Select Analysis Faces (To colour)</Button>
-                    <Label x:Name="SelectedMassInformation" Margin="5" Grid.Row="0" Grid.Column="1"></Label>
-                    <Label x:Name="SelectedFaceInformation" Margin="5" Grid.Row="1" Grid.Column="1"></Label>
+                    <Button x:Name="SelectMasses" Grid.Row="0" Grid.Column="0" Margin="2">Select Solids (To Cast Shadows)</Button>
+                    <Button x:Name="SelectAnalysisFaces" Grid.Row="1" Grid.Column="0" Margin="2">Select Analysis Faces (To colour)</Button>
+                    <Label x:Name="SelectedMassInformation" Margin="2" Grid.Row="0" Grid.Column="1"></Label>
+                    <Label x:Name="SelectedFaceInformation" Margin="2" Grid.Row="1" Grid.Column="1"></Label>
                     <Label Margin="5" Grid.Row="2" Grid.Column="0">Analysis Grid Size(mm)</Label>
-                    <TextBox x:Name="AnalysisGridSize" Grid.Row="2" Grid.Column="1" Margin="5"></TextBox>
+                    <TextBox x:Name="AnalysisGridSize" Grid.Row="2" Grid.Column="1" Margin="2"></TextBox>
                 </Grid>
             </GroupBox>
-            <Button
+            <ui:Button
                 x:Name="OK"
                 Width="Auto"
-                Height="23"
+                Height="Auto"
                 Grid.Column="0"
+                Appearance="Primary"
+                Icon="{ui:SymbolIcon WeatherSunny20}"
                 Grid.Row="5"
                 Content="{Binding CurrentModeSummary}"
-                Margin="5"
+                Margin="10"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
                 IsDefault="True" />

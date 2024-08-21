@@ -47,6 +47,7 @@ namespace SCaddins.ExportManager.ViewModels
         private List<ExportSheet> selectedSheets = new List<ExportSheet>();
         private SheetFilter sheetFilter;
         private ObservableCollection<ExportSheet> sheets;
+        private ObservableCollection<String> sheetNumberAndName;
         private ICollectionView sheetsCollection;
 
         public SCexportViewModel(Manager exportManager, List<Autodesk.Revit.DB.ViewSheet> preSelectedViews)
@@ -376,6 +377,8 @@ namespace SCaddins.ExportManager.ViewModels
                 {
                     searchText = value;
                 }
+                ExecuteSearch();
+                NotifyOfPropertyChange(() => Sheets);
             }
         }
 
@@ -439,6 +442,18 @@ namespace SCaddins.ExportManager.ViewModels
                 NotifyOfPropertyChange(() => Sheets);
             }
         }
+
+        //public BindableCollection<string> SheetNumberAndName
+        //{
+        //    get => sheetsCollection;
+
+        //    set
+        //    {
+        //        sheetsCollection = value;
+        //        NotifyOfPropertyChange(() => Sheets);
+        //    }
+        //}
+
 
         public bool ShowSearchHint
         {

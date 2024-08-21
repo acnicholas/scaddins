@@ -12,12 +12,12 @@
             ref string message,
             Autodesk.Revit.DB.ElementSet elements)
         {
-            var vms = new ParameterUtilities.ViewModels.SCincrementViewModel();
+            var incrementViewModel = new ParameterUtilities.ViewModels.SCincrementViewModel();
             var roomConverterViewModel = new RoomConverter.ViewModels.SettingsViewModel();
             var viewUtilitiesViewModel = new ViewUtilities.ViewModels.ViewUtilitiesSettingsViewModel();
             var spellCheckerOptionsViewModel = new SpellChecker.ViewModels.SpellCheckerOptionsViewModel();
             var sheetCopierViewModel = new SheetCopier.ViewModels.SheetCopierSettingsViewModel();
-            var vm = new ViewModels.SettingsViewModel(vms, roomConverterViewModel, viewUtilitiesViewModel, sheetCopierViewModel, spellCheckerOptionsViewModel);
+            var vm = new ViewModels.SettingsViewModel(incrementViewModel, roomConverterViewModel, viewUtilitiesViewModel, sheetCopierViewModel, spellCheckerOptionsViewModel);
             SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewModels.SettingsViewModel.DefaultWindowSettings);
             return Result.Succeeded;
         }

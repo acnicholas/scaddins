@@ -1,4 +1,5 @@
-<UserControl
+<ui:ContentDialog 
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:cal="http://www.caliburnproject.org"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,9 +11,9 @@
     cal:Message.Attach="[Event KeyDown] = [KeyPressed($eventArgs)]"
     d:DesignWidth="628" d:DesignHeight="272">
 
-    <UserControl.Resources>
+    <ui:ContentDialog.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
-    </UserControl.Resources>
+    </ui:ContentDialog.Resources>
     
     <Grid >
         <Grid.ColumnDefinitions>
@@ -25,11 +26,11 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition
-                Height="35" />
+                Height="Auto" />
             <RowDefinition
                 Height="*" />
             <RowDefinition
-                Height="30" />
+                Height="Auto" />
         </Grid.RowDefinitions>
         <Grid
             Grid.Column="0"
@@ -78,7 +79,7 @@
                     <Image Source="/SCaddins;component/Assets/find.png" Stretch="None" />
             </Button>
         </Grid>
-        <DataGrid
+        <ui:DataGrid
             cal:Message.Attach="[Event SelectionChanged] = [SelectionChanged($source,$eventArgs)];[Event MouseDoubleClick] = [MouseDoubleClick($source,$eventArgs)];[Event ContextMenuOpening] = [ContextMenuOpening($source, $eventArgs)];[Event MouseMove] = [MouseEnteredDataGrid($source,$eventArgs)]"
             x:Name="Sheets"
             SelectionMode="Extended"
@@ -99,27 +100,35 @@
             GridLinesVisibility="None"
             IsReadOnly="True">
 
-            <DataGrid.Resources>
+            <ui:DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{x:Static SystemColors.HighlightColor}"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}"/>
                 <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
-                    <Setter Property="Margin" Value="5,0,10,0" />
+                    <Setter Property="Margin" Value="1,1,1,1" />
                 </Style>
-                <Style x:Name="DataGridRowStyle" TargetType="DataGridRow" >
-                    <Setter Property="IsSelected" Value="{Binding IsSelected}" />
-                    <Style.Resources>
-                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{x:Static SystemColors.HighlightColor}" />
-                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}"/>
-                    </Style.Resources>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Style.Triggers>
+                        <Trigger Property="DataGridCell.IsSelected" Value="True">
+                            <Setter Property="Background" Value="#333333"/>
+                            <Setter Property="BorderBrush" Value="#333333" />
+                        </Trigger>
+                    </Style.Triggers>
                 </Style>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 </Style>
-            </DataGrid.Resources>
-                 
-            <DataGrid.AlternatingRowBackground>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
-            </DataGrid.AlternatingRowBackground>
+            </ui:DataGrid.Resources>
+            
+            <ui:DataGrid.ColumnHeaderStyle>
+                <Style>
+                </Style>
+            </ui:DataGrid.ColumnHeaderStyle>
 
-            <DataGrid.RowStyle>
+            <ui:DataGrid.AlternatingRowBackground>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+            </ui:DataGrid.AlternatingRowBackground>
+
+            <ui:DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding ValidPrintSettingIsAssigned}" Value="False">
@@ -136,9 +145,9 @@
                         <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{x:Static SystemColors.HighlightColor}"/>
                     </Style.Resources>
                 </Style>
-            </DataGrid.RowStyle>
+            </ui:DataGrid.RowStyle>
 
-            <DataGrid.Columns>
+            <ui:DataGrid.Columns>
                 <DataGridTextColumn                 
                     ElementStyle="{StaticResource ColumnElementStyle}"
                     Header="Export Name"
@@ -194,7 +203,7 @@
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
-            </DataGrid.Columns>
+            </ui:DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                 <ContextMenu
@@ -369,20 +378,22 @@
                     </MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
-        </DataGrid>
+        </ui:DataGrid>
         
         
         <!-- <Label x:Name="StatusText" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Margin="5,0,5,5"></Label> -->
-        <TextBlock Grid.Column="0" Grid.Row="2" Margin="5,0,5,5" HorizontalAlignment="Left"  VerticalAlignment="Center">
+        <ui:TextBlock Grid.Column="0" Grid.Row="2" Margin="5,0,5,5" HorizontalAlignment="Left"  VerticalAlignment="Center">
             <!-- <Run x:Name="StatusText"></Run> -->
             <Run Text="{Binding StatusText, Mode=OneWay}"></Run>
             <Run Foreground="Red" Text="{Binding InvlaidPrintSettingsStatusText, Mode=OneWay}"></Run>
             <Run Foreground="Magenta" Text="{Binding InvlaidFileNamingStatusText, Mode=OneWay}"></Run>
             <Run Foreground="DarkOrange" Text="{Binding InvlaidScaleBarStatusText, Mode=OneWay}"></Run>
-        </TextBlock>
-        <Button
+        </ui:TextBlock>
+        <ui:Button
             cal:Message.Attach="Export"
             Content="{Binding ExportButtonLabel, Mode=OneWay}"
+            Appearance="Primary"
+            Icon="{ui:SymbolIcon DrawShape20}"
             Height="Auto"
             Grid.Row="2"
             MinWidth="96"
@@ -394,7 +405,7 @@
             <Button.ToolTip>
                 <Label Content="{Binding ExportButtonToolTip}"></Label>
             </Button.ToolTip>
-        </Button>
+        </ui:Button>
         <Border Grid.Column="1" Grid.Row="2" Margin="0,0,0,5" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="1" BorderBrush="#FF707070">
         <Grid Margin="0" Height="Auto" MinWidth="96" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
@@ -435,7 +446,7 @@
             </ComboBox>
         </Grid>
         </Border>
-        <Button
+        <ui:Button
             Height="Auto"
             Width="Auto"
             MinWidth="20"
@@ -451,6 +462,6 @@
             <Button.ToolTip>
                 <Label>Click to access more options :P</Label>
             </Button.ToolTip>
-        </Button>
+        </ui:Button>
     </Grid>
-</UserControl>
+</ui:ContentDialog>

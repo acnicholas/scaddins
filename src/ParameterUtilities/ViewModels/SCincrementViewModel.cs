@@ -88,6 +88,7 @@ namespace SCaddins.ParameterUtilities.ViewModels
 
         public void Apply()
         {
+            SCaddinsApp.WindowManager.ShowMessageBox("apply");
             IncrementSettings.Default.OffsetValue = OffsetValue;
             IncrementSettings.Default.IncrementValue = IncrementValue;
             IncrementSettings.Default.SourceSearchPattern = SourceSearchPattern;
