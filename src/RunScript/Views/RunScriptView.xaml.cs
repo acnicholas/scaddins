@@ -1,7 +1,12 @@
-﻿using ICSharpCode.AvalonEdit.Highlighting;
+﻿using CefSharp;
+using Microsoft.Office.Interop.Excel;
+using Microsoft.SqlServer.Management.HadrData;
+using Microsoft.SqlServer.Management.Smo;
+using SCaddins.RunScript.ViewModels;
+using System;
 using System.IO;
-using ICSharpCode.AvalonEdit.Highlighting.Xshd;
-using System.Resources;
+using System.Reflection;
+using System.Web;
 
 namespace SCaddins.RunScript.Views
 {
@@ -9,9 +14,27 @@ namespace SCaddins.RunScript.Views
     {
         public RunScriptView()
         {
+
             InitializeComponent();
-            var editor = this.bindableAvalonEditor;
-            ResourceLoader.LoadHighlightingDefinition(editor);
+            RunScriptViewModel.SetBrowser(this.Editor);
+        }
+
+        private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            this.Editor.Address = @"C:\Home\Andrew\Code\cs\scaddins\src\Monaco\index.html";
+        }
+
+        private void UserControl_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
+        {
+            Editor.UpdateLayout();
+        }
+
+        private void Grid_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
+        {
+            Editor.Width = this.Width;
+            Editor.Height = this.Height;
+            Editor.UpdateLayout();
         }
     }
 }
+    

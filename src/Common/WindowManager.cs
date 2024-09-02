@@ -130,6 +130,22 @@ namespace SCaddins.Common
 
         public override async Task ShowWindowAsync(object rootModel, object context = null, IDictionary<string, object> settings = null)
         {
+            System.Windows.Window window = await CreateWindowAsync(rootModel, false, context, settings);
+            if (window != null)
+            {
+                System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(window);
+                helper.Owner = Autodesk.Windows.ComponentManager.ApplicationWindow;
+                ApplicationThemeManager.Apply(window);
+                window.SourceInitialized += Window_SourceInitialized;
+                window.SizeChanged += Window_SizeChanged;
+                window.LocationChanged += Window_LocationChanged;
+                LastWindow = window;
+            }
+            window.Show();
+        }
+
+        public async Task ShowModalWindowAsync(object rootModel, object context = null, IDictionary<string, object> settings = null)
+        {
             System.Windows.Window window = await CreateWindowAsync(rootModel, true, context, settings);
             if (window != null)
             {

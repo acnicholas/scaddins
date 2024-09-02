@@ -21,25 +21,27 @@ namespace SCaddins.RunScript.ViewModels
 {
     using System;
     using System.Diagnostics;
-    using System.Drawing;
     using System.Dynamic;
     using System.IO;
-    using System.Reflection;
     using System.Text;
+    using System.Web;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Caliburn.Micro;
-    using ICSharpCode.AvalonEdit.Editing;
+    using CefSharp;
+    using CefSharp.Wpf;
+    using Microsoft.IdentityModel.Tokens;
 
     internal class RunScriptViewModel : Screen
     {
         private string output;
         private string script;
-        private TextArea selectedText;
         private BindableCollection<string> outputList;
         private string currentFileName;
         private ExternalCommandData commandData;
         private ElementSet elements;
+        private static ChromiumWebBrowser browser;
+        private OutputWindowViewModel outputWindowViewModel;
 
         public RunScriptViewModel(ExternalCommandData commandData, ElementSet elements)
         {
@@ -48,11 +50,11 @@ namespace SCaddins.RunScript.ViewModels
             currentFileName = string.Empty;
             output = string.Empty;
             outputList = new BindableCollection<string>();
-            //selectedText = new ICSharpCode.AvalonEdit.Editing.TextArea();
             LoadScratch();
-            FontSize = 13;
+            FontSize = 15;
+            browser = null;
+            outputWindowViewModel = new OutputWindowViewModel();
             NotifyOfPropertyChange(() => FontSize);
-            // NotifyOfPropertyChange(() => FontSizeOutput);
         }
 
         public static dynamic DefaultViewSettings
@@ -61,44 +63,39 @@ namespace SCaddins.RunScript.ViewModels
             {
                 dynamic settings = new ExpandoObject();
                 settings.Height = 640;
-                settings.Width = 640;
-                settings.MaxHeight = 800;
+                settings.Width = 1024;
                 settings.Title = "Run Lua Script";
                 settings.ShowInTaskbar = false;
+                settings.ResizeMode = System.Windows.ResizeMode.NoResize;
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
                     new Uri("pack://application:,,,/SCaddins;component/Assets/lua.png"));
-                settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight; 
+                settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
                 return settings;
             }
         }
 
-        public bool CanSave => !string.IsNullOrEmpty(currentFileName);
+
+        public static void SetBrowser(ChromiumWebBrowser cbrowser)
+        {
+            browser = cbrowser;
+        }
+
+        public bool CanSave
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(CurrentFileName)) {
+                    var f = Directory.GetDirectoryRoot(CurrentFileName);
+                    var di = new DirectoryInfo(f);
+                    return di.Exists && !di.Attributes.HasFlag(FileAttributes.ReadOnly);
+                }
+                return false;
+            }
+        }
 
         public double FontSize
         {
             get; set;
-        }
-
-        public string Script
-        {
-            get => script;
-
-            set
-            {
-                script = value;
-                NotifyOfPropertyChange(() => Script);
-            }
-        }
-
-        public TextArea SelectedText
-        {
-            get => selectedText;
-
-            set
-            {
-                selectedText = value;
-                NotifyOfPropertyChange(() => SelectedText);
-            }
         }
 
         public string CurrentFileName
@@ -122,6 +119,7 @@ namespace SCaddins.RunScript.ViewModels
                     return;
                 }
                 output = value;
+                outputWindowViewModel.Output = output;
                 NotifyOfPropertyChange(() => Output);
             }
         }
@@ -138,27 +136,88 @@ namespace SCaddins.RunScript.ViewModels
 
         public void CommentSelection()
         {
-            SCaddinsApp.WindowManager.ShowMessageBox(SelectedText.Selection.Segments.GetEnumerator().Current.ToString());
+            if (browser != null)
+            {
+                var fullText = @"blockComment();";
+                _ = browser.EvaluateScriptAsync(fullText);
+
+            }
         }
 
         public void DarkMode()
         {
+            if (browser != null)
+            {
+                var fullText = @"darkMode();";
+                _ = browser.EvaluateScriptAsync(fullText);
+                
+            }
         }
 
         public void LightMode()
         {
+            if (browser != null)
+            {
+                var fullText = @"lightMode();";
+                _ = browser.EvaluateScriptAsync(fullText);
+
+            }
         }
+
 
         public void IncreaseFontSize()
         {
-            FontSize++;
-            NotifyOfPropertyChange(() => FontSize);
+            if (browser != null)
+            {
+                var fullText = @"increaseFontSize();";
+                _ = browser.EvaluateScriptAsync(fullText);
+
+            }
         }
 
         public void DecreaseFontSize()
         {
-            FontSize--;
-            NotifyOfPropertyChange(() => FontSize);
+            if (browser != null)
+            {
+                var fullText = @"decreaseFontSize();";
+                _ = browser.EvaluateScriptAsync(fullText);
+            }
+        }
+
+        public async Task<string> GetScript()
+        {
+            if (browser != null)
+            {
+                var script = @"editor.getValue();";
+                var jsScript = HttpUtility.JavaScriptStringEncode(script);
+                var result = await browser.EvaluateScriptAsync(jsScript);
+                if (result.Success)
+                {
+                    return (string)result.Result;
+                } else
+                {
+                    return string.Empty;
+                }
+            } else
+            {
+                return string.Empty;
+            }
+        }
+
+        public async void SetScript(string script)
+        {
+            if (browser != null)
+            {
+                var jsText = HttpUtility.JavaScriptStringEncode(script);
+                var fullText = @"editor.setValue('" + jsText + @"');";
+                _ = browser.EvaluateScriptAsync(fullText);
+            }
+        }
+
+        public void ShowOutputWindow()
+        {
+            outputWindowViewModel.Output = this.Output;
+            SCaddinsApp.WindowManager.ShowWindowAsync(outputWindowViewModel, null, ViewModels.OutputWindowViewModel.DefaultViewSettings);
         }
 
         public void LoadSample()
@@ -171,7 +230,8 @@ namespace SCaddins.RunScript.ViewModels
             {
                 if (File.Exists(currentFileName))
                 {
-                    Script = File.ReadAllText(CurrentFileName);
+
+                    SetScript(File.ReadAllText(CurrentFileName));
                     SCaddinsApp.WindowManager.LastWindow.Title = CurrentFileName;
                     NotifyOfPropertyChange(() => CanSave);
                 }
@@ -186,7 +246,7 @@ namespace SCaddins.RunScript.ViewModels
             {
                 return;
             }
-            Script = File.ReadAllText(p);
+            SetScript(File.ReadAllText(p));
         }
 
         public void LoadScriptFromFile()
@@ -199,7 +259,7 @@ namespace SCaddins.RunScript.ViewModels
             {
                 if (File.Exists(currentFileName))
                 {
-                    Script = File.ReadAllText(CurrentFileName);
+                    SetScript(File.ReadAllText(CurrentFileName));
                     SCaddinsApp.WindowManager.LastWindow.Title = currentFileName;
                     NotifyOfPropertyChange(() => CanSave);
                 }
@@ -208,19 +268,30 @@ namespace SCaddins.RunScript.ViewModels
 
         public void NewFile()
         {
-            // TODO
+            // TODO ask to save current script
+            var script = @"-- 'commandData' - Autodesk.Revit.UI.ExternalCommandData as passed to the host addin" + System.Environment.NewLine +
+                @"-- 'fec' - FilteredElementCOllector on active doc" + System.Environment.NewLine +
+                @"-- 'fecv' - FilteredElementCOllector on active view" + System.Environment.NewLine;
+            if (browser != null)
+            {
+                var jsText = HttpUtility.JavaScriptStringEncode(script);
+                var fullText = @"editor.setValue('" + jsText + @"');";
+                _ = browser.EvaluateScriptAsync(fullText);
+                CurrentFileName = string.Empty;
+            }
         }
 
-        // ReSharper disable once OptionalParameterHierarchyMismatch
         public override async Task TryCloseAsync(bool? dialogResult = false)
         {
             SaveScratch();
+            await outputWindowViewModel.DeactivateAsync(true);
             await base.TryCloseAsync(dialogResult);
         }
 
-        public void Run()
+        public async void Run()
         {
-            var r = RunScriptCommand.RunScript(Script, commandData, elements, false);
+            var script = await GetScript();
+            var r = RunScriptCommand.RunScript(script, commandData, elements, false);
 
             var sb = new StringBuilder();
             foreach (var v in r)
@@ -236,23 +307,32 @@ namespace SCaddins.RunScript.ViewModels
             SaveScratch();
         }
 
-        public void SaveAs()
+        public async void SaveAs()
         {
             var b = SCaddinsApp.WindowManager.ShowSaveFileDialog(defaultFileName: "script.lua", defaultExtension: "*.lua", filter: "lua-script | *.lua", savePath: out var path);
             if (b.HasValue && b.Value)
             {
-                File.WriteAllText(path: path, contents: Script);
-                CurrentFileName = path;
-                SCaddinsApp.WindowManager.LastWindow.Title = CurrentFileName;
+                SCaddinsApp.WindowManager.ShowMessageBox(path);
+                var result = await GetScript();
+                if (!result.IsNullOrEmpty())
+                { 
+                    File.WriteAllText(path: path, contents: result);
+                    CurrentFileName = path;
+                    SCaddinsApp.WindowManager.LastWindow.Title = CurrentFileName;
+                }
             }
         }
 
-        public void Save()
+        public async void Save()
         {
             if (CanSave)
             {
                 SCaddinsApp.WindowManager.LastWindow.Title = currentFileName;
-                File.WriteAllText(currentFileName, Script);
+                var result = await GetScript();
+                if (!result.IsNullOrEmpty())
+                {
+                    File.WriteAllText(currentFileName, result);
+                }
             }
             else
             {
@@ -260,7 +340,7 @@ namespace SCaddins.RunScript.ViewModels
             }
         }
 
-        public void SaveScratch()
+        public async void SaveScratch()
         {
             var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             var p = Path.Combine(s, "SCaddins");
@@ -268,7 +348,8 @@ namespace SCaddins.RunScript.ViewModels
             {
                 Directory.CreateDirectory(p);
             }
-            File.WriteAllText(Path.Combine(p, "Script.lua"), Script);
+            var result = await GetScript();
+            File.WriteAllText(Path.Combine(p, "Script.lua"), result);
         }
     }
 }

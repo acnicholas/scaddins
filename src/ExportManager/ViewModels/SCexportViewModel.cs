@@ -778,7 +778,7 @@ namespace SCaddins.ExportManager.ViewModels
         {
             this.IsNotifying = false;
             var optionsModel = new OptionsViewModel(exportManager, this);
-            SCaddinsApp.WindowManager.ShowWindowAsync(optionsModel, null, OptionsViewModel.DefaultWindowSettings);
+            SCaddinsApp.WindowManager.ShowDialogAsync(optionsModel, null, OptionsViewModel.DefaultWindowSettings);
             NotifyOfPropertyChange(() => ExportButtonLabel);
             NotifyOfPropertyChange(() => StatusText);
             this.IsNotifying = true;

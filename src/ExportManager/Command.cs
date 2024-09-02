@@ -116,7 +116,7 @@ namespace SCaddins.ExportManager
                 log.Clear();
                 log.Start(exportType + " Started.");
 
-                WindowManager.ShowWindowAsync(progressVm, null, ViewModels.ProgressMonitorViewModel.DefaultWindowSettings);
+                WindowManager.ShowModalWindowAsync(progressVm, null, ViewModels.ProgressMonitorViewModel.DefaultWindowSettings);
 
                 if (manager.SaveHistory)
                 {

@@ -64,6 +64,10 @@ Name: revit2025; Description: "Revit 2025 add-in"; Types: full custom
     Source: "..\etc\*"; DestDir: "{app}\etc\"; Flags: ignoreversion recursesubdirs; Components: main
     Source: "..\share\*"; DestDir: "{app}\share\"; Flags: ignoreversion recursesubdirs; Components: main
 	
+; Always install monaco files;
+	Source: "..\src\Monaco\*"; DestDir: "{app}\monaco\"; Flags: ignoreversion recursesubdirs; Components: main
+
+	
 #if R2020 == "Enabled"
     Source: "..\src\bin\Release2020\SCaddins2020.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2020\"; DestName: "SCaddins20.addin"; Flags: ignoreversion; Components: revit2020 
     Source: "..\src\bin\Release2020\*.dll"; Excludes: "Revit*.dll,AdWindows.dll,UIFramework.dll,ICSharpCode.AvalonEdit.dll"; DestDir: "{app}\2020\"; Flags: ignoreversion; Components: revit2020  

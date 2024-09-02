@@ -67,7 +67,6 @@ namespace SCaddins.RunScript
                 return Result.Failed;
             }
 
-            // SCaddinsApp.WindowManager.ShowMessageBox(elements.Size.ToString());
             var vm = new ViewModels.RunScriptViewModel(commandData, elements);
             SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewModels.RunScriptViewModel.DefaultViewSettings);
             return Result.Succeeded;

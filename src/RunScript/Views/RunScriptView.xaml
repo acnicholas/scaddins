@@ -4,21 +4,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:views="clr-namespace:SCaddins.RunScript.Views"
+             xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
              mc:Ignorable="d" 
-             MinHeight="480"
-             MinWidth="640"
-             d:DesignHeight="640" d:DesignWidth="800">
-    <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch">
+             Loaded="UserControl_Loaded"
+             SizeChanged="UserControl_SizeChanged">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
 
         <Menu Grid.Row="0" IsMainMenu="True">
             <MenuItem Header="_File">
+                <MenuItem x:Name="NewFile" Header="_New">
+                    <MenuItem.Icon>
+                        <Image Source="/SCaddins;component/Assets/doc.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator></Separator>
                 <MenuItem x:Name="LoadScriptFromFile" Header="_Load">
                     <MenuItem.Icon>
                         <Image Source="/SCaddins;component/Assets/open.png" />
@@ -36,7 +39,13 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator></Separator>
-                <MenuItem x:Name="Save" Header="_Save" IsEnabled="{Binding ElementName=root, Path=DataContext.CanSave}">
+                <MenuItem x:Name="Run" Header="_Run">
+                    <MenuItem.Icon>
+                        <Image Source="/SCaddins;component/Assets/tick.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator></Separator>
+                <MenuItem x:Name="Save" Header="_Save" IsEnabled="{Binding Path=CanSave}">
                     <MenuItem.Icon>
                         <Image Source="/SCaddins;component/Assets/save.png" />
                     </MenuItem.Icon>
@@ -57,6 +66,9 @@
                 <MenuItem x:Name="CommentSelection" Header="_Comment Selection" IsEnabled="True"/>
                 <MenuItem x:Name="UncommentSelection" Header="_Uncomment Selection" IsEnabled="True"/>
             </MenuItem>
+            <MenuItem Header="_Windows">
+                <MenuItem x:Name="ShowOutputWindow" Header="_Output Window" IsEnabled="True"/>
+            </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem x:Name="Help"
                     Header="_Help"
@@ -64,57 +76,14 @@
                     cal:Message.Attach="[Action NavigateTo('https://www.lua.org/manual/5.4')]"/>
             </MenuItem>
         </Menu>
-        <!--Text="{Binding Script, Mode=TwoWay}"-->
-        <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="320*"/>
-                <RowDefinition Height="5" />
-                <RowDefinition Height="240*"/>
-            </Grid.RowDefinitions>
-            <views:BindableAvalonEditor 
-            Text="{Binding Script, Mode=TwoWay}"
-            Grid.Row="0"
-            FontFamily="Consolas" 
-            ShowLineNumbers="True"
-            SyntaxHighlighting="Lua"
-            FontWeight="Bold"
-            FontSize="{Binding FontSize, Mode=TwoWay}"
-            Margin="5" 
-            MinWidth="480"
-            MinHeight="240" 
-            VerticalScrollBarVisibility="Auto"
-            HorizontalScrollBarVisibility="Auto"
-            x:Name="bindableAvalonEditor"
-            VerticalAlignment="Stretch"
-            HorizontalAlignment="Stretch">
-            </views:BindableAvalonEditor>
-            <GridSplitter Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Width="Auto"></GridSplitter>
 
-            <Grid Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <Label Grid.Row="0" Height="Auto" Padding="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">Output:</Label>
-                <views:BindableAvalonEditor 
-                    Text="{Binding Output, Mode=OneWay}"
-                    Grid.Row="1"
-                    FontFamily="Consolas" 
-                    ShowLineNumbers="True"
-                    SyntaxHighlighting="None"
-                    FontWeight="Bold"
-                    FontSize="{Binding FontSize, Mode=TwoWay}"
-                    Margin="5" 
-                    VerticalScrollBarVisibility="Auto"
-                    HorizontalScrollBarVisibility="Auto"
-                    x:Name="bindableAvalonEditorOutput"
-                    VerticalAlignment="Stretch"
-                    Padding="5"
-                    HorizontalAlignment="Stretch">
-                </views:BindableAvalonEditor>
-            </Grid>
-        </Grid>
-        <Button Grid.Row="2" Padding="5" Margin="5" x:Name="Run">Run</Button>
+        <cef:ChromiumWebBrowser
+                x:Name="Editor"
+                DpiScaleFactor="125"
+                Grid.Row="1"
+                Width="1024"
+                Height="640"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"/>
     </Grid>
 </UserControl>
