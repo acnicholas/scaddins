@@ -27,14 +27,14 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Expander ExpandDirection="Right" Height="Auto" HorizontalAlignment="Stretch">
-                <Expander.Header>
-                    <TextBlock Text="Source Sheet Information">
-                        <TextBlock.LayoutTransform>
+            <ui:CardExpander ExpandDirection="Right" Height="Auto" HorizontalAlignment="Stretch" Icon="">
+                <ui:CardExpander.Header>
+                    <ui:TextBlock Text="Source Sheet Information">
+                        <ui:TextBlock.LayoutTransform>
                             <RotateTransform Angle="-90"/>
-                        </TextBlock.LayoutTransform>
-                    </TextBlock>
-                </Expander.Header>
+                        </ui:TextBlock.LayoutTransform>
+                    </ui:TextBlock>
+                </ui:CardExpander.Header>
                 <Grid MinWidth="200" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
@@ -63,7 +63,7 @@
 
                     </ListView>
                 </Grid>
-            </Expander>
+            </ui:CardExpander>
         </Grid>
         <GridSplitter Grid.Row="0" Grid.Column="1" Height="Auto" Width="Auto"></GridSplitter>
         <Grid Grid.Row="0" Grid.Column="2">

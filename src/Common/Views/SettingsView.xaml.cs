@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime.Misc;
+using Autodesk.Revit.DB;
 using Caliburn.Micro;
 using SCaddins.ParameterUtilities.ViewModels;
 using System.Configuration;
@@ -15,6 +16,7 @@ namespace SCaddins.Common.Views
         public SettingsView()
         {
             InitializeComponent();
+            //incSettings.TargetPageType = ViewLocator.LocateForModel(Common.ViewModels.SettingsViewModel.IncrementViewModel,null,null);
         }
     }
 }

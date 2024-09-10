@@ -1,5 +1,6 @@
 ﻿namespace SCaddins.SheetCopier.Views
 {
+    using Caliburn.Micro;
     using System.Windows.Controls;
 
     /// <summary>
@@ -10,6 +11,8 @@
         public SheetCopierSettingsView()
         {
             InitializeComponent();
+            var vm = Common.ViewModels.SettingsViewModel.SheetCopierViewModel;
+            ViewModelBinder.Bind(vm, this, null);
         }
     }
 }

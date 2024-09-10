@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SCaddins.Common.Views.SettingsView"
+﻿<UserControl
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,19 +7,23 @@
              xmlns:inc="clr-namespace:SCaddins.ParameterUtilities.Views"
              xmlns:uv="clr-namespace:SCaddins.ViewUtilities.Views"
              xmlns:rt="clr-namespace:SCaddins.RoomConverter.Views"
+             xmlns:sc="clr-namespace:SCaddins.SpellChecker.Views"
+             xmlns:sh="clr-namespace:SCaddins.SheetCopier.Views"
+             xmlns:cm="http://caliburnmicro.com" x:Class="SCaddins.Common.Views.SettingsView"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="600">
+             d:DesignHeight="400" d:DesignWidth="800">
     <Grid x:Name="RootVisual">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <ui:NavigationView x:Name="MainNavigation"   PaneDisplayMode="LeftFluent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <ui:NavigationView OpenPaneLength="128" x:Name="MainNavigation" PaneDisplayMode="Left" AlwaysShowHeader="True" FlowDirection="LeftToRight"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsPaneVisible="True" PaneTitle="Settings" IsBackButtonVisible="Collapsed">
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem
+                    x:Name="incSettings"
                     Content="Increment"
                     Icon="{ui:SymbolIcon TextWordCount20}"
-                    TargetPageType="{x:Type inc:SCincrementView}" />
+                    TargetPageType="{x:Type inc:SCincrementView}" IsMenuElement="True" />
                 <ui:NavigationViewItem
                     Content="User Views"
                     Icon="{ui:SymbolIcon DocumentPerson20}"
@@ -29,20 +33,24 @@
                     Icon="{ui:SymbolIcon BreakoutRoom20}"
                     TargetPageType="{x:Type rt:SettingsView}" />
                 <ui:NavigationViewItem
+                    Content="Sheet Copier"
+                    Icon="{ui:SymbolIcon CopyAdd20}"
+                     TargetPageType="{x:Type sh:SheetCopierSettingsView}" />
+                <ui:NavigationViewItem
                     Content="Spelling"
                     Icon="{ui:SymbolIcon Check20}"
-                    TargetPageType="{x:Type uv:ViewUtilitiesSettingsView}" />
+                    TargetPageType="{x:Type sc:SpellCheckerOptionsView}" />
             </ui:NavigationView.MenuItems>
         </ui:NavigationView>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <ui:Button x:Name="Reset" Grid.Column="0" HorizontalAlignment="Left" Margin="5" MinHeight="25">Reset</ui:Button>
-            <ui:Button x:Name="Cancel" Grid.Column="1" HorizontalAlignment="Right" Margin="5" MinHeight="25">Cancel</ui:Button>
-            <ui:Button x:Name="OK" Appearance="Primary"   Grid.Column="2" HorizontalAlignment="Right" Margin="5" MinHeight="25">OK</ui:Button>
+            <ui:Button x:Name="Reset" Grid.Column="0" HorizontalAlignment="Left" Margin="5" MinHeight="25" Content="Reset"/>
+            <ui:Button x:Name="Cancel" Grid.Column="1" HorizontalAlignment="Right" Margin="5" MinHeight="25" Content="Cancel"/>
+            <ui:Button x:Name="OK" Appearance="Primary"   Grid.Column="2" HorizontalAlignment="Right" Margin="5" MinHeight="25" Content="OK"/>
         </Grid>
     </Grid>
 </UserControl>

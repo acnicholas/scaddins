@@ -1,4 +1,6 @@
 ﻿
+using Caliburn.Micro;
+
 namespace SCaddins.RoomConverter.Views
 {
     public partial class SettingsView
@@ -6,6 +8,8 @@ namespace SCaddins.RoomConverter.Views
         public SettingsView()
         {
             InitializeComponent();
+            var vm = Common.ViewModels.SettingsViewModel.RoomConverterViewModel;
+            ViewModelBinder.Bind(vm, this, null);
         }
     }
 }

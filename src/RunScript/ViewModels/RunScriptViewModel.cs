@@ -48,7 +48,7 @@ namespace SCaddins.RunScript.ViewModels
             this.commandData = commandData;
             this.elements = elements;
             currentFileName = string.Empty;
-            output = string.Empty;
+            Output = " ";
             outputList = new BindableCollection<string>();
             LoadScratch();
             FontSize = 15;
@@ -118,8 +118,7 @@ namespace SCaddins.RunScript.ViewModels
                 {
                     return;
                 }
-                output = value;
-                outputWindowViewModel.Output = output;
+                output = "Output:" + System.Environment.NewLine + value;
                 NotifyOfPropertyChange(() => Output);
             }
         }
@@ -214,11 +213,17 @@ namespace SCaddins.RunScript.ViewModels
             }
         }
 
-        public void ShowOutputWindow()
+        public void ClearOutputWindow()
         {
-            outputWindowViewModel.Output = this.Output;
-            SCaddinsApp.WindowManager.ShowWindowAsync(outputWindowViewModel, null, ViewModels.OutputWindowViewModel.DefaultViewSettings);
+
+            Output = " ";
         }
+
+        //public void ShowOutputWindow()
+        //{
+        //    outputWindowViewModel.Output = this.Output;
+        //    SCaddinsApp.WindowManager.ShowWindowAsync(outputWindowViewModel, null, ViewModels.OutputWindowViewModel.DefaultViewSettings);
+        //}
 
         public void LoadSample()
         {
@@ -284,7 +289,7 @@ namespace SCaddins.RunScript.ViewModels
         public override async Task TryCloseAsync(bool? dialogResult = false)
         {
             SaveScratch();
-            await outputWindowViewModel.DeactivateAsync(true);
+            await outputWindowViewModel.TryCloseAsync(dialogResult);
             await base.TryCloseAsync(dialogResult);
         }
 
@@ -312,7 +317,6 @@ namespace SCaddins.RunScript.ViewModels
             var b = SCaddinsApp.WindowManager.ShowSaveFileDialog(defaultFileName: "script.lua", defaultExtension: "*.lua", filter: "lua-script | *.lua", savePath: out var path);
             if (b.HasValue && b.Value)
             {
-                SCaddinsApp.WindowManager.ShowMessageBox(path);
                 var result = await GetScript();
                 if (!result.IsNullOrEmpty())
                 { 

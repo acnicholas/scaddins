@@ -20,6 +20,7 @@ namespace SCaddins.GridManager.ViewModels
     using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
+    using CefSharp.DevTools.DOMSnapshot;
     using FilterTreeControlWPF;
     using View = Autodesk.Revit.DB.View;
     
@@ -32,6 +33,8 @@ namespace SCaddins.GridManager.ViewModels
         private bool? showLeftLevels;
         private bool? showTopBubbles;
         private bool? showBottomBubbles;
+        private bool enableLevelTools;
+        private bool enableGridTools;
         private List<ElementId> selection;
         private string statusBarLabel;
 
@@ -40,6 +43,9 @@ namespace SCaddins.GridManager.ViewModels
             this.activeView = activeView;
             this.selection = selection;
             StatusBarLabel = GridManager.GetViewInformation(activeView, selection);
+            enableLevelTools = GridManager.GetAllLevelsInView(activeView, selection).Count > 0;
+            enableGridTools =  GridManager.GetAllGridsInView(activeView, selection).Count > 0;
+
         }
         
         public bool? ShowBottomGridBubbles
@@ -64,17 +70,17 @@ namespace SCaddins.GridManager.ViewModels
             }
         }
 
+        public bool CanShowBottomGridBubbles
+        {
+            get => enableGridTools;
+        }
+
         public bool LevelsGroupBoxEnabled
         {
             get => false;
         }
         
         public string ShowBottomGridBubblesLabel => "Bottom Grid Bubbles";
-
-        //public bool ShowLeftGridBubblesEnabled
-        //{
-        //    get => false;
-        //}
 
         public bool? ShowLeftGridBubbles
         {
@@ -97,7 +103,12 @@ namespace SCaddins.GridManager.ViewModels
                 NotifyOfPropertyChange(() => ShowLeftGridBubbles);
             }
         }
-        
+
+        public bool CanShowLeftGridBubbles
+        {
+            get => enableGridTools;
+        }
+
         public string ShowLeftGridBubblesLabel => "Left Grid Bubbles";
         
         public bool? ShowLeftLevels
@@ -119,7 +130,12 @@ namespace SCaddins.GridManager.ViewModels
                 NotifyOfPropertyChange(() => ShowLeftLevels);
             }
         }
-        
+
+        public bool ShowLeftLevelsIsEnabled
+        {
+            get => enableLevelTools;
+        }
+
         public string ShowLeftLevelsLabel => "Left Level Heads";
         
         public bool? ShowRightGridBubbles
@@ -144,6 +160,11 @@ namespace SCaddins.GridManager.ViewModels
             }
         }
 
+        public bool CanShowRightGridBubbles
+        {
+            get => enableGridTools;
+        }
+
         public string ShowRightGridBubblesLabel => "Right Grid Bubbles";
         
         public bool? ShowRightLevels
@@ -166,11 +187,16 @@ namespace SCaddins.GridManager.ViewModels
                     GridManager.ShowRightLevelEndsByView(activeView, true, selection);
                 }
                 
-                // NotifyOfPropertyChange(() => ShowRightGridBubblesLabel);
                 NotifyOfPropertyChange(() => ShowRightLevels);
             }
         }
-        
+
+        public bool ShowRightLevelsIsEnabled
+        {
+            get => enableLevelTools;
+        }
+
+
         public string ShowRightLevelsLabel => "Right Level Heads";
 
         public bool? ShowTopGridBubbles
@@ -194,7 +220,12 @@ namespace SCaddins.GridManager.ViewModels
                 NotifyOfPropertyChange(() => ShowTopGridBubbles);
             }
         }
-        
+
+        public bool CanShowTopGridBubbles
+        {
+            get => enableGridTools;
+        }
+
         public string ShowTopGridBubblesLabel  => "Top Grid Bubbles";
 
         public string StatusBarLabel
@@ -218,7 +249,12 @@ namespace SCaddins.GridManager.ViewModels
             ShowLeftGridBubbles = true;
             ShowRightGridBubbles = true;
         }
-        
+
+        public bool CanShowAllGridBubbles
+        {
+            get => enableGridTools;
+        }
+
         public void HideAllGridBubbles()
         {
             ShowBottomGridBubbles = false;
@@ -226,38 +262,73 @@ namespace SCaddins.GridManager.ViewModels
             ShowLeftGridBubbles = false;
             ShowRightGridBubbles = false;
         }
-        
+
+        public bool CanHideAllGridBubbles
+        {
+            get => enableGridTools;
+        }
+
         public void ShowAllLevelEnds()
         {
             ShowLeftLevels = true;
             ShowRightLevels = true;
         }
-        
+
+        public bool CanShowAllLevelEnds
+        {
+            get => enableLevelTools;
+        }
+
+
         public void HideAllLevelEnds()
         {
             ShowLeftLevels = false;
             ShowRightLevels = false;
         }
 
+        public bool CanHideAllLevelEnds
+        {
+            get => enableLevelTools;
+        }
+
         public void SetGridsTo2d()
         {
             GridManager.Toggle2dGridsByView(activeView, true, selection);
         }
-        
+
+        public bool CanSetGridsTo2d
+        {
+            get => enableGridTools;
+        }
+
         public void SetGridsTo3d()
         {
             GridManager.Toggle2dGridsByView(activeView, false, selection);
         }
 
+        public bool CanSetGridsTo3d
+        {
+            get => enableGridTools;
+        }
+
         public void SetLevelsTo2d()
         {
-            SCaddinsApp.WindowManager.ShowMessageBox("2d");
             GridManager.Toggle2dLevelsByView(activeView, true, selection);
+        }
+
+        public bool CanSetLevelsTo2d
+        {
+            get => enableLevelTools;
         }
 
         public void SetLevelsTo3d()
         {
             GridManager.Toggle2dLevelsByView(activeView, false, selection);
+        }
+
+        public bool CanSetLevelsTo3d
+        {
+            get => enableLevelTools;
         }
     }
 }

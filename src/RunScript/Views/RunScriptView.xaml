@@ -12,6 +12,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Menu Grid.Row="0" IsMainMenu="True">
@@ -67,7 +69,7 @@
                 <MenuItem x:Name="UncommentSelection" Header="_Uncomment Selection" IsEnabled="True"/>
             </MenuItem>
             <MenuItem Header="_Windows">
-                <MenuItem x:Name="ShowOutputWindow" Header="_Output Window" IsEnabled="True"/>
+                <MenuItem x:Name="ClearOutputWindow" Header="_Clear Output Window" IsEnabled="True"/>
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem x:Name="Help"
@@ -82,8 +84,13 @@
                 DpiScaleFactor="125"
                 Grid.Row="1"
                 Width="1024"
-                Height="640"
+                Height="480"
                 VerticalAlignment="Stretch"
                 HorizontalAlignment="Stretch"/>
+
+        <GridSplitter Grid.Row="2" VerticalAlignment="Stretch" Height="5"></GridSplitter>
+        <ScrollViewer Grid.Row="3" MaxHeight="240" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <TextBox x:Name="Output"></TextBox>
+        </ScrollViewer>
     </Grid>
 </UserControl>

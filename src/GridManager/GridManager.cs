@@ -290,7 +290,7 @@ namespace SCaddins.GridManager
             return grids;
         }
 
-        private static List<Grid> GetAllGridsInView(View activeView, List<ElementId> selection)
+        public static List<Grid> GetAllGridsInView(View activeView, List<ElementId> selection)
         {
             if (selection != null && selection.Count > 0)
             {
@@ -325,7 +325,7 @@ namespace SCaddins.GridManager
             return levels;
         }
 
-        private static List<Level> GetAllLevelsInView(View activeView, List<ElementId> selection)
+        public static List<Level> GetAllLevelsInView(View activeView, List<ElementId> selection)
         {
             if (selection != null && selection.Count > 0)
             {

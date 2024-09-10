@@ -11,8 +11,8 @@ namespace SCaddins.ParameterUtilities.Views
         public SCincrementView()
         {
             InitializeComponent();
-            var test = Common.ViewModels.SettingsViewModel.IncrementViewModel;
-            ViewModelBinder.Bind(test, this, null);
+            var vm = Common.ViewModels.SettingsViewModel.IncrementViewModel;
+            ViewModelBinder.Bind(vm, this, null);
         }
 
         private void UserControl_Initialized(object sender, System.EventArgs e)

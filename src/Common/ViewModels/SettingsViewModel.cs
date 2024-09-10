@@ -6,10 +6,10 @@
     public class SettingsViewModel : Screen
     {
         private static ISettingPanel incrementViewModel;
-        private ISettingPanel roomConverterViewModel;
-        private ISettingPanel viewUtilitiesViewModel;
-        private ISettingPanel spellCheckerOptionsViewModel;
-        private ISettingPanel sheetCopierViewModel;
+        private static ISettingPanel roomConverterViewModel;
+        private static ISettingPanel viewUtilitiesViewModel;
+        private static ISettingPanel spellCheckerOptionsViewModel;
+        private static ISettingPanel sheetCopierViewModel;
 
         public SettingsViewModel(
             ISettingPanel incrementViewModel,
@@ -31,7 +31,7 @@
             {
                 dynamic settings = new System.Dynamic.ExpandoObject();
                 settings.Height = 480;
-                settings.Width = 640;
+                settings.Width = 1024;
                 settings.Title = "SCaddins Global Settings";
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
                   new Uri("pack://application:,,,/SCaddins;component/Assets/gear.png"));
@@ -43,7 +43,7 @@
             }
         }
 
-        public ISettingPanel RoomConverterViewModel
+        public static ISettingPanel RoomConverterViewModel
         {
             get
             {
@@ -53,7 +53,7 @@
             set
             {
                 roomConverterViewModel = value;
-                NotifyOfPropertyChange(() => RoomConverterViewModel);
+                //NotifyOfPropertyChange(() => RoomConverterViewModel);
             }
         }
 
@@ -71,7 +71,7 @@
             }
         }
 
-        public ISettingPanel SheetCopierViewModel
+        public static ISettingPanel SheetCopierViewModel
         {
             get
             {
@@ -81,11 +81,11 @@
             set
             {
                 sheetCopierViewModel = value;
-                NotifyOfPropertyChange(() => SheetCopierViewModel);
+                //NotifyOfPropertyChange(() => SheetCopierViewModel);
             }
         }
 
-        public ISettingPanel SpellCheckerOptionsViewModel
+        public static ISettingPanel SpellCheckerOptionsViewModel
         {
             get
             {
@@ -95,11 +95,11 @@
             set
             {
                 spellCheckerOptionsViewModel = value;
-                NotifyOfPropertyChange(() => SpellCheckerOptionsViewModel);
+                //NotifyOfPropertyChange(() => SpellCheckerOptionsViewModel);
             }
         }
 
-        public ISettingPanel ViewUtilitiesViewModel
+        public static ISettingPanel ViewUtilitiesViewModel
         {
             get
             {
@@ -109,7 +109,7 @@
             set
             {
                 viewUtilitiesViewModel = value;
-                NotifyOfPropertyChange(() => ViewUtilitiesViewModel);
+                //NotifyOfPropertyChange(() => ViewUtilitiesViewModel);
             }
         }
 

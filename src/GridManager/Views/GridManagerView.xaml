@@ -31,10 +31,10 @@
                     <ColumnDefinition MinWidth="200" Width="150*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <CheckBox x:Name="ShowLeftGridBubbles" Grid.Row="0" Margin="5" Content="{Binding ShowLeftGridBubblesLabel}"></CheckBox>
-                <CheckBox x:Name="ShowRightGridBubbles" Grid.Row="1" Margin="5" Content="{Binding ShowRightGridBubblesLabel}"></CheckBox>
-                <CheckBox x:Name="ShowTopGridBubbles" Grid.Row="2" Margin="5" Content="{Binding ShowTopGridBubblesLabel}"></CheckBox>
-                <CheckBox x:Name="ShowBottomGridBubbles" Grid.Row="3" Margin="5" Content="{Binding ShowBottomGridBubblesLabel}"></CheckBox>
+                <CheckBox x:Name="ShowLeftGridBubbles" Grid.Row="0" Margin="5" IsEnabled="{Binding CanShowLeftGridBubbles}" Content="{Binding ShowLeftGridBubblesLabel}"></CheckBox>
+                <CheckBox x:Name="ShowRightGridBubbles" Grid.Row="1" Margin="5"  IsEnabled="{Binding CanShowRightGridBubbles}" Content="{Binding ShowRightGridBubblesLabel}"></CheckBox>
+                <CheckBox x:Name="ShowTopGridBubbles" Grid.Row="2" Margin="5"  IsEnabled="{Binding CanShowTopGridBubbles}" Content="{Binding ShowTopGridBubblesLabel}"></CheckBox>
+                <CheckBox x:Name="ShowBottomGridBubbles" Grid.Row="3" Margin="5"  IsEnabled="{Binding CanShowBottomGridBubbles}" Content="{Binding ShowBottomGridBubblesLabel}"></CheckBox>
 
                 <Button x:Name="ShowAllGridBubbles" Grid.Row="0" Grid.Column="1" Margin="5">Show All Grid Bubbles</Button>
                 <Button x:Name="HideAllGridBubbles" Grid.Row="1" Grid.Column="1" Margin="5">Hide All Grid Bubbles</Button>
@@ -56,8 +56,8 @@
                     <ColumnDefinition MinWidth="200" Width="150*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <CheckBox x:Name="ShowLeftLevels" Grid.Row="0" Margin="5" Content="{Binding ShowLeftLevelsLabel}"></CheckBox>
-                <CheckBox x:Name="ShowRightLevels" Grid.Row="1" Margin="5" Content="{Binding ShowRightLevelsLabel}"></CheckBox>
+                <CheckBox x:Name="ShowLeftLevels" Grid.Row="0" Margin="5" IsEnabled="{Binding ShowLeftLevelsIsEnabled}" Content="{Binding ShowLeftLevelsLabel}"></CheckBox>
+                <CheckBox x:Name="ShowRightLevels" Grid.Row="1" Margin="5" IsEnabled="{Binding ShowRightLevelsIsEnabled}" Content="{Binding ShowRightLevelsLabel}"></CheckBox>
 
                 <Button x:Name="ShowAllLevelEnds" Grid.Row="0" Grid.Column="1" Margin="5">Show All Levels</Button>
                 <Button x:Name="HideAllLevelEnds" Grid.Row="1" Grid.Column="1" Margin="5">Hide All Levels</Button>

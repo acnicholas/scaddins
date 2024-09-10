@@ -1,5 +1,6 @@
 ﻿namespace SCaddins.ViewUtilities.Views
 {
+    using Caliburn.Micro;
     using System.Windows.Controls;
 
     /// <summary>
@@ -10,6 +11,8 @@
         public ViewUtilitiesSettingsView()
         {
             InitializeComponent();
+            var vm = Common.ViewModels.SettingsViewModel.ViewUtilitiesViewModel;
+            ViewModelBinder.Bind(vm, this, null);
         }
     }
 }

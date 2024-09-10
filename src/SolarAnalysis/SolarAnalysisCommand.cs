@@ -19,6 +19,7 @@ namespace SCaddins.SolarAnalysis
 {
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using System.Threading.Tasks;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -45,9 +46,11 @@ namespace SCaddins.SolarAnalysis
             }
 
             var vm = new ViewModels.SolarViewsViewModel(commandData.Application.ActiveUIDocument);
-            SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewModels.SolarViewsViewModel.DefaultViewSettings);
+            Task<bool?> result = SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewModels.SolarViewsViewModel.DefaultViewSettings);
+            var r = result.Result.HasValue ? result.Result.Value : false;
 
-            if (vm.CreateAnalysisView)
+
+            if (r && vm.CreateAnalysisView)
             {
 #if REVIT2021 || REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025
                 var internalUnitsGridSize = UnitUtils.ConvertToInternalUnits(vm.AnalysisGridSize, UnitTypeId.Millimeters);
@@ -56,7 +59,7 @@ namespace SCaddins.SolarAnalysis
 #endif
                 SolarAnalysisManager.CreateTestFaces(vm.FaceSelection, vm.MassSelection, internalUnitsGridSize, udoc, udoc.ActiveView);
             }
-            if (vm.DrawSolarRay)
+            if (r && vm.DrawSolarRay)
             {
                 SolarAnalysisManager.DrawSolarRayAsModelLine(udoc, vm.SolarRayLength);
             }
