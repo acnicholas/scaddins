@@ -248,6 +248,6 @@
                 </ui:DataGrid>
             </Grid>
         </Grid>
-        <ui:Button x:Name="Go" Content="{Binding GoLabel}" IsEnabled="{Binding GoLabelIsEnabled}"   Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" MinWidth="50" Margin="5"></ui:Button>
+        <ui:Button Appearance="Primary" Icon="{ui:SymbolIcon CopyArrowRight20}" x:Name="Go" Content="{Binding GoLabel}" IsEnabled="{Binding GoLabelIsEnabled}"   Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" MinWidth="50" Margin="5"></ui:Button>
     </Grid>
 </UserControl>

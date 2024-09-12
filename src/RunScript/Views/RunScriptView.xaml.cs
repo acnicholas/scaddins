@@ -21,7 +21,8 @@ namespace SCaddins.RunScript.Views
 
         private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            this.Editor.Address = @"C:\Home\Andrew\Code\cs\scaddins\src\Monaco\index.html";
+            // this.Editor.Address = @"C:\Home\Andrew\Code\cs\scaddins\src\Monaco\index.html";
+            this.Editor.Address = Constants.InstallDirectory + @"monaco\index.html";
         }
 
         private void UserControl_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)

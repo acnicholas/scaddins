@@ -16,7 +16,7 @@ namespace SCaddins.Common.Views
         public SettingsView()
         {
             InitializeComponent();
-            //incSettings.TargetPageType = ViewLocator.LocateForModel(Common.ViewModels.SettingsViewModel.IncrementViewModel,null,null);
+            // MainNavigation.SelectedItem = MainNavigation.MenuItems[0];
         }
     }
 }

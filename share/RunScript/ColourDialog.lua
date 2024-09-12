@@ -1,7 +1,5 @@
-import ('C:\\Code\\cs\\scaddins\\src\\bin\\Debug\\SCaddins.dll', 'SCaddins')
-
+import ('SCaddins', 'SCaddins')
 colour = SCaddinsApp.WindowManager:ShowColourDialog()
-
 return colour
 
    

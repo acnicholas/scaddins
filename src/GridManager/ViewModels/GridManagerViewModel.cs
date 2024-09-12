@@ -20,8 +20,6 @@ namespace SCaddins.GridManager.ViewModels
     using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
-    using CefSharp.DevTools.DOMSnapshot;
-    using FilterTreeControlWPF;
     using View = Autodesk.Revit.DB.View;
     
     public class GridManagerViewModel : Screen

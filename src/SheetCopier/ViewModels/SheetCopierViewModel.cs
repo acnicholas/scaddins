@@ -45,8 +45,8 @@ namespace SCaddins.SheetCopier.ViewModels
             get
             {
                 dynamic settings = new ExpandoObject();
-                settings.Height = 480;
-                settings.Width = 768;
+                settings.Height = 600;
+                settings.Width = 1024;
                 settings.Title = "Sheet Copier - By Andrew Nicholas";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;

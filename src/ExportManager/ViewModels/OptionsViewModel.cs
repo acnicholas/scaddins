@@ -702,6 +702,7 @@ namespace SCaddins.ExportManager.ViewModels
 
         public static string SelectPrinter(string printerToSelect, string currentPrinter)
         {
+            // SCaddinsApp.WindowManager.ShowMessageBox("test2");
             dynamic settings = new ExpandoObject();
             settings.MinHeight = 150;
             settings.MinWidth = 300;
@@ -710,10 +711,11 @@ namespace SCaddins.ExportManager.ViewModels
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
             settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
             var printerViewModel = new PrinterSelectionViewModel(currentPrinter);
-            bool? result = SCaddinsApp.WindowManager.ShowDialogAsync(printerViewModel, null, settings);
-            if (result.HasValue)
+            var result = SCaddinsApp.WindowManager.ShowDialogAsync(printerViewModel, null, settings);
+            if (result.Result ?? true)
             {
-                return result.Value ? printerViewModel.SelectedPrinter : currentPrinter;
+                SCaddinsApp.WindowManager.ShowMessageBox("test");
+                return printerViewModel.SelectedPrinter;
             }
             return currentPrinter;
         }
