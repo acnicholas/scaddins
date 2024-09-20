@@ -220,7 +220,7 @@ namespace SCaddins
                     AssignPushButtonImage(scexportPushButton, @"SCaddins.Assets.Ribbon.scexport-rvt-16-dark.png", 16, dll);
                     AssignPushButtonImage(scincrementPushButton, @"SCaddins.Assets.Ribbon.scincrement-rvt-16-dark.png", 16, dll);
                     AssignPushButtonImage(sculcasePushButton, @"SCaddins.Assets.Ribbon.sculcase-rvt-16-dark.png", 16, dll);
-                    AssignPushButtonImage(scwashPushButton,   @"SCaddins.Assets.Ribbon.scwash-rvt-16-dark.png", 16, dll);
+                    AssignPushButtonImage(scwashPushButton, @"SCaddins.Assets.Ribbon.scwash-rvt-16-dark.png", 16, dll);
                     AssignPushButtonImage(gridManagerPushButton, @"SCaddins.Assets.Ribbon.gridman-rvt-16-dark.png", 16, dll);
                     AssignPushButtonImage(sccopyPushButton, @"SCaddins.Assets.Ribbon.scopy-rvt-16-dark.png", 16, dll);
                     AssignPushButtonImage(sccopyPushButton, @"SheetCopier.Assets.scopy-rvt-dark.png", 32, dll);
@@ -240,7 +240,7 @@ namespace SCaddins
                     AssignPushButtonImage(scexportPushButton, @"SCaddins.Assets.Ribbon.scexport-rvt-16.png", 16, dll);
                     AssignPushButtonImage(scincrementPushButton, @"SCaddins.Assets.Ribbon.scincrement-rvt-16.png", 16, dll);
                     AssignPushButtonImage(sculcasePushButton, @"SCaddins.Assets.Ribbon.sculcase-rvt-16.png", 16, dll);
-                    AssignPushButtonImage(scwashPushButton,   @"SCaddins.Assets.Ribbon.scwash-rvt-16.png", 16, dll);
+                    AssignPushButtonImage(scwashPushButton, @"SCaddins.Assets.Ribbon.scwash-rvt-16.png", 16, dll);
                     AssignPushButtonImage(gridManagerPushButton, @"SCaddins.Assets.Ribbon.gridman-rvt-16.png", 16, dll);
                     AssignPushButtonImage(sccopyPushButton, @"SCaddins.Assets.Ribbon.scopy-rvt-16.png", 16, dll);
                     AssignPushButtonImage(sccopyPushButton, @"SheetCopier.Assets.scopy-rvt.png", 32, dll);
@@ -340,6 +340,24 @@ namespace SCaddins
                 LoadRunScript(scdll));
 #if REVIT2024 || REVIT2025
             ChangeTheme(); //FIXME, this doesn't need to run everytime, load the correct theme once.
+#else
+            AssignPushButtonImage(scexportPushButton, @"SCaddins.Assets.Ribbon.scexport-rvt.png", 32, scdll);
+            AssignPushButtonImage(scexportPushButton, @"SCaddins.Assets.Ribbon.scexport-rvt-16.png", 16, scdll);
+            AssignPushButtonImage(scincrementPushButton, @"SCaddins.Assets.Ribbon.scincrement-rvt-16.png", 16, scdll);
+            AssignPushButtonImage(sculcasePushButton, @"SCaddins.Assets.Ribbon.sculcase-rvt-16.png", 16, scdll);
+            AssignPushButtonImage(scwashPushButton, @"SCaddins.Assets.Ribbon.scwash-rvt-16.png", 16, scdll);
+            AssignPushButtonImage(gridManagerPushButton, @"SCaddins.Assets.Ribbon.gridman-rvt-16.png", 16, scdll);
+            AssignPushButtonImage(sccopyPushButton, @"SCaddins.Assets.Ribbon.scopy-rvt-16.png", 16, scdll);
+            AssignPushButtonImage(sccopyPushButton, @"SheetCopier.Assets.scopy-rvt.png", 32, scdll);
+            AssignPushButtonImage(scaosPushButton, @"SCaddins.Assets.Ribbon.scaos-rvt-16.png", 16, scdll);
+            AssignPushButtonImage(scightlinesPushButton, @"SCaddins.Assets.Ribbon.scightlines-rvt-16.png", 16, scdll);
+            AssignPushButtonImage(scasfarPushButton, "SCaddins.Assets.Ribbon.scasfar-rvt-16.png", 16, scdll);
+            AssignPushButtonImage(scloudschedPushButton, "SCaddins.Assets.Ribbon.scloudsched-rvt-16.png", 16, scdll);
+            AssignPushButtonImage(spellingChecker, "SCaddins.Assets.Ribbon.spelling-rvt-16.png", 16, scdll);
+            AssignPushButtonImage(scheduleExporterPushButton, @"SCaddins.Assets.Ribbon.table-rvt-16.png", 16, scdll);
+            AssignPushButtonImage(scoordPushButton, @"SCaddins.Assets.Ribbon.scoord-rvt-16.png", 16, scdll);
+            AssignPushButtonImage(modelWizardPushButton, "SCaddins.Assets.Ribbon.checkdoc-rvt-16.png", 16, scdll);
+            AssignPushButtonImage(openSheetPushButton, "SCaddins.Assets.Ribbon.find-rvt-16.png", 16, scdll);
 #endif
 
             return Result.Succeeded;

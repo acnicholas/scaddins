@@ -13,6 +13,8 @@
 - Add option to increment viewport detail number [Increment Tool]
 - New Grid Manager tool.
 - New Installer
+- Use Monaco(vscode) editor for Run Script.
+- Use WPFUI for interface
 
 # 24.1.1 #
 
