@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 var target = Argument("target", "Default");
 var solutionFile = GetFiles("src/*.sln").First();
+var testSolutionFile = GetFiles("tests/*.sln").First();
 var innoSetupFile = GetFiles("setup/*.iss").First();
 var buildDir = Directory(@"./src/bin");
 var objDir = Directory(@"./src/obj");
@@ -17,6 +18,18 @@ public MSBuildSettings GetBuildSettings(string config)
 {
 	var result = new MSBuildSettings()
 		.SetConfiguration("Release" + config)
+		.WithTarget("Clean,Build")
+		.WithProperty("Platform","Any CPU")
+		.SetVerbosity(Verbosity.Minimal);
+	result.WarningsAsError = false;
+	result.Restore = true;
+	return result;
+}
+
+public MSBuildSettings GetTestBuildSettings()
+{
+	var result = new MSBuildSettings()
+		.SetConfiguration("Debug")
 		.WithTarget("Clean,Build")
 		.WithProperty("Platform","Any CPU")
 		.SetVerbosity(Verbosity.Minimal);
@@ -42,6 +55,8 @@ Task("Clean").Does(() => CleanDirectory(buildDir));
 Task("CleanOBJ").Does(() => CleanDirectory(objDir));
 
 Task("Restore-NuGet-Packages").Does(() => NuGetRestore(solutionFile));
+
+Task("Restore-Test-NuGet-Packages").Does(() => NuGetRestore(testSolutionFile));
 
 Task("CreateAddinManifests")
 .Does(() =>
@@ -84,6 +99,10 @@ Task("Revit2024")
 Task("Revit2025")
 .IsDependentOn("CleanOBJ")
 .Does(() => MSBuild(solutionFile, GetBuildSettings("2025")));
+
+Task("Tests")
+.IsDependentOn("Restore-Test-NuGet-Packages")
+.Does(() => MSBuild(testSolutionFile, GetTestBuildSettings()));
 
 Task("Installer")
 .Does(() =>

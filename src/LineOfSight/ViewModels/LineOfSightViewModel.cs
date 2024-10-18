@@ -21,7 +21,7 @@ namespace SCaddins.LineOfSight.ViewModels
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
-    internal class LineOfSightViewModel : PropertyChangedBase
+    public class LineOfSightViewModel : PropertyChangedBase
     {
         private StadiumSeatingTier lineOfSight;
         private double tolerance = 0.001;

@@ -527,6 +527,7 @@ namespace SCaddins.ExportManager.ViewModels
             SCaddinsApp.WindowManager.ShowDialogAsync(viewModel, null, TemplateViewViewModel.DefaultWindowSettings);
             if (viewModel.SelectedCloseMode == TemplateViewViewModel.CloseMode.OK)
             {
+				// SCaddinsApp.WindowManager.ShowWarningMessageBox("Test", "Should align now");
                 ViewUtilities.ViewAlignmentUtils.AlignViews(exportManager.Doc, this.SelectedSheets, viewModel.SelectedSheet);
             }
         }

@@ -62,11 +62,22 @@ namespace SCaddins.Common
             window.LocationChanged += Window_LocationChanged;
             LastWindow = window;
 
-            Wpf.Ui.Appearance.ApplicationThemeManager.Apply(
+            //if (Scaddins.Default.UseDarkMode)
+            //{
+            //    Wpf.Ui.Appearance.ApplicationThemeManager.Apply(
+            //        Wpf.Ui.Appearance.ApplicationTheme.Dark, // Theme type
+            //        Wpf.Ui.Controls.WindowBackdropType.Mica,  // Background type
+            //        true                                      // Whether to change accents automatically
+            //    );
+            //}
+            //else
+            //{
+                Wpf.Ui.Appearance.ApplicationThemeManager.Apply(
                 Wpf.Ui.Appearance.ApplicationTheme.Light, // Theme type
                 Wpf.Ui.Controls.WindowBackdropType.Mica,  // Background type
                 true                                      // Whether to change accents automatically
-            );
+                );
+            //}
 
             return window.ShowDialog();
         }

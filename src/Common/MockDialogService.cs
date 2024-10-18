@@ -51,6 +51,7 @@ namespace SCaddins.Common
         public void ShowMessageBox(string message)
         {
             System.Diagnostics.Debug.WriteLine(message);
+            System.Console.WriteLine(message);
         }
 
         public void ShowMessageBox(string title, string message)

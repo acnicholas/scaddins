@@ -34,5 +34,17 @@ namespace SCaddins {
                 this["UpgradeCheckOnStartUp"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseDarkMode {
+            get {
+                return ((bool)(this["UseDarkMode"]));
+            }
+            set {
+                this["UseDarkMode"] = value;
+            }
+        }
     }
 }

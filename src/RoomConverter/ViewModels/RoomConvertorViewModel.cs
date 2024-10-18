@@ -20,6 +20,7 @@ namespace SCaddins.RoomConverter.ViewModels
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Threading.Tasks;
     using Caliburn.Micro;
 
     public class RoomConvertorViewModel : Screen
@@ -192,8 +193,9 @@ namespace SCaddins.RoomConverter.ViewModels
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Height;
                 var vm = new RoomToSheetWizardViewModel(manager);
-                bool? result = SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, settings);
-                if (result.Value)
+                var task = SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, settings);
+                bool newBool = task.Result ?? false;
+                if (newBool)
                 {
                     manager.CreateViewsAndSheets(selectedRooms);
                 }

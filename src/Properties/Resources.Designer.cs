@@ -151,7 +151,7 @@ namespace SCaddins.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sat 27/04/2024 15:26:44.76 
+        ///   Looks up a localized string similar to Wed 09/10/2024 13:30:43.36 
         ///.
         /// </summary>
         public static string BuildDate {
@@ -869,6 +869,15 @@ namespace SCaddins.Properties {
         public static string MessageStartingGhostscriptPDFExport {
             get {
                 return ResourceManager.GetString("MessageStartingGhostscriptPDFExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ### Starting Native PDF Export ###.
+        /// </summary>
+        public static string MessageStartingNativePDFExport {
+            get {
+                return ResourceManager.GetString("MessageStartingNativePDFExport", resourceCulture);
             }
         }
         

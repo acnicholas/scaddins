@@ -27,7 +27,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
     using Autodesk.Revit.UI;
     using Caliburn.Micro;
 
-    internal class SolarViewsViewModel : Screen
+    public class SolarViewsViewModel : Screen
     {
         private DateTime creationDate;
         private DateTime endTime;

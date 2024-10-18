@@ -21,7 +21,7 @@ namespace SCaddins.PlaceCoordinate.ViewModels
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
-    internal class PlaceCoordinateViewModel : Screen
+    public class PlaceCoordinateViewModel : Screen
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private Document doc;

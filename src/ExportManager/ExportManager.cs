@@ -1168,7 +1168,7 @@ namespace SCaddins.ExportManager
 
             if (log != null)
             {
-                log.AddMessage(Environment.NewLine + Resources.MessageStartingPDFExport);
+                log.AddMessage(Environment.NewLine + Resources.MessageStartingNativePDFExport);
             }
             else
             {
@@ -1181,7 +1181,7 @@ namespace SCaddins.ExportManager
                 return;
             }
 
-            List<ElementId> views;
+                List<ElementId> views;
             views = new List<ElementId>();
             views.Add(vs.Id);
 
@@ -1191,15 +1191,22 @@ namespace SCaddins.ExportManager
                 opts.AlwaysUseRaster = true;
             }
 
-            var name = vs.FullExportName + Resources.FileExtensionPDF;
-            log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
-            log.AddMessage(Resources.MessageExportingToFileName + name);
-            Doc.Export(vs.ExportDirectory, views, opts);
-
-            if (vs.SegmentedFileName.Hooks.Count > 0)
+            if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF)))
             {
-                FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPDF));
-                RunExportHooks(Resources.FileExtensionPDF, vs, log);
+                var name = vs.FullExportName + Resources.FileExtensionPDF;
+                log.AddMessage(Resources.MessageExportingToDirectory + vs.ExportDirectory);
+                log.AddMessage(Resources.MessageExportingToFileName + name);
+                Doc.Export(vs.ExportDirectory, views, opts);
+
+                if (vs.SegmentedFileName.Hooks.Count > 0)
+                {
+                    FileUtilities.WaitForFileAccess(vs.FullExportPath(Resources.FileExtensionPDF));
+                    RunExportHooks(Resources.FileExtensionPDF, vs, log);
+                }
+            }
+            else
+            {
+                log.AddError(vs.FullExportName, "File existts, not overwriting.");
             }
 #endif
         }

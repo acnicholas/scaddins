@@ -113,6 +113,8 @@ namespace SCaddins.ViewUtilities
 
         public static Parameter ParamFromString(string name, Element element)
         {
+            if (string.IsNullOrEmpty(name)) return null;
+            if (element == null) return null;
             if (element.GetParameters(name).Count > 0)
             {
                 return element.GetParameters(name)[0];

@@ -24,7 +24,7 @@ namespace SCaddins.DestructivePurge.ViewModels
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
-    internal class DestructivePurgeViewModel : Screen
+    public class DestructivePurgeViewModel : Screen
     {
         private readonly Document doc;
         private readonly bool isFamily;

@@ -99,13 +99,13 @@ namespace SCaddins.ExportManager.ViewModels
 
         public void Cancel()
         {
-            selectedCloseMode = CloseMode.Cancel;
+            SelectedCloseMode = CloseMode.Cancel;
             TryCloseAsync(false);
         }
 
         public void OK()
         {
-            selectedCloseMode = CloseMode.OK;
+            SelectedCloseMode = CloseMode.OK;
             TryCloseAsync(true);
         }
 

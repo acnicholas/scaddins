@@ -19,6 +19,7 @@ namespace SCaddins.Common
 {
     using System;
     using System.IO;
+    using System.Threading.Tasks;
 
     internal class BasicDialogService : IDialogService
     {
@@ -42,9 +43,9 @@ namespace SCaddins.Common
                 Message = message,
                 Value = defaultCheckboxValue
             };
-            bool? result = SCaddinsApp.WindowManager.ShowDialogAsync(confirmOverwriteDialog, null, ExportManager.ViewModels.ConfirmationDialogViewModel.DefaultWindowSettings);
+            var task = SCaddinsApp.WindowManager.ShowDialogAsync(confirmOverwriteDialog, null, ExportManager.ViewModels.ConfirmationDialogViewModel.DefaultWindowSettings);
             checkboxResult = confirmOverwriteDialog.ValueAsBool;
-            return result.HasValue ? result.Value : false;
+            return task.Result ?? false;
         }
 
         public bool? ShowDirectorySelectionDialog(string defaultDir, out string dirPath)
