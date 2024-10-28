@@ -1,5 +1,12 @@
 # SCaddins Revision Log #
 
+# 25.0.1 #
+
+#### FIXES ####
+
+- Fix error in SCexport where existing files are overridden without prompting the user.
+- Remove some debugging message boxes.
+
 # 25.0.0 #
 
 #### NEW ####

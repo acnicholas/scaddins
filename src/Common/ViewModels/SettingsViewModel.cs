@@ -115,9 +115,7 @@
 
         public void Apply()
         {
-            if (IncrementViewModel == null) SCaddinsApp.WindowManager.ShowErrorMessageBox("NO","Bummer");
             ParameterUtilities.ViewModels.SCincrementViewModel svm = IncrementViewModel as ParameterUtilities.ViewModels.SCincrementViewModel; ;
-            SCaddinsApp.WindowManager.ShowMessageBox(svm.SourceSearchPattern);
             IncrementViewModel.Apply();
             ViewUtilitiesViewModel.Apply();
             SpellCheckerOptionsViewModel.Apply();

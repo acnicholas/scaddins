@@ -46,7 +46,6 @@ Global
 		{07334BF3-DDC7-47A5-9A0B-793DAFB23936}.Release2023|Any CPU.ActiveCfg = Release|Any CPU
 		{07334BF3-DDC7-47A5-9A0B-793DAFB23936}.Release2024|Any CPU.ActiveCfg = Release|Any CPU
 		{07334BF3-DDC7-47A5-9A0B-793DAFB23936}.Release2025|Any CPU.ActiveCfg = Debug|Any CPU
-		{07334BF3-DDC7-47A5-9A0B-793DAFB23936}.Release2025|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
