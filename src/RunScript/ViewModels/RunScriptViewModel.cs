@@ -318,7 +318,7 @@ namespace SCaddins.RunScript.ViewModels
             if (b.HasValue && b.Value)
             {
                 var result = await GetScript();
-                if (!result.IsNullOrEmpty())
+                if (!string.IsNullOrEmpty(result))
                 { 
                     File.WriteAllText(path: path, contents: result);
                     CurrentFileName = path;
@@ -333,7 +333,7 @@ namespace SCaddins.RunScript.ViewModels
             {
                 SCaddinsApp.WindowManager.LastWindow.Title = currentFileName;
                 var result = await GetScript();
-                if (!result.IsNullOrEmpty())
+                if (!string.IsNullOrEmpty(result))
                 {
                     File.WriteAllText(currentFileName, result);
                 }

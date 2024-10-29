@@ -15,12 +15,12 @@
 	<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
 	<Authors>Andrew Nicholas</Authors>
 	<Title>SCaddins</Title>
-	<InformationalVersionAttribute>25.0.1.0</InformationalVersionAttribute>
-	<AssemblyVersion>25.0.1.0</AssemblyVersion>
-	<VersionPrefix>25.0.1</VersionPrefix>
-	<AssemblyInformationalVersion>25.0.1</AssemblyInformationalVersion>
-	<AssemblyInformationalVersionAttribute>25.0.1</AssemblyInformationalVersionAttribute>
-	<FileVersion>25.0.1</FileVersion>
+	<InformationalVersionAttribute>25.0.2.0</InformationalVersionAttribute>
+	<AssemblyVersion>25.0.2.0</AssemblyVersion>
+	<VersionPrefix>25.0.2</VersionPrefix>
+	<AssemblyInformationalVersion>25.0.2</AssemblyInformationalVersion>
+	<AssemblyInformationalVersionAttribute>25.0.2</AssemblyInformationalVersionAttribute>
+	<FileVersion>25.0.2</FileVersion>
   </PropertyGroup>
   
      <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -114,9 +114,9 @@
     <PackageReference Include="Hunspell.Native" Version="1.2.5359.26130" />
     <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
     <PackageReference Include="KeraLua" Version="1.4.1" />
-    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.1.2" />
+    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.1" />
     <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
-    <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="171.30.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	<PackageReference Include="NLua" Version="1.7.2" />
 	<PackageReference Include="EPPlus" Version="7.1.1" />
@@ -132,7 +132,6 @@
 	<PackageReference Include="NHunspell" Version="1.2.5554.16953" TargetFramework="net48" Condition="$(Configuration.Contains('2024'))" /> 
 	<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.0-preview.3.24172.9" /> 
 	<PackageReference Include="System.Drawing.Common" Version="8.0.4" /> 
-	<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" /> 
   	<PackageReference Include="Westwind.NHUnspell.NetStandard" Version="1.3.1" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('2025'))" />
 	<PackageReference Include="Westwind.NHUnspell.NetStandard" Version="1.3.1" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('Debug'))" />
  </ItemGroup>

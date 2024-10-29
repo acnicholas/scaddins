@@ -1,0 +1,12 @@
+0,	0,	0,	$TileWidth * 6,	$TileWidth * 6,	$TileWidth * 7,	$TileWidth * 5
+0,	$TileWidth,	$TileWidth,	$TileWidth * 6,	$TileWidth * 6,	$TileWidth * 7,	$TileWidth * 5
+0,	$TileWidth * 2,	$TileWidth * 2,	$TileWidth * 6,	$TileWidth * 6,	$TileWidth * 7,	$TileWidth * 5
+0,	$TileWidth * 3,	$TileWidth * 3,	$TileWidth * 6,	$TileWidth * 6,	$TileWidth * 7,	$TileWidth * 5
+0,	$TileWidth * 4,	$TileWidth * 4,	$TileWidth * 6,	$TileWidth * 6,	$TileWidth * 7,	$TileWidth * 5
+0,	$TileWidth * 5,	$TileWidth * 5,	$TileWidth * 6,	$TileWidth * 6,	$TileWidth * 7,	$TileWidth * 5
+90,	0,	-$TileWidth,	$TileWidth * 6,	$TileWidth * 6,	$TileWidth * 7,	$TileWidth * 5
+90,	$TileWidth,	0,	$TileWidth * 6,	$TileWidth * 6,	$TileWidth * 7,	$TileWidth * 5
+90,	$TileWidth * 2,	$TileWidth,	$TileWidth * 6,	$TileWidth * 6,	$TileWidth * 7,	$TileWidth * 5
+90,	$TileWidth * 3,	$TileWidth * 2,	$TileWidth * 6,	$TileWidth * 6,	$TileWidth * 7,	$TileWidth * 5
+90,	$TileWidth * 4,	$TileWidth * 3,	$TileWidth * 6,	$TileWidth * 6,	$TileWidth * 7,	$TileWidth * 5
+90,	$TileWidth * 5,	$TileWidth * 4,	$TileWidth * 6,	$TileWidth * 6,	$TileWidth * 7,	$TileWidth * 5
