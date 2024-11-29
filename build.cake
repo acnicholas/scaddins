@@ -2,6 +2,7 @@
 #tool nuget:?package=Tools.InnoSetup&version=6.2.2
 
 using Cake.Common.Diagnostics;
+using Cake.Common.Tools.DotNet;
 using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -55,7 +56,16 @@ Task("Clean").Does(() => CleanDirectory(buildDir));
 
 Task("CleanOBJ").Does(() => CleanDirectory(objDir));
 
-Task("Restore-NuGet-Packages").Does(() => NuGetRestore(solutionFile));
+Task("Restore-NuGet-Packages")
+.IsDependentOn("DotNetRestore")
+.Does(() => NuGetRestore(solutionFile));
+
+Task("DotNetRestore")
+.Does(() => DotNetRestore(new DotNetRestoreSettings(){
+WorkingDirectory="src/",
+Force = true,
+PackagesDirectory = "src/packages",
+}));
 
 Task("Restore-Test-NuGet-Packages").Does(() => NuGetRestore(testSolutionFile));
 

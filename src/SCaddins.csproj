@@ -227,7 +227,7 @@
   </Target>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy &quot;$(ProjectDir)packages\NHunspell.1.2.5554.16953\content\*.dll&quot; &quot;$(OutDir)&quot;&#xD;&#xA;copy &quot;$(ProjectDir)packages\KeraLua.1.4.1\runtimes\win-x64\native\*.dll&quot; &quot;$(OutDir)&quot;" />
+    <Exec Command="copy &quot;$(ProjectDir)packages\hunspell.native\1.2.5359.26130\build\x64\*.dll&quot; &quot;$(OutDir)&quot;&#xD;&#xA;copy &quot;$(ProjectDir)packages\keralua\1.4.1\runtimes\win-x64\native\*.dll&quot; &quot;$(OutDir)&quot;" />
   </Target>
   
   <ItemGroup>
