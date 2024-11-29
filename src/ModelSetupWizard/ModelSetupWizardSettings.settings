@@ -2,38 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SCaddins.ModelSetupWizard" GeneratedClassName="ModelSetupWizardSettings">
   <Profiles />
   <Settings>
-    <Setting Name="DefaultWorksets" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;01 - Architecture;1;Workset1&lt;/string&gt;
-  &lt;string&gt;02 - Shared Levels and Grids;1;Shared Levels and Grids&lt;/string&gt;
-  &lt;string&gt;03 - Site And Landscape;1&lt;/string&gt;
-  &lt;string&gt;04 - SC Structure;1&lt;/string&gt;
-  &lt;string&gt;05 - Interiors Layouts;0&lt;/string&gt;
-  &lt;string&gt;06 - External Facade;1&lt;/string&gt;
-  &lt;string&gt;11 - Links Revit;0&lt;/string&gt;
-  &lt;string&gt;10 - Links DWG;0&lt;/string&gt;
-  &lt;string&gt;99 - Scope Boxes;0&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
-    </Setting>
-    <Setting Name="DefaultProjectInformation" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;Project Number; YYYYMMDD;^[0-9]{8}$&lt;/string&gt;
-  &lt;string&gt;Project Status;Preliminary&lt;/string&gt;
-  &lt;string&gt;Project Address;Enter Address Here&lt;/string&gt;
-  &lt;string&gt;Nominated Architect Number;;^[0-9]{4,5}$&lt;/string&gt;
-  &lt;string&gt;Orginization Name;Scott Carver Pty. Ltd.&lt;/string&gt;
-  &lt;string&gt;Author; Scott Carver Pty. Ltd.&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
-    </Setting>
-    <Setting Name="DefaultArchitectInformation" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;Joe Bloggs; 1111&lt;/string&gt;
-  &lt;string&gt;Mary Lee; 2222&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
-    </Setting>
     <Setting Name="NomArchitectParamName" Type="System.String" Scope="User">
       <Value Profile="(Default)">Nominated Architect</Value>
     </Setting>
@@ -49,9 +17,51 @@
     <Setting Name="LoadSystemConfigOnStartup" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="DefaultWorksets" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;A-Architecture;1&lt;/string&gt;
+  &lt;string&gt;A-Entourage;0&lt;/string&gt;
+  &lt;string&gt;A-Façade;True;&amp;lt;/string&amp;gt;&lt;/string&gt;
+  &lt;string&gt;A-FFE;False;&amp;lt;/string&amp;gt;&lt;/string&gt;
+  &lt;string&gt;A-Interior Layouts;False;&amp;lt;/string&amp;gt;&lt;/string&gt;
+  &lt;string&gt;A-Scope Box;0&lt;/string&gt;
+  &lt;string&gt;A-Shared Levels and Grids;0&lt;/string&gt;
+  &lt;string&gt;A-Site and Landscape;0&lt;/string&gt;
+  &lt;string&gt;A-Structure;0&lt;/string&gt;
+  &lt;string&gt;S.SC-Link RVT-Project Control;0&lt;/string&gt;
+  &lt;string&gt;S.SC-Link RVT-Cad Container;0&lt;/string&gt;
+  &lt;string&gt;S.SC-Link RVT-Base Model 1;0&lt;/string&gt;
+  &lt;string&gt;S.SC-Link RVT-Base Model 2;0&lt;/string&gt;
+  &lt;string&gt;S.SC-Link RVT-Interior;0&lt;/string&gt;
+  &lt;string&gt;Z-Link DWG;0&lt;/string&gt;
+  &lt;string&gt;Z-Link RVT-Electrical0&lt;/string&gt;
+  &lt;string&gt;Z-Link RVT-Hydraulics;0&lt;/string&gt;
+  &lt;string&gt;Z-Link RVT-Mechanical;0&lt;/string&gt;
+  &lt;string&gt;Z-Link RVT-Structure;0&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="DefaultProjectInformation" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;Project Number; YYYYMMDD;^[0-9]{8}$&lt;/string&gt;
+  &lt;string&gt;Project Status;Preliminary&lt;/string&gt;
+  &lt;string&gt;Project Address;Enter Address Here&lt;/string&gt;
+  &lt;string&gt;Nominated Architect Number;;^[0-9]{4,5}$&lt;/string&gt;
+  &lt;string&gt;Organization Name;Studio.SC Pty. Ltd.&lt;/string&gt;
+  &lt;string&gt;Author;Studio.SC Pty. Ltd.&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="DefaultArchitectInformation" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;Joe Bloggs; 1111&lt;/string&gt;
+  &lt;string&gt;Mary Lee; 2222&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
     <Setting Name="ColourSchemes" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
   &lt;string&gt;Autumn;595959;59F3FF;63B8F7;7B83E5;A99A73;E6DBA5;B0DCCD;8BA559;999999;99F8FF;9FD3FA;AEB3EF;CAC1A9;EFE9C8;CFEAE0;B8C799&lt;/string&gt;
   &lt;string&gt;Spring;595959;59F3FF;63B8F7;7B83E5;EDC059;E6DBA5;B0DCCE;A5D19B;999999;99F8FF;9FD3FA;AEB3EF;F4D899;EFE9C8;CFEAE1;C8E3C1&lt;/string&gt;
   &lt;string&gt;Summer;595959;AA59EE;59F3FF;63B8F7;7B83E5;E6DBA5;C3C962;B0DCCE;999999;CB99F5;99F8FF;9FD3FA;AEB3EF;EFE9C8;DADE9F;CFEAE1&lt;/string&gt;

@@ -31,6 +31,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         private BindableCollection<ProjectInformationParameter> projectInformation;
         private NominatedArchitect selectedNominatedArchitect;
         private ColourScheme selectedColourScheme;
+        private int tabControlSeelctedIndex;
 
         public ModelSetupWizardViewModel(Autodesk.Revit.UI.UIDocument uidoc)
         {
@@ -46,6 +47,7 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             selectedNominatedArchitect = NominatedArchitects[0];
             selectedColourScheme = ColourSchemes[0];
             FileName = doc.PathName;
+            tabControlSeelctedIndex = 0;
 
             var iniFile = IniIO.GetIniFile(doc);
             if (iniFile.Length > 0)
@@ -96,6 +98,23 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             }
         }
 
+        public string ApplyButtonLabel
+        {
+            get
+            {
+                switch(TabControlSelectedIndex){
+                    case 0:
+                        return "Apply Project Settings";
+                    case 1:
+                        return "Apply Workset Changes";
+                    case 2:
+                        return "Write Colours to Revit.ini";
+                    default:
+                        return "Apply";
+                }
+            }
+        }
+
         public string FileName
         {
             get; set;
@@ -106,6 +125,19 @@ namespace SCaddins.ModelSetupWizard.ViewModels
             get
             {
                 return !WorksharingIsEnabled;
+            }
+        }
+
+        public int TabControlSelectedIndex
+        {
+            get {
+                return tabControlSeelctedIndex;
+            }
+            set
+            {
+                tabControlSeelctedIndex = value;
+                NotifyOfPropertyChange(() => ApplyButtonLabel);
+                NotifyOfPropertyChange(() => TabControlSelectedIndex);
             }
         }
 
@@ -219,21 +251,33 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         public void Apply()
         {
             var worksetLog = new TransactionLog(@"Workset Creation/Modifications");
-            if (WorksharingIsEnabled)
-            {
-                ModelSetupWizardUtilities.ApplyWorksetModifications(doc, Worksets.ToList(), ref worksetLog);
-            }
-            var projectInfoLog = new TransactionLog(@"Project Information Modifications");
-            ModelSetupWizardUtilities.ApplyProjectInfoModifications(doc, ProjectInformation.ToList(), ref projectInfoLog);
 
-            var iniFile = IniIO.GetIniFile(doc);
-            if (iniFile.Length > 0)
+            if (TabControlSelectedIndex == 1)
             {
-                IniIO.WriteColours(iniFile, Colours.ToList());
+                if (WorksharingIsEnabled)
+                {
+                    ModelSetupWizardUtilities.ApplyWorksetModifications(doc, Worksets.ToList(), ref worksetLog);
+                }
             }
-            else
+
+            var projectInfoLog = new TransactionLog(@"Project Information Modifications");
+
+            if (TabControlSelectedIndex == 0)
             {
-                SCaddinsApp.WindowManager.ShowMessageBox(iniFile + " does not exist");
+                ModelSetupWizardUtilities.ApplyProjectInfoModifications(doc, ProjectInformation.ToList(), ref projectInfoLog);
+            }
+
+            if (TabControlSelectedIndex == 2)
+            {
+                var iniFile = IniIO.GetIniFile(doc);
+                if (iniFile.Length > 0)
+                {
+                    IniIO.WriteColours(iniFile, Colours.ToList());
+                }
+                else
+                {
+                    SCaddinsApp.WindowManager.ShowMessageBox(iniFile + " does not exist");
+                }
             }
 
             string msg = "Summary" + System.Environment.NewLine +
@@ -274,8 +318,8 @@ namespace SCaddins.ModelSetupWizard.ViewModels
         public void Options()
         {
             dynamic settings = new ExpandoObject();
-            settings.Height = 480;
-            settings.Width = 360;
+            settings.Height = 640;
+            settings.Width = 800;
             settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
                   new System.Uri("pack://application:,,,/SCaddins;component/Assets/checkdoc.png"));
             settings.Title = "Model Setup Wizard Options";

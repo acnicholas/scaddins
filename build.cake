@@ -1,3 +1,4 @@
+#tool nuget:?package=NuGet.CommandLine&version=6.12.1
 #tool nuget:?package=Tools.InnoSetup&version=6.2.2
 
 using Cake.Common.Diagnostics;

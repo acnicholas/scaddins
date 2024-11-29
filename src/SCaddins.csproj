@@ -171,6 +171,11 @@
      <AutoGen>True</AutoGen>
      <DependentUpon>Settings1.settings</DependentUpon>
    </Compile>
+   <Compile Update="ModelSetupWizard\ModelSetupWizardSettings.Designer.cs">
+     <DesignTimeSharedInput>True</DesignTimeSharedInput>
+     <AutoGen>True</AutoGen>
+     <DependentUpon>ModelSetupWizardSettings.settings</DependentUpon>
+   </Compile>
    <Compile Update="Properties\Resources.Designer.cs">
      <DesignTime>True</DesignTime>
      <AutoGen>True</AutoGen>
@@ -199,6 +204,10 @@
     <None Update="ExportManager\Settings1.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="ModelSetupWizard\ModelSetupWizardSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>ModelSetupWizardSettings.Designer.cs</LastGenOutput>
     </None>
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

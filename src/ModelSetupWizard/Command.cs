@@ -37,13 +37,13 @@ namespace SCaddins.ModelSetupWizard
             }
 
             dynamic settings = new ExpandoObject();
-            settings.Height = 480;
-            settings.Width = 360;
+            settings.Height = 640;
+            settings.Width = 800;
             settings.Title = "Model Setup Wizard - By A.Nicholas";
             settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
                   new System.Uri("pack://application:,,,/SCaddins;component/Assets/checkdoc.png"));
             settings.ShowInTaskbar = false;
-            settings.SizeToContent = System.Windows.SizeToContent.Width;
+            //settings.SizeToContent = System.Windows.SizeToContent.Width;
             settings.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             var vm = new ViewModels.ModelSetupWizardViewModel(commandData.Application.ActiveUIDocument);
             SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, settings);
