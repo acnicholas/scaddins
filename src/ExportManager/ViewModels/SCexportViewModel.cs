@@ -47,7 +47,6 @@ namespace SCaddins.ExportManager.ViewModels
         private List<ExportSheet> selectedSheets = new List<ExportSheet>();
         private SheetFilter sheetFilter;
         private ObservableCollection<ExportSheet> sheets;
-        private ObservableCollection<String> sheetNumberAndName;
         private ICollectionView sheetsCollection;
 
         public SCexportViewModel(Manager exportManager, List<Autodesk.Revit.DB.ViewSheet> preSelectedViews)

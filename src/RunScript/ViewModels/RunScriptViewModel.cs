@@ -35,7 +35,6 @@ namespace SCaddins.RunScript.ViewModels
     internal class RunScriptViewModel : Screen
     {
         private string output;
-        private string script;
         private BindableCollection<string> outputList;
         private string currentFileName;
         private ExternalCommandData commandData;
@@ -209,7 +208,7 @@ namespace SCaddins.RunScript.ViewModels
             {
                 var jsText = HttpUtility.JavaScriptStringEncode(script);
                 var fullText = @"editor.setValue('" + jsText + @"');";
-                _ = browser.EvaluateScriptAsync(fullText);
+                _ = await browser.EvaluateScriptAsync(fullText);
             }
         }
 
