@@ -53,6 +53,11 @@ namespace SCaddins.ExportManager
                         try
                         {
                             paramValue = p.AsValueString();
+                            //Don't return an empty string here as Revit will use the parameter name regardless.
+                            if (string.IsNullOrEmpty(paramValue))
+                            {
+                                paramValue = p.Definition.Name.ToString();
+                            }
                         } catch
                         {
                             paramValue = string.Empty;
