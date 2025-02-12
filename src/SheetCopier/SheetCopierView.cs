@@ -52,11 +52,14 @@ namespace SCaddins.SheetCopier
             oldId = view.Id;
             originalTitle = title;
             SetDefualtCreationMode();
-            newTitle =
-                title + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";
 
+            newTitle = view.ViewType != ViewType.Legend
+                ? title + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")"
+                : title;
+                
             ////remove invalid chars before continuing
             newTitle = string.Join("_", newTitle.Split(System.IO.Path.GetInvalidFileNameChars()));
+            IsEnabled = (view.ViewType != ViewType.Legend);
             associatedLevelName = SheetCopierConstants.MenuItemCopy;
             viewTemplateName = SheetCopierConstants.MenuItemCopy;
             duplicateWithDetailing = true;
@@ -119,6 +122,11 @@ namespace SCaddins.SheetCopier
             }
         }
 
+        public bool IsEnabled
+        {
+            get; set;
+        }
+
         public List<string> LevelsInModel
         {
             get
@@ -144,6 +152,11 @@ namespace SCaddins.SheetCopier
 
             set
             {
+                if (!IsEnabled) {
+                    SCaddinsApp.WindowManager.ShowMessageBox(
+                        "SCopy - WARNING", value + " is a legend.");
+                    return;
+                }
                 if (value != newTitle && scopy.ViewNameAvailable(value))
                 {
                     newTitle = value;

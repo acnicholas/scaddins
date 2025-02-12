@@ -206,6 +206,11 @@
                     <DataGrid.AlternatingRowBackground>
                         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                     </DataGrid.AlternatingRowBackground>
+                    <!--<ui:DataGrid.RowStyle>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <Setter Property="IsEnabled"  Value="{Binding IsEnabled}"/>
+                        </Style>
+                    </ui:DataGrid.RowStyle>-->
                     <ui:DataGrid.Columns>
                         <DataGridTextColumn Header="Original Title" Binding="{Binding OriginalTitle, Mode=OneWay}"  MinWidth="75"></DataGridTextColumn>
                         <DataGridTextColumn Header="Proposed Title" Binding="{Binding Title}"  MinWidth="75"></DataGridTextColumn>
