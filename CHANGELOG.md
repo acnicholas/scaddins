@@ -1,5 +1,14 @@
 # SCaddins Revision Log #
 
+# 25.0.2 #
+
+#### FIXES ####
+
+- Don't return an empty string for empty sheet parameters in SCexport, Use the parameter name as this is what Revit uses
+- Don't rename legend views in Sheet Copier.
+- Remove some debugging message boxes
+- Fix build scripts to work in clean environment
+
 # 25.0.1 #
 
 #### FIXES ####
