@@ -59,10 +59,7 @@ namespace SCaddins.SpellChecker.ViewModels
             }
         }
 
-        public bool AddToDictionaryEnabled
-        {
-            get; set;
-        }
+        public bool CanAddToUserDictionary => SpellCheckerSettings.Default.UserDictionary.Contains(UnknownWord);
 
         public bool CanChange => !string.IsNullOrEmpty(ReplacementText);
 
@@ -83,6 +80,7 @@ namespace SCaddins.SpellChecker.ViewModels
                 NotifyOfPropertyChange(() => ReplacementText);
                 NotifyOfPropertyChange(() => CanChangeAll);
                 NotifyOfPropertyChange(() => CanChange);
+                NotifyOfPropertyChange(() => CanAddToUserDictionary);
             }
         }
 
@@ -117,22 +115,24 @@ namespace SCaddins.SpellChecker.ViewModels
             get; set;
         }
 
-        public void AddToDictionary()
+        public void AddToUserDictionary()
         {
-            // manager.AddWordToDictionary(UnknownWord);
+            //manager.AddWordToDictionary(UnknownWord);
+            return;
         }
 
-        public void Apply()
+        public void ApplyChanges()
         {
             // FIXME put this in command.
-            manager.ProcessAllAutoReplacements();
-            manager.CommitSpellingChangesToModel();
-            TryCloseAsync(true);
+            SCaddinsApp.WindowManager.ShowMessageBox("Apply");
+            //manager.ProcessAllAutoReplacements();
+            //manager.CommitSpellingChangesToModel();
+            //TryCloseAsync(true);
         }
 
         public void Cancel()
         {
-            TryCloseAsync(false);
+            //TryCloseAsync(false);
         }
 
         public void Change()

@@ -106,6 +106,17 @@ namespace SCaddins.SpellChecker
 
         private int SafeCurrentIndex => currentIndex < allTextParameters.Count ? currentIndex : allTextParameters.Count - 1;
 
+        public void AddToUserDictionary(string word)
+        {
+            if (hunspell.Add(word))
+            {
+                var ud = SpellCheckerSettings.Default.UserDictionary;
+                if (ud.Contains(word)) return;
+                ud.Add(word);
+                SpellCheckerSettings.Default.Save();
+            }
+        }
+
         public void AddToAutoReplacementList(string word, string replacement)
         {
             if (autoReplacementList.ContainsKey(word))
@@ -122,6 +133,8 @@ namespace SCaddins.SpellChecker
         {
             int fails = 0;
             int successes = 0;
+
+            SCaddinsApp.WindowManager.ShowMessageBox("CommitSpellingChangesToModel");
 
             using (var t = new Transaction(document))
             {
@@ -221,6 +234,7 @@ namespace SCaddins.SpellChecker
         public void ProcessAllAutoReplacements()
         {
             Reset();
+            SCaddinsApp.WindowManager.ShowMessageBox("test");
             while (currentIndex < allTextParameters.Count)
             {
                 MoveNext();

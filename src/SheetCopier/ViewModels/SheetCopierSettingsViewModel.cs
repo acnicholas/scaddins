@@ -1,6 +1,8 @@
-﻿namespace SCaddins.SheetCopier.ViewModels
+﻿using Caliburn.Micro;
+
+namespace SCaddins.SheetCopier.ViewModels
 {
-    public class SheetCopierSettingsViewModel : Common.ViewModels.ISettingPanel
+    public class SheetCopierSettingsViewModel : PropertyChangedBase, Common.ViewModels.ISettingPanel
     {
         public SheetCopierSettingsViewModel()
         {
@@ -30,6 +32,10 @@
             SecondaryCustomSheetParameter = Settings.Default.CustomSheetParameterTwo;
             TertiaryCustomSheetParameter = Settings.Default.CustomSheetParameterThree;
             DeleteRevisionClouds = Settings.Default.DeleteRevisionClouds;
+            NotifyOfPropertyChange(() => PrimaryCustomSheetParameter);
+            NotifyOfPropertyChange(() => SecondaryCustomSheetParameter);
+            NotifyOfPropertyChange(() => TertiaryCustomSheetParameter);
+            NotifyOfPropertyChange(() => DeleteRevisionClouds);
         }
 
         public void ResetToDefault()

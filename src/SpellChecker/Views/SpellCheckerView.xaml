@@ -1,4 +1,5 @@
 ﻿<UserControl x:Class="SCaddins.SpellChecker.Views.SpellCheckerView"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -35,12 +36,12 @@
             <ListBox x:Name="Suggestions" Grid.Row="5" Margin="5"></ListBox>
         </Grid>
         <StackPanel Grid.Column="1" Orientation="Vertical">
-            <Button x:Name="IgnoreOnce" Margin="5">Ignore Once</Button>
-            <Button x:Name="IgnoreAll"   Margin="5">Ignore All</Button>
-            <Button x:Name="Change" Margin="5">Replace</Button>
-            <Button x:Name="ChangeAll"  Margin="5">Replace All</Button>
-            <Button Margin="5" IsEnabled="False">Add To Dictionary</Button>
-            <Button x:Name="Show" Margin="5" >Show Element</Button>
+            <ui:Button x:Name="IgnoreOnce" Margin="5">Ignore Once</ui:Button>
+            <ui:Button x:Name="IgnoreAll"   Margin="5">Ignore All</ui:Button>
+            <ui:Button x:Name="Change" Margin="5">Replace</ui:Button>
+            <ui:Button x:Name="ChangeAll"  Margin="5">Replace All</ui:Button>
+            <ui:Button x:Name="AddToUserDictionary" Margin="5">Add To Dictionary</ui:Button>
+            <ui:Button x:Name="Show" Margin="5" >Show Element</ui:Button>
         </StackPanel>
         <Grid Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
@@ -49,7 +50,7 @@
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button x:Name="Apply"  MinWidth="64" Grid.Column="2" HorizontalAlignment="Right" Margin="5">Apply All Changes</Button>
+            <Button x:Name="ApplyChanges" MinWidth="64" Grid.Column="2" HorizontalAlignment="Right" Margin="5">Apply All Changes</Button>
             <Button x:Name="Cancel" MinWidth="64" Grid.Column="3" HorizontalAlignment="Right" Margin="5">Cancel</Button>
         </Grid>
     </Grid>
