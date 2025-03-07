@@ -114,6 +114,14 @@ namespace SCaddins.SolarAnalysis.ViewModels
             }
         }
 
+        public bool CanCreateRasterAnalysisView
+        {
+            get
+            {
+                return model.CanCreateAnalysisView;
+            }
+        }
+
         public bool CanRotateCurrentView
         {
             get
@@ -155,6 +163,25 @@ namespace SCaddins.SolarAnalysis.ViewModels
                     model.CreateAnalysisView = value;
                     NotifyOfPropertyChange(() => CurrentModeSummary);
                     NotifyOfPropertyChange(() => CreateAnalysisView);
+                    NotifyOfPropertyChange(() => ShowDateSelectionPanel);
+                }
+            }
+        }
+
+        public bool CreateRasterAnalysisView
+        {
+            get
+            {
+                return model.CreateRasterAnalysisView;
+            }
+
+            set
+            {
+                if (model.CreateRasterAnalysisView != value)
+                {
+                    model.CreateRasterAnalysisView = value;
+                    NotifyOfPropertyChange(() => CurrentModeSummary);
+                    NotifyOfPropertyChange(() => CreateRasterAnalysisView);
                     NotifyOfPropertyChange(() => ShowDateSelectionPanel);
                 }
             }

@@ -19,7 +19,10 @@ namespace SCaddins.SpellChecker
 {
     using System.Collections;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.Diagnostics;
     using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Visual;
     using NHunspell;
     using SCaddins;
 
@@ -70,6 +73,9 @@ namespace SCaddins.SpellChecker
                             System.IO.Path.Combine(Constants.InstallDirectory, "etc", "en_AU.dic"));
 #endif
 
+            //load user library
+            LoadUserLibrary();
+
             // add some arch specific words
             hunspell.Add("approver");
             hunspell.Add(@"&");
@@ -106,15 +112,14 @@ namespace SCaddins.SpellChecker
 
         private int SafeCurrentIndex => currentIndex < allTextParameters.Count ? currentIndex : allTextParameters.Count - 1;
 
-        public void AddToUserDictionary(string word)
+        public bool AddToUserDictionary2(string word)
         {
-            if (hunspell.Add(word))
-            {
-                var ud = SpellCheckerSettings.Default.UserDictionary;
-                if (ud.Contains(word)) return;
-                ud.Add(word);
-                SpellCheckerSettings.Default.Save();
-            }
+            Trace.WriteLine(word + " about to be added to user library");
+            SpellCheckerSettings.Default.UserDictionary.Add(word);
+            SpellCheckerSettings.Default.Save();
+            Trace.WriteLine(word + " added to user dictionary");
+            hunspell.Add(word);
+            return true;
         }
 
         public void AddToAutoReplacementList(string word, string replacement)
@@ -188,6 +193,15 @@ namespace SCaddins.SpellChecker
         public void IgnoreAll()
         {
             hunspell.Add(CurrentUnknownWord);
+        }
+
+        public void LoadUserLibrary()
+        {
+            foreach (string word in SpellCheckerSettings.Default.UserDictionary)
+            {
+                Trace.WriteLine(word + " loaded into dictionary");
+                hunspell.Add(word);
+            }
         }
 
         /// <summary>

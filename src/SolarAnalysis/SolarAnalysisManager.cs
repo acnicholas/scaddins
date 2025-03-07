@@ -62,6 +62,8 @@ namespace SCaddins.SolarAnalysis
 
         public bool CreateAnalysisView { get; set; }
 
+        public bool CreateRasterAnalysisView { get; set; }
+
         public bool CreateShadowPlans { get; set; }
 
         public bool DrawSolarRay { get; set; }

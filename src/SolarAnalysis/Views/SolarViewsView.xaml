@@ -66,6 +66,7 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <RadioButton
                         IsEnabled="{Binding CanRotateCurrentView}"
@@ -95,8 +96,19 @@
                     </RadioButton.ToolTip>
                     </RadioButton>
                     <RadioButton
+                            IsEnabled="{Binding CanCreateRasterAnalysisView}"
+                            x:Name="CreateRasterAnalysisView"
+                            Margin="2"
+                            Grid.Row="4"
+                            ToolTipService.ShowOnDisabled="True"
+                            Content="Create (Raster) Analysis View">
+                        <RadioButton.ToolTip>
+                            <Label>Create a coloured *.png Solar Analysis (Direct Sun) View. The active view's Sun Settings must be a single day</Label>
+                        </RadioButton.ToolTip>
+                    </RadioButton>
+                    <RadioButton
                         Margin="2"
-                        Grid.Row="4"
+                        Grid.Row="5"
                         IsChecked="{Binding DrawSolarRay}"
                         Content="Draw Ray Of Sun (From Selected Point)"/>
                 </Grid>
@@ -230,6 +242,7 @@
                         x:Name="Intervals" />
                 </Grid>
             </GroupBox>
+            
             <GroupBox 
                 Grid.Row="3"
                 Header="Analysis View Settings"
@@ -254,6 +267,33 @@
                     <TextBox x:Name="AnalysisGridSize" Grid.Row="2" Grid.Column="1" Margin="2"></TextBox>
                 </Grid>
             </GroupBox>
+
+            <GroupBox 
+                Grid.Row="3"
+                Header="Raster Analysis View Settings"
+                Margin="5"
+                Visibility="{Binding CreateRasterAnalysisView,Converter={StaticResource BoolToVis}}"
+                >
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="SelectAnalysisExportPNG" Grid.Row="0" Grid.Column="0" Margin="2">Select Export File</Button>
+                    <!--<Button x:Name="SelectAnalysisFaces" Grid.Row="1" Grid.Column="0" Margin="2">Select Analysis Faces (To colour)</Button>
+                    <Label x:Name="SelectedMassInformation" Margin="2" Grid.Row="0" Grid.Column="1"></Label>
+                    <Label x:Name="SelectedFaceInformation" Margin="2" Grid.Row="1" Grid.Column="1"></Label>
+                    <Label Margin="5" Grid.Row="2" Grid.Column="0">Analysis Grid Size(mm)</Label>
+                    <TextBox x:Name="AnalysisGridSize" Grid.Row="2" Grid.Column="1" Margin="2"></TextBox>-->
+                </Grid>
+            </GroupBox>
+
+
             <ui:Button
                 x:Name="OK"
                 Width="Auto"

@@ -20,6 +20,7 @@ namespace SCaddins.SpellChecker
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using SCaddins;
+    using System.Threading.Tasks;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -32,7 +33,7 @@ namespace SCaddins.SpellChecker
 
             var spellChecker = new SpellChecker(document);
             var viewModel = new ViewModels.SpellCheckerViewModel(spellChecker);
-            SCaddinsApp.WindowManager.ShowDialogAsync(viewModel, null, ViewModels.SpellCheckerViewModel.DefaultWindowSettings);
+            Task<bool?> result = SCaddinsApp.WindowManager.ShowDialogAsync(viewModel, null, ViewModels.SpellCheckerViewModel.DefaultWindowSettings);
             return Result.Succeeded;
         }
     }

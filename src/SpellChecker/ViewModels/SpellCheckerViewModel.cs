@@ -18,6 +18,7 @@
 namespace SCaddins.SpellChecker.ViewModels
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Dynamic;
     using System.Linq;
     using Caliburn.Micro;
@@ -32,6 +33,8 @@ namespace SCaddins.SpellChecker.ViewModels
         public SpellCheckerViewModel(SpellChecker manager)
         {
             this.manager = manager;
+            Debug.WriteLine($"View Model Created");
+            Trace.WriteLine($"View Model Created");
             if (manager.MoveNext())
             {
                 unknownWord = ((CorrectionCandidate)manager.Current).Current as string;
@@ -49,8 +52,6 @@ namespace SCaddins.SpellChecker.ViewModels
                 dynamic settings = new ExpandoObject();
                 settings.Height = 480;
                 settings.Width = 768;
-                //// settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
-                ////     new System.Uri("pack://application:,,,/SCaddins;component/Assets/rename.png"));
                 settings.Title = "Spelling (Australian)";
                 settings.ShowInTaskbar = false;
                 settings.SizeToContent = System.Windows.SizeToContent.Manual;
@@ -59,7 +60,7 @@ namespace SCaddins.SpellChecker.ViewModels
             }
         }
 
-        public bool CanAddToUserDictionary => SpellCheckerSettings.Default.UserDictionary.Contains(UnknownWord);
+        public bool CanIncludeInUserDictionary => !SpellCheckerSettings.Default.UserDictionary.Contains(UnknownWord);
 
         public bool CanChange => !string.IsNullOrEmpty(ReplacementText);
 
@@ -80,7 +81,7 @@ namespace SCaddins.SpellChecker.ViewModels
                 NotifyOfPropertyChange(() => ReplacementText);
                 NotifyOfPropertyChange(() => CanChangeAll);
                 NotifyOfPropertyChange(() => CanChange);
-                NotifyOfPropertyChange(() => CanAddToUserDictionary);
+                NotifyOfPropertyChange(() => CanIncludeInUserDictionary);
             }
         }
 
@@ -117,22 +118,23 @@ namespace SCaddins.SpellChecker.ViewModels
 
         public void AddToUserDictionary()
         {
-            //manager.AddWordToDictionary(UnknownWord);
-            return;
+            Trace.WriteLine("AddToUserDictionary");
+            manager.AddToUserDictionary2(UnknownWord);
         }
 
         public void ApplyChanges()
         {
-            // FIXME put this in command.
-            SCaddinsApp.WindowManager.ShowMessageBox("Apply");
-            //manager.ProcessAllAutoReplacements();
-            //manager.CommitSpellingChangesToModel();
-            //TryCloseAsync(true);
+            Debug.WriteLine("ApplyChanges");
+            Trace.WriteLine("ApplyChanges");
+            manager.ProcessAllAutoReplacements();
+            manager.CommitSpellingChangesToModel();
+            TryCloseAsync(true);
         }
 
         public void Cancel()
         {
-            //TryCloseAsync(false);
+            Trace.WriteLine("Cancel");
+            TryCloseAsync(false);
         }
 
         public void Change()
