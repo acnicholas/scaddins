@@ -63,9 +63,6 @@ lib/
 #opt
 opt/
 
-#tools
-tools/
-
 #ncrunch
 *ncrunch*
 *crunch*.local.xml
