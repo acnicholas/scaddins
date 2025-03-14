@@ -7,6 +7,7 @@
              xmlns:inc="clr-namespace:SCaddins.ParameterUtilities.Views"
              xmlns:uv="clr-namespace:SCaddins.ViewUtilities.Views"
              xmlns:rt="clr-namespace:SCaddins.RoomConverter.Views"
+             xmlns:sa="clr-namespace:SCaddins.SolarAnalysis.Views"
              xmlns:sc="clr-namespace:SCaddins.SpellChecker.Views"
              xmlns:sh="clr-namespace:SCaddins.SheetCopier.Views"
              xmlns:cm="http://caliburnmicro.com" x:Class="SCaddins.Common.Views.SettingsView"
@@ -36,6 +37,10 @@
                     Content="Sheet Copier"
                     Icon="{ui:SymbolIcon CopyAdd20}"
                      TargetPageType="{x:Type sh:SheetCopierSettingsView}" />
+                <ui:NavigationViewItem
+                    Content="Solar Analysis"
+                    Icon="{ui:SymbolIcon WeatherSunny20}"
+                    TargetPageType="{x:Type sa:SolarAnalysisOptionsView}" />
                 <ui:NavigationViewItem
                     Content="Spelling"
                     Icon="{ui:SymbolIcon Check20}"

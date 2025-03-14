@@ -15,9 +15,10 @@
             var incrementViewModel = new ParameterUtilities.ViewModels.SCincrementViewModel();
             var roomConverterViewModel = new RoomConverter.ViewModels.SettingsViewModel();
             var viewUtilitiesViewModel = new ViewUtilities.ViewModels.ViewUtilitiesSettingsViewModel();
+            var solarAnalysisOptionsViewModel = new SolarAnalysis.ViewModels.SolarAnalysisOptonsViewModel();
             var spellCheckerOptionsViewModel = new SpellChecker.ViewModels.SpellCheckerOptionsViewModel();
             var sheetCopierViewModel = new SheetCopier.ViewModels.SheetCopierSettingsViewModel();
-            var vm = new ViewModels.SettingsViewModel(incrementViewModel, roomConverterViewModel, viewUtilitiesViewModel, sheetCopierViewModel, spellCheckerOptionsViewModel);
+            var vm = new ViewModels.SettingsViewModel(incrementViewModel, roomConverterViewModel, viewUtilitiesViewModel,solarAnalysisOptionsViewModel, sheetCopierViewModel,spellCheckerOptionsViewModel);
             SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewModels.SettingsViewModel.DefaultWindowSettings);
             return Result.Succeeded;
         }

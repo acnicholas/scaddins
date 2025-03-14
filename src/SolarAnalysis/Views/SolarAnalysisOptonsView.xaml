@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="SCaddins.SolarAnalysis.Views.SolarAnalysisOptionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SCaddins.SolarAnalysis.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Margin="5">Default Export Directory</Label>
+        <Label Grid.Row="1" Grid.Column="0" Margin="5">Default Export Name</Label>
+        <Label Grid.Row="2" Grid.Column="0" Margin="5">Default Temp File Prefix</Label>
+        <Label Grid.Row="3" Grid.Column="0" Margin="5">PixCountGUI.exe Location</Label>
+        <Label Grid.Row="4" Grid.Column="0" Margin="5">Output Imange Width (Pixels)</Label>
+        <TextBox x:Name="RasterAnalysisExportDirectory"  Grid.Row="0" Grid.Column="1" Margin="5" MinWidth="128"></TextBox>
+        <TextBox x:Name="RasterAnalysisDefaultExportName" Grid.Row="1" Grid.Column="1" Margin="5" MinWidth="128"></TextBox>
+        <TextBox x:Name="RasterAnalysisTemporaryFilePrefix" Grid.Row="2" Grid.Column="1" Margin="5" MinWidth="128"></TextBox>
+        <TextBox x:Name="PixCountGUIBinaryLocation" Grid.Row="3" Grid.Column="1" Margin="5" MinWidth="128"></TextBox>
+        <TextBox x:Name="RasterAnalysisPixelSize" Grid.Row="4" Grid.Column="1" Margin="5" MinWidth="128"></TextBox>
+        <Button x:Name="SelectRasterAnalysisExportDirectory" Grid.Row="0" Grid.Column="2" Margin="5" >...</Button>
+        <Button x:Name="SelectPixCountGUIBinaryLocation" Grid.Row="3" Grid.Column="2" Margin="5" >...</Button>
+    </Grid>
+</UserControl>

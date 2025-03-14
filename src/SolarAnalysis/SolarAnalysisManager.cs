@@ -21,11 +21,13 @@ namespace SCaddins.SolarAnalysis
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
     using System.Text;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using Caliburn.Micro;
 
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
@@ -33,7 +35,7 @@ namespace SCaddins.SolarAnalysis
     public class SolarAnalysisManager
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "activeView")]
-        private readonly View activeView;
+        private readonly Autodesk.Revit.DB.View activeView;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter initialized by Revit", MessageId = "doc")]
         private readonly Document doc;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Microsoft.Usage", "CA2213: Disposable fields should be disposed", Justification = "Parameter intialized by Revit", MessageId = "position")]
@@ -78,7 +80,7 @@ namespace SCaddins.SolarAnalysis
 
         public UIDocument UIDoc => udoc;
 
-        public static void CreateTestFaces(IList<Reference> faceSelection, IList<Reference> massSelection, double analysysGridSize, UIDocument uidoc, View view)
+        public static void CreateTestFaces(IList<Reference> faceSelection, IList<Reference> massSelection, double analysysGridSize, UIDocument uidoc, Autodesk.Revit.DB.View view)
         {
             double totalUVPoints = 0;
             double totalUVPointsWith2PlusHours = 0;
@@ -207,6 +209,45 @@ namespace SCaddins.SolarAnalysis
             SCaddinsApp.WindowManager.ShowMessageBox("Summary", "Time elepsed " + stopwatch.Elapsed.ToString() + @"(hh:mm:ss:uu), Percent above 2hrs: " + percentString);
         }
 
+        public static void ExportRasterAnalysisView(UIDocument uidoc, string exportFolder, string fileNamePrefix, int pixelSize)
+        {
+            var doc = uidoc.Document;
+            var sunSettings = uidoc.ActiveView.SunAndShadowSettings;
+            var opts = new ImageExportOptions();
+            opts.FilePath = Path.Combine(exportFolder,(fileNamePrefix + @".png"));
+            opts.ZoomType = ZoomFitType.FitToPage;
+            opts.Zoom = 100;
+            opts.FitDirection = FitDirectionType.Horizontal;
+            opts.ExportRange = ExportRange.VisibleRegionOfCurrentView;
+            opts.PixelSize = pixelSize;
+            opts.ShadowViewsFileType = ImageFileType.PNG;
+            opts.HLRandWFViewsFileType = ImageFileType.PNG;
+
+            using (var t = new Transaction(uidoc.Document))
+            {
+                if (t.Start("ExportRasterAnalysisView") == TransactionStatus.Started)
+                {
+                    string[] s = new string[(int)(sunSettings.NumberOfFrames)];
+                    for (int i = 1; i <= sunSettings.NumberOfFrames; i++)
+                    {
+                        sunSettings.ActiveFrame = i;
+                        doc.Regenerate();
+                        opts.FilePath = 
+                            Path.Combine(exportFolder,(fileNamePrefix + (i).ToString() + @".png"));
+                        s[i-1] = "\"" + opts.FilePath + "\"";
+                        Trace.WriteLine(s[i - 1]);
+                        doc.ExportImage(opts);
+                    }
+                    t.Commit();
+                    Trace.WriteLine(s);
+                    var ns = String.Join(" ", s);
+                    Trace.WriteLine(ns);
+                    var result = System.Diagnostics.Process.Start(SolarAnalysisSettings.Default.PixCountGUIBinaryLocation, ns);
+                    if (result == null) Trace.WriteLine("Error starting PixCountGUI.exe");
+                }
+            }
+        }
+
         /// <summary>
         ///     Gets the Atmospheric Refraction using Bennett's formula
         /// </summary>
@@ -215,7 +256,6 @@ namespace SCaddins.SolarAnalysis
         public static double GetAtmosphericRefraction(double altitudeRadians)
         {
             var altitudeDegrees = altitudeRadians * 180 / Math.PI;
-            //// var formula = altitudeDegrees + (7.31 / (altitudeDegrees + 4.4));
             var radians = Math.PI * altitudeDegrees / 180.0;
             return 1 / Math.Tan(radians) * 0.00029088820866572;
         }
@@ -272,7 +312,7 @@ namespace SCaddins.SolarAnalysis
             return 1 / Math.Tan(radians) * 0.00029088820866572;
         }
 
-        public static XYZ GetSunDirectionalVector(View view, ProjectPosition projectPosition, out double azimuth)
+        public static XYZ GetSunDirectionalVector(Autodesk.Revit.DB.View view, ProjectPosition projectPosition, out double azimuth)
         {
             var sunSettings = view.SunAndShadowSettings;
             var frame = sunSettings.ActiveFrame;
@@ -286,12 +326,12 @@ namespace SCaddins.SolarAnalysis
             return forward;
         }
 
-        public static bool ViewIsIso(View view)
+        public static bool ViewIsIso(Autodesk.Revit.DB.View view)
         {
             return view.ViewType == ViewType.ThreeD;
         }
 
-        public static bool ViewIsSingleDay(View view)
+        public static bool ViewIsSingleDay(Autodesk.Revit.DB.View view)
         {
             var sunSettings = view.SunAndShadowSettings;
             if (sunSettings == null)
@@ -350,10 +390,10 @@ namespace SCaddins.SolarAnalysis
             }
             using (var c = new FilteredElementCollector(doc))
             {
-                c.OfClass(typeof(View));
+                c.OfClass(typeof(Autodesk.Revit.DB.View));
                 foreach (var element in c)
                 {
-                    var view = (View)element;
+                    var view = (Autodesk.Revit.DB.View)element;
                     var v = view;
                     if (v.Name == name)
                     {
@@ -413,7 +453,7 @@ namespace SCaddins.SolarAnalysis
             return result;
         }
 
-        private static XYZ GetEyeLocation(View view)
+        private static XYZ GetEyeLocation(Autodesk.Revit.DB.View view)
         {
             var viewBounds = view.get_BoundingBox(view);
             var max = viewBounds.Max;
@@ -489,7 +529,7 @@ namespace SCaddins.SolarAnalysis
                 {
                     if (t.Start("Create Shadow Plans") == TransactionStatus.Started)
                     {
-                        View view = ViewPlan.Create(doc, id, levelId);
+                        Autodesk.Revit.DB.View view = ViewPlan.Create(doc, id, levelId);
                         view.ViewTemplateId = ElementId.InvalidElementId;
                         var niceMinutes = "00";
                         if (StartTime.Minute > 0)
@@ -529,7 +569,7 @@ namespace SCaddins.SolarAnalysis
                 using (var t = new Transaction(doc))
                 {
                     t.Start("Create Solar View");
-                    View view = View3D.CreateIsometric(doc, id);
+                    Autodesk.Revit.DB.View view = View3D.CreateIsometric(doc, id);
                     view.ViewTemplateId = ElementId.InvalidElementId;
                     var niceMinutes = "00";
                     if (StartTime.Minute > 0)
@@ -574,7 +614,7 @@ namespace SCaddins.SolarAnalysis
                 return string.Format("{0}°{1}'{2}\"", (int)d, (int)m, (int)s);
         }
 
-        private string GetViewInfo(View view)
+        private string GetViewInfo(Autodesk.Revit.DB.View view)
         {
             var info = new StringBuilder();
             if (!ViewIsIso(view))
@@ -604,7 +644,7 @@ namespace SCaddins.SolarAnalysis
             return info.ToString();
         }
         ////[SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        private bool RotateView(View view)
+        private bool RotateView(Autodesk.Revit.DB.View view)
         {
             if (view.ViewType == ViewType.ThreeD)
             {

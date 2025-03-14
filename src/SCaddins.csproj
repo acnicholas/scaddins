@@ -15,12 +15,12 @@
 	<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
 	<Authors>Andrew Nicholas</Authors>
 	<Title>SCaddins</Title>
-	<InformationalVersionAttribute>25.0.2.0</InformationalVersionAttribute>
-	<AssemblyVersion>25.0.2.0</AssemblyVersion>
-	<VersionPrefix>25.0.2</VersionPrefix>
+	<InformationalVersionAttribute>25.1.0.0</InformationalVersionAttribute>
+	<AssemblyVersion>25.1.0.0</AssemblyVersion>
+	<VersionPrefix>25.1.0</VersionPrefix>
 	<AssemblyInformationalVersion>25.0.2</AssemblyInformationalVersion>
-	<AssemblyInformationalVersionAttribute>25.0.2</AssemblyInformationalVersionAttribute>
-	<FileVersion>25.0.2</FileVersion>
+	<AssemblyInformationalVersionAttribute>25.1.0</AssemblyInformationalVersionAttribute>
+	<FileVersion>25.1.0</FileVersion>
   </PropertyGroup>
   
      <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -190,6 +190,11 @@
      <AutoGen>True</AutoGen>
      <DependentUpon>Settings.settings</DependentUpon>
    </Compile>
+   <Compile Update="SolarAnalysis\SolarAnalysisSettings.Designer.cs">
+     <DesignTimeSharedInput>True</DesignTimeSharedInput>
+     <AutoGen>True</AutoGen>
+     <DependentUpon>SolarAnalysisSettings.settings</DependentUpon>
+   </Compile>
    <Compile Update="SpellChecker\SpellCheckerSettings.Designer.cs">
      <DesignTimeSharedInput>True</DesignTimeSharedInput>
      <AutoGen>True</AutoGen>
@@ -227,6 +232,10 @@
     <None Update="SheetCopier\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="SolarAnalysis\SolarAnalysisSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>SolarAnalysisSettings.Designer.cs</LastGenOutput>
     </None>
     <None Update="SpellChecker\SpellCheckerSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -295,6 +304,10 @@
     <CopyToOutputDirectory>Always</CopyToOutputDirectory> 
   </Content> 
 </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Remove="SolarAnalysis\LockBitmap.cs" />
+  </ItemGroup>
   
   <ItemGroup>
 	<Reference TargetFramework="net48" Include="System.Web" Condition="$(Configuration.Contains('2020'))" />

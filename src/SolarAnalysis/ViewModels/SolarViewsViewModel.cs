@@ -22,7 +22,9 @@ namespace SCaddins.SolarAnalysis.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Dynamic;
+    using System.IO;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Caliburn.Micro;
@@ -60,6 +62,9 @@ namespace SCaddins.SolarAnalysis.ViewModels
             {
                 Create3dViews = true;
             }
+            RasterAnalysisExportFolder = SolarAnalysisSettings.Default.RasterAnalysisExportDirectory;
+            RasterAnalysisFilenamePrefix = SolarAnalysisSettings.Default.RasterAnalysisTemporaryFilePrefix;
+            RasterAnalysisPixelSize = SolarAnalysisSettings.Default.RasterAnalysisPixelSize;
         }
 
         public enum CloseMode
@@ -248,6 +253,10 @@ namespace SCaddins.SolarAnalysis.ViewModels
                 {
                     return "Create Analysis View";
                 }
+                if (CreateRasterAnalysisView)
+                {
+                    return "Create (Raster) Analysis View";
+                }
                 if (DrawSolarRay)
                 {
                     return "Draw Solar Ray";
@@ -311,6 +320,24 @@ namespace SCaddins.SolarAnalysis.ViewModels
         public IList<Reference> MassSelection
         {
             get; set;
+        }
+
+        public string RasterAnalysisExportFolder
+        {
+            get;
+            set;  
+        }
+
+        public string RasterAnalysisFilenamePrefix
+        {
+            get;
+            set;
+        }
+
+        public int RasterAnalysisPixelSize
+        {
+            get;
+            set;
         }
 
         public bool RotateCurrentView
@@ -491,7 +518,7 @@ namespace SCaddins.SolarAnalysis.ViewModels
         /// </summary>
         public void OK()
         {
-            if (model.CreateAnalysisView || model.DrawSolarRay)
+            if (model.CreateAnalysisView || model.DrawSolarRay || model.CreateRasterAnalysisView)
             {
                 TryCloseAsync(true);
             }
@@ -506,6 +533,22 @@ namespace SCaddins.SolarAnalysis.ViewModels
                 DockablePaneId docablePaneId = DockablePanes.BuiltInDockablePanes.ProjectBrowser;
                 DockablePane dP = new DockablePane(docablePaneId);
                 dP.Show();
+            }
+        }
+
+        public void SelectRasterAnalysisExportFolder()
+        {
+            string newPath = string.Empty;
+            bool? result = SCaddinsApp.WindowManager.ShowDirectorySelectionDialog(
+                RasterAnalysisExportFolder,
+                out newPath);
+            if (result.HasValue && result.Value == true)
+            {
+                if (Directory.Exists(newPath))
+                {
+                    RasterAnalysisExportFolder = newPath;
+                    NotifyOfPropertyChange(() => RasterAnalysisExportFolder);
+                }
             }
         }
 

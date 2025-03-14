@@ -2,12 +2,15 @@
 {
     using System;
     using Caliburn.Micro;
+    using SCaddins.SolarAnalysis.ViewModels;
+    using SCaddins.SolarAnalysis.Views;
 
     public class SettingsViewModel : Screen
     {
         private static ISettingPanel incrementViewModel;
         private static ISettingPanel roomConverterViewModel;
         private static ISettingPanel viewUtilitiesViewModel;
+        private static ISettingPanel solarAnalysisOptonsViewModel;
         private static ISettingPanel spellCheckerOptionsViewModel;
         private static ISettingPanel sheetCopierViewModel;
 
@@ -15,12 +18,14 @@
             ISettingPanel incrementViewModel,
             ISettingPanel roomConverterViewModel,
             ISettingPanel viewUtilitiesViewModel,
+            ISettingPanel solarAnalysisOptonsViewModel,
             ISettingPanel sheetCopierViewModel,
             ISettingPanel spellCheckerOptionsViewModel)
         {
             IncrementViewModel = incrementViewModel;
             RoomConverterViewModel = roomConverterViewModel;
             ViewUtilitiesViewModel = viewUtilitiesViewModel;
+            SolarAnalysisOptonsViewModel = solarAnalysisOptonsViewModel;
             SheetCopierViewModel = sheetCopierViewModel;
             SpellCheckerOptionsViewModel = spellCheckerOptionsViewModel;
         }
@@ -85,6 +90,20 @@
             }
         }
 
+        public static ISettingPanel SolarAnalysisOptonsViewModel
+        {
+            get
+            {
+                return solarAnalysisOptonsViewModel;
+            }
+
+            set
+            {
+                solarAnalysisOptonsViewModel = value;
+                //NotifyOfPropertyChange(() => SpellCheckerOptionsViewModel);
+            }
+        }
+
         public static ISettingPanel SpellCheckerOptionsViewModel
         {
             get
@@ -118,6 +137,7 @@
             ParameterUtilities.ViewModels.SCincrementViewModel svm = IncrementViewModel as ParameterUtilities.ViewModels.SCincrementViewModel; ;
             IncrementViewModel.Apply();
             ViewUtilitiesViewModel.Apply();
+            SolarAnalysisOptonsViewModel.Apply();
             SpellCheckerOptionsViewModel.Apply();
             SheetCopierViewModel.Apply();
         }
@@ -137,6 +157,7 @@
         {
             IncrementViewModel.Reset();
             ViewUtilitiesViewModel.Reset();
+            SolarAnalysisOptonsViewModel.Reset();
             SpellCheckerOptionsViewModel.Reset();
             SheetCopierViewModel.Reset();
         }

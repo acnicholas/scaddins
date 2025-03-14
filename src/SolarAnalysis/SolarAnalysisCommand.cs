@@ -59,6 +59,10 @@ namespace SCaddins.SolarAnalysis
 #endif
                 SolarAnalysisManager.CreateTestFaces(vm.FaceSelection, vm.MassSelection, internalUnitsGridSize, udoc, udoc.ActiveView);
             }
+            if (r && vm.CreateRasterAnalysisView)
+            {
+                SolarAnalysisManager.ExportRasterAnalysisView(udoc, vm.RasterAnalysisExportFolder, vm.RasterAnalysisFilenamePrefix, vm.RasterAnalysisPixelSize);
+            }
             if (r && vm.DrawSolarRay)
             {
                 SolarAnalysisManager.DrawSolarRayAsModelLine(udoc, vm.SolarRayLength);

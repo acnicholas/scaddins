@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SCaddins.SolarAnalysis" GeneratedClassName="SolarAnalysisSettings">
+  <Profiles />
+  <Settings>
+    <Setting Name="RasterAnalysisExportDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Temp</Value>
+    </Setting>
+    <Setting Name="RasterAnalysisDefaultExportName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">HoursOfDirectSun.png</Value>
+    </Setting>
+    <Setting Name="RasterAnalysisTemporaryFilePrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)">solarAnalysis</Value>
+    </Setting>
+    <Setting Name="PixCountGUIBinaryLocation" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Temp\pc\PixCountGUI.exe</Value>
+    </Setting>
+    <Setting Name="RasterAnalysisPixelSize" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1024</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

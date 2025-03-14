@@ -278,18 +278,15 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="SelectAnalysisExportPNG" Grid.Row="0" Grid.Column="0" Margin="2">Select Export File</Button>
-                    <!--<Button x:Name="SelectAnalysisFaces" Grid.Row="1" Grid.Column="0" Margin="2">Select Analysis Faces (To colour)</Button>
-                    <Label x:Name="SelectedMassInformation" Margin="2" Grid.Row="0" Grid.Column="1"></Label>
-                    <Label x:Name="SelectedFaceInformation" Margin="2" Grid.Row="1" Grid.Column="1"></Label>
-                    <Label Margin="5" Grid.Row="2" Grid.Column="0">Analysis Grid Size(mm)</Label>
-                    <TextBox x:Name="AnalysisGridSize" Grid.Row="2" Grid.Column="1" Margin="2"></TextBox>-->
+                    <ui:Button x:Name="SelectRasterAnalysisExportFolder" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="2">Export Directory</ui:Button>
+                    <ui:TextBox x:Name="RasterAnalysisExportFolder" Grid.Row="0" Grid.Column="1" Margin="2"></ui:TextBox>
+                    <Label Margin="5" Grid.Row="1" Grid.Column="0">Raster Analysis Filename Prefix</Label>
+                    <ui:TextBox x:Name="RasterAnalysisFilenamePrefix" Grid.Row="1" Grid.Column="1" Margin="2"></ui:TextBox>
                 </Grid>
             </GroupBox>
 

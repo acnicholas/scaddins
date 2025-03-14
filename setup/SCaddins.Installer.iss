@@ -67,6 +67,9 @@ Name: revit2025; Description: "Revit 2025 add-in"; Types: full custom
 ; Always install monaco files;
 	Source: "..\src\Monaco\*"; DestDir: "{app}\monaco\"; Flags: ignoreversion recursesubdirs; Components: main
 
+; Always install PixCountGUI files;
+	Source: "..\tools\PixCountGUI\*"; DestDir: "{app}\bin\PixCountGUI\"; Flags: ignoreversion recursesubdirs; Components: main
+
 	
 #if R2020 == "Enabled"
     Source: "..\src\bin\Release2020\SCaddins2020.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2020\"; DestName: "SCaddins20.addin"; Flags: ignoreversion; Components: revit2020 
