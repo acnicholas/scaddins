@@ -67,6 +67,10 @@ opt/
 *ncrunch*
 *crunch*.local.xml
 
+#tools
+tools/NuGet.CommandLine.6.12.1/
+tools/Tools.InnoSetup.6.2.2/
+
 # visual studio database projects
 *.dbmdl
 
