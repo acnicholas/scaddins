@@ -12,7 +12,7 @@ namespace SCaddins.SolarAnalysis {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.13.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.12.0.0")]
     internal sealed partial class SolarAnalysisSettings : global::System.Configuration.ApplicationSettingsBase {
         
         private static SolarAnalysisSettings defaultInstance = ((SolarAnalysisSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new SolarAnalysisSettings())));
@@ -61,7 +61,7 @@ namespace SCaddins.SolarAnalysis {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Temp\\pc\\PixCountGUI.exe")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files\\Studio.SC\\SCaddins\\bin\\PixCountGUI\\PixCountGUI.exe")]
         public string PixCountGUIBinaryLocation {
             get {
                 return ((string)(this["PixCountGUIBinaryLocation"]));
