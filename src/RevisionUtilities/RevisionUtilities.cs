@@ -127,7 +127,7 @@ namespace SCaddins.RevisionUtilities
                     data[cloudNumber, 4] = revCloud.Comments;
                     data[cloudNumber, 5] = revCloud.Date;
                     data[cloudNumber, 6] = revCloud.Description;
-#if REVIT2024 || REVIT2025
+#if REVIT2024 || REVIT2025 || REVIT2026
                     data[cloudNumber, 7] = revCloud.Id.Value.ToString(CultureInfo.InvariantCulture);
 #else
                     data[cloudNumber, 7] = revCloud.Id.IntegerValue.ToString(CultureInfo.InvariantCulture);

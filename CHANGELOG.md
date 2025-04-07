@@ -1,5 +1,16 @@
 # SCaddins Revision Log #
 
+# 26.0.0 #
+
+#### NEW ####
+
+- Initial Revit Build 2026.
+- Add raster solar analysis tool.
+
+#### FIXES ####
+
+- Fix spell check user dictionary.
+
 # 25.0.2 #
 
 #### FIXES ####

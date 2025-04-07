@@ -12,6 +12,6 @@
     <VendorDescription>Andrew Nicholas, andrewn@scottcarver.com.au</VendorDescription>
   </AddIn>
   
-<!-- <ManifestSettings><UseRevitContext>False</UseRevitContext><ContextName>SCaddins</ContextName></ManifestSettings> -->
+<ManifestSettings><UseRevitContext>True</UseRevitContext><ContextName>SCaddins</ContextName></ManifestSettings>
   
 </RevitAddIns>

@@ -58,6 +58,9 @@ Name: revit2024; Description: "Revit 2024 add-in"; Types: full custom
 #if R2025 == "Enabled"
 Name: revit2025; Description: "Revit 2025 add-in"; Types: full custom
 #endif
+#if R2026 == "Enabled"
+Name: revit2026; Description: "Revit 2026 add-in"; Types: full custom
+#endif
 
 [Files]
 ; Always install shared files;
@@ -99,6 +102,11 @@ Name: revit2025; Description: "Revit 2025 add-in"; Types: full custom
 #if R2025 == "Enabled"
     Source: "..\src\bin\Release2025\SCaddins2025.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2025\"; DestName: "SCaddins25.addin"; Flags: ignoreversion; Components: revit2025 
     Source: "..\src\bin\Release2025\*.dll"; Excludes: "Revit*.dll,AdWindows.dll,UIFramework.dll,ICSharpCode.AvalonEdit.dll"; DestDir: "{app}\2025\"; Flags: ignoreversion; Components: revit2025 
+#endif
+
+#if R2026 == "Enabled"
+    Source: "..\src\bin\Release2026\SCaddins2026.addin"; DestDir: "{commonappdata}\Autodesk\Revit\Addins\2026\"; DestName: "SCaddins26.addin"; Flags: ignoreversion; Components: revit2026
+    Source: "..\src\bin\Release2026\*.dll"; Excludes: "Revit*.dll,System.Configuration.ConfigurationManager.dll,AdWindows.dll,UIFramework.dll,ICSharpCode.AvalonEdit.dll"; DestDir: "{app}\2026\"; Flags: ignoreversion; Components: revit2026 
 #endif
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

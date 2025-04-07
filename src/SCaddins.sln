@@ -20,6 +20,7 @@ Global
 		Release2023|Any CPU = Release2023|Any CPU
 		Release2024|Any CPU = Release2024|Any CPU
 		Release2025|Any CPU = Release2025|Any CPU
+		Release2026|Any CPU = Release2026|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{27F35A98-001A-4309-A488-95632B96BDDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -38,6 +39,8 @@ Global
 		{27F35A98-001A-4309-A488-95632B96BDDA}.Release2024|Any CPU.Build.0 = Release2024|Any CPU
 		{27F35A98-001A-4309-A488-95632B96BDDA}.Release2025|Any CPU.ActiveCfg = Release2025|Any CPU
 		{27F35A98-001A-4309-A488-95632B96BDDA}.Release2025|Any CPU.Build.0 = Release2025|Any CPU
+		{27F35A98-001A-4309-A488-95632B96BDDA}.Release2026|Any CPU.ActiveCfg = Release2026|Any CPU
+		{27F35A98-001A-4309-A488-95632B96BDDA}.Release2026|Any CPU.Build.0 = Release2026|Any CPU
 		{07334BF3-DDC7-47A5-9A0B-793DAFB23936}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{07334BF3-DDC7-47A5-9A0B-793DAFB23936}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07334BF3-DDC7-47A5-9A0B-793DAFB23936}.Release2020|Any CPU.ActiveCfg = Release|Any CPU
@@ -46,6 +49,7 @@ Global
 		{07334BF3-DDC7-47A5-9A0B-793DAFB23936}.Release2023|Any CPU.ActiveCfg = Release|Any CPU
 		{07334BF3-DDC7-47A5-9A0B-793DAFB23936}.Release2024|Any CPU.ActiveCfg = Release|Any CPU
 		{07334BF3-DDC7-47A5-9A0B-793DAFB23936}.Release2025|Any CPU.ActiveCfg = Debug|Any CPU
+		{07334BF3-DDC7-47A5-9A0B-793DAFB23936}.Release2026|Any CPU.ActiveCfg = Release2026|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,7 +4,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
              mc:Ignorable="d" 
              Loaded="UserControl_Loaded"
              SizeChanged="UserControl_SizeChanged">
@@ -79,14 +78,14 @@
             </MenuItem>
         </Menu>
 
-        <cef:ChromiumWebBrowser
+        <!--<cef:ChromiumWebBrowser
                 x:Name="Editor"
                 DpiScaleFactor="125"
                 Grid.Row="1"
                 Width="1024"
                 Height="480"
                 VerticalAlignment="Stretch"
-                HorizontalAlignment="Stretch"/>
+                HorizontalAlignment="Stretch"/>-->
 
         <GridSplitter Grid.Row="2" VerticalAlignment="Stretch" Height="5"></GridSplitter>
         <ScrollViewer Grid.Row="3" MaxHeight="240" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">

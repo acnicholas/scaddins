@@ -642,7 +642,7 @@ namespace SCaddins.ExportManager.ViewModels
                     break;
 
                 case Key.N:
-#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026
                     exportManager.ToggleExportOption(ExportOptions.DirectPDF);
                     NotifyOfPropertyChange(() => StatusText);
                     NotifyOfPropertyChange(() => ExportButtonLabel);
@@ -759,10 +759,16 @@ namespace SCaddins.ExportManager.ViewModels
                 IsNotifying = false;
                 try
                 {
+#if REVIT2026
+                    var filter = new Predicate<object>(item => viewSetSelectionViewModel
+                                            .SelectedSet
+                                            .ViewIds.Contains((int)(((ExportSheet)item).Sheet.Id.Value)));
+#else
 #pragma warning disable CS0618 // Type or member is obsolete
                     var filter = new Predicate<object>(item => viewSetSelectionViewModel
                             .SelectedSet
                             .ViewIds.Contains(((ExportSheet)item).Sheet.Id.IntegerValue));
+#endif
 #pragma warning restore CS0618 // Type or member is obsolete
                     Sheets.Filter = filter;
                 }
@@ -901,8 +907,12 @@ namespace SCaddins.ExportManager.ViewModels
             IsNotifying = false;
             try
             {
+#if REVIT2026
+                var filter = new Predicate<object>(item => viewSet.ViewIds.Contains((int)(((ExportSheet)item).Sheet.Id.Value)));
+#else
 #pragma warning disable CS0618 // Type or member is obsolete
                 var filter = new Predicate<object>(item => viewSet.ViewIds.Contains(((ExportSheet)item).Sheet.Id.IntegerValue));
+#endif
 #pragma warning restore CS0618 // Type or member is obsolete
 
                 Sheets.Filter = filter;

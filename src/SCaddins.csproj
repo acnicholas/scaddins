@@ -11,25 +11,42 @@
 	<ImplicitUsings>disable</ImplicitUsings>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-	<Configurations>Debug;Release2025;Release2024;Release2023;Release2022;Release2021;Release2020</Configurations>
+	<Configurations>Debug;Release2026;Release2025;Release2024;Release2023;Release2022;Release2021;Release2020</Configurations>
 	<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
 	<Authors>Andrew Nicholas</Authors>
 	<Title>SCaddins</Title>
-	<InformationalVersionAttribute>25.1.0.0</InformationalVersionAttribute>
-	<AssemblyVersion>25.1.0.0</AssemblyVersion>
-	<VersionPrefix>25.1.0</VersionPrefix>
-	<AssemblyInformationalVersion>25.0.2</AssemblyInformationalVersion>
-	<AssemblyInformationalVersionAttribute>25.1.0</AssemblyInformationalVersionAttribute>
-	<FileVersion>25.1.0</FileVersion>
+	<InformationalVersionAttribute>26.0.0.0</InformationalVersionAttribute>
+	<AssemblyVersion>26.0.0.0</AssemblyVersion>
+	<VersionPrefix>26.0.0</VersionPrefix>
+	<AssemblyInformationalVersion>26.0.0</AssemblyInformationalVersion>
+	<AssemblyInformationalVersionAttribute>26.0.0</AssemblyInformationalVersionAttribute>
+	<FileVersion>26.0.0</FileVersion>
   </PropertyGroup>
   
-     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	   <DefineConstants>$(DefineConstants);REVIT2025</DefineConstants>
+<!-- <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
        <WarningLevel>9999</WarningLevel>
 	   <TargetFramework>net8.0-windows</TargetFramework>
        <IsPublishable>False</IsPublishable>
        <Deterministic>False</Deterministic>
 	   <TargetFramework>net8.0-windows</TargetFramework>
+      </PropertyGroup> -->
+  
+     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	   <DefineConstants>$(DefineConstants);REVIT2026</DefineConstants>
+       <WarningLevel>9999</WarningLevel>
+	   <TargetFramework>net8.0-windows</TargetFramework>
+       <IsPublishable>False</IsPublishable>
+       <Deterministic>False</Deterministic>
+	   <TargetFramework>net8.0-windows</TargetFramework>
+     </PropertyGroup>
+	 
+	 <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2026|AnyCPU'">
+	   <DefineConstants>$(DefineConstants);REVIT2026</DefineConstants>
+       <WarningLevel>4</WarningLevel>
+	   <Optimize>True</Optimize>
+	   <TargetFramework>net8.0-windows</TargetFramework>
+       <IsPublishable>False</IsPublishable>
+       <Deterministic>False</Deterministic>
      </PropertyGroup>
   
      <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2025|AnyCPU'">
@@ -108,7 +125,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Caliburn.Micro" Version="4.0.212" />
+    <PackageReference Include="Caliburn.Micro" Version="4.0.230" />
     <PackageReference Include="CoreCLR-NCalc" Version="3.1.253" />
     <PackageReference Include="FluentIcons.WPF" Version="1.1.266" />
     <PackageReference Include="Hunspell.Native" Version="1.2.5359.26130" />
@@ -125,16 +142,17 @@
   </ItemGroup>
   
  <ItemGroup>
-    <PackageReference Include="NHunspell" Version="1.2.5554.16953" TargetFramework="net48" Condition="$(Configuration.Contains('2020'))" /> 
+  <PackageReference Include="NHunspell" Version="1.2.5554.16953" TargetFramework="net48" Condition="$(Configuration.Contains('2020'))" /> 
 	<PackageReference Include="NHunspell" Version="1.2.5554.16953" TargetFramework="net48" Condition="$(Configuration.Contains('2021'))" /> 
 	<PackageReference Include="NHunspell" Version="1.2.5554.16953" TargetFramework="net48" Condition="$(Configuration.Contains('2022'))" /> 
 	<PackageReference Include="NHunspell" Version="1.2.5554.16953" TargetFramework="net48" Condition="$(Configuration.Contains('2023'))" /> 
 	<PackageReference Include="NHunspell" Version="1.2.5554.16953" TargetFramework="net48" Condition="$(Configuration.Contains('2024'))" /> 
-	<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.0" /> 
-	<PackageReference Include="System.Drawing.Common" Version="9.0.0" /> 
+	<PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" /> 
+	<PackageReference Include="System.Drawing.Common" Version="8.0.4" /> 
 	<PackageReference Include="System.Formats.Asn1" Version="9.0.0" /> 
 	<PackageReference Include="System.Text.Json" Version="9.0.0" /> 
-  	<PackageReference Include="Westwind.NHUnspell.NetStandard" Version="1.3.1" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('2025'))" />
+  <PackageReference Include="Westwind.NHUnspell.NetStandard" Version="1.3.1" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('2025'))" />
+	<PackageReference Include="Westwind.NHUnspell.NetStandard" Version="1.3.1" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('2026'))" />
 	<PackageReference Include="Westwind.NHUnspell.NetStandard" Version="1.3.1" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('Debug'))" />
  </ItemGroup>
   
@@ -145,7 +163,8 @@
     <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2023.0.0" allowedVersions="[2023.0.0,2024.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2023'))" />
     <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2024.0.0" allowedVersions="[2024.0.0,2024.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2024'))" />
 	<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2025.0.0" allowedVersions="[2025.0.0,2026.0.0)" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('2025'))" />
-	<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2025.0.0" allowedVersions="[2025.0.0,2026.0.0)" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('Debug'))" />
+	<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2026.0.0" allowedVersions="[2026.0.0,2027.0.0)" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('2026'))" />
+	<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2026.0.0" allowedVersions="[2026.0.0,2027.0.0)" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('Debug'))" />
 	<PackageReference Include="WPF-UI" Version="3.0.5" />
  </ItemGroup>
  
@@ -155,8 +174,7 @@
     <PackageReference Include="ricaun.Revit.CefSharp" Version="2022.*" allowedVersions="[2022.0.0,2023.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2022'))" />
     <PackageReference Include="ricaun.Revit.CefSharp" Version="2023.*" allowedVersions="[2023.0.0,2024.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2023'))" />
     <PackageReference Include="ricaun.Revit.CefSharp" Version="2024.*" allowedVersions="[2024.0.0,2024.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2024'))" />
-	<PackageReference Include="ricaun.Revit.CefSharp" Version="2025.*" allowedVersions="[2025.0.0,2026.0.0)" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('2025'))" />
-	<PackageReference Include="ricaun.Revit.CefSharp" Version="2025.*" allowedVersions="[2025.0.0,2026.0.0)" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('Debug'))" />
+	<PackageReference Include="ricaun.Revit.CefSharp" Version="2025.*" allowedVersions="[2025.0.0,2026.0)" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('2025'))" />
  </ItemGroup>
   
  <ItemGroup>
@@ -314,7 +332,7 @@
 	<Reference TargetFramework="net48" Include="System.Web" Condition="$(Configuration.Contains('2021'))" />
 	<Reference TargetFramework="net48" Include="System.Web" Condition="$(Configuration.Contains('2022'))" />
 	<Reference TargetFramework="net48" Include="System.Web" Condition="$(Configuration.Contains('2023'))" />
-    <Reference TargetFramework="net48" Include="System.Web" Condition="$(Configuration.Contains('2024'))" />
+  <Reference TargetFramework="net48" Include="System.Web" Condition="$(Configuration.Contains('2024'))" />
   </ItemGroup> 
   
   <ItemGroup>

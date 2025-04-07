@@ -199,7 +199,7 @@ namespace SCaddins
             return Result.Succeeded;
         }
 
-#if REVIT2024 || REVIT2025
+#if REVIT2024 || REVIT2025 || REVIT2026
         public void ChangeTheme()
         {
 
@@ -262,7 +262,7 @@ namespace SCaddins
 
         public Result OnStartup(UIControlledApplication application)
         {
-#if REVIT2024 || REVIT2025
+#if REVIT2024 || REVIT2025 || REVIT2026
             application.ThemeChanged += Application_ThemeChanged;
 #endif
 
@@ -338,7 +338,7 @@ namespace SCaddins
             ribbonPanel.AddStackedItems(
                 LoadGlobalSettings(scdll),
                 LoadRunScript(scdll));
-#if REVIT2024 || REVIT2025
+#if REVIT2024 || REVIT2025 || REVIT2026
             ChangeTheme(); //FIXME, this doesn't need to run everytime, load the correct theme once.
 #else
             AssignPushButtonImage(scexportPushButton, @"SCaddins.Assets.Ribbon.scexport-rvt.png", 32, scdll);
@@ -363,7 +363,7 @@ namespace SCaddins
             return Result.Succeeded;
         }
 
-#if REVIT2024 || REVIT2025
+#if REVIT2024 || REVIT2025 || REVIT2026
         private void Application_ThemeChanged(object sender, Autodesk.Revit.UI.Events.ThemeChangedEventArgs e)
         {
             //SCaddinsApp.WindowManager.ShowMessageBox("theme changed");
