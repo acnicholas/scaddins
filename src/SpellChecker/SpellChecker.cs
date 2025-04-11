@@ -32,7 +32,7 @@ namespace SCaddins.SpellChecker
         private Dictionary<string, string> autoReplacementList = new Dictionary<string, string>();
         private int currentIndex;
         private Document document;
-        private Hunspell hunspell;
+        private Hunspell hunspell = null;
         private List<string> ignoreList;
 
         public SpellChecker(Document document)
@@ -44,8 +44,12 @@ namespace SCaddins.SpellChecker
 
             this.document = document;
 
+            //return;
+
             ignoreList = new List<string>();
             UpdateIgnoreList();
+
+            //return;
 
             string dll = System.IO.Path.GetDirectoryName(
                 System.Reflection.Assembly.GetExecutingAssembly().Location);
@@ -60,6 +64,7 @@ namespace SCaddins.SpellChecker
             catch (System.Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
+                Trace.WriteLine(ex);
             }
 
 #if DEBUG

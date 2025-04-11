@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2019-2024 by Andrew Nicholas
+﻿// (C) Copyright 2019-2025 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -28,9 +28,12 @@ namespace SCaddins.RunScript.ViewModels
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Caliburn.Micro;
+    using Microsoft.Web.WebView2;
     //using CefSharp;
     //using CefSharp.Wpf;
     using Microsoft.IdentityModel.Tokens;
+    using Microsoft.Web.WebView2.Wpf;
+    using Newtonsoft.Json;
 
     internal class RunScriptViewModel : Screen
     {
@@ -39,7 +42,7 @@ namespace SCaddins.RunScript.ViewModels
         private string currentFileName;
         private ExternalCommandData commandData;
         private ElementSet elements;
-        //private static ChromiumWebBrowser browser;
+        private static WebView2 browser;
         private OutputWindowViewModel outputWindowViewModel;
 
         public RunScriptViewModel(ExternalCommandData commandData, ElementSet elements)
@@ -47,7 +50,7 @@ namespace SCaddins.RunScript.ViewModels
             this.commandData = commandData;
             this.elements = elements;
             currentFileName = string.Empty;
-            Output = " ";
+            Output = " test ";
             outputList = new BindableCollection<string>();
             LoadScratch();
             FontSize = 15;
@@ -65,7 +68,7 @@ namespace SCaddins.RunScript.ViewModels
                 settings.Width = 1024;
                 settings.Title = "Run Lua Script";
                 settings.ShowInTaskbar = false;
-                settings.ResizeMode = System.Windows.ResizeMode.NoResize;
+                settings.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
                 settings.Icon = new System.Windows.Media.Imaging.BitmapImage(
                     new Uri("pack://application:,,,/SCaddins;component/Assets/lua.png"));
                 settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
@@ -74,10 +77,12 @@ namespace SCaddins.RunScript.ViewModels
         }
 
 
-        //public static void SetBrowser(ChromiumWebBrowser cbrowser)
-        //{
-        //    browser = cbrowser;
-        //}
+        public static void SetBrowser(WebView2 wvbrowser)
+        {   
+            Trace.WriteLine(wvbrowser.ToString());
+            Trace.WriteLine("setting browser");
+            browser = wvbrowser;
+        }
 
         public bool CanSave
         {
@@ -134,82 +139,94 @@ namespace SCaddins.RunScript.ViewModels
 
         public void CommentSelection()
         {
-            //if (browser != null)
-            //{
-            //    var fullText = @"blockComment();";
-            //    _ = browser.EvaluateScriptAsync(fullText);
+            if (browser != null)
+            {
+                var fullText = @"blockComment();";
+                _ = browser.ExecuteScriptAsync(fullText);
 
-            //}
+            }
         }
 
         public void DarkMode()
         {
-            //if (browser != null)
-            //{
-            //    var fullText = @"darkMode();";
-            //    _ = browser.EvaluateScriptAsync(fullText);
-                
-            //}
+            if (browser != null)
+            {
+                var fullText = @"darkMode();";
+                _ = browser.ExecuteScriptAsync(fullText);
+
+            }
         }
 
         public void LightMode()
         {
-            //if (browser != null)
-            //{
-            //    var fullText = @"lightMode();";
-            //    _ = browser.EvaluateScriptAsync(fullText);
+            if (browser != null)
+            {
+                var fullText = @"lightMode();";
+                _ = browser.ExecuteScriptAsync(fullText);
 
-            //}
+            }
         }
 
 
         public void IncreaseFontSize()
         {
-            //if (browser != null)
-            //{
-            //    var fullText = @"increaseFontSize();";
-            //    _ = browser.EvaluateScriptAsync(fullText);
+            if (browser != null)
+            {
+                var fullText = @"increaseFontSize();";
+                _ = browser.ExecuteScriptAsync(fullText);
 
-            //}
+            }
         }
 
         public void DecreaseFontSize()
         {
-            //if (browser != null)
-            //{
-            //    var fullText = @"decreaseFontSize();";
-            //    _ = browser.EvaluateScriptAsync(fullText);
-            //}
+            if (browser != null)
+            {
+                var fullText = @"decreaseFontSize();";
+                _ = browser.ExecuteScriptAsync(fullText);
+            }
         }
 
         public async Task<string> GetScript()
         {
-            //if (browser != null)
-            //{
-            //    var script = @"editor.getValue();";
-            //    var jsScript = HttpUtility.JavaScriptStringEncode(script);
-            //    var result = await browser.EvaluateScriptAsync(jsScript);
-            //    if (result.Success)
-            //    {
-            //        return (string)result.Result;
-            //    } else
-            //    {
-            //        return string.Empty;
-            //    }
-            //} else
-            //{
-            return string.Empty;
-            //}
+            if (browser != null)
+            {
+                var script = @"editor.getValue();";
+                var jsScript = HttpUtility.JavaScriptStringEncode(script);
+                var result = await browser.ExecuteScriptAsync(jsScript);
+                return CleanJavaScriptString(result);
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        private string CleanJavaScriptString(string stringToClean)
+        {
+            var fs = stringToClean.Substring(1, stringToClean.Length - 2);
+            fs = fs.Replace(@"\\n", "TXTNL");
+            fs = fs.Replace(@"\r\n", System.Environment.NewLine);
+            fs = fs.Replace("\\\"", "\"");
+            fs = fs.Replace(@"\n", System.Environment.NewLine);
+            fs = fs.Replace(@"\t", @"    ");
+            fs = fs.Replace(@"TXTNL", System.Environment.NewLine);
+            //SCaddinsApp.WindowManager.ShowMessageBox(fs);
+            return fs;
         }
 
         public async void SetScript(string script)
         {
-            //if (browser != null)
-            //{
-            //    var jsText = HttpUtility.JavaScriptStringEncode(script);
-            //    var fullText = @"editor.setValue('" + jsText + @"');";
-            //    _ = await browser.EvaluateScriptAsync(fullText);
-            //}
+            if (browser != null)
+            {
+                //SCaddinsApp.WindowManager.ShowMessageBox(script);
+                var jsText = HttpUtility.JavaScriptStringEncode(script);
+                //SCaddinsApp.WindowManager.ShowMessageBox(jsText);
+                //SCaddinsApp.WindowManager.ShowMessageBox(HttpUtility.UrlDecode(jsText));
+                //var jsText = script;
+                var fullText = @"editor.setValue('" + jsText + @"');";
+                _ = await browser.ExecuteScriptAsync(fullText);
+            }
         }
 
         public void ClearOutputWindow()
@@ -218,11 +235,11 @@ namespace SCaddins.RunScript.ViewModels
             Output = " ";
         }
 
-        //public void ShowOutputWindow()
-        //{
-        //    outputWindowViewModel.Output = this.Output;
-        //    SCaddinsApp.WindowManager.ShowWindowAsync(outputWindowViewModel, null, ViewModels.OutputWindowViewModel.DefaultViewSettings);
-        //}
+        public void ShowOutputWindow()
+        {
+            outputWindowViewModel.Output = this.Output;
+            SCaddinsApp.WindowManager.ShowWindowAsync(outputWindowViewModel, null, ViewModels.OutputWindowViewModel.DefaultViewSettings);
+        }
 
         public void LoadSample()
         {
@@ -272,17 +289,17 @@ namespace SCaddins.RunScript.ViewModels
 
         public void NewFile()
         {
-            //// TODO ask to save current script
-            //var script = @"-- 'commandData' - Autodesk.Revit.UI.ExternalCommandData as passed to the host addin" + System.Environment.NewLine +
-            //    @"-- 'fec' - FilteredElementCOllector on active doc" + System.Environment.NewLine +
-            //    @"-- 'fecv' - FilteredElementCOllector on active view" + System.Environment.NewLine;
-            //if (browser != null)
-            //{
-            //    var jsText = HttpUtility.JavaScriptStringEncode(script);
-            //    var fullText = @"editor.setValue('" + jsText + @"');";
-            //    _ = browser.EvaluateScriptAsync(fullText);
-            //    CurrentFileName = string.Empty;
-            //}
+            // TODO ask to save current script
+            var script = @"-- 'commandData' - Autodesk.Revit.UI.ExternalCommandData as passed to the host addin" + System.Environment.NewLine +
+                @"-- 'fec' - FilteredElementCOllector on active doc" + System.Environment.NewLine +
+                @"-- 'fecv' - FilteredElementCOllector on active view" + System.Environment.NewLine;
+            if (browser != null)
+            {
+                var jsText = HttpUtility.JavaScriptStringEncode(script);
+                var fullText = @"editor.setValue('" + jsText + @"');";
+                _ = browser.ExecuteScriptAsync(fullText);
+                CurrentFileName = string.Empty;
+            }
         }
 
         public override async Task TryCloseAsync(bool? dialogResult = false)

@@ -62,6 +62,11 @@ namespace SCaddins.RunScript
             ref string message,
             ElementSet elements)
         {
+#if !REVIT2026
+            SCaddinsApp.WindowManager.ShowMessageBox("Runscript is currently onl available in Revit 2026+");
+            return Result.Succeeded;
+#endif
+
             if (commandData == null)
             {
                 return Result.Failed;
