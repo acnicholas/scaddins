@@ -84,6 +84,8 @@ namespace SCaddins.RenameUtilities
             {
                 List<string> result = new List<string>();
                 result.Add("Areas");
+                result.Add("Design Options");
+                result.Add("Design Option Sets");
                 result.Add("Rooms");
                 result.Add("Grids");
                 result.Add("Levels");
@@ -92,15 +94,9 @@ namespace SCaddins.RenameUtilities
                 result.Add("View Filters");
                 result.Add("View Templates");
                 result.Add("Sheets");
-
-                // result.Add("Walls");
-                // result.Add("Windows");
                 result.Add("Doors");
-
-                // result.Add("Families");
                 result.Add(@"Project Information");
-
-                // result.Add(@"Model Groups");
+                result.Add(@"Model Groups");
                 return new Caliburn.Micro.BindableCollection<string>(result.OrderBy(s => s));
             }
         }
@@ -133,6 +129,14 @@ namespace SCaddins.RenameUtilities
             if (parameterCategory == "Areas")
             {
                 return GetParametersByCategory(BuiltInCategory.OST_Areas, doc, RenameTypes.Area);
+            }
+            if (parameterCategory == "Design Options")
+            {
+                return GetParametersByCategory(BuiltInCategory.OST_DesignOptions, doc, RenameTypes.DesignOptions);
+            }
+            if (parameterCategory == "Design Option Sets")
+            {
+                return GetParametersByCategory(BuiltInCategory.OST_DesignOptionSets, doc, RenameTypes.DesignOptionSets);
             }
             if (parameterCategory == "Rooms")
             {
@@ -197,10 +201,10 @@ namespace SCaddins.RenameUtilities
                 return GetParametersByCategory(BuiltInCategory.OST_ProjectInformation, doc, RenameTypes.ProjectInformation);
             }
 
-            // if (parameterCategory == @"Model Groups")
-            // {
-            //    return RenameGroups.GetParameters(doc);
-            // }
+            if (parameterCategory == @"Model Groups")
+            {
+                return GetParametersByCategory(BuiltInCategory.OST_IOSModelGroups, doc, RenameTypes.Group);
+            }
             return new Caliburn.Micro.BindableCollection<RenameParameter>();
         }
 
@@ -324,28 +328,25 @@ namespace SCaddins.RenameUtilities
 
         public void CommitRenameSelection(List<RenameCandidate> selectedCandiates)
         {
-            // SCaddinsApp.WindowManager.ShowMessageBox(selectedCandiates.Count.ToString());
+            System.Diagnostics.Trace.WriteLine(selectedCandiates.Count.ToString());
             int fails = 0;
             int successes = 0;
             using (var t = new Transaction(doc))
             {
-                // SCaddinsApp.WindowManager.ShowMessageBox("IN T");
                 if (t.Start("Bulk Rename") == TransactionStatus.Started)
                 {
-                    // SCaddinsApp.WindowManager.ShowMessageBox("T Started");
                     foreach (RenameCandidate candidate in selectedCandiates)
                     {
+                        System.Diagnostics.Trace.WriteLine("test");
                         if (candidate.ValueChanged)
                         {
-                            // SCaddinsApp.WindowManager.ShowMessageBox("Value Change");
+                            System.Diagnostics.Trace.WriteLine("val changed");
                             if (candidate.Rename())
                             {
-                                // SCaddinsApp.WindowManager.ShowMessageBox("Success");
                                 successes++;
                             }
                             else
                             {
-                                // SCaddinsApp.WindowManager.ShowMessageBox("Fail");
                                 fails++;
                             }
                         }
@@ -389,6 +390,12 @@ namespace SCaddins.RenameUtilities
                     break;
                 case RenameTypes.Family:
                     renameCandidates = RenameFamily.GetCandidates(doc);
+                    break;
+                case RenameTypes.DesignOptions:
+                    renameCandidates = RenameDesignOption.GetCandidates(doc);
+                    break;
+                case RenameTypes.DesignOptionSets:
+                    renameCandidates = RenameDesignOptionSet.GetCandidates(doc);
                     break;
                 case RenameTypes.Group:
                     renameCandidates = RenameGroups.GetCandidates(doc);
@@ -518,6 +525,22 @@ namespace SCaddins.RenameUtilities
                 return parametersList;
             }
 
+            if (renameType == RenameTypes.Group)
+            {
+                return RenameGroups.GetParameters(doc);
+            }
+
+            if (renameType == RenameTypes.DesignOptionSets)
+            {
+                return RenameDesignOptionSet.GetParameters(doc);
+            }
+
+            if (renameType == RenameTypes.DesignOptions)
+            {
+                System.Diagnostics.Trace.WriteLine("OKxx");
+                return RenameDesignOption.GetParameters(doc);
+            }
+
             if (category == BuiltInCategory.OST_Doors)
             {
                 return RenameDoors.GetParameters(doc);
@@ -530,21 +553,8 @@ namespace SCaddins.RenameUtilities
                     parametersList.Add(new RenameParameter(param, category, null, RenameTypes.ByCategory));
                 }
             }
-
-            // parametersList = parametersList.OrderBy(p => p.Name);
             return parametersList;
         }
-
-        // private static bool IsValidRevitName(string s)
-        // {
-        //     return !(s.Contains("{") || s.Contains("}"));
-        // }
-        #endregion
-
-        // private void GetViewTemplateNames(RenameParameter renameParameter)
-        // {
-        //     renameCandidates.Clear();
-        //     renameCandidates = RenameViewTemplate.GetCandidates(doc, renameParameter);
-        // }
     }
 }
+#endregion

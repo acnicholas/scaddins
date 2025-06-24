@@ -20,21 +20,21 @@ namespace SCaddins.RenameUtilities
     using Autodesk.Revit.DB;
     using Caliburn.Micro;
 
-    public class RenameGroups : RenameCandidate
+    public class RenameDesignOptionSet : RenameCandidate
     {
-        private GroupType group;
+        private Element designOption;
 
-        public RenameGroups(GroupType group)
+        public RenameDesignOptionSet(Element designOption)
         {
-            this.group = group;
-            OldValue = group.Name;
+            this.designOption = designOption;
+            OldValue = designOption.Name;
             NewValue = OldValue;
         }
 
         public static BindableCollection<RenameParameter> GetParameters(Document doc)
         {
             BindableCollection<RenameParameter> parametersList = new BindableCollection<RenameParameter>();
-            parametersList.Add(new RenameParameter(null,BuiltInCategory.INVALID, null, RenameTypes.Group));
+            parametersList.Add(new RenameParameter(null,BuiltInCategory.INVALID, null, RenameTypes.DesignOptionSets));
             return parametersList;
         }
 
@@ -43,10 +43,10 @@ namespace SCaddins.RenameUtilities
             var result = new BindableCollection<RenameCandidate>();
             foreach (Element element in GetFilteredElementCollector(doc))
             {
-                var group = (GroupType)element;
-                if (group != null)
+                var designOption = (Element)element;
+                if (designOption != null)
                 {
-                    var rc = new RenameGroups(group);
+                    var rc = new RenameDesignOptionSet(designOption);
                     result.Add(rc);
                 }
             }
@@ -59,7 +59,7 @@ namespace SCaddins.RenameUtilities
             {
                 try
                 {
-                    group.Name = NewValue;
+                    designOption.Name = NewValue;
                 }
                 catch
                 {
@@ -73,7 +73,7 @@ namespace SCaddins.RenameUtilities
         private static FilteredElementCollector GetFilteredElementCollector(Document doc)
         {
             FilteredElementCollector collector = new FilteredElementCollector(doc);
-            collector.OfClass(typeof(GroupType));
+            collector.OfCategory(BuiltInCategory.OST_DesignOptionSets);
             return collector;
         }
     }

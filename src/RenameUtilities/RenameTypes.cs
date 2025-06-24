@@ -4,6 +4,8 @@
     {
         ByCategory,
         Area,
+        DesignOptions,
+        DesignOptionSets,
         Rooms,
         Views,
         Walls,

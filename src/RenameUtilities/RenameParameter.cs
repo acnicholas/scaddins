@@ -37,6 +37,15 @@ namespace SCaddins.RenameUtilities
                 case RenameTypes.Text:
                     this.Name = "Text";
                     break;
+                case RenameTypes.Group:
+                    this.Name = "Name";
+                    break;
+                case RenameTypes.DesignOptionSets:
+                    this.Name = "Name";
+                    break;
+                case RenameTypes.DesignOptions:
+                    this.Name = "Name";
+                    break;
                 default:
                     this.Name = "Name";
                     break;
