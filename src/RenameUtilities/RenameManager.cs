@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2017-2021 by Andrew Nicholas
+﻿// (C) Copyright 2017-2025 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -19,6 +19,7 @@ namespace SCaddins.RenameUtilities
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
     using Autodesk.Revit.DB;
@@ -69,6 +70,7 @@ namespace SCaddins.RenameUtilities
             renameCommands.Add(new RenameCommand((a, c, b) => a.Replace(' ', '_'), "Spaces to Underscore"));
             renameCommands.Add(new RenameCommand((a, c, b) => a.Replace(' ', '-'), "Spaces to Hyphen"));
             renameCommands.Add(new RenameCommand(Streetify, "Streetify String", string.Empty, string.Empty) { SearchPatternHint = "Search Filter", ReplacementPatternHint = "Char Spacing" });
+            renameCommands.Add(new RenameCommand((a, c, b) => new CultureInfo("en-UK", false).TextInfo.ToTitleCase(a), "TitleCase"));
             renameCommands.Add(new RenameCommand((a, c, b) => a.ToUpper(System.Globalization.CultureInfo.CurrentCulture), "UpperCase"));
             renameCommand = renameCommands[0];
         }
