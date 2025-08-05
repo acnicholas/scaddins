@@ -1,5 +1,22 @@
 # SCaddins Revision Log #
 
+# 26.2.0 #
+
+#### NEW ####
+
+- Add option to export reference planes in SCexport
+
+#### FIXES ####
+
+- Filter by design options fixed in Room Tools.
+
+# 26.1.0 #
+
+#### NEW ####
+
+- Add Design Options and Design Option Sets to Rename Tool.
+- Add Title Case mode to Rename Tool.
+
 # 26.0.0 #
 
 #### NEW ####

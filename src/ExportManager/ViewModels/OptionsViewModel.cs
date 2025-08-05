@@ -410,6 +410,26 @@ namespace SCaddins.ExportManager.ViewModels
             }
         }
 
+        public bool ExportReferencePlanes
+        {
+            get
+            {
+                return exportManager.ExportReferencePlanes;
+            }
+
+            set
+            {
+                if (value)
+                {
+                    exportManager.ExportReferencePlanes = true;
+                }
+                else
+                {
+                    exportManager.ExportReferencePlanes = false;
+                }
+            }
+        }
+
         public bool ExportRevitPDFEnabled
         {
 #if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026

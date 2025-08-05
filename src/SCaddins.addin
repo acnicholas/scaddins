@@ -9,8 +9,26 @@
     <FullClassName>SCaddins.SCaddinsApp</FullClassName>
     <Name>SCexport - Export Utility</Name>
     <VendorId>BEER</VendorId>
-    <VendorDescription>Andrew Nicholas, andrewn@scottcarver.com.au</VendorDescription>
+    <VendorDescription>Andrew Nicholas, andrewn@studiosc.com.au</VendorDescription>
   </AddIn>
+  
+<!--   <AddIn Type="Command">
+    <Assembly>C:\Program Files\Studio.SC\SCaddins\_REVIT_VERSION_\SCaddins.dll</Assembly>
+    <AddInId>001383b1-7377-48f2-ba00-d65fcdb34eeb</AddInId>
+    <FullClassName>SCaddins.ExportManager.NextSheet</FullClassName>
+    <Name>SCaddins - Next Sheet</Name>
+    <VendorId>BEER</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewn@studiosc.com.au</VendorDescription>
+  </AddIn>
+  
+  <AddIn Type="Command">
+    <Assembly>C:\Program Files\Studio.SC\SCaddins\_REVIT_VERSION_\SCaddins.dll</Assembly>
+    <AddInId>747e48b6-6040-4f01-8167-bdc82dc0f059</AddInId>
+    <FullClassName>SCaddins.ExportManager.PreviousSheet</FullClassName>
+    <Name>SCaddins - Previous Sheet</Name>
+    <VendorId>BEER</VendorId>
+    <VendorDescription>Andrew Nicholas, andrewn@studiosc.com.au</VendorDescription>
+  </AddIn> -->
   
 <!-- <ManifestSettings><UseRevitContext>False</UseRevitContext><ContextName>SCaddins</ContextName></ManifestSettings> -->
   

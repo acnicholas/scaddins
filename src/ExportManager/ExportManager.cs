@@ -93,6 +93,11 @@ namespace SCaddins.ExportManager
             get; set;
         }
 
+        public bool ExportReferencePlanes
+        {
+            get; set;
+        }
+
         public bool ExportViewportsOnly
         {
             get; set;
@@ -1079,38 +1084,6 @@ namespace SCaddins.ExportManager
             }
             return result;
         }
-
-        /*private static void RemoveTitleBlock(
-            ExportSheet vs,
-            ICollection<ElementId> title,
-            bool hide,
-            Document doc)
-        {
-            if (!(doc.GetElement(vs.Id) is View view))
-            {
-                return;
-            }
-            var t = new Transaction(doc, "Hide Title");
-            t.Start();
-            try
-            {
-                if (hide)
-                {
-                    view.HideElements(title);
-                }
-                else
-                {
-                    view.UnhideElements(title);
-                }
-                t.Commit();
-            }
-            catch (ArgumentException e)
-            {
-                SCaddinsApp.WindowManager.ShowMessageBox("Revit", "cannot Hide Title: " + e.Message);
-                t.RollBack();
-            }
-        }*/
-
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PrinterJobControl")]
         [SecurityCritical]
 #if NET48
@@ -1199,6 +1172,10 @@ namespace SCaddins.ExportManager
             if (vs.ForceRasterPrint)
             {
                 opts.AlwaysUseRaster = true;
+            }
+            if (this.ExportReferencePlanes)
+            {
+                opts.HideReferencePlane = false;
             }
 
             if (FileUtilities.CanOverwriteFile(vs.FullExportPath(Resources.FileExtensionPDF)))
@@ -1361,16 +1338,6 @@ namespace SCaddins.ExportManager
                 return;
             }
 
-            // List<ElementId> titleBlockHidden;
-            // titleBlockHidden = new List<ElementId>();
-            // var titleBlock = TitleBlockInstanceFromSheetNumber(vs.SheetNumber, Doc);
-            // titleBlockHidden.Add(titleBlock.Id);
-
-            // if (removeTitle)
-            // {
-            //     log.AddMessage(Resources.MessageAttemptingToHideTitleBlock);
-            //     RemoveTitleBlock(vs, titleBlockHidden, true, Doc);
-            // }
             List<ElementId> views;
             views = new List<ElementId>();
 
@@ -1393,6 +1360,11 @@ namespace SCaddins.ExportManager
 
             using (var opts = GetDefaultDWGExportOptions())
             {
+                if (this.ExportReferencePlanes)
+                {
+                    opts.HideReferencePlane = false;
+                }
+
                 log.AddMessage(Resources.MessageAssigningExportOptions + opts);
                 foreach (var view in views)
                 {

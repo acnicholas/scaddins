@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version='1.0' encoding='utf-8'?>
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SCaddins.ExportManager" GeneratedClassName="Settings1">
   <Profiles />
   <Settings>
@@ -68,6 +68,11 @@
     <Setting Name="PDF24PrinterDriver" Type="System.String" Scope="User">
       <Value Profile="(Default)">PDF24</Value>
     </Setting>
+    <Setting Name="ExportReferenceLines" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ExportUnreferencedViewTags" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
-

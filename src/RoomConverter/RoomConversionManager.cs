@@ -329,7 +329,7 @@ namespace SCaddins.RoomConverter
             {
                 var e = doc.GetElement(id);
                 var s = doc.GetElement(e.get_Parameter(BuiltInParameter.OPTION_SET_ID).AsElementId()).Name;
-                result.Add(s + @" : " + e.Name.Replace(@"(primary)", string.Empty).Trim());
+                result.Add(s + @" : " + e.Name.Replace(@"<primary>", string.Empty).Trim());
             }
 
             return result.OrderBy(q => q).ToList();

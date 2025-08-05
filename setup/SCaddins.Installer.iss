@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "SCaddins"
-;#define MyAppVersion "24.2.0.0"
+;#define MyAppVersion "26.1.0.0"
 #define MyAppPublisher "Andrew Nicholas"
 #define MyAppURL "https://github.com/acnicholas/scaddins/wiki"
 
