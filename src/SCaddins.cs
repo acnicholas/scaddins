@@ -26,6 +26,7 @@ namespace SCaddins
     using System.Net;
     using System.Net.Http;
     using System.Reflection;
+    using System.Security.Policy;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using Autodesk.Revit.Attributes;
@@ -42,7 +43,11 @@ namespace SCaddins
         private static Common.Bootstrapper bootstrapper;
         // ReSharper disable once InconsistentNaming
         private static Common.WindowManager windowManager;
-        private RibbonPanel ribbonPanel;
+        private RibbonPanel scaddinsRibbonPanel;
+        private RibbonPanel createRibbonPanel;
+        private RibbonPanel modifyRibbonPanel;
+        private RibbonPanel viewRibbonPanel;
+        private RibbonPanel aboutRibbonPanel;
         private PushButton modelWizardPushButton;
         private PushButton scaosPushButton;
         private PushButton scasfarPushButton;
@@ -255,8 +260,16 @@ namespace SCaddins
                     AssignPushButtonImage(openSheetPushButton, "SCaddins.Assets.Ribbon.find-rvt-16.png", 16, dll);
                     break;
             }
-            ribbonPanel.Visible = false;
-            ribbonPanel.Visible = true;
+			scaddinsRibbonPanel.Visible = false;
+            scaddinsRibbonPanel.Visible = true;
+            createRibbonPanel.Visible = false;
+            createRibbonPanel.Visible = true;
+            modifyRibbonPanel.Visible = false;
+            modifyRibbonPanel.Visible = true;
+            viewRibbonPanel.Visible = false;
+            viewRibbonPanel.Visible = true;
+            aboutRibbonPanel.Visible = false;
+            aboutRibbonPanel.Visible = true;
         }
 #endif
 
@@ -266,9 +279,19 @@ namespace SCaddins
             application.ThemeChanged += Application_ThemeChanged;
 #endif
 
-            ribbonPanel = TryGetPanel(application, "Studio.SC");
+            try
+            {
+                application.CreateRibbonTab("Studio.SC");
+            }
+            catch { /* Studio.SC Tab may already exist */ }
 
-            if (ribbonPanel == null)
+            scaddinsRibbonPanel = TryGetPanel(application, "SCaddins", "Studio.SC");
+            createRibbonPanel = TryGetPanel(application, "Create", "Studio.SC");
+            modifyRibbonPanel = TryGetPanel(application, "Modify", "Studio.SC");
+            viewRibbonPanel = TryGetPanel(application, "View", "Studio.SC");
+            aboutRibbonPanel = TryGetPanel(application, "About", "Studio.SC");
+
+            if (scaddinsRibbonPanel == null || createRibbonPanel == null || viewRibbonPanel == null || aboutRibbonPanel == null || modifyRibbonPanel == null) 
             {
                 return Result.Failed;
             }
@@ -280,16 +303,16 @@ namespace SCaddins
 #endif
 
             var scx = LoadScexport(scdll);
-            scexportPushButton = ribbonPanel.AddItem(scx) as PushButton;
+            scexportPushButton = scaddinsRibbonPanel.AddItem(scx) as PushButton;
 
-            var stackedItemZero = ribbonPanel.AddStackedItems(
+            var stackedItemZero = createRibbonPanel.AddStackedItems(
                 LoadSCopy(scdll, 16),
                 LoadSCuv(scdll),
                 LoadHatchEditor(scdll));
 
             sccopyPushButton = stackedItemZero[0] as PushButton;
 
-            var stackedItemOne = ribbonPanel.AddStackedItems(
+            var stackedItemOne = createRibbonPanel.AddStackedItems(
                 LoadSCaos(scdll),
                 LoadSCightlines(scdll),
                 LoadSCasfar(scdll));
@@ -298,7 +321,7 @@ namespace SCaddins
             scightlinesPushButton = stackedItemOne[1] as PushButton;
             scasfarPushButton = stackedItemOne[2] as PushButton;
 
-            var stackedItemTwo = ribbonPanel.AddStackedItems(
+            var stackedItemTwo = createRibbonPanel.AddStackedItems(
                 LoadScheduleExporter(scdll),
                 LoadSCloudShed(scdll),
                 LoadSCoord(scdll));
@@ -307,8 +330,7 @@ namespace SCaddins
             scloudschedPushButton = stackedItemTwo[1] as PushButton;
             scoordPushButton = stackedItemTwo[2] as PushButton;
 
-
-            var stackedItemThree = ribbonPanel.AddStackedItems(
+            var stackedItemThree = modifyRibbonPanel.AddStackedItems(
                 LoadSCulcase(scdll),
                 LoadSpellingChecker(scdll),
                 LoadSCincrement(scdll));
@@ -317,27 +339,31 @@ namespace SCaddins
             spellingChecker = stackedItemThree[1] as PushButton;
             scincrementPushButton = stackedItemThree[2] as PushButton;
 
-            var stackedItemFour = ribbonPanel.AddStackedItems(
-                LoadGridManager(scdll),
-                LoadInfo(scdll),
-                LoadOpenSheet(scdll));
-
-            gridManagerPushButton = stackedItemFour[0] as PushButton;
-            openSheetPushButton = stackedItemFour[2] as PushButton;
-
-
-            var stackedItemFive = ribbonPanel.AddStackedItems(
-                LoadSCwash(scdll),
+            var stackedItemFour = modifyRibbonPanel.AddStackedItems(
                 LoadModelWizard(scdll),
+                LoadGridManager(scdll),
+                LoadSCwash(scdll));
+
+            modelWizardPushButton = stackedItemFour[0] as PushButton;
+            gridManagerPushButton = stackedItemFour[1] as PushButton;
+            scwashPushButton = stackedItemFour[2] as PushButton;
+
+            var stackedItemFive = viewRibbonPanel.AddStackedItems(
+                LoadNextSheet(scdll),
+                LoadPreviousSheet(scdll),
+                LoadOpenSheet(scdll));     
+            
+            openSheetPushButton = stackedItemFive[2] as PushButton;
+    
+            var stackedItemSix = aboutRibbonPanel.AddStackedItems(
+                LoadInfo(scdll),
                 LoadAbout(scdll));
 
-            scwashPushButton = stackedItemFive[0] as PushButton;
-            modelWizardPushButton = stackedItemFive[1] as PushButton;
-
-            ribbonPanel.AddSlideOut();
-            ribbonPanel.AddStackedItems(
+            scaddinsRibbonPanel.AddSlideOut();
+            scaddinsRibbonPanel.AddStackedItems(
                 LoadGlobalSettings(scdll),
                 LoadRunScript(scdll));
+
 #if REVIT2024 || REVIT2025 || REVIT2026
             ChangeTheme(); //FIXME, this doesn't need to run everytime, load the correct theme once.
 #else
@@ -371,13 +397,13 @@ namespace SCaddins
         }
 #endif
 
-        private static RibbonPanel TryGetPanel(UIControlledApplication application, string name)
+        private static RibbonPanel TryGetPanel(UIControlledApplication application, string name, string tabName)
         {
             if (application == null || string.IsNullOrEmpty(name))
             {
                 return null;
             }
-            List<RibbonPanel> loadedPanels = application.GetRibbonPanels();
+            List<RibbonPanel> loadedPanels = application.GetRibbonPanels(tabName);
             foreach (RibbonPanel p in loadedPanels)
             {
                 if (p.Name.Equals(name, StringComparison.InvariantCulture))
@@ -385,7 +411,7 @@ namespace SCaddins
                     return p;
                 }
             }
-            return application.CreateRibbonPanel(name);
+            return application.CreateRibbonPanel(tabName, name);
         }
 
         private static void AssignPushButtonImage(PushButton pushButton, string iconName, int size, string dll)

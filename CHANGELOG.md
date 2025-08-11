@@ -5,6 +5,8 @@
 #### NEW ####
 
 - Add option to export reference planes in SCexport
+- Add tools to own tab.
+- Enable RunScript in Revit versions prior to 2026 (With simple interface).
 
 #### FIXES ####
 

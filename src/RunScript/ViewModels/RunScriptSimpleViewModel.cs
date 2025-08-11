@@ -28,24 +28,18 @@ namespace SCaddins.RunScript.ViewModels
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Caliburn.Micro;
-    using Microsoft.Web.WebView2;
-    //using CefSharp;
-    //using CefSharp.Wpf;
-    using Microsoft.IdentityModel.Tokens;
-    using Microsoft.Web.WebView2.Wpf;
-    using Newtonsoft.Json;
 
-    internal class RunScriptViewModel : Screen
+    internal class RunScriptSimpleViewModel : Screen
     {
         private string output;
+        private string script;
         private BindableCollection<string> outputList;
         private string currentFileName;
         private ExternalCommandData commandData;
         private ElementSet elements;
-        private static WebView2 browser;
         private OutputWindowViewModel outputWindowViewModel;
 
-        public RunScriptViewModel(ExternalCommandData commandData, ElementSet elements)
+        public RunScriptSimpleViewModel(ExternalCommandData commandData, ElementSet elements)
         {
             this.commandData = commandData;
             this.elements = elements;
@@ -53,9 +47,7 @@ namespace SCaddins.RunScript.ViewModels
             Output = " test ";
             outputList = new BindableCollection<string>();
             LoadScratch();
-            FontSize = 15;
             outputWindowViewModel = new OutputWindowViewModel();
-            NotifyOfPropertyChange(() => FontSize);
         }
 
         public static dynamic DefaultViewSettings
@@ -76,29 +68,18 @@ namespace SCaddins.RunScript.ViewModels
         }
 
 
-        public static void SetBrowser(WebView2 wvbrowser)
-        {   
-            Trace.WriteLine(wvbrowser.ToString());
-            Trace.WriteLine("setting browser");
-            browser = wvbrowser;
-        }
-
         public bool CanSave
         {
             get
             {
-                if (!string.IsNullOrEmpty(CurrentFileName)) {
+                if (!string.IsNullOrEmpty(CurrentFileName))
+                {
                     var f = Directory.GetDirectoryRoot(CurrentFileName);
                     var di = new DirectoryInfo(f);
                     return di.Exists && !di.Attributes.HasFlag(FileAttributes.ReadOnly);
                 }
                 return false;
             }
-        }
-
-        public double FontSize
-        {
-            get; set;
         }
 
         public string CurrentFileName
@@ -126,6 +107,21 @@ namespace SCaddins.RunScript.ViewModels
             }
         }
 
+        public string Script
+        {
+            get => script;
+
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    return;
+                }
+                script = value;
+                NotifyOfPropertyChange(() => Script);
+            }
+        }
+
         public static void NavigateTo(System.Uri url)
         {
             var ps = new ProcessStartInfo(url.ToString())
@@ -134,93 +130,6 @@ namespace SCaddins.RunScript.ViewModels
                 Verb = "open"
             };
             Process.Start(ps);
-        }
-
-        public void CommentSelection()
-        {
-            if (browser != null)
-            {
-                var fullText = @"blockComment();";
-                _ = browser.ExecuteScriptAsync(fullText);
-
-            }
-        }
-
-        public void DarkMode()
-        {
-            if (browser != null)
-            {
-                var fullText = @"darkMode();";
-                _ = browser.ExecuteScriptAsync(fullText);
-
-            }
-        }
-
-        public void LightMode()
-        {
-            if (browser != null)
-            {
-                var fullText = @"lightMode();";
-                _ = browser.ExecuteScriptAsync(fullText);
-
-            }
-        }
-
-
-        public void IncreaseFontSize()
-        {
-            if (browser != null)
-            {
-                var fullText = @"increaseFontSize();";
-                _ = browser.ExecuteScriptAsync(fullText);
-
-            }
-        }
-
-        public void DecreaseFontSize()
-        {
-            if (browser != null)
-            {
-                var fullText = @"decreaseFontSize();";
-                _ = browser.ExecuteScriptAsync(fullText);
-            }
-        }
-
-        public async Task<string> GetScript()
-        {
-            if (browser != null)
-            {
-                var script = @"editor.getValue();";
-                var jsScript = HttpUtility.JavaScriptStringEncode(script);
-                var result = await browser.ExecuteScriptAsync(jsScript);
-                return CleanJavaScriptString(result);
-            }
-            else
-            {
-                return string.Empty;
-            }
-        }
-
-        private string CleanJavaScriptString(string stringToClean)
-        {
-            var fs = stringToClean.Substring(1, stringToClean.Length - 2);
-            fs = fs.Replace(@"\\n", "TXTNL");
-            fs = fs.Replace(@"\r\n", System.Environment.NewLine);
-            fs = fs.Replace("\\\"", "\"");
-            fs = fs.Replace(@"\n", System.Environment.NewLine);
-            fs = fs.Replace(@"\t", @"    ");
-            fs = fs.Replace(@"TXTNL", System.Environment.NewLine);
-            return fs;
-        }
-
-        public async void SetScript(string script)
-        {
-            if (browser != null)
-            {
-                var jsText = HttpUtility.JavaScriptStringEncode(script);
-                var fullText = @"editor.setValue('" + jsText + @"');";
-                _ = await browser.ExecuteScriptAsync(fullText);
-            }
         }
 
         public void ClearOutputWindow()
@@ -246,7 +155,7 @@ namespace SCaddins.RunScript.ViewModels
                 if (File.Exists(currentFileName))
                 {
 
-                    SetScript(File.ReadAllText(CurrentFileName));
+                    Script = File.ReadAllText(CurrentFileName);
                     SCaddinsApp.WindowManager.LastWindow.Title = CurrentFileName;
                     NotifyOfPropertyChange(() => CanSave);
                 }
@@ -261,7 +170,7 @@ namespace SCaddins.RunScript.ViewModels
             {
                 return;
             }
-            SetScript(File.ReadAllText(p));
+            Script = File.ReadAllText(p);
         }
 
         public void LoadScriptFromFile()
@@ -274,7 +183,7 @@ namespace SCaddins.RunScript.ViewModels
             {
                 if (File.Exists(currentFileName))
                 {
-                    SetScript(File.ReadAllText(CurrentFileName));
+                    Script = File.ReadAllText(CurrentFileName);
                     SCaddinsApp.WindowManager.LastWindow.Title = currentFileName;
                     NotifyOfPropertyChange(() => CanSave);
                 }
@@ -283,17 +192,10 @@ namespace SCaddins.RunScript.ViewModels
 
         public void NewFile()
         {
-            // TODO ask to save current script
-            var script = @"-- 'commandData' - Autodesk.Revit.UI.ExternalCommandData as passed to the host addin" + System.Environment.NewLine +
+            Script = @"-- 'commandData' - Autodesk.Revit.UI.ExternalCommandData as passed to the host addin" + System.Environment.NewLine +
                 @"-- 'fec' - FilteredElementCOllector on active doc" + System.Environment.NewLine +
                 @"-- 'fecv' - FilteredElementCOllector on active view" + System.Environment.NewLine;
-            if (browser != null)
-            {
-                var jsText = HttpUtility.JavaScriptStringEncode(script);
-                var fullText = @"editor.setValue('" + jsText + @"');";
-                _ = browser.ExecuteScriptAsync(fullText);
-                CurrentFileName = string.Empty;
-            }
+            CurrentFileName = string.Empty;
         }
 
         public override async Task TryCloseAsync(bool? dialogResult = false)
@@ -303,9 +205,8 @@ namespace SCaddins.RunScript.ViewModels
             await base.TryCloseAsync(dialogResult);
         }
 
-        public async void Run()
+        public void Run()
         {
-            var script = await GetScript();
             var r = RunScriptCommand.RunScript(script, commandData, elements, false);
 
             var sb = new StringBuilder();
@@ -314,22 +215,23 @@ namespace SCaddins.RunScript.ViewModels
                 sb.Append(v.ToString());
                 sb.AppendLine();
             }
-            if (sb.Length == 0) {
-                    Output = "No output";
-                    return;
+            if (sb.Length == 0)
+            {
+                Output = "No output";
+                return;
             }
             Output = sb.ToString();
             SaveScratch();
         }
 
-        public async void SaveAs()
+        public void SaveAs()
         {
             var b = SCaddinsApp.WindowManager.ShowSaveFileDialog(defaultFileName: "script.lua", defaultExtension: "*.lua", filter: "lua-script | *.lua", savePath: out var path);
             if (b.HasValue && b.Value)
             {
-                var result = await GetScript();
+                var result = script;
                 if (!string.IsNullOrEmpty(result))
-                { 
+                {
                     File.WriteAllText(path: path, contents: result);
                     CurrentFileName = path;
                     SCaddinsApp.WindowManager.LastWindow.Title = CurrentFileName;
@@ -337,15 +239,14 @@ namespace SCaddins.RunScript.ViewModels
             }
         }
 
-        public async void Save()
+        public void Save()
         {
             if (CanSave)
             {
                 SCaddinsApp.WindowManager.LastWindow.Title = currentFileName;
-                var result = await GetScript();
-                if (!string.IsNullOrEmpty(result))
+                if (!string.IsNullOrEmpty(script))
                 {
-                    File.WriteAllText(currentFileName, result);
+                    File.WriteAllText(currentFileName, script);
                 }
             }
             else
@@ -354,7 +255,7 @@ namespace SCaddins.RunScript.ViewModels
             }
         }
 
-        public async void SaveScratch()
+        public void SaveScratch()
         {
             var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             var p = Path.Combine(s, "SCaddins");
@@ -362,8 +263,7 @@ namespace SCaddins.RunScript.ViewModels
             {
                 Directory.CreateDirectory(p);
             }
-            var result = await GetScript();
-            File.WriteAllText(Path.Combine(p, "Script.lua"), result);
+            File.WriteAllText(Path.Combine(p, "Script.lua"), script);
         }
     }
 }

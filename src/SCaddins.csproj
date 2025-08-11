@@ -15,12 +15,12 @@
 	<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
 	<Authors>Andrew Nicholas</Authors>
 	<Title>SCaddins</Title>
-	<InformationalVersionAttribute>26.1.0.0</InformationalVersionAttribute>
-	<AssemblyVersion>26.1.0.0</AssemblyVersion>
-	<VersionPrefix>26.1.0</VersionPrefix>
-	<AssemblyInformationalVersion>26.1.0</AssemblyInformationalVersion>
-	<AssemblyInformationalVersionAttribute>26.1.0</AssemblyInformationalVersionAttribute>
-	<FileVersion>26.1.0</FileVersion>
+	<InformationalVersionAttribute>26.2.0.0</InformationalVersionAttribute>
+	<AssemblyVersion>26.2.0.0</AssemblyVersion>
+	<VersionPrefix>26.2.0</VersionPrefix>
+	<AssemblyInformationalVersion>26.2.0</AssemblyInformationalVersion>
+	<AssemblyInformationalVersionAttribute>26.2.0</AssemblyInformationalVersionAttribute>
+	<FileVersion>26.2.0</FileVersion>
   </PropertyGroup>
   
 <!-- <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
