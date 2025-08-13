@@ -11,6 +11,7 @@
 #### FIXES ####
 
 - Filter by design options fixed in Room Tools.
+- Next Sheet and Previous Sheet added back to Ribbon.
 
 # 26.1.0 #
 

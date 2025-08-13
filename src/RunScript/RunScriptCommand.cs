@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2019-2020 by Andrew Nicholas
+﻿// (C) Copyright 2019-2025 by Andrew Nicholas
 //
 // This file is part of SCaddins.
 //
@@ -63,7 +63,7 @@ namespace SCaddins.RunScript
             ElementSet elements)
         {
 #if !REVIT2026
-            SCaddinsApp.WindowManager.ShowMessageBox("Simple Mode Only");
+            // SCaddinsApp.WindowManager.ShowMessageBox("Simple Mode Only");
             if (commandData == null)
             {
                 return Result.Failed;

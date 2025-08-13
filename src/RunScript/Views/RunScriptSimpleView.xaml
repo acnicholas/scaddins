@@ -6,11 +6,8 @@
              xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
              xmlns:wv="clr-namespace:Microsoft.Web.WebView2.Core;assembly=Microsoft.Web.WebView2.Core"
              xmlns:cal="http://caliburnmicro.com"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              mc:Ignorable="d" >
-
-    <UserControl.Resources>
-        <wv2:CoreWebView2CreationProperties x:Key="EditorCreationProperties" UserDataFolder="C:\Temp\" />
-    </UserControl.Resources>
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
@@ -19,6 +16,9 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="196" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
         <Menu Grid.Row="0" IsMainMenu="True">
             <MenuItem Header="_File">
@@ -75,20 +75,18 @@
 
 
         <ScrollViewer
-            VerticalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Visible"
             HorizontalScrollBarVisibility="Auto"
-            Grid.Row="1"
-            MinWidth="800"
-            MinHeight="480"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch">
-            <TextBox
+            Grid.Row="1">
+            <ui:TextBox
                 x:Name="Script"
-                FontFamily="Hack Nerd Font"
+                Grid.Row="1"
+                FontFamily="Cascadia Mono"
+                AcceptsReturn="True"
+                FontSize="14"
                 FontStyle="Normal"
-                FontWeight="Bold"
-                Margin="10">
-            </TextBox>
+                FontWeight="Bold">
+            </ui:TextBox>
           </ScrollViewer>
         <Label Grid.Row="2">Output:</Label>
         <ScrollViewer Grid.Row="3" MaxHeight="240" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
