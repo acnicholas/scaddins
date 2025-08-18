@@ -48,5 +48,16 @@
                 <TextBox x:Name="ThirdParamValue" Grid.Row="4" Grid.Column="1" Margin="5"></TextBox>
             </Grid>
         </GroupBox>
+        <GroupBox Header="Copy Options">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <CheckBox x:Name="CopyDetailItems" Margin="5">Copy Detail Items</CheckBox>
+            </Grid>
+        </GroupBox>
     </StackPanel>
 </UserControl>

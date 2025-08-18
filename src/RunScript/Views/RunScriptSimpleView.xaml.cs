@@ -1,4 +1,5 @@
-﻿using SCaddins.RunScript.ViewModels;
+﻿using Caliburn.Micro;
+using SCaddins.RunScript.ViewModels;
 using System;
 using System.Diagnostics;
 
@@ -8,7 +9,7 @@ namespace SCaddins.RunScript.Views
     {
         public RunScriptSimpleView()
         {
-            InitializeComponent();         
+            InitializeComponent();
         }
     }
 }

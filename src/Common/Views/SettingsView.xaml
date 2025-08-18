@@ -10,6 +10,7 @@
              xmlns:sa="clr-namespace:SCaddins.SolarAnalysis.Views"
              xmlns:sc="clr-namespace:SCaddins.SpellChecker.Views"
              xmlns:sh="clr-namespace:SCaddins.SheetCopier.Views"
+             xmlns:rs="clr-namespace:SCaddins.RunScript.Views"
              xmlns:cm="http://caliburnmicro.com" x:Class="SCaddins.Common.Views.SettingsView"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="800">
@@ -33,6 +34,10 @@
                     Content="Room Tools"
                     Icon="{ui:SymbolIcon BreakoutRoom20}"
                     TargetPageType="{x:Type rt:SettingsView}" />
+                <ui:NavigationViewItem
+                    Content="Run Script"
+                    Icon="{ui:SymbolIcon Script20}"
+                    TargetPageType="{x:Type rs:RunScriptSettingsView}" />
                 <ui:NavigationViewItem
                     Content="Sheet Copier"
                     Icon="{ui:SymbolIcon CopyAdd20}"

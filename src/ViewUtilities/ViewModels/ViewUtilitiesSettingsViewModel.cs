@@ -23,6 +23,8 @@
 
         public string ThirdParamValue { get; set; }
 
+        public bool CopyDetailItems { get; set; }
+
         public void Apply()
         {
             ViewUtilitiesSettings.Default.UserViewNameFormat = UserViewNameFormat;
@@ -32,6 +34,7 @@
             ViewUtilitiesSettings.Default.FirstParamValue = FirstParamValue;
             ViewUtilitiesSettings.Default.SecondParamValue = SecondParamValue;
             ViewUtilitiesSettings.Default.ThirdParamValue = ThirdParamValue;
+            ViewUtilitiesSettings.Default.CopyDetailItems = CopyDetailItems;
             ViewUtilitiesSettings.Default.Save();
         }
 
@@ -44,6 +47,7 @@
             FirstParamValue = ViewUtilitiesSettings.Default.FirstParamValue;
             SecondParamValue = ViewUtilitiesSettings.Default.SecondParamValue;
             ThirdParamValue = ViewUtilitiesSettings.Default.ThirdParamValue;
+            CopyDetailItems = ViewUtilitiesSettings.Default.CopyDetailItems;
             NotifyOfPropertyChange(() => UserViewNameFormat);
             NotifyOfPropertyChange(() => FirstParamName);
             NotifyOfPropertyChange(() => FirstParamValue);
@@ -51,6 +55,7 @@
             NotifyOfPropertyChange(() => SecondParamValue);
             NotifyOfPropertyChange(() => ThirdParamName);
             NotifyOfPropertyChange(() => ThirdParamValue);
+            NotifyOfPropertyChange(() => CopyDetailItems);
         }
 
         public void ResetToDefault()

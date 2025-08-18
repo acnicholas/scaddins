@@ -138,6 +138,30 @@ namespace SCaddins.RunScript.ViewModels
             Output = " ";
         }
 
+        public void OpenInExternalEditor()
+        {
+            SaveScratch();
+            // SCaddinsApp.WindowManager.ShowMessageBox(GetScratchPath());
+            if (File.Exists(GetScratchPath()))
+            {
+                Process process = new Process();
+                //process.StartInfo.FileName = "notepad++.exe";
+                process.StartInfo.FileName = RunScriptSettings.Default.ExternalEditor;
+                process.StartInfo.Arguments = GetScratchPath();
+                process.StartInfo.UseShellExecute = true;
+                process.Start();
+                process.WaitForExit(); // This makes it "modal" — waits until the app closes
+            }
+            LoadScratch();
+        }
+
+        public string GetScratchPath()
+        {
+            var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var p = Path.Combine(s, "SCaddins", "Script.lua");
+            return p;
+        }
+
         public void ShowOutputWindow()
         {
             outputWindowViewModel.Output = this.Output;
@@ -164,13 +188,11 @@ namespace SCaddins.RunScript.ViewModels
 
         public void LoadScratch()
         {
-            var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            var p = Path.Combine(s, "SCaddins", "Script.lua");
-            if (!File.Exists(p))
+            if (!File.Exists(GetScratchPath()))
             {
                 return;
             }
-            Script = File.ReadAllText(p);
+            Script = File.ReadAllText(GetScratchPath());
         }
 
         public void LoadScriptFromFile()
@@ -192,9 +214,16 @@ namespace SCaddins.RunScript.ViewModels
 
         public void NewFile()
         {
-            Script = @"-- 'commandData' - Autodesk.Revit.UI.ExternalCommandData as passed to the host addin" + System.Environment.NewLine +
-                @"-- 'fec' - FilteredElementCOllector on active doc" + System.Environment.NewLine +
-                @"-- 'fecv' - FilteredElementCOllector on active view" + System.Environment.NewLine;
+            Script = @"-- Lua script for RunScript." + System.Environment.NewLine +
+                @"-- Runscript is part of SCaddins (https://github.com/acnicholas/scaddins)"  + System.Environment.NewLine +
+                System.Environment.NewLine +
+                @"-- The following variables are available:" + System.Environment.NewLine +
+                @"    -- 'commandData' - Autodesk.Revit.UI.ExternalCommandData as passed to the host addin" + System.Environment.NewLine +
+                @"    -- 'fec' - FilteredElementCOllector on active doc" + System.Environment.NewLine +
+                @"    -- 'fecv' - FilteredElementCOllector on active view" + System.Environment.NewLine + System.Environment.NewLine +
+                "import(\'RevitAPIUI\', \'Autodesk.Revit.UI\')" + System.Environment.NewLine +
+                "td = TaskDialog.Show(\"Hello\", \"Hello World\")" + System.Environment.NewLine +
+                "return \'Hello World\'" + System.Environment.NewLine;
             CurrentFileName = string.Empty;
         }
 
@@ -257,13 +286,11 @@ namespace SCaddins.RunScript.ViewModels
 
         public void SaveScratch()
         {
-            var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            var p = Path.Combine(s, "SCaddins");
-            if (!Directory.Exists(p))
+            if (!Directory.Exists(Path.GetDirectoryName(GetScratchPath())))
             {
-                Directory.CreateDirectory(p);
+                Directory.CreateDirectory(Path.GetDirectoryName(GetScratchPath()));
             }
-            File.WriteAllText(Path.Combine(p, "Script.lua"), script);
+            File.WriteAllText(GetScratchPath(), script);
         }
     }
 }

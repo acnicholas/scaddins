@@ -199,6 +199,11 @@
      <AutoGen>True</AutoGen>
      <DependentUpon>Settings.settings</DependentUpon>
    </Compile>
+   <Compile Update="RunScript\RunScriptSettings.Designer.cs">
+     <DesignTimeSharedInput>True</DesignTimeSharedInput>
+     <AutoGen>True</AutoGen>
+     <DependentUpon>RunScriptSettings.settings</DependentUpon>
+   </Compile>
    <Compile Update="Scaddins.Designer.cs">
      <DesignTimeSharedInput>True</DesignTimeSharedInput>
      <AutoGen>True</AutoGen>
@@ -218,6 +223,11 @@
      <DesignTimeSharedInput>True</DesignTimeSharedInput>
      <AutoGen>True</AutoGen>
      <DependentUpon>SpellCheckerSettings.settings</DependentUpon>
+   </Compile>
+   <Compile Update="ViewUtilities\ViewUtilitiesSettings.Designer.cs">
+     <DesignTimeSharedInput>True</DesignTimeSharedInput>
+     <AutoGen>True</AutoGen>
+     <DependentUpon>ViewUtilitiesSettings.settings</DependentUpon>
    </Compile>
  </ItemGroup>
   
@@ -244,6 +254,10 @@
     <None Update="RevisionUtilities\Views\RevisionUtilitiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <None Update="RunScript\RunScriptSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>RunScriptSettings.Designer.cs</LastGenOutput>
+    </None>
     <None Update="Scaddins.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Scaddins.Designer.cs</LastGenOutput>
@@ -259,6 +273,10 @@
     <None Update="SpellChecker\SpellCheckerSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>SpellCheckerSettings.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="ViewUtilities\ViewUtilitiesSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>ViewUtilitiesSettings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   

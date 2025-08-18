@@ -67,9 +67,6 @@ Name: revit2026; Description: "Revit 2026 add-in"; Types: full custom
     Source: "..\etc\*"; DestDir: "{app}\etc\"; Flags: ignoreversion recursesubdirs; Components: main
     Source: "..\share\*"; DestDir: "{app}\share\"; Flags: ignoreversion recursesubdirs; Components: main
 	
-; Always install monaco files;
-	Source: "..\src\Monaco\*"; DestDir: "{app}\monaco\"; Flags: ignoreversion recursesubdirs; Components: main
-
 ; Always install PixCountGUI files;
 	Source: "..\tools\PixCountGUI\*"; DestDir: "{app}\bin\PixCountGUI\"; Flags: ignoreversion recursesubdirs; Components: main
 

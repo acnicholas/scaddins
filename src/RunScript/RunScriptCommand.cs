@@ -62,8 +62,6 @@ namespace SCaddins.RunScript
             ref string message,
             ElementSet elements)
         {
-#if !REVIT2026
-            // SCaddinsApp.WindowManager.ShowMessageBox("Simple Mode Only");
             if (commandData == null)
             {
                 return Result.Failed;
@@ -72,16 +70,6 @@ namespace SCaddins.RunScript
             var vm = new ViewModels.RunScriptSimpleViewModel(commandData, elements);
             SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewModels.RunScriptSimpleViewModel.DefaultViewSettings);
             return Result.Succeeded;
-#else
-            if (commandData == null)
-            {
-                return Result.Failed;
-            }
-
-            var vm2 = new ViewModels.RunScriptViewModel(commandData, elements);
-            SCaddinsApp.WindowManager.ShowDialogAsync(vm2, null, ViewModels.RunScriptViewModel.DefaultViewSettings);
-            return Result.Succeeded;
-#endif
         }
     }
 }

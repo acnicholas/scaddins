@@ -62,6 +62,9 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
+            <MenuItem Header="Tools">
+                <MenuItem x:Name="OpenInExternalEditor" Header="_Open In External Editor" IsEnabled="True"/>
+            </MenuItem>
             <MenuItem Header="_Windows">
                 <MenuItem x:Name="ClearOutputWindow" Header="_Clear Output Window" IsEnabled="True"/>
             </MenuItem>

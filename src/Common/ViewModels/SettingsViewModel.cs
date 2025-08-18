@@ -2,6 +2,7 @@
 {
     using System;
     using Caliburn.Micro;
+    using SCaddins.RunScript.ViewModels;
     using SCaddins.SolarAnalysis.ViewModels;
     using SCaddins.SolarAnalysis.Views;
 
@@ -13,6 +14,7 @@
         private static ISettingPanel solarAnalysisOptonsViewModel;
         private static ISettingPanel spellCheckerOptionsViewModel;
         private static ISettingPanel sheetCopierViewModel;
+        private static ISettingPanel runScriptSettingsViewModel;
 
         public SettingsViewModel(
             ISettingPanel incrementViewModel,
@@ -20,7 +22,8 @@
             ISettingPanel viewUtilitiesViewModel,
             ISettingPanel solarAnalysisOptonsViewModel,
             ISettingPanel sheetCopierViewModel,
-            ISettingPanel spellCheckerOptionsViewModel)
+            ISettingPanel spellCheckerOptionsViewModel,
+            ISettingPanel runScriptSettingsViewModel)
         {
             IncrementViewModel = incrementViewModel;
             RoomConverterViewModel = roomConverterViewModel;
@@ -28,6 +31,7 @@
             SolarAnalysisOptonsViewModel = solarAnalysisOptonsViewModel;
             SheetCopierViewModel = sheetCopierViewModel;
             SpellCheckerOptionsViewModel = spellCheckerOptionsViewModel;
+            RunScriptSettingsViewModel = runScriptSettingsViewModel;
         }
 
         public static dynamic DefaultWindowSettings
@@ -73,6 +77,20 @@
             {
                 incrementViewModel = value;
                 //NotifyOfPropertyChange(() => IncrementViewModel);
+            }
+        }
+
+        public static ISettingPanel RunScriptSettingsViewModel
+        {
+            get
+            {
+                return runScriptSettingsViewModel;
+            }
+
+            set
+            {
+                runScriptSettingsViewModel = value;
+                //NotifyOfPropertyChange(() => SheetCopierViewModel);
             }
         }
 
@@ -140,6 +158,7 @@
             SolarAnalysisOptonsViewModel.Apply();
             SpellCheckerOptionsViewModel.Apply();
             SheetCopierViewModel.Apply();
+            RunScriptSettingsViewModel.Apply();
         }
 
         public void Cancel()
@@ -160,6 +179,7 @@
             SolarAnalysisOptonsViewModel.Reset();
             SpellCheckerOptionsViewModel.Reset();
             SheetCopierViewModel.Reset();
+            RunScriptSettingsViewModel.Reset();
         }
     }
 }

@@ -1,5 +1,12 @@
 # SCaddins Revision Log #
 
+# 26.3.0 #
+
+#### NEW ####
+
+- Add options to copy detail itmes in User View.
+- Add options to use an external editor in RunScript (monaco has been removed)
+
 # 26.2.0 #
 
 #### NEW ####

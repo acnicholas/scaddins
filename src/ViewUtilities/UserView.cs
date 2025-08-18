@@ -164,7 +164,13 @@ namespace SCaddins.ViewUtilities
 
         private static View CreateView(View srcView, Document doc)
         {
-            ElementId destViewId = srcView.Duplicate(ViewDuplicateOption.Duplicate);
+            var opts = ViewDuplicateOption.Duplicate;
+            if (ViewUtilitiesSettings.Default.CopyDetailItems == true)
+            {
+                // SCaddinsApp.WindowManager.ShowMessageBox("DET");
+                opts = ViewDuplicateOption.WithDetailing;
+            }
+            ElementId destViewId = srcView.Duplicate(opts);
             var newView = doc.GetElement(destViewId) as View;
             newView.Name = GetNewViewName(doc, srcView);
             newView.ViewTemplateId = ElementId.InvalidElementId;

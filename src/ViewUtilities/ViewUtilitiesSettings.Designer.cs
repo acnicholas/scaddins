@@ -12,7 +12,7 @@ namespace SCaddins.ViewUtilities {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.12.0.0")]
     internal sealed partial class ViewUtilitiesSettings : global::System.Configuration.ApplicationSettingsBase {
         
         private static ViewUtilitiesSettings defaultInstance = ((ViewUtilitiesSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new ViewUtilitiesSettings())));
@@ -104,6 +104,18 @@ namespace SCaddins.ViewUtilities {
             }
             set {
                 this["ThirdParamValue"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CopyDetailItems {
+            get {
+                return ((bool)(this["CopyDetailItems"]));
+            }
+            set {
+                this["CopyDetailItems"] = value;
             }
         }
     }
