@@ -133,7 +133,7 @@ namespace SCaddins.HatchEditor.ViewModels
         public void LoadPatternFromTemplate()
         {
             var result = SCaddinsApp.WindowManager.ShowFileSelectionDialog(
-                SCaddins.Constants.InstallDirectory + SCaddins.Constants.ShareDirectory + Path.DirectorySeparatorChar + "HatchEditor" + Path.DirectorySeparatorChar + "StretcherBond.txt",
+                SCaddins.Constants.InstallDirectory + Path.DirectorySeparatorChar + SCaddins.Constants.ShareDirectory + Path.DirectorySeparatorChar + "HatchEditor" + Path.DirectorySeparatorChar + "StretcherBond.txt",
                 out var filePath);
             if (!result.HasValue || !result.Value)
             {

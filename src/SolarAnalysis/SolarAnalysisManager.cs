@@ -242,7 +242,8 @@ namespace SCaddins.SolarAnalysis
                     Trace.WriteLine(s);
                     var ns = String.Join(" ", s);
                     Trace.WriteLine(ns);
-                    var result = System.Diagnostics.Process.Start(SolarAnalysisSettings.Default.PixCountGUIBinaryLocation, ns);
+                    var bin = Environment.ExpandEnvironmentVariables(SolarAnalysisSettings.Default.PixCountGUIBinaryLocation);
+                    var result = System.Diagnostics.Process.Start(bin, ns);
                     if (result == null) Trace.WriteLine("Error starting PixCountGUI.exe");
                 }
             }

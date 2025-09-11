@@ -61,7 +61,7 @@ namespace SCaddins.SolarAnalysis {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files\\Studio.SC\\SCaddins\\bin\\PixCountGUI\\PixCountGUI.exe")]
+        [global::System.Configuration.DefaultSettingValueAttribute("%localappdata%\\Studio.SC\\SCaddins\\bin\\PixCountGUI\\PixCountGUI.exe")]
         public string PixCountGUIBinaryLocation {
             get {
                 return ((string)(this["PixCountGUIBinaryLocation"]));

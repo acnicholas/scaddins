@@ -69,10 +69,14 @@
                 <MenuItem x:Name="ClearOutputWindow" Header="_Clear Output Window" IsEnabled="True"/>
             </MenuItem>
             <MenuItem Header="_Help">
-                <MenuItem x:Name="Help"
-                    Header="_Help"
+                <MenuItem x:Name="LuaHelp"
+                    Header="_Lua Help"
                     IsEnabled="True"
                     cal:Message.Attach="[Action NavigateTo('https://www.lua.org/manual/5.4')]"/>
+                <MenuItem x:Name="RevitAPIHelp"
+                    Header="_Revit Api Help"
+                    IsEnabled="True"
+                    cal:Message.Attach="[Action NavigateTo('https://www.revitapidocs.com/2026/')]"/>
             </MenuItem>
         </Menu>
 

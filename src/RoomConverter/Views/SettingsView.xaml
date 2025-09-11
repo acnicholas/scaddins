@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
         <Label Margin="5" >Room Id Parameter</Label>
         <ui:TextBox Grid.Column="1" Margin="5"></ui:TextBox>
-        <ui:Button Grid.Row="1" Grid.ColumnSpan="2" Margin="5">Create RoomId Parameter</ui:Button>
+        <ui:Button x:Name="CreateRoomIdParameter"  Grid.Row="1" Grid.ColumnSpan="2" Margin="5">Create RoomId Parameter</ui:Button>
         <ui:Button Grid.Row="2" Grid.ColumnSpan="2" Margin="5">Create Mass Parameters</ui:Button>
     </Grid>
 </UserControl>

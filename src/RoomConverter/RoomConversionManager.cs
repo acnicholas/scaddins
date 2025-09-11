@@ -184,6 +184,28 @@ namespace SCaddins.RoomConverter
             return result;
         }
 
+        public static void CreateRoomIdParameter(Document doc)
+        {
+            if (RoomIdParameterExists(doc)) return; // no need to do anything, we're all good
+            var sharedParametersFilename = doc.Application.SharedParametersFilename;
+            if (string.IsNullOrEmpty(sharedParametersFilename)) return;
+            //TODO show dialog to indicate that a shared param file needs to be loaded
+            DefinitionFile sharedParamFile = doc.Application.OpenSharedParameterFile();
+            if (sharedParamFile == null) return;
+            //TODO,  show list to seelct group to add RoomId to
+
+            foreach (DefinitionGroup group in sharedParamFile.Groups)
+            {
+                Autodesk.Revit.UI.TaskDialog.Show("Group", $"Group: {group.Name}");
+                foreach (Definition def in group.Definitions)
+                {
+                    //Autodesk.Revit.UI.TaskDialog.Show("Parameter", $"Parameter: {def.Name}");
+                }
+            }
+
+
+        }
+
         public void CreateRoomMasses(List<RoomConversionCandidate> rooms)
         {
             var errCount = 0;
@@ -268,6 +290,21 @@ namespace SCaddins.RoomConverter
             var id = ElementId.InvalidElementId;
             var titleFound = titleBlocks.TryGetValue(titleBlockName, out id);
             return titleFound ? id : ElementId.InvalidElementId;
+        }
+
+        public static bool RoomIdParameterExists(Document doc)
+        {
+            using (var collector = new FilteredElementCollector(doc))
+            {
+                collector.OfCategory(BuiltInCategory.OST_Mass);
+                var e = collector.FirstElement();
+                var p = e.LookupParameter("RoomId");
+                if (p != null && p.IsShared && p.StorageType == StorageType.Integer)
+                {
+                    return true;
+                }
+                return false;
+            }
         }
 
         public void SynchronizeMassesToRooms()

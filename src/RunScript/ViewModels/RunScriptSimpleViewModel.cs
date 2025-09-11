@@ -171,7 +171,7 @@ namespace SCaddins.RunScript.ViewModels
         public void LoadSample()
         {
             var f = SCaddinsApp.WindowManager.ShowFileSelectionDialog(
-                        @"C:\Program Files\Studio.SC\SCaddins\share\RunScript\HelloWorld.lua",
+                        Environment.ExpandEnvironmentVariables(@"%localappdata%\Studio.SC\SCaddins\share\RunScript\HelloWorld.lua"),
                         out currentFileName,
                         @"Lua Script (*.lua)|*.lua| All files (*.*)|*.*");
             if (f.HasValue && f.Value)

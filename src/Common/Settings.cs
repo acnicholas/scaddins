@@ -13,7 +13,7 @@
             Autodesk.Revit.DB.ElementSet elements)
         {
             var incrementViewModel = new ParameterUtilities.ViewModels.SCincrementViewModel();
-            var roomConverterViewModel = new RoomConverter.ViewModels.SettingsViewModel();
+            var roomConverterViewModel = new RoomConverter.ViewModels.SettingsViewModel(commandData.View.Document);
             var viewUtilitiesViewModel = new ViewUtilities.ViewModels.ViewUtilitiesSettingsViewModel();
             var solarAnalysisOptionsViewModel = new SolarAnalysis.ViewModels.SolarAnalysisOptonsViewModel();
             var spellCheckerOptionsViewModel = new SpellChecker.ViewModels.SpellCheckerOptionsViewModel();
