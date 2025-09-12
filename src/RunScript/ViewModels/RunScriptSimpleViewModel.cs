@@ -149,8 +149,18 @@ namespace SCaddins.RunScript.ViewModels
                 process.StartInfo.FileName = RunScriptSettings.Default.ExternalEditor;
                 process.StartInfo.Arguments = GetScratchPath();
                 process.StartInfo.UseShellExecute = true;
-                process.Start();
-                process.WaitForExit(); // This makes it "modal" — waits until the app closes
+                try
+                {
+                    process.Start();
+                    process.WaitForExit(); // This makes it "modal" — waits until the app closes
+                }
+                catch
+                {
+                    SCaddinsApp.WindowManager.ShowErrorMessageBox
+                        ("ERROR",
+                        "Error starting: " + RunScriptSettings.Default.ExternalEditor + System.Environment.NewLine +
+                        "Try Checking the settings in the SCaddins drop-down menu");
+                }
             }
             LoadScratch();
         }
