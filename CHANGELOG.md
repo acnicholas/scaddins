@@ -1,10 +1,17 @@
 # SCaddins Revision Log #
 
+# 26.3.1 #
+
+#### FIXES ####
+
+- Fix Install without admin path for some users that don't have admin access.
+- Don't enable export in SCexport if path doesn't exist.
+
 # 26.3.0 #
 
 #### NEW ####
 
-- Add options to copy detail itmes in User View.
+- Add options to copy detail items in User View.
 - Add options to use an external editor in RunScript (monaco has been removed)
 - Install without admin. (Installs to %localappdata% and $appdata%)
 

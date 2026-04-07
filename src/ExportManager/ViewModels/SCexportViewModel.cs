@@ -224,6 +224,7 @@ namespace SCaddins.ExportManager.ViewModels
             get
             {
                 return (SelectedSheets.Count > 0) &&
+                System.IO.Directory.Exists(exportManager.ExportDirectory) &&
                 (exportManager.HasExportOption(ExportOptions.DWG) ||
                  exportManager.HasExportOption(ExportOptions.PDF) ||
                  exportManager.HasExportOption(ExportOptions.PDF24) ||
@@ -264,6 +265,19 @@ namespace SCaddins.ExportManager.ViewModels
         }
 
         public List<Autodesk.Revit.DB.ViewSheet> PreSelectedViews { get; private set; }
+
+        public string InvalidExportDirectoryStatusText
+        {
+            get
+            {
+                if (!System.IO.Directory.Exists(exportManager.ExportDirectory))
+                {
+                    return @" [Invalid Export Dir]";
+                }
+
+                return string.Empty;
+            }
+        }
 
         public string InvlaidFileNamingStatusText
         {
