@@ -22,6 +22,7 @@ public MSBuildSettings GetBuildSettings(string config)
 		.SetConfiguration("Release" + config)
 		.WithTarget("Clean,Build")
 		.WithProperty("Platform","Any CPU")
+		.UseToolVersion(MSBuildToolVersion.VS2026)
 		.SetVerbosity(Verbosity.Minimal);
 	result.WarningsAsError = false;
 	result.Restore = true;
@@ -88,6 +89,8 @@ Task("CreateAddinManifests")
 		    System.IO.File.WriteAllText(@"src\bin\Release2025\SCaddins2025.addin", text.Replace("_REVIT_VERSION_", "2025"));
 	    if (DirectoryExists(@"src\bin\Release2026"))
 		    System.IO.File.WriteAllText(@"src\bin\Release2026\SCaddins2026.addin", text2.Replace("_REVIT_VERSION_", "2026"));
+		if (DirectoryExists(@"src\bin\Release2027"))
+		    System.IO.File.WriteAllText(@"src\bin\Release2027\SCaddins2027.addin", text2.Replace("_REVIT_VERSION_", "2027"));
 		});
 
 Task("Revit2020")
@@ -118,6 +121,10 @@ Task("Revit2026")
 .IsDependentOn("CleanOBJ")
 .Does(() => MSBuild(solutionFile, GetBuildSettings("2026")));
 
+Task("Revit2027")
+.IsDependentOn("CleanOBJ")
+.Does(() => MSBuild(solutionFile, GetBuildSettings("2027")));
+
 Task("Tests")
 .IsDependentOn("Restore-Test-NuGet-Packages")
 .Does(() => MSBuild(testSolutionFile, GetTestBuildSettings()));
@@ -134,6 +141,7 @@ Task("Installer")
 		dict.Add("R2024", "Enabled");
 		dict.Add("R2025", "Enabled");
 		dict.Add("R2026", "Enabled");
+		dict.Add("R2027", "Enabled");
 		dict.Add("MyAppVersion", version); 
 		var settings = new InnoSetupSettings();
 		settings.Defines = dict;
@@ -156,6 +164,7 @@ Task("Default")
 .IsDependentOn("Revit2024")
 .IsDependentOn("Revit2025")
 .IsDependentOn("Revit2026")
+.IsDependentOn("Revit2027")
 .IsDependentOn("CreateAddinManifests");
 
 RunTarget(target);

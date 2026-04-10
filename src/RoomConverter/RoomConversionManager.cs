@@ -500,7 +500,7 @@ namespace SCaddins.RoomConverter
             Parameter paramRoomId = dest.LookupParameter("RoomId");
             if (paramRoomId != null && paramRoomId.StorageType == StorageType.Integer)
             {
-#if REVIT2024 || REVIT2025 || REVIT2026
+#if REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
                 paramRoomId.Set(host.Id.Value);
 #else
                 paramRoomId.Set(host.Id.IntegerValue);

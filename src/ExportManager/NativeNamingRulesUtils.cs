@@ -231,7 +231,7 @@ namespace SCaddins.ExportManager
 #endif
         private static int GetIntVal(ElementId id)
         {
-#if REVIT2024 || REVIT2025 || REVIT2026
+#if REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
             return (int)id.Value;
 #else
             return id.IntegerValue;

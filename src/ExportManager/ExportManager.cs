@@ -463,7 +463,7 @@ namespace SCaddins.ExportManager
                 foreach (var parameter in parameters)
                 {
                     var p = parameter as Parameter;
-#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026 
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
                     if (!yesNoParameters.Select(s => s.Name).Contains(p.Definition.Name)
                         && !(p.Element is ElementType)
                         && !p.IsReadOnly
@@ -495,7 +495,7 @@ namespace SCaddins.ExportManager
                 foreach (var parameter in parameters)
                 {
                     var p = parameter as Parameter;
-#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
                     if (!yesNoParameters.Select(s => s.Name).Contains(p.Definition.Name)
                         && !(p.Element is ElementType)
                         && !p.IsReadOnly
@@ -604,7 +604,7 @@ namespace SCaddins.ExportManager
 
         public void SaveViewSet(string name, List<ExportSheet> selectedSheets)
         {
-#if REVIT2026
+#if REVIT2026 || REVIT2027
             var longList = selectedSheets.Select(s => s.Id.Value).ToList();
             var intList = new List<int>();
             foreach (var l in longList)
@@ -1069,7 +1069,7 @@ namespace SCaddins.ExportManager
                 foreach (var element in collector)
                 {
                     var v = (ViewSheetSet)element;
-#if REVIT2024 || REVIT2025 || REVIT2026
+#if REVIT2024 || REVIT2025 || REVIT2026|| REVIT2027
                     var viewIds = v.Views.Cast<View>()
                         .Where(vs => vs.ViewType == ViewType.DrawingSheet)
                         .Select(vs => (int)vs.Id.Value).ToList();

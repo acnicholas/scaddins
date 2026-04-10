@@ -773,7 +773,7 @@ namespace SCaddins.ExportManager.ViewModels
                 IsNotifying = false;
                 try
                 {
-#if REVIT2026
+#if REVIT2026 || REVIT2027
                     var filter = new Predicate<object>(item => viewSetSelectionViewModel
                                             .SelectedSet
                                             .ViewIds.Contains((int)(((ExportSheet)item).Sheet.Id.Value)));
@@ -921,7 +921,7 @@ namespace SCaddins.ExportManager.ViewModels
             IsNotifying = false;
             try
             {
-#if REVIT2026
+#if REVIT2026 || REVIT2027
                 var filter = new Predicate<object>(item => viewSet.ViewIds.Contains((int)(((ExportSheet)item).Sheet.Id.Value)));
 #else
 #pragma warning disable CS0618 // Type or member is obsolete

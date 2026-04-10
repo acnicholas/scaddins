@@ -7,7 +7,7 @@
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     <PlatformTarget>x64</PlatformTarget>
-    <Configurations>Debug;Release;Release2026</Configurations>
+    <Configurations>Debug;Release;Release2026;Release2027</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
