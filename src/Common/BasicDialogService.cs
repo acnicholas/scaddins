@@ -38,6 +38,18 @@ namespace SCaddins.Common
 
         public bool? ShowConfirmationDialog(string message, bool? defaultCheckboxValue, out bool checkboxResult)
         {
+#if NULLCARBON
+            // nullCarbon fork: ExportManager is excluded from this build, so we
+            // can't use its ConfirmationDialogViewModel. Fall back to a plain
+            // Yes/No/Cancel MessageBox.
+            checkboxResult = defaultCheckboxValue ?? false;
+            var result = System.Windows.MessageBox.Show(
+                message, "Confirm",
+                System.Windows.MessageBoxButton.YesNoCancel,
+                System.Windows.MessageBoxImage.Question);
+            if (result == System.Windows.MessageBoxResult.Cancel) return null;
+            return result == System.Windows.MessageBoxResult.Yes;
+#else
             var confirmOverwriteDialog = new ExportManager.ViewModels.ConfirmationDialogViewModel
             {
                 Message = message,
@@ -46,6 +58,7 @@ namespace SCaddins.Common
             var task = SCaddinsApp.WindowManager.ShowDialogAsync(confirmOverwriteDialog, null, ExportManager.ViewModels.ConfirmationDialogViewModel.DefaultWindowSettings);
             checkboxResult = confirmOverwriteDialog.ValueAsBool;
             return task.Result ?? false;
+#endif
         }
 
         public bool? ShowDirectorySelectionDialog(string defaultDir, out string dirPath)

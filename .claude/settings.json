@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/bhupa/Documents/nullcarbon-legacy/src/ExportSchedules/**)",
+      "Read(//c/Users/bhupa/Documents/nullcarbon-legacy/src/ExportSchedules/Services/**)",
+      "Read(//c/Users/bhupa/Documents/nullcarbon-legacy/src/ExportSchedules/Models/**)",
+      "Read(//c/Users/bhupa/Documents/nullcarbon-legacy/src/ExportSchedules/Views/**)",
+      "Read(//c/Users/bhupa/Documents/nullcarbon-legacy/src/ExportSchedules/ViewModels/**)",
+      "Read(//c/Users/bhupa/Documents/nullcarbon-legacy/src/**)",
+      "Bash(ls *.sln)",
+      "Bash(ls src/*.sln)",
+      "Bash(cp src/Assets/Ribbon/scexport-rvt-16.png      src/Assets/Ribbon/nullcarbon-rvt-16.png)",
+      "Bash(cp src/Assets/Ribbon/scexport-rvt-16-dark.png src/Assets/Ribbon/nullcarbon-rvt-16-dark.png)",
+      "Bash(cp src/Assets/Ribbon/scexport-rvt.png         src/Assets/Ribbon/nullcarbon-rvt.png)",
+      "Bash(cp src/Assets/Ribbon/scexport-rvt-dark.png    src/Assets/Ribbon/nullcarbon-rvt-dark.png)",
+      "Bash(ls src/Assets/Ribbon/nullcarbon-*)",
+      "Bash(npx --yes @resvg/resvg-js-cli --help)",
+      "Bash(find scripts:*)",
+      "Bash(mkdir -p do)",
+      "Bash(rm -f build.cmd installer.cmd release.cmd sync.cmd)",
+      "Bash(ls *.cmd *.bat)",
+      "Bash(grep -n \"scripts\\\\\\\\\\\\\\\\\\\\|sync\\\\.ps1\\\\|release\\\\.ps1\\\\|build\\\\.ps1\\\\|build-installer\\\\.ps1\" docs/SYNCING.md docs/RELEASING.md)",
+      "Read(//c/Program Files \\(x86\\)/Reference Assemblies/Microsoft/Framework/.NETFramework/**)",
+      "Read(//c/Program Files/Reference Assemblies/Microsoft/Framework/**)",
+      "Read(//c/Program Files \\(x86\\)/Microsoft SDKs/**)",
+      "Bash(python -c ':*)",
+      "Bash(grep -v \"Common\\\\\\\\.ViewModels\\\\\\\\.SettingsViewModel\\\\|Common\\\\\\\\.Settings\\\\\\\\.cs\")"
+    ]
+  }
+}

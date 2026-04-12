@@ -91,6 +91,10 @@ namespace SCaddins
         ////[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
         public static void CheckForUpdates(bool newOnly)
         {
+#if NULLCARBON
+            SCaddins.NullCarbon.Update.NullCarbonUpdater.CheckForUpdates(newOnly);
+            return;
+#else
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             var uri = new Uri("https://api.github.com/repos/acnicholas/scaddins/releases/latest");
             var latestVersion = new LatestVersion();
@@ -159,6 +163,7 @@ namespace SCaddins
             settings.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
             var upgradeViewModel = new Common.ViewModels.UpgradeViewModel(installedVersion, latestAvailableVersion, info, downloadLink);
             WindowManager.ShowDialogAsync(upgradeViewModel, null, settings);
+#endif
         }
 
         public static PushButtonData LoadInfo(string dll)
@@ -275,6 +280,9 @@ namespace SCaddins
 
         public Result OnStartup(UIControlledApplication application)
         {
+#if NULLCARBON
+            return SCaddins.NullCarbon.NullCarbonModule.Initialize(application);
+#else
 #if REVIT2024 || REVIT2025 || REVIT2026
             application.ThemeChanged += Application_ThemeChanged;
 #endif
@@ -387,6 +395,7 @@ namespace SCaddins
 #endif
 
             return Result.Succeeded;
+#endif
         }
 
 #if REVIT2024 || REVIT2025 || REVIT2026

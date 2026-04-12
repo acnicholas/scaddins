@@ -1,0 +1,614 @@
+﻿<UserControl x:Class="SCaddins.ExportSchedules.Views.ExportSchedulesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SCaddins.ExportSchedules.Views"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1000"
+             Background="#F5F5F5">
+
+    <UserControl.Resources>
+        <!-- Converters -->
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
+        <!-- Button Style -->
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Background" Value="#1a355f"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#1a355f"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="#CCCCCC"/>
+                                <Setter Property="Foreground" Value="#888888"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Icon Button Style -->
+        <Style x:Key="IconButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="3">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#E6E6E6"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- DataGrid Styles -->
+        <Style x:Key="ModernDataGridRowStyle" TargetType="DataGridRow">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#E3F2FD"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F5F5F5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ModernDataGridCellStyle" TargetType="DataGridCell">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ModernDataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#F0F0F0"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="#DDDDDD"/>
+            <Setter Property="Padding" Value="8,10"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <!-- SearchBox Style -->
+        <Style x:Key="SearchBoxStyle" TargetType="TextBox">
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Selector Style -->
+        <Style x:Key="SelectorStyle" TargetType="ComboBox">
+            <Setter Property="Padding" Value="10,7"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Section -->
+        <Border Grid.Row="0" 
+        Background="#1a355f" 
+        CornerRadius="4"
+        Padding="20,16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- nullCarbon logo + version (auto-bound to assembly version via VersionLabel) -->
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Grid.ColumnSpan="1"
+                            Margin="5,0,0,0">
+                    <Image Source="/SCaddins;component/Assets/nullcarbon-white.png"
+                           Height="30"
+                           VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding VersionLabel}"
+                               Foreground="#B0BEC5"
+                               FontSize="11"
+                               VerticalAlignment="Bottom"
+                               Margin="10,0,0,4"/>
+                </StackPanel>
+
+                <!-- Login/Sign Out Button -->
+                <Button Grid.Column="1" 
+                Content="{Binding LoginButtonText}"
+                Margin="5"
+                Padding="15,6"
+                cal:Message.Attach="LoginCommand"
+                Foreground="White"
+                Background="#ff8500"
+                BorderThickness="0"
+                FontSize="13">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="3">
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center"
+                                          Margin="{TemplateBinding Padding}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#0066A8"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- Team, Building, Report and Decimal Format selection panel -->
+        <Border Grid.Row="1" 
+                Margin="0,12,0,12" 
+                Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}}"
+                Background="White"
+                CornerRadius="4"
+                BorderBrush="#DDDDDD"
+                BorderThickness="1"
+                Padding="15,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- First row: Team, Building, Report selections -->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Team Selector -->
+                    <StackPanel Grid.Column="0" Margin="0,0,12,0" HorizontalAlignment="Stretch">
+                        <TextBlock Text="Hold"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,5"/>
+                        <ComboBox ItemsSource="{Binding Teams}"
+                                  SelectedItem="{Binding SelectedTeam}"
+                                  DisplayMemberPath="Name"
+                                  IsEnabled="{Binding IsLoggedIn}"
+                                  Style="{StaticResource SelectorStyle}"
+                                  MinWidth="220"
+                                  HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+
+                    <!-- Building Selector -->
+                    <StackPanel Grid.Column="1" Margin="12,0,12,0" HorizontalAlignment="Stretch">
+                        <TextBlock Text="Bygning"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,5"/>
+                        <ComboBox ItemsSource="{Binding Buildings}"
+                                  SelectedItem="{Binding SelectedBuilding}"
+                                  DisplayMemberPath="Name"
+                                  IsEnabled="{Binding IsLoggedIn}"
+                                  Style="{StaticResource SelectorStyle}"
+                                  MinWidth="220"
+                                  HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+
+                    <!-- Report Selector -->
+                    <StackPanel Grid.Column="2" Margin="12,0,0,0" HorizontalAlignment="Stretch">
+                        <TextBlock Text="Rapport"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,5"/>
+                        <ComboBox ItemsSource="{Binding Reports}"
+                                  SelectedItem="{Binding SelectedReport}"
+                                  DisplayMemberPath="Name"
+                                  IsEnabled="{Binding IsLoggedIn}"
+                                  Style="{StaticResource SelectorStyle}"
+                                  MinWidth="220"
+                                  HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Second row: Decimal Format Selector -->
+                <Border Grid.Row="1"
+                        Margin="0,10,0,0"
+                        Padding="10"
+                        Background="#FFF9E6"
+                        CornerRadius="3"
+                        BorderBrush="#FFD700"
+                        BorderThickness="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Warning Icon -->
+                        <TextBlock Grid.Column="0"
+                                   Text="⚠"
+                                   FontSize="20"
+                                   Foreground="#FF8C00"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,12,0"/>
+
+                        <!-- Label and Selector -->
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    Margin="0,0,12,0">
+                            <TextBlock Text="Talformat (påkrævet):"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,12,0"/>
+
+                            <!-- Decimal Format ComboBox -->
+                            <ComboBox ItemsSource="{Binding DecimalFormatOptions}"
+                                      SelectedItem="{Binding SelectedDecimalFormat}"
+                                      IsEnabled="{Binding CanSelectSchedules}"
+                                      MinWidth="220"
+                                      MaxWidth="320"
+                                      HorizontalAlignment="Stretch"
+                                      Style="{StaticResource SelectorStyle}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Display}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <!-- Status Message -->
+                        <TextBlock Grid.Column="2"
+                                   Text="{Binding DecimalFormatMessage}"
+                                   FontStyle="Italic"
+                                   Foreground="#666666"
+                                   VerticalAlignment="Center"
+                                   TextWrapping="Wrap"
+                                   Margin="0">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource Self}}" Value="">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                        <!-- Do not send as keynote toggle -->
+                        <StackPanel Grid.Column="3"
+                                    Orientation="Vertical"
+                                    VerticalAlignment="Center"
+                                    Margin="12,0,0,0">
+                            <CheckBox Content="Medtag konstruktioner uden keynote"
+                                      IsChecked="{Binding NoKeynote, Mode=TwoWay}"/>
+                            <CheckBox Content="Medtag konstruktionslag (Structure)"
+                                      IsChecked="{Binding IncludeStructureLayers, Mode=TwoWay}"
+                                      Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Schedule List Section with Title and Search in header -->
+        <Border Grid.Row="2"
+                Background="White"
+                CornerRadius="4"
+                BorderBrush="#DDDDDD"
+                BorderThickness="1"
+                Margin="0,0,0,12">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Section Title with Integrated Search -->
+                <Border Grid.Row="0"
+                        Background="#F0F0F0"
+                        BorderThickness="0,0,0,1"
+                        BorderBrush="#DDDDDD"
+                        Padding="15,8">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Tilgængelige Skemaer" 
+                                   FontWeight="SemiBold" 
+                                   FontSize="14"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,15,0"/>
+
+                        <!-- Improved Search Box - Fixed cursor position issue -->
+                        <Grid Grid.Column="1">
+                            <TextBox x:Name="ScheduleFilterText"
+                                     Style="{StaticResource SearchBoxStyle}"
+                                     MinWidth="350"
+                                     Width="Auto"
+                                     IsEnabled="{Binding CanSelectSchedules}"
+                                     HorizontalAlignment="Stretch"/>
+                            <TextBlock Text="Søg i skemaer..." 
+                                       Margin="9,0,0,0"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Foreground="Gray"
+                                       IsHitTestVisible="False">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Text, ElementName=ScheduleFilterText}" Value="">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+
+                        <Button Grid.Column="2"
+                                Content="Ryd"
+                                Margin="10,0,0,0"
+                                Padding="10,4"
+                                Style="{StaticResource IconButton}"
+                                IsEnabled="{Binding CanSelectSchedules}"
+                                cal:Message.Attach="ClearScheduleFilter"/>
+                    </Grid>
+                </Border>
+
+                <!-- DataGrid - Disabled if no report is selected -->
+                <DataGrid x:Name="Schedules"
+                          Grid.Row="1"
+                          Margin="0"
+                          Padding="5"
+                          AutoGenerateColumns="False"
+                          GridLinesVisibility="None"
+                          RowStyle="{StaticResource ModernDataGridRowStyle}"
+                          CellStyle="{StaticResource ModernDataGridCellStyle}"
+                          ColumnHeaderStyle="{StaticResource ModernDataGridColumnHeaderStyle}"
+                          Background="White"
+                          BorderThickness="0"
+                          HeadersVisibility="Column"
+                          SelectionMode="Extended"
+                          SelectionUnit="Cell"
+                          IsReadOnly="False"
+                          CanUserAddRows="False">
+                    <DataGrid.Style>
+                        <Style TargetType="DataGrid">
+                            <Setter Property="IsEnabled" Value="True"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CanSelectSchedules}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.Style>
+
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="70">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="Vælg" 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Center"
+                       Margin="0"/>
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          VerticalAlignment="Center"
+                          HorizontalAlignment="Center"
+                          Margin="0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <!-- Name column with explicit foreground -->
+                        <DataGridTextColumn IsReadOnly="True"
+                        Header="Navn"
+                        Binding="{Binding Schedule.RevitName}"
+                        Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <!-- Type column with explicit foreground -->
+                        <DataGridTextColumn Header="Type"
+                        Binding="{Binding Schedule.Type}"
+                        Width="160">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Overlay message when no report is selected -->
+                <Border Grid.Row="1"
+                        Background="#F5F5F5"
+                        Opacity="0.7">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CanSelectSchedules}" Value="False">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <TextBlock Text="Vælg venligst en rapport ovenfor for at aktivere skemavalg"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="14"
+                               Foreground="#555555"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Bottom section: Options and Export buttons -->
+        <Border Grid.Row="3"
+                Background="White"
+                CornerRadius="4"
+                BorderBrush="#DDDDDD"
+                BorderThickness="1"
+                Padding="15,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Height="Auto"
+                        Width="Auto"
+                        MinWidth="20"
+                        Margin="0,0,15,0"
+                        x:Name="SelectExportDir"
+                        Style="{StaticResource IconButton}"
+                        Grid.Column="1">
+                    <Image Source="/SCaddins;component/Assets/folder.png" Stretch="None"/>
+                    <Button.ToolTip>
+                        <TextBlock>Vælg eksportmappe</TextBlock>
+                    </Button.ToolTip>
+                </Button>
+
+                <!-- Status Area - Contains Export Dir AND Loading Status -->
+                <Grid Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Export Directory - Always visible -->
+                    <TextBox x:Name="ExportDir"
+                             Grid.Row="0"
+                             Margin="5,0,5,0"
+                             VerticalAlignment="Center"
+                             FontSize="13"
+                             MinWidth="280"
+                             Padding="4,2"
+                             ToolTip="Indtast eller indsæt eksportsti"
+                             Text="{Binding ExportDir, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <!-- Status Message During Operations - Overlays the directory when active -->
+                    <Border Grid.Row="0" 
+                            Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}"
+                            Background="#F7F7F7"
+                            Padding="2,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding StatusMessage}" 
+                                       Foreground="#1a355f" 
+                                       Margin="5,0,8,0"
+                                       VerticalAlignment="Center"
+                                       TextTrimming="CharacterEllipsis"/>
+                            <Grid Width="16" Height="16" VerticalAlignment="Center">
+                                <Path Stroke="#1a355f" 
+                                      StrokeThickness="3" 
+                                      RenderTransformOrigin="0.5,0.5">
+                                    <Path.Data>
+                                        <EllipseGeometry Center="8,8" RadiusX="6" RadiusY="6"/>
+                                    </Path.Data>
+                                    <Path.RenderTransform>
+                                        <RotateTransform x:Name="SpinnerRotate" Angle="0"/>
+                                    </Path.RenderTransform>
+                                    <Path.Triggers>
+                                        <EventTrigger RoutedEvent="Path.Loaded">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetName="SpinnerRotate"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        From="0" To="360" Duration="0:0:1"
+                                                        RepeatBehavior="Forever"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </Path.Triggers>
+                                </Path>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- Single Export Button -->
+                <Button x:Name="ExportOnline" 
+                        IsEnabled="{Binding ExportOnlineIsEnabled}" 
+                        Content="{Binding ExportLabel}" 
+                        Style="{StaticResource ActionButton}" 
+                        MinWidth="120"
+                        Grid.Column="3"
+                        Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}}" 
+                        HorizontalAlignment="Left" 
+                        Width="120"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

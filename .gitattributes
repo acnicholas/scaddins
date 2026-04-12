@@ -1,0 +1,5 @@
+# nullCarbon fork: stable rebrand files always keep our version on upstream merges.
+# Note: this only takes effect after running `git config merge.ours.driver true` once
+# in each clone. Documented in docs/SYNCING.md.
+src/SCaddins.addin    merge=ours
+src/Constants.cs      merge=ours

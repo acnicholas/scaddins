@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <RevitAddIns>
-    
-  <!-- SCexport -->  
-    
+
+  <!-- nullCarbon Revit Export -->
+
   <AddIn Type="Application">
-    <Assembly>..\..\..\..\..\Local\Studio.SC\SCaddins\_REVIT_VERSION_\SCaddins.dll</Assembly>
+    <Assembly>..\..\..\..\..\Local\Studio.SC\nullCarbon-LCA-Export\_REVIT_VERSION_\SCaddins.dll</Assembly>
     <AddInId>DE9AB48F-CEFB-445F-9FED-408B5980EB0A</AddInId>
     <FullClassName>SCaddins.SCaddinsApp</FullClassName>
-    <Name>SCexport - Export Utility</Name>
+    <Name>nullCarbon-LCA-Export</Name>
     <VendorId>BEER</VendorId>
-    <VendorDescription>Andrew Nicholas, andrewn@studiosc.com.au</VendorDescription>
+    <VendorDescription>nullCarbon, contact@nullcarbon.dk</VendorDescription>
   </AddIn>
-   
+
 </RevitAddIns>

@@ -1,0 +1,81 @@
+name: Sync upstream
+
+# Weekly check for new commits in acnicholas/scaddins. If there are any,
+# attempts a merge into a sync/upstream-YYYY-MM-DD branch and opens a PR.
+# If the merge has conflicts, the PR is opened anyway with the conflict
+# markers committed so a human can resolve them — see docs/SYNCING.md.
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'   # Every Monday 06:00 UTC
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config merge.ours.driver true
+
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/acnicholas/scaddins.git
+          git fetch upstream --tags
+
+      - name: Check if there's anything to sync
+        id: check
+        run: |
+          AHEAD=$(git rev-list --count HEAD..upstream/master)
+          echo "ahead=$AHEAD" >> $GITHUB_OUTPUT
+          echo "Upstream is $AHEAD commits ahead."
+
+      - name: Create sync branch
+        if: steps.check.outputs.ahead != '0'
+        id: branch
+        run: |
+          BRANCH="sync/upstream-$(date -u +%Y-%m-%d)"
+          echo "name=$BRANCH" >> $GITHUB_OUTPUT
+          git checkout -b "$BRANCH"
+
+      - name: Merge upstream
+        if: steps.check.outputs.ahead != '0'
+        id: merge
+        continue-on-error: true
+        run: |
+          git merge --no-edit upstream/master
+
+      - name: Commit conflict markers (if conflicts)
+        if: steps.merge.outcome == 'failure'
+        run: |
+          git add -A
+          git commit -m "sync: upstream merge has conflicts — needs manual resolution"
+
+      - name: Push branch
+        if: steps.check.outputs.ahead != '0'
+        run: git push -u origin ${{ steps.branch.outputs.name }}
+
+      - name: Open PR
+        if: steps.check.outputs.ahead != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          STATUS="clean merge"
+          if [ "${{ steps.merge.outcome }}" = "failure" ]; then
+            STATUS="HAS CONFLICTS — see docs/SYNCING.md"
+          fi
+          gh pr create \
+            --base main \
+            --head ${{ steps.branch.outputs.name }} \
+            --title "Sync upstream ($(date -u +%Y-%m-%d))" \
+            --body "Automated weekly sync from acnicholas/scaddins. Status: **$STATUS**. ${{ steps.check.outputs.ahead }} upstream commits."

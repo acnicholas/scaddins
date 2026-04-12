@@ -1,0 +1,147 @@
+﻿<Window x:Class="SCaddins.ExportSchedules.Views.LoginView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:cal="http://www.caliburnproject.org"
+        Title="Log ind til nullCarbon" 
+        Height="580" Width="500"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="ToolWindow">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header with logo + title -->
+        <Border Grid.Row="0" Background="#1a355f" Padding="20,18">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Image Source="/SCaddins;component/Assets/nullcarbon-logo-64.png"
+                       Height="36"
+                       VerticalAlignment="Center"
+                       Margin="0,0,12,0"/>
+                <TextBlock Text="nullCarbon"
+                           Foreground="White"
+                           FontSize="26"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Login form -->
+        <Border Grid.Row="1" 
+                Background="White" 
+                Margin="30,10,30,10" 
+                CornerRadius="6" 
+                BorderBrush="#DDDDDD" 
+                BorderThickness="1"
+                Padding="35">
+            <StackPanel VerticalAlignment="Center">
+
+                <TextBlock Text="Brugernavn:" Margin="0,0,0,8" FontWeight="SemiBold" FontSize="14"/>
+                <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Padding="10,8"
+                         FontSize="14"
+                         BorderThickness="1"
+                         BorderBrush="#CCCCCC"
+                         Margin="0,0,0,20"/>
+
+                <TextBlock Text="Adgangskode:" Margin="0,0,0,8" FontWeight="SemiBold" FontSize="14"/>
+                <PasswordBox cal:Message.Attach="[Event PasswordChanged] = [Action OnPasswordChanged($source)]"
+                             Padding="10,8"
+                             FontSize="14"
+                             BorderThickness="1"
+                             BorderBrush="#CCCCCC"
+                             Margin="0,0,0,30"/>
+
+                <!-- Buttons - Positions swapped and colors changed -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Sign Up button - Now on the left with subdued styling -->
+                    <Button Grid.Column="0" 
+                            Content="Tilmeld" 
+                            cal:Message.Attach="SignUp"
+                            Background="#F2F2F2"
+                            Foreground="#555555"
+                            FontSize="14"
+                            FontWeight="Normal"
+                            BorderBrush="#CCCCCC"
+                            BorderThickness="1"
+                            Padding="15,10" 
+                            Margin="0,0,5,0">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="4">
+                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                      VerticalAlignment="Center"
+                                                      Margin="{TemplateBinding Padding}"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#E5E5E5"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <!-- Login button - Now on the right with prominent styling -->
+                    <Button Grid.Column="1" 
+                            Content="Log ind" 
+                            cal:Message.Attach="Login"
+                            Background="#1a355f"
+                            Foreground="White"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Padding="15,10"
+                            Margin="5,0,0,0">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="4">
+                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                      VerticalAlignment="Center"
+                                                      Margin="{TemplateBinding Padding}"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#0066CC"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
+
+                <!-- Status message -->
+                <TextBlock Margin="0,20,0,0" 
+                           Text="{Binding StatusMessage}" 
+                           Foreground="Red"
+                           TextWrapping="Wrap"
+                           FontSize="13"/>
+
+                <!-- Help text -->
+                <TextBlock Text="Har du brug for hjaelp? Kontakt  contact@nullcarbon.dk" 
+                           Foreground="#666666"
+                           FontSize="12"
+                           HorizontalAlignment="Center"
+                           Margin="0,20,0,0"/>
+                <!-- Help text -->
+                <TextBlock Text="{Binding VersionLabel}"
+                           Foreground="#666666"
+                           FontSize="12"
+                           HorizontalAlignment="Center"
+                           Margin="0,20,0,0"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

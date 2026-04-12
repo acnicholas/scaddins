@@ -1,0 +1,13 @@
+nullCarbon Revit Export
+=======================
+
+Based on SCaddins by Andrew Nicholas.
+Upstream: https://github.com/acnicholas/scaddins
+Licensed under LGPL-3.0-or-later. See COPYING.LESSER for the full license text.
+
+Modifications (C) 2024-2026 nullCarbon, contact@nullcarbon.dk
+
+The nullCarbon Revit Export distribution preserves all upstream copyright
+notices required by the LGPL. Files under src/NullCarbon/ that are wholly
+authored by nullCarbon carry their own copyright headers; files inherited
+or derived from upstream retain the original Andrew Nicholas attribution.

@@ -21,21 +21,21 @@ namespace SCaddins
     {
         /// <summary> Web [http] link to changelog. </summary>
         public const string ChangelogLink =
-            "https://github.com/acnicholas/scaddins/blob/master/CHANGELOG.md";
+            "https://github.com/bhupas/revit/blob/master/CHANGELOG.md";
 
         /// <summary> Web [http] link to download binaries. </summary>
         public const string DownloadLink =
-            "https://github.com/acnicholas/scaddins/releases/latest";
+            "https://github.com/bhupas/revit/releases/latest";
 
         //// <summary> Example project configuration dir. </summary>
         //// public const string EtcDirectory = "etc";
 
         /// <summary> Web [http] link to forum. </summary>
         public const string HelpLink =
-            "https://github.com/acnicholas/scaddins/wiki";
+            "https://github.com/bhupas/revit/wiki";
 
-        /// <summary> The install dir.</summary>
-		public static string InstallDirectory = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), @"Studio.SC\SCaddins");
+        /// <summary> The install dir (per-user, no admin needed). </summary>
+		public static string InstallDirectory = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), @"Studio.SC\nullCarbon-LCA-Export");
 
         /// <summary> Data directory. </summary>
         public const string ShareDirectory = "share";

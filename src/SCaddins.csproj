@@ -115,6 +115,36 @@
     <None Remove="RunScript\Resources\**" />
     <Page Remove="RunScript\Resources\**" />
   </ItemGroup>
+
+  <!-- nullCarbon fork: begin -->
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);NULLCARBON</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Label="nullCarbon: hide upstream features at build time. Files stay on disk so upstream merges apply cleanly; this block is the only thing keeping them out of the assembly.">
+    <Compile               Remove="DestructivePurge\**;ExportManager\**;ExportSchedules\**;GridManager\**;HatchEditor\**;LineOfSight\**;ModelSetupWizard\**;ParameterUtilities\**;PlaceCoordinate\**;RenameUtilities\**;RevisionUtilities\**;RoomConverter\**;RunScript\**;SheetCopier\**;SolarAnalysis\**;SpellChecker\**;ViewUtilities\**;WorksharingUtilities\**" />
+    <EmbeddedResource      Remove="DestructivePurge\**;ExportManager\**;ExportSchedules\**;GridManager\**;HatchEditor\**;LineOfSight\**;ModelSetupWizard\**;ParameterUtilities\**;PlaceCoordinate\**;RenameUtilities\**;RevisionUtilities\**;RoomConverter\**;RunScript\**;SheetCopier\**;SolarAnalysis\**;SpellChecker\**;ViewUtilities\**;WorksharingUtilities\**" />
+    <None                  Remove="DestructivePurge\**;ExportManager\**;ExportSchedules\**;GridManager\**;HatchEditor\**;LineOfSight\**;ModelSetupWizard\**;ParameterUtilities\**;PlaceCoordinate\**;RenameUtilities\**;RevisionUtilities\**;RoomConverter\**;RunScript\**;SheetCopier\**;SolarAnalysis\**;SpellChecker\**;ViewUtilities\**;WorksharingUtilities\**" />
+    <Page                  Remove="DestructivePurge\**;ExportManager\**;ExportSchedules\**;GridManager\**;HatchEditor\**;LineOfSight\**;ModelSetupWizard\**;ParameterUtilities\**;PlaceCoordinate\**;RenameUtilities\**;RevisionUtilities\**;RoomConverter\**;RunScript\**;SheetCopier\**;SolarAnalysis\**;SpellChecker\**;ViewUtilities\**;WorksharingUtilities\**" />
+    <Resource              Remove="DestructivePurge\**;ExportManager\**;ExportSchedules\**;GridManager\**;HatchEditor\**;LineOfSight\**;ModelSetupWizard\**;ParameterUtilities\**;PlaceCoordinate\**;RenameUtilities\**;RevisionUtilities\**;RoomConverter\**;RunScript\**;SheetCopier\**;SolarAnalysis\**;SpellChecker\**;ViewUtilities\**;WorksharingUtilities\**" />
+    <ApplicationDefinition Remove="DestructivePurge\**;ExportManager\**;ExportSchedules\**;GridManager\**;HatchEditor\**;LineOfSight\**;ModelSetupWizard\**;ParameterUtilities\**;PlaceCoordinate\**;RenameUtilities\**;RevisionUtilities\**;RoomConverter\**;RunScript\**;SheetCopier\**;SolarAnalysis\**;SpellChecker\**;ViewUtilities\**;WorksharingUtilities\**" />
+  </ItemGroup>
+  <ItemGroup Label="nullCarbon: drop upstream Common files that pull in excluded feature namespaces. We don't use the upstream global Settings dialog or Upgrade dialog (NullCarbonUpdater uses Revit's TaskDialog instead).">
+    <Compile Remove="Common\Views\SettingsView.xaml.cs" />
+    <Compile Remove="Common\ViewModels\SettingsViewModel.cs" />
+    <Compile Remove="Common\ViewModels\UpgradeViewModel.cs" />
+    <Compile Remove="Common\Settings.cs" />
+    <Page    Remove="Common\Views\SettingsView.xaml" />
+  </ItemGroup>
+  <PropertyGroup Label="nullCarbon: silence warnings about upstream's unused private fields in SCaddins.cs. The per-feature PushButton fields are neither assigned (OnStartup body wrapped in #if NULLCARBON) nor read (ChangeTheme body also excluded by #if REVIT2024 || REVIT2025 || REVIT2026 for Release2023). CS0649 = never assigned, CS0169 = never used at all.">
+    <NoWarn>$(NoWarn);CS0649;CS0169</NoWarn>
+  </PropertyGroup>
+  <!-- nullCarbon fork: end -->
+  <!--
+    The PackageReference prune block is intentionally placed near the END of
+    this file (search for "nullCarbon fork: prune"), AFTER all upstream
+    PackageReference Include lines. MSBuild item Remove only affects items
+    already in the collection; if Remove appears before Include, it's a no-op.
+  -->
   
   <ItemGroup>
     <None Remove="RunScript\Views\Lua.xshd" />
@@ -425,5 +455,41 @@
       <Private>False</Private>
     </Reference>
   </ItemGroup>
+
+  <!-- nullCarbon fork: prune (must be at end of file, after all PackageReference Include lines) -->
+  <ItemGroup Label="nullCarbon: prune NuGet packages used only by excluded upstream features. Add lines here when a NuGet restore fails for a package that our compiled code does not actually use.">
+    <!-- ricaun.Revit.CefSharp: used by upstream RunScript / Monaco Lua editor (excluded) -->
+    <PackageReference Remove="ricaun.Revit.CefSharp" />
+    <!-- Lua interpreter stack: RunScript (excluded) -->
+    <PackageReference Remove="KeraLua" />
+    <PackageReference Remove="NLua" />
+    <PackageReference Remove="lua" />
+    <!-- Spell checker: SpellChecker (excluded) -->
+    <PackageReference Remove="Hunspell.Native" />
+    <PackageReference Remove="NHunspell" />
+    <PackageReference Remove="Westwind.NHUnspell.NetStandard" />
+    <!-- Excel COM interop: ExportManager (excluded) - we use EPPlus instead -->
+    <PackageReference Remove="Microsoft.Office.Interop.Excel" />
+    <!-- Formula evaluator: ParameterUtilities / similar (excluded) -->
+    <PackageReference Remove="CoreCLR-NCalc" />
+  </ItemGroup>
+
+  <!-- nullCarbon fork: pin Revit 2024 API package version. Upstream's entry has
+       allowedVersions="[2024.0.0,2024.0.0)" which is an empty range, causing
+       NuGet to fall back to 2025.0.0 (wrong API for net48). We replace it with
+       a wildcard so any 2024.x version on nuget.org is acceptable. -->
+  <ItemGroup Condition="$(Configuration.Contains('2024'))">
+    <PackageReference Remove="Revit_All_Main_Versions_API_x64" />
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2024.*" />
+  </ItemGroup>
+
+  <!-- nullCarbon fork: override upstream's PostBuild target. Upstream's version
+       copies hunspell.native and keralua native DLLs from the legacy
+       packages\ folder; we've pruned those packages and there is no
+       packages\ folder under SDK-style restore, so the copy fails. MSBuild's
+       last-target-wins rule means this empty target replaces the upstream one
+       because this file is parsed after upstream's. -->
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" />
+  <!-- nullCarbon fork: prune end -->
 
 </Project>

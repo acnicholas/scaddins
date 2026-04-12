@@ -1,0 +1,45 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build ${{ matrix.config }}
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config: [ Release2023, Release2024, Release2025, Release2026 ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Setup .NET Framework 4.8
+        if: matrix.config == 'Release2023' || matrix.config == 'Release2024'
+        run: |
+          # net48 ships with VS / Windows runners; nothing extra needed.
+          dotnet --info
+
+      - name: Build
+        shell: pwsh
+        run: scripts\build.ps1 -Configurations ${{ matrix.config }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nullCarbon-${{ matrix.config }}
+          path: |
+            src/bin/${{ matrix.config }}/SCaddins.dll
+            src/bin/${{ matrix.config }}/nullCarbon-LCA-Export-*.addin
+          if-no-files-found: error
+          retention-days: 14
