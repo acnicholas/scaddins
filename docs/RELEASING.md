@@ -2,11 +2,36 @@
 
 ## TL;DR
 
-```powershell
-do\3-release.cmd -Version 26.3.2 -Push
-```
+1. Add a new section to [`RELEASE_NOTES.md`](../RELEASE_NOTES.md) at the repo root:
+   ```markdown
+   ## v26.3.2 -- 2026-04-15
 
-That bumps the version in `src\SCaddins.csproj`, builds Release2023/2024/2025/2026, packages an Inno Setup installer, creates a git tag `v26.3.2`, and pushes the tag. The push triggers [`.github/workflows/release.yml`](../.github/workflows/release.yml) which builds again on a clean Windows runner and publishes a GitHub Release with the installer attached. Users get the update via the in-app one-click updater on their next Revit start.
+   ### Fixed
+   - Whatever bug got fixed.
+   ```
+2. Double-click `do\3-release.cmd`. The wizard prompts for the version, verifies the notes are present, asks whether to push, and runs everything end-to-end.
+
+That's it. Pushing the tag triggers [`.github/workflows/release.yml`](../.github/workflows/release.yml) which builds on a clean runner and publishes a GitHub Release with the installer attached AND the release notes from `RELEASE_NOTES.md`. Users get the update via the in-app one-click updater on their next Revit start.
+
+## Where to write release notes
+
+**One file: [`RELEASE_NOTES.md`](../RELEASE_NOTES.md)** at the repo root. The wizard refuses to ship a version that doesn't have a matching `## v<version>` section there.
+
+The same text ends up in two places:
+
+| Surface | How |
+|---|---|
+| **GitHub Release description** at https://github.com/bhupas/revit/releases | `release.yml` runs `scripts\extract-release-notes.ps1` to pull the matching `## v<version>` section, writes it to `release-notes-extracted.md`, and passes that as `body_path` to `softprops/action-gh-release`. |
+| **In-app "Update now" dialog** | [`NullCarbonUpdater`](../src/NullCarbon/Update/NullCarbonUpdater.cs) reads `latest.body` from the GitHub API -- which is exactly what the workflow above set. The dialog truncates to 600 chars, so put the most important things first. |
+
+The wizard:
+
+1. Validates that `## v<new-version>` exists in `RELEASE_NOTES.md`.
+2. If missing, opens Notepad on the file. You add the section, save, close. The wizard re-checks.
+3. Shows a preview of the notes that will be published.
+4. Only then does it tag + push.
+
+That guarantees you can never accidentally ship a release with empty / wrong release notes.
 
 ---
 

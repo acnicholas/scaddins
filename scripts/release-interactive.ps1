@@ -65,6 +65,45 @@ while (-not $newVersion) {
     $newVersion = $input
 }
 
+# --- Check release notes -----------------------------------------------------
+Step "Checking RELEASE_NOTES.md for v$newVersion"
+$notesFile = Join-Path $RepoRoot 'RELEASE_NOTES.md'
+if (-not (Test-Path $notesFile)) {
+    Fail "RELEASE_NOTES.md not found at $notesFile -- create it before releasing."
+}
+& "$PSScriptRoot\extract-release-notes.ps1" -Version $newVersion -CheckOnly 2>$null
+if ($LASTEXITCODE -ne 0) {
+    Warn "No '## v$newVersion' section in RELEASE_NOTES.md."
+    Warn "I'm opening RELEASE_NOTES.md in Notepad now. Add a section like:"
+    Warn ""
+    Warn "    ## v$newVersion -- $(Get-Date -Format 'yyyy-MM-dd')"
+    Warn ""
+    Warn "    ### Added"
+    Warn "    - Whatever you added"
+    Warn ""
+    Warn "    ### Fixed"
+    Warn "    - Whatever you fixed"
+    Warn ""
+    Warn "Save the file and CLOSE Notepad to continue. (Or close without"
+    Warn "saving to cancel the release.)"
+    Write-Host ""
+    Read-Host "  Press Enter to open Notepad"
+    $notepad = Start-Process notepad.exe -ArgumentList $notesFile -PassThru
+    $notepad.WaitForExit()
+    & "$PSScriptRoot\extract-release-notes.ps1" -Version $newVersion -CheckOnly 2>$null
+    if ($LASTEXITCODE -ne 0) {
+        Fail "Still no '## v$newVersion' section in RELEASE_NOTES.md. Aborting."
+    }
+}
+Ok "Release notes section found."
+
+# Show what will be published so the user can sanity-check before tagging.
+Write-Host ""
+Write-Host "  --- Notes that will be shown on GitHub Releases AND in the in-app updater ---" -ForegroundColor DarkGray
+$preview = & "$PSScriptRoot\extract-release-notes.ps1" -Version $newVersion 2>$null
+$preview -split "`n" | ForEach-Object { Write-Host "  $_" }
+Write-Host "  --- end of notes ---" -ForegroundColor DarkGray
+
 # --- Prompt: push? -----------------------------------------------------------
 Write-Host ""
 Write-Host "  Push the tag to GitHub after the local build?"
@@ -95,8 +134,11 @@ if ($confirm -ne 'yes') {
 }
 
 # --- Run release.ps1 ---------------------------------------------------------
+# Note: do NOT name this variable $args -- that's a PowerShell automatic
+# variable. Splatting @args would use the script's positional params, not
+# our local assignment, and release.ps1 would receive nothing.
 Step "Running release.ps1"
-$args = @('-Version', $newVersion)
-if ($push) { $args += '-Push' }
-& "$PSScriptRoot\release.ps1" @args
+$releaseArgs = @('-Version', $newVersion)
+if ($push) { $releaseArgs += '-Push' }
+& "$PSScriptRoot\release.ps1" @releaseArgs
 exit $LASTEXITCODE
