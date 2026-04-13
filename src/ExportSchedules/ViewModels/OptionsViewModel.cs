@@ -54,47 +54,50 @@
 
         public bool ExportColumnHeaders
         {
-            get
-            {
-                return Settings.Default.ExportColumnHeader;
-            }
+            //get
+            //{
+            //    return Settings.Default.ExportColumnHeader;
+            //}
 
-            set
-            {
-                Settings.Default.ExportColumnHeader = value;
-                if (value == false)
-                {
-                    IncludeGroupedColumnHeaders = false;
-                }
-                NotifyOfPropertyChange(() => ExportColumnHeaders);
-                NotifyOfPropertyChange(() => IncludeGroupedColumnHeaders);
-            }
+            //set
+            //{
+            //    Settings.Default.ExportColumnHeader = value;
+            //    if (value == false)
+            //    {
+            //        IncludeGroupedColumnHeaders = false;
+            //    }
+            //    NotifyOfPropertyChange(() => ExportColumnHeaders);
+            //    NotifyOfPropertyChange(() => IncludeGroupedColumnHeaders);
+            //}
+            get { return true;  }
         }
 
         public bool IncludeGroupedColumnHeaders
         {
-            get
-            {
-                return Settings.Default.IncludeGroupedColumnHeaders;
-            }
+            //get
+            //{
+            //    return Settings.Default.IncludeGroupedColumnHeaders;
+            //}
 
-            set
-            {
-                Settings.Default.IncludeGroupedColumnHeaders = value;
-            }
+            //set
+            //{
+            //    Settings.Default.IncludeGroupedColumnHeaders = value;
+            //}
+            get { return false; }
         }
 
         public bool ExportGroupHeaderAndFooters
         {
-            get
-            {
-                return Settings.Default.ExportGrouppHeaderAndFooters;
-            }
+            //get
+            //{
+            //    return Settings.Default.ExportGrouppHeaderAndFooters;
+            //}
 
-            set
-            {
-                Settings.Default.ExportGrouppHeaderAndFooters = value;
-            }
+            //set
+            //{
+            //    Settings.Default.ExportGrouppHeaderAndFooters = value;
+            //}
+            get { return false; }
         }
 
         public Dictionary<string, string> FieldDelimiters => Utilities.GetFieldDelimiters();

@@ -1,28 +1,63 @@
 ﻿namespace SCaddins.ExportSchedules
 {
-    using System.Collections.Generic;
-    using System.IO;
     using Autodesk.Revit.DB;
-    using OfficeOpenXml;
+    using ClosedXML;
+    using ClosedXML.Excel;
+    using CsvHelper;
+    using SCaddins.ExportManager;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Globalization;
+    using System.IO;
 
     public class Utilities
     {
-        public static void AddDelimitedDataToExcelWorkbook(string excelFileName, string worksheetsName, string csvFileName)
+        public static void AddDelimitedDataToExcelWorkbook(string fileName, string worksheetsName, string csvFileName)
         {
-            bool firstRowIsHeader = false;
+            SCaddinsApp.WindowManager.ShowMessageBox(fileName);
 
-            var format = new ExcelTextFormat();
-            format.Delimiter = Settings.Default.FieldDelimiter.ToCharArray()[0];
-            format.EOL = "\r";              // DEFAULT IS "\r\n";
-            //// format.TextQualifier = Settings.Default.TextQualifier.ToCharArray()[0];
-            //// SCaddinsApp.WindowManager.ShowMessageBox(format.TextQualifier.ToString());
-
-            using (ExcelPackage package = new ExcelPackage(new FileInfo(excelFileName)))
+            XLWorkbook workbook;
+            if (File.Exists(fileName))
             {
-                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(worksheetsName);
-                worksheet.Cells["A1"].LoadFromText(new FileInfo(csvFileName), format, OfficeOpenXml.Table.TableStyles.Medium27, firstRowIsHeader);
-                package.Save();
+                workbook = new XLWorkbook(fileName);
             }
+            else
+            {
+                workbook = new XLWorkbook();
+            }
+
+            //don't allow worksheet names with a length > 31
+            if (worksheetsName.Length > 31) worksheetsName = worksheetsName.Substring(0, 30);
+
+            var worksheet = workbook.Worksheets.Add(worksheetsName);
+            var dt = GetDataTableFromCsv(csvFileName);
+            worksheet.FirstCell().InsertTable(dt);
+            workbook.SaveAs(fileName);
+            workbook.Dispose();
+        }
+
+        public static DataTable GetDataTableFromCsv(string filePath)
+        {
+            DataTable dt = new DataTable();
+            using (StreamReader sr = new StreamReader(filePath))
+            {
+                string[] headers = sr.ReadLine().Split(ExportSchedules.Settings.Default.FieldDelimiter[0]);
+                foreach (string header in headers)
+                {
+                    dt.Columns.Add(header.Trim());
+                }
+                while (!sr.EndOfStream)
+                {
+                    string[] rows = sr.ReadLine().Split(ExportSchedules.Settings.Default.FieldDelimiter[0]);
+                    DataRow dr = dt.NewRow();
+                    for (int i = 0; i < headers.Length; i++)
+                    {
+                        dr[i] = rows[i].Trim();
+                    }
+                    dt.Rows.Add(dr);
+                }
+            }
+            return dt;
         }
 
         public static string Export(List<Schedule> schedules, string exportPath)

@@ -126,21 +126,21 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Caliburn.Micro" Version="4.0.230" />
+    <PackageReference Include="Caliburn.Micro" Version="5.0.258" />
+    <PackageReference Include="ClosedXML" Version="0.102.3" />
     <PackageReference Include="CoreCLR-NCalc" Version="3.1.253" />
-    <PackageReference Include="FluentIcons.WPF" Version="1.1.266" />
+    <PackageReference Include="CsvHelper" Version="33.1.0" />
+    <PackageReference Include="FluentIcons.WPF" Version="2.1.323" />
     <PackageReference Include="Hunspell.Native" Version="1.2.5359.26130" />
-    <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
-    <PackageReference Include="KeraLua" Version="1.4.1" />
+    <PackageReference Include="ini-parser-netstandard" Version="2.5.3" />
+    <PackageReference Include="KeraLua" Version="1.4.9" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.2.1" />
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.1" />
     <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2478.35" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-	<PackageReference Include="NLua" Version="1.7.3" />
-	<PackageReference Include="EPPlus" Version="7.5.1" />
-	<PackageReference Include="lua" Version="5.4.7.2" />
-	<PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+	<PackageReference Include="NLua" Version="1.7.8" />
+	<PackageReference Include="lua" Version="5.5.0" />
+	<PackageReference Include="Extended.Wpf.Toolkit" Version="5.0.0" />
   </ItemGroup>
   
  <ItemGroup>
@@ -169,7 +169,7 @@
 	<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2026.0.0" allowedVersions="[2026.0.0,2027.0.0)" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('2026'))" />
 	<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2027.0.0-beta2" allowedVersions="[2027.0.0-beta2)" TargetFramework="net10.0-windows" Condition="$(Configuration.Contains('2027'))" />
 	<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2026.0.0" allowedVersions="[2026.0.0,2027.0.0)" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('Debug'))" />
-	<PackageReference Include="WPF-UI" Version="3.0.5" />
+	<PackageReference Include="WPF-UI" Version="4.2.0" />
  </ItemGroup>
  
 <!--  <ItemGroup>

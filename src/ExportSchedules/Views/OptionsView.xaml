@@ -26,10 +26,10 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <CheckBox x:Name="ExportTitle" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="5">Export Title</CheckBox>
-        <CheckBox x:Name="ExportColumnHeaders"   Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="5">Export Column Headers</CheckBox>
-        <CheckBox x:Name="IncludeGroupedColumnHeaders" IsEnabled="{Binding ExportColumnHeaders}"  Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="5">Include Grouped Column Headers</CheckBox>
-        <CheckBox x:Name="ExportGroupHeaderAndFooters" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Margin="5">Export Group Headers,Footer and Blank Lines</CheckBox>
+        <CheckBox x:Name="ExportTitle" Grid.Column="0" IsEnabled="False"  Grid.Row="0" Grid.ColumnSpan="2" Margin="5">Export Title</CheckBox>
+                <CheckBox x:Name="ExportColumnHeaders" IsEnabled="False" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="5">Export Column Headers</CheckBox>
+        <CheckBox x:Name="IncludeGroupedColumnHeaders" IsEnabled="False"  Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="5">Include Grouped Column Headers</CheckBox>
+        <CheckBox x:Name="ExportGroupHeaderAndFooters" IsEnabled="False" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Margin="5">Export Group Headers,Footer and Blank Lines</CheckBox>
     </Grid>
      </GroupBox>
         <GroupBox Grid.Row="1" Grid.Column="0" Header="Output Options">
