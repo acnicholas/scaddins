@@ -9,7 +9,6 @@ using System.Diagnostics;
 
 var target = Argument("target", "Default");
 var solutionFile = GetFiles("src/*.sln").First();
-var testSolutionFile = GetFiles("tests/*.sln").First();
 var innoSetupFile = GetFiles("setup/*.iss").First();
 var buildDir = Directory(@"./src/bin");
 var objDir = Directory(@"./src/obj");
@@ -43,13 +42,13 @@ public MSBuildSettings GetTestBuildSettings()
 
 public string GetAssemblyFile()
 {
-    return  System.IO.Path.GetFullPath(@"src/bin/Release2025/SCaddins.dll");
+	return  System.IO.Path.GetFullPath(@"src/bin/Release2025/SCaddins.dll");
 }
 
 public string GetFullVersionNumber()
 {
-    var filePath = GetAssemblyFile();
-    var version = FileVersionInfo.GetVersionInfo(filePath);
+	var filePath = GetAssemblyFile();
+	var version = FileVersionInfo.GetVersionInfo(filePath);
 	return $"{version.FileMajorPart}.{version.FileMinorPart}.{version.FileBuildPart}.{version.FilePrivatePart}";
 }
 
@@ -58,17 +57,21 @@ Task("Clean").Does(() => CleanDirectory(buildDir));
 Task("CleanOBJ").Does(() => CleanDirectory(objDir));
 
 Task("Restore-NuGet-Packages")
-.IsDependentOn("DotNetRestore")
-.Does(() => NuGetRestore(solutionFile));
+.Does(() =>
+		{
+		var settings = new DotNetRestoreSettings
+		{
+		Verbosity = DotNetVerbosity.Minimal,
+		WorkingDirectory="src/",
+		Force = true,
+		PackagesDirectory = "src/packages",
+		NoCache = true,
+		DisableParallel = true
+		};
 
-Task("DotNetRestore")
-.Does(() => DotNetRestore(new DotNetRestoreSettings(){
-WorkingDirectory="src/",
-Force = true,
-PackagesDirectory = "src/packages",
-}));
+		DotNetRestore(solutionFile.FullPath, settings);
+		});
 
-Task("Restore-Test-NuGet-Packages").Does(() => NuGetRestore(testSolutionFile));
 
 Task("CreateAddinManifests")
 .Does(() =>
@@ -76,21 +79,21 @@ Task("CreateAddinManifests")
 		string text = System.IO.File.ReadAllText(@"src\SCaddins.addin");
 		string text2 = System.IO.File.ReadAllText(@"src\SCaddins26.addin");
 		if (DirectoryExists(@"src\bin\Release2020"))
-		    System.IO.File.WriteAllText(@"src\bin\Release2020\SCaddins2020.addin", text.Replace("_REVIT_VERSION_", "2020"));
+		System.IO.File.WriteAllText(@"src\bin\Release2020\SCaddins2020.addin", text.Replace("_REVIT_VERSION_", "2020"));
 		if (DirectoryExists(@"src\bin\Release2021"))
-		    System.IO.File.WriteAllText(@"src\bin\Release2021\SCaddins2021.addin", text.Replace("_REVIT_VERSION_", "2021"));
+		System.IO.File.WriteAllText(@"src\bin\Release2021\SCaddins2021.addin", text.Replace("_REVIT_VERSION_", "2021"));
 		if (DirectoryExists(@"src\bin\Release2022"))
-		    System.IO.File.WriteAllText(@"src\bin\Release2022\SCaddins2022.addin", text.Replace("_REVIT_VERSION_", "2022"));
+		System.IO.File.WriteAllText(@"src\bin\Release2022\SCaddins2022.addin", text.Replace("_REVIT_VERSION_", "2022"));
 		if (DirectoryExists(@"src\bin\Release2023"))
-		    System.IO.File.WriteAllText(@"src\bin\Release2023\SCaddins2023.addin", text.Replace("_REVIT_VERSION_", "2023"));
+		System.IO.File.WriteAllText(@"src\bin\Release2023\SCaddins2023.addin", text.Replace("_REVIT_VERSION_", "2023"));
 		if (DirectoryExists(@"src\bin\Release2024"))
-		    System.IO.File.WriteAllText(@"src\bin\Release2024\SCaddins2024.addin", text.Replace("_REVIT_VERSION_", "2024"));
-	    if (DirectoryExists(@"src\bin\Release2025"))
-		    System.IO.File.WriteAllText(@"src\bin\Release2025\SCaddins2025.addin", text.Replace("_REVIT_VERSION_", "2025"));
-	    if (DirectoryExists(@"src\bin\Release2026"))
-		    System.IO.File.WriteAllText(@"src\bin\Release2026\SCaddins2026.addin", text2.Replace("_REVIT_VERSION_", "2026"));
+		System.IO.File.WriteAllText(@"src\bin\Release2024\SCaddins2024.addin", text.Replace("_REVIT_VERSION_", "2024"));
+		if (DirectoryExists(@"src\bin\Release2025"))
+		System.IO.File.WriteAllText(@"src\bin\Release2025\SCaddins2025.addin", text.Replace("_REVIT_VERSION_", "2025"));
+		if (DirectoryExists(@"src\bin\Release2026"))
+		System.IO.File.WriteAllText(@"src\bin\Release2026\SCaddins2026.addin", text2.Replace("_REVIT_VERSION_", "2026"));
 		if (DirectoryExists(@"src\bin\Release2027"))
-		    System.IO.File.WriteAllText(@"src\bin\Release2027\SCaddins2027.addin", text2.Replace("_REVIT_VERSION_", "2027"));
+		System.IO.File.WriteAllText(@"src\bin\Release2027\SCaddins2027.addin", text2.Replace("_REVIT_VERSION_", "2027"));
 		});
 
 Task("Revit2020")
@@ -124,10 +127,6 @@ Task("Revit2026")
 Task("Revit2027")
 .IsDependentOn("CleanOBJ")
 .Does(() => MSBuild(solutionFile, GetBuildSettings("2027")));
-
-Task("Tests")
-.IsDependentOn("Restore-Test-NuGet-Packages")
-.Does(() => MSBuild(testSolutionFile, GetTestBuildSettings()));
 
 Task("Installer")
 .Does(() =>

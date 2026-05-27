@@ -3,7 +3,6 @@ using Autodesk.Revit.DB;
 using Caliburn.Micro;
 using SCaddins.ParameterUtilities.ViewModels;
 using System.Configuration;
-using System.Windows.Forms.Integration;
 using Wpf.Ui.Controls;
 
 namespace SCaddins.Common.Views

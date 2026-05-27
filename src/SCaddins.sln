@@ -5,11 +5,6 @@ VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCaddins", "SCaddins.csproj", "{27F35A98-001A-4309-A488-95632B96BDDA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScaddinsTestProject", "..\tests\ScaddinsTestProject.csproj", "{07334BF3-DDC7-47A5-9A0B-793DAFB23936}"
-	ProjectSection(ProjectDependencies) = postProject
-		{27F35A98-001A-4309-A488-95632B96BDDA} = {27F35A98-001A-4309-A488-95632B96BDDA}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

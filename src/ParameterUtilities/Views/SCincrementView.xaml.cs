@@ -2,7 +2,6 @@
 using Caliburn.Micro;
 using SCaddins.ParameterUtilities.ViewModels;
 using System.Windows.Controls;
-using System.Windows.Forms.Integration;
 
 namespace SCaddins.ParameterUtilities.Views
 {

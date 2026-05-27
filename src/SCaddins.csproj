@@ -1,433 +1,347 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <!-- <TargetFrameworks>net8.0-windows; net48</TargetFrameworks> -->
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
-	<UseWPF>true</UseWPF>
-	<PlatformTarget>x64</PlatformTarget>
-	<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <PlatformTarget>x64</PlatformTarget>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <UseWindowsForms>true</UseWindowsForms>
-	<ImplicitUsings>disable</ImplicitUsings>
-	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-	<Configurations>Debug;Release2026;Release2025;Release2024;Release2023;Release2022;Release2021;Release2020;Release2027</Configurations>
-	<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-	<Authors>Andrew Nicholas</Authors>
-	<Title>SCaddins</Title>
-	<InformationalVersionAttribute>27.0.0.0</InformationalVersionAttribute>
-	<AssemblyVersion>27.0.0.0</AssemblyVersion>
-	<VersionPrefix>27.0.0</VersionPrefix>
-	<AssemblyInformationalVersion>27.0.0</AssemblyInformationalVersion>
-	<AssemblyInformationalVersionAttribute>27.0.0</AssemblyInformationalVersionAttribute>
-	<FileVersion>27.0.0</FileVersion>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <Configurations>Debug;Release2020;Release2021;Release2022;Release2023;Release2024;Release2025;Release2026;Release2027</Configurations>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+    <Authors>Andrew Nicholas</Authors>
+    <Title>SCaddins</Title>
+    <InformationalVersionAttribute>27.0.0.0</InformationalVersionAttribute>
+    <AssemblyVersion>27.0.0.0</AssemblyVersion>
+    <VersionPrefix>27.0.0</VersionPrefix>
+    <AssemblyInformationalVersion>27.0.0</AssemblyInformationalVersion>
+    <AssemblyInformationalVersionAttribute>27.0.0</AssemblyInformationalVersionAttribute>
+    <FileVersion>27.0.0</FileVersion>
+  </PropertyGroup>
+
+  <!-- Debug -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);REVIT2026</DefineConstants>
+    <WarningLevel>9999</WarningLevel>
+    <Optimize>false</Optimize>
+    <UseWPF>true</UseWPF>
+    <Deterministic>false</Deterministic>
+    <RevitVersion>2026</RevitVersion>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <IsPublishable>false</IsPublishable>
+  </PropertyGroup>
+
+  <!-- Release 2027 -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2027|AnyCPU'">
+    <DefineConstants>$(DefineConstants);REVIT2027</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>true</Optimize>
+    <UseWPF>true</UseWPF>
+    <Deterministic>false</Deterministic>
+    <RevitVersion>2027</RevitVersion>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <IsPublishable>false</IsPublishable>
+  </PropertyGroup>
+
+  <!-- Release 2026 -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2026|AnyCPU'">
+    <DefineConstants>$(DefineConstants);REVIT2026</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>true</Optimize>
+    <UseWPF>true</UseWPF>
+    <Deterministic>false</Deterministic>
+    <RevitVersion>2026</RevitVersion>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <IsPublishable>false</IsPublishable>
+  </PropertyGroup>
+
+  <!-- Release 2025 -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2025|AnyCPU'">
+    <DefineConstants>$(DefineConstants);REVIT2025</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>true</Optimize>
+    <UseWPF>true</UseWPF>
+    <Deterministic>false</Deterministic>
+    <RevitVersion>2025</RevitVersion>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <IsPublishable>false</IsPublishable>
   </PropertyGroup>
   
-     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	   <DefineConstants>$(DefineConstants);REVIT2026</DefineConstants>
-       <WarningLevel>9999</WarningLevel>
-	   <TargetFramework>net8.0-windows</TargetFramework>
-       <IsPublishable>False</IsPublishable>
-       <Deterministic>False</Deterministic>
-	   <TargetFramework>net8.0-windows</TargetFramework>
-     </PropertyGroup>
-	  
-	 <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2027|AnyCPU'">
-	   <DefineConstants>$(DefineConstants);REVIT2027</DefineConstants>
-	   <WarningLevel>4</WarningLevel>
-	   <Optimize>True</Optimize>
-	   <TargetFramework>net10.0-windows</TargetFramework>
-	   <IsPublishable>False</IsPublishable>
-	   <Deterministic>False</Deterministic>
-	 </PropertyGroup>
-	 
-	 <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2026|AnyCPU'">
-	   <DefineConstants>$(DefineConstants);REVIT2026</DefineConstants>
-       <WarningLevel>4</WarningLevel>
-	   <Optimize>True</Optimize>
-	   <TargetFramework>net8.0-windows</TargetFramework>
-       <IsPublishable>False</IsPublishable>
-       <Deterministic>False</Deterministic>
-     </PropertyGroup>
-	  
-     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2025|AnyCPU'">
-	   <DefineConstants>$(DefineConstants);REVIT2025</DefineConstants>
-       <WarningLevel>4</WarningLevel>
-	   <Optimize>True</Optimize>
-	   <TargetFramework>net8.0-windows</TargetFramework>
-       <IsPublishable>False</IsPublishable>
-       <Deterministic>False</Deterministic>
-     </PropertyGroup>
+  	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2024|AnyCPU'">
+		<DefineConstants>$(DefineConstants);REVIT2024</DefineConstants>
+		<Optimize>True</Optimize>
+		<WarningLevel>4</WarningLevel>
+		<RevitVersion>2024</RevitVersion>
+		<TargetFramework>net48</TargetFramework>
+		<IsPublishable>False</IsPublishable>
+		<Deterministic>False</Deterministic>
+	</PropertyGroup>
   
-     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2024|AnyCPU'">
-	   <DefineConstants>$(DefineConstants);REVIT2024</DefineConstants>
-       <Optimize>True</Optimize>
-       <WarningLevel>4</WarningLevel>
-	   <TargetFramework>net48</TargetFramework>
-       <IsPublishable>False</IsPublishable>
-       <Deterministic>False</Deterministic>
-     </PropertyGroup>
-  
-     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2023|AnyCPU'">
-	   <DefineConstants>$(DefineConstants);REVIT2023</DefineConstants>
-       <Optimize>True</Optimize>
-       <WarningLevel>4</WarningLevel>
-	   <TargetFramework>net48</TargetFramework>
-       <IsPublishable>False</IsPublishable>
-       <Deterministic>False</Deterministic>
-     </PropertyGroup>
-  
-     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2022|AnyCPU'">
-	   <DefineConstants>$(DefineConstants);REVIT2022</DefineConstants>
-       <Optimize>True</Optimize>
-       <WarningLevel>4</WarningLevel>
-	   <TargetFramework>net48</TargetFramework>
-       <IsPublishable>False</IsPublishable>
-       <Deterministic>False</Deterministic>
-     </PropertyGroup>
-  
-     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2021|AnyCPU'">
-	   <DefineConstants>$(DefineConstants);REVIT2021</DefineConstants>
-       <Optimize>True</Optimize>
-       <WarningLevel>4</WarningLevel>
-	   <TargetFramework>net48</TargetFramework>
-       <IsPublishable>False</IsPublishable>
-       <Deterministic>False</Deterministic>
-     </PropertyGroup>
-  
-     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2020|AnyCPU'">
-	   <DefineConstants>$(DefineConstants);REVIT2020</DefineConstants>
-       <Optimize>True</Optimize>
-       <WarningLevel>4</WarningLevel>
-	   <TargetFramework>net48</TargetFramework>
-       <IsPublishable>False</IsPublishable>
-       <Deterministic>False</Deterministic>
-     </PropertyGroup>
-  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2023|AnyCPU'">
+		<DefineConstants>$(DefineConstants);REVIT2023</DefineConstants>
+		<Optimize>True</Optimize>
+		<WarningLevel>4</WarningLevel>
+		<RevitVersion>2023</RevitVersion>
+		<TargetFramework>net48</TargetFramework>
+		<IsPublishable>False</IsPublishable>
+		<Deterministic>False</Deterministic>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2022|AnyCPU'">
+		<DefineConstants>$(DefineConstants);REVIT2022</DefineConstants>
+		<Optimize>True</Optimize>
+		<WarningLevel>4</WarningLevel>
+		<RevitVersion>2022</RevitVersion>
+		<TargetFramework>net48</TargetFramework>
+		<IsPublishable>False</IsPublishable>
+		<Deterministic>False</Deterministic>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2021|AnyCPU'">
+		<DefineConstants>$(DefineConstants);REVIT2021</DefineConstants>
+		<Optimize>True</Optimize>
+		<RevitVersion>2021</RevitVersion>
+		<WarningLevel>4</WarningLevel>
+		<TargetFramework>net48</TargetFramework>
+		<IsPublishable>False</IsPublishable>
+		<Deterministic>False</Deterministic>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2020|AnyCPU'">
+		<DefineConstants>$(DefineConstants);REVIT2020</DefineConstants>
+		<Optimize>True</Optimize>
+		<WarningLevel>4</WarningLevel>
+		<RevitVersion>2020</RevitVersion>
+		<TargetFramework>net48</TargetFramework>
+		<IsPublishable>False</IsPublishable>
+		<Deterministic>False</Deterministic>
+	</PropertyGroup>
+
+  <!-- Release 2024–2020 -->
+  <PropertyGroup Condition="$(Configuration.Contains('2024')) OR $(Configuration.Contains('2023')) OR $(Configuration.Contains('2022')) OR $(Configuration.Contains('2021')) OR $(Configuration.Contains('2020'))">
+    <UseWPF>true</UseWPF>
+    <TargetFramework>net48</TargetFramework>
+  </PropertyGroup>
+
+  <!-- Resources -->
   <ItemGroup>
     <Resource Include="Assets\*.bmp" />
     <Resource Include="Assets\*.png" />
     <EmbeddedResource Include="Assets\Ribbon\*.png" />
+    <EmbeddedResource Include="Assets\Lua.xshd" />
   </ItemGroup>
-  
+
+  <!-- Remove unwanted resources -->
   <ItemGroup>
     <Compile Remove="RunScript\Resources\**" />
     <EmbeddedResource Remove="RunScript\Resources\**" />
     <None Remove="RunScript\Resources\**" />
     <Page Remove="RunScript\Resources\**" />
-  </ItemGroup>
-  
-  <ItemGroup>
     <None Remove="RunScript\Views\Lua.xshd" />
   </ItemGroup>
-  
+
+  <!-- Core packages -->
   <ItemGroup>
-    <EmbeddedResource Include="Assets\Lua.xshd" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Caliburn.Micro" Version="5.0.258" />
-    <PackageReference Include="ClosedXML" Version="0.102.3" />
     <PackageReference Include="CoreCLR-NCalc" Version="3.1.253" />
     <PackageReference Include="CsvHelper" Version="33.1.0" />
-    <PackageReference Include="FluentIcons.WPF" Version="2.1.323" />
     <PackageReference Include="Hunspell.Native" Version="1.2.5359.26130" />
     <PackageReference Include="ini-parser-netstandard" Version="2.5.3" />
     <PackageReference Include="KeraLua" Version="1.4.9" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.2.1" />
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.1" />
     <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-	<PackageReference Include="NLua" Version="1.7.8" />
-	<PackageReference Include="lua" Version="5.5.0" />
-	<PackageReference Include="Extended.Wpf.Toolkit" Version="5.0.0" />
+    <PackageReference Include="NLua" Version="1.7.8" />
+    <PackageReference Include="lua" Version="5.5.0" />
+    <PackageReference Include="WPF-UI" Version="4.2.0" />
   </ItemGroup>
-  
- <ItemGroup>
-  <PackageReference Include="NHunspell" Version="1.2.5554.16953" TargetFramework="net48" Condition="$(Configuration.Contains('2020'))" /> 
-	<PackageReference Include="NHunspell" Version="1.2.5554.16953" TargetFramework="net48" Condition="$(Configuration.Contains('2021'))" /> 
-	<PackageReference Include="NHunspell" Version="1.2.5554.16953" TargetFramework="net48" Condition="$(Configuration.Contains('2022'))" /> 
-	<PackageReference Include="NHunspell" Version="1.2.5554.16953" TargetFramework="net48" Condition="$(Configuration.Contains('2023'))" /> 
-	<PackageReference Include="NHunspell" Version="1.2.5554.16953" TargetFramework="net48" Condition="$(Configuration.Contains('2024'))" /> 
-	<PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" /> 
-	<PackageReference Include="System.Drawing.Common" Version="8.0.4" /> 
-	<PackageReference Include="System.Formats.Asn1" Version="9.0.0" /> 
-	<PackageReference Include="System.Text.Json" Version="9.0.0" /> 
-  <PackageReference Include="Westwind.NHUnspell.NetStandard" Version="1.3.1" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('2025'))" />
-	<PackageReference Include="Westwind.NHUnspell.NetStandard" Version="1.3.1" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('2026'))" />
-	<PackageReference Include="Westwind.NHUnspell.NetStandard" Version="1.3.1" TargetFramework="net10.0-windows" Condition="$(Configuration.Contains('2027'))" />
-	<PackageReference Include="Westwind.NHUnspell.NetStandard" Version="1.3.1" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('Debug'))" />
- </ItemGroup>
-  
- <ItemGroup>
-    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2020.0.1" allowedVersions="[2020.0.0,2021.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2020'))" />
-    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2021.1.4" allowedVersions="[2021.0.0,2022.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2021'))" />
-    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2022.1.0" allowedVersions="[2022.0.0,2023.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2022'))" />
-    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2023.0.0" allowedVersions="[2023.0.0,2024.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2023'))" />
-    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2024.0.0" allowedVersions="[2024.0.0,2024.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2024'))" />
-	<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2025.0.0" allowedVersions="[2025.0.0,2026.0.0)" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('2025'))" />
-	<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2026.0.0" allowedVersions="[2026.0.0,2027.0.0)" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('2026'))" />
-	<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2027.0.0-beta2" allowedVersions="[2027.0.0-beta2)" TargetFramework="net10.0-windows" Condition="$(Configuration.Contains('2027'))" />
-	<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2026.0.0" allowedVersions="[2026.0.0,2027.0.0)" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('Debug'))" />
-	<PackageReference Include="WPF-UI" Version="4.2.0" />
- </ItemGroup>
- 
-<!--  <ItemGroup>
-    <PackageReference Include="ricaun.Revit.CefSharp" Version="2020.*" allowedVersions="[2020.0.0,2021.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2020'))" />
-    <PackageReference Include="ricaun.Revit.CefSharp" Version="2021.*" allowedVersions="[2021.0.0,2022.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2021'))" />
-    <PackageReference Include="ricaun.Revit.CefSharp" Version="2022.*" allowedVersions="[2022.0.0,2023.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2022'))" />
-    <PackageReference Include="ricaun.Revit.CefSharp" Version="2023.*" allowedVersions="[2023.0.0,2024.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2023'))" />
-    <PackageReference Include="ricaun.Revit.CefSharp" Version="2024.*" allowedVersions="[2024.0.0,2024.0.0)" TargetFramework="net48" Condition="$(Configuration.Contains('2024'))" />
-	<PackageReference Include="ricaun.Revit.CefSharp" Version="2025.*" allowedVersions="[2025.0.0,2026.0)" TargetFramework="net8.0-windows" Condition="$(Configuration.Contains('2025'))" />
- </ItemGroup> -->
-  
- <ItemGroup>
-   <Compile Update="ExportManager\Settings1.Designer.cs">
-     <DesignTimeSharedInput>True</DesignTimeSharedInput>
-     <AutoGen>True</AutoGen>
-     <DependentUpon>Settings1.settings</DependentUpon>
-   </Compile>
-   <Compile Update="ModelSetupWizard\ModelSetupWizardSettings.Designer.cs">
-     <DesignTimeSharedInput>True</DesignTimeSharedInput>
-     <AutoGen>True</AutoGen>
-     <DependentUpon>ModelSetupWizardSettings.settings</DependentUpon>
-   </Compile>
-   <Compile Update="Properties\Resources.Designer.cs">
-     <DesignTime>True</DesignTime>
-     <AutoGen>True</AutoGen>
-     <DependentUpon>Resources.resx</DependentUpon>
-   </Compile>
-   <Compile Update="Properties\Settings.Designer.cs">
-     <DesignTimeSharedInput>True</DesignTimeSharedInput>
-     <AutoGen>True</AutoGen>
-     <DependentUpon>Settings.settings</DependentUpon>
-   </Compile>
-   <Compile Update="RunScript\RunScriptSettings.Designer.cs">
-     <DesignTimeSharedInput>True</DesignTimeSharedInput>
-     <AutoGen>True</AutoGen>
-     <DependentUpon>RunScriptSettings.settings</DependentUpon>
-   </Compile>
-   <Compile Update="Scaddins.Designer.cs">
-     <DesignTimeSharedInput>True</DesignTimeSharedInput>
-     <AutoGen>True</AutoGen>
-     <DependentUpon>Scaddins.settings</DependentUpon>
-   </Compile>
-   <Compile Update="SheetCopier\Settings.Designer.cs">
-     <DesignTimeSharedInput>True</DesignTimeSharedInput>
-     <AutoGen>True</AutoGen>
-     <DependentUpon>Settings.settings</DependentUpon>
-   </Compile>
-   <Compile Update="SolarAnalysis\SolarAnalysisSettings.Designer.cs">
-     <DesignTimeSharedInput>True</DesignTimeSharedInput>
-     <AutoGen>True</AutoGen>
-     <DependentUpon>SolarAnalysisSettings.settings</DependentUpon>
-   </Compile>
-   <Compile Update="SpellChecker\SpellCheckerSettings.Designer.cs">
-     <DesignTimeSharedInput>True</DesignTimeSharedInput>
-     <AutoGen>True</AutoGen>
-     <DependentUpon>SpellCheckerSettings.settings</DependentUpon>
-   </Compile>
-   <Compile Update="ViewUtilities\ViewUtilitiesSettings.Designer.cs">
-     <DesignTimeSharedInput>True</DesignTimeSharedInput>
-     <AutoGen>True</AutoGen>
-     <DependentUpon>ViewUtilitiesSettings.settings</DependentUpon>
-   </Compile>
- </ItemGroup>
-  
- <ItemGroup>
-   <EmbeddedResource Update="Properties\Resources.resx">
-     <Generator>PublicResXFileCodeGenerator</Generator>
-     <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-   </EmbeddedResource>
- </ItemGroup>
-  
+
+  <!-- ClosedXML -->
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.102.3" Condition="$(Configuration.Contains('2020')) OR $(Configuration.Contains('2021')) OR $(Configuration.Contains('2022')) OR $(Configuration.Contains('2023')) OR $(Configuration.Contains('2024'))" TargetFramework="net48" />
+    <PackageReference Include="ClosedXML" Version="0.102.3" Condition="$(Configuration.Contains('2025')) OR $(Configuration.Contains('2026'))" TargetFramework="net8.0-windows" />
+    <PackageReference Include="ClosedXML" Version="0.102.3" Condition="$(Configuration.Contains('2027'))" TargetFramework="net10.0-windows" />
+  </ItemGroup>
+
+  <!-- Newtonsoft.Json -->
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" Condition="$(Configuration.Contains('2020')) OR $(Configuration.Contains('2021')) OR $(Configuration.Contains('2022')) OR $(Configuration.Contains('2023')) OR $(Configuration.Contains('2024'))" TargetFramework="net48" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" Condition="$(Configuration.Contains('2025')) OR $(Configuration.Contains('2026'))" TargetFramework="net8.0-windows" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" Condition="$(Configuration.Contains('2027'))" TargetFramework="net10.0-windows" />
+  </ItemGroup>
+
+  <!-- XAML Behaviors -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" Condition="$(Configuration.Contains('2020')) OR $(Configuration.Contains('2021')) OR $(Configuration.Contains('2022')) OR $(Configuration.Contains('2023')) OR $(Configuration.Contains('2024'))" TargetFramework="net48" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" Condition="$(Configuration.Contains('2025')) OR $(Configuration.Contains('2026'))" TargetFramework="net8.0-windows" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" Condition="$(Configuration.Contains('2027'))" TargetFramework="net10.0-windows" />
+  </ItemGroup>
+
+  <!-- Revit API -->
+  <ItemGroup>
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2020.0.1" Condition="$(Configuration.Contains('2020'))" TargetFramework="net48" />
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2021.1.4" Condition="$(Configuration.Contains('2021'))" TargetFramework="net48" />
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2022.1.0" Condition="$(Configuration.Contains('2022'))" TargetFramework="net48" />
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2023.0.0" Condition="$(Configuration.Contains('2023'))" TargetFramework="net48" />
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2024.0.0" Condition="$(Configuration.Contains('2024'))" TargetFramework="net48" />
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2025.0.0" Condition="$(Configuration.Contains('2025'))" TargetFramework="net8.0-windows" />
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2026.0.0" Condition="$(Configuration.Contains('2026')) OR $(Configuration.Contains('Debug'))" TargetFramework="net8.0-windows" />
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2027.0.2" Condition="$(Configuration.Contains('2027'))" TargetFramework="net10.0-windows" />
+  </ItemGroup>
+
+  <!-- NHunspell -->
+  <ItemGroup>
+    <PackageReference Include="NHunspell" Version="1.2.5554.16953" Condition="$(Configuration.Contains('2020')) OR $(Configuration.Contains('2021')) OR $(Configuration.Contains('2022')) OR $(Configuration.Contains('2023')) OR $(Configuration.Contains('2024'))" TargetFramework="net48" />
+    <PackageReference Include="Westwind.NHUnspell.NetStandard" Version="1.3.1" Condition="$(Configuration.Contains('2025')) OR $(Configuration.Contains('2026')) OR $(Configuration.Contains('2027')) OR $(Configuration.Contains('Debug'))" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.4" />
+    <PackageReference Include="System.Formats.Asn1" Version="9.0.0" />
+    <PackageReference Include="System.Text.Json" Version="9.0.0" />
+  </ItemGroup>
+
+  <!-- Caliburn.Micro -->
+  <ItemGroup>
+    <PackageReference Include="Caliburn.Micro" Version="5.0.258" Condition="$(Configuration.Contains('2020')) OR $(Configuration.Contains('2021')) OR $(Configuration.Contains('2022')) OR $(Configuration.Contains('2023')) OR $(Configuration.Contains('2024'))" TargetFramework="net48" />
+    <PackageReference Include="Caliburn.Micro" Version="5.0.258" Condition="$(Configuration.Contains('2025')) OR $(Configuration.Contains('2026'))" TargetFramework="net8.0-windows" />
+    <PackageReference Include="Caliburn.Micro" Version="5.0.258" Condition="$(Configuration.Contains('2027'))" TargetFramework="net10.0-windows" />
+  </ItemGroup>
+
+  <!-- Designer files -->
+  <ItemGroup>
+    <Compile Update="ExportManager\Settings1.Designer.cs">
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+      <AutoGen>true</AutoGen>
+      <DependentUpon>Settings1.settings</DependentUpon>
+    </Compile>
+
+    <Compile Update="ModelSetupWizard\ModelSetupWizardSettings.Designer.cs">
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+      <AutoGen>true</AutoGen>
+      <DependentUpon>ModelSetupWizardSettings.settings</DependentUpon>
+    </Compile>
+
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>true</DesignTime>
+      <AutoGen>true</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+      <AutoGen>true</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+
+    <Compile Update="RunScript\RunScriptSettings.Designer.cs">
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+      <AutoGen>true</AutoGen>
+      <DependentUpon>RunScriptSettings.settings</DependentUpon>
+    </Compile>
+
+    <Compile Update="Scaddins.Designer.cs">
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+      <AutoGen>true</AutoGen>
+      <DependentUpon>Scaddins.settings</DependentUpon>
+    </Compile>
+
+    <Compile Update="SheetCopier\Settings.Designer.cs">
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+      <AutoGen>true</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+
+    <Compile Update="SolarAnalysis\SolarAnalysisSettings.Designer.cs">
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+      <AutoGen>true</AutoGen>
+      <DependentUpon>SolarAnalysisSettings.settings</DependentUpon>
+    </Compile>
+
+    <Compile Update="SpellChecker\SpellCheckerSettings.Designer.cs">
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+      <AutoGen>true</AutoGen>
+      <DependentUpon>SpellCheckerSettings.settings</DependentUpon>
+    </Compile>
+
+    <Compile Update="ViewUtilities\ViewUtilitiesSettings.Designer.cs">
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+      <AutoGen>true</AutoGen>
+      <DependentUpon>ViewUtilitiesSettings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <!-- Resources -->
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <!-- Settings -->
   <ItemGroup>
     <None Update="ExportManager\Settings1.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
     </None>
+
     <None Update="ModelSetupWizard\ModelSetupWizardSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>ModelSetupWizardSettings.Designer.cs</LastGenOutput>
     </None>
+
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+
     <None Update="RevisionUtilities\Views\RevisionUtilitiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+
     <None Update="RunScript\RunScriptSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>RunScriptSettings.Designer.cs</LastGenOutput>
     </None>
+
     <None Update="Scaddins.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Scaddins.Designer.cs</LastGenOutput>
     </None>
+
     <None Update="SheetCopier\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+
     <None Update="SolarAnalysis\SolarAnalysisSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>SolarAnalysisSettings.Designer.cs</LastGenOutput>
     </None>
+
     <None Update="SpellChecker\SpellCheckerSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>SpellCheckerSettings.Designer.cs</LastGenOutput>
     </None>
+
     <None Update="ViewUtilities\ViewUtilitiesSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>ViewUtilitiesSettings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  
+
+  <!-- Pre-build -->
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="if not exist &quot;$(PojectDir)Resources&quot; mkdir &quot;$(ProjectDir)Resources&quot;&#xD;&#xA;echo %25date%25 %25time%25 &gt; &quot;$(ProjectDir)\Resources\BuildDate.txt&quot;" />
+    <Exec Command="if not exist &quot;$(ProjectDir)Resources&quot; mkdir &quot;$(ProjectDir)Resources&quot;&#xD;&#xA;echo %25date%25 %25time%25 &gt; &quot;$(ProjectDir)\Resources\BuildDate.txt&quot;" />
   </Target>
-  
+
+  <!-- Post-build -->
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy &quot;$(ProjectDir)packages\hunspell.native\1.2.5359.26130\build\x64\*.dll&quot; &quot;$(OutDir)&quot;&#xD;&#xA;copy &quot;$(ProjectDir)packages\keralua\1.4.1\runtimes\win-x64\native\*.dll&quot; &quot;$(OutDir)&quot;" />
+    <Exec Command="copy &quot;$(ProjectDir)packages\hunspell.native\1.2.5359.26130\build\x64\*.dll&quot; &quot;$(OutDir)&quot;&#xD;&#xA;copy &quot;$(ProjectDir)packages\keralua\1.4.9\runtimes\win-x64\native\*.dll&quot; &quot;$(OutDir)&quot;" />
   </Target>
-  
-  <ItemGroup>
-    <Reference Update="PresentationCore">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Update="PresentationFramework">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Update="System">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Update="System.Core">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Update="System.Data">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Update="System.Drawing">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Update="System.IO.Compression.FileSystem">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Update="System.Numerics">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup> 
-  <Content Include="Monaco\**"> 
-    <CopyToOutputDirectory>Always</CopyToOutputDirectory> 
-  </Content> 
-</ItemGroup>
-  
+
+  <!-- Remove unused -->
   <ItemGroup>
     <Compile Remove="SolarAnalysis\LockBitmap.cs" />
-  </ItemGroup>
-  
-  <ItemGroup>
-	<Reference TargetFramework="net48" Include="System.Web" Condition="$(Configuration.Contains('2020'))" />
-	<Reference TargetFramework="net48" Include="System.Web" Condition="$(Configuration.Contains('2021'))" />
-	<Reference TargetFramework="net48" Include="System.Web" Condition="$(Configuration.Contains('2022'))" />
-	<Reference TargetFramework="net48" Include="System.Web" Condition="$(Configuration.Contains('2023'))" />
-    <Reference TargetFramework="net48" Include="System.Web" Condition="$(Configuration.Contains('2024'))" />
-  </ItemGroup> 
-  
-  <ItemGroup>
-    <Reference Update="System.Runtime.Serialization">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Update="System.Windows.Controls.Ribbon">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Update="System.Windows.Forms">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Update="System.Xaml">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Update="System.Xml">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Update="System.Xml.Linq">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Update="UIAutomationClient">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Update="UIAutomationClientSideProviders">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Update="UIAutomationProvider">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Update="UIAutomationTypes">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Update="WindowsBase">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Update="WindowsFormsIntegration">
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
 
 </Project>
