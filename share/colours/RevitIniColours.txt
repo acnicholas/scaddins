@@ -1,0 +1,16 @@
+CustomColor1 = B17182
+CustomColor2 = C5E2C7
+CustomColor3 = C2A46D
+CustomColor4 = E7D5A2
+CustomColor5 = DBC2B9
+CustomColor6 = B0DFF8
+CustomColor7 = 9BC7F9
+CustomColor8 = 9699FF
+CustomColor9 = CBA0B3
+CustomColor10 = D8EBD9
+CustomColor11 = D7C2A0
+CustomColor12 = EFE2C2
+CustomColor13 = E8D7D1
+CustomColor14 = CBEBF9
+CustomColor15 = BDDAF9
+CustomColor16 = B9BBFC

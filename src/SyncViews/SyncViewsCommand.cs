@@ -20,7 +20,9 @@ namespace SCaddins.SyncViews
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Autodesk.Revit.UI.Events;
+    using DocumentFormat.OpenXml.Drawing;
     using SCaddins;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
@@ -35,23 +37,35 @@ namespace SCaddins.SyncViews
             return Result.Succeeded;
         }
 
-        public void AttachIdleEventHandler(ExternalCommandData commandData)
+        public static void AttachIdleEventHandler(ExternalCommandData commandData)
         {
             UIApplication uiApp = commandData.Application;
             uiApp.Idling += OnIdling;
         }
 
-        public void RemoveIdleEventHandler(UIApplication uiApp)
+        public static void RemoveIdleEventHandler(UIApplication uiApp)
         {
             uiApp.Idling -= OnIdling;
         }
 
-        public void OnIdling(object sender, IdlingEventArgs e)
+        public static void OnIdling(object sender, IdlingEventArgs e)
         {
             UIApplication uiApp = sender as UIApplication;
             Document doc = uiApp.ActiveUIDocument.Document;
             {
-                Autodesk.Revit.UI.TaskDialog.Show("Idle action", "Idle action");
+                //MAKE sure this is super fast as it will run ALL THE TIME!!!
+                //lets only run every n seconds.
+
+                var activeVIew = uiApp.ActiveUIDocument.ActiveView;
+                if (activeVIew != null && activeVIew.ViewType == ViewType.FloorPlan)
+                {
+                    //Get all other visible floor plans that are similar
+                    var openViews = uiApp.ActiveUIDocument.GetOpenUIViews();
+                    var simViews = openViews.Where(t => t.VIew)
+                }
+
+
+                //Autodesk.Revit.UI.TaskDialog.Show("Idle action", "Idle action");
             }
         }
 
