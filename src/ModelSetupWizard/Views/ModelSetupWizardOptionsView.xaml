@@ -13,7 +13,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <TabControl>
-            <TabItem Header="Project Information Autofill Settings">
+            <!--<TabItem Header="Project Information Autofill Settings">
                 <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
@@ -29,8 +29,8 @@
                     <Button x:Name="RemoveReplacement" HorizontalAlignment="Right" Margin="5">Remove</Button>
                 </StackPanel>
             </Grid>
-            </TabItem>
-            <TabItem Header="Default Workset Creation Settings">
+            </TabItem>-->
+            <!--<TabItem Header="Default Workset Creation Settings">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
@@ -58,8 +58,8 @@
                         <Button x:Name="RemoveWorksets" HorizontalAlignment="Right" Margin="5">Remove</Button>
                     </StackPanel>
                 </Grid>
-            </TabItem >
-            <TabItem Header="Nominated Architects">
+            </TabItem >-->
+            <!--<TabItem Header="Nominated Architects">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
@@ -78,12 +78,12 @@
                     </StackPanel>
                 </Grid>
 
-            </TabItem>
+            </TabItem>-->
             <TabItem Header="Colour Schemes">
                 <DataGrid x:Name="ColourSchemes" Margin="5">
                 </DataGrid>
             </TabItem>
-            <TabItem Header="Parameter Settings">
+            <!--<TabItem Header="Parameter Settings">
                 <GroupBox Margin="5" Header="Parameter Name Mappings">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -104,7 +104,7 @@
                     <TextBox x:Name="FileNameParameterName" Grid.Row="2" Grid.Column="1" Margin="5"></TextBox>
                     </Grid>
                 </GroupBox>
-            </TabItem>
+            </TabItem>-->
             <TabItem Header="Advanced">
                 <GroupBox Margin="5" Header="Advanced config options">
                     <Grid>

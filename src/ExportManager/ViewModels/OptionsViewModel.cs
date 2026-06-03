@@ -378,6 +378,14 @@ namespace SCaddins.ExportManager.ViewModels
                 {
                     return;
                 }
+                //expand system variables.
+                string expanded = Environment.ExpandEnvironmentVariables(value);
+                if (expanded != value)
+                {
+                    ExportDirectory = expanded;
+                    return;
+                }
+
                 exportManager.ExportDirectory = value;
                 Settings1.Default.ExportDir = value;
                 Settings1.Default.Save();

@@ -14,116 +14,6 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <TabControl SelectedIndex="{Binding TabControlSelectedIndex}">
-            <TabItem Header="Project Information">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                    </Grid.RowDefinitions>
-
-                    <DataGrid 
-                        x:Name="ProjectInformation"
-                        GridLinesVisibility="None"
-                        AutoGenerateColumns="false"
-                        cal:Message.Attach="[Event SelectionChanged] = [ProjectInfoSelectionChanged($source,$eventArgs)]">
-                        <DataGrid.RowStyle>
-                            <Style TargetType="DataGridRow">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsModified}" Value="False">
-                                        <Setter Property="Foreground" Value="Black"></Setter>
-                                        <Setter Property="FontWeight" Value="Regular"></Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsModified}" Value="True">
-                                        <Setter Property="Foreground" Value="Black"></Setter>
-                                        <Setter Property="FontWeight" Value="Bold"></Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsEditable}" Value="False">
-                                        <Setter Property="Foreground" Value="DarkGray"></Setter>
-                                        <Setter Property="FontWeight" Value="Regular"></Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsValid}" Value="False">
-                                        <Setter Property="Foreground" Value="Red"></Setter>
-                                        <!--<Setter Property="FontWeight" Value="Regular"></Setter>-->
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DataGrid.RowStyle>
-                        <DataGrid.AlternatingRowBackground>
-                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
-                        </DataGrid.AlternatingRowBackground>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Parameter Name" Binding="{Binding Name}" MinWidth="100" IsReadOnly="True"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Value" Binding="{Binding Value}" MinWidth="100"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Original Value" Binding="{Binding OriginalValue}" MinWidth="100" IsReadOnly="True"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Format" Binding="{Binding Format}" MinWidth="100"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Type" Binding="{Binding Type}" MinWidth="100" IsReadOnly="True"></DataGridTextColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <TextBlock Grid.Row="1">
-                        <Run FontWeight="Bold">*Bold </Run>
-                        <Run>indicates paramaters that will be changed. </Run>
-                        <Run Foreground="Red">Red indicates an invalid format.</Run>
-                    </TextBlock>
-                    <StackPanel Grid.Row="2" Orientation="Horizontal">
-                        <Button x:Name="ResetSelectedProjectInfo"  HorizontalAlignment="Left" Margin="5">Reset Selected Item</Button>
-                        <Button x:Name="ConvertSelectedItemsToUpperCase" HorizontalAlignment="Left" Margin="5">Convert Selection To Uppercase</Button>
-                        <ComboBox x:Name="NominatedArchitects"  DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="5"></ComboBox>
-                    </StackPanel>
-                </Grid>
-
-            </TabItem>
-            <TabItem Header="Worksets" IsEnabled="{Binding WorksharingIsEnabled}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <DataGrid 
-                        cal:Message.Attach="[Event SelectionChanged] = [WorksetsSelectionChanged($source,$eventArgs)]"
-                        x:Name="Worksets" 
-                        AutoGenerateColumns="False"
-                        CanUserAddRows="True" 
-                        CanUserDeleteRows="True" 
-                        GridLinesVisibility="None"
-                        Margin="5">
-                        <DataGrid.RowStyle>
-                            <Style TargetType="DataGridRow">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsModified}" Value="False">
-                                        <Setter Property="Foreground" Value="Black"></Setter>
-                                        <Setter Property="FontWeight" Value="Regular"></Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsModified}" Value="True">
-                                        <Setter Property="Foreground" Value="Black"></Setter>
-                                        <Setter Property="FontWeight" Value="Bold"></Setter>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DataGrid.RowStyle>
-                        <DataGrid.AlternatingRowBackground>
-                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
-                        </DataGrid.AlternatingRowBackground>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="New Name" Binding="{Binding Name}" MinWidth="100"></DataGridTextColumn>
-                            <DataGridCheckBoxColumn Header="Visible In All Views" Binding="{Binding VisibleInAllViews}" MinWidth="50"></DataGridCheckBoxColumn>
-                            <DataGridTextColumn Header="Is Existing Workset" Binding="{Binding IsExisting}" MinWidth="50" IsReadOnly="True"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Existing Name" Binding="{Binding ExistingName}" MinWidth="100" IsReadOnly="True"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Workset Id" Binding="{Binding Id}" MinWidth="50" IsReadOnly="True"></DataGridTextColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <Label Grid.Row="1">
-                        <TextBlock>
-                        <Bold>*Bold</Bold> indicates worksets that will be created or modified.
-                        </TextBlock>
-                    </Label>
-                    <StackPanel Grid.Row="2" Orientation="Horizontal">
-                        <Button x:Name="AddWorkset"  HorizontalAlignment="Left" Margin="5">Add</Button>
-                        <Button x:Name="RemoveWorksets" HorizontalAlignment="Right" Margin="5">Remove</Button>
-                    </StackPanel>
-                </Grid>
-            </TabItem>
             <TabItem Header="Colours">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -135,37 +25,103 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">
+                    <Grid Grid.Column="0" Grid.ColumnSpan="2">
                         <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition MinWidth="35"></ColumnDefinition>
-                            <ColumnDefinition MinWidth="35"></ColumnDefinition>
-                            <ColumnDefinition MinWidth="35"></ColumnDefinition>
-                            <ColumnDefinition MinWidth="35"></ColumnDefinition>
-                            <ColumnDefinition MinWidth="35"></ColumnDefinition>
-                            <ColumnDefinition MinWidth="35"></ColumnDefinition>
-                            <ColumnDefinition MinWidth="35"></ColumnDefinition>
-                            <ColumnDefinition MinWidth="35"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition ></ColumnDefinition>
+                            <ColumnDefinition ></ColumnDefinition>
+                            <ColumnDefinition ></ColumnDefinition>
+                            <ColumnDefinition ></ColumnDefinition>
+                            <ColumnDefinition ></ColumnDefinition>
+                            <ColumnDefinition ></ColumnDefinition>
+                            <ColumnDefinition ></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <!--<xctk:ColorPicker x:Name="Colour01" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="0" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[0]}"></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour02" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="1" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[1]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour03" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="2" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[2]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour04" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="3" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[3]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour05" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="4" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[4]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour06" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="5" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[5]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour07" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="6" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[6]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour08" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="0" Grid.Column="7" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[7]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour09" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="0" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[8]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour10" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="1" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[9]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour11" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="2" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[10]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour12" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="3" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[11]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour13" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="4" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[12]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour14" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="5" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[13]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour15" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="6" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[14]}" ></xctk:ColorPicker>
-                        <xctk:ColorPicker x:Name="Colour16" ColorMode="ColorCanvas" VerticalContentAlignment="Stretch" ShowDropDownButton="False" Grid.Row="1" Grid.Column="7" Margin="5" MinWidth="35" SelectedColor="{Binding Colours[15]}" ></xctk:ColorPicker>-->
+                        <Button cal:Message.Attach="Colour(0)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="0" Margin="5" MinWidth="35" MinHeight="35">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding Colours[0]}" />
+                            </Button.Background>
+                        </Button>
+                        <Button cal:Message.Attach="Colour(1)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="1" Margin="5" MinWidth="35" MinHeight="35">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding Colours[1]}" />
+                            </Button.Background>
+                        </Button>
+                        <Button cal:Message.Attach="Colour(2)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="2" Margin="5" MinWidth="35" MinHeight="35">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding Colours[2]}" />
+                            </Button.Background>
+                        </Button>
+                        <Button cal:Message.Attach="Colour(3)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="3" Margin="5" MinWidth="35" MinHeight="35">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding Colours[3]}" />
+                            </Button.Background>
+                        </Button>
+                        <Button cal:Message.Attach="Colour(4)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="4" Margin="5" MinWidth="35" MinHeight="35">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding Colours[4]}" />
+                            </Button.Background>
+                        </Button>
+                        <Button cal:Message.Attach="Colour(5)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="5" Margin="5" MinWidth="35" MinHeight="35">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding Colours[5]}" />
+                            </Button.Background>
+                        </Button>
+                        <Button cal:Message.Attach="Colour(6)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="6" Margin="5" MinWidth="35" MinHeight="35">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding Colours[6]}" />
+                            </Button.Background>
+                        </Button>
+                        <Button cal:Message.Attach="Colour(7)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="7" Margin="5" MinWidth="35" MinHeight="35">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding Colours[7]}" />
+                            </Button.Background>
+                        </Button>
+
+                        <Button cal:Message.Attach="Colour(8)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Margin="5" MinWidth="35" MinHeight="35">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding Colours[8]}" />
+                            </Button.Background>
+                        </Button>
+                        <Button cal:Message.Attach="Colour(9)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Margin="5" MinWidth="35" MinHeight="35">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding Colours[9]}" />
+                            </Button.Background>
+                        </Button>
+                        <Button cal:Message.Attach="Colour(10)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="2" Margin="5" MinWidth="35" MinHeight="35">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding Colours[10]}" />
+                            </Button.Background>
+                        </Button>
+                        <Button cal:Message.Attach="Colour(11)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="3" Margin="5" MinWidth="35" MinHeight="35">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding Colours[11]}" />
+                            </Button.Background>
+                        </Button>
+                        <Button cal:Message.Attach="Colour(12)" VerticalContentAlignment="Stretch" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="4" Margin="5" MinWidth="35" MinHeight="35">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding Colours[12]}" />
+                            </Button.Background>
+                        </Button>
+                        <Button cal:Message.Attach="Colour(13)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="5" Margin="5" MinWidth="35" MinHeight="35">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding Colours[13]}" />
+                            </Button.Background>
+                        </Button>
+                        <Button cal:Message.Attach="Colour(14)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="6" Margin="5" MinWidth="35" MinHeight="35">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding Colours[14]}" />
+                            </Button.Background>
+                        </Button>
+                        <Button cal:Message.Attach="Colour(15)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="7" Margin="5" MinWidth="35" MinHeight="35">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding Colours[15]}" />
+                            </Button.Background>
+                        </Button>
+
                     </Grid>
                     <ComboBox Grid.Row="1" Grid.Column="0" x:Name="ColourSchemes" DisplayMemberPath="Name"></ComboBox>
                     <Button Grid.Row="1" Grid.Column="1" x:Name="TestColourDialog"></Button>
@@ -194,9 +150,9 @@
                     <Label>Click to access more options :P</Label>
                 </Button.ToolTip>
             </ui:Button>
-            <ui:Button x:Name="EnableWorksharing"  IsEnabled="{Binding IsNonWorkshared}"  HorizontalAlignment="Right" Margin="5" MinWidth="30" Grid.Column="2">Enable Worksharing</ui:Button>
-            <ui:Button x:Name="Cancel" HorizontalAlignment="Right" Margin="5" MinWidth="30" Grid.Column="3">Cancel</ui:Button>
-            <ui:Button x:Name="Apply"  Appearance="Primary" HorizontalAlignment="Right" Margin="5" Grid.Column="4" Content="{Binding ApplyButtonLabel}"></ui:Button>
+            <Button x:Name="EnableWorksharing"  IsEnabled="{Binding IsNonWorkshared}"  HorizontalAlignment="Right" Margin="5" MinWidth="30" Grid.Column="2">Enable Worksharing</Button>
+            <Button x:Name="Cancel" HorizontalAlignment="Right" Margin="5" MinWidth="30" Grid.Column="3">Cancel</Button>
+            <Button x:Name="Apply" HorizontalAlignment="Right" Margin="5" Grid.Column="4" Content="{Binding ApplyButtonLabel}"></Button>
         </Grid>
     </Grid>
 </UserControl>

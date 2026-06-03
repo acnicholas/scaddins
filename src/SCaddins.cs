@@ -43,6 +43,8 @@ namespace SCaddins
         private static Common.Bootstrapper bootstrapper;
         // ReSharper disable once InconsistentNaming
         private static Common.WindowManager windowManager;
+        public static bool handlerAttached;
+
         private RibbonPanel scaddinsRibbonPanel;
         private RibbonPanel createRibbonPanel;
         private RibbonPanel modifyRibbonPanel;
@@ -63,6 +65,7 @@ namespace SCaddins
         private PushButton spellingChecker;
         private PushButton gridManagerPushButton;
         private PushButton openSheetPushButton;
+        private PushButton syncViewsPushButton;
 
         public static Version Version => Assembly.GetExecutingAssembly().GetName().Version;
 
@@ -204,12 +207,12 @@ namespace SCaddins
             return Result.Succeeded;
         }
 
-#if REVIT2024 || REVIT2025 || REVIT2026
+#if REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
         public void ChangeTheme()
         {
 
 #if NET48
-            var dll = new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
+        var dll = new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).CodeBase).LocalPath;
 #else
         var dll = new Uri(Assembly.GetAssembly(typeof(SCaddinsApp)).Location).LocalPath;
 #endif
@@ -238,6 +241,7 @@ namespace SCaddins
                     AssignPushButtonImage(scoordPushButton, @"SCaddins.Assets.Ribbon.scoord-rvt-16-dark.png", 16, dll);
                     AssignPushButtonImage(modelWizardPushButton, "SCaddins.Assets.Ribbon.checkdoc-rvt-16-dark.png", 16, dll);
                     AssignPushButtonImage(openSheetPushButton, "SCaddins.Assets.Ribbon.find-rvt-16-dark.png", 16, dll);
+                    AssignPushButtonImage(syncViewsPushButton, @"SCaddins.Assets.Ribbon.syncview-rvt-dark.png", 32, dll);
                     break;
                 case UITheme.Light:
                     //SCaddinsApp.WindowManager.ShowMessageBox("setting light theme");
@@ -258,6 +262,7 @@ namespace SCaddins
                     AssignPushButtonImage(scoordPushButton, @"SCaddins.Assets.Ribbon.scoord-rvt-16.png", 16, dll);
                     AssignPushButtonImage(modelWizardPushButton, "SCaddins.Assets.Ribbon.checkdoc-rvt-16.png", 16, dll);
                     AssignPushButtonImage(openSheetPushButton, "SCaddins.Assets.Ribbon.find-rvt-16.png", 16, dll);
+                    AssignPushButtonImage(syncViewsPushButton, @"SCaddins.Assets.Ribbon.syncview-rvt.png", 32, dll);
                     break;
             }
 			scaddinsRibbonPanel.Visible = false;
@@ -275,7 +280,9 @@ namespace SCaddins
 
         public Result OnStartup(UIControlledApplication application)
         {
-#if REVIT2024 || REVIT2025 || REVIT2026
+            handlerAttached = false;
+
+#if REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
             application.ThemeChanged += Application_ThemeChanged;
 #endif
 
@@ -354,7 +361,10 @@ namespace SCaddins
                 LoadOpenSheet(scdll));     
             
             openSheetPushButton = stackedItemFive[2] as PushButton;
-    
+
+            var syncViews = LoadSyncViews(scdll);
+            syncViewsPushButton = viewRibbonPanel.AddItem(syncViews) as PushButton;
+
             var stackedItemSix = aboutRibbonPanel.AddStackedItems(
                 LoadInfo(scdll),
                 LoadAbout(scdll));
@@ -364,7 +374,7 @@ namespace SCaddins
                 LoadGlobalSettings(scdll),
                 LoadRunScript(scdll));
 
-#if REVIT2024 || REVIT2025 || REVIT2026
+#if REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
             ChangeTheme(); //FIXME, this doesn't need to run everytime, load the correct theme once.
 #else
             AssignPushButtonImage(scexportPushButton, @"SCaddins.Assets.Ribbon.scexport-rvt.png", 32, scdll);
@@ -384,12 +394,13 @@ namespace SCaddins
             AssignPushButtonImage(scoordPushButton, @"SCaddins.Assets.Ribbon.scoord-rvt-16.png", 16, scdll);
             AssignPushButtonImage(modelWizardPushButton, "SCaddins.Assets.Ribbon.checkdoc-rvt-16.png", 16, scdll);
             AssignPushButtonImage(openSheetPushButton, "SCaddins.Assets.Ribbon.find-rvt-16.png", 16, scdll);
+            AssignPushButtonImage(syncViewsPushButton, @"SCaddins.Assets.Ribbon.syncview-rvt.png", 32, scdll);
 #endif
 
             return Result.Succeeded;
         }
 
-#if REVIT2024 || REVIT2025 || REVIT2026
+#if REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
         private void Application_ThemeChanged(object sender, Autodesk.Revit.UI.Events.ThemeChangedEventArgs e)
         {
             //SCaddinsApp.WindowManager.ShowMessageBox("theme changed");
@@ -571,8 +582,15 @@ namespace SCaddins
         {
             var pbd = new PushButtonData(
                               "SCincrement", Resources.IncrementTool, dll, "SCaddins.ParameterUtilities.Command");
-            //AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.scincrement-rvt-16.png", 16, dll);
             pbd.ToolTip = Resources.IncrementToolToolTip;
+            return pbd;
+        }
+
+        private static PushButtonData LoadSyncViews(string dll)
+        {
+            var pbd = new PushButtonData(
+                              "Sync Views", @"Sync Views", dll, "SCaddins.SyncViews.SyncViewsHandler");
+            AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.syncview-rvt.png", 32, dll);
             return pbd;
         }
 

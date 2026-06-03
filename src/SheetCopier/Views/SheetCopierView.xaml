@@ -203,14 +203,34 @@
                     GridLinesVisibility="None"
                     cal:Message.Attach="[Event SelectionChanged] = [ChildViewsRowSelectionChanged($eventArgs)]"
                     Margin="5">
+
+                    <ui:DataGrid.Resources>
+                        <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
+                            <Setter Property="Margin" Value="1,1,1,1" />
+                        </Style>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <Trigger Property="DataGridCell.IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#cccccc"/>
+                                    <Setter Property="BorderBrush" Value="#333333" />
+                                    <Setter Property="Foreground" Value="#333333" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ui:DataGrid.Resources>
+
+
                     <DataGrid.AlternatingRowBackground>
                         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                     </DataGrid.AlternatingRowBackground>
-                    <!--<ui:DataGrid.RowStyle>
+                    <ui:DataGrid.RowStyle>
                         <Style TargetType="{x:Type DataGridRow}">
                             <Setter Property="IsEnabled"  Value="{Binding IsEnabled}"/>
                         </Style>
-                    </ui:DataGrid.RowStyle>-->
+                    </ui:DataGrid.RowStyle>
                     <ui:DataGrid.Columns>
                         <DataGridTextColumn Header="Original Title" Binding="{Binding OriginalTitle, Mode=OneWay}"  MinWidth="75"></DataGridTextColumn>
                         <DataGridTextColumn Header="Proposed Title" Binding="{Binding Title}"  MinWidth="75"></DataGridTextColumn>
