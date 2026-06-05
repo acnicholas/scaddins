@@ -22,6 +22,7 @@ namespace SCaddins.SyncViews
     using Autodesk.Revit.UI.Events;
     using SCaddins;
     using System;
+    using System.Collections.ObjectModel;
     using System.Diagnostics;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
@@ -78,6 +79,76 @@ namespace SCaddins.SyncViews
             uiApp.Idling -= SyncViewsHandler.Handler;
         }
 
+        /// <summary>
+        /// Run this if the parent view is a plan
+        /// </summary>
+        private static void SyncPlans(UIApplication uiApp, View activeView)
+        {
+            var uiViews = uiApp.ActiveUIDocument.GetOpenUIViews();
+
+            Autodesk.Revit.UI.UIView uiView = null;
+            foreach (UIView uiv in uiViews)
+            {
+                if (uiv.ViewId == activeView.Id)
+                {
+                    uiView = uiv;
+                    break;
+                }
+            }
+
+            if (uiView == null) return;
+
+            var zoomCorner = uiView.GetZoomCorners();
+
+            foreach (UIView uiv2 in uiViews)
+            {
+                if (uiv2.ViewId == uiView.ViewId) continue; // dont redraw the active view
+
+                // dont redraw if the view is not a plan
+                var v = activeView.Document.GetElement(uiv2.ViewId) as View;
+                if (v.ViewType == ViewType.AreaPlan ||
+                    v.ViewType == ViewType.FloorPlan ||
+                    v.ViewType == ViewType.CeilingPlan)
+                    {
+                        uiv2.ZoomAndCenterRectangle(zoomCorner[0], zoomCorner[1]);
+                    }
+            }
+        }
+
+        /// <summary>
+        /// Run this if the parenet view is a sheet.
+        /// </summary>
+        private static void SyncSheets(UIApplication uiApp, View activeView)
+        {
+            var uiViews = uiApp.ActiveUIDocument.GetOpenUIViews();
+
+            Autodesk.Revit.UI.UIView uiView = null;
+            foreach (UIView uiv in uiViews)
+            {
+                if (uiv.ViewId == activeView.Id)
+                {
+                    uiView = uiv;
+                    break;
+                }
+            }
+
+            if (uiView == null) return;
+
+            var zoomCorner = uiView.GetZoomCorners();
+
+            foreach (UIView uiv2 in uiViews)
+            {
+                if (uiv2.ViewId == uiView.ViewId) continue; // dont redraw the active view
+
+                // dont redraw if the view is not a plan
+                var v = activeView.Document.GetElement(uiv2.ViewId) as View;
+                if (v.ViewType == ViewType.DrawingSheet)
+                {
+                    uiv2.ZoomAndCenterRectangle(zoomCorner[0], zoomCorner[1]);
+                }
+            }
+        }
+
         public static void OnIdling(object sender, IdlingEventArgs e)
         {
             UIApplication uiApp = sender as UIApplication;
@@ -91,33 +162,19 @@ namespace SCaddins.SyncViews
                 var activeView = uiApp.ActiveUIDocument.ActiveView;
 
                 if (activeView == null) return;
-                if (activeView.ViewType != ViewType.FloorPlan
-                    && activeView.ViewType != ViewType.AreaPlan
-                    && activeView.ViewType != ViewType.CeilingPlan)
-                {
-                    return;
-                }
 
-                var uiViews = uiApp.ActiveUIDocument.GetOpenUIViews();
-                
-                Autodesk.Revit.UI.UIView uiView = null;
-                foreach (UIView uiv in uiViews)
+                switch(activeView.ViewType)
                 {
-                    if (uiv.ViewId == activeView.Id)
-                    {
-                        uiView = uiv;
+                    case ViewType.AreaPlan:
+                    case ViewType.FloorPlan:
+                    case ViewType.CeilingPlan:
+                        SyncPlans(uiApp, activeView);
                         break;
-                    }
-                }
-
-                if (uiView == null) return;
-
-                var zoomCorner = uiView.GetZoomCorners();
-
-                foreach (UIView uiv2 in uiViews)
-                {
-                    if (uiv2.ViewId == uiView.ViewId) continue; // dont redraw the active view
-                    uiv2.ZoomAndCenterRectangle(zoomCorner[0], zoomCorner[1]);
+                    case ViewType.DrawingSheet:
+                        SyncSheets(uiApp, activeView);
+                        break;
+                    default:
+                        return;
                 }
             }
         }

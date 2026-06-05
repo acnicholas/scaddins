@@ -1,5 +1,17 @@
 # SCaddins Revision Log #
 
+# 27.0.0 #
+
+#### NEW ####
+
+- Initial Revit Build 2027.
+- Add Sync Views tool.
+
+#### REMOVED ####
+
+- Most Model Setup tools (Colour tools to remain)
+- Test projects
+
 # 26.3.1 #
 
 #### FIXES ####

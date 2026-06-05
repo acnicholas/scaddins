@@ -76,7 +76,7 @@
                             BorderBrush="Transparent">
                                 <Image Source="/SCaddins;component/Assets/help2.png" Stretch="None"/>
                         </Button>
-                        <ui:DataGrid x:Name="RenameCandidates"
+                        <DataGrid x:Name="RenameCandidates"
                                   AutoGenerateColumns="False"
                                   VirtualizingStackPanel.VirtualizationMode="Standard"
                                   Grid.Column="0"
@@ -86,7 +86,7 @@
                                   Grid.ColumnSpan="5"
                                   Height="Auto" Margin="5"
                                   GridLinesVisibility="None">
-                            <ui:DataGrid.RowStyle>
+                            <DataGrid.RowStyle>
                                 <Style TargetType="DataGridRow">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding ValueChanged}" Value="False">
@@ -104,9 +104,9 @@
                                         </MultiDataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </ui:DataGrid.RowStyle>
+                            </DataGrid.RowStyle>
 
-                            <ui:DataGrid.Resources>
+                            <DataGrid.Resources>
                                 <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
                                     <Setter Property="Margin" Value="2,2,2,2" />
                                 </Style>
@@ -122,17 +122,17 @@
                                 <Style TargetType="{x:Type DataGridColumnHeader}">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                 </Style>
-                            </ui:DataGrid.Resources>
+                            </DataGrid.Resources>
 
-                            <ui:DataGrid.AlternatingRowBackground>
+                            <!--<ui:DataGrid.AlternatingRowBackground>
                                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
-                            </ui:DataGrid.AlternatingRowBackground>
+                            </ui:DataGrid.AlternatingRowBackground>-->
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Old Name" Binding="{Binding OldValue}" ></DataGridTextColumn>
                                 <DataGridTextColumn Header="New Name" Binding="{Binding NewValue}"></DataGridTextColumn>
                             </DataGrid.Columns>
-                        </ui:DataGrid>
+                        </DataGrid>
                         <CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" x:Name="OnlyDisplayItemsToBeRenamed">Only display items that will be renamed.</CheckBox>
                     </Grid>
                 </GroupBox>
