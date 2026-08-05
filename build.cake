@@ -42,7 +42,7 @@ public MSBuildSettings GetTestBuildSettings()
 
 public string GetAssemblyFile()
 {
-	return  System.IO.Path.GetFullPath(@"src/bin/Release2025/SCaddins.dll");
+	return  System.IO.Path.GetFullPath(@"src/bin/Release2027/SCaddins.dll");
 }
 
 public string GetFullVersionNumber()

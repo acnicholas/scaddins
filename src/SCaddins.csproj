@@ -146,6 +146,7 @@
     <PackageReference Include="ColorPickerWPF" Version="1.0.9" />
     <PackageReference Include="CoreCLR-NCalc" Version="3.1.253" />
     <PackageReference Include="CsvHelper" Version="33.1.0" />
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="5.1.2" />
     <PackageReference Include="Hunspell.Native" Version="1.2.5359.26130" />
     <PackageReference Include="ini-parser-netstandard" Version="2.5.3" />
     <PackageReference Include="KeraLua" Version="1.4.9" />
@@ -343,6 +344,10 @@
   <!-- Remove unused -->
   <ItemGroup>
     <Compile Remove="SolarAnalysis\LockBitmap.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ColourTabs\ViewModels\" />
+    <Folder Include="ColourTabs\Views\" />
   </ItemGroup>
 
 </Project>

@@ -82,6 +82,8 @@ namespace SCaddins.RevisionUtilities
                 return;
             }
 
+            SCaddinsApp.WindowManager.ShowMessageBox("TEST", "1");
+
             var dictionary = new Dictionary<string, RevisionItem>();
             foreach (RevisionItem rev in revisions)
             {

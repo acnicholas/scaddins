@@ -226,7 +226,12 @@ namespace SCaddins.RenameUtilities.ViewModels
 
         public static void NavigateTo(System.Uri url)
         {
-            Process.Start(new ProcessStartInfo(url.AbsoluteUri));
+            var psi = new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = url.AbsoluteUri,
+                UseShellExecute = true
+            };
+            Process.Start(psi);
         }
 
         public void RenameAllMatches()

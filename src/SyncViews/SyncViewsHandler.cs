@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2019-2020 by Andrew Nicholas (andrewnicholas@iinet.net.au)
+﻿// (C) Copyright 2026 by Andrew Nicholas (andrewcnicholas@gmail.com)
 //
 // This file is part of SCaddins.
 //
@@ -20,10 +20,13 @@ namespace SCaddins.SyncViews
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Autodesk.Revit.UI.Events;
+    using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
     using SCaddins;
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
+    using System.Runtime.InteropServices;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -34,23 +37,64 @@ namespace SCaddins.SyncViews
         private static Stopwatch stopwatch;
         private static TimeSpan idleTimeout;
         public static readonly EventHandler<IdlingEventArgs> Handler = OnIdling;
+        //private static Dictionary<ElementId, XYZ> viewPortLocationDict;
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
+            //if (viewPortLocationDict == null)
+            //{
+            //    viewPortLocationDict = new Dictionary<ElementId, XYZ>();
+            //}
+
+            //load Dictionary
+            //viewPortLocationDict.Clear();
+            //var fec = new FilteredElementCollector(commandData.Application.ActiveUIDocument.Document);
+            //fec.OfCategory(BuiltInCategory.OST_Viewports);
+            //foreach (var element in fec)
+            //{
+            //    var vp = element as Viewport;
+            //    viewPortLocationDict.Add(vp.ViewId, vp.GetBoxCenter());
+            //}
+
             if (SCaddinsApp.handlerAttached == false)
             {
                 SCaddinsApp.handlerAttached = true;
                 AttachIdleEventHandler(commandData);
+                ToggleRIbbonText(commandData.Application, true);
                 SCaddinsApp.WindowManager.ShowMessageBox("Sync Views Started");
+                
             }
             else
             {
                 SCaddinsApp.handlerAttached = false;
                 RemoveIdleEventHandler(commandData.Application);
+                ToggleRIbbonText(commandData.Application, false);
                 SCaddinsApp.WindowManager.ShowMessageBox("Sync Views Ended");
+                
             }
             idleTimeout = new TimeSpan(1000000); // only full run every .1 seconds
             return Result.Succeeded;
+        }
+
+        private static void ToggleRIbbonText(UIApplication app, bool running)
+        {
+            List<RibbonPanel> rPanels = new List<RibbonPanel>();
+            rPanels = app.GetRibbonPanels("Studio.SC");
+            foreach (RibbonPanel rp in rPanels)
+            {
+                if (rp.Name == "View")
+                { 
+                    foreach (RibbonItem ris in rp.GetItems())
+                    {
+                        if (ris.ItemText.Contains("Sync Views"))
+                        {
+                            if (running) ris.ItemText = "Sync Views" + System.Environment.NewLine +  "[Running]";
+                            if (!running) ris.ItemText = "Sync Views" + System.Environment.NewLine + "[Stopped]";
+                            //ris.ToolTip = "This is a test This is a test";
+                        }
+                    }
+                }
+            }
         }
 
         public static void AttachIdleEventHandler(ExternalCommandData commandData)
@@ -79,12 +123,40 @@ namespace SCaddins.SyncViews
             uiApp.Idling -= SyncViewsHandler.Handler;
         }
 
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        private static extern int GetWindowText(IntPtr hWnd, System.Text.StringBuilder lpString, int nMaxCount);
+
+        public static string GetMainWindowTitle(UIApplication uiapp)
+        {
+            IntPtr hwnd = uiapp.MainWindowHandle; // Revit main window handle
+            var buffer = new System.Text.StringBuilder(512);
+            GetWindowText(hwnd, buffer, buffer.Capacity);
+            return buffer.ToString();
+        }
+
         /// <summary>
         /// Run this if the parent view is a plan
         /// </summary>
         private static void SyncPlans(UIApplication uiApp, View activeView)
         {
             var uiViews = uiApp.ActiveUIDocument.GetOpenUIViews();
+
+            // check if view has been accessed through a viewport.
+            // if it has, then allow for view offset.
+            // TODO
+            // string mainWindowTitle = GetMainWindowTitle(uiApp);
+            string activeViewTitle = activeView.Name;
+
+            //defualt is no offset (we're not accessing through a viewport
+            // XYZ offset = new XYZ(0, 0, 0);
+
+
+            //if (mainWindowTitle.Contains(@"Sheet:"))
+            //{
+            // Debug.WriteLine(mainWindowTitle + " av:" + activeViewTitle);
+            // SCaddinsApp.WindowManager.ShowMessageBox(mainWindowTitle + " av:" + activeViewTitle);
+            //    viewPortLocationDict.TryGetValue(activeView.Id, out offset);
+            //}
 
             Autodesk.Revit.UI.UIView uiView = null;
             foreach (UIView uiv in uiViews)
@@ -99,6 +171,13 @@ namespace SCaddins.SyncViews
             if (uiView == null) return;
 
             var zoomCorner = uiView.GetZoomCorners();
+
+            //if(offset.X != 0 && offset.Y != 0){
+            //    var centZoom = (zoomCorner[1] + zoomCorner[1]) / 2;
+            //    var movement = offset - centZoom;
+            //    zoomCorner[0] = movement + zoomCorner[0];
+            //    zoomCorner[1] = movement + zoomCorner[1];
+            //}
 
             foreach (UIView uiv2 in uiViews)
             {

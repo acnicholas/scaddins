@@ -18,6 +18,12 @@
 // [assembly: System.CLSCompliant(true)]
 namespace SCaddins
 {
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB.Events;
+    using Autodesk.Revit.UI;
+    using ColouredTabs;
+    using Newtonsoft.Json;
+    using Properties;
     using System;
     using System.Collections.Generic;
     using System.Dynamic;
@@ -29,10 +35,7 @@ namespace SCaddins
     using System.Security.Policy;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
-    using Autodesk.Revit.Attributes;
-    using Autodesk.Revit.UI;
-    using Newtonsoft.Json;
-    using Properties;
+    using RevitApplication = Autodesk.Revit.ApplicationServices.Application;
 
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
@@ -66,6 +69,7 @@ namespace SCaddins
         private PushButton gridManagerPushButton;
         private PushButton openSheetPushButton;
         private PushButton syncViewsPushButton;
+        private PushButton colourTabsPushButton;
 
         public static Version Version => Assembly.GetExecutingAssembly().GetName().Version;
 
@@ -204,6 +208,17 @@ namespace SCaddins
 
         public Result OnShutdown(UIControlledApplication application)
         {
+            try
+            {
+                if (DocumentTabEventUtils.IsUpdatingDocumentTabs)
+                    DocumentTabEventUtils.StopGroupingDocumentTabs();
+            }
+            catch (Exception ex)
+            {
+                // Unhooking touches AvalonDock internals while Revit is tearing its UI
+                // down — never block shutdown over it, but leave a trace for diagnosis.
+                System.Diagnostics.Trace.TraceWarning("ColouredTabs: shutdown cleanup failed: {0}", ex);
+            }
             return Result.Succeeded;
         }
 
@@ -242,6 +257,7 @@ namespace SCaddins
                     AssignPushButtonImage(modelWizardPushButton, "SCaddins.Assets.Ribbon.checkdoc-rvt-16-dark.png", 16, dll);
                     AssignPushButtonImage(openSheetPushButton, "SCaddins.Assets.Ribbon.find-rvt-16-dark.png", 16, dll);
                     AssignPushButtonImage(syncViewsPushButton, @"SCaddins.Assets.Ribbon.syncview-rvt-dark.png", 32, dll);
+                    AssignPushButtonImage(colourTabsPushButton, @"SCaddins.Assets.Ribbon.colourtabs-rvt-dark.png", 32, dll);
                     break;
                 case UITheme.Light:
                     //SCaddinsApp.WindowManager.ShowMessageBox("setting light theme");
@@ -263,6 +279,7 @@ namespace SCaddins
                     AssignPushButtonImage(modelWizardPushButton, "SCaddins.Assets.Ribbon.checkdoc-rvt-16.png", 16, dll);
                     AssignPushButtonImage(openSheetPushButton, "SCaddins.Assets.Ribbon.find-rvt-16.png", 16, dll);
                     AssignPushButtonImage(syncViewsPushButton, @"SCaddins.Assets.Ribbon.syncview-rvt.png", 32, dll);
+                    AssignPushButtonImage(colourTabsPushButton, @"SCaddins.Assets.Ribbon.colourtabs-rvt.png", 32, dll);
                     break;
             }
 			scaddinsRibbonPanel.Visible = false;
@@ -278,6 +295,28 @@ namespace SCaddins
         }
 #endif
 
+        static void OnApplicationInitialized(object sender, ApplicationInitializedEventArgs e)
+        {
+            try
+            {
+                var uiapp = new UIApplication((RevitApplication)sender);
+                TabSettings settings = TabSettings.Load();
+
+                DocumentTabEventUtils.TabColoringTheme = settings.CreateTheme();
+                if (settings.ColorizeDocTabs)
+                    DocumentTabEventUtils.StartGroupingDocumentTabs(uiapp);
+                else
+                    DocumentTabEventUtils.StopGroupingDocumentTabs();
+            }
+            catch (Exception ex)
+            {
+                // Startup hooks into Revit's undocumented AvalonDock UI; if that ever
+                // breaks in a new Revit build, degrade to "no colouring" rather than
+                // failing Revit's startup — but say so in the trace log.
+                System.Diagnostics.Trace.TraceError("ColouredTabs: colorizer init failed: {0}", ex);
+            }
+        }
+
         public Result OnStartup(UIControlledApplication application)
         {
             handlerAttached = false;
@@ -285,6 +324,7 @@ namespace SCaddins
 #if REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
             application.ThemeChanged += Application_ThemeChanged;
 #endif
+            application.ControlledApplication.ApplicationInitialized += OnApplicationInitialized;
 
             try
             {
@@ -364,6 +404,9 @@ namespace SCaddins
 
             var syncViews = LoadSyncViews(scdll);
             syncViewsPushButton = viewRibbonPanel.AddItem(syncViews) as PushButton;
+
+            var colourTabs = LoadColourTabs(scdll);
+            colourTabsPushButton = viewRibbonPanel.AddItem(colourTabs) as PushButton;
 
             var stackedItemSix = aboutRibbonPanel.AddStackedItems(
                 LoadInfo(scdll),
@@ -591,6 +634,14 @@ namespace SCaddins
             var pbd = new PushButtonData(
                               "Sync Views", @"Sync Views", dll, "SCaddins.SyncViews.SyncViewsHandler");
             AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.syncview-rvt.png", 32, dll);
+            return pbd;
+        }
+
+        private static PushButtonData LoadColourTabs(string dll)
+        {
+            var pbd = new PushButtonData(
+                              "Colour Tabs", @"Colour Tabs", dll, "ColouredTabs.ToggleColourizerCommand");
+            AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.colourtabs-rvt.png", 32, dll);
             return pbd;
         }
 
