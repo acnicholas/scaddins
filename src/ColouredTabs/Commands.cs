@@ -2,7 +2,7 @@ using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
-namespace ColouredTabs {
+namespace SCaddins.ColouredTabs {
     // buttons stay clickable when no document is open — the colorizer is pure UI
     public class AlwaysAvailable : IExternalCommandAvailability {
         public bool IsCommandAvailable(UIApplication applicationData, CategorySet selectedCategories) => true;

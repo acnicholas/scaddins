@@ -210,6 +210,11 @@
 
   <!-- Designer files -->
   <ItemGroup>
+    <Compile Update="ColouredTabs\Settings1.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings1.settings</DependentUpon>
+    </Compile>
     <Compile Update="ExportManager\Settings1.Designer.cs">
       <DesignTimeSharedInput>true</DesignTimeSharedInput>
       <AutoGen>true</AutoGen>
@@ -281,6 +286,10 @@
 
   <!-- Settings -->
   <ItemGroup>
+    <None Update="ColouredTabs\Settings1.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
+    </None>
     <None Update="ExportManager\Settings1.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
@@ -344,10 +353,6 @@
   <!-- Remove unused -->
   <ItemGroup>
     <Compile Remove="SolarAnalysis\LockBitmap.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ColourTabs\ViewModels\" />
-    <Folder Include="ColourTabs\Views\" />
   </ItemGroup>
 
 </Project>

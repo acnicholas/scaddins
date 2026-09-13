@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Media;
 
-namespace ColouredTabs {
+namespace SCaddins.ColouredTabs {
     // Ported from pyRevit runtime EventHandling.cs (HSLColor)
     // https://tinyurl.com/yj8x4azp
     public class HslColor {

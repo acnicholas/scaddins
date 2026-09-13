@@ -13,7 +13,7 @@ using RevitDocumentClosedEventArgs = Autodesk.Revit.DB.Events.DocumentClosedEven
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Controls;
 
-namespace ColouredTabs {
+namespace SCaddins.ColouredTabs {
     // Ported from pyRevit runtime EventHandling.cs (DocumentTabEventUtils)
     public static class DocumentTabEventUtils {
         public static UIApplication UIApp { get; private set; }

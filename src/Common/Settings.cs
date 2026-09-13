@@ -19,7 +19,17 @@
             var spellCheckerOptionsViewModel = new SpellChecker.ViewModels.SpellCheckerOptionsViewModel();
             var sheetCopierViewModel = new SheetCopier.ViewModels.SheetCopierSettingsViewModel();
             var runScriptSettingViewModel = new RunScript.ViewModels.RunScriptSettingsViewModel();
-            var vm = new ViewModels.SettingsViewModel(incrementViewModel, roomConverterViewModel, viewUtilitiesViewModel,solarAnalysisOptionsViewModel, sheetCopierViewModel,spellCheckerOptionsViewModel, runScriptSettingViewModel);
+            var colouredTabsViewModel = new ColouredTabs.ViewModels.ColouredTabsViewModel();
+            var vm = new ViewModels.SettingsViewModel
+            (
+                incrementViewModel,
+                roomConverterViewModel,
+                viewUtilitiesViewModel,
+                solarAnalysisOptionsViewModel,
+                sheetCopierViewModel,
+                spellCheckerOptionsViewModel,
+                runScriptSettingViewModel
+            );
             SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewModels.SettingsViewModel.DefaultWindowSettings);
             return Result.Succeeded;
         }

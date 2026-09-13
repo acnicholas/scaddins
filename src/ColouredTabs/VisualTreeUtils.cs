@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 using Autodesk.Revit.UI;
 
-namespace ColouredTabs {
+namespace SCaddins.ColouredTabs {
     // Replaces pyRevit's UIFramework.MainWindow.FindFirstChild / FindVisualChildren helpers
     // so no compile-time reference to Revit's internal UIFramework.dll is needed.
     public static class VisualTreeUtils {

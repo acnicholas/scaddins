@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Media;
 
-namespace ColouredTabs {
+namespace SCaddins.ColouredTabs {
     public class TabFilterRuleSetting {
         public string Colour { get; set; }
         public string TitleFilter { get; set; }
@@ -23,8 +23,8 @@ namespace ColouredTabs {
         public static string SettingsPath =>
             Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "ColouredTabs",
-                "ColouredTabs.ini");
+                "SCaddins.ColouredTabs",
+                "SCaddins.ColouredTabs.ini");
 
         public static List<string> DefaultTabColours() {
             return TabColoringTheme.DefaultBrushes
@@ -98,14 +98,14 @@ namespace ColouredTabs {
             catch (Exception ex) {
                 // An unreadable/corrupt ini falls back to defaults rather than killing
                 // startup, but leave a trace so the silent fallback is diagnosable.
-                System.Diagnostics.Trace.TraceWarning("ColouredTabs: could not load {0}: {1}", SettingsPath, ex);
+                System.Diagnostics.Trace.TraceWarning("SCaddins.ColouredTabs: could not load {0}: {1}", SettingsPath, ex);
             }
             return settings;
         }
 
         public void Save() {
             var sb = new StringBuilder();
-            sb.AppendLine("# ColouredTabs settings");
+            sb.AppendLine("# SCaddins.ColouredTabs settings");
             sb.AppendLine("# Colours are #AARRGGBB or #RRGGBB hex, or any WPF colour name (e.g. OrangeRed).");
             sb.AppendLine("#");
             sb.AppendLine("# Style indices:");
@@ -166,7 +166,7 @@ namespace ColouredTabs {
             }
             catch {
                 // user-typed colour string from the ini that WPF can't parse — skip it
-                System.Diagnostics.Trace.TraceWarning("ColouredTabs: invalid colour '{0}' ignored", colourHex);
+                System.Diagnostics.Trace.TraceWarning("SCaddins.ColouredTabs: invalid colour '{0}' ignored", colourHex);
                 return null;
             }
         }

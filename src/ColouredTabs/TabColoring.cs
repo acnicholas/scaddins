@@ -14,7 +14,7 @@ using Xceed.Wpf.AvalonDock.Layout;
 
 using Color = System.Windows.Media.Color;
 
-namespace ColouredTabs {
+namespace SCaddins.ColouredTabs {
     // Equivalents of tabs.py hex_to_brush / hex_from_brush
     public static class ColourUtils {
         public static SolidColorBrush HexToBrush(string colourHex) {
@@ -41,7 +41,7 @@ namespace ColouredTabs {
             catch (ArgumentException) {
                 // Invalid user-typed regex in the ini — the rule just never matches,
                 // but note it so a "why isn't my filter working" question is answerable.
-                System.Diagnostics.Trace.TraceWarning("ColouredTabs: invalid filter regex '{0}' ignored", filter);
+                System.Diagnostics.Trace.TraceWarning("SCaddins.ColouredTabs: invalid filter regex '{0}' ignored", filter);
             }
         }
 

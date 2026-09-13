@@ -21,7 +21,7 @@ namespace SCaddins
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB.Events;
     using Autodesk.Revit.UI;
-    using ColouredTabs;
+    using SCaddins.ColouredTabs;
     using Newtonsoft.Json;
     using Properties;
     using System;
@@ -217,7 +217,7 @@ namespace SCaddins
             {
                 // Unhooking touches AvalonDock internals while Revit is tearing its UI
                 // down — never block shutdown over it, but leave a trace for diagnosis.
-                System.Diagnostics.Trace.TraceWarning("ColouredTabs: shutdown cleanup failed: {0}", ex);
+                System.Diagnostics.Trace.TraceWarning("SCaddins.ColouredTabs: shutdown cleanup failed: {0}", ex);
             }
             return Result.Succeeded;
         }
@@ -313,7 +313,7 @@ namespace SCaddins
                 // Startup hooks into Revit's undocumented AvalonDock UI; if that ever
                 // breaks in a new Revit build, degrade to "no colouring" rather than
                 // failing Revit's startup — but say so in the trace log.
-                System.Diagnostics.Trace.TraceError("ColouredTabs: colorizer init failed: {0}", ex);
+                System.Diagnostics.Trace.TraceError("SCaddins.ColouredTabs: colorizer init failed: {0}", ex);
             }
         }
 
@@ -640,7 +640,7 @@ namespace SCaddins
         private static PushButtonData LoadColourTabs(string dll)
         {
             var pbd = new PushButtonData(
-                              "Colour Tabs", @"Colour Tabs", dll, "ColouredTabs.ToggleColourizerCommand");
+                              "Colour Tabs", @"Colour Tabs", dll, "SCaddins.ColouredTabs.ToggleColourizerCommand");
             AssignPushButtonImage(pbd, "SCaddins.Assets.Ribbon.colourtabs-rvt.png", 32, dll);
             return pbd;
         }
