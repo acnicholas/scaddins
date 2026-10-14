@@ -1,5 +1,11 @@
 # SCaddins Revision Log #
 
+# 27.0.1 #
+
+#### FIXES ####
+
+- Enable native Revit pdf export for Revit 2027.
+
 # 27.0.0 #
 
 #### NEW ####

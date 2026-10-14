@@ -329,7 +329,7 @@ namespace SCaddins.RoomConverter
                     {
                         continue;
                     }
-#if REVIT2024 || REVIT2025 || REVIT2026
+#if REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
                     var id = new ElementId((long)intId);
 #else
                     var id = new ElementId(intId);

@@ -243,7 +243,7 @@ namespace SCaddins.ExportManager
             }
         }
 
-#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
         /// <summary>
         /// Fallback options for pdf export (Revit versions 2022 and greater.
         /// </summary>
@@ -659,7 +659,7 @@ namespace SCaddins.ExportManager
             AcadVersion = ACADVersion.Default;
             SaveHistory = Settings1.Default.SaveHistory;
             ShowExportLog = Settings1.Default.ShowExportLog;
-#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026|| REVIT2027
             ForceRevisionToDateString = false;
                 UseDateForEmptyRevisions = false;
                 Settings1.Default.ForceDateRevision = false;
@@ -772,7 +772,7 @@ namespace SCaddins.ExportManager
             }
         }
 
-#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
         public bool TryGetExportPdfSettingsByName(string name, out PDFExportOptions options)
         {
             var collector = new FilteredElementCollector(Doc);
@@ -903,7 +903,7 @@ namespace SCaddins.ExportManager
                 postExportHooks.Add(hook2.Name, hook2);
             }
 
-#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
             // Don't attempt to do this if not available (Revit < 2022)
             if (pdfSettingsOne != null)
             {
@@ -972,7 +972,7 @@ namespace SCaddins.ExportManager
                 var name = new SegmentedSheetName();
                 name.Name = "YYYYMMDD-AD-NNN";
                 name.NameFormat = "$projectNumber-$sheetNumber[$sheetRevision] - $sheetDescription";
-#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
                 name.PDFExportOptions = CreateDefaultPDFExportOptions(name.NameFormat, Doc);
 #endif
                 FileNameTypes.Add(name);
@@ -1147,7 +1147,7 @@ namespace SCaddins.ExportManager
 
         private void ExportRevitPDF(ExportSheet vs, ExportLog log)
         {
-#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
 
             if (log != null)
             {
@@ -1204,7 +1204,7 @@ namespace SCaddins.ExportManager
 #endif
         private void ExportAdobePDF(ExportSheet vs, ExportLog log)
         {
-#if !REVIT2022 && !REVIT2023 && !REVIT2024 && !REVIT2025 || REVIT2026
+#if !REVIT2022 && !REVIT2023 && !REVIT2024 && !REVIT2025 || !REVIT2026 || !REVIT2027
             ExportPDF(vs, log);
 #else
                 log.AddError(vs.FullExportName, "PDF export with Adobe Acrobat is not supported in Revit versions > 2021.");
@@ -1483,7 +1483,7 @@ namespace SCaddins.ExportManager
                                     case "Hook":
                                         name.Hooks.Add(reader.ReadString());
                                         break;
-#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
                                     case "PDFNamingRule":
                                         PDFExportOptions opts;
                                         if (TryGetExportPdfSettingsByName(reader.ReadString(), out opts))
@@ -1496,7 +1496,7 @@ namespace SCaddins.ExportManager
                             }
                         } while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == "FilenameScheme"));
                         FileNameTypes.Add(name);
-#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
                         if (name.PDFExportOptions == null && name.NameFormat != null)
                         {
                             name.PDFExportOptions = CreateDefaultPDFExportOptions(name.NameFormat, Doc);
@@ -1542,7 +1542,7 @@ namespace SCaddins.ExportManager
 
         private void SetDefaultFlags()
         {
-#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026
+#if REVIT2022 || REVIT2023 || REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
             AddExportOption(ExportOptions.DirectPDF);
 #else
              if (PDFSanityCheck()) {
