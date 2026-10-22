@@ -1,6 +1,42 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SCaddins.ColouredTabs" GeneratedClassName="Settings1">
+  <Profiles />
+  <Settings>
+    <Setting Name="Colour01" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
+    <Setting Name="Colour02" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">225, 85, 73</Value>
+    </Setting>
+    <Setting Name="Colour03" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">170, 205, 152</Value>
+    </Setting>
+    <Setting Name="Colour04" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">115, 70, 50</Value>
+    </Setting>
+    <Setting Name="Colour05" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">123, 184, 218</Value>
+    </Setting>
+    <Setting Name="Colour06" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">229, 160, 75</Value>
+    </Setting>
+    <Setting Name="Colour07" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">52, 124, 90</Value>
+    </Setting>
+    <Setting Name="Colour08" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">208, 192, 150</Value>
+    </Setting>
+    <Setting Name="Colour09" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">144, 155, 200</Value>
+    </Setting>
+    <Setting Name="Colour10" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">180, 141, 97</Value>
+    </Setting>
+    <Setting Name="Colour11" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">108, 185, 137</Value>
+    </Setting>
+    <Setting Name="Colour12" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">235, 200, 110</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

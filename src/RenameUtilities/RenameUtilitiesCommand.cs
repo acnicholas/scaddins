@@ -17,9 +17,10 @@
 
 namespace SCaddins.RenameUtilities
 {
-    using System;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using System;
+    using System.Collections.Generic;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
@@ -29,18 +30,69 @@ namespace SCaddins.RenameUtilities
         public Result Execute(
             ExternalCommandData commandData, ref string message, ElementSet elements)
         {
+            System.Diagnostics.Trace.WriteLine("Starting RenameUtilitiesCommand");
+
             if (commandData == null)
             {
+                System.Diagnostics.Trace.WriteLine("commandData == null");
                 throw new ArgumentNullException(nameof(commandData));
             }
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
             if (doc == null)
             {
+                System.Diagnostics.Trace.WriteLine("doc == null");
                 return Result.Failed;
             }
 
-            RenameManager manager = new RenameManager(doc);
+            var uidoc = commandData.Application.ActiveUIDocument;
+            if (uidoc == null)
+            {
+                System.Diagnostics.Trace.WriteLine("uidoc == null");
+                return Result.Failed;
+            }
+
+            //collect items from project browser if any are selected.
+            var pbElements = new List<ElementId>();
+
+            System.Diagnostics.Trace.WriteLine("Selecion check starting");
+
+            if (uidoc.Document.ActiveView.ViewType == ViewType.ProjectBrowser)
+            {
+                var s = uidoc.Selection.GetElementIds();
+                foreach (var id in s)
+                {
+                    var projectBrowserView = uidoc.Document.GetElement(id);
+                    if (projectBrowserView is View)
+                    {
+                        var v = (View)projectBrowserView;
+                        if (v.ViewType == ViewType.ProjectBrowser)
+                        {
+                            continue;
+                        }
+                        pbElements.Add(((Element)v).Id);
+                    }
+                }
+            }
+
+            System.Diagnostics.Trace.WriteLine("Selecion check complete");
+
+            // Deselect all elements before continuing so they don't appear incorrectly
+            uidoc.Selection.SetElementIds(new List<ElementId>());
+
+            RenameManager manager;
+
+            //if project browser has a selection rename only those
+            if (pbElements.Count > 0)
+            {
+                System.Diagnostics.Trace.WriteLine("Starting rename with Project Browser selecion");
+                manager = new RenameManager(doc, pbElements);
+            } else
+            {
+                System.Diagnostics.Trace.WriteLine("Starting rename with no selecion");
+                manager = new RenameManager(doc);
+            }
+
             var vm = new ViewModels.RenameUtilitiesViewModel(manager);
             SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewModels.RenameUtilitiesViewModel.DefaultWindowSettings);
 

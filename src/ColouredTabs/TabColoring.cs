@@ -21,6 +21,18 @@ namespace SCaddins.ColouredTabs {
             return new SolidColorBrush((Color)ColorConverter.ConvertFromString(colourHex));
         }
 
+        public static SolidColorBrush MediaColor(System.Drawing.Color color)
+        {
+            System.Windows.Media.Color mediaColor = System.Windows.Media.Color.FromArgb(
+                color.A,
+                color.R,
+                color.G,
+                color.B
+            );
+
+            return new SolidColorBrush(mediaColor);
+        }
+
         public static string HexFromBrush(SolidColorBrush brush) {
             Color c = brush.Color;
             return string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", c.A, c.R, c.G, c.B);
@@ -218,20 +230,37 @@ namespace SCaddins.ColouredTabs {
         // and dark, so two tabs open side by side never read as the same colour. The
         // sequence also wraps: the last entry contrasts with the first, since slots are
         // recycled when documents close.
+        //public static readonly List<Brush> DefaultBrushes = new List<Brush> {
+        //    ColourUtils.HexToBrush("#FF2869A0"),   // Lapis
+        //    ColourUtils.HexToBrush("#FFE15549"),   // Vermillion
+        //    ColourUtils.HexToBrush("#FFAACD98"),   // Pistachio
+        //    ColourUtils.HexToBrush("#FF734632"),   // Russet
+        //    ColourUtils.HexToBrush("#FF7BB8DA"),   // Powder
+        //    ColourUtils.HexToBrush("#FFE5A04B"),   // Tangerine
+        //    ColourUtils.HexToBrush("#FF347C5A"),   // Forest
+        //    ColourUtils.HexToBrush("#FFD0C096"),   // Sandstone
+        //    ColourUtils.HexToBrush("#FF909BC8"),   // Lavender
+        //    ColourUtils.HexToBrush("#FFB48D61"),   // Tan
+        //    ColourUtils.HexToBrush("#FF6CB989"),   // Jade
+        //    ColourUtils.HexToBrush("#FFEBC86E"),   // Mustard
+        //};
+
         public static readonly List<Brush> DefaultBrushes = new List<Brush> {
-            ColourUtils.HexToBrush("#FF2869A0"),   // Lapis
-            ColourUtils.HexToBrush("#FFE15549"),   // Vermillion
-            ColourUtils.HexToBrush("#FFAACD98"),   // Pistachio
-            ColourUtils.HexToBrush("#FF734632"),   // Russet
-            ColourUtils.HexToBrush("#FF7BB8DA"),   // Powder
-            ColourUtils.HexToBrush("#FFE5A04B"),   // Tangerine
-            ColourUtils.HexToBrush("#FF347C5A"),   // Forest
-            ColourUtils.HexToBrush("#FFD0C096"),   // Sandstone
-            ColourUtils.HexToBrush("#FF909BC8"),   // Lavender
-            ColourUtils.HexToBrush("#FFB48D61"),   // Tan
-            ColourUtils.HexToBrush("#FF6CB989"),   // Jade
-            ColourUtils.HexToBrush("#FFEBC86E"),   // Mustard
+            ColourUtils.MediaColor(Settings1.Default.Colour01),   // Lapis
+            ColourUtils.MediaColor(Settings1.Default.Colour02),   // Vermillion
+            ColourUtils.MediaColor(Settings1.Default.Colour03),   // Pistachio
+            ColourUtils.MediaColor(Settings1.Default.Colour04),   // Russet
+            ColourUtils.MediaColor(Settings1.Default.Colour05),   // Powder
+            ColourUtils.MediaColor(Settings1.Default.Colour06),   // Tangerine
+            ColourUtils.MediaColor(Settings1.Default.Colour07),   // Forest
+            ColourUtils.MediaColor(Settings1.Default.Colour08),   // Sandstone
+            ColourUtils.MediaColor(Settings1.Default.Colour09),   // Lavender
+            ColourUtils.MediaColor(Settings1.Default.Colour10),   // Tan
+            ColourUtils.MediaColor(Settings1.Default.Colour11),   // Jade
+            ColourUtils.MediaColor(Settings1.Default.Colour12),   // Mustard
         };
+
+
 
         public static readonly int DefaultTabColoringStyleIndex = 8;       // Background Fill
         public static readonly int DefaultFamilyTabColoringStyleIndex = 5; // Border - Medium (2px)
