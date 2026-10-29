@@ -17,15 +17,84 @@
 
 namespace SCaddins.ColouredTabs.ViewModels
 {
-    using System.Collections.Generic;
     using Caliburn.Micro;
+    using ColorPickerWPF;
+    using SCaddins.ModelSetupWizard;
+    using System.Collections.Generic;
 
     public class ColouredTabsViewModel : PropertyChangedBase, Common.ViewModels.ISettingPanel
     {
 
         public ColouredTabsViewModel()
         {
+            Colours = new BindableCollection<System.Windows.Media.Color>();
             Reset();
+        }
+
+        public bool ColorizeDocTabs
+        {
+            get
+            {
+                return Settings1.Default.ColorizeDocs;
+            }
+            set
+            {
+                Settings1.Default.ColorizeDocs = value;
+                Settings1.Default.Save();
+            }
+        }
+        public bool SortDocTabs
+        {
+            get
+            {
+                return Settings1.Default.SortColorizeDocs;
+            }
+            set
+            {
+                Settings1.Default.SortColorizeDocs = value;
+                Settings1.Default.Save();
+            }
+        }
+        public int TabStyleIndex
+        {
+            get
+            {
+                return Settings1.Default.TabstyleIndex;
+            }
+            set
+            {
+                Settings1.Default.TabstyleIndex = value;
+                Settings1.Default.Save();
+            }
+        }
+        public int FamilyTabStyleIndex
+        {
+            get
+            {
+                return Settings1.Default.FamilyTabstyleIndex;
+            }
+            set
+            {
+                Settings1.Default.FamilyTabstyleIndex = value;
+                Settings1.Default.Save();
+            }
+        }
+
+
+
+        public BindableCollection<System.Windows.Media.Color> Colours
+        {
+            get; private set;
+        }
+
+        public void Colour(int c)
+        {
+            if (ColorPickerWindow.ShowDialog(out var selected) == true)
+            {
+                Colours[c] = selected;
+                Settings1.Default.Colours[c] = ColourUtils.HexFromColor(selected);
+            }
+            NotifyOfPropertyChange(() => Colours);
         }
 
         public static dynamic DefaultWindowSettings
@@ -44,47 +113,44 @@ namespace SCaddins.ColouredTabs.ViewModels
 
         public void ResetToDefault()
         {
-            //IncrementSettings.Default.Reset();
             Reset();
+            Settings1.Default.Reset();
         }
 
         public void Apply()
         {
-            //IncrementSettings.Default.OffsetValue = OffsetValue;
-            //IncrementSettings.Default.IncrementValue = IncrementValue;
-            //IncrementSettings.Default.SourceSearchPattern = SourceSearchPattern;
-            //IncrementSettings.Default.SourceReplacePattern = SourceReplacementPattern;
-            //IncrementSettings.Default.DestinationReplacePattern = DestinationReplacementPattern;
-            //IncrementSettings.Default.DestinationSearchPattern = DestinationSearchPattern;
-            //IncrementSettings.Default.CustomParameterName = CustomParameterName;
-            //IncrementSettings.Default.UseCustomParameterName = UseCustomParameter;
-            //IncrementSettings.Default.KeepLeadingZeros = KeepLeadingZeros;
-            //IncrementSettings.Default.UseDestinationSearchPattern = UseDestinationSearchPattern;
-            //IncrementSettings.Default.Save();
+            //Settings1.Default.Colours[0] =  ColourUtils.HexFromColor(Colours[0]);
+            //Settings1.Default.Colours[1] =  ColourUtils.HexFromColor(Colours[1]);
+            //Settings1.Default.Colours[2] =  ColourUtils.HexFromColor(Colours[2]);
+            //Settings1.Default.Colours[3] =  ColourUtils.HexFromColor(Colours[3]);
+            //Settings1.Default.Colours[4] =  ColourUtils.HexFromColor(Colours[4]);
+            //Settings1.Default.Colours[5] =  ColourUtils.HexFromColor(Colours[5]);
+            //Settings1.Default.Colours[6] =  ColourUtils.HexFromColor(Colours[6]);
+            //Settings1.Default.Colours[7] =  ColourUtils.HexFromColor(Colours[7]);
+            //Settings1.Default.Colours[8] =  ColourUtils.HexFromColor(Colours[8]);
+            //Settings1.Default.Colours[9] =  ColourUtils.HexFromColor(Colours[9]);
+            //Settings1.Default.Colours[10] = ColourUtils.HexFromColor(Colours[10]);
+            //Settings1.Default.Colours[11] = ColourUtils.HexFromColor(Colours[11]);
+            Settings1.Default.Save();
+            NotifyOfPropertyChange(() => Colours);
         }
 
         public void Reset()
         {
-            //OffsetValue = IncrementSettings.Default.OffsetValue;
-            //IncrementValue = IncrementSettings.Default.IncrementValue;
-            //SourceReplacementPattern = IncrementSettings.Default.SourceReplacePattern;
-            //SourceSearchPattern = IncrementSettings.Default.SourceSearchPattern;
-            //DestinationReplacementPattern = IncrementSettings.Default.DestinationReplacePattern;
-            //DestinationSearchPattern = IncrementSettings.Default.DestinationSearchPattern;
-            //CustomParameterName = IncrementSettings.Default.CustomParameterName;
-            //UseCustomParameter = IncrementSettings.Default.UseCustomParameterName;
-            //KeepLeadingZeros = IncrementSettings.Default.KeepLeadingZeros;
-            //UseDestinationSearchPattern = IncrementSettings.Default.UseDestinationSearchPattern;
-            //NotifyOfPropertyChange(() => OffsetValue);
-            //NotifyOfPropertyChange(() => IncrementValue);
-            //NotifyOfPropertyChange(() => SourceReplacementPattern);
-            //NotifyOfPropertyChange(() => SourceSearchPattern);
-            //NotifyOfPropertyChange(() => DestinationReplacementPattern);
-            //NotifyOfPropertyChange(() => DestinationSearchPattern);
-            //NotifyOfPropertyChange(() => CustomParameterName);
-            //NotifyOfPropertyChange(() => UseCustomParameter);
-            //NotifyOfPropertyChange(() => KeepLeadingZeros);
-            //NotifyOfPropertyChange(() => UseDestinationSearchPattern);
+            Colours.Clear();
+            Colours.Insert(0,  ColourUtils.HexToMediaColor(Settings1.Default.Colours[0]));
+            Colours.Insert(1,  ColourUtils.HexToMediaColor(Settings1.Default.Colours[1]));
+            Colours.Insert(2,  ColourUtils.HexToMediaColor(Settings1.Default.Colours[2]));
+            Colours.Insert(3,  ColourUtils.HexToMediaColor(Settings1.Default.Colours[3]));
+            Colours.Insert(4,  ColourUtils.HexToMediaColor(Settings1.Default.Colours[4]));
+            Colours.Insert(5,  ColourUtils.HexToMediaColor(Settings1.Default.Colours[5]));
+            Colours.Insert(6,  ColourUtils.HexToMediaColor(Settings1.Default.Colours[6]));
+            Colours.Insert(7,  ColourUtils.HexToMediaColor(Settings1.Default.Colours[7]));
+            Colours.Insert(8,  ColourUtils.HexToMediaColor(Settings1.Default.Colours[8]));
+            Colours.Insert(9,  ColourUtils.HexToMediaColor(Settings1.Default.Colours[9]));
+            Colours.Insert(10, ColourUtils.HexToMediaColor(Settings1.Default.Colours[10]));
+            Colours.Insert(11, ColourUtils.HexToMediaColor(Settings1.Default.Colours[11]));
+            NotifyOfPropertyChange(() => Colours);
         }
     }
 }

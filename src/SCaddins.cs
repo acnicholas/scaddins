@@ -36,6 +36,28 @@ namespace SCaddins
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using RevitApplication = Autodesk.Revit.ApplicationServices.Application;
+    using Autodesk.Revit.DB.Visual;
+
+    public static class UIControlledApplicationExtensions
+    {
+        /// <summary>
+        /// Extracts the underlying UIApplication from a UIControlledApplication instance.
+        /// </summary>
+        public static UIApplication GetUIApplication(this UIControlledApplication controlledApp)
+        {
+            if (controlledApp == null) return null;
+
+            // Get the type structure of UIControlledApplication
+            Type type = typeof(UIControlledApplication);
+
+            // Locate the internal field storing the UIApplication reference
+            FieldInfo field = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic)
+                .FirstOrDefault(f => f.FieldType == typeof(UIApplication));
+
+            // Return the field value cast back to a UIApplication
+            return field?.GetValue(controlledApp) as UIApplication;
+        }
+    }
 
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
@@ -300,10 +322,10 @@ namespace SCaddins
             try
             {
                 var uiapp = new UIApplication((RevitApplication)sender);
-                TabSettings settings = TabSettings.Load();
+                //TabSettings settings = TabSettings.Load(); //not needed as settings file is used.
 
-                DocumentTabEventUtils.TabColoringTheme = settings.CreateTheme();
-                if (settings.ColorizeDocTabs)
+                //DocumentTabEventUtils.TabColoringTheme = settings.CreateTheme();
+                if (Settings1.Default.SortColorizeDocs)
                     DocumentTabEventUtils.StartGroupingDocumentTabs(uiapp);
                 else
                     DocumentTabEventUtils.StopGroupingDocumentTabs();
@@ -337,6 +359,14 @@ namespace SCaddins
             modifyRibbonPanel = TryGetPanel(application, "Modify", "Studio.SC");
             viewRibbonPanel = TryGetPanel(application, "View", "Studio.SC");
             aboutRibbonPanel = TryGetPanel(application, "About", "Studio.SC");
+
+            //start colour tabs if set.
+            if(ColouredTabs.Settings1.Default.ColorizeDocs)
+            {
+                TabSettings settings = TabSettings.Load();
+                ColouredTabs.DocumentTabEventUtils.TabColoringTheme = settings.CreateTheme();
+                ColouredTabs.DocumentTabEventUtils.StartGroupingDocumentTabs(UIControlledApplicationExtensions.GetUIApplication(application));
+            }
 
             if (scaddinsRibbonPanel == null || createRibbonPanel == null || viewRibbonPanel == null || aboutRibbonPanel == null || modifyRibbonPanel == null) 
             {

@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="Colour01" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">White</Value>
+      <Value Profile="(Default)">38, 97, 156</Value>
     </Setting>
     <Setting Name="Colour02" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">225, 85, 73</Value>
@@ -37,6 +37,38 @@
     </Setting>
     <Setting Name="Colour12" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">235, 200, 110</Value>
+    </Setting>
+    <Setting Name="TabstyleIndex" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">8</Value>
+    </Setting>
+    <Setting Name="FamilyTabstyleIndex" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">6</Value>
+    </Setting>
+    <Setting Name="ColorizeDocs" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SortColorizeDocs" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="FilterRuleOne" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Colours" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;#FF2869A0&lt;/string&gt;
+  &lt;string&gt;#FF2869A0&lt;/string&gt;
+  &lt;string&gt;#FFAACD98&lt;/string&gt;
+  &lt;string&gt;#FF734632&lt;/string&gt;
+  &lt;string&gt;#FF7BB8DA&lt;/string&gt;
+  &lt;string&gt;#FFE5A04B&lt;/string&gt;
+  &lt;string&gt;#FF347C5A&lt;/string&gt;
+  &lt;string&gt;#FFD0C096&lt;/string&gt;
+  &lt;string&gt;#FF909BC8&lt;/string&gt;
+  &lt;string&gt;#FFB48D61&lt;/string&gt;
+  &lt;string&gt;#FF6CB989&lt;/string&gt;
+  &lt;string&gt;#FFEBC86E&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
     </Setting>
   </Settings>
 </SettingsFile>

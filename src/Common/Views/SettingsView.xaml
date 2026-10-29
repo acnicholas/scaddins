@@ -11,6 +11,7 @@
              xmlns:sc="clr-namespace:SCaddins.SpellChecker.Views"
              xmlns:sh="clr-namespace:SCaddins.SheetCopier.Views"
              xmlns:rs="clr-namespace:SCaddins.RunScript.Views"
+             xmlns:ct="clr-namespace:SCaddins.ColouredTabs.Views"
              xmlns:cm="http://caliburnmicro.com" x:Class="SCaddins.Common.Views.SettingsView"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="800">
@@ -30,6 +31,10 @@
                     Content="User Views"
                     Icon="{ui:SymbolIcon DocumentPerson20}"
                     TargetPageType="{x:Type uv:ViewUtilitiesSettingsView}" />
+                <ui:NavigationViewItem
+                    Content="Colour Tabs"
+                    Icon="{ui:SymbolIcon Color24}"
+                    TargetPageType="{x:Type ct:ColouredTabsView}" />
                 <ui:NavigationViewItem
                     Content="Room Tools"
                     Icon="{ui:SymbolIcon BreakoutRoom20}"

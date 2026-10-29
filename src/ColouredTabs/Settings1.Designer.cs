@@ -25,7 +25,7 @@ namespace SCaddins.ColouredTabs {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        [global::System.Configuration.DefaultSettingValueAttribute("38, 97, 156")]
         public global::System.Drawing.Color Colour01 {
             get {
                 return ((global::System.Drawing.Color)(this["Colour01"]));
@@ -164,6 +164,92 @@ namespace SCaddins.ColouredTabs {
             }
             set {
                 this["Colour12"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("8")]
+        public int TabstyleIndex {
+            get {
+                return ((int)(this["TabstyleIndex"]));
+            }
+            set {
+                this["TabstyleIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("6")]
+        public int FamilyTabstyleIndex {
+            get {
+                return ((int)(this["FamilyTabstyleIndex"]));
+            }
+            set {
+                this["FamilyTabstyleIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ColorizeDocs {
+            get {
+                return ((bool)(this["ColorizeDocs"]));
+            }
+            set {
+                this["ColorizeDocs"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SortColorizeDocs {
+            get {
+                return ((bool)(this["SortColorizeDocs"]));
+            }
+            set {
+                this["SortColorizeDocs"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string FilterRuleOne {
+            get {
+                return ((string)(this["FilterRuleOne"]));
+            }
+            set {
+                this["FilterRuleOne"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+  <string>#FF2869A0</string>
+  <string>#FF2869A0</string>
+  <string>#FFAACD98</string>
+  <string>#FF734632</string>
+  <string>#FF7BB8DA</string>
+  <string>#FFE5A04B</string>
+  <string>#FF347C5A</string>
+  <string>#FFD0C096</string>
+  <string>#FF909BC8</string>
+  <string>#FFB48D61</string>
+  <string>#FF6CB989</string>
+  <string>#FFEBC86E</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection Colours {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["Colours"]));
+            }
+            set {
+                this["Colours"] = value;
             }
         }
     }

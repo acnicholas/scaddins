@@ -21,14 +21,13 @@ namespace SCaddins.ColouredTabs {
                 DocumentTabEventUtils.StopGroupingDocumentTabs();
             }
             else {
-                // rebuild the theme from the settings file on every turn-on, so editing the
-                // ini and toggling off/on picks up the changes without a Revit restart
                 DocumentTabEventUtils.TabColoringTheme = settings.CreateTheme();
+                // DocumentTabEventUtils.UpdateDocumentTabGroups();
                 DocumentTabEventUtils.StartGroupingDocumentTabs(uiapp);
             }
 
             settings.ColorizeDocTabs = DocumentTabEventUtils.IsUpdatingDocumentTabs;
-            settings.Save();
+            Settings1.Default.Save();
 
             return Result.Succeeded;
         }

@@ -15,6 +15,8 @@
         private static ISettingPanel spellCheckerOptionsViewModel;
         private static ISettingPanel sheetCopierViewModel;
         private static ISettingPanel runScriptSettingsViewModel;
+        private static ISettingPanel colouredTabsViewModel;
+
 
         public SettingsViewModel(
             ISettingPanel incrementViewModel,
@@ -23,7 +25,9 @@
             ISettingPanel solarAnalysisOptonsViewModel,
             ISettingPanel sheetCopierViewModel,
             ISettingPanel spellCheckerOptionsViewModel,
-            ISettingPanel runScriptSettingsViewModel)
+            ISettingPanel runScriptSettingsViewModel,
+            ISettingPanel colouredTabsViewModel
+            )
         {
             IncrementViewModel = incrementViewModel;
             RoomConverterViewModel = roomConverterViewModel;
@@ -32,6 +36,7 @@
             SheetCopierViewModel = sheetCopierViewModel;
             SpellCheckerOptionsViewModel = spellCheckerOptionsViewModel;
             RunScriptSettingsViewModel = runScriptSettingsViewModel;
+            ColouredTabsViewModel = colouredTabsViewModel;
         }
 
         public static dynamic DefaultWindowSettings
@@ -77,6 +82,19 @@
             {
                 incrementViewModel = value;
                 //NotifyOfPropertyChange(() => IncrementViewModel);
+            }
+        }
+
+        public static ISettingPanel ColouredTabsViewModel
+        {
+            get
+            {
+                return colouredTabsViewModel;
+            }
+
+            set
+            {
+                colouredTabsViewModel = value;
             }
         }
 
@@ -152,13 +170,13 @@
 
         public void Apply()
         {
-            ParameterUtilities.ViewModels.SCincrementViewModel svm = IncrementViewModel as ParameterUtilities.ViewModels.SCincrementViewModel; ;
             IncrementViewModel.Apply();
             ViewUtilitiesViewModel.Apply();
             SolarAnalysisOptonsViewModel.Apply();
             SpellCheckerOptionsViewModel.Apply();
             SheetCopierViewModel.Apply();
             RunScriptSettingsViewModel.Apply();
+            ColouredTabsViewModel.Apply();
         }
 
         public void Cancel()
@@ -180,6 +198,7 @@
             SpellCheckerOptionsViewModel.Reset();
             SheetCopierViewModel.Reset();
             RunScriptSettingsViewModel.Reset();
+            ColouredTabsViewModel.Reset();
         }
     }
 }

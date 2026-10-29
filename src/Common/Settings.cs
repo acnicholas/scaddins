@@ -28,7 +28,8 @@
                 solarAnalysisOptionsViewModel,
                 sheetCopierViewModel,
                 spellCheckerOptionsViewModel,
-                runScriptSettingViewModel
+                runScriptSettingViewModel,
+                colouredTabsViewModel
             );
             SCaddinsApp.WindowManager.ShowDialogAsync(vm, null, ViewModels.SettingsViewModel.DefaultWindowSettings);
             return Result.Succeeded;

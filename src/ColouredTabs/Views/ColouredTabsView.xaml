@@ -8,6 +8,105 @@
              Initialized="UserControl_Initialized"
              d:DesignHeight="350" d:DesignWidth="350">
     <Grid>
- 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0" Header="General Settings">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Margin="5">Run on Start-up</Label>
+                <Label Grid.Column="0" Grid.Row="2" Margin="5">Document Tab Style</Label>
+                <Label Grid.Column="0" Grid.Row="3" Margin="5">Family Tab Style</Label>
+                <CheckBox x:Name="ColorizeDocTabs" Grid.Column="1" Grid.Row="0" Margin="5"></CheckBox>
+                <TextBox x:Name="TabStyleIndex" Grid.Column="1" Grid.Row="2" Margin="5"></TextBox>
+                <TextBox x:Name="FamilyTabStyleIndex" Grid.Column="1" Grid.Row="3" Margin="5"></TextBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="Colours">
+        <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Button cal:Message.Attach="Colour(0)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="0" Margin="5" MinWidth="35" MinHeight="35">
+            <Button.Background>
+                <SolidColorBrush Color="{Binding Colours[0]}" />
+            </Button.Background>
+        </Button>
+        <Button cal:Message.Attach="Colour(1)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="1" Margin="5" MinWidth="35" MinHeight="35">
+            <Button.Background>
+                <SolidColorBrush Color="{Binding Colours[1]}" />
+            </Button.Background>
+        </Button>
+        <Button cal:Message.Attach="Colour(2)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="2" Margin="5" MinWidth="35" MinHeight="35">
+            <Button.Background>
+                <SolidColorBrush Color="{Binding Colours[2]}" />
+            </Button.Background>
+        </Button>
+        <Button cal:Message.Attach="Colour(3)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="3" Margin="5" MinWidth="35" MinHeight="35">
+            <Button.Background>
+                <SolidColorBrush Color="{Binding Colours[3]}" />
+            </Button.Background>
+        </Button>
+        <Button cal:Message.Attach="Colour(4)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="4" Margin="5" MinWidth="35" MinHeight="35">
+            <Button.Background>
+                <SolidColorBrush Color="{Binding Colours[4]}" />
+            </Button.Background>
+        </Button>
+        <Button cal:Message.Attach="Colour(5)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="5" Margin="5" MinWidth="35" MinHeight="35">
+            <Button.Background>
+                <SolidColorBrush Color="{Binding Colours[5]}" />
+            </Button.Background>
+        </Button>
+        <Button cal:Message.Attach="Colour(6)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Margin="5" MinWidth="35" MinHeight="35">
+            <Button.Background>
+                <SolidColorBrush Color="{Binding Colours[6]}" />
+            </Button.Background>
+        </Button>
+        <Button cal:Message.Attach="Colour(7)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Margin="5" MinWidth="35" MinHeight="35">
+            <Button.Background>
+                <SolidColorBrush Color="{Binding Colours[7]}" />
+            </Button.Background>
+        </Button>
+        <Button cal:Message.Attach="Colour(8)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="2" Margin="5" MinWidth="35" MinHeight="35">
+            <Button.Background>
+                <SolidColorBrush Color="{Binding Colours[8]}" />
+            </Button.Background>
+        </Button>
+        <Button cal:Message.Attach="Colour(9)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="3" Margin="5" MinWidth="35" MinHeight="35">
+            <Button.Background>
+                <SolidColorBrush Color="{Binding Colours[9]}" />
+            </Button.Background>
+        </Button>
+        <Button cal:Message.Attach="Colour(10)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="4" Margin="5" MinWidth="35" MinHeight="35">
+            <Button.Background>
+                <SolidColorBrush Color="{Binding Colours[10]}" />
+            </Button.Background>
+        </Button>
+        <Button cal:Message.Attach="Colour(11)" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="5" Margin="5" MinWidth="35" MinHeight="35">
+            <Button.Background>
+                <SolidColorBrush Color="{Binding Colours[11]}" />
+            </Button.Background>
+        </Button>
+    </Grid>
+     </GroupBox>
     </Grid>
 </UserControl>

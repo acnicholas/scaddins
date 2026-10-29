@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -8,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Revit.UI;
 
 using Xceed.Wpf.AvalonDock.Layout;
@@ -21,7 +23,17 @@ namespace SCaddins.ColouredTabs {
             return new SolidColorBrush((Color)ColorConverter.ConvertFromString(colourHex));
         }
 
-        public static SolidColorBrush MediaColor(System.Drawing.Color color)
+        public static System.Windows.Media.Color HexToMediaColor(string colourHex)
+        {
+            return (Color)ColorConverter.ConvertFromString(colourHex);
+        }
+
+        public static SolidColorBrush MediaColorBrush(System.Drawing.Color color)
+        {
+            return new SolidColorBrush(MediaColor(color));
+        }
+
+        public static System.Windows.Media.Color MediaColor(System.Drawing.Color color)
         {
             System.Windows.Media.Color mediaColor = System.Windows.Media.Color.FromArgb(
                 color.A,
@@ -29,12 +41,26 @@ namespace SCaddins.ColouredTabs {
                 color.G,
                 color.B
             );
+            return mediaColor;
+        }
 
-            return new SolidColorBrush(mediaColor);
+        public static System.Drawing.Color DrawingColor(System.Windows.Media.Color color)
+        {
+            return System.Drawing.Color.FromArgb(
+                color.A,
+                color.R,
+                color.G,
+                color.B
+            );
         }
 
         public static string HexFromBrush(SolidColorBrush brush) {
             Color c = brush.Color;
+            return string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", c.A, c.R, c.G, c.B);
+        }
+
+        public static string HexFromColor(Color c)
+        {
             return string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", c.A, c.R, c.G, c.B);
         }
     }
@@ -224,43 +250,20 @@ namespace SCaddins.ColouredTabs {
             }
         }
 
-        // The Studio.SC supporting palette. Colours are handed out in this order as
-        // documents open, so the order is not the brand sheet's — consecutive entries are
-        // arranged to jump hue family (cool → warm → green → earth) and swing between light
-        // and dark, so two tabs open side by side never read as the same colour. The
-        // sequence also wraps: the last entry contrasts with the first, since slots are
-        // recycled when documents close.
-        //public static readonly List<Brush> DefaultBrushes = new List<Brush> {
-        //    ColourUtils.HexToBrush("#FF2869A0"),   // Lapis
-        //    ColourUtils.HexToBrush("#FFE15549"),   // Vermillion
-        //    ColourUtils.HexToBrush("#FFAACD98"),   // Pistachio
-        //    ColourUtils.HexToBrush("#FF734632"),   // Russet
-        //    ColourUtils.HexToBrush("#FF7BB8DA"),   // Powder
-        //    ColourUtils.HexToBrush("#FFE5A04B"),   // Tangerine
-        //    ColourUtils.HexToBrush("#FF347C5A"),   // Forest
-        //    ColourUtils.HexToBrush("#FFD0C096"),   // Sandstone
-        //    ColourUtils.HexToBrush("#FF909BC8"),   // Lavender
-        //    ColourUtils.HexToBrush("#FFB48D61"),   // Tan
-        //    ColourUtils.HexToBrush("#FF6CB989"),   // Jade
-        //    ColourUtils.HexToBrush("#FFEBC86E"),   // Mustard
-        //};
-
-        public static readonly List<Brush> DefaultBrushes = new List<Brush> {
-            ColourUtils.MediaColor(Settings1.Default.Colour01),   // Lapis
-            ColourUtils.MediaColor(Settings1.Default.Colour02),   // Vermillion
-            ColourUtils.MediaColor(Settings1.Default.Colour03),   // Pistachio
-            ColourUtils.MediaColor(Settings1.Default.Colour04),   // Russet
-            ColourUtils.MediaColor(Settings1.Default.Colour05),   // Powder
-            ColourUtils.MediaColor(Settings1.Default.Colour06),   // Tangerine
-            ColourUtils.MediaColor(Settings1.Default.Colour07),   // Forest
-            ColourUtils.MediaColor(Settings1.Default.Colour08),   // Sandstone
-            ColourUtils.MediaColor(Settings1.Default.Colour09),   // Lavender
-            ColourUtils.MediaColor(Settings1.Default.Colour10),   // Tan
-            ColourUtils.MediaColor(Settings1.Default.Colour11),   // Jade
-            ColourUtils.MediaColor(Settings1.Default.Colour12),   // Mustard
+        public static List<Brush> DefaultBrushes = new List<Brush> {
+            ColourUtils.HexToBrush(Settings1.Default.Colours[0]),   // Lapis
+            ColourUtils.HexToBrush(Settings1.Default.Colours[1]),   // Vermillion
+            ColourUtils.HexToBrush(Settings1.Default.Colours[2]),   // Pistachio
+            ColourUtils.HexToBrush(Settings1.Default.Colours[3]),   // Russet
+            ColourUtils.HexToBrush(Settings1.Default.Colours[4]),   // Powder
+            ColourUtils.HexToBrush(Settings1.Default.Colours[5]),   // Tangerine
+            ColourUtils.HexToBrush(Settings1.Default.Colours[6]),   // Forest
+            ColourUtils.HexToBrush(Settings1.Default.Colours[7]),   // Levender
+            ColourUtils.HexToBrush(Settings1.Default.Colours[8]),   // Sandstone
+            ColourUtils.HexToBrush(Settings1.Default.Colours[9]),   // Tan
+            ColourUtils.HexToBrush(Settings1.Default.Colours[10]),  // Jade
+            ColourUtils.HexToBrush(Settings1.Default.Colours[11])  // Mustard
         };
-
-
 
         public static readonly int DefaultTabColoringStyleIndex = 8;       // Background Fill
         public static readonly int DefaultFamilyTabColoringStyleIndex = 5; // Border - Medium (2px)

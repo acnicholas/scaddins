@@ -34,10 +34,18 @@ namespace SCaddins.ColouredTabs {
         }
 
         public static DockingManager GetDockingManager(UIApplication uiapp) {
+#if REVIT2024
+            //IntPtr revitHandle = uiapp.MainWindowHandle;
+            //var myWpfWindow = new MyCustomWindow();
+            //var interopHelper = new System.Windows.Interop.WindowInteropHelper(myWpfWindow);
+            //interopHelper.Owner = revitHandle;
+            return null;
+#else
             var wndRoot = VisualTreeUtils.GetWindowRoot(uiapp);
             if (wndRoot != null)
                 return VisualTreeUtils.FindFirstChild<DockingManager>(wndRoot);
             return null;
+#endif
         }
 
         // LayoutUpdated fires on every layout pass of the main window — scrolling, panning,
@@ -150,7 +158,7 @@ namespace SCaddins.ColouredTabs {
         // Per-tick cost is: cached-control probe + generator lookups + SetTheme's state
         // hash, which bails before any document enumeration or styling when the tabs
         // haven't changed. The expensive work only runs on an actual tab change.
-        static void UpdateDocumentTabGroups() {
+        public static void UpdateDocumentTabGroups() {
             lock (UpdateLock) {
                 if (IsUpdatingDocumentTabs) {
                     var docTabGroup = GetDocumentTabGroup(UIApp);
