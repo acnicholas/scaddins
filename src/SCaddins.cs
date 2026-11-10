@@ -322,9 +322,8 @@ namespace SCaddins
             try
             {
                 var uiapp = new UIApplication((RevitApplication)sender);
-                //TabSettings settings = TabSettings.Load(); //not needed as settings file is used.
-
-                //DocumentTabEventUtils.TabColoringTheme = settings.CreateTheme();
+                TabSettings settings = TabSettings.Load(); //not needed as settings file is used.
+                DocumentTabEventUtils.TabColoringTheme = settings.CreateTheme();
                 if (Settings1.Default.SortColorizeDocs)
                     DocumentTabEventUtils.StartGroupingDocumentTabs(uiapp);
                 else
@@ -361,12 +360,12 @@ namespace SCaddins
             aboutRibbonPanel = TryGetPanel(application, "About", "Studio.SC");
 
             //start colour tabs if set.
-            if(ColouredTabs.Settings1.Default.ColorizeDocs)
-            {
+            //if(ColouredTabs.Settings1.Default.ColorizeDocs)
+            //{
                 TabSettings settings = TabSettings.Load();
                 ColouredTabs.DocumentTabEventUtils.TabColoringTheme = settings.CreateTheme();
                 ColouredTabs.DocumentTabEventUtils.StartGroupingDocumentTabs(UIControlledApplicationExtensions.GetUIApplication(application));
-            }
+            //}
 
             if (scaddinsRibbonPanel == null || createRibbonPanel == null || viewRibbonPanel == null || aboutRibbonPanel == null || modifyRibbonPanel == null) 
             {

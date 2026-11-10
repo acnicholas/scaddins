@@ -30,6 +30,7 @@
     <RevitVersion>2026</RevitVersion>
     <TargetFramework>net8.0-windows</TargetFramework>
     <IsPublishable>false</IsPublishable>
+	<AvalonDockPackageVersion>2025.2.4</AvalonDockPackageVersion>
   </PropertyGroup>
 
   <!-- Release 2027 -->
@@ -42,6 +43,7 @@
     <RevitVersion>2027</RevitVersion>
     <TargetFramework>net10.0-windows</TargetFramework>
     <IsPublishable>false</IsPublishable>
+	<AvalonDockPackageVersion>2025.2.4</AvalonDockPackageVersion>
   </PropertyGroup>
 
   <!-- Release 2026 -->
@@ -54,6 +56,7 @@
     <RevitVersion>2026</RevitVersion>
     <TargetFramework>net8.0-windows</TargetFramework>
     <IsPublishable>false</IsPublishable>
+	<AvalonDockPackageVersion>2025.2.4</AvalonDockPackageVersion>
   </PropertyGroup>
 
   <!-- Release 2025 -->
@@ -66,6 +69,7 @@
     <RevitVersion>2025</RevitVersion>
     <TargetFramework>net8.0-windows</TargetFramework>
     <IsPublishable>false</IsPublishable>
+	<AvalonDockPackageVersion>2024.1.2</AvalonDockPackageVersion>
   </PropertyGroup>
   
   	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2024|AnyCPU'">
@@ -76,6 +80,7 @@
 		<TargetFramework>net48</TargetFramework>
 		<IsPublishable>False</IsPublishable>
 		<Deterministic>False</Deterministic>
+		<AvalonDockPackageVersion>2022.1.2</AvalonDockPackageVersion>
 	</PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2023|AnyCPU'">
@@ -86,6 +91,7 @@
 		<TargetFramework>net48</TargetFramework>
 		<IsPublishable>False</IsPublishable>
 		<Deterministic>False</Deterministic>
+		<AvalonDockPackageVersion>2022.1.2</AvalonDockPackageVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2022|AnyCPU'">
@@ -96,6 +102,7 @@
 		<TargetFramework>net48</TargetFramework>
 		<IsPublishable>False</IsPublishable>
 		<Deterministic>False</Deterministic>
+		<AvalonDockPackageVersion>2022.1.2</AvalonDockPackageVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2021|AnyCPU'">
@@ -106,6 +113,7 @@
 		<TargetFramework>net48</TargetFramework>
 		<IsPublishable>False</IsPublishable>
 		<Deterministic>False</Deterministic>
+		<AvalonDockPackageVersion>2022.1.2</AvalonDockPackageVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2020|AnyCPU'">
@@ -116,6 +124,7 @@
 		<TargetFramework>net48</TargetFramework>
 		<IsPublishable>False</IsPublishable>
 		<Deterministic>False</Deterministic>
+		<AvalonDockPackageVersion>2022.1.2</AvalonDockPackageVersion>
 	</PropertyGroup>
 
   <!-- Release 2024–2020 -->

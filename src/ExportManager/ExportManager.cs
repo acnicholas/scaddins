@@ -604,7 +604,7 @@ namespace SCaddins.ExportManager
 
         public void SaveViewSet(string name, List<ExportSheet> selectedSheets)
         {
-#if REVIT2026 || REVIT2027
+#if REVIT2024 || REVIT2025 || REVIT2026 || REVIT2027
             var longList = selectedSheets.Select(s => s.Id.Value).ToList();
             var intList = new List<int>();
             foreach (var l in longList)
