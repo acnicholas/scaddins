@@ -549,6 +549,13 @@ namespace SCaddins.ExportManager
                 sheet.UpdateSheetInfo();
             }
 
+            if (!sheet.ValidExportPath)
+            {
+                log.AddError(sheet.ExportDirectory, "Invalid export path, Export cancelled.");
+                log.EndLoggingIndividualItem(startTime, null);
+                return;
+            }
+
             if (!sheet.ValidExportName)
             {
                 log.AddError(sheet.FullExportName, "Invalid file name, Export cancelled.");

@@ -390,6 +390,14 @@ namespace SCaddins.ExportManager
             }
         }
 
+        public bool ValidExportPath
+        {
+            get
+            {
+                return System.IO.Directory.Exists(ExportDirectory);
+            }
+        }
+
         public bool ValidScaleBar
         {
             get { return RevitScaleWithoutFormatting() == scaleBarScale.Trim(); }
