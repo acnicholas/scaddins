@@ -9,6 +9,7 @@
     mc:Ignorable="d"
     x:Class="SCaddins.ExportManager.Views.SCexportView"
     cal:Message.Attach="[Event KeyDown] = [KeyPressed($eventArgs)]"
+    PreviewLostKeyboardFocus="ContentDialog_PreviewLostKeyboardFocus"
     d:DesignWidth="628" d:DesignHeight="272">
 
     <ui:ContentDialog.Resources>

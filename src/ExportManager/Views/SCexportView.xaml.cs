@@ -1,8 +1,11 @@
 ﻿namespace SCaddins.ExportManager.Views
 {
-    using System.Collections.Generic;
-    using System.Windows.Controls;
     using SCaddins.ExportManager.ViewModels;
+    using System.Collections.Generic;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using System.Windows.Media;
     using Wpf.Ui.Appearance;
 
     public partial class SCexportView
@@ -57,6 +60,30 @@
             }
         }
 
+        protected override void OnPreviewLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            // Allow focus to move to a ContextMenu or MenuItem popup
+            if (e.NewFocus is DependencyObject newFocus && IsInsideContextMenu(newFocus))
+            {
+                return;
+            }
+
+            base.OnPreviewLostKeyboardFocus(e);
+        }
+
+        private static bool IsInsideContextMenu(DependencyObject element)
+        {
+            while (element != null)
+            {
+                if (element is ContextMenu || element is MenuItem)
+                {
+                    return true;
+                }
+                element = VisualTreeHelper.GetParent(element) ?? LogicalTreeHelper.GetParent(element);
+            }
+            return false;
+        }
+
         private void Sheets_ContextMenuClosing(object sender, ContextMenuEventArgs e)
         {
             Sheets.Focus();
@@ -65,6 +92,11 @@
         private void Sheets_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             Sheets.Focus();
+        }
+
+        private void ContentDialog_PreviewLostKeyboardFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
+        {
+
         }
     }
 }
