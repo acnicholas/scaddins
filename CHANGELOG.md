@@ -1,5 +1,11 @@
 # SCaddins Revision Log #
 
+# 27.0.2 #
+
+#### FIXES ####
+
+- Fix error where SCexport context menu closes too early in some cases.
+
 # 27.0.1 #
 
 #### FIXES ####
