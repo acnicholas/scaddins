@@ -1,17 +1,15 @@
+using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using System.Windows.Media;
-
-using Autodesk.Revit.UI;
-
-// AvalonDock also declares a DocumentClosedEventArgs; alias Revit's to keep it unambiguous
-using RevitDocumentClosedEventArgs = Autodesk.Revit.DB.Events.DocumentClosedEventArgs;
-
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Controls;
+// AvalonDock also declares a DocumentClosedEventArgs; alias Revit's to keep it unambiguous
+using RevitDocumentClosedEventArgs = Autodesk.Revit.DB.Events.DocumentClosedEventArgs;
 
 namespace SCaddins.ColouredTabs {
     // Ported from pyRevit runtime EventHandling.cs (DocumentTabEventUtils)
@@ -34,18 +32,24 @@ namespace SCaddins.ColouredTabs {
         }
 
         public static DockingManager GetDockingManager(UIApplication uiapp) {
-#if REVIT2024
-            //IntPtr revitHandle = uiapp.MainWindowHandle;
-            //var myWpfWindow = new MyCustomWindow();
-            //var interopHelper = new System.Windows.Interop.WindowInteropHelper(myWpfWindow);
-            //interopHelper.Owner = revitHandle;
-            return null;
-#else
+//#if REVIT2024
+//            HwndSource hwndSource = HwndSource.FromHwnd(uiapp.MainWindowHandle);
+//            var wndRoot = hwndSource?.RootVisual as Visual;
+//            if (wndRoot != null)
+//            {
+//                System.Diagnostics.Trace.WriteLine("wndRoot != null");
+//                return VisualTreeUtils.FindFirstChild<DockingManager>(wndRoot);
+//            } else
+//            {
+//                System.Diagnostics.Trace.WriteLine("wndRoot == null");
+//            }
+//            return null;
+//#else
             var wndRoot = VisualTreeUtils.GetWindowRoot(uiapp);
             if (wndRoot != null)
                 return VisualTreeUtils.FindFirstChild<DockingManager>(wndRoot);
             return null;
-#endif
+//#endif
         }
 
         // LayoutUpdated fires on every layout pass of the main window — scrolling, panning,
@@ -100,12 +104,16 @@ namespace SCaddins.ColouredTabs {
 
         public static void StartGroupingDocumentTabs(UIApplication uiapp) {
             lock (UpdateLock) {
+                System.Diagnostics.Trace.WriteLine("StartGroupingDocumentTabs");
                 if (!IsUpdatingDocumentTabs) {
                     UIApp = uiapp;
 
                     DockingManager docMgr = GetDockingManager(UIApp);
                     if (docMgr is null)
+                    {
+                        System.Diagnostics.Trace.WriteLine("docMgr is null");
                         return;
+                    }
 
                     docMgr.LayoutUpdated += UpdateDockingManagerLayout;
                     // closing a document can tear the pane group down (last tab closing
@@ -119,6 +127,7 @@ namespace SCaddins.ColouredTabs {
 
         public static void StopGroupingDocumentTabs() {
             lock (UpdateLock) {
+                System.Diagnostics.Trace.WriteLine("StopGroupingDocumentTabs");
                 if (IsUpdatingDocumentTabs) {
                     DockingManager docMgr = GetDockingManager(UIApp);
                     if (docMgr != null)
@@ -136,6 +145,7 @@ namespace SCaddins.ColouredTabs {
         public static void ResetGroupingDocumentTabs() => _tabColoringTheme?.ResetSlots();
 
         static void UpdateDockingManagerLayout(object sender, EventArgs e) {
+            System.Diagnostics.Trace.WriteLine("UpdateDockingManagerLayout");
             UpdateDocumentTabGroups();
         }
 
@@ -160,6 +170,7 @@ namespace SCaddins.ColouredTabs {
         // haven't changed. The expensive work only runs on an actual tab change.
         public static void UpdateDocumentTabGroups() {
             lock (UpdateLock) {
+                System.Diagnostics.Trace.WriteLine("UpdateDocumentTabGroups()");
                 if (IsUpdatingDocumentTabs) {
                     var docTabGroup = GetDocumentTabGroup(UIApp);
                     if (docTabGroup != null) {

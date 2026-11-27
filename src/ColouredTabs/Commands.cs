@@ -18,9 +18,11 @@ namespace SCaddins.ColouredTabs {
             TabSettings settings = TabSettings.Load();
 
             if (DocumentTabEventUtils.IsUpdatingDocumentTabs) {
+                System.Diagnostics.Trace.WriteLine("DocumentTabEventUtils.IsUpdatingDocumentTabs");
                 DocumentTabEventUtils.StopGroupingDocumentTabs();
             }
             else {
+                System.Diagnostics.Trace.WriteLine("not DocumentTabEventUtils.IsUpdatingDocumentTabs");
                 DocumentTabEventUtils.TabColoringTheme = settings.CreateTheme();
                 // DocumentTabEventUtils.UpdateDocumentTabGroups();
                 DocumentTabEventUtils.StartGroupingDocumentTabs(uiapp);

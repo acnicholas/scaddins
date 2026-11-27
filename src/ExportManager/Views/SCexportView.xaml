@@ -77,7 +77,7 @@
                 x:Name="SearchButton"
                 Background="Transparent"
                 BorderBrush="Transparent">
-                    <Image Source="/SCaddins;component/Assets/find.png" Stretch="None" />
+                <ui:SymbolIcon Symbol="Search24"/>
             </Button>
         </Grid>
         <ui:DataGrid
@@ -215,54 +215,46 @@
                     <MenuItem
                         Header="No View Filter" cal:Message.Attach="RemoveViewFilter">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/remove_filter.png" />
+                            <ui:SymbolIcon Symbol="FilterDismiss16" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem cal:Message.Attach="ShowLatestRevision" Header="Show Latest Revision Only">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/filter.png" />
+                            <ui:SymbolIcon Symbol="Filter16" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="SheetFilter"  Visibility="{Binding SheetFilterEnabled, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}"  cal:Message.Attach="SheetFilterSelected()" Header="{Binding SheetFilter}">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/filter.png" />
+                            <ui:SymbolIcon Symbol="Filter16" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
                     <MenuItem Header="Options"  cal:Message.Attach="OptionsButton">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/gear.png" />
+                            <ui:SymbolIcon Symbol="Options16" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
                     <MenuItem Header="Open Selected View[s]" cal:Message.Attach="OpenViewsCommand">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/view.png" />
+                            <ui:SymbolIcon Symbol="BookOpen16" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
                     <MenuItem Header="Load Saved View Set" cal:Message.Attach="OpenViewSet">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/open.png" />
+                            <ui:SymbolIcon Symbol="BookOpen16" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Save View Set" cal:Message.Attach="SaveViewSet">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/save.png" />
+                            <ui:SymbolIcon Symbol="Save16" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
                     <MenuItem Header="Previous Exports">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/recent.png" />
+                            <ui:SymbolIcon Symbol="History16" />
                         </MenuItem.Icon>
                         <MenuItem Header="{Binding PreviousExportOneName}" cal:Message.Attach="SelectPrevious(0)" IsEnabled="{Binding PreviousExportOneIsEnabled}" />
                         <MenuItem Header="{Binding PreviousExportTwoName}" cal:Message.Attach="SelectPrevious(1)" IsEnabled="{Binding PreviousExportTwoIsEnabled}" />
@@ -281,103 +273,87 @@
                     </MenuItem>
                     <MenuItem Header="Align Views" cal:Message.Attach="AlignViews">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/align.png" />
+                            <ui:SymbolIcon Symbol="AlignLeft16" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Copy Sheets" cal:Message.Attach="CopySheets">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/copy.png" />
+                            <ui:SymbolIcon Symbol="DocumentCopy16" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Pin Sheet Contents" cal:Message.Attach="PinSheetContents">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/pin.png" />
+                            <ui:SymbolIcon Symbol="Pin16" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Remove Underlays From View" cal:Message.Attach="RemoveUnderlays">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/underlay.png" />
+                            <ui:SymbolIcon Symbol="LayerDiagonal16" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Rename Selected Views" cal:Message.Attach="RenameSheets">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/rename.png" />
+                            <ui:SymbolIcon Symbol="Rename16" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
                     <MenuItem Header="Fix Scale Bars" cal:Message.Attach="FixScaleBars">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/ruler.png" />
+                            <ui:SymbolIcon Symbol="Ruler16"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="North Points On" cal:Message.Attach="TurnNorthPointsOn">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/north.png" />
+                            <ui:SymbolIcon Symbol="ArrowCircleUp16"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="North Points Off" cal:Message.Attach="TurnNorthPointsOff">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/north_off.png" />
+                            <ui:SymbolIcon Symbol="ArrowCircleUp16" Filled="True"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Bulk Edit Selected Sheet [Yes/No] Parameters" cal:Message.Attach="ToggleSelectedSheetParameters">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/edit2.png" />
+                            <ui:SymbolIcon Symbol="DocumentEdit16"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Bulk Edit Selected Title Block [Yes/No] Parameters" cal:Message.Attach="ToggleSelectedTitleblockParameters">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/edit2.png" />
+                            <ui:SymbolIcon Symbol="DocumentEdit16"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Show In Sheet List" cal:Message.Attach="ShowInSheetList">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/list.png" />
+                            <ui:SymbolIcon Symbol="List16"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Hide From Sheet List" cal:Message.Attach="HideInSheetList">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/list_off.png" />
+                            <ui:SymbolIcon Symbol="List16" Filled="True"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
                     <MenuItem Header="Create User Views" cal:Message.Attach="CreateUserViews">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/user.png" />
+                            <ui:SymbolIcon Symbol="Person16"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
                     <MenuItem x:Name="SelectAll" Header="Select All" Click="SelectAll_Click">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/add.png" />
+                            <ui:SymbolIcon Symbol="Add16"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
                     <MenuItem Header="VerifySheets" cal:Message.Attach="VerifySheets">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/check.png" />
+                            <ui:SymbolIcon Symbol="CheckboxChecked16" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
                     <MenuItem Header="Help" cal:Message.Attach="[Action NavigateTo('https://github.com/acnicholas/scaddins/wiki/SCexport')]">
                         <MenuItem.Icon>
-                            <Image
-                                Source="/SCaddins;component/Assets/help2.png" />
+                            <ui:SymbolIcon Symbol="Lightbulb16" />
                         </MenuItem.Icon>
                     </MenuItem>
                 </ContextMenu>
@@ -463,7 +439,7 @@
             Background="Transparent"
             BorderBrush="Transparent"
             Grid.Column="2">
-            <Image Source="/SCaddins;component/Assets/gear.png" Stretch="None" />
+            <ui:SymbolIcon Symbol="Settings24" />
             <Button.ToolTip>
                 <Label>Click to access more options :P</Label>
             </Button.ToolTip>
